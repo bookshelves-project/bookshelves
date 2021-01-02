@@ -4,6 +4,7 @@
       <article class="overflow-hidden rounded-lg shadow-lg">
         <img alt="Placeholder" class="block w-full h-auto" :src="book.cover" />
 
+        <a :href="`download/${book.slug}`">download</a>
         <header
           class="flex items-center justify-between p-2 leading-tight md:p-4"
         >

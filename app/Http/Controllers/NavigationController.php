@@ -25,6 +25,6 @@ class NavigationController extends Controller
 
         $path = str_replace('storage/', '', $book->path);
 
-        return Storage::download($path);
+        return Storage::disk('public')->download($path);
     }
 }
