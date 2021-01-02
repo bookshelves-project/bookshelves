@@ -11,18 +11,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
- * App\Models\User
+ * App\Models\User.
  *
- * @property-read \App\Models\Team $currentTeam
- * @property-read string $profile_photo_url
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Team[] $ownedTeams
- * @property-read int|null $owned_teams_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Team[] $teams
- * @property-read int|null $teams_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
- * @property-read int|null $tokens_count
+ * @property \App\Models\Team                                                                                          $currentTeam
+ * @property string                                                                                                    $profile_photo_url
+ * @property \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property int|null                                                                                                  $notifications_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Team[]                                               $ownedTeams
+ * @property int|null                                                                                                  $owned_teams_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Team[]                                               $teams
+ * @property int|null                                                                                                  $teams_count
+ * @property \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[]                           $tokens
+ * @property int|null                                                                                                  $tokens_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()

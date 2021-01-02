@@ -18,7 +18,9 @@
         "laravel/jetstream": "^1.6",
         "laravel/sanctum": "2.6",
         "laravel/tinker": "^2.5",
+        "league/html-to-markdown": "^4.10",
         "oscarotero/inline-svg": "^2.0",
+        "spatie/image": "^1.10",
         "tightenco/ziggy": "0.9.4"
     },
     "require-dev": {

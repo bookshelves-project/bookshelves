@@ -8,11 +8,12 @@ use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 
 /**
- * App\Models\Team
+ * App\Models\Team.
  *
- * @property-read \App\Models\User $owner
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
- * @property-read int|null $users_count
+ * @property \App\Models\User                                            $owner
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property int|null                                                    $users_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team query()

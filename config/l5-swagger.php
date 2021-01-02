@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default' => 'default',
+    'default'        => 'default',
     'documentations' => [
         'default' => [
             'api' => [
@@ -36,7 +36,6 @@ return [
                 'annotations' => [
                     base_path('app'),
                 ],
-
             ],
         ],
     ],
@@ -56,9 +55,9 @@ return [
              * Middleware allows to prevent unexpected access to API documentation
             */
             'middleware' => [
-                'api' => [],
-                'asset' => [],
-                'docs' => [],
+                'api'             => [],
+                'asset'           => [],
+                'docs'            => [],
                 'oauth2_callback' => [],
             ],
 

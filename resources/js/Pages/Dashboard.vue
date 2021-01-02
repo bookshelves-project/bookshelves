@@ -1,29 +1,30 @@
 <template>
   <app-layout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+      <h2 class="text-xl font-semibold leading-tight text-gray-800">
         Dashboard
       </h2>
     </template>
 
-    <div class="py-12">
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-          <welcome />
-        </div>
-      </div>
+    <div class="container grid grid-cols-3 gap-4 mx-auto mt-8 mb-5">
+      <book-card v-for="book in books" :key="book.id" :book="book"></book-card>
     </div>
   </app-layout>
 </template>
 
 <script>
 import AppLayout from '@/Layouts/AppLayout'
-import Welcome from '@/Jetstream/Welcome'
+import BookCard from '../components/book-card.vue'
 
 export default {
   components: {
     AppLayout,
-    Welcome,
+    BookCard,
+  },
+  data() {
+    return {
+      books: this.$page.books.data,
+    }
   },
 }
 </script>
