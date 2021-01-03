@@ -1,8 +1,23 @@
 <template>
-  <div class="px-1 my-1">
+  <article>
+    <img :alt="book.title" :src="book.cover" v-if="book.cover" class="cover" />
+    <img
+      v-else
+      src="images/bookshelves.svg"
+      alt="bookshelves-default"
+      class="cover"
+    />
+    <!-- <div class="px-1 my-1">
     <a :href="book.path">
       <article class="overflow-hidden rounded-lg shadow-lg">
-        <img alt="Placeholder" class="block w-full h-auto" :src="book.cover" />
+        <img
+          :alt="book.title"
+          class="block w-full h-auto"
+          :src="book.cover"
+          v-if="book.cover"
+        />
+        <img v-else src="images/bookshelves.svg" alt="bookshelves-default" />
+        {{ book.cover }}
 
         <a :href="`download/${book.slug}`">download</a>
         <header
@@ -13,7 +28,6 @@
               {{ book.title }}
             </a>
           </h1>
-          <!-- <p class="text-sm text-grey-darker">14/4/19</p> -->
         </header>
 
         <footer
@@ -39,7 +53,8 @@
         </footer>
       </article>
     </a>
-  </div>
+  </div> -->
+  </article>
 </template>
 
 <script>
@@ -59,4 +74,8 @@ export default {
 }
 </script>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+.cover {
+  @apply object-cover w-full h-full rounded-md;
+}
+</style>

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\NavigationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +13,10 @@ use App\Http\Controllers\NavigationController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/dashboard', [NavigationController::class, 'index'])->name('dashboard');
-    Route::get('/download/{slug}', [NavigationController::class, 'download'])->name('download');
-});
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
+
+// require __DIR__.'/auth.php';

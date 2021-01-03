@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Book extends Model
@@ -16,15 +17,26 @@ class Book extends Model
      */
     protected $fillable = [
         'title',
-        'creator',
+        'slug',
+        'author',
         'description',
         'language',
-        'date',
-        'contributor',
-        'identifier',
-        'subject',
+        'publish_date',
+        'isbn',
         'publisher',
-        'cover',
-        'path',
+        'cover_path',
+        'epub_path',
+        'epub_name',
+        'serie_number',
     ];
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(Author::class);
+    }
+
+    public function serie(): BelongsTo
+    {
+        return $this->belongsTo(Serie::class);
+    }
 }

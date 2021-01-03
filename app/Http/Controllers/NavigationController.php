@@ -9,7 +9,12 @@ use App\Http\Resources\BookResource;
 
 class NavigationController extends Controller
 {
-    public function index()
+    public function welcome()
+    {
+        return view('welcome');
+    }
+
+    public function dashboard()
     {
         $books = Book::all();
         $books = BookResource::collection($books);

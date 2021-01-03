@@ -17,16 +17,14 @@ class CreateBooksTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->unique()->nullable();
-            $table->string('creator')->nullable();
             $table->text('description')->nullable();
             $table->string('language')->nullable();
-            $table->string('date')->nullable();
-            $table->string('contributor')->nullable();
-            $table->string('identifier')->nullable();
-            $table->string('subject')->nullable();
+            $table->string('publish_date')->nullable();
+            $table->string('isbn')->nullable();
             $table->string('publisher')->nullable();
-            $table->string('cover')->nullable();
-            $table->string('path')->nullable();
+            $table->string('cover_path')->nullable();
+            $table->string('epub_path')->nullable();
+            $table->integer('serie_number')->nullable();
             $table->timestamps();
         });
     }
