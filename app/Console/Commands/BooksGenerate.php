@@ -46,7 +46,13 @@ class BooksGenerate extends Command
 
         Artisan::call('storage:link');
 
-        File::cleanDirectory(storage_path('app/public/covers'));
+        // File::cleanDirectory(storage_path('app/public/covers'));
+        $filesForDelete = array_filter(glob(storage_path('app/public/covers')), function ($file) {
+            return false === strpos($file, '.gitignore');
+        });
+
+        Storage::delete($filesForDelete);
+
         $files = Storage::disk('public')->allFiles('books');
         // foreach ($files as $key => $file) {
         //     if (array_key_exists('extension', pathinfo($file)) && 'epub' === pathinfo($file)['extension']) {

@@ -88,19 +88,26 @@ class EpubParser
             $serie->save();
         }
 
-        $author = array_key_exists('creator', $array) ? $array['creator'] : null;
-        if ($author) {
+        $author_data = array_key_exists('creator', $array) ? $array['creator'] : null;
+        $author = null;
+        if ($author_data) {
+            $author_data = explode(' ', $author_data);
+            $lastname = $author_data[sizeof($author_data) - 1];
+            array_pop($author_data);
+            $firstname = implode(' ', $author_data);
             $author = Author::firstOrCreate([
-                'name' => $author,
+                'lastname'  => $lastname,
+                'firstname' => $firstname,
             ]);
-            $author->slug = Str::slug($author->name, '-');
+            $author->slug = Str::slug("$firstname $lastname", '-');
             $author->save();
         }
+        dump($author->name);
 
         $book = Book::firstOrCreate(['title' => $array['title']]);
 
         $book->slug = Str::slug($book->title, '-');
-        $book->author_id = $author->id;
+        $book->author_id = null !== $author ? $author->id : null;
         $book->description = array_key_exists('description', $array) ? $array['description'] : null;
         $book->language = array_key_exists('language', $array) ? $array['language'] : null;
         $book->publish_date = array_key_exists('date', $array) ? $array['date'] : null;
