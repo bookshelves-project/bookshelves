@@ -21,7 +21,7 @@ class CreateSeriesTable extends Migration
         });
 
         Schema::table('books', function (Blueprint $table) {
-            $table->foreignId('serie_id')->index()->nullable()->after('epub_path');
+            $table->foreignId('serie_id')->index()->nullable()->after('cover_path');
             $table->foreign('serie_id')
                 ->references('id')
                 ->on('series')

@@ -23,7 +23,6 @@ class CreateBooksTable extends Migration
             $table->string('isbn')->nullable();
             $table->string('publisher')->nullable();
             $table->string('cover_path')->nullable();
-            $table->string('epub_path')->nullable();
             $table->integer('serie_number')->nullable();
             $table->timestamps();
         });

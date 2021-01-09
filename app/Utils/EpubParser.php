@@ -6,6 +6,7 @@ use File;
 use Storage;
 use ZipArchive;
 use App\Models\Book;
+use App\Models\Epub;
 use App\Models\Serie;
 use App\Models\Author;
 use Illuminate\Support\Str;
@@ -102,7 +103,6 @@ class EpubParser
             $author->slug = Str::slug("$firstname $lastname", '-');
             $author->save();
         }
-        dump($author->name);
 
         $book = Book::firstOrCreate(['title' => $array['title']]);
 
@@ -134,12 +134,19 @@ class EpubParser
         $string = 'app/public/books';
         $newFile = explode($string, $dirname);
         $pre = 'storage/books';
-        if ($newFile[1]) {
-            $book->epub_path = "$pre$newFile[1]/$file";
-        } else {
-            $book->epub_path = "$pre/$file";
-        }
 
+        $epub = new Epub();
+        $epub->name = $file;
+        if ($newFile[1]) {
+            $epub->path = "$pre$newFile[1]/$file";
+        } else {
+            $epub->path = "$pre/$file";
+        }
+        // $epub->book()->save($book);
+
+        $book->epub()->save($epub);
+        $epub->book()->save($book);
+        $epub->save();
         $book->save();
 
         return $book;
@@ -169,12 +176,26 @@ class EpubParser
             Storage::disk('public')->rename($file, "books/$new_file_name");
         }
 
+        $epub = $book->epub;
         $epub_path = "storage/books/$new_file_name";
         if (file_exists(public_path($epub_path))) {
-            $book->epub_path = $epub_path;
+            $epub->path = $epub_path;
         } else {
-            $book->epub_path = null;
+            $epub->path = null;
         }
-        $book->save();
+
+        $epub_file = Storage::disk('public')->size($file);
+        $convert = self::human_filesize($epub_file);
+
+        $epub->size = $convert;
+        $epub->save();
+    }
+
+    public static function human_filesize($bytes, $decimals = 2)
+    {
+        $sz = 'BKMGTP';
+        $factor = floor((strlen($bytes) - 1) / 3);
+
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[$factor];
     }
 }
