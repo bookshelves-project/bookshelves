@@ -4,10 +4,12 @@ namespace App\Utils;
 
 use File;
 use Storage;
+use Exception;
 use ZipArchive;
 use App\Models\Book;
 use App\Models\Epub;
 use App\Models\Serie;
+use Biblys\Isbn\Isbn;
 use App\Models\Author;
 use Illuminate\Support\Str;
 
@@ -52,11 +54,28 @@ class EpubParser
         $package = simplexml_load_string($xml_string);
         $packageMetadata = $package->metadata->children('dc', true);
         // $json = json_encode($packageMetadata);
-        // dump($package->metadata);
+        // dump($packageMetadata);
 
         $array = [];
+        $identifiers = [];
         foreach ($packageMetadata as $k => $v) {
+            if ('identifier' === $k) {
+                $identifiers[] = $v;
+            }
             $array[$k] = $v->__toString();
+        }
+
+        // ISBN
+        $isbn_raw = $identifiers[0];
+        $isbn = new Isbn($isbn_raw);
+        $isbn13 = null;
+
+        try {
+            $isbn->validate();
+            $isbn13 = $isbn->format('ISBN-13');
+            // echo "ISBN-13: $isbn13";
+        } catch (Exception $e) {
+            // echo "An error occured while parsing $isbn_raw: ".$e->getMessage();
         }
 
         $serie = '';
@@ -111,8 +130,9 @@ class EpubParser
         $book->description = array_key_exists('description', $array) ? $array['description'] : null;
         $book->language = array_key_exists('language', $array) ? $array['language'] : null;
         $book->publish_date = array_key_exists('date', $array) ? $array['date'] : null;
-        $book->isbn = array_key_exists('identifier', $array) ? $array['identifier'] : null;
+        $book->isbn = $isbn13;
         $book->publisher = array_key_exists('publisher', $array) ? $array['publisher'] : null;
+
         if ($serie) {
             $book->serie_id = $serie->id;
             $book->serie_number = (int) $serie_number;

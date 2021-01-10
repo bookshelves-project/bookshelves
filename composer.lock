@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "01becb15cca73ce49b7a1eccc91bc5e6",
+    "content-hash": "11efd5454020cea6867d775f4fe5a392",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -114,6 +114,56 @@
                 "source": "https://github.com/Bacon/BaconQrCode/tree/2.0.3"
             },
             "time": "2020-10-30T02:02:47+00:00"
+        },
+        {
+            "name": "biblys/isbn",
+            "version": "2.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/biblys/isbn.git",
+                "reference": "0b625c72f74a068f4c37be9889da89d8cf6bf448"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/biblys/isbn/zipball/0b625c72f74a068f4c37be9889da89d8cf6bf448",
+                "reference": "0b625c72f74a068f4c37be9889da89d8cf6bf448",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.2",
+                "phpunit/phpunit": "^6 || ^7 || ^8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Biblys": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Clement Bourgoin",
+                    "email": "cb@nokto.net"
+                }
+            ],
+            "description": "A PHP library to convert and validate ISBNs & EANs",
+            "homepage": "https://github.com/biblys/isbn",
+            "keywords": [
+                "ISBN",
+                "book",
+                "ean"
+            ],
+            "support": {
+                "issues": "https://github.com/biblys/isbn/issues",
+                "source": "https://github.com/biblys/isbn/tree/2.1.5"
+            },
+            "time": "2020-11-17T00:00:00+00:00"
         },
         {
             "name": "brick/math",
