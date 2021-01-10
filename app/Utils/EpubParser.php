@@ -152,7 +152,7 @@ class EpubParser
         return $book;
     }
 
-    public static function renameEbook(Book $book, string $file)
+    public static function generateNewEpub(Book $book, string $file)
     {
         $serie = $book->serie;
         $author = $book->author;
@@ -173,7 +173,9 @@ class EpubParser
         }
         $new_file_name .= ".$ebook_extension";
         if (pathinfo($file)['basename'] !== $new_file_name) {
-            Storage::disk('public')->rename($file, "books/$new_file_name");
+            if (! Storage::disk('public')->exists("books/$new_file_name")) {
+                Storage::disk('public')->copy($file, "books/$new_file_name");
+            }
         }
 
         $epub = $book->epub;

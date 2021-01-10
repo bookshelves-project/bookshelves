@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use Str;
-use File;
 use Artisan;
 use Storage;
 use App\Utils\EpubParser;
@@ -42,30 +40,23 @@ class BooksGenerate extends Command
      */
     public function handle()
     {
-        $this->info('Generate books from storage/books...');
+        $this->info('Generate books from storage/books-raw...');
 
         Artisan::call('storage:link');
 
-        // File::cleanDirectory(storage_path('app/public/covers'));
-        $filesForDelete = array_filter(glob(storage_path('app/public/covers')), function ($file) {
-            return false === strpos($file, '.gitignore');
-        });
+        Storage::disk('public')->deleteDirectory('covers');
+        Storage::disk('public')->makeDirectory('covers');
+        Storage::disk('public')->copy('.gitignore-sample', 'covers/.gitignore');
 
-        Storage::delete($filesForDelete);
+        Storage::disk('public')->deleteDirectory('books');
+        Storage::disk('public')->makeDirectory('books');
+        Storage::disk('public')->copy('.gitignore-sample', 'books/.gitignore');
 
-        $files = Storage::disk('public')->allFiles('books');
-        // foreach ($files as $key => $file) {
-        //     if (array_key_exists('extension', pathinfo($file)) && 'epub' === pathinfo($file)['extension']) {
-        //         $filename_origin = pathinfo($file)['filename'];
-        //         $file_name = Str::slug($filename_origin, '-').'.'.pathinfo($file)['extension'];
-        //         dump($file_name);
-        //         Storage::disk('public')->rename($file, "books/$file_name");
-        //     }
-        // }
+        $files = Storage::disk('public')->allFiles('books-raw');
         foreach ($files as $key => $file) {
             if (array_key_exists('extension', pathinfo($file)) && 'epub' === pathinfo($file)['extension']) {
                 $book = EpubParser::getMetadata($file);
-                EpubParser::renameEbook($book, $file);
+                EpubParser::generateNewEpub($book, $file);
                 dump(pathinfo($file)['filename']);
             }
         }
