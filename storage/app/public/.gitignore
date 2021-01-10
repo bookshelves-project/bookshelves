@@ -1,6 +1,6 @@
 *
 !books/
 !covers/
-!books-raw/
+# !books-raw/
 !.gitignore
 !.gitignore-sample
