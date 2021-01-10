@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use DB;
 use Artisan;
 use Storage;
 use App\Utils\EpubParser;
@@ -52,6 +53,18 @@ class BooksGenerate extends Command
         Storage::disk('public')->makeDirectory('books');
         Storage::disk('public')->copy('.gitignore-sample', 'books/.gitignore');
 
+        DB::table('authors')->delete();
+        $this->refreshDB('authors');
+
+        DB::table('series')->delete();
+        $this->refreshDB('series');
+
+        DB::table('books')->delete();
+        $this->refreshDB('books');
+
+        DB::table('epubs')->delete();
+        $this->refreshDB('epubs');
+
         $files = Storage::disk('public')->allFiles('books-raw');
         foreach ($files as $key => $file) {
             if (array_key_exists('extension', pathinfo($file)) && 'epub' === pathinfo($file)['extension']) {
@@ -62,5 +75,11 @@ class BooksGenerate extends Command
         }
 
         $this->info('Done!');
+    }
+
+    public function refreshDB(string $table)
+    {
+        $max = DB::table($table)->max('id') + 1;
+        DB::statement("ALTER TABLE $table AUTO_INCREMENT =  $max");
     }
 }

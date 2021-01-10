@@ -180,13 +180,14 @@ class EpubParser
 
         $epub = $book->epub;
         $epub_path = "storage/books/$new_file_name";
+        $epub->name = $new_file_name;
         if (file_exists(public_path($epub_path))) {
             $epub->path = $epub_path;
         } else {
             $epub->path = null;
         }
 
-        $epub_file = Storage::disk('public')->size($file);
+        $epub_file = Storage::disk('public')->size("books/$new_file_name");
         $convert = self::human_filesize($epub_file);
 
         $epub->size = $convert;
