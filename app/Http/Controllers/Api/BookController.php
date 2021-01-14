@@ -16,7 +16,6 @@ class BookController extends Controller
 
         $books = Book::with('serie')->orderBy('serie_id')->orderBy('serie_number');
         if (null !== $perPage) {
-            dd($perPage);
             $books = $books->paginate($perPage);
         } else {
             $books = $books->get();
