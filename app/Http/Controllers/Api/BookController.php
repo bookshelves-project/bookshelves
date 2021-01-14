@@ -13,13 +13,16 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('perPage');
-        if (null === $request->get('perPage')) {
-            $perPage = 10;
+
+        $books = Book::with('serie')->orderBy('serie_id')->orderBy('serie_number');
+        if (null !== $perPage) {
+            dd($perPage);
+            $books = $books->paginate($perPage);
+        } else {
+            $books = $books->get();
         }
-        $books = Book::with('serie')->orderBy('serie_id')->orderBy('serie_number')->paginate($perPage);
 
         $books = BookResource::collection($books);
-        // dd($books);
 
         return $books;
     }
