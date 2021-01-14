@@ -10,11 +10,16 @@ use App\Http\Resources\BookResource;
 
 class BookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::with('serie')->orderBy('serie_id')->orderBy('serie_number')->get();
+        $perPage = $request->get('perPage');
+        if (null === $request->get('perPage')) {
+            $perPage = 10;
+        }
+        $books = Book::with('serie')->orderBy('serie_id')->orderBy('serie_number')->paginate($perPage);
 
         $books = BookResource::collection($books);
+        // dd($books);
 
         return $books;
     }
