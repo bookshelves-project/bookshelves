@@ -39,6 +39,7 @@ class BookCollection extends JsonResource
                 'flag' => $this->language->flag,
             ],
             'cover'                 => [
+                'basic'     => $this->cover ? image_cache($this->cover, 'book_cover') : null,
                 'thumbnail' => $this->cover ? image_cache($this->cover, 'book_thumbnail') : null,
             ],
             'serie'                 => [

@@ -13,3 +13,4 @@ php artisan setup:install
 - sort by author, serie, title, language
 - cache
 - search
+  - <https://freek.dev/1182-searching-models-using-a-where-like-query-in-laravel>
