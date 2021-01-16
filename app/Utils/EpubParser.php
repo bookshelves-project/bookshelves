@@ -11,12 +11,22 @@ use App\Models\Epub;
 use App\Models\Serie;
 use Biblys\Isbn\Isbn;
 use App\Models\Author;
+use Spatie\Image\Image;
 use App\Models\Language;
 use App\Models\Publisher;
 use Illuminate\Support\Str;
+use Spatie\Image\Manipulations;
+use Spatie\Image\Exceptions\InvalidManipulation;
 
 class EpubParser
 {
+    /**
+     * @param $file_path
+     *
+     * @throws InvalidManipulation
+     *
+     * @return mixed
+     */
     public static function getMetadata(string $file_path)
     {
         // $file_path = $epub = storage_path('app\public\books\American Gods - Neil Gaiman.epub');
@@ -168,16 +178,23 @@ class EpubParser
             $book->language_slug = $language->slug;
         }
 
-        if ($serie) {
-            // $cover_file = $serie->slug.'_'.$book->slug.'.'.$cover_extension;
-            $cover_file = $book->id.'.'.$cover_extension;
-        } else {
-            // $cover_file = $book->slug.'.'.$cover_extension;
-            $cover_file = $book->id.'.'.$cover_extension;
-        }
+        $cover_file = $book->id.'.'.$cover_extension;
         if ($cover_extension) {
-            File::put(public_path("storage/covers/$cover_file"), $cover);
+            $size = 'book_cover';
+            $dimensions = config("image.thumbnails.$size");
+            $path = public_path("storage/covers-original/$cover_file");
             $book->cover = "storage/covers/$cover_file";
+            File::put(public_path("storage/covers-original/$cover_file"), $cover);
+            try {
+                Image::load($path)
+                    ->fit(Manipulations::FIT_CROP, $dimensions['width'], $dimensions['height'])
+                    ->save(public_path('storage/covers/'.$book->id.'.webp'));
+                $cover_file = $book->id.'.webp';
+                $book->cover = "storage/covers/$cover_file";
+            } catch (\Throwable $th) {
+                dump('error');
+                dump($th->getMessage());
+            }
         }
 
         $file = pathinfo($file_path)['basename'];

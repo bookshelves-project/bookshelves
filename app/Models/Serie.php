@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null                             $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property int|null                                                    $books_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie query()

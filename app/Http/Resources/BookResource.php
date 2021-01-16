@@ -56,7 +56,6 @@ class BookResource extends JsonResource
             'publisher'             => $publisher,
             'cover'                 => [
                 'original'  => $this->cover ? config('app.url').'/'.$this->cover : null,
-                'basic'     => $this->cover ? image_cache($this->cover, 'book_cover') : null,
                 'thumbnail' => $this->cover ? image_cache($this->cover, 'book_thumbnail') : null,
             ],
             'epub'                  => $epub ? $epub : null,

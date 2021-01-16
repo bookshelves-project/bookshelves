@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use DB;
+use File;
 use Artisan;
 use Storage;
 use App\Utils\EpubParser;
@@ -45,16 +46,13 @@ class BooksGenerate extends Command
 
         Artisan::call('storage:link');
 
-        Storage::disk('public')->deleteDirectory('cache');
-        Storage::disk('public')->makeDirectory('cache');
+        File::cleanDirectory(public_path('storage/cache'));
         Storage::disk('public')->copy('.gitignore-sample', 'cache/.gitignore');
 
-        Storage::disk('public')->deleteDirectory('covers');
-        Storage::disk('public')->makeDirectory('covers');
+        File::cleanDirectory(public_path('storage/covers'));
         Storage::disk('public')->copy('.gitignore-sample', 'covers/.gitignore');
 
-        Storage::disk('public')->deleteDirectory('books');
-        Storage::disk('public')->makeDirectory('books');
+        File::cleanDirectory(public_path('storage/books'));
         Storage::disk('public')->copy('.gitignore-sample', 'books/.gitignore');
 
         DB::table('authors')->delete();
@@ -77,6 +75,8 @@ class BooksGenerate extends Command
                 dump(pathinfo($file)['filename']);
             }
         }
+        File::cleanDirectory(public_path('storage/covers-original'));
+        Storage::disk('public')->copy('.gitignore-sample', 'covers-original/.gitignore');
 
         $this->info('Done!');
     }

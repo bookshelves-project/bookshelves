@@ -16734,6 +16734,19 @@ namespace  {
             }
              
                 /**
+             * 
+             *
+             * @see \App\Providers\AppServiceProvider::register()
+             * @param mixed $attributes
+             * @param string $searchTerm
+             * @static 
+             */ 
+            public static function whereLike($attributes, $searchTerm)
+            {
+                                return \Illuminate\Database\Eloquent\Builder::whereLike($attributes, $searchTerm);
+            }
+             
+                /**
              * Set the columns to be selected.
              *
              * @param array|mixed $columns
