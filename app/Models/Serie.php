@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * App\Models\Serie
+ * App\Models\Serie.
  *
- * @property int $id
- * @property string|null $title
- * @property string|null $slug
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
- * @property-read int|null $books_count
+ * @property int                                                         $id
+ * @property string|null                                                 $title
+ * @property string|null                                                 $slug
+ * @property \Illuminate\Support\Carbon|null                             $created_at
+ * @property \Illuminate\Support\Carbon|null                             $updated_at
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
+ * @property int|null                                                    $books_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie query()
@@ -30,11 +31,7 @@ class Serie extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    public $timestamps = false;
     protected $fillable = [
         'title',
         'slug',
@@ -42,6 +39,6 @@ class Serie extends Model
 
     public function books(): HasMany
     {
-        return $this->hasMany(Book::class);
+        return $this->hasMany(Book::class)->orderBy('serie_number');
     }
 }

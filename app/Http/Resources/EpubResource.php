@@ -17,8 +17,9 @@ class EpubResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'path' => config('app.url').'/'.$this->path,
-            'size' => $this->size,
+            // 'path' => config('app.url').'/'.$this->path,
+            'download'              => config('app.url').'/api/books/download/'.$this->book->author->slug.'/'.$this->book->slug,
+            'size'                  => $this->size,
         ];
     }
 }

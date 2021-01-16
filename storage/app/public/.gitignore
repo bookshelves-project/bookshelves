@@ -4,3 +4,4 @@
 # !books-raw/
 !.gitignore
 !.gitignore-sample
+!cache/

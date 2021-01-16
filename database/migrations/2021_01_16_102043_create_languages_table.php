@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSeriesTable extends Migration
+class CreateLanguagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class CreateSeriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('series', function (Blueprint $table) {
-            $table->id();
-            $table->string('title')->nullable();
+        Schema::create('languages', function (Blueprint $table) {
             $table->string('slug')->unique()->nullable();
+            $table->string('flag')->nullable();
         });
 
         Schema::table('books', function (Blueprint $table) {
-            $table->foreignId('serie_id')->index()->nullable()->after('cover');
-            $table->foreign('serie_id')
-                ->references('id')
-                ->on('series')
+            $table->string('language_slug')->index()->nullable()->after('publisher_id');
+            $table->foreign('language_slug')
+                ->references('slug')
+                ->on('languages')
                 ->onDelete('cascade');
         });
     }
@@ -35,6 +34,6 @@ class CreateSeriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('series');
+        Schema::dropIfExists('languages');
     }
 }

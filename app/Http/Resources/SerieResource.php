@@ -15,9 +15,20 @@ class SerieResource extends JsonResource
      */
     public function toArray($request)
     {
+        $books = null;
+        $cover = null;
+        if ($this->books) {
+            $books = BookCollection::collection($this->books);
+            $books_number = sizeof($books);
+            $cover = $books[0]->cover ? image_cache($books[0]->cover, 'book_thumbnail') : null;
+        }
+
         return [
-            'title' => $this->title,
-            'slug'  => $this->slug,
+            'title'        => $this->title,
+            'slug'         => $this->slug,
+            'books_number' => $books_number,
+            'books'        => $books,
+            'cover'        => $cover,
         ];
     }
 }

@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Epub;
-use App\Models\Serie;
-use App\Models\Author;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookResource extends JsonResource
@@ -19,29 +16,55 @@ class BookResource extends JsonResource
     public function toArray($request)
     {
         $serie = null;
-        if ($this->serie_id) {
-            $serie = new SerieResource(Serie::find($this->serie_id));
+        $author = null;
+        $epub = null;
+        $publisher = null;
+        $language = null;
+        if ($this->serie) {
+            $serie = new SerieResource($this->serie);
         }
-        if ($this->author_id) {
-            $author = new AuthorResource(Author::find($this->author_id));
+        if ($this->author) {
+            $author = $this->author;
         }
-        if ($this->epub_id) {
-            $epub = new EpubResource(Epub::find($this->epub_id));
+        if ($this->epub) {
+            $epub = new EpubResource($this->epub);
+        }
+        if ($this->publisher) {
+            $publisher = new PublisherResource($this->publisher);
+        }
+        if ($this->language) {
+            $language = $this->language;
         }
 
         return [
-            'title'        => $this->title,
-            'slug'         => $this->slug,
-            'author'       => $author ? $author : null,
-            'description'  => $this->description,
-            'language'     => $this->language,
-            'publishDate'  => $this->publish_date,
-            'isbn'         => $this->isbn,
-            'publisher'    => $this->publisher,
-            'coverPath'    => $this->cover_path ? config('app.url').'/'.$this->cover_path : null,
-            'epub'         => $epub ? $epub : null,
-            'serieNumber'  => $this->serie_number ? $this->serie_number : null,
-            'serie'        => $serie ? $serie->title : null,
+            'title'                 => $this->title,
+            'slug'                  => $this->slug,
+            'author'                => $author ? [
+                'name'        => $author->name,
+                'slug'        => $author->slug,
+                'firstname'   => $author->firstname,
+                'lastname'    => $author->lastname,
+                'show'        => config('app.url')."/api/authors/$author->slug",
+            ] : null,
+            'description'           => $this->description,
+            'language'              => [
+                'slug' => $language->slug,
+                'flag' => $language->flag,
+            ],
+            'publishDate'           => $this->publish_date,
+            'isbn'                  => $this->isbn,
+            'publisher'             => $publisher,
+            'cover'                 => [
+                'original'  => $this->cover ? config('app.url').'/'.$this->cover : null,
+                'basic'     => $this->cover ? image_cache($this->cover, 'book_cover') : null,
+                'thumbnail' => $this->cover ? image_cache($this->cover, 'book_thumbnail') : null,
+            ],
+            'epub'                  => $epub ? $epub : null,
+            'serie'                 => $serie ? [
+                'number'  => $this->serie_number ? $this->serie_number : null,
+                'title'   => $serie ? $serie->title : null,
+                'show'    => config('app.url')."/api/series/$serie->slug",
+            ] : null,
         ];
     }
 }

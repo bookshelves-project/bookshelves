@@ -18,7 +18,6 @@ class CreateAuthorsTable extends Migration
             $table->string('slug')->unique()->nullable();
             $table->string('lastname')->nullable();
             $table->string('firstname')->nullable();
-            $table->timestamps();
         });
 
         Schema::table('books', function (Blueprint $table) {

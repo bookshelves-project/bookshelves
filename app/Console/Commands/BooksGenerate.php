@@ -45,6 +45,10 @@ class BooksGenerate extends Command
 
         Artisan::call('storage:link');
 
+        Storage::disk('public')->deleteDirectory('cache');
+        Storage::disk('public')->makeDirectory('cache');
+        Storage::disk('public')->copy('.gitignore-sample', 'cache/.gitignore');
+
         Storage::disk('public')->deleteDirectory('covers');
         Storage::disk('public')->makeDirectory('covers');
         Storage::disk('public')->copy('.gitignore-sample', 'covers/.gitignore');

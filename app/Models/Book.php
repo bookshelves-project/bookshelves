@@ -9,6 +9,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * App\Models\Book.
  *
+ * @mixin \Eloquent
+ *
+ * @property int|null              $epub_id
+ * @property \App\Models\Epub|null $epub
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereEpubId($value)
+ *
+ * @property int|null $publisher_id
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereCover($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book wherePublisherId($value)
+ *
  * @property int                             $id
  * @property string                          $title
  * @property string|null                     $slug
@@ -16,9 +28,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null                     $language
  * @property string|null                     $publish_date
  * @property string|null                     $isbn
- * @property string|null                     $publisher
- * @property string|null                     $cover_path
- * @property string|null                     $epub_path
+ * @property \App\Models\Publisher|null      $publisher
+ * @property string|null                     $cover
  * @property int|null                        $serie_id
  * @property int|null                        $serie_number
  * @property int|null                        $author_id
@@ -26,14 +37,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \App\Models\Author|null         $author
  * @property \App\Models\Serie|null          $serie
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book query()
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereAuthorId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereCoverPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereEpubPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguage($value)
@@ -44,10 +54,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property int|null $epub_id
- * @property-read \App\Models\Epub|null $epub
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereEpubId($value)
  */
 class Book extends Model
 {
@@ -61,19 +67,21 @@ class Book extends Model
     protected $fillable = [
         'title',
         'slug',
-        'author',
         'description',
-        'language',
         'publish_date',
         'isbn',
-        'publisher',
-        'cover_path',
+        'cover',
         'serie_number',
     ];
 
     public function author(): BelongsTo
     {
         return $this->belongsTo(Author::class);
+    }
+
+    public function publisher(): BelongsTo
+    {
+        return $this->belongsTo(Publisher::class);
     }
 
     public function serie(): BelongsTo
@@ -84,5 +92,10 @@ class Book extends Model
     public function epub()
     {
         return $this->hasOne(Epub::class);
+    }
+
+    public function language(): BelongsTo
+    {
+        return $this->belongsTo(Language::class);
     }
 }

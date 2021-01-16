@@ -11,6 +11,8 @@ use App\Models\Epub;
 use App\Models\Serie;
 use Biblys\Isbn\Isbn;
 use App\Models\Author;
+use App\Models\Language;
+use App\Models\Publisher;
 use Illuminate\Support\Str;
 
 class EpubParser
@@ -26,7 +28,7 @@ class EpubParser
         $zip = new ZipArchive();
         $zip->open($file_path);
         $xml_string = '';
-        $cover_path = null;
+        $cover = null;
         $cover = '';
         $cover_extension = '';
         for ($i = 0; $i < $zip->numFiles; $i++) {
@@ -43,7 +45,7 @@ class EpubParser
                 // dump(basename($stat['name']));
                 // dump($stat['name']);
                 // $xml_string = $zip->getFromName($stat['name']);
-                $cover_path = $stat['name'];
+                $cover = $stat['name'];
                 $cover_extension = pathinfo($stat['name'])['extension'];
                 // $zip->extractTo(, $stat['name']);
                 // file_put_contents(public_path('storage'), $zip->getFromName($stat['name']));
@@ -119,8 +121,30 @@ class EpubParser
                 'lastname'  => $lastname,
                 'firstname' => $firstname,
             ]);
-            $author->slug = Str::slug("$firstname $lastname", '-');
+            $author->slug = Str::slug("$lastname $firstname", '-');
             $author->save();
+        }
+
+        $publisher_data = array_key_exists('publisher', $array) ? $array['publisher'] : null;
+        $publisher = null;
+        if ($publisher_data) {
+            $publisher = Publisher::firstOrCreate([
+                'name'  => $publisher_data,
+            ]);
+            $publisher->slug = Str::slug("$publisher->name", '-');
+            $publisher->save();
+        }
+
+        $language_data = array_key_exists('language', $array) ? $array['language'] : null;
+        $language = null;
+        if ($language_data) {
+            if ('en' === $language_data) {
+                $language_data = 'gb';
+            }
+            $language = Language::firstOrCreate([
+                'slug'  => $language_data,
+                'flag'  => "https://www.countryflags.io/$language_data/flat/32.png",
+            ]);
         }
 
         $book = Book::firstOrCreate(['title' => $array['title']]);
@@ -128,24 +152,32 @@ class EpubParser
         $book->slug = Str::slug($book->title, '-');
         $book->author_id = null !== $author ? $author->id : null;
         $book->description = array_key_exists('description', $array) ? $array['description'] : null;
-        $book->language = array_key_exists('language', $array) ? $array['language'] : null;
         $book->publish_date = array_key_exists('date', $array) ? $array['date'] : null;
         $book->isbn = $isbn13;
-        $book->publisher = array_key_exists('publisher', $array) ? $array['publisher'] : null;
+
+        if ($publisher) {
+            $book->publisher_id = $publisher->id;
+        }
 
         if ($serie) {
             $book->serie_id = $serie->id;
             $book->serie_number = (int) $serie_number;
         }
 
+        if ($language) {
+            $book->language_slug = $language->slug;
+        }
+
         if ($serie) {
-            $cover_file = $serie->slug.'_'.$book->slug.'.'.$cover_extension;
+            // $cover_file = $serie->slug.'_'.$book->slug.'.'.$cover_extension;
+            $cover_file = $book->id.'.'.$cover_extension;
         } else {
-            $cover_file = $book->slug.'.'.$cover_extension;
+            // $cover_file = $book->slug.'.'.$cover_extension;
+            $cover_file = $book->id.'.'.$cover_extension;
         }
         if ($cover_extension) {
             File::put(public_path("storage/covers/$cover_file"), $cover);
-            $book->cover_path = "storage/covers/$cover_file";
+            $book->cover = "storage/covers/$cover_file";
         }
 
         $file = pathinfo($file_path)['basename'];

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NavigationController;
 
 /*
@@ -13,6 +14,8 @@ use App\Http\Controllers\NavigationController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('cache/resolve/{size}/{path}', [ImageController::class, 'thumbnail'])->where('path', '.*');
 
 Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
 
