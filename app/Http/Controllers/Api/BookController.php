@@ -36,7 +36,7 @@ class BookController extends Controller
     public function search(Request $request)
     {
         $searchTerm = $request->input('search-term');
-        $books = Book::whereLike(['title', 'author.firstname', 'author.lastname', 'serie.title'], $searchTerm)->get();
+        $books = Book::whereLike(['title', 'author.firstname', 'author.lastname', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
 
         return BookResource::collection($books);
     }
