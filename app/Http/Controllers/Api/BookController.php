@@ -38,27 +38,15 @@ class BookController extends Controller
                 $title = $book->title;
             }
 
-            echo $title.'<br/>';
-
             return $title;
         });
         if (null !== $perPage) {
             $books = $books->paginate($perPage);
         }
 
-        if ($debug) {
-            foreach ($books as $book) {
-                if ($book->serie) {
-                    echo $book->serie->title.' '.$book->serie_number.' '.$book->title.'<br>';
-                } else {
-                    echo $book->title.'<br>';
-                }
-            }
-        } else {
-            $books = BookCollection::collection($books);
+        $books = BookCollection::collection($books);
 
-            return $books;
-        }
+        return $books;
     }
 
     public function count()
