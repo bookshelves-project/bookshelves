@@ -40,6 +40,14 @@ class BookController extends Controller
             $books = $books->paginate($perPage);
         }
 
+        foreach ($books as $book) {
+            if ($book->serie) {
+                echo $book->serie->title.' '.$book->serie_number.' '.$book->title.'<br>';
+            } else {
+                echo $book->title.'<br>';
+            }
+        }
+
         $books = BookCollection::collection($books);
 
         return $books;

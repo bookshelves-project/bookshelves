@@ -55,7 +55,7 @@ class BooksGenerate extends Command
         File::cleanDirectory(public_path('storage/books'));
         Storage::disk('public')->copy('.gitignore-sample', 'books/.gitignore');
 
-        Artisan::call('migrate:fresh --seed');
+        Artisan::call('migrate:fresh --seed --force');
 
         $files = Storage::disk('public')->allFiles('books-raw');
         foreach ($files as $key => $file) {
