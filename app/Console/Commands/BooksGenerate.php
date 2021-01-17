@@ -55,24 +55,19 @@ class BooksGenerate extends Command
         File::cleanDirectory(public_path('storage/books'));
         Storage::disk('public')->copy('.gitignore-sample', 'books/.gitignore');
 
-        DB::table('authors')->delete();
-        $this->refreshDB('authors');
-
-        DB::table('series')->delete();
-        $this->refreshDB('series');
-
-        DB::table('books')->delete();
-        $this->refreshDB('books');
-
-        DB::table('epubs')->delete();
-        $this->refreshDB('epubs');
+        Artisan::call('migrate:fresh --seed');
 
         $files = Storage::disk('public')->allFiles('books-raw');
         foreach ($files as $key => $file) {
             if (array_key_exists('extension', pathinfo($file)) && 'epub' === pathinfo($file)['extension']) {
                 $book = EpubParser::getMetadata($file);
                 EpubParser::generateNewEpub($book, $file);
-                dump(pathinfo($file)['filename']);
+                $serie = null;
+                if (null !== $book->serie) {
+                    $serie = $book->serie;
+                    $serie = $serie->title;
+                }
+                dump("$serie $book->serie_number $book->title");
             }
         }
         File::cleanDirectory(public_path('storage/covers-original'));

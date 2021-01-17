@@ -178,7 +178,8 @@ class EpubParser
             $book->language_slug = $language->slug;
         }
 
-        $cover_file = $book->id.'.'.$cover_extension;
+        $cover_filename_without_extension = md5("$book->slug-$book->author");
+        $cover_file = $cover_filename_without_extension.'.'.$cover_extension;
         if ($cover_extension) {
             $size = 'book_cover';
             $dimensions = config("image.thumbnails.$size");
@@ -188,8 +189,8 @@ class EpubParser
             try {
                 Image::load($path)
                     ->fit(Manipulations::FIT_CROP, $dimensions['width'], $dimensions['height'])
-                    ->save(public_path('storage/covers/'.$book->id.'.webp'));
-                $cover_file = $book->id.'.webp';
+                    ->save(public_path('storage/covers/'.$cover_filename_without_extension.'.webp'));
+                $cover_file = $cover_filename_without_extension.'.webp';
                 $book->cover = "storage/covers/$cover_file";
             } catch (\Throwable $th) {
                 dump('error');
