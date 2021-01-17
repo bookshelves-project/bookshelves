@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SerieCollection extends JsonResource
@@ -16,19 +17,61 @@ class SerieCollection extends JsonResource
     public function toArray($request)
     {
         $books = null;
-        $cover = null;
+        $books_number = null;
+        $author = null;
+        $covers = [];
+        $mainCover = null;
+        $otherCovers = null;
+
         if ($this->books) {
-            $books = BookCollection::collection($this->books);
-            $books_number = sizeof($books);
-            $cover = $books[0]->cover ? image_cache($books[0]->cover, 'book_thumbnail') : null;
+            $booksFilter = $this->books->reject(function ($book, $key) {
+                return $book->serie_number < 1;
+            });
+            $books = $booksFilter->values();
+            $id = $this->books[0]->id;
+            $books = collect($books);
+            $book = Book::findOrFail($id);
+            $author = $book->author->name;
+            // $books = BookCollection::collection($books);
+            $books_number = count($books);
+
+            switch (count($books)) {
+                case 0:
+                    break;
+                case 1:
+                        $covers[] = config('app.url').'/'.$book->cover;
+                    break;
+                case 2:
+                    foreach ($books as $key => $book) {
+                        if ($key < 2) {
+                            $covers[] = config('app.url').'/'.$book->cover;
+                        }
+                    }
+                    break;
+                default:
+                    foreach ($books as $key => $book) {
+                        if ($key < 3) {
+                            $covers[] = config('app.url').'/'.$book->cover;
+                        }
+                    }
+                    break;
+            }
+
+            $mainCover = $covers[0];
+            $otherCovers = $covers;
+            array_shift($otherCovers);
         }
 
         return [
-            'title'        => $this->title,
-            'slug'         => $this->slug,
-            'books_number' => $books_number,
-            'cover'        => $cover,
-            'links'        => [
+            'title'         => $this->title,
+            'slug'          => $this->slug,
+            'author'        => $author,
+            'booksNumber'   => $books_number,
+            'covers'        => [
+                'main'  => $mainCover,
+                'extra' => $otherCovers,
+            ],
+            'links'         => [
                 'show' => config('app.url')."/api/series/$this->slug",
             ],
         ];
