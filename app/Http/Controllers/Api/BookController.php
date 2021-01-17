@@ -37,6 +37,8 @@ class BookController extends Controller
                 $title = $book->title;
             }
 
+            echo $title.'<br/>';
+
             return $title;
         });
         if (null !== $perPage) {
