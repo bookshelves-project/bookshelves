@@ -28,11 +28,13 @@ class BookController extends Controller
         ];
         $books = $booksWithSerie->merge($booksWithoutSerie);
         $books = $books->sortBy(function ($book, $key) use ($articles) {
-            $title = $book->title;
+            $title = null;
             if ($book->serie) {
                 $title = $book->serie->title;
                 $title = str_replace($articles, '', $title);
                 $title = stripAccents($title);
+            } else {
+                $title = $book->title;
             }
 
             return $title;
