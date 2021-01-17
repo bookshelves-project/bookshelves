@@ -10,12 +10,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * App\Models\Book.
  *
  * @mixin \Eloquent
+ *
  * @property int|null              $epub_id
  * @property \App\Models\Epub|null $epub
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereEpubId($value)
+ *
  * @property int|null $publisher_id
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereCover($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePublisherId($value)
+ *
  * @property int                             $id
  * @property string                          $title
  * @property string|null                     $slug
@@ -32,6 +37,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \App\Models\Author|null         $author
  * @property \App\Models\Serie|null          $serie
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book query()
@@ -48,7 +54,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
+ *
  * @property string|null $language_slug
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguageSlug($value)
  */
 class Book extends Model

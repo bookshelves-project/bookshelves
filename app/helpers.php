@@ -46,3 +46,10 @@ if (! function_exists('get_thumbnail')) {
         ];
     }
 }
+
+if (! function_exists('stripAccents')) {
+    function stripAccents($stripAccents)
+    {
+        return strtr(utf8_decode($stripAccents), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+    }
+}

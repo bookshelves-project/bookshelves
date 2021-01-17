@@ -15,12 +15,29 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('perPage');
+        $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number')->get();
+        $booksWithoutSerie = Book::whereNull('serie_id')->orderBy('title')->get();
 
-        $books = Book::with('serie')->orderBy('title');
+        $articles = [
+            'The',
+            'Les',
+            "L'",
+            'Le',
+            'La',
+        ];
+        $books = $booksWithSerie->merge($booksWithoutSerie);
+        $books = $books->sortBy(function ($book, $key) use ($articles) {
+            $title = $book->title;
+            if ($book->serie) {
+                $title = $book->serie->title;
+                $title = str_replace($articles, '', $title);
+                $title = stripAccents($title);
+            }
+
+            return $title;
+        });
         if (null !== $perPage) {
             $books = $books->paginate($perPage);
-        } else {
-            $books = $books->get();
         }
 
         $books = BookCollection::collection($books);
