@@ -33,6 +33,7 @@ class BookController extends Controller
                 $title = $book->serie->title;
                 $title = str_replace($articles, '', $title);
                 $title = stripAccents($title);
+                $title = $title.$book->serie_number;
             } else {
                 $title = $book->title;
             }
