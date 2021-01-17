@@ -15,6 +15,7 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('perPage');
+        $debug = $request->get('debug');
         $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number')->get();
         $booksWithoutSerie = Book::whereNull('serie_id')->orderBy('title')->get();
 
@@ -40,17 +41,19 @@ class BookController extends Controller
             $books = $books->paginate($perPage);
         }
 
-        foreach ($books as $book) {
-            if ($book->serie) {
-                echo $book->serie->title.' '.$book->serie_number.' '.$book->title.'<br>';
-            } else {
-                echo $book->title.'<br>';
+        if ($debug) {
+            foreach ($books as $book) {
+                if ($book->serie) {
+                    echo $book->serie->title.' '.$book->serie_number.' '.$book->title.'<br>';
+                } else {
+                    echo $book->title.'<br>';
+                }
             }
+        } else {
+            $books = BookCollection::collection($books);
+
+            return $books;
         }
-
-        $books = BookCollection::collection($books);
-
-        return $books;
     }
 
     public function count()
