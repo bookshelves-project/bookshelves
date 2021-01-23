@@ -38,11 +38,11 @@ return [
         // Custom sizes
         'book_cover' => [
             'width'  => 480,
-            'height' => 770,
+            'height' => 640,
         ],
         'book_thumbnail' => [
             'width'  => 240,
-            'height' => 385,
+            'height' => 320,
         ],
         'avatar' => [
             'width'  => 100,
