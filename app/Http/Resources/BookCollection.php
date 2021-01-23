@@ -34,8 +34,8 @@ class BookCollection extends JsonResource
             'title'                 => $this->title,
             'slug'                  => $this->slug,
             'author'                => [
-                'name' => $author->name,
-                'slug' => $author->slug,
+                'name' => $author ? $author->name : null,
+                'slug' => $author ? $author->slug : null,
             ],
             'language'              => [
                 'slug' => $this->language->slug,
