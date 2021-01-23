@@ -106,4 +106,9 @@ class Book extends Model
     {
         return $this->belongsTo(Language::class);
     }
+
+    // public function language(): BelongsTo
+    // {
+    //     return $this->belongsTo(Language::class);
+    // }
 }

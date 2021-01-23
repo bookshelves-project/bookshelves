@@ -15,6 +15,10 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('perPage');
+        $all = $request->get('all');
+        if (null === $perPage) {
+            $perPage = 32;
+        }
         $debug = $request->get('debug');
         $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number')->get();
         $booksWithoutSerie = Book::whereNull('serie_id')->orderBy('title')->get();
@@ -40,7 +44,7 @@ class BookController extends Controller
 
             return $title;
         }, SORT_NATURAL);
-        if (null !== $perPage) {
+        if (! $all) {
             $books = $books->paginate($perPage);
         }
 

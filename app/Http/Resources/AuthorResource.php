@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthorResource extends JsonResource
@@ -21,7 +22,14 @@ class AuthorResource extends JsonResource
             $books = BookCollection::collection($this->books);
             $books_number = sizeof($books);
             $book = $books->random();
-            $cover = $book->cover_basic ? image_cache($book->cover_basic, 'book_thumbnail') : null;
+            try {
+                $mainBook = Book::with('author')->where('serie_number', '=', '1')->whereAuthorId($this->id)->first();
+            } catch (\Throwable $th) {
+            }
+            if (null === $mainBook) {
+                $mainBook = $books->first();
+            }
+            $cover = $mainBook->cover->thumbnail;
         }
 
         return [
