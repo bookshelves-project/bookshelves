@@ -21,7 +21,7 @@ class AuthorResource extends JsonResource
             $books = BookCollection::collection($this->books);
             $books_number = sizeof($books);
             $book = $books->random();
-            $cover = $book->cover ? image_cache($book->cover, 'book_thumbnail') : null;
+            $cover = $book->cover_basic ? image_cache($book->cover_basic, 'book_thumbnail') : null;
         }
 
         return [

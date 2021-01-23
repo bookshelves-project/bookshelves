@@ -64,14 +64,6 @@ class BookController extends Controller
         return Book::count();
     }
 
-    public function search(Request $request)
-    {
-        $searchTerm = $request->input('search-term');
-        $books = Book::whereLike(['title', 'author.firstname', 'author.lastname', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
-
-        return BookResource::collection($books);
-    }
-
     public function show(Request $request, string $author, string $book)
     {
         $author = Author::whereSlug($author)->firstOrFail();

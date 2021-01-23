@@ -49,8 +49,11 @@ class BooksGenerate extends Command
         File::cleanDirectory(public_path('storage/cache'));
         Storage::disk('public')->copy('.gitignore-sample', 'cache/.gitignore');
 
-        File::cleanDirectory(public_path('storage/covers'));
-        Storage::disk('public')->copy('.gitignore-sample', 'covers/.gitignore');
+        File::cleanDirectory(public_path('storage/covers-basic'));
+        Storage::disk('public')->copy('.gitignore-sample', 'covers-basic/.gitignore');
+
+        File::cleanDirectory(public_path('storage/covers-original'));
+        Storage::disk('public')->copy('.gitignore-sample', 'covers-original/.gitignore');
 
         File::cleanDirectory(public_path('storage/books'));
         Storage::disk('public')->copy('.gitignore-sample', 'books/.gitignore');
@@ -70,8 +73,8 @@ class BooksGenerate extends Command
                 dump("$serie $book->serie_number $book->title");
             }
         }
-        File::cleanDirectory(public_path('storage/covers-original'));
-        Storage::disk('public')->copy('.gitignore-sample', 'covers-original/.gitignore');
+        File::cleanDirectory(public_path('storage/covers-raw'));
+        Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');
 
         $this->info('Done!');
     }

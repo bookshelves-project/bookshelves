@@ -74,7 +74,6 @@ class Book extends Model
         'description',
         'publish_date',
         'isbn',
-        'cover',
         'serie_number',
     ];
 
@@ -91,6 +90,11 @@ class Book extends Model
     public function serie(): BelongsTo
     {
         return $this->belongsTo(Serie::class);
+    }
+
+    public function cover()
+    {
+        return $this->hasOne(Cover::class);
     }
 
     public function epub()

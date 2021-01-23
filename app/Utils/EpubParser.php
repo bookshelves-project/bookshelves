@@ -8,6 +8,7 @@ use Exception;
 use ZipArchive;
 use App\Models\Book;
 use App\Models\Epub;
+use App\Models\Cover;
 use App\Models\Serie;
 use Biblys\Isbn\Isbn;
 use App\Models\Author;
@@ -183,15 +184,27 @@ class EpubParser
         if ($cover_extension) {
             $size = 'book_cover';
             $dimensions = config("image.thumbnails.$size");
-            $path = public_path("storage/covers-original/$cover_file");
-            $book->cover = "storage/covers/$cover_file";
-            File::put(public_path("storage/covers-original/$cover_file"), $cover);
+            $dimensions_thumbnail = config('image.thumbnails.book_thumbnail');
+            $path = public_path("storage/covers-raw/$cover_file");
+            // $book->cover_basic = "storage/covers-basic/$cover_file";
+            File::put(public_path("storage/covers-raw/$cover_file"), $cover);
             try {
+                Image::load("$path")
+                    ->fit(Manipulations::FIT_MAX, $dimensions_thumbnail['width'], $dimensions_thumbnail['height'])
+                    ->save(public_path('storage/cache/'.$cover_filename_without_extension.'.webp'));
+                // $book->cover_name = $cover_filename_without_extension;
                 Image::load($path)
-                    ->fit(Manipulations::FIT_CROP, $dimensions['width'], $dimensions['height'])
-                    ->save(public_path('storage/covers/'.$cover_filename_without_extension.'.webp'));
+                    ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
+                    ->optimize()
+                    ->save(public_path('storage/covers-basic/'.$cover_filename_without_extension.'.webp'));
                 $cover_file = $cover_filename_without_extension.'.webp';
-                $book->cover = "storage/covers/$cover_file";
+                // $book->cover_basic = "storage/covers-basic/$cover_file";
+                Image::load($path)
+                    ->optimize()
+                    ->save(public_path('storage/covers-original/'.$cover_filename_without_extension.'.webp'));
+                $cover_file = $cover_filename_without_extension.'.webp';
+                // $book->cover_original = "storage/covers-original/$cover_file";
+                $cover_model = Cover::firstOrCreate(['name' => $cover_filename_without_extension]);
             } catch (\Throwable $th) {
                 dump('error');
                 dump($th->getMessage());
@@ -216,8 +229,11 @@ class EpubParser
 
         $book->epub()->save($epub);
         $epub->book()->save($book);
+        $book->cover()->save($cover_model);
+        $cover_model->book()->save($book);
         $epub->save();
         $book->save();
+        $cover_model->save();
 
         return $book;
     }

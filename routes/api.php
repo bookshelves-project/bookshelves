@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
+use App\Http\Controllers\Api\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,13 @@ Route::get('/series', [SerieController::class, 'index'])->name('series.index');
 Route::get('/authors', [AuthorController::class, 'index'])->name('authors.index');
 
 Route::get('/books/count', [BookController::class, 'count'])->name('books.count');
-Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
 Route::get('/series/count', [SerieController::class, 'count'])->name('series.count');
 Route::get('/authors/count', [AuthorController::class, 'count'])->name('authors.count');
+
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+Route::get('/search-book', [SearchController::class, 'byBook'])->name('search.book');
+Route::get('/search-author', [SearchController::class, 'byAuthor'])->name('search.author');
+Route::get('/search-serie', [SearchController::class, 'bySerie'])->name('search.serie');
 
 Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('books.show');
 Route::get('/books/download/{author}/{book}', [BookController::class, 'download'])->name('books.download');

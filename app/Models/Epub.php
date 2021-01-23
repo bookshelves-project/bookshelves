@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \App\Models\Book|null           $epub
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Epub newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Epub newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Epub query()
@@ -27,18 +28,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Epub whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Epub whereUpdatedAt($value)
  * @mixin \Eloquent
+ *
  * @property string|null $name
  * @property string|null $path
  * @property string|null $size
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Epub whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Epub wherePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Epub whereSize($value)
- * @property-read \App\Models\Book|null $book
+ *
+ * @property \App\Models\Book|null $book
  */
 class Epub extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     protected $fillable = [
         'name',
         'path',

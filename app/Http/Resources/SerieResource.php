@@ -21,7 +21,7 @@ class SerieResource extends JsonResource
             $books = BookCollection::collection($this->books);
             $books_number = sizeof($books);
             $book = $books[0];
-            $cover = $book->cover ? config('app.url').'/'.$book->cover : null;
+            $cover = $book->cover->thumbnail;
         }
 
         return [

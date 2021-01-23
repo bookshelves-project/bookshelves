@@ -35,29 +35,32 @@ class SerieCollection extends JsonResource
             // $books = BookCollection::collection($books);
             $books_number = count($books);
 
+            // $mainCover = $book->cover->basic;
+            $mainCover = $book->cover->thumbnail;
+
             switch (count($books)) {
                 case 0:
                     break;
                 case 1:
-                        $covers[] = config('app.url').'/'.$book->cover;
+                        $covers[] = $book->cover->basic;
                     break;
                 case 2:
                     foreach ($books as $key => $book) {
                         if ($key < 2) {
-                            $covers[] = config('app.url').'/'.$book->cover;
+                            $covers[] = $book->cover->thumbnail;
                         }
                     }
                     break;
                 default:
                     foreach ($books as $key => $book) {
                         if ($key < 3) {
-                            $covers[] = config('app.url').'/'.$book->cover;
+                            $covers[] = $book->cover->thumbnail;
                         }
                     }
                     break;
             }
 
-            $mainCover = $covers[0];
+            // $mainCover = $covers[0];
             $otherCovers = $covers;
             array_shift($otherCovers);
         }

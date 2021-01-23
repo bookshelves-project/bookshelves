@@ -26,6 +26,9 @@ class BookCollection extends JsonResource
                 'title'   => $this->serie->title,
             ];
         }
+        if ($this->cover) {
+            $cover = $this->cover;
+        }
 
         return [
             'title'                 => $this->title,
@@ -39,8 +42,8 @@ class BookCollection extends JsonResource
                 'flag' => $this->language->flag,
             ],
             'cover'                 => [
-                'original'     => $this->cover ? config('app.url').'/'.$this->cover : null,
-                'thumbnail'    => $this->cover ? image_cache($this->cover, 'book_thumbnail') : null,
+                'basic'     => $cover->basic,
+                'thumbnail' => $cover->thumbnail,
             ],
             'serie'                 => [
                 'number' => $this->serie_number ? $this->serie_number : null,

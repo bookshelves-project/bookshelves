@@ -20,7 +20,6 @@ class CreateBooksTable extends Migration
             $table->text('description')->nullable();
             $table->string('publish_date')->nullable();
             $table->string('isbn')->nullable();
-            $table->string('cover')->nullable();
             $table->integer('serie_number')->nullable();
             $table->timestamps();
         });
