@@ -61,17 +61,23 @@ class BooksGenerate extends Command
         Artisan::call('migrate:fresh --seed --force');
 
         $files = Storage::disk('public')->allFiles('books-raw');
-        foreach ($files as $key => $file) {
-            if (array_key_exists('extension', pathinfo($file)) && 'epub' === pathinfo($file)['extension']) {
-                $book = EpubParser::getMetadata($file);
-                EpubParser::generateNewEpub($book, $file);
-                $serie = null;
-                if (null !== $book->serie) {
-                    $serie = $book->serie;
-                    $serie = $serie->title;
-                }
-                dump("$serie $book->serie_number $book->title");
+        $epubsFiles = [];
+        foreach ($files as $key => $value) {
+            if (array_key_exists('extension', pathinfo($value)) && 'epub' === pathinfo($value)['extension']) {
+                array_push($epubsFiles, $value);
             }
+        }
+
+        foreach ($epubsFiles as $key => $file) {
+            $book = EpubParser::getMetadata($file);
+            EpubParser::generateNewEpub($book, $file);
+            $serie = null;
+            if (null !== $book->serie) {
+                $serie = $book->serie;
+                $serie = $serie->title;
+                $serie = $serie.' '.$book->serie_number.' ';
+            }
+            dump($key.' '.$serie.$book->title);
         }
         File::cleanDirectory(public_path('storage/covers-raw'));
         Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');

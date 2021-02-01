@@ -38,16 +38,12 @@ class Author extends Model
     protected $fillable = [
         'lastname',
         'firstname',
+        'name',
         'slug',
     ];
 
     public function books(): HasMany
     {
         return $this->hasMany(Book::class)->orderBy('serie_id')->orderBy('serie_number');
-    }
-
-    public function getNameAttribute($value)
-    {
-        return $this->firstname.' '.$this->lastname;
     }
 }

@@ -131,6 +131,7 @@ class EpubParser
             $author = Author::firstOrCreate([
                 'lastname'  => $lastname,
                 'firstname' => $firstname,
+                'name'      => "$firstname $lastname",
             ]);
             $author->slug = Str::slug("$lastname $firstname", '-');
             $author->save();
