@@ -30,6 +30,8 @@ Route::get('/books/count', [BookController::class, 'count'])->name('books.count'
 Route::get('/series/count', [SerieController::class, 'count'])->name('series.count');
 Route::get('/authors/count', [AuthorController::class, 'count'])->name('authors.count');
 
+Route::get('/books/no-cover', [BookController::class, 'no_cover'])->name('books.no-cover');
+
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/search-book', [SearchController::class, 'byBook'])->name('search.book');
 Route::get('/search-author', [SearchController::class, 'byAuthor'])->name('search.author');

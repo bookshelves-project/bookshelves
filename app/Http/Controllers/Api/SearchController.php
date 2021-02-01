@@ -12,7 +12,7 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $searchTerm = $request->input('search-term');
-        $books = Book::whereLike(['title', 'author.firstname', 'author.lastname', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
+        $books = Book::whereLike(['title', 'author.name', 'author.firstname', 'author.lastname', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
 
         return BookResource::collection($books);
     }
@@ -28,7 +28,7 @@ class SearchController extends Controller
     public function byAuthor(Request $request)
     {
         $searchTerm = $request->input('search-term');
-        $books = Book::whereLike(['author.firstname', 'author.lastname'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
+        $books = Book::whereLike(['author.name', 'author.firstname', 'author.lastname'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
 
         return BookResource::collection($books);
     }

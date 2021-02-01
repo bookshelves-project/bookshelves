@@ -63,6 +63,13 @@ class BookController extends Controller
         }
     }
 
+    public function no_cover()
+    {
+        $url = config('app.url').'/images/no-cover.webp';
+
+        return $url;
+    }
+
     public function count()
     {
         return Book::count();

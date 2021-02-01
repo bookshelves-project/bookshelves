@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Book;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthorCollection extends JsonResource
@@ -33,6 +34,16 @@ class AuthorCollection extends JsonResource
             $cover = $mainBook->cover->thumbnail;
         }
 
+        // $authorName = str_replace(' ', '%20', $this->name);
+        // $wiki_url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&titles=$authorName&prop=pageimages&format=json&pithumbsize=512";
+
+        // $response = Http::get($wiki_url);
+        // $photoRaw = reset($response->json()['query']['pages']);
+        // $photo = null;
+        // if (array_key_exists('thumbnail', $photoRaw)) {
+        //     $photo = $photoRaw['thumbnail']['source'];
+        // }
+
         return [
             'lastname'     => $this->lastname,
             'firstname'    => $this->firstname,
@@ -40,6 +51,7 @@ class AuthorCollection extends JsonResource
             'slug'         => $this->slug,
             'books_number' => $books_number,
             'cover'        => $cover,
+            // 'photo'        => $photo,
             'links'        => [
                 'show' => config('app.url')."/api/authors/$this->slug",
             ],
