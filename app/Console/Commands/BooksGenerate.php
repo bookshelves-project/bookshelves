@@ -68,6 +68,7 @@ class BooksGenerate extends Command
             }
         }
 
+        dump('EPUB files: '.sizeof($epubsFiles));
         foreach ($epubsFiles as $key => $file) {
             $book = EpubParser::getMetadata($file);
             EpubParser::generateNewEpub($book, $file);
