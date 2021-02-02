@@ -51,13 +51,8 @@ class BookResource extends JsonResource
             $converter = new HtmlConverter();
 
             $html = $this->description;
-            $summary = $html;
-            $summary = strip_tags($summary);
-            $summary = str_replace('\n', '', $summary);
-            $summary = htmlentities($summary, ENT_NOQUOTES, 'utf-8');
-            $summary = json_encode($summary, JSON_INVALID_UTF8_IGNORE);
-            $summary = html_entity_decode($summary);
-            $summary = str_replace('\n', '', $summary);
+            $summary = $converter->convert($html);
+            $summary = json_encode($summary, JSON_UNESCAPED_UNICODE);
 
             if (strlen($summary) > 165) {
                 $summary = substr($summary, 0, 165).'...';
