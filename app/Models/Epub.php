@@ -44,6 +44,7 @@ class Epub extends Model
         'name',
         'path',
         'size',
+        'size_bytes',
     ];
 
     public function book()

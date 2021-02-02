@@ -40,4 +40,5 @@ Route::get('/search-serie', [SearchController::class, 'bySerie'])->name('search.
 Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('books.show');
 Route::get('/books/download/{author}/{book}', [BookController::class, 'download'])->name('books.download');
 Route::get('/series/{serie}', [SerieController::class, 'show'])->name('series.show');
+Route::get('/series/download/{serie}', [SerieController::class, 'download'])->name('series.download');
 Route::get('/authors/{author}', [AuthorController::class, 'show'])->name('authors.show');

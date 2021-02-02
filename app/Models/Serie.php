@@ -38,6 +38,6 @@ class Serie extends Model
 
     public function books(): HasMany
     {
-        return $this->hasMany(Book::class)->orderBy('serie_number');
+        return $this->hasMany(Book::class)->with('epub')->orderBy('serie_number');
     }
 }

@@ -286,20 +286,13 @@ class EpubParser
         }
 
         $epub_file = Storage::disk('public')->size("books/$new_file_name");
-        $convert = self::human_filesize($epub_file);
+        $convert = human_filesize($epub_file);
 
         $epub->size = $convert;
+        $epub->size_bytes = $epub_file;
         $epub->save();
 
         return $new_file_name;
-    }
-
-    public static function human_filesize($bytes, $decimals = 2)
-    {
-        $sz = 'BKMGTP';
-        $factor = floor((strlen($bytes) - 1) / 3);
-
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[$factor];
     }
 
     public static function generateCovers(Book $book, string $cover_extension)
