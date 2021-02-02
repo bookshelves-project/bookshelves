@@ -47,8 +47,12 @@ class BooksGenerate extends Command
     public function handle()
     {
         $fresh = $this->option('fresh');
+        $this->info('> Welcome to Books-Generate Tool <');
+        $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/books-raw...');
+        $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
+
         if ($fresh) {
-            $this->info('Generate books from storage/books-raw...');
+            $this->info('You choose fresh installation, current database will be erased.');
 
             // Apply storage:link if not set
             Artisan::call('storage:link');
@@ -91,7 +95,8 @@ class BooksGenerate extends Command
                 $epub_bar->advance();
             }
             $epub_bar->finish();
-            $this->info("\n".'EPUB files parsed an generated!'."\n");
+            $this->info("\n");
+            $this->info('EPUB files parsed and generated!'."\n");
 
             // Generate covers
             $this->info('Generate covers'."\n");
@@ -113,6 +118,9 @@ class BooksGenerate extends Command
             // Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');
 
             $this->info('Done!');
+        } else {
+            $this->info('You choose basic parsing, current database will be keep safe and unknown eBooks will be add.');
+            $this->warn("Basic parsing isn't ready, try fresh parsing with option --fresh");
         }
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use League\HTMLToMarkdown\HtmlConverter;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookResource extends JsonResource
@@ -45,6 +46,23 @@ class BookResource extends JsonResource
             $cover_thumbnail = $cover->thumbnail;
             $cover_original = $cover->original;
         }
+        $summary = null;
+        if ($this->description) {
+            $converter = new HtmlConverter();
+
+            $html = $this->description;
+            $summary = $html;
+            $summary = strip_tags($summary);
+            $summary = str_replace('\n', '', $summary);
+            $summary = htmlentities($summary, ENT_NOQUOTES, 'utf-8');
+            $summary = json_encode($summary, JSON_INVALID_UTF8_IGNORE);
+            $summary = html_entity_decode($summary);
+            $summary = str_replace('\n', '', $summary);
+
+            if (strlen($summary) > 165) {
+                $summary = substr($summary, 0, 165).'...';
+            }
+        }
 
         return [
             'title'                 => $this->title,
@@ -56,6 +74,7 @@ class BookResource extends JsonResource
                 'lastname'    => $author->lastname,
                 'show'        => config('app.url')."/api/authors/$author->slug",
             ] : null,
+            'summary'               => $summary,
             'description'           => $this->description,
             'language'              => [
                 'slug' => $language->slug,
@@ -76,5 +95,27 @@ class BookResource extends JsonResource
                 'show'    => config('app.url')."/api/series/$serie->slug",
             ] : null,
         ];
+    }
+
+    public static function convert_from_latin1_to_utf8_recursively($dat)
+    {
+        if (is_string($dat)) {
+            return utf8_encode($dat);
+        } elseif (is_array($dat)) {
+            $ret = [];
+            foreach ($dat as $i => $d) {
+                $ret[$i] = self::convert_from_latin1_to_utf8_recursively($d);
+            }
+
+            return $ret;
+        } elseif (is_object($dat)) {
+            foreach ($dat as $i => $d) {
+                $dat->$i = self::convert_from_latin1_to_utf8_recursively($d);
+            }
+
+            return $dat;
+        }
+
+        return $dat;
     }
 }
