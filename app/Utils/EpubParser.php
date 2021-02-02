@@ -263,7 +263,11 @@ class EpubParser
             $new_file_name_author = $author->slug;
         }
         if ($serie && $author) {
-            $new_file_name = $new_file_name_author.'_'.$new_file_name_serie.'-'.$book->serie_number.'_'.$book->slug;
+            $serie_number = $book->serie_number;
+            if (1 === strlen($serie_number)) {
+                $serie_number = '0'.$serie_number;
+            }
+            $new_file_name = $new_file_name_author.'_'.$new_file_name_serie.'-'.$serie_number.'_'.$book->slug;
         } elseif ($author) {
             $new_file_name = $new_file_name_author.'_'.$book->slug;
         } else {
