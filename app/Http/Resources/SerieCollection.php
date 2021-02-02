@@ -32,44 +32,47 @@ class SerieCollection extends JsonResource
             $id = $this->books[0]->id;
             $books = collect($books);
             $book = Book::findOrFail($id);
-            try {
-            } catch (\Throwable $th) {
-                //throw $th;
-            }
             $serie_slug = $this->books[0]->serie->slug;
             $serie = Serie::whereSlug($serie_slug)->firstOrFail();
-            $mainBook = Book::with('serie')->where('serie_number', '=', '1')->whereSerieId($serie->id)->firstOrFail();
-
-            $author = $mainBook->author->name;
-            // $books = BookCollection::collection($books);
-            $books_number = count($books);
-            $mainCover = $mainBook->cover->thumbnail;
-
-            switch (count($books)) {
-                case 0:
-                    break;
-                case 1:
-                        $covers[] = $book->cover->thumbnail;
-                    break;
-                case 2:
-                    foreach ($books as $key => $book) {
-                        if ($key < 2) {
-                            $covers[] = $book->cover->thumbnail;
-                        }
-                    }
-                    break;
-                default:
-                    foreach ($books as $key => $book) {
-                        if ($key < 3) {
-                            $covers[] = $book->cover->thumbnail;
-                        }
-                    }
-                    break;
+            try {
+                $mainBook = Book::whereSerieId($serie->id)->whereSerieNumber(1)->first();
+                try {
+                    $author = $mainBook->author->name;
+                } catch (\Throwable $th) {
+                }
+            } catch (\Throwable $th) {
+                dump($th);
             }
 
-            // $mainCover = $covers[0];
-            $otherCovers = $covers;
-            array_shift($otherCovers);
+            $books_number = count($books);
+
+            if ($mainBook->cover) {
+                $mainCover = $mainBook->cover->basic;
+                switch (count($books)) {
+                    case 0:
+                        break;
+                    case 1:
+                            $covers[] = $book->cover->basic;
+                        break;
+                    case 2:
+                        foreach ($books as $key => $book) {
+                            if ($key < 2) {
+                                $covers[] = $book->cover->thumbnail;
+                            }
+                        }
+                        break;
+                    default:
+                        foreach ($books as $key => $book) {
+                            if ($key < 3) {
+                                $covers[] = $book->cover->thumbnail;
+                            }
+                        }
+                        break;
+                }
+
+                $otherCovers = $covers;
+                array_shift($otherCovers);
+            }
         }
 
         return [

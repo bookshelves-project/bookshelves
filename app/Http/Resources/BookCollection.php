@@ -15,19 +15,22 @@ class BookCollection extends JsonResource
      */
     public function toArray($request)
     {
-        $serie = null;
         $author = null;
         if ($this->author) {
             $author = $this->author;
         }
+        $serie = null;
         if ($this->serie) {
             $serie = [
                 'number'  => $this->serie_number ? $this->serie_number : null,
                 'title'   => $this->serie->title,
             ];
         }
+        $cover_basic = null;
+        $cover_thumbnail = null;
         if ($this->cover) {
-            $cover = $this->cover;
+            $cover_basic = $this->cover->basic;
+            $cover_thumbnail = $this->cover->thumbnail;
         }
 
         return [
@@ -42,8 +45,8 @@ class BookCollection extends JsonResource
                 'flag' => $this->language->flag,
             ],
             'cover'                 => [
-                'basic'     => $cover->basic,
-                'thumbnail' => $cover->thumbnail,
+                'basic'     => $cover_basic,
+                'thumbnail' => $cover_thumbnail,
             ],
             'serie'                 => [
                 'number' => $this->serie_number ? $this->serie_number : null,

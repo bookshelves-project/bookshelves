@@ -1,5 +1,11 @@
 # Bookshelves
 
+Prerequisites for XML parse, spatie image optimize tools
+
+```bash
+sudo apt-get install -y php7.4-xml php7.4-gd ; sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp ; npm install -g svgo
+```
+
 ```bash
 composer install
 ```

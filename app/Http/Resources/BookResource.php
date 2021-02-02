@@ -35,8 +35,15 @@ class BookResource extends JsonResource
         if ($this->language) {
             $language = $this->language;
         }
+        $cover_basic = null;
+        $cover_thumbnail = null;
+        $cover_original = null;
         if ($this->cover) {
             $cover = $this->cover;
+
+            $cover_basic = $cover->basic;
+            $cover_thumbnail = $cover->thumbnail;
+            $cover_original = $cover->original;
         }
 
         return [
@@ -58,9 +65,9 @@ class BookResource extends JsonResource
             'isbn'                  => $this->isbn,
             'publisher'             => $publisher,
             'cover'                 => [
-                'basic'   => $cover->basic,
-                'thumbnail' => $cover->thumbnail,
-                'original'  => $cover->original,
+                'basic'     => $cover_basic,
+                'thumbnail' => $cover_thumbnail,
+                'original'  => $cover_original,
             ],
             'epub'                  => $epub ? $epub : null,
             'serie'                 => $serie ? [

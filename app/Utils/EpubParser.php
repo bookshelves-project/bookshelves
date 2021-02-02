@@ -16,15 +16,25 @@ use Spatie\Image\Image;
 use App\Models\Language;
 use App\Models\Publisher;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Spatie\Image\Manipulations;
-use Spatie\Image\Exceptions\InvalidManipulation;
+use League\Flysystem\FileExistsException;
+use League\Flysystem\FileNotFoundException;
+use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Illuminate\Database\Eloquent\InvalidCastException;
+use Illuminate\Database\Eloquent\JsonEncodingException;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 class EpubParser
 {
     /**
-     * @param $file_path
+     * Get metadata from EPUB.
      *
-     * @throws InvalidManipulation
+     * @param string $file_path
+     *
+     * @throws BindingResolutionException
+     * @throws InvalidCastException
+     * @throws JsonEncodingException
      *
      * @return mixed
      */
@@ -52,15 +62,20 @@ class EpubParser
                 $xml_string = $zip->getFromName($stat['name']);
             }
             if (preg_match('/cover/', $stat['name'])) {
-                // $xml_string = $zip->getStream('container.xml');
-                // dump(basename($stat['name']));
-                // dump($stat['name']);
-                // $xml_string = $zip->getFromName($stat['name']);
-                $cover = $stat['name'];
-                $cover_extension = pathinfo($stat['name'])['extension'];
-                // $zip->extractTo(, $stat['name']);
-                // file_put_contents(public_path('storage'), $zip->getFromName($stat['name']));
-                $cover = $zip->getFromName($stat['name']);
+                if (array_key_exists('extension', pathinfo($stat['name']))) {
+                    $cover_extension = pathinfo($stat['name'])['extension'];
+                    if (preg_match('/jpg|jpeg|PNG|WEBP/', $cover_extension)) {
+                        // $xml_string = $zip->getStream('container.xml');
+                        // dump(basename($stat['name']));
+                        // dump($stat['name']);
+                        // $xml_string = $zip->getFromName($stat['name']);
+                        $cover = $stat['name'];
+
+                        // $zip->extractTo(, $stat['name']);
+                        // file_put_contents(public_path('storage'), $zip->getFromName($stat['name']));
+                        $cover = $zip->getFromName($stat['name']);
+                    }
+                }
             }
         }
 
@@ -79,7 +94,14 @@ class EpubParser
         }
 
         // ISBN
-        $isbn_raw = $identifiers[0];
+        $isbn = null;
+        foreach ($identifiers as $key => $value) {
+            $identifier = $value->__toString();
+            if (preg_match('#^978(.*)$#i', $identifier) && 13 === strlen($identifier)) {
+                $isbn = $identifier;
+            }
+        }
+        $isbn_raw = $isbn;
         $isbn = new Isbn($isbn_raw);
         $isbn13 = null;
 
@@ -97,7 +119,7 @@ class EpubParser
         foreach ($package->metadata as $key => $value) {
             foreach ($value->meta as $a => $b) {
                 // get serie
-                if (preg_match('/series$/', $b->attributes()->__toString())) {
+                if (preg_match('/calibre:series$/', $b->attributes()->__toString())) {
                     foreach ($b->attributes() as $k => $v) {
                         if (! preg_match('/series$/', $v->__toString())) {
                             $serie = $v->__toString();
@@ -107,7 +129,7 @@ class EpubParser
                 // get serie number
                 if (preg_match('/series_index$/', $b->attributes()->__toString())) {
                     foreach ($b->attributes() as $k => $v) {
-                        if (! preg_match('/series_index$/', $v->__toString())) {
+                        if (! preg_match('/calibre:series_index$/', $v->__toString())) {
                             $serie_number = $v->__toString();
                         }
                     }
@@ -180,38 +202,6 @@ class EpubParser
             $book->language_slug = $language->slug;
         }
 
-        $cover_filename_without_extension = md5("$book->slug-$book->author");
-        $cover_file = $cover_filename_without_extension.'.'.$cover_extension;
-        if ($cover_extension) {
-            $size = 'book_cover';
-            $dimensions = config("image.thumbnails.$size");
-            $dimensions_thumbnail = config('image.thumbnails.book_thumbnail');
-            $path = public_path("storage/covers-raw/$cover_file");
-            // $book->cover_basic = "storage/covers-basic/$cover_file";
-            File::put(public_path("storage/covers-raw/$cover_file"), $cover);
-            try {
-                Image::load("$path")
-                    ->fit(Manipulations::FIT_MAX, $dimensions_thumbnail['width'], $dimensions_thumbnail['height'])
-                    ->save(public_path('storage/cache/'.$cover_filename_without_extension.'.webp'));
-                // $book->cover_name = $cover_filename_without_extension;
-                Image::load($path)
-                    ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
-                    ->optimize()
-                    ->save(public_path('storage/covers-basic/'.$cover_filename_without_extension.'.webp'));
-                $cover_file = $cover_filename_without_extension.'.webp';
-                // $book->cover_basic = "storage/covers-basic/$cover_file";
-                Image::load($path)
-                    ->optimize()
-                    ->save(public_path('storage/covers-original/'.$cover_filename_without_extension.'.webp'));
-                $cover_file = $cover_filename_without_extension.'.webp';
-                // $book->cover_original = "storage/covers-original/$cover_file";
-                $cover_model = Cover::firstOrCreate(['name' => $cover_filename_without_extension]);
-            } catch (\Throwable $th) {
-                dump('error');
-                dump($th->getMessage());
-            }
-        }
-
         $file = pathinfo($file_path)['basename'];
 
         $dirname = pathinfo($file_path)['dirname'];
@@ -228,17 +218,38 @@ class EpubParser
         }
         // $epub->book()->save($book);
 
+        // Cover extract raw file
+        $cover_filename_without_extension = md5("$book->slug-$book->author");
+        $cover_file = $cover_filename_without_extension.'.'.$cover_extension;
+        if ($cover_extension) {
+            Storage::disk('public')->put("covers-raw/$cover_file", $cover);
+        }
+
         $book->epub()->save($epub);
         $epub->book()->save($book);
-        $book->cover()->save($cover_model);
-        $cover_model->book()->save($book);
+
         $epub->save();
         $book->save();
-        $cover_model->save();
 
-        return $book;
+        return [
+            'book'                      => $book,
+            'cover_extension'           => $cover_extension,
+        ];
     }
 
+    /**
+     * Generate new EPUB from original with standard name.
+     *
+     * @param Book   $book
+     * @param string $file
+     *
+     * @throws InvalidArgumentException
+     * @throws FileExistsException
+     * @throws FileNotFoundException
+     * @throws BindingResolutionException
+     *
+     * @return string
+     */
     public static function generateNewEpub(Book $book, string $file)
     {
         $serie = $book->serie;
@@ -279,6 +290,8 @@ class EpubParser
 
         $epub->size = $convert;
         $epub->save();
+
+        return $new_file_name;
     }
 
     public static function human_filesize($bytes, $decimals = 2)
@@ -287,5 +300,54 @@ class EpubParser
         $factor = floor((strlen($bytes) - 1) / 3);
 
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[$factor];
+    }
+
+    public static function generateCovers(Book $book, string $cover_extension)
+    {
+        $cover_filename_without_extension = md5("$book->slug-$book->author");
+        $cover_file = $cover_filename_without_extension.'.'.$cover_extension;
+        if ($cover_extension) {
+            $size = 'book_cover';
+            $dimensions = config("image.thumbnails.$size");
+            $dimensions_thumbnail = config('image.thumbnails.book_thumbnail');
+            $path = public_path("storage/covers-raw/$cover_file");
+            $optimizerChain = OptimizerChainFactory::create();
+
+            try {
+                // copy of original cover in WEBP
+                $new_extension = '.jpg';
+                $path_original = public_path('storage/covers-original/'.$cover_filename_without_extension.$new_extension);
+                Image::load($path)
+                    ->save($path_original);
+                $cover_file = $cover_filename_without_extension.$new_extension;
+                $optimizerChain->optimize($path_original);
+
+                $path_thumbnail = public_path('storage/cache/'.$cover_filename_without_extension.$new_extension);
+                Image::load($path_original)
+                    ->fit(Manipulations::FIT_MAX, $dimensions_thumbnail['width'], $dimensions_thumbnail['height'])
+                    ->optimize()
+                    ->save($path_thumbnail);
+                $optimizerChain->optimize($path_original);
+
+                $path_basic = public_path('storage/covers-basic/'.$cover_filename_without_extension.$new_extension);
+                Image::load($path_original)
+                    ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
+                    ->optimize()
+                    ->save($path_basic);
+                $optimizerChain->optimize($path_basic);
+
+                $cover_file = $cover_filename_without_extension.$new_extension;
+                $cover_model = Cover::firstOrCreate(['name' => $cover_filename_without_extension]);
+
+                $book->cover()->save($cover_model);
+                $cover_model->book()->save($book);
+
+                $cover_model->save();
+                $book->save();
+            } catch (\Throwable $th) {
+                dump('error');
+                dump($th->getMessage());
+            }
+        }
     }
 }

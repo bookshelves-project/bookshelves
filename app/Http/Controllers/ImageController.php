@@ -27,7 +27,7 @@ class ImageController extends Controller
         $thumbnail = get_thumbnail($path, $size);
 
         // dump(pathinfo($thumbnail['filepath']));
-        $thumbnail['filepath'] = str_replace('.jpeg', '.webp', $thumbnail['filepath']);
+        $thumbnail['filepath'] = str_replace('.jpeg', '.jpg', $thumbnail['filepath']);
         // dd($thumbnail['filepath']);
         if (! $thumbnail['resolved']) {
             if ($crop) {

@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * App\Models\Cover
+ * App\Models\Cover.
  *
- * @property int $id
- * @property string|null $name
- * @property int|null $book_id
- * @property-read \App\Models\Book|null $book
- * @property-read mixed $basic
- * @property-read mixed $original
- * @property-read mixed $thumbnail
+ * @property int                   $id
+ * @property string|null           $name
+ * @property int|null              $book_id
+ * @property \App\Models\Book|null $book
+ * @property mixed                 $basic
+ * @property mixed                 $original
+ * @property mixed                 $thumbnail
  * @method static \Illuminate\Database\Eloquent\Builder|Cover newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Cover newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Cover query()
@@ -34,17 +34,17 @@ class Cover extends Model
 
     public function getOriginalAttribute()
     {
-        return config('app.url').'/storage/covers-original/'.$this->name.'.webp';
+        return config('app.url').'/storage/covers-original/'.$this->name.'.jpg';
     }
 
     public function getThumbnailAttribute()
     {
-        return config('app.url').'/storage/cache/'.$this->name.'.webp';
+        return config('app.url').'/storage/cache/'.$this->name.'.jpg';
     }
 
     public function getBasicAttribute()
     {
-        return config('app.url').'/storage/covers-basic/'.$this->name.'.webp';
+        return config('app.url').'/storage/covers-basic/'.$this->name.'.jpg';
     }
 
     public function book()

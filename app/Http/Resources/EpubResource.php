@@ -15,10 +15,16 @@ class EpubResource extends JsonResource
      */
     public function toArray($request)
     {
+        $downloadLink = null;
+        try {
+            $downloadLink = config('app.url').'/api/books/download/'.$this->book->author->slug.'/'.$this->book->slug;
+        } catch (\Throwable $th) {
+        }
+
         return [
             'name' => $this->name,
             // 'path' => config('app.url').'/'.$this->path,
-            'download'              => config('app.url').'/api/books/download/'.$this->book->author->slug.'/'.$this->book->slug,
+            'download'              => $downloadLink,
             'size'                  => $this->size,
         ];
     }

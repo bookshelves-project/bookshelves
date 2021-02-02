@@ -36,7 +36,7 @@ if (! function_exists('get_thumbnail')) {
      */
     function get_thumbnail($path, $size, $crop = true)
     {
-        $filename = md5("$size/$path").'.webp';
+        $filename = md5("$size/$path").'.jpg';
         $thumbnailPath = "storage/cache/$filename";
 
         return [
