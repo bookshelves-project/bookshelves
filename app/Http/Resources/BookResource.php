@@ -87,6 +87,7 @@ class BookResource extends JsonResource
             'serie'                 => $serie ? [
                 'number'  => $this->serie_number ? $this->serie_number : null,
                 'title'   => $serie ? $serie->title : null,
+                'slug'    => $serie ? $serie->slug : null,
                 'show'    => config('app.url')."/api/series/$serie->slug",
             ] : null,
         ];
