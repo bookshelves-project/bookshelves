@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null                             $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property int|null                                                    $books_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author query()
@@ -25,8 +26,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
  * @mixin \Eloquent
+ *
  * @property string|null $lastname
  * @property string|null $firstname
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
  */
@@ -44,6 +47,6 @@ class Author extends Model
 
     public function books(): HasMany
     {
-        return $this->hasMany(Book::class)->orderBy('serie_id')->orderBy('serie_number');
+        return $this->hasMany(Book::class)->with('epub')->orderBy('serie_id')->orderBy('serie_number');
     }
 }

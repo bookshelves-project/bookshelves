@@ -31,15 +31,24 @@ class AuthorResource extends JsonResource
             }
             $cover = $mainBook->cover->thumbnail;
         }
+        $downloadLink = config('app.url')."/api/authors/download/$this->slug";
+        $size = [];
+        foreach ($books as $key => $book) {
+            array_push($size, $book->epub->size_bytes);
+        }
+        $size = array_sum($size);
+        $size = human_filesize($size);
 
         return [
-            'lastname'     => $this->lastname,
-            'firstname'    => $this->firstname,
-            'name'         => $this->name,
-            'slug'         => $this->slug,
-            'books_number' => $books_number,
-            'books'        => $books,
-            'cover'        => $cover,
+            'lastname'        => $this->lastname,
+            'firstname'       => $this->firstname,
+            'name'            => $this->name,
+            'slug'            => $this->slug,
+            'books_number'    => $books_number,
+            'books'           => $books,
+            'cover'           => $cover,
+            'download'        => $downloadLink,
+            'size'            => $size,
         ];
     }
 }
