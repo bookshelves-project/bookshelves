@@ -9,6 +9,29 @@ use App\Http\Resources\BookResource;
 
 class SearchController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/search",
+     *     tags={"search"},
+     *     summary="List of search results",
+     *     description="Search",
+     *     @OA\Parameter(
+     *         name="terms",
+     *         in="query",
+     *         description="String to search books",
+     *         required=true,
+     *         example="refuges",
+     *         @OA\Schema(
+     *           type="string",
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     )
+     * )
+     */
     public function index(Request $request)
     {
         $searchTermRaw = $request->input('terms');

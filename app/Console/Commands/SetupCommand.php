@@ -14,7 +14,7 @@ class SetupCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'setup:install';
+    protected $signature = 'setup';
     protected $appName = 'Bookshelves';
     protected $appNameSlug = '';
     protected $urlLocal = 'http://api.bookshelves.test';

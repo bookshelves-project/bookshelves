@@ -13,6 +13,30 @@ use App\Http\Resources\AuthorCollection;
 
 class AuthorController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/authors",
+     *     tags={"authors"},
+     *     summary="List of authors",
+     *     description="Authors",
+     *     @OA\Parameter(
+     *         name="perPage",
+     *         in="query",
+     *         description="Integer to choose how many books you show in each page",
+     *         required=false,
+     *         example=32,
+     *         @OA\Schema(
+     *           type="integer",
+     *           format="int64"
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     )
+     * )
+     */
     public function index(Request $request)
     {
         $perPage = $request->get('perPage');

@@ -113,9 +113,9 @@ class BooksGenerate extends Command
             $this->info('Covers generated!'."\n");
 
             // Clean temporary covers-raw/
-            // File::cleanDirectory(public_path('storage/covers-raw'));
+            File::cleanDirectory(public_path('storage/covers-raw'));
             // Regenerate .gitignore from covers-raw/
-            // Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');
+            Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');
 
             $this->info('Done!');
         } else {

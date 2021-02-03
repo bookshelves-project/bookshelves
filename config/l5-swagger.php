@@ -5,7 +5,7 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'L5 Swagger UI',
+                'title' => 'Documentation of Bookshelves API',
             ],
 
             'routes' => [
@@ -64,14 +64,16 @@ return [
             /*
              * Route Group options
             */
-            'group_options' => [],
+            'group_options' => [
+                'api',
+            ],
         ],
 
         'paths' => [
             /*
              * Absolute path to location where parsed annotations will be stored
             */
-            'docs' => storage_path('api-docs'),
+            'docs' => public_path('docs'),
 
             /*
              * Absolute path to directory where to export views
