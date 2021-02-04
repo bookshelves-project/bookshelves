@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use League\HTMLToMarkdown\HtmlConverter;
+use Soundasleep\Html2Text;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookResource extends JsonResource
@@ -48,11 +48,8 @@ class BookResource extends JsonResource
         }
         $summary = null;
         if ($this->description) {
-            $converter = new HtmlConverter();
-
             $html = $this->description;
-            $summary = $converter->convert($html);
-            $summary = json_encode($summary, JSON_UNESCAPED_UNICODE);
+            $summary = Html2Text::convert($html);
 
             if (strlen($summary) > 165) {
                 $summary = substr($summary, 0, 165).'...';
