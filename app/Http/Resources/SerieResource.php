@@ -20,10 +20,10 @@ class SerieResource extends JsonResource
         if ($this->books) {
             $books = BookCollection::collection($this->books);
             $books_number = sizeof($books);
-            $book = $books[0];
+            $book = $books->firstWhere('serie_number', 1);
         }
-        if ($this->cover) {
-            $cover = $book->cover->thumbnail;
+        if ($book) {
+            $cover = $book->cover->basic;
         }
         $downloadLink = config('app.url')."/api/series/download/$this->slug";
         $size = [];
