@@ -19,6 +19,7 @@ class CreateAuthorsTable extends Migration
             $table->string('lastname')->nullable();
             $table->string('firstname')->nullable();
             $table->string('name')->nullable();
+            $table->string('picture')->nullable();
         });
 
         Schema::table('books', function (Blueprint $table) {

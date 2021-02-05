@@ -23,6 +23,7 @@
 
 ## **TODO**
 
+- Multiple authors
 - Sort by author, serie, title, language
 - Setup cache
 

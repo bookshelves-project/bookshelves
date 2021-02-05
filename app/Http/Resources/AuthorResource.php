@@ -48,6 +48,7 @@ class AuthorResource extends JsonResource
             'firstname'       => $this->firstname,
             'name'            => $this->name,
             'slug'            => $this->slug,
+            'picture'         => $this->picture ? config('app.url').'/storage/'.$this->picture : null,
             'books_number'    => $books_number,
             'books'           => $books,
             'cover'           => $cover,

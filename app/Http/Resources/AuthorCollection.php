@@ -49,14 +49,14 @@ class AuthorCollection extends JsonResource
         // }
 
         return [
-            'lastname'     => $this->lastname,
-            'firstname'    => $this->firstname,
-            'name'         => $this->name,
-            'slug'         => $this->slug,
-            'books_number' => $books_number,
-            'cover'        => $cover,
-            // 'photo'        => $photo,
-            'links'        => [
+            'lastname'       => $this->lastname,
+            'firstname'      => $this->firstname,
+            'name'           => $this->name,
+            'slug'           => $this->slug,
+            'books_number'   => $books_number,
+            'cover'          => $cover,
+            'picture'        => $this->picture ? config('app.url').'/storage/'.$this->picture : null,
+            'links'          => [
                 'show' => config('app.url')."/api/authors/$this->slug",
             ],
         ];

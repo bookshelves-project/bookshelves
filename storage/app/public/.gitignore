@@ -4,6 +4,8 @@
 # !books-raw/
 !.gitignore
 !.gitignore-sample
+!no-picture.jpg
+!authors/
 !cache/
 !covers-basic/
 !covers-original/

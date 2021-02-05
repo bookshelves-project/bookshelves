@@ -13,7 +13,7 @@ use League\Flysystem\FileExistsException;
 use League\Flysystem\FileNotFoundException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
-class BooksGenerate extends Command
+class BooksGenerateCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -137,6 +137,11 @@ class BooksGenerate extends Command
      */
     public function clearDirectories()
     {
+        // Dir where download author image
+        $authorsClean = File::cleanDirectory(public_path('storage/authors'));
+        $authorsCleanGitignore = Storage::disk('public')->copy('.gitignore-sample', 'authors/.gitignore');
+        $authorsCleanNoPicture = Storage::disk('public')->copy('no-picture.jpg', 'authors/no-picture.jpg');
+
         // Dir for thumbnails 240 x 320 and optimize
         $cacheClean = File::cleanDirectory(public_path('storage/cache'));
         $cacheGitignore = Storage::disk('public')->copy('.gitignore-sample', 'cache/.gitignore');

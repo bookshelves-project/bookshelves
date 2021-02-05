@@ -18,12 +18,19 @@ use App\Models\Publisher;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Spatie\Image\Manipulations;
+use Illuminate\Support\Facades\Http;
+use League\HTMLToMarkdown\HtmlConverter;
 use League\Flysystem\FileExistsException;
 use League\Flysystem\FileNotFoundException;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Illuminate\Database\Eloquent\InvalidCastException;
 use Illuminate\Database\Eloquent\JsonEncodingException;
+use Symfony\Component\Process\Exception\LogicException;
+use Symfony\Component\Process\Exception\RuntimeException;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Symfony\Component\Process\Exception\ProcessSignaledException;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
+use Symfony\Component\Process\Exception\InvalidArgumentException as ExceptionInvalidArgumentException;
 
 class EpubParser
 {
@@ -108,7 +115,6 @@ class EpubParser
         try {
             $isbn->validate();
             $isbn13 = $isbn->format('ISBN-13');
-            // echo "ISBN-13: $isbn13";
         } catch (Exception $e) {
             // echo "An error occured while parsing $isbn_raw: ".$e->getMessage();
         }
@@ -143,21 +149,9 @@ class EpubParser
             $serie->save();
         }
 
+        // Generate author
         $author_data = array_key_exists('creator', $array) ? $array['creator'] : null;
-        $author = null;
-        if ($author_data) {
-            $author_data = explode(' ', $author_data);
-            $lastname = $author_data[sizeof($author_data) - 1];
-            array_pop($author_data);
-            $firstname = implode(' ', $author_data);
-            $author = Author::firstOrCreate([
-                'lastname'  => $lastname,
-                'firstname' => $firstname,
-                'name'      => "$firstname $lastname",
-            ]);
-            $author->slug = Str::slug("$lastname $firstname", '-');
-            $author->save();
-        }
+        $author = self::generateAuthor($author_data);
 
         $publisher_data = array_key_exists('publisher', $array) ? $array['publisher'] : null;
         $publisher = null;
@@ -183,9 +177,19 @@ class EpubParser
 
         $book = Book::firstOrCreate(['title' => $array['title']]);
 
+        $description_html = array_key_exists('description', $array) ? $array['description'] : null;
+        $isUTF8 = mb_check_encoding($description_html, 'UTF-8');
+        $description_html = iconv('UTF-8', 'UTF-8//IGNORE', $description_html);
+        if ($isUTF8) {
+            $converter = new HtmlConverter();
+            $description = $converter->convert($description_html);
+            $description = strip_tags($description, '<br>');
+            $description = Str::markdown($description);
+        }
+
         $book->slug = Str::slug($book->title, '-');
         $book->author_id = null !== $author ? $author->id : null;
-        $book->description = array_key_exists('description', $array) ? $array['description'] : null;
+        $book->description = $description;
         $book->publish_date = array_key_exists('date', $array) ? $array['date'] : null;
         $book->isbn = $isbn13;
 
@@ -216,7 +220,6 @@ class EpubParser
         } else {
             $epub->path = "$pre/$file";
         }
-        // $epub->book()->save($book);
 
         // Cover extract raw file
         $cover_filename_without_extension = md5("$book->slug-$book->author");
@@ -322,14 +325,12 @@ class EpubParser
                 $path_thumbnail = public_path('storage/cache/'.$cover_filename_without_extension.$new_extension);
                 Image::load($path_original)
                     ->fit(Manipulations::FIT_MAX, $dimensions_thumbnail['width'], $dimensions_thumbnail['height'])
-                    ->optimize()
                     ->save($path_thumbnail);
                 $optimizerChain->optimize($path_original);
 
                 $path_basic = public_path('storage/covers-basic/'.$cover_filename_without_extension.$new_extension);
                 Image::load($path_original)
                     ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
-                    ->optimize()
                     ->save($path_basic);
                 $optimizerChain->optimize($path_basic);
 
@@ -346,5 +347,73 @@ class EpubParser
                 dump($th->getMessage());
             }
         }
+    }
+
+    /**
+     * Generate author from XML dc:creator string.
+     *
+     * @param string $author_data
+     *
+     * @throws BindingResolutionException
+     * @throws InvalidArgumentException
+     * @throws Exception
+     * @throws LogicException
+     * @throws ExceptionInvalidArgumentException
+     * @throws RuntimeException
+     * @throws ProcessTimedOutException
+     * @throws ProcessSignaledException
+     *
+     * @return mixed
+     */
+    public static function generateAuthor(string $author_data)
+    {
+        $author = null;
+        if ($author_data) {
+            $author_data = explode(' ', $author_data);
+            $lastname = $author_data[sizeof($author_data) - 1];
+            array_pop($author_data);
+            $firstname = implode(' ', $author_data);
+            $isExist = Author::whereSlug(Str::slug("$lastname $firstname", '-'))->first();
+            $pictureAuthor = null;
+            $author = Author::firstOrCreate([
+                'lastname'  => $lastname,
+                'firstname' => $firstname,
+                'name'      => "$firstname $lastname",
+                'slug'      => Str::slug("$lastname $firstname", '-'),
+            ]);
+            if (null === $isExist) {
+                $name = "$firstname $lastname";
+                $name = str_replace(' ', '%20', $name);
+                $url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&titles=$name&prop=pageimages&format=json&pithumbsize=512";
+                try {
+                    $response = Http::get($url);
+                    $response = $response->json();
+                    $pictureAuthor = $response['query']['pages'];
+                    $pictureAuthor = reset($pictureAuthor);
+                    $pictureAuthor = $pictureAuthor['thumbnail']['source'];
+                } catch (\Throwable $th) {
+                }
+                $name = Str::slug("$firstname $lastname");
+                if (! is_string($pictureAuthor)) {
+                    // File::copy(database_path('seeders/medias/author-no-picture.jpg'), public_path("storage/authors/$name.jpg"));
+                    $pictureAuthor = 'authors/no-picture.jpg';
+                } else {
+                    $contents = file_get_contents($pictureAuthor);
+                    $size = 'book_cover';
+                    $dimensions = config("image.thumbnails.$size");
+                    Storage::disk('public')->put("authors/$name.jpg", $contents);
+                    $optimizerChain = OptimizerChainFactory::create();
+                    Image::load(public_path("storage/authors/$name.jpg"))
+                        ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
+                        ->save();
+                    $optimizerChain->optimize(public_path("storage/authors/$name.jpg"));
+                    $pictureAuthor = "authors/$name.jpg";
+                }
+                $author->picture = $pictureAuthor;
+                $author->save();
+            }
+        }
+
+        return $author;
     }
 }
