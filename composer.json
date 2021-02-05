@@ -1,10 +1,26 @@
 {
-    "name": "laravel/laravel",
+    "name": "back/bookshelves",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "authors": [
+        {
+            "name": "EwieFairy",
+            "email": "ewiefairy@gmail.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Mopi",
+            "email": "mopi@gdotslashplay.it",
+            "role": "Tester"
+        }
+    ],
+    "homepage": "https://bookshelves.git-projects.xyz/api/documentation",
+    "description": "Back of Bookshelves application.",
     "keywords": [
-        "framework",
-        "laravel"
+        "api",
+        "epubs",
+        "books",
+        "ebooks",
+        "swagger"
     ],
     "license": "MIT",
     "require": {
