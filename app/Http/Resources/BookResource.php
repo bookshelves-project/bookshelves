@@ -47,12 +47,15 @@ class BookResource extends JsonResource
             $cover_original = $cover->original;
         }
         $summary = null;
-        if ($this->description) {
+        if (null !== $this->description) {
             $html = $this->description;
-            $summary = Html2Text::convert($html);
+            $encode = mb_detect_encoding($html);
+            if ('UTF-8' === $encode) {
+                $summary = Html2Text::convert($html);
 
-            if (strlen($summary) > 165) {
-                $summary = substr($summary, 0, 165).'...';
+                if (strlen($summary) > 165) {
+                    $summary = substr($summary, 0, 165).'...';
+                }
             }
         }
 
