@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Str;
 use Soundasleep\Html2Text;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -49,13 +50,15 @@ class BookResource extends JsonResource
         $summary = null;
         if (null !== $this->description) {
             $html = $this->description;
-            $encode = mb_detect_encoding($html);
-            if ('UTF-8' === $encode) {
-                $summary = Html2Text::convert($html);
+            $isUTF8 = mb_check_encoding($html, 'UTF-8');
+            $summary = iconv('UTF-8', 'UTF-8//IGNORE', $html);
 
+            if ($isUTF8) {
+                $summary = Html2Text::convert($html);
                 if (strlen($summary) > 165) {
                     $summary = substr($summary, 0, 165).'...';
                 }
+                $summary = Str::ascii($summary);
             }
         }
 
