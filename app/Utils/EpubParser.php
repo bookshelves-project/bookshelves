@@ -181,6 +181,7 @@ class EpubParser
         $isUTF8 = mb_check_encoding($description_html, 'UTF-8');
         $description_html = iconv('UTF-8', 'UTF-8//IGNORE', $description_html);
         if ($isUTF8) {
+            $description_html = preg_replace('#<a.*?>.*?</a>#i', '', $description_html);
             $converter = new HtmlConverter();
             $description = $converter->convert($description_html);
             $description = strip_tags($description, '<br>');
