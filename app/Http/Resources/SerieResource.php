@@ -23,7 +23,11 @@ class SerieResource extends JsonResource
             $book = $books->firstWhere('serie_number', 1);
         }
         if ($book) {
-            $cover = $book->cover->basic;
+            try {
+                $cover = $book->cover->basic;
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
         $downloadLink = config('app.url')."/api/series/download/$this->slug";
         $size = [];

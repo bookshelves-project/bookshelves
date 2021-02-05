@@ -31,7 +31,11 @@ class AuthorCollection extends JsonResource
             if (null === $mainBook) {
                 $mainBook = $books->first();
             }
-            $cover = $mainBook->cover->thumbnail;
+            try {
+                $cover = $mainBook->cover->thumbnail;
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
 
         // $authorName = str_replace(' ', '%20', $this->name);

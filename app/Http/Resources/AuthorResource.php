@@ -29,7 +29,11 @@ class AuthorResource extends JsonResource
             if (null === $mainBook) {
                 $mainBook = $books->first();
             }
-            $cover = $mainBook->cover->thumbnail;
+            try {
+                $cover = $mainBook->cover->thumbnail;
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
         $downloadLink = config('app.url')."/api/authors/download/$this->slug";
         $size = [];
