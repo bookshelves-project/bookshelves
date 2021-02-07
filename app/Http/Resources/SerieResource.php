@@ -24,7 +24,11 @@ class SerieResource extends JsonResource
         }
         if ($book) {
             try {
-                $cover = $book->cover->basic;
+                if ($this->cover) {
+                    $cover = $this->cover ? config('app.url').'/'.$this->cover : null;
+                } else {
+                    $cover = $book->cover->basic;
+                }
             } catch (\Throwable $th) {
                 //throw $th;
             }

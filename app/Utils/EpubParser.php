@@ -147,6 +147,20 @@ class EpubParser
             $serie = Serie::firstOrCreate(['title' => $serie]);
             $serie->slug = Str::slug($serie->title, '-');
             $serie->save();
+
+            if (File::exists(database_path("seeders/medias/series/$serie->slug.jpg"))) {
+                $optimizerChain = OptimizerChainFactory::create();
+                File::copy(database_path("seeders/medias/series/$serie->slug.jpg"), public_path("storage/series/$serie->slug.jpg"));
+                $path_serie_cover = "storage/series/$serie->slug.jpg";
+                $serie->cover = $path_serie_cover;
+                $size = 'book_cover';
+                $dimensions = config("image.thumbnails.$size");
+                Image::load(public_path($path_serie_cover))
+                    ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
+                    ->save();
+                $optimizerChain->optimize(public_path($path_serie_cover));
+                $serie->save();
+            }
         }
 
         // Generate author
@@ -426,7 +440,7 @@ class EpubParser
                         ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
                         ->save();
                     $optimizerChain->optimize(public_path("storage/authors/$name.jpg"));
-                    $pictureAuthor = "authors/$name.jpg";
+                    $pictureAuthor = "storage/authors/$name.jpg";
                 }
                 $author->picture = $pictureAuthor;
                 $author->save();

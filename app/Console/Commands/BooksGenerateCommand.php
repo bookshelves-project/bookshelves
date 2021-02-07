@@ -47,11 +47,14 @@ class BooksGenerateCommand extends Command
     public function handle()
     {
         $fresh = $this->option('fresh');
+        $this->info("\n");
         $this->info('> Welcome to Books-Generate Tool <');
+        $this->info("\n");
         $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/books-raw...');
         $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
 
         if ($fresh) {
+            $this->info("\n");
             $this->info('You choose fresh installation, current database will be erased.');
 
             // Apply storage:link if not set
@@ -73,7 +76,7 @@ class BooksGenerateCommand extends Command
 
             // Parse $epubsFiles[] to get metadata and
             // save each EPUB as Book model with relationships
-            $this->info("\n".'EPUB files: '.sizeof($epubsFiles)."\n");
+            $this->info("\n".'EPUB files detected: '.sizeof($epubsFiles)."\n");
             $metadataEntities = [];
             $epub_bar = $this->output->createProgressBar(count($epubsFiles));
             $this->output->progressStart(10);
@@ -119,6 +122,7 @@ class BooksGenerateCommand extends Command
 
             $this->info('Done!');
         } else {
+            $this->info("\n");
             $this->info('You choose basic parsing, current database will be keep safe and unknown eBooks will be add.');
             $this->warn("Basic parsing isn't ready, try fresh parsing with option --fresh");
         }

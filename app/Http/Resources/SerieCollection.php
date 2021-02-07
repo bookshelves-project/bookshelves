@@ -46,36 +46,14 @@ class SerieCollection extends JsonResource
 
             $books_number = count($books);
 
-            if ($mainBook->cover) {
-                $mainCover = $mainBook->cover->basic;
-                try {
-                    switch (count($books)) {
-                        case 0:
-                            break;
-                        case 1:
-                                $covers[] = $book->cover->basic;
-                            break;
-                        case 2:
-                            foreach ($books as $key => $book) {
-                                if ($key < 2) {
-                                    $covers[] = $book->cover->thumbnail;
-                                }
-                            }
-                            break;
-                        default:
-                            foreach ($books as $key => $book) {
-                                if ($key < 3) {
-                                    $covers[] = $book->cover->thumbnail;
-                                }
-                            }
-                            break;
+            if ($mainBook) {
+                if ($mainBook->cover) {
+                    if ($this->cover) {
+                        $mainCover = $this->cover ? config('app.url').'/'.$this->cover : null;
+                    } else {
+                        $mainCover = $mainBook->cover->basic;
                     }
-                } catch (\Throwable $th) {
-                    //throw $th;
                 }
-
-                $otherCovers = $covers;
-                array_shift($otherCovers);
             }
         }
 
@@ -84,10 +62,7 @@ class SerieCollection extends JsonResource
             'slug'          => $this->slug,
             'author'        => $author,
             'booksNumber'   => $books_number,
-            'covers'        => [
-                'main'  => $mainCover,
-                'extra' => $otherCovers,
-            ],
+            'cover'         => $mainCover,
             'links'         => [
                 'show' => config('app.url')."/api/series/$this->slug",
             ],

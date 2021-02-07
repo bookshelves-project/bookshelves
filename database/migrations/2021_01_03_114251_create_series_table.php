@@ -17,6 +17,7 @@ class CreateSeriesTable extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->string('slug')->unique()->nullable();
+            $table->string('cover')->nullable();
         });
 
         Schema::table('books', function (Blueprint $table) {
