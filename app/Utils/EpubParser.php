@@ -429,7 +429,7 @@ class EpubParser
                 $name = Str::slug("$firstname $lastname");
                 if (! is_string($pictureAuthor)) {
                     // File::copy(database_path('seeders/medias/author-no-picture.jpg'), public_path("storage/authors/$name.jpg"));
-                    $pictureAuthor = 'authors/no-picture.jpg';
+                    $pictureAuthor = 'storage/authors/no-picture.jpg';
                 } else {
                     $contents = file_get_contents($pictureAuthor);
                     $size = 'book_cover';
