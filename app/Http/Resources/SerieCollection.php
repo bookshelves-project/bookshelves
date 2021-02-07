@@ -23,6 +23,7 @@ class SerieCollection extends JsonResource
         $covers = [];
         $mainCover = null;
         $otherCovers = null;
+        $language = null;
 
         if ($this->books) {
             $booksFilter = $this->books->reject(function ($book, $key) {
@@ -41,12 +42,17 @@ class SerieCollection extends JsonResource
                 } catch (\Throwable $th) {
                 }
             } catch (\Throwable $th) {
-                dump($th);
             }
 
             $books_number = count($books);
 
             if ($mainBook) {
+                if ($mainBook->language) {
+                    $language = [
+                        'slug' => $mainBook->language->slug,
+                        'flag' => $mainBook->language->flag,
+                    ];
+                }
                 if ($mainBook->cover) {
                     if ($this->cover) {
                         $mainCover = $this->cover ? config('app.url').'/'.$this->cover : null;
@@ -61,6 +67,7 @@ class SerieCollection extends JsonResource
             'title'         => $this->title,
             'slug'          => $this->slug,
             'author'        => $author,
+            'language'      => $language,
             'booksNumber'   => $books_number,
             'cover'         => $mainCover,
             'links'         => [

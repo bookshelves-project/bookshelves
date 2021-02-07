@@ -17,12 +17,18 @@ class SerieResource extends JsonResource
     {
         $books = null;
         $cover = null;
+        $language = null;
+
         if ($this->books) {
             $books = BookCollection::collection($this->books);
             $books_number = sizeof($books);
             $book = $books->firstWhere('serie_number', 1);
         }
         if ($book) {
+            $language = [
+                'slug' => $book->language->slug,
+                'flag' => $book->language->flag,
+            ];
             try {
                 if ($this->cover) {
                     $cover = $this->cover ? config('app.url').'/'.$this->cover : null;
@@ -48,6 +54,7 @@ class SerieResource extends JsonResource
                 'name' => $book->author->name,
                 'slug' => $book->author->slug,
             ],
+            'language'        => $language,
             'books_number'    => $books_number,
             'books'           => $books,
             'cover'           => $cover,
