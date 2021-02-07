@@ -59,6 +59,11 @@ Route::get('/series/download/{serie}', [SerieController::class, 'download'])->na
 Route::get('/authors/download/{author}', [AuthorController::class, 'download'])->name('authors.download');
 
 /*
+ * Last entities routes
+ */
+Route::get('/books/latest', [BookController::class, 'latest'])->name('books.latest');
+
+/*
  * Misc routes
  */
-Route::get('/books/no-cover', [BookController::class, 'no_cover'])->name('books.no-cover');
+Route::get('/books/count-langs', [BookController::class, 'count_langs'])->name('books.count-langs');

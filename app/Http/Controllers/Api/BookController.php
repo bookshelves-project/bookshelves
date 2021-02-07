@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Storage;
 use App\Models\Book;
 use App\Models\Author;
+use App\Models\Language;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
@@ -50,6 +51,7 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
+        $selectByLang = $request->input('lang');
         $perPage = $request->get('perPage');
         $all = $request->get('all');
         $all = filter_var($all, FILTER_VALIDATE_BOOLEAN);
@@ -58,8 +60,14 @@ class BookController extends Controller
             $perPage = 32;
         }
         $debug = $request->get('debug');
-        $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number')->get();
-        $booksWithoutSerie = Book::whereNull('serie_id')->orderBy('title')->get();
+        if ($selectByLang) {
+            Language::whereSlug($selectByLang)->firstOrFail();
+            $booksWithSerie = Book::whereLanguageSlug($selectByLang)->whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number')->get();
+            $booksWithoutSerie = Book::whereLanguageSlug($selectByLang)->whereNull('serie_id')->orderBy('title')->get();
+        } else {
+            $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number')->get();
+            $booksWithoutSerie = Book::whereNull('serie_id')->orderBy('title')->get();
+        }
 
         $articles = [
             'The',
@@ -99,13 +107,6 @@ class BookController extends Controller
 
             return $books;
         }
-    }
-
-    public function no_cover()
-    {
-        $url = config('app.url').'/images/no-cover.webp';
-
-        return $url;
     }
 
     public function count()
@@ -176,5 +177,29 @@ class BookController extends Controller
         $ebook_path = str_replace('storage/', '', $book->epub->path);
 
         return Storage::disk('public')->download($ebook_path);
+    }
+
+    public function latest()
+    {
+        $books = Book::orderByDesc('created_at')->limit(10)->get();
+        $books = BookCollection::collection($books);
+
+        return $books;
+    }
+
+    public function count_langs()
+    {
+        $langs = Language::with('books')->get();
+        $langs_books = collect($langs)
+            ->map(function ($lang) {
+                return [
+                    'id'    => $lang->slug,
+                    'flag'  => $lang->flag,
+                    'count' => $lang->books->count(),
+                ];
+            })
+            ->all();
+
+        return $langs_books;
     }
 }

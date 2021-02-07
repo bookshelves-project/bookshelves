@@ -24,6 +24,7 @@
 ## **TODO**
 
 - Multiple authors
+- Fix sort by serie with article
 - Sort by author, serie, title, language
 - Setup cache
 

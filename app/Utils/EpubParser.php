@@ -163,15 +163,33 @@ class EpubParser
             $publisher->save();
         }
 
-        $language_data = array_key_exists('language', $array) ? $array['language'] : null;
-        $language = null;
-        if ($language_data) {
-            if ('en' === $language_data) {
-                $language_data = 'gb';
-            }
+        $lang_data = array_key_exists('language', $array) ? $array['language'] : null;
+        $lang_id = $lang_data;
+        $lang_flag = null;
+        switch ($lang_id) {
+            case 'en':
+                $lang_flag = 'gb';
+                $lang_id = 'en';
+                break;
+
+            case 'gb':
+                $lang_flag = 'gb';
+                $lang_id = 'en';
+                break;
+
+            case 'fr':
+                $lang_flag = 'fr';
+                $lang_id = 'fr';
+                break;
+
+            default:
+                $lang_flag = $lang_id;
+                break;
+        }
+        if ($lang_id) {
             $language = Language::firstOrCreate([
-                'slug'  => $language_data,
-                'flag'  => "https://www.countryflags.io/$language_data/flat/32.png",
+                'slug'  => $lang_id,
+                'flag'  => "https://www.countryflags.io/$lang_flag/flat/32.png",
             ]);
         }
 
