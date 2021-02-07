@@ -57,9 +57,16 @@ if (! function_exists('stripAccents')) {
 if (! function_exists('human_filesize')) {
     function human_filesize($bytes, $decimals = 2)
     {
-        $sz = 'BKMGTP';
+        $sz = [
+            'B',
+            'Ko',
+            'Mo',
+            'Go',
+            'To',
+            'Po',
+        ];
         $factor = floor((strlen($bytes) - 1) / 3);
 
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[$factor];
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).' '.@$sz[$factor];
     }
 }

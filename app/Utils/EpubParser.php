@@ -11,6 +11,7 @@ use App\Models\Epub;
 use App\Models\Cover;
 use App\Models\Serie;
 use Biblys\Isbn\Isbn;
+use SimpleXMLElement;
 use App\Models\Author;
 use Spatie\Image\Image;
 use App\Models\Language;
@@ -35,7 +36,8 @@ use Symfony\Component\Process\Exception\InvalidArgumentException as ExceptionInv
 class EpubParser
 {
     /**
-     * Get metadata from EPUB.
+     * Get metadata from EPUB and create Book
+     * with relationships.
      *
      * @param string $file_path
      *
@@ -47,11 +49,7 @@ class EpubParser
      */
     public static function getMetadata(string $file_path)
     {
-        // $file_path = $epub = storage_path('app\public\books\American Gods - Neil Gaiman.epub');
         $file_path = storage_path("app/public/$file_path");
-        // $zipper = new \Madnest\Madzipper\Madzipper();
-        // $zipper = $zipper->make($epub);
-        // dd($zipper->getFileContent($epub));
 
         $zip = new ZipArchive();
         $zip->open($file_path);
@@ -61,25 +59,14 @@ class EpubParser
         $cover_extension = '';
         for ($i = 0; $i < $zip->numFiles; $i++) {
             $stat = $zip->statIndex($i);
-            // dump(basename($stat['name']).PHP_EOL);
             if (strpos($stat['name'], '.opf')) {
-                // $xml_string = $zip->getStream('container.xml');
-                // dump(basename($stat['name']));
-                // dump($stat['name']);
                 $xml_string = $zip->getFromName($stat['name']);
             }
             if (preg_match('/cover/', $stat['name'])) {
                 if (array_key_exists('extension', pathinfo($stat['name']))) {
                     $cover_extension = pathinfo($stat['name'])['extension'];
                     if (preg_match('/jpg|jpeg|PNG|WEBP/', $cover_extension)) {
-                        // $xml_string = $zip->getStream('container.xml');
-                        // dump(basename($stat['name']));
-                        // dump($stat['name']);
-                        // $xml_string = $zip->getFromName($stat['name']);
                         $cover = $stat['name'];
-
-                        // $zip->extractTo(, $stat['name']);
-                        // file_put_contents(public_path('storage'), $zip->getFromName($stat['name']));
                         $cover = $zip->getFromName($stat['name']);
                     }
                 }
@@ -88,8 +75,6 @@ class EpubParser
 
         $package = simplexml_load_string($xml_string);
         $packageMetadata = $package->metadata->children('dc', true);
-        // $json = json_encode($packageMetadata);
-        // dump($packageMetadata);
 
         $array = [];
         $identifiers = [];
@@ -119,49 +104,10 @@ class EpubParser
             // echo "An error occured while parsing $isbn_raw: ".$e->getMessage();
         }
 
-        $serie = '';
-        $serie_number = '';
-        // Parse all tags 'meta' into 'package' => 'metadata'
-        foreach ($package->metadata as $key => $value) {
-            foreach ($value->meta as $a => $b) {
-                // get serie
-                if (preg_match('/calibre:series$/', $b->attributes()->__toString())) {
-                    foreach ($b->attributes() as $k => $v) {
-                        if (! preg_match('/series$/', $v->__toString())) {
-                            $serie = $v->__toString();
-                        }
-                    }
-                }
-                // get serie number
-                if (preg_match('/series_index$/', $b->attributes()->__toString())) {
-                    foreach ($b->attributes() as $k => $v) {
-                        if (! preg_match('/calibre:series_index$/', $v->__toString())) {
-                            $serie_number = $v->__toString();
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($serie) {
-            $serie = Serie::firstOrCreate(['title' => $serie]);
-            $serie->slug = Str::slug($serie->title, '-');
-            $serie->save();
-
-            if (File::exists(database_path("seeders/medias/series/$serie->slug.jpg"))) {
-                $optimizerChain = OptimizerChainFactory::create();
-                File::copy(database_path("seeders/medias/series/$serie->slug.jpg"), public_path("storage/series/$serie->slug.jpg"));
-                $path_serie_cover = "storage/series/$serie->slug.jpg";
-                $serie->cover = $path_serie_cover;
-                $size = 'book_cover';
-                $dimensions = config("image.thumbnails.$size");
-                Image::load(public_path($path_serie_cover))
-                    ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
-                    ->save();
-                $optimizerChain->optimize(public_path($path_serie_cover));
-                $serie->save();
-            }
-        }
+        // Generate series
+        $seriesData = self::generateSeries($package);
+        $serie = $seriesData['serie'];
+        $serie_number = $seriesData['serie_number'];
 
         // Generate author
         $author_data = array_key_exists('creator', $array) ? $array['creator'] : null;
@@ -448,5 +394,77 @@ class EpubParser
         }
 
         return $author;
+    }
+
+    /**
+     * Generate series from SimpleXMLElement $package
+     * with Calibre meta.
+     *
+     * @param SimpleXMLElement $package
+     *
+     * @throws BindingResolutionException
+     * @throws LogicException
+     * @throws ExceptionInvalidArgumentException
+     * @throws RuntimeException
+     * @throws ProcessTimedOutException
+     * @throws ProcessSignaledException
+     *
+     * @return array
+     */
+    public static function generateSeries(SimpleXMLElement $package)
+    {
+        $serie = null;
+        $serie_number = null;
+        // Parse all tags 'meta' into 'package' => 'metadata'
+        foreach ($package->metadata as $key => $value) {
+            foreach ($value->meta as $a => $b) {
+                // get serie
+                if (preg_match('/calibre:series$/', $b->attributes()->__toString())) {
+                    foreach ($b->attributes() as $k => $v) {
+                        if (! preg_match('/series$/', $v->__toString())) {
+                            $serie = $v->__toString();
+                        }
+                    }
+                }
+                // get serie number
+                if (preg_match('/series_index$/', $b->attributes()->__toString())) {
+                    foreach ($b->attributes() as $k => $v) {
+                        if (! preg_match('/calibre:series_index$/', $v->__toString())) {
+                            $serie_number = $v->__toString();
+                        }
+                    }
+                }
+            }
+        }
+
+        // if meta exist
+        if ($serie) {
+            // create serie if not exist
+            $serie = Serie::firstOrCreate(['title' => $serie]);
+            $serie->slug = Str::slug($serie->title, '-');
+            $serie->save();
+
+            // Add special cover if exist from `database/seeders/medias/series/`
+            // Check if JPG file with series' slug name exist
+            // To know slug name, check into database when serie was created
+            if (File::exists(database_path("seeders/medias/series/$serie->slug.jpg"))) {
+                $optimizerChain = OptimizerChainFactory::create();
+                File::copy(database_path("seeders/medias/series/$serie->slug.jpg"), public_path("storage/series/$serie->slug.jpg"));
+                $path_serie_cover = "storage/series/$serie->slug.jpg";
+                $serie->cover = $path_serie_cover;
+                $size = 'book_cover';
+                $dimensions = config("image.thumbnails.$size");
+                Image::load(public_path($path_serie_cover))
+                    ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
+                    ->save();
+                $optimizerChain->optimize(public_path($path_serie_cover));
+                $serie->save();
+            }
+        }
+
+        return [
+            'serie'        => $serie,
+            'serie_number' => $serie_number,
+        ];
     }
 }
