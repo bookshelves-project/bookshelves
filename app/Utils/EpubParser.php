@@ -155,6 +155,10 @@ class EpubParser
 
         $book = Book::firstOrCreate(['title' => $array['title']]);
 
+        $title_sort = self::getSortString($book->title);
+        $book->title_sort = $title_sort;
+        dump($title_sort);
+
         $description_html = array_key_exists('description', $array) ? $array['description'] : null;
         $isUTF8 = mb_check_encoding($description_html, 'UTF-8');
         $description_html = iconv('UTF-8', 'UTF-8//IGNORE', $description_html);
@@ -442,6 +446,8 @@ class EpubParser
             // create serie if not exist
             $serie = Serie::firstOrCreate(['title' => $serie]);
             $serie->slug = Str::slug($serie->title, '-');
+            $title_sort = self::getSortString($serie->title);
+            $serie->title_sort = $title_sort;
             $serie->save();
 
             // Add special cover if exist from `database/seeders/medias/series/`
@@ -466,5 +472,27 @@ class EpubParser
             'serie'        => $serie,
             'serie_number' => $serie_number,
         ];
+    }
+
+    public static function getSortString(string $title)
+    {
+        $title_sort = $title;
+        $articles = [
+            'the ',
+            'les ',
+            "l'",
+            'le ',
+            'la ',
+            // 'a ',
+            "d'",
+            'une ',
+        ];
+        foreach ($articles as $key => $value) {
+            $title_sort = preg_replace('/^'.preg_quote($value, '/').'/i', '', $title_sort);
+        }
+        // $title_sort = str_replace($articles, '', $title_sort);
+        $title_sort = stripAccents($title_sort);
+
+        return $title_sort;
     }
 }

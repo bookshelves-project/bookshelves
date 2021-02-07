@@ -61,7 +61,7 @@ class BookController extends Controller
         }
         $debug = $request->get('debug');
         $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number');
-        $booksWithoutSerie = Book::whereNull('serie_id')->orderBy('title');
+        $booksWithoutSerie = Book::whereNull('serie_id');
         if ($selectByLang) {
             Language::whereSlug($selectByLang)->firstOrFail();
             $booksWithSerie = $booksWithSerie->whereLanguageSlug($selectByLang);
@@ -70,23 +70,14 @@ class BookController extends Controller
         $booksWithSerie = $booksWithSerie->get();
         $booksWithoutSerie = $booksWithoutSerie->get();
 
-        $articles = [
-            'The',
-            'Les',
-            "L'",
-            'Le',
-            'La',
-        ];
         $books = $booksWithSerie->merge($booksWithoutSerie);
-        $books = $books->sortBy(function ($book, $key) use ($articles) {
+        $books = $books->sortBy(function ($book, $key) {
             $title = null;
             if ($book->serie) {
-                $title = $book->serie->title;
-                $title = str_replace($articles, '', $title);
-                $title = stripAccents($title);
-                $title = $title.$book->serie_number;
+                $title = $book->serie->title_sort;
+                $title = ucfirst($title.$book->serie_number);
             } else {
-                $title = $book->title;
+                $title = ucfirst($book->title_sort);
             }
 
             return $title;
@@ -98,9 +89,9 @@ class BookController extends Controller
         if ($debug) {
             foreach ($books as $book) {
                 if ($book->serie) {
-                    echo $book->serie->title.' '.$book->serie_number.' '.$book->title.'<br>';
+                    echo $book->serie->title_sort.' '.$book->serie_number.' '.$book->title_sort.'<br>';
                 } else {
-                    echo $book->title.'<br>';
+                    echo $book->title_sort.'<br>';
                 }
             }
         } else {

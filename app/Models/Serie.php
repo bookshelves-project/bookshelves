@@ -34,6 +34,7 @@ class Serie extends Model
     public $timestamps = false;
     protected $fillable = [
         'title',
+        'title_sort',
         'slug',
         'cover',
     ];

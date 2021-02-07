@@ -42,29 +42,13 @@ class SerieController extends Controller
         $perPage = $request->get('perPage');
         $debug = $request->get('debug');
 
-        $series = Serie::with('books')->get();
-
-        $articles = [
-            'The',
-            'Les',
-            "L'",
-            'Le',
-            'La',
-        ];
-        $series = $series->sortBy(function ($serie, $key) use ($articles) {
-            $title = $serie->title;
-            $title = str_replace($articles, '', $title);
-            $title = stripAccents($title);
-
-            // echo $title.'<br/>';
-
-            return $title;
-        });
+        $series = Serie::with('books')->orderBy('title_sort')->get();
 
         if ($debug) {
             foreach ($series as $serie) {
                 echo $serie->title.'<br>';
             }
+            exit;
         }
 
         if (null !== $perPage) {
