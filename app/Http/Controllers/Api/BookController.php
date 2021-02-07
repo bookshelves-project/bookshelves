@@ -60,14 +60,15 @@ class BookController extends Controller
             $perPage = 32;
         }
         $debug = $request->get('debug');
+        $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number');
+        $booksWithoutSerie = Book::whereNull('serie_id')->orderBy('title');
         if ($selectByLang) {
             Language::whereSlug($selectByLang)->firstOrFail();
-            $booksWithSerie = Book::whereLanguageSlug($selectByLang)->whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number')->get();
-            $booksWithoutSerie = Book::whereLanguageSlug($selectByLang)->whereNull('serie_id')->orderBy('title')->get();
-        } else {
-            $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number')->get();
-            $booksWithoutSerie = Book::whereNull('serie_id')->orderBy('title')->get();
+            $booksWithSerie = $booksWithSerie->whereLanguageSlug($selectByLang);
+            $booksWithoutSerie = $booksWithoutSerie->whereLanguageSlug($selectByLang);
         }
+        $booksWithSerie = $booksWithSerie->get();
+        $booksWithoutSerie = $booksWithoutSerie->get();
 
         $articles = [
             'The',

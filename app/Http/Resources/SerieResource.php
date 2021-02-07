@@ -44,7 +44,10 @@ class SerieResource extends JsonResource
         return [
             'title'           => $this->title,
             'slug'            => $this->slug,
-            'author'          => $book->author->name,
+            'author'          => [
+                'name' => $book->author->name,
+                'slug' => $book->author->slug,
+            ],
             'books_number'    => $books_number,
             'books'           => $books,
             'cover'           => $cover,
