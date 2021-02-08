@@ -355,13 +355,14 @@ class EpubParser
             $lastname = $author_data[sizeof($author_data) - 1];
             array_pop($author_data);
             $firstname = implode(' ', $author_data);
-            $isExist = Author::whereSlug(Str::slug("$lastname $firstname", '-'))->first();
+            $name_sluggify = Str::slug("$lastname $firstname", '-');
+            $isExist = Author::whereSlug($name_sluggify)->first();
             $pictureAuthor = null;
             $author = Author::firstOrCreate([
                 'lastname'  => $lastname,
                 'firstname' => $firstname,
                 'name'      => "$firstname $lastname",
-                'slug'      => Str::slug("$lastname $firstname", '-'),
+                'slug'      => $name_sluggify,
             ]);
             if (null === $isExist) {
                 $name = "$firstname $lastname";
