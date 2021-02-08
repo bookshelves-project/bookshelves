@@ -74,7 +74,14 @@ class EpubParser
         }
 
         $package = simplexml_load_string($xml_string);
-        $packageMetadata = $package->metadata->children('dc', true);
+        try {
+            $packageMetadata = $package->metadata->children('dc', true);
+        } catch (\Throwable $th) {
+            //throw $th;
+            dump($stat['name'].' throw error from metadata!');
+
+            return;
+        }
 
         $array = [];
         $identifiers = [];
