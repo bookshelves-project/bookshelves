@@ -32,6 +32,10 @@ class BookCollection extends JsonResource
             $cover_basic = $this->cover->basic;
             $cover_thumbnail = $this->cover->thumbnail;
         }
+        $showUrl = null;
+        if ($author) {
+            $showUrl = config('app.url')."/api/books/$author->slug/$this->slug";
+        }
 
         return [
             'title'                 => $this->title,
@@ -53,7 +57,7 @@ class BookCollection extends JsonResource
             ],
             'serie'                 => $serie,
             'links'                 => [
-                'show' => config('app.url')."/api/books/$author->slug/$this->slug",
+                'show' => $showUrl,
             ],
         ];
     }

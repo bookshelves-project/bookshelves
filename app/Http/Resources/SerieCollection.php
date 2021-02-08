@@ -30,18 +30,20 @@ class SerieCollection extends JsonResource
                 return $book->serie_number < 1;
             });
             $books = $booksFilter->values();
-            $id = $this->books[0]->id;
-            $books = collect($books);
-            $book = Book::findOrFail($id);
-            $serie_slug = $this->books[0]->serie->slug;
-            $serie = Serie::whereSlug($serie_slug)->firstOrFail();
+
             try {
+                $id = $this->books[0]->id;
+                $books = collect($books);
+                $book = Book::findOrFail($id);
+                $serie_slug = $this->books[0]->serie->slug;
+                $serie = Serie::whereSlug($serie_slug)->firstOrFail();
                 $mainBook = Book::whereSerieId($serie->id)->whereSerieNumber(1)->first();
                 try {
                     $author = $mainBook->author->name;
                 } catch (\Throwable $th) {
                 }
             } catch (\Throwable $th) {
+                return;
             }
 
             $books_number = count($books);

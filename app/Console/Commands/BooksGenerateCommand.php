@@ -20,7 +20,7 @@ class BooksGenerateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'books:generate {--fresh}';
+    protected $signature = 'books:generate {--fresh} {--debug}';
 
     /**
      * The console command description.
@@ -46,6 +46,10 @@ class BooksGenerateCommand extends Command
      */
     public function handle()
     {
+        $isDebug = $this->option('debug');
+        if ($isDebug) {
+            $this->warn('You are in debug mode: default author pictures, basic cover only');
+        }
         $fresh = $this->option('fresh');
         $this->info("\n");
         $this->info('> Welcome to Books-Generate Tool <');
@@ -76,14 +80,16 @@ class BooksGenerateCommand extends Command
 
             // Parse $epubsFiles[] to get metadata and
             // save each EPUB as Book model with relationships
-            $this->info("\n".'EPUB files detected: '.sizeof($epubsFiles)."\n");
+            $epubsCount = sizeof($epubsFiles);
+            $this->info("\nEPUB files detected: $epubsCount\n");
             $metadataEntities = [];
-            $epub_bar = $this->output->createProgressBar(count($epubsFiles));
+            $errors = [];
+            $epub_bar = $this->output->createProgressBar($epubsCount);
             $this->output->progressStart(10);
             foreach ($epubsFiles as $key => $file) {
                 // get metadata from EPUB file
-                $metadata = EpubParser::getMetadata($file);
-                if ($metadata) {
+                $metadata = EpubParser::getMetadata($file, $isDebug);
+                if (is_array($metadata) && array_key_exists('book', $metadata)) {
                     $book = $metadata['book'];
                     // generate new EPUB file with standard name from original
                     EpubParser::generateNewEpub($book, $file);
@@ -97,20 +103,27 @@ class BooksGenerateCommand extends Command
                     // $this->info($key.' '.$serie.$book->title);
                     array_push($metadataEntities, $metadata);
                     $epub_bar->advance();
+                } else {
+                    array_push($errors, $metadata);
                 }
             }
             $epub_bar->finish();
             $this->info("\n");
-            $this->info('EPUB files parsed and generated!'."\n");
+            $this->info('EPUB files parsed and generated!');
+            $this->info("\n");
+            $this->warn('You have '.sizeof($errors).' fatal errors: XML file failed to be parsed');
+            foreach ($errors as $key => $value) {
+                $this->info($value);
+            }
 
             // Generate covers
-            $this->info('Generate covers'."\n");
+            $this->info("\n".'Generate covers'."\n");
             $cover_bar = $this->output->createProgressBar(count($metadataEntities));
             $this->output->progressStart(10);
             foreach ($metadataEntities as $key => $metadata) {
                 $book = $metadata['book'];
                 $cover_extension = $metadata['cover_extension'];
-                EpubParser::generateCovers($book, $cover_extension);
+                EpubParser::generateCovers($book, $cover_extension, $isDebug);
                 $cover_bar->advance();
             }
             $cover_bar->finish();
