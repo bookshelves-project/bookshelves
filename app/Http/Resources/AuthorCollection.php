@@ -22,7 +22,7 @@ class AuthorCollection extends JsonResource
         if ($this->books) {
             $books = BookCollection::collection($this->books);
             $books_number = sizeof($books);
-            $book = $books->random();
+            // $book = $books->random();
 
             try {
                 $mainBook = Book::with('author')->where('serie_number', '=', '1')->whereAuthorId($this->id)->first();
