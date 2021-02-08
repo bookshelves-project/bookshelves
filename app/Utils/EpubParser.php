@@ -153,7 +153,15 @@ class EpubParser
             ]);
         }
 
-        $book = Book::firstOrCreate(['title' => $array['title']]);
+        $book_title = $array['title'];
+        $book_slug = Str::slug($book_title, '-');
+        $bookIsExist = Book::whereSlug($book_slug)->first();
+        if (! $bookIsExist) {
+            $book = Book::firstOrCreate([
+                'title' => $book_title,
+                'slug'  => $book_slug,
+            ]);
+        }
 
         $title_sort = self::getSortString($book->title);
         $book->title_sort = $title_sort;
