@@ -77,7 +77,7 @@ class EpubParser
         try {
             $packageMetadata = $package->metadata->children('dc', true);
         } catch (\Throwable $th) {
-            dump($stat['name'].' throw error from metadata!');
+            dump($file_path.' throw error from metadata!');
 
             return;
         }
