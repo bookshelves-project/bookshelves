@@ -505,6 +505,6 @@ class EpubParser
         // $title_sort = str_replace($articles, '', $title_sort);
         $title_sort = stripAccents($title_sort);
 
-        return $title_sort;
+        return utf8_encode($title_sort);
     }
 }
