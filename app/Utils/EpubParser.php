@@ -95,26 +95,9 @@ class EpubParser
 
         $language = self::generateLanguage($meta_array);
 
-        $book = self::generateBook($meta_array);
-
-        $book->author_id = null !== $author ? $author->id : null;
-        $book->isbn = $isbn13;
-
-        if ($publisher) {
-            $book->publisher_id = $publisher->id;
-        }
-
-        if ($serie) {
-            $book->serie_id = $serie->id;
-            $book->serie_number = (int) $serie_number;
-        }
-
-        if ($language) {
-            $book->language_slug = $language->slug;
-        }
-
         $epub = self::generateEpub($file_path);
 
+        $book = self::generateBook($meta_array);
         // Cover extract raw file
         $cover_filename_without_extension = md5("$book->slug-$book->author");
         $cover_file = $cover_filename_without_extension.'.'.$cover_extension;
@@ -123,6 +106,12 @@ class EpubParser
         }
 
         $book->epub()->save($epub);
+        $book->author_id = $author ? $author->id : null;
+        $book->publisher_id = $publisher ? $publisher->id : null;
+        $book->serie_id = $serie ? $serie->id : null;
+        $book->serie_number = (int) $serie_number;
+        $book->language_slug = $language ? $language->slug : null;
+        $book->isbn = $isbn13;
         $book->save();
 
         $epub->book()->save($book);
@@ -434,17 +423,15 @@ class EpubParser
             array_pop($author_data);
             $firstname = implode(' ', $author_data);
             $name_sluggify = Str::slug("$lastname $firstname", '-');
-            $isExist = Author::whereSlug($name_sluggify)->first();
+            $authorIfExist = Author::whereSlug($name_sluggify)->first();
             $pictureAuthor = null;
-            if (! $isExist) {
+            if (! $authorIfExist) {
                 $author = Author::firstOrCreate([
                     'lastname'  => $lastname,
                     'firstname' => $firstname,
                     'name'      => "$firstname $lastname",
                     'slug'      => $name_sluggify,
                 ]);
-            }
-            if (! $isExist) {
                 $name = "$firstname $lastname";
                 $name = str_replace(' ', '%20', $name);
                 $url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&titles=$name&prop=pageimages&format=json&pithumbsize=512";
@@ -478,6 +465,8 @@ class EpubParser
 
                 $author->picture = $pictureAuthor;
                 $author->save();
+            } else {
+                $author = $authorIfExist;
             }
         }
 

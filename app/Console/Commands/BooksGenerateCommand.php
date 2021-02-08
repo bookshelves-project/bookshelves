@@ -6,6 +6,7 @@ use DB;
 use File;
 use Artisan;
 use Storage;
+use App\Models\Book;
 use App\Utils\EpubParser;
 use InvalidArgumentException;
 use Illuminate\Console\Command;
@@ -57,90 +58,93 @@ class BooksGenerateCommand extends Command
         $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/books-raw...');
         $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
 
+        // Apply storage:link if not set
+        Artisan::call('storage:link');
+
         if ($fresh) {
             $this->info("\n");
             $this->info('You choose fresh installation, current database will be erased.');
 
-            // Apply storage:link if not set
-            Artisan::call('storage:link');
             // Clear database and set seeders
             Artisan::call('migrate:fresh --seed --force');
             // Clear all directories
             $this->clearDirectories();
 
-            // Get all files in books-raw/
-            $files = Storage::disk('public')->allFiles('books-raw');
-            $epubsFiles = [];
-            // Get EPUB files form books-raw/ and create new $epubsFiles[]
-            foreach ($files as $key => $value) {
-                if (array_key_exists('extension', pathinfo($value)) && 'epub' === pathinfo($value)['extension']) {
-                    array_push($epubsFiles, $value);
-                }
-            }
-
-            // Parse $epubsFiles[] to get metadata and
-            // save each EPUB as Book model with relationships
-            $epubsCount = sizeof($epubsFiles);
-            $this->info("\nEPUB files detected: $epubsCount\n");
-            $metadataEntities = [];
-            $errors = [];
-            $epub_bar = $this->output->createProgressBar($epubsCount);
-            $this->output->progressStart(10);
-            foreach ($epubsFiles as $key => $file) {
-                // get metadata from EPUB file
-                $metadata = EpubParser::getMetadata($file, $isDebug);
-                if (is_array($metadata) && array_key_exists('book', $metadata)) {
-                    $book = $metadata['book'];
-                    // generate new EPUB file with standard name from original
-                    EpubParser::generateNewEpub($book, $file);
-                    // Print each Book
-                    // $serie = null;
-                    // if (null !== $book->serie) {
-                    //     $serie = $book->serie;
-                    //     $serie = $serie->title;
-                    //     $serie = $serie.' '.$book->serie_number.' - ';
-                    // }
-                    // $this->info($key.' '.$serie.$book->title);
-                    array_push($metadataEntities, $metadata);
-                    $epub_bar->advance();
-                } else {
-                    array_push($errors, $metadata);
-                }
-            }
-            $epub_bar->finish();
+            $this->generateFresh($isDebug);
+        } else {
             $this->info("\n");
-            $this->info('EPUB files parsed and generated!');
+            $this->info('You choose basic parsing, current database will be keep safe and unknown eBooks will be add.');
+            $this->warn("Basic parsing isn't ready, try fresh parsing with option --fresh");
+            $this->generateFresh($isDebug);
+        }
+    }
+
+    public function generateFresh(bool $isDebug)
+    {
+        // Get all files in books-raw/
+        $files = Storage::disk('public')->allFiles('books-raw');
+        $epubsFiles = [];
+        // Get EPUB files form books-raw/ and create new $epubsFiles[]
+        foreach ($files as $key => $value) {
+            if (array_key_exists('extension', pathinfo($value)) && 'epub' === pathinfo($value)['extension']) {
+                array_push($epubsFiles, $value);
+            }
+        }
+
+        // Parse $epubsFiles[] to get metadata and
+        // save each EPUB as Book model with relationships
+        $epubsCount = sizeof($epubsFiles);
+        $this->info("\nEPUB files detected: $epubsCount\n");
+        $metadataEntities = [];
+        $errors = [];
+        $epub_bar = $this->output->createProgressBar($epubsCount);
+        $this->output->progressStart(0);
+        foreach ($epubsFiles as $key => $file) {
+            // get metadata from EPUB file
+            $metadata = EpubParser::getMetadata($file, $isDebug);
+            if (is_array($metadata) && array_key_exists('book', $metadata)) {
+                $book = $metadata['book'];
+                // generate new EPUB file with standard name from original
+                EpubParser::generateNewEpub($book, $file);
+                // Print each Book
+                // $this->printEbook($book, $key);
+                array_push($metadataEntities, $metadata);
+                $epub_bar->advance();
+            } else {
+                array_push($errors, $metadata);
+            }
+        }
+        $epub_bar->finish();
+        $this->info("\n");
+        $this->info('EPUB files parsed and generated!');
+        if (sizeof($errors) < 1) {
             $this->info("\n");
             $this->warn('You have '.sizeof($errors).' fatal errors: XML file failed to be parsed');
             foreach ($errors as $key => $value) {
                 $this->info($value);
             }
-
-            // Generate covers
-            $this->info("\n".'Generate covers'."\n");
-            $cover_bar = $this->output->createProgressBar(count($metadataEntities));
-            $this->output->progressStart(10);
-            foreach ($metadataEntities as $key => $metadata) {
-                $book = $metadata['book'];
-                $cover_extension = $metadata['cover_extension'];
-                EpubParser::generateCovers($book, $cover_extension, $isDebug);
-                $cover_bar->advance();
-            }
-            $cover_bar->finish();
-            $this->info("\n");
-            $this->info('Covers generated!'."\n");
-
-            // Clean temporary covers-raw/
-            File::cleanDirectory(public_path('storage/covers-raw'));
-            // Regenerate .gitignore from covers-raw/
-            Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');
-
-            $this->info('Done!');
-        } else {
-            $this->info("\n");
-            $this->info('You choose basic parsing, current database will be keep safe and unknown eBooks will be add.');
-            $this->warn("Basic parsing isn't ready, try fresh parsing with option --fresh");
         }
+
+        // Generate covers
+        $this->info("\n".'Generate covers'."\n");
+        $cover_bar = $this->output->createProgressBar(count($metadataEntities));
+        $this->output->progressStart(10);
+        foreach ($metadataEntities as $key => $metadata) {
+            $book = $metadata['book'];
+            $cover_extension = $metadata['cover_extension'];
+            EpubParser::generateCovers($book, $cover_extension, $isDebug);
+            $cover_bar->advance();
+        }
+        $cover_bar->finish();
+        $this->info("\n");
+        $this->info('Covers generated!'."\n");
+
+        // Clean temporary covers-raw/
+        File::cleanDirectory(public_path('storage/covers-raw'));
+        // Regenerate .gitignore from covers-raw/
+        Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');
+
+        $this->info('Done!');
     }
 
     /**
@@ -183,6 +187,17 @@ class BooksGenerateCommand extends Command
             'covers-original' => $coversOriginalClean && $coversOriginalGitignore,
             'books'           => $booksClean && $booksCleanGitignore,
         ];
+    }
+
+    public function printEbook(Book $book, int $key)
+    {
+        $serie = null;
+        if (null !== $book->serie) {
+            $serie = $book->serie;
+            $serie = $serie->title;
+            $serie = $serie.' '.$book->serie_number.' - ';
+        }
+        $this->info($key.' '.$serie.$book->title);
     }
 
     /**
