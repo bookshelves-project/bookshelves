@@ -83,19 +83,21 @@ class BooksGenerateCommand extends Command
             foreach ($epubsFiles as $key => $file) {
                 // get metadata from EPUB file
                 $metadata = EpubParser::getMetadata($file);
-                $book = $metadata['book'];
-                // generate new EPUB file with standard name from original
-                EpubParser::generateNewEpub($book, $file);
-                // Print each Book
-                // $serie = null;
-                // if (null !== $book->serie) {
-                //     $serie = $book->serie;
-                //     $serie = $serie->title;
-                //     $serie = $serie.' '.$book->serie_number.' - ';
-                // }
-                // $this->info($key.' '.$serie.$book->title);
-                array_push($metadataEntities, $metadata);
-                $epub_bar->advance();
+                if ($metadata) {
+                    $book = $metadata['book'];
+                    // generate new EPUB file with standard name from original
+                    EpubParser::generateNewEpub($book, $file);
+                    // Print each Book
+                    // $serie = null;
+                    // if (null !== $book->serie) {
+                    //     $serie = $book->serie;
+                    //     $serie = $serie->title;
+                    //     $serie = $serie.' '.$book->serie_number.' - ';
+                    // }
+                    // $this->info($key.' '.$serie.$book->title);
+                    array_push($metadataEntities, $metadata);
+                    $epub_bar->advance();
+                }
             }
             $epub_bar->finish();
             $this->info("\n");
