@@ -116,11 +116,17 @@ class EpubParser
         $publisher_data = array_key_exists('publisher', $array) ? $array['publisher'] : null;
         $publisher = null;
         if ($publisher_data) {
-            $publisher = Publisher::firstOrCreate([
-                'name'  => $publisher_data,
-            ]);
-            $publisher->slug = Str::slug("$publisher->name", '-');
-            $publisher->save();
+            $publisher_title = $publisher_data;
+            $publisher_slug = Str::slug($publisher_title, '-');
+            $publisherIfExist = Publisher::whereSlug($publisher_slug)->first();
+            if (! $publisherIfExist) {
+                $publisher = Publisher::firstOrCreate([
+                    'name'  => $publisher_title,
+                    'slug'  => $publisher_slug,
+                ]);
+            } else {
+                $publisher = $publisherIfExist;
+            }
         }
 
         $lang_data = array_key_exists('language', $array) ? $array['language'] : null;
