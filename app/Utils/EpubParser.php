@@ -155,12 +155,14 @@ class EpubParser
 
         $book_title = $array['title'];
         $book_slug = Str::slug($book_title, '-');
-        $bookIsExist = Book::whereSlug($book_slug)->first();
-        if (! $bookIsExist) {
+        $bookIfExist = Book::whereSlug($book_slug)->first();
+        if (! $bookIfExist) {
             $book = Book::firstOrCreate([
                 'title' => $book_title,
                 'slug'  => $book_slug,
             ]);
+        } else {
+            $book = $bookIfExist;
         }
 
         $title_sort = self::getSortString($book->title);
