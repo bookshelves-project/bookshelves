@@ -157,7 +157,6 @@ class EpubParser
 
         $title_sort = self::getSortString($book->title);
         $book->title_sort = $title_sort;
-        dump($title_sort);
 
         $description_html = array_key_exists('description', $array) ? $array['description'] : null;
         $isUTF8 = mb_check_encoding($description_html, 'UTF-8');

@@ -160,6 +160,14 @@ class BookController extends Controller
         return $book;
     }
 
+    public function update(Request $request)
+    {
+        $books = Book::limit(5)->get();
+
+        // return response()->json('Success, you have access to Bookshelves');
+        return $books;
+    }
+
     public function download(Request $request, string $author, string $book)
     {
         $author = Author::whereSlug($author)->firstOrFail();

@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\NavigationController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +21,12 @@ Route::get('cache/resolve/{size}/{path}', [ImageController::class, 'thumbnail'])
 
 Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 // require __DIR__.'/auth.php';
+
+// Route::post('/register', [RegisterController::class, 'register']);
+// Route::post('/login', [LoginController::class, 'login']);
+// Route::post('/logout', [LoginController::class, 'logout']);

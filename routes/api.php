@@ -21,6 +21,16 @@ use App\Http\Controllers\Api\SearchController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware(['auth:sanctum'])->group(function () {
+    // Route::get('/user', [BookController::class, 'auth'])->name('users.auth');
+    Route::get('/books/update', [BookController::class, 'update'])->name('books.update');
+});
+
+Route::post('/tokens/create', function (Request $request) {
+    $token = $request->user()->createToken($request->token_name);
+
+    return ['token' => $token->plainTextToken];
+});
 
 /*
  * List routes
