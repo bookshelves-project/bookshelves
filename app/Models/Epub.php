@@ -34,6 +34,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Epub wherePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Epub whereSize($value)
  * @property \App\Models\Book|null $book
+ * @property string|null $size_bytes
+ * @method static \Illuminate\Database\Eloquent\Builder|Epub whereSizeBytes($value)
  */
 class Epub extends Model
 {

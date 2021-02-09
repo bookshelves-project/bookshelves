@@ -18,15 +18,15 @@ class BookResource extends JsonResource
     public function toArray($request)
     {
         $serie = null;
-        $author = null;
         $epub = null;
         $publisher = null;
         $language = null;
         if ($this->serie) {
             $serie = new SerieResource($this->serie);
         }
-        if ($this->author) {
-            $author = $this->author;
+        $authors = null;
+        if ($this->authors) {
+            $authors = AuthorCollection::collection($this->authors);
         }
         if ($this->epub) {
             $epub = new EpubResource($this->epub);
@@ -36,6 +36,10 @@ class BookResource extends JsonResource
         }
         if ($this->language) {
             $language = $this->language;
+        }
+        $tags = null;
+        if ($this->tags) {
+            $tags = TagCollection::collection($this->tags);
         }
         $cover_basic = null;
         $cover_thumbnail = null;
@@ -54,10 +58,11 @@ class BookResource extends JsonResource
             $summary = iconv('UTF-8', 'UTF-8//IGNORE', $html);
 
             if ($isUTF8) {
-                $summary = Html2Text::convert($html);
+                // $summary = Html2Text::convert($html);
                 if (strlen($summary) > 165) {
                     $summary = substr($summary, 0, 165).'...';
                 }
+                $summary = strip_tags($summary);
                 $summary = Str::ascii($summary);
             }
         }
@@ -65,13 +70,8 @@ class BookResource extends JsonResource
         return [
             'title'                 => $this->title,
             'slug'                  => $this->slug,
-            'author'                => $author ? [
-                'name'        => $author->name,
-                'slug'        => $author->slug,
-                'firstname'   => $author->firstname,
-                'lastname'    => $author->lastname,
-                'show'        => config('app.url')."/api/authors/$author->slug",
-            ] : null,
+            'authorSlug' => $this->author->slug,
+            'authors' => $authors,
             'summary'               => $summary,
             'description'           => $this->description,
             'language'              => [
@@ -86,6 +86,7 @@ class BookResource extends JsonResource
                 'thumbnail' => $cover_thumbnail,
                 'original'  => $cover_original,
             ],
+            'tags' => $tags,
             'epub'                  => $epub ? $epub : null,
             'serie'                 => $serie ? [
                 'number'  => $this->serie_number ? $this->serie_number : null,
@@ -94,27 +95,5 @@ class BookResource extends JsonResource
                 'show'    => config('app.url')."/api/series/$serie->slug",
             ] : null,
         ];
-    }
-
-    public static function convert_from_latin1_to_utf8_recursively($dat)
-    {
-        if (is_string($dat)) {
-            return utf8_encode($dat);
-        } elseif (is_array($dat)) {
-            $ret = [];
-            foreach ($dat as $i => $d) {
-                $ret[$i] = self::convert_from_latin1_to_utf8_recursively($d);
-            }
-
-            return $ret;
-        } elseif (is_object($dat)) {
-            foreach ($dat as $i => $d) {
-                $dat->$i = self::convert_from_latin1_to_utf8_recursively($d);
-            }
-
-            return $dat;
-        }
-
-        return $dat;
     }
 }

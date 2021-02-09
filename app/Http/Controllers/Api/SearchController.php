@@ -37,7 +37,7 @@ class SearchController extends Controller
         $searchTermRaw = $request->input('terms');
         $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
         if ($searchTermRaw) {
-            $books = Book::whereLike(['title', 'author.name', 'author.firstname', 'author.lastname', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
+            $books = Book::whereLike(['title', 'authors.name', 'authors.firstname', 'authors.lastname', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
 
             return BookResource::collection($books);
         }

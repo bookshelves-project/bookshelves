@@ -1,6 +1,6 @@
 # Bookshelves · Back <!-- omit in toc -->
 
-[![php](https://img.shields.io/static/v1?label=PHP&message=v7.4&color=777bb4&style=flat-square&logo=php&logoColor=ffffff)](https://www.php.net)
+[![php](https://img.shields.io/static/v1?label=PHP&message=v8.0&color=777bb4&style=flat-square&logo=php&logoColor=ffffff)](https://www.php.net)
 [![composer](https://img.shields.io/static/v1?label=Composer&message=v2.0&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)  
 [![laravel](https://img.shields.io/static/v1?label=Laravel&message=8.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
 [![swagger](https://img.shields.io/static/v1?label=Swagger&message=v3.0&color=85EA2D&style=flat-square&logo=swagger&logoColor=ffffff)](https://swagger.io)
@@ -27,15 +27,17 @@
 - Fix sort by serie with article
 - Sort by author, serie, title, language
 - Setup cache
+- Fix Resources collection with ResourceCollection extends
+- Multiple author serie
 
 ---
 
 ## **I. Setup**
 
-Prerequisites for XML parse, spatie image optimize tools, here for `php7.4`
+Prerequisites for XML parse, spatie image optimize tools, here for `php8.0`
 
 ```bash
-sudo apt-get install -y php7.4-xml php7.4-gd ; sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp ; npm install -g svgo
+sudo apt-get install -y php8.0-xml php8.0-gd ; sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp ; npm install -g svgo
 ```
 
 Deownload dependencies
@@ -53,10 +55,22 @@ php artisan setup ; mkdir public/storage/books-raw
 Add EPUB files in `public/storage/books-raw` and execute Epub Parser
 
 ```bash
-php artisan books:generate --fresh
+# for fresh installation (erase current database)
+php artisan books:generate -f
 ```
 
-> `--fresh` option will erase current database, use `php artisan books:generate` to generate only new books from unknown EPUB
+```bash
+# to parse all EPUB and create new entities only for unknown eBooks
+php artisan books:generate
+```
+
+`php artisan books:generate` have some options
+
+- `--f|fresh`: reset current database to fresh install
+- `--d|debug`: default author pictures, basic covers only
+- `--F|force`: skip confirm question for fresh prod
+
+> You can use multiple options like `php artisan books:generate -fdF`
 
 ## **II. Swagger**
 

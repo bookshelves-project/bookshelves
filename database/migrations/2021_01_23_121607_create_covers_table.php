@@ -16,6 +16,7 @@ class CreateCoversTable extends Migration
         Schema::create('covers', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->string('extension')->nullable();
         });
 
         Schema::table('books', function (Blueprint $table) {
@@ -27,7 +28,7 @@ class CreateCoversTable extends Migration
         });
 
         Schema::table('covers', function (Blueprint $table) {
-            $table->foreignId('book_id')->index()->nullable()->after('name');
+            $table->foreignId('book_id')->index()->nullable()->after('extension');
             $table->foreign('book_id')
                 ->references('id')
                 ->on('books')

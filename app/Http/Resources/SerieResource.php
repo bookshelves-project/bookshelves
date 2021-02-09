@@ -28,6 +28,7 @@ class SerieResource extends JsonResource
             $language = [
                 'slug' => $book->language->slug,
                 'flag' => $book->language->flag,
+                'display' => $book->language->display,
             ];
             try {
                 if ($this->cover) {

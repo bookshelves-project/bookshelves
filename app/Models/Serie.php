@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null                             $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property int|null                                                    $books_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie query()
@@ -26,6 +25,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $title_sort
+ * @property string|null $cover
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereCover($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitleSort($value)
  */
 class Serie extends Model
 {

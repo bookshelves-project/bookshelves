@@ -21,7 +21,10 @@ class BooksGenerateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'books:generate {--fresh} {--debug}';
+    protected $signature = 'books:generate
+                            {--f|fresh : reset current database to fresh install}
+                            {--d|debug : default author pictures, basic covers only}
+                            {--F|force : skip confirm question for fresh prod}';
 
     /**
      * The console command description.
@@ -48,10 +51,13 @@ class BooksGenerateCommand extends Command
     public function handle()
     {
         $isDebug = $this->option('debug');
+        $isForce = $this->option('force');
+        $isFresh = $this->option('fresh');
+
         if ($isDebug) {
             $this->warn('You are in debug mode: default author pictures, basic cover only');
         }
-        $fresh = $this->option('fresh');
+
         $this->info("\n");
         $this->info('> Welcome to Books-Generate Tool <');
         $this->info("\n");
@@ -61,16 +67,30 @@ class BooksGenerateCommand extends Command
         // Apply storage:link if not set
         Artisan::call('storage:link');
 
-        if ($fresh) {
+        if ($isFresh) {
             $this->info("\n");
             $this->info('You choose fresh installation, current database will be erased.');
 
-            // Clear database and set seeders
-            Artisan::call('migrate:fresh --seed --force');
-            // Clear all directories
-            $this->clearDirectories();
+            $isProd = 'production' === config('app.env');
+            if ($isProd && ! $isForce) {
+                if ($this->confirm('App is in production, do you want really erase database?', false)) {
+                    // Clear database and set seeders
+                    Artisan::call('migrate:fresh --seed --force');
+                    // Clear all directories
+                    $this->clearDirectories();
 
-            $this->generateFresh($isDebug);
+                    $this->generateFresh($isDebug);
+                } else {
+                    $this->info('Operation cancel by user');
+                }
+            } else {
+                // Clear database and set seeders
+                Artisan::call('migrate:fresh --seed --force');
+                // Clear all directories
+                $this->clearDirectories();
+
+                $this->generateFresh($isDebug);
+            }
         } else {
             $this->info("\n");
             $this->info('You choose basic parsing, current database will be keep safe and unknown eBooks will be add.');
@@ -117,7 +137,7 @@ class BooksGenerateCommand extends Command
         $epub_bar->finish();
         $this->info("\n");
         $this->info('EPUB files parsed and generated!');
-        if (sizeof($errors) < 1) {
+        if (sizeof($errors) > 1) {
             $this->info("\n");
             $this->warn('You have '.sizeof($errors).' fatal errors: XML file failed to be parsed');
             foreach ($errors as $key => $value) {
@@ -131,18 +151,19 @@ class BooksGenerateCommand extends Command
         $this->output->progressStart(10);
         foreach ($metadataEntities as $key => $metadata) {
             $book = $metadata['book'];
-            $cover_extension = $metadata['cover_extension'];
-            EpubParser::generateCovers($book, $cover_extension, $isDebug);
+            $cover_extension = $metadata['cover']['extension'];
+            $cover = $metadata['cover']['file'];
+            EpubParser::generateCovers($book, $cover_extension, $cover, $isDebug);
             $cover_bar->advance();
         }
         $cover_bar->finish();
         $this->info("\n");
         $this->info('Covers generated!'."\n");
 
-        // Clean temporary covers-raw/
-        File::cleanDirectory(public_path('storage/covers-raw'));
+        // Clean temporary covers/raw/
+        File::cleanDirectory(public_path('storage/covers/raw'));
         // Regenerate .gitignore from covers-raw/
-        Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');
+        Storage::disk('public')->copy('.gitignore-sample', 'covers/raw/.gitignore');
 
         $this->info('Done!');
     }
@@ -169,13 +190,16 @@ class BooksGenerateCommand extends Command
         $cacheClean = File::cleanDirectory(public_path('storage/cache'));
         $cacheGitignore = Storage::disk('public')->copy('.gitignore-sample', 'cache/.gitignore');
 
+        $coversBasicClean = File::cleanDirectory(public_path('storage/covers/thumbnail'));
+        $coversBasicGitignore = Storage::disk('public')->copy('.gitignore-sample', 'covers/thumbnail/.gitignore');
+
         // Dir for covers resized 480 x 640 and optimize
-        $coversBasicClean = File::cleanDirectory(public_path('storage/covers-basic'));
-        $coversBasicGitignore = Storage::disk('public')->copy('.gitignore-sample', 'covers-basic/.gitignore');
+        $coversBasicClean = File::cleanDirectory(public_path('storage/covers/basic'));
+        $coversBasicGitignore = Storage::disk('public')->copy('.gitignore-sample', 'covers/basic/.gitignore');
 
         // Dir for original covers not resized but optimize
-        $coversOriginalClean = File::cleanDirectory(public_path('storage/covers-original'));
-        $coversOriginalGitignore = Storage::disk('public')->copy('.gitignore-sample', 'covers-original/.gitignore');
+        $coversOriginalClean = File::cleanDirectory(public_path('storage/covers/original'));
+        $coversOriginalGitignore = Storage::disk('public')->copy('.gitignore-sample', 'covers/original/.gitignore');
 
         // Dir for generated EPUB files from originals with new standard name
         $booksClean = File::cleanDirectory(public_path('storage/books'));

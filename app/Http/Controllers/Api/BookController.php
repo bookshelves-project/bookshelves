@@ -153,8 +153,15 @@ class BookController extends Controller
      */
     public function show(Request $request, string $author, string $book)
     {
+        // $book = Book::whereHas('authors', function ($query) use ($author) {
+        //     return $query->where('slug', '=', $author);
+        // })->where('serie_number', '=', '1')->get();
+        // dd($book);
+        // $book = BookResource::make($book);
         $author = Author::whereSlug($author)->firstOrFail();
-        $book = Book::whereAuthorId($author->id)->whereSlug($book)->firstOrFail();
+        $book = Book::whereHas('authors', function ($query) use ($author) {
+            return $query->where('author_id', '=', $author->id);
+        })->whereSlug($book)->firstOrFail();
         $book = BookResource::make($book);
 
         return $book;
@@ -171,7 +178,9 @@ class BookController extends Controller
     public function download(Request $request, string $author, string $book)
     {
         $author = Author::whereSlug($author)->firstOrFail();
-        $book = Book::whereAuthorId($author->id)->whereSlug($book)->firstOrFail();
+        $book = Book::whereHas('authors', function ($query) use ($author) {
+            return $query->where('author_id', '=', $author->id);
+        })->firstOrFail();
         $book = BookResource::make($book);
 
         $ebook_path = str_replace('storage/', '', $book->epub->path);

@@ -21,9 +21,10 @@ class AuthorResource extends JsonResource
         if ($this->books) {
             $books = BookCollection::collection($this->books);
             $books_number = sizeof($books);
-            $book = $books->random();
             try {
-                $mainBook = Book::with('author')->where('serie_number', '=', '1')->whereAuthorId($this->id)->first();
+                $mainBook = Book::whereHas('authors', function ($query) {
+                    return $query->where('author_id', '=', $this->id);
+                })->where('serie_number', '=', '1')->get();
             } catch (\Throwable $th) {
             }
             if (null === $mainBook) {
@@ -51,7 +52,6 @@ class AuthorResource extends JsonResource
             'picture'         => $this->picture ? config('app.url').'/'.$this->picture : null,
             'books_number'    => $books_number,
             'books'           => $books,
-            'cover'           => $cover,
             'download'        => $downloadLink,
             'size'            => $size,
         ];

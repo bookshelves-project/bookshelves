@@ -15,9 +15,9 @@ class BookCollection extends JsonResource
      */
     public function toArray($request)
     {
-        $author = null;
-        if ($this->author) {
-            $author = $this->author;
+        $authors = null;
+        if ($this->authors) {
+            $authors = AuthorCollection::collection($this->authors);
         }
         $serie = null;
         if ($this->serie) {
@@ -33,17 +33,19 @@ class BookCollection extends JsonResource
             $cover_thumbnail = $this->cover->thumbnail;
         }
         $showUrl = null;
-        if ($author) {
-            $showUrl = config('app.url')."/api/books/$author->slug/$this->slug";
+        if ($authors) {
+            $showUrl = config('app.url')."/api/books/".$this->author->slug."/$this->slug";
         }
 
         return [
             'title'                 => $this->title,
             'slug'                  => $this->slug,
-            'author'                => [
-                'name' => $author ? $author->name : null,
-                'slug' => $author ? $author->slug : null,
-            ],
+            // 'author'                => [
+            //     'name' => $author ? $author->name : null,
+            //     'slug' => $author ? $author->slug : null,
+            // ],
+            'authorSlug' => $this->author->slug,
+            'authors' => $authors,
             'language'              => [
                 'slug' => $this->language->slug,
                 'flag' => $this->language->flag,

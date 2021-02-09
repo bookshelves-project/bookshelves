@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Cover whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cover whereName($value)
  * @mixin \Eloquent
+ * @property string|null $extension
+ * @method static \Illuminate\Database\Eloquent\Builder|Cover whereExtension($value)
  */
 class Cover extends Model
 {
@@ -30,21 +32,22 @@ class Cover extends Model
     public $timestamps = false;
     protected $fillable = [
         'name',
+        'extension',
     ];
 
     public function getOriginalAttribute()
     {
-        return config('app.url').'/storage/covers-original/'.$this->name.'.jpg';
+        return config('app.url').'/storage/covers/original/'.$this->name.$this->extension;
     }
 
     public function getThumbnailAttribute()
     {
-        return config('app.url').'/storage/cache/'.$this->name.'.jpg';
+        return config('app.url').'/storage/covers/thumbnail/'.$this->name.$this->extension;
     }
 
     public function getBasicAttribute()
     {
-        return config('app.url').'/storage/covers-basic/'.$this->name.'.jpg';
+        return config('app.url').'/storage/covers/basic/'.$this->name.$this->extension;
     }
 
     public function book()

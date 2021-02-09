@@ -24,11 +24,12 @@ class AuthorCollection extends JsonResource
             $books_number = sizeof($books);
             // $book = $books->random();
 
+            $mainBook = null;
             try {
-                $mainBook = Book::with('author')->where('serie_number', '=', '1')->whereAuthorId($this->id)->first();
+                $mainBook = Book::with('authors')->where('serie_number', '=', '1')->whereAuthorId($this->id)->first();
             } catch (\Throwable $th) {
             }
-            if (null === $mainBook) {
+            if ($mainBook) {
                 $mainBook = $books->first();
             }
             try {
@@ -37,17 +38,7 @@ class AuthorCollection extends JsonResource
                 //throw $th;
             }
         }
-
-        // $authorName = str_replace(' ', '%20', $this->name);
-        // $wiki_url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&titles=$authorName&prop=pageimages&format=json&pithumbsize=512";
-
-        // $response = Http::get($wiki_url);
-        // $photoRaw = reset($response->json()['query']['pages']);
-        // $photo = null;
-        // if (array_key_exists('thumbnail', $photoRaw)) {
-        //     $photo = $photoRaw['thumbnail']['source'];
-        // }
-
+        
         return [
             'lastname'       => $this->lastname,
             'firstname'      => $this->firstname,
