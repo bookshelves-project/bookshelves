@@ -180,7 +180,7 @@ class BookController extends Controller
         $author = Author::whereSlug($author)->firstOrFail();
         $book = Book::whereHas('authors', function ($query) use ($author) {
             return $query->where('author_id', '=', $author->id);
-        })->firstOrFail();
+        })->whereSlug($book)->firstOrFail();
         $book = BookResource::make($book);
 
         $ebook_path = str_replace('storage/', '', $book->epub->path);

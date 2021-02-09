@@ -30,6 +30,19 @@
 - Fix Resources collection with ResourceCollection extends
 - Multiple author serie
 
+```bash
+scoop reset php/php7.4-nts
+
+sudo update-alternatives --config php
+sudo update-alternatives --set phar /usr/bin/phar7.4
+
+sudo service nginx restart
+sudo service php7.1-fpm or php7.2-fpm  restart
+
+composer require friendsofphp/php-cs-fixer --dev
+composer global require friendsofphp/php-cs-fixer
+```
+
 ---
 
 ## **I. Setup**
