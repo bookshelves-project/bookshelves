@@ -40,6 +40,12 @@ return [
             'ignore_exceptions' => false,
         ],
 
+        'epubparser' => [
+            'driver' => 'single',
+            'path'   => storage_path('logs/epubparser.log'),
+            'level'  => env('LOG_LEVEL', 'critical'),
+        ],
+
         'single' => [
             'driver' => 'single',
             'path'   => storage_path('logs/laravel.log'),

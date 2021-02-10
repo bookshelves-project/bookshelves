@@ -29,6 +29,7 @@
 - Setup cache
 - Fix Resources collection with ResourceCollection extends
 - Multiple author serie
+- Logs for EpubParser
 
 ```bash
 scoop reset php/php7.4-nts
@@ -84,6 +85,12 @@ php artisan books:generate
 - `--F|force`: skip confirm question for fresh prod
 
 > You can use multiple options like `php artisan books:generate -fdF`
+
+Execute tests
+
+```bash
+php artisan test:pest
+```
 
 ## **II. Swagger**
 
