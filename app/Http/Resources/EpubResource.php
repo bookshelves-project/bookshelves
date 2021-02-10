@@ -17,7 +17,7 @@ class EpubResource extends JsonResource
     {
         $downloadLink = null;
         try {
-            $downloadLink = config('app.url').'/api/books/download/'.$this->book->author->slug.'/'.$this->book->slug;
+            $downloadLink = config('app.url').'/api/download/book/'.$this->book->author->slug.'/'.$this->book->slug;
         } catch (\Throwable $th) {
         }
 

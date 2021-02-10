@@ -26,8 +26,8 @@ class SerieResource extends JsonResource
         }
         if ($book) {
             $language = [
-                'slug' => $book->language->slug,
-                'flag' => $book->language->flag,
+                'slug'    => $book->language->slug,
+                'flag'    => $book->language->flag,
                 'display' => $book->language->display,
             ];
             try {
@@ -40,10 +40,10 @@ class SerieResource extends JsonResource
                 //throw $th;
             }
         }
-        $downloadLink = config('app.url')."/api/series/download/$this->slug";
+        $downloadLink = config('app.url')."/api/download/serie/$this->slug";
         $size = [];
         foreach ($books as $key => $book) {
-            array_push($size, $book->epub->size_bytes);
+            array_push($size, $book->epub?->size_bytes);
         }
         $size = array_sum($size);
         $size = human_filesize($size);

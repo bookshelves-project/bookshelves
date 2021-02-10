@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Storage;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Language;
@@ -173,19 +172,6 @@ class BookController extends Controller
 
         // return response()->json('Success, you have access to Bookshelves');
         return $books;
-    }
-
-    public function download(Request $request, string $author, string $book)
-    {
-        $author = Author::whereSlug($author)->firstOrFail();
-        $book = Book::whereHas('authors', function ($query) use ($author) {
-            return $query->where('author_id', '=', $author->id);
-        })->whereSlug($book)->firstOrFail();
-        $book = BookResource::make($book);
-
-        $ebook_path = str_replace('storage/', '', $book->epub->path);
-
-        return Storage::disk('public')->download($ebook_path);
     }
 
     public function latest()

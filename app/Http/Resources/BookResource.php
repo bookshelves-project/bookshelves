@@ -70,15 +70,15 @@ class BookResource extends JsonResource
         return [
             'title'                 => $this->title,
             'slug'                  => $this->slug,
-            'authorSlug' => $this->author->slug,
-            'authors' => $authors,
+            'authorSlug'            => $this->author->slug,
+            'authors'               => $authors,
             'summary'               => $summary,
             'description'           => $this->description,
             'language'              => [
                 'slug' => $language->slug,
                 'flag' => $language->flag,
             ],
-            'publishDate'           => $this->publish_date,
+            'publishDate'           => $this->date,
             'isbn'                  => $this->isbn,
             'publisher'             => $publisher,
             'cover'                 => [
@@ -86,7 +86,7 @@ class BookResource extends JsonResource
                 'thumbnail' => $cover_thumbnail,
                 'original'  => $cover_original,
             ],
-            'tags' => $tags,
+            'tags'                  => $tags,
             'epub'                  => $epub ? $epub : null,
             'serie'                 => $serie ? [
                 'number'  => $this->serie_number ? $this->serie_number : null,

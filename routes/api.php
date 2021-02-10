@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\DownloadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,9 +65,9 @@ Route::get('/authors/{author}', [AuthorController::class, 'show'])->name('author
 /*
  * Download routes
  */
-Route::get('/books/download/{author}/{book}', [BookController::class, 'download'])->name('books.download');
-Route::get('/series/download/{serie}', [SerieController::class, 'download'])->name('series.download');
-Route::get('/authors/download/{author}', [AuthorController::class, 'download'])->name('authors.download');
+Route::get('/download/book/{author}/{book}', [DownloadController::class, 'book'])->name('download.book');
+Route::get('/download/serie/{serie}', [DownloadController::class, 'serie'])->name('download.serie');
+Route::get('/download/author/{author}', [DownloadController::class, 'author'])->name('download.author');
 
 /*
  * Last entities routes

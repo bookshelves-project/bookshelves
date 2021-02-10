@@ -36,10 +36,10 @@ class AuthorResource extends JsonResource
                 //throw $th;
             }
         }
-        $downloadLink = config('app.url')."/api/authors/download/$this->slug";
+        $downloadLink = config('app.url')."/api/download/author/$this->slug";
         $size = [];
         foreach ($books as $key => $book) {
-            array_push($size, $book->epub->size_bytes);
+            array_push($size, $book->epub?->size_bytes);
         }
         $size = array_sum($size);
         $size = human_filesize($size);
