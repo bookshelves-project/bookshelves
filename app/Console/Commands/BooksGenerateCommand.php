@@ -2,17 +2,23 @@
 
 namespace App\Console\Commands;
 
-use DB;
+use App\Models\Author;
 use File;
 use Artisan;
 use Storage;
 use App\Models\Book;
-use App\Utils\EpubParser;
-use InvalidArgumentException;
+use App\Models\Identifier;
+use App\Models\Language;
+use App\Models\Publisher;
+use App\Models\Serie;
+use App\Models\Tag;
+use App\Providers\EpubGenerator\EpubGenerator;
+use App\Providers\EpubParser\Entities\IdentifiersParser;
+use App\Providers\EpubParser\EpubParser;
+use App\Providers\EpubParser\EpubParserTools;
 use Illuminate\Console\Command;
-use League\Flysystem\FileExistsException;
-use League\Flysystem\FileNotFoundException;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class BooksGenerateCommand extends Command
 {
@@ -31,7 +37,7 @@ class BooksGenerateCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Generate books database from storage/books-raw';
+    protected $description = 'Generate books and covers database from storage/books-raw';
 
     /**
      * Create a new command instance.
@@ -50,167 +56,218 @@ class BooksGenerateCommand extends Command
      */
     public function handle()
     {
+        // Artisan::call('log:clear');
+        
+
+        // setup options
         $isDebug = $this->option('debug');
         $isForce = $this->option('force');
         $isFresh = $this->option('fresh');
 
+        // $message = 'message';
+
+        // $process = new Process(['echo "" > storage/logs/epubparser.log']);
+        // $process->setTimeout(0);
+        // $process->start();
+        // $iterator = $process->getIterator($process::ITER_SKIP_ERR | $process::ITER_KEEP_OUTPUT);
+        // foreach ($iterator as $data) {
+        //     echo $data;
+        // }
+
+
+
+        // Log::channel('epubparser')->emergency($message);
+        // Log::channel('epubparser')->alert($message);
+        // Log::channel('epubparser')->critical($message);
+        // Log::channel('epubparser')->error($message);
+        // Log::channel('epubparser')->warning($message);
+        // Log::channel('epubparser')->notice($message);
+        // Log::channel('epubparser')->info($message);
+        // Log::channel('epubparser')->debug($message);
+
+        // $logFile = file(storage_path("/logs/epubparser.log"));
+        // // dump($logFile);
+        // $logCollection = [];
+        // // Loop through an array, show HTML source as HTML source; and line numbers too.
+        // foreach ($logFile as $line_num => $line) {
+        //     $log = explode(' ', $line);
+        //     // dump($log);
+        //     $date = str_replace('[', '', $log[0]);
+        //     $time = str_replace(']', '', $log[1]);
+        //     $type = str_replace(':', '', $log[2]);
+        //     $type = str_replace('local.', '', $type);
+        //     $message = $log[3];
+        //     array_push($logCollection, [
+        //         'date' => $date,
+        //         'time' => $time,
+        //         'type' => $type,
+        //         'message' => $message
+        //     ]);
+        // }
+        // $this->alert('alert');
+        // $this->warn('warn');
+        // $this->error('error');
+        // $this->info('info');
+        // dump($logCollection);
+
         if ($isDebug) {
             $this->warn('You are in debug mode: default author pictures, basic cover only');
         }
+        if ($isFresh) {
+            $this->warn('You choose fresh installation, current database will be erased.');
+        }
 
-        $this->info("\n");
-        $this->info('> Welcome to Books-Generate Tool <');
-        $this->info("\n");
+        $this->info("\n".'> Welcome to Books-Generate Tool <'."\n");
         $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/books-raw...');
         $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
 
-        // Apply storage:link if not set
         Artisan::call('storage:link');
+        $epubFiles = EpubParserTools::getAllEpubFiles();
 
         if ($isFresh) {
-            $this->info("\n");
-            $this->info('You choose fresh installation, current database will be erased.');
-
             $isProd = 'production' === config('app.env');
             if ($isProd && ! $isForce) {
                 if ($this->confirm('App is in production, do you want really erase database?', false)) {
-                    // Clear database and set seeders
-                    Artisan::call('migrate:fresh --seed --force');
-                    // Clear all directories
-                    $this->clearDirectories();
-
-                    $this->generateFresh($isDebug);
+                    // $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
                 } else {
-                    $this->info('Operation cancel by user');
+                    $this->info('Operation cancel by user.');
+                    $this->info('Use not --fresh, -f option to add only unknown EPUB files.');
                 }
             } else {
-                // Clear database and set seeders
-                Artisan::call('migrate:fresh --seed --force');
-                // Clear all directories
-                $this->clearDirectories();
-
-                $this->generateFresh($isDebug);
+                $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
             }
         } else {
             $this->info("\n");
             $this->info('You choose basic parsing, current database will be keep safe and unknown eBooks will be add.');
             $this->warn("Basic parsing isn't ready, try fresh parsing with option --fresh");
-            $this->generateFresh($isDebug);
+
+            // $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
         }
     }
+    
+    /**
+     * 
+     * @param array $epubFiles 
+     * @param bool $isFresh 
+     * @param bool $isDebug 
+     * @return void 
+     */
+    public function generate(array $epubFiles, bool $isFresh, bool $isDebug = false) {
+        if ($isFresh) {
+            Artisan::call('migrate:fresh --seed --force');
+            $this->clearDirectories();
+        }
 
-    public function generateFresh(bool $isDebug)
+        $books_with_covers = $this->generateBooks(epubFiles: $epubFiles, isDebug: $isDebug);
+        $this->generateCovers(books_with_covers: $books_with_covers, isDebug: $isDebug);
+        Artisan::call('test:pest');
+        
+        $this->info('Done!');
+    }
+
+    public function generateCovers(array $books_with_covers, bool $isDebug = false)
     {
-        // Get all files in books-raw/
-        $files = Storage::disk('public')->allFiles('books-raw');
-        $epubsFiles = [];
-        // Get EPUB files form books-raw/ and create new $epubsFiles[]
-        foreach ($files as $key => $value) {
-            if (array_key_exists('extension', pathinfo($value)) && 'epub' === pathinfo($value)['extension']) {
-                array_push($epubsFiles, $value);
-            }
-        }
-
-        // Parse $epubsFiles[] to get metadata and
-        // save each EPUB as Book model with relationships
-        $epubsCount = sizeof($epubsFiles);
-        $this->info("\nEPUB files detected: $epubsCount\n");
-        $metadataEntities = [];
-        $errors = [];
-        $epub_bar = $this->output->createProgressBar($epubsCount);
-        $this->output->progressStart(0);
-        foreach ($epubsFiles as $key => $file) {
-            // get metadata from EPUB file
-            $metadata = EpubParser::getMetadata($file, $isDebug);
-            if (is_array($metadata) && array_key_exists('book', $metadata)) {
-                $book = $metadata['book'];
-                // generate new EPUB file with standard name from original
-                EpubParser::generateNewEpub($book, $file);
-                // Print each Book
-                // $this->printEbook($book, $key);
-                array_push($metadataEntities, $metadata);
-                $epub_bar->advance();
-            } else {
-                array_push($errors, $metadata);
-            }
-        }
-        $epub_bar->finish();
-        $this->info("\n");
-        $this->info('EPUB files parsed and generated!');
-        if (sizeof($errors) > 1) {
-            $this->info("\n");
-            $this->warn('You have '.sizeof($errors).' fatal errors: XML file failed to be parsed');
-            foreach ($errors as $key => $value) {
-                $this->info($value);
-            }
-        }
-
-        // Generate covers
         $this->info("\n".'Generate covers'."\n");
-        $cover_bar = $this->output->createProgressBar(count($metadataEntities));
-        $this->output->progressStart(10);
-        foreach ($metadataEntities as $key => $metadata) {
-            $book = $metadata['book'];
-            $cover_extension = $metadata['cover']['extension'];
-            $cover = $metadata['cover']['file'];
-            EpubParser::generateCovers($book, $cover_extension, $cover, $isDebug);
+        $cover_bar = $this->output->createProgressBar(count($books_with_covers));
+        $cover_bar->start();
+        foreach ($books_with_covers as $key => $metadata) {
+            EpubGenerator::extractCoverAndGenerate($metadata, $isDebug);
             $cover_bar->advance();
         }
         $cover_bar->finish();
         $this->info("\n");
         $this->info('Covers generated!'."\n");
 
-        // Clean temporary covers/raw/
         File::cleanDirectory(public_path('storage/covers/raw'));
-        // Regenerate .gitignore from covers-raw/
         Storage::disk('public')->copy('.gitignore-sample', 'covers/raw/.gitignore');
-
-        $this->info('Done!');
     }
+
+    public function generateBooks(array $epubFiles, bool $isDebug = false)
+    {
+        // Parse $epubsFiles[] to get metadata and
+        // save each EPUB as Book model with relationships
+        $epubsCount = sizeof($epubFiles);
+        $this->info("\nEPUB files detected: $epubsCount\n");
+        $books_with_covers = [];
+        $books_with_errors = [];
+
+        // Extract metadata for each EPUB
+        // Generate new EPUB file with standard name
+        $epub_bar = $this->output->createProgressBar($epubsCount);
+        $epub_bar->start();
+        foreach ($epubFiles as $key => $filePath) {
+            $epubParser = EpubParser::run($filePath, $isDebug);
+            $book_created = EpubGenerator::convertEpubParser(epubParser: $epubParser, is_debug: $isDebug);
+            $epub_created = EpubGenerator::generateNewEpub(book: $book_created, file_path: $filePath);
+            $book_created->epub()->associate($epub_created);
+            $book_created->save();
+            // $epub->book()->save($book);
+            // $epub->save();
+            // dump($epubParser->title);
+            // if (is_array($book_with_cover) && array_key_exists('book', $book_with_cover)) {
+            //     array_push($books_with_covers, $book_with_cover);
+            // } else {
+            //     array_push($books_with_errors, $book_with_cover);
+            // }
+            array_push($books_with_covers, [
+                'book' => $book_created,
+                'cover' => $epubParser->cover,
+                'cover_extension' =>$epubParser->cover_extension
+            ]);
+            $epub_bar->advance();
+        }
+        $epub_bar->finish();
+        $this->info("\n");
+        $this->info('EPUB files parsed and generated!');
+        if (sizeof($books_with_errors) >= 1) {
+            $this->info("\n");
+            $this->warn('You have '.sizeof($books_with_errors).' fatal errors: XML file failed to be parsed');
+            foreach ($books_with_errors as $key => $book) {
+                $this->info($book);
+            }
+        }
+
+        return $books_with_covers;
+    }
+
+    
 
     /**
      * Clean directories with generated covers and EPUB files
      * Don't erase original EPUB files.
      *
-     * @throws BindingResolutionException
-     * @throws InvalidArgumentException
-     * @throws FileExistsException
-     * @throws FileNotFoundException
-     *
-     * @return bool[]
+     * @return bool
      */
     public function clearDirectories()
     {
-        // Dir where download author image
-        $authorsClean = File::cleanDirectory(public_path('storage/authors'));
-        $authorsCleanGitignore = Storage::disk('public')->copy('.gitignore-sample', 'authors/.gitignore');
-        $authorsCleanNoPicture = Storage::disk('public')->copy('no-picture.jpg', 'authors/no-picture.jpg');
+        try {
+            // Dir where download author image
+            File::cleanDirectory(public_path('storage/authors'));
+            Storage::disk('public')->copy('.gitignore-sample', 'authors/.gitignore');
+            Storage::disk('public')->copy('no-picture.jpg', 'authors/no-picture.jpg');
 
-        // Dir for thumbnails 240 x 320 and optimize
-        $cacheClean = File::cleanDirectory(public_path('storage/cache'));
-        $cacheGitignore = Storage::disk('public')->copy('.gitignore-sample', 'cache/.gitignore');
+            // Dir for thumbnails 240 x 320 and optimize
+            File::cleanDirectory(public_path('storage/covers/thumbnail'));
+            Storage::disk('public')->copy('.gitignore-sample', 'covers/thumbnail/.gitignore');
 
-        $coversBasicClean = File::cleanDirectory(public_path('storage/covers/thumbnail'));
-        $coversBasicGitignore = Storage::disk('public')->copy('.gitignore-sample', 'covers/thumbnail/.gitignore');
+            // Dir for covers resized 480 x 640 and optimize
+            File::cleanDirectory(public_path('storage/covers/basic'));
+            Storage::disk('public')->copy('.gitignore-sample', 'covers/basic/.gitignore');
 
-        // Dir for covers resized 480 x 640 and optimize
-        $coversBasicClean = File::cleanDirectory(public_path('storage/covers/basic'));
-        $coversBasicGitignore = Storage::disk('public')->copy('.gitignore-sample', 'covers/basic/.gitignore');
+            // Dir for original covers not resized but optimize
+            File::cleanDirectory(public_path('storage/covers/original'));
+            Storage::disk('public')->copy('.gitignore-sample', 'covers/original/.gitignore');
 
-        // Dir for original covers not resized but optimize
-        $coversOriginalClean = File::cleanDirectory(public_path('storage/covers/original'));
-        $coversOriginalGitignore = Storage::disk('public')->copy('.gitignore-sample', 'covers/original/.gitignore');
+            // Dir for generated EPUB files from originals with new standard name
+            File::cleanDirectory(public_path('storage/books'));
+            Storage::disk('public')->copy('.gitignore-sample', 'books/.gitignore');
+        } catch (\Throwable $th) {
+            dump('Error on clearDirectories()');
 
-        // Dir for generated EPUB files from originals with new standard name
-        $booksClean = File::cleanDirectory(public_path('storage/books'));
-        $booksCleanGitignore = Storage::disk('public')->copy('.gitignore-sample', 'books/.gitignore');
+            return false;
+        }
 
-        return [
-            'cache'           => $cacheClean && $cacheGitignore,
-            'covers-basic'    => $coversBasicClean && $coversBasicGitignore,
-            'covers-original' => $coversOriginalClean && $coversOriginalGitignore,
-            'books'           => $booksClean && $booksCleanGitignore,
-        ];
+        return true;
     }
 
     public function printEbook(Book $book, int $key)
@@ -222,14 +279,5 @@ class BooksGenerateCommand extends Command
             $serie = $serie.' '.$book->serie_number.' - ';
         }
         $this->info($key.' '.$serie.$book->title);
-    }
-
-    /**
-     * DEPRECATE.
-     */
-    public function refreshDB(string $table)
-    {
-        $max = DB::table($table)->max('id') + 1;
-        DB::statement("ALTER TABLE $table AUTO_INCREMENT =  $max");
     }
 }
