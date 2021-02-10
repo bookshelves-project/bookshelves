@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class PivotBookTag extends Migration
 {
@@ -16,14 +16,14 @@ class PivotBookTag extends Migration
         Schema::create('book_tag', function (Blueprint $table): void {
             $table->foreignId('book_id')->index();
             $table->foreign('book_id')
-                   ->references('id')
-                   ->on('books')
-                   ->onDelete('cascade');
+                ->references('id')
+                ->on('books')
+                ->onDelete('cascade');
             $table->foreignId('tag_id')->index();
             $table->foreign('tag_id')
-                   ->references('id')
-                   ->on('tags')
-                   ->onDelete('cascade');
+                ->references('id')
+                ->on('tags')
+                ->onDelete('cascade');
         });
     }
 

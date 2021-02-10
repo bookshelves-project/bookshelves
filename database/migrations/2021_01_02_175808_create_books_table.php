@@ -18,9 +18,10 @@ class CreateBooksTable extends Migration
             $table->string('title');
             $table->string('title_sort')->nullable();
             $table->string('slug')->unique()->nullable();
+            $table->string('contributor')->nullable();
             $table->text('description')->nullable();
-            $table->string('publish_date')->nullable();
-            $table->string('isbn')->nullable();
+            $table->dateTime('date')->nullable();
+            $table->string('rights')->nullable();
             $table->integer('serie_number')->nullable();
             $table->timestamps();
         });

@@ -19,7 +19,6 @@ class CreateEpubsTable extends Migration
             $table->string('path')->nullable();
             $table->string('size')->nullable();
             $table->string('size_bytes')->nullable();
-            $table->timestamps();
         });
 
         Schema::table('books', function (Blueprint $table) {
@@ -27,14 +26,6 @@ class CreateEpubsTable extends Migration
             $table->foreign('epub_id')
                 ->references('id')
                 ->on('epubs')
-                ->onDelete('cascade');
-        });
-
-        Schema::table('epubs', function (Blueprint $table) {
-            $table->foreignId('book_id')->index()->nullable()->after('size');
-            $table->foreign('book_id')
-                ->references('id')
-                ->on('books')
                 ->onDelete('cascade');
         });
     }

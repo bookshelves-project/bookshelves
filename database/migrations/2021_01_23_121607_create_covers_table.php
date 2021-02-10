@@ -20,18 +20,10 @@ class CreateCoversTable extends Migration
         });
 
         Schema::table('books', function (Blueprint $table) {
-            $table->foreignId('cover_id')->index()->nullable()->after('isbn');
+            $table->foreignId('cover_id')->index()->nullable()->after('serie_number');
             $table->foreign('cover_id')
                 ->references('id')
                 ->on('covers')
-                ->onDelete('cascade');
-        });
-
-        Schema::table('covers', function (Blueprint $table) {
-            $table->foreignId('book_id')->index()->nullable()->after('extension');
-            $table->foreign('book_id')
-                ->references('id')
-                ->on('books')
                 ->onDelete('cascade');
         });
     }

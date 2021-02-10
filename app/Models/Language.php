@@ -7,20 +7,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * App\Models\Language.
+ * App\Models\Language
  *
- * @property string|null                                                 $slug
- * @property string|null                                                 $flag
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
- * @property int|null                                                    $books_count
+ * @property string|null $slug
+ * @property string|null $flag
+ * @property string|null $display
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
+ * @property-read int|null $books_count
  * @method static \Illuminate\Database\Eloquent\Builder|Language newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Language newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Language query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Language whereDisplay($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereFlag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereSlug($value)
  * @mixin \Eloquent
- * @property string|null $display
- * @method static \Illuminate\Database\Eloquent\Builder|Language whereDisplay($value)
  */
 class Language extends Model
 {

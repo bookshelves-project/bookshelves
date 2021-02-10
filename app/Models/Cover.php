@@ -3,27 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * App\Models\Cover.
+ * App\Models\Cover
  *
- * @property int                   $id
- * @property string|null           $name
- * @property int|null              $book_id
- * @property \App\Models\Book|null $book
- * @property mixed                 $basic
- * @property mixed                 $original
- * @property mixed                 $thumbnail
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $extension
+ * @property-read \App\Models\Book|null $book
+ * @property-read mixed $basic
+ * @property-read mixed $original
+ * @property-read mixed $thumbnail
  * @method static \Illuminate\Database\Eloquent\Builder|Cover newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Cover newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Cover query()
- * @method static \Illuminate\Database\Eloquent\Builder|Cover whereBookId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cover whereExtension($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cover whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cover whereName($value)
  * @mixin \Eloquent
- * @property string|null $extension
- * @method static \Illuminate\Database\Eloquent\Builder|Cover whereExtension($value)
  */
 class Cover extends Model
 {
@@ -50,7 +49,7 @@ class Cover extends Model
         return config('app.url').'/storage/covers/basic/'.$this->name.$this->extension;
     }
 
-    public function book()
+    public function book(): HasOne
     {
         return $this->hasOne(Book::class);
     }
