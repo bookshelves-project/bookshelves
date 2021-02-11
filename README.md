@@ -1,9 +1,9 @@
 # Bookshelves · Back <!-- omit in toc -->
 
-[![php](https://img.shields.io/static/v1?label=PHP&message=v8.0&color=777bb4&style=flat-square&logo=php&logoColor=ffffff)](https://www.php.net)
+[![php](https://img.shields.io/badge/dynamic/json?label=PHP&query=require.php&url=https%3A%2F%2Fgitlab.com%2FEwieFairy%2Fbookshelves-back%2F-%2Fraw%2Fmaster%2Fcomposer.json&logo=php&logoColor=ffffff&color=777bb4&style=flat-square)](https://www.php.net)
 [![composer](https://img.shields.io/static/v1?label=Composer&message=v2.0&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)  
-[![laravel](https://img.shields.io/static/v1?label=Laravel&message=8.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
-[![swagger](https://img.shields.io/static/v1?label=Swagger&message=v3.0&color=85EA2D&style=flat-square&logo=swagger&logoColor=ffffff)](https://swagger.io)
+[![laravel](https://img.shields.io/badge/dynamic/json?label=PHP&query=require.laravel/framework&url=https%3A%2F%2Fgitlab.com%2FEwieFairy%2Fbookshelves-back%2F-%2Fraw%2Fmaster%2Fcomposer.json&logo=laravel&logoColor=ffffff&color=ff2d20&style=flat-square)](https://laravel.com)
+[![swagger](https://img.shields.io/static/v1?label=Swagger&message=v3.0&color=85EA2D&style=flat-square&logo=swagger&logoColo=ffffff)](https://swagger.io)
 
 [![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=14.15&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
 [![yarn](https://img.shields.io/static/v1?label=Yarn&message=v1.2&color=2C8EBB&style=flat-square&logo=yarn&logoColor=ffffff)](https://yarnpkg.com/lang/en/)
@@ -17,7 +17,9 @@
 
 - [**TODO**](#todo)
 - [**I. Setup**](#i-setup)
-- [**II. Swagger**](#ii-swagger)
+- [II. **Tools**](#ii-tools)
+  - [**II. a. Swagger**](#ii-a-swagger)
+  - [*II. b. Laravel Telescope*](#ii-b-laravel-telescope)
 
 ---
 
@@ -30,6 +32,7 @@
 - Fix Resources collection with ResourceCollection extends
 - Multiple author serie
 - Logs for EpubParser
+- Command to get basic books-raw/ with libre ebooks
 
 ```bash
 scoop reset php/php7.4-nts
@@ -92,7 +95,9 @@ Execute tests
 php artisan pest:run
 ```
 
-## **II. Swagger**
+## II. **Tools**
+
+### **II. a. Swagger**
 
 - [**zircote.github.io/swagger-php**](https://zircote.github.io/swagger-php/): documentation of Swagger PHP
 - [**github.com/DarkaOnLine/L5-Swagger**](https://github.com/DarkaOnLine/L5-Swagger): L5-Swagger repository
@@ -108,4 +113,14 @@ dotenv variables
 ```js
 L5_SWAGGER_GENERATE_ALWAYS=true
 L5_SWAGGER_BASE_PATH=/api
+```
+
+### *II. b. Laravel Telescope*
+
+You can use [**laravel/telescope**](https://github.com/laravel/telescope) on Bookshelves at [**http://localhost:8000/telescope**](http://localhost:8000/telescope) if you serve project with `php artisan serve` (adapt URL if you have VHost).
+
+In **dotenv** set `TELESCOPE_ENABLED` to `true`
+
+```js
+TELESCOPE_ENABLED=true
 ```
