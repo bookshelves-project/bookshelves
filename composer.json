@@ -23,7 +23,7 @@
         "swagger"
     ],
     "license": "MIT",
-    "version": "0.9",
+    "version": "0.9.0",
     "require": {
         "php": "^8.0",
         "darkaonline/l5-swagger": "^8.0",
