@@ -12,13 +12,13 @@ use DateTime;
 class EpubParser
 {
     public function __construct(
-        public IdentifiersParser $identifiers,
         public ?string $title = null,
         public ?string $title_sort = null,
         public ?array $creators = [],
         public ?string $contributor = null,
         public ?string $description = null,
         public ?DateTime $date = null,
+        public ?IdentifiersParser $identifiers = null,
         public ?string $publisher = null,
         public ?array $subjects = [],
         public ?string $language = null,
@@ -29,7 +29,11 @@ class EpubParser
         public ?string $cover = null,
         public ?string $cover_extension = null,
         public ?string $file_path = null,
-    ) {}
+    ) {
+        if (! $this->identifiers) {
+            $this->identifiers = new IdentifiersParser();
+        }
+    }
     
     /**
      * Get metadata from EPUB and create Book
@@ -42,8 +46,6 @@ class EpubParser
      */
     public static function run(string $file_path, bool $is_debug = false): EpubParser|bool
     {
-        
-        // static::$original_filename = pathinfo($file_path)['filename'];
         try {
             $xml_parsed = EpubParserTools::parseXmlFile($file_path);
             $metadata = $xml_parsed['metadata'];

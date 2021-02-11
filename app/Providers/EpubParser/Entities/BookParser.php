@@ -2,12 +2,11 @@
 
 namespace App\Providers\EpubParser\Entities;
 
-use App\Models\Book;
 use Illuminate\Support\Str;
-use App\Providers\EpubParser\EpubParser;
 use App\Providers\EpubParser\EpubParserTools;
 use DateTime;
 use League\HTMLToMarkdown\HtmlConverter;
+use Stevebauman\Purify\Facades\Purify;
 
 class BookParser
 {
@@ -35,8 +34,9 @@ class BookParser
         $title_sort = EpubParserTools::getSortString($book_title);
 
         $isUTF8 = mb_check_encoding($description, 'UTF-8');
-        $description = iconv('UTF-8', 'UTF-8//IGNORE', $description);
         if ($isUTF8) {
+            $description = Purify::clean($description);
+            $description = iconv('UTF-8', 'UTF-8//IGNORE', $description);
             $description = preg_replace('#<a.*?>.*?</a>#i', '', $description);
             $converter = new HtmlConverter();
             try {

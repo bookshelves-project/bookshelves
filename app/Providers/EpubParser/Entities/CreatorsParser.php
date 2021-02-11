@@ -2,14 +2,6 @@
 
 namespace App\Providers\EpubParser\Entities;
 
-use App\Models\Author;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
-
 /**
  * Manage Book Authors
  * 

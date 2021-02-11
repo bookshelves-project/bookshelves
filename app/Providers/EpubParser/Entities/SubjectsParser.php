@@ -2,9 +2,6 @@
 
 namespace App\Providers\EpubParser\Entities;
 
-use App\Models\Tag;
-use Illuminate\Support\Str;
-
 class SubjectsParser
 {
     public function __construct(

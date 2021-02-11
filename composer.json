@@ -26,6 +26,7 @@
     "require": {
         "php": "^8.0",
         "darkaonline/l5-swagger": "^8.0",
+        "fakerphp/faker": "^1.13",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -39,13 +40,13 @@
         "soundasleep/html2text": "^1.1",
         "spatie/image": "^1.10",
         "spatie/laravel-image-optimizer": "^1.6",
+        "stevebauman/purify": "^4.0",
         "tightenco/ziggy": "0.9.4"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.9",
         "brianium/paratest": "^6.2",
         "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^2.18",
         "laravel/breeze": "^1.0",
         "laravel/sail": "^0.0.5",

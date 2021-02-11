@@ -128,7 +128,7 @@ class BooksGenerateCommand extends Command
             $isProd = 'production' === config('app.env');
             if ($isProd && ! $isForce) {
                 if ($this->confirm('App is in production, do you want really erase database?', false)) {
-                    // $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
+                    $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
                 } else {
                     $this->info('Operation cancel by user.');
                     $this->info('Use not --fresh, -f option to add only unknown EPUB files.');
@@ -141,7 +141,7 @@ class BooksGenerateCommand extends Command
             $this->info('You choose basic parsing, current database will be keep safe and unknown eBooks will be add.');
             $this->warn("Basic parsing isn't ready, try fresh parsing with option --fresh");
 
-            // $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
+            $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
         }
     }
     

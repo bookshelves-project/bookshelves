@@ -185,6 +185,7 @@ class EpubParserTools
             'le ',
             'la ',
             // 'a ',
+            "d'un",
             "d'",
             'une ',
         ];

@@ -2,14 +2,7 @@
 
 namespace App\Providers\EpubParser\Entities;
 
-use File;
-use App\Models\Serie;
-use Spatie\Image\Image;
-use Illuminate\Support\Str;
-use Spatie\Image\Manipulations;
-use App\Providers\EpubParser\EpubParser;
 use App\Providers\EpubParser\EpubParserTools;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
 
 class SerieParser
 {

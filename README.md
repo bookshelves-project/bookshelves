@@ -89,7 +89,7 @@ php artisan books:generate
 Execute tests
 
 ```bash
-php artisan test:pest
+php artisan pest:run
 ```
 
 ## **II. Swagger**
