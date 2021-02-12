@@ -134,4 +134,9 @@ class Book extends Model
     {
         return $this->morphToMany(User::class, 'favoritable');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

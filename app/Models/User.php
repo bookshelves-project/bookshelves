@@ -107,4 +107,9 @@ class User extends Authenticatable
     {
         return $this->morphedByMany(Book::class, 'favoritable');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

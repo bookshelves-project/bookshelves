@@ -78,6 +78,10 @@ class BookResource extends JsonResource
                 $isFavorite = true;
             }
         }
+        $comments = null;
+        if ($this->comments) {
+            $comments = CommentCollection::collection($this->comments);
+        }
 
         return [
             'title'                 => $this->title,
@@ -107,6 +111,7 @@ class BookResource extends JsonResource
                 'show'    => config('app.url')."/api/series/$serie->slug",
             ] : null,
             'isFavorite' => $isFavorite,
+            'comments'   => $comments,
         ];
     }
 }

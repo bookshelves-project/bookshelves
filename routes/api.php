@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Build\DependencyController;
 
@@ -84,10 +85,18 @@ Route::get('/dependencies', [DependencyController::class, 'index'])->name('depen
 // Route::get('/dependencies/{slashData?}', [DependencyController::class, 'show'])->name('dependencies.show')->where('slashData', '(.*)');
 
 /*
+ * Comments routes
+ */
+Route::get('/comments/{book}', [CommentController::class, 'index'])->name('comments.index');
+
+/*
  * Users features routes
  */
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/books/update', [BookController::class, 'update'])->name('books.update');
     Route::post('/favorite/{model}/{slug}', [UserController::class, 'toggleFavorite'])->name('users.favorite.toggle');
     Route::get('/favorite/{model}', [UserController::class, 'getFavorites'])->name('users.favorite.get');
+    Route::post('/comments/store/{book}', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/comments/edit/{book}', [CommentController::class, 'edit'])->name('comments.edit');
+    Route::post('/comments/update/{book}', [CommentController::class, 'update'])->name('comments.update');
 });
