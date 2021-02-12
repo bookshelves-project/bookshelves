@@ -8,6 +8,7 @@ use App\Models\Comment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommentCollection;
 
 class CommentController extends Controller
 {
@@ -17,7 +18,7 @@ class CommentController extends Controller
             return $query->where('slug', '=', $book);
         })->get();
 
-        return response()->json($comments);
+        return CommentCollection::collection($comments);
     }
 
     public function store(Request $request, string $book)
@@ -71,5 +72,16 @@ class CommentController extends Controller
         $comment->save();
 
         return response()->json($comment);
+    }
+
+    public function destroy(string $book)
+    {
+        $book = Book::whereSlug($book)->first();
+        $user = Auth::user();
+
+        $comment = Comment::whereBookId($book->id)->whereUserId($user->id)->firstOrFail();
+        Comment::destroy($comment->id);
+
+        return response()->json(['Success' => 'Comment have been deleted'], 200);
     }
 }
