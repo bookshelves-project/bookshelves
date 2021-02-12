@@ -160,7 +160,10 @@ class BooksGenerateCommand extends Command
 
         $books_with_covers = $this->generateBooks(epubFiles: $epubFiles, isDebug: $isDebug);
         $this->generateCovers(books_with_covers: $books_with_covers, isDebug: $isDebug);
-        Artisan::call('pest:run');
+        
+        if (config('app.env' !== 'production')) {
+            Artisan::call('pest:run');
+        }
         
         $this->info('Done!');
     }
