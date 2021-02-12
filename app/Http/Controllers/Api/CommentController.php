@@ -68,7 +68,7 @@ class CommentController extends Controller
         if (null === $comment) {
             return response()->json(['error' => "Comment don't exist"], 401);
         }
-        $comment_text = $request->comment;
+        $comment_text = $request->text;
         $comment_text = Str::markdown($comment_text);
         $comment->text = $comment_text;
         $comment->rating = $request->rating;
