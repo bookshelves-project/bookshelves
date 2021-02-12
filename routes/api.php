@@ -3,10 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\DownloadController;
+use App\Http\Controllers\Build\DependencyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +23,6 @@ use App\Http\Controllers\Api\DownloadController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
-Route::middleware(['auth:sanctum'])->group(function () {
-    // Route::get('/user', [BookController::class, 'auth'])->name('users.auth');
-    Route::get('/books/update', [BookController::class, 'update'])->name('books.update');
 });
 
 Route::post('/tokens/create', function (Request $request) {
@@ -78,3 +76,18 @@ Route::get('/books/latest', [BookController::class, 'latest'])->name('books.late
  * Misc routes
  */
 Route::get('/books/count-langs', [BookController::class, 'count_langs'])->name('books.count-langs');
+
+/*
+ * Dependencies routes
+ */
+Route::get('/dependencies', [DependencyController::class, 'index'])->name('dependencies.index');
+// Route::get('/dependencies/{slashData?}', [DependencyController::class, 'show'])->name('dependencies.show')->where('slashData', '(.*)');
+
+/*
+ * Users features routes
+ */
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/books/update', [BookController::class, 'update'])->name('books.update');
+    Route::post('/favorite/{model}/{slug}', [UserController::class, 'toggleFavorite'])->name('users.favorite.toggle');
+    Route::get('/favorite/{model}', [UserController::class, 'getFavorites'])->name('users.favorite.get');
+});

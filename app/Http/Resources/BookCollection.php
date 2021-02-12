@@ -24,6 +24,7 @@ class BookCollection extends JsonResource
             $serie = [
                 'number'  => $this->serie_number ? $this->serie_number : null,
                 'title'   => $this->serie->title,
+                'slug'    => $this->serie->slug,
             ];
         }
         $cover_basic = null;
@@ -34,7 +35,7 @@ class BookCollection extends JsonResource
         }
         $showUrl = null;
         if ($authors) {
-            $showUrl = config('app.url')."/api/books/".$this->author->slug."/$this->slug";
+            $showUrl = config('app.url').'/api/books/'.$this->author->slug."/$this->slug";
         }
 
         return [
@@ -44,8 +45,8 @@ class BookCollection extends JsonResource
             //     'name' => $author ? $author->name : null,
             //     'slug' => $author ? $author->slug : null,
             // ],
-            'authorSlug' => $this->author->slug,
-            'authors' => $authors,
+            'authorSlug'            => $this->author->slug,
+            'authors'               => $authors,
             'language'              => [
                 'slug' => $this->language->slug,
                 'flag' => $this->language->flag,
@@ -53,9 +54,6 @@ class BookCollection extends JsonResource
             'cover'                 => [
                 'basic'     => $cover_basic,
                 'thumbnail' => $cover_thumbnail,
-            ],
-            'serie'                 => [
-                'number' => $this->serie_number ? $this->serie_number : null,
             ],
             'serie'                 => $serie,
             'links'                 => [

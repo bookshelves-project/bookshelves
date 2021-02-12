@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Str;
+use Auth;
+use App\Models\Book;
 use Soundasleep\Html2Text;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -66,6 +68,16 @@ class BookResource extends JsonResource
                 $summary = Str::ascii($summary);
             }
         }
+        $user = Auth::user();
+        $isFavorite = false;
+        if ($user) {
+            $entity = Book::whereSlug($this->slug)->first();
+
+            $checkIfFavorite = Book::find($entity->id)->favorites;
+            if (! sizeof($checkIfFavorite) < 1) {
+                $isFavorite = true;
+            }
+        }
 
         return [
             'title'                 => $this->title,
@@ -94,6 +106,7 @@ class BookResource extends JsonResource
                 'slug'    => $serie ? $serie->slug : null,
                 'show'    => config('app.url')."/api/series/$serie->slug",
             ] : null,
+            'isFavorite' => $isFavorite,
         ];
     }
 }

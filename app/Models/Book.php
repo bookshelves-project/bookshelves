@@ -8,36 +8,37 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * App\Models\Book
+ * App\Models\Book.
  *
- * @property int $id
- * @property string $title
- * @property string|null $title_sort
- * @property string|null $slug
- * @property string|null $contributor
- * @property string|null $description
- * @property string|null $date
- * @property string|null $rights
- * @property int|null $serie_id
- * @property int|null $serie_number
- * @property int|null $cover_id
- * @property int|null $epub_id
- * @property int|null $publisher_id
- * @property string|null $language_slug
- * @property int|null $identifier_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
- * @property-read int|null $authors_count
- * @property-read \App\Models\Cover|null $cover
- * @property-read \App\Models\Epub|null $epub
- * @property-read \App\Models\Author $author
- * @property-read \App\Models\Epub|null $identifier
- * @property-read \App\Models\Language|null $language
- * @property-read \App\Models\Publisher|null $publisher
- * @property-read \App\Models\Serie|null $serie
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
- * @property-read int|null $tags_count
+ * @property int                                                           $id
+ * @property string                                                        $title
+ * @property string|null                                                   $title_sort
+ * @property string|null                                                   $slug
+ * @property string|null                                                   $contributor
+ * @property string|null                                                   $description
+ * @property string|null                                                   $date
+ * @property string|null                                                   $rights
+ * @property int|null                                                      $serie_id
+ * @property int|null                                                      $serie_number
+ * @property int|null                                                      $cover_id
+ * @property int|null                                                      $epub_id
+ * @property int|null                                                      $publisher_id
+ * @property string|null                                                   $language_slug
+ * @property int|null                                                      $identifier_id
+ * @property \Illuminate\Support\Carbon|null                               $created_at
+ * @property \Illuminate\Support\Carbon|null                               $updated_at
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
+ * @property int|null                                                      $authors_count
+ * @property \App\Models\Cover|null                                        $cover
+ * @property \App\Models\Epub|null                                         $epub
+ * @property \App\Models\Author                                            $author
+ * @property \App\Models\Epub|null                                         $identifier
+ * @property \App\Models\Language|null                                     $language
+ * @property \App\Models\Publisher|null                                    $publisher
+ * @property \App\Models\Serie|null                                        $serie
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[]    $tags
+ * @property int|null                                                      $tags_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book query()
@@ -127,5 +128,10 @@ class Book extends Model
     public function identifier(): BelongsTo
     {
         return $this->belongsTo(Epub::class);
+    }
+
+    public function favorites()
+    {
+        return $this->morphToMany(User::class, 'favoritable');
     }
 }
