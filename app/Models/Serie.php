@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * App\Models\Serie
+ * App\Models\Serie.
  *
- * @property int $id
- * @property string|null $title
- * @property string|null $title_sort
- * @property string|null $slug
- * @property string|null $cover
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
- * @property-read int|null $books_count
+ * @property int                                                         $id
+ * @property string|null                                                 $title
+ * @property string|null                                                 $title_sort
+ * @property string|null                                                 $slug
+ * @property string|null                                                 $cover
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
+ * @property int|null                                                    $books_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie query()
@@ -41,5 +43,15 @@ class Serie extends Model
     public function books(): HasMany
     {
         return $this->hasMany(Book::class)->with('epub')->orderBy('serie_number');
+    }
+
+    public function favorites(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'favoritable');
+    }
+
+    public function comments(): MorphToMany
+    {
+        return $this->morphToMany(Comment::class, 'commentable');
     }
 }

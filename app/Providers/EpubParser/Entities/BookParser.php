@@ -33,21 +33,7 @@ class BookParser
         $book_title = $title;
         $title_sort = EpubParserTools::getSortString($book_title);
 
-        $isUTF8 = mb_check_encoding($description, 'UTF-8');
-        if ($isUTF8) {
-            $description = Purify::clean($description);
-            $description = iconv('UTF-8', 'UTF-8//IGNORE', $description);
-            $description = preg_replace('#<a.*?>.*?</a>#i', '', $description);
-            $converter = new HtmlConverter();
-            try {
-                $description = $converter->convert($description);
-                $description = strip_tags($description, '<br>');
-                $description = Str::markdown($description);
-            } catch (\Throwable $th) {
-                EpubParserTools::error('book description', $file_path);
-            }
-        }
-
+        $description = EpubParserTools::cleanText($description, 'html', 5000);
         
         if (strlen($rights) > 255) {
             $rights = substr($rights, 0, 255);

@@ -10,12 +10,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\CommentCollection;
+use App\Providers\EpubParser\EpubParserTools;
 
 class CommentController extends Controller
 {
     public function index(string $book)
     {
-        $comments = Comment::whereHas('book', function ($query) use ($book) {
+        $comments = Comment::whereHas('books', function ($query) use ($book) {
             return $query->where('slug', '=', $book);
         })->get();
 
@@ -34,24 +35,26 @@ class CommentController extends Controller
         $book = Book::whereSlug($book)->first();
         $user = Auth::user();
 
-        $commentIfExist = Comment::whereBookId($book->id)->whereUserId($user->id)->first();
-        if ($commentIfExist) {
-            return response()->json(['error' => 'A comment exist'], 401);
+        foreach ($book->comments as $key => $value) {
+            if ($value->user_id === $user->id) {
+                return response()->json(['error' => 'A comment exist'], 401);
+            }
         }
-        if (! $request->text) {
-            return response()->json(['error' => 'Comment text is required'], 401);
-        }
+
         $comment_text = $request->text;
-        $comment_text = Str::markdown($comment_text);
+        $comment_text = EpubParserTools::cleanText($comment_text, 'markdown', 1800);
         $comment = Comment::create([
             'text'    => $comment_text,
             'rating'  => $request->rating,
         ]);
-        $comment->book()->associate($book);
+        $comment->books()->save($book);
         $comment->user()->associate($user);
         $comment->save();
 
-        return response()->json($comment);
+        return response()->json([
+            'Success' => 'Comment created',
+            'Comment' => $comment,
+        ], 200);
     }
 
     public function edit(string $book)
@@ -85,13 +88,9 @@ class CommentController extends Controller
         return response()->json($comment);
     }
 
-    public function destroy(string $book)
+    public function destroy(int $id)
     {
-        $book = Book::whereSlug($book)->first();
-        $user = Auth::user();
-
-        $comment = Comment::whereBookId($book->id)->whereUserId($user->id)->firstOrFail();
-        Comment::destroy($comment->id);
+        Comment::destroy($id);
 
         return response()->json(['Success' => 'Comment have been deleted'], 200);
     }

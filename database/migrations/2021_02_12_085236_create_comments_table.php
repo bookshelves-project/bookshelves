@@ -18,11 +18,6 @@ class CreateCommentsTable extends Migration
             $table->text('text')->nullable();
             $table->integer('rating')->nullable();
             $table->timestamps();
-            $table->foreignId('book_id')->index()->nullable();
-            $table->foreign('book_id')
-                ->references('id')
-                ->on('books')
-                ->onDelete('cascade');
             $table->foreignId('user_id')->index()->nullable();
             $table->foreign('user_id')
                 ->references('id')

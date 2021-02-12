@@ -14,13 +14,23 @@ class Comment extends Model
         'rating',
     ];
 
-    public function book()
-    {
-        return $this->belongsTo(Book::class);
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function books()
+    {
+        return $this->morphedByMany(Book::class, 'commentable');
+    }
+
+    public function series()
+    {
+        return $this->morphedByMany(Serie::class, 'commentable');
+    }
+
+    public function authors()
+    {
+        return $this->morphedByMany(Author::class, 'commentable');
     }
 }

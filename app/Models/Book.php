@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -130,13 +131,13 @@ class Book extends Model
         return $this->belongsTo(Epub::class);
     }
 
-    public function favorites()
+    public function favorites(): MorphToMany
     {
         return $this->morphToMany(User::class, 'favoritable');
     }
 
-    public function comments()
+    public function comments(): MorphToMany
     {
-        return $this->hasMany(Comment::class);
+        return $this->morphToMany(Comment::class, 'commentable');
     }
 }
