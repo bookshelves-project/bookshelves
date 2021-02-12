@@ -30,7 +30,10 @@ class CommentController extends Controller
         if ($commentIfExist) {
             return response()->json(['error' => 'A comment exist'], 401);
         }
-        $comment_text = $request->comment;
+        if (! $request->text) {
+            return response()->json(['error' => 'Comment text is required'], 401);
+        }
+        $comment_text = $request->text;
         $comment_text = Str::markdown($comment_text);
         $comment = Comment::create([
             'text'    => $comment_text,
