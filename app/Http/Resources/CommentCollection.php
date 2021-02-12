@@ -24,8 +24,8 @@ class CommentCollection extends JsonResource
                 'name'    => $this->user->name,
                 'picture' => $this->user->profile_photo_url,
             ],
-            'createdAt' => $this->created_at,
-            'updateAt'  => $this->updated_at,
+            'createdAt'  => $this->created_at,
+            'updatedAt'  => $this->updated_at,
         ];
     }
 }

@@ -88,6 +88,7 @@ Route::get('/dependencies', [DependencyController::class, 'index'])->name('depen
  * Comments routes
  */
 Route::get('/comments/{book}', [CommentController::class, 'index'])->name('comments.index');
+Route::get('/comments/by-user/{user}', [CommentController::class, 'byUser'])->name('comments.by-user');
 
 /*
  * Users features routes

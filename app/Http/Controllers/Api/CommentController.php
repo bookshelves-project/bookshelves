@@ -8,6 +8,7 @@ use App\Models\Comment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommentResource;
 use App\Http\Resources\CommentCollection;
 
 class CommentController extends Controller
@@ -19,6 +20,13 @@ class CommentController extends Controller
         })->get();
 
         return CommentCollection::collection($comments);
+    }
+
+    public function byUser(int $user)
+    {
+        $comments = Comment::whereUserId($user)->get();
+
+        return CommentResource::collection($comments);
     }
 
     public function store(Request $request, string $book)
