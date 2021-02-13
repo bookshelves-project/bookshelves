@@ -43,7 +43,7 @@ class SerieResource extends JsonResource
         $downloadLink = config('app.url')."/api/download/serie/$this->slug";
         $size = [];
         foreach ($books as $key => $book) {
-            array_push($size, $book->epub?->size_bytes);
+            array_push($size, $book->getMedia('books_epubs')->first()?->size);
         }
         $size = array_sum($size);
         $size = human_filesize($size);
@@ -58,7 +58,8 @@ class SerieResource extends JsonResource
             'language'        => $language,
             'books_number'    => $books_number,
             'books'           => $books,
-            'cover'           => $cover,
+            // 'cover'           => $cover,
+            'image'                 => $this->getMedia('series')->first()?->getUrl(),
             'download'        => $downloadLink,
             'size'            => $size,
         ];

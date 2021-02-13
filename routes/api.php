@@ -87,8 +87,10 @@ Route::get('/dependencies', [DependencyController::class, 'index'])->name('depen
 /*
  * Comments routes
  */
-Route::get('/comments/{book}', [CommentController::class, 'index'])->name('comments.index');
 Route::get('/comments/by-user/{user}', [CommentController::class, 'byUser'])->name('comments.by-user');
+Route::get('/comments/{model}/{slug}', [CommentController::class, 'index'])->name('comments.index');
+
+Route::get('/favorites/by-user/{user}', [FavoriteController::class, 'byUser'])->name('favorites.by-user');
 
 /*
  * Users features routes
@@ -97,13 +99,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     /*
      * Favorites routes
      */
-    Route::get('/favorites/{model}', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::post('/favorites/toggle/{model}/{slug}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 
     /*
      * Comments routes
      */
-    Route::post('/comments/store/{book}', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/comments/store/{model}/{slug}', [CommentController::class, 'store'])->name('comments.store');
     Route::post('/comments/edit/{book}', [CommentController::class, 'edit'])->name('comments.edit');
     Route::post('/comments/update/{book}', [CommentController::class, 'update'])->name('comments.update');
     Route::post('/comments/destroy/{book}', [CommentController::class, 'destroy'])->name('comments.destroy');

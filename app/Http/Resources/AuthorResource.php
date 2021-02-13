@@ -39,7 +39,7 @@ class AuthorResource extends JsonResource
         $downloadLink = config('app.url')."/api/download/author/$this->slug";
         $size = [];
         foreach ($books as $key => $book) {
-            array_push($size, $book->epub?->size_bytes);
+            array_push($size, $book->getMedia('books_epubs')->first()?->size);
         }
         $size = array_sum($size);
         $size = human_filesize($size);
@@ -49,7 +49,8 @@ class AuthorResource extends JsonResource
             'firstname'       => $this->firstname,
             'name'            => $this->name,
             'slug'            => $this->slug,
-            'picture'         => $this->picture ? config('app.url').'/'.$this->picture : null,
+            // 'picture'         => $this->picture ? config('app.url').'/'.$this->picture : null,
+            'image'                 => $this->getMedia('authors')->first()?->getUrl(),
             'books_number'    => $books_number,
             'books'           => $books,
             'download'        => $downloadLink,

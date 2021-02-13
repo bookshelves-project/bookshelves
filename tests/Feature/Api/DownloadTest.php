@@ -25,7 +25,7 @@ it('can download random Series zip', function () {
     $download_zip = $showContent->data->download;
     $response = $this->get($download_zip);
     $contentType = $response->headers->get('Content-Type');
-    $this->assertEquals($contentType, 'application/zip');
+    $this->assertEquals($contentType, 'application/octet-stream');
     $zip = File::glob(public_path('storage/*.zip'));
     foreach ($zip as $key => $file) {
         File::delete($file);
@@ -43,7 +43,7 @@ it('can download random Authors zip', function () {
     $download_zip = $showContent->data->download;
     $response = $this->get($download_zip);
     $contentType = $response->headers->get('Content-Type');
-    $this->assertEquals($contentType, 'application/zip');
+    $this->assertEquals($contentType, 'application/octet-stream');
     $zip = File::glob(public_path('storage/*.zip'));
     foreach ($zip as $key => $file) {
         File::delete($file);

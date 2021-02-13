@@ -47,6 +47,7 @@
         "soundasleep/html2text": "^1.1",
         "spatie/image": "^1.10",
         "spatie/laravel-image-optimizer": "^1.6",
+        "spatie/laravel-medialibrary": "^9.0.0",
         "stevebauman/purify": "^4.0",
         "tightenco/ziggy": "0.9.4"
     },

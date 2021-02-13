@@ -33,6 +33,34 @@ return [
             'root'   => storage_path('app'),
         ],
 
+        'authors' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/media/authors'),
+            'url'        => env('APP_URL').'/storage/media/authors',
+            'visibility' => 'public',
+        ],
+
+        'books' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/media/books'),
+            'url'        => env('APP_URL').'/storage/media/books',
+            'visibility' => 'public',
+        ],
+
+        'books_epubs' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/media/books_epubs'),
+            'url'        => env('APP_URL').'/storage/media/books_epubs',
+            'visibility' => 'public',
+        ],
+
+        'series' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/media/series'),
+            'url'        => env('APP_URL').'/storage/media/series',
+            'visibility' => 'public',
+        ],
+
         'public' => [
             'driver'     => 'local',
             'root'       => storage_path('app/public'),

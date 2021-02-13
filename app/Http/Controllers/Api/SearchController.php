@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Book;
+use App\Models\Serie;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
+use App\Http\Resources\SearchBookCollection;
+use App\Http\Resources\SearchSerieCollection;
+use App\Http\Resources\SearchAuthorCollection;
 
 class SearchController extends Controller
 {
@@ -37,9 +42,20 @@ class SearchController extends Controller
         $searchTermRaw = $request->input('terms');
         $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
         if ($searchTermRaw) {
-            $books = Book::whereLike(['title', 'authors.name', 'authors.firstname', 'authors.lastname', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
+            $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->get();
+            $series = Serie::whereLike(['title'], $searchTerm)->get();
+            $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
 
-            return BookResource::collection($books);
+            $authors = SearchAuthorCollection::collection($authors);
+            $series = SearchSerieCollection::collection($series);
+            $books = SearchBookCollection::collection($books);
+            $collection = $authors->merge($series);
+            $collection = $collection->merge($books);
+            $collection->all();
+
+            return response()->json([
+                'data' => $collection,
+            ]);
         }
 
         return abort(404);

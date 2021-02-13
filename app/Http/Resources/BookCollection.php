@@ -51,10 +51,11 @@ class BookCollection extends JsonResource
                 'slug' => $this->language->slug,
                 'flag' => $this->language->flag,
             ],
-            'cover'                 => [
-                'basic'     => $cover_basic,
-                'thumbnail' => $cover_thumbnail,
-            ],
+            // 'cover'                 => [
+            //     'basic'     => $cover_basic,
+            //     'thumbnail' => $cover_thumbnail,
+            // ],
+            'image'                 => $this->getMedia('books')->first()?->getUrl(),
             'serie'                 => $serie,
             'links'                 => [
                 'show' => $showUrl,

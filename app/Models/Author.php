@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -38,8 +41,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Author wherePicture($value)
  */
-class Author extends Model
+class Author extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     use HasFactory;
 
     public $timestamps = false;
@@ -51,6 +55,11 @@ class Author extends Model
         'picture',
     ];
 
+    public function getImageAttribute()
+    {
+        return config('app.url').'/'.$this->picture;
+    }
+
     public function books(): BelongsToMany
     {
         return $this->belongsToMany(Book::class)->with('epub')->orderBy('serie_id')->orderBy('serie_number');
@@ -61,8 +70,8 @@ class Author extends Model
         return $this->morphToMany(User::class, 'favoritable');
     }
 
-    public function comments(): MorphToMany
+    public function comments(): MorphMany
     {
-        return $this->morphToMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

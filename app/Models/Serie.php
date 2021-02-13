@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -28,8 +31,9 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitleSort($value)
  * @mixin \Eloquent
  */
-class Serie extends Model
+class Serie extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     use HasFactory;
 
     public $timestamps = false;
@@ -39,6 +43,17 @@ class Serie extends Model
         'slug',
         'cover',
     ];
+
+    public function getImageAttribute()
+    {
+        $cover = $this->cover;
+        if (! $cover) {
+            $cover = $this->books()->whereSerieNumber(1)->get();
+            $cover = $cover[0]->cover->basic;
+        }
+
+        return $cover;
+    }
 
     public function books(): HasMany
     {
@@ -50,8 +65,8 @@ class Serie extends Model
         return $this->morphToMany(User::class, 'favoritable');
     }
 
-    public function comments(): MorphToMany
+    public function comments(): MorphMany
     {
-        return $this->morphToMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

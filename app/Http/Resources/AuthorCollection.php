@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Models\Book;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthorCollection extends JsonResource
@@ -38,7 +37,7 @@ class AuthorCollection extends JsonResource
                 //throw $th;
             }
         }
-        
+
         return [
             // 'lastname'       => $this->lastname,
             // 'firstname'      => $this->firstname,
@@ -46,8 +45,9 @@ class AuthorCollection extends JsonResource
             'slug'           => $this->slug,
             // 'books_number'   => $books_number,
             // 'cover'          => $cover,
-            'picture'        => $this->picture ? config('app.url').'/'.$this->picture : null,
-            'links'          => [
+            // 'picture'        => $this->picture ? config('app.url').'/'.$this->picture : null,
+            'image'                 => $this->getMedia('authors')->first()?->getUrl(),
+            'links'                 => [
                 'show' => config('app.url')."/api/authors/$this->slug",
             ],
         ];

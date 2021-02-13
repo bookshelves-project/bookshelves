@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use File;
-use Storage;
 use ZipArchive;
 use App\Models\Book;
 use App\Models\Serie;
@@ -11,37 +10,57 @@ use App\Models\Author;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\BookResource;
+use Spatie\MediaLibrary\Support\MediaStream;
 
 class DownloadController extends Controller
 {
     public function book(Request $request, string $author, string $book)
     {
-        $author = Author::whereSlug($author)->firstOrFail();
-        $book = Book::whereHas('authors', function ($query) use ($author) {
-            return $query->where('author_id', '=', $author->id);
-        })->whereSlug($book)->firstOrFail();
-        $book = BookResource::make($book);
+        $book = Book::whereSlug($book)->firstOrFail();
+        if ($book->author->slug === $author) {
+            $epub = $book->getMedia('books_epubs')->first();
+        } else {
+            return response()->json(['Error' => 'Book not found'], 401);
+        }
 
-        $ebook_path = str_replace('storage/', '', $book->epub->path);
-
-        return Storage::disk('public')->download($ebook_path);
+        return response()->download($epub->getPath(), $epub->file_name);
     }
 
     public function serie(string $serie)
     {
-        $path_to_download = $this->getZip('Serie', $serie);
+        $books_epubs = [];
+        $serie = Serie::with('books')->whereSlug($serie)->firstOrFail();
+        foreach ($serie->books as $key => $book) {
+            $epub = $book->getMedia('books_epubs')->first();
+            array_push($books_epubs, $epub);
+        }
 
-        return response()->download($path_to_download)->deleteFileAfterSend(true);
+        $token = Str::random(8);
+        $token = strtolower($token);
+        $dirname = "$serie->slug-$token";
+
+        return MediaStream::create("$dirname.zip")->addMedia($books_epubs);
     }
 
     public function author(string $author)
     {
-        $path_to_download = $this->getZip('Author', $author);
+        $books_epubs = [];
+        $author = Author::with('books')->whereSlug($author)->firstOrFail();
+        foreach ($author->books as $key => $book) {
+            $epub = $book->getMedia('books_epubs')->first();
+            array_push($books_epubs, $epub);
+        }
 
-        return response()->download($path_to_download)->deleteFileAfterSend(true);
+        $token = Str::random(8);
+        $token = strtolower($token);
+        $dirname = "$author->slug-$token";
+
+        return MediaStream::create("$dirname.zip")->addMedia($books_epubs);
     }
 
+    /**
+     * Old download method.
+     */
     public function getZip(string $model_name, string $slug)
     {
         $modelName = '\App\Models'.'\\'.$model_name;

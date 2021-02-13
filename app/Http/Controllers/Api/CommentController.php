@@ -14,11 +14,11 @@ use App\Providers\EpubParser\EpubParserTools;
 
 class CommentController extends Controller
 {
-    public function index(string $book)
+    public function index(string $model, string $slug)
     {
-        $comments = Comment::whereHas('books', function ($query) use ($book) {
-            return $query->where('slug', '=', $book);
-        })->get();
+        $model_name = 'App\Models\\'.ucfirst($model);
+        $entity = $model_name::whereSlug($slug)->first();
+        $comments = $entity->comments;
 
         return CommentCollection::collection($comments);
     }
@@ -30,12 +30,13 @@ class CommentController extends Controller
         return CommentResource::collection($comments);
     }
 
-    public function store(Request $request, string $book)
+    public function store(Request $request, string $model, string $slug)
     {
-        $book = Book::whereSlug($book)->first();
+        $model_name = 'App\Models\\'.ucfirst($model);
+        $entity = $model_name::whereSlug($slug)->first();
         $user = Auth::user();
 
-        foreach ($book->comments as $key => $value) {
+        foreach ($entity->comments as $key => $value) {
             if ($value->user_id === $user->id) {
                 return response()->json(['error' => 'A comment exist'], 401);
             }
@@ -47,9 +48,8 @@ class CommentController extends Controller
             'text'    => $comment_text,
             'rating'  => $request->rating,
         ]);
-        $comment->books()->save($book);
         $comment->user()->associate($user);
-        $comment->save();
+        $entity->comments()->save($comment);
 
         return response()->json([
             'Success' => 'Comment created',

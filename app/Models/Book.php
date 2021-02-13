@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -62,8 +65,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Book extends Model
+class Book extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     use HasFactory;
 
     /**
@@ -85,6 +89,11 @@ class Book extends Model
     protected $with = [
         'language',
     ];
+
+    // public function getImageAttribute()
+    // {
+    //     return $this->cover?->basic;
+    // }
 
     public function authors(): BelongsToMany
     {
@@ -136,8 +145,8 @@ class Book extends Model
         return $this->morphToMany(User::class, 'favoritable');
     }
 
-    public function comments(): MorphToMany
+    public function comments(): MorphMany
     {
-        return $this->morphToMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Providers\EpubGenerator;
+namespace App\Providers\BookGenerator;
 
 use File;
 use Storage;
 use App\Models\Tag;
 use App\Models\Book;
 use App\Models\Epub;
+use App\Models\Cover;
 use App\Models\Serie;
 use App\Models\Author;
-use App\Models\Cover;
 use Spatie\Image\Image;
 use App\Models\Language;
 use App\Models\Publisher;
@@ -20,13 +20,13 @@ use Illuminate\Support\Facades\Http;
 use App\Providers\EpubParser\EpubParser;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 
-class EpubGenerator
+class BookGenerator
 {
     public static function convertEpubParser(EpubParser $epubParser, bool $is_debug): Book
     {
         $bookIfExist = Book::whereSlug(Str::slug($epubParser->title, '-'))->first();
         $book = null;
-        if (!$bookIfExist) {
+        if (! $bookIfExist) {
             $book = Book::firstOrCreate([
                 'title'        => $epubParser->title,
                 'slug'         => Str::slug($epubParser->title, '-'),
@@ -43,32 +43,28 @@ class EpubGenerator
                 $lastname = $author_data[sizeof($author_data) - 1];
                 array_pop($author_data);
                 $firstname = implode(' ', $author_data);
-                $authorIfExist = Author::whereSlug(Str::slug($creator, '-'))->first();
                 $author = Author::firstOrCreate([
                     'lastname'  => $lastname,
                     'firstname' => $firstname,
-                    'name'      => $creator,
-                    'slug'      => Str::slug($creator, '-'),
+                    'name'      => "$firstname $lastname",
+                    'slug'      => Str::slug("$lastname $firstname", '-'),
                 ]);
-                if (! $authorIfExist) {
-                    $author = self::generateAuthorPicture($author, $is_debug);
-                }
                 array_push($authors, $author);
             }
             $book->authors()->saveMany($authors);
             foreach ($epubParser->subjects as $key => $subject) {
                 $tagIfExist = Tag::whereSlug(Str::slug($subject))->first();
                 $tag = null;
-                if (!$tagIfExist) {
+                if (! $tagIfExist) {
                     $tag = Tag::firstOrCreate([
                         'name' => $subject,
                         'slug' => Str::slug($subject),
                     ]);
                 }
-                if (!$tag) {
+                if (! $tag) {
                     $tag = $tagIfExist;
                 }
-                
+
                 $book->tags()->save($tag);
             }
             $publisher = Publisher::firstOrCreate([
@@ -77,12 +73,18 @@ class EpubGenerator
             ]);
             $book->publisher()->associate($publisher);
             if ($epubParser->serie) {
-                $serie = Serie::firstOrCreate([
-                    'title'      => $epubParser->serie,
-                    'title_sort' => $epubParser->serie_sort,
-                    'slug'       => Str::slug($epubParser->serie),
-                ]);
-                $serie = self::generateSerieCover(serie: $serie);
+                $serieIfExist = Serie::whereSlug(Str::slug($epubParser->serie))->first();
+                $serie = null;
+                if (! $serieIfExist) {
+                    $serie = Serie::firstOrCreate([
+                        'title'      => $epubParser->serie,
+                        'title_sort' => $epubParser->serie_sort,
+                        'slug'       => Str::slug($epubParser->serie),
+                    ]);
+                } else {
+                    $serie = $serieIfExist;
+                }
+
                 $book->serie()->associate($serie);
             }
             $language = Language::firstOrCreate([
@@ -100,14 +102,14 @@ class EpubGenerator
             $book->identifier()->associate($identifiers);
             $book->save();
         }
-        if (!$book) {
+        if (! $book) {
             $book = $bookIfExist;
         }
 
         return $book;
     }
 
-    public static function generateNewEpub(Book $book, string $file_path): Epub
+    public static function generateNewEpub(Book $book, string $file_path)
     {
         $serie = $book->serie;
         $author = $book->authors[0];
@@ -130,30 +132,35 @@ class EpubGenerator
         } else {
             $new_file_name = $book->slug;
         }
-        $new_file_name .= ".$ebook_extension";
+
         if (pathinfo($file_path)['basename'] !== $new_file_name) {
-            if (! Storage::disk('public')->exists("books/$new_file_name")) {
-                Storage::disk('public')->copy($file_path, "books/$new_file_name");
-            }
+            // if (! Storage::disk('public')->exists("books/$new_file_name")) {
+            // Storage::disk('public')->copy($file_path, "books/$new_file_name");
+            $epub_file = File::get(storage_path("app/public/$file_path"));
+            $book->addMediaFromString($epub_file)
+                ->setName($new_file_name)
+                ->setFileName($new_file_name.".$ebook_extension")
+                ->toMediaCollection('books_epubs', 'books_epubs');
+            // }
         }
 
-        $epub = new Epub();
-        $epub_path = "storage/books/$new_file_name";
-        $epub->name = $new_file_name;
-        if (file_exists(public_path($epub_path))) {
-            $epub->path = $epub_path;
-        } else {
-            $epub->path = null;
-        }
+        // $epub = new Epub();
+        // $epub_path = "storage/books/$new_file_name";
+        // $epub->name = $new_file_name;
+        // if (file_exists(public_path($epub_path))) {
+        //     $epub->path = $epub_path;
+        // } else {
+        //     $epub->path = null;
+        // }
 
-        $epub_file = Storage::disk('public')->size("books/$new_file_name");
-        $convert = human_filesize($epub_file);
+        // $epub_file = Storage::disk('public')->size("books/$new_file_name");
+        // $convert = human_filesize($epub_file);
 
-        $epub->size = $convert;
-        $epub->size_bytes = $epub_file;
-        $epub->save();
+        // $epub->size = $convert;
+        // $epub->size_bytes = $epub_file;
+        // $epub->save();
 
-        return $epub;
+        // return $epub;
     }
 
     public static function generateAuthorPicture(Author $author, bool $is_debug): Author
@@ -162,7 +169,7 @@ class EpubGenerator
         $author_slug = $author->slug;
         $name = str_replace(' ', '%20', $name);
         $url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&titles=$name&prop=pageimages&format=json&pithumbsize=512";
-        $pictureAuthorDefault = 'storage/authors/no-picture.jpg';
+        $pictureAuthorDefault = database_path('seeders/media/authors/no-picture.jpg');
         if (! $is_debug) {
             try {
                 $response = Http::get($url);
@@ -174,18 +181,34 @@ class EpubGenerator
             }
             if (! is_string($pictureAuthor)) {
                 $pictureAuthor = $pictureAuthorDefault;
+                $defaultPictureFile = File::get($pictureAuthorDefault);
+                $author->addMediaFromString($defaultPictureFile)
+                    ->setName($author->slug)
+                    ->setFileName($author->slug.'.jpg')
+                    ->toMediaCollection('authors', 'authors');
             } else {
                 $contents = file_get_contents($pictureAuthor);
-                $size = 'book_cover';
-                $dimensions = config("image.thumbnails.$size");
-                Storage::disk('public')->put("authors/$author_slug.jpg", $contents);
-                $optimizerChain = OptimizerChainFactory::create();
-                Image::load(public_path("storage/authors/$author_slug.jpg"))
-                                ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
-                                ->save();
-                $optimizerChain->optimize(public_path("storage/authors/$author_slug.jpg"));
-                $pictureAuthor = "storage/authors/$author_slug.jpg";
+                // $size = 'book_cover';
+                // $dimensions = config("image.thumbnails.$size");
+                $author->addMediaFromUrl($pictureAuthor)
+                    ->setName($author->slug)
+                    ->setFileName($author->slug.'.jpg')
+                    ->toMediaCollection('authors', 'authors');
+                // Storage::disk('public')->put("authors/$author_slug.jpg", $contents);
+
+                // Image::load($image_path)
+                //     ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
+                //     ->save();
+
+                // $pictureAuthor = "storage/authors/$author_slug.jpg";
             }
+            $optimizerChain = OptimizerChainFactory::create();
+            $dimensions = config('image.thumbnails.book_cover');
+            $image_path = $author->getMedia('authors')->first()->getPath();
+            Image::load($image_path)
+                ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
+                ->save($image_path);
+            $optimizerChain->optimize($image_path);
         } else {
             $pictureAuthor = $pictureAuthorDefault;
         }
@@ -223,18 +246,38 @@ class EpubGenerator
         // Add special cover if exist from `database/seeders/medias/series/`
         // Check if JPG file with series' slug name exist
         // To know slug name, check into database when serie was created
-        if (File::exists(database_path("seeders/medias/series/$serie->slug.jpg"))) {
-            $optimizerChain = OptimizerChainFactory::create();
-            File::copy(database_path("seeders/medias/series/$serie->slug.jpg"), public_path("storage/series/$serie->slug.jpg"));
-            $path_serie_cover = "storage/series/$serie->slug.jpg";
-            $serie->cover = $path_serie_cover;
-            $size = 'book_cover';
-            $dimensions = config("image.thumbnails.$size");
-            Image::load(public_path($path_serie_cover))
+        $disk = 'series';
+        $dimensions = config('image.thumbnails.book_cover');
+        $custom_series_path = database_path("seeders/media/$disk/$serie->slug.jpg");
+        $optimizerChain = OptimizerChainFactory::create();
+        if (File::exists($custom_series_path)) {
+            $file_path = File::get($custom_series_path);
+            $serie->addMediaFromString($file_path)
+                    ->setName($serie->slug)
+                    ->setFileName($serie->slug.'.jpg')
+                    ->toMediaCollection($disk, $disk);
+
+            $image_path = $serie->getMedia($disk)->first()->getPath();
+            Image::load($image_path)
                 ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
-                ->save();
-            $optimizerChain->optimize(public_path($path_serie_cover));
-            $serie->save();
+                ->save($image_path);
+            $optimizerChain->optimize($image_path);
+        } else {
+            $bookIfExist = Book::whereSerieNumber(1)->whereSerieId($serie->id)->first();
+            if ($bookIfExist) {
+                $book = $bookIfExist;
+                $file_path = File::get($book->getMedia('books')->first()->getPath());
+                $serie->addMediaFromString($file_path)
+                    ->setName($serie->slug)
+                    ->setFileName($serie->slug.'.jpg')
+                    ->toMediaCollection($disk, $disk);
+
+                $image_path = $serie->getMedia($disk)->first()->getPath();
+                Image::load($image_path)
+                    ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
+                    ->save($image_path);
+                $optimizerChain->optimize($image_path);
+            }
         }
 
         return $serie;
@@ -251,47 +294,57 @@ class EpubGenerator
         $cover_filename_without_extension = strtolower($book->slug.'-'.$book->authors[0]->slug);
         $cover_file = $cover_filename_without_extension.'.'.$cover_extension;
         if ($cover_extension) {
-            Storage::disk('public')->put("covers/raw/$cover_file", $cover);
+            Storage::disk('public')->put("covers-raw/$cover_file", $cover);
         }
 
         if ($cover_extension) {
             $size = 'book_cover';
-            $dimensions = config("image.thumbnails.$size");
+            $dimensions = config('image.thumbnails.book_cover');
             $dimensions_thumbnail = config('image.thumbnails.book_thumbnail');
-            $path = public_path("storage/covers/raw/$cover_file");
+            $path = public_path("storage/covers-raw/$cover_file");
             $optimizerChain = OptimizerChainFactory::create();
 
+            $disk = 'books';
             try {
+                $file_path = File::get($path);
+                $book->addMediaFromString($file_path)
+                    ->setName($book->slug)
+                    ->setFileName($book->slug.'.jpg')
+                    ->toMediaCollection($disk, $disk);
+
+                $image_path = $book->getMedia($disk)->first()->getPath();
+                Image::load($image_path)
+                    ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
+                    ->save($image_path);
+                $optimizerChain->optimize($image_path);
                 // copy of original cover in WEBP
-                $new_extension = '.jpg';
-                $path_original = public_path('storage/covers/original/'.$cover_filename_without_extension.$new_extension);
-                Image::load($path)
-                    ->save($path_original);
-                $cover_file = $cover_filename_without_extension.$new_extension;
+                // $new_extension = '.jpg';
+                // $path_original = public_path('storage/covers/original/'.$cover_filename_without_extension.$new_extension);
+                // Image::load($path)
+                //     ->save($path_original);
+                // $cover_file = $cover_filename_without_extension.$new_extension;
 
-                if (! $isDebug) {
-                    $optimizerChain->optimize($path_original);
+                // if (! $isDebug) {
+                //     $optimizerChain->optimize($path_original);
 
-                    $path_thumbnail = public_path('storage/covers/thumbnail/'.$cover_filename_without_extension.$new_extension);
-                    Image::load($path_original)
-                        ->fit(Manipulations::FIT_MAX, $dimensions_thumbnail['width'], $dimensions_thumbnail['height'])
-                        ->save($path_thumbnail);
-                    $optimizerChain->optimize($path_original);
+                //     $path_thumbnail = public_path('storage/covers/thumbnail/'.$cover_filename_without_extension.$new_extension);
 
-                    $path_basic = public_path('storage/covers/basic/'.$cover_filename_without_extension.$new_extension);
-                    Image::load($path_original)
-                        ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
-                        ->save($path_basic);
-                    $optimizerChain->optimize($path_basic);
-                }
+                //     $optimizerChain->optimize($path_original);
 
-                $cover_model = Cover::firstOrCreate([
-                    'name'      => $cover_filename_without_extension,
-                    'extension' => $new_extension,
-                ]);
+                //     $path_basic = public_path('storage/covers/basic/'.$cover_filename_without_extension.$new_extension);
+                //     Image::load($path_original)
+                //         ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
+                //         ->save($path_basic);
+                //     $optimizerChain->optimize($path_basic);
+                // }
 
-                $book->cover()->associate($cover_model);
-                $book->save();
+                // $cover_model = Cover::firstOrCreate([
+                //     'name'      => $cover_filename_without_extension,
+                //     'extension' => $new_extension,
+                // ]);
+
+                // $book->cover()->associate($cover_model);
+                // $book->save();
             } catch (\Throwable $th) {
                 // self::generateError('covers');
             }

@@ -82,6 +82,11 @@ class BookResource extends JsonResource
         if ($this->comments) {
             $comments = CommentCollection::collection($this->comments);
         }
+        
+        $epub = null;
+        if ($this->getMedia('books_epubs')) {
+            $epub = $this->getMedia('books_epubs')->first();
+        }
 
         return [
             'title'                 => $this->title,
@@ -97,13 +102,18 @@ class BookResource extends JsonResource
             'publishDate'           => $this->date,
             'isbn'                  => $this->isbn,
             'publisher'             => $publisher,
-            'cover'                 => [
-                'basic'     => $cover_basic,
-                'thumbnail' => $cover_thumbnail,
-                'original'  => $cover_original,
-            ],
+            // 'cover'                 => [
+            //     'basic'     => $cover_basic,
+            //     'thumbnail' => $cover_thumbnail,
+            //     'original'  => $cover_original,
+            // ],
+            'image'                 => $this->getMedia('books')->first()?->getUrl(),
             'tags'                  => $tags,
-            'epub'                  => $epub ? $epub : null,
+            'epub'                  => [
+                'name' => $epub->file_name,
+                'size' => human_filesize($epub->size),
+                'download' => config('app.url').'/api/download/book/'.$this->author->slug.'/'.$this->slug,
+            ],
             'serie'                 => $serie ? [
                 'number'  => $this->serie_number ? $this->serie_number : null,
                 'title'   => $serie ? $serie->title : null,

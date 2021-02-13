@@ -23,6 +23,8 @@ class CreateCommentsTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+            $table->foreignId('commentable_id')->nullable();
+            $table->string('commentable_type')->nullable();
         });
     }
 

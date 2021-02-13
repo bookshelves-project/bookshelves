@@ -12,7 +12,7 @@ use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
 use App\Models\Tag;
-use App\Providers\EpubGenerator\EpubGenerator;
+use App\Providers\BookGenerator\BookGenerator;
 use App\Providers\EpubParser\Entities\IdentifiersParser;
 use App\Providers\EpubParser\EpubParser;
 use App\Providers\EpubParser\EpubParserTools;
@@ -154,7 +154,7 @@ class BooksGenerateCommand extends Command
      */
     public function generate(array $epubFiles, bool $isFresh, bool $isDebug = false) {
         if ($isFresh) {
-            Artisan::call('migrate:fresh --seed --force');
+            Artisan::call('migrate:fresh --force');
             $this->clearDirectories();
         }
 
@@ -165,6 +165,8 @@ class BooksGenerateCommand extends Command
             Artisan::call('pest:run');
         }
         
+        Artisan::call('db:seed --force');
+        
         $this->info('Done!');
     }
 
@@ -174,15 +176,39 @@ class BooksGenerateCommand extends Command
         $cover_bar = $this->output->createProgressBar(count($books_with_covers));
         $cover_bar->start();
         foreach ($books_with_covers as $key => $metadata) {
-            EpubGenerator::extractCoverAndGenerate($metadata, $isDebug);
+            BookGenerator::extractCoverAndGenerate($metadata, $isDebug);
             $cover_bar->advance();
         }
         $cover_bar->finish();
         $this->info("\n");
         $this->info('Covers generated!'."\n");
 
-        File::cleanDirectory(public_path('storage/covers/raw'));
-        Storage::disk('public')->copy('.gitignore-sample', 'covers/raw/.gitignore');
+        $this->info('Generate series covers'."\n");
+        $series = Serie::all();
+        $series_cover_bar = $this->output->createProgressBar(count($series));
+        $series_cover_bar->start();
+        foreach ($series as $key => $serie) {
+            BookGenerator::generateSerieCover(serie: $serie);
+            $series_cover_bar->advance();
+        }
+        $series_cover_bar->finish();
+        $this->info("\n");
+        $this->info('Series Covers generated!'."\n");
+
+        $this->info('Generate authors pictures'."\n");
+        $authors = Author::all();
+        $authors_pictures = $this->output->createProgressBar(count($authors));
+        $authors_pictures->start();
+        foreach ($authors as $key => $author) {
+            BookGenerator::generateAuthorPicture(author: $author, is_debug: $isDebug);
+            $authors_pictures->advance();
+        }
+        $authors_pictures->finish();
+        $this->info("\n");
+        $this->info('Authors Pictures generated!'."\n");
+
+        File::cleanDirectory(public_path('storage/covers-raw'));
+        Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');
     }
 
     public function generateBooks(array $epubFiles, bool $isDebug = false)
@@ -200,18 +226,11 @@ class BooksGenerateCommand extends Command
         $epub_bar->start();
         foreach ($epubFiles as $key => $filePath) {
             $epubParser = EpubParser::run($filePath, $isDebug);
-            $book_created = EpubGenerator::convertEpubParser(epubParser: $epubParser, is_debug: $isDebug);
-            $epub_created = EpubGenerator::generateNewEpub(book: $book_created, file_path: $filePath);
-            $book_created->epub()->associate($epub_created);
-            $book_created->save();
-            // $epub->book()->save($book);
-            // $epub->save();
-            // dump($epubParser->title);
-            // if (is_array($book_with_cover) && array_key_exists('book', $book_with_cover)) {
-            //     array_push($books_with_covers, $book_with_cover);
-            // } else {
-            //     array_push($books_with_errors, $book_with_cover);
-            // }
+            $book_created = BookGenerator::convertEpubParser(epubParser: $epubParser, is_debug: $isDebug);
+            $epub_created = BookGenerator::generateNewEpub(book: $book_created, file_path: $filePath);
+            // $book_created->epub()->associate($epub_created);
+            // $book_created->save();
+
             array_push($books_with_covers, [
                 'book' => $book_created,
                 'cover' => $epubParser->cover,
@@ -245,29 +264,32 @@ class BooksGenerateCommand extends Command
     {
         try {
             // Dir where download author image
-            File::cleanDirectory(public_path('storage/authors'));
-            Storage::disk('public')->copy('.gitignore-sample', 'authors/.gitignore');
-            Storage::disk('public')->copy('no-picture.jpg', 'authors/no-picture.jpg');
+            $author_path = 'media/authors';
+            $author = File::cleanDirectory(public_path("storage/$author_path"));
+            Storage::disk('public')->copy('.gitignore-sample', "$author_path/.gitignore");
 
             // Dir for thumbnails 240 x 320 and optimize
-            File::cleanDirectory(public_path('storage/covers/thumbnail'));
-            Storage::disk('public')->copy('.gitignore-sample', 'covers/thumbnail/.gitignore');
+            // File::cleanDirectory(public_path('storage/covers/thumbnail'));
+            // Storage::disk('public')->copy('.gitignore-sample', 'covers/thumbnail/.gitignore');
 
             // Dir for covers resized 480 x 640 and optimize
-            File::cleanDirectory(public_path('storage/covers/basic'));
-            Storage::disk('public')->copy('.gitignore-sample', 'covers/basic/.gitignore');
+            $book_path = 'media/books';
+            File::cleanDirectory(public_path("storage/$book_path"));
+            Storage::disk('public')->copy('.gitignore-sample', "$book_path/.gitignore");
+            
+            $book_epub_path = 'media/books_epubs';
+            File::cleanDirectory(public_path("storage/media/books_epubs"));
+            Storage::disk('public')->copy('.gitignore-sample', "$book_epub_path/.gitignore");
 
             // Dir for original covers not resized but optimize
-            File::cleanDirectory(public_path('storage/covers/original'));
-            Storage::disk('public')->copy('.gitignore-sample', 'covers/original/.gitignore');
+            // File::cleanDirectory(public_path('storage/covers/original'));
+            // Storage::disk('public')->copy('.gitignore-sample', 'covers/original/.gitignore');
 
-            // Dir for generated EPUB files from originals with new standard name
-            File::cleanDirectory(public_path('storage/books'));
-            Storage::disk('public')->copy('.gitignore-sample', 'books/.gitignore');
+            $serie_path = 'media/series';
+            File::cleanDirectory(public_path("storage/$serie_path"));
+            Storage::disk('public')->copy('.gitignore-sample', "$serie_path/.gitignore");
         } catch (\Throwable $th) {
             dump('Error on clearDirectories()');
-
-            return false;
         }
 
         return true;
