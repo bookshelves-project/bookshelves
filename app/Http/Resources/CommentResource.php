@@ -16,21 +16,22 @@ class CommentResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'     => $this->id,
-            'text'   => $this->text,
-            'rating' => $this->rating ? $this->rating : null,
-            'user'   => [
+            'type'                  => 'books',
+            'id'                    => $this->id,
+            'text'                  => $this->text,
+            'rating'                => $this->rating ? $this->rating : null,
+            'user'                  => [
                 'id'      => $this->user->id,
                 'name'    => $this->user->name,
                 'picture' => $this->user->profile_photo_url,
             ],
             'createdAt'  => $this->created_at,
             'updatedAt'  => $this->updated_at,
+            'authorSlug' => $this->books[0]->author->slug,
+            'cover'      => $this->books[0]->cover->basic,
+            'slug'       => $this->books[0]->slug,
             'book'       => [
-                'title'  => $this->book->title,
-                'slug'   => $this->book->slug,
-                'author' => $this->book->author->slug,
-                'cover'  => $this->book->cover->basic,
+                'title'  => $this->books[0]->title,
             ],
         ];
     }

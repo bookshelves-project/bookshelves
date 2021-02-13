@@ -3,12 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BookController;
-use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DownloadController;
+use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Build\DependencyController;
 
 /*
@@ -94,9 +94,15 @@ Route::get('/comments/by-user/{user}', [CommentController::class, 'byUser'])->na
  * Users features routes
  */
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/books/update', [BookController::class, 'update'])->name('books.update');
-    Route::post('/favorite/{model}/{slug}', [UserController::class, 'toggleFavorite'])->name('users.favorite.toggle');
-    Route::get('/favorite/{model}', [UserController::class, 'getFavorites'])->name('users.favorite.get');
+    /*
+     * Favorites routes
+     */
+    Route::get('/favorites/{model}', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites/toggle/{model}/{slug}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+
+    /*
+     * Comments routes
+     */
     Route::post('/comments/store/{book}', [CommentController::class, 'store'])->name('comments.store');
     Route::post('/comments/edit/{book}', [CommentController::class, 'edit'])->name('comments.edit');
     Route::post('/comments/update/{book}', [CommentController::class, 'update'])->name('comments.update');

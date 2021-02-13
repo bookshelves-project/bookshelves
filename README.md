@@ -33,6 +33,12 @@
 - Multiple author serie
 - Logs for EpubParser
 - Command to get basic books-raw/ with libre ebooks
+- Null safe operator on all Resources & Collections
+- Add attribute on each method for Controller
+- Check attributes
+  - <https://www.amitmerchant.com/how-to-use-php-80-attributes>
+  - <https://stitcher.io/blog/attributes-in-php-8>
+  - <https://grafikart.fr/tutoriels/attribut-php8-1371>
 
 ```bash
 scoop reset php/php7.4-nts
