@@ -39,7 +39,10 @@ class FavoriteCollection extends JsonResource
         }
 
         return [
-            'type'                  => 'books',
+            'type'                  => [
+                'morph'  => 'book',
+                'entity' => 'favorite',
+            ],
             'title'                 => $this->title,
             'slug'                  => $this->slug,
             // 'author'                => [

@@ -16,7 +16,10 @@ class CommentResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'type'                  => 'books',
+            'type'                  => [
+                'morph'  => 'book',
+                'entity' => 'comment',
+            ],
             'id'                    => $this->id,
             'text'                  => $this->text,
             'rating'                => $this->rating ? $this->rating : null,
