@@ -23,6 +23,7 @@ class SearchBookCollection extends JsonResource
             ],
             'title'    => $this->title,
             'subtitle' => $this->serie?->title,
+            'author' => $this->author->name,
             'image'  => $this->getMedia('books')->first()?->getUrl(),
         ];
     }

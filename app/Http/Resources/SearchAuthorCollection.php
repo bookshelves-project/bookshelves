@@ -21,6 +21,7 @@ class SearchAuthorCollection extends JsonResource
                 'slug'   => $this->slug,
             ],
             'title'    => $this->name,
+            'author' => $this->name,
             'image'  => $this->getMedia('authors')->first()?->getUrl(),
         ];
     }
