@@ -52,13 +52,7 @@ class Author extends Model implements HasMedia
         'firstname',
         'name',
         'slug',
-        'picture',
     ];
-
-    public function getImageAttribute()
-    {
-        return config('app.url').'/'.$this->picture;
-    }
 
     public function books(): BelongsToMany
     {

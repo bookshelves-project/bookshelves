@@ -41,19 +41,7 @@ class Serie extends Model implements HasMedia
         'title',
         'title_sort',
         'slug',
-        'cover',
     ];
-
-    public function getImageAttribute()
-    {
-        $cover = $this->cover;
-        if (! $cover) {
-            $cover = $this->books()->whereSerieNumber(1)->get();
-            $cover = $cover[0]->cover->basic;
-        }
-
-        return $cover;
-    }
 
     public function books(): HasMany
     {

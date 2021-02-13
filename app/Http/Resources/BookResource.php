@@ -30,9 +30,6 @@ class BookResource extends JsonResource
         if ($this->authors) {
             $authors = AuthorCollection::collection($this->authors);
         }
-        if ($this->epub) {
-            $epub = new EpubResource($this->epub);
-        }
         if ($this->publisher) {
             $publisher = new PublisherResource($this->publisher);
         }

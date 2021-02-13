@@ -213,7 +213,7 @@ class BookGenerator
             $pictureAuthor = $pictureAuthorDefault;
         }
 
-        $author->picture = $pictureAuthor;
+        // $author->picture = $pictureAuthor;
         $author->save();
 
         return $author;

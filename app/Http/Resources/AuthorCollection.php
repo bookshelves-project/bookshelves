@@ -39,11 +39,11 @@ class AuthorCollection extends JsonResource
         }
 
         return [
-            // 'lastname'       => $this->lastname,
-            // 'firstname'      => $this->firstname,
+            'lastname'       => $this->lastname,
+            'firstname'      => $this->firstname,
             'name'           => $this->name,
             'slug'           => $this->slug,
-            // 'books_number'   => $books_number,
+            'books_number'   => $books_number,
             // 'cover'          => $cover,
             // 'picture'        => $this->picture ? config('app.url').'/'.$this->picture : null,
             'image'                 => $this->getMedia('authors')->first()?->getUrl(),

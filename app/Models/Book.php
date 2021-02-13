@@ -90,11 +90,6 @@ class Book extends Model implements HasMedia
         'language',
     ];
 
-    // public function getImageAttribute()
-    // {
-    //     return $this->cover?->basic;
-    // }
-
     public function authors(): BelongsToMany
     {
         return $this->belongsToMany(Author::class);
@@ -115,16 +110,6 @@ class Book extends Model implements HasMedia
         return $this->belongsTo(Serie::class);
     }
 
-    public function cover(): BelongsTo
-    {
-        return $this->belongsTo(Cover::class);
-    }
-
-    public function epub(): BelongsTo
-    {
-        return $this->belongsTo(Epub::class);
-    }
-
     public function language(): BelongsTo
     {
         return $this->belongsTo(Language::class);
@@ -137,7 +122,7 @@ class Book extends Model implements HasMedia
 
     public function identifier(): BelongsTo
     {
-        return $this->belongsTo(Epub::class);
+        return $this->belongsTo(Identifier::class);
     }
 
     public function favorites(): MorphToMany
