@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.26.1.
+ * Generated for Laravel 8.27.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -14914,6 +14914,17 @@
      
 }
 
+    namespace Fruitcake\TelescopeToolbar { 
+            /**
+     * 
+     *
+     */ 
+        class Toolbar {
+         
+    }
+     
+}
+
     namespace Intervention\Image\Facades { 
             /**
      * 
@@ -15579,6 +15590,54 @@
         {
                         /** @var \Spatie\ImageOptimizer\OptimizerChain $instance */
                         return $instance->optimize($pathToImage, $pathToOutput);
+        }
+         
+    }
+     
+}
+
+    namespace Stevebauman\Purify\Facades { 
+            /**
+     * Class Purify
+     *
+     * @static array|string clean($input, array $config = null)
+     */ 
+        class Purify {
+                    /**
+         * Sanitize the given input.
+         *
+         * @param array|string $input
+         * @param array|null $config
+         * @return array|string 
+         * @static 
+         */ 
+        public static function clean($input, $config = null)
+        {
+                        /** @var \Stevebauman\Purify\Purify $instance */
+                        return $instance->clean($input, $config);
+        }
+                    /**
+         * Set the underlying purifier instance.
+         *
+         * @param \HTMLPurifier $purifier
+         * @return \Stevebauman\Purify\Purify 
+         * @static 
+         */ 
+        public static function setPurifier($purifier)
+        {
+                        /** @var \Stevebauman\Purify\Purify $instance */
+                        return $instance->setPurifier($purifier);
+        }
+                    /**
+         * Get the underlying purifier instance.
+         *
+         * @return \HTMLPurifier 
+         * @static 
+         */ 
+        public static function getPurifier()
+        {
+                        /** @var \Stevebauman\Purify\Purify $instance */
+                        return $instance->getPurifier();
         }
          
     }
@@ -16783,6 +16842,20 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
                                 return $instance->chunk($count, $callback);
+            }
+             
+                /**
+             * Run a map over each item while chunking.
+             *
+             * @param callable $callback
+             * @param int $count
+             * @return \Illuminate\Support\Collection 
+             * @static 
+             */ 
+            public static function chunkMap($callback, $count = 1000)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->chunkMap($callback, $count);
             }
              
                 /**
@@ -18855,9 +18928,11 @@ namespace  {
             class View extends \Illuminate\Support\Facades\View {}
             class L5Swagger extends \L5Swagger\L5SwaggerFacade {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
+            class Toolbar extends \Fruitcake\TelescopeToolbar\Toolbar {}
             class Image extends \Intervention\Image\Facades\Image {}
             class Agent extends \Jenssegers\Agent\Facades\Agent {}
             class ImageOptimizer extends \Spatie\LaravelImageOptimizer\Facades\ImageOptimizer {}
+            class Purify extends \Stevebauman\Purify\Facades\Purify {}
      
 }
 

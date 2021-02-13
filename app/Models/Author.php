@@ -11,35 +11,30 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * App\Models\Author.
+ * App\Models\Author
  *
- * @property int                                                         $id
- * @property string|null                                                 $name
- * @property string|null                                                 $slug
- * @property \Illuminate\Support\Carbon|null                             $created_at
- * @property \Illuminate\Support\Carbon|null                             $updated_at
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
- * @property int|null                                                    $books_count
- *
+ * @property int $id
+ * @property string|null $slug
+ * @property string|null $lastname
+ * @property string|null $firstname
+ * @property string|null $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
+ * @property-read int|null $books_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
+ * @property-read int|null $favorites_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author query()
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
  * @mixin \Eloquent
- *
- * @property string|null $lastname
- * @property string|null $firstname
- *
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
- *
- * @property string|null $picture
- *
- * @method static \Illuminate\Database\Eloquent\Builder|Author wherePicture($value)
  */
 class Author extends Model implements HasMedia
 {
@@ -56,7 +51,7 @@ class Author extends Model implements HasMedia
 
     public function books(): BelongsToMany
     {
-        return $this->belongsToMany(Book::class)->with('epub')->orderBy('serie_id')->orderBy('serie_number');
+        return $this->belongsToMany(Book::class)->orderBy('serie_id')->orderBy('serie_number');
     }
 
     public function favorites(): MorphToMany
