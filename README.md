@@ -1,8 +1,9 @@
 # Bookshelves · Back <!-- omit in toc -->
 
 [![php](https://img.shields.io/badge/dynamic/json?label=PHP&query=require.php&url=https%3A%2F%2Fgitlab.com%2FEwieFairy%2Fbookshelves-back%2F-%2Fraw%2Fmaster%2Fcomposer.json&logo=php&logoColor=ffffff&color=777bb4&style=flat-square)](https://www.php.net)
-[![composer](https://img.shields.io/static/v1?label=Composer&message=v2.0&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)  
-[![laravel](https://img.shields.io/badge/dynamic/json?label=PHP&query=require.laravel/framework&url=https%3A%2F%2Fgitlab.com%2FEwieFairy%2Fbookshelves-back%2F-%2Fraw%2Fmaster%2Fcomposer.json&logo=laravel&logoColor=ffffff&color=ff2d20&style=flat-square)](https://laravel.com)
+[![composer](https://img.shields.io/static/v1?label=Composer&message=v2.0&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)
+
+[![laravel](https://img.shields.io/static/v1?label=Laravel&message=v8.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)  
 [![swagger](https://img.shields.io/static/v1?label=Swagger&message=v3.0&color=85EA2D&style=flat-square&logo=swagger&logoColo=ffffff)](https://swagger.io)
 
 [![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=14.15&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
@@ -25,12 +26,9 @@
 
 ## **TODO**
 
-- Multiple authors
-- Fix sort by serie with article
-- Sort by author, serie, title, language
+- Multiple authors for Serie
 - Setup cache
 - Fix Resources collection with ResourceCollection extends
-- Multiple author serie
 - Logs for EpubParser
 - Command to get basic books-raw/ with libre ebooks
 - Null safe operator on all Resources & Collections

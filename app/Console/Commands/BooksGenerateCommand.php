@@ -10,12 +10,13 @@ use App\Models\Book;
 use App\Models\Serie;
 use App\Providers\Bookshelves\ConvertEpubParser;
 use App\Providers\Bookshelves\EpubGenerator;
-use App\Providers\Bookshelves\ExtractCoverAndGenerate;
+use App\Providers\Bookshelves\CoverGenerator;
 use App\Providers\Bookshelves\ExtraDataGenerator;
 use App\Providers\EpubParser\Entities\IdentifiersParser;
 use App\Providers\EpubParser\EpubParser;
 use App\Providers\EpubParser\EpubParserTools;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class BooksGenerateCommand extends Command
 {
@@ -26,8 +27,9 @@ class BooksGenerateCommand extends Command
      */
     protected $signature = 'books:generate
                             {--f|fresh : reset current database to fresh install}
-                            {--d|debug : default author pictures, basic covers only}
-                            {--F|force : skip confirm question for fresh prod}';
+                            {--d|debug : default author pictures, basic covers only, skip tests}
+                            {--F|force : skip confirm question for fresh prod}
+                            {--l|limit= : limit epub files to generate, useful for debug}';
 
     /**
      * The console command description.
@@ -60,6 +62,9 @@ class BooksGenerateCommand extends Command
         $isDebug = $this->option('debug');
         $isForce = $this->option('force');
         $isFresh = $this->option('fresh');
+        $limit = $this->option('limit');
+        $limit = str_replace('=', '', $limit);
+        $limit = intval($limit);
 
         // $message = 'message';
 
@@ -119,7 +124,7 @@ class BooksGenerateCommand extends Command
         $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
 
         Artisan::call('storage:link');
-        $epubFiles = EpubParserTools::getAllEpubFiles();
+        $epubFiles = EpubParserTools::getAllEpubFiles(limit: $limit);
 
         if ($isFresh) {
             $isProd = 'production' === config('app.env');
@@ -158,11 +163,13 @@ class BooksGenerateCommand extends Command
         $books_with_covers = $this->generateBooks(epubFiles: $epubFiles, isDebug: $isDebug);
         $this->generateCovers(books_with_covers: $books_with_covers, isDebug: $isDebug);
         
-        if (config('app.env') !== 'production') {
+        if (config('app.env') !== 'production' && !$isDebug) {
             Artisan::call('pest:run');
         }
         
-        Artisan::call('db:seed --force');
+        if ($isFresh) {
+            Artisan::call('db:seed --force');
+        }
         
         $this->info('Done!');
     }
@@ -173,7 +180,7 @@ class BooksGenerateCommand extends Command
         $cover_bar = $this->output->createProgressBar(count($books_with_covers));
         $cover_bar->start();
         foreach ($books_with_covers as $key => $metadata) {
-            ExtractCoverAndGenerate::run($metadata, $isDebug);
+            CoverGenerator::run($metadata, $isDebug);
             $cover_bar->advance();
         }
         $cover_bar->finish();
@@ -193,17 +200,19 @@ class BooksGenerateCommand extends Command
         $this->info("\n");
         $this->info('Series Covers generated!'."\n");
 
-        $this->info('Generate authors pictures (from Wikipedia)'."\n");
-        $authors = Author::all();
-        $authors_pictures = $this->output->createProgressBar(count($authors));
-        $authors_pictures->start();
-        foreach ($authors as $key => $author) {
-            ExtraDataGenerator::generateAuthorPicture(author: $author, is_debug: $isDebug);
-            $authors_pictures->advance();
+        if (!$isDebug) {
+            $this->info('Generate authors pictures (from Wikipedia)'."\n");
+            $authors = Author::all();
+            $authors_pictures = $this->output->createProgressBar(count($authors));
+            $authors_pictures->start();
+            foreach ($authors as $key => $author) {
+                ExtraDataGenerator::generateAuthorPicture(author: $author, is_debug: $isDebug);
+                $authors_pictures->advance();
+            }
+            $authors_pictures->finish();
+            $this->info("\n");
+            $this->info('Authors Pictures generated!'."\n");
         }
-        $authors_pictures->finish();
-        $this->info("\n");
-        $this->info('Authors Pictures generated!'."\n");
 
         File::cleanDirectory(public_path('storage/covers-raw'));
         Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');
@@ -224,14 +233,17 @@ class BooksGenerateCommand extends Command
         $epub_bar->start();
         foreach ($epubFiles as $key => $filePath) {
             $epubParser = EpubParser::run($filePath, $isDebug);
-            $book_created = ConvertEpubParser::run(epubParser: $epubParser, is_debug: $isDebug);
-            EpubGenerator::run(book: $book_created, file_path: $filePath);
+            $tryToFindBook = Book::whereSlug(Str::slug($epubParser->title))->first();
+            if (!$tryToFindBook) {
+                $book_created = ConvertEpubParser::run(epubParser: $epubParser, is_debug: $isDebug);
+                EpubGenerator::run(book: $book_created, file_path: $filePath);
 
-            array_push($books_with_covers, [
-                'book' => $book_created,
-                'cover' => $epubParser->cover,
-                'cover_extension' =>$epubParser->cover_extension
-            ]);
+                array_push($books_with_covers, [
+                    'book' => $book_created,
+                    'cover' => $epubParser->cover,
+                    'cover_extension' =>$epubParser->cover_extension
+                ]);
+            }
             $epub_bar->advance();
         }
         $epub_bar->finish();

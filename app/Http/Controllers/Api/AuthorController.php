@@ -43,7 +43,7 @@ class AuthorController extends Controller
         if (null === $perPage) {
             $perPage = 32;
         }
-        $authors = Author::with('books')->get();
+        $authors = Author::with('books')->orderBy('lastname')->get();
         if (! $all) {
             $authors = $authors->paginate($perPage);
         }

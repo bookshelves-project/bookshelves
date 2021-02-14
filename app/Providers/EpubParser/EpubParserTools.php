@@ -151,7 +151,7 @@ class EpubParserTools
      *
      * @return false|array
      */
-    public static function getAllEpubFiles()
+    public static function getAllEpubFiles(int $limit = null): array|false
     {
         try {
             // Get all files in books-raw/
@@ -168,6 +168,10 @@ class EpubParserTools
             if (array_key_exists('extension', pathinfo($value)) && 'epub' === pathinfo($value)['extension']) {
                 array_push($epubsFiles, $value);
             }
+        }
+
+        if ($limit) {
+            return array_slice($epubsFiles, 0, $limit);
         }
 
         return $epubsFiles;

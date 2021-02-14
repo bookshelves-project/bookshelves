@@ -50,9 +50,9 @@ class Author extends Model implements HasMedia
         'slug',
     ];
 
-    public function getImageAttribute(): string
+    public function getImageAttribute(): string|null
     {
-        return $this->getMedia('authors')->first()->getUrl();
+        return $this->getMedia('authors')?->first()?->getUrl();
     }
 
     public function getShowLinkAttribute(): string

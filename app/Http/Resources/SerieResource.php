@@ -79,12 +79,11 @@ class SerieResource extends JsonResource
                 'slug' => $book->author->slug,
             ],
             'language'        => $this->language,
-            'books_number'    => $books_number,
-            'books'           => $books,
-            // 'cover'           => $cover,
             'image'                 => $this->image,
             'download'              => $this->download_link,
             'size'                  => $size,
+            'books_number'    => $books_number,
+            'books'           => $books,
         ];
     }
 }

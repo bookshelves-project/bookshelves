@@ -90,14 +90,14 @@ class Book extends Model implements HasMedia
         'language',
     ];
 
-    public function getImageAttribute(): string
+    public function getImageAttribute(): string|null
     {
-        return $this->getMedia('books')->first()->getUrl();
+        return $this->getMedia('books')?->first()?->getUrl();
     }
 
-    public function getEpubAttribute(): string
+    public function getEpubAttribute(): string|null
     {
-        return $this->getMedia('books_epubs')->first()->getUrl();
+        return $this->getMedia('books_epubs')?->first()?->getUrl();
     }
 
     public function getShowLinkAttribute(): string
