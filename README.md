@@ -39,6 +39,7 @@
   - <https://www.amitmerchant.com/how-to-use-php-80-attributes>
   - <https://stitcher.io/blog/attributes-in-php-8>
   - <https://grafikart.fr/tutoriels/attribut-php8-1371>
+- mailing: <https://www.mailgun.com>
 
 ```bash
 scoop reset php/php7.4-nts
