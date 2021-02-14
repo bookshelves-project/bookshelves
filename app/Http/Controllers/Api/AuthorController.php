@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\AuthorCollection;
 
@@ -40,15 +41,25 @@ class AuthorController extends Controller
         $all = $request->get('all');
         $all = filter_var($all, FILTER_VALIDATE_BOOLEAN);
 
-        if (null === $perPage) {
-            $perPage = 32;
-        }
-        $authors = Author::with('books')->orderBy('lastname')->get();
-        if (! $all) {
-            $authors = $authors->paginate($perPage);
-        }
+        $cachedAuthors = Cache::get('authors');
 
-        $authors = AuthorCollection::collection($authors);
+        if (! $cachedAuthors) {
+            if (null === $perPage) {
+                $perPage = 32;
+            }
+            $authors = Author::with('books')->orderBy('lastname')->get();
+            if (! $all) {
+                $authors = $authors->paginate($perPage);
+            }
+
+            $authors = AuthorCollection::collection($authors);
+
+            Cache::remember('authors', 120, function () use ($authors) {
+                return $authors;
+            });
+        } else {
+            $authors = $cachedAuthors;
+        }
 
         return $authors;
     }

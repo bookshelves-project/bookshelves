@@ -6,6 +6,7 @@ use App\Models\Serie;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SerieResource;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\SerieCollection;
 
 class SerieController extends Controller
@@ -41,23 +42,32 @@ class SerieController extends Controller
         $all = $request->get('all');
         $all = filter_var($all, FILTER_VALIDATE_BOOLEAN);
 
-        if (null === $perPage) {
-            $perPage = 32;
-        }
-        $series = Serie::with('books')->orderBy('title_sort')->get();
-
-        if ($debug) {
-            foreach ($series as $serie) {
-                echo $serie->title.'<br>';
+        $cachedSeries = Cache::get('series');
+        if (! $cachedSeries) {
+            if (null === $perPage) {
+                $perPage = 32;
             }
-            exit;
-        }
+            $series = Serie::with('books')->orderBy('title_sort')->get();
 
-        if (! $all) {
-            $series = $series->paginate($perPage);
-        }
+            if ($debug) {
+                foreach ($series as $serie) {
+                    echo $serie->title.'<br>';
+                }
+                exit;
+            }
 
-        $series = SerieCollection::collection($series);
+            if (! $all) {
+                $series = $series->paginate($perPage);
+            }
+
+            $series = SerieCollection::collection($series);
+
+            Cache::remember('series', 120, function () use ($series) {
+                return $series;
+            });
+        } else {
+            $series = $cachedSeries;
+        }
 
         return $series;
     }

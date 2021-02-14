@@ -53,7 +53,7 @@ class AuthorResource extends JsonResource
             'name'            => $this->name,
             'slug'            => $this->slug,
             // 'picture'         => $this->picture ? config('app.url').'/'.$this->picture : null,
-            'image'                 => $this->getMedia('authors')->first()?->getUrl(),
+            'image'                 => $this->image,
             'download'        => $this->download_link,
             'size'            => $size,
             'books_number'    => $books_number,

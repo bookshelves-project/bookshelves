@@ -46,7 +46,7 @@ class AuthorCollection extends JsonResource
             'books_number'   => $books_number,
             // 'cover'          => $cover,
             // 'picture'        => $this->picture ? config('app.url').'/'.$this->picture : null,
-            'image'                 => $this->getMedia('authors')->first()?->getUrl(),
+            'image'                 => $this->image,
             'links'                 => [
                 'show' => config('app.url')."/api/authors/$this->slug",
             ],

@@ -16,6 +16,7 @@ use App\Providers\EpubParser\Entities\IdentifiersParser;
 use App\Providers\EpubParser\EpubParser;
 use App\Providers\EpubParser\EpubParserTools;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class BooksGenerateCommand extends Command
@@ -27,7 +28,7 @@ class BooksGenerateCommand extends Command
      */
     protected $signature = 'books:generate
                             {--f|fresh : reset current database to fresh install}
-                            {--d|debug : default author pictures, basic covers only, skip tests}
+                            {--d|debug : default author pictures, no covers, skip tests}
                             {--F|force : skip confirm question for fresh prod}
                             {--l|limit= : limit epub files to generate, useful for debug}';
 
@@ -124,6 +125,9 @@ class BooksGenerateCommand extends Command
         $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
 
         Artisan::call('storage:link');
+        Cache::clear('books');
+        Cache::clear('series');
+        Cache::clear('authors');
         $epubFiles = EpubParserTools::getAllEpubFiles(limit: $limit);
 
         if ($isFresh) {
@@ -164,10 +168,12 @@ class BooksGenerateCommand extends Command
         $this->generateCovers(books_with_covers: $books_with_covers, isDebug: $isDebug);
         
         if (config('app.env') !== 'production' && !$isDebug) {
+            $this->info('Run tests'."\n");
             Artisan::call('pest:run');
         }
         
         if ($isFresh) {
+            $this->info('Run seeders...'."\n");
             Artisan::call('db:seed --force');
         }
         
@@ -176,16 +182,18 @@ class BooksGenerateCommand extends Command
 
     public function generateCovers(array $books_with_covers, bool $isDebug = false)
     {
-        $this->info("\n".'Generate covers'."\n");
-        $cover_bar = $this->output->createProgressBar(count($books_with_covers));
-        $cover_bar->start();
-        foreach ($books_with_covers as $key => $metadata) {
-            CoverGenerator::run($metadata, $isDebug);
-            $cover_bar->advance();
+        if (!$isDebug) {
+            $this->info("\n".'Generate covers'."\n");
+            $cover_bar = $this->output->createProgressBar(count($books_with_covers));
+            $cover_bar->start();
+            foreach ($books_with_covers as $key => $metadata) {
+                CoverGenerator::run(metadata: $metadata);
+                $cover_bar->advance();
+            }
+            $cover_bar->finish();
+            $this->info("\n");
+            $this->info('Covers generated!'."\n");
         }
-        $cover_bar->finish();
-        $this->info("\n");
-        $this->info('Covers generated!'."\n");
 
         $this->info('Generate series covers and extra data'."\n");
         $series = Serie::all();

@@ -8,6 +8,7 @@ use App\Models\Language;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\BookCollection;
 
 class BookController extends Controller
@@ -54,35 +55,44 @@ class BookController extends Controller
         $perPage = $request->get('perPage');
         $all = $request->get('all');
         $all = filter_var($all, FILTER_VALIDATE_BOOLEAN);
-
-        if (null === $perPage) {
-            $perPage = 32;
-        }
         $debug = $request->get('debug');
-        $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number');
-        $booksWithoutSerie = Book::whereNull('serie_id');
-        if ($selectByLang) {
-            Language::whereSlug($selectByLang)->firstOrFail();
-            $booksWithSerie = $booksWithSerie->whereLanguageSlug($selectByLang);
-            $booksWithoutSerie = $booksWithoutSerie->whereLanguageSlug($selectByLang);
-        }
-        $booksWithSerie = $booksWithSerie->get();
-        $booksWithoutSerie = $booksWithoutSerie->get();
 
-        $books = $booksWithSerie->merge($booksWithoutSerie);
-        $books = $books->sortBy(function ($book, $key) {
-            $title = null;
-            if ($book->serie) {
-                $title = $book->serie->title_sort;
-                $title = ucfirst($title.$book->serie_number);
-            } else {
-                $title = ucfirst($book->title_sort);
+        $cachedBooks = Cache::get('books');
+        if (! $cachedBooks) {
+            if (null === $perPage) {
+                $perPage = 32;
             }
+            $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number');
+            $booksWithoutSerie = Book::whereNull('serie_id');
+            if ($selectByLang) {
+                Language::whereSlug($selectByLang)->firstOrFail();
+                $booksWithSerie = $booksWithSerie->whereLanguageSlug($selectByLang);
+                $booksWithoutSerie = $booksWithoutSerie->whereLanguageSlug($selectByLang);
+            }
+            $booksWithSerie = $booksWithSerie->get();
+            $booksWithoutSerie = $booksWithoutSerie->get();
 
-            return $title;
-        }, SORT_NATURAL);
-        if (! $all) {
-            $books = $books->paginate($perPage);
+            $books = $booksWithSerie->merge($booksWithoutSerie);
+            $books = $books->sortBy(function ($book, $key) {
+                $title = null;
+                if ($book->serie) {
+                    $title = $book->serie->title_sort;
+                    $title = ucfirst($title.$book->serie_number);
+                } else {
+                    $title = ucfirst($book->title_sort);
+                }
+
+                return $title;
+            }, SORT_NATURAL);
+            if (! $all) {
+                $books = $books->paginate($perPage);
+            }
+            $books = BookCollection::collection($books);
+            Cache::remember('books', 120, function () use ($books) {
+                return $books;
+            });
+        } else {
+            $books = $cachedBooks;
         }
 
         if ($debug) {
@@ -94,8 +104,6 @@ class BookController extends Controller
                 }
             }
         } else {
-            $books = BookCollection::collection($books);
-
             return $books;
         }
     }

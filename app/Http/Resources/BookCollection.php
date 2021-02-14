@@ -62,7 +62,7 @@ class BookCollection extends JsonResource
             //     'basic'     => $cover_basic,
             //     'thumbnail' => $cover_thumbnail,
             // ],
-            'image'                 => $this->getMedia('books')->first()?->getUrl(),
+            'image'                 => $this->getMedia('books')?->first()?->getUrl('basic'),
             'serie'                 => $serie,
             'links'                 => [
                 'show' => $showUrl,

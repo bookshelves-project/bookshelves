@@ -72,7 +72,7 @@ class SerieCollection extends JsonResource
             'language'      => $language,
             'booksNumber'   => $books_number,
             // 'cover'         => $mainCover,
-            'image'                 => $this->getMedia('series')->first()?->getUrl(),
+            'image'                 => $this->image,
             'links'                 => [
                 'show' => config('app.url')."/api/series/$this->slug",
             ],

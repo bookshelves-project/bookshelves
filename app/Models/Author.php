@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * App\Models\Author.
@@ -50,9 +52,23 @@ class Author extends Model implements HasMedia
         'slug',
     ];
 
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $formatBasic = config('image.thumbnails.book_cover');
+        $formatThumbnail = config('image.thumbnails.book_thumbnail');
+
+        $this->addMediaConversion('basic')
+            ->fit(Manipulations::FIT_CROP, $formatBasic['width'], $formatBasic['height'])
+            ->sharpen(10);
+
+        $this->addMediaConversion('thumbnail')
+            ->fit(Manipulations::FIT_CROP, $formatThumbnail['width'], $formatThumbnail['height'])
+            ->sharpen(10);
+    }
+
     public function getImageAttribute(): string|null
     {
-        return $this->getMedia('authors')?->first()?->getUrl();
+        return $this->getMedia('authors')?->first()?->getUrl('basic');
     }
 
     public function getShowLinkAttribute(): string
