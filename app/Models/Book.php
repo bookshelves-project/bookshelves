@@ -46,7 +46,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property \App\Models\Serie|null                                                                                                        $serie
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[]                                                                    $tags
  * @property int|null                                                                                                                      $tags_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book query()
@@ -66,6 +65,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read string $download_link
+ * @property-read string|null $epub
+ * @property-read string|null $image
+ * @property-read string $show_link
  */
 class Book extends Model implements HasMedia
 {

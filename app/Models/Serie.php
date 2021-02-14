@@ -28,7 +28,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property int|null                                                                                                                      $favorites_count
  * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property int|null                                                                                                                      $media_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie query()
@@ -37,6 +36,12 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitleSort($value)
  * @mixin \Eloquent
+ * @property string|null $language_slug
+ * @property-read string $download_link
+ * @property-read string|null $image
+ * @property-read string $show_link
+ * @property-read \App\Models\Language|null $language
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguageSlug($value)
  */
 class Serie extends Model implements HasMedia
 {
