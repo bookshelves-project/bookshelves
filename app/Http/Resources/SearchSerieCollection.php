@@ -21,8 +21,8 @@ class SearchSerieCollection extends JsonResource
                 'slug'   => $this->slug,
             ],
             'title'    => $this->title,
-            'author' => $this->books[0]->author->name,
-            'image'    => $this->getMedia('series')->first()?->getUrl(),
+            'author'   => $this->books[0]->author->name,
+            'image'    => $this->image,
         ];
     }
 }

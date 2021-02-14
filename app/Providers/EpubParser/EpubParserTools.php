@@ -20,6 +20,9 @@ class EpubParserTools
         $xml_string = '';
         $coverFile = '';
         $cover_extension = '';
+        $options_covers = [];
+        // echo epub filename
+        // dump(pathinfo($file_path)['basename']);
         for ($i = 0; $i < $zip->numFiles; $i++) {
             $stat = $zip->statIndex($i);
             if (strpos($stat['name'], '.opf')) {
@@ -28,13 +31,14 @@ class EpubParserTools
             if (preg_match('/cover/', $stat['name'])) {
                 if (array_key_exists('extension', pathinfo($stat['name']))) {
                     $cover_extension = pathinfo($stat['name'])['extension'];
-                    if (preg_match('/jpg|jpeg|PNG|WEBP/', $cover_extension)) {
-                        $coverFile = $stat['name'];
-                        $coverFile = $zip->getFromName($stat['name']);
+                    if (preg_match('/cover/', pathinfo($stat['name'])['basename']) && preg_match('/jpg|jpeg|PNG|WEBP/', $cover_extension)) {
+                        array_push($options_covers, $zip->getFromName($stat['name']));
                     }
                 }
             }
         }
+
+        $coverFile = array_key_exists(0, $options_covers) ? $options_covers[0] : null;
 
         $package = simplexml_load_string($xml_string);
         try {

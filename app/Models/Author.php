@@ -11,21 +11,22 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * App\Models\Author
+ * App\Models\Author.
  *
- * @property int $id
- * @property string|null $slug
- * @property string|null $lastname
- * @property string|null $firstname
- * @property string|null $name
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
- * @property-read int|null $books_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read int|null $comments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
- * @property-read int|null $favorites_count
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
- * @property-read int|null $media_count
+ * @property int                                                                                                                           $id
+ * @property string|null                                                                                                                   $slug
+ * @property string|null                                                                                                                   $lastname
+ * @property string|null                                                                                                                   $firstname
+ * @property string|null                                                                                                                   $name
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]                                                                   $books
+ * @property int|null                                                                                                                      $books_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[]                                                                $comments
+ * @property int|null                                                                                                                      $comments_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\User[]                                                                   $favorites
+ * @property int|null                                                                                                                      $favorites_count
+ * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property int|null                                                                                                                      $media_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author query()
@@ -48,6 +49,21 @@ class Author extends Model implements HasMedia
         'name',
         'slug',
     ];
+
+    public function getImageAttribute(): string
+    {
+        return $this->getMedia('authors')->first()->getUrl();
+    }
+
+    public function getShowLinkAttribute(): string
+    {
+        return config('app.url')."/api/authors/$this->slug";
+    }
+
+    public function getDownloadLinkAttribute(): string
+    {
+        return config('app.url')."/api/download/author/$this->slug";
+    }
 
     public function books(): BelongsToMany
     {

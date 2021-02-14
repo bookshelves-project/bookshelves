@@ -20,9 +20,9 @@ class SearchAuthorCollection extends JsonResource
                 'entity' => 'author',
                 'slug'   => $this->slug,
             ],
-            'title'    => $this->name,
-            'author' => $this->name,
-            'image'  => $this->getMedia('authors')->first()?->getUrl(),
+            'title'    => $this->lastname.' '.$this->firstname,
+            'author'   => $this->name,
+            'image'    => $this->image,
         ];
     }
 }

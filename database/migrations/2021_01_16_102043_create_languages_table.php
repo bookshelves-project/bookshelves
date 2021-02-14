@@ -26,6 +26,14 @@ class CreateLanguagesTable extends Migration
                 ->on('languages')
                 ->onDelete('cascade');
         });
+
+        Schema::table('series', function (Blueprint $table) {
+            $table->string('language_slug')->index()->nullable()->after('slug');
+            $table->foreign('language_slug')
+                ->references('slug')
+                ->on('languages')
+                ->onDelete('cascade');
+        });
     }
 
     /**

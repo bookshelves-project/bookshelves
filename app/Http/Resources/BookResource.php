@@ -88,7 +88,7 @@ class BookResource extends JsonResource
         return [
             'title'                 => $this->title,
             'slug'                  => $this->slug,
-            'authorSlug'            => $this->author->slug,
+            'author'            => $this->author->slug,
             'authors'               => $authors,
             'summary'               => $summary,
             'description'           => $this->description,
@@ -109,13 +109,13 @@ class BookResource extends JsonResource
             'epub'                  => [
                 'name' => $epub->file_name,
                 'size' => human_filesize($epub->size),
-                'download' => config('app.url').'/api/download/book/'.$this->author->slug.'/'.$this->slug,
+                'download' => $this->download_link,
             ],
             'serie'                 => $serie ? [
-                'number'  => $this->serie_number ? $this->serie_number : null,
-                'title'   => $serie ? $serie->title : null,
-                'slug'    => $serie ? $serie->slug : null,
-                'show'    => config('app.url')."/api/series/$serie->slug",
+                'number'  => $this->serie_number,
+                'title'   => $serie?->title,
+                'slug'    => $serie?->slug,
+                'show'    => $serie?->show_link,
             ] : null,
             'isFavorite' => $isFavorite,
             'comments'   => $comments,

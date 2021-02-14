@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * App\Models\Language
+ * App\Models\Language.
  *
- * @property string|null $slug
- * @property string|null $flag
- * @property string|null $display
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
- * @property-read int|null $books_count
+ * @property string|null                                                 $slug
+ * @property string|null                                                 $flag
+ * @property string|null                                                 $display
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
+ * @property int|null                                                    $books_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Language newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Language newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Language query()
@@ -39,5 +40,10 @@ class Language extends Model
     public function books(): HasMany
     {
         return $this->hasMany(Book::class);
+    }
+
+    public function series(): HasMany
+    {
+        return $this->hasMany(Serie::class);
     }
 }

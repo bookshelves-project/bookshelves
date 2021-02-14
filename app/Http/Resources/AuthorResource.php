@@ -19,30 +19,33 @@ class AuthorResource extends JsonResource
         $books = null;
         $cover = null;
         if ($this->books) {
-            $books = BookCollection::collection($this->books);
+            $books = [];
+            $size = [];
+            foreach ($this->books as $key => $book) {
+                array_push($books, [
+                    'title' => $book->title,
+                    'slug' => $book->slug,
+                    'author' => $book->author->slug,
+                    'language' => [
+                        'slug' => $book->language->slug,
+                        'flag' => $book->language->flag
+                    ],
+                    'image' => $book->image,
+                    'serie' => $book->serie ? [
+                        'number' => $book->serie_number,
+                        'title' => $book->serie->title,
+                        'show' => $book->serie->show_link
+                    ] : null ,
+                    'show' => $book->show_link
+                ]);
+                array_push($size, $book->getMedia('books_epubs')->first()?->size);
+            }
             $books_number = sizeof($books);
-            try {
-                $mainBook = Book::whereHas('authors', function ($query) {
-                    return $query->where('author_id', '=', $this->id);
-                })->where('serie_number', '=', '1')->get();
-            } catch (\Throwable $th) {
-            }
-            if (null === $mainBook) {
-                $mainBook = $books->first();
-            }
-            try {
-                $cover = $mainBook->cover->thumbnail;
-            } catch (\Throwable $th) {
-                //throw $th;
-            }
+            $size = array_sum($size);
+            $size = human_filesize($size);
         }
-        $downloadLink = config('app.url')."/api/download/author/$this->slug";
-        $size = [];
-        foreach ($books as $key => $book) {
-            array_push($size, $book->getMedia('books_epubs')->first()?->size);
-        }
-        $size = array_sum($size);
-        $size = human_filesize($size);
+       
+
 
         return [
             'lastname'        => $this->lastname,
@@ -51,10 +54,10 @@ class AuthorResource extends JsonResource
             'slug'            => $this->slug,
             // 'picture'         => $this->picture ? config('app.url').'/'.$this->picture : null,
             'image'                 => $this->getMedia('authors')->first()?->getUrl(),
+            'download'        => $this->download_link,
+            'size'            => $size,
             'books_number'    => $books_number,
             'books'           => $books,
-            'download'        => $downloadLink,
-            'size'            => $size,
         ];
     }
 }

@@ -56,8 +56,8 @@ class CommentResource extends JsonResource
             'createdAt'  => $this->created_at,
             'updatedAt'  => $this->updated_at,
             'title' => $title,
-            'cover' => $cover,
-            // 'authorSlug' => $this->books[0]?->author->slug,
+            'image' => $this->commentable->image,
+            // 'author' => $this->books[0]?->author->slug,
             // 'cover'      => $this->books[0]?->cover->basic,
             // 'slug'       => $this->books[0]?->slug,
             // 'book'       => [

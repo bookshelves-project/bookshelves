@@ -7,18 +7,15 @@ use File;
 use Artisan;
 use Storage;
 use App\Models\Book;
-use App\Models\Identifier;
-use App\Models\Language;
-use App\Models\Publisher;
 use App\Models\Serie;
-use App\Models\Tag;
-use App\Providers\BookGenerator\BookGenerator;
+use App\Providers\Bookshelves\ConvertEpubParser;
+use App\Providers\Bookshelves\EpubGenerator;
+use App\Providers\Bookshelves\ExtractCoverAndGenerate;
+use App\Providers\Bookshelves\ExtraDataGenerator;
 use App\Providers\EpubParser\Entities\IdentifiersParser;
 use App\Providers\EpubParser\EpubParser;
 use App\Providers\EpubParser\EpubParserTools;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class BooksGenerateCommand extends Command
 {
@@ -176,31 +173,32 @@ class BooksGenerateCommand extends Command
         $cover_bar = $this->output->createProgressBar(count($books_with_covers));
         $cover_bar->start();
         foreach ($books_with_covers as $key => $metadata) {
-            BookGenerator::extractCoverAndGenerate($metadata, $isDebug);
+            ExtractCoverAndGenerate::run($metadata, $isDebug);
             $cover_bar->advance();
         }
         $cover_bar->finish();
         $this->info("\n");
         $this->info('Covers generated!'."\n");
 
-        $this->info('Generate series covers'."\n");
+        $this->info('Generate series covers and extra data'."\n");
         $series = Serie::all();
         $series_cover_bar = $this->output->createProgressBar(count($series));
         $series_cover_bar->start();
         foreach ($series as $key => $serie) {
-            BookGenerator::generateSerieCover(serie: $serie);
+            ExtraDataGenerator::generateSerieCover(serie: $serie);
+            ExtraDataGenerator::generateSerieLanguage(serie: $serie);
             $series_cover_bar->advance();
         }
         $series_cover_bar->finish();
         $this->info("\n");
         $this->info('Series Covers generated!'."\n");
 
-        $this->info('Generate authors pictures'."\n");
+        $this->info('Generate authors pictures (from Wikipedia)'."\n");
         $authors = Author::all();
         $authors_pictures = $this->output->createProgressBar(count($authors));
         $authors_pictures->start();
         foreach ($authors as $key => $author) {
-            BookGenerator::generateAuthorPicture(author: $author, is_debug: $isDebug);
+            ExtraDataGenerator::generateAuthorPicture(author: $author, is_debug: $isDebug);
             $authors_pictures->advance();
         }
         $authors_pictures->finish();
@@ -226,10 +224,8 @@ class BooksGenerateCommand extends Command
         $epub_bar->start();
         foreach ($epubFiles as $key => $filePath) {
             $epubParser = EpubParser::run($filePath, $isDebug);
-            $book_created = BookGenerator::convertEpubParser(epubParser: $epubParser, is_debug: $isDebug);
-            $epub_created = BookGenerator::generateNewEpub(book: $book_created, file_path: $filePath);
-            // $book_created->epub()->associate($epub_created);
-            // $book_created->save();
+            $book_created = ConvertEpubParser::run(epubParser: $epubParser, is_debug: $isDebug);
+            EpubGenerator::run(book: $book_created, file_path: $filePath);
 
             array_push($books_with_covers, [
                 'book' => $book_created,
