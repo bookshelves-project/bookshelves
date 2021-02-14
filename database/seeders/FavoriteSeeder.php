@@ -22,23 +22,20 @@ class FavoriteSeeder extends Seeder
         $authors = Author::inRandomOrder()->limit(5)->get();
         $series = Serie::inRandomOrder()->limit(5)->get();
 
-        $books->each(function ($book, $key) use ($users, $books) {
+        $books->each(function ($book, $key) use ($users) {
             $user = $users->random();
-            $book = $books->random();
 
             $book->favorites()->save($user);
         });
 
-        $authors->each(function ($book, $key) use ($users, $authors) {
+        $authors->each(function ($author, $key) use ($users) {
             $user = $users->random();
-            $author = $authors->random();
 
             $author->favorites()->save($user);
         });
 
-        $series->each(function ($book, $key) use ($users, $series) {
+        $series->each(function ($serie, $key) use ($users) {
             $user = $users->random();
-            $serie = $series->random();
 
             $serie->favorites()->save($user);
         });

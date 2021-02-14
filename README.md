@@ -3,7 +3,7 @@
 [![php](https://img.shields.io/badge/dynamic/json?label=PHP&query=require.php&url=https%3A%2F%2Fgitlab.com%2FEwieFairy%2Fbookshelves-back%2F-%2Fraw%2Fmaster%2Fcomposer.json&logo=php&logoColor=ffffff&color=777bb4&style=flat-square)](https://www.php.net)
 [![composer](https://img.shields.io/static/v1?label=Composer&message=v2.0&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)
 
-[![laravel](https://img.shields.io/static/v1?label=Laravel&message=v8.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)  
+[![laravel](https://img.shields.io/static/v1?label=Laravel&message=v8.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
 [![swagger](https://img.shields.io/static/v1?label=Swagger&message=v3.0&color=85EA2D&style=flat-square&logo=swagger&logoColo=ffffff)](https://swagger.io)
 
 [![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=14.15&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
@@ -18,9 +18,12 @@
 
 - [**TODO**](#todo)
 - [**I. Setup**](#i-setup)
-- [II. **Tools**](#ii-tools)
-  - [**II. a. Swagger**](#ii-a-swagger)
-  - [*II. b. Laravel Telescope*](#ii-b-laravel-telescope)
+- [**II. Tools**](#ii-tools)
+  - [*II. a. Swagger*](#ii-a-swagger)
+  - [*II. b. Laravel Telescope (only useful in local)*](#ii-b-laravel-telescope-only-useful-in-local)
+  - [*II. c. Spatie Media*](#ii-c-spatie-media)
+  - [*II. d. Tests*](#ii-d-tests)
+- [**III. `dotenv`**](#iii-dotenv)
 
 ---
 
@@ -74,33 +77,18 @@ php artisan setup ; mkdir public/storage/books-raw
 
 Add EPUB files in `public/storage/books-raw` and execute Epub Parser
 
+> `php artisan books:generate -h` to check options
+
 ```bash
 # for fresh installation (erase current database)
 php artisan books:generate -f
 ```
 
-```bash
-# to parse all EPUB and create new entities only for unknown eBooks
-php artisan books:generate
-```
+---
 
-`php artisan books:generate` have some options
+## **II. Tools**
 
-- `--f|fresh`: reset current database to fresh install
-- `--d|debug`: default author pictures, basic covers only
-- `--F|force`: skip confirm question for fresh prod
-
-> You can use multiple options like `php artisan books:generate -fdF`
-
-Execute tests
-
-```bash
-php artisan pest:run
-```
-
-## II. **Tools**
-
-### **II. a. Swagger**
+### *II. a. Swagger*
 
 - [**zircote.github.io/swagger-php**](https://zircote.github.io/swagger-php/): documentation of Swagger PHP
 - [**github.com/DarkaOnLine/L5-Swagger**](https://github.com/DarkaOnLine/L5-Swagger): L5-Swagger repository
@@ -118,7 +106,7 @@ L5_SWAGGER_GENERATE_ALWAYS=true
 L5_SWAGGER_BASE_PATH=/api
 ```
 
-### *II. b. Laravel Telescope*
+### *II. b. Laravel Telescope (only useful in local)*
 
 You can use [**laravel/telescope**](https://github.com/laravel/telescope) on Bookshelves at [**http://localhost:8000/telescope**](http://localhost:8000/telescope) if you serve project with `php artisan serve` (adapt URL if you have VHost).
 
@@ -126,4 +114,60 @@ In **dotenv** set `TELESCOPE_ENABLED` to `true`
 
 ```js
 TELESCOPE_ENABLED=true
+```
+
+### *II. c. Spatie Media*
+
+```bash
+php artisan media-library:regenerate
+```
+
+### *II. d. Tests*
+
+You can run Pest and PHP Unit tests
+
+```bash
+php artisan pest:run
+```
+
+---
+
+## **III. `dotenv`**
+
+For local
+
+```yml
+APP_URL=http://api.bookshelves.test
+# OR
+# APP_URL=http://localhost:8000
+
+MAIL_USERNAME=<mailtrap>
+MAIL_PASSWORD=<mailtrap>
+
+L5_SWAGGER_GENERATE_ALWAYS=true
+L5_SWAGGER_BASE_PATH=/api
+
+SANCTUM_STATEFUL_DOMAINS=localhost:3000
+SESSION_DOMAIN=localhost
+
+TELESCOPE_ENABLED=true
+```
+
+For production
+
+```yml
+APP_URL=https://bookshelves.git-projects.xyz
+
+# ...
+
+MAIL_USERNAME=<mail>
+MAIL_PASSWORD=<mail>
+
+L5_SWAGGER_GENERATE_ALWAYS=false
+L5_SWAGGER_BASE_PATH=/api
+
+SANCTUM_STATEFUL_DOMAINS=bookshelves.git-projects.xyz
+SESSION_DOMAIN=.git-projects.xyz
+
+TELESCOPE_ENABLED=false
 ```

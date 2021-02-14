@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Build\DependencyController;
@@ -77,6 +78,7 @@ Route::get('/books/latest', [BookController::class, 'latest'])->name('books.late
  * Misc routes
  */
 Route::get('/books/count-langs', [BookController::class, 'count_langs'])->name('books.count-langs');
+Route::post('contact', [ContactController::class, 'send'])->name('contact.send');
 
 /*
  * Dependencies routes

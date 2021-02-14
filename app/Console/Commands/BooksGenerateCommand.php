@@ -30,7 +30,7 @@ class BooksGenerateCommand extends Command
                             {--f|fresh : reset current database to fresh install}
                             {--d|debug : default author pictures, no covers, skip tests}
                             {--F|force : skip confirm question for fresh prod}
-                            {--l|limit= : limit epub files to generate, useful for debug}';
+                            {--l|limit=10 : limit epub files to generate, useful for debug}';
 
     /**
      * The console command description.
