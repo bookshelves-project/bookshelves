@@ -145,7 +145,7 @@ class BooksGenerateCommand extends Command
         } else {
             $this->info("\n");
             $this->info('You choose basic parsing, current database will be keep safe and unknown eBooks will be add.');
-            $this->warn("Basic parsing isn't ready, try fresh parsing with option --fresh");
+            $this->warn("Basic parsing is not fully tested, to generate database with full try --fresh option for ready command");
 
             $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
         }

@@ -27,11 +27,10 @@
 ## **TODO**
 
 - Multiple authors for Serie
-- Setup cache
 - Fix Resources collection with ResourceCollection extends
 - Logs for EpubParser
 - Command to get basic books-raw/ with libre ebooks
-- Null safe operator on all Resources & Collections
+- Null safe operator on all Resources & Collections / cleaning resources
 - Add attribute on each method for Controller
 - Check attributes
   - <https://www.amitmerchant.com/how-to-use-php-80-attributes>
