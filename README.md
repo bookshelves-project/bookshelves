@@ -23,6 +23,10 @@
   - [*II. b. Laravel Telescope (only useful in local)*](#ii-b-laravel-telescope-only-useful-in-local)
   - [*II. c. Spatie Media*](#ii-c-spatie-media)
   - [*II. d. Tests*](#ii-d-tests)
+  - [*II. e. Mails*](#ii-e-mails)
+  - [*II. f. Sanctum*](#ii-f-sanctum)
+  - [*II. g. EpubParser*](#ii-g-epubparser)
+  - [*II. h. Recaptcha*](#ii-h-recaptcha)
 - [**III. `dotenv`**](#iii-dotenv)
 
 ---
@@ -40,6 +44,8 @@
   - <https://stitcher.io/blog/attributes-in-php-8>
   - <https://grafikart.fr/tutoriels/attribut-php8-1371>
 - mailing: <https://www.mailgun.com>
+- numberOfPages: <https://idpf.github.io/epub-guides/package-metadata/#schema-numberOfPages>
+  - async epubparser for Google data
 
 ```bash
 scoop reset php/php7.4-nts
@@ -130,6 +136,22 @@ You can run Pest and PHP Unit tests
 ```bash
 php artisan pest:run
 ```
+
+### *II. e. Mails*
+
+TODO
+
+### *II. f. Sanctum*
+
+TODO
+
+### *II. g. EpubParser*
+
+TODO
+
+### *II. h. Recaptcha*
+
+TODO
 
 ---
 

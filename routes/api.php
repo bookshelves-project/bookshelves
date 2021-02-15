@@ -7,9 +7,9 @@ use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\SubmissionController;
 use App\Http\Controllers\Build\DependencyController;
 
 /*
@@ -44,6 +44,7 @@ Route::get('/authors', [AuthorController::class, 'index'])->name('authors.index'
  * Count routes
  */
 Route::get('/books/count', [BookController::class, 'count'])->name('books.count');
+Route::get('/books/count-langs', [BookController::class, 'count_langs'])->name('books.count-langs');
 Route::get('/series/count', [SerieController::class, 'count'])->name('series.count');
 Route::get('/authors/count', [AuthorController::class, 'count'])->name('authors.count');
 
@@ -75,10 +76,9 @@ Route::get('/download/author/{author}', [DownloadController::class, 'author'])->
 Route::get('/books/latest', [BookController::class, 'latest'])->name('books.latest');
 
 /*
- * Misc routes
+ * Submissions routes
  */
-Route::get('/books/count-langs', [BookController::class, 'count_langs'])->name('books.count-langs');
-Route::post('contact', [ContactController::class, 'send'])->name('contact.send');
+Route::post('submission', [SubmissionController::class, 'send'])->name('submission.send');
 
 /*
  * Dependencies routes

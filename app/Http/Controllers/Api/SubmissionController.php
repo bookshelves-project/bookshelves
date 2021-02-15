@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use Mail;
-use App\Models\Contact;
-use App\Mail\ContactMail;
+use App\Models\Submission;
+use App\Mail\SubmissionMail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ContactController extends Controller
+class SubmissionController extends Controller
 {
     public function send(Request $request)
     {
@@ -19,12 +19,14 @@ class ContactController extends Controller
             'g-recaptcha-response'  => 'required|recaptcha',
         ]);
 
-        $email = Contact::create([
+        // Create model
+        $email = Submission::create([
             'name'    => $validate['name'],
             'email'   => $validate['email'],
             'message' => $validate['message'],
         ]);
-        Mail::send(new ContactMail($email));
+        // Send mail
+        Mail::send(new SubmissionMail($email));
 
         return response()->json([
             'success' => 'Your mail was sended!',

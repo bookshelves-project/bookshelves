@@ -6,42 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ContactMail extends Mailable
+class SubmissionMail extends Mailable
 {
     use Queueable;
     use SerializesModels;
-
-    // public $to;
-    // public $from;
-    // public $data;
-
-    // /**
-    //  * Create a new message instance.
-    //  *
-    //  * @return void
-    //  */
-    // public function __construct($to, $from, $data)
-    // {
-    //     $this->to = $to;
-    //     $this->from = $from;
-    //     $this->data = $data;
-    // }
-
-    // /**
-    //  * Build the message.
-    //  *
-    //  * @return $this
-    //  */
-    // public function build()
-    // {
-    //     return $this->from($this->from)
-    //         ->to($this->to)
-    //         ->markdown('emails.contact', [
-    //             'name'    => $this->data['name'],
-    //             'email'   => $this->data['email'],
-    //             'message' => $this->data['message'],
-    //         ]);
-    // }
 
     /**
      * Create a new message instance.
@@ -67,7 +35,7 @@ class ContactMail extends Mailable
         return $this->to($to)
             ->from($from)
             ->subject($subject)
-            ->markdown('emails.contact')
+            ->markdown('emails.submission')
             ->with([
                 'name'       => $this->data['name'],
                 'email'      => $this->data['email'],
