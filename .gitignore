@@ -12,6 +12,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 
-/public/css
-/public/js
 .php_cs.cache
