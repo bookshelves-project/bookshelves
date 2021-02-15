@@ -56,12 +56,13 @@ class BookController extends Controller
         $all = $request->get('all');
         $all = filter_var($all, FILTER_VALIDATE_BOOLEAN);
         $debug = $request->get('debug');
+        if (null === $perPage) {
+            $perPage = 32;
+        }
 
+        // Cache::clear('books');
         $cachedBooks = Cache::get('books');
         if (! $cachedBooks) {
-            if (null === $perPage) {
-                $perPage = 32;
-            }
             $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number');
             $booksWithoutSerie = Book::whereNull('serie_id');
             if ($selectByLang) {
@@ -84,16 +85,17 @@ class BookController extends Controller
 
                 return $title;
             }, SORT_NATURAL);
-            if (! $all) {
-                $books = $books->paginate($perPage);
-            }
-            $books = BookCollection::collection($books);
             Cache::remember('books', 120, function () use ($books) {
                 return $books;
             });
         } else {
             $books = $cachedBooks;
         }
+
+        if (! $all) {
+            $books = $books->paginate($perPage);
+        }
+        $books = BookCollection::collection($books);
 
         if ($debug) {
             foreach ($books as $book) {

@@ -40,19 +40,14 @@ class AuthorController extends Controller
         $perPage = $request->get('perPage');
         $all = $request->get('all');
         $all = filter_var($all, FILTER_VALIDATE_BOOLEAN);
+        if (null === $perPage) {
+            $perPage = 32;
+        }
 
         $cachedAuthors = Cache::get('authors');
 
         if (! $cachedAuthors) {
-            if (null === $perPage) {
-                $perPage = 32;
-            }
             $authors = Author::with('books')->orderBy('lastname')->get();
-            if (! $all) {
-                $authors = $authors->paginate($perPage);
-            }
-
-            $authors = AuthorCollection::collection($authors);
 
             Cache::remember('authors', 120, function () use ($authors) {
                 return $authors;
@@ -60,6 +55,11 @@ class AuthorController extends Controller
         } else {
             $authors = $cachedAuthors;
         }
+
+        if (! $all) {
+            $authors = $authors->paginate($perPage);
+        }
+        $authors = AuthorCollection::collection($authors);
 
         return $authors;
     }

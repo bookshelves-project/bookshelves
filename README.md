@@ -29,6 +29,8 @@
   - [*II. g. EpubParser*](#ii-g-epubparser)
   - [*II. h. Recaptcha*](#ii-h-recaptcha)
 - [**III. `dotenv`**](#iii-dotenv)
+  - [*III. a. For local*](#iii-a-for-local)
+  - [*III. b. For production*](#iii-b-for-production)
 
 ---
 
@@ -88,8 +90,8 @@ Add EPUB files in `public/storage/books-raw` and execute Epub Parser
 > `php artisan books:generate -h` to check options
 
 ```bash
-# for fresh installation (erase current database)
-php artisan books:generate -f
+# for fresh installation (erase current database) with force option for production
+php artisan books:generate -fF
 ```
 
 ---
@@ -99,22 +101,54 @@ php artisan books:generate -f
 ### *II. a. Swagger*
 
 - [**zircote.github.io/swagger-php**](https://zircote.github.io/swagger-php/): documentation of Swagger PHP
-- [**github.com/DarkaOnLine/L5-Swagger**](https://github.com/DarkaOnLine/L5-Swagger): L5-Swagger repository
+- [**github.com/DarkaOnLine/L5-Swagger**](https://github.com/DarkaOnLine/L5-Swagger): `darkaonline/l5-swagger` repository
+- [**ivankolodiy.medium.com**](https://ivankolodiy.medium.com/how-to-write-swagger-documentation-for-laravel-api-tips-examples-5510fb392a94): useful article about L5-Swagger
+- [**localhost:8000/api/documentation**](http://localhost:8000/api/documentation): if you use `php artisan serve`, Swagger is available on `/api/documentation`
 
-Generate documentation
+To generate documentation from **@OA** comments
+
+```yml
+# In dotenv
+L5_SWAGGER_GENERATE_ALWAYS=true
+L5_SWAGGER_BASE_PATH=/api
+```
 
 ```bash
 php artisan l5-swagger:generate
 ```
 
-dotenv variables
+To update documentation change **@OA** comments in controllers
 
-```js
-L5_SWAGGER_GENERATE_ALWAYS=true
-L5_SWAGGER_BASE_PATH=/api
+```php
+<?php
+
+// ...
+
+class BookController extends Controller
+{
+  /**
+  * @OA\Get(
+  *     path="/books",
+  *     tags={"books"},
+  *     summary="List of books",
+  *     description="Books",
+  *     @OA\Response(
+  *         response=200,
+  *         description="Successful operation"
+  *     )
+  * )
+  */
+  public function index()
+  {
+    // ...
+  }
+}
+
 ```
 
 ### *II. b. Laravel Telescope*
+
+- [**laravel.com/docs/8.x/telescope**](https://laravel.com/docs/8.x/telescope): `laravel/telescope` package doc
 
 *Note: only useful in local*
 
@@ -122,17 +156,24 @@ You can use [**laravel/telescope**](https://github.com/laravel/telescope) on Boo
 
 In **dotenv** set `TELESCOPE_ENABLED` to `true`
 
-```js
+```yml
 TELESCOPE_ENABLED=true
 ```
 
 ### *II. c. Spatie Media*
+
+- [**spatie.be/docs/laravel-medialibrary**](https://spatie.be/docs/laravel-medialibrary/v9/introduction): `spatie/laravel-medialibrary` package doc
+
+If you update `registerMediaConversions()` in any Model, you can regenerate conversions
 
 ```bash
 php artisan media-library:regenerate
 ```
 
 ### *II. d. Tests*
+
+- [**phpunit.de**](https://phpunit.de): `phpunit/phpunit` package doc
+- [**pestphp.com**](https://pestphp.com): `pestphp/pest` package doc
 
 You can run Pest and PHP Unit tests
 
@@ -146,13 +187,15 @@ TODO
 
 ### *II. f. Sanctum*
 
+- [**laravel.com/docs/8.x/sanctum**](https://laravel.com/docs/8.x/sanctum): `laravel/sanctum` package doc
+
+TODO
+
 #### Login 419 error: "CSRF token mismatch"
 
 ```bash
 php artisan cache:clear ; php artisan route:clear ; php artisan config:clear ; php artisan view:clear ; php artisan optimize:clear
 ```
-
-TODO
 
 ### *II. g. EpubParser*
 
@@ -160,13 +203,15 @@ TODO
 
 ### *II. h. Recaptcha*
 
+- [**laravel-recaptcha-docs.biscolab.com/docs**](https://laravel-recaptcha-docs.biscolab.com/docs/intro): `biscolab/laravel-recaptcha` package doc
+
 TODO
 
 ---
 
 ## **III. `dotenv`**
 
-For local
+### *III. a. For local*
 
 ```yml
 APP_URL=http://api.bookshelves.test
@@ -188,10 +233,10 @@ RECAPTCHA_SITE_KEY=
 RECAPTCHA_SECRET_KEY=
 ```
 
-For production
+### *III. b. For production*
 
 ```yml
-APP_URL=https://bookshelves.git-projects.xyz
+APP_URL=https://www.mydomain.com
 
 # ...
 
@@ -201,8 +246,8 @@ MAIL_PASSWORD=<mail>
 L5_SWAGGER_GENERATE_ALWAYS=false
 L5_SWAGGER_BASE_PATH=/api
 
-SANCTUM_STATEFUL_DOMAINS=bookshelves.git-projects.xyz
-SESSION_DOMAIN=.git-projects.xyz
+SANCTUM_STATEFUL_DOMAINS=www.mydomain.com
+SESSION_DOMAIN=.mydomain.com
 
 TELESCOPE_ENABLED=false
 

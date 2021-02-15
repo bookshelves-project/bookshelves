@@ -41,12 +41,12 @@ class SerieController extends Controller
         $debug = $request->get('debug');
         $all = $request->get('all');
         $all = filter_var($all, FILTER_VALIDATE_BOOLEAN);
+        if (null === $perPage) {
+            $perPage = 32;
+        }
 
         $cachedSeries = Cache::get('series');
         if (! $cachedSeries) {
-            if (null === $perPage) {
-                $perPage = 32;
-            }
             $series = Serie::with('books')->orderBy('title_sort')->get();
 
             if ($debug) {
@@ -56,18 +56,17 @@ class SerieController extends Controller
                 exit;
             }
 
-            if (! $all) {
-                $series = $series->paginate($perPage);
-            }
-
-            $series = SerieCollection::collection($series);
-
             Cache::remember('series', 120, function () use ($series) {
                 return $series;
             });
         } else {
             $series = $cachedSeries;
         }
+
+        if (! $all) {
+            $series = $series->paginate($perPage);
+        }
+        $series = SerieCollection::collection($series);
 
         return $series;
     }
