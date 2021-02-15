@@ -21,7 +21,7 @@ class BookCollection extends JsonResource
             foreach ($this->authors as $key => $author) {
                 array_push($authors, [
                     'name' => $author->name,
-                    'show' => $author->show_link
+                    'show' => $author->show_link,
                 ]);
             }
         }
@@ -31,7 +31,7 @@ class BookCollection extends JsonResource
                 'number'  => $this->serie_number ? $this->serie_number : null,
                 'title'   => $this->serie->title,
                 'slug'    => $this->serie->slug,
-                'show' => $this->serie->show_link
+                'show'    => $this->serie->show_link,
             ];
         }
         $cover_basic = null;
@@ -52,7 +52,7 @@ class BookCollection extends JsonResource
             //     'name' => $author ? $author->name : null,
             //     'slug' => $author ? $author->slug : null,
             // ],
-            'author'            => $this->author->slug,
+            'author'                => $this->author->slug,
             'authors'               => $authors,
             'language'              => [
                 'slug' => $this->language->slug,
@@ -62,7 +62,7 @@ class BookCollection extends JsonResource
             //     'basic'     => $cover_basic,
             //     'thumbnail' => $cover_thumbnail,
             // ],
-            'image'                 => $this->getMedia('books')?->first()?->getUrl('basic'),
+            'image'                 => $this->image,
             'serie'                 => $serie,
             'links'                 => [
                 'show' => $showUrl,

@@ -20,11 +20,12 @@
 - [**I. Setup**](#i-setup)
 - [**II. Tools**](#ii-tools)
   - [*II. a. Swagger*](#ii-a-swagger)
-  - [*II. b. Laravel Telescope (only useful in local)*](#ii-b-laravel-telescope-only-useful-in-local)
+  - [*II. b. Laravel Telescope*](#ii-b-laravel-telescope)
   - [*II. c. Spatie Media*](#ii-c-spatie-media)
   - [*II. d. Tests*](#ii-d-tests)
   - [*II. e. Mails*](#ii-e-mails)
   - [*II. f. Sanctum*](#ii-f-sanctum)
+    - [Login 419 error: "CSRF token mismatch"](#login-419-error-csrf-token-mismatch)
   - [*II. g. EpubParser*](#ii-g-epubparser)
   - [*II. h. Recaptcha*](#ii-h-recaptcha)
 - [**III. `dotenv`**](#iii-dotenv)
@@ -70,7 +71,7 @@ Prerequisites for XML parse, spatie image optimize tools, here for `php8.0`
 sudo apt-get install -y php8.0-xml php8.0-gd ; sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp ; npm install -g svgo
 ```
 
-Deownload dependencies
+Download dependencies
 
 ```bash
 composer install
@@ -79,7 +80,7 @@ composer install
 Execute `setup` and follow guide
 
 ```bash
-php artisan setup ; mkdir public/storage/books-raw
+php artisan setup
 ```
 
 Add EPUB files in `public/storage/books-raw` and execute Epub Parser
@@ -113,7 +114,9 @@ L5_SWAGGER_GENERATE_ALWAYS=true
 L5_SWAGGER_BASE_PATH=/api
 ```
 
-### *II. b. Laravel Telescope (only useful in local)*
+### *II. b. Laravel Telescope*
+
+*Note: only useful in local*
 
 You can use [**laravel/telescope**](https://github.com/laravel/telescope) on Bookshelves at [**http://localhost:8000/telescope**](http://localhost:8000/telescope) if you serve project with `php artisan serve` (adapt URL if you have VHost).
 
@@ -142,6 +145,12 @@ php artisan pest:run
 TODO
 
 ### *II. f. Sanctum*
+
+#### Login 419 error: "CSRF token mismatch"
+
+```bash
+php artisan cache:clear ; php artisan route:clear ; php artisan config:clear ; php artisan view:clear ; php artisan optimize:clear
+```
 
 TODO
 

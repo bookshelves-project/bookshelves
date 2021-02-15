@@ -74,7 +74,7 @@ class SerieCollection extends JsonResource
             // 'cover'         => $mainCover,
             'image'                 => $this->image,
             'links'                 => [
-                'show' => config('app.url')."/api/series/$this->slug",
+                'show' => $this->show_link,
             ],
         ];
     }

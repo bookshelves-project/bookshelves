@@ -20,13 +20,13 @@ class SubmissionController extends Controller
         ]);
 
         // Create model
-        $email = Submission::create([
+        $submission = Submission::create([
             'name'    => $validate['name'],
             'email'   => $validate['email'],
             'message' => $validate['message'],
         ]);
         // Send mail
-        Mail::send(new SubmissionMail($email));
+        Mail::send(new SubmissionMail(submission: $submission));
 
         return response()->json([
             'success' => 'Your mail was sended!',

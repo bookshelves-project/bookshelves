@@ -114,6 +114,11 @@ class Book extends Model implements HasMedia
         return $this->getMedia('books')?->first()?->getUrl('basic');
     }
 
+    public function getImageOriginalAttribute(): string|null
+    {
+        return $this->getMedia('books')?->first()?->getUrl();
+    }
+
     public function getEpubAttribute(): string|null
     {
         return $this->getMedia('books_epubs')?->first()?->getUrl();

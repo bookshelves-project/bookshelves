@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use File;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -57,7 +58,6 @@ class SetupCommand extends Command
             $credentials = $this->requestDatabaseCredentials();
             $this->updateEnvironmentFile($credentials);
             $this->cleaning();
-            $this->warn('~ Secret key properly generated.');
         }
         if ($this->confirm('Do you want setup this app in production?', false)) {
             $prod = true;
@@ -92,9 +92,17 @@ class SetupCommand extends Command
                 $this->line('~ Database successfully migrated with seeds.');
             }
         }
+        if ($this->confirm('Do you want to make directory public/storage/books-raw?', true)) {
+            $path = 'public/storage/books-raw';
+            if (! is_dir($path)) {
+                mkdir($path);
+            }
+        }
         // clean
         Artisan::call('key:generate');
-        Artisan::call('books:generate');
+        $this->warn('~ Secret key properly generated.');
+        Artisan::call('books:generate -fF');
+        $this->info(Artisan::output());
         $this->info('Cleaning...');
         $this->cleaning();
         $this->info('Application is ready!');
@@ -112,7 +120,7 @@ class SetupCommand extends Command
      */
     protected function updateEnvironmentFile(array $updatedValues)
     {
-        $envFile = $this->laravel->environmentFilePath();
+        $envFile = base_path('.env');
 
         foreach ($updatedValues as $key => $value) {
             file_put_contents($envFile, preg_replace(
@@ -175,6 +183,22 @@ class SetupCommand extends Command
      */
     protected function requestDatabaseCredentials()
     {
+        // TODO
+        // MAIL_HOST=smtp.mailtrap.io
+        // MAIL_PORT=2525
+        // MAIL_USERNAME=16a36c1ca81e03
+        // MAIL_PASSWORD=d49144dd24808d
+
+        // L5_SWAGGER_GENERATE_ALWAYS=true
+
+        // SANCTUM_STATEFUL_DOMAINS=localhost:3000
+        // SESSION_DOMAIN=localhost
+
+        // TELESCOPE_ENABLED=false
+
+        // RECAPTCHA_SITE_KEY=6LfX4FcaAAAAABBdKY7HFoyzlFUceUVIIA5L6ANQ
+        // RECAPTCHA_SECRET_KEY=6LfX4FcaAAAAAIcm0HfFTi4H76BltoRy9QrGM1CQ
+        //
         return [
             'APP_NAME'                => $this->ask('App name', $this->appName),
             'DB_DATABASE'             => $this->ask('Database name', $this->appNameSlug),
