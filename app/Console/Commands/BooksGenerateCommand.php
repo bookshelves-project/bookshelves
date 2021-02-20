@@ -187,9 +187,12 @@ class BooksGenerateCommand extends Command
             $cover_bar = $this->output->createProgressBar(count($books_with_covers));
             $cover_bar->start();
             foreach ($books_with_covers as $key => $metadata) {
-                CoverGenerator::run(metadata: $metadata);
-                $cover_bar->advance();
+                if ($metadata['cover'] !== null) {
+                    CoverGenerator::run(metadata: $metadata);
+                    $cover_bar->advance();
+                }
             }
+
             $cover_bar->finish();
             $this->info("\n");
             $this->info('Covers generated!'."\n");

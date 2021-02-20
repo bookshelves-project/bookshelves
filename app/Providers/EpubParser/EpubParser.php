@@ -57,9 +57,9 @@ class EpubParser
 
         $title = $metadata['title'];
         $creators = $metadata['creator'];
-        $contributor = $metadata['contributor'];
+        $contributor = json_encode($metadata['contributor']);
         $description = $metadata['description'];
-        $date = $metadata['date'];
+        $date = is_array($metadata['date']) ? $metadata['date'][0] : $metadata['date'];
         $identifiers = $metadata['identifier'];
         $publisher = $metadata['publisher'];
         $subjects = $metadata['subject'];

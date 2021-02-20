@@ -4,10 +4,7 @@
 # !books-raw/
 !.gitignore
 !.gitignore-sample
-!no-picture.jpg
-!authors/
-!cache/
-!covers/
-!series/
 
+!cache/
+!demo-ebooks
 !media/
