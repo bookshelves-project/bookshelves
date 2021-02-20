@@ -71,7 +71,7 @@ class ExtraDataGenerator
                 $bookIfExist = Book::whereSerieNumber(1)->whereSerieId($serie->id)->first();
                 if ($bookIfExist) {
                     $book = $bookIfExist;
-                    $file_path_exist = File::exists($book->getMedia('books')->first()->getPath());
+                    $file_path_exist = File::exists($book->getMedia('books')->first()?->getPath());
                     if ($file_path_exist) {
                         $file_path = File::get($book->getMedia('books')->first()->getPath());
                         $serie->addMediaFromString($file_path)

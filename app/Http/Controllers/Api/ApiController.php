@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use File;
+use Route;
 use App\Http\Controllers\Controller;
 
 /**
@@ -33,4 +35,71 @@ use App\Http\Controllers\Controller;
  */
 class ApiController extends Controller
 {
+    public function index()
+    {
+        $routes = [];
+        $routeCollection = Route::getRoutes();
+
+        // foreach ($routeCollection as $route) {
+        //     if (preg_match('/api/', $route->uri)) {
+        //         var_dump($route->methods);
+        //         var_dump($route->uri);
+        //         dump($route);
+        //     }
+        // }
+        $routeCollection = Route::getRoutes();
+
+        $publicRoutes = [];
+        $sanctumRoutes = [];
+        foreach ($routeCollection as $route) {
+            if (preg_match('/api/', $route->uri) && ! preg_match('/l5-swagger/', $route->getName()) && ! preg_match('/tokens/', $route->uri())) {
+                $fullRoute = config('app.url').'/'.$route->uri();
+                $paramsList = [];
+                if (preg_match('/[{]/i', $fullRoute)) {
+                    $params = explode('/', $route->uri());
+                    foreach ($params as $key => $param) {
+                        if (preg_match('/[{]/i', $param)) {
+                            array_push($paramsList, $param);
+                        }
+                    }
+                }
+                // dump($paramsList);
+                $routes[$route->getName() ? $route->getName() : $route->uri()] = [
+                    'name'       => $route->getName(),
+                    'method'     => $route->methods()[0],
+                    'uri'        => $route->uri(),
+                    'action'     => str_replace('App\\Http\\Controllers\\Api\\', '', $route->getActionName()),
+                    'middleware' => $route->middleware(),
+                    // 'link'       => $route->getName() ? route($route->getName()) : null,
+                    'link'       => $fullRoute,
+                    'parameters' => sizeof($paramsList) > 0 ? $paramsList : null,
+                ];
+            }
+        }
+
+        foreach ($routes as $key => $route) {
+            if (in_array('auth:sanctum', $route['middleware'])) {
+                array_push($sanctumRoutes, $route);
+            } else {
+                array_push($publicRoutes, $route);
+            }
+        }
+
+        $composerJson = File::get(base_path('composer.json'));
+        $composerJson = json_decode($composerJson);
+
+        return response()->json([
+            'success'        => 'Bookshelves API is available',
+            'api-version'    => $composerJson->version,
+            'about'          => [
+                'public'  => 'Route with public access',
+                'sanctum' => 'Routes available if user is logged',
+            ],
+            'documentation'  => config('app.url').'/'.'api/documentation',
+            'routes'         => [
+                'public'   => $publicRoutes,
+                'sanctum'  => $sanctumRoutes,
+            ],
+        ], 200);
+    }
 }

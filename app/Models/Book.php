@@ -134,11 +134,21 @@ class Book extends Model implements HasMedia
         return config('app.url').'/api/download/book/'.$this->author->slug.'/'.$this->slug;
     }
 
+    /**
+     * Authors BelongsToMany
+     * 
+     * @return BelongsToMany 
+     */
     public function authors(): BelongsToMany
     {
         return $this->belongsToMany(Author::class);
     }
 
+    /**
+     * First Author for router
+     * 
+     * @return Author 
+     */
     public function getAuthorAttribute(): Author
     {
         return $this->belongsToMany(Author::class)->first();

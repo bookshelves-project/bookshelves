@@ -34,12 +34,6 @@ class BookCollection extends JsonResource
                 'show'    => $this->serie->show_link,
             ];
         }
-        $cover_basic = null;
-        $cover_thumbnail = null;
-        if ($this->cover) {
-            $cover_basic = $this->cover->basic;
-            $cover_thumbnail = $this->cover->thumbnail;
-        }
         $showUrl = null;
         if ($authors) {
             $showUrl = $this->show_link;
@@ -48,20 +42,12 @@ class BookCollection extends JsonResource
         return [
             'title'                 => $this->title,
             'slug'                  => $this->slug,
-            // 'author'                => [
-            //     'name' => $author ? $author->name : null,
-            //     'slug' => $author ? $author->slug : null,
-            // ],
             'author'                => $this->author->slug,
             'authors'               => $authors,
             'language'              => [
-                'slug' => $this->language->slug,
-                'flag' => $this->language->flag,
+                'display' => $this->language->display,
+                'flag'    => $this->language->flag,
             ],
-            // 'cover'                 => [
-            //     'basic'     => $cover_basic,
-            //     'thumbnail' => $cover_thumbnail,
-            // ],
             'image'                 => $this->image,
             'serie'                 => $serie,
             'links'                 => [
