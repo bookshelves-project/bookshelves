@@ -45,8 +45,8 @@ class BookCollection extends JsonResource
             'author'                => $this->author->slug,
             'authors'               => $authors,
             'language'              => [
-                'display' => $this->language->display,
-                'flag'    => $this->language->flag,
+                'slug' => $this->language->slug,
+                'flag' => $this->language->flag,
             ],
             'image'                 => $this->image,
             'serie'                 => $serie,
