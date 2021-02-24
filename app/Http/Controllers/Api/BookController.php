@@ -60,8 +60,13 @@ class BookController extends Controller
             $perPage = 32;
         }
 
-        // Cache::clear('books');
-        $cachedBooks = Cache::get('books');
+        if ($selectByLang) {
+            Cache::clear('books');
+            $cachedBooks = null;
+        } else {
+            $cachedBooks = Cache::get('books');
+        }
+        
         if (! $cachedBooks) {
             $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number');
             $booksWithoutSerie = Book::whereNull('serie_id');
@@ -85,9 +90,12 @@ class BookController extends Controller
 
                 return $title;
             }, SORT_NATURAL);
-            Cache::remember('books', 120, function () use ($books) {
-                return $books;
-            });
+            if (!$selectByLang) {
+                Cache::remember('books', 120, function () use ($books) {
+                    return $books;
+                });
+            }
+            
         } else {
             $books = $cachedBooks;
         }

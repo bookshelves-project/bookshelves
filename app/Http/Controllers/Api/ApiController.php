@@ -40,15 +40,6 @@ class ApiController extends Controller
         $routes = [];
         $routeCollection = Route::getRoutes();
 
-        // foreach ($routeCollection as $route) {
-        //     if (preg_match('/api/', $route->uri)) {
-        //         var_dump($route->methods);
-        //         var_dump($route->uri);
-        //         dump($route);
-        //     }
-        // }
-        $routeCollection = Route::getRoutes();
-
         $publicRoutes = [];
         $sanctumRoutes = [];
         foreach ($routeCollection as $route) {
@@ -63,14 +54,12 @@ class ApiController extends Controller
                         }
                     }
                 }
-                // dump($paramsList);
                 $routes[$route->getName() ? $route->getName() : $route->uri()] = [
                     'name'       => $route->getName(),
                     'method'     => $route->methods()[0],
                     'uri'        => $route->uri(),
                     'action'     => str_replace('App\\Http\\Controllers\\Api\\', '', $route->getActionName()),
                     'middleware' => $route->middleware(),
-                    // 'link'       => $route->getName() ? route($route->getName()) : null,
                     'link'       => $fullRoute,
                     'parameters' => sizeof($paramsList) > 0 ? $paramsList : null,
                 ];

@@ -18,19 +18,22 @@
 
 - [**TODO**](#todo)
 - [**I. Setup**](#i-setup)
-- [**II. Tools**](#ii-tools)
-  - [*II. a. Swagger*](#ii-a-swagger)
-  - [*II. b. Laravel Telescope*](#ii-b-laravel-telescope)
-  - [*II. c. Spatie Media*](#ii-c-spatie-media)
-  - [*II. d. Tests*](#ii-d-tests)
-  - [*II. e. Mails*](#ii-e-mails)
-  - [*II. f. Sanctum*](#ii-f-sanctum)
+- [**II. Generate eBooks data**](#ii-generate-ebooks-data)
+  - [*II. a. Add your own eBooks*](#ii-a-add-your-own-ebooks)
+  - [*II. b. Test with demo eBook*](#ii-b-test-with-demo-ebook)
+- [**III. Tools**](#iii-tools)
+  - [*III. a. Swagger*](#iii-a-swagger)
+  - [*III. b. Laravel Telescope*](#iii-b-laravel-telescope)
+  - [*III. c. Spatie Media*](#iii-c-spatie-media)
+  - [*III. d. Tests*](#iii-d-tests)
+  - [*III. e. Mails*](#iii-e-mails)
+  - [*III. f. Sanctum*](#iii-f-sanctum)
     - [Login 419 error: "CSRF token mismatch"](#login-419-error-csrf-token-mismatch)
-  - [*II. g. EpubParser*](#ii-g-epubparser)
-  - [*II. h. Recaptcha*](#ii-h-recaptcha)
-- [**III. `dotenv`**](#iii-dotenv)
-  - [*III. a. For local*](#iii-a-for-local)
-  - [*III. b. For production*](#iii-b-for-production)
+  - [*III. g. EpubParser*](#iii-g-epubparser)
+  - [*III. h. Recaptcha*](#iii-h-recaptcha)
+- [**IIII. `dotenv`**](#iiii-dotenv)
+  - [*IIII. a. For local*](#iiii-a-for-local)
+  - [*IIII. b. For production*](#iiii-b-for-production)
 
 ---
 
@@ -85,6 +88,12 @@ Execute `setup` and follow guide
 php artisan setup
 ```
 
+---
+
+## **II. Generate eBooks data**
+
+### *II. a. Add your own eBooks*
+
 Add EPUB files in `public/storage/books-raw` and execute Epub Parser
 
 > `php artisan books:generate -h` to check options
@@ -94,11 +103,21 @@ Add EPUB files in `public/storage/books-raw` and execute Epub Parser
 php artisan books:generate -fF
 ```
 
+### *II. b. Test with demo eBook*
+
+If you want to test Bookshelves, you can use `books:test` to generate data from libre eBooks
+
+> `php artisan books:test -h` to check options
+
+```bash
+php artisan books:test
+```
+
 ---
 
-## **II. Tools**
+## **III. Tools**
 
-### *II. a. Swagger*
+### *III. a. Swagger*
 
 - [**zircote.github.io/swagger-php**](https://zircote.github.io/swagger-php/): documentation of Swagger PHP
 - [**github.com/DarkaOnLine/L5-Swagger**](https://github.com/DarkaOnLine/L5-Swagger): `darkaonline/l5-swagger` repository
@@ -146,7 +165,7 @@ class BookController extends Controller
 
 ```
 
-### *II. b. Laravel Telescope*
+### *III. b. Laravel Telescope*
 
 - [**laravel.com/docs/8.x/telescope**](https://laravel.com/docs/8.x/telescope): `laravel/telescope` package doc
 
@@ -160,7 +179,7 @@ In **dotenv** set `TELESCOPE_ENABLED` to `true`
 TELESCOPE_ENABLED=true
 ```
 
-### *II. c. Spatie Media*
+### *III. c. Spatie Media*
 
 - [**spatie.be/docs/laravel-medialibrary**](https://spatie.be/docs/laravel-medialibrary/v9/introduction): `spatie/laravel-medialibrary` package doc
 
@@ -170,7 +189,7 @@ If you update `registerMediaConversions()` in any Model, you can regenerate conv
 php artisan media-library:regenerate
 ```
 
-### *II. d. Tests*
+### *III. d. Tests*
 
 - [**phpunit.de**](https://phpunit.de): `phpunit/phpunit` package doc
 - [**pestphp.com**](https://pestphp.com): `pestphp/pest` package doc
@@ -181,11 +200,11 @@ You can run Pest and PHP Unit tests
 php artisan pest:run
 ```
 
-### *II. e. Mails*
+### *III. e. Mails*
 
 TODO
 
-### *II. f. Sanctum*
+### *III. f. Sanctum*
 
 - [**laravel.com/docs/8.x/sanctum**](https://laravel.com/docs/8.x/sanctum): `laravel/sanctum` package doc
 
@@ -197,11 +216,11 @@ TODO
 php artisan cache:clear ; php artisan route:clear ; php artisan config:clear ; php artisan view:clear ; php artisan optimize:clear
 ```
 
-### *II. g. EpubParser*
+### *III. g. EpubParser*
 
 TODO
 
-### *II. h. Recaptcha*
+### *III. h. Recaptcha*
 
 - [**laravel-recaptcha-docs.biscolab.com/docs**](https://laravel-recaptcha-docs.biscolab.com/docs/intro): `biscolab/laravel-recaptcha` package doc
 
@@ -209,9 +228,9 @@ TODO
 
 ---
 
-## **III. `dotenv`**
+## **IIII. `dotenv`**
 
-### *III. a. For local*
+### *IIII. a. For local*
 
 ```yml
 APP_URL=http://api.bookshelves.test
@@ -233,7 +252,7 @@ RECAPTCHA_SITE_KEY=
 RECAPTCHA_SECRET_KEY=
 ```
 
-### *III. b. For production*
+### *IIII. b. For production*
 
 ```yml
 APP_URL=https://www.mydomain.com

@@ -31,7 +31,7 @@ class EpubParserTools
             if (preg_match('/cover/', $stat['name'])) {
                 if (array_key_exists('extension', pathinfo($stat['name']))) {
                     $cover_extension = pathinfo($stat['name'])['extension'];
-                    if (preg_match('/cover/', pathinfo($stat['name'])['basename']) && preg_match('/jpg|jpeg|PNG|WEBP/', $cover_extension)) {
+                    if (preg_match('/cover/', pathinfo($stat['name'])['basename']) && preg_match('/jpg|jpeg|png|webp/', $cover_extension)) {
                         array_push($options_covers, $zip->getFromName($stat['name']));
                     }
                 }
