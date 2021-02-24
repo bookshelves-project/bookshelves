@@ -61,11 +61,11 @@ class Author extends Model implements HasMedia
 
         $this->addMediaConversion('basic')
             ->fit(Manipulations::FIT_CROP, $formatBasic['width'], $formatBasic['height'])
-            ->sharpen(10);
+            ->format(config('bookshelves.cover_extension'));
 
         $this->addMediaConversion('thumbnail')
             ->fit(Manipulations::FIT_CROP, $formatThumbnail['width'], $formatThumbnail['height'])
-            ->sharpen(10);
+            ->format(config('bookshelves.cover_extension'));
     }
 
     public function getImageAttribute(): string|null

@@ -54,6 +54,12 @@
 - numberOfPages: <https://idpf.github.io/epub-guides/package-metadata/#schema-numberOfPages>
   - async epubparser for Google data
 - Add explanation form each part of EpubParser
+- spatie/laravel-medialibrary
+  - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/optimizing-converted-images>
+  - <https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-vue>
+  - conversions name
+    - <https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files>
+    - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/defining-conversions>
 
 ```bash
 scoop reset php/php7.4-nts
