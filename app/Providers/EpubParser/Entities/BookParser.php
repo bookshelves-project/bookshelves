@@ -28,7 +28,7 @@ class BookParser
      *
      * @return BookParser
      */
-    public static function run(string $title, ?string $contributor, ?string $description, ?string $date, ?string $rights, ?string $file_path): BookParser
+    public static function run(string $title, ?string $contributor, ?string $description, ?string $date, ?string $rights): BookParser
     {
         $book_title = $title;
         $title_sort = EpubParserTools::getSortString($book_title);

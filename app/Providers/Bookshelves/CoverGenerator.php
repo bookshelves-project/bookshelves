@@ -15,7 +15,7 @@ class CoverGenerator
             $disk = 'books';
             $book->addMediaFromString($cover)
                 ->setName($book->slug)
-                ->setFileName($book->slug.'.jpg')
+                ->setFileName($book->slug.'.'.config('bookshelves.cover_extension'))
                 ->toMediaCollection($disk, $disk);
 
             $book = $book->refresh();

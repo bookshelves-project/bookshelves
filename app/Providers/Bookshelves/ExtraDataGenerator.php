@@ -32,12 +32,12 @@ class ExtraDataGenerator
                     $defaultPictureFile = File::get($pictureAuthorDefault);
                     $author->addMediaFromString($defaultPictureFile)
                         ->setName($author->slug)
-                        ->setFileName($author->slug.'.jpg')
+                        ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
                         ->toMediaCollection('authors', 'authors');
                 } else {
                     $author->addMediaFromUrl($pictureAuthor)
                         ->setName($author->slug)
-                        ->setFileName($author->slug.'.jpg')
+                        ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
                         ->toMediaCollection('authors', 'authors');
                 }
             } else {
@@ -65,7 +65,7 @@ class ExtraDataGenerator
                 $file_path = File::get($custom_series_path);
                 $serie->addMediaFromString($file_path)
                     ->setName($serie->slug)
-                    ->setFileName($serie->slug.'.jpg')
+                    ->setFileName($serie->slug.'.'.config('bookshelves.cover_extension'))
                     ->toMediaCollection($disk, $disk);
             } else {
                 $bookIfExist = Book::whereSerieNumber(1)->whereSerieId($serie->id)->first();
@@ -76,7 +76,7 @@ class ExtraDataGenerator
                         $file_path = File::get($book->getMedia('books')->first()->getPath());
                         $serie->addMediaFromString($file_path)
                             ->setName($serie->slug)
-                            ->setFileName($serie->slug.'.jpg')
+                            ->setFileName($serie->slug.'.'.config('bookshelves.cover_extension'))
                             ->toMediaCollection($disk, $disk);
                     }
                 } else {

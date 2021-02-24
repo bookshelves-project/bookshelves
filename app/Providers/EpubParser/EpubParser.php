@@ -55,20 +55,20 @@ class EpubParser
             return false;
         }
 
-        $title = $metadata['title'];
+        $title = (string) $metadata['title'];
         $creators = $metadata['creator'];
-        $contributor = json_encode($metadata['contributor']);
-        $description = $metadata['description'];
+        $contributor = (string) json_encode($metadata['contributor']);
+        $description = (string) $metadata['description'];
         $date = is_array($metadata['date']) ? $metadata['date'][0] : $metadata['date'];
-        $identifiers = $metadata['identifier'];
-        $publisher = $metadata['publisher'];
-        $subjects = $metadata['subject'];
-        $language = $metadata['language'];
-        $rights = $metadata['rights'];
-        $serie = $metadata['serie'];
-        $serie_number = $metadata['serie_number'];
-        $cover_extension = $metadata['cover_extension'];
-        $file_path = $file_path;
+        $identifiers = (array) $metadata['identifier'];
+        $publisher = (string) $metadata['publisher'];
+        $subjects = (array) $metadata['subject'];
+        $language = (string) $metadata['language'];
+        $rights = (string) $metadata['rights'];
+        $serie = (string) $metadata['serie'];
+        $serie_number = (string) $metadata['serie_number'];
+        $cover_extension = (string) $metadata['cover_extension'];
+        $file_path = (string) $file_path;
         
         $identifiersParsed = IdentifiersParser::run(identifiers: $identifiers);
         $serieParsed = SerieParser::run(serie: $serie, serie_number: $serie_number);
@@ -81,8 +81,7 @@ class EpubParser
             contributor: $contributor,
             description: $description,
             date: $date,
-            rights: $rights,
-            file_path: $file_path
+            rights: $rights
         );
 
         $epubParser = new EpubParser(
