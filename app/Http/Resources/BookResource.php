@@ -104,7 +104,7 @@ class BookResource extends JsonResource
             //     'thumbnail' => $cover_thumbnail,
             //     'original'  => $cover_original,
             // ],
-            'image'                 => $this->image,
+            'image'                 => $this->getMedia('books')?->first()?->getUrl('thumbnail'),
             'imageOriginal'                 => $this->image_original,
             'tags'                  => $tags,
             'epub'                  => [
