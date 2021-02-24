@@ -101,11 +101,11 @@ class Book extends Model implements HasMedia
         $formatThumbnail = config('image.thumbnails.book_thumbnail');
 
         $this->addMediaConversion('basic')
-            ->fit(Manipulations::FIT_CROP, $formatBasic['width'], $formatBasic['height'])
+            ->crop(Manipulations::CROP_TOP, $formatBasic['width'], $formatBasic['height'])
             ->sharpen(10);
 
         $this->addMediaConversion('thumbnail')
-            ->fit(Manipulations::FIT_CROP, $formatThumbnail['width'], $formatThumbnail['height'])
+            ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
             ->sharpen(10);
     }
 
