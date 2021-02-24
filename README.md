@@ -31,6 +31,7 @@
     - [Login 419 error: "CSRF token mismatch"](#login-419-error-csrf-token-mismatch)
   - [*III. g. EpubParser*](#iii-g-epubparser)
   - [*III. h. Recaptcha*](#iii-h-recaptcha)
+  - [*III. i. Larastan*](#iii-i-larastan)
 - [**IIII. `dotenv`**](#iiii-dotenv)
   - [*IIII. a. For local*](#iiii-a-for-local)
   - [*IIII. b. For production*](#iiii-b-for-production)
@@ -52,6 +53,13 @@
 - mailing: <https://www.mailgun.com>
 - numberOfPages: <https://idpf.github.io/epub-guides/package-metadata/#schema-numberOfPages>
   - async epubparser for Google data
+- Add explanation form each part of EpubParser
+- spatie/laravel-medialibrary
+  - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/optimizing-converted-images>
+  - <https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-vue>
+  - conversions name
+    - <https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files>
+    - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/defining-conversions>
 
 ```bash
 scoop reset php/php7.4-nts
@@ -225,6 +233,14 @@ TODO
 - [**laravel-recaptcha-docs.biscolab.com/docs**](https://laravel-recaptcha-docs.biscolab.com/docs/intro): `biscolab/laravel-recaptcha` package doc
 
 TODO
+
+### *III. i. Larastan*
+
+- [**github.com/nunomaduro/larastan**](https://github.com/nunomaduro/larastan): package
+
+```bash
+php artisan larastan
+```
 
 ---
 
