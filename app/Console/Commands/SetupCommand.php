@@ -101,8 +101,10 @@ class SetupCommand extends Command
         // clean
         Artisan::call('key:generate');
         $this->warn('~ Secret key properly generated.');
-        Artisan::call('books:generate -fF');
-        $this->info(Artisan::output());
+        if ($this->confirm('Do you want to generate books?', false)) {
+            $command = 'books:generate -fF';
+            Artisan::call($command, [], $this->getOutput());
+        }
         $this->info('Cleaning...');
         $this->cleaning();
         $this->info('Application is ready!');
