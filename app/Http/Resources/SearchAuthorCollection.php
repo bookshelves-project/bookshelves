@@ -22,7 +22,7 @@ class SearchAuthorCollection extends JsonResource
             ],
             'title'    => $this->lastname.' '.$this->firstname,
             'author'   => $this->name,
-            'image'    => $this->image,
+            'image'    => $this->image_thumbnail,
         ];
     }
 }

@@ -21,7 +21,7 @@ class EpubGenerator
         }
         if ($serie && $author) {
             $serie_number = $book->serie_number;
-            if (1 === strlen($serie_number)) {
+            if (1 === strlen((string) $serie_number)) {
                 $serie_number = '0'.$serie_number;
             }
             $new_file_name = $new_file_name_author.'_'.$new_file_name_serie.'-'.$serie_number.'_'.$book->slug;

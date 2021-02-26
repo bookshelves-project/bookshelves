@@ -73,7 +73,7 @@ class EpubParser
         $identifiersParsed = IdentifiersParser::run(identifiers: $identifiers);
         $serieParsed = SerieParser::run(serie: $serie, serie_number: $serie_number);
         $subjectsParsed = SubjectsParser::run(subjects: $subjects);
-        $creatorsParsed = CreatorsParser::run(creators: $creators, is_debug: $is_debug);
+        $creatorsParsed = CreatorsParser::run(creators: $creators);
         $publisherParsed = (string) $publisher;
         $languageParsed = (string) strtolower($language);
         $bookParsed = BookParser::run(
@@ -98,7 +98,7 @@ class EpubParser
             rights: $bookParsed->rights ? $bookParsed->rights : null,
             serie: $serieParsed->title,
             serie_sort: $serieParsed->title_sort,
-            serie_number: $serieParsed?->number ? $serieParsed?->number : 0,
+            serie_number: $serieParsed->number,
             cover: $coverFile,
             cover_extension: $cover_extension,
             file_path: $file_path,

@@ -34,9 +34,9 @@ class TestCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return bool
      */
-    public function handle()
+    public function handle(): bool
     {
         $this->info('Run tests');
 
@@ -50,5 +50,7 @@ class TestCommand extends Command
         foreach ($iterator as $data) {
             echo $data;
         }
+
+        return true;
     }
 }

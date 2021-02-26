@@ -101,8 +101,10 @@ class SetupCommand extends Command
         // clean
         Artisan::call('key:generate');
         $this->warn('~ Secret key properly generated.');
-        Artisan::call('books:generate -fF');
-        $this->info(Artisan::output());
+        if ($this->confirm('Do you want to generate books?', false)) {
+            $command = 'books:generate -fF';
+            Artisan::call($command, [], $this->getOutput());
+        }
         $this->info('Cleaning...');
         $this->cleaning();
         $this->info('Application is ready!');
@@ -202,7 +204,7 @@ class SetupCommand extends Command
         return [
             'APP_NAME'                => $this->ask('App name', $this->appName),
             'DB_DATABASE'             => $this->ask('Database name', $this->appNameSlug),
-            'DB_PORT'                 => $this->ask('Database port', 3306),
+            'DB_PORT'                 => $this->ask('Database port', '3306'),
             'DB_USERNAME'             => $this->ask('Database user', 'root'),
             'DB_PASSWORD'             => $this->askHiddenWithDefault('Database password (leave blank for no password)'),
         ];

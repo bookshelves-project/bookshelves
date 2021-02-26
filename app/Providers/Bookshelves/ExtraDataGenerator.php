@@ -18,6 +18,7 @@ class ExtraDataGenerator
             $name = str_replace(' ', '%20', $name);
             $url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&titles=$name&prop=pageimages&format=json&pithumbsize=512";
             $pictureAuthorDefault = database_path('seeders/media/authors/no-picture.jpg');
+            $pictureAuthor = null;
             if (! $is_debug) {
                 try {
                     $response = Http::get($url);

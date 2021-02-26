@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Book;
-use App\Models\Serie;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SerieCollection extends JsonResource
@@ -20,10 +18,9 @@ class SerieCollection extends JsonResource
         $books = null;
         $books_number = null;
         $author = null;
-        $covers = [];
-        $mainCover = null;
-        $otherCovers = null;
         $language = null;
+        $size = null;
+        $books_number = null;
 
         if ($this->books) {
             $booksFilter = $this->books->reject(function ($book, $key) {
@@ -31,49 +28,30 @@ class SerieCollection extends JsonResource
             });
             $books = $booksFilter->values();
 
-            try {
-                $id = $this->books[0]->id;
-                $books = collect($books);
-                $book = Book::findOrFail($id);
-                $serie_slug = $this->books[0]->serie->slug;
-                $serie = Serie::whereSlug($serie_slug)->firstOrFail();
-                $mainBook = Book::whereSerieId($serie->id)->whereSerieNumber(1)->first();
-                try {
-                    $author = $mainBook->author->name;
-                } catch (\Throwable $th) {
-                }
-            } catch (\Throwable $th) {
-                return;
-            }
-
             $books_number = count($books);
+        }
 
-            if ($mainBook) {
-                if ($mainBook->language) {
-                    $language = [
-                        'slug' => $mainBook->language->slug,
-                        'flag' => $mainBook->language->flag,
-                    ];
-                }
-                if ($mainBook->cover) {
-                    if ($this->cover) {
-                        $mainCover = $this->cover ? config('app.url').'/'.$this->cover : null;
-                    } else {
-                        $mainCover = $mainBook->cover->basic;
-                    }
-                }
+        $authors = null;
+        if ($this->authors) {
+            $authors = [];
+            foreach ($this->authors as $key => $author) {
+                array_push($authors, [
+                    'name' => $author->name,
+                    'slug' => $author->slug,
+                    'show' => $author->show_link,
+                ]);
             }
         }
 
         return [
-            'title'         => $this->title,
-            'slug'          => $this->slug,
-            'author'        => $author,
-            'language'      => $language,
-            'booksNumber'   => $books_number,
-            // 'cover'         => $mainCover,
-            'image'                 => $this->image,
-            'links'                 => [
+            'title'                  => $this->title,
+            'slug'                   => $this->slug,
+            'author'                 => $this->author->slug,
+            'authors'                => $authors,
+            'language'               => $language,
+            'booksNumber'            => $books_number,
+            'image'                  => $this->image_thumbnail,
+            'links'                  => [
                 'show' => $this->show_link,
             ],
         ];

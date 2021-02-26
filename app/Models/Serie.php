@@ -42,6 +42,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read string $show_link
  * @property-read \App\Models\Language|null $language
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguageSlug($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
+ * @property-read int|null $authors_count
+ * @property-read \App\Models\Author $author
+ * @property-read string|null $image_thumbnail
  */
 class Serie extends Model implements HasMedia
 {
@@ -71,7 +75,12 @@ class Serie extends Model implements HasMedia
 
     public function getImageAttribute(): string|null
     {
-        return $this->getMedia('series')?->first()?->getUrl('basic');
+        return $this->getMedia('series')->first()?->getUrl('basic');
+    }
+
+    public function getImageThumbnailAttribute(): string|null
+    {
+        return $this->getMedia('series')->first()?->getUrl('thumbnail');
     }
 
     public function getShowLinkAttribute(): string
@@ -102,5 +111,25 @@ class Serie extends Model implements HasMedia
     public function language(): BelongsTo
     {
         return $this->belongsTo(Language::class);
+    }
+
+    /**
+     * Authors MorphToMany
+        * 
+     * @return MorphToMany 
+     */
+    public function authors(): MorphToMany
+    {
+        return $this->morphToMany(Author::class, 'authorable');
+    }
+
+    /**
+     * First Author for router
+     * 
+     * @return Author 
+     */
+    public function getAuthorAttribute(): Author
+    {
+        return $this->morphToMany(Author::class,'authorable')->first();
     }
 }

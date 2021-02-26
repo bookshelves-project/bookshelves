@@ -40,6 +40,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read string $download_link
  * @property-read string|null $image
  * @property-read string $show_link
+ * @property-read string|null $image_thumbnail
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $series
+ * @property-read int|null $series_count
  */
 class Author extends Model implements HasMedia
 {
@@ -70,7 +73,12 @@ class Author extends Model implements HasMedia
 
     public function getImageAttribute(): string|null
     {
-        return $this->getMedia('authors')?->first()?->getUrl('basic');
+        return $this->getMedia('authors')->first()?->getUrl('basic');
+    }
+
+    public function getImageThumbnailAttribute(): string|null
+    {
+        return $this->getMedia('authors')->first()?->getUrl('thumbnail');
     }
 
     public function getShowLinkAttribute(): string
@@ -83,11 +91,6 @@ class Author extends Model implements HasMedia
         return config('app.url')."/api/download/author/$this->slug";
     }
 
-    public function books(): BelongsToMany
-    {
-        return $this->belongsToMany(Book::class)->orderBy('serie_id')->orderBy('serie_number');
-    }
-
     public function favorites(): MorphToMany
     {
         return $this->morphToMany(User::class, 'favoritable');
@@ -96,5 +99,21 @@ class Author extends Model implements HasMedia
     public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    /**
+     * Get all of the books that are assigned this author.
+     */
+    public function books(): MorphToMany
+    {
+        return $this->morphedByMany(Book::class, 'authorable')->orderBy('serie_number');
+    }
+
+    /**
+     * Get all of the series that are assigned this author.
+     */
+    public function series(): MorphToMany
+    {
+        return $this->morphedByMany(Book::class, 'authorable');
     }
 }

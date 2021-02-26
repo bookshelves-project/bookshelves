@@ -5,7 +5,6 @@ namespace App\Http\Resources;
 use Str;
 use Auth;
 use App\Models\Book;
-use Soundasleep\Html2Text;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookResource extends JsonResource
@@ -40,16 +39,6 @@ class BookResource extends JsonResource
         if ($this->tags) {
             $tags = TagCollection::collection($this->tags);
         }
-        $cover_basic = null;
-        $cover_thumbnail = null;
-        $cover_original = null;
-        if ($this->cover) {
-            $cover = $this->cover;
-
-            $cover_basic = $cover->basic;
-            $cover_thumbnail = $cover->thumbnail;
-            $cover_original = $cover->original;
-        }
         $summary = null;
         if (null !== $this->description) {
             $html = $this->description;
@@ -79,7 +68,7 @@ class BookResource extends JsonResource
         if ($this->comments) {
             $comments = CommentCollection::collection($this->comments);
         }
-        
+
         $epub = null;
         if ($this->getMedia('books_epubs')) {
             $epub = $this->getMedia('books_epubs')->first();
@@ -88,7 +77,7 @@ class BookResource extends JsonResource
         return [
             'title'                 => $this->title,
             'slug'                  => $this->slug,
-            'author'            => $this->author->slug,
+            'author'                => $this->author->slug,
             'authors'               => $authors,
             'summary'               => $summary,
             'description'           => $this->description,
@@ -96,27 +85,22 @@ class BookResource extends JsonResource
                 'slug' => $language->slug,
                 'flag' => $language->flag,
             ],
-            'publishDate'           => $this->date,
-            'isbn'                  => $this->isbn,
-            'publisher'             => $publisher,
-            // 'cover'                 => [
-            //     'basic'     => $cover_basic,
-            //     'thumbnail' => $cover_thumbnail,
-            //     'original'  => $cover_original,
-            // ],
-            'image'                 => $this->image,
+            'publishDate'                   => $this->date,
+            'isbn'                          => IdentifierResource::make($this->identifier),
+            'publisher'                     => $publisher,
+            'image'                         => $this->image_thumbnail,
             'imageOriginal'                 => $this->image_original,
-            'tags'                  => $tags,
-            'epub'                  => [
-                'name' => $epub->file_name,
-                'size' => human_filesize($epub->size),
+            'tags'                          => $tags,
+            'epub'                          => [
+                'name'     => $epub->file_name,
+                'size'     => human_filesize($epub->size),
                 'download' => $this->download_link,
             ],
             'serie'                 => $serie ? [
                 'number'  => $this->serie_number,
-                'title'   => $serie?->title,
-                'slug'    => $serie?->slug,
-                'show'    => $serie?->show_link,
+                'title'   => $serie->title,
+                'slug'    => $serie->slug,
+                'show'    => $serie->show_link,
             ] : null,
             'isFavorite' => $isFavorite,
             'comments'   => $comments,

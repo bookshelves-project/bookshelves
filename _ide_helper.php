@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.27.0.
+ * Generated for Laravel 8.29.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -254,6 +254,20 @@
         {
                         /** @var \Illuminate\Foundation\Application $instance */
                         return $instance->resourcePath($path);
+        }
+                    /**
+         * Get the path to the views directory.
+         * 
+         * This method returns the first configured path in the array of view paths.
+         *
+         * @param string $path
+         * @return string 
+         * @static 
+         */ 
+        public static function viewPath($path = '')
+        {
+                        /** @var \Illuminate\Foundation\Application $instance */
+                        return $instance->viewPath($path);
         }
                     /**
          * Get the path to the environment file directory.
@@ -8148,7 +8162,7 @@
                     /**
          * Register a callback to be executed when creating job payloads.
          *
-         * @param callable $callback
+         * @param callable|null $callback
          * @return void 
          * @static 
          */ 
@@ -11192,6 +11206,17 @@
         {
                         /** @var \Illuminate\Routing\Router $instance */
                         return $instance->pushMiddlewareToGroup($group, $middleware);
+        }
+                    /**
+         * Flush the router's middleware groups.
+         *
+         * @return \Illuminate\Routing\Router 
+         * @static 
+         */ 
+        public static function flushMiddlewareGroups()
+        {
+                        /** @var \Illuminate\Routing\Router $instance */
+                        return $instance->flushMiddlewareGroups();
         }
                     /**
          * Add a new route parameter binder.
@@ -14651,7 +14676,195 @@
      
 }
 
-        namespace L5Swagger { 
+        namespace Biscolab\ReCaptcha\Facades { 
+            /**
+     * Class ReCaptcha
+     *
+     * @package Biscolab\ReCaptcha\Facades
+     * @method static string htmlFormButton(?string $button_label = '', ?array $properties = [])
+     * @method static string htmlFormSnippet()
+     * @method static string getFormId()
+     */ 
+        class ReCaptcha {
+                    /**
+         * Write script HTML tag in you HTML code
+         * Insert before </head> tag
+         *
+         * @param array|null $configuration
+         * @return string 
+         * @static 
+         */ 
+        public static function htmlScriptTagJsApi($configuration = [])
+        {
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->htmlScriptTagJsApi($configuration);
+        }
+                    /**
+         * 
+         *
+         * @param string $api_site_key
+         * @return \Biscolab\ReCaptcha\ReCaptchaBuilder 
+         * @static 
+         */ 
+        public static function setApiSiteKey($api_site_key)
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->setApiSiteKey($api_site_key);
+        }
+                    /**
+         * 
+         *
+         * @param string $api_secret_key
+         * @return \Biscolab\ReCaptcha\ReCaptchaBuilder 
+         * @static 
+         */ 
+        public static function setApiSecretKey($api_secret_key)
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->setApiSecretKey($api_secret_key);
+        }
+                    /**
+         * 
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function getCurlTimeout()
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->getCurlTimeout();
+        }
+                    /**
+         * 
+         *
+         * @param string $version
+         * @return \Biscolab\ReCaptcha\ReCaptchaBuilder 
+         * @static 
+         */ 
+        public static function setVersion($version)
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->setVersion($version);
+        }
+                    /**
+         * 
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getVersion()
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->getVersion();
+        }
+                    /**
+         * 
+         *
+         * @param bool $skip_by_ip
+         * @return \Biscolab\ReCaptcha\ReCaptchaBuilder 
+         * @static 
+         */ 
+        public static function setSkipByIp($skip_by_ip)
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->setSkipByIp($skip_by_ip);
+        }
+                    /**
+         * 
+         *
+         * @param null|string $api_domain
+         * @return \Biscolab\ReCaptcha\ReCaptchaBuilder 
+         * @static 
+         */ 
+        public static function setApiDomain($api_domain = null)
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->setApiDomain($api_domain);
+        }
+                    /**
+         * 
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getApiDomain()
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->getApiDomain();
+        }
+                    /**
+         * 
+         *
+         * @return \Biscolab\ReCaptcha\ReCaptchaBuilder 
+         * @static 
+         */ 
+        public static function setApiUrls()
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->setApiUrls();
+        }
+                    /**
+         * 
+         *
+         * @return array|mixed 
+         * @static 
+         */ 
+        public static function getIpWhitelist()
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->getIpWhitelist();
+        }
+                    /**
+         * Checks whether the user IP address is among IPs "to be skipped"
+         *
+         * @return boolean 
+         * @static 
+         */ 
+        public static function skipByIp()
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->skipByIp();
+        }
+                    /**
+         * Call out to reCAPTCHA and process the response
+         *
+         * @param string $response
+         * @return boolean|array 
+         * @static 
+         */ 
+        public static function validate($response)
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->validate($response);
+        }
+                    /**
+         * 
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getApiSiteKey()
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->getApiSiteKey();
+        }
+                    /**
+         * 
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getApiSecretKey()
+        {            //Method inherited from \Biscolab\ReCaptcha\ReCaptchaBuilder         
+                        /** @var \Biscolab\ReCaptcha\ReCaptchaBuilderV3 $instance */
+                        return $instance->getApiSecretKey();
+        }
+         
+    }
+     
+}
+
+    namespace L5Swagger { 
             /**
      * 
      *
@@ -18926,6 +19139,7 @@ namespace  {
             class URL extends \Illuminate\Support\Facades\URL {}
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
+            class ReCaptcha extends \Biscolab\ReCaptcha\Facades\ReCaptcha {}
             class L5Swagger extends \L5Swagger\L5SwaggerFacade {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
             class Toolbar extends \Fruitcake\TelescopeToolbar\Toolbar {}

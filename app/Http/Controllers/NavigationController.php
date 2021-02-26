@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Storage;
 use App\Models\Book;
 use Inertia\Inertia;
 use App\Http\Resources\BookResource;
@@ -22,14 +21,5 @@ class NavigationController extends Controller
         Inertia::share('books', $books);
 
         return Inertia::render('Dashboard');
-    }
-
-    public function download(string $slug)
-    {
-        $book = Book::whereSlug($slug)->firstOrFail();
-
-        $path = str_replace('storage/', '', $book->path);
-
-        return Storage::disk('public')->download($path);
     }
 }
