@@ -69,6 +69,7 @@ class SerieResource extends JsonResource
         return [
             'title'           => $this->title,
             'slug'            => $this->slug,
+            'author'                 => $this->author->slug,
             'authors'          => $authors,
             'language'        => $this->language,
             'image'                 => $this->image_thumbnail,

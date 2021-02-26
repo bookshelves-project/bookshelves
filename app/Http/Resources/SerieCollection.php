@@ -46,6 +46,7 @@ class SerieCollection extends JsonResource
         return [
             'title'                  => $this->title,
             'slug'                   => $this->slug,
+            'author'                 => $this->author->slug,
             'authors'                => $authors,
             'language'               => $language,
             'booksNumber'            => $books_number,

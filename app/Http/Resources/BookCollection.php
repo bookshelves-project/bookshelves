@@ -50,6 +50,10 @@ class BookCollection extends JsonResource
             ],
             'image'                 => $this->image_thumbnail,
             'serie'                 => $serie,
+            'meta'                  => [
+                'createdAt' => $this->created_at,
+                'updatedAt' => $this->updated_at,
+            ],
             'links'                 => [
                 'show' => $showUrl,
             ],
