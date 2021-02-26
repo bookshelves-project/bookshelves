@@ -17,6 +17,7 @@ use App\Providers\EpubParser\EpubParserTools;
 use Cache;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Symfony\Component\Process\Process;
 
 class BooksGenerateCommand extends Command
 {
@@ -129,6 +130,14 @@ class BooksGenerateCommand extends Command
         if ($isFresh) {
             $this->info('Run seeders...'."\n");
             Artisan::call('db:seed --force');
+        }
+        
+        $process = new Process(['git checkout .']);
+        $process->setTimeout(0);
+        $process->start();
+        $iterator = $process->getIterator($process::ITER_SKIP_ERR | $process::ITER_KEEP_OUTPUT);
+        foreach ($iterator as $data) {
+            echo $data;
         }
         
         $this->info('Done!');
