@@ -40,11 +40,9 @@
 
 ## **TODO**
 
-- Multiple authors for Serie
 - Fix Resources collection with ResourceCollection extends
 - Logs for EpubParser
-- Command to get basic books-raw/ with libre ebooks
-- Null safe operator on all Resources & Collections / cleaning resources
+- Improve libre ebooks meta
 - Add attribute on each method for Controller
 - Check attributes
   - <https://www.amitmerchant.com/how-to-use-php-80-attributes>
@@ -60,6 +58,7 @@
   - conversions name
     - <https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files>
     - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/defining-conversions>
+- larastan upgrade level
 
 ```bash
 scoop reset php/php7.4-nts
