@@ -97,15 +97,18 @@ class ConvertEpubParser
             ]);
             $language = self::generateLanguageFlag($language);
             $book->language()->associate($language->slug);
-            $identifiers = Identifier::firstOrCreate([
+            $identifier = Identifier::firstOrCreate([
                 'isbn'   => $epubParser->identifiers->isbn,
                 'isbn13' => $epubParser->identifiers->isbn13,
                 'doi'    => $epubParser->identifiers->doi,
                 'amazon' => $epubParser->identifiers->amazon,
                 'google' => $epubParser->identifiers->google,
             ]);
-            $book->identifier()->associate($identifiers);
+            $book->identifier()->associate($identifier);
             $book->save();
+            if (!$is_debug) {
+                ExtraDataGenerator::getDataFromGoogleBooks(identifier: $identifier, book: $book);
+            }
         }
         if (! $book) {
             $book = $bookIfExist;

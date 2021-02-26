@@ -26,10 +26,21 @@ class DownloadController extends Controller
         return response()->download($epub->getPath(), $epub->file_name);
     }
 
-    public function serie(string $serie)
+    public function serie(string $author, string $serie)
     {
         $books_epubs = [];
+        $author = Author::whereSlug($author)->firstOrFail();
         $serie = Serie::with('books')->whereSlug($serie)->firstOrFail();
+        $authorFound = false;
+        foreach ($serie->authors as $key => $authorList) {
+            if ($author->slug === $authorList->slug) {
+                $authorFound = true;
+            }
+        }
+        if (! $authorFound) {
+            return response(['error' => 'Not found'], 404);
+        }
+
         foreach ($serie->books as $key => $book) {
             $epub = $book->getMedia('books_epubs')->first();
             array_push($books_epubs, $epub);
@@ -37,7 +48,8 @@ class DownloadController extends Controller
 
         $token = Str::random(8);
         $token = strtolower($token);
-        $dirname = "$serie->slug-$token";
+        $author = $serie->author->slug;
+        $dirname = "$author-$serie->slug-$token";
 
         return MediaStream::create("$dirname.zip")->addMedia($books_epubs);
     }

@@ -63,14 +63,14 @@ Route::get('/search-serie', [SearchController::class, 'bySerie'])->name('api.sea
  * Details routes
  */
 Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('api.books.show');
-Route::get('/series/{serie}', [SerieController::class, 'show'])->name('api.series.show');
+    Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('api.series.show');
 Route::get('/authors/{author}', [AuthorController::class, 'show'])->name('api.authors.show');
 
 /*
  * Download routes
  */
 Route::get('/download/book/{author}/{book}', [DownloadController::class, 'book'])->name('api.download.book');
-Route::get('/download/serie/{serie}', [DownloadController::class, 'serie'])->name('api.download.serie');
+Route::get('/download/serie/{author}/{serie}', [DownloadController::class, 'serie'])->name('api.download.serie');
 Route::get('/download/author/{author}', [DownloadController::class, 'author'])->name('api.download.author');
 
 /*

@@ -137,7 +137,10 @@ class BooksGenerateCommand extends Command
     public function generateCovers(array $books_with_covers, bool $isDebug = false)
     {
         if (!$isDebug) {
-            $this->info("\n".'Generate covers'."\n");
+            $format = strtoupper(config('bookshelves.cover_extension'));
+            $this->info("\n".'Generate covers');
+            $this->info("- Generate covers with differents dimensions");
+            $this->info("- $format format: original, basic, thumbnail\n");
             $cover_bar = $this->output->createProgressBar(count($books_with_covers));
             $cover_bar->start();
             foreach ($books_with_covers as $key => $metadata) {
@@ -152,7 +155,9 @@ class BooksGenerateCommand extends Command
             $this->info('Covers generated!'."\n");
         }
 
-        $this->info('Generate series covers and extra data'."\n");
+        $this->info('Generate series covers and extra data');
+        $this->info("- Get cover of vol. 1 to associate picture to serie");
+        $this->info("- If a JPG file with slug of serie exist in 'database/seeders/media/series', it's will be this picture\n");
         $series = Serie::all();
         $series_cover_bar = $this->output->createProgressBar(count($series));
         $series_cover_bar->start();
@@ -166,7 +171,8 @@ class BooksGenerateCommand extends Command
         $this->info('Series Covers generated!'."\n");
 
         if (!$isDebug) {
-            $this->info('Generate authors pictures (from Wikipedia)'."\n");
+            $this->info('Generate authors pictures');
+            $this->info("- Get pictures from Wikipedia: HTTP requests\n");
             $authors = Author::all();
             $authors_pictures = $this->output->createProgressBar(count($authors));
             $authors_pictures->start();
@@ -188,7 +194,10 @@ class BooksGenerateCommand extends Command
         // Parse $epubsFiles[] to get metadata and
         // save each EPUB as Book model with relationships
         $epubsCount = sizeof($epubFiles);
-        $this->info("\nEPUB files detected: $epubsCount\n");
+        $this->info("\nEPUB files detected: $epubsCount");
+        $this->info("- Generate Book model with relationships");
+        $this->info("- Generate new EPUB file with standard name");
+        $this->info("- Get extra data from Google Books API: HTTP requests\n");
         $books_with_covers = [];
         $books_with_errors = [];
 

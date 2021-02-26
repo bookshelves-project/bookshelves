@@ -5,5 +5,5 @@ return [
         'to'   => 'info@bookshelves.com',
         'from' => 'noreplyinfo@bookshelves.com',
     ],
-    'cover_extension' => 'webp',
+    'cover_extension' => 'jpg',
 ];
