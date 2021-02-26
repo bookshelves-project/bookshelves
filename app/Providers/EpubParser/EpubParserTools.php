@@ -41,6 +41,7 @@ class EpubParserTools
         $coverFile = array_key_exists(0, $options_covers) ? $options_covers[0] : null;
 
         $package = simplexml_load_string($xml_string);
+        $packageMetadata = null;
         try {
             $packageMetadata = $package->metadata->children('dc', true);
         } catch (\Throwable $th) {

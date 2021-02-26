@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthorResource extends JsonResource
@@ -18,6 +17,8 @@ class AuthorResource extends JsonResource
     {
         $books = null;
         $cover = null;
+        $size = null;
+        $books_number = null;
         if ($this->books) {
             $books = [];
             $size = [];
@@ -52,8 +53,7 @@ class AuthorResource extends JsonResource
             'firstname'       => $this->firstname,
             'name'            => $this->name,
             'slug'            => $this->slug,
-            // 'picture'         => $this->picture ? config('app.url').'/'.$this->picture : null,
-            'image'                 => $this->image,
+            'image'                 => $this->image_thumbnail,
             'download'        => $this->download_link,
             'size'            => $size,
             'books_number'    => $books_number,

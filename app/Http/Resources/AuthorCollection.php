@@ -18,6 +18,7 @@ class AuthorCollection extends JsonResource
     {
         $books = null;
         $cover = null;
+        $books_number = null;
         if ($this->books) {
             $books = BookCollection::collection($this->books);
             $books_number = sizeof($books);
@@ -39,14 +40,12 @@ class AuthorCollection extends JsonResource
         }
 
         return [
-            'lastname'       => $this->lastname,
-            'firstname'      => $this->firstname,
-            'name'           => $this->name,
-            'slug'           => $this->slug,
-            'books_number'   => $books_number,
-            // 'cover'          => $cover,
-            // 'picture'        => $this->picture ? config('app.url').'/'.$this->picture : null,
-            'image'                 => $this->image,
+            'lastname'              => $this->lastname,
+            'firstname'             => $this->firstname,
+            'name'                  => $this->name,
+            'slug'                  => $this->slug,
+            'books_number'          => $books_number,
+            'image'                 => $this->image_thumbnail,
             'links'                 => [
                 'show' => config('app.url')."/api/authors/$this->slug",
             ],

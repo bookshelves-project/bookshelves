@@ -13,14 +13,13 @@ class CreatorsParser
         public ?array $creators = [],
     ) {}
 
-    /**
-     * Generate author from XML dc:creator string.
-     *
-     * @param string $creator_raw_data
-     *
-     * @return CreatorsParser
-     */
-    public static function run(iterable|string $creators, bool $is_debug = false): CreatorsParser
+     /**
+      * Generate author from XML dc:creator string.
+      * 
+      * @param iterable|string $creators 
+      * @return CreatorsParser 
+      */
+    public static function run(iterable|string $creators): CreatorsParser
     {
         $creators_entities = [];
 

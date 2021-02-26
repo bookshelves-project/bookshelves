@@ -16,9 +16,10 @@ class SerieResource extends JsonResource
     public function toArray($request)
     {
         $books = null;
-        $cover = null;
-        $language = null;
-
+        $book = null;
+        $size = null;
+        $books_number = 0;
+        $authors = null;
         if ($this->books) {
             $size = [];
             $books = [];
@@ -52,34 +53,25 @@ class SerieResource extends JsonResource
             $books_number = sizeof($books);
             $size = array_sum($size);
             $size = human_filesize($size);
-            // $book = $books->firstWhere('serie_number', 1);
         }
-        // if ($book) {
-        //     $language = [
-        //         'slug'    => $book->language->slug,
-        //         'flag'    => $book->language->flag,
-        //         'display' => $book->language->display,
-        //     ];
-        //     try {
-        //         if ($this->cover) {
-        //             $cover = $this->cover ? config('app.url').'/'.$this->cover : null;
-        //         } else {
-        //             $cover = $book->cover->basic;
-        //         }
-        //     } catch (\Throwable $th) {
-        //         //throw $th;
-        //     }
-        // }
+
+        if ($this->authors) {
+            $authors = [];
+            foreach ($this->authors as $key => $author) {
+                array_push($authors, [
+                    'name' => $author->name,
+                    'slug' => $author->slug,
+                    'show' => $author->show_link,
+                ]);
+            }
+        }
 
         return [
             'title'           => $this->title,
             'slug'            => $this->slug,
-            'author'          => [
-                'name' => $book->author->name,
-                'slug' => $book->author->slug,
-            ],
+            'authors'          => $authors,
             'language'        => $this->language,
-            'image'                 => $this->image,
+            'image'                 => $this->image_thumbnail,
             'download'              => $this->download_link,
             'size'                  => $size,
             'books_number'    => $books_number,

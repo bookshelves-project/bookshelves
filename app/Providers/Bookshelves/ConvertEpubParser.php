@@ -43,7 +43,9 @@ class ConvertEpubParser
                 ]);
                 array_push($authors, $author);
             }
-            $book->authors()->saveMany($authors);
+            foreach ($authors as $key => $author) {
+                $book->authors()->save($author);
+            }
             foreach ($epubParser->subjects as $key => $subject) {
                 $tagIfExist = Tag::whereSlug(Str::slug($subject))->first();
                 $tag = null;
@@ -75,6 +77,17 @@ class ConvertEpubParser
                     ]);
                 } else {
                     $serie = $serieIfExist;
+                }
+
+                $authors_serie = [];
+                foreach ($serie->authors as $key => $author) {
+                    array_push($authors_serie, $author->slug);
+                }
+                $book_authors = $book->authors;
+                foreach ($book_authors as $key => $author) {
+                    if (! in_array($author->slug, $authors_serie)) {
+                        $serie->authors()->save($author);
+                    }
                 }
 
                 $book->serie()->associate($serie);

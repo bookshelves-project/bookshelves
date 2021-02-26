@@ -111,17 +111,22 @@ class Book extends Model implements HasMedia
 
     public function getImageAttribute(): string|null
     {
-        return $this->getMedia('books')?->first()?->getUrl('basic');
+        return $this->getMedia('books')->first()?->getUrl('basic');
     }
 
+    public function getImageThumbnailAttribute(): string|null
+    {
+        return $this->getMedia('books')->first()?->getUrl('thumbnail');
+    }
+    
     public function getImageOriginalAttribute(): string|null
     {
-        return $this->getMedia('books')?->first()?->getUrl();
+        return $this->getMedia('books')->first()?->getUrl();
     }
 
     public function getEpubAttribute(): string|null
     {
-        return $this->getMedia('books_epubs')?->first()?->getUrl();
+        return $this->getMedia('books_epubs')->first()?->getUrl();
     }
 
     public function getShowLinkAttribute(): string
@@ -135,13 +140,13 @@ class Book extends Model implements HasMedia
     }
 
     /**
-     * Authors BelongsToMany
+     * Authors MorphToMany
      * 
-     * @return BelongsToMany 
+     * @return MorphToMany 
      */
-    public function authors(): BelongsToMany
+    public function authors(): MorphToMany
     {
-        return $this->belongsToMany(Author::class);
+        return $this->morphToMany(Author::class, 'authorable');
     }
 
     /**
@@ -151,7 +156,7 @@ class Book extends Model implements HasMedia
      */
     public function getAuthorAttribute(): Author
     {
-        return $this->belongsToMany(Author::class)->first();
+        return $this->morphToMany(Author::class,'authorable')->first();
     }
 
     public function publisher(): BelongsTo

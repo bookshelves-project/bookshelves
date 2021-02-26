@@ -17,12 +17,13 @@ class SearchSerieCollection extends JsonResource
     {
         return [
             'meta' => [
-                'entity' => 'serie',
-                'slug'   => $this->slug,
+                'entity'   => 'serie',
+                'author'   => $this->author->slug,
+                'slug'     => $this->slug,
             ],
             'title'    => $this->title,
             'author'   => $this->books[0]->author->name,
-            'image'    => $this->image,
+            'image'    => $this->image_thumbnail,
         ];
     }
 }

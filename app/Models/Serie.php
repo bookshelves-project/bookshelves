@@ -71,7 +71,12 @@ class Serie extends Model implements HasMedia
 
     public function getImageAttribute(): string|null
     {
-        return $this->getMedia('series')?->first()?->getUrl('basic');
+        return $this->getMedia('series')->first()?->getUrl('basic');
+    }
+
+    public function getImageThumbnailAttribute(): string|null
+    {
+        return $this->getMedia('series')->first()?->getUrl('thumbnail');
     }
 
     public function getShowLinkAttribute(): string
@@ -102,5 +107,25 @@ class Serie extends Model implements HasMedia
     public function language(): BelongsTo
     {
         return $this->belongsTo(Language::class);
+    }
+
+    /**
+     * Authors MorphToMany
+        * 
+     * @return MorphToMany 
+     */
+    public function authors(): MorphToMany
+    {
+        return $this->morphToMany(Author::class, 'authorable');
+    }
+
+    /**
+     * First Author for router
+     * 
+     * @return Author 
+     */
+    public function getAuthorAttribute(): Author
+    {
+        return $this->morphToMany(Author::class,'authorable')->first();
     }
 }

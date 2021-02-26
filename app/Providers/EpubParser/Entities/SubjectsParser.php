@@ -9,9 +9,9 @@ class SubjectsParser
     ) {}
 
     /**
-     * Generate Tags from $tags
+     * Generate SubjectsParser from $subjects
      * 
-     * @param array|bool $tags 
+     * @param array|bool $subjects 
      * @return SubjectsParser 
      */
     public static function run(array|bool $subjects): SubjectsParser

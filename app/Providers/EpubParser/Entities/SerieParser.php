@@ -12,14 +12,14 @@ class SerieParser
         public ?int $number = 0,
     ) {}
 
-    /**
-     * Generate series from SimpleXMLElement $package
-     * with Calibre meta.
-     *
-     * @param SimpleXMLElement $package
-     *
-     * @return SerieParser
-     */
+     /**
+      * Generate series from SimpleXMLElement $package
+      * with Calibre meta.
+      * 
+      * @param null|string $serie 
+      * @param null|string $serie_number 
+      * @return SerieParser 
+      */
     public static function run(?string $serie, ?string $serie_number): SerieParser
     {
         $title = null;
@@ -28,6 +28,9 @@ class SerieParser
         if ($serie) {
             $title = $serie;
             $title_sort = EpubParserTools::getSortString($title);
+            if (1 === strlen((string) $serie_number)) {
+                $serie_number = '0'.$serie_number;
+            }
         } else {
             $serie_number = 0;
         }
