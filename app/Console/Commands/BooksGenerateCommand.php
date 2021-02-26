@@ -132,14 +132,6 @@ class BooksGenerateCommand extends Command
             Artisan::call('db:seed --force');
         }
         
-        $process = new Process(['git checkout .']);
-        $process->setTimeout(0);
-        $process->start();
-        $iterator = $process->getIterator($process::ITER_SKIP_ERR | $process::ITER_KEEP_OUTPUT);
-        foreach ($iterator as $data) {
-            echo $data;
-        }
-        
         $this->info('Done!');
     }
 
