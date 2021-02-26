@@ -40,6 +40,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read string $download_link
  * @property-read string|null $image
  * @property-read string $show_link
+ * @property-read string|null $image_thumbnail
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $series
+ * @property-read int|null $series_count
  */
 class Author extends Model implements HasMedia
 {

@@ -40,7 +40,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property int|null                                                                                                  $teams_count
  * @property \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[]                           $tokens
  * @property int|null                                                                                                  $tokens_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()

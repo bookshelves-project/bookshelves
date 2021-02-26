@@ -69,6 +69,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read string|null $epub
  * @property-read string|null $image
  * @property-read string $show_link
+ * @property-read string|null $image_original
+ * @property-read string|null $image_thumbnail
  */
 class Book extends Model implements HasMedia
 {

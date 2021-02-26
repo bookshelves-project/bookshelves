@@ -42,6 +42,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read string $show_link
  * @property-read \App\Models\Language|null $language
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguageSlug($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
+ * @property-read int|null $authors_count
+ * @property-read \App\Models\Author $author
+ * @property-read string|null $image_thumbnail
  */
 class Serie extends Model implements HasMedia
 {
