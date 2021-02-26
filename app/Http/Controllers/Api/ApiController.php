@@ -39,6 +39,7 @@ class ApiController extends Controller
     {
         $routes = [];
         $routeCollection = Route::getRoutes();
+        $routeCollection = $routeCollection->getRoutes();
 
         $publicRoutes = [];
         $sanctumRoutes = [];

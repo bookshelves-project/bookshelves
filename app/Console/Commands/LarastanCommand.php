@@ -34,9 +34,9 @@ class LarastanCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return bool
      */
-    public function handle()
+    public function handle(): bool
     {
         $this->info('Run Larastan');
         $this->info('For more informations check repository at https://github.com/nunomaduro/larastan');
@@ -48,5 +48,7 @@ class LarastanCommand extends Command
         foreach ($iterator as $data) {
             echo $data;
         }
+
+        return true;
     }
 }

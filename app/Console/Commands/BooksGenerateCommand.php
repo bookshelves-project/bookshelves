@@ -12,11 +12,10 @@ use App\Providers\Bookshelves\ConvertEpubParser;
 use App\Providers\Bookshelves\EpubGenerator;
 use App\Providers\Bookshelves\CoverGenerator;
 use App\Providers\Bookshelves\ExtraDataGenerator;
-use App\Providers\EpubParser\Entities\IdentifiersParser;
 use App\Providers\EpubParser\EpubParser;
 use App\Providers\EpubParser\EpubParserTools;
+use Cache;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class BooksGenerateCommand extends Command
@@ -52,13 +51,12 @@ class BooksGenerateCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return bool
      */
-    public function handle()
+    public function handle(): bool
     {
         // Artisan::call('log:clear');
         
-
         // setup options
         $isDebug = $this->option('debug');
         $isForce = $this->option('force');
@@ -66,52 +64,6 @@ class BooksGenerateCommand extends Command
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
-
-        // $message = 'message';
-
-        // $process = new Process(['echo "" > storage/logs/epubparser.log']);
-        // $process->setTimeout(0);
-        // $process->start();
-        // $iterator = $process->getIterator($process::ITER_SKIP_ERR | $process::ITER_KEEP_OUTPUT);
-        // foreach ($iterator as $data) {
-        //     echo $data;
-        // }
-
-
-
-        // Log::channel('epubparser')->emergency($message);
-        // Log::channel('epubparser')->alert($message);
-        // Log::channel('epubparser')->critical($message);
-        // Log::channel('epubparser')->error($message);
-        // Log::channel('epubparser')->warning($message);
-        // Log::channel('epubparser')->notice($message);
-        // Log::channel('epubparser')->info($message);
-        // Log::channel('epubparser')->debug($message);
-
-        // $logFile = file(storage_path("/logs/epubparser.log"));
-        // // dump($logFile);
-        // $logCollection = [];
-        // // Loop through an array, show HTML source as HTML source; and line numbers too.
-        // foreach ($logFile as $line_num => $line) {
-        //     $log = explode(' ', $line);
-        //     // dump($log);
-        //     $date = str_replace('[', '', $log[0]);
-        //     $time = str_replace(']', '', $log[1]);
-        //     $type = str_replace(':', '', $log[2]);
-        //     $type = str_replace('local.', '', $type);
-        //     $message = $log[3];
-        //     array_push($logCollection, [
-        //         'date' => $date,
-        //         'time' => $time,
-        //         'type' => $type,
-        //         'message' => $message
-        //     ]);
-        // }
-        // $this->alert('alert');
-        // $this->warn('warn');
-        // $this->error('error');
-        // $this->info('info');
-        // dump($logCollection);
 
         if ($isDebug) {
             $this->warn('You are in debug mode: default author pictures, basic cover only');
@@ -125,9 +77,9 @@ class BooksGenerateCommand extends Command
         $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
 
         Artisan::call('storage:link');
-        Cache::clear('books');
-        Cache::clear('series');
-        Cache::clear('authors');
+        Cache::forget('books');
+        Cache::forget('series');
+        Cache::forget('authors');
         $epubFiles = EpubParserTools::getAllEpubFiles(limit: $limit);
 
         if ($isFresh) {
@@ -149,6 +101,8 @@ class BooksGenerateCommand extends Command
 
             $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
         }
+
+        return true;
     }
     
     /**
@@ -260,7 +214,7 @@ class BooksGenerateCommand extends Command
         $epub_bar->finish();
         $this->info("\n");
         $this->info('EPUB files parsed and generated!');
-        if (sizeof($books_with_errors) >= 1) {
+        if (!empty($books_with_errors)) {
             $this->info("\n");
             $this->warn('You have '.sizeof($books_with_errors).' fatal errors: XML file failed to be parsed');
             foreach ($books_with_errors as $key => $book) {

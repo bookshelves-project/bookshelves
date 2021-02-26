@@ -34,10 +34,11 @@ class CommentController extends Controller
     {
         $model_name = 'App\Models\\'.ucfirst($model);
         $entity = $model_name::whereSlug($slug)->first();
-        $user = Auth::user();
+        $userId = Auth::id();
+        $user = Auth::getUser();
 
         foreach ($entity->comments as $key => $value) {
-            if ($value->user_id === $user->id) {
+            if ($value->user_id === $userId) {
                 return response()->json(['error' => 'A comment exist'], 401);
             }
         }
@@ -60,10 +61,10 @@ class CommentController extends Controller
     public function edit(string $book)
     {
         $book = Book::whereSlug($book)->first();
-        $user = Auth::user();
+        $userId = Auth::id();
 
-        $comment = Comment::whereBookId($book->id)->whereUserId($user->id)->firstOrFail();
-        if (null === $comment) {
+        $comment = Comment::whereBookId($book->id)->whereUserId($userId)->firstOrFail();
+        if (null == $comment) {
             return response()->json(['error' => 'A comment exist'], 401);
         }
 
@@ -73,10 +74,10 @@ class CommentController extends Controller
     public function update(Request $request, string $book)
     {
         $book = Book::whereSlug($book)->first();
-        $user = Auth::user();
+        $userId = Auth::id();
 
-        $comment = Comment::whereBookId($book->id)->whereUserId($user->id)->firstOrFail();
-        if (null === $comment) {
+        $comment = Comment::whereBookId($book->id)->whereUserId($userId)->firstOrFail();
+        if (null == $comment) {
             return response()->json(['error' => "Comment don't exist"], 401);
         }
         $comment_text = $request->text;

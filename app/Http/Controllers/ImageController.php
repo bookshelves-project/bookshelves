@@ -9,19 +9,20 @@ use Spatie\Image\Exceptions\InvalidManipulation;
 class ImageController extends Controller
 {
     /**
-     * @param $size
-     * @param $path
+     * @param string $size
+     * @param string $path
+     * @param bool   $crop = true
      *
      * @throws InvalidManipulation
      *
      * @return mixed
      */
-    public static function thumbnail($size, $path, $crop = true)
+    public static function thumbnail(string $size, string $path, bool $crop = true): mixed
     {
         $dimensions = config("image.thumbnails.$size");
 
         if (! $dimensions) {
-            return abort(404);
+            return response()->json(['error' => 'Dimensions not found'], 401);
         }
 
         $thumbnail = get_thumbnail($path, $size);

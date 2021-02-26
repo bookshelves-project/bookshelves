@@ -35,9 +35,9 @@ class BooksTestCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return bool
      */
-    public function handle()
+    public function handle(): bool
     {
         $demoPath = database_path('seeders/demo-ebooks');
         $booksRawPath = storage_path('app/public/books-raw');
@@ -53,6 +53,8 @@ class BooksTestCommand extends Command
         } else {
             $this->generate($booksRawPath, $demoPath);
         }
+
+        return true;
     }
 
     public function generate(string $booksRawPath, string $demoPath)
