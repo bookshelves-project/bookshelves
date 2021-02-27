@@ -395,7 +395,7 @@
 
   <style>
     body {
-      font-family: 'Nunito';
+      font-family: 'Handlee', cursive;
     }
 
   </style>

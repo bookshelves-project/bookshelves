@@ -9,7 +9,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
@@ -20,7 +21,7 @@
         class="relative flex justify-center min-h-screen bg-gray-100 items-top dark:bg-gray-900 sm:items-center sm:pt-0">
         <a href="{{ route('admin') }}"
             class="block max-w-6xl p-5 mx-auto transition-colors duration-100 rounded-md sm:px-6 lg:px-8 hover:bg-gray-200">
-            <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
+            <div class="flex justify-center mt-4 font-handlee sm:items-center sm:justify-between">
                 <div>
                     <div class="text-6xl">
                         Bookshelves
