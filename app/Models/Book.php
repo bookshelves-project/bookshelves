@@ -91,6 +91,8 @@ class Book extends Model implements HasMedia
         'date',
         'rights',
         'serie_number',
+        'page_count',
+        'maturity_rating',
     ];
 
     protected $with = [
@@ -184,6 +186,11 @@ class Book extends Model implements HasMedia
     public function identifier(): BelongsTo
     {
         return $this->belongsTo(Identifier::class);
+    }
+
+    public function googleBook(): BelongsTo
+    {
+        return $this->belongsTo(GoogleBook::class);
     }
 
     public function favorites(): MorphToMany

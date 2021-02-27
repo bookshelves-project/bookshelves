@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Serie;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SerieResource;
@@ -76,9 +77,20 @@ class SerieController extends Controller
         return Serie::count();
     }
 
-    public function show(Request $request, string $serie)
+    public function show(Request $request, string $author, string $serie)
     {
+        $author = Author::whereSlug($author)->firstOrFail();
         $serie = Serie::whereSlug($serie)->firstOrFail();
+        $authorFound = false;
+        foreach ($serie->authors as $key => $authorList) {
+            if ($author->slug === $authorList->slug) {
+                $authorFound = true;
+            }
+        }
+        if (! $authorFound) {
+            return response(['error' => 'Not found'], 404);
+        }
+
         $serie = SerieResource::make($serie);
 
         return $serie;

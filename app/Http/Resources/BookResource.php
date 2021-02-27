@@ -90,6 +90,8 @@ class BookResource extends JsonResource
             'publisher'                     => $publisher,
             'image'                         => $this->image_thumbnail,
             'imageOriginal'                 => $this->image_original,
+            'page_count'                    => $this->page_count,
+            'maturity_rating'               => $this->maturity_rating,
             'tags'                          => $tags,
             'epub'                          => [
                 'name'     => $epub->file_name,
@@ -97,11 +99,13 @@ class BookResource extends JsonResource
                 'download' => $this->download_link,
             ],
             'serie'                 => $serie ? [
-                'number'  => $this->serie_number,
-                'title'   => $serie->title,
-                'slug'    => $serie->slug,
-                'show'    => $serie->show_link,
+                'number'    => $this->serie_number,
+                'title'     => $serie->title,
+                'slug'      => $serie->slug,
+                'author'    => $serie->author->slug,
+                'show'      => $serie->show_link,
             ] : null,
+            'googleBook' => GoogleBookResource::make($this->googleBook),
             'isFavorite' => $isFavorite,
             'comments'   => $comments,
         ];

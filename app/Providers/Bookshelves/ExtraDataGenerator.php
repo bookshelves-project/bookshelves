@@ -2,12 +2,18 @@
 
 namespace App\Providers\Bookshelves;
 
+use App\Http\Resources\IdentifierResource;
 use File;
 use App\Models\Book;
 use App\Models\Cover;
 use App\Models\Serie;
 use App\Models\Author;
+use App\Models\GoogleBook;
+use App\Models\Identifier;
+use App\Models\Tag;
+use DateTime;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class ExtraDataGenerator
 {
@@ -111,5 +117,106 @@ class ExtraDataGenerator
         }
 
         return $serie;
+    }
+
+    public static function getDataFromGoogleBooks(Identifier $identifier, Book $book): Book
+    {
+        if ($identifier->isbn13) {
+            $isbn = $identifier->isbn13;
+        } else if($identifier->isbn) {
+            $isbn = $identifier->isbn;
+        } else {
+            $isbn = null;
+        }
+
+        if ($isbn) {
+            $url = "https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn";
+
+            $date = null;
+            $description = null;
+            $industryIdentifiers = null;
+            $pageCount = null;
+            $categories = null;
+            $maturityRating = null;
+            $language = null;
+            $previewLink = null;
+
+            $retailPriceAmount = null;
+            $retailPriceCurrencyCode = null;
+            $buyLink = null;
+
+            $new_isbn13 = null;
+            $new_isbn = null;
+
+            try {
+                $response = Http::get($url);
+                $response = $response->json();
+                $response = $response['items'][0];
+                $volumeInfo = $response['volumeInfo'];
+                $date = (string) $volumeInfo['publishedDate'];
+                $description = (string) $volumeInfo['description'];
+                $industryIdentifiers = (array) $volumeInfo['industryIdentifiers'];
+                $pageCount = (int) $volumeInfo['pageCount'];
+                $categories = (array) $volumeInfo['categories'];
+                $maturityRating = (string) $volumeInfo['maturityRating'];
+                $language = (string) $volumeInfo['language'];
+                $previewLink = (string) $volumeInfo['previewLink'];
+
+                $saleInfo = $response['saleInfo'];
+                $isEbook = (bool) $saleInfo['isEbook'];
+                $retailPriceAmount = (int) $saleInfo['retailPrice']['amount'];
+                $retailPriceCurrencyCode = (string) $saleInfo['retailPrice']['currencyCode'];
+                $buyLink = (string) $saleInfo['buyLink'];
+                
+                foreach ($industryIdentifiers as $key => $new_identifier) {
+                    if ($new_identifier['type'] === 'ISBN_13') {
+                        $new_isbn13 = $new_identifier['identifier'];
+                    }
+                    if ($new_identifier['type'] === 'ISBN_10') {
+                        $new_isbn = $new_identifier['identifier'];
+                    }
+                }
+                foreach ($categories as $key => $category) {
+                    $tagIfExist = Tag::whereSlug(Str::slug($category))->first();
+                    $tag = null;
+                    if (! $tagIfExist) {
+                        $tag = Tag::firstOrCreate([
+                            'name' => $category,
+                            'slug' => Str::slug($category),
+                        ]);
+                    }
+                    if (! $tag) {
+                        $tag = $tagIfExist;
+                    }
+
+                    $book->tags()->save($tag);
+                }
+            } catch (\Throwable $th) {
+            }
+
+            !$book->date && $date ? $book->date = $date : null;
+            !$book->description && $description ? $book->description = $description : null;
+            !$book->pageCount && $pageCount ? $book->page_count = $pageCount : null;
+            !$book->maturityRating && $maturityRating ? $book->maturity_rating = $maturityRating : null;
+            !$book->language && $language ? $book->language = $language : null;
+            $book->save();
+
+            $identifier = Identifier::find($book->identifier->id);
+            !$identifier->isbn ? $book->identifier->isbn = $new_isbn : null;
+            !$identifier->isbn13 ? $book->identifier->isbn13 = $new_isbn13 : null;
+            $identifier->save();
+
+            $googleBook = GoogleBook::create([
+                'preview_link' => $previewLink,
+                'retail_price' => $retailPriceAmount,
+                'retail_price_currency' => $retailPriceCurrencyCode,
+                'buy_link' => $buyLink,
+                'created_at' => new DateTime(),
+            ]);
+            $googleBook->book()->save($book);
+        }
+
+        return $book;
+        
     }
 }
