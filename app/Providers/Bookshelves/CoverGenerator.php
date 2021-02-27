@@ -6,6 +6,14 @@ use App\Models\Book;
 
 class CoverGenerator
 {
+    /**
+     * Generate Book image from original cover string file.
+     * Manage by spatie/laravel-medialibrary.
+     *
+     * @param array $metadata
+     *
+     * @return Book
+     */
     public static function run(array $metadata): Book
     {
         $book = $metadata['book'];

@@ -8,6 +8,7 @@ use Artisan;
 use Storage;
 use App\Models\Book;
 use App\Models\Serie;
+use App\Models\User;
 use App\Providers\Bookshelves\ConvertEpubParser;
 use App\Providers\Bookshelves\EpubGenerator;
 use App\Providers\Bookshelves\CoverGenerator;
@@ -27,7 +28,7 @@ class BooksGenerateCommand extends Command
      * @var string
      */
     protected $signature = 'books:generate
-                            {--f|fresh : reset current database to fresh install}
+                            {--f|fresh : reset current database to fresh install, execute seeders}
                             {--d|debug : default author pictures, no covers, skip tests}
                             {--F|force : skip confirm question for fresh prod}
                             {--l|limit= : limit epub files to generate, useful for debug}';
@@ -70,10 +71,11 @@ class BooksGenerateCommand extends Command
             $this->warn('You are in debug mode: default author pictures, basic cover only');
         }
         if ($isFresh) {
-            $this->warn('You choose fresh installation, current database will be erased.');
+            $this->warn('You choose fresh installation, current database will be erased. Seeders will be used.');
         }
 
-        $this->info("\n".'> Welcome to Books-Generate Tool <'."\n");
+        $this->newLine();
+        $this->alert('BooksGenerate');
         $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/books-raw...');
         $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
 
@@ -96,7 +98,7 @@ class BooksGenerateCommand extends Command
                 $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
             }
         } else {
-            $this->info("\n");
+            $this->newLine();
             $this->info('You choose basic parsing, current database will be keep safe and unknown eBooks will be add.');
             $this->warn("Basic parsing is not fully tested, to generate database with full try --fresh option for ready command");
 
@@ -114,23 +116,45 @@ class BooksGenerateCommand extends Command
      * @return void 
      */
     public function generate(array $epubFiles, bool $isFresh, bool $isDebug = false) {
+        $this->newLine();
         if ($isFresh) {
-            Artisan::call('migrate:fresh --force');
-            $this->clearDirectories();
+            // $this->info('The command was successful!');
+            // $this->error('Something went wrong!');
+            // $this->line('Display this on the screen');
+            // $this->comment('Display this on the screen');
+            // $this->alert('Run migrate:fresh...');
+            // $this->newLine();
+            
+            $this->alert('Run migrate:fresh...');
+            $command = 'migrate:fresh --force';
+            Artisan::call($command, [], $this->getOutput());
+            $clearIsSuccess = $this->clearAllMediaCollection();
+            $clearIsSuccessText = null;
+            $clearIsSuccess ? $clearIsSuccessText = 'success' : $clearIsSuccessText = 'failed';
+            $this->warn("Clearing media... $clearIsSuccessText!");
+            $this->newLine();
         }
 
         $books_with_covers = $this->generateBooks(epubFiles: $epubFiles, isDebug: $isDebug);
         $this->generateCovers(books_with_covers: $books_with_covers, isDebug: $isDebug);
         
         if (config('app.env') !== 'production' && !$isDebug) {
-            $this->info('Run tests'."\n");
+            $this->alert('Run tests...');
             Artisan::call('pest:run');
         }
         
         if ($isFresh) {
-            $this->info('Run seeders...'."\n");
-            Artisan::call('db:seed --force');
+            $this->alert('Run seeders...');
+            $command = 'db:seed --force';
+            Artisan::call($command, [], $this->getOutput());
         }
+
+        $this->newLine();
+        $this->table(
+            ['Books', 'Series', 'Authors'],
+            [[Book::count(), Serie::count(), Author::count()]]
+        );
+        $this->newLine();
         
         $this->info('Done!');
     }
@@ -139,9 +163,11 @@ class BooksGenerateCommand extends Command
     {
         if (!$isDebug) {
             $format = strtoupper(config('bookshelves.cover_extension'));
-            $this->info("\n".'Generate covers');
+            $this->newLine();
+            $this->alert('Generate covers...');
             $this->info("- Generate covers with differents dimensions");
-            $this->info("- $format format: original, basic, thumbnail\n");
+            $this->info("- $format format: original, basic, thumbnail");
+            $this->newLine();
             $cover_bar = $this->output->createProgressBar(count($books_with_covers));
             $cover_bar->start();
             foreach ($books_with_covers as $key => $metadata) {
@@ -152,13 +178,16 @@ class BooksGenerateCommand extends Command
             }
 
             $cover_bar->finish();
-            $this->info("\n");
-            $this->info('Covers generated!'."\n");
+            $this->newLine();
+            $this->newLine();
+            $this->info('Covers generated!');
+            $this->newLine();
         }
 
-        $this->info('Generate series covers and extra data');
-        $this->info("- Get cover of vol. 1 to associate picture to serie");
-        $this->info("- If a JPG file with slug of serie exist in 'database/seeders/media/series', it's will be this picture\n");
+        $this->alert('Generate series covers and extra data...');
+        $this->info("- Get cover of vol. 1 to associate picture to serie if exist");
+        $this->info("- If a JPG file with slug of serie exist in 'database/seeders/media/series', it's will be this picture");
+        $this->newLine();
         $series = Serie::all();
         $series_cover_bar = $this->output->createProgressBar(count($series));
         $series_cover_bar->start();
@@ -168,12 +197,15 @@ class BooksGenerateCommand extends Command
             $series_cover_bar->advance();
         }
         $series_cover_bar->finish();
-        $this->info("\n");
-        $this->info('Series Covers generated!'."\n");
+        $this->newLine();
+        $this->newLine();
+        $this->info('Series Covers generated!');
+        $this->newLine();
 
         if (!$isDebug) {
-            $this->info('Generate authors pictures');
-            $this->info("- Get pictures from Wikipedia: HTTP requests\n");
+            $this->alert('Generate authors pictures...');
+            $this->info("- Get pictures from Wikipedia: HTTP requests");
+            $this->newLine();
             $authors = Author::all();
             $authors_pictures = $this->output->createProgressBar(count($authors));
             $authors_pictures->start();
@@ -182,8 +214,10 @@ class BooksGenerateCommand extends Command
                 $authors_pictures->advance();
             }
             $authors_pictures->finish();
-            $this->info("\n");
-            $this->info('Authors Pictures generated!'."\n");
+            $this->newLine();
+            $this->newLine();
+            $this->info('Authors Pictures generated!');
+            $this->newLine();
         }
 
         File::cleanDirectory(public_path('storage/covers-raw'));
@@ -195,10 +229,12 @@ class BooksGenerateCommand extends Command
         // Parse $epubsFiles[] to get metadata and
         // save each EPUB as Book model with relationships
         $epubsCount = sizeof($epubFiles);
-        $this->info("\nEPUB files detected: $epubsCount");
+        $this->newLine();
+        $this->alert("EPUB files detected: $epubsCount");
         $this->info("- Generate Book model with relationships");
         $this->info("- Generate new EPUB file with standard name");
-        $this->info("- Get extra data from Google Books API: HTTP requests\n");
+        $this->info("- Get extra data from Google Books API: HTTP requests");
+        $this->newLine();
         $books_with_covers = [];
         $books_with_errors = [];
 
@@ -222,10 +258,11 @@ class BooksGenerateCommand extends Command
             $epub_bar->advance();
         }
         $epub_bar->finish();
-        $this->info("\n");
+        $this->newLine();
+        $this->newLine();
         $this->info('EPUB files parsed and generated!');
         if (!empty($books_with_errors)) {
-            $this->info("\n");
+            $this->newLine();
             $this->warn('You have '.sizeof($books_with_errors).' fatal errors: XML file failed to be parsed');
             foreach ($books_with_errors as $key => $book) {
                 $this->info($book);
@@ -235,9 +272,38 @@ class BooksGenerateCommand extends Command
         return $books_with_covers;
     }
 
-    
+    /**
+     * Clear all media collection manage by spatie/laravel-medialibrary.
+     * 
+     * @return bool 
+     */
+    public function clearAllMediaCollection(): bool
+    {
+        $isSuccess = false;
+        try {
+            $books = Book::all();
+            $series = Serie::all();
+            $authors = Author::all();
+            $books->each(function ($query) {
+                $query->clearMediaCollection('books');
+                $query->clearMediaCollection('books_epubs');
+            });
+            $series->each(function ($query) {
+                $query->clearMediaCollection('series');
+            });
+            $authors->each(function ($query) {
+                $query->clearMediaCollection('authors');
+            });
+            $isSuccess = true;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        return $isSuccess;
+    }
 
     /**
+     * DEPRECATED
      * Clean directories with generated covers and EPUB files
      * Don't erase original EPUB files.
      *

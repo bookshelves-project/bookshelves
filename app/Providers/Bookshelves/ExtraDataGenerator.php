@@ -10,13 +10,37 @@ use App\Models\Serie;
 use App\Models\Author;
 use App\Models\GoogleBook;
 use App\Models\Identifier;
+use App\Models\Publisher;
 use App\Models\Tag;
 use DateTime;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Database\Eloquent\InvalidCastException;
+use Illuminate\Database\Eloquent\JsonEncodingException;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use LogicException;
+use InvalidArgumentException;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use League\Flysystem\FileNotFoundException as FlysystemFileNotFoundException;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 
 class ExtraDataGenerator
 {
+    /**
+     * Generate Author image from Wikipedia if found
+     * If not use default image 'database/seeders/media/authors/no-picture.jpg'
+     * Manage by spatie/laravel-medialibrary.
+     * 
+     * @param Author $author 
+     * @param bool $is_debug 
+     * 
+     * @return Author
+     */
     public static function generateAuthorPicture(Author $author, bool $is_debug): Author
     {
         if (! $author->image) {
@@ -59,6 +83,16 @@ class ExtraDataGenerator
         return $author;
     }
 
+    /**
+     * Generate Serie image from 'database/seeders/media/series' if JPG file with Serie slug exist
+     * if not get image from Book with 'book_number' like '1'
+     * 
+     * Manage by spatie/laravel-medialibrary.
+     * 
+     * @param Serie $serie 
+     * 
+     * @return Serie 
+     */
     public static function generateSerieCover(Serie $serie): Serie
     {
         if (! $serie->image) {
@@ -99,12 +133,21 @@ class ExtraDataGenerator
         return $serie;
     }
 
+    /**
+     * Generate Language relationship for Serie from first Book of Serie
+     * 
+     * @param Serie $serie 
+     * 
+     * @return Serie 
+     */
     public static function generateSerieLanguage(Serie $serie): Serie
     {
         if (! $serie->language) {
             $bookSelected = $serie->books[0];
             foreach ($serie->books as $key => $book) {
                 if (1 === $book->serie_number) {
+                    $bookSelected = $book;
+                } else {
                     $bookSelected = $book;
                 }
             }
@@ -119,6 +162,18 @@ class ExtraDataGenerator
         return $serie;
     }
 
+    /**
+     * Get data from Google Books API with ISBN from meta
+     * Example: https://www.googleapis.com/books/v1/volumes?q=isbn:9782700239904
+     * 
+     * Get all useful data to improve Book, Identifier, Publisher and Tag
+     * If data exist, create GoogleBook associate with Book with useful data to purchase eBook
+     * 
+     * @param Identifier $identifier
+     * @param Book $book
+     * 
+     * @return Book
+     */
     public static function getDataFromGoogleBooks(Identifier $identifier, Book $book): Book
     {
         if ($identifier->isbn13) {
@@ -140,6 +195,7 @@ class ExtraDataGenerator
             $maturityRating = null;
             $language = null;
             $previewLink = null;
+            $publisher = null;
 
             $retailPriceAmount = null;
             $retailPriceCurrencyCode = null;
@@ -154,6 +210,7 @@ class ExtraDataGenerator
                 $response = $response['items'][0];
                 $volumeInfo = $response['volumeInfo'];
                 $date = (string) $volumeInfo['publishedDate'];
+                $publisher = (string) $volumeInfo['publisher'];
                 $description = (string) $volumeInfo['description'];
                 $industryIdentifiers = (array) $volumeInfo['industryIdentifiers'];
                 $pageCount = (int) $volumeInfo['pageCount'];
@@ -199,6 +256,13 @@ class ExtraDataGenerator
             !$book->pageCount && $pageCount ? $book->page_count = $pageCount : null;
             !$book->maturityRating && $maturityRating ? $book->maturity_rating = $maturityRating : null;
             !$book->language && $language ? $book->language = $language : null;
+            if (!$book->publisher && $publisher) {
+                $publisher = Publisher::create([
+                'name' => $publisher,
+                'slug' => Str::slug($publisher, '-')
+                ]);
+                $book->publisher()->associate($publisher);
+            }
             $book->save();
 
             $identifier = Identifier::find($book->identifier->id);
@@ -206,14 +270,16 @@ class ExtraDataGenerator
             !$identifier->isbn13 ? $book->identifier->isbn13 = $new_isbn13 : null;
             $identifier->save();
 
-            $googleBook = GoogleBook::create([
-                'preview_link' => $previewLink,
-                'retail_price' => $retailPriceAmount,
-                'retail_price_currency' => $retailPriceCurrencyCode,
-                'buy_link' => $buyLink,
-                'created_at' => new DateTime(),
-            ]);
-            $googleBook->book()->save($book);
+            if ($previewLink || $retailPriceAmount || $retailPriceCurrencyCode || $buyLink) {
+                $googleBook = GoogleBook::create([
+                    'preview_link' => $previewLink,
+                    'retail_price' => $retailPriceAmount,
+                    'retail_price_currency' => $retailPriceCurrencyCode,
+                    'buy_link' => $buyLink,
+                    'created_at' => new DateTime(),
+                ]);
+                $googleBook->book()->save($book);
+            }   
         }
 
         return $book;
