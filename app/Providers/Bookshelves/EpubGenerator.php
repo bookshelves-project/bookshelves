@@ -7,6 +7,15 @@ use App\Models\Book;
 
 class EpubGenerator
 {
+    /**
+     * Generate new EPUB file with standard name.
+     * Manage by spatie/laravel-medialibrary.
+     *
+     * @param Book   $book
+     * @param string $file_path
+     *
+     * @return bool
+     */
     public static function run(Book $book, string $file_path): bool
     {
         $serie = $book->serie;

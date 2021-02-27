@@ -14,6 +14,14 @@ use App\Providers\EpubParser\EpubParser;
 
 class ConvertEpubParser
 {
+    /**
+     * Generate new Book with all relations
+     * 
+     * @param EpubParser $epubParser 
+     * @param bool $is_debug 
+     * 
+     * @return Book
+     */
     public static function run(EpubParser $epubParser, bool $is_debug): Book
     {
         $bookIfExist = Book::whereSlug(Str::slug($epubParser->title, '-'))->first();
@@ -61,11 +69,13 @@ class ConvertEpubParser
 
                 $book->tags()->save($tag);
             }
-            $publisher = Publisher::firstOrCreate([
-                'name' => $epubParser->publisher,
-                'slug' => Str::slug($epubParser->publisher),
-            ]);
-            $book->publisher()->associate($publisher);
+            if ($epubParser->publisher) {
+                $publisher = Publisher::firstOrCreate([
+                    'name' => $epubParser->publisher,
+                    'slug' => Str::slug($epubParser->publisher),
+                ]);
+                $book->publisher()->associate($publisher);
+            }
             if ($epubParser->serie) {
                 $serieIfExist = Serie::whereSlug(Str::slug($epubParser->serie))->first();
                 $serie = null;
