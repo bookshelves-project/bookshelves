@@ -118,6 +118,10 @@ class Book extends Model implements HasMedia
         $this->addMediaConversion('thumbnail')
             ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
             ->format(config('bookshelves.cover_extension'));
+
+        $this->addMediaConversion('standard')
+            ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
+            ->format('jpg');
     }
 
     public function getImageAttribute(): string|null
@@ -133,6 +137,11 @@ class Book extends Model implements HasMedia
     public function getImageOriginalAttribute(): string|null
     {
         return $this->getMedia('books')->first()?->getUrl();
+    }
+
+    public function getImageStandardAttribute(): string|null
+    {
+        return $this->getMedia('books')->first()?->getUrl('standard');
     }
 
     public function getEpubAttribute(): string|null

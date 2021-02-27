@@ -71,6 +71,10 @@ class Serie extends Model implements HasMedia
         $this->addMediaConversion('thumbnail')
             ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
             ->format(config('bookshelves.cover_extension'));
+
+        $this->addMediaConversion('standard')
+            ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
+            ->format('jpg');
     }
 
     public function getImageAttribute(): string|null
@@ -81,6 +85,11 @@ class Serie extends Model implements HasMedia
     public function getImageThumbnailAttribute(): string|null
     {
         return $this->getMedia('series')->first()?->getUrl('thumbnail');
+    }
+    
+    public function getImageStandardAttribute(): string|null
+    {
+        return $this->getMedia('series')->first()?->getUrl('standard');
     }
 
     public function getShowLinkAttribute(): string

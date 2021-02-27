@@ -54,6 +54,7 @@ class AuthorResource extends JsonResource
             'name'            => $this->name,
             'slug'            => $this->slug,
             'image'                 => $this->image_thumbnail,
+            'imageStandard'                         => $this->image_standard,
             'download'        => $this->download_link,
             'size'            => $size,
             'books_number'    => $books_number,
