@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\SubmissionController;
-use App\Http\Controllers\Build\DependencyController;
+use App\Http\Controllers\Api\DependencyController;
 
 /*
 |--------------------------------------------------------------------------

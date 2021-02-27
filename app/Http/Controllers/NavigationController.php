@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Inertia\Inertia;
 use App\Http\Resources\BookResource;
+use Illuminate\Foundation\Application;
 
 class NavigationController extends Controller
 {
     public function welcome()
     {
-        return view('welcome');
+        $laravelVersion = Application::VERSION;
+        $phpVersion = PHP_VERSION;
+
+        return view('welcome', compact('laravelVersion', 'phpVersion'));
     }
 
     public function dashboard()
