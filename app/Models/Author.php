@@ -83,12 +83,18 @@ class Author extends Model implements HasMedia
 
     public function getShowLinkAttribute(): string
     {
-        return config('app.url')."/api/authors/$this->slug";
+        $route = route('api.authors.show', [
+            'author' => $this->slug,
+        ]);
+        return $route;
     }
 
     public function getDownloadLinkAttribute(): string
     {
-        return config('app.url')."/api/download/author/$this->slug";
+        $route = route('api.download.author', [
+            'author' => $this->slug,
+        ]);
+        return $route;
     }
 
     public function favorites(): MorphToMany

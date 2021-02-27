@@ -85,14 +85,20 @@ class Serie extends Model implements HasMedia
 
     public function getShowLinkAttribute(): string
     {
-        $author = $this->author->slug;
-        return config('app.url')."/api/series/$author/$this->slug";
+        $route = route('api.series.show', [
+            'author' => $this->author->slug,
+            'serie' => $this->slug
+        ]);
+        return $route;
     }
 
     public function getDownloadLinkAttribute(): string
     {
-        $author = $this->author->slug;
-        return config('app.url')."/api/download/serie/$author/$this->slug";
+        $route = route('api.download.serie', [
+            'author' => $this->author->slug,
+            'serie' => $this->slug
+        ]);
+        return $route;
     }
 
     public function books(): HasMany

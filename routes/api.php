@@ -63,7 +63,7 @@ Route::get('/search-serie', [SearchController::class, 'bySerie'])->name('api.sea
  * Details routes
  */
 Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('api.books.show');
-    Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('api.series.show');
+Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('api.series.show');
 Route::get('/authors/{author}', [AuthorController::class, 'show'])->name('api.authors.show');
 
 /*
