@@ -73,6 +73,7 @@ class SerieResource extends JsonResource
             'authors'          => $authors,
             'language'        => $this->language,
             'image'                 => $this->image_thumbnail,
+            'imageStandard'                         => $this->image_standard,
             'download'              => $this->download_link,
             'size'                  => $size,
             'books_number'    => $books_number,

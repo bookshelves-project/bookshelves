@@ -71,6 +71,13 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read string $show_link
  * @property-read string|null $image_original
  * @property-read string|null $image_thumbnail
+ * @property int|null $google_book_id
+ * @property int|null $page_count
+ * @property string|null $maturity_rating
+ * @property-read \App\Models\GoogleBook|null $googleBook
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereMaturityRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book wherePageCount($value)
  */
 class Book extends Model implements HasMedia
 {
@@ -111,6 +118,10 @@ class Book extends Model implements HasMedia
         $this->addMediaConversion('thumbnail')
             ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
             ->format(config('bookshelves.cover_extension'));
+
+        $this->addMediaConversion('standard')
+            ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
+            ->format('jpg');
     }
 
     public function getImageAttribute(): string|null
@@ -128,6 +139,11 @@ class Book extends Model implements HasMedia
         return $this->getMedia('books')->first()?->getUrl();
     }
 
+    public function getImageStandardAttribute(): string|null
+    {
+        return $this->getMedia('books')->first()?->getUrl('standard');
+    }
+
     public function getEpubAttribute(): string|null
     {
         return $this->getMedia('books_epubs')->first()?->getUrl();
@@ -135,12 +151,20 @@ class Book extends Model implements HasMedia
 
     public function getShowLinkAttribute(): string
     {
-        return config('app.url').'/api/books/'.$this->author->slug."/$this->slug";
+        $route = route('api.books.show', [
+            'author' => $this->author->slug,
+            'book' => $this->slug
+        ]);
+        return $route;
     }
 
     public function getDownloadLinkAttribute(): string
     {
-        return config('app.url').'/api/download/book/'.$this->author->slug.'/'.$this->slug;
+        $route = route('api.download.book', [
+            'author' => $this->author->slug,
+            'book' => $this->slug
+        ]);
+        return $route;
     }
 
     /**

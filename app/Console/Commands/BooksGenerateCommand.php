@@ -109,13 +109,18 @@ class BooksGenerateCommand extends Command
     }
     
     /**
+     * Execute generateBooks() and generateCovers()
+     * If fresh, execute migrate:fresh and seeders
+     * If not in production execute tests
      * 
      * @param array $epubFiles 
      * @param bool $isFresh 
      * @param bool $isDebug 
+     * 
      * @return void 
      */
-    public function generate(array $epubFiles, bool $isFresh, bool $isDebug = false) {
+    public function generate(array $epubFiles, bool $isFresh, bool $isDebug = false): void
+    {
         $this->newLine();
         if ($isFresh) {
             // $this->info('The command was successful!');
@@ -131,8 +136,9 @@ class BooksGenerateCommand extends Command
             $clearIsSuccess = $this->clearAllMediaCollection();
             $clearIsSuccessText = null;
             $clearIsSuccess ? $clearIsSuccessText = 'success' : $clearIsSuccessText = 'failed';
-            $this->warn("Clearing media... $clearIsSuccessText!");
+            $this->alert("Clearing media... $clearIsSuccessText!");
             $this->newLine();
+            $this->info("Clear all files into 'public/storage/media' manage by spatie/laravel-medialibrary");
         }
 
         $books_with_covers = $this->generateBooks(epubFiles: $epubFiles, isDebug: $isDebug);

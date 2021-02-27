@@ -11588,28 +11588,6 @@
         {
                         return \Illuminate\Routing\Router::inertia($uri, $component, $props);
         }
-                    /**
-         * 
-         *
-         * @see \Tightenco\Ziggy\ZiggyServiceProvider::boot()
-         * @param mixed $group
-         * @static 
-         */ 
-        public static function blacklist($group = null)
-        {
-                        return \Illuminate\Routing\Router::blacklist($group);
-        }
-                    /**
-         * 
-         *
-         * @see \Tightenco\Ziggy\ZiggyServiceProvider::boot()
-         * @param mixed $group
-         * @static 
-         */ 
-        public static function whitelist($group = null)
-        {
-                        return \Illuminate\Routing\Router::whitelist($group);
-        }
          
     }
             /**
@@ -15921,6 +15899,35 @@
         }
          
     }
+            /**
+     * 
+     *
+     */ 
+        class RedirectResponse {
+                    /**
+         * 
+         *
+         * @see \Laravel\Jetstream\JetstreamServiceProvider::boot()
+         * @param mixed $message
+         * @static 
+         */ 
+        public static function banner($message)
+        {
+                        return \Illuminate\Http\RedirectResponse::banner($message);
+        }
+                    /**
+         * 
+         *
+         * @see \Laravel\Jetstream\JetstreamServiceProvider::boot()
+         * @param mixed $message
+         * @static 
+         */ 
+        public static function dangerBanner($message)
+        {
+                        return \Illuminate\Http\RedirectResponse::dangerBanner($message);
+        }
+         
+    }
      
 }
 
@@ -15943,28 +15950,6 @@
         public static function inertia($uri, $component, $props = [])
         {
                         return \Illuminate\Routing\Router::inertia($uri, $component, $props);
-        }
-                    /**
-         * 
-         *
-         * @see \Tightenco\Ziggy\ZiggyServiceProvider::boot()
-         * @param mixed $group
-         * @static 
-         */ 
-        public static function blacklist($group = null)
-        {
-                        return \Illuminate\Routing\Router::blacklist($group);
-        }
-                    /**
-         * 
-         *
-         * @see \Tightenco\Ziggy\ZiggyServiceProvider::boot()
-         * @param mixed $group
-         * @static 
-         */ 
-        public static function whitelist($group = null)
-        {
-                        return \Illuminate\Routing\Router::whitelist($group);
         }
          
     }

@@ -69,6 +69,10 @@ class Author extends Model implements HasMedia
         $this->addMediaConversion('thumbnail')
             ->fit(Manipulations::FIT_CROP, $formatThumbnail['width'], $formatThumbnail['height'])
             ->format(config('bookshelves.cover_extension'));
+
+        $this->addMediaConversion('standard')
+            ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
+            ->format('jpg');
     }
 
     public function getImageAttribute(): string|null
@@ -81,14 +85,25 @@ class Author extends Model implements HasMedia
         return $this->getMedia('authors')->first()?->getUrl('thumbnail');
     }
 
+    public function getImageStandardAttribute(): string|null
+    {
+        return $this->getMedia('authors')->first()?->getUrl('standard');
+    }
+
     public function getShowLinkAttribute(): string
     {
-        return config('app.url')."/api/authors/$this->slug";
+        $route = route('api.authors.show', [
+            'author' => $this->slug,
+        ]);
+        return $route;
     }
 
     public function getDownloadLinkAttribute(): string
     {
-        return config('app.url')."/api/download/author/$this->slug";
+        $route = route('api.download.author', [
+            'author' => $this->slug,
+        ]);
+        return $route;
     }
 
     public function favorites(): MorphToMany
