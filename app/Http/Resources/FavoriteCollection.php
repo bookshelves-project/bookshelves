@@ -46,7 +46,7 @@ class FavoriteCollection extends JsonResource
                 'slug'        => $this->favoritable->slug,
             ],
             'title' => $title,
-            'image' => $this->favoritable->image,
+            'image' => $this->favoritable->image_standard,
         ];
     }
 }

@@ -73,7 +73,6 @@ class Author extends Model implements HasMedia
 
         $this->addMediaConversion('standard')
             ->crop(Manipulations::CROP_TOP, $formatStandard['width'], $formatStandard['height'])
-            ->sharpen(10)
             ->format('jpg');
     }
 
