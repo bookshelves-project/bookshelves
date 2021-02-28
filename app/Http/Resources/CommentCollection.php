@@ -42,10 +42,7 @@ class CommentCollection extends JsonResource
             'meta'                  => [
                 'type'        => 'comment',
                 'for'         => $for,
-                // 'author' => $this->commentable->author?->slug,
-                // 'slug'        => $this->commentable->slug,
             ],
-            // 'slug'                  => $this->books[0]->slug,
             'id'                    => $this->id,
             'text'                  => $this->text,
             'rating'                => $this->rating ? $this->rating : null,

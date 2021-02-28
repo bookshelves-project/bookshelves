@@ -47,8 +47,8 @@ class BookResource extends JsonResource
 
             if ($isUTF8) {
                 // $summary = Html2Text::convert($html);
-                if (strlen($summary) > 165) {
-                    $summary = substr($summary, 0, 165).'...';
+                if (strlen($summary) > 160) {
+                    $summary = substr($summary, 0, 160).'...';
                 }
                 $summary = strip_tags($summary);
                 $summary = Str::ascii($summary);
@@ -91,8 +91,8 @@ class BookResource extends JsonResource
             'image'                         => $this->image_thumbnail,
             'imageStandard'                         => $this->image_standard,
             'imageOriginal'                 => $this->image_original,
-            'page_count'                    => $this->page_count,
-            'maturity_rating'               => $this->maturity_rating,
+            'pageCount'                    => $this->page_count,
+            'maturityRating'               => $this->maturity_rating,
             'tags'                          => $tags,
             'epub'                          => [
                 'name'     => $epub->file_name,

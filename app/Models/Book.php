@@ -110,6 +110,7 @@ class Book extends Model implements HasMedia
     {
         $formatBasic = config('image.thumbnails.book_cover');
         $formatThumbnail = config('image.thumbnails.book_thumbnail');
+        $formatStandard = config('image.thumbnails.book_standard');
 
         $this->addMediaConversion('basic')
             ->crop(Manipulations::CROP_TOP, $formatBasic['width'], $formatBasic['height'])
@@ -120,7 +121,8 @@ class Book extends Model implements HasMedia
             ->format(config('bookshelves.cover_extension'));
 
         $this->addMediaConversion('standard')
-            ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
+            ->crop(Manipulations::CROP_TOP, $formatStandard['width'], $formatStandard['height'])
+            ->sharpen(10)
             ->format('jpg');
     }
 
@@ -133,15 +135,15 @@ class Book extends Model implements HasMedia
     {
         return $this->getMedia('books')->first()?->getUrl('thumbnail');
     }
-    
-    public function getImageOriginalAttribute(): string|null
-    {
-        return $this->getMedia('books')->first()?->getUrl();
-    }
 
     public function getImageStandardAttribute(): string|null
     {
         return $this->getMedia('books')->first()?->getUrl('standard');
+    }
+    
+    public function getImageOriginalAttribute(): string|null
+    {
+        return $this->getMedia('books')->first()?->getUrl();
     }
 
     public function getEpubAttribute(): string|null

@@ -136,8 +136,8 @@ class BooksGenerateCommand extends Command
             $clearIsSuccess = $this->clearAllMediaCollection();
             $clearIsSuccessText = null;
             $clearIsSuccess ? $clearIsSuccessText = 'success' : $clearIsSuccessText = 'failed';
-            $this->alert("Clearing media... $clearIsSuccessText!");
             $this->newLine();
+            $this->alert("Clearing media... $clearIsSuccessText!");
             $this->info("Clear all files into 'public/storage/media' manage by spatie/laravel-medialibrary");
         }
 
@@ -172,7 +172,7 @@ class BooksGenerateCommand extends Command
             $this->newLine();
             $this->alert('Generate covers...');
             $this->info("- Generate covers with differents dimensions");
-            $this->info("- $format format: original, basic, thumbnail");
+            $this->info("- $format format: original, basic, thumbnail, standard in JPG format");
             $this->newLine();
             $cover_bar = $this->output->createProgressBar(count($books_with_covers));
             $cover_bar->start();

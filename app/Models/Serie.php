@@ -63,6 +63,7 @@ class Serie extends Model implements HasMedia
     {
         $formatBasic = config('image.thumbnails.book_cover');
         $formatThumbnail = config('image.thumbnails.book_thumbnail');
+        $formatStandard = config('image.thumbnails.book_standard');
 
         $this->addMediaConversion('basic')
             ->crop(Manipulations::CROP_TOP, $formatBasic['width'], $formatBasic['height'])
@@ -73,7 +74,8 @@ class Serie extends Model implements HasMedia
             ->format(config('bookshelves.cover_extension'));
 
         $this->addMediaConversion('standard')
-            ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
+            ->crop(Manipulations::CROP_TOP, $formatStandard['width'], $formatStandard['height'])
+            ->sharpen(10)
             ->format('jpg');
     }
 

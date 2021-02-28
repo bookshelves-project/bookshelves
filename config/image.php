@@ -44,6 +44,10 @@ return [
             'width'  => 240,
             'height' => 320,
         ],
+        'book_standard' => [
+            'width'  => 300,
+            'height' => 300,
+        ],
         'avatar' => [
             'width'  => 100,
             'height' => 100,
