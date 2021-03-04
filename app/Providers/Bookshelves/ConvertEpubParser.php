@@ -57,17 +57,27 @@ class ConvertEpubParser
             foreach ($epubParser->subjects as $key => $subject) {
                 $tagIfExist = Tag::whereSlug(Str::slug($subject))->first();
                 $tag = null;
-                if (! $tagIfExist) {
+                if (! $tagIfExist && strlen($subject) > 3 && strlen($subject) < 30) {
                     $tag = Tag::firstOrCreate([
                         'name' => $subject,
                         'slug' => Str::slug($subject),
                     ]);
                 }
-                if (! $tag) {
+                if ($tag) {
                     $tag = $tagIfExist;
                 }
 
-                $book->tags()->save($tag);
+                if ($tag) {
+                    $book_tags = $book->tags;
+                    $book_tags_list = [];
+                    foreach ($book_tags as $key => $tagIn) {
+                        array_push($book_tags_list, $tagIn->slug);
+                    }
+                    if (!in_array($tag->slug, $book_tags_list)) {
+                        $book->tags()->save($tag);
+                        $book->save();
+                    }
+                }
             }
             if ($epubParser->publisher) {
                 $publisher = Publisher::firstOrCreate([

@@ -246,7 +246,15 @@ class ExtraDataGenerator
                         $tag = $tagIfExist;
                     }
 
-                    $book->tags()->save($tag);
+                    $book_tags = $book->tags;
+                    $book_tags_list = [];
+                    foreach ($book_tags as $key => $tagIn) {
+                        array_push($book_tags_list, $tagIn->slug);
+                    }
+                    if (!in_array($tag->slug, $book_tags_list)) {
+                        $book->tags()->save($tag);
+                        $book->save();
+                    }
                 }
             } catch (\Throwable $th) {
             }
