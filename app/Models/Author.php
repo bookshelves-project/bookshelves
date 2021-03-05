@@ -122,7 +122,7 @@ class Author extends Model implements HasMedia
      */
     public function books(): MorphToMany
     {
-        return $this->morphedByMany(Book::class, 'authorable')->orderBy('serie_number');
+        return $this->morphedByMany(Book::class, 'authorable')->orderBy('serie_id')->orderBy('serie_number');
     }
 
     /**

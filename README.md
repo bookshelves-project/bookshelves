@@ -1,6 +1,6 @@
 # Bookshelves · Back <!-- omit in toc -->
 
-[![php](https://img.shields.io/badge/dynamic/json?label=PHP&query=require.php&url=https%3A%2F%2Fgitlab.com%2FEwieFairy%2Fbookshelves-back%2F-%2Fraw%2Fmaster%2Fcomposer.json&logo=php&logoColor=ffffff&color=777bb4&style=flat-square)](https://www.php.net)
+[![php](https://img.shields.io/badge/dynamic/json?label=PHP&query=require.php&url=https%3A%2F%2Fgitlab.com%ewilan-riviere%2Fbookshelves-back%2F-%2Fraw%2Fmaster%2Fcomposer.json&logo=php&logoColor=ffffff&color=777bb4&style=flat-square)](https://www.php.net)
 [![composer](https://img.shields.io/static/v1?label=Composer&message=v2.0&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)
 
 [![laravel](https://img.shields.io/static/v1?label=Laravel&message=v8.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
@@ -9,9 +9,9 @@
 [![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=14.15&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
 [![yarn](https://img.shields.io/static/v1?label=Yarn&message=v1.2&color=2C8EBB&style=flat-square&logo=yarn&logoColor=ffffff)](https://yarnpkg.com/lang/en/)
 
-- 📀 [**bookshelves-back**](https://gitlab.com/EwieFairy/bookshelves-back) : back-end of Bookshelves (current repository)
-- 🎨 [**bookshelves-front**](https://gitlab.com/EwieFairy/bookshelves-front) : front-end of Bookshelves
-- 💻 [**bookshelves.git-projects.xyz**](https://bookshelves.git-projects.xyz) : preprod
+- 📀 [**bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves (current repository)
+- 🎨 [**bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves
+- 💻 [**bookshelves.git-projects.xyz**](https://bookshelves.git-projects.xyz) : front demo
 - 📚 [**Documentation**](https://bookshelves.git-projects.xyz/api/documentation)
 
 **Table of contents**
@@ -291,7 +291,7 @@ RECAPTCHA_SECRET_KEY=
 
 ```nginx
 server {
-  server_name www.bookshelves.ink;
+  server_name bookshelves.git-projects.xyz;
 
   error_page 500 502 503 504 /index.html;
   location = /index.html {
@@ -316,7 +316,7 @@ server {
   listen 8000;
   listen [::]:8000;
 
-  server_name www.bookshelves.ink;
+  server_name bookshelves.git-projects.xyz;
 
   error_log /var/log/nginx/bookshelves.log warn;
   access_log /var/log/nginx/bookshelves.log;

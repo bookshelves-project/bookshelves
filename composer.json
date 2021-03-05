@@ -3,8 +3,8 @@
     "type": "project",
     "authors": [
         {
-            "name": "EwieFairy",
-            "email": "ewiefairy@gmail.com",
+            "name": "ewilan-riviere",
+            "email": "ewilan.riviere@gmail.com",
             "role": "Developer"
         },
         {
@@ -13,7 +13,7 @@
             "role": "Tester, ideas"
         }
     ],
-    "homepage": "https://bookshelves.git-projects.xyz/api/documentation",
+    "homepage": "https://gitlab.com/ewilan-riviere/bookshelves-back",
     "description": "Back of Bookshelves application.",
     "keywords": [
         "api",
@@ -25,7 +25,7 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://gitlab.com/EwieFairy/bookshelves-back"
+            "url": "https://gitlab.com/ewilan-riviere/bookshelves-back"
         }
     ],
     "license": "MIT",
