@@ -19,22 +19,22 @@
 - [**TODO**](#todo)
 - [**I. Setup**](#i-setup)
 - [**II. Generate eBooks data**](#ii-generate-ebooks-data)
-  - [*II. a. Add your own eBooks*](#ii-a-add-your-own-ebooks)
-  - [*II. b. Test with demo eBook*](#ii-b-test-with-demo-ebook)
+  - [*a. Add your own eBooks*](#a-add-your-own-ebooks)
+  - [*b. Test with demo eBook*](#b-test-with-demo-ebook)
 - [**III. Tools**](#iii-tools)
-  - [*III. a. Swagger*](#iii-a-swagger)
-  - [*III. b. Laravel Telescope*](#iii-b-laravel-telescope)
-  - [*III. c. Spatie Media*](#iii-c-spatie-media)
-  - [*III. d. Tests*](#iii-d-tests)
-  - [*III. e. Mails*](#iii-e-mails)
-  - [*III. f. Sanctum*](#iii-f-sanctum)
+  - [*a. Swagger*](#a-swagger)
+  - [*b. Laravel Telescope*](#b-laravel-telescope)
+  - [*c. Spatie Media*](#c-spatie-media)
+  - [*d. Tests*](#d-tests)
+  - [*e. Mails*](#e-mails)
+  - [*f. Sanctum*](#f-sanctum)
     - [Login 419 error: "CSRF token mismatch"](#login-419-error-csrf-token-mismatch)
-  - [*III. g. EpubParser*](#iii-g-epubparser)
-  - [*III. h. Recaptcha*](#iii-h-recaptcha)
-  - [*III. i. Larastan*](#iii-i-larastan)
+  - [*g. EpubParser*](#g-epubparser)
+  - [*h. Recaptcha*](#h-recaptcha)
+  - [*i. Larastan*](#i-larastan)
 - [**IIII. `dotenv`**](#iiii-dotenv)
-  - [*IIII. a. For local*](#iiii-a-for-local)
-  - [*IIII. b. For production*](#iiii-b-for-production)
+  - [*a. For local*](#a-for-local)
+  - [*b. For production*](#b-for-production)
 
 ---
 
@@ -99,7 +99,7 @@ php artisan setup
 
 ## **II. Generate eBooks data**
 
-### *II. a. Add your own eBooks*
+### *a. Add your own eBooks*
 
 Add EPUB files in `public/storage/books-raw` and execute Epub Parser
 
@@ -110,7 +110,7 @@ Add EPUB files in `public/storage/books-raw` and execute Epub Parser
 php artisan books:generate -fF
 ```
 
-### *II. b. Test with demo eBook*
+### *b. Test with demo eBook*
 
 If you want to test Bookshelves, you can use `books:test` to generate data from libre eBooks
 
@@ -124,7 +124,7 @@ php artisan books:test
 
 ## **III. Tools**
 
-### *III. a. Swagger*
+### *a. Swagger*
 
 - [**zircote.github.io/swagger-php**](https://zircote.github.io/swagger-php/): documentation of Swagger PHP
 - [**github.com/DarkaOnLine/L5-Swagger**](https://github.com/DarkaOnLine/L5-Swagger): `darkaonline/l5-swagger` repository
@@ -172,7 +172,7 @@ class BookController extends Controller
 
 ```
 
-### *III. b. Laravel Telescope*
+### *b. Laravel Telescope*
 
 - [**laravel.com/docs/8.x/telescope**](https://laravel.com/docs/8.x/telescope): `laravel/telescope` package doc
 
@@ -186,7 +186,7 @@ In **dotenv** set `TELESCOPE_ENABLED` to `true`
 TELESCOPE_ENABLED=true
 ```
 
-### *III. c. Spatie Media*
+### *c. Spatie Media*
 
 - [**spatie.be/docs/laravel-medialibrary**](https://spatie.be/docs/laravel-medialibrary/v9/introduction): `spatie/laravel-medialibrary` package doc
 
@@ -196,7 +196,7 @@ If you update `registerMediaConversions()` in any Model, you can regenerate conv
 php artisan media-library:regenerate
 ```
 
-### *III. d. Tests*
+### *d. Tests*
 
 - [**phpunit.de**](https://phpunit.de): `phpunit/phpunit` package doc
 - [**pestphp.com**](https://pestphp.com): `pestphp/pest` package doc
@@ -207,11 +207,11 @@ You can run Pest and PHP Unit tests
 php artisan pest:run
 ```
 
-### *III. e. Mails*
+### *e. Mails*
 
 TODO
 
-### *III. f. Sanctum*
+### *f. Sanctum*
 
 - [**laravel.com/docs/8.x/sanctum**](https://laravel.com/docs/8.x/sanctum): `laravel/sanctum` package doc
 
@@ -223,17 +223,17 @@ TODO
 php artisan cache:clear ; php artisan route:clear ; php artisan config:clear ; php artisan view:clear ; php artisan optimize:clear
 ```
 
-### *III. g. EpubParser*
+### *g. EpubParser*
 
 TODO
 
-### *III. h. Recaptcha*
+### *h. Recaptcha*
 
 - [**laravel-recaptcha-docs.biscolab.com/docs**](https://laravel-recaptcha-docs.biscolab.com/docs/intro): `biscolab/laravel-recaptcha` package doc
 
 TODO
 
-### *III. i. Larastan*
+### *i. Larastan*
 
 - [**github.com/nunomaduro/larastan**](https://github.com/nunomaduro/larastan): package
 
@@ -245,7 +245,7 @@ php artisan larastan
 
 ## **IIII. `dotenv`**
 
-### *IIII. a. For local*
+### *a. For local*
 
 ```yml
 APP_URL=http://api.bookshelves.test
@@ -267,7 +267,7 @@ RECAPTCHA_SITE_KEY=
 RECAPTCHA_SECRET_KEY=
 ```
 
-### *IIII. b. For production*
+### *b. For production*
 
 ```yml
 APP_URL=https://www.mydomain.com
@@ -287,4 +287,78 @@ TELESCOPE_ENABLED=false
 
 RECAPTCHA_SITE_KEY=
 RECAPTCHA_SECRET_KEY=
+```
+
+```nginx
+server {
+  server_name www.bookshelves.ink;
+
+  error_page 500 502 503 504 /index.html;
+  location = /index.html {
+    root /usr/share/nginx/html;
+    internal;
+  }
+
+  location / {
+    include proxy_params;
+    proxy_pass http://localhost:3004;
+  }
+
+  location ~ ^/(admin|api|css|media|uploads|storage|docs|packages|cache|sanctum|login|logout) {
+    include proxy_params;
+    proxy_pass http://127.0.0.1:8000;
+    proxy_buffer_size 128k;
+    proxy_buffers 4 256k;
+    proxy_busy_buffers_size 256k;
+  }
+}
+server {
+  listen 8000;
+  listen [::]:8000;
+
+  server_name www.bookshelves.ink;
+
+  error_log /var/log/nginx/bookshelves.log warn;
+  access_log /var/log/nginx/bookshelves.log;
+
+  root /home/ewilan/www/bookshelves-back/public;
+  index index.php;
+
+  add_header X-Frame-Options "SAMEORIGIN";
+  add_header X-XSS-Protection "1; mode=block";
+  add_header X-Content-Type-Options "nosniff";
+
+  charset utf-8;
+
+  location / {
+    try_files $uri $uri/ /index.php?$query_string;
+  }
+
+  error_page 404 /index.php;
+
+  location ~ ^/cache/resolve {
+    try_files $uri $uri/ /index.php?$query_string;
+  }
+
+  location ~ ^/docs/ {
+    try_files $uri $uri/ /index.php?$query_string;
+  }
+
+  location ~* \.(js|css|png|jpg|jpeg|gif|ico|eot|svg|ttf|woff|woff2)$ {
+    expires max;
+    log_not_found off;
+  }
+
+  location ~ \.php$ {
+    include snippets/fastcgi-php.conf;
+    fastcgi_pass unix:/run/php/php8.0-fpm.sock;
+    fastcgi_buffer_size 128k;
+    fastcgi_buffers 4 256k;
+    fastcgi_busy_buffers_size 256k;
+  }
+
+  location ~ /\.(?!well-known).* {
+    deny all;
+  }
+}
 ```

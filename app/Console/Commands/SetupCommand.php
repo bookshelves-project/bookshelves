@@ -26,7 +26,7 @@ class SetupCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Installation setup with one command. Need to have app name in parameter';
+    protected $description = 'Installation setup with one command.';
 
     /**
      * Create a new command instance.
@@ -106,7 +106,11 @@ class SetupCommand extends Command
             Artisan::call($command, [], $this->getOutput());
         }
         $this->info('Cleaning...');
-        $this->cleaning();
+        if ($prod) {
+            $this->cleaningProd();
+        } else {
+            $this->cleaningDev();
+        }
         $this->info('Application is ready!');
 
         $this->info("\n");
@@ -133,12 +137,18 @@ class SetupCommand extends Command
         }
     }
 
-    protected function cleaning()
+    protected function cleaningDev()
     {
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('route:clear');
+    }
+
+    protected function cleaningProd()
+    {
+        Artisan::call('config:cache');
         Artisan::call('route:cache');
         Artisan::call('view:cache');
-        Artisan::call('cache:clear');
-        Artisan::call('config:cache');
     }
 
     /**
