@@ -31,7 +31,7 @@ class AuthorResource extends JsonResource
                         'slug' => $book->language->slug,
                         'flag' => $book->language->flag
                     ],
-                    'image' => $book->image,
+                    'image' => $book->image_thumbnail,
                     'serie' => $book->serie ? [
                         'number' => $book->serie_number,
                         'title' => $book->serie->title,
