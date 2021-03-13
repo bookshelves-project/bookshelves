@@ -197,7 +197,7 @@ class SetupCommand extends Command
     protected function requestDatabaseCredentials()
     {
         return [
-            'APP_NAME'                   => $this->ask('App name', "$this->appName"),
+            'APP_NAME'                   => $this->ask('App name', "'"."$this->appName"."'"),
             'DB_DATABASE'                => $this->ask('Database name', "$this->appNameSlug"),
             'DB_PORT'                    => $this->ask('Database port', '3306'),
             'DB_USERNAME'                => $this->ask('Database user', 'root'),
