@@ -21,6 +21,7 @@ class BookCollection extends JsonResource
             foreach ($this->authors as $key => $author) {
                 array_push($authors, [
                     'name' => $author->name,
+                    'slug' => $author->slug,
                     'show' => $author->show_link,
                 ]);
             }

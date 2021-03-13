@@ -11,8 +11,8 @@
 
 - 📀 [**bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves (current repository)
 - 🎨 [**bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves
-- 💻 [**bookshelves.git-projects.xyz**](https://bookshelves.git-projects.xyz) : front demo
-- 📚 [**Documentation**](https://bookshelves.git-projects.xyz/api/documentation)
+- 💻 [**bookshelves.ink**](https://bookshelves.ink) : front demo
+- 📚 [**Documentation**](https://bookshelves.ink/api/documentation)
 
 **Table of contents**
 
@@ -291,7 +291,7 @@ RECAPTCHA_SECRET_KEY=
 
 ```nginx
 server {
-  server_name bookshelves.git-projects.xyz;
+  server_name bookshelves.ink;
 
   error_page 500 502 503 504 /index.html;
   location = /index.html {
@@ -316,7 +316,7 @@ server {
   listen 8000;
   listen [::]:8000;
 
-  server_name bookshelves.git-projects.xyz;
+  server_name bookshelves.ink;
 
   error_log /var/log/nginx/bookshelves.log warn;
   access_log /var/log/nginx/bookshelves.log;
