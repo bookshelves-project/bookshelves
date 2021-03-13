@@ -30,6 +30,7 @@
         "prettier": "^2.2.1",
         "tailwindcss": "^2.0.1",
         "vue": "^2.6.12",
-        "vue-loader": "^16.1.2"
+        "vue-loader": "^16.1.2",
+        "vue-template-compiler": "^2.6.12"
     }
 }
