@@ -18,27 +18,31 @@ class EpubGenerator
      */
     public static function run(Book $book, string $file_path): bool
     {
-        $serie = $book->serie;
-        $author = $book->authors[0];
-
         $ebook_extension = pathinfo($file_path)['extension'];
-        if ($serie) {
-            $new_file_name_serie = $serie->slug;
+
+        $serieName = '';
+        if ($book->serie) {
+            $serieName = $book->serie->slug;
         }
-        if ($author) {
-            $new_file_name_author = $author->slug;
-        }
-        if ($serie && $author) {
-            $serie_number = $book->serie_number;
-            if (1 === strlen((string) $serie_number)) {
-                $serie_number = '0'.$serie_number;
+        $authorName = '';
+        if ($book->authors) {
+            if (array_key_exists(0, $book->authors->toArray())) {
+                $authorName = $book->authors[0]->slug.'_';
             }
-            $new_file_name = $new_file_name_author.'_'.$new_file_name_serie.'-'.$serie_number.'_'.$book->slug;
-        } elseif ($author) {
-            $new_file_name = $new_file_name_author.'_'.$book->slug;
-        } else {
-            $new_file_name = $book->slug;
         }
+        $serieNumber = '';
+        if ($book->serie_number) {
+            $serieNumber = $book->serie_number;
+            if (1 === strlen((string) $book->serie_number)) {
+                $serieNumber = '0'.$book->serie_number;
+            }
+            $serieName = $serieName.'-'.$serieNumber.'_';
+        } else {
+            $serieName = $serieName.'_';
+        }
+        $bookName = $book->slug;
+
+        $new_file_name = "$authorName$serieName$bookName";
 
         $result = false;
         if (pathinfo($file_path)['basename'] !== $new_file_name) {

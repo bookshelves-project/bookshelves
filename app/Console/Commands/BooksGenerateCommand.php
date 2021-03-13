@@ -304,6 +304,7 @@ class BooksGenerateCommand extends Command
         } catch (\Throwable $th) {
             //throw $th;
         }
+        Storage::disk('public')->deleteDirectory('media');
 
         return $isSuccess;
     }

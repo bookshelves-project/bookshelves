@@ -175,16 +175,19 @@ class SetupCommand extends Command
     protected function allowProduction()
     {
         return [
-            'APP_ENV'   => $this->ask('Environnement', 'production'),
-            // 'APP_DEBUG' => $this->ask('Debug', 'false'),
-            'APP_URL'                 => $this->ask('Application URL', $this->urlProd),
+            'APP_ENV'                    => $this->ask('Environnement', 'production'),
+            'APP_DEBUG'                  => $this->ask('Debug', 'false'),
+            'APP_URL'                    => $this->ask('Application URL', $this->urlProd),
+            'SANCTUM_STATEFUL_DOMAINS'   => $this->ask('Sanctum stateful domains', 'bookshelves.ink'),
+            'SESSION_DOMAIN'             => $this->ask('Session domain', '.bookshelves.ink'),
         ];
     }
 
     protected function setupLocal()
     {
         return [
-            'APP_URL'                 => $this->ask('Application URL', $this->urlLocal),
+            'APP_URL'                    => $this->ask('Application URL', $this->urlLocal),
+            'L5_SWAGGER_GENERATE_ALWAYS' => $this->ask('Swagger generate', 'true'),
         ];
     }
 
@@ -195,28 +198,19 @@ class SetupCommand extends Command
      */
     protected function requestDatabaseCredentials()
     {
-        // TODO
-        // MAIL_HOST=smtp.mailtrap.io
-        // MAIL_PORT=2525
-        // MAIL_USERNAME=16a36c1ca81e03
-        // MAIL_PASSWORD=d49144dd24808d
-
-        // L5_SWAGGER_GENERATE_ALWAYS=true
-
-        // SANCTUM_STATEFUL_DOMAINS=localhost:3000
-        // SESSION_DOMAIN=localhost
-
-        // TELESCOPE_ENABLED=false
-
-        // RECAPTCHA_SITE_KEY=6LfX4FcaAAAAABBdKY7HFoyzlFUceUVIIA5L6ANQ
-        // RECAPTCHA_SECRET_KEY=6LfX4FcaAAAAAIcm0HfFTi4H76BltoRy9QrGM1CQ
-        //
         return [
-            'APP_NAME'                => $this->ask('App name', $this->appName),
-            'DB_DATABASE'             => $this->ask('Database name', $this->appNameSlug),
-            'DB_PORT'                 => $this->ask('Database port', '3306'),
-            'DB_USERNAME'             => $this->ask('Database user', 'root'),
-            'DB_PASSWORD'             => $this->askHiddenWithDefault('Database password (leave blank for no password)'),
+            'APP_NAME'                   => $this->ask('App name', "$this->appName"),
+            'DB_DATABASE'                => $this->ask('Database name', "$this->appNameSlug"),
+            'DB_PORT'                    => $this->ask('Database port', '3306'),
+            'DB_USERNAME'                => $this->ask('Database user', 'root'),
+            'DB_PASSWORD'                => $this->askHiddenWithDefault('Database password (leave blank for no password)'),
+            'MAIL_HOST'                  => $this->ask('Mail host', 'smtp.mailtrap.io'),
+            'MAIL_PORT'                  => $this->ask('Mail port', '2525'),
+            'MAIL_USERNAME'              => $this->ask('Mail user', '16a36c1ca81e03'),
+            'MAIL_PASSWORD'              => $this->ask('Mail password', 'd49144dd24808d'),
+            'TELESCOPE_ENABLED'          => $this->ask('Telescope enabled?', 'false'),
+            'RECAPTCHA_SITE_KEY'         => $this->ask('Recaptcha site key', '6LfX4FcaAAAAABBdKY7HFoyzlFUceUVIIA5L6ANQ'),
+            'RECAPTCHA_SECRET_KEY'       => $this->ask('Recaptcha secret key', '6LfX4FcaAAAAAIcm0HfFTi4H76BltoRy9QrGM1CQ'),
         ];
     }
 
