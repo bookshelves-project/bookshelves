@@ -82,9 +82,21 @@ class SetupCommand extends Command
             echo $data;
         }
         if ($prod) {
-            exec('yarn prod');
+            $process = new Process(['yarn', 'prod']);
+            $process->setTimeout(0);
+            $process->start();
+            $iterator = $process->getIterator($process::ITER_SKIP_ERR | $process::ITER_KEEP_OUTPUT);
+            foreach ($iterator as $data) {
+                echo $data;
+            }
         } else {
-            exec('yarn dev');
+            $process = new Process(['yarn', 'dev']);
+            $process->setTimeout(0);
+            $process->start();
+            $iterator = $process->getIterator($process::ITER_SKIP_ERR | $process::ITER_KEEP_OUTPUT);
+            foreach ($iterator as $data) {
+                echo $data;
+            }
         }
         // migration
         $this->info('Database migration...');
