@@ -86,7 +86,7 @@ class SetupCommand extends Command
 
             $this->line('~ Database successfully migrated.');
 
-            if ($this->confirm('Do you want to migrate fresh database with seeds?', false)) {
+            if ($this->confirm('Do you want to migrate fresh database with seeds? /* THIS WILL ERASE ALL DATA */', false)) {
                 Artisan::call('migrate:fresh --seed --force');
 
                 $this->line('~ Database successfully migrated with seeds.');
@@ -98,10 +98,7 @@ class SetupCommand extends Command
                 mkdir($path);
             }
         }
-        // clean
-        Artisan::call('key:generate');
-        $this->warn('~ Secret key properly generated.');
-        if ($this->confirm('Do you want to generate books?', false)) {
+        if ($this->confirm('Do you want to generate books? (You need some tools, check README)', false)) {
             $command = 'books:generate -fF';
             Artisan::call($command, [], $this->getOutput());
         }
@@ -111,6 +108,7 @@ class SetupCommand extends Command
         } else {
             $this->cleaningDev();
         }
+        Artisan::call('key:generate');
         $this->info('Application is ready!');
 
         $this->info("\n");

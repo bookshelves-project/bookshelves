@@ -1,13 +1,12 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "npm run development -- --watch",
-        "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "production": "mix --production",
+        "prod": "mix --production",
         "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix"
     },
     "devDependencies": {
@@ -16,21 +15,21 @@
         "@inertiajs/progress": "^0.2.4",
         "@tailwindcss/forms": "^0.2.1",
         "@tailwindcss/typography": "^0.4.0",
-        "@vue/compiler-sfc": "^3.0.5",
-        "autoprefixer": "^10.0.2",
+        "@vue/compiler-sfc": "^3.0.7",
+        "autoprefixer": "^10.2.5",
         "axios": "^0.21",
         "babel-eslint": "^10.1.0",
-        "eslint": "^7.20.0",
+        "eslint": "^7.22.0",
         "eslint-config-prettier": "^8.1.0",
         "eslint-plugin-prettier": "^3.3.1",
-        "eslint-plugin-vue": "^7.6.0",
+        "eslint-plugin-vue": "^7.7.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.21",
-        "postcss": "^8.1.14",
+        "postcss": "^8.2.8",
         "postcss-import": "^14.0.0",
         "prettier": "^2.2.1",
         "tailwindcss": "^2.0.1",
-        "vue": "^3.0.5",
+        "vue": "^2.6.12",
         "vue-loader": "^16.1.2"
     }
 }
