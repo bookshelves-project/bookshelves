@@ -18,8 +18,8 @@ class SetupCommand extends Command
     protected $signature = 'setup';
     protected $appName = 'Bookshelves';
     protected $appNameSlug = '';
-    protected $urlLocal = 'http://api.bookshelves.test';
-    protected $urlProd = 'https://bookshelves.git-projects.xyz';
+    protected $urlLocal = 'http://localhost:8000';
+    protected $urlProd = 'https://bookshelves.ink';
 
     /**
      * The console command description.
@@ -35,7 +35,7 @@ class SetupCommand extends Command
      */
     public function __construct()
     {
-        $this->appNameSlug = Str::slug($this->appName);
+        $this->appNameSlug = Str::slug($this->appName, '_');
         parent::__construct();
     }
 
@@ -57,7 +57,7 @@ class SetupCommand extends Command
         if ($requestCreateEnv) {
             $credentials = $this->requestDatabaseCredentials();
             $this->updateEnvironmentFile($credentials);
-            $this->cleaning();
+            $this->cleaningDev();
         }
         if ($this->confirm('Do you want setup this app in production?', false)) {
             $prod = true;
