@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use File;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Question\Question;
 
@@ -73,7 +74,13 @@ class SetupCommand extends Command
         $this->call('storage:link');
         // npm install
         $this->info('Node.js dependencies installation...');
-        exec('yarn');
+        $process = new Process(['yarn', '--colors=always']);
+        $process->setTimeout(0);
+        $process->start();
+        $iterator = $process->getIterator($process::ITER_SKIP_ERR | $process::ITER_KEEP_OUTPUT);
+        foreach ($iterator as $data) {
+            echo $data;
+        }
         if ($prod) {
             exec('yarn prod');
         } else {
@@ -81,14 +88,13 @@ class SetupCommand extends Command
         }
         // migration
         $this->info('Database migration...');
-        Artisan::call('key:generate');
         if ($this->confirm('Do you want to migrate database?', true)) {
-            Artisan::call('migrate --force');
+            Artisan::call('migrate --force', [], $this->getOutput());
 
             $this->line('~ Database successfully migrated.');
 
             if ($this->confirm('Do you want to migrate fresh database with seeds? /* THIS WILL ERASE ALL DATA */', false)) {
-                Artisan::call('migrate:fresh --seed --force');
+                Artisan::call('migrate:fresh --seed --force', [], $this->getOutput());
 
                 $this->line('~ Database successfully migrated with seeds.');
             }
@@ -109,7 +115,7 @@ class SetupCommand extends Command
         } else {
             $this->cleaningDev();
         }
-        Artisan::call('key:generate');
+        Artisan::call('key:generate', [], $this->getOutput());
         $this->info('Application is ready!');
 
         $this->goodbye();
