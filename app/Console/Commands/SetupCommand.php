@@ -81,6 +81,7 @@ class SetupCommand extends Command
         }
         // migration
         $this->info('Database migration...');
+        Artisan::call('key:generate');
         if ($this->confirm('Do you want to migrate database?', true)) {
             Artisan::call('migrate --force');
 
@@ -111,7 +112,6 @@ class SetupCommand extends Command
         Artisan::call('key:generate');
         $this->info('Application is ready!');
 
-        $this->info("\n");
         $this->goodbye();
     }
 
@@ -127,11 +127,19 @@ class SetupCommand extends Command
         $envFile = base_path('.env');
 
         foreach ($updatedValues as $key => $value) {
-            file_put_contents($envFile, preg_replace(
-                "/{$key}=(.*)/",
-                "{$key}={$value}",
-                file_get_contents($envFile)
-            ));
+            if (strpos($value, ' ')) {
+                file_put_contents($envFile, preg_replace(
+                    "/{$key}=(.*)/",
+                    "{$key}='{$value}'",
+                    file_get_contents($envFile)
+                ));
+            } else {
+                file_put_contents($envFile, preg_replace(
+                    "/{$key}=(.*)/",
+                    "{$key}={$value}",
+                    file_get_contents($envFile)
+                ));
+            }
         }
     }
 
@@ -197,7 +205,7 @@ class SetupCommand extends Command
     protected function requestDatabaseCredentials()
     {
         return [
-            'APP_NAME'                   => $this->ask('App name', "'"."$this->appName"."'"),
+            'APP_NAME'                   => $this->ask('App name', $this->appName),
             'DB_DATABASE'                => $this->ask('Database name', "$this->appNameSlug"),
             'DB_PORT'                    => $this->ask('Database port', '3306'),
             'DB_USERNAME'                => $this->ask('Database user', 'root'),
