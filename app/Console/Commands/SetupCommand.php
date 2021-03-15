@@ -230,11 +230,11 @@ class SetupCommand extends Command
             'DB_PASSWORD'                => $this->askHiddenWithDefault('Database password (leave blank for no password)'),
             'MAIL_HOST'                  => $this->ask('Mail host', 'smtp.mailtrap.io'),
             'MAIL_PORT'                  => $this->ask('Mail port', '2525'),
-            'MAIL_USERNAME'              => $this->ask('Mail user', '16a36c1ca81e03'),
-            'MAIL_PASSWORD'              => $this->ask('Mail password', 'd49144dd24808d'),
+            'MAIL_USERNAME'              => $this->ask('Mail user', ''),
+            'MAIL_PASSWORD'              => $this->ask('Mail password', ''),
             'TELESCOPE_ENABLED'          => $this->ask('Telescope enabled?', 'false'),
-            'RECAPTCHA_SITE_KEY'         => $this->ask('Recaptcha site key', '6LfX4FcaAAAAABBdKY7HFoyzlFUceUVIIA5L6ANQ'),
-            'RECAPTCHA_SECRET_KEY'       => $this->ask('Recaptcha secret key', '6LfX4FcaAAAAAIcm0HfFTi4H76BltoRy9QrGM1CQ'),
+            'RECAPTCHA_SITE_KEY'         => $this->ask('Recaptcha site key', ''),
+            'RECAPTCHA_SECRET_KEY'       => $this->ask('Recaptcha secret key', ''),
         ];
     }
 
