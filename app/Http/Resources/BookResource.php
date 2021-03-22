@@ -47,8 +47,8 @@ class BookResource extends JsonResource
 
             if ($isUTF8) {
                 // $summary = Html2Text::convert($html);
-                if (strlen($summary) > 160) {
-                    $summary = substr($summary, 0, 160).'...';
+                if (strlen($summary) > 140) {
+                    $summary = substr($summary, 0, 140).'...';
                 }
                 $summary = strip_tags($summary);
                 $summary = Str::ascii($summary);
@@ -85,16 +85,16 @@ class BookResource extends JsonResource
                 'slug' => $language->slug,
                 'flag' => $language->flag,
             ],
-            'publishDate'                   => $this->date,
-            'identifier'                    => IdentifierResource::make($this->identifier),
-            'publisher'                     => $publisher,
-            'image'                         => $this->image_thumbnail,
+            'publishDate'                           => $this->date,
+            'identifier'                            => IdentifierResource::make($this->identifier),
+            'publisher'                             => $publisher,
+            'image'                                 => $this->image_thumbnail,
             'imageStandard'                         => $this->image_standard,
-            'imageOriginal'                 => $this->image_original,
-            'pageCount'                    => $this->page_count,
-            'maturityRating'               => $this->maturity_rating,
-            'tags'                          => $tags,
-            'epub'                          => [
+            'imageOriginal'                         => $this->image_original,
+            'pageCount'                             => $this->page_count,
+            'maturityRating'                        => $this->maturity_rating,
+            'tags'                                  => $tags,
+            'epub'                                  => [
                 'name'     => $epub->file_name,
                 'size'     => human_filesize($epub->size),
                 'download' => $this->download_link,

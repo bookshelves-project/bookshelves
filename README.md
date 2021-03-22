@@ -14,9 +14,43 @@
 - 💻 [**bookshelves.ink**](https://bookshelves.ink) : front demo
 - 📚 [**Documentation**](https://bookshelves.ink/api/documentation)
 
+## **TODO** <!-- omit in toc -->
+
+- [ ] Fix Resources collection with ResourceCollection extends
+- [ ] Logs for EpubParser
+- [ ] Improve libre ebooks meta
+- [ ] Add attribute on each method for Controller
+- [ ] Check attributes
+  - <https://www.amitmerchant.com/how-to-use-php-80-attributes>
+  - <https://stitcher.io/blog/attributes-in-php-8>
+  - <https://grafikart.fr/tutoriels/attribut-php8-1371>
+- [ ] mailing: <https://www.mailgun.com>
+- [ ] numberOfPages: <https://idpf.github.io/epub-guides/package-metadata/#schema-numberOfPages>
+  - async epubparser for Google data
+- [ ] Add explanation form each part of EpubParser
+- [ ] spatie/laravel-medialibrary
+  - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/optimizing-converted-images>
+  - <https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-vue>
+  - conversions name
+    - <https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files>
+    - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/defining-conversions>
+- [ ] larastan upgrade level
+
+```bash
+scoop reset php/php7.4-nts
+
+sudo update-alternatives --config php
+sudo update-alternatives --set phar /usr/bin/phar7.4
+
+sudo service nginx restart
+sudo service php7.1-fpm or php7.2-fpm  restart
+
+composer require friendsofphp/php-cs-fixer --dev
+composer global require friendsofphp/php-cs-fixer
+```
+
 **Table of contents**
 
-- [**TODO**](#todo)
 - [**I. Setup**](#i-setup)
 - [**II. Generate eBooks data**](#ii-generate-ebooks-data)
   - [*a. Add your own eBooks*](#a-add-your-own-ebooks)
@@ -35,43 +69,6 @@
 - [**IIII. `dotenv`**](#iiii-dotenv)
   - [*a. For local*](#a-for-local)
   - [*b. For production*](#b-for-production)
-
----
-
-## **TODO**
-
-- Fix Resources collection with ResourceCollection extends
-- Logs for EpubParser
-- Improve libre ebooks meta
-- Add attribute on each method for Controller
-- Check attributes
-  - <https://www.amitmerchant.com/how-to-use-php-80-attributes>
-  - <https://stitcher.io/blog/attributes-in-php-8>
-  - <https://grafikart.fr/tutoriels/attribut-php8-1371>
-- mailing: <https://www.mailgun.com>
-- numberOfPages: <https://idpf.github.io/epub-guides/package-metadata/#schema-numberOfPages>
-  - async epubparser for Google data
-- Add explanation form each part of EpubParser
-- spatie/laravel-medialibrary
-  - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/optimizing-converted-images>
-  - <https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-vue>
-  - conversions name
-    - <https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files>
-    - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/defining-conversions>
-- larastan upgrade level
-
-```bash
-scoop reset php/php7.4-nts
-
-sudo update-alternatives --config php
-sudo update-alternatives --set phar /usr/bin/phar7.4
-
-sudo service nginx restart
-sudo service php7.1-fpm or php7.2-fpm  restart
-
-composer require friendsofphp/php-cs-fixer --dev
-composer global require friendsofphp/php-cs-fixer
-```
 
 ---
 
