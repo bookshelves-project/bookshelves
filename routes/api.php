@@ -10,8 +10,8 @@ use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
-use App\Http\Controllers\Api\SubmissionController;
 use App\Http\Controllers\Api\DependencyController;
+use App\Http\Controllers\Api\SubmissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +23,21 @@ use App\Http\Controllers\Api\DependencyController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/google', function () {
+    $disk = Storage::disk('google');
+    $files = $disk->allFiles();
+    $adapter = $disk->getDriver();
+    foreach ($files as $key => $file) {
+        $fileData = $adapter->getMetadata($file);
+        if ('epub' === $fileData['extension']) {
+            dump($fileData['name']);
+        }
+    }
+
+    // $disk = \Storage::disk('googleDrive');
+    // $adapter = $disk->getDriver()->getAdapter();
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
