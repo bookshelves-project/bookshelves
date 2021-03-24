@@ -14,7 +14,7 @@ class CoverGenerator
      *
      * @return Book
      */
-    public static function run(array $metadata): Book
+    public static function run(array $metadata, bool $isDebug): Book
     {
         $book = $metadata['book'];
         $cover = $metadata['cover'];
