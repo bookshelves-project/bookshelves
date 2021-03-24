@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use DB;
 use Hash;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -16,6 +18,11 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET foreign_key_checks=0');
+        User::truncate();
+        Team::truncate();
+        DB::statement('SET foreign_key_checks=1');
+
         $users = [
             [
                 'name'     => 'Ewilan',
@@ -56,5 +63,11 @@ class UserSeeder extends Seeder
             $user->current_team_id = 1;
             $user->save();
         }
+
+        $admin = User::whereEmail('ewilan@dotslashplay.it')->first();
+        Role::create([
+            'name' => 'admin',
+        ]);
+        $admin->assignRole('admin');
     }
 }
