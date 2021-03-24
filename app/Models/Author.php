@@ -59,9 +59,9 @@ class Author extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $formatBasic = config('image.thumbnails.book_cover');
-        $formatThumbnail = config('image.thumbnails.book_thumbnail');
-        $formatStandard = config('image.thumbnails.book_standard');
+        $formatBasic = config('image.thumbnails.picture_cover');
+        $formatThumbnail = config('image.thumbnails.picture_thumbnail');
+        $formatStandard = config('image.thumbnails.picture_open_graph');
 
         $this->addMediaConversion('basic')
             ->fit(Manipulations::FIT_CROP, $formatBasic['width'], $formatBasic['height'])
@@ -71,7 +71,7 @@ class Author extends Model implements HasMedia
             ->fit(Manipulations::FIT_CROP, $formatThumbnail['width'], $formatThumbnail['height'])
             ->format(config('bookshelves.cover_extension'));
 
-        $this->addMediaConversion('standard')
+        $this->addMediaConversion('open_graph')
             ->crop(Manipulations::CROP_TOP, $formatStandard['width'], $formatStandard['height'])
             ->format('jpg');
     }
@@ -86,9 +86,9 @@ class Author extends Model implements HasMedia
         return $this->getMedia('authors')->first()?->getUrl('thumbnail');
     }
 
-    public function getImageStandardAttribute(): string|null
+    public function getImageOpenGraphAttribute(): string|null
     {
-        return $this->getMedia('authors')->first()?->getUrl('standard');
+        return $this->getMedia('authors')->first()?->getUrl('open_graph');
     }
 
     public function getShowLinkAttribute(): string

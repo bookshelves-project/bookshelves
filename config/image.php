@@ -36,17 +36,19 @@ return [
         ],
 
         // Custom sizes
-        'book_cover' => [
-            'width'  => 480,
+        // 1.6:1 aspect ratio cover
+        'picture_cover' => [
+            'width'  => 400,
             'height' => 640,
         ],
-        'book_thumbnail' => [
-            'width'  => 240,
+        // 1.6:1 aspect ratio thumbnail
+        'picture_thumbnail' => [
+            'width'  => 200,
             'height' => 320,
         ],
-        'book_standard' => [
-            'width'  => 1200,
-            'height' => 600,
+        'picture_open_graph' => [
+            'width'  => 300,
+            'height' => 150,
         ],
         'avatar' => [
             'width'  => 100,

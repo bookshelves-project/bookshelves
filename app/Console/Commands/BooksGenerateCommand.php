@@ -2,23 +2,21 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Author;
 use File;
+use Cache;
 use Artisan;
 use Storage;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Models\User;
-use App\Providers\Bookshelves\ConvertEpubParser;
+use App\Models\Author;
+use Illuminate\Support\Str;
+use Illuminate\Console\Command;
+use App\Providers\EpubParser\EpubParser;
 use App\Providers\Bookshelves\EpubGenerator;
 use App\Providers\Bookshelves\CoverGenerator;
-use App\Providers\Bookshelves\ExtraDataGenerator;
-use App\Providers\EpubParser\EpubParser;
 use App\Providers\EpubParser\EpubParserTools;
-use Cache;
-use Illuminate\Console\Command;
-use Illuminate\Support\Str;
-use Symfony\Component\Process\Process;
+use App\Providers\Bookshelves\ConvertEpubParser;
+use App\Providers\Bookshelves\ExtraDataGenerator;
 
 class BooksGenerateCommand extends Command
 {
@@ -58,7 +56,7 @@ class BooksGenerateCommand extends Command
     public function handle(): bool
     {
         // Artisan::call('log:clear');
-        
+
         // setup options
         $isDebug = $this->option('debug');
         $isForce = $this->option('force');
@@ -100,24 +98,24 @@ class BooksGenerateCommand extends Command
         } else {
             $this->newLine();
             $this->info('You choose basic parsing, current database will be keep safe and unknown eBooks will be add.');
-            $this->warn("Basic parsing is not fully tested, to generate database with full try --fresh option for ready command");
+            $this->warn('Basic parsing is not fully tested, to generate database with full try --fresh option for ready command');
 
             $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
         }
 
         return true;
     }
-    
+
     /**
      * Execute generateBooks() and generateCovers()
      * If fresh, execute migrate:fresh and seeders
-     * If not in production execute tests
-     * 
-     * @param array $epubFiles 
-     * @param bool $isFresh 
-     * @param bool $isDebug 
-     * 
-     * @return void 
+     * If not in production execute tests.
+     *
+     * @param array $epubFiles
+     * @param bool  $isFresh
+     * @param bool  $isDebug
+     *
+     * @return void
      */
     public function generate(array $epubFiles, bool $isFresh, bool $isDebug = false): void
     {
@@ -129,7 +127,7 @@ class BooksGenerateCommand extends Command
             // $this->comment('Display this on the screen');
             // $this->alert('Run migrate:fresh...');
             // $this->newLine();
-            
+
             $this->alert('Run migrate:fresh...');
             $command = 'migrate:fresh --force';
             Artisan::call($command, [], $this->getOutput());
@@ -143,12 +141,12 @@ class BooksGenerateCommand extends Command
 
         $books_with_covers = $this->generateBooks(epubFiles: $epubFiles, isDebug: $isDebug);
         $this->generateCovers(books_with_covers: $books_with_covers, isDebug: $isDebug);
-        
-        if (config('app.env') !== 'production' && !$isDebug) {
+
+        if ('production' !== config('app.env') && ! $isDebug) {
             $this->alert('Run tests...');
             Artisan::call('pest:run');
         }
-        
+
         if ($isFresh) {
             $this->alert('Run seeders...');
             $command = 'db:seed --force';
@@ -161,37 +159,38 @@ class BooksGenerateCommand extends Command
             [[Book::count(), Serie::count(), Author::count()]]
         );
         $this->newLine();
-        
+
         $this->info('Done!');
     }
 
     public function generateCovers(array $books_with_covers, bool $isDebug = false)
     {
-        if (!$isDebug) {
-            $format = strtoupper(config('bookshelves.cover_extension'));
-            $this->newLine();
-            $this->alert('Generate covers...');
-            $this->info("- Generate covers with differents dimensions");
-            $this->info("- $format format: original, basic, thumbnail, standard in JPG format");
-            $this->newLine();
-            $cover_bar = $this->output->createProgressBar(count($books_with_covers));
-            $cover_bar->start();
-            foreach ($books_with_covers as $key => $metadata) {
-                if ($metadata['cover'] !== null) {
-                    CoverGenerator::run(metadata: $metadata);
-                    $cover_bar->advance();
-                }
+        $format = strtoupper(config('bookshelves.cover_extension'));
+        $this->newLine();
+        $this->alert('Generate covers...');
+        $this->info('- Generate covers with differents dimensions');
+        $this->info("- $format format: original from EPUB, thumbnail");
+        if (! $isDebug) {
+            $this->info('- Open Graph in JPG format');
+        }
+        $this->newLine();
+        $cover_bar = $this->output->createProgressBar(count($books_with_covers));
+        $cover_bar->start();
+        foreach ($books_with_covers as $key => $metadata) {
+            if (null !== $metadata['cover']) {
+                CoverGenerator::run(metadata: $metadata, isDebug: $isDebug);
+                $cover_bar->advance();
             }
-
-            $cover_bar->finish();
-            $this->newLine();
-            $this->newLine();
-            $this->info('Covers generated!');
-            $this->newLine();
         }
 
+        $cover_bar->finish();
+        $this->newLine();
+        $this->newLine();
+        $this->info('Covers generated!');
+        $this->newLine();
+
         $this->alert('Generate series covers and extra data...');
-        $this->info("- Get cover of vol. 1 to associate picture to serie if exist");
+        $this->info('- Get cover of vol. 1 to associate picture to serie if exist');
         $this->info("- If a JPG file with slug of serie exist in 'database/seeders/media/series', it's will be this picture");
         $this->newLine();
         $series = Serie::all();
@@ -208,9 +207,9 @@ class BooksGenerateCommand extends Command
         $this->info('Series Covers generated!');
         $this->newLine();
 
-        if (!$isDebug) {
+        if (! $isDebug) {
             $this->alert('Generate authors pictures...');
-            $this->info("- Get pictures from Wikipedia: HTTP requests");
+            $this->info('- Get pictures from Wikipedia: HTTP requests');
             $this->newLine();
             $authors = Author::all();
             $authors_pictures = $this->output->createProgressBar(count($authors));
@@ -237,9 +236,11 @@ class BooksGenerateCommand extends Command
         $epubsCount = sizeof($epubFiles);
         $this->newLine();
         $this->alert("EPUB files detected: $epubsCount");
-        $this->info("- Generate Book model with relationships");
-        $this->info("- Generate new EPUB file with standard name");
-        $this->info("- Get extra data from Google Books API: HTTP requests");
+        $this->info('- Generate Book model with relationships');
+        $this->info('- Generate new EPUB file with standard name');
+        if (! $isDebug) {
+            $this->info('- Get extra data from Google Books API: HTTP requests');
+        }
         $this->newLine();
         $books_with_covers = [];
         $books_with_errors = [];
@@ -251,14 +252,14 @@ class BooksGenerateCommand extends Command
         foreach ($epubFiles as $key => $filePath) {
             $epubParser = EpubParser::run($filePath, $isDebug);
             $tryToFindBook = Book::whereSlug(Str::slug($epubParser->title))->first();
-            if (!$tryToFindBook) {
+            if (! $tryToFindBook) {
                 $book_created = ConvertEpubParser::run(epubParser: $epubParser, is_debug: $isDebug);
                 EpubGenerator::run(book: $book_created, file_path: $filePath);
 
                 array_push($books_with_covers, [
-                    'book' => $book_created,
-                    'cover' => $epubParser->cover,
-                    'cover_extension' =>$epubParser->cover_extension
+                    'book'            => $book_created,
+                    'cover'           => $epubParser->cover,
+                    'cover_extension' => $epubParser->cover_extension,
                 ]);
             }
             $epub_bar->advance();
@@ -267,7 +268,7 @@ class BooksGenerateCommand extends Command
         $this->newLine();
         $this->newLine();
         $this->info('EPUB files parsed and generated!');
-        if (!empty($books_with_errors)) {
+        if (! empty($books_with_errors)) {
             $this->newLine();
             $this->warn('You have '.sizeof($books_with_errors).' fatal errors: XML file failed to be parsed');
             foreach ($books_with_errors as $key => $book) {
@@ -280,8 +281,8 @@ class BooksGenerateCommand extends Command
 
     /**
      * Clear all media collection manage by spatie/laravel-medialibrary.
-     * 
-     * @return bool 
+     *
+     * @return bool
      */
     public function clearAllMediaCollection(): bool
     {
@@ -332,9 +333,9 @@ class BooksGenerateCommand extends Command
             $book_path = 'media/books';
             File::cleanDirectory(public_path("storage/$book_path"));
             Storage::disk('public')->copy('.gitignore-sample', "$book_path/.gitignore");
-            
+
             $book_epub_path = 'media/books_epubs';
-            File::cleanDirectory(public_path("storage/media/books_epubs"));
+            File::cleanDirectory(public_path('storage/media/books_epubs'));
             Storage::disk('public')->copy('.gitignore-sample', "$book_epub_path/.gitignore");
 
             // Dir for original covers not resized but optimize

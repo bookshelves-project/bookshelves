@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * App\Models\Book.
@@ -46,6 +46,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property \App\Models\Serie|null                                                                                                        $serie
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[]                                                                    $tags
  * @property int|null                                                                                                                      $tags_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book query()
@@ -65,16 +66,18 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read string $download_link
- * @property-read string|null $epub
- * @property-read string|null $image
- * @property-read string $show_link
- * @property-read string|null $image_original
- * @property-read string|null $image_thumbnail
- * @property int|null $google_book_id
- * @property int|null $page_count
- * @property string|null $maturity_rating
- * @property-read \App\Models\GoogleBook|null $googleBook
+ *
+ * @property string                      $download_link
+ * @property string|null                 $epub
+ * @property string|null                 $image
+ * @property string                      $show_link
+ * @property string|null                 $image_original
+ * @property string|null                 $image_thumbnail
+ * @property int|null                    $google_book_id
+ * @property int|null                    $page_count
+ * @property string|null                 $maturity_rating
+ * @property \App\Models\GoogleBook|null $googleBook
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereMaturityRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePageCount($value)
@@ -108,44 +111,44 @@ class Book extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $formatBasic = config('image.thumbnails.book_cover');
-        $formatThumbnail = config('image.thumbnails.book_thumbnail');
-        $formatStandard = config('image.thumbnails.book_standard');
+        $formatBasic = config('image.thumbnails.picture_cover');
+        $formatThumbnail = config('image.thumbnails.picture_thumbnail');
+        $formatStandard = config('image.thumbnails.picture_open_graph');
 
-        $this->addMediaConversion('basic')
-            ->crop(Manipulations::CROP_TOP, $formatBasic['width'], $formatBasic['height'])
-            ->format(config('bookshelves.cover_extension'));
+        // $this->addMediaConversion('basic')
+        //     ->crop(Manipulations::CROP_TOP, $formatBasic['width'], $formatBasic['height'])
+        //     ->format(config('bookshelves.cover_extension'));
 
         $this->addMediaConversion('thumbnail')
             ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
             ->format(config('bookshelves.cover_extension'));
 
-        $this->addMediaConversion('standard')
+        $this->addMediaConversion('open_graph')
             ->crop(Manipulations::CROP_TOP, $formatStandard['width'], $formatStandard['height'])
             ->format('jpg');
     }
 
-    public function getImageAttribute(): string|null
+    public function getImageAttribute(): string | null
     {
         return $this->getMedia('books')->first()?->getUrl('basic');
     }
 
-    public function getImageThumbnailAttribute(): string|null
+    public function getImageThumbnailAttribute(): string | null
     {
         return $this->getMedia('books')->first()?->getUrl('thumbnail');
     }
 
-    public function getImageStandardAttribute(): string|null
+    public function getImageOpenGraphAttribute(): string | null
     {
-        return $this->getMedia('books')->first()?->getUrl('standard');
+        return $this->getMedia('books')->first()?->getUrl('open_graph');
     }
-    
-    public function getImageOriginalAttribute(): string|null
+
+    public function getImageOriginalAttribute(): string | null
     {
         return $this->getMedia('books')->first()?->getUrl();
     }
 
-    public function getEpubAttribute(): string|null
+    public function getEpubAttribute(): string | null
     {
         return $this->getMedia('books_epubs')->first()?->getUrl();
     }
@@ -154,8 +157,9 @@ class Book extends Model implements HasMedia
     {
         $route = route('api.books.show', [
             'author' => $this->author->slug,
-            'book' => $this->slug
+            'book'   => $this->slug,
         ]);
+
         return $route;
     }
 
@@ -163,15 +167,16 @@ class Book extends Model implements HasMedia
     {
         $route = route('api.download.book', [
             'author' => $this->author->slug,
-            'book' => $this->slug
+            'book'   => $this->slug,
         ]);
+
         return $route;
     }
 
     /**
-     * Authors MorphToMany
-     * 
-     * @return MorphToMany 
+     * Authors MorphToMany.
+     *
+     * @return MorphToMany
      */
     public function authors(): MorphToMany
     {
@@ -179,13 +184,13 @@ class Book extends Model implements HasMedia
     }
 
     /**
-     * First Author for router
-     * 
-     * @return Author 
+     * First Author for router.
+     *
+     * @return Author
      */
     public function getAuthorAttribute(): Author
     {
-        return $this->morphToMany(Author::class,'authorable')->first();
+        return $this->morphToMany(Author::class, 'authorable')->first();
     }
 
     public function publisher(): BelongsTo
