@@ -40,7 +40,7 @@ class SerieResource extends JsonResource
                         'slug' => $book->language->slug,
                         'flag' => $book->language->flag,
                     ],
-                    'image' => $book->image,
+                    'image' => $book->image_thumbnail,
                     'serie' => [
                         'number' => $book->serie_number,
                     ],
@@ -67,17 +67,17 @@ class SerieResource extends JsonResource
         }
 
         return [
-            'title'           => $this->title,
-            'slug'            => $this->slug,
-            'author'                 => $this->author->slug,
-            'authors'          => $authors,
-            'language'        => $this->language,
-            'image'                 => $this->image_thumbnail,
+            'title'                                  => $this->title,
+            'slug'                                   => $this->slug,
+            'author'                                 => $this->author->slug,
+            'authors'                                => $authors,
+            'language'                               => $this->language,
+            'image'                                  => $this->image_thumbnail,
             'imageOpenGraph'                         => $this->image_open_graph,
-            'download'              => $this->download_link,
-            'size'                  => $size,
-            'books_number'    => $books_number,
-            'books'           => $books,
+            'download'                               => $this->download_link,
+            'size'                                   => $size,
+            'books_number'                           => $books_number,
+            'books'                                  => $books,
         ];
     }
 }

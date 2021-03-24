@@ -128,10 +128,10 @@ class Book extends Model implements HasMedia
             ->format('jpg');
     }
 
-    public function getImageAttribute(): string | null
-    {
-        return $this->getMedia('books')->first()?->getUrl('basic');
-    }
+    // public function getImageAttribute(): string | null
+    // {
+    //     return $this->getMedia('books')->first()?->getUrl('basic');
+    // }
 
     public function getImageThumbnailAttribute(): string | null
     {
