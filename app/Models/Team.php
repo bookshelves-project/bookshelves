@@ -21,7 +21,6 @@ use Laravel\Jetstream\Team as JetstreamTeam;
  * @property int|null                                                              $team_invitations_count
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\User[]           $users
  * @property int|null                                                              $users_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team query()

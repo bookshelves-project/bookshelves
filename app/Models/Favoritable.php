@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int             $favoritable_id
  * @property string          $favoritable_type
  * @property Model|\Eloquent $favoritable
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable query()

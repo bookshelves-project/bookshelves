@@ -24,7 +24,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[]  $series
  * @property int|null                                                      $series_count
  * @property \App\Models\User|null                                         $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Comment query()
@@ -37,7 +36,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
  * @mixin \Eloquent
- *
  * @method static \Database\Factories\CommentFactory factory(...$parameters)
  */
 class Comment extends Model

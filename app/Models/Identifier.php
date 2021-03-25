@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string|null           $amazon
  * @property string|null           $google
  * @property \App\Models\Book|null $book
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Identifier newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Identifier newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Identifier query()

@@ -46,7 +46,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property \App\Models\Serie|null                                                                                                        $serie
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[]                                                                    $tags
  * @property int|null                                                                                                                      $tags_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book query()
@@ -66,7 +65,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @mixin \Eloquent
- *
  * @property string                      $download_link
  * @property string|null                 $epub
  * @property string|null                 $image
@@ -77,13 +75,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int|null                    $page_count
  * @property string|null                 $maturity_rating
  * @property \App\Models\GoogleBook|null $googleBook
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereMaturityRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePageCount($value)
- *
  * @property string|null $image_open_graph
- *
  * @method static \Database\Factories\BookFactory factory(...$parameters)
  */
 class Book extends Model implements HasMedia

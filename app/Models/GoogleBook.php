@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string|null           $created_at
  * @property string|null           $updated_at
  * @property \App\Models\Book|null $book
- *
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook query()

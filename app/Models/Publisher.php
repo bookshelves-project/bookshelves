@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null                                                 $name
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property int|null                                                    $books_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher query()

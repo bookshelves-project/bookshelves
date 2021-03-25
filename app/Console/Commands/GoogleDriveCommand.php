@@ -39,7 +39,7 @@ class GoogleDriveCommand extends Command
     public function handle()
     {
         $files = Storage::disk('google')->download('1IJFmzuARB_99OMav-Vvoj28oBEvxkgvl');
-        dd($files);
+        dump($files);
 
         return 0;
     }
