@@ -19,7 +19,8 @@ class SubmissionMail extends Mailable
      */
     public function __construct(
         public Submission $submission,
-    ) {}
+    ) {
+    }
 
     /**
      * Build the message.

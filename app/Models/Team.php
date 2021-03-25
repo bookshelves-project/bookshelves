@@ -2,26 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 
 /**
- * App\Models\Team
+ * App\Models\Team.
  *
- * @property int $id
- * @property int $user_id
- * @property string $name
- * @property bool $personal_team
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User $owner
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TeamInvitation[] $teamInvitations
- * @property-read int|null $team_invitations_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
- * @property-read int|null $users_count
+ * @property int                                                                   $id
+ * @property int                                                                   $user_id
+ * @property string                                                                $name
+ * @property bool                                                                  $personal_team
+ * @property \Illuminate\Support\Carbon|null                                       $created_at
+ * @property \Illuminate\Support\Carbon|null                                       $updated_at
+ * @property \App\Models\User                                                      $owner
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\TeamInvitation[] $teamInvitations
+ * @property int|null                                                              $team_invitations_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\User[]           $users
+ * @property int|null                                                              $users_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team query()
@@ -35,8 +35,6 @@ use Laravel\Jetstream\Team as JetstreamTeam;
  */
 class Team extends JetstreamTeam
 {
-    use HasFactory;
-
     /**
      * The attributes that should be cast to native types.
      *

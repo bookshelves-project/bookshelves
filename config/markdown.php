@@ -12,7 +12,6 @@ declare(strict_types=1);
  */
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Enable View Integration
@@ -154,5 +153,4 @@ return [
     */
 
     'max_nesting_level' => INF,
-
 ];

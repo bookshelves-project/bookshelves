@@ -9,7 +9,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -50,11 +49,11 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property int|null                                                      $authors_count
  * @property \App\Models\Author                                            $author
  * @property string|null                                                   $image_thumbnail
+ * @property string|null                                                   $image_open_graph
  */
 class Serie extends Model implements HasMedia
 {
     use InteractsWithMedia;
-    use HasFactory;
 
     public $timestamps = false;
     protected $fillable = [

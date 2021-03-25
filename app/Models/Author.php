@@ -44,6 +44,9 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property string|null                                                 $image_thumbnail
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $series
  * @property int|null                                                    $series_count
+ * @property string|null                                                 $image_open_graph
+ *
+ * @method static \Database\Factories\AuthorFactory factory(...$parameters)
  */
 class Author extends Model implements HasMedia
 {

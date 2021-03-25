@@ -19,12 +19,12 @@ class SearchBookCollection extends JsonResource
             'meta' => [
                 'entity' => 'book',
                 'author' => $this->author->slug,
-                'slug' => $this->slug
+                'slug'   => $this->slug,
             ],
             'title'    => $this->title,
             'subtitle' => $this->serie?->title,
-            'author' => $this->author->name,
-            'image'  => $this->image_thumbnail,
+            'author'   => $this->author->name,
+            'image'    => $this->image_thumbnail,
         ];
     }
 }

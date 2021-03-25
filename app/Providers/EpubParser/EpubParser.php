@@ -2,12 +2,12 @@
 
 namespace App\Providers\EpubParser;
 
-use App\Providers\EpubParser\Entities\BookParser;
-use App\Providers\EpubParser\Entities\CreatorsParser;
-use App\Providers\EpubParser\Entities\IdentifiersParser;
-use App\Providers\EpubParser\Entities\SerieParser;
-use App\Providers\EpubParser\Entities\SubjectsParser;
 use DateTime;
+use App\Providers\EpubParser\Entities\BookParser;
+use App\Providers\EpubParser\Entities\SerieParser;
+use App\Providers\EpubParser\Entities\CreatorsParser;
+use App\Providers\EpubParser\Entities\SubjectsParser;
+use App\Providers\EpubParser\Entities\IdentifiersParser;
 
 class EpubParser
 {
@@ -34,17 +34,17 @@ class EpubParser
             $this->identifiers = new IdentifiersParser();
         }
     }
-    
+
     /**
      * Get metadata from EPUB and create Book
      * with relationships.
      *
      * @param string $file_path
-     * @param bool $is_debug
+     * @param bool   $is_debug
      *
      * @return EpubParser
      */
-    public static function run(string $file_path, bool $is_debug = false): EpubParser|bool
+    public static function run(string $file_path, bool $is_debug = false): EpubParser | bool
     {
         try {
             $xml_parsed = EpubParserTools::parseXmlFile($file_path);
@@ -52,6 +52,7 @@ class EpubParser
             $coverFile = $xml_parsed['coverFile'];
         } catch (\Throwable $th) {
             EpubParserTools::error('XML file', $file_path);
+
             return false;
         }
 
@@ -69,7 +70,7 @@ class EpubParser
         $serie_number = (string) $metadata['serie_number'];
         $cover_extension = (string) $metadata['cover_extension'];
         $file_path = (string) $file_path;
-        
+
         $identifiersParsed = IdentifiersParser::run(identifiers: $identifiers);
         $serieParsed = SerieParser::run(serie: $serie, serie_number: $serie_number);
         $subjectsParsed = SubjectsParser::run(subjects: $subjects);

@@ -2,32 +2,18 @@
 
 namespace App\Providers\Bookshelves;
 
-use App\Http\Resources\IdentifierResource;
 use File;
+use DateTime;
+use App\Models\Tag;
 use App\Models\Book;
 use App\Models\Cover;
 use App\Models\Serie;
 use App\Models\Author;
+use App\Models\Publisher;
 use App\Models\GoogleBook;
 use App\Models\Identifier;
-use App\Models\Publisher;
-use App\Models\Tag;
-use DateTime;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Database\Eloquent\InvalidCastException;
-use Illuminate\Database\Eloquent\JsonEncodingException;
-use Illuminate\Database\Eloquent\MassAssignmentException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
-use LogicException;
-use InvalidArgumentException;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use League\Flysystem\FileNotFoundException as FlysystemFileNotFoundException;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
+use Illuminate\Support\Facades\Http;
 
 class ExtraDataGenerator
 {
@@ -35,10 +21,10 @@ class ExtraDataGenerator
      * Generate Author image from Wikipedia if found
      * If not use default image 'database/seeders/media/authors/no-picture.jpg'
      * Manage by spatie/laravel-medialibrary.
-     * 
-     * @param Author $author 
-     * @param bool $is_debug 
-     * 
+     *
+     * @param Author $author
+     * @param bool   $is_debug
+     *
      * @return Author
      */
     public static function generateAuthorPicture(Author $author, bool $is_debug): Author
@@ -85,13 +71,13 @@ class ExtraDataGenerator
 
     /**
      * Generate Serie image from 'database/seeders/media/series' if JPG file with Serie slug exist
-     * if not get image from Book with 'book_number' like '1'
-     * 
+     * if not get image from Book with 'book_number' like '1'.
+     *
      * Manage by spatie/laravel-medialibrary.
-     * 
-     * @param Serie $serie 
-     * 
-     * @return Serie 
+     *
+     * @param Serie $serie
+     *
+     * @return Serie
      */
     public static function generateSerieCover(Serie $serie): Serie
     {
@@ -134,11 +120,11 @@ class ExtraDataGenerator
     }
 
     /**
-     * Generate Language relationship for Serie from first Book of Serie
-     * 
-     * @param Serie $serie 
-     * 
-     * @return Serie 
+     * Generate Language relationship for Serie from first Book of Serie.
+     *
+     * @param Serie $serie
+     *
+     * @return Serie
      */
     public static function generateSerieLanguage(Serie $serie): Serie
     {
@@ -164,21 +150,21 @@ class ExtraDataGenerator
 
     /**
      * Get data from Google Books API with ISBN from meta
-     * Example: https://www.googleapis.com/books/v1/volumes?q=isbn:9782700239904
-     * 
+     * Example: https://www.googleapis.com/books/v1/volumes?q=isbn:9782700239904.
+     *
      * Get all useful data to improve Book, Identifier, Publisher and Tag
      * If data exist, create GoogleBook associate with Book with useful data to purchase eBook
-     * 
+     *
      * @param Identifier $identifier
-     * @param Book $book
-     * 
+     * @param Book       $book
+     *
      * @return Book
      */
     public static function getDataFromGoogleBooks(Identifier $identifier, Book $book): Book
     {
         if ($identifier->isbn13) {
             $isbn = $identifier->isbn13;
-        } else if($identifier->isbn) {
+        } elseif ($identifier->isbn) {
             $isbn = $identifier->isbn;
         } else {
             $isbn = null;
@@ -224,12 +210,12 @@ class ExtraDataGenerator
                 $retailPriceAmount = (int) $saleInfo['retailPrice']['amount'];
                 $retailPriceCurrencyCode = (string) $saleInfo['retailPrice']['currencyCode'];
                 $buyLink = (string) $saleInfo['buyLink'];
-                
+
                 foreach ($industryIdentifiers as $key => $new_identifier) {
-                    if ($new_identifier['type'] === 'ISBN_13') {
+                    if ('ISBN_13' === $new_identifier['type']) {
                         $new_isbn13 = $new_identifier['identifier'];
                     }
-                    if ($new_identifier['type'] === 'ISBN_10') {
+                    if ('ISBN_10' === $new_identifier['type']) {
                         $new_isbn = $new_identifier['identifier'];
                     }
                 }
@@ -251,7 +237,7 @@ class ExtraDataGenerator
                     foreach ($book_tags as $key => $tagIn) {
                         array_push($book_tags_list, $tagIn->slug);
                     }
-                    if (!in_array($tag->slug, $book_tags_list)) {
+                    if (! in_array($tag->slug, $book_tags_list)) {
                         $book->tags()->save($tag);
                         $book->save();
                     }
@@ -259,38 +245,37 @@ class ExtraDataGenerator
             } catch (\Throwable $th) {
             }
 
-            !$book->date && $date ? $book->date = $date : null;
-            !$book->description && $description ? $book->description = $description : null;
-            !$book->pageCount && $pageCount ? $book->page_count = $pageCount : null;
-            !$book->maturityRating && $maturityRating ? $book->maturity_rating = $maturityRating : null;
-            !$book->language && $language ? $book->language = $language : null;
-            if (!$book->publisher && $publisher) {
+            ! $book->date && $date ? $book->date = $date : null;
+            ! $book->description && $description ? $book->description = $description : null;
+            ! $book->pageCount && $pageCount ? $book->page_count = $pageCount : null;
+            ! $book->maturityRating && $maturityRating ? $book->maturity_rating = $maturityRating : null;
+            ! $book->language && $language ? $book->language = $language : null;
+            if (! $book->publisher && $publisher) {
                 $publisher = Publisher::create([
-                'name' => $publisher,
-                'slug' => Str::slug($publisher, '-')
+                    'name' => $publisher,
+                    'slug' => Str::slug($publisher, '-'),
                 ]);
                 $book->publisher()->associate($publisher);
             }
             $book->save();
 
             $identifier = Identifier::find($book->identifier->id);
-            !$identifier->isbn ? $book->identifier->isbn = $new_isbn : null;
-            !$identifier->isbn13 ? $book->identifier->isbn13 = $new_isbn13 : null;
+            ! $identifier->isbn ? $book->identifier->isbn = $new_isbn : null;
+            ! $identifier->isbn13 ? $book->identifier->isbn13 = $new_isbn13 : null;
             $identifier->save();
 
             if ($previewLink || $retailPriceAmount || $retailPriceCurrencyCode || $buyLink) {
                 $googleBook = GoogleBook::create([
-                    'preview_link' => $previewLink,
-                    'retail_price' => $retailPriceAmount,
+                    'preview_link'          => $previewLink,
+                    'retail_price'          => $retailPriceAmount,
                     'retail_price_currency' => $retailPriceCurrencyCode,
-                    'buy_link' => $buyLink,
-                    'created_at' => new DateTime(),
+                    'buy_link'              => $buyLink,
+                    'created_at'            => new DateTime(),
                 ]);
                 $googleBook->book()->save($book);
-            }   
+            }
         }
 
         return $book;
-        
     }
 }

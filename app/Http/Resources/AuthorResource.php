@@ -24,20 +24,20 @@ class AuthorResource extends JsonResource
             $size = [];
             foreach ($this->books as $key => $book) {
                 array_push($books, [
-                    'title' => $book->title,
-                    'slug' => $book->slug,
-                    'author' => $book->author->slug,
+                    'title'    => $book->title,
+                    'slug'     => $book->slug,
+                    'author'   => $book->author->slug,
                     'language' => [
                         'slug' => $book->language->slug,
-                        'flag' => $book->language->flag
+                        'flag' => $book->language->flag,
                     ],
                     'image' => $book->image_thumbnail,
                     'serie' => $book->serie ? [
                         'number' => $book->serie_number,
-                        'title' => $book->serie->title,
-                        'show' => $book->serie->show_link
-                    ] : null ,
-                    'show' => $book->show_link
+                        'title'  => $book->serie->title,
+                        'show'   => $book->serie->show_link,
+                    ] : null,
+                    'show' => $book->show_link,
                 ]);
                 array_push($size, $book->getMedia('books_epubs')->first()?->size);
             }
@@ -45,20 +45,18 @@ class AuthorResource extends JsonResource
             $size = array_sum($size);
             $size = human_filesize($size);
         }
-       
-
 
         return [
-            'lastname'        => $this->lastname,
-            'firstname'       => $this->firstname,
-            'name'            => $this->name,
-            'slug'            => $this->slug,
-            'image'                 => $this->image_thumbnail,
+            'lastname'                               => $this->lastname,
+            'firstname'                              => $this->firstname,
+            'name'                                   => $this->name,
+            'slug'                                   => $this->slug,
+            'image'                                  => $this->image_thumbnail,
             'imageOpenGraph'                         => $this->image_open_graph,
-            'download'        => $this->download_link,
-            'size'            => $size,
-            'books_number'    => $books_number,
-            'books'           => $books,
+            'download'                               => $this->download_link,
+            'size'                                   => $size,
+            'books_number'                           => $books_number,
+            'books'                                  => $books,
         ];
     }
 }

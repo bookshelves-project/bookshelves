@@ -6,15 +6,17 @@ class SubjectsParser
 {
     public function __construct(
         public ?array $subjects = [],
-    ) {}
+    ) {
+    }
 
     /**
-     * Generate SubjectsParser from $subjects
-     * 
-     * @param array|bool $subjects 
-     * @return SubjectsParser 
+     * Generate SubjectsParser from $subjects.
+     *
+     * @param array|bool $subjects
+     *
+     * @return SubjectsParser
      */
-    public static function run(array|bool $subjects): SubjectsParser
+    public static function run(array | bool $subjects): SubjectsParser
     {
         $subjects_entities = [];
         if (is_array($subjects)) {
@@ -23,7 +25,7 @@ class SubjectsParser
             }
         }
         $subjects_entities = array_unique($subjects_entities);
-        
+
         return new SubjectsParser(subjects: $subjects_entities);
     }
 }

@@ -15,11 +15,11 @@ use App\Providers\EpubParser\EpubParser;
 class ConvertEpubParser
 {
     /**
-     * Generate new Book with all relations
-     * 
-     * @param EpubParser $epubParser 
-     * @param bool $is_debug 
-     * 
+     * Generate new Book with all relations.
+     *
+     * @param EpubParser $epubParser
+     * @param bool       $is_debug
+     *
      * @return Book
      */
     public static function run(EpubParser $epubParser, bool $is_debug): Book
@@ -73,7 +73,7 @@ class ConvertEpubParser
                     foreach ($book_tags as $key => $tagIn) {
                         array_push($book_tags_list, $tagIn->slug);
                     }
-                    if (!in_array($tag->slug, $book_tags_list)) {
+                    if (! in_array($tag->slug, $book_tags_list)) {
                         $book->tags()->save($tag);
                         $book->save();
                     }
@@ -126,7 +126,7 @@ class ConvertEpubParser
             ]);
             $book->identifier()->associate($identifier);
             $book->save();
-            if (!$is_debug) {
+            if (! $is_debug) {
                 ExtraDataGenerator::getDataFromGoogleBooks(identifier: $identifier, book: $book);
             }
         }

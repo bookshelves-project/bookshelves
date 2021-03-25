@@ -4,18 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * App\Models\Identifier
+ * App\Models\Identifier.
  *
- * @property int $id
- * @property string|null $isbn
- * @property string|null $isbn13
- * @property string|null $doi
- * @property string|null $amazon
- * @property string|null $google
- * @property-read \App\Models\Book|null $book
+ * @property int                   $id
+ * @property string|null           $isbn
+ * @property string|null           $isbn13
+ * @property string|null           $doi
+ * @property string|null           $amazon
+ * @property string|null           $google
+ * @property \App\Models\Book|null $book
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Identifier newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Identifier newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Identifier query()
@@ -29,8 +29,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Identifier extends Model
 {
-    use HasFactory;
-
     public $timestamps = false;
     protected $fillable = [
         'isbn',

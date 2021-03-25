@@ -10,38 +10,40 @@ class IdentifiersParser
         public ?string $doi = null,
         public ?string $amazon = null,
         public ?string $google = null,
-    ) {}
+    ) {
+    }
 
     /**
-     * Generate ISBN from $identifiers
-     * 
-     * @param array|string $identifiers 
-     * @return IdentifiersParser 
+     * Generate ISBN from $identifiers.
+     *
+     * @param array|string $identifiers
+     *
+     * @return IdentifiersParser
      */
-    public static function run(array|string $identifiers): IdentifiersParser
+    public static function run(array | string $identifiers): IdentifiersParser
     {
         $isbn = null;
         $isbn13 = null;
         $doi = null;
         $amazon = null;
         $google = null;
-        
-        if (!is_array($identifiers)) {
+
+        if (! is_array($identifiers)) {
             $identifier_string = $identifiers;
             $identifiers = [];
             $identifiers[] = $identifier_string;
         }
         $identifiers = array_unique($identifiers);
         foreach ($identifiers as $key => $value) {
-            if (self::findIsbn($value) === 1) {
+            if (1 === self::findIsbn($value)) {
                 $isbn = $value;
-            } else if(self::findIsbn($value) === 2) {
+            } elseif (2 === self::findIsbn($value)) {
                 $isbn13 = $value;
-            } else if($key === 'doi') {
+            } elseif ('doi' === $key) {
                 $doi = $value;
-            } else if($key === 'amazon') {
+            } elseif ('amazon' === $key) {
                 $amazon = $value;
-            } else if($key === 'google') {
+            } elseif ('google' === $key) {
                 $google = $value;
             }
         }
@@ -64,6 +66,7 @@ class IdentifiersParser
                 ? 1   // ISBN-10
                 : 2;  // ISBN-13
         }
+
         return false; // No valid ISBN found
     }
 }

@@ -19,7 +19,7 @@ class FavoriteCollection extends JsonResource
         $cover = $this->favoritable->cover;
         $entity = $this->favoritable;
         $title = null;
-        
+
         switch ($for) {
             case 'book':
                 $title = $entity->title;
@@ -32,7 +32,7 @@ class FavoriteCollection extends JsonResource
             case 'author':
                 $title = $entity->name;
                 break;
-    
+
             default:
                 $title = null;
                 break;
@@ -42,7 +42,7 @@ class FavoriteCollection extends JsonResource
             'meta'                  => [
                 'type'        => 'favorite',
                 'for'         => $for,
-                'author' => $this->favoritable->author?->slug,
+                'author'      => $this->favoritable->author?->slug,
                 'slug'        => $this->favoritable->slug,
             ],
             'title' => $title,

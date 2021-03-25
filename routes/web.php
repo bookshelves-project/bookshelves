@@ -1,11 +1,11 @@
 <?php
 
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\Admin\AdminController;
-use Illuminate\Foundation\Application;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +32,10 @@ Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
 // Inertiajs update
 Route::get('/admin', function () {
     return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
+        'canLogin'       => Route::has('login'),
+        'canRegister'    => Route::has('register'),
         'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'phpVersion'     => PHP_VERSION,
     ]);
 })->name('admin');
 

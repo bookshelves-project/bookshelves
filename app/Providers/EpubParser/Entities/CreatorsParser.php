@@ -3,28 +3,28 @@
 namespace App\Providers\EpubParser\Entities;
 
 /**
- * Manage Book Authors
- * 
- * @package App\Providers\EpubParser\Book
+ * Manage Book Authors.
  */
 class CreatorsParser
 {
     public function __construct(
         public ?array $creators = [],
-    ) {}
+    ) {
+    }
 
-     /**
-      * Generate author from XML dc:creator string.
-      * 
-      * @param iterable|string $creators 
-      * @return CreatorsParser 
-      */
-    public static function run(iterable|string $creators): CreatorsParser
+    /**
+     * Generate author from XML dc:creator string.
+     *
+     * @param iterable|string $creators
+     *
+     * @return CreatorsParser
+     */
+    public static function run(iterable | string $creators): CreatorsParser
     {
         $creators_entities = [];
 
         if ($creators) {
-            if (!is_array($creators)) {
+            if (! is_array($creators)) {
                 $creator_string = $creators;
                 $creators = [];
                 $creators[] = $creator_string;
@@ -34,7 +34,7 @@ class CreatorsParser
             }
         }
         $creators_entities = array_unique($creators_entities);
-        
+
         return new CreatorsParser(
             creators: $creators_entities
         );

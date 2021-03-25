@@ -81,6 +81,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereMaturityRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePageCount($value)
+ *
+ * @property string|null $image_open_graph
+ *
+ * @method static \Database\Factories\BookFactory factory(...$parameters)
  */
 class Book extends Model implements HasMedia
 {

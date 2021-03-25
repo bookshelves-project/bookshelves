@@ -3,17 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * App\Models\Submission
+ * App\Models\Submission.
  *
- * @property int $id
- * @property string|null $name
- * @property string|null $email
- * @property string|null $message
+ * @property int                             $id
+ * @property string|null                     $name
+ * @property string|null                     $email
+ * @property string|null                     $message
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Submission newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Submission newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Submission query()
@@ -27,8 +27,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Submission extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'name',
         'email',

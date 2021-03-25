@@ -19,7 +19,7 @@ class CommentResource extends JsonResource
         $cover = $this->commentable->cover;
         $entity = $this->commentable;
         $title = null;
-        
+
         switch ($for) {
             case 'book':
                 $title = $entity->title;
@@ -32,7 +32,7 @@ class CommentResource extends JsonResource
             case 'author':
                 $title = $entity->name;
                 break;
-    
+
             default:
                 $title = null;
                 break;
@@ -42,7 +42,7 @@ class CommentResource extends JsonResource
             'meta'                  => [
                 'type'        => 'comment',
                 'for'         => $for,
-                'author' => $this->commentable->author?->slug,
+                'author'      => $this->commentable->author?->slug,
                 'slug'        => $this->commentable->slug,
             ],
             'id'                    => $this->id,
@@ -55,8 +55,8 @@ class CommentResource extends JsonResource
             ],
             'createdAt'  => $this->created_at,
             'updatedAt'  => $this->updated_at,
-            'title' => $title,
-            'image' => $this->commentable->image_open_graph,
+            'title'      => $title,
+            'image'      => $this->commentable->image_open_graph,
         ];
     }
 }

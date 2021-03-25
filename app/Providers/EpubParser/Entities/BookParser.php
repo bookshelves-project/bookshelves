@@ -2,11 +2,8 @@
 
 namespace App\Providers\EpubParser\Entities;
 
-use Illuminate\Support\Str;
-use App\Providers\EpubParser\EpubParserTools;
 use DateTime;
-use League\HTMLToMarkdown\HtmlConverter;
-use Stevebauman\Purify\Facades\Purify;
+use App\Providers\EpubParser\EpubParserTools;
 
 class BookParser
 {
@@ -17,8 +14,9 @@ class BookParser
         public ?string $description = null,
         public ?DateTime $date = null,
         public ?string $rights = null,
-    ) {}
-    
+    ) {
+    }
+
     /**
      * Generate Book from parameters.
      *
@@ -34,7 +32,7 @@ class BookParser
         $title_sort = EpubParserTools::getSortString($book_title);
 
         $description = EpubParserTools::cleanText($description, 'html', 5000);
-        
+
         if (strlen($rights) > 255) {
             $rights = substr($rights, 0, 255);
         }
