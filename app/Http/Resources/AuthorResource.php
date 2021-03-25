@@ -31,8 +31,8 @@ class AuthorResource extends JsonResource
                         'slug' => $book->language->slug,
                         'flag' => $book->language->flag,
                     ],
-                    'image' => $book->image_thumbnail,
-                    'serie' => $book->serie ? [
+                    'picture' => $book->image_thumbnail,
+                    'serie'   => $book->serie ? [
                         'number' => $book->serie_number,
                         'title'  => $book->serie->title,
                         'show'   => $book->serie->show_link,
@@ -51,8 +51,10 @@ class AuthorResource extends JsonResource
             'firstname'                              => $this->firstname,
             'name'                                   => $this->name,
             'slug'                                   => $this->slug,
-            'image'                                  => $this->image_thumbnail,
-            'imageOpenGraph'                         => $this->image_open_graph,
+            'picture'                                => [
+                'base'                                  => $this->image_thumbnail,
+                'openGraph'                             => $this->image_open_graph,
+            ],
             'download'                               => $this->download_link,
             'size'                                   => $size,
             'books_number'                           => $books_number,

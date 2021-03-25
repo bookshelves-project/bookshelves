@@ -47,8 +47,8 @@ return [
             'height' => 320,
         ],
         'picture_open_graph' => [
-            'width'  => 300,
-            'height' => 150,
+            'width'  => 600,
+            'height' => 300,
         ],
         'avatar' => [
             'width'  => 100,

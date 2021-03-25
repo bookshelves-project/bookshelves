@@ -40,7 +40,10 @@ class SerieResource extends JsonResource
                         'slug' => $book->language->slug,
                         'flag' => $book->language->flag,
                     ],
-                    'image' => $book->image_thumbnail,
+                    'picture'                                => [
+                        'base'                                       => $book->image_thumbnail,
+                        'original'                                   => $book->image_original,
+                    ],
                     'serie' => [
                         'number' => $book->serie_number,
                     ],
@@ -72,8 +75,10 @@ class SerieResource extends JsonResource
             'author'                                 => $this->author->slug,
             'authors'                                => $authors,
             'language'                               => $this->language,
-            'image'                                  => $this->image_thumbnail,
-            'imageOpenGraph'                         => $this->image_open_graph,
+            'picture'                                => [
+                'base'                                       => $this->image_thumbnail,
+                'openGraph'                                  => $this->image_open_graph,
+            ],
             'download'                               => $this->download_link,
             'size'                                   => $size,
             'books_number'                           => $books_number,

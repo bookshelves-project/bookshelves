@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property int|null                                                                                                                      $favorites_count
  * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property int|null                                                                                                                      $media_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author query()
@@ -36,6 +37,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
  * @mixin \Eloquent
+ *
  * @property string                                                      $download_link
  * @property string|null                                                 $image
  * @property string                                                      $show_link
@@ -43,6 +45,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $series
  * @property int|null                                                    $series_count
  * @property string|null                                                 $image_open_graph
+ *
  * @method static \Database\Factories\AuthorFactory factory(...$parameters)
  */
 class Author extends Model implements HasMedia
@@ -73,7 +76,7 @@ class Author extends Model implements HasMedia
             ->format(config('bookshelves.cover_extension'));
 
         $this->addMediaConversion('open_graph')
-            ->crop(Manipulations::CROP_TOP, $formatStandard['width'], $formatStandard['height'])
+            ->crop(Manipulations::CROP_CENTER, $formatStandard['width'], $formatStandard['height'])
             ->format('jpg');
     }
 

@@ -23,7 +23,7 @@ class BookResource extends JsonResource
         $publisher = null;
         $language = null;
         if ($this->serie) {
-            $serie = new SerieResource($this->serie);
+            $serie = SerieResource::make($this->serie);
         }
         $authors = null;
         if ($this->authors) {
@@ -88,9 +88,11 @@ class BookResource extends JsonResource
             'publishDate'                            => $this->date,
             'identifier'                             => IdentifierResource::make($this->identifier),
             'publisher'                              => $publisher,
-            'image'                                  => $this->image_thumbnail,
-            'imageOpenGraph'                         => $this->image_open_graph,
-            'imageOriginal'                          => $this->image_original,
+            'picture'                                => [
+                'base'                                       => $this->image_thumbnail,
+                'openGraph'                                  => $this->image_open_graph,
+                'original'                                   => $this->image_original,
+            ],
             'pageCount'                              => $this->page_count,
             'maturityRating'                         => $this->maturity_rating,
             'tags'                                   => $tags,

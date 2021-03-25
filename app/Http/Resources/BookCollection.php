@@ -49,9 +49,9 @@ class BookCollection extends JsonResource
                 'slug' => $this->language->slug,
                 'flag' => $this->language->flag,
             ],
-            'image'                 => $this->image_thumbnail,
-            'serie'                 => $serie,
-            'meta'                  => [
+            'picture'                 => $this->image_thumbnail,
+            'serie'                   => $serie,
+            'meta'                    => [
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
             ],

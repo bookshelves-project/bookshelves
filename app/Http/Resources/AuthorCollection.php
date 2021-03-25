@@ -40,13 +40,13 @@ class AuthorCollection extends JsonResource
         }
 
         return [
-            'lastname'              => $this->lastname,
-            'firstname'             => $this->firstname,
-            'name'                  => $this->name,
-            'slug'                  => $this->slug,
-            'books_number'          => $books_number,
-            'image'                 => $this->image_thumbnail,
-            'links'                 => [
+            'lastname'                => $this->lastname,
+            'firstname'               => $this->firstname,
+            'name'                    => $this->name,
+            'slug'                    => $this->slug,
+            'books_number'            => $books_number,
+            'picture'                 => $this->image_thumbnail,
+            'links'                   => [
                 'show' => config('app.url')."/api/authors/$this->slug",
             ],
         ];
