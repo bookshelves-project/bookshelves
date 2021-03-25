@@ -21,9 +21,9 @@ class SearchSerieCollection extends JsonResource
                 'author'   => $this->author->slug,
                 'slug'     => $this->slug,
             ],
-            'title'    => $this->title,
-            'author'   => $this->books[0]->author->name,
-            'image'    => $this->image_thumbnail,
+            'title'      => $this->title,
+            'author'     => $this->books[0]->author->name,
+            'picture'    => $this->image_thumbnail,
         ];
     }
 }
