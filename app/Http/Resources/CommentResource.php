@@ -53,10 +53,10 @@ class CommentResource extends JsonResource
                 'name'    => $this->user->name,
                 'picture' => $this->user->profile_photo_url,
             ],
-            'createdAt'  => $this->created_at,
-            'updatedAt'  => $this->updated_at,
-            'title'      => $title,
-            'image'      => $this->commentable->image_open_graph,
+            'createdAt'    => $this->created_at,
+            'updatedAt'    => $this->updated_at,
+            'title'        => $title,
+            'picture'      => $this->commentable->image_thumbnail,
         ];
     }
 }
