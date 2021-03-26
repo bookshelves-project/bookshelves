@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use Auth;
+use App\Models\Serie;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SerieResource extends JsonResource
@@ -69,6 +71,21 @@ class SerieResource extends JsonResource
             }
         }
 
+        $user = Auth::user();
+        $isFavorite = false;
+        if ($user) {
+            $entity = Serie::whereSlug($this->slug)->first();
+
+            $checkIfFavorite = Serie::find($entity->id)->favorites;
+            if (! sizeof($checkIfFavorite) < 1) {
+                $isFavorite = true;
+            }
+        }
+        $comments = null;
+        if ($this->comments) {
+            $comments = CommentCollection::collection($this->comments);
+        }
+
         return [
             'title'                                  => $this->title,
             'slug'                                   => $this->slug,
@@ -83,6 +100,8 @@ class SerieResource extends JsonResource
             'size'                                   => $size,
             'books_number'                           => $books_number,
             'books'                                  => $books,
+            'isFavorite'                             => $isFavorite,
+            'comments'                               => $comments,
         ];
     }
 }

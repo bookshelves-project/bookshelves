@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use Auth;
+use App\Models\Author;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthorResource extends JsonResource
@@ -67,6 +69,21 @@ class AuthorResource extends JsonResource
             $size = human_filesize($size);
         }
 
+        $user = Auth::user();
+        $isFavorite = false;
+        if ($user) {
+            $entity = Author::whereSlug($this->slug)->first();
+
+            $checkIfFavorite = Author::find($entity->id)->favorites;
+            if (! sizeof($checkIfFavorite) < 1) {
+                $isFavorite = true;
+            }
+        }
+        $comments = null;
+        if ($this->comments) {
+            $comments = CommentCollection::collection($this->comments);
+        }
+
         return [
             'lastname'                               => $this->lastname,
             'firstname'                              => $this->firstname,
@@ -81,6 +98,8 @@ class AuthorResource extends JsonResource
             'books_number'                           => $books_number,
             'series'                                 => $series,
             'books'                                  => $books,
+            'isFavorite'                             => $isFavorite,
+            'comments'                               => $comments,
         ];
     }
 }
