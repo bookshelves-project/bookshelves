@@ -13,79 +13,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-/**
- * App\Models\Book.
- *
- * @property int                                                                                                                           $id
- * @property string                                                                                                                        $title
- * @property string|null                                                                                                                   $title_sort
- * @property string|null                                                                                                                   $slug
- * @property string|null                                                                                                                   $contributor
- * @property string|null                                                                                                                   $description
- * @property string|null                                                                                                                   $date
- * @property string|null                                                                                                                   $rights
- * @property int|null                                                                                                                      $serie_id
- * @property int|null                                                                                                                      $serie_number
- * @property int|null                                                                                                                      $publisher_id
- * @property string|null                                                                                                                   $language_slug
- * @property int|null                                                                                                                      $identifier_id
- * @property \Illuminate\Support\Carbon|null                                                                                               $created_at
- * @property \Illuminate\Support\Carbon|null                                                                                               $updated_at
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Author[]                                                                 $authors
- * @property int|null                                                                                                                      $authors_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[]                                                                $comments
- * @property int|null                                                                                                                      $comments_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\User[]                                                                   $favorites
- * @property int|null                                                                                                                      $favorites_count
- * @property \App\Models\Author                                                                                                            $author
- * @property \App\Models\Identifier|null                                                                                                   $identifier
- * @property \App\Models\Language|null                                                                                                     $language
- * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
- * @property int|null                                                                                                                      $media_count
- * @property \App\Models\Publisher|null                                                                                                    $publisher
- * @property \App\Models\Serie|null                                                                                                        $serie
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[]                                                                    $tags
- * @property int|null                                                                                                                      $tags_count
- *
- * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Book query()
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereContributor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifierId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguageSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book wherePublisherId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereRights($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
- * @mixin \Eloquent
- *
- * @property string                      $download_link
- * @property string|null                 $epub
- * @property string|null                 $image
- * @property string                      $show_link
- * @property string|null                 $image_original
- * @property string|null                 $image_thumbnail
- * @property int|null                    $google_book_id
- * @property int|null                    $page_count
- * @property string|null                 $maturity_rating
- * @property \App\Models\GoogleBook|null $googleBook
- *
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereMaturityRating($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book wherePageCount($value)
- *
- * @property string|null $image_open_graph
- *
- * @method static \Database\Factories\BookFactory factory(...$parameters)
- */
 class Book extends Model implements HasMedia
 {
     use InteractsWithMedia;
@@ -113,6 +40,7 @@ class Book extends Model implements HasMedia
         'language',
     ];
 
+    /** @mixin \Spatie\Image\Manipulations */
     public function registerMediaConversions(Media $media = null): void
     {
         $formatBasic = config('image.thumbnails.picture_cover');

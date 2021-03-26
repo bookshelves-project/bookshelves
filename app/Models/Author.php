@@ -11,43 +11,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-/**
- * App\Models\Author.
- *
- * @property int                                                                                                                           $id
- * @property string|null                                                                                                                   $slug
- * @property string|null                                                                                                                   $lastname
- * @property string|null                                                                                                                   $firstname
- * @property string|null                                                                                                                   $name
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]                                                                   $books
- * @property int|null                                                                                                                      $books_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[]                                                                $comments
- * @property int|null                                                                                                                      $comments_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\User[]                                                                   $favorites
- * @property int|null                                                                                                                      $favorites_count
- * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
- * @property int|null                                                                                                                      $media_count
- *
- * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Author query()
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
- * @mixin \Eloquent
- *
- * @property string                                                      $download_link
- * @property string|null                                                 $image
- * @property string                                                      $show_link
- * @property string|null                                                 $image_thumbnail
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $series
- * @property int|null                                                    $series_count
- * @property string|null                                                 $image_open_graph
- *
- * @method static \Database\Factories\AuthorFactory factory(...$parameters)
- */
 class Author extends Model implements HasMedia
 {
     use InteractsWithMedia;
