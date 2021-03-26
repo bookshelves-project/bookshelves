@@ -21,7 +21,7 @@ class SearchController extends Controller
      *     summary="List of search results",
      *     description="Search",
      *     @OA\Parameter(
-     *         name="terms",
+     *         name="q",
      *         in="query",
      *         description="String to search books",
      *         required=true,
@@ -39,7 +39,7 @@ class SearchController extends Controller
      */
     public function index(Request $request)
     {
-        $searchTermRaw = $request->input('terms');
+        $searchTermRaw = $request->input('q');
         $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
         if ($searchTermRaw) {
             $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->get();

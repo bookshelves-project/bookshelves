@@ -19,6 +19,27 @@ class AuthorResource extends JsonResource
         $cover = null;
         $size = null;
         $books_number = null;
+        $series = null;
+        if ($this->series) {
+            $series = [];
+            foreach ($this->series as $key => $serie) {
+                if ($serie->books) {
+                    $booksFilter = $serie->books->reject(function ($book, $key) {
+                        return $book->serie_number < 1;
+                    });
+                    $books = $booksFilter->values();
+
+                    $books_number = count($books);
+                }
+                array_push($series, [
+                    'title'            => $serie->title,
+                    'slug'             => $serie->slug,
+                    'picture'          => $serie->image_thumbnail,
+                    'bookNumber'       => $books_number,
+                    'show'             => $serie->show_link,
+                ]);
+            }
+        }
         if ($this->books) {
             $books = [];
             $size = [];
@@ -58,6 +79,7 @@ class AuthorResource extends JsonResource
             'download'                               => $this->download_link,
             'size'                                   => $size,
             'books_number'                           => $books_number,
+            'series'                                 => $series,
             'books'                                  => $books,
         ];
     }

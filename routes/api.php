@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
@@ -24,24 +25,20 @@ use App\Http\Controllers\Api\SubmissionController;
 |
 */
 
-Route::get('/google', function () {
-    $disk = Storage::disk('google');
-    $files = $disk->allFiles();
-    $adapter = $disk->getDriver();
-    foreach ($files as $key => $file) {
-        $fileData = $adapter->getMetadata($file);
-        if ('epub' === $fileData['extension']) {
-            dump($fileData['name']);
-        }
-    }
+// Route::get('/google', function () {
+//     $disk = Storage::disk('google');
+//     $files = $disk->allFiles();
+//     $adapter = $disk->getDriver();
+//     foreach ($files as $key => $file) {
+//         $fileData = $adapter->getMetadata($file);
+//         if ('epub' === $fileData['extension']) {
+//             dump($fileData['name']);
+//         }
+//     }
 
-    // $disk = \Storage::disk('googleDrive');
-    // $adapter = $disk->getDriver()->getAdapter();
-});
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//     $disk = \Storage::disk('googleDrive');
+//     $adapter = $disk->getDriver()->getAdapter();
+// });
 
 Route::post('/tokens/create', function (Request $request) {
     $token = $request->user()->createToken($request->token_name);
@@ -128,4 +125,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/comments/edit/{book}', [CommentController::class, 'edit'])->name('api.comments.edit');
     Route::post('/comments/update/{book}', [CommentController::class, 'update'])->name('api.comments.update');
     Route::post('/comments/destroy/{book}', [CommentController::class, 'destroy'])->name('api.comments.destroy');
+
+    Route::get('/user', [UserController::class, 'sanctum'])->name('api.user');
 });

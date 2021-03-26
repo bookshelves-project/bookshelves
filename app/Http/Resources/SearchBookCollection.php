@@ -15,6 +15,14 @@ class SearchBookCollection extends JsonResource
      */
     public function toArray($request)
     {
+        $serie = null;
+        if ($this->serie) {
+            $serie = [
+                'title'  => $this->serie->title,
+                'number' => $this->serie_number,
+            ];
+        }
+
         return [
             'meta' => [
                 'entity' => 'book',
@@ -24,6 +32,7 @@ class SearchBookCollection extends JsonResource
             'title'      => $this->title,
             'subtitle'   => $this->serie?->title,
             'author'     => $this->author->name,
+            'serie'      => $serie,
             'picture'    => $this->image_thumbnail,
         ];
     }
