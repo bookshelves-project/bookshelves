@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
@@ -60,11 +61,6 @@ class Book extends Model implements HasMedia
             ->format('jpg');
     }
 
-    // public function getImageAttribute(): string | null
-    // {
-    //     return $this->getMedia('books')->first()?->getUrl('basic');
-    // }
-
     public function getImageThumbnailAttribute(): string | null
     {
         return $this->getMedia('books')->first()?->getUrl('thumbnail');
@@ -103,6 +99,21 @@ class Book extends Model implements HasMedia
         ]);
 
         return $route;
+    }
+
+    public function getIsFavoriteAttribute(): bool
+    {
+        $is_favorite = false;
+        if (Auth::check()) {
+            $entity = Book::whereSlug($this->slug)->first();
+
+            $checkIfFavorite = Book::find($entity->id)->favorites;
+            if (! sizeof($checkIfFavorite) < 1) {
+                $is_favorite = true;
+            }
+        }
+
+        return $is_favorite;
     }
 
     /**

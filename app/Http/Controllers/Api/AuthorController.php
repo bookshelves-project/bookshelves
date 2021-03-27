@@ -6,8 +6,8 @@ use App\Models\Author;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Resources\AuthorResource;
-use App\Http\Resources\AuthorCollection;
+use App\Http\Resources\Author\AuthorResource;
+use App\Http\Resources\Author\AuthorLightResource;
 
 class AuthorController extends Controller
 {
@@ -59,7 +59,7 @@ class AuthorController extends Controller
         if (! $all) {
             $authors = $authors->paginate($perPage);
         }
-        $authors = AuthorCollection::collection($authors);
+        $authors = AuthorLightResource::collection($authors);
 
         return $authors;
     }

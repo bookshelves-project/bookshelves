@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Identifier;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class IdentifierResource extends JsonResource
@@ -15,12 +16,15 @@ class IdentifierResource extends JsonResource
      */
     public function toArray($request)
     {
+        /** @var Identifier $identifier */
+        $identifier = $this;
+
         return [
-            'isbn'   => $this->isbn,
-            'isbn13' => $this->isbn13,
-            'doi'    => $this->doi,
-            'amazon' => $this->amazon,
-            'google' => $this->google,
+            'isbn'   => $identifier->isbn,
+            'isbn13' => $identifier->isbn13,
+            'doi'    => $identifier->doi,
+            'amazon' => $identifier->amazon,
+            'google' => $identifier->google,
         ];
     }
 }

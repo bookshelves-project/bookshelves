@@ -7,9 +7,10 @@ use App\Models\Author;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\BookResource;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\BookCollection;
+use App\Http\Resources\Book\BookResource;
+use App\Http\Resources\Book\BookLightResource;
 
 class BookController extends Controller
 {
@@ -102,7 +103,7 @@ class BookController extends Controller
         if (! $all) {
             $books = $books->paginate($perPage);
         }
-        $books = BookCollection::collection($books);
+        $books = BookLightResource::collection($books);
 
         if ($debug) {
             foreach ($books as $book) {

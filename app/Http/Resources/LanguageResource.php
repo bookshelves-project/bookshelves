@@ -2,12 +2,13 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Language;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LanguageResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transform the Language into an array.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -15,6 +16,13 @@ class LanguageResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        /** @var Language $language */
+        $language = $this;
+
+        return [
+            'slug'    => $language->slug,
+            'flag'    => $language->flag,
+            'display' => $language->display,
+        ];
     }
 }

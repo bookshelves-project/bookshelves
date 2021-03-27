@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Tag;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TagResource extends JsonResource
@@ -15,6 +16,12 @@ class TagResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        /** @var Tag $tag */
+        $tag = $this;
+
+        return [
+            'name' => $tag->name,
+            'slug' => $tag->slug,
+        ];
     }
 }

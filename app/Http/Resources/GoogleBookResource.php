@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\GoogleBook;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GoogleBookResource extends JsonResource
@@ -15,12 +16,15 @@ class GoogleBookResource extends JsonResource
      */
     public function toArray($request)
     {
+        /** @var GoogleBook $googleBook */
+        $googleBook = $this;
+
         return [
-            'preview_link'          => $this->preview_link,
-            'buy_link'              => $this->buy_link,
-            'retail_price'          => $this->retail_price,
-            'retail_price_currency' => $this->retail_price_currency,
-            'created_at'            => $this->created_at,
+            'preview_link'          => $googleBook->preview_link,
+            'buy_link'              => $googleBook->buy_link,
+            'retail_price'          => $googleBook->retail_price,
+            'retail_price_currency' => $googleBook->retail_price_currency,
+            'created_at'            => $googleBook->created_at,
         ];
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Search;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SearchAuthorCollection extends JsonResource
+class SearchAuthorResource extends JsonResource
 {
     /**
      * Transform the resource collection into an array.

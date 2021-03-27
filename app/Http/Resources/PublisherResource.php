@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Publisher;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PublisherResource extends JsonResource
@@ -15,18 +16,12 @@ class PublisherResource extends JsonResource
      */
     public function toArray($request)
     {
-        // $books = null;
-        // $cover = null;
-        // if ($this->books) {
-        //     $books = BookCollection::collection($this->books);
-        //     $books_number = sizeof($books);
-        //     $book = $books->random();
-        //     $cover = $book->cover ? image_cache($book->cover, 'picture_thumbnail') : null;
-        // }
+        /** @var Publisher $publisher */
+        $publisher = $this;
 
         return [
-            'name'     => $this->name,
-            'slug'     => $this->slug,
+            'name'     => $publisher->name,
+            'slug'     => $publisher->slug,
         ];
     }
 }

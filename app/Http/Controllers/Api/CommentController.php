@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
-use App\Http\Resources\CommentCollection;
 use App\Providers\EpubParser\EpubParserTools;
 
 class CommentController extends Controller
@@ -20,7 +19,7 @@ class CommentController extends Controller
         $entity = $model_name::whereSlug($slug)->first();
         $comments = $entity->comments;
 
-        return CommentCollection::collection($comments);
+        return CommentResource::collection($comments);
     }
 
     public function byUser(int $user)

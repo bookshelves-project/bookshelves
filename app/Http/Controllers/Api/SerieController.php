@@ -6,9 +6,9 @@ use App\Models\Serie;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\SerieResource;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Resources\SerieCollection;
+use App\Http\Resources\Serie\SerieResource;
+use App\Http\Resources\Serie\SerieLightResource;
 
 class SerieController extends Controller
 {
@@ -67,7 +67,7 @@ class SerieController extends Controller
         if (! $all) {
             $series = $series->paginate($perPage);
         }
-        $series = SerieCollection::collection($series);
+        $series = SerieLightResource::collection($series);
 
         return $series;
     }

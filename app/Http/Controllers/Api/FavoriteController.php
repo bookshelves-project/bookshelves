@@ -7,7 +7,7 @@ use Route;
 use App\Models\User;
 use App\Models\Favoritable;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\FavoriteCollection;
+use App\Http\Resources\FavoriteResource;
 
 class FavoriteController extends Controller
 {
@@ -16,7 +16,7 @@ class FavoriteController extends Controller
     {
         $favorites = Favoritable::whereUserId($userId)->get();
 
-        return FavoriteCollection::collection($favorites);
+        return FavoriteResource::collection($favorites);
     }
 
     // #[Route("/api/favorites/toggle/{model}/{slug}", methods: ["POST"])]

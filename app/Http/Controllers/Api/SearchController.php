@@ -8,9 +8,9 @@ use App\Models\Author;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
-use App\Http\Resources\SearchBookCollection;
-use App\Http\Resources\SearchSerieCollection;
-use App\Http\Resources\SearchAuthorCollection;
+use App\Http\Resources\Search\SearchBookResource;
+use App\Http\Resources\Search\SearchSerieResource;
+use App\Http\Resources\Search\SearchAuthorResource;
 
 class SearchController extends Controller
 {
@@ -46,9 +46,9 @@ class SearchController extends Controller
             $series = Serie::whereLike(['title'], $searchTerm)->get();
             $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
 
-            $authors = SearchAuthorCollection::collection($authors);
-            $series = SearchSerieCollection::collection($series);
-            $books = SearchBookCollection::collection($books);
+            $authors = SearchAuthorResource::collection($authors);
+            $series = SearchSerieResource::collection($series);
+            $books = SearchBookResource::collection($books);
             $collection = $authors->merge($series);
             $collection = $collection->merge($books);
             $collection->all();

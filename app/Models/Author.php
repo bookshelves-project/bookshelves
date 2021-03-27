@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
@@ -74,6 +75,33 @@ class Author extends Model implements HasMedia
         ]);
 
         return $route;
+    }
+
+    public function getSizeAttribute(): string
+    {
+        $size = [];
+        foreach ($this->books as $key => $book) {
+            array_push($size, $book->getMedia('books_epubs')->first()?->size);
+        }
+        $size = array_sum($size);
+        $size = human_filesize($size);
+
+        return $size;
+    }
+
+    public function getIsFavoriteAttribute(): bool
+    {
+        $is_favorite = false;
+        if (Auth::check()) {
+            $entity = Author::whereSlug($this->slug)->first();
+
+            $checkIfFavorite = Author::find($entity->id)->favorites;
+            if (! sizeof($checkIfFavorite) < 1) {
+                $is_favorite = true;
+            }
+        }
+
+        return $is_favorite;
     }
 
     public function favorites(): MorphToMany

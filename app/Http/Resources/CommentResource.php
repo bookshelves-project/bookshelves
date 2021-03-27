@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Comment;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CommentResource extends JsonResource
@@ -15,9 +16,12 @@ class CommentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $for = strtolower(str_replace('App\\Models\\', '', $this->commentable_type));
-        $cover = $this->commentable->cover;
-        $entity = $this->commentable;
+        /** @var Comment $comment */
+        $comment = $this;
+
+        $for = strtolower(str_replace('App\\Models\\', '', $comment->commentable_type));
+        $cover = $comment->commentable->cover;
+        $entity = $comment->commentable;
         $title = null;
 
         switch ($for) {
@@ -42,21 +46,21 @@ class CommentResource extends JsonResource
             'meta'                  => [
                 'type'        => 'comment',
                 'for'         => $for,
-                'author'      => $this->commentable->author?->slug,
-                'slug'        => $this->commentable->slug,
+                'author'      => $comment->commentable->author?->slug,
+                'slug'        => $comment->commentable->slug,
             ],
-            'id'                    => $this->id,
-            'text'                  => $this->text,
-            'rating'                => $this->rating ? $this->rating : null,
+            'id'                    => $comment->id,
+            'text'                  => $comment->text,
+            'rating'                => $comment->rating ? $comment->rating : null,
             'user'                  => [
-                'id'      => $this->user->id,
-                'name'    => $this->user->name,
-                'picture' => $this->user->profile_photo_url,
+                'id'      => $comment->user->id,
+                'name'    => $comment->user->name,
+                'picture' => $comment->user->profile_photo_url,
             ],
-            'createdAt'    => $this->created_at,
-            'updatedAt'    => $this->updated_at,
+            'createdAt'    => $comment->created_at,
+            'updatedAt'    => $comment->updated_at,
             'title'        => $title,
-            'picture'      => $this->commentable->image_thumbnail,
+            'picture'      => $comment->commentable->image_thumbnail,
         ];
     }
 }

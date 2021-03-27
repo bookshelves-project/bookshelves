@@ -76,3 +76,22 @@ if (! function_exists('human_filesize')) {
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).' '.@$sz[$factor];
     }
 }
+
+if (! function_exists('extract_content')) {
+    function extract_content(string $text, int $limit = null)
+    {
+        $isUTF8 = mb_check_encoding($text, 'UTF-8');
+        $content = iconv('UTF-8', 'UTF-8//IGNORE', $text);
+
+        if ($isUTF8) {
+            // $summary = Html2Text::convert($html);
+            if ($limit && strlen($content) > $limit) {
+                $content = substr($content, 0, $limit).'...';
+            }
+            $content = strip_tags($content);
+            $content = Str::ascii($content);
+        }
+
+        return $content;
+    }
+}

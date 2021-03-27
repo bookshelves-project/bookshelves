@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Favoritable;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FavoriteCollection extends JsonResource
+class FavoriteResource extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -15,9 +16,12 @@ class FavoriteCollection extends JsonResource
      */
     public function toArray($request)
     {
-        $for = strtolower(str_replace('App\\Models\\', '', $this->favoritable_type));
-        $cover = $this->favoritable->cover;
-        $entity = $this->favoritable;
+        /** @var Favoritable $favoritable */
+        $favoritable = $this;
+
+        $for = strtolower(str_replace('App\\Models\\', '', $favoritable->favoritable_type));
+        $cover = $favoritable->favoritable->cover;
+        $entity = $favoritable->favoritable;
         $title = null;
 
         switch ($for) {
@@ -42,11 +46,11 @@ class FavoriteCollection extends JsonResource
             'meta'                  => [
                 'type'        => 'favorite',
                 'for'         => $for,
-                'author'      => $this->favoritable->author?->slug,
-                'slug'        => $this->favoritable->slug,
+                'author'      => $favoritable->favoritable->author?->slug,
+                'slug'        => $favoritable->favoritable->slug,
             ],
             'title'   => $title,
-            'picture' => $this->favoritable->image_thumbnail,
+            'picture' => $favoritable->favoritable->image_thumbnail,
         ];
     }
 }
