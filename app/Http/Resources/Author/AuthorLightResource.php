@@ -21,7 +21,9 @@ class AuthorLightResource extends JsonResource
 
         $resource = AuthorUltraLightResource::make($author)->toArray($request);
         $resource = array_merge($resource, [
-            'picture' => [
+            'lastname'    => $author->lastname,
+            'firstname'   => $author->firstname,
+            'picture'     => [
                 'base'      => $author->image_thumbnail,
                 'openGraph' => $author->image_open_graph,
             ],

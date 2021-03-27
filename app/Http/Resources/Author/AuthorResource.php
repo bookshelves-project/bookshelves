@@ -22,8 +22,6 @@ class AuthorResource extends JsonResource
 
         $resource = AuthorLightResource::make($author)->toArray($request);
         $resource = array_merge($resource, [
-            'lastname'    => $author->lastname,
-            'firstname'   => $author->firstname,
             'size'        => $author->size,
             'download'    => $author->download_link,
             'series'      => SerieLightResource::collection($author->series),
