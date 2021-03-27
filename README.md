@@ -31,7 +31,7 @@
   - [*g. EpubParser*](#g-epubparser)
   - [*h. Recaptcha*](#h-recaptcha)
   - [*i. Larastan*](#i-larastan)
-- [**IIII. `dotenv`**](#iiii-dotenv)
+- [**IIII. `.env`**](#iiii-env)
   - [*a. For local*](#a-for-local)
   - [*b. For production*](#b-for-production)
 
@@ -205,7 +205,7 @@ php artisan larastan
 
 ---
 
-## **IIII. `dotenv`**
+## **IIII. `.env`**
 
 ### *a. For local*
 
@@ -213,15 +213,6 @@ php artisan larastan
 APP_URL=http://localhost:8000
 # OR
 # APP_URL=http://api.bookshelves.test
-
-MAIL_HOST=smtp.mailtrap.io
-MAIL_PORT=587
-MAIL_USERNAME=<mailtrap_username>
-MAIL_PASSWORD=<mailtrap_password>
-MAIL_FROM_ADDRESS=noreply@bookshelves.ink
-MAIL_FROM_NAME="${APP_NAME}"
-MAIL_TO_ADDRESS=contact@bookshelves.ink
-MAIL_TO_NAME="${APP_NAME}"
 
 L5_SWAGGER_GENERATE_ALWAYS=true
 L5_SWAGGER_BASE_PATH=/api
@@ -235,21 +226,23 @@ RECAPTCHA_SITE_KEY=
 RECAPTCHA_SECRET_KEY=
 ```
 
-### *b. For production*
+Setup for [**Mailtrap**](https://mailtrap.io/)
 
 ```yml
-APP_URL=https://www.mydomain.com
-
-# ...
-
-MAIL_HOST=smtp.eu.mailgun.org
+MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=587
-MAIL_USERNAME=<mailgun_user_login>
-MAIL_PASSWORD=<mailgun_user_password>
+MAIL_USERNAME=<mailtrap_username>
+MAIL_PASSWORD=<mailtrap_password>
 MAIL_FROM_ADDRESS=noreply@bookshelves.ink
 MAIL_FROM_NAME="${APP_NAME}"
 MAIL_TO_ADDRESS=contact@bookshelves.ink
 MAIL_TO_NAME="${APP_NAME}"
+```
+
+### *b. For production*
+
+```yml
+APP_URL=https://www.mydomain.com
 
 L5_SWAGGER_GENERATE_ALWAYS=false
 L5_SWAGGER_BASE_PATH=/api
@@ -263,9 +256,24 @@ RECAPTCHA_SITE_KEY=
 RECAPTCHA_SECRET_KEY=
 ```
 
-After setup domain
+Setup for [**Mailgun**](https://www.mailgun.com/)
 
-Sending -> Domain settings -> SMTP credentials
+> For credentials
+>
+> - Create an account
+> - After setup domain
+> - Sending -> Domain settings -> SMTP credentials
+
+```yml
+MAIL_HOST=smtp.eu.mailgun.org
+MAIL_PORT=587
+MAIL_USERNAME=<mailgun_user_login>
+MAIL_PASSWORD=<mailgun_user_password>
+MAIL_FROM_ADDRESS=noreply@bookshelves.ink
+MAIL_FROM_NAME="${APP_NAME}"
+MAIL_TO_ADDRESS=contact@bookshelves.ink
+MAIL_TO_NAME="${APP_NAME}"
+```
 
 ```nginx
 server {
