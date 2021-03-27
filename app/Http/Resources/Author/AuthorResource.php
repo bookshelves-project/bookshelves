@@ -25,6 +25,7 @@ class AuthorResource extends JsonResource
             'lastname'    => $author->lastname,
             'firstname'   => $author->firstname,
             'size'        => $author->size,
+            'download'    => $author->download_link,
             'series'      => SerieLightResource::collection($author->series),
             'books'       => BookLightResource::collection($author->books),
         ]);

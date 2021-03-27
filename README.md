@@ -1,53 +1,18 @@
 # Bookshelves · Back <!-- omit in toc -->
 
-[![php](https://img.shields.io/badge/dynamic/json?label=PHP&query=require.php&url=https%3A%2F%2Fgitlab.com%ewilan-riviere%2Fbookshelves-back%2F-%2Fraw%2Fmaster%2Fcomposer.json&logo=php&logoColor=ffffff&color=777bb4&style=flat-square)](https://www.php.net)
+[![php](https://img.shields.io/static/v1?label=PHP&message=v8.0&color=777bb4&style=flat-square&logo=php&logoColor=ffffff)](https://www.php.net)
 [![composer](https://img.shields.io/static/v1?label=Composer&message=v2.0&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)
 
 [![laravel](https://img.shields.io/static/v1?label=Laravel&message=v8.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
 [![swagger](https://img.shields.io/static/v1?label=Swagger&message=v3.0&color=85EA2D&style=flat-square&logo=swagger&logoColo=ffffff)](https://swagger.io)
 
-[![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=14.15&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
+[![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=14.16&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
 [![yarn](https://img.shields.io/static/v1?label=Yarn&message=v1.2&color=2C8EBB&style=flat-square&logo=yarn&logoColor=ffffff)](https://yarnpkg.com/lang/en/)
 
 - 📀 [**bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves (current repository)
 - 🎨 [**bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves
 - 💻 [**bookshelves.ink**](https://bookshelves.ink) : front demo
 - 📚 [**Documentation**](https://bookshelves.ink/api/documentation)
-
-## **TODO** <!-- omit in toc -->
-
-- [ ] Fix Resources collection with ResourceCollection extends
-- [ ] Logs for EpubParser
-- [ ] Improve libre ebooks meta
-- [ ] Add attribute on each method for Controller
-- [ ] Check attributes
-  - <https://www.amitmerchant.com/how-to-use-php-80-attributes>
-  - <https://stitcher.io/blog/attributes-in-php-8>
-  - <https://grafikart.fr/tutoriels/attribut-php8-1371>
-- [ ] mailing: <https://www.mailgun.com>
-- [ ] numberOfPages: <https://idpf.github.io/epub-guides/package-metadata/#schema-numberOfPages>
-  - async epubparser for Google data
-- [ ] Add explanation form each part of EpubParser
-- [ ] spatie/laravel-medialibrary
-  - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/optimizing-converted-images>
-  - <https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-vue>
-  - conversions name
-    - <https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files>
-    - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/defining-conversions>
-- [ ] larastan upgrade level
-
-```bash
-scoop reset php/php7.4-nts
-
-sudo update-alternatives --config php
-sudo update-alternatives --set phar /usr/bin/phar7.4
-
-sudo service nginx restart
-sudo service php7.1-fpm or php7.2-fpm  restart
-
-composer require friendsofphp/php-cs-fixer --dev
-composer global require friendsofphp/php-cs-fixer
-```
 
 **Table of contents**
 
@@ -245,12 +210,18 @@ php artisan larastan
 ### *a. For local*
 
 ```yml
-APP_URL=http://api.bookshelves.test
+APP_URL=http://localhost:8000
 # OR
-# APP_URL=http://localhost:8000
+# APP_URL=http://api.bookshelves.test
 
-MAIL_USERNAME=<mailtrap>
-MAIL_PASSWORD=<mailtrap>
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=587
+MAIL_USERNAME=<mailtrap_username>
+MAIL_PASSWORD=<mailtrap_password>
+MAIL_FROM_ADDRESS=noreply@bookshelves.ink
+MAIL_FROM_NAME="${APP_NAME}"
+MAIL_TO_ADDRESS=contact@bookshelves.ink
+MAIL_TO_NAME="${APP_NAME}"
 
 L5_SWAGGER_GENERATE_ALWAYS=true
 L5_SWAGGER_BASE_PATH=/api
@@ -271,8 +242,14 @@ APP_URL=https://www.mydomain.com
 
 # ...
 
-MAIL_USERNAME=<mail>
-MAIL_PASSWORD=<mail>
+MAIL_HOST=smtp.eu.mailgun.org
+MAIL_PORT=587
+MAIL_USERNAME=<mailgun_user_login>
+MAIL_PASSWORD=<mailgun_user_password>
+MAIL_FROM_ADDRESS=noreply@bookshelves.ink
+MAIL_FROM_NAME="${APP_NAME}"
+MAIL_TO_ADDRESS=contact@bookshelves.ink
+MAIL_TO_NAME="${APP_NAME}"
 
 L5_SWAGGER_GENERATE_ALWAYS=false
 L5_SWAGGER_BASE_PATH=/api
@@ -285,6 +262,10 @@ TELESCOPE_ENABLED=false
 RECAPTCHA_SITE_KEY=
 RECAPTCHA_SECRET_KEY=
 ```
+
+After setup domain
+
+Sending -> Domain settings -> SMTP credentials
 
 ```nginx
 server {
@@ -358,4 +339,38 @@ server {
     deny all;
   }
 }
+```
+
+## **TODO** <!-- omit in toc -->
+
+- [ ] Logs for EpubParser
+- [ ] Improve libre ebooks meta
+- [ ] Add attribute on each method for Controller
+- [ ] Check attributes
+  - <https://www.amitmerchant.com/how-to-use-php-80-attributes>
+  - <https://stitcher.io/blog/attributes-in-php-8>
+  - <https://grafikart.fr/tutoriels/attribut-php8-1371>
+- [ ] mailing: <https://www.mailgun.com>
+- [ ] numberOfPages: <https://idpf.github.io/epub-guides/package-metadata/#schema-numberOfPages>
+  - async epubparser for Google data
+- [ ] Add explanation form each part of EpubParser
+- [ ] spatie/laravel-medialibrary
+  - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/optimizing-converted-images>
+  - <https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-vue>
+  - conversions name
+    - <https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files>
+    - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/defining-conversions>
+- [ ] larastan upgrade level
+
+```bash
+scoop reset php/php7.4-nts
+
+sudo update-alternatives --config php
+sudo update-alternatives --set phar /usr/bin/phar7.4
+
+sudo service nginx restart
+sudo service php7.1-fpm or php7.2-fpm  restart
+
+composer require friendsofphp/php-cs-fixer --dev
+composer global require friendsofphp/php-cs-fixer
 ```

@@ -29,12 +29,17 @@ class SubmissionMail extends Mailable
      */
     public function build()
     {
-        $subject = '[Bookshelves] Contact from '.$this->submission->name;
-        $to = config('bookshelves.mails.to');
-        $from = config('mail.from.address');
+        /** @var Mailable $mail */
+        $mail = $this;
 
-        return $this->to($to)
-            ->from($from)
+        $subject = '[Bookshelves] Contact from '.$this->submission->name;
+        $from_address = config('mail.from.address');
+        $from_name = config('mail.from.name');
+        $to_address = config('mail.to.address');
+        $to_name = config('mail.to.name');
+
+        return $mail->to($to_address, $to_name)
+            ->from($from_address, $from_name)
             ->subject($subject)
             ->markdown('emails.submission')
             ->with([

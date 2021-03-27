@@ -25,11 +25,17 @@ class SubmissionController extends Controller
             'email'   => $validate['email'],
             'message' => $validate['message'],
         ]);
+
+        $from_address = config('mail.from.address');
+
         // Send mail
         Mail::send(new SubmissionMail(submission: $submission));
 
         return response()->json([
             'success' => 'Your mail was sended!',
+            'contact' => [
+                'from' => $from_address,
+            ],
         ], 200);
     }
 }

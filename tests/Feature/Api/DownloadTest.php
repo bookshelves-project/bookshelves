@@ -4,7 +4,7 @@ it('can download random EPUB', function () {
     $response = $this->get('/api/books');
     $json = json_decode($response->content());
     $randomElement = array_rand($json->data, 1);
-    $showLink = $json->data[$randomElement]->links->show;
+    $showLink = $json->data[$randomElement]->meta->show;
     // dump($showLink);
     $response = $this->get($showLink);
     $showContent = json_decode($response->content());
@@ -18,7 +18,7 @@ it('can download random Series zip', function () {
     $response = $this->get('/api/series');
     $json = json_decode($response->content());
     $randomElement = array_rand($json->data, 1);
-    $showLink = $json->data[$randomElement]->links->show;
+    $showLink = $json->data[$randomElement]->meta->show;
 
     $response = $this->get($showLink);
     $showContent = json_decode($response->content());
@@ -36,7 +36,7 @@ it('can download random Authors zip', function () {
     $response = $this->get('/api/authors');
     $json = json_decode($response->content());
     $randomElement = array_rand($json->data, 1);
-    $showLink = $json->data[$randomElement]->links->show;
+    $showLink = $json->data[$randomElement]->meta->show;
 
     $response = $this->get($showLink);
     $showContent = json_decode($response->content());
@@ -55,7 +55,7 @@ it('can download all EPUB', function () {
     $responseContent = json_decode($response->content());
     $numberOfPages = $responseContent->data;
     for ($i = 0; $i < (sizeof($numberOfPages) - 1); $i++) {
-        $showLink = $responseContent->data[$i]->links->show;
+        $showLink = $responseContent->data[$i]->meta->show;
         $response = $this->get($showLink);
         $showContent = json_decode($response->content());
         $download_epub = $showContent->data->epub->download;

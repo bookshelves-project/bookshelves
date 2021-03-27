@@ -83,8 +83,12 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'noreply@bookshelves.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreply@bookshelves.ink'),
         'name'    => env('MAIL_FROM_NAME', 'Bookshelves'),
+    ],
+    'to' => [
+        'address' => env('MAIL_TO_ADDRESS', 'contact@bookshelves.ink'),
+        'name'    => env('MAIL_TO_NAME', 'Bookshelves'),
     ],
 
     /*

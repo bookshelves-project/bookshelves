@@ -27,7 +27,7 @@ it('random book detail', function () {
     $response = $this->get(__API_BOOKS__);
     $json = json_decode($response->content());
     $randomElement = array_rand($json->data, 1);
-    $showLink = $json->data[$randomElement]->links->show;
+    $showLink = $json->data[$randomElement]->meta->show;
 
     $response = $this->get($showLink);
     $response->assertStatus(200);
