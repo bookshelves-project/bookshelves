@@ -70,6 +70,45 @@ class ExtraDataGenerator
     }
 
     /**
+     * Generate Author description from Wikipedia if found.
+     *
+     * @param Author $author
+     * @param bool   $is_debug
+     *
+     * @return Author
+     */
+    public static function generateAuthorDescription(Author $author, bool $is_debug): Author
+    {
+        if (! $author->description) {
+            $name = $author->name;
+            $name = str_replace(' ', '%20', $name);
+            $url = "https://en.wikipedia.org/w/api.php?format=json&action=query&origin=*&titles=$name&prop=info|extracts&inprop=url";
+            $descriptionAuthor = null;
+            if (! $is_debug) {
+                try {
+                    $response = Http::get($url);
+                    $response = $response->json();
+                    $descriptionAuthor = $response['query']['pages'];
+                    $descriptionAuthor = reset($descriptionAuthor);
+                    $urlAuthor = $descriptionAuthor['fullurl'];
+                    $descriptionAuthor = $descriptionAuthor['extract'];
+                    $descriptionAuthor = extract_content($descriptionAuthor, 500);
+                } catch (\Throwable $th) {
+                }
+                if (is_string($descriptionAuthor)) {
+                    $author->description = $descriptionAuthor;
+                    $author->wikipedia_link = $urlAuthor;
+                    $author->save();
+                }
+            }
+
+            return $author;
+        }
+
+        return $author;
+    }
+
+    /**
      * Generate Serie image from 'database/seeders/media/series' if JPG file with Serie slug exist
      * if not get image from Book with 'book_number' like '1'.
      *

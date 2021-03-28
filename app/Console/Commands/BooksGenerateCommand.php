@@ -108,16 +108,16 @@ class BooksGenerateCommand extends Command
 
     /**
      * Execute generateBooks() and generateCovers()
-     * If fresh, execute migrate:fresh and seeders
-     * If not in production execute tests.
+     * - If fresh, execute migrate:fresh and seeders
+     * - If not in production execute tests.
      *
-     * @param array $epubFiles
-     * @param bool  $isFresh
-     * @param bool  $isDebug
+     * @param iterable $epubFiles
+     * @param bool     $isFresh
+     * @param bool     $isDebug
      *
      * @return void
      */
-    public function generate(array $epubFiles, bool $isFresh, bool $isDebug = false): void
+    public function generate(iterable $epubFiles, bool $isFresh, bool $isDebug = false): void
     {
         $this->newLine();
         if ($isFresh) {
@@ -163,7 +163,19 @@ class BooksGenerateCommand extends Command
         $this->info('Done!');
     }
 
-    public function generateCovers(array $books_with_covers, bool $isDebug = false)
+    /**
+     * Generate images for models
+     * - Books covers from original extract cover
+     * - Authors pictures from Wikipedia with their names
+     * - Series covers from volume 01 of their Books relation if exists
+     *  - option: add a JPG file to database/seeders/media/series with series slug name to set custom cover.
+     *
+     * @param iterable $books_with_covers
+     * @param bool     $isDebug
+     *
+     * @return void
+     */
+    public function generateCovers(iterable $books_with_covers, bool $isDebug = false)
     {
         $format = strtoupper(config('bookshelves.cover_extension'));
         $this->newLine();
@@ -184,8 +196,7 @@ class BooksGenerateCommand extends Command
         }
 
         $cover_bar->finish();
-        $this->newLine();
-        $this->newLine();
+        $this->newLine(2);
         $this->info('Covers generated!');
         $this->newLine();
 
@@ -202,8 +213,7 @@ class BooksGenerateCommand extends Command
             $series_cover_bar->advance();
         }
         $series_cover_bar->finish();
-        $this->newLine();
-        $this->newLine();
+        $this->newLine(2);
         $this->info('Series Covers generated!');
         $this->newLine();
 
@@ -216,6 +226,7 @@ class BooksGenerateCommand extends Command
             $authors_pictures->start();
             foreach ($authors as $key => $author) {
                 ExtraDataGenerator::generateAuthorPicture(author: $author, is_debug: $isDebug);
+                ExtraDataGenerator::generateAuthorDescription(author: $author, is_debug: $isDebug);
                 $authors_pictures->advance();
             }
             $authors_pictures->finish();
@@ -229,7 +240,17 @@ class BooksGenerateCommand extends Command
         Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');
     }
 
-    public function generateBooks(array $epubFiles, bool $isDebug = false)
+    /**
+     * Generate Book model from parsed epub files.
+     * - If Book exist already, skip it.
+     * - Use EpubParser to get data and create Book with relations.
+     *
+     * @param iterable $epubFiles
+     * @param bool     $isDebug
+     *
+     * @return iterable
+     */
+    public function generateBooks(iterable $epubFiles, bool $isDebug = false): iterable
     {
         // Parse $epubsFiles[] to get metadata and
         // save each EPUB as Book model with relationships
@@ -352,6 +373,14 @@ class BooksGenerateCommand extends Command
         return true;
     }
 
+    /**
+     * For debug only, print each Book entity.
+     *
+     * @param Book $book
+     * @param int  $key
+     *
+     * @return void
+     */
     public function printEbook(Book $book, int $key)
     {
         $serie = null;

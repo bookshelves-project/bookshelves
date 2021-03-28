@@ -43,9 +43,9 @@ class BookResource extends JsonResource
                 'size'     => human_filesize($book->getMedia('books_epubs')?->first()->size),
                 'download' => $book->download_link,
             ],
-            'googleBook' => GoogleBookResource::make($this->googleBook),
+            'googleBook' => GoogleBookResource::make($book->googleBook),
             'isFavorite' => $book->is_favorite,
-            'comments'   => CommentResource::collection($this->comments),
+            'comments'   => CommentResource::collection($book->comments),
         ]);
 
         return $resource;

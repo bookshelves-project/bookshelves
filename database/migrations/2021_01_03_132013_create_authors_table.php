@@ -19,6 +19,8 @@ class CreateAuthorsTable extends Migration
             $table->string('lastname')->nullable();
             $table->string('firstname')->nullable();
             $table->string('name')->nullable();
+            $table->text('description')->nullable();
+            $table->string('wikipedia_link')->nullable();
         });
     }
 

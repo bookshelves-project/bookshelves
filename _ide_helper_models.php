@@ -19,6 +19,8 @@ namespace App\Models{
  * @property string|null $lastname
  * @property string|null $firstname
  * @property string|null $name
+ * @property string|null $description
+ * @property string|null $wikipedia_link
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
@@ -28,7 +30,9 @@ namespace App\Models{
  * @property-read string $download_link
  * @property-read string|null $image_open_graph
  * @property-read string|null $image_thumbnail
+ * @property-read bool $is_favorite
  * @property-read string $show_link
+ * @property-read string $size
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
@@ -37,11 +41,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereWikipediaLink($value)
  */
 	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
@@ -80,6 +86,7 @@ namespace App\Models{
  * @property-read string|null $image_open_graph
  * @property-read string|null $image_original
  * @property-read string|null $image_thumbnail
+ * @property-read bool $is_favorite
  * @property-read string $show_link
  * @property-read \App\Models\GoogleBook|null $googleBook
  * @property-read \App\Models\Identifier|null $identifier
@@ -304,7 +311,9 @@ namespace App\Models{
  * @property-read string $download_link
  * @property-read string|null $image_open_graph
  * @property-read string|null $image_thumbnail
+ * @property-read bool $is_favorite
  * @property-read string $show_link
+ * @property-read string $size
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count

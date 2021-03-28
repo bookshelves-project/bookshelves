@@ -88,6 +88,7 @@ if (! function_exists('extract_content')) {
             if ($limit && strlen($content) > $limit) {
                 $content = substr($content, 0, $limit).'...';
             }
+            $content = trim($content);
             $content = strip_tags($content);
             $content = Str::ascii($content);
         }
