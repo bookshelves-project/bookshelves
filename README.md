@@ -369,6 +369,7 @@ server {
     - <https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files>
     - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/defining-conversions>
 - [ ] larastan upgrade level
+- [ ] more tests for models
 
 ```bash
 scoop reset php/php7.4-nts
