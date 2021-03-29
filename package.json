@@ -11,26 +11,26 @@
         "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix"
     },
     "devDependencies": {
-        "@inertiajs/inertia": "^0.8.4",
-        "@inertiajs/inertia-vue3": "^0.3.5",
+        "@inertiajs/inertia": "^0.8.6",
+        "@inertiajs/inertia-vue3": "^0.3.6",
         "@inertiajs/progress": "^0.2.4",
-        "@tailwindcss/forms": "^0.2.1",
+        "@tailwindcss/forms": "^0.3.2",
         "@tailwindcss/typography": "^0.4.0",
-        "@vue/compiler-sfc": "^3.0.5",
+        "@vue/compiler-sfc": "^3.0.9",
         "autoprefixer": "^10.0.2",
         "axios": "^0.21",
         "babel-eslint": "^10.1.0",
-        "eslint": "^7.20.0",
+        "eslint": "^7.23.0",
         "eslint-config-prettier": "^8.1.0",
         "eslint-plugin-prettier": "^3.3.1",
-        "eslint-plugin-vue": "^7.6.0",
+        "eslint-plugin-vue": "^7.8.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.21",
         "postcss": "^8.1.14",
         "postcss-import": "^14.0.0",
         "prettier": "^2.2.1",
-        "tailwindcss": "^2.0.1",
-        "vue": "^3.0.5",
-        "vue-loader": "^16.1.2"
+        "tailwindcss": "^2.0.4",
+        "vue": "^2.6.12",
+        "vue-loader": "^15.9.6"
     }
 }
