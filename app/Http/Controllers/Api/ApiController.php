@@ -32,6 +32,20 @@ use App\Http\Controllers\Controller;
  *     name="search",
  *     description="Search requests"
  * ),
+ * @OA\Tag(
+ *     name="download",
+ *     description="Download requests"
+ * ),
+ * @OA\Get(
+ *     path="/",
+ *     tags={"global"},
+ *     summary="Basic documentation",
+ *     description="Documentation to use this API",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation"
+ *     )
+ * )
  */
 class ApiController extends Controller
 {

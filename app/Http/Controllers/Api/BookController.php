@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\Book\BookLightResource;
+use App\Http\Resources\Book\BookLightestResource;
 
 class BookController extends Controller
 {
@@ -18,30 +19,35 @@ class BookController extends Controller
      *     path="/books",
      *     tags={"books"},
      *     summary="List of books",
-     *     description="Books",
+     *     description="Get list of books with some query parameters, check default value for each param",
      *     @OA\Parameter(
-     *         name="all",
+     *         name="limit",
      *         in="query",
-     *         description="Boolean to show all books without pagination",
+     *         description="To show books with pagination, all books with light version or full version, default value: 'pagination'",
      *         required=false,
-     *         example=0,
      *         @OA\Schema(
-     *           type="boolean",
-     *           @OA\Items(type="boolean"),
+     *           enum={"pagination", "all", "full"}
      *         ),
-     *         style="form"
      *     ),
      *     @OA\Parameter(
-     *         name="perPage",
+     *         name="per-page",
      *         in="query",
-     *         description="Integer to choose how many books you show in each page",
+     *         description="Integer to choose how many books you show in each page, default valuel: '32'",
      *         required=false,
-     *         example=32,
      *         @OA\Schema(
      *           type="integer",
      *           format="int64"
      *         ),
      *         style="form"
+     *     ),
+     *     @OA\Parameter(
+     *         name="lang",
+     *         in="query",
+     *         description="String to select existant eBook language, default value: null",
+     *         required=false,
+     *         @OA\Schema(
+     *           enum={"fr", "en"},
+     *         ),
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -52,13 +58,38 @@ class BookController extends Controller
     public function index(Request $request)
     {
         // OPTIONS
-        $selectByLang = $request->input('lang');
-        $perPage = $request->get('perPage');
-        $all = $request->get('all');
-        if (null === $perPage) {
-            $perPage = 32;
+        // TODO reject if not type
+        $lang = $request->get('lang');
+        $lang = $lang ? $lang : null;
+        $langParameters = ['fr', 'en'];
+        if ($lang && ! in_array($lang, $langParameters)) {
+            return response()->json(
+                "Invalid 'lang' query parameter, must be like '".implode("' or '", $langParameters)."'",
+                400
+            );
         }
-        if ($selectByLang) {
+
+        $perPage = $request->get('per-page');
+        $perPage = $perPage ? $perPage : 32;
+        if (! is_numeric($perPage)) {
+            return response()->json(
+                "Invalid 'per-page' query parameter, must be an int",
+                400
+            );
+        }
+        $perPage = intval($perPage);
+
+        $limit = $request->get('limit');
+        $limit = $limit ? $limit : 'pagination';
+        $limitParameters = ['pagination', 'all', 'full'];
+        if (! in_array($limit, $limitParameters)) {
+            return response()->json(
+                "Invalid 'limit' query parameter, must be like '".implode("' or '", $limitParameters)."'",
+                400
+            );
+        }
+
+        if ($lang) {
             Cache::forget('books');
             $cachedBooks = null;
         } else {
@@ -70,7 +101,7 @@ class BookController extends Controller
             $books = $books->sortBy(function ($book) {
                 return $book->sort_name;
             });
-            if (! $selectByLang) {
+            if (! $lang) {
                 Cache::remember('books', 86400, function () use ($books) {
                     return $books;
                 });
@@ -79,17 +110,29 @@ class BookController extends Controller
             $books = $cachedBooks;
         }
 
-        if (! $all) {
-            $books = $books->paginate($perPage);
+        if ('pagination' === $limit) {
         }
-        $books = BookLightResource::collection($books);
+        switch ($limit) {
+            case 'pagination':
+                $books = $books->paginate($perPage);
+                $books = BookLightResource::collection($books);
+                break;
+
+            case 'all':
+                $books = BookLightestResource::collection($books);
+                break;
+
+            case 'full':
+                $books = BookLightResource::collection($books);
+                break;
+
+            default:
+                $books = $books->paginate($perPage);
+                $books = BookLightResource::collection($books);
+                break;
+        }
 
         return $books;
-    }
-
-    public function count()
-    {
-        return Book::count();
     }
 
     /**
@@ -97,14 +140,14 @@ class BookController extends Controller
      *     path="/books/{author-slug}/{book-slug}",
      *     summary="Show book by author slug and book slug",
      *     tags={"books"},
-     *     description="Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+     *     description="Get details for a single book, check /books endpoint to get list of slugs",
      *     operationId="findBookByAuthorSlugBookSlug",
      *     @OA\Parameter(
      *         name="author-slug",
      *         in="path",
-     *         description="Slug of author name like 'auel-jean' for Jean Auel",
+     *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
      *         required=true,
-     *         example="auel-jean",
+     *         example="auel-jean-m",
      *         @OA\Schema(
      *           type="string",
      *           @OA\Items(type="string"),
@@ -126,14 +169,12 @@ class BookController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="successful operation",
-     *         @OA\Schema(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Pet")
-     *         ),
+     *         @OA\Schema(ref="#/components/schemas/ApiResponse")
      *     ),
      *     @OA\Response(
-     *         response="400",
+     *         response="404",
      *         description="Invalid author-slug value or book-slug value",
+     *         @OA\Schema(ref="#/components/schemas/ApiResponse")
      *     ),
      * )
      */
@@ -155,14 +196,59 @@ class BookController extends Controller
         return $books;
     }
 
-    public function latest()
+    /**
+     * @OA\Get(
+     *     path="/books/latest",
+     *     tags={"books"},
+     *     summary="List of latest books",
+     *     description="Get list of latest books",
+     *     @OA\Parameter(
+     *         name="limit",
+     *         in="query",
+     *         description="Integer to choose how many books you show, default value: '10'",
+     *         required=false,
+     *         @OA\Schema(
+     *           type="integer",
+     *           format="int64"
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     )
+     * )
+     */
+    public function latest(Request $request)
     {
-        $books = Book::orderByDesc('created_at')->limit(10)->get();
+        $limit = $request->get('limit');
+        $limit = $limit ? $limit : 10;
+        if (! is_numeric($limit)) {
+            return response()->json(
+                "Invalid 'limit' query parameter, must be an int",
+                400
+            );
+        }
+        $limit = intval($limit);
+
+        $books = Book::orderByDesc('created_at')->limit($limit)->get();
         $books = BookLightResource::collection($books);
 
         return $books;
     }
 
+    /**
+     * @OA\Get(
+     *     path="/books/count-langs",
+     *     tags={"books"},
+     *     summary="Count for books by lang",
+     *     description="Count books by lang",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     )
+     * )
+     */
     public function count_langs()
     {
         $langs = Language::with('books')->get();
@@ -177,5 +263,22 @@ class BookController extends Controller
             ->all();
 
         return $langs_books;
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/books/count",
+     *     tags={"books"},
+     *     summary="Count for books",
+     *     description="Count books",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     )
+     * )
+     */
+    public function count()
+    {
+        return Book::count();
     }
 }

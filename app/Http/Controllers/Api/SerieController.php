@@ -63,11 +63,49 @@ class SerieController extends Controller
         return $series;
     }
 
-    public function count()
-    {
-        return Serie::count();
-    }
-
+    /**
+     * @OA\Get(
+     *     path="/series/{author-slug}/{series-slug}",
+     *     summary="Show series by author slug and by series slug",
+     *     tags={"series"},
+     *     description="Get details for a single series with list of books, check /series endpoint to get list of slugs",
+     *     operationId="findAuthorByAuthorSlug",
+     *     @OA\Parameter(
+     *         name="author-slug",
+     *         in="path",
+     *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
+     *         required=true,
+     *         example="auel-jean-m",
+     *         @OA\Schema(
+     *           type="string",
+     *           @OA\Items(type="string"),
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Parameter(
+     *         name="series-slug",
+     *         in="path",
+     *         description="Slug of series name like 'les-enfants-de-la-terre' for Les enfants de la terre",
+     *         required=true,
+     *         example="les-enfants-de-la-terre",
+     *         @OA\Schema(
+     *           type="string",
+     *           @OA\Items(type="string"),
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful operation",
+     *         @OA\Schema(ref="#/components/schemas/ApiResponse")
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="Invalid author-slug value or book-slug value",
+     *         @OA\Schema(ref="#/components/schemas/ApiResponse")
+     *     ),
+     * )
+     */
     public function show(Request $request, string $author, string $serie)
     {
         $author = Author::whereSlug($author)->firstOrFail();
@@ -85,5 +123,22 @@ class SerieController extends Controller
         $serie = SerieResource::make($serie);
 
         return $serie;
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/series/count",
+     *     tags={"series"},
+     *     summary="Count for series",
+     *     description="Count series",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     )
+     * )
+     */
+    public function count()
+    {
+        return Serie::count();
     }
 }

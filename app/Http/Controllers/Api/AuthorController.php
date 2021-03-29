@@ -63,16 +63,59 @@ class AuthorController extends Controller
         return $authors;
     }
 
-    public function count()
-    {
-        return Author::count();
-    }
-
+    /**
+     * @OA\Get(
+     *     path="/authors/{author-slug}",
+     *     summary="Show author by author slug",
+     *     tags={"authors"},
+     *     description="Get details for a single author with list of series and books, check /authors endpoint to get list of slugs",
+     *     operationId="findAuthorByAuthorSlug",
+     *     @OA\Parameter(
+     *         name="author-slug",
+     *         in="path",
+     *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
+     *         required=true,
+     *         example="auel-jean-m",
+     *         @OA\Schema(
+     *           type="string",
+     *           @OA\Items(type="string"),
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful operation",
+     *         @OA\Schema(ref="#/components/schemas/ApiResponse")
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="Invalid author-slug value or book-slug value",
+     *         @OA\Schema(ref="#/components/schemas/ApiResponse")
+     *     ),
+     * )
+     */
     public function show(Request $request, string $author)
     {
         $author = Author::whereSlug($author)->firstOrFail();
         $author = AuthorResource::make($author);
 
         return $author;
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/authors/count",
+     *     tags={"authors"},
+     *     summary="Count for authors",
+     *     description="Count authors",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     )
+     * )
+     */
+    public function count()
+    {
+        return Author::count();
     }
 }

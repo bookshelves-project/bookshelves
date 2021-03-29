@@ -14,6 +14,42 @@ use Spatie\MediaLibrary\Support\MediaStream;
 
 class DownloadController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/download/book/{author-slug}/{book-slug}",
+     *     tags={"download"},
+     *     summary="Download specific book",
+     *     description="Download specific book, check /books endpoint to get list of slugs",
+     *     @OA\Parameter(
+     *         name="author-slug",
+     *         in="path",
+     *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
+     *         required=true,
+     *         example="auel-jean-m",
+     *         @OA\Schema(
+     *           type="string",
+     *           @OA\Items(type="string"),
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Parameter(
+     *         name="book-slug",
+     *         in="path",
+     *         description="Slug of book name like 'les-refuges-de-pierre' for Les refuges de pierre",
+     *         required=true,
+     *         example="les-refuges-de-pierre",
+     *         @OA\Schema(
+     *           type="string",
+     *           @OA\Items(type="string"),
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     )
+     * )
+     */
     public function book(Request $request, string $author, string $book)
     {
         $book = Book::whereSlug($book)->firstOrFail();
@@ -26,6 +62,42 @@ class DownloadController extends Controller
         return response()->download($epub->getPath(), $epub->file_name);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/download/serie/{author-slug}/{serie-slug}",
+     *     tags={"download"},
+     *     summary="Download specific serie's books with ZIP",
+     *     description="Download specific serie, check /series endpoint to get list of slugs",
+     *     @OA\Parameter(
+     *         name="author-slug",
+     *         in="path",
+     *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
+     *         required=true,
+     *         example="auel-jean-m",
+     *         @OA\Schema(
+     *           type="string",
+     *           @OA\Items(type="string"),
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Parameter(
+     *         name="book-slug",
+     *         in="path",
+     *         description="Slug of book name like 'les-enfants-de-la-terre' for Les enfants de la terre",
+     *         required=true,
+     *         example="les-enfants-de-la-terre",
+     *         @OA\Schema(
+     *           type="string",
+     *           @OA\Items(type="string"),
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     )
+     * )
+     */
     public function serie(string $author, string $serie)
     {
         $books_epubs = [];
@@ -54,6 +126,30 @@ class DownloadController extends Controller
         return MediaStream::create("$dirname.zip")->addMedia($books_epubs);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/download/author/{author-slug}",
+     *     tags={"download"},
+     *     summary="Download specific author's books with ZIP",
+     *     description="Download specific author, check /authors endpoint to get list of slugs",
+     *     @OA\Parameter(
+     *         name="author-slug",
+     *         in="path",
+     *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
+     *         required=true,
+     *         example="auel-jean-m",
+     *         @OA\Schema(
+     *           type="string",
+     *           @OA\Items(type="string"),
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     )
+     * )
+     */
     public function author(string $author)
     {
         $books_epubs = [];
