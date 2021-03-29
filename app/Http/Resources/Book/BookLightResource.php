@@ -3,8 +3,8 @@
 namespace App\Http\Resources\Book;
 
 use App\Models\Book;
-use App\Http\Resources\Serie\SerieLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Serie\SerieUltraLightResource;
 
 class BookLightResource extends JsonResource
 {
@@ -23,7 +23,7 @@ class BookLightResource extends JsonResource
 
         $resource = BookUltraLightResource::make($book)->toArray($request);
         $resource = array_merge($resource, [
-            'serie'        => SerieLightResource::make($book->serie, true),
+            'serie'        => SerieUltraLightResource::make($book->serie, true),
         ]);
 
         return $resource;

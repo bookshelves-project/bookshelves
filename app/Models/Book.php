@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
@@ -114,6 +115,19 @@ class Book extends Model implements HasMedia
         }
 
         return $is_favorite;
+    }
+
+    public function getSortNameAttribute(): string
+    {
+        $serie = null;
+        if ($this->serie) {
+            $serie_number = strlen($this->serie_number) < 2 ? '0'.$this->serie_number : $this->serie_number;
+            $serie = $this->serie?->title_sort.' '.$serie_number;
+            $serie = Str::slug($serie).'_';
+        }
+        $title = Str::slug($this->title_sort);
+
+        return "$serie$title";
     }
 
     /**

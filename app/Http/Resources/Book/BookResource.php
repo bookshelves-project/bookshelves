@@ -7,6 +7,7 @@ use App\Http\Resources\TagResource;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\GoogleBookResource;
 use App\Http\Resources\IdentifierResource;
+use App\Http\Resources\Serie\SerieLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Author\AuthorUltraLightResource;
 
@@ -27,6 +28,7 @@ class BookResource extends JsonResource
 
         $resource = BookLightResource::make($book)->toArray($request);
         $resource = array_merge($resource, [
+            'serie'       => SerieLightResource::make($book->serie),
             'authors'     => AuthorUltraLightResource::collection($book->authors),
             'picture'     => [
                 'base'      => $book->image_thumbnail,

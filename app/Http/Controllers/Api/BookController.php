@@ -8,7 +8,6 @@ use App\Models\Language;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Resources\BookCollection;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\Book\BookLightResource;
 
@@ -25,7 +24,7 @@ class BookController extends Controller
      *         in="query",
      *         description="Boolean to show all books without pagination",
      *         required=false,
-     *         example=false,
+     *         example=0,
      *         @OA\Schema(
      *           type="boolean",
      *           @OA\Items(type="boolean"),
@@ -52,15 +51,13 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
+        // OPTIONS
         $selectByLang = $request->input('lang');
         $perPage = $request->get('perPage');
         $all = $request->get('all');
-        $all = filter_var($all, FILTER_VALIDATE_BOOLEAN);
-        $debug = $request->get('debug');
         if (null === $perPage) {
             $perPage = 32;
         }
-
         if ($selectByLang) {
             Cache::forget('books');
             $cachedBooks = null;
@@ -69,28 +66,10 @@ class BookController extends Controller
         }
 
         if (! $cachedBooks) {
-            $booksWithSerie = Book::whereNotNull('serie_id')->orderBy('serie_id')->orderBy('serie_number');
-            $booksWithoutSerie = Book::whereNull('serie_id');
-            if ($selectByLang) {
-                Language::whereSlug($selectByLang)->firstOrFail();
-                $booksWithSerie = $booksWithSerie->whereLanguageSlug($selectByLang);
-                $booksWithoutSerie = $booksWithoutSerie->whereLanguageSlug($selectByLang);
-            }
-            $booksWithSerie = $booksWithSerie->get();
-            $booksWithoutSerie = $booksWithoutSerie->get();
-
-            $books = $booksWithSerie->merge($booksWithoutSerie);
-            $books = $books->sortBy(function ($book, $key) {
-                $title = null;
-                if ($book->serie) {
-                    $title = $book->serie->title_sort;
-                    $title = ucfirst($title.$book->serie_number);
-                } else {
-                    $title = ucfirst($book->title_sort);
-                }
-
-                return $title;
-            }, SORT_NATURAL);
+            $books = Book::all();
+            $books = $books->sortBy(function ($book) {
+                return $book->sort_name;
+            });
             if (! $selectByLang) {
                 Cache::remember('books', 120, function () use ($books) {
                     return $books;
@@ -105,17 +84,7 @@ class BookController extends Controller
         }
         $books = BookLightResource::collection($books);
 
-        if ($debug) {
-            foreach ($books as $book) {
-                if ($book->serie) {
-                    echo $book->serie->title_sort.' '.$book->serie_number.' '.$book->title_sort.'<br>';
-                } else {
-                    echo $book->title_sort.'<br>';
-                }
-            }
-        } else {
-            return $books;
-        }
+        return $books;
     }
 
     public function count()
@@ -195,7 +164,7 @@ class BookController extends Controller
     public function latest()
     {
         $books = Book::orderByDesc('created_at')->limit(10)->get();
-        $books = BookCollection::collection($books);
+        $books = BookLightResource::collection($books);
 
         return $books;
     }

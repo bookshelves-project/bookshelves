@@ -39,9 +39,7 @@ class SerieController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('perPage');
-        $debug = $request->get('debug');
         $all = $request->get('all');
-        $all = filter_var($all, FILTER_VALIDATE_BOOLEAN);
         if (null === $perPage) {
             $perPage = 32;
         }
@@ -49,13 +47,6 @@ class SerieController extends Controller
         $cachedSeries = Cache::get('series');
         if (! $cachedSeries) {
             $series = Serie::with('books')->orderBy('title_sort')->get();
-
-            if ($debug) {
-                foreach ($series as $serie) {
-                    echo $serie->title.'<br>';
-                }
-                exit;
-            }
 
             Cache::remember('series', 120, function () use ($series) {
                 return $series;

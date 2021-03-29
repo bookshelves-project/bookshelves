@@ -39,7 +39,6 @@ class AuthorController extends Controller
     {
         $perPage = $request->get('perPage');
         $all = $request->get('all');
-        $all = filter_var($all, FILTER_VALIDATE_BOOLEAN);
         if (null === $perPage) {
             $perPage = 32;
         }
