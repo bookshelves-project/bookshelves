@@ -48,7 +48,7 @@ class SerieController extends Controller
         if (! $cachedSeries) {
             $series = Serie::with('books')->orderBy('title_sort')->get();
 
-            Cache::remember('series', 120, function () use ($series) {
+            Cache::remember('series', 86400, function () use ($series) {
                 return $series;
             });
         } else {

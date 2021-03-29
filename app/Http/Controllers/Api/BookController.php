@@ -71,7 +71,7 @@ class BookController extends Controller
                 return $book->sort_name;
             });
             if (! $selectByLang) {
-                Cache::remember('books', 120, function () use ($books) {
+                Cache::remember('books', 86400, function () use ($books) {
                     return $books;
                 });
             }
@@ -139,11 +139,6 @@ class BookController extends Controller
      */
     public function show(Request $request, string $author, string $book)
     {
-        // $book = Book::whereHas('authors', function ($query) use ($author) {
-        //     return $query->where('slug', '=', $author);
-        // })->where('serie_number', '=', '1')->get();
-        // dd($book);
-        // $book = BookResource::make($book);
         $author = Author::whereSlug($author)->firstOrFail();
         $book = Book::whereHas('authors', function ($query) use ($author) {
             return $query->where('author_id', '=', $author->id);
@@ -157,7 +152,6 @@ class BookController extends Controller
     {
         $books = Book::limit(5)->get();
 
-        // return response()->json('Success, you have access to Bookshelves');
         return $books;
     }
 

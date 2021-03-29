@@ -48,7 +48,7 @@ class AuthorController extends Controller
         if (! $cachedAuthors) {
             $authors = Author::with('books')->orderBy('lastname')->get();
 
-            Cache::remember('authors', 120, function () use ($authors) {
+            Cache::remember('authors', 86400, function () use ($authors) {
                 return $authors;
             });
         } else {
