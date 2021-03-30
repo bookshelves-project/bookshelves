@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\CommandController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
@@ -125,6 +126,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/comments/edit/{book}', [CommentController::class, 'edit'])->name('api.comments.edit');
     Route::post('/comments/update/{book}', [CommentController::class, 'update'])->name('api.comments.update');
     Route::post('/comments/destroy/{book}', [CommentController::class, 'destroy'])->name('api.comments.destroy');
+
+    /*
+     * Commands routes
+     */
+    Route::get('/commands/update-books', [CommandController::class, 'updateBooks'])->name('api.commands.update-books');
 
     Route::get('/user', [UserController::class, 'sanctum'])->name('api.user');
 });

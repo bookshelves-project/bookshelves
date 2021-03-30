@@ -224,6 +224,9 @@ TELESCOPE_ENABLED=true
 
 RECAPTCHA_SITE_KEY=
 RECAPTCHA_SECRET_KEY=
+
+BOOKSHELVES_ADMIN_EMAIL=admin@mail.com
+BOOKSHELVES_ADMIN_PASSWORD=password
 ```
 
 Setup for [**Mailtrap**](https://mailtrap.io/)

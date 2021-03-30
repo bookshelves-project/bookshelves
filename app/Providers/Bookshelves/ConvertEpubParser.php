@@ -22,7 +22,7 @@ class ConvertEpubParser
      *
      * @return Book
      */
-    public static function run(EpubParser $epubParser, bool $is_debug): Book
+    public static function run(EpubParser $epubParser, ?bool $is_debug = false): Book
     {
         $bookIfExist = Book::whereSlug(Str::slug($epubParser->title, '-'))->first();
         $book = null;

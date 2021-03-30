@@ -29,7 +29,8 @@ class BooksGenerateCommand extends Command
                             {--f|fresh : reset current database to fresh install, execute seeders}
                             {--d|debug : default author pictures, no covers, skip tests}
                             {--F|force : skip confirm question for fresh prod}
-                            {--l|limit= : limit epub files to generate, useful for debug}';
+                            {--l|limit= : limit epub files to generate, useful for debug}
+                            {--s|skip : skip tests}';
 
     /**
      * The console command description.
@@ -51,9 +52,9 @@ class BooksGenerateCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return bool
+     * @return int
      */
-    public function handle(): bool
+    public function handle(): int
     {
         // Artisan::call('log:clear');
 
@@ -61,6 +62,7 @@ class BooksGenerateCommand extends Command
         $isDebug = $this->option('debug');
         $isForce = $this->option('force');
         $isFresh = $this->option('fresh');
+        $skip = $this->option('skip');
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
@@ -87,23 +89,23 @@ class BooksGenerateCommand extends Command
             $isProd = 'production' === config('app.env');
             if ($isProd && ! $isForce) {
                 if ($this->confirm('App is in production, do you want really erase database?', false)) {
-                    $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
+                    $booksGenerated = $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug, skip: $skip);
                 } else {
                     $this->info('Operation cancel by user.');
                     $this->info('Use not --fresh, -f option to add only unknown EPUB files.');
                 }
             } else {
-                $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
+                $booksGenerated = $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug, skip: $skip);
             }
         } else {
             $this->newLine();
             $this->info('You choose basic parsing, current database will be keep safe and unknown eBooks will be add.');
             $this->warn('Basic parsing is not fully tested, to generate database with full try --fresh option for ready command');
 
-            $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug);
+            $booksGenerated = $this->generate(epubFiles: $epubFiles, isFresh: $isFresh, isDebug: $isDebug, skip: $skip);
         }
 
-        return true;
+        return $booksGenerated;
     }
 
     /**
@@ -115,9 +117,9 @@ class BooksGenerateCommand extends Command
      * @param bool     $isFresh
      * @param bool     $isDebug
      *
-     * @return void
+     * @return int
      */
-    public function generate(iterable $epubFiles, bool $isFresh, bool $isDebug = false): void
+    public function generate(iterable $epubFiles, bool $isFresh, ?bool $isDebug = false, ?bool $skip = false): int
     {
         $this->newLine();
         if ($isFresh) {
@@ -142,7 +144,7 @@ class BooksGenerateCommand extends Command
         $books_with_covers = $this->generateBooks(epubFiles: $epubFiles, isDebug: $isDebug);
         $this->generateCovers(books_with_covers: $books_with_covers, isDebug: $isDebug);
 
-        if ('production' !== config('app.env') && ! $isDebug) {
+        if ('production' !== config('app.env') && ! $isDebug && ! $skip) {
             $this->alert('Run tests...');
             Artisan::call('pest:run');
         }
@@ -161,6 +163,10 @@ class BooksGenerateCommand extends Command
         $this->newLine();
 
         $this->info('Done!');
+
+        $booksGenerated = count($books_with_covers);
+
+        return $booksGenerated;
     }
 
     /**

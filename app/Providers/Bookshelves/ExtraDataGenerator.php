@@ -27,9 +27,9 @@ class ExtraDataGenerator
      *
      * @return Author
      */
-    public static function generateAuthorPicture(Author $author, bool $is_debug): Author
+    public static function generateAuthorPicture(Author $author, ?bool $is_debug = false): Author
     {
-        if (! $author->image) {
+        if ($author->getMedia('authors')->isEmpty()) {
             $name = $author->name;
             $name = str_replace(' ', '%20', $name);
             $url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&titles=$name&prop=pageimages&format=json&pithumbsize=512";
@@ -77,7 +77,7 @@ class ExtraDataGenerator
      *
      * @return Author
      */
-    public static function generateAuthorDescription(Author $author, bool $is_debug): Author
+    public static function generateAuthorDescription(Author $author, ?bool $is_debug = false): Author
     {
         if (! $author->description) {
             $name = $author->name;
@@ -120,7 +120,7 @@ class ExtraDataGenerator
      */
     public static function generateSerieCover(Serie $serie): Serie
     {
-        if (! $serie->image) {
+        if ($serie->getMedia('series')->isEmpty()) {
             // Add special cover if exist from `database/seeders/medias/series/`
             // Check if JPG file with series' slug name exist
             // To know slug name, check into database when serie was created
@@ -145,9 +145,10 @@ class ExtraDataGenerator
                             ->setFileName($serie->slug.'.'.config('bookshelves.cover_extension'))
                             ->toMediaCollection($disk, $disk);
                     }
-                } else {
-                    dump("$serie->title book not found");
                 }
+                // TODO
+                // Setup Logs
+                // "$serie->title book not found"
             }
 
             $serie = $serie->refresh();
