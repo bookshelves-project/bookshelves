@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Inertia\Inertia;
-use App\Http\Resources\BookResource;
 use Illuminate\Foundation\Application;
+use App\Http\Resources\Book\BookResource;
 
 class NavigationController extends Controller
 {

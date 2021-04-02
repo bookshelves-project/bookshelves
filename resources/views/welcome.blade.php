@@ -19,7 +19,7 @@
 <body class="font-sans antialiased">
     <div
         class="relative flex justify-center min-h-screen bg-gray-100 items-top dark:bg-gray-900 sm:items-center sm:pt-0">
-        <a href="{{ route('admin') }}"
+        <a href="{{ route('api.index') }}"
             class="block max-w-6xl p-5 mx-auto transition-colors duration-100 rounded-md sm:px-6 lg:px-8 hover:bg-gray-200">
             <div class="flex justify-center mt-4 font-handlee sm:items-center sm:justify-between">
                 <div>
