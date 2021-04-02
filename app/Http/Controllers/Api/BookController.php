@@ -115,8 +115,6 @@ class BookController extends Controller
             $books = $cachedBooks;
         }
 
-        if ('pagination' === $limit) {
-        }
         switch ($limit) {
             case 'pagination':
                 $books = $books->paginate($perPage);

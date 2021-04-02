@@ -24,6 +24,7 @@ class BookLightestResource extends JsonResource
             'title'        => $book->title,
             'slug'         => $book->slug,
             'author'       => $book->author->slug,
+            'serie'        => $book->serie?->title,
             'meta'         => [
                 'show'        => $book->show_link,
             ],
