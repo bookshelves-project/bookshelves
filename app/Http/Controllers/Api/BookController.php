@@ -97,7 +97,12 @@ class BookController extends Controller
         }
 
         if (! $cachedBooks) {
-            $books = Book::all();
+            if ($lang) {
+                Language::whereSlug($lang)->firstOrFail();
+                $books = Book::whereLanguageSlug($lang)->get();
+            } else {
+                $books = Book::all();
+            }
             $books = $books->sortBy(function ($book) {
                 return $book->sort_name;
             });
