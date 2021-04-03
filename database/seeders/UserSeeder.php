@@ -37,13 +37,6 @@ class UserSeeder extends Seeder
             User::create($user);
         }
 
-        $usersCreated = User::all();
-
-        foreach ($usersCreated as $key => $user) {
-            $user->current_team_id = 1;
-            $user->save();
-        }
-
         $admin = User::whereEmail('ewilan@dotslashplay.it')->first();
         Role::create([
             'name' => 'admin',
