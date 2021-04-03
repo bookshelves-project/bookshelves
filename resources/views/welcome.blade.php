@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     <div
         class="relative flex justify-center min-h-screen bg-gray-100 items-top dark:bg-gray-900 sm:items-center sm:pt-0">
         <a href="{{ route('api.index') }}"

@@ -26,21 +26,6 @@ use App\Http\Controllers\Api\SubmissionController;
 |
 */
 
-// Route::get('/google', function () {
-//     $disk = Storage::disk('google');
-//     $files = $disk->allFiles();
-//     $adapter = $disk->getDriver();
-//     foreach ($files as $key => $file) {
-//         $fileData = $adapter->getMetadata($file);
-//         if ('epub' === $fileData['extension']) {
-//             dump($fileData['name']);
-//         }
-//     }
-
-//     $disk = \Storage::disk('googleDrive');
-//     $adapter = $disk->getDriver()->getAdapter();
-// });
-
 Route::post('/tokens/create', function (Request $request) {
     $token = $request->user()->createToken($request->token_name);
 
