@@ -38,10 +38,24 @@ class SerieController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->get('perPage');
-        $all = $request->get('all');
-        if (null === $perPage) {
-            $perPage = 32;
+        $perPage = $request->get('per-page');
+        $perPage = $perPage ? $perPage : 32;
+        if (! is_numeric($perPage)) {
+            return response()->json(
+                "Invalid 'per-page' query parameter, must be an int",
+                400
+            );
+        }
+        $perPage = intval($perPage);
+
+        $limit = $request->get('limit');
+        $limit = $limit ? $limit : 'pagination';
+        $limitParameters = ['pagination', 'all', 'full'];
+        if (! in_array($limit, $limitParameters)) {
+            return response()->json(
+                "Invalid 'limit' query parameter, must be like '".implode("' or '", $limitParameters)."'",
+                400
+            );
         }
 
         $cachedSeries = Cache::get('series');
@@ -55,10 +69,21 @@ class SerieController extends Controller
             $series = $cachedSeries;
         }
 
-        if (! $all) {
-            $series = $series->paginate($perPage);
+        switch ($limit) {
+            case 'pagination':
+                $series = $series->paginate($perPage);
+                $series = SerieLightResource::collection($series);
+                break;
+
+            case 'all':
+                $series = SerieLightResource::collection($series);
+                break;
+
+            default:
+                $series = $series->paginate($perPage);
+                $series = SerieLightResource::collection($series);
+                break;
         }
-        $series = SerieLightResource::collection($series);
 
         return $series;
     }
