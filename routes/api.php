@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\BookController;
@@ -25,12 +24,6 @@ use App\Http\Controllers\Api\SubmissionController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::post('/tokens/create', function (Request $request) {
-    $token = $request->user()->createToken($request->token_name);
-
-    return ['token' => $token->plainTextToken];
-});
 
 Route::get('/', [ApiController::class, 'index'])->name('api.index');
 
@@ -93,8 +86,6 @@ Route::get('/dependencies', [DependencyController::class, 'index'])->name('api.d
 Route::get('/comments/by-user/{user}', [CommentController::class, 'byUser'])->name('api.comments.by-user');
 Route::get('/comments/{model}/{slug}', [CommentController::class, 'index'])->name('api.comments.index');
 
-Route::get('/favorites/by-user/{user}', [FavoriteController::class, 'byUser'])->name('api.favorites.by-user');
-
 /*
  * Users features routes
  */
@@ -102,6 +93,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     /*
      * Favorites routes
      */
+    Route::get('/favorites/by-user/{user}', [FavoriteController::class, 'byUser'])->name('api.favorites.by-user');
     Route::post('/favorites/toggle/{model}/{slug}', [FavoriteController::class, 'toggle'])->name('api.favorites.toggle');
 
     /*

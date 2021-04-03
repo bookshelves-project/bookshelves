@@ -39,6 +39,10 @@ class User extends Authenticatable
         'two_factor_secret',
     ];
 
+    protected $appends = [
+        'picture',
+    ];
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -48,14 +52,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'profile_photo_url',
-    ];
+    public function getPictureAttribute()
+    {
+        return 'https://eu.ui-avatars.com/api/?name='.$this->name;
+    }
 
     public function books(): MorphToMany
     {
