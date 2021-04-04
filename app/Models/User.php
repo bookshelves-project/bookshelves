@@ -30,7 +30,7 @@ class User extends Authenticatable implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'slug',
+        'name', 'email', 'password', 'slug', 'gravatar',
     ];
 
     /**
@@ -47,7 +47,6 @@ class User extends Authenticatable implements HasMedia
 
     protected $appends = [
         'avatar',
-        'profile_photo_url',
     ];
 
     /**
@@ -57,6 +56,7 @@ class User extends Authenticatable implements HasMedia
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'gravatar'          => 'boolean',
     ];
 
     public static function boot()
@@ -73,6 +73,11 @@ class User extends Authenticatable implements HasMedia
 
     public function getAvatarAttribute(): string
     {
+        if ($this->gravatar) {
+            $hash = md5(strtolower(trim($this->email)));
+
+            return "http://www.gravatar.com/avatar/$hash";
+        }
         if ($this->getMedia('users')->first()) {
             return $this->getMedia('users')->first()?->getUrl();
         }
