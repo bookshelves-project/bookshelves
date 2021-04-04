@@ -10698,6 +10698,18 @@
         {
                         return \Illuminate\Http\Request::hasValidRelativeSignature();
         }
+                    /**
+         * 
+         *
+         * @see \Spatie\Enum\Laravel\Http\EnumRequest::transformEnums()
+         * @param array $transformations
+         * @return void 
+         * @static 
+         */ 
+        public static function transformEnums($transformations)
+        {
+                        \Illuminate\Http\Request::transformEnums($transformations);
+        }
          
     }
             /**
@@ -11821,6 +11833,18 @@
         {
                         /** @var \Illuminate\Routing\Router $instance */
                         return $instance->macroCall($method, $parameters);
+        }
+                    /**
+         * 
+         *
+         * @see \Spatie\Enum\Laravel\EnumServiceProvider::registerRouteBindingMacro()
+         * @param string $key
+         * @param string $class
+         * @static 
+         */ 
+        public static function enum($key, $class)
+        {
+                        return \Illuminate\Routing\Router::enum($key, $class);
         }
          
     }
@@ -15663,6 +15687,18 @@
         {
                         return \Illuminate\Http\Request::hasValidRelativeSignature();
         }
+                    /**
+         * 
+         *
+         * @see \Spatie\Enum\Laravel\Http\EnumRequest::transformEnums()
+         * @param array $transformations
+         * @return void 
+         * @static 
+         */ 
+        public static function transformEnums($transformations)
+        {
+                        \Illuminate\Http\Request::transformEnums($transformations);
+        }
          
     }
      
@@ -15672,29 +15708,20 @@
             /**
      * 
      *
+     * @mixin \Illuminate\Routing\RouteRegistrar
      */ 
-        class Route {
+        class Router {
                     /**
          * 
          *
-         * @see \Spatie\Permission\PermissionServiceProvider::registerMacroHelpers()
-         * @param mixed $roles
+         * @see \Spatie\Enum\Laravel\EnumServiceProvider::registerRouteBindingMacro()
+         * @param string $key
+         * @param string $class
          * @static 
          */ 
-        public static function role($roles = [])
+        public static function enum($key, $class)
         {
-                        return \Illuminate\Routing\Route::role($roles);
-        }
-                    /**
-         * 
-         *
-         * @see \Spatie\Permission\PermissionServiceProvider::registerMacroHelpers()
-         * @param mixed $permissions
-         * @static 
-         */ 
-        public static function permission($permissions = [])
-        {
-                        return \Illuminate\Routing\Route::permission($permissions);
+                        return \Illuminate\Routing\Router::enum($key, $class);
         }
          
     }

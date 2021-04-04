@@ -54,7 +54,7 @@ class DownloadController extends Controller
     {
         $book = Book::whereSlug($book)->firstOrFail();
         if ($book->author->slug === $author) {
-            $epub = $book->getMedia('books_epubs')->first();
+            $epub = $book->getMedia('epubs')->first();
         } else {
             return response()->json(['Error' => 'Book not found'], 401);
         }
@@ -100,7 +100,7 @@ class DownloadController extends Controller
      */
     public function serie(string $author, string $serie)
     {
-        $books_epubs = [];
+        $epubs = [];
         $author = Author::whereSlug($author)->firstOrFail();
         $serie = Serie::with('books')->whereSlug($serie)->firstOrFail();
         $authorFound = false;
@@ -114,8 +114,8 @@ class DownloadController extends Controller
         }
 
         foreach ($serie->books as $key => $book) {
-            $epub = $book->getMedia('books_epubs')->first();
-            array_push($books_epubs, $epub);
+            $epub = $book->getMedia('epubs')->first();
+            array_push($epubs, $epub);
         }
 
         $token = Str::random(8);
@@ -123,7 +123,7 @@ class DownloadController extends Controller
         $author = $serie->author->slug;
         $dirname = "$author-$serie->slug-$token";
 
-        return MediaStream::create("$dirname.zip")->addMedia($books_epubs);
+        return MediaStream::create("$dirname.zip")->addMedia($epubs);
     }
 
     /**
@@ -152,18 +152,18 @@ class DownloadController extends Controller
      */
     public function author(string $author)
     {
-        $books_epubs = [];
+        $epubs = [];
         $author = Author::with('books')->whereSlug($author)->firstOrFail();
         foreach ($author->books as $key => $book) {
-            $epub = $book->getMedia('books_epubs')->first();
-            array_push($books_epubs, $epub);
+            $epub = $book->getMedia('epubs')->first();
+            array_push($epubs, $epub);
         }
 
         $token = Str::random(8);
         $token = strtolower($token);
         $dirname = "$author->slug-$token";
 
-        return MediaStream::create("$dirname.zip")->addMedia($books_epubs);
+        return MediaStream::create("$dirname.zip")->addMedia($epubs);
     }
 
     /**

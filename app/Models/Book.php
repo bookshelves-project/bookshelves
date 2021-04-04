@@ -79,7 +79,7 @@ class Book extends Model implements HasMedia
 
     public function getEpubAttribute(): string | null
     {
-        return $this->getMedia('books_epubs')->first()?->getUrl();
+        return $this->getMedia('epubs')->first()?->getUrl();
     }
 
     public function getShowLinkAttribute(): string

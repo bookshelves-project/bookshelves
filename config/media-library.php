@@ -16,9 +16,9 @@ return [
             'driver' => 'local',
             'root'   => storage_path('books'),
         ],
-        'books_epubs' => [
+        'epubs' => [
             'driver' => 'local',
-            'root'   => storage_path('books_epubs'),
+            'root'   => storage_path('epubs'),
         ],
         'series' => [
             'driver' => 'local',

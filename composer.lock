@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59ed6ee405b48485dc073f1a770439b0",
+    "content-hash": "c9d4c3fc62803dccc5950863483d4abe",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1341,6 +1341,141 @@
             "time": "2019-11-02T09:15:47+00:00"
         },
         {
+            "name": "jaybizzle/crawler-detect",
+            "version": "v1.2.105",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JayBizzle/Crawler-Detect.git",
+                "reference": "719c1ed49224857800c3dc40838b6b761d046105"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/719c1ed49224857800c3dc40838b6b761d046105",
+                "reference": "719c1ed49224857800c3dc40838b6b761d046105",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8|^5.5|^6.5|^9.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jaybizzle\\CrawlerDetect\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Beech",
+                    "email": "m@rkbee.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CrawlerDetect is a PHP class for detecting bots/crawlers/spiders via the user agent",
+            "homepage": "https://github.com/JayBizzle/Crawler-Detect/",
+            "keywords": [
+                "crawler",
+                "crawler detect",
+                "crawler detector",
+                "crawlerdetect",
+                "php crawler detect"
+            ],
+            "support": {
+                "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
+                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.2.105"
+            },
+            "time": "2021-03-03T20:55:48+00:00"
+        },
+        {
+            "name": "jenssegers/agent",
+            "version": "v2.6.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jenssegers/agent.git",
+                "reference": "daa11c43729510b3700bc34d414664966b03bffe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jenssegers/agent/zipball/daa11c43729510b3700bc34d414664966b03bffe",
+                "reference": "daa11c43729510b3700bc34d414664966b03bffe",
+                "shasum": ""
+            },
+            "require": {
+                "jaybizzle/crawler-detect": "^1.2",
+                "mobiledetect/mobiledetectlib": "^2.7.6",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^5.0|^6.0|^7.0"
+            },
+            "suggest": {
+                "illuminate/support": "Required for laravel service providers"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Jenssegers\\Agent\\AgentServiceProvider"
+                    ],
+                    "aliases": {
+                        "Agent": "Jenssegers\\Agent\\Facades\\Agent"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jenssegers\\Agent\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jens Segers",
+                    "homepage": "https://jenssegers.com"
+                }
+            ],
+            "description": "Desktop/mobile user agent parser with support for Laravel, based on Mobiledetect",
+            "homepage": "https://github.com/jenssegers/agent",
+            "keywords": [
+                "Agent",
+                "browser",
+                "desktop",
+                "laravel",
+                "mobile",
+                "platform",
+                "user agent",
+                "useragent"
+            ],
+            "support": {
+                "issues": "https://github.com/jenssegers/agent/issues",
+                "source": "https://github.com/jenssegers/agent/tree/v2.6.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/jenssegers",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/jenssegers/agent",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-06-13T08:05:20+00:00"
+        },
+        {
             "name": "laravel/fortify",
             "version": "v1.7.9",
             "source": {
@@ -1570,6 +1705,73 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2021-03-30T21:34:17+00:00"
+        },
+        {
+            "name": "laravel/jetstream",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/jetstream.git",
+                "reference": "fffe15710e61c09f6cb919ff949a3c66c8244150"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/jetstream/zipball/fffe15710e61c09f6cb919ff949a3c66c8244150",
+                "reference": "fffe15710e61c09f6cb919ff949a3c66c8244150",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/support": "^8.0",
+                "jenssegers/agent": "^2.6",
+                "laravel/fortify": "^1.6.1",
+                "league/commonmark": "^1.3",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "inertiajs/inertia-laravel": "^0.3",
+                "laravel/sanctum": "^2.6",
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Jetstream\\JetstreamServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Jetstream\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Tailwind scaffolding for the Laravel framework.",
+            "keywords": [
+                "auth",
+                "laravel",
+                "tailwind"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/jetstream/issues",
+                "source": "https://github.com/laravel/jetstream"
+            },
+            "time": "2021-03-30T21:35:46+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -2240,6 +2442,68 @@
                 }
             ],
             "time": "2020-05-30T13:11:16+00:00"
+        },
+        {
+            "name": "mobiledetect/mobiledetectlib",
+            "version": "2.8.37",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/serbanghita/Mobile-Detect.git",
+                "reference": "9841e3c46f5bd0739b53aed8ac677fa712943df7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/9841e3c46f5bd0739b53aed8ac677fa712943df7",
+                "reference": "9841e3c46f5bd0739b53aed8ac677fa712943df7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8.35||~5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Mobile_Detect.php"
+                ],
+                "psr-0": {
+                    "Detection": "namespaced/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Serban Ghita",
+                    "email": "serbanghita@gmail.com",
+                    "homepage": "http://mobiledetect.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Mobile_Detect is a lightweight PHP class for detecting mobile devices. It uses the User-Agent string combined with specific HTTP headers to detect the mobile environment.",
+            "homepage": "https://github.com/serbanghita/Mobile-Detect",
+            "keywords": [
+                "detect mobile devices",
+                "mobile",
+                "mobile detect",
+                "mobile detector",
+                "php mobile detect"
+            ],
+            "support": {
+                "issues": "https://github.com/serbanghita/Mobile-Detect/issues",
+                "source": "https://github.com/serbanghita/Mobile-Detect/tree/2.8.37"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/serbanghita",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-02-19T21:22:57+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3497,6 +3761,82 @@
             "time": "2019-02-15T01:44:54+00:00"
         },
         {
+            "name": "spatie/enum",
+            "version": "3.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/enum.git",
+                "reference": "cfbcf53147d993fa6120e73018c8d6d6e9218b20"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/enum/zipball/cfbcf53147d993fa6120e73018c8d6d6e9218b20",
+                "reference": "cfbcf53147d993fa6120e73018c8d6d6e9218b20",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.9.1",
+                "larapack/dd": "^1.1",
+                "phpunit/phpunit": "^9.0",
+                "vimeo/psalm": "^4.3"
+            },
+            "suggest": {
+                "fakerphp/faker": "To use the enum faker provider",
+                "phpunit/phpunit": "To use the enum assertions"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Enum\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "email": "dev@gummibeer.de",
+                    "homepage": "https://gummibeer.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Enums",
+            "homepage": "https://github.com/spatie/enum",
+            "keywords": [
+                "enum",
+                "enumerable",
+                "spatie"
+            ],
+            "support": {
+                "docs": "https://docs.spatie.be/enum",
+                "issues": "https://github.com/spatie/enum/issues",
+                "source": "https://github.com/spatie/enum"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-03-10T16:48:55+00:00"
+        },
+        {
             "name": "spatie/image",
             "version": "1.10.4",
             "source": {
@@ -3618,6 +3958,98 @@
                 "source": "https://github.com/spatie/image-optimizer/tree/1.3.2"
             },
             "time": "2020-11-28T12:37:58+00:00"
+        },
+        {
+            "name": "spatie/laravel-enum",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-enum.git",
+                "reference": "0588c8abe1e999ca8d359a97b4d182c1222c089e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-enum/zipball/0588c8abe1e999ca8d359a97b4d182c1222c089e",
+                "reference": "0588c8abe1e999ca8d359a97b4d182c1222c089e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/console": "^8.0",
+                "illuminate/contracts": "^8.0",
+                "illuminate/database": "^8.0",
+                "illuminate/http": "^8.0",
+                "illuminate/support": "^8.0",
+                "php": "^7.4 || ^8.0",
+                "spatie/enum": "^3.5"
+            },
+            "conflict": {
+                "bensampo/laravel-enum": "*"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.9.1",
+                "mockery/mockery": "^1.4.0",
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.3",
+                "vimeo/psalm": "^4.0"
+            },
+            "suggest": {
+                "fzaninotto/faker": "^1.9.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Enum\\Laravel\\EnumServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Enum\\Laravel\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "email": "dev@gummibeer.de",
+                    "homepage": "https://gummibeer.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Enum support",
+            "homepage": "https://github.com/spatie/laravel-enum",
+            "keywords": [
+                "enum",
+                "laravel",
+                "laravel-enum",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-enum/issues",
+                "source": "https://github.com/spatie/laravel-enum/tree/2.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-02-19T11:35:56+00:00"
         },
         {
             "name": "spatie/laravel-image-optimizer",
@@ -3791,84 +4223,6 @@
                 }
             ],
             "time": "2021-03-29T21:40:29+00:00"
-        },
-        {
-            "name": "spatie/laravel-permission",
-            "version": "4.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "29c05324c170c0be108ccb86dd29f6a719c0a617"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/29c05324c170c0be108ccb86dd29f6a719c0a617",
-                "reference": "29c05324c170c0be108ccb86dd29f6a719c0a617",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/auth": "^6.0|^7.0|^8.0",
-                "illuminate/container": "^6.0|^7.0|^8.0",
-                "illuminate/contracts": "^6.0|^7.0|^8.0",
-                "illuminate/database": "^6.0|^7.0|^8.0",
-                "php": "^7.2.5|^8.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^4.0|^5.0|^6.0",
-                "phpunit/phpunit": "^8.0|^9.0",
-                "predis/predis": "^1.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Spatie\\Permission\\PermissionServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\Permission\\": "src"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Permission handling for Laravel 6.0 and up",
-            "homepage": "https://github.com/spatie/laravel-permission",
-            "keywords": [
-                "acl",
-                "laravel",
-                "permission",
-                "permissions",
-                "rbac",
-                "roles",
-                "security",
-                "spatie"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/laravel-permission/issues",
-                "source": "https://github.com/spatie/laravel-permission/tree/4.0.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/spatie",
-                    "type": "github"
-                }
-            ],
-            "time": "2021-03-22T18:38:29+00:00"
         },
         {
             "name": "spatie/temporary-directory",

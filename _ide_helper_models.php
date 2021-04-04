@@ -270,6 +270,21 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Role
+ *
+ * @property int $id
+ * @property \App\Enums\RoleEnum $name
+ * @method static \Illuminate\Database\Eloquent\Builder|Role newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
+ */
+	class Role extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Serie
  *
  * @property int $id
@@ -355,6 +370,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
+ * @property string $slug
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
@@ -367,20 +383,19 @@ namespace App\Models{
  * @property-read int|null $books_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
+ * @property-read string|null $avatar
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
- * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
@@ -388,10 +403,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorRecoveryCodes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
-	class User extends \Eloquent {}
+	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 

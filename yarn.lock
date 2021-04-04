@@ -4974,6 +4974,11 @@ picomatch@^2.0.4, picomatch@^2.0.5, picomatch@^2.2.1:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.2.2.tgz#21f333e9b6b8eaff02468f5146ea406d345f4dad"
   integrity sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
 
+pify@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
+  integrity sha1-7RQaasBDqEnqWISY59yosVMw6Qw=
+
 pkg-dir@^4.1.0, pkg-dir@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-4.2.0.tgz#f099133df7ede422e81d1d8448270eeb3e4261f3"
@@ -5060,6 +5065,16 @@ postcss-functions@^3:
     object-assign "^4.1.1"
     postcss "^6.0.9"
     postcss-value-parser "^3.3.0"
+
+postcss-import@^12.0.1:
+  version "12.0.1"
+  resolved "https://registry.yarnpkg.com/postcss-import/-/postcss-import-12.0.1.tgz#cf8c7ab0b5ccab5649024536e565f841928b7153"
+  integrity sha512-3Gti33dmCjyKBgimqGxL3vcV8w9+bsHwO5UrBawp796+jdardbcFl4RP5w/76BwNL7aGzpKstIfF9I+kdE8pTw==
+  dependencies:
+    postcss "^7.0.1"
+    postcss-value-parser "^3.2.3"
+    read-cache "^1.0.0"
+    resolve "^1.1.7"
 
 postcss-js@^3.0.3:
   version "3.0.3"
@@ -5331,7 +5346,7 @@ postcss-unique-selectors@^4.0.1:
     postcss "^7.0.0"
     uniqs "^2.0.0"
 
-postcss-value-parser@^3.0.0, postcss-value-parser@^3.3.0:
+postcss-value-parser@^3.0.0, postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.1.tgz#9ff822547e2893213cf1c30efa51ac5fd1ba8281"
   integrity sha512-pISE66AbVkp4fDQ7VHBwRNXzAAKJjw4Vw7nWI/+Q3vuly7SNfgYXvm6i5IgFylHGK5sP/xHAbB7N49OS4gWNyQ==
@@ -5497,6 +5512,13 @@ raw-body@2.4.0:
     http-errors "1.7.2"
     iconv-lite "0.4.24"
     unpipe "1.0.0"
+
+read-cache@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/read-cache/-/read-cache-1.0.0.tgz#e664ef31161166c9751cdbe8dbcf86b5fb58f774"
+  integrity sha1-5mTvMRYRZsl1HNvo28+GtftY93Q=
+  dependencies:
+    pify "^2.3.0"
 
 readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.3.3, readable-stream@^2.3.6:
   version "2.3.7"
@@ -5677,7 +5699,7 @@ resolve-url@^0.2.1:
   resolved "https://registry.yarnpkg.com/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
   integrity sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
 
-resolve@^1.14.2, resolve@^1.20.0, resolve@^1.9.0:
+resolve@^1.1.7, resolve@^1.14.2, resolve@^1.20.0, resolve@^1.9.0:
   version "1.20.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.20.0.tgz#629a013fb3f70755d6f0b7935cc1c2c5378b1975"
   integrity sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==
@@ -6216,7 +6238,7 @@ tailwindcss-debug-screens@^2.0.0:
   resolved "https://registry.yarnpkg.com/tailwindcss-debug-screens/-/tailwindcss-debug-screens-2.0.0.tgz#81f9ec4d1f8aaf53c448a644e5923322f96df992"
   integrity sha512-L8hvCJ+3D7IlZ2DE5zEzAJCEvSI92bH8aoAlRfJ5oILzsHT/G5oqvIBBuvt8t/NnhkIxzRl8xDDf405WI709RA==
 
-tailwindcss@^2.0.4:
+tailwindcss@^2.0.1:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-2.0.4.tgz#cf13e62738c3a27065664e449d93b66ee2945506"
   integrity sha512-WhgR0oiBxGOZ9jY0yVfaJCHnckR7U74Fs/BMsYxGdwGJQ5Hd/HlaKD26bEJFZOvYScJo0QcUj2ImldzedsG7Bw==

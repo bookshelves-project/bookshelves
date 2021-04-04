@@ -34,6 +34,6 @@ it('random serie detail', function () {
 });
 
 it('count', function () {
-    $response = $this->get(__API_SERIES__.'/count');
+    $response = $this->get('/count?entity=serie');
     $response->assertStatus(200);
 });

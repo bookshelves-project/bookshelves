@@ -82,7 +82,7 @@ class Serie extends Model implements HasMedia
     {
         $size = [];
         foreach ($this->books as $key => $book) {
-            array_push($size, $book->getMedia('books_epubs')->first()?->size);
+            array_push($size, $book->getMedia('epubs')->first()?->size);
         }
         $size = array_sum($size);
         $size = human_filesize($size);

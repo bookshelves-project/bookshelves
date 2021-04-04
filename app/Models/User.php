@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Enums\RoleEnum;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -16,7 +18,6 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'slug',
     ];
 
     /**
@@ -40,7 +41,7 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'picture',
+        'avatar',
     ];
 
     /**
@@ -52,9 +53,37 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getPictureAttribute()
+    public static function boot()
     {
+        static::saving(function (User $user) {
+            if (! empty($user->slug)) {
+                return;
+            }
+            $user->slug = Str::slug($user->name, '-');
+        });
+
+        parent::boot();
+    }
+
+    public function getAvatarAttribute(): string
+    {
+        if ($this->getMedia('user')->first()) {
+            return $this->getMedia('user')->first()?->getUrl();
+        }
+
         return 'https://eu.ui-avatars.com/api/?name='.$this->name;
+    }
+
+    public function hasRole(RoleEnum $role): bool
+    {
+        $roles = $this->roles();
+
+        return true;
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
     }
 
     public function books(): MorphToMany

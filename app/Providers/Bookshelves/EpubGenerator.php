@@ -51,7 +51,7 @@ class EpubGenerator
                 $book->addMediaFromString($epub_file)
                     ->setName($new_file_name)
                     ->setFileName($new_file_name.".$ebook_extension")
-                    ->toMediaCollection('books_epubs', 'books_epubs');
+                    ->toMediaCollection('epubs', 'epubs');
                 $result = true;
             } catch (\Throwable $th) {
             }

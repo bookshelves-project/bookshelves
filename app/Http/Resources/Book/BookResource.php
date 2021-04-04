@@ -41,8 +41,8 @@ class BookResource extends JsonResource
             'maturityRating' => $book->maturity_rating,
             'tags'           => TagResource::collection($book->tags),
             'epub'           => [
-                'name'     => $book->getMedia('books_epubs')?->first()->file_name,
-                'size'     => human_filesize($book->getMedia('books_epubs')?->first()->size),
+                'name'     => $book->getMedia('epubs')?->first()->file_name,
+                'size'     => human_filesize($book->getMedia('epubs')?->first()->size),
                 'download' => $book->download_link,
             ],
             'googleBook' => GoogleBookResource::make($book->googleBook),

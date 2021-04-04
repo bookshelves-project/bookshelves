@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\CountController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
@@ -37,10 +38,7 @@ Route::get('/authors', [AuthorController::class, 'index'])->name('api.authors.in
 /*
  * Count routes
  */
-Route::get('/books/count', [BookController::class, 'count'])->name('api.books.count');
-Route::get('/books/count-langs', [BookController::class, 'count_langs'])->name('api.books.count-langs');
-Route::get('/series/count', [SerieController::class, 'count'])->name('api.series.count');
-Route::get('/authors/count', [AuthorController::class, 'count'])->name('api.authors.count');
+Route::get('/count', [CountController::class, 'count'])->name('api.count');
 
 /*
  * Search routes
@@ -85,6 +83,8 @@ Route::get('/dependencies', [DependencyController::class, 'index'])->name('api.d
  */
 Route::get('/comments/by-user/{user}', [CommentController::class, 'byUser'])->name('api.comments.by-user');
 Route::get('/comments/{model}/{slug}', [CommentController::class, 'index'])->name('api.comments.index');
+
+Route::get('/users', [UserController::class, 'users'])->name('api.users');
 
 /*
  * Users features routes

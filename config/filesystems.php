@@ -47,10 +47,10 @@ return [
             'visibility' => 'public',
         ],
 
-        'books_epubs' => [
+        'epubs' => [
             'driver'     => 'local',
-            'root'       => storage_path('app/public/media/books_epubs'),
-            'url'        => env('APP_URL').'/storage/media/books_epubs',
+            'root'       => storage_path('app/public/media/epubs'),
+            'url'        => env('APP_URL').'/storage/media/epubs',
             'visibility' => 'public',
         ],
 
@@ -58,6 +58,13 @@ return [
             'driver'     => 'local',
             'root'       => storage_path('app/public/media/series'),
             'url'        => env('APP_URL').'/storage/media/series',
+            'visibility' => 'public',
+        ],
+
+        'users' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/media/users'),
+            'url'        => env('APP_URL').'/storage/media/users',
             'visibility' => 'public',
         ],
 

@@ -320,7 +320,7 @@ class BooksGenerateCommand extends Command
             $authors = Author::all();
             $books->each(function ($query) {
                 $query->clearMediaCollection('books');
-                $query->clearMediaCollection('books_epubs');
+                $query->clearMediaCollection('epubs');
             });
             $series->each(function ($query) {
                 $query->clearMediaCollection('series');
@@ -361,8 +361,8 @@ class BooksGenerateCommand extends Command
             File::cleanDirectory(public_path("storage/$book_path"));
             Storage::disk('public')->copy('.gitignore-sample', "$book_path/.gitignore");
 
-            $book_epub_path = 'media/books_epubs';
-            File::cleanDirectory(public_path('storage/media/books_epubs'));
+            $book_epub_path = 'media/epubs';
+            File::cleanDirectory(public_path('storage/media/epubs'));
             Storage::disk('public')->copy('.gitignore-sample', "$book_epub_path/.gitignore");
 
             // Dir for original covers not resized but optimize
