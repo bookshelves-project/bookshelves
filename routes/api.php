@@ -114,4 +114,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
      */
     Route::get('/user', [UserController::class, 'sanctum'])->name('api.user');
     Route::post('/user/update', [UserController::class, 'update'])->name('api.user.update');
+    Route::get('/user/delete/avatar', [UserController::class, 'deleteAvatar'])->name('api.user.delete.avatar');
 });

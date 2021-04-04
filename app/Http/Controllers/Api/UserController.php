@@ -26,8 +26,6 @@ class UserController extends Controller
 
         return [
             'data'          => $user,
-            // 'permissions'   => $user->permissions,
-            // 'roles'         => $user->roles,
             'isAdmin'       => $user->hasRole(RoleEnum::ADMIN()),
         ];
     }
@@ -71,9 +69,28 @@ class UserController extends Controller
                 ->crop(Manipulations::CROP_CENTER, $formatBasic['width'], $formatBasic['height'])
                 ->save();
 
-            return $user;
+            return [
+                'data'          => $user,
+                'isAdmin'       => $user->hasRole(RoleEnum::ADMIN()),
+            ];
         }
 
-        return $user;
+        return [
+            'data'          => $user,
+            'isAdmin'       => $user->hasRole(RoleEnum::ADMIN()),
+        ];
+    }
+
+    public function deleteAvatar()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->clearMediaCollection('users');
+
+        return [
+            'data'          => $user,
+            'isAdmin'       => $user->hasRole(RoleEnum::ADMIN()),
+        ];
     }
 }
