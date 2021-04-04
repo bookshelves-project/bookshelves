@@ -34,6 +34,6 @@ it('random book detail', function () {
 });
 
 it('count', function () {
-    $response = $this->get('/count?entity=book');
+    $response = $this->get('/api/count?entity=book');
     $response->assertStatus(200);
 });

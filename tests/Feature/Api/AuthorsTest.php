@@ -33,6 +33,6 @@ it('random author detail', function () {
 });
 
 it('count', function () {
-    $response = $this->get('/count?entity=author');
+    $response = $this->get('/api/count?entity=author');
     $response->assertStatus(200);
 });
