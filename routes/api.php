@@ -109,5 +109,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
      */
     Route::get('/commands/update-books', [CommandController::class, 'updateBooks'])->name('api.commands.update-books');
 
+    /*
+     * User routes
+     */
     Route::get('/user', [UserController::class, 'sanctum'])->name('api.user');
+    Route::post('/user/update', [UserController::class, 'update'])->name('api.user.update');
 });

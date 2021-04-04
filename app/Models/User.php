@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Enums\RoleEnum;
 use Illuminate\Support\Str;
+use App\Models\Traits\HasAvatar;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
-use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -19,10 +19,10 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
     use HasFactory;
-    use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
     use InteractsWithMedia;
+    use HasAvatar;
 
     /**
      * The attributes that are mass assignable.
@@ -73,11 +73,11 @@ class User extends Authenticatable implements HasMedia
 
     public function getAvatarAttribute(): string
     {
-        if ($this->getMedia('user')->first()) {
-            return $this->getMedia('user')->first()?->getUrl();
+        if ($this->getMedia('users')->first()) {
+            return $this->getMedia('users')->first()?->getUrl();
         }
 
-        return 'https://eu.ui-avatars.com/api/?name='.$this->name;
+        return 'https://eu.ui-avatars.com/api/?name='.$this->name.'&color=7F9CF5&background=EBF4FF';
     }
 
     public function hasRole(RoleEnum $role_to_verify): bool
