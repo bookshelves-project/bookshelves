@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ImageController;
-use App\Http\Controllers\NavigationController;
+use Illuminate\Foundation\Application;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +14,12 @@ use App\Http\Controllers\NavigationController;
 |
 */
 
-Route::get('cache/resolve/{size}/{path}', [ImageController::class, 'thumbnail'])->where('path', '.*');
-
-Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
+Route::get('/', function () {
+    return view('welcome', [
+        'laravelVersion' => Application::VERSION,
+        'phpVersion'     => PHP_VERSION,
+    ]);
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return '';

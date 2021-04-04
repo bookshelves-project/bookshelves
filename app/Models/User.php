@@ -5,19 +5,24 @@ namespace App\Models;
 use App\Enums\RoleEnum;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
     use HasFactory;
+    use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -42,6 +47,7 @@ class User extends Authenticatable
 
     protected $appends = [
         'avatar',
+        'profile_photo_url',
     ];
 
     /**
@@ -74,11 +80,18 @@ class User extends Authenticatable
         return 'https://eu.ui-avatars.com/api/?name='.$this->name;
     }
 
-    public function hasRole(RoleEnum $role): bool
+    public function hasRole(RoleEnum $role_to_verify): bool
     {
-        $roles = $this->roles();
+        $roles = [];
+        foreach ($this->roles as $key => $role) {
+            array_push($roles, $role->name->value);
+        }
 
-        return true;
+        if (in_array($role_to_verify->value, $roles)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function roles(): BelongsToMany

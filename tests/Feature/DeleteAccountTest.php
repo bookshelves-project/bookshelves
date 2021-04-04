@@ -5,8 +5,6 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Features;
-use Laravel\Jetstream\Http\Livewire\DeleteUserForm;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 class DeleteAccountTest extends TestCase
@@ -21,9 +19,9 @@ class DeleteAccountTest extends TestCase
 
         $this->actingAs($user = User::factory()->create());
 
-        $component = Livewire::test(DeleteUserForm::class)
-                        ->set('password', 'password')
-                        ->call('deleteUser');
+        $response = $this->delete('/user', [
+            'password' => 'password',
+        ]);
 
         $this->assertNull($user->fresh());
     }
@@ -36,10 +34,9 @@ class DeleteAccountTest extends TestCase
 
         $this->actingAs($user = User::factory()->create());
 
-        Livewire::test(DeleteUserForm::class)
-                        ->set('password', 'wrong-password')
-                        ->call('deleteUser')
-                        ->assertHasErrors(['password']);
+        $response = $this->delete('/user', [
+            'password' => 'wrong-password',
+        ]);
 
         $this->assertNotNull($user->fresh());
     }
