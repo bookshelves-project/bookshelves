@@ -80,7 +80,7 @@ class ConvertEpubParser
                 }
             }
             if ($epubParser->publisher) {
-                $publisherIfExist = Serie::whereSlug(Str::slug($epubParser->serie))->first();
+                $publisherIfExist = Publisher::whereSlug(Str::slug($epubParser->publisher))->first();
                 $publisher = null;
                 if (! $publisherIfExist) {
                     $publisher = Publisher::firstOrCreate([
