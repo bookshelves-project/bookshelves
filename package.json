@@ -11,9 +11,9 @@
         "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix"
     },
     "devDependencies": {
-        "@tailwindcss/jit": "^0.1.18",
         "@tailwindcss/aspect-ratio": "^0.2.0",
         "@tailwindcss/forms": "^0.3.2",
+        "@tailwindcss/jit": "^0.1.18",
         "@tailwindcss/line-clamp": "^0.2.0",
         "@tailwindcss/typography": "^0.4.0",
         "autoprefixer": "^10.2.5",
@@ -22,7 +22,7 @@
         "lodash": "^4.17.19",
         "postcss": "^8.2.9",
         "postcss-import": "^12.0.1",
-        "tailwindcss": "^2.0.1",
+        "tailwindcss": "^2.0.4",
         "tailwindcss-debug-screens": "^2.0.0"
     }
 }
