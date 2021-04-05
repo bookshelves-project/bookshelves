@@ -16,11 +16,6 @@ trait HasAvatar
      */
     public function updateProfilePhoto(UploadedFile $photo)
     {
-        var_dump($photo);
-        $this->addMedia($photo)
-            ->preservingOriginal()
-            ->toMediaCollection();
-
         // tap($this->profile_photo_path, function ($previous) use ($photo) {
         //     $this->forceFill([
         //         'profile_photo_path' => $photo->storePublicly(
@@ -41,15 +36,15 @@ trait HasAvatar
      */
     public function deleteProfilePhoto()
     {
-        if (! Features::managesProfilePhotos()) {
-            return;
-        }
+        // if (! Features::managesProfilePhotos()) {
+        //     return;
+        // }
 
-        Storage::disk($this->profilePhotoDisk())->delete($this->profile_photo_path);
+        // Storage::disk($this->profilePhotoDisk())->delete($this->profile_photo_path);
 
-        $this->forceFill([
-            'profile_photo_path' => null,
-        ])->save();
+        // $this->forceFill([
+        //     'profile_photo_path' => null,
+        // ])->save();
     }
 
     /**
@@ -59,9 +54,9 @@ trait HasAvatar
      */
     public function getProfilePhotoUrlAttribute()
     {
-        return $this->profile_photo_path
-                    ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
-                    : $this->defaultProfilePhotoUrl();
+        // return $this->profile_photo_path
+        //             ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
+        //             : $this->defaultProfilePhotoUrl();
     }
 
     /**
@@ -71,7 +66,7 @@ trait HasAvatar
      */
     protected function defaultProfilePhotoUrl()
     {
-        return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';
+        // return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';
     }
 
     /**
@@ -81,6 +76,6 @@ trait HasAvatar
      */
     protected function profilePhotoDisk()
     {
-        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : config('jetstream.profile_photo_disk', 'public');
+        // return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : config('jetstream.profile_photo_disk', 'public');
     }
 }

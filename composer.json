@@ -37,10 +37,8 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "inertiajs/inertia-laravel": "0.3.5",
         "laravel/fortify": "^1.7",
         "laravel/framework": "^8.12",
-        "laravel/jetstream": "^2.3",
         "laravel/sanctum": "2.9",
         "laravel/telescope": "^4.4",
         "laravel/tinker": "^2.5",
@@ -100,6 +98,13 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
+        ],
+        "helper": [
+            "./vendor/bin/php-cs-fixer fix",
+            "php artisan ide-helper:generate",
+            "php artisan ide-helper:models --nowrite",
+            "php artisan ide-helper:meta",
+            "php artisan ide-helper:eloquent"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
