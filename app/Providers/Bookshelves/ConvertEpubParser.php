@@ -80,10 +80,17 @@ class ConvertEpubParser
                 }
             }
             if ($epubParser->publisher) {
-                $publisher = Publisher::firstOrCreate([
-                    'name' => $epubParser->publisher,
-                    'slug' => Str::slug($epubParser->publisher),
-                ]);
+                $publisherIfExist = Serie::whereSlug(Str::slug($epubParser->serie))->first();
+                $publisher = null;
+                if (! $publisherIfExist) {
+                    $publisher = Publisher::firstOrCreate([
+                        'name' => $epubParser->publisher,
+                        'slug' => Str::slug($epubParser->publisher),
+                    ]);
+                } else {
+                    $publisher = $publisherIfExist;
+                }
+
                 $book->publisher()->associate($publisher);
             }
             if ($epubParser->serie) {
