@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\NavigationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +15,9 @@ use Illuminate\Foundation\Application;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome', [
-        'laravelVersion' => Application::VERSION,
-        'phpVersion'     => PHP_VERSION,
-    ]);
-});
+Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
+Route::get('/ereader', [NavigationController::class, 'ereader'])->name('ereader');
+Route::get('/documentation', [NavigationController::class, 'documentation'])->name('documentation');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return '';
