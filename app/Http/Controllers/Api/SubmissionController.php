@@ -15,7 +15,7 @@ class SubmissionController extends Controller
         $validate = $this->validate($request, [
             'name'                  => 'required|string',
             'email'                 => 'required|email',
-            'message'               => 'required|string',
+            'message'               => 'required|string|min:250',
             'g-recaptcha-response'  => 'required|recaptcha',
         ]);
 
