@@ -67,6 +67,8 @@ class Tools
             }
             $content = strip_tags($content);
             $content = Str::ascii($content);
+            $content = str_replace('<<', '"', $content);
+            $content = str_replace('>>', '"', $content);
             $content = trim($content);
         }
 
