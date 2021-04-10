@@ -25,9 +25,9 @@ class SubmissionMail extends Mailable
     /**
      * Build the message.
      *
-     * @return $this
+     * @return Mailable
      */
-    public function build()
+    public function build(): Mailable
     {
         /** @var Mailable $mail */
         $mail = $this;

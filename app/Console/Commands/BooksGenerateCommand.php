@@ -86,6 +86,7 @@ class BooksGenerateCommand extends Command
         Cache::forget('authors');
         $epubFiles = EpubParserTools::getAllEpubFiles(limit: $limit);
 
+        $booksGenerated = null;
         if ($isFresh) {
             $isProd = 'production' === config('app.env');
             if ($isProd && ! $isForce) {
@@ -253,8 +254,7 @@ class BooksGenerateCommand extends Command
             $authors_pictures = $this->output->createProgressBar(count($authors));
             $authors_pictures->start();
             foreach ($authors as $key => $author) {
-                ExtraDataGenerator::generateAuthorPicture(author: $author);
-                ExtraDataGenerator::generateAuthorDescription(author: $author);
+                ExtraDataGenerator::generateAuthorData(author: $author);
                 $authors_pictures->advance();
             }
             $authors_pictures->finish();

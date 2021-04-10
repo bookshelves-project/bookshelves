@@ -20,7 +20,6 @@ class FavoriteResource extends JsonResource
         $favoritable = $this;
 
         $for = strtolower(str_replace('App\\Models\\', '', $favoritable->favoritable_type));
-        $cover = $favoritable->favoritable->cover;
         $entity = $favoritable->favoritable;
         $title = null;
 

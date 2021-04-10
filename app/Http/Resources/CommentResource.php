@@ -43,24 +43,24 @@ class CommentResource extends JsonResource
         }
 
         return [
-            'meta'                  => [
-                'type'        => 'comment',
-                'for'         => $for,
-                'author'      => $comment->commentable->author?->slug,
-                'slug'        => $comment->commentable->slug,
+            'meta' => [
+                'type'   => 'comment',
+                'for'    => $for,
+                'author' => $comment->commentable->author?->slug,
+                'slug'   => $comment->commentable->slug,
             ],
-            'id'                    => $comment->id,
-            'text'                  => $comment->text,
-            'rating'                => $comment->rating ? $comment->rating : null,
-            'user'                  => [
+            'id'     => $comment->id,
+            'text'   => $comment->text,
+            'rating' => $comment->rating ? $comment->rating : null,
+            'user'   => [
                 'id'      => $comment->user->id,
                 'name'    => $comment->user->name,
                 'picture' => $comment->user->profile_photo_url,
             ],
-            'createdAt'    => $comment->created_at,
-            'updatedAt'    => $comment->updated_at,
-            'title'        => $title,
-            'picture'      => $comment->commentable->image_thumbnail,
+            'createdAt' => $comment->created_at,
+            'updatedAt' => $comment->updated_at,
+            'title'     => $title,
+            'picture'   => $comment->commentable->image_thumbnail,
         ];
     }
 }

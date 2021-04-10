@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Role;
+use App\Models\User;
 use App\Enums\RoleEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,10 +25,6 @@ class UserResource extends JsonResource
         /** @var Role $role */
         foreach ($user->roles as $key => $role) {
             array_push($roles, $role->name);
-        }
-        $isAdmin = false;
-        if (in_array('ADMIN', $roles)) {
-            $isAdmin = true;
         }
 
         return [

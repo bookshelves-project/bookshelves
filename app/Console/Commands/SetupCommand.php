@@ -213,12 +213,9 @@ class SetupCommand extends Command
             'DB_USERNAME'                => $this->ask('Database user', 'root'),
             'DB_PASSWORD'                => $this->askHiddenWithDefault('Database password (leave blank for no password)'),
             'MAIL_HOST'                  => $this->ask('Mail host', 'smtp.mailtrap.io'),
-            'MAIL_PORT'                  => $this->ask('Mail port', '2525'),
             'MAIL_USERNAME'              => $this->ask('Mail user', ''),
             'MAIL_PASSWORD'              => $this->ask('Mail password', ''),
             'TELESCOPE_ENABLED'          => $this->ask('Telescope enabled?', 'false'),
-            'RECAPTCHA_SITE_KEY'         => $this->ask('Recaptcha site key', ''),
-            'RECAPTCHA_SECRET_KEY'       => $this->ask('Recaptcha secret key', ''),
         ];
     }
 

@@ -61,12 +61,13 @@ class Tools
         $content = iconv('UTF-8', 'UTF-8//IGNORE', $text);
 
         if ($isUTF8) {
+            $content = trim($content);
             if ($limit && strlen($content) > $limit) {
                 $content = substr($content, 0, $limit).'...';
             }
-            $content = trim($content);
             $content = strip_tags($content);
             $content = Str::ascii($content);
+            $content = trim($content);
         }
 
         return $content;
@@ -82,7 +83,7 @@ class Tools
     /**
      * Sanitize string.
      *
-     * @param mixed $string
+     * @param string $string
      *
      * @return string
      */
@@ -114,7 +115,7 @@ class Tools
      *
      * @param string $text
      *
-     * @return string|string[]|null
+     * @return string
      */
     public static function cleanString(string $text): string
     {
