@@ -101,6 +101,10 @@
             "php artisan ide-helper:meta",
             "php artisan ide-helper:eloquent"
         ],
+        "test": [
+            "php artisan test",
+            "php artisan larastan"
+        ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],

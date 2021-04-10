@@ -29,9 +29,9 @@
   - [*f. Sanctum*](#f-sanctum)
     - [Login 419 error: "CSRF token mismatch"](#login-419-error-csrf-token-mismatch)
   - [*g. EpubParser*](#g-epubparser)
-  - [*h. Recaptcha*](#h-recaptcha)
-  - [*i. Larastan*](#i-larastan)
-- [**IIII. `.env`**](#iiii-env)
+  - [*h. Larastan*](#h-larastan)
+  - [*i. Wikipedia*](#i-wikipedia)
+- [**IV. `.env`**](#iv-env)
   - [*a. For local*](#a-for-local)
   - [*b. For production*](#b-for-production)
 
@@ -191,13 +191,7 @@ php artisan cache:clear ; php artisan route:clear ; php artisan config:clear ; p
 
 TODO
 
-### *h. Recaptcha*
-
-- [**laravel-recaptcha-docs.biscolab.com/docs**](https://laravel-recaptcha-docs.biscolab.com/docs/intro): `biscolab/laravel-recaptcha` package doc
-
-TODO
-
-### *i. Larastan*
+### *h. Larastan*
 
 - [**github.com/nunomaduro/larastan**](https://github.com/nunomaduro/larastan): package
 
@@ -205,9 +199,15 @@ TODO
 php artisan larastan
 ```
 
+### *i. Wikipedia*
+
+- <https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch=pierre%20bottero&format=json>
+- <http://fr.wikipedia.org/w/api.php?action=query&prop=info&pageids=1064109&inprop=url&format=json&prop=info|extracts&inprop=url>
+- <https://en.wikipedia.org/w/api.php?format=json&action=query&origin=*&titles=Pierre%20Bottero&prop=info|extracts&inprop=url>
+
 ---
 
-## **IIII. `.env`**
+## **IV. `.env`**
 
 ### *a. For local*
 
@@ -223,9 +223,6 @@ SANCTUM_STATEFUL_DOMAINS=localhost:3000
 SESSION_DOMAIN=localhost
 
 TELESCOPE_ENABLED=true
-
-RECAPTCHA_SITE_KEY=
-RECAPTCHA_SECRET_KEY=
 
 BOOKSHELVES_ADMIN_EMAIL=admin@mail.com
 BOOKSHELVES_ADMIN_PASSWORD=password
@@ -256,9 +253,6 @@ SANCTUM_STATEFUL_DOMAINS=www.mydomain.com
 SESSION_DOMAIN=.mydomain.com
 
 TELESCOPE_ENABLED=false
-
-RECAPTCHA_SITE_KEY=
-RECAPTCHA_SECRET_KEY=
 ```
 
 Setup for [**Mailgun**](https://www.mailgun.com/)

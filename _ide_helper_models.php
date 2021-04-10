@@ -312,6 +312,7 @@ namespace App\Models{
  * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
+ * @method static \Database\Factories\SerieFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie query()
