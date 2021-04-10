@@ -28,6 +28,7 @@
     <div class="pt-16">
         @yield('content')
     </div>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 
 </html>
