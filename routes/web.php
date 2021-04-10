@@ -16,8 +16,6 @@ use App\Http\Controllers\NavigationController;
 */
 
 Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
-Route::get('/ereader', [NavigationController::class, 'ereader'])->name('ereader');
-Route::get('/documentation', [NavigationController::class, 'documentation'])->name('documentation');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return '';

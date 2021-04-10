@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class BookTest extends TestCase
 {
     use WithFaker;
-    use DatabaseMigrations;
+    // use DatabaseMigrations;
 
     public function testBookCanBeCreate()
     {

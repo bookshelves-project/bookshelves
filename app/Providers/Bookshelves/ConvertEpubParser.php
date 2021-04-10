@@ -57,13 +57,13 @@ class ConvertEpubParser
             foreach ($epubParser->subjects as $key => $subject) {
                 $tagIfExist = Tag::whereSlug(Str::slug($subject))->first();
                 $tag = null;
-                if (! $tagIfExist && strlen($subject) > 3 && strlen($subject) < 30) {
+                if (! $tagIfExist && strlen($subject) > 1 && strlen($subject) < 30) {
                     $tag = Tag::firstOrCreate([
                         'name' => $subject,
                         'slug' => Str::slug($subject),
                     ]);
                 }
-                if ($tag) {
+                if (! $tag) {
                     $tag = $tagIfExist;
                 }
 

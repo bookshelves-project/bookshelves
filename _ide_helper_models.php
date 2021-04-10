@@ -233,7 +233,6 @@ namespace App\Models{
  * App\Models\Language
  *
  * @property string|null $slug
- * @property string|null $flag
  * @property string|null $display
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
@@ -243,7 +242,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Language newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Language query()
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereDisplay($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Language whereFlag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereSlug($value)
  */
 	class Language extends \Eloquent {}
@@ -292,6 +290,8 @@ namespace App\Models{
  * @property string|null $title_sort
  * @property string|null $slug
  * @property string|null $language_slug
+ * @property string|null $description
+ * @property string|null $wikipedia_link
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
  * @property-read int|null $authors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -310,14 +310,18 @@ namespace App\Models{
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguageSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitleSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereWikipediaLink($value)
  */
 	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }

@@ -113,6 +113,11 @@ class Serie extends Model implements HasMedia
         return $is_favorite;
     }
 
+    public function tags(): MorphToMany
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
     public function favorites(): MorphToMany
     {
         return $this->morphToMany(User::class, 'favoritable');

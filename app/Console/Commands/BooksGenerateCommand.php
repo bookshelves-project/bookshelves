@@ -6,6 +6,7 @@ use File;
 use Cache;
 use Artisan;
 use Storage;
+use App\Models\Tag;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Models\Author;
@@ -143,6 +144,25 @@ class BooksGenerateCommand extends Command
 
         $books_with_covers = $this->generateBooks(epubFiles: $epubFiles, isDebug: $isDebug);
         $this->generateCovers(books_with_covers: $books_with_covers, isDebug: $isDebug);
+
+        // Series tags
+        $series = Serie::all();
+        foreach ($series as $key => $serie) {
+            $tags = [];
+            foreach ($serie->books as $key => $book) {
+                foreach ($book->tags as $key => $tag) {
+                    if (! in_array($tag->slug, $tags, true)) {
+                        array_push($tags, $tag->slug);
+                    }
+                }
+            }
+            foreach ($tags as $key => $tag) {
+                $tag_model = Tag::whereSlug($tag)->first();
+                $serie->tags()->save($tag_model);
+            }
+            $serie->save();
+        }
+        // -----
 
         if ('production' !== config('app.env') && ! $isDebug && ! $skip) {
             $this->alert('Run tests...');

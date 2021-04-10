@@ -135,6 +135,7 @@ class SerieController extends Controller
     {
         $author = Author::whereSlug($author)->firstOrFail();
         $serie = Serie::whereSlug($serie)->firstOrFail();
+
         $authorFound = false;
         foreach ($serie->authors as $key => $authorList) {
             if ($author->slug === $authorList->slug) {
