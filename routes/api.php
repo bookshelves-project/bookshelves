@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\CommandController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\EreaderController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\DependencyController;
@@ -27,6 +28,10 @@ use App\Http\Controllers\Api\SubmissionController;
 */
 
 Route::get('/', [ApiController::class, 'index'])->name('api.index');
+Route::get('/ereader', [EreaderController::class, 'index'])->name('api.ereader.index');
+Route::get('/ereader/books', [EreaderController::class, 'books'])->name('api.ereader.books');
+Route::get('/ereader/series', [EreaderController::class, 'series'])->name('api.ereader.series');
+Route::get('/ereader/authors', [EreaderController::class, 'authors'])->name('api.ereader.authors');
 
 /*
  * List routes
