@@ -24,5 +24,6 @@
         "postcss-import": "^12.0.1",
         "tailwindcss": "^2.0.4",
         "tailwindcss-debug-screens": "^2.0.0"
-    }
+    },
+    "dependencies": {}
 }

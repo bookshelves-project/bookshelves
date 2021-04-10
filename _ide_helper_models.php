@@ -80,7 +80,7 @@ namespace App\Models{
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
- * @property-read \App\Models\Author $author
+ * @property-read \App\Models\Author|null $author
  * @property-read string $download_link
  * @property-read string|null $epub
  * @property-read string|null $image_open_graph
