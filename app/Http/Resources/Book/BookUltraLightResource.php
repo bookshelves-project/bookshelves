@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Book;
 
 use App\Models\Book;
+use App\Utils\Tools;
 use App\Http\Resources\PublisherResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Author\AuthorUltraLightResource;
@@ -25,10 +26,10 @@ class BookUltraLightResource extends JsonResource
         $base = [
             'title'       => $book->title,
             'slug'        => $book->slug,
-            'author'      => $book->author->slug,
+            'author'      => $book->author?->slug,
             'authors'     => AuthorUltraLightResource::collection($book->authors),
-            'summary'     => extract_content($book->description, 140),
-            'language'    => $book->language->slug,
+            'summary'     => Tools::stringLimit($book->description, 140),
+            'language'    => $book->language?->slug,
             'publishDate' => $book->date,
             'picture'     => [
                 'base' => $book->image_thumbnail,

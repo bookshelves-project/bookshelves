@@ -4,9 +4,8 @@ namespace App\Providers\EpubParser;
 
 use Storage;
 use ZipArchive;
+use App\Utils\Tools;
 use Illuminate\Support\Str;
-use Stevebauman\Purify\Facades\Purify;
-use League\HTMLToMarkdown\HtmlConverter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class EpubParserTools
@@ -205,7 +204,7 @@ class EpubParserTools
             $title_sort = preg_replace('/^'.preg_quote($value, '/').'/i', '', $title_sort);
         }
         // $title_sort = str_replace($articles, '', $title_sort);
-        $title_sort = stripAccents($title_sort);
+        $title_sort = Tools::cleanString($title_sort);
 
         return utf8_encode($title_sort);
     }
@@ -217,15 +216,13 @@ class EpubParserTools
             $text = iconv('UTF-8', 'UTF-8//IGNORE', $text);
 
             if ('html' === $type) {
-                $text = Purify::clean($text);
+                $text = filter_var($text, FILTER_SANITIZE_STRING);
             } elseif ('markdown' === $type) {
                 $text = Str::markdown($text);
             }
 
             $text = preg_replace('#<a.*?>.*?</a>#i', '', $text);
             $text = preg_replace('#<img.*?>.*?/>#i', '', $text);
-            $converter = new HtmlConverter();
-            $text = $converter->convert($text);
             $text = strip_tags($text, '<br>');
             $text = Str::markdown($text);
 
@@ -233,7 +230,7 @@ class EpubParserTools
                 $text = substr($text, 0, $limit);
             }
         } catch (\Throwable $th) {
-            dump('Error with clean text');
+            // TODO Log
             $text = '';
         }
 

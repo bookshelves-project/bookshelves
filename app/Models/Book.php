@@ -143,9 +143,9 @@ class Book extends Model implements HasMedia
     /**
      * First Author for router.
      *
-     * @return Author
+     * @return Author|null
      */
-    public function getAuthorAttribute(): Author
+    public function getAuthorAttribute(): Author | null
     {
         return $this->morphToMany(Author::class, 'authorable')->first();
     }

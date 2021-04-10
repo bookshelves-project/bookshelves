@@ -47,6 +47,8 @@ sudo apt-get install -y php8.0-xml php8.0-gd ; sudo apt-get install -y jpegoptim
 
 Download dependencies
 
+php artisan migrate --database=testing
+
 ```bash
 composer install
 ```

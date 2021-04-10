@@ -13,7 +13,6 @@ class Language extends Model
     public $timestamps = false;
     protected $fillable = [
         'slug',
-        'flag',
         'display',
     ];
 

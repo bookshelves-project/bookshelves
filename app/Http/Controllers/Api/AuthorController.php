@@ -77,7 +77,7 @@ class AuthorController extends Controller
                 $authors = AuthorLightResource::collection($authors);
                 break;
 
-            case 'all':
+            case 'full':
                 $authors = AuthorLightResource::collection($authors);
                 break;
 

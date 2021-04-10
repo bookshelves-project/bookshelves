@@ -75,7 +75,7 @@ class SerieController extends Controller
                 $series = SerieLightResource::collection($series);
                 break;
 
-            case 'all':
+            case 'full':
                 $series = SerieLightResource::collection($series);
                 break;
 

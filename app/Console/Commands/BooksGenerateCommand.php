@@ -209,6 +209,7 @@ class BooksGenerateCommand extends Command
         $this->alert('Generate series covers and extra data...');
         $this->info('- Get cover of vol. 1 to associate picture to serie if exist');
         $this->info("- If a JPG file with slug of serie exist in 'database/seeders/media/series', it's will be this picture");
+        $this->info('- Get description from Wikipedia: HTTP requests');
         $this->newLine();
         $series = Serie::all();
         $series_cover_bar = $this->output->createProgressBar(count($series));
@@ -216,6 +217,7 @@ class BooksGenerateCommand extends Command
         foreach ($series as $key => $serie) {
             ExtraDataGenerator::generateSerieCover(serie: $serie);
             ExtraDataGenerator::generateSerieLanguage(serie: $serie);
+            ExtraDataGenerator::generateSerieDescription(serie: $serie);
             $series_cover_bar->advance();
         }
         $series_cover_bar->finish();
@@ -225,14 +227,14 @@ class BooksGenerateCommand extends Command
 
         if (! $isDebug) {
             $this->alert('Generate authors pictures...');
-            $this->info('- Get pictures from Wikipedia: HTTP requests');
+            $this->info('- Get pictures and description from Wikipedia: HTTP requests');
             $this->newLine();
             $authors = Author::all();
             $authors_pictures = $this->output->createProgressBar(count($authors));
             $authors_pictures->start();
             foreach ($authors as $key => $author) {
-                ExtraDataGenerator::generateAuthorPicture(author: $author, is_debug: $isDebug);
-                ExtraDataGenerator::generateAuthorDescription(author: $author, is_debug: $isDebug);
+                ExtraDataGenerator::generateAuthorPicture(author: $author);
+                ExtraDataGenerator::generateAuthorDescription(author: $author);
                 $authors_pictures->advance();
             }
             $authors_pictures->finish();

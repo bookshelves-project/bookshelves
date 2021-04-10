@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use App\Utils\Tools;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
@@ -86,7 +87,7 @@ class Author extends Model implements HasMedia
             array_push($size, $book->getMedia('epubs')->first()?->size);
         }
         $size = array_sum($size);
-        $size = human_filesize($size);
+        $size = Tools::humanFilesize($size);
 
         return $size;
     }

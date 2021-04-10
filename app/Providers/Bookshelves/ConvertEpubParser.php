@@ -151,15 +151,15 @@ class ConvertEpubParser
             'gb' => 'English',
             'fr' => 'French',
         ];
-        $languages_id = [
-            'en' => 'gb',
-            'gb' => 'gb',
-            'fr' => 'fr',
-        ];
+        // $languages_id = [
+        //     'en' => 'gb',
+        //     'gb' => 'gb',
+        //     'fr' => 'fr',
+        // ];
         $lang_id = $language->slug;
-        $lang_flag = array_key_exists($lang_id, $languages_id) ? $languages_id[$lang_id] : $lang_id;
+        // $lang_flag = array_key_exists($lang_id, $languages_id) ? $languages_id[$lang_id] : $lang_id;
 
-        $language->flag = "https://www.countryflags.io/$lang_flag/flat/32.png";
+        // $language->flag = "https://www.countryflags.io/$lang_flag/flat/32.png";
         $language->display = array_key_exists($lang_id, $languages_display) ? $languages_display[$lang_id] : $lang_id;
         $language->save();
 
