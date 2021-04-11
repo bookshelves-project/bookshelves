@@ -28,86 +28,74 @@ class ExtraDataGenerator
      */
     public static function generateAuthorData(Author $author): Author
     {
-        if ($author->getMedia('authors')->isEmpty()) {
-            $name = $author->name;
-            $name = Str::slug($name, '%20');
-            $url = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=$name&format=json";
-            $pictureDefault = database_path('seeders/media/authors/no-picture.jpg');
-            $pageId = null;
+        $name = $author->name;
+        $name = str_replace(' ', '%20', $name);
+        $url = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=$name&format=json";
+        $pictureDefault = database_path('seeders/media/authors/no-picture.jpg');
+        $pageId = null;
+        try {
+            $response = Http::get($url);
+            $response = $response->json();
+            $search = $response['query']['search'];
+            $search = array_slice($search, 0, 5);
+            foreach ($search as $key => $result) {
+                if (strpos($result['title'], '(writer)')) {
+                    $pageId = $result['pageid'];
+                    break;
+                }
+            }
+            if (! $pageId && array_key_exists(0, $search)) {
+                $pageId = $search[0]['pageid'];
+            }
+        } catch (\Throwable $th) {
+        }
+        if ($pageId) {
+            $url = "http://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url&prop=pageimages&pithumbsize=512";
+            $picture = null;
             try {
                 $response = Http::get($url);
                 $response = $response->json();
-                $search = $response['query']['search'];
-                $search = array_slice($search, 0, 5);
-                foreach ($search as $key => $result) {
-                    if (strpos($result['title'], '(writer)')) {
-                        $pageId = $result['pageid'];
-                        break;
-                    } elseif (strpos($result['snippet'], 'writer')) {
-                        $pageId = $result['pageid'];
-                        break;
-                    } elseif (strpos($result['snippet'], 'author')) {
-                        $pageId = $result['pageid'];
-                        break;
-                    }
-                }
-                if (! $pageId && array_key_exists(0, $search)) {
-                    $pageId = $search[0]['pageid'];
-                }
+                $picture = $response['query']['pages'];
+                $picture = reset($picture);
+                $picture = $picture['thumbnail']['source'];
             } catch (\Throwable $th) {
             }
-            if ($pageId) {
-                $url = "http://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url&prop=pageimages&pithumbsize=512";
-                $picture = null;
-                try {
-                    $response = Http::get($url);
-                    $response = $response->json();
-                    $picture = $response['query']['pages'];
-                    $picture = reset($picture);
-                    $picture = $picture['thumbnail']['source'];
-                } catch (\Throwable $th) {
-                }
-                if (! is_string($picture)) {
-                    $picture = $pictureDefault;
-                    $defaultPictureFile = File::get($pictureDefault);
-                    $author->addMediaFromString($defaultPictureFile)
-                            ->setName($author->slug)
-                            ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
-                            ->toMediaCollection('authors', 'authors');
-                } else {
-                    $author->addMediaFromUrl($picture)
-                            ->setName($author->slug)
-                            ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
-                            ->toMediaCollection('authors', 'authors');
-                }
-
-                if (! $author->description) {
-                    $url = "http://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url";
-                    $desc = null;
-                    try {
-                        $response = Http::get($url);
-                        $response = $response->json();
-                        $desc = $response['query']['pages'];
-                        $desc = reset($desc);
-                        $url = $desc['fullurl'];
-                        $desc = $desc['extract'];
-                        $desc = Tools::stringLimit($desc, 500);
-                    } catch (\Throwable $th) {
-                    }
-                    if (is_string($desc)) {
-                        $author->description = $desc;
-                        $author->wikipedia_link = $url;
-                        $author->save();
-                    }
-                }
-            } else {
+            if (! is_string($picture)) {
                 $picture = $pictureDefault;
+                $defaultPictureFile = File::get($pictureDefault);
+                $author->addMediaFromString($defaultPictureFile)
+                            ->setName($author->slug)
+                            ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
+                            ->toMediaCollection('authors', 'authors');
+            } else {
+                $author->addMediaFromUrl($picture)
+                            ->setName($author->slug)
+                            ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
+                            ->toMediaCollection('authors', 'authors');
             }
 
-            $author = $author->refresh();
-
-            return $author;
+            $url = "http://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url";
+            $desc = null;
+            try {
+                $response = Http::get($url);
+                $response = $response->json();
+                $desc = $response['query']['pages'];
+                $desc = reset($desc);
+                $url = $desc['fullurl'];
+                $desc = $desc['extract'];
+                $desc = Tools::stringLimit($desc, 500);
+            } catch (\Throwable $th) {
+            }
+            if (is_string($desc)) {
+                $author->description = $desc;
+                $author->wikipedia_link = $url;
+                $author->save();
+            }
+        } else {
+            $picture = $pictureDefault;
         }
+
+        $author = $author->refresh();
 
         return $author;
     }
@@ -121,43 +109,39 @@ class ExtraDataGenerator
      */
     public static function generateSerieDescription(Serie $serie): Serie
     {
-        if (! $serie->description) {
-            $name = $serie->title;
-            $lang = $serie->language->slug;
-            $name = str_replace(' ', '%20', $name);
-            $name = strtolower($name);
-            $url = "https://$lang.wikipedia.org/w/api.php?action=query&list=search&srsearch=$name&format=json";
-            $pageId = null;
+        $name = $serie->title;
+        $lang = $serie->language->slug;
+        $name = str_replace(' ', '%20', $name);
+        $name = strtolower($name);
+        $url = "https://$lang.wikipedia.org/w/api.php?action=query&list=search&srsearch=$name&format=json";
+        $pageId = null;
+        try {
+            $response = Http::get($url);
+            $response = $response->json();
+            $search = $response['query']['search'];
+            if (array_key_exists(0, $search)) {
+                $pageId = $search[0]['pageid'];
+            }
+        } catch (\Throwable $th) {
+        }
+        if ($pageId) {
+            $url = "http://$lang.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url";
+            $desc = null;
             try {
                 $response = Http::get($url);
                 $response = $response->json();
-                $search = $response['query']['search'];
-                if (array_key_exists(0, $search)) {
-                    $pageId = $search[0]['pageid'];
-                }
+                $desc = $response['query']['pages'];
+                $desc = reset($desc);
+                $url = $desc['fullurl'];
+                $desc = $desc['extract'];
+                $desc = Tools::stringLimit($desc, 500);
             } catch (\Throwable $th) {
             }
-            if ($pageId) {
-                $url = "http://$lang.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url";
-                $desc = null;
-                try {
-                    $response = Http::get($url);
-                    $response = $response->json();
-                    $desc = $response['query']['pages'];
-                    $desc = reset($desc);
-                    $url = $desc['fullurl'];
-                    $desc = $desc['extract'];
-                    $desc = Tools::stringLimit($desc, 500);
-                } catch (\Throwable $th) {
-                }
-                if (is_string($desc)) {
-                    $serie->description = $desc;
-                    $serie->wikipedia_link = $url;
-                    $serie->save();
-                }
+            if (is_string($desc)) {
+                $serie->description = $desc;
+                $serie->wikipedia_link = $url;
+                $serie->save();
             }
-
-            return $serie;
         }
 
         return $serie;
