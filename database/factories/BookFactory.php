@@ -34,7 +34,7 @@ class BookFactory extends Factory
             'description'  => $faker->paragraph(),
             'date'         => $faker->dateTime(),
             'rights'       => 'Bookshelves',
-            'serie_number' => $faker->numberBetween(0, 8),
+            'volume'       => $faker->numberBetween(0, 8),
         ];
     }
 }

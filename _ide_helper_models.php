@@ -65,7 +65,7 @@ namespace App\Models{
  * @property string|null $date
  * @property string|null $rights
  * @property int|null $serie_id
- * @property int|null $serie_number
+ * @property int|null $volume
  * @property int|null $publisher_id
  * @property string|null $language_slug
  * @property int|null $identifier_id
@@ -115,11 +115,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePublisherId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereRights($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereVolume($value)
  */
 	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }

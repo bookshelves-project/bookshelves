@@ -173,7 +173,7 @@ class ExtraDataGenerator
                     ->setFileName($serie->slug.'.'.config('bookshelves.cover_extension'))
                     ->toMediaCollection($disk, $disk);
             } else {
-                $bookIfExist = Book::whereSerieNumber(1)->whereSerieId($serie->id)->first();
+                $bookIfExist = Book::whereVolume(1)->whereSerieId($serie->id)->first();
                 if ($bookIfExist) {
                     $book = $bookIfExist;
                     $file_path_exist = File::exists($book->getMedia('books')->first()?->getPath());
@@ -210,7 +210,7 @@ class ExtraDataGenerator
         if (! $serie->language) {
             $bookSelected = $serie->books[0];
             foreach ($serie->books as $key => $book) {
-                if (1 === $book->serie_number) {
+                if (1 === $book->volume) {
                     $bookSelected = $book;
                 } else {
                     $bookSelected = $book;

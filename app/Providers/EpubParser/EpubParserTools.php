@@ -65,7 +65,7 @@ class EpubParserTools
         }
 
         $serie = null;
-        $serie_number = null;
+        $volume = null;
         try {
             // Parse all tags 'meta' into 'package' => 'metadata'
             foreach ($package->metadata as $key => $value) {
@@ -82,7 +82,7 @@ class EpubParserTools
                     if (preg_match('/series_index$/', $b->attributes()->__toString())) {
                         foreach ($b->attributes() as $k => $v) {
                             if (! preg_match('/calibre:series_index$/', $v->__toString())) {
-                                $serie_number = $v->__toString();
+                                $volume = $v->__toString();
                             }
                         }
                     }
@@ -113,7 +113,7 @@ class EpubParserTools
             'language'     => [],
             'rights'       => [],
             'serie'        => [],
-            'serie_number' => [],
+            'volume'       => [],
         ];
 
         foreach ($metadata_from_xml as $key => $value) {
@@ -135,7 +135,7 @@ class EpubParserTools
         }
         $metadata['identifier'] = $identifiers_raw;
         $metadata['serie'] = $serie ? $serie : null;
-        $metadata['serie_number'] = $serie_number ? $serie_number : null;
+        $metadata['volume'] = $volume ? $volume : null;
         // $metadata['cover'] = $coverFile ? $coverFile : null;
         $metadata['cover_extension'] = $cover_extension ? $cover_extension : null;
 

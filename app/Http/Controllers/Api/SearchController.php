@@ -46,7 +46,7 @@ class SearchController extends Controller
         if ($searchTermRaw) {
             $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->get();
             $series = Serie::whereLike(['title', 'authors.name'], $searchTerm)->get();
-            $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
+            $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
 
             $authors = SearchAuthorResource::collection($authors);
             $series = SearchSerieResource::collection($series);
@@ -66,7 +66,7 @@ class SearchController extends Controller
     public function byBook(Request $request)
     {
         $searchTerm = $request->input('search-term');
-        $books = Book::whereLike(['title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
+        $books = Book::whereLike(['title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
 
         return BookLightResource::collection($books);
     }
@@ -74,7 +74,7 @@ class SearchController extends Controller
     public function byAuthor(Request $request)
     {
         $searchTerm = $request->input('search-term');
-        $books = Book::whereLike(['author.name', 'author.firstname', 'author.lastname'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
+        $books = Book::whereLike(['author.name', 'author.firstname', 'author.lastname'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
 
         return AuthorLightResource::collection($books);
     }
@@ -82,7 +82,7 @@ class SearchController extends Controller
     public function bySerie(Request $request)
     {
         $searchTerm = $request->input('search-term');
-        $books = Book::whereLike(['serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('serie_number')->get();
+        $books = Book::whereLike(['serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
 
         return SerieLightResource::collection($books);
     }

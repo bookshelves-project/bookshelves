@@ -22,7 +22,7 @@ class CreateBooksTable extends Migration
             $table->text('description')->nullable();
             $table->dateTime('date')->nullable();
             $table->string('rights')->nullable();
-            $table->integer('serie_number')->nullable();
+            $table->integer('volume')->nullable();
             $table->integer('page_count')->nullable();
             $table->string('maturity_rating')->nullable();
             $table->timestamps();

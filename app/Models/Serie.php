@@ -97,7 +97,7 @@ class Serie extends Model implements HasMedia
 
     public function books(): HasMany
     {
-        return $this->hasMany(Book::class)->orderBy('serie_number');
+        return $this->hasMany(Book::class)->orderBy('volume');
     }
 
     public function getIsFavoriteAttribute(): bool

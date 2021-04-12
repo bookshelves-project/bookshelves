@@ -20,7 +20,7 @@ class CreatePublishersTable extends Migration
         });
 
         Schema::table('books', function (Blueprint $table) {
-            $table->foreignId('publisher_id')->index()->nullable()->after('serie_number');
+            $table->foreignId('publisher_id')->index()->nullable()->after('volume');
             $table->foreign('publisher_id')
                 ->references('id')
                 ->on('publishers')

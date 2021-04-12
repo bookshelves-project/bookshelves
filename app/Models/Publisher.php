@@ -15,6 +15,6 @@ class Publisher extends Model
 
     public function books(): HasMany
     {
-        return $this->hasMany(Book::class)->orderBy('serie_id')->orderBy('serie_number');
+        return $this->hasMany(Book::class)->orderBy('serie_id')->orderBy('volume');
     }
 }

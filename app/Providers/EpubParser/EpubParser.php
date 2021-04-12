@@ -25,7 +25,7 @@ class EpubParser
         public ?string $rights = null,
         public ?string $serie = null,
         public ?string $serie_sort = null,
-        public ?int $serie_number = 0,
+        public ?int $volume = 0,
         public ?string $cover = null,
         public ?string $cover_extension = null,
         public ?string $file_path = null,
@@ -67,12 +67,12 @@ class EpubParser
         $language = (string) $metadata['language'];
         $rights = (string) $metadata['rights'];
         $serie = (string) $metadata['serie'];
-        $serie_number = (string) $metadata['serie_number'];
+        $volume = (string) $metadata['volume'];
         $cover_extension = (string) $metadata['cover_extension'];
         $file_path = (string) $file_path;
 
         $identifiersParsed = IdentifiersParser::run(identifiers: $identifiers);
-        $serieParsed = SerieParser::run(serie: $serie, serie_number: $serie_number);
+        $serieParsed = SerieParser::run(serie: $serie, volume: $volume);
         $subjectsParsed = SubjectsParser::run(subjects: $subjects);
         $creatorsParsed = CreatorsParser::run(creators: $creators);
         $publisherParsed = (string) $publisher;
@@ -99,7 +99,7 @@ class EpubParser
             rights: $bookParsed->rights ? $bookParsed->rights : null,
             serie: $serieParsed->title,
             serie_sort: $serieParsed->title_sort,
-            serie_number: $serieParsed->number,
+            volume: $serieParsed->number,
             cover: $coverFile,
             cover_extension: $cover_extension,
             file_path: $file_path,

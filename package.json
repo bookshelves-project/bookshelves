@@ -25,5 +25,7 @@
         "tailwindcss": "^2.0.4",
         "tailwindcss-debug-screens": "^2.0.0"
     },
-    "dependencies": {}
+    "dependencies": {
+        "epub.js": "^0.2.15"
+    }
 }

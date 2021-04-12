@@ -66,7 +66,7 @@ class ConvertEpubParser
             'description'  => $epubParser->description,
             'date'         => $epubParser->date,
             'rights'       => $epubParser->rights,
-            'serie_number' => $epubParser->serie_number,
+            'volume'       => $epubParser->volume,
         ]);
     }
 

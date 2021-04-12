@@ -415,7 +415,7 @@ class BooksGenerateCommand extends Command
         if (null !== $book->serie) {
             $serie = $book->serie;
             $serie = $serie->title;
-            $serie = $serie.' '.$book->serie_number.' - ';
+            $serie = $serie.' '.$book->volume.' - ';
         }
         $this->info($key.' '.$serie.$book->title);
     }

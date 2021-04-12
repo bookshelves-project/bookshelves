@@ -31,10 +31,10 @@ class EpubGenerator
             }
         }
         $serieNumber = '';
-        if ($book->serie_number) {
-            $serieNumber = $book->serie_number;
-            if (1 === strlen((string) $book->serie_number)) {
-                $serieNumber = '0'.$book->serie_number;
+        if ($book->volume) {
+            $serieNumber = $book->volume;
+            if (1 === strlen((string) $book->volume)) {
+                $serieNumber = '0'.$book->volume;
             }
             $serieName = $serieName.'-'.$serieNumber.'_';
         } else {

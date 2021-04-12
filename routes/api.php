@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\EreaderController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\WebreaderController;
 use App\Http\Controllers\Api\DependencyController;
 use App\Http\Controllers\Api\SubmissionController;
 
@@ -28,10 +29,19 @@ use App\Http\Controllers\Api\SubmissionController;
 */
 
 Route::get('/', [ApiController::class, 'index'])->name('api.index');
+
+/*
+ * eReader routes
+ */
 Route::get('/ereader', [EreaderController::class, 'index'])->name('api.ereader.index');
 Route::get('/ereader/books', [EreaderController::class, 'books'])->name('api.ereader.books');
 Route::get('/ereader/series', [EreaderController::class, 'series'])->name('api.ereader.series');
 Route::get('/ereader/authors', [EreaderController::class, 'authors'])->name('api.ereader.authors');
+
+/*
+ * Web reader routes
+ */
+Route::get('/webreader', [WebreaderController::class, 'index'])->name('api.webreader.index');
 
 /*
  * List routes

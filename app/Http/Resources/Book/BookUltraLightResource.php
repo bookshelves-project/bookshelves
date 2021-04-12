@@ -35,7 +35,7 @@ class BookUltraLightResource extends JsonResource
                 'base' => $book->image_thumbnail,
             ],
             'publisher'    => PublisherResource::make($book->publisher),
-            'serieVolume'  => $book->serie_number,
+            'volume'       => $book->volume,
             'meta'         => [
                 'show'        => $book->show_link,
             ],

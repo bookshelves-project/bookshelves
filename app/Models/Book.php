@@ -32,7 +32,7 @@ class Book extends Model implements HasMedia
         'description',
         'date',
         'rights',
-        'serie_number',
+        'volume',
         'page_count',
         'maturity_rating',
     ];
@@ -120,8 +120,8 @@ class Book extends Model implements HasMedia
     {
         $serie = null;
         if ($this->serie) {
-            $serie_number = strlen($this->serie_number) < 2 ? '0'.$this->serie_number : $this->serie_number;
-            $serie = $this->serie?->title_sort.' '.$serie_number;
+            $volume = strlen($this->volume) < 2 ? '0'.$this->volume : $this->volume;
+            $serie = $this->serie?->title_sort.' '.$volume;
             $serie = Str::slug($serie).'_';
         }
         $title = Str::slug($this->title_sort);

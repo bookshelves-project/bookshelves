@@ -8,7 +8,7 @@
 
     <title>
         @hasSection('title')
-            @yield('title')
+            @yield('title') · {{ config('app.name') }}
         @else
             {{ config('app.name') }}
         @endif
@@ -29,6 +29,7 @@
         @yield('content')
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
 </body>
 
 </html>

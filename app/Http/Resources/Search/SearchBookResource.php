@@ -19,7 +19,7 @@ class SearchBookResource extends JsonResource
         if ($this->serie) {
             $serie = [
                 'title'  => $this->serie->title,
-                'number' => $this->serie_number,
+                'number' => $this->volume,
             ];
         }
 
