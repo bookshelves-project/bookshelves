@@ -12,6 +12,9 @@ use App\Http\Resources\Serie\SerieLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Author\AuthorUltraLightResource;
 
+/**
+ * @property \App\Models\Book $resource
+ */
 class BookResource extends JsonResource
 {
     /**
@@ -24,6 +27,8 @@ class BookResource extends JsonResource
      */
     public function toArray($request): array
     {
+        // $this->resource->title;
+
         /** @var Book $book */
         $book = $this;
 

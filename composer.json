@@ -95,11 +95,10 @@
             "@php artisan package:discover --ansi"
         ],
         "helper": [
-            "./vendor/bin/php-cs-fixer fix",
             "php artisan ide-helper:generate",
             "php artisan ide-helper:models --nowrite",
-            "php artisan ide-helper:meta",
-            "php artisan ide-helper:eloquent"
+            "php artisan ide-helper:eloquent",
+            "./vendor/bin/php-cs-fixer fix"
         ],
         "test": [
             "php artisan test",
