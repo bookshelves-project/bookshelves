@@ -15,9 +15,10 @@ use Illuminate\Console\Command;
 use App\Providers\EpubParser\EpubParser;
 use App\Providers\Bookshelves\EpubGenerator;
 use App\Providers\Bookshelves\CoverGenerator;
-use App\Providers\EpubParser\EpubParserTools;
-use App\Providers\Bookshelves\ConvertEpubParser;
 use App\Providers\Bookshelves\ExtraDataGenerator;
+use App\Providers\MetadataExtractor\MetadataExtractor;
+use App\Providers\Bookshelves\ConvertMetadataExtractor;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class BooksGenerateCommand extends Command
 {
@@ -84,7 +85,7 @@ class BooksGenerateCommand extends Command
         Cache::forget('books');
         Cache::forget('series');
         Cache::forget('authors');
-        $epubFiles = EpubParserTools::getAllEpubFiles(limit: $limit);
+        $epubFiles = MetadataExtractorTools::getAllEpubFiles(limit: $limit);
 
         $booksGenerated = null;
         if ($isFresh) {
@@ -299,17 +300,19 @@ class BooksGenerateCommand extends Command
         $epub_bar = $this->output->createProgressBar($epubsCount);
         $epub_bar->start();
         foreach ($epubFiles as $key => $filePath) {
-            $epubParser = EpubParser::run($filePath, $isDebug);
-            $tryToFindBook = Book::whereSlug(Str::slug($epubParser->title))->first();
-            if (! $tryToFindBook) {
-                $book_created = ConvertEpubParser::run(epubParser: $epubParser, is_debug: $isDebug);
-                EpubGenerator::run(book: $book_created, file_path: $filePath);
+            $metadataExtractor = MetadataExtractor::run($filePath, $isDebug);
+            if ($metadataExtractor) {
+                $tryToFindBook = Book::whereSlug(Str::slug($metadataExtractor->title))->first();
+                if (! $tryToFindBook) {
+                    $book_created = ConvertMetadataExtractor::run(metadataExtractor: $metadataExtractor, is_debug: $isDebug);
+                    EpubGenerator::run(book: $book_created, file_path: $filePath);
 
-                array_push($books_with_covers, [
-                    'book'            => $book_created,
-                    'cover'           => $epubParser->cover,
-                    'cover_extension' => $epubParser->cover_extension,
-                ]);
+                    array_push($books_with_covers, [
+                        'book'            => $book_created,
+                        'cover'           => $metadataExtractor->cover,
+                        'cover_extension' => $metadataExtractor->cover_extension,
+                    ]);
+                }
             }
             $epub_bar->advance();
         }

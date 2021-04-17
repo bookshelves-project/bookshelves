@@ -17,7 +17,8 @@ class CreateBooksTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('title_sort')->nullable();
-            $table->string('slug')->unique()->nullable();
+            $table->string('slug')->nullable();
+            $table->string('unique_identifier')->nullable();
             $table->string('contributor')->nullable();
             $table->text('description')->nullable();
             $table->dateTime('date')->nullable();

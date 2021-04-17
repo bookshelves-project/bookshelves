@@ -10,38 +10,38 @@ use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Identifier;
 use Illuminate\Support\Str;
-use App\Providers\EpubParser\EpubParser;
+use App\Providers\MetadataExtractor\MetadataExtractor;
 
-class ConvertEpubParser
+class ConvertMetadataExtractor
 {
     /**
      * Generate new Book with all relations.
      *
-     * @param EpubParser $epubParser
-     * @param bool       $is_debug
+     * @param MetadataExtractor $metadataExtractor
+     * @param bool              $is_debug
      *
      * @return Book
      */
-    public static function run(EpubParser $epubParser, ?bool $is_debug = false): Book
+    public static function run(MetadataExtractor $metadataExtractor, ?bool $is_debug = false): Book
     {
-        $bookIfExist = Book::whereSlug(Str::slug($epubParser->title, '-'))->first();
+        $bookIfExist = Book::whereSlug(Str::slug($metadataExtractor->title, '-'))->first();
         $book = null;
         if (! $bookIfExist) {
-            $book = self::book($epubParser);
-            $book = self::authors($epubParser, $book);
-            $book = self::tags($epubParser, $book);
-            $book = self::publisher($epubParser, $book);
-            $book = self::serie($epubParser, $book);
+            $book = self::book($metadataExtractor);
+            $book = self::authors($metadataExtractor, $book);
+            $book = self::tags($metadataExtractor, $book);
+            $book = self::publisher($metadataExtractor, $book);
+            $book = self::serie($metadataExtractor, $book);
             $language = Language::firstOrCreate([
-                'slug' => $epubParser->language,
+                'slug' => $metadataExtractor->language,
             ]);
             $book->language()->associate($language->slug);
             $identifier = Identifier::firstOrCreate([
-                'isbn'   => $epubParser->identifiers->isbn,
-                'isbn13' => $epubParser->identifiers->isbn13,
-                'doi'    => $epubParser->identifiers->doi,
-                'amazon' => $epubParser->identifiers->amazon,
-                'google' => $epubParser->identifiers->google,
+                'isbn'   => $metadataExtractor->identifiers->isbn,
+                'isbn13' => $metadataExtractor->identifiers->isbn13,
+                'doi'    => $metadataExtractor->identifiers->doi,
+                'amazon' => $metadataExtractor->identifiers->amazon,
+                'google' => $metadataExtractor->identifiers->google,
             ]);
             $book->identifier()->associate($identifier);
             $book->save();
@@ -56,24 +56,24 @@ class ConvertEpubParser
         return $book;
     }
 
-    public static function book(EpubParser $epubParser): Book
+    public static function book(MetadataExtractor $metadataExtractor): Book
     {
         return Book::firstOrCreate([
-            'title'        => $epubParser->title,
-            'slug'         => Str::slug($epubParser->title, '-'),
-            'title_sort'   => $epubParser->title_sort,
-            'contributor'  => $epubParser->contributor,
-            'description'  => $epubParser->description,
-            'date'         => $epubParser->date,
-            'rights'       => $epubParser->rights,
-            'volume'       => $epubParser->volume,
+            'title'        => $metadataExtractor->title,
+            'slug'         => Str::slug($metadataExtractor->title, '-'),
+            'title_sort'   => $metadataExtractor->title_sort,
+            'contributor'  => $metadataExtractor->contributor,
+            'description'  => $metadataExtractor->description,
+            'date'         => $metadataExtractor->date,
+            'rights'       => $metadataExtractor->rights,
+            'volume'       => $metadataExtractor->volume,
         ]);
     }
 
-    public static function authors(EpubParser $epubParser, Book $book): Book
+    public static function authors(MetadataExtractor $metadataExtractor, Book $book): Book
     {
         $authors = [];
-        foreach ($epubParser->creators as $key => $creator) {
+        foreach ($metadataExtractor->creators as $key => $creator) {
             $author_data = explode(' ', $creator);
             $lastname = $author_data[sizeof($author_data) - 1];
             array_pop($author_data);
@@ -93,9 +93,9 @@ class ConvertEpubParser
         return $book;
     }
 
-    public static function tags(EpubParser $epubParser, Book $book): Book
+    public static function tags(MetadataExtractor $metadataExtractor, Book $book): Book
     {
-        foreach ($epubParser->subjects as $key => $subject) {
+        foreach ($metadataExtractor->subjects as $key => $subject) {
             $tagIfExist = Tag::whereSlug(Str::slug($subject))->first();
             $tag = null;
             if (! $tagIfExist && strlen($subject) > 1 && strlen($subject) < 30) {
@@ -124,15 +124,15 @@ class ConvertEpubParser
         return $book;
     }
 
-    public static function publisher(EpubParser $epubParser, Book $book): Book
+    public static function publisher(MetadataExtractor $metadataExtractor, Book $book): Book
     {
-        if ($epubParser->publisher) {
-            $publisherIfExist = Publisher::whereSlug(Str::slug($epubParser->publisher))->first();
+        if ($metadataExtractor->publisher) {
+            $publisherIfExist = Publisher::whereSlug(Str::slug($metadataExtractor->publisher))->first();
             $publisher = null;
             if (! $publisherIfExist) {
                 $publisher = Publisher::firstOrCreate([
-                    'name' => $epubParser->publisher,
-                    'slug' => Str::slug($epubParser->publisher),
+                    'name' => $metadataExtractor->publisher,
+                    'slug' => Str::slug($metadataExtractor->publisher),
                 ]);
             } else {
                 $publisher = $publisherIfExist;
@@ -144,16 +144,16 @@ class ConvertEpubParser
         return $book;
     }
 
-    public static function serie(EpubParser $epubParser, Book $book): Book
+    public static function serie(MetadataExtractor $metadataExtractor, Book $book): Book
     {
-        if ($epubParser->serie) {
-            $serieIfExist = Serie::whereSlug(Str::slug($epubParser->serie))->first();
+        if ($metadataExtractor->serie) {
+            $serieIfExist = Serie::whereSlug(Str::slug($metadataExtractor->serie))->first();
             $serie = null;
             if (! $serieIfExist) {
                 $serie = Serie::firstOrCreate([
-                    'title'      => $epubParser->serie,
-                    'title_sort' => $epubParser->serie_sort,
-                    'slug'       => Str::slug($epubParser->serie),
+                    'title'      => $metadataExtractor->serie,
+                    'title_sort' => $metadataExtractor->serie_sort,
+                    'slug'       => Str::slug($metadataExtractor->serie),
                 ]);
             } else {
                 $serie = $serieIfExist;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers\EpubParser\Entities;
+namespace App\Providers\MetadataExtractor\Parsers;
 
-use App\Providers\EpubParser\EpubParserTools;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class SerieParser
 {
@@ -29,7 +29,7 @@ class SerieParser
 
         if ($serie) {
             $title = $serie;
-            $title_sort = EpubParserTools::getSortString($title);
+            $title_sort = MetadataExtractorTools::getSortString($title);
             if (1 === strlen((string) $volume)) {
                 $volume = '0'.$volume;
             }

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Providers\EpubParser;
+namespace App\Providers\MetadataExtractor;
 
 use DateTime;
-use App\Providers\EpubParser\Entities\BookParser;
-use App\Providers\EpubParser\Entities\SerieParser;
-use App\Providers\EpubParser\Entities\CreatorsParser;
-use App\Providers\EpubParser\Entities\SubjectsParser;
-use App\Providers\EpubParser\Entities\IdentifiersParser;
+use App\Providers\MetadataExtractor\Parsers\BookParser;
+use App\Providers\MetadataExtractor\Parsers\SerieParser;
+use App\Providers\MetadataExtractor\Parsers\CreatorsParser;
+use App\Providers\MetadataExtractor\Parsers\SubjectsParser;
+use App\Providers\MetadataExtractor\Parsers\IdentifiersParser;
 
-class EpubParser
+class MetadataExtractor
 {
     public function __construct(
         public ?string $title = null,
@@ -42,16 +42,16 @@ class EpubParser
      * @param string $file_path
      * @param bool   $is_debug
      *
-     * @return EpubParser
+     * @return MetadataExtractor
      */
-    public static function run(string $file_path, bool $is_debug = false): EpubParser | bool
+    public static function run(string $file_path, bool $is_debug = false): MetadataExtractor | bool
     {
         try {
-            $xml_parsed = EpubParserTools::parseXmlFile($file_path);
+            $xml_parsed = MetadataExtractorTools::parseXmlFile($file_path);
             $metadata = $xml_parsed['metadata'];
             $coverFile = $xml_parsed['coverFile'];
         } catch (\Throwable $th) {
-            EpubParserTools::error('XML file', $file_path);
+            MetadataExtractorTools::error('XML file', $file_path);
 
             return false;
         }
@@ -85,7 +85,7 @@ class EpubParser
             rights: $rights
         );
 
-        $epubParser = new EpubParser(
+        $epubParser = new MetadataExtractor(
             title: $bookParsed->title,
             title_sort: $bookParsed->title_sort,
             creators: $creatorsParsed->creators,

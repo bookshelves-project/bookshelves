@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Providers\EpubParser;
+namespace App\Providers\MetadataExtractor;
 
+use File;
 use Storage;
 use ZipArchive;
 use App\Utils\Tools;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
-class EpubParserTools
+class MetadataExtractorTools
 {
     public static function parseXmlFile(string $file_path)
     {
@@ -26,6 +27,7 @@ class EpubParserTools
             $stat = $zip->statIndex($i);
             if (strpos($stat['name'], '.opf')) {
                 $xml_string = $zip->getFromName($stat['name']);
+                Storage::disk('public')->put(pathinfo($file_path)['basename'].'.opf', $xml_string);
             }
             if (preg_match('/cover/', $stat['name'])) {
                 if (array_key_exists('extension', pathinfo($stat['name']))) {
@@ -40,6 +42,28 @@ class EpubParserTools
         $coverFile = array_key_exists(0, $options_covers) ? $options_covers[0] : null;
 
         $package = simplexml_load_string($xml_string);
+
+        // Transform XML to Array
+        $xml = self::XMLtoArray($xml_string);
+        $xml = $xml['PACKAGE'];
+        $cover = null;
+        $manifest = $xml['MANIFEST']['ITEM'];
+        foreach ($manifest as $key => $value) {
+            if ('cover' === $value['ID']) {
+                $cover = $value;
+            }
+        }
+        unset($xml['MANIFEST']);
+        unset($xml['SPINE']);
+        $xml['COVER'] = $cover;
+        $title = pathinfo($file_path)['basename'];
+        try {
+            // dump($xml);
+            Storage::disk('public')->put("$title-custom.md", json_encode($xml));
+        } catch (\Throwable $th) {
+            dump($th);
+        }
+
         $packageMetadata = null;
         try {
             $packageMetadata = $package->metadata->children('dc', true);
@@ -235,5 +259,90 @@ class EpubParserTools
         }
 
         return $text;
+    }
+
+    /**
+     * Convert XML to an Array.
+     *
+     * @param string $XML
+     *
+     * @return array
+     */
+    public static function XMLtoArray($XML)
+    {
+        $xml_parser = xml_parser_create();
+        xml_parse_into_struct($xml_parser, $XML, $vals);
+        xml_parser_free($xml_parser);
+        // wyznaczamy tablice z powtarzajacymi sie tagami na tym samym poziomie
+        $_tmp = '';
+        foreach ($vals as $xml_elem) {
+            $x_tag = $xml_elem['tag'];
+            $x_level = $xml_elem['level'];
+            $x_type = $xml_elem['type'];
+            if (1 != $x_level && 'close' == $x_type) {
+                if (isset($multi_key[$x_tag][$x_level])) {
+                    $multi_key[$x_tag][$x_level] = 1;
+                } else {
+                    $multi_key[$x_tag][$x_level] = 0;
+                }
+            }
+            if (1 != $x_level && 'complete' == $x_type) {
+                if ($_tmp == $x_tag) {
+                    $multi_key[$x_tag][$x_level] = 1;
+                }
+                $_tmp = $x_tag;
+            }
+        }
+        // jedziemy po tablicy
+        $xml_array = [];
+        foreach ($vals as $xml_elem) {
+            $x_tag = $xml_elem['tag'];
+            $x_level = $xml_elem['level'];
+            $x_type = $xml_elem['type'];
+            if ('open' == $x_type) {
+                $level[$x_level] = $x_tag;
+            }
+            $start_level = 1;
+            $php_stmt = '$xml_array';
+            if ('close' == $x_type && 1 != $x_level) {
+                $multi_key[$x_tag][$x_level]++;
+            }
+            while ($start_level < $x_level) {
+                $php_stmt .= '[$level['.$start_level.']]';
+                if (isset($multi_key[$level[$start_level]][$start_level]) && $multi_key[$level[$start_level]][$start_level]) {
+                    $php_stmt .= '['.($multi_key[$level[$start_level]][$start_level] - 1).']';
+                }
+                $start_level++;
+            }
+            $add = '';
+            if (isset($multi_key[$x_tag][$x_level]) && $multi_key[$x_tag][$x_level] && ('open' == $x_type || 'complete' == $x_type)) {
+                if (! isset($multi_key2[$x_tag][$x_level])) {
+                    $multi_key2[$x_tag][$x_level] = 0;
+                }
+                $multi_key2[$x_tag][$x_level]++;
+
+                $add = '['.$multi_key2[$x_tag][$x_level].']';
+            }
+            if (isset($xml_elem['value']) && '' != trim($xml_elem['value']) && ! array_key_exists('attributes', $xml_elem)) {
+                if ('open' == $x_type) {
+                    $php_stmt_main = $php_stmt.'[$x_type]'.$add.'[\'content\'] = $xml_elem[\'value\'];';
+                } else {
+                    $php_stmt_main = $php_stmt.'[$x_tag]'.$add.' = $xml_elem[\'value\'];';
+                }
+                eval($php_stmt_main);
+            }
+            if (array_key_exists('attributes', $xml_elem)) {
+                if (isset($xml_elem['value'])) {
+                    $php_stmt_main = $php_stmt.'[$x_tag]'.$add.'[\'content\'] = $xml_elem[\'value\'];';
+                    eval($php_stmt_main);
+                }
+                foreach ($xml_elem['attributes'] as $key=>$value) {
+                    $php_stmt_att = $php_stmt.'[$x_tag]'.$add.'[$key] = $value;';
+                    eval($php_stmt_att);
+                }
+            }
+        }
+
+        return $xml_array;
     }
 }

@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 use App\Models\Serie;
 use Illuminate\Support\Str;
-use App\Providers\EpubParser\EpubParserTools;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class SerieFactory extends Factory
 {
@@ -28,7 +28,7 @@ class SerieFactory extends Factory
 
         return [
             'title'        => $title,
-            'title_sort'   => EpubParserTools::getSortString($title),
+            'title_sort'   => MetadataExtractorTools::getSortString($title),
             'slug'         => Str::slug($title),
         ];
     }

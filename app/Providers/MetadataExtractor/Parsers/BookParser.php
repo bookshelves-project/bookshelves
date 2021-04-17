@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Providers\EpubParser\Entities;
+namespace App\Providers\MetadataExtractor\Parsers;
 
 use DateTime;
-use App\Providers\EpubParser\EpubParserTools;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class BookParser
 {
@@ -29,9 +29,9 @@ class BookParser
     public static function run(string $title, ?string $contributor, ?string $description, ?string $date, ?string $rights): BookParser
     {
         $book_title = $title;
-        $title_sort = EpubParserTools::getSortString($book_title);
+        $title_sort = MetadataExtractorTools::getSortString($book_title);
 
-        $description = EpubParserTools::cleanText($description, 'html', 5000);
+        $description = MetadataExtractorTools::cleanText($description, 'html', 5000);
 
         if (strlen($rights) > 255) {
             $rights = substr($rights, 0, 255);

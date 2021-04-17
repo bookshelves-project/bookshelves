@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\EpubParser\Entities;
+namespace App\Providers\MetadataExtractor\Parsers;
 
 class IdentifiersParser
 {

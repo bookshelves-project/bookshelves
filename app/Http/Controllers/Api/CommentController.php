@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
-use App\Providers\EpubParser\EpubParserTools;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class CommentController extends Controller
 {
@@ -43,7 +43,7 @@ class CommentController extends Controller
         }
 
         $comment_text = $request->text;
-        $comment_text = EpubParserTools::cleanText($comment_text, 'markdown', 1800);
+        $comment_text = MetadataExtractorTools::cleanText($comment_text, 'markdown', 1800);
         $comment = Comment::create([
             'text'    => $comment_text,
             'rating'  => $request->rating,
