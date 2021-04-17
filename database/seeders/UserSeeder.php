@@ -71,7 +71,7 @@ class UserSeeder extends Seeder
             $userCreated->save();
         }
 
-        $admin = User::whereEmail('ewilan@dotslashplay.it')->first();
+        $admin = User::whereEmail(config('bookshelves.admin.email'))->first();
         $admin->roles()->attach(Role::whereName(RoleEnum::ADMIN())->first());
         $admin->save();
     }

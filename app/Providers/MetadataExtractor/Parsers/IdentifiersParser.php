@@ -20,7 +20,7 @@ class IdentifiersParser
      *
      * @return IdentifiersParser
      */
-    public static function run(array | string $identifiers): IdentifiersParser
+    public static function run(array $identifiers): IdentifiersParser
     {
         $isbn = null;
         $isbn13 = null;
@@ -28,24 +28,43 @@ class IdentifiersParser
         $amazon = null;
         $google = null;
 
-        if (! is_array($identifiers)) {
-            $identifier_string = $identifiers;
-            $identifiers = [];
-            $identifiers[] = $identifier_string;
-        }
-        $identifiers = array_unique($identifiers);
+        // dump($identifiers);
+        // $identifiers = array_unique($identifiers);
         foreach ($identifiers as $key => $value) {
-            if (1 === self::findIsbn($value)) {
-                $isbn = $value;
-            } elseif (2 === self::findIsbn($value)) {
-                $isbn13 = $value;
-            } elseif ('doi' === $key) {
-                $doi = $value;
-            } elseif ('amazon' === $key) {
-                $amazon = $value;
-            } elseif ('google' === $key) {
-                $google = $value;
+            // if (1 === self::findIsbn($value)) {
+            //     $isbn = $value;
+            // } elseif (2 === self::findIsbn($value)) {
+            //     $isbn13 = $value;
+            // } elseif ('doi' === $key) {
+            //     $doi = $value;
+            // } elseif ('amazon' === $key) {
+            //     $amazon = $value;
+            // } elseif ('google' === $key) {
+            //     $google = $value;
+            // }
+
+            // dump(strtolower($value['id']));
+            // $res = self::findIsbn($value['content']);
+            $id = strtolower($value['id']);
+            // dump($id);
+            // if ('isbn' === $id) {
+            //     dump($value['value']);
+            // }
+            if ('isbn' === $id) {
+                $isbn_type = self::findIsbn($value['value']);
+                if (1 === $isbn_type) {
+                    $isbn = $value['value'];
+                }
+                if (2 === $isbn_type) {
+                    $isbn13 = $value['value'];
+                }
             }
+            match ($id) {
+                'doi'    => $doi = $value['value'],
+                'amazon' => $amazon = $value['value'],
+                'google' => $google = $value['value'],
+                default  => ''
+            };
         }
 
         return new IdentifiersParser(

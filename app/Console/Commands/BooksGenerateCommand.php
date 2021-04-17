@@ -74,6 +74,9 @@ class BooksGenerateCommand extends Command
         }
         if ($isFresh) {
             $this->warn('You choose fresh installation, current database will be erased. Seeders will be used.');
+
+            Artisan::call('db:seed --class RoleSeeder');
+            Artisan::call('db:seed --class UserSeeder');
         }
 
         $this->newLine();

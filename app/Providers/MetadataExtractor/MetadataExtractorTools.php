@@ -27,7 +27,7 @@ class MetadataExtractorTools
             $stat = $zip->statIndex($i);
             if (strpos($stat['name'], '.opf')) {
                 $xml_string = $zip->getFromName($stat['name']);
-                Storage::disk('public')->put(pathinfo($file_path)['basename'].'.opf', $xml_string);
+                Storage::disk('public')->put('/debug/'.pathinfo($file_path)['basename'].'.opf', $xml_string);
             }
             if (preg_match('/cover/', $stat['name'])) {
                 if (array_key_exists('extension', pathinfo($stat['name']))) {
@@ -41,127 +41,109 @@ class MetadataExtractorTools
 
         $coverFile = array_key_exists(0, $options_covers) ? $options_covers[0] : null;
 
-        $package = simplexml_load_string($xml_string);
+        // $package = simplexml_load_string($xml_string);
 
         // Transform XML to Array
-        $xml = self::XMLtoArray($xml_string);
-        $xml = $xml['PACKAGE'];
-        $cover = null;
-        $manifest = $xml['MANIFEST']['ITEM'];
-        foreach ($manifest as $key => $value) {
-            if ('cover' === $value['ID']) {
-                $cover = $value;
-            }
-        }
-        unset($xml['MANIFEST']);
-        unset($xml['SPINE']);
-        $xml['COVER'] = $cover;
-        $title = pathinfo($file_path)['basename'];
-        try {
-            // dump($xml);
-            Storage::disk('public')->put("$title-custom.md", json_encode($xml));
-        } catch (\Throwable $th) {
-            dump($th);
-        }
+        $metadata = self::convertXml(xml: $xml_string, file_path: $file_path);
 
-        $packageMetadata = null;
-        try {
-            $packageMetadata = $package->metadata->children('dc', true);
-        } catch (\Throwable $th) {
-            // self::generateError('metadata');
-        }
-        // Get identifiers with keys
-        $xml_string_array = explode(PHP_EOL, $xml_string);
-        $identifiers_raw = [];
-        foreach ($xml_string_array as $key => $value) {
-            $xml_value = trim($value);
-            if (str_contains($xml_value, 'dc:identifier')) {
-                $xml_value = str_replace('</dc:identifier>', '', $xml_value);
-                $xml_value = explode('>', $xml_value);
-                $identifier_raw = $xml_value[1];
-                $identifier_raw_key = explode('opf:scheme="', $xml_value[0]);
-                $identifier_raw_key = strtolower(trim(end($identifier_raw_key)));
-                $identifier_raw_key = rtrim($identifier_raw_key, '"');
-                if ('uuid' !== $identifier_raw_key && 'calibre' !== $identifier_raw_key) {
-                    $identifiers_raw[$identifier_raw_key] = $identifier_raw;
-                }
-            }
-        }
+        // $packageMetadata = null;
+        // try {
+        //     $packageMetadata = $package->metadata->children('dc', true);
+        // } catch (\Throwable $th) {
+        //     // self::generateError('metadata');
+        // }
+        // // Get identifiers with keys
+        // $xml_string_array = explode(PHP_EOL, $xml_string);
+        // $identifiers_raw = [];
+        // foreach ($xml_string_array as $key => $value) {
+        //     $xml_value = trim($value);
+        //     if (str_contains($xml_value, 'dc:identifier')) {
+        //         $xml_value = str_replace('</dc:identifier>', '', $xml_value);
+        //         $xml_value = explode('>', $xml_value);
+        //         $identifier_raw = $xml_value[1];
+        //         $identifier_raw_key = explode('opf:scheme="', $xml_value[0]);
+        //         $identifier_raw_key = strtolower(trim(end($identifier_raw_key)));
+        //         $identifier_raw_key = rtrim($identifier_raw_key, '"');
+        //         if ('uuid' !== $identifier_raw_key && 'calibre' !== $identifier_raw_key) {
+        //             $identifiers_raw[$identifier_raw_key] = $identifier_raw;
+        //         }
+        //     }
+        // }
 
-        $serie = null;
-        $volume = null;
-        try {
-            // Parse all tags 'meta' into 'package' => 'metadata'
-            foreach ($package->metadata as $key => $value) {
-                foreach ($value->meta as $a => $b) {
-                    // get serie
-                    if (preg_match('/calibre:series$/', $b->attributes()->__toString())) {
-                        foreach ($b->attributes() as $k => $v) {
-                            if (! preg_match('/series$/', $v->__toString())) {
-                                $serie = $v->__toString();
-                            }
-                        }
-                    }
-                    // get serie number
-                    if (preg_match('/series_index$/', $b->attributes()->__toString())) {
-                        foreach ($b->attributes() as $k => $v) {
-                            if (! preg_match('/calibre:series_index$/', $v->__toString())) {
-                                $volume = $v->__toString();
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+        // $serie = null;
+        // $volume = null;
+        // try {
+        //     // Parse all tags 'meta' into 'package' => 'metadata'
+        //     foreach ($package->metadata as $key => $value) {
+        //         foreach ($value->meta as $a => $b) {
+        //             // get serie
+        //             if (preg_match('/calibre:series$/', $b->attributes()->__toString())) {
+        //                 foreach ($b->attributes() as $k => $v) {
+        //                     if (! preg_match('/series$/', $v->__toString())) {
+        //                         $serie = $v->__toString();
+        //                     }
+        //                 }
+        //             }
+        //             // get serie number
+        //             if (preg_match('/series_index$/', $b->attributes()->__toString())) {
+        //                 foreach ($b->attributes() as $k => $v) {
+        //                     if (! preg_match('/calibre:series_index$/', $v->__toString())) {
+        //                         $volume = $v->__toString();
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        // }
 
-        $metadata_from_xml = [];
-        try {
-            foreach ($packageMetadata as $k => $v) {
-                $metadata_from_xml[$k][] = $v->__toString();
-            }
-        } catch (\Throwable $th) {
-            // self::generateError('XML file invalid');
-        }
+        // $metadata_from_xml = [];
+        // try {
+        //     foreach ($packageMetadata as $k => $v) {
+        //         $metadata_from_xml[$k][] = $v->__toString();
+        //     }
+        // } catch (\Throwable $th) {
+        //     // self::generateError('XML file invalid');
+        // }
 
-        $metadata_from_raw = [
-            'title'        => [],
-            'creator'      => [],
-            'contributor'  => [],
-            'description'  => [],
-            'date'         => [],
-            'identifier'   => [],
-            'publisher'    => [],
-            'subject'      => [],
-            'language'     => [],
-            'rights'       => [],
-            'serie'        => [],
-            'volume'       => [],
-        ];
+        // $metadata_from_raw = [
+        //     'title'        => [],
+        //     'creator'      => [],
+        //     'contributor'  => [],
+        //     'description'  => [],
+        //     'date'         => [],
+        //     'identifier'   => [],
+        //     'publisher'    => [],
+        //     'subject'      => [],
+        //     'language'     => [],
+        //     'rights'       => [],
+        //     'serie'        => [],
+        //     'volume'       => [],
+        // ];
 
-        foreach ($metadata_from_xml as $key => $value) {
-            if (array_key_exists($key, $metadata_from_raw)) {
-                for ($i = 0; $i < sizeof($value); $i++) {
-                    $el = $value[$i];
-                    array_push($metadata_from_raw[$key], $el);
-                }
-            }
-        }
+        // foreach ($metadata_from_xml as $key => $value) {
+        //     if (array_key_exists($key, $metadata_from_raw)) {
+        //         for ($i = 0; $i < sizeof($value); $i++) {
+        //             $el = $value[$i];
+        //             array_push($metadata_from_raw[$key], $el);
+        //         }
+        //     }
+        // }
 
-        $metadata = [];
-        foreach ($metadata_from_raw as $key => $meta) {
-            if (sizeof($meta) <= 1) {
-                $metadata[$key] = reset($meta);
-            } else {
-                $metadata[$key] = $meta;
-            }
-        }
-        $metadata['identifier'] = $identifiers_raw;
-        $metadata['serie'] = $serie ? $serie : null;
-        $metadata['volume'] = $volume ? $volume : null;
+        // $metadata = [];
+        // foreach ($metadata_from_raw as $key => $meta) {
+        //     if (sizeof($meta) <= 1) {
+        //         $metadata[$key] = reset($meta);
+        //     } else {
+        //         $metadata[$key] = $meta;
+        //     }
+        // }
+        // $metadata['identifier'] = $identifiers_raw;
+        // $metadata['serie'] = $serie ? $serie : null;
+        // $metadata['volume'] = $volume ? $volume : null;
         // $metadata['cover'] = $coverFile ? $coverFile : null;
-        $metadata['cover_extension'] = $cover_extension ? $cover_extension : null;
+        // $metadata['cover_extension'] = $cover_extension ? $cover_extension : null;
 
         return [
             'metadata'             => $metadata,
@@ -268,7 +250,7 @@ class MetadataExtractorTools
      *
      * @return array
      */
-    public static function XMLtoArray($XML)
+    public static function XMLtoArray(string $XML): array
     {
         $xml_parser = xml_parser_create();
         xml_parse_into_struct($xml_parser, $XML, $vals);
@@ -344,5 +326,139 @@ class MetadataExtractorTools
         }
 
         return $xml_array;
+    }
+
+    public static function convertXml(string $xml, $file_path)
+    {
+        $xml = self::XMLtoArray($xml);
+        $xml = $xml['PACKAGE'];
+        $cover = null;
+        $manifest = $xml['MANIFEST']['ITEM'];
+        foreach ($manifest as $key => $value) {
+            if ('cover' === $value['ID']) {
+                $cover = $value;
+            }
+        }
+        unset($xml['MANIFEST']);
+        unset($xml['SPINE']);
+        $xml['COVER'] = $cover;
+        $title = pathinfo($file_path)['basename'];
+        try {
+            // dump($xml);
+            Storage::disk('public')->put("/debug/$title-custom.md", json_encode($xml));
+        } catch (\Throwable $th) {
+            dump($th);
+        }
+
+        $xml = self::replaceKeys(':', '', $xml);
+        // dump($xml);
+
+        $metadata = [];
+        try {
+            $object = json_decode(json_encode($xml), false);
+            $meta = $object?->metadata;
+            $creators = $meta?->dc_creator ?? null;
+            $creators_arr = [];
+            foreach ($creators as $key => $value) {
+                // only one author
+                if ('content' === $key) {
+                    array_push($creators_arr, $value);
+                // More than one author
+                } elseif (is_numeric($key)) {
+                    array_push($creators_arr, $value->content);
+                }
+            }
+
+            $contributors = (array) $meta?->dc_contributor ?? null;
+            $contributors_arr = [];
+            foreach ($contributors as $key => $value) {
+                // only one contributor
+                if ('content' === $key) {
+                    array_push($contributors_arr, $value);
+                // More than one contributor
+                } elseif (is_numeric($key)) {
+                    array_push($contributors_arr, $value->content);
+                }
+            }
+            $contributors = implode(',', $contributors_arr);
+
+            $identifiers = (array) $meta?->dc_identifier ?? null;
+            $identifiers_arr = [];
+            foreach ($identifiers as $key => $value) {
+                // More than one identifier
+                if (is_numeric($key)) {
+                    array_push($identifiers_arr, [
+                        'id'    => $value->opf_scheme,
+                        'value' => $value->content,
+                    ]);
+                } else {
+                    $identifiers_arr = [];
+                }
+            }
+            if (! sizeof($identifiers_arr)) {
+                $identifiers_arr[0]['id'] = $identifiers['opf_scheme'];
+                $identifiers_arr[0]['content'] = $identifiers['content'];
+            }
+
+            $subjects_arr = [];
+            try {
+                $subjects = (array) $meta?->dc_subject ?? null;
+                foreach ($subjects as $key => $value) {
+                    array_push($subjects_arr, $value);
+                }
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+
+            $serie = null;
+            $volume = null;
+            $meta_serie = (array) $meta?->meta ?? null;
+            foreach ($meta_serie as $key => $value) {
+                if ('calibre:series' === $value->name) {
+                    $serie = $value->content;
+                }
+                if ('calibre:series_index' === $value->name) {
+                    $volume = $value->content;
+                }
+            }
+
+            $metadata = [
+                'title'         => $meta?->dc_title ?? null,
+                'creators'      => $creators_arr,
+                'contributor'   => $contributors,
+                'description'   => $meta?->dc_description ?? null,
+                'date'          => $meta?->dc_date ?? null,
+                'identifiers'   => $identifiers_arr,
+                'publisher'     => $meta?->dc_publisher ?? null,
+                'subjects'      => $subjects_arr,
+                'language'      => $meta?->dc_language ?? null,
+                'rights'        => $meta?->dc_rights ?? null,
+                'serie'         => $serie,
+                'volume'        => $volume,
+            ];
+        } catch (\Throwable $th) {
+            dump($th);
+        }
+
+        return $metadata;
+    }
+
+    public static function replaceKeys($oldKey, $newKey, array $input)
+    {
+        $return = [];
+        foreach ($input as $key => $value) {
+            $key = strtolower($key);
+            if (str_contains($key, ':')) {
+                $key = str_replace(':', '_', $key);
+            }
+
+            if (is_array($value)) {
+                $value = self::replaceKeys($oldKey, $newKey, $value);
+            }
+
+            $return[$key] = $value;
+        }
+
+        return $return;
     }
 }

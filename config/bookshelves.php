@@ -7,7 +7,7 @@ return [
     ],
     'cover_extension' => 'webp',
     'admin'           => [
-        'email'    => env('BOOKSHELVES_ADMIN_EMAIL', 'ewilan@dotslashplay.it'),
+        'email'    => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),
         'password' => env('BOOKSHELVES_ADMIN_PASSWORD', 'password'),
     ],
 ];

@@ -57,18 +57,19 @@ class MetadataExtractor
         }
 
         $title = (string) $metadata['title'];
-        $creators = $metadata['creator'];
+        $creators = (array) $metadata['creators'];
         $contributor = (string) json_encode($metadata['contributor']);
         $description = (string) $metadata['description'];
         $date = is_array($metadata['date']) ? $metadata['date'][0] : $metadata['date'];
-        $identifiers = (array) $metadata['identifier'];
+        $identifiers = (array) $metadata['identifiers'];
         $publisher = (string) $metadata['publisher'];
-        $subjects = (array) $metadata['subject'];
+        $subjects = (array) $metadata['subjects'];
         $language = (string) $metadata['language'];
         $rights = (string) $metadata['rights'];
         $serie = (string) $metadata['serie'];
         $volume = (string) $metadata['volume'];
-        $cover_extension = (string) $metadata['cover_extension'];
+        // $cover_extension = (string) $metadata['cover_extension'];
+        $cover_extension = 'jpg';
         $file_path = (string) $file_path;
 
         $identifiersParsed = IdentifiersParser::run(identifiers: $identifiers);
