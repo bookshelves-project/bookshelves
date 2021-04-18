@@ -144,13 +144,13 @@ class BooksGenerateCommand extends Command
             } catch (\Throwable $th) {
                 //throw $th;
             }
-            $this->info('Seeders ready!');
-            $clearIsSuccess = $this->clearAllMediaCollection();
-            $clearIsSuccessText = null;
-            $clearIsSuccess ? $clearIsSuccessText = 'success' : $clearIsSuccessText = 'failed';
-            $this->newLine();
-            $this->alert("Clearing media... $clearIsSuccessText!");
-            $this->info("Clear all files into 'public/storage/media' manage by spatie/laravel-medialibrary");
+            // $this->info('Seeders ready!');
+            // $clearIsSuccess = $this->clearAllMediaCollection();
+            // $clearIsSuccessText = null;
+            // $clearIsSuccess ? $clearIsSuccessText = 'success' : $clearIsSuccessText = 'failed';
+            // $this->newLine();
+            // $this->alert("Clearing media... $clearIsSuccessText!");
+            // $this->info("Clear all files into 'public/storage/media' manage by spatie/laravel-medialibrary");
         }
 
         $books_with_covers = $this->generateBooks(epubFiles: $epubFiles, isDebug: $isDebug);
