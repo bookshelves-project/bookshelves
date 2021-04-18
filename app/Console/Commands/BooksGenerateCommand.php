@@ -136,15 +136,14 @@ class BooksGenerateCommand extends Command
             $this->alert('Run migrate:fresh...');
             $command = 'migrate:fresh --force';
             Artisan::call($command, [], $this->getOutput());
+            $this->alert('Run roles and users seeders');
+            Artisan::call('db:seed --class RoleSeeder', [], $this->getOutput());
+            Artisan::call('db:seed --class UserSeeder', [], $this->getOutput());
+            $this->newLine();
+            $this->info('Seeders ready!');
             $clearIsSuccess = $this->clearAllMediaCollection();
             $clearIsSuccessText = null;
             $clearIsSuccess ? $clearIsSuccessText = 'success' : $clearIsSuccessText = 'failed';
-            try {
-                Artisan::call('db:seed --class RoleSeeder', [], $this->getOutput());
-                Artisan::call('db:seed --class UserSeeder', [], $this->getOutput());
-            } catch (\Throwable $th) {
-                //throw $th;
-            }
             $this->newLine();
             $this->alert("Clearing media... $clearIsSuccessText!");
             $this->info("Clear all files into 'public/storage/media' manage by spatie/laravel-medialibrary");
