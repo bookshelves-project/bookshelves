@@ -133,13 +133,17 @@ class BooksGenerateCommand extends Command
             // $this->alert('Run migrate:fresh...');
             // $this->newLine();
 
-            $this->alert('Run migrate:fresh...');
-            $command = 'migrate:fresh --force';
-            Artisan::call($command, [], $this->getOutput());
-            $this->alert('Run roles and users seeders');
-            Artisan::call('db:seed --class RoleSeeder', [], $this->getOutput());
-            Artisan::call('db:seed --class UserSeeder', [], $this->getOutput());
-            $this->newLine();
+            try {
+                $this->alert('Run migrate:fresh...');
+                $command = 'migrate:fresh --force';
+                Artisan::call($command, [], $this->getOutput());
+                $this->alert('Run roles and users seeders');
+                Artisan::call('db:seed --class RoleSeeder', [], $this->getOutput());
+                Artisan::call('db:seed --class UserSeeder', [], $this->getOutput());
+                $this->newLine();
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
             $this->info('Seeders ready!');
             $clearIsSuccess = $this->clearAllMediaCollection();
             $clearIsSuccessText = null;
