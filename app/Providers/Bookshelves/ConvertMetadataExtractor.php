@@ -10,6 +10,7 @@ use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Identifier;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use App\Providers\MetadataExtractor\Parsers\Creator;
 use App\Providers\MetadataExtractor\MetadataExtractor;
 
@@ -33,6 +34,7 @@ class ConvertMetadataExtractor
             $book = self::tags($metadataExtractor, $book);
             $book = self::publisher($metadataExtractor, $book);
             $book = self::serie($metadataExtractor, $book);
+            self::generateRawCover($metadataExtractor, $book);
             $language = Language::firstOrCreate([
                 'slug' => $metadataExtractor->language,
             ]);
@@ -177,5 +179,14 @@ class ConvertMetadataExtractor
         }
 
         return $book;
+    }
+
+    public static function generateRawCover(MetadataExtractor $metadataExtractor, Book $book)
+    {
+        try {
+            Storage::disk('public')->put("/covers-raw/$book->id.jpg", $metadataExtractor->cover);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 }

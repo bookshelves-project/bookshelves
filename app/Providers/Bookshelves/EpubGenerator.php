@@ -12,13 +12,13 @@ class EpubGenerator
      * Manage by spatie/laravel-medialibrary.
      *
      * @param Book   $book
-     * @param string $file_path
+     * @param string $filePath
      *
      * @return bool
      */
-    public static function run(Book $book, string $file_path): bool
+    public static function run(Book $book, string $filePath): bool
     {
-        $ebook_extension = pathinfo($file_path)['extension'];
+        $ebook_extension = pathinfo($filePath)['extension'];
 
         $serieName = '';
         if ($book->serie) {
@@ -45,9 +45,9 @@ class EpubGenerator
         $new_file_name = "$authorName$serieName$bookName";
 
         $result = false;
-        if (pathinfo($file_path)['basename'] !== $new_file_name) {
+        if (pathinfo($filePath)['basename'] !== $new_file_name) {
             try {
-                $epub_file = File::get(storage_path("app/public/$file_path"));
+                $epub_file = File::get(storage_path("app/public/$filePath"));
                 $book->addMediaFromString($epub_file)
                     ->setName($new_file_name)
                     ->setFileName($new_file_name.".$ebook_extension")

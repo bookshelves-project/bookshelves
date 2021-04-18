@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Bookshelves;
 
 use File;
 use Artisan;
 use Illuminate\Console\Command;
 
-class BooksTestCommand extends Command
+class SampleCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'books:test';
+    protected $signature = 'bs:sample';
 
     /**
      * The console command description.
@@ -39,6 +39,8 @@ class BooksTestCommand extends Command
      */
     public function handle(): bool
     {
+        $this->alert('Bookshelves: sample');
+
         $demoPath = database_path('seeders/demo-ebooks');
         $booksRawPath = storage_path('app/public/books-raw');
         $booksRawPathExist = File::exists($booksRawPath);
@@ -53,6 +55,7 @@ class BooksTestCommand extends Command
         } else {
             $this->generate($booksRawPath, $demoPath);
         }
+        $this->newLine(2);
 
         return true;
     }

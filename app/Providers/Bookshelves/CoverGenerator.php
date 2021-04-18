@@ -3,6 +3,8 @@
 namespace App\Providers\Bookshelves;
 
 use App\Models\Book;
+use Illuminate\Support\Facades\Storage;
+use App\Providers\MetadataExtractor\MetadataExtractor;
 
 class CoverGenerator
 {
@@ -10,14 +12,13 @@ class CoverGenerator
      * Generate Book image from original cover string file.
      * Manage by spatie/laravel-medialibrary.
      *
-     * @param array $metadata
+     * @param MetadataExtractor $metadataExtractor
      *
      * @return Book
      */
-    public static function run(array $metadata, ?bool $isDebug = false): Book
+    public static function run(Book $book, ?bool $isDebug = false): Book
     {
-        $book = $metadata['book'];
-        $cover = $metadata['cover'];
+        $cover = Storage::disk('public')->get("/covers-raw/$book->id.jpg");
 
         if (! $book->image) {
             $disk = 'books';
