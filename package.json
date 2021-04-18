@@ -12,7 +12,7 @@
     },
     "devDependencies": {
         "@tailwindcss/aspect-ratio": "^0.2.0",
-        "@tailwindcss/forms": "^0.2.1",
+        "@tailwindcss/forms": "^0.3.2",
         "@tailwindcss/jit": "^0.1.18",
         "@tailwindcss/line-clamp": "^0.2.0",
         "@tailwindcss/typography": "^0.4.0",
@@ -21,8 +21,8 @@
         "axios": "^0.21",
         "laravel-mix": "^6.0.16",
         "lodash": "^4.17.19",
-        "postcss": "^8.2.1",
-        "postcss-import": "^12.0.1",
+        "postcss": "^8.2.10",
+        "postcss-import": "^14.0.1",
         "tailwindcss": "^2.0.2",
         "tailwindcss-debug-screens": "^2.0.0"
     },

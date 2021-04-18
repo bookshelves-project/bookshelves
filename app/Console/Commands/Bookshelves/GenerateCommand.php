@@ -70,8 +70,8 @@ class GenerateCommand extends Command
             Artisan::call($command, [], $this->getOutput());
             $this->newLine();
             $this->comment('Run roles and users seeders');
-            Artisan::call('db:seed --class RoleSeeder', []);
-            Artisan::call('db:seed --class UserSeeder', []);
+            Artisan::call('db:seed --class RoleSeeder --force', []);
+            Artisan::call('db:seed --class UserSeeder --force', []);
             $this->info('Seeders ready!');
             $this->newLine();
         }
