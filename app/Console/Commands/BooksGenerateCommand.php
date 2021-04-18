@@ -138,8 +138,8 @@ class BooksGenerateCommand extends Command
                 $command = 'migrate:fresh --force';
                 Artisan::call($command, [], $this->getOutput());
                 $this->alert('Run roles and users seeders');
-                Artisan::call('db:seed --class RoleSeeder', [], $this->getOutput());
-                Artisan::call('db:seed --class UserSeeder', [], $this->getOutput());
+                // Artisan::call('db:seed --class RoleSeeder', [], $this->getOutput());
+                // Artisan::call('db:seed --class UserSeeder', [], $this->getOutput());
                 $this->newLine();
             } catch (\Throwable $th) {
                 //throw $th;
