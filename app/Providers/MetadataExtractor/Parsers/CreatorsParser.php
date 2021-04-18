@@ -33,7 +33,7 @@ class CreatorsParser
                 array_push($creators_entities, $creator);
             }
         }
-        $creators_entities = array_unique($creators_entities);
+        $creators_entities = array_map('unserialize', array_unique(array_map('serialize', $creators_entities)));
 
         return new CreatorsParser(
             creators: $creators_entities

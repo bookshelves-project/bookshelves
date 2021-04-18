@@ -60,6 +60,7 @@ namespace App\Models{
  * @property string $title
  * @property string|null $title_sort
  * @property string|null $slug
+ * @property string|null $unique_identifier
  * @property string|null $contributor
  * @property string|null $description
  * @property string|null $date
@@ -118,6 +119,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereUniqueIdentifier($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereVolume($value)
  */

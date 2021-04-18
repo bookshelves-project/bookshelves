@@ -28,28 +28,8 @@ class IdentifiersParser
         $amazon = null;
         $google = null;
 
-        // dump($identifiers);
-        // $identifiers = array_unique($identifiers);
         foreach ($identifiers as $key => $value) {
-            // if (1 === self::findIsbn($value)) {
-            //     $isbn = $value;
-            // } elseif (2 === self::findIsbn($value)) {
-            //     $isbn13 = $value;
-            // } elseif ('doi' === $key) {
-            //     $doi = $value;
-            // } elseif ('amazon' === $key) {
-            //     $amazon = $value;
-            // } elseif ('google' === $key) {
-            //     $google = $value;
-            // }
-
-            // dump(strtolower($value['id']));
-            // $res = self::findIsbn($value['content']);
             $id = strtolower($value['id']);
-            // dump($id);
-            // if ('isbn' === $id) {
-            //     dump($value['value']);
-            // }
             if ('isbn' === $id) {
                 $isbn_type = self::findIsbn($value['value']);
                 if (1 === $isbn_type) {

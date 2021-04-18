@@ -74,9 +74,6 @@ class BooksGenerateCommand extends Command
         }
         if ($isFresh) {
             $this->warn('You choose fresh installation, current database will be erased. Seeders will be used.');
-
-            Artisan::call('db:seed --class RoleSeeder');
-            Artisan::call('db:seed --class UserSeeder');
         }
 
         $this->newLine();
@@ -142,6 +139,8 @@ class BooksGenerateCommand extends Command
             $clearIsSuccess = $this->clearAllMediaCollection();
             $clearIsSuccessText = null;
             $clearIsSuccess ? $clearIsSuccessText = 'success' : $clearIsSuccessText = 'failed';
+            Artisan::call('db:seed --class RoleSeeder');
+            Artisan::call('db:seed --class UserSeeder');
             $this->newLine();
             $this->alert("Clearing media... $clearIsSuccessText!");
             $this->info("Clear all files into 'public/storage/media' manage by spatie/laravel-medialibrary");
@@ -267,9 +266,6 @@ class BooksGenerateCommand extends Command
             $this->info('Authors Pictures generated!');
             $this->newLine();
         }
-
-        File::cleanDirectory(public_path('storage/covers-raw'));
-        Storage::disk('public')->copy('.gitignore-sample', 'covers-raw/.gitignore');
     }
 
     /**

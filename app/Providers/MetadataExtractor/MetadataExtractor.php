@@ -46,21 +46,21 @@ class MetadataExtractor
      */
     public static function run(string $file_path, bool $is_debug = false): MetadataExtractor | bool
     {
+        $metadata = [];
         try {
-            $xml_parsed = MetadataExtractorTools::parseXmlFile($file_path);
-            $metadata = $xml_parsed['metadata'];
-            $coverFile = $xml_parsed['coverFile'];
+            $metadata = MetadataExtractorTools::parseXmlFile($file_path);
         } catch (\Throwable $th) {
             MetadataExtractorTools::error('XML file', $file_path);
+            // dump($th);
 
             return false;
         }
 
         $title = (string) $metadata['title'];
         $creators = (array) $metadata['creators'];
-        $contributor = (string) json_encode($metadata['contributor']);
+        $contributor = (string) $metadata['contributor'];
         $description = (string) $metadata['description'];
-        $date = is_array($metadata['date']) ? $metadata['date'][0] : $metadata['date'];
+        $date = (string) $metadata['date'];
         $identifiers = (array) $metadata['identifiers'];
         $publisher = (string) $metadata['publisher'];
         $subjects = (array) $metadata['subjects'];
@@ -68,8 +68,8 @@ class MetadataExtractor
         $rights = (string) $metadata['rights'];
         $serie = (string) $metadata['serie'];
         $volume = (string) $metadata['volume'];
-        // $cover_extension = (string) $metadata['cover_extension'];
-        $cover_extension = 'jpg';
+        $cover = $metadata['cover']['file'];
+        $cover_extension = $metadata['cover']['extension'];
         $file_path = (string) $file_path;
 
         $identifiersParsed = IdentifiersParser::run(identifiers: $identifiers);
@@ -101,7 +101,7 @@ class MetadataExtractor
             serie: $serieParsed->title,
             serie_sort: $serieParsed->title_sort,
             volume: $serieParsed->number,
-            cover: $coverFile,
+            cover: $cover,
             cover_extension: $cover_extension,
             file_path: $file_path,
         );

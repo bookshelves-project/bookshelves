@@ -10,6 +10,7 @@ use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Identifier;
 use Illuminate\Support\Str;
+use App\Providers\MetadataExtractor\Parsers\Creator;
 use App\Providers\MetadataExtractor\MetadataExtractor;
 
 class ConvertMetadataExtractor
@@ -73,16 +74,18 @@ class ConvertMetadataExtractor
     public static function authors(MetadataExtractor $metadataExtractor, Book $book): Book
     {
         $authors = [];
+        /** @var Creator $creator */
         foreach ($metadataExtractor->creators as $key => $creator) {
-            $author_data = explode(' ', $creator);
-            $lastname = $author_data[sizeof($author_data) - 1];
-            array_pop($author_data);
-            $firstname = implode(' ', $author_data);
+            $author_name = explode(' ', $creator->name);
+            $lastname = $author_name[sizeof($author_name) - 1];
+            array_pop($author_name);
+            $firstname = implode(' ', $author_name);
             $author = Author::firstOrCreate([
                 'lastname'  => $lastname,
                 'firstname' => $firstname,
                 'name'      => "$firstname $lastname",
                 'slug'      => Str::slug("$lastname $firstname", '-'),
+                'role'      => $creator->role,
             ]);
             array_push($authors, $author);
         }

@@ -24,6 +24,7 @@ class Author extends Model implements HasMedia
         'firstname',
         'name',
         'slug',
+        'role',
         'description',
         'wikipedia_link',
     ];
