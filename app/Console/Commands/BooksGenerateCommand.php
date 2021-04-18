@@ -139,8 +139,8 @@ class BooksGenerateCommand extends Command
             $clearIsSuccess = $this->clearAllMediaCollection();
             $clearIsSuccessText = null;
             $clearIsSuccess ? $clearIsSuccessText = 'success' : $clearIsSuccessText = 'failed';
-            Artisan::call('db:seed --class RoleSeeder');
-            Artisan::call('db:seed --class UserSeeder');
+            Artisan::call('db:seed --class RoleSeeder', [], $this->getOutput());
+            Artisan::call('db:seed --class UserSeeder', [], $this->getOutput());
             $this->newLine();
             $this->alert("Clearing media... $clearIsSuccessText!");
             $this->info("Clear all files into 'public/storage/media' manage by spatie/laravel-medialibrary");
