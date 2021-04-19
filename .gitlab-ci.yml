@@ -1,4 +1,0 @@
-build-job:
-  stage: build
-  script:
-    - php artisan larastan
