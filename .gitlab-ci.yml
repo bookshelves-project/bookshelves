@@ -1,4 +1,4 @@
 build-job:
   stage: build
   script:
-    - php artisan test
+    - php artisan larastan
