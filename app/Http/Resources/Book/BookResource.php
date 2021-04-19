@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Book;
 
 use App\Models\Book;
-use App\Utils\Tools;
+use App\Utils\BookshelvesTools;
 use App\Http\Resources\TagResource;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\GoogleBookResource;
@@ -48,7 +48,7 @@ class BookResource extends JsonResource
             'tags'           => TagResource::collection($book->tags),
             'epub'           => [
                 'name'     => $book->getMedia('epubs')->first()->file_name,
-                'size'     => Tools::humanFilesize($book->getMedia('epubs')->first()->size),
+                'size'     => BookshelvesTools::humanFilesize($book->getMedia('epubs')->first()->size),
                 'download' => $book->download_link,
             ],
             'googleBook' => GoogleBookResource::make($book->googleBook),

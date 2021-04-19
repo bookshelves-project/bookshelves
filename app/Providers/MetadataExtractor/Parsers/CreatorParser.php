@@ -2,7 +2,7 @@
 
 namespace App\Providers\MetadataExtractor\Parsers;
 
-class Creator
+class CreatorParser
 {
     public function __construct(
         public ?string $name = null,

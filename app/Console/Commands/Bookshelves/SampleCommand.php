@@ -13,7 +13,7 @@ class SampleCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'bs:sample';
+    protected $signature = 'bookshelves:sample';
 
     /**
      * The console command description.

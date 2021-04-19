@@ -18,6 +18,8 @@
 **Table of contents**
 
 - [**I. Setup**](#i-setup)
+  - [*a. Dependencies*](#a-dependencies)
+  - [*b. Setup*](#b-setup)
 - [**II. Generate eBooks data**](#ii-generate-ebooks-data)
   - [*a. Add your own eBooks*](#a-add-your-own-ebooks)
   - [*b. Test with demo eBook*](#b-test-with-demo-ebook)
@@ -29,26 +31,39 @@
   - [*e. Mails*](#e-mails)
   - [*f. Sanctum*](#f-sanctum)
     - [Login 419 error: "CSRF token mismatch"](#login-419-error-csrf-token-mismatch)
-  - [*g. EpubParser*](#g-epubparser)
+  - [*g. MetadataExtractor*](#g-metadataextractor)
   - [*h. Larastan*](#h-larastan)
   - [*i. Wikipedia*](#i-wikipedia)
 - [**IV. `.env`**](#iv-env)
   - [*a. For local*](#a-for-local)
   - [*b. For production*](#b-for-production)
+- [V. **VHost: NGINX**](#v-vhost-nginx)
 
 ---
 
 ## **I. Setup**
 
-Prerequisites for XML parse, spatie image optimize tools, here for `php8.0`
+### *a. Dependencies*
+
+Extensions for PHP, here for `php8.0`
 
 ```bash
-sudo apt-get install -y php8.0-xml php8.0-gd ; sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp ; npm install -g svgo
+sudo apt-get install -y php8.0-xml php8.0-gd
 ```
 
-Download dependencies
+For spatie image optimize tools
 
-php artisan migrate --database=testing
+```bash
+sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp
+```
+
+```bash
+npm install -g svgo
+```
+
+### *b. Setup*
+
+Download dependencies
 
 ```bash
 composer install
@@ -68,21 +83,21 @@ php artisan setup
 
 Add EPUB files in `public/storage/books-raw` and execute Epub Parser
 
-> `php artisan books:generate -h` to check options
+> `php artisan bookshelves:generate -h` to check options
 
 ```bash
 # for fresh installation (erase current database) with force option for production
-php artisan books:generate -fF
+php artisan bookshelves:generate -fF
 ```
 
 ### *b. Test with demo eBook*
 
-If you want to test Bookshelves, you can use `books:test` to generate data from libre eBooks
+If you want to test Bookshelves, you can use `bookshelves:sample` to generate data from libre eBooks
 
-> `php artisan books:test -h` to check options
+> `php artisan bookshelves:sample -h` to check options
 
 ```bash
-php artisan books:test
+php artisan bookshelves:sample
 ```
 
 ---
@@ -166,6 +181,10 @@ php artisan media-library:regenerate
 - [**phpunit.de**](https://phpunit.de): `phpunit/phpunit` package doc
 - [**pestphp.com**](https://pestphp.com): `pestphp/pest` package doc
 
+```bash
+php artisan migrate --database=testing
+```
+
 You can run Pest and PHP Unit tests
 
 ```bash
@@ -188,7 +207,7 @@ TODO
 php artisan cache:clear ; php artisan route:clear ; php artisan config:clear ; php artisan view:clear ; php artisan optimize:clear
 ```
 
-### *g. EpubParser*
+### *g. MetadataExtractor*
 
 TODO
 
@@ -275,6 +294,8 @@ MAIL_TO_ADDRESS=contact@bookshelves.ink
 MAIL_TO_NAME="${APP_NAME}"
 ```
 
+## V. **VHost: NGINX**
+
 ```nginx
 server {
   server_name bookshelves.ink;
@@ -358,7 +379,6 @@ server {
   - <https://www.amitmerchant.com/how-to-use-php-80-attributes>
   - <https://stitcher.io/blog/attributes-in-php-8>
   - <https://grafikart.fr/tutoriels/attribut-php8-1371>
-- [ ] mailing: <https://www.mailgun.com>
 - [ ] numberOfPages: <https://idpf.github.io/epub-guides/package-metadata/#schema-numberOfPages>
   - async epubparser for Google data
 - [ ] Add explanation form each part of EpubParser
@@ -370,16 +390,3 @@ server {
     - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/defining-conversions>
 - [ ] larastan upgrade level
 - [ ] more tests for models
-
-```bash
-scoop reset php/php7.4-nts
-
-sudo update-alternatives --config php
-sudo update-alternatives --set phar /usr/bin/phar7.4
-
-sudo service nginx restart
-sudo service php7.1-fpm or php7.2-fpm  restart
-
-composer require friendsofphp/php-cs-fixer --dev
-composer global require friendsofphp/php-cs-fixer
-```

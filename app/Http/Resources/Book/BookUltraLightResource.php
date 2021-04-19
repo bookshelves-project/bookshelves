@@ -7,6 +7,7 @@ use App\Utils\Tools;
 use App\Http\Resources\PublisherResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Author\AuthorUltraLightResource;
+use App\Utils\BookshelvesTools;
 
 class BookUltraLightResource extends JsonResource
 {
@@ -28,7 +29,7 @@ class BookUltraLightResource extends JsonResource
             'slug'        => $book->slug,
             'author'      => $book->author?->slug,
             'authors'     => AuthorUltraLightResource::collection($book->authors),
-            'summary'     => Tools::stringLimit($book->description, 140),
+            'summary'     => BookshelvesTools::stringLimit($book->description, 140),
             'language'    => $book->language?->slug,
             'publishDate' => $book->date,
             'picture'     => [

@@ -58,6 +58,7 @@ class SetupCommand extends Command
         if ($requestCreateEnv) {
             $credentials = $this->requestDatabaseCredentials();
             $this->updateEnvironmentFile($credentials);
+            Artisan::call('key:generate', [], $this->getOutput());
             $this->cleaningDev();
         }
         if ($this->confirm('Do you want setup this app in production?', false)) {
@@ -101,17 +102,12 @@ class SetupCommand extends Command
                 mkdir($path);
             }
         }
-        if ($this->confirm('Do you want to generate books? (You need some tools, check README)', false)) {
-            $command = 'books:generate -fF';
-            Artisan::call($command, [], $this->getOutput());
-        }
         $this->info('Cleaning...');
         if ($prod) {
             $this->cleaningProd();
         } else {
             $this->cleaningDev();
         }
-        Artisan::call('key:generate', [], $this->getOutput());
         $this->info('Application is ready!');
 
         $this->goodbye();

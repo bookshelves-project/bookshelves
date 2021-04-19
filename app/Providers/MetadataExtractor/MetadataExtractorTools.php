@@ -7,7 +7,8 @@ use Storage;
 use ZipArchive;
 use App\Utils\Tools;
 use Illuminate\Support\Str;
-use App\Providers\MetadataExtractor\Parsers\Creator;
+use App\Providers\MetadataExtractor\Parsers\CreatorParser;
+use App\Utils\BookshelvesTools;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class MetadataExtractorTools
@@ -17,7 +18,7 @@ class MetadataExtractorTools
      *
      * @return array
      */
-    public static function parseXmlFile(string $filepath): array
+    public static function parseXMLFile(string $filepath): array
     {
         $filepath = storage_path("app/public/$filepath");
         $metadata = [];
@@ -35,7 +36,7 @@ class MetadataExtractorTools
         }
 
         // Transform XML to Array
-        $metadata = self::convertXml(xml: $xml_string, filepath: $filepath);
+        $metadata = self::convertXML(xml: $xml_string, filepath: $filepath);
 
         Storage::disk('public')->put('/debug/'.pathinfo($filepath)['basename'].'.opf', $xml_string);
         for ($i = 0; $i < $zip->numFiles; $i++) {
@@ -106,7 +107,7 @@ class MetadataExtractorTools
             $title_sort = preg_replace('/^'.preg_quote($value, '/').'/i', '', $title_sort);
         }
         // $title_sort = str_replace($articles, '', $title_sort);
-        $title_sort = Tools::cleanString($title_sort);
+        $title_sort = BookshelvesTools::cleanString($title_sort);
 
         return utf8_encode($title_sort);
     }
@@ -147,7 +148,7 @@ class MetadataExtractorTools
      *
      * @return array
      */
-    public static function convertXml(string $xml, string $filepath): array
+    public static function convertXML(string $xml, string $filepath): array
     {
         $xml = self::XMLtoArray($xml);
         $xml = $xml['PACKAGE'];
@@ -175,10 +176,10 @@ class MetadataExtractorTools
             $creators = $meta['DC:CREATOR'] ?? null;
             $creators_arr = [];
             if (count($creators) == count($creators, COUNT_RECURSIVE)) {
-                array_push($creators_arr, new Creator(name: $creators['content'], role: $creators['OPF:ROLE']));
+                array_push($creators_arr, new CreatorParser(name: $creators['content'], role: $creators['OPF:ROLE']));
             } else {
                 foreach ($creators as $key => $value) {
-                    array_push($creators_arr, new Creator(name: $value['content'], role: $value['OPF:ROLE']));
+                    array_push($creators_arr, new CreatorParser(name: $value['content'], role: $value['OPF:ROLE']));
                 }
             }
 

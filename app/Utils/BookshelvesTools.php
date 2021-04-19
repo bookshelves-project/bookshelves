@@ -4,7 +4,7 @@ namespace App\Utils;
 
 use Illuminate\Support\Str;
 
-class Tools
+class BookshelvesTools
 {
     /**
      * DISCONTINUED

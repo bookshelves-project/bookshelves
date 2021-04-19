@@ -27,8 +27,8 @@ class MetadataExtractor
         public ?string $serie_sort = null,
         public ?int $volume = 0,
         public ?string $cover = null,
-        public ?string $cover_extension = null,
-        public ?string $file_path = null,
+        public ?string $coverExtension = null,
+        public ?string $epubFilePath = null,
     ) {
         if (! $this->identifiers) {
             $this->identifiers = new IdentifiersParser();
@@ -39,18 +39,21 @@ class MetadataExtractor
      * Get metadata from EPUB and create Book
      * with relationships.
      *
-     * @param string $file_path
-     * @param bool   $is_debug
+     * If OPF file into EPUB file have any error,
+     * return bool `false`
      *
-     * @return MetadataExtractor
+     * @param string $epubFilePath Absolute path of EPUB file to extract metadata
+     * @param bool   $isDebug
+     *
+     * @return MetadataExtractor|bool
      */
-    public static function run(string $file_path, bool $is_debug = false): MetadataExtractor | bool
+    public static function run(string $epubFilePath, bool $isDebug = false): MetadataExtractor | bool
     {
         $metadata = [];
         try {
-            $metadata = MetadataExtractorTools::parseXmlFile($file_path);
+            $metadata = MetadataExtractorTools::parseXMLFile($epubFilePath);
         } catch (\Throwable $th) {
-            MetadataExtractorTools::error('XML file', $file_path);
+            MetadataExtractorTools::error('XML file', $epubFilePath);
             // dump($th);
 
             return false;
@@ -69,8 +72,8 @@ class MetadataExtractor
         $serie = (string) $metadata['serie'];
         $volume = (string) $metadata['volume'];
         $cover = $metadata['cover']['file'];
-        $cover_extension = $metadata['cover']['extension'];
-        $file_path = (string) $file_path;
+        $coverExtension = $metadata['cover']['extension'];
+        $epubFilePath = (string) $epubFilePath;
 
         $identifiersParsed = IdentifiersParser::run(identifiers: $identifiers);
         $serieParsed = SerieParser::run(serie: $serie, volume: $volume);
@@ -102,8 +105,8 @@ class MetadataExtractor
             serie_sort: $serieParsed->title_sort,
             volume: $serieParsed->number,
             cover: $cover,
-            cover_extension: $cover_extension,
-            file_path: $file_path,
+            coverExtension: $coverExtension,
+            epubFilePath: $epubFilePath,
         );
 
         return $epubParser;

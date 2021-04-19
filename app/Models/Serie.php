@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\BookshelvesTools;
 use Auth;
 use App\Utils\Tools;
 use Spatie\Image\Manipulations;
@@ -90,7 +91,7 @@ class Serie extends Model implements HasMedia
             array_push($size, $book->getMedia('epubs')->first()?->size);
         }
         $size = array_sum($size);
-        $size = Tools::humanFilesize($size);
+        $size = BookshelvesTools::humanFilesize($size);
 
         return $size;
     }

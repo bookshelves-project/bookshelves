@@ -19,6 +19,7 @@ namespace App\Models{
  * @property string|null $lastname
  * @property string|null $firstname
  * @property string|null $name
+ * @property string|null $role
  * @property string|null $description
  * @property string|null $wikipedia_link
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -46,6 +47,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereWikipediaLink($value)
  */
