@@ -6,7 +6,7 @@
     <div class="relative px-4 pt-6 pb-20 bg-gray-50 sm:px-6 lg:pt-12 lg:pb-28 lg:px-8">
         <div class="relative mx-auto max-w-7xl">
             <div class="text-center">
-                <h2 class="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                <h2 class="text-3xl font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
                     Books
                 </h2>
                 <p class="max-w-2xl mx-auto mt-3 text-xl text-gray-500 sm:mt-4">
@@ -16,12 +16,13 @@
             <div class="grid gap-5 mx-auto mt-12 md:grid-cols-2 lg:grid-cols-3 lg:max-w-none">
                 @foreach ($books as $book)
                     <div class="p-6 bg-white rounded-lg shadow-sm">
-                        <div class="flex items-center space-x-2">
-                            <img class="object-cover w-12 h-12 rounded-full"
-                                src="{{ $book->picture ? $book->picture->base : 'images/no-cover.webp' }}" alt="">
-                            <div>
+                        <div class="grid grid-cols-6">
+                            <img class="object-cover w-12 h-12 col-span-1 rounded-full"
+                                src="{{ $book->picture ? $book->picture->base : 'images/no-cover.webp' }}"
+                                title="{{ $book->title }}" alt="{{ $book->title }}">
+                            <div class="col-span-5">
                                 @if ($book->serie)
-                                    <p class="text-sm font-medium text-indigo-600">
+                                    <p class="text-sm font-medium text-primary-600">
                                         {{ $book->serie?->title }}, vol. {{ $book->volume }}
                                     </p>
                                 @endif
