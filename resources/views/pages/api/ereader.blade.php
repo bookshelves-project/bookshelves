@@ -22,7 +22,7 @@
                             <div>
                                 @if ($book->serie)
                                     <p class="text-sm font-medium text-indigo-600">
-                                        {{ $book->serie?->title }}, vol. {{ $book->serieVolume }}
+                                        {{ $book->serie?->title }}, vol. {{ $book->volume }}
                                     </p>
                                 @endif
                                 <p class="text-xl font-semibold text-gray-900">
