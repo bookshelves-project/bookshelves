@@ -15,7 +15,7 @@ class SubmissionController extends Controller
         $validate = $this->validate($request, [
             'name'                  => 'required|string',
             'email'                 => 'required|email:rfc,strict,dns,filter',
-            'message'               => 'required|string|min:125',
+            'message'               => 'required|string|min:50',
         ]);
 
         // Create model
