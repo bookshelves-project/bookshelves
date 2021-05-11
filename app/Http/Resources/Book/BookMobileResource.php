@@ -27,9 +27,9 @@ class BookMobileResource extends JsonResource
             'summary'      => BookshelvesTools::stringLimit($this->resource->description, 140),
             'language'     => $this->resource->language?->slug,
             'publishDate'  => $this->resource->date,
-            'picture'      => $this->resource->image_thumbnail,
+            'picture'      => $this->resource->image_thumbnail ?? 'No picture',
             'publisher'    => $this->resource->publisher->name,
-            'serie'        => $this->resource->serie?->title,
+            'serie'        => $this->resource->serie?->title ?? 'No serie',
             'volume'       => $this->resource->volume,
             'meta'         => [
                 'show'        => $this->resource->show_link,
