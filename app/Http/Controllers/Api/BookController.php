@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\Book\BookLightResource;
+use App\Http\Resources\Book\BookMobileResource;
 use App\Http\Resources\Book\BookLightestResource;
 
 class BookController extends Controller
@@ -89,6 +90,8 @@ class BookController extends Controller
             );
         }
 
+        $mobile = filter_var($request->get('mobile'), FILTER_VALIDATE_BOOLEAN);
+
         if ($lang) {
             Cache::forget('books');
             $cachedBooks = null;
@@ -133,6 +136,12 @@ class BookController extends Controller
                 $books = $books->paginate($perPage);
                 $books = BookLightResource::collection($books);
                 break;
+        }
+
+        if ($mobile) {
+            $books = BookMobileResource::collection($books);
+
+            return $books;
         }
 
         return $books;
