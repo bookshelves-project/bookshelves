@@ -19,30 +19,31 @@
                         class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         placeholder="Search by book title, by author name or by series title">
 
-                    <button class="px-3 py-2 mt-3 font-semibold text-white rounded-md bg-primary-600">
+                    <button class="px-3 py-2 mt-3 font-semibold text-gray-900 bg-gray-100 border border-black rounded-md">
                         Search
                     </button>
                 </form>
             </div>
+            <hr class="my-10 border-black">
             @isset($books)
-                <div class="grid grid-cols-2 gap-4 mt-6">
+                <div class="">
+                    <h3 class="text-3xl font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
+                        Books
+                    </h3>
                     @foreach ($books as $item)
                         {{-- @dump($item) --}}
-                        <div class="rounded-md shadow-sm bg-gray-50">
-                            <img src="{{ $item['picture_og'] }}" alt="{{ $item['title'] }}" title="{{ $item['title'] }}"
-                                class="object-cover w-full h-32 rounded-t-md">
+                        <div class="my-10 border border-black rounded-md shadow-sm bg-gray-50">
+                            {{-- <img src="{{ $item['picture_og'] }}" alt="{{ $item['title'] }}" title="{{ $item['title'] }}"
+                                class="w-full rounded-t-md"> --}}
+                            <div style="background-image: url({{ $item['picture_og'] }})" class="h-32 bg-center bg-cover">
+                            </div>
                             <div class="p-5">
                                 <div>
-                                    {{ ucfirst($item['meta']['entity']) }}
+                                    {{ ucfirst($item['meta']['entity']) }} by {{ $item['author'] }}
                                 </div>
                                 <div class="mt-2 text-2xl font-semibold">
                                     {{ $item['title'] }}
                                 </div>
-                                <ul>
-                                    <li>
-                                        by {{ $item['author'] }}
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     @endforeach
