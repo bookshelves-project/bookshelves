@@ -15,16 +15,15 @@
             </div>
             <div class="mt-10">
                 <form action="/api/ereader/search" method="GET">
-                    <input type="search" name="q"
-                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    <input type="search" name="q" class="block w-full mt-1 rounded-md"
                         placeholder="Search by book title, by author name or by series title">
 
-                    <button class="px-3 py-2 mt-3 font-semibold text-gray-900 bg-gray-100 border border-black rounded-md">
+                    <button class="px-3 py-2 mt-3 font-semibold rounded-md">
                         Search
                     </button>
                 </form>
             </div>
-            <hr class="my-10 border-black">
+            <div class="my-10"></div>
             @isset($books)
                 <div class="">
                     <h3 class="text-3xl font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
@@ -32,7 +31,7 @@
                     </h3>
                     @foreach ($books as $item)
                         {{-- @dump($item) --}}
-                        <div class="my-10 border border-black rounded-md shadow-sm bg-gray-50">
+                        <div class="py-10 my-10 bg-gray-400 rounded-md shadow-sm">
                             {{-- <img src="{{ $item['picture_og'] }}" alt="{{ $item['title'] }}" title="{{ $item['title'] }}"
                                 class="w-full rounded-t-md"> --}}
                             <div style="background-image: url({{ $item['picture_og'] }})" class="h-32 bg-center bg-cover">
