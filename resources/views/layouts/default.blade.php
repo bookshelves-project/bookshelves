@@ -24,8 +24,8 @@
 </head>
 
 <body class="font-sans antialiased relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
-    @include('components.layout.navbar')
-    <div class="pt-16">
+    {{-- @include('components.layout.navbar') --}}
+    <div class="p-5">
         @yield('content')
     </div>
     <script src="{{ asset('js/app.js') }}"></script>

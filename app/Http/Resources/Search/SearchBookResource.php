@@ -4,6 +4,9 @@ namespace App\Http\Resources\Search;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property \App\Models\Book $resource
+ */
 class SearchBookResource extends JsonResource
 {
     /**
@@ -16,24 +19,25 @@ class SearchBookResource extends JsonResource
     public function toArray($request)
     {
         $serie = null;
-        if ($this->serie) {
+        if ($this->resource->serie) {
             $serie = [
-                'title'  => $this->serie->title,
-                'number' => $this->volume,
+                'title'  => $this->resource->serie->title,
+                'number' => $this->resource->volume,
             ];
         }
 
         return [
             'meta' => [
                 'entity' => 'book',
-                'author' => $this->author->slug,
-                'slug'   => $this->slug,
+                'author' => $this->resource->author->slug,
+                'slug'   => $this->resource->slug,
             ],
-            'title'      => $this->title,
-            'subtitle'   => $this->serie?->title,
-            'author'     => $this->author->name,
-            'serie'      => $serie,
-            'picture'    => $this->image_thumbnail,
+            'title'         => $this->resource->title,
+            'subtitle'      => $this->resource->serie?->title,
+            'author'        => $this->resource->author->name,
+            'serie'         => $serie,
+            'picture'       => $this->resource->image_thumbnail,
+            'picture_og'    => $this->resource->image_open_graph,
         ];
     }
 }

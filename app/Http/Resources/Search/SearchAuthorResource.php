@@ -4,6 +4,9 @@ namespace App\Http\Resources\Search;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property \App\Models\Author $resource
+ */
 class SearchAuthorResource extends JsonResource
 {
     /**
@@ -18,11 +21,12 @@ class SearchAuthorResource extends JsonResource
         return [
             'meta' => [
                 'entity' => 'author',
-                'slug'   => $this->slug,
+                'slug'   => $this->resource->slug,
             ],
-            'title'      => $this->lastname.' '.$this->firstname,
-            'author'     => $this->name,
-            'picture'    => $this->image_thumbnail,
+            'title'         => $this->resource->lastname.' '.$this->resource->firstname,
+            'author'        => $this->resource->name,
+            'picture'       => $this->resource->image_thumbnail,
+            'picture_og'    => $this->resource->image_open_graph,
         ];
     }
 }

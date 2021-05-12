@@ -2,10 +2,33 @@
 
 namespace App\Utils;
 
+use App\Models\Book;
+use App\Models\Serie;
+use App\Models\Author;
 use Illuminate\Support\Str;
+use App\Http\Resources\Search\SearchBookResource;
+use App\Http\Resources\Search\SearchSerieResource;
+use App\Http\Resources\Search\SearchAuthorResource;
 
 class BookshelvesTools
 {
+    public static function searchGlobal(string $searchTermRaw)
+    {
+        $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
+        $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->get();
+        $series = Serie::whereLike(['title', 'authors.name'], $searchTerm)->get();
+        $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
+
+        // $authors = SearchAuthorResource::collection($authors);
+        $authors = collect([]);
+        $series = SearchSerieResource::collection($series);
+        $books = SearchBookResource::collection($books);
+        $collection = $authors->merge($series);
+        $collection = $collection->merge($books);
+
+        return $collection->all();
+    }
+
     /**
      * DISCONTINUED
      * Remove accents from string.

@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Book;
-use App\Models\Serie;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
-use App\Http\Resources\Search\SearchBookResource;
 use App\Http\Resources\Author\AuthorLightResource;
-use App\Http\Resources\Search\SearchSerieResource;
-use App\Http\Resources\Search\SearchAuthorResource;
 
 class SearchController extends Controller
 {
@@ -42,18 +39,8 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $searchTermRaw = $request->input('q');
-        $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
         if ($searchTermRaw) {
-            $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->get();
-            $series = Serie::whereLike(['title', 'authors.name'], $searchTerm)->get();
-            $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
-
-            $authors = SearchAuthorResource::collection($authors);
-            $series = SearchSerieResource::collection($series);
-            $books = SearchBookResource::collection($books);
-            $collection = $authors->merge($series);
-            $collection = $collection->merge($books);
-            $collection->all();
+            $collection = BookshelvesTools::searchGlobal($searchTermRaw);
 
             return response()->json([
                 'data' => $collection,

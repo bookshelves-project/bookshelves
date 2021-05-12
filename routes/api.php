@@ -34,6 +34,7 @@ Route::get('/', [ApiController::class, 'index'])->name('api.index');
  * eReader routes
  */
 Route::get('/ereader', [EreaderController::class, 'index'])->name('api.ereader.index');
+Route::get('/ereader/search', [EreaderController::class, 'search'])->name('api.ereader.search');
 Route::get('/ereader/books', [EreaderController::class, 'books'])->name('api.ereader.books');
 Route::get('/ereader/series', [EreaderController::class, 'series'])->name('api.ereader.series');
 Route::get('/ereader/authors', [EreaderController::class, 'authors'])->name('api.ereader.authors');

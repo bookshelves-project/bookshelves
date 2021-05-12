@@ -7,60 +7,47 @@
         <div class="relative mx-auto max-w-7xl">
             <div class="text-center">
                 <h2 class="text-3xl font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
-                    Books
+                    Search
                 </h2>
                 <p class="max-w-2xl mx-auto mt-3 text-xl text-gray-500 sm:mt-4">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa libero labore natus atque, ducimus sed.
+                    Find now the book what you want from book's title, book's series or book's author.
                 </p>
             </div>
-            <div class="grid gap-5 mx-auto mt-12 md:grid-cols-2 lg:grid-cols-3 lg:max-w-none">
-                @foreach ($books as $book)
-                    <div class="p-6 bg-white rounded-lg shadow-sm">
-                        <div class="grid grid-cols-6">
-                            <img class="object-cover w-12 h-12 col-span-1 rounded-full"
-                                src="{{ $book->picture ? $book->picture->base : 'images/no-cover.webp' }}"
-                                title="{{ $book->title }}" alt="{{ $book->title }}">
-                            <div class="col-span-5">
-                                @if ($book->serie)
-                                    <p class="text-sm font-medium text-primary-600">
-                                        {{ $book->serie?->title }}, vol. {{ $book->volume }}
-                                    </p>
-                                @endif
-                                <p class="text-xl font-semibold text-gray-900">
-                                    {{ $book->title }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="block mt-3 text-base text-gray-500 lg:h-16">
-                            {{ $book->summary }}
-                        </div>
-                        <div class="mt-6">
-                            <div class="text-sm font-medium text-gray-900">
-                                @foreach ($book->authors as $key => $author)
-                                    <p>
-                                        {{ $author->name }}
-                                    </p>
-                                @endforeach
-                            </div>
-                            <div class="flex items-center space-x-1 text-sm text-gray-500">
-                                @if ($book->publishDate)
-                                    <time datetime="{{ $book->publishDate }}">
-                                        {{ date('d M Y', strtotime($book->publishDate)) }}
-                                    </time>
-                                @endif
-                                <span aria-hidden="true">
-                                    &middot;
-                                </span>
-                                <img src="https://www.countryflags.io/{{ $book->language }}/flat/24.png"
-                                    alt="{{ $book->language }}" />
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+            <div class="mt-10">
+                <form action="ereader/search" method="GET">
+                    <input type="search" name="q"
+                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        placeholder="Search by book title, by author name or by series title">
+
+                    <button class="px-3 py-2 mt-3 font-semibold text-white rounded-md bg-primary-600">
+                        Search
+                    </button>
+                </form>
             </div>
-        </div>
-        <div class="container mt-16 max-w-7xl">
-            {!! $links !!}
+            @isset($books)
+                <div class="grid grid-cols-2 gap-4 mt-6">
+                    @foreach ($books as $item)
+                        {{-- @dump($item) --}}
+                        <div class="rounded-md shadow-sm bg-gray-50">
+                            <img src="{{ $item['picture_og'] }}" alt="{{ $item['title'] }}" title="{{ $item['title'] }}"
+                                class="object-cover w-full h-32 rounded-t-md">
+                            <div class="p-5">
+                                <div>
+                                    {{ ucfirst($item['meta']['entity']) }}
+                                </div>
+                                <div class="mt-2 text-2xl font-semibold">
+                                    {{ $item['title'] }}
+                                </div>
+                                <ul>
+                                    <li>
+                                        by {{ $item['author'] }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endisset
         </div>
     </div>
 
