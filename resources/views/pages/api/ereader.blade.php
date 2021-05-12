@@ -14,7 +14,7 @@
                 </p>
             </div>
             <div class="mt-10">
-                <form action="ereader/search" method="GET">
+                <form action="/api/ereader/search" method="GET">
                     <input type="search" name="q"
                         class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         placeholder="Search by book title, by author name or by series title">
