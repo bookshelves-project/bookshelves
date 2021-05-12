@@ -41,6 +41,7 @@ class EreaderController extends Controller
             $books = array_filter($collection, function ($item) {
                 return 'book' == $item['meta']['entity'];
             });
+            $books = collect($books);
 
             return view('pages.api.ereader', compact('authors', 'series', 'books'));
         }

@@ -18,7 +18,7 @@
                     <input type="search" name="q" class="block w-full mt-1 rounded-md"
                         placeholder="Search by book title, by author name or by series title" autofocus="false">
 
-                    <button class="px-3 py-2 mt-3 font-semibold rounded-md">
+                    <button class="px-3 py-2 mt-3 font-semibold">
                         Search
                     </button>
                 </form>
@@ -34,24 +34,30 @@
             </table>
             @isset($books)
                 <section>
-                    <h3 class="text-3xl font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
+                    <h3 class="p-10 text-3xl font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
                         Books
                     </h3>
-                    @foreach ($books as $item)
-                        {{-- @dump($item) --}}
-                        <div class="py-10 my-10 rounded-md shadow-sm bg-gray-50">
-                            <div style="background-image: url({{ $item['picture_og'] }})" class="h-32 bg-center bg-cover">
-                            </div>
-                            <div class="p-5">
-                                <div>
-                                    {{ ucfirst($item['meta']['entity']) }} by {{ $item['author'] }}
-                                </div>
-                                <div class="mt-2 text-2xl font-semibold">
-                                    {{ $item['title'] }}
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    <table class="w-full">
+                        @foreach ($books->chunk(2) as $chunk)
+                            <tr>
+                                @foreach ($chunk as $item)
+                                    <td class="p-10 shadow-sm bg-gray-50">
+                                        <div style="background-image: url({{ $item['picture_og'] }})"
+                                            class="h-32 bg-center bg-cover">
+                                        </div>
+                                        <div class="p-5">
+                                            <div>
+                                                {{ ucfirst($item['meta']['entity']) }} by {{ $item['author'] }}
+                                            </div>
+                                            <div class="mt-2 text-2xl font-semibold">
+                                                {{ $item['title'] }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                @endforeach
+                            </tr>
+                        @endforeach
+                    </table>
                 </section>
             @endisset
         </div>
