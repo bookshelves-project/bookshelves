@@ -12,18 +12,26 @@ use App\Http\Resources\Search\SearchAuthorResource;
 
 class BookshelvesTools
 {
-    public static function searchGlobal(string $searchTermRaw)
+    /**
+     * Global search on Book, Serie and Author.
+     *
+     * @param string $searchTermRaw
+     *
+     * @return array
+     */
+    public static function searchGlobal(string $searchTermRaw): array
     {
         $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
         $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->get();
         $series = Serie::whereLike(['title', 'authors.name'], $searchTerm)->get();
         $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
 
-        // $authors = SearchAuthorResource::collection($authors);
-        $authors = collect([]);
+        $authors = SearchAuthorResource::collection($authors);
         $series = SearchSerieResource::collection($series);
         $books = SearchBookResource::collection($books);
-        $collection = $authors->merge($series);
+        $collection = collect([]);
+        $collection = $collection->merge($authors);
+        $collection = $collection->merge($series);
         $collection = $collection->merge($books);
 
         return $collection->all();

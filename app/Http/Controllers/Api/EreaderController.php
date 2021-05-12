@@ -35,9 +35,11 @@ class EreaderController extends Controller
             $authors = array_filter($collection, function ($item) {
                 return 'author' == $item['meta']['entity'];
             });
+            $authors = collect($authors);
             $series = array_filter($collection, function ($item) {
                 return 'serie' == $item['meta']['entity'];
             });
+            $series = collect($series);
             $books = array_filter($collection, function ($item) {
                 return 'book' == $item['meta']['entity'];
             });
