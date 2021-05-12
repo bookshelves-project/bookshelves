@@ -24,39 +24,33 @@
                 </form>
             </div>
             <div class="my-10"></div>
-            <div class="flex">
-                <div>download</div>
-                <div>cover</div>
-            </div>
-            <table>
-                <tr>download</tr>
-                <tr>cover</tr>
-            </table>
             @isset($books)
                 <section>
-                    <h3 class="p-10 text-3xl font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
+                    <h3 class="px-5 text-3xl font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
                         Books
                     </h3>
-                    <table class="w-full">
-                        @foreach ($books->chunk(2) as $chunk)
-                            <tr>
-                                @foreach ($chunk as $item)
-                                    <td class="p-10 shadow-sm bg-gray-50">
-                                        <div style="background-image: url({{ $item['picture_og'] }})"
-                                            class="h-32 bg-center bg-cover">
-                                        </div>
-                                        <div class="p-5">
-                                            <div>
-                                                {{ ucfirst($item['meta']['entity']) }} by {{ $item['author'] }}
+                    <table cellpadding="20px" cellspacing="0" height="100%" width="100%">
+                        <tbody>
+                            @foreach ($books->chunk(2) as $chunk)
+                                <tr>
+                                    @foreach ($chunk as $item)
+                                        <td height="300px" valign="top">
+                                            <div style=" background-image: url({{ $item['picture_og'] }})"
+                                                class="h-32 bg-center bg-cover">
                                             </div>
-                                            <div class="mt-2 text-2xl font-semibold">
-                                                {{ $item['title'] }}
+                                            <div class="p-5">
+                                                <div>
+                                                    {{ ucfirst($item['meta']['entity']) }} by {{ $item['author'] }}
+                                                </div>
+                                                <div class="mt-2 text-2xl font-semibold">
+                                                    {{ $item['title'] }}
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                @endforeach
-                            </tr>
-                        @endforeach
+                                        </td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </section>
             @endisset
