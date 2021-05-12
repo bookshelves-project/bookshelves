@@ -28,6 +28,10 @@
                 <div>download</div>
                 <div>cover</div>
             </div>
+            <table>
+                <tr>download</tr>
+                <tr>cover</tr>
+            </table>
             @isset($books)
                 <section>
                     <h3 class="text-3xl font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
