@@ -24,16 +24,18 @@
                 </form>
             </div>
             <div class="my-10"></div>
+            <div class="flex">
+                <div>download</div>
+                <div>cover</div>
+            </div>
             @isset($books)
-                <div class="">
+                <section>
                     <h3 class="text-3xl font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
                         Books
                     </h3>
                     @foreach ($books as $item)
                         {{-- @dump($item) --}}
-                        <div class="py-10 my-10 bg-gray-400 rounded-md shadow-sm">
-                            {{-- <img src="{{ $item['picture_og'] }}" alt="{{ $item['title'] }}" title="{{ $item['title'] }}"
-                                class="w-full rounded-t-md"> --}}
+                        <div class="py-10 my-10 rounded-md shadow-sm bg-gray-50">
                             <div style="background-image: url({{ $item['picture_og'] }})" class="h-32 bg-center bg-cover">
                             </div>
                             <div class="p-5">
@@ -46,7 +48,7 @@
                             </div>
                         </div>
                     @endforeach
-                </div>
+                </section>
             @endisset
         </div>
     </div>
