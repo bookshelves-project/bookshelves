@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Ereader;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -49,21 +49,6 @@ class EreaderController extends Controller
         }
 
         return response()->json(['error' => 'Need to have terms query parameter'], 401);
-    }
-
-    public function books(Request $request)
-    {
-        $books = Book::all();
-
-        $books = $books->sortBy(function ($book) {
-            return $book->sort_name;
-        });
-        $books = $books->paginate(32);
-        $books = BookLightResource::collection($books);
-        $links = $books->onEachSide(1)->links();
-        $books = json_decode($books->toJson());
-
-        return view('pages/api/ereader', compact('books', 'links'));
     }
 
     public function series(Request $request)

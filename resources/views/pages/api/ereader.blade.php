@@ -16,7 +16,7 @@
             <div class="mt-10">
                 <form action="/api/ereader/search" method="GET">
                     <input type="search" name="q" class="block w-full mt-1 rounded-md"
-                        placeholder="Search by book title, by author name or by series title" autofocus="false">
+                        placeholder="Search by book title, by author name or by series title">
 
                     <button class="px-3 py-2 mt-3 font-semibold">
                         Search
@@ -25,20 +25,23 @@
             </div>
             <div class="my-10"></div>
             @isset($authors)
-                @include('components.blocks.list', [
+                @include('components.blocks.list-search', [
                 'title' => 'Authors',
+                'type' => 'author',
                 'data' => $authors
                 ])
             @endisset
             @isset($series)
-                @include('components.blocks.list', [
+                @include('components.blocks.list-search', [
                 'title' => 'Series',
+                'type' => 'serie',
                 'data' => $series
                 ])
             @endisset
             @isset($books)
-                @include('components.blocks.list', [
-                'title' => 'books',
+                @include('components.blocks.list-search', [
+                'title' => 'Books',
+                'type' => 'book',
                 'data' => $books
                 ])
             @endisset

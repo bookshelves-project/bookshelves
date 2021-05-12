@@ -3,11 +3,10 @@
 namespace App\Http\Resources\Book;
 
 use App\Models\Book;
-use App\Utils\Tools;
+use App\Utils\BookshelvesTools;
 use App\Http\Resources\PublisherResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Author\AuthorUltraLightResource;
-use App\Utils\BookshelvesTools;
 
 class BookUltraLightResource extends JsonResource
 {
@@ -33,7 +32,8 @@ class BookUltraLightResource extends JsonResource
             'language'    => $book->language?->slug,
             'publishDate' => $book->date,
             'picture'     => [
-                'base' => $book->image_thumbnail,
+                'base'      => $book->image_thumbnail,
+                'openGraph' => $book->image_open_graph,
             ],
             'publisher'    => PublisherResource::make($book->publisher),
             'volume'       => $book->volume,

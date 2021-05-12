@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Search;
 
+use App\Utils\BookshelvesTools;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -28,6 +29,7 @@ class SearchSerieResource extends JsonResource
             'author'        => $this->resource->books[0]->author->name,
             'picture'       => $this->resource->image_thumbnail,
             'picture_og'    => $this->resource->image_open_graph,
+            'text'          => BookshelvesTools::stringLimit($this->resource->description, 140),
         ];
     }
 }

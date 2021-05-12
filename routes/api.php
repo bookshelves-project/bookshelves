@@ -10,12 +10,15 @@ use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\CommandController;
 use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\Api\EreaderController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\WebreaderController;
 use App\Http\Controllers\Api\DependencyController;
 use App\Http\Controllers\Api\SubmissionController;
+use App\Http\Controllers\Api\Ereader\EreaderController;
+use App\Http\Controllers\Api\Ereader\BookController as EreaderBookController;
+use App\Http\Controllers\Api\Ereader\SerieController as EreaderSerieController;
+use App\Http\Controllers\Api\Ereader\AuthorController as EreaderAuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,11 +36,19 @@ Route::get('/', [ApiController::class, 'index'])->name('api.index');
 /*
  * eReader routes
  */
-Route::get('/ereader', [EreaderController::class, 'index'])->name('api.ereader.index');
-Route::get('/ereader/search', [EreaderController::class, 'search'])->name('api.ereader.search');
-Route::get('/ereader/books', [EreaderController::class, 'books'])->name('api.ereader.books');
-Route::get('/ereader/series', [EreaderController::class, 'series'])->name('api.ereader.series');
-Route::get('/ereader/authors', [EreaderController::class, 'authors'])->name('api.ereader.authors');
+Route::prefix('ereader')->group(function () {
+    Route::get('/', [EreaderController::class, 'index'])->name('api.ereader.index');
+    Route::get('/search', [EreaderController::class, 'search'])->name('api.ereader.search');
+
+    Route::get('/books', [EreaderBookController::class, 'index'])->name('api.ereader.books');
+    Route::get('/books/{author}/{slug}', [EreaderBookController::class, 'show'])->name('api.ereader.books.show');
+
+    Route::get('/series', [EreaderSerieController::class, 'index'])->name('api.ereader.series');
+    Route::get('/series/{author}/{slug}', [EreaderSerieController::class, 'show'])->name('api.ereader.series.show');
+
+    Route::get('/authors', [EreaderAuthorController::class, 'index'])->name('api.ereader.authors');
+    Route::get('/authors/{slug}', [EreaderAuthorController::class, 'show'])->name('api.ereader.authors.show');
+});
 
 /*
  * Web reader routes
