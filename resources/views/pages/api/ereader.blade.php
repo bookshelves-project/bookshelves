@@ -16,7 +16,7 @@
             <div class="mt-10">
                 <form action="/api/ereader/search" method="GET">
                     <input type="search" name="q" class="block w-full mt-1 rounded-md"
-                        placeholder="Search by book title, by author name or by series title">
+                        placeholder="Search by book title, by author name or by series title" autofocus="false">
 
                     <button class="px-3 py-2 mt-3 font-semibold rounded-md">
                         Search
