@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CountController;
@@ -112,6 +113,11 @@ Route::get('/comments/by-user/{user}', [CommentController::class, 'byUser'])->na
 Route::get('/comments/{model}/{slug}', [CommentController::class, 'index'])->name('api.comments.index');
 
 Route::get('/users', [UserController::class, 'users'])->name('api.users');
+
+/*
+ * Tags routes
+ */
+Route::get('/tags', [TagController::class, 'index'])->name('api.tags.index');
 
 /*
  * Users features routes
