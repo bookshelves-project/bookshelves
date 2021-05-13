@@ -26,6 +26,7 @@ class AuthorLightResource extends JsonResource
             'picture'     => [
                 'base'      => $author->image_thumbnail,
                 'openGraph' => $author->image_open_graph,
+                'color'     => $this->resource->image_color,
             ],
             'count' => count($author->books),
         ]);

@@ -8,6 +8,9 @@ use App\Http\Resources\PublisherResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Author\AuthorUltraLightResource;
 
+/**
+ * @property \App\Models\Book $resource
+ */
 class BookUltraLightResource extends JsonResource
 {
     /**
@@ -20,25 +23,23 @@ class BookUltraLightResource extends JsonResource
      */
     public function toArray($request): array
     {
-        /** @var Book $book */
-        $book = $this;
-
         $base = [
-            'title'       => $book->title,
-            'slug'        => $book->slug,
-            'author'      => $book->author?->slug,
-            'authors'     => AuthorUltraLightResource::collection($book->authors),
-            'summary'     => BookshelvesTools::stringLimit($book->description, 140),
-            'language'    => $book->language?->slug,
-            'publishDate' => $book->date,
+            'title'       => $this->resource->title,
+            'slug'        => $this->resource->slug,
+            'author'      => $this->resource->author?->slug,
+            'authors'     => AuthorUltraLightResource::collection($this->resource->authors),
+            'summary'     => BookshelvesTools::stringLimit($this->resource->description, 140),
+            'language'    => $this->resource->language?->slug,
+            'publishDate' => $this->resource->date,
             'picture'     => [
-                'base'      => $book->image_thumbnail,
-                'openGraph' => $book->image_open_graph,
+                'base'      => $this->resource->image_thumbnail,
+                'openGraph' => $this->resource->image_open_graph,
+                'color'     => $this->resource->image_color,
             ],
-            'publisher'    => PublisherResource::make($book->publisher),
-            'volume'       => $book->volume,
+            'publisher'    => PublisherResource::make($this->resource->publisher),
+            'volume'       => $this->resource->volume,
             'meta'         => [
-                'show'        => $book->show_link,
+                'show'        => $this->resource->show_link,
             ],
         ];
 

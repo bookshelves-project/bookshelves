@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use Cache;
 use App\Models\Author;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\AuthorProvider;
@@ -40,6 +41,8 @@ class AuthorCommand extends Command
      */
     public function handle()
     {
+        Cache::forget('authors');
+
         $isFresh = $this->option('fresh');
 
         $authors = Author::orderBy('lastname')->get();

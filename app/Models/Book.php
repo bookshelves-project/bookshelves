@@ -64,38 +64,56 @@ class Book extends Model implements HasMedia
 
     public function getImageThumbnailAttribute(): string | null
     {
-        return $this->getMedia('books')->first()?->getUrl('thumbnail');
+        return $this->getFirstMediaUrl('books', 'thumbnail');
     }
 
     public function getImageOpenGraphAttribute(): string | null
     {
-        return $this->getMedia('books')->first()?->getUrl('open_graph');
+        return $this->getFirstMediaUrl('books', 'open_graph');
     }
 
     public function getImageOriginalAttribute(): string | null
     {
-        return $this->getMedia('books')->first()?->getUrl();
+        return $this->getFirstMediaUrl('books');
+    }
+
+    public function getImageColorAttribute(): string | null
+    {
+        /** @var Media $media */
+        $media = $this->getFirstMedia('books');
+
+        if ($media) {
+            $color = $media->getCustomProperty('color');
+
+            return "#$color";
+        }
+
+        return null;
     }
 
     public function getEpubAttribute(): string | null
     {
-        return $this->getMedia('epubs')->first()?->getUrl();
+        return $this->getFirstMediaUrl('epubs');
     }
 
     public function getShowLinkAttribute(): string
     {
-        $route = route('api.books.show', [
-            'author' => $this->author->slug,
-            'book'   => $this->slug,
-        ]);
+        if ($this->author?->slug && $this->slug) {
+            $route = route('api.books.show', [
+                'author' => $this->author?->slug,
+                'book'   => $this->slug,
+            ]);
 
-        return $route;
+            return $route;
+        }
+
+        return '';
     }
 
     public function getDownloadLinkAttribute(): string
     {
         $route = route('api.download.book', [
-            'author' => $this->author->slug,
+            'author' => $this->author?->slug,
             'book'   => $this->slug,
         ]);
 

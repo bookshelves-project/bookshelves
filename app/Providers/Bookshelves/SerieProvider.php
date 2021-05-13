@@ -5,9 +5,9 @@ namespace App\Providers\Bookshelves;
 use File;
 use Http;
 use App\Models\Book;
-use App\Utils\Tools;
 use App\Models\Serie;
 use App\Utils\BookshelvesTools;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class SerieProvider
 {
@@ -85,6 +85,9 @@ class SerieProvider
                     ->toMediaCollection($disk, $disk);
             } else {
                 $bookIfExist = Book::whereVolume(1)->whereSerieId($serie->id)->first();
+                if (! $bookIfExist) {
+                    $bookIfExist = Book::whereSerieId($serie->id)->first();
+                }
                 if ($bookIfExist) {
                     $book = $bookIfExist;
                     $file_path_exist = File::exists($book->getMedia('books')->first()?->getPath());
@@ -102,6 +105,13 @@ class SerieProvider
             }
 
             $serie = $serie->refresh();
+
+            // Get color
+            $image = $serie->getFirstMediaPath('series');
+            $color = MetadataExtractorTools::simple_color_thief($image);
+            $media = $serie->getFirstMedia('series');
+            $media->setCustomProperty('color', $color);
+            $media->save();
 
             return $serie;
         }

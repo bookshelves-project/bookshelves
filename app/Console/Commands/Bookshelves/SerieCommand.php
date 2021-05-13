@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use Cache;
 use App\Models\Serie;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\SerieProvider;
@@ -40,6 +41,8 @@ class SerieCommand extends Command
      */
     public function handle()
     {
+        Cache::forget('series');
+
         $isFresh = $this->option('fresh');
 
         $series = Serie::orderBy('title_sort')->get();

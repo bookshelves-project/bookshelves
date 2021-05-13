@@ -6,6 +6,7 @@ use File;
 use Http;
 use App\Models\Author;
 use App\Utils\BookshelvesTools;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class AuthorProvider
 {
@@ -87,6 +88,13 @@ class AuthorProvider
         }
 
         $author = $author->refresh();
+
+        // Get color
+        $image = $author->getFirstMediaPath('authors');
+        $color = MetadataExtractorTools::simple_color_thief($image);
+        $media = $author->getFirstMedia('authors');
+        $media->setCustomProperty('color', $color);
+        $media->save();
 
         return $author;
     }

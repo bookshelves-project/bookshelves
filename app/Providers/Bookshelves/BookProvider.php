@@ -15,8 +15,9 @@ use App\Models\Publisher;
 use App\Models\GoogleBook;
 use App\Models\Identifier;
 use Illuminate\Support\Str;
+use League\ColorExtractor\Color;
 use App\Providers\MetadataExtractor\MetadataExtractor;
-use InvalidArgumentException;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class BookProvider
 {
@@ -40,6 +41,13 @@ class BookProvider
                 ->toMediaCollection($disk, $disk);
 
             $book = $book->refresh();
+
+            // Get color
+            $image = $book->getFirstMediaPath('books');
+            $color = MetadataExtractorTools::simple_color_thief($image);
+            $media = $book->getFirstMedia('books');
+            $media->setCustomProperty('color', $color);
+            $media->save();
         }
 
         return $book;
@@ -270,11 +278,11 @@ class BookProvider
     }
 
     /**
-     * Generate Book from MetadataExtractor
-     * 
-     * @param MetadataExtractor $metadataExtractor 
-     * 
-     * @return Book 
+     * Generate Book from MetadataExtractor.
+     *
+     * @param MetadataExtractor $metadataExtractor
+     *
+     * @return Book
      */
     public static function book(MetadataExtractor $metadataExtractor): Book
     {
@@ -291,12 +299,12 @@ class BookProvider
     }
 
     /**
-     * Generate Author[] for Book from MetadataExtractor
-     * 
-     * @param MetadataExtractor $metadataExtractor 
-     * @param Book $book 
-     * 
-     * @return Book 
+     * Generate Author[] for Book from MetadataExtractor.
+     *
+     * @param MetadataExtractor $metadataExtractor
+     * @param Book              $book
+     *
+     * @return Book
      */
     public static function authors(MetadataExtractor $metadataExtractor, Book $book): Book
     {
@@ -324,12 +332,12 @@ class BookProvider
     }
 
     /**
-     * Generate Tag[] for Book from MetadataExtractor
-     * 
-     * @param MetadataExtractor $metadataExtractor 
-     * @param Book $book 
-     * 
-     * @return Book 
+     * Generate Tag[] for Book from MetadataExtractor.
+     *
+     * @param MetadataExtractor $metadataExtractor
+     * @param Book              $book
+     *
+     * @return Book
      */
     public static function tags(MetadataExtractor $metadataExtractor, Book $book): Book
     {
@@ -363,12 +371,12 @@ class BookProvider
     }
 
     /**
-     * Generate Publisher for Book from MetadataExtractor
-     * 
-     * @param MetadataExtractor $metadataExtractor 
-     * @param Book $book 
-     * 
-     * @return Book 
+     * Generate Publisher for Book from MetadataExtractor.
+     *
+     * @param MetadataExtractor $metadataExtractor
+     * @param Book              $book
+     *
+     * @return Book
      */
     public static function publisher(MetadataExtractor $metadataExtractor, Book $book): Book
     {
@@ -391,12 +399,12 @@ class BookProvider
     }
 
     /**
-     * Generate Serie for Book from MetadataExtractor
-     * 
-     * @param MetadataExtractor $metadataExtractor 
-     * @param Book $book 
-     * 
-     * @return Book 
+     * Generate Serie for Book from MetadataExtractor.
+     *
+     * @param MetadataExtractor $metadataExtractor
+     * @param Book              $book
+     *
+     * @return Book
      */
     public static function serie(MetadataExtractor $metadataExtractor, Book $book): Book
     {
@@ -431,10 +439,10 @@ class BookProvider
     }
 
     /**
-     * Generate JPG for Book from MetadataExtractor, use only during generation
-     * 
-     * @param MetadataExtractor $metadataExtractor 
-     * @param Book $book 
+     * Generate JPG for Book from MetadataExtractor, use only during generation.
+     *
+     * @param MetadataExtractor $metadataExtractor
+     * @param Book              $book
      */
     public static function rawCover(MetadataExtractor $metadataExtractor, Book $book)
     {

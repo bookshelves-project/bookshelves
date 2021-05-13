@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Str;
+use Cache;
 use App\Models\Book;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\BookProvider;
@@ -44,6 +45,8 @@ class BookCommand extends Command
      */
     public function handle()
     {
+        Cache::forget('books');
+
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
@@ -68,11 +71,11 @@ class BookCommand extends Command
      *
      * Generate `Book` model with all relationships
      *
-     * @param iterable $epubFiles
+     * @param array $epubFiles
      *
      * @return void
      */
-    public function books(iterable $epubFiles)
+    public function books(array $epubFiles)
     {
         $this->alert('Bookshelves: books & relations');
         $this->comment('- EPUB files detected: '.sizeof($epubFiles));

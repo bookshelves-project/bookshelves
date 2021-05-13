@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\Utils\BookshelvesTools;
 use Auth;
-use App\Utils\Tools;
+use App\Utils\BookshelvesTools;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
@@ -36,10 +35,6 @@ class Author extends Model implements HasMedia
         $formatThumbnail = config('image.thumbnails.picture_thumbnail');
         $formatStandard = config('image.thumbnails.picture_open_graph');
 
-        // $this->addMediaConversion('basic')
-        //     ->fit(Manipulations::FIT_CROP, $formatBasic['width'], $formatBasic['height'])
-        //     ->format(config('bookshelves.cover_extension'));
-
         $this->addMediaConversion('thumbnail')
             ->fit(Manipulations::FIT_CROP, $formatThumbnail['width'], $formatThumbnail['height'])
             ->format(config('bookshelves.cover_extension'));
@@ -49,19 +44,28 @@ class Author extends Model implements HasMedia
             ->format('jpg');
     }
 
-    // public function getImageAttribute(): string | null
-    // {
-    //     return $this->getMedia('authors')->first()?->getUrl('basic');
-    // }
-
     public function getImageThumbnailAttribute(): string | null
     {
-        return $this->getMedia('authors')->first()?->getUrl('thumbnail');
+        return $this->getFirstMediaUrl('authors', 'thumbnail');
     }
 
     public function getImageOpenGraphAttribute(): string | null
     {
-        return $this->getMedia('authors')->first()?->getUrl('open_graph');
+        return $this->getFirstMediaUrl('authors', 'open_graph');
+    }
+
+    public function getImageColorAttribute(): string | null
+    {
+        /** @var Media $media */
+        $media = $this->getFirstMedia('authors');
+
+        if ($media) {
+            $color = $media->getCustomProperty('color');
+
+            return "#$color";
+        }
+
+        return null;
     }
 
     public function getShowLinkAttribute(): string

@@ -30,6 +30,7 @@ class SerieResource extends JsonResource
             'picture'              => [
                 'base'      => $serie->image_thumbnail,
                 'openGraph' => $serie->image_open_graph,
+                'color'     => $this->resource->image_color,
             ],
             'tags'           => TagResource::collection($serie->tags),
             'download'       => $serie->download_link,

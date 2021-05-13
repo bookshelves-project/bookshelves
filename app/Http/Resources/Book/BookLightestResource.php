@@ -5,6 +5,9 @@ namespace App\Http\Resources\Book;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property \App\Models\Book $resource
+ */
 class BookLightestResource extends JsonResource
 {
     /**
@@ -17,19 +20,14 @@ class BookLightestResource extends JsonResource
      */
     public function toArray($request): array
     {
-        /** @var Book $book */
-        $book = $this;
-
-        $base = [
-            'title'        => $book->title,
-            'slug'         => $book->slug,
-            'author'       => $book->author->slug,
-            'serie'        => $book->serie?->title,
+        return [
+            'title'        => $this->resource->title,
+            'slug'         => $this->resource->slug,
+            'author'       => $this->resource->author?->slug,
+            'serie'        => $this->resource->serie?->title,
             'meta'         => [
-                'show'        => $book->show_link,
+                'show'        => $this->resource->show_link,
             ],
         ];
-
-        return $base;
     }
 }

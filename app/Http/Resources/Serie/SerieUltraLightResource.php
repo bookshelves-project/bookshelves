@@ -22,12 +22,13 @@ class SerieUltraLightResource extends JsonResource
         $base = [
             'title'     => $serie->title,
             'slug'      => $serie->slug,
-            'author'    => $serie->author->slug,
+            'author'    => $serie->author?->slug,
             'picture'   => [
                 'base'      => $serie->image_thumbnail,
+                'color'     => $this->resource->image_color,
             ],
             'meta' => [
-                'show'      => $serie->show_link,
+                'show' => $serie->show_link,
             ],
         ];
 

@@ -5,6 +5,9 @@ namespace App\Http\Resources\Book;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property \App\Models\Book $resource
+ */
 class BookSerieResource extends JsonResource
 {
     /**
@@ -17,15 +20,12 @@ class BookSerieResource extends JsonResource
      */
     public function toArray($request): array
     {
-        /** @var Book $book */
-        $book = $this;
-
-        $resource = BookUltraLightResource::make($book)->toArray($request);
+        $resource = BookUltraLightResource::make($this->resource)->toArray($request);
         $resource = array_merge($resource, [
             'picture'     => [
-                'base'      => $book->image_thumbnail,
-                'openGraph' => $book->image_open_graph,
-                'original'  => $book->image_original,
+                'base'      => $this->resource->image_thumbnail,
+                'openGraph' => $this->resource->image_open_graph,
+                'original'  => $this->resource->image_original,
             ],
         ]);
 

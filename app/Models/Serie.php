@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\Utils\BookshelvesTools;
 use Auth;
-use App\Utils\Tools;
+use App\Utils\BookshelvesTools;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
@@ -36,10 +35,6 @@ class Serie extends Model implements HasMedia
         $formatThumbnail = config('image.thumbnails.picture_thumbnail');
         $formatStandard = config('image.thumbnails.picture_open_graph');
 
-        // $this->addMediaConversion('basic')
-        //     ->crop(Manipulations::CROP_TOP, $formatBasic['width'], $formatBasic['height'])
-        //     ->format(config('bookshelves.cover_extension'));
-
         $this->addMediaConversion('thumbnail')
             ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
             ->format(config('bookshelves.cover_extension'));
@@ -49,35 +44,48 @@ class Serie extends Model implements HasMedia
             ->format('jpg');
     }
 
-    // public function getImageAttribute(): string | null
-    // {
-    //     return $this->getMedia('series')->first()?->getUrl('basic');
-    // }
-
     public function getImageThumbnailAttribute(): string | null
     {
-        return $this->getMedia('series')->first()?->getUrl('thumbnail');
+        return $this->getFirstMediaUrl('series', 'thumbnail');
     }
 
     public function getImageOpenGraphAttribute(): string | null
     {
-        return $this->getMedia('series')->first()?->getUrl('open_graph');
+        return $this->getFirstMediaUrl('series', 'open_graph');
+    }
+
+    public function getImageColorAttribute(): string | null
+    {
+        /** @var Media $media */
+        $media = $this->getFirstMedia('series');
+
+        if ($media) {
+            $color = $media->getCustomProperty('color');
+
+            return "#$color";
+        }
+
+        return null;
     }
 
     public function getShowLinkAttribute(): string
     {
-        $route = route('api.series.show', [
-            'author' => $this->author->slug,
-            'serie'  => $this->slug,
-        ]);
+        if ($this->author?->slug && $this->slug) {
+            $route = route('api.series.show', [
+                'author' => $this->author?->slug,
+                'serie'  => $this->slug,
+            ]);
 
-        return $route;
+            return $route;
+        }
+
+        return '';
     }
 
     public function getDownloadLinkAttribute(): string
     {
         $route = route('api.download.serie', [
-            'author' => $this->author->slug,
+            'author' => $this->author?->slug,
             'serie'  => $this->slug,
         ]);
 
@@ -149,9 +157,9 @@ class Serie extends Model implements HasMedia
     /**
      * First Author for router.
      *
-     * @return Author
+     * @return Author|null
      */
-    public function getAuthorAttribute(): Author
+    public function getAuthorAttribute(): Author | null
     {
         return $this->morphToMany(Author::class, 'authorable')->first();
     }

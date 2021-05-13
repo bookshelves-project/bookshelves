@@ -5,10 +5,9 @@ namespace App\Providers\MetadataExtractor;
 use File;
 use Storage;
 use ZipArchive;
-use App\Utils\Tools;
 use Illuminate\Support\Str;
-use App\Providers\MetadataExtractor\Parsers\CreatorParser;
 use App\Utils\BookshelvesTools;
+use App\Providers\MetadataExtractor\Parsers\CreatorParser;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class MetadataExtractorTools
@@ -347,5 +346,46 @@ class MetadataExtractorTools
         }
 
         return $xml_array;
+    }
+
+    /**
+     * PHP Simple Color Thief
+     * ======================
+     * Detect the Dominant Color used in an Image
+     * Copyright 2019 Igor Gaffling.
+     *
+     * @param mixed  $img
+     * @param string $default
+     *
+     * @return string
+     */
+    public static function simple_color_thief($img, $default = 'eee')
+    {
+        if (@exif_imagetype($img)) { // CHECK IF IT IS AN IMAGE
+      $type = getimagesize($img)[2]; // GET TYPE
+      if (1 === $type) { // GIF
+        $image = imagecreatefromgif($img);
+          // IF IMAGE IS TRANSPARENT (alpha=127) RETURN fff FOR WHITE
+          if (127 == imagecolorsforindex($image, imagecolorstotal($image) - 1)['alpha']) {
+              return 'fff';
+          }
+      } elseif (2 === $type) { // JPG
+          $image = imagecreatefromjpeg($img);
+      } elseif (3 === $type) { // PNG
+          $image = imagecreatefrompng($img);
+          // IF IMAGE IS TRANSPARENT (alpha=127) RETURN fff FOR WHITE
+          if ((imagecolorat($image, 0, 0) >> 24) & 0x7F === 127) {
+              return 'fff';
+          }
+      } else { // NO CORRECT IMAGE TYPE (GIF, JPG or PNG)
+          return $default;
+      }
+        } else { // NOT AN IMAGE
+            return $default;
+        }
+        $newImg = imagecreatetruecolor(1, 1); // FIND DOMINANT COLOR
+        imagecopyresampled($newImg, $image, 0, 0, 0, 0, 1, 1, imagesx($image), imagesy($image));
+
+        return dechex(imagecolorat($newImg, 0, 0)); // RETURN HEX COLOR
     }
 }

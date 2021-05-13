@@ -6,6 +6,9 @@ use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Serie\SerieUltraLightResource;
 
+/**
+ * @property \App\Models\Book $resource
+ */
 class BookLightResource extends JsonResource
 {
     /**
@@ -18,12 +21,9 @@ class BookLightResource extends JsonResource
      */
     public function toArray($request): array
     {
-        /** @var Book $book */
-        $book = $this;
-
-        $resource = BookUltraLightResource::make($book)->toArray($request);
+        $resource = BookUltraLightResource::make($this->resource)->toArray($request);
         $resource = array_merge($resource, [
-            'serie'        => SerieUltraLightResource::make($book->serie, true),
+            'serie' => SerieUltraLightResource::make($this->resource->serie, true),
         ]);
 
         return $resource;
