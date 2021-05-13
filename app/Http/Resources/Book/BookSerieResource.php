@@ -26,6 +26,7 @@ class BookSerieResource extends JsonResource
                 'base'      => $this->resource->image_thumbnail,
                 'openGraph' => $this->resource->image_open_graph,
                 'original'  => $this->resource->image_original,
+                'color'     => $this->resource->image_color,
             ],
         ]);
 

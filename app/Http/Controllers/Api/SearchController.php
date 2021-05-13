@@ -9,7 +9,7 @@ use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
-use App\Http\Resources\Author\AuthorLightResource;
+use App\Http\Resources\Search\SearchAuthorResource;
 
 class SearchController extends Controller
 {
@@ -50,25 +50,26 @@ class SearchController extends Controller
         return response()->json(['error' => 'Need to have terms query parameter'], 401);
     }
 
-    public function byBook(Request $request)
+    public function books(Request $request)
     {
-        $searchTerm = $request->input('search-term');
+        $searchTerm = $request->input('q');
         $books = Book::whereLike(['title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
 
         return BookLightResource::collection($books);
     }
 
-    public function byAuthor(Request $request)
+    public function authors(Request $request)
     {
-        $searchTerm = $request->input('search-term');
-        $books = Book::whereLike(['author.name', 'author.firstname', 'author.lastname'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
+        $searchTerm = $request->input('q');
+        // $books = Book::whereLike(['author.name', 'author.firstname', 'author.lastname'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
+        $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->get();
 
-        return AuthorLightResource::collection($books);
+        return SearchAuthorResource::collection($authors);
     }
 
-    public function bySerie(Request $request)
+    public function series(Request $request)
     {
-        $searchTerm = $request->input('search-term');
+        $searchTerm = $request->input('q');
         $books = Book::whereLike(['serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
 
         return SerieLightResource::collection($books);

@@ -71,9 +71,9 @@ Route::get('/count', [CountController::class, 'count'])->name('api.count');
  * Search routes
  */
 Route::get('/search', [SearchController::class, 'index'])->name('api.search.index');
-Route::get('/search-book', [SearchController::class, 'byBook'])->name('api.search.book');
-Route::get('/search-author', [SearchController::class, 'byAuthor'])->name('api.search.author');
-Route::get('/search-serie', [SearchController::class, 'bySerie'])->name('api.search.serie');
+Route::get('/search/books', [SearchController::class, 'books'])->name('api.search.books');
+Route::get('/search/authors', [SearchController::class, 'authors'])->name('api.search.authors');
+Route::get('/search/series', [SearchController::class, 'series'])->name('api.search.series');
 
 /*
  * Details routes

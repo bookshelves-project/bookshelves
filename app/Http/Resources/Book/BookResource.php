@@ -40,6 +40,7 @@ class BookResource extends JsonResource
                 'base'      => $book->image_thumbnail,
                 'openGraph' => $book->image_open_graph,
                 'original'  => $book->image_original,
+                'color'     => $this->resource->image_color,
             ],
             'description'    => $book->description,
             'identifier'     => IdentifierResource::make($book->identifier),
