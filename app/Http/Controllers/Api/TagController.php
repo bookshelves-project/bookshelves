@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Tag;
+use App\Http\Resources\TagResource;
 use App\Http\Controllers\Controller;
 
 class TagController extends Controller
@@ -11,6 +12,6 @@ class TagController extends Controller
     {
         $tags = Tag::all();
 
-        return $tags;
+        return TagResource::collection($tags);
     }
 }
