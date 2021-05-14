@@ -13,7 +13,7 @@ class Language extends Model
     public $timestamps = false;
     protected $fillable = [
         'slug',
-        'display',
+        'name',
     ];
 
     public function books(): HasMany

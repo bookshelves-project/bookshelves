@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\CommandController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\WebreaderController;
 use App\Http\Controllers\Api\Wiki\WikiController;
 use App\Http\Controllers\Api\DependencyController;
@@ -126,6 +127,11 @@ Route::get('/users', [UserController::class, 'users'])->name('api.users');
  * Tags routes
  */
 Route::get('/tags', [TagController::class, 'index'])->name('api.tags.index');
+
+/*
+ * Lang routes
+ */
+Route::get('/languages', [LanguageController::class, 'index'])->name('api.languages.index');
 
 /*
  * Users features routes

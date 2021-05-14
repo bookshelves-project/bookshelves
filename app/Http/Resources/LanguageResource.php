@@ -21,7 +21,7 @@ class LanguageResource extends JsonResource
 
         return [
             'slug'    => $language->slug,
-            'display' => $language->display,
+            'name'    => $language->name,
         ];
     }
 }
