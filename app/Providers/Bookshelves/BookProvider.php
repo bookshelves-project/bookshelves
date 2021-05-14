@@ -421,7 +421,7 @@ class BookProvider
                 $serie = Serie::firstOrCreate([
                     'title'      => $metadataExtractor->serie,
                     'title_sort' => $metadataExtractor->serie_sort,
-                    'slug'       => Str::slug($metadataExtractor->serie),
+                    'slug'       => Str::slug($metadataExtractor->serie).'-'.$metadataExtractor->language,
                 ]);
             } else {
                 $serie = $serieIfExist;
