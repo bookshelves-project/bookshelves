@@ -26,15 +26,25 @@
 <body class="font-sans antialiased relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     {{-- @include('components.layout.navbar') --}}
     <a href="{{ route('api.opds.index') }}" class="flex items-center justify-center mt-4 font-handlee">
-        <img src="{{ asset('images/bookshelves.svg') }}" alt="Bookshelves" class="w-24">
-        <div class="ml-4">
-            <div class="text-4xl">
-                Bookshelves OPDS
-            </div>
-            <div class="text-sm">
-                Open Publication Distribution System
-            </div>
-        </div>
+
+
+        <table>
+            <tr>
+                <td>
+                    <img src="{{ asset('images/bookshelves.svg') }}" alt="Bookshelves" class="w-24">
+                </td>
+                <td>
+                    <div class="ml-4">
+                        <div class="text-4xl">
+                            Bookshelves OPDS
+                        </div>
+                        <div class="text-sm">
+                            Open Publication Distribution System
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </a>
     <nav>
         <table class="mx-auto" cellpadding="20px" cellspacing="0" height="100%" class="table-fixed">
