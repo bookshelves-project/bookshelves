@@ -10,17 +10,7 @@
 [![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=14.16&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
 [![yarn](https://img.shields.io/static/v1?label=Yarn&message=v1.2&color=2C8EBB&style=flat-square&logo=yarn&logoColor=ffffff)](https://yarnpkg.com/lang/en/)
 
-## Demo & documentation
-
-🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of Bookshelves  
-📚 [**Wiki**](https://bookshelves.ink/api/wiki): wiki for Bookshelves usage
-
 ---
-
-- 📀 [**bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves (current repository)
-- 🎨 [**bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves
-- 💻 [**bookshelves.ink**](https://bookshelves.ink) : front demo
-- 📚 [**Documentation**](https://bookshelves.ink/api/documentation)
 
 **Table of contents**
 
@@ -31,6 +21,19 @@
 - [**II. Generate eBooks data**](#ii-generate-ebooks-data)
   - [*a. Add your own eBooks*](#a-add-your-own-ebooks)
   - [*b. Test with demo eBook*](#b-test-with-demo-ebook)
+
+---
+
+## Demo & documentation
+
+🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of Bookshelves  
+📚 [**Wiki**](https://bookshelves.ink/api/wiki): wiki for Bookshelves usage, if this link not work check [**files here**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/tree/master/resources/views/pages/api/wiki/content)
+
+---
+
+📀 [**bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves (current repository)  
+🎨 [**bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  
+📚 [**Documentation**](https://bookshelves.ink/api/documentation): API documentation  
 
 ---
 
