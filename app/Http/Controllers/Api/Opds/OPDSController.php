@@ -12,18 +12,6 @@ class OpdsController extends Controller
 {
     public function index(Request $request)
     {
-        // $books = Book::all();
-
-        // $books = $books->sortBy(function ($book) {
-        //     return $book->sort_name;
-        // });
-        // $books = $books->paginate(32);
-        // $books = BookLightResource::collection($books);
-        // $links = $books->onEachSide(1)->links();
-        // $books = json_decode($books->toJson());
-
-        // return view('pages/api/opds/index', compact('books', 'links'));
-
         return view('pages/api/opds/index');
     }
 
