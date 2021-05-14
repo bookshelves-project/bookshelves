@@ -58,6 +58,7 @@ class MetadataExtractorTools
         try {
             // Get all files in raw/books/
             $files = Storage::disk('public')->allFiles('raw/books');
+            dump($files);
         } catch (\Throwable $th) {
             dump('storage/raw/books not found');
 

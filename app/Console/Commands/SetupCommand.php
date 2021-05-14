@@ -82,6 +82,7 @@ class SetupCommand extends Command
         foreach ($iterator as $data) {
             echo $data;
         }
+        $this->info('Laravel mix, wait a minute...');
         exec('yarn prod');
 
         $this->info('Cleaning...');
