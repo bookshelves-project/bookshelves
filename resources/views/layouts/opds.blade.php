@@ -26,9 +26,7 @@
 <body class="font-sans antialiased relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     {{-- @include('components.layout.navbar') --}}
     <a href="{{ route('api.opds.index') }}" class="flex items-center justify-center mt-4 font-handlee">
-
-
-        <table>
+        <table class="mx-auto">
             <tr>
                 <td>
                     <img src="{{ asset('images/bookshelves.svg') }}" alt="Bookshelves" class="w-24">
