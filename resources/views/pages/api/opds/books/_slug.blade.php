@@ -1,6 +1,6 @@
 @extends('layouts.opds')
 
-@section('title', 'eReader')
+@section('title', $book->title)
 
 @section('content')
     <div class="relative px-4 pt-6 pb-20 bg-gray-50 sm:px-6 lg:pt-12 lg:pb-28 lg:px-8">
@@ -31,7 +31,7 @@
                 <div class="mt-5">
                     {!! $book->description !!}
                 </div>
-                <a href="{{ $book->epub->download }}" class="block px-3 py-2 mt-6 font-semibold">
+                <a href="{{ $book->epub->download }}" class="block py-2 mt-6 text-3xl font-semibold">
                     Download ({{ $book->epub->size }})
                 </a>
             </div>

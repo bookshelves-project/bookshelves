@@ -254,9 +254,7 @@ class BookProvider
             $book = self::publisher($metadataExtractor, $book);
             $book = self::serie($metadataExtractor, $book);
             self::rawCover($metadataExtractor, $book);
-            $language = Language::firstOrCreate([
-                'slug' => $metadataExtractor->language,
-            ]);
+            $language = self::language($metadataExtractor);
             $book->language()->associate($language->slug);
             $identifier = Identifier::firstOrCreate([
                 'isbn'   => $metadataExtractor->identifiers->isbn,
@@ -442,6 +440,30 @@ class BookProvider
         }
 
         return $book;
+    }
+
+    /**
+     * Set Language from MetadataExtractor.
+     *
+     * @param MetadataExtractor $metadataExtractor
+     *
+     * @return Language
+     */
+    public static function language(MetadataExtractor $metadataExtractor): Language
+    {
+        $name = $metadataExtractor->language;
+        $name = match ($metadataExtractor->language) {
+            'fr'    => 'French',
+            'en'    => 'English',
+            default => 'Unknown',
+        };
+
+        $lang = Language::firstOrCreate([
+            'name' => $name,
+            'slug' => $metadataExtractor->language,
+        ]);
+
+        return $lang;
     }
 
     /**

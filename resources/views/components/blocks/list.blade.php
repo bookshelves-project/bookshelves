@@ -9,13 +9,13 @@
                     @foreach ($chunk as $item)
                         <td height="300px" valign="top">
                             <a
-                                href="{{ route('api.ereader.books.show', ['author' => $item->author, 'slug' => $item->slug]) }}">
+                                href="{{ route('api.opds.books.show', ['author' => $item->author, 'slug' => $item->slug]) }}">
                                 <div style=" background-image: url({{ $item->picture->openGraph }})"
                                     class="h-32 bg-center bg-cover">
                                 </div>
                                 <div class="p-5">
                                     <div>
-                                        Books
+                                        Book by
                                         @foreach ($item->authors as $key => $author)
                                             {{ $author->name }}
                                             @if (sizeof($item->authors) !== $key + 1)

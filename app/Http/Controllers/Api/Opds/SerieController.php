@@ -1,30 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Api\Ereader;
+namespace App\Http\Controllers\Api\Opds;
 
-use App\Models\Book;
 use App\Models\Serie;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Serie\SerieResource;
-use App\Http\Resources\Book\BookLightResource;
+use App\Http\Resources\Search\SearchSerieResource;
 
 class SerieController extends Controller
 {
     public function index(Request $request)
     {
-        $books = Book::all();
+        $series = Serie::all();
 
-        $books = $books->sortBy(function ($book) {
-            return $book->sort_name;
-        });
-        $books = $books->paginate(32);
-        $books = BookLightResource::collection($books);
-        $links = $books->onEachSide(1)->links();
-        $books = json_decode($books->toJson());
+        $series = SearchSerieResource::collection($series);
+        $series = collect($series);
 
-        return view('pages/api/opds/ereader', compact('books', 'links'));
+        return view('pages/api/opds/series/index', compact('series'));
     }
 
     public function show(Request $request, string $author, string $slug)

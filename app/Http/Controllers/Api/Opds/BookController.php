@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Ereader;
+namespace App\Http\Controllers\Api\Opds;
 
 use App\Models\Book;
 use App\Models\Author;
@@ -23,7 +23,7 @@ class BookController extends Controller
         $links = $books->onEachSide(1)->links();
         $books = json_decode($books->toJson());
 
-        return view('pages/api/opds/ereader', compact('books', 'links'));
+        return view('pages/api/opds/books/index', compact('books', 'links'));
     }
 
     public function show(Request $request, string $author, string $slug)

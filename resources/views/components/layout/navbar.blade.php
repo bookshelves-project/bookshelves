@@ -15,15 +15,15 @@
                         class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 border-b-2 border-indigo-500">
                         Dashboard
                     </a>
-                    <a href="{{ route('api.ereader.books') }}"
+                    <a href="{{ route('api.opds.books') }}"
                         class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700">
                         Books
                     </a>
-                    <a href="{{ route('api.ereader.series') }}"
+                    <a href="{{ route('api.opds.series') }}"
                         class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700">
                         Series
                     </a>
-                    <a href="{{ route('api.ereader.authors') }}"
+                    <a href="{{ route('api.opds.authors') }}"
                         class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700">
                         Books
                     </a>

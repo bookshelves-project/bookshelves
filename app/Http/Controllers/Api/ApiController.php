@@ -100,7 +100,7 @@ class ApiController extends Controller
                 'sanctum' => 'Routes available if user is logged',
             ],
             'documentation'  => config('app.url').'/'.'api/documentation',
-            'ereader'        => config('app.url').'/'.'api/ereader',
+            'opds'           => config('app.url').'/'.'api/opds',
             'routes'         => [
                 'public'   => $publicRoutes,
                 'sanctum'  => $sanctumRoutes,

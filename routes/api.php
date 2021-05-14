@@ -14,14 +14,14 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LanguageController;
+use App\Http\Controllers\Api\Opds\OpdsController;
 use App\Http\Controllers\Api\WebreaderController;
 use App\Http\Controllers\Api\Wiki\WikiController;
 use App\Http\Controllers\Api\DependencyController;
 use App\Http\Controllers\Api\SubmissionController;
-use App\Http\Controllers\Api\Ereader\EreaderController;
-use App\Http\Controllers\Api\Ereader\BookController as EreaderBookController;
-use App\Http\Controllers\Api\Ereader\SerieController as EreaderSerieController;
-use App\Http\Controllers\Api\Ereader\AuthorController as EreaderAuthorController;
+use App\Http\Controllers\Api\Opds\BookController as OpdsBookController;
+use App\Http\Controllers\Api\Opds\SerieController as OpdsSerieController;
+use App\Http\Controllers\Api\Opds\AuthorController as OpdsAuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,20 +37,20 @@ use App\Http\Controllers\Api\Ereader\AuthorController as EreaderAuthorController
 Route::get('/', [ApiController::class, 'index'])->name('api.index');
 
 /*
- * eReader routes
+ * opds routes
  */
-Route::prefix('ereader')->group(function () {
-    Route::get('/', [EreaderController::class, 'index'])->name('api.ereader.index');
-    Route::get('/search', [EreaderController::class, 'search'])->name('api.ereader.search');
+Route::prefix('opds')->group(function () {
+    Route::get('/', [OpdsController::class, 'index'])->name('api.opds.index');
+    Route::get('/search', [OpdsController::class, 'search'])->name('api.opds.search');
 
-    Route::get('/books', [EreaderBookController::class, 'index'])->name('api.ereader.books');
-    Route::get('/books/{author}/{slug}', [EreaderBookController::class, 'show'])->name('api.ereader.books.show');
+    // Route::get('/books', [OpdsBookController::class, 'index'])->name('api.opds.books');
+    Route::get('/books/{author}/{slug}', [OpdsBookController::class, 'show'])->name('api.opds.books.show');
 
-    Route::get('/series', [EreaderSerieController::class, 'index'])->name('api.ereader.series');
-    Route::get('/series/{author}/{slug}', [EreaderSerieController::class, 'show'])->name('api.ereader.series.show');
+    Route::get('/series', [OpdsSerieController::class, 'index'])->name('api.opds.series');
+    Route::get('/series/{author}/{slug}', [OpdsSerieController::class, 'show'])->name('api.opds.series.show');
 
-    Route::get('/authors', [EreaderAuthorController::class, 'index'])->name('api.ereader.authors');
-    Route::get('/authors/{slug}', [EreaderAuthorController::class, 'show'])->name('api.ereader.authors.show');
+    Route::get('/authors', [OpdsAuthorController::class, 'index'])->name('api.opds.authors');
+    Route::get('/authors/{slug}', [OpdsAuthorController::class, 'show'])->name('api.opds.authors.show');
 });
 
 /*

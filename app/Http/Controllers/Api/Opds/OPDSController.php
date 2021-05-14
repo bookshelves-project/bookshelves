@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Ereader;
+namespace App\Http\Controllers\Api\Opds;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookLightResource;
 
-class EreaderController extends Controller
+class OpdsController extends Controller
 {
     public function index(Request $request)
     {
@@ -22,9 +22,9 @@ class EreaderController extends Controller
         // $links = $books->onEachSide(1)->links();
         // $books = json_decode($books->toJson());
 
-        // return view('pages/api/ereader', compact('books', 'links'));
+        // return view('pages/api/opds/index', compact('books', 'links'));
 
-        return view('pages/api/opds/ereader');
+        return view('pages/api/opds/index');
     }
 
     public function search(Request $request)
@@ -45,7 +45,7 @@ class EreaderController extends Controller
             });
             $books = collect($books);
 
-            return view('pages.api.ereader', compact('authors', 'series', 'books'));
+            return view('pages.api.opds.index', compact('authors', 'series', 'books'));
         }
 
         return response()->json(['error' => 'Need to have terms query parameter'], 401);
@@ -63,7 +63,7 @@ class EreaderController extends Controller
         $links = $books->onEachSide(1)->links();
         $books = json_decode($books->toJson());
 
-        return view('pages/api/opds/ereader', compact('books', 'links'));
+        return view('pages/api/opds/series/index', compact('books', 'links'));
     }
 
     public function authors(Request $request)
@@ -78,6 +78,6 @@ class EreaderController extends Controller
         $links = $books->onEachSide(1)->links();
         $books = json_decode($books->toJson());
 
-        return view('pages/api/opds/ereader', compact('books', 'links'));
+        return view('pages/api/opds/authors/index', compact('books', 'links'));
     }
 }

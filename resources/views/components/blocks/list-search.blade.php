@@ -1,4 +1,4 @@
-<section>
+<section class="my-20">
     <h3 class="px-5 text-3xl font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
         {{ $title }}
     </h3>
@@ -9,18 +9,18 @@
                     @foreach ($chunk as $item)
                         @php
                             $item = json_decode(json_encode($item));
-                            $route = route('api.ereader.index');
+                            $route = route('api.opds.index');
                             switch ($type) {
                                 case 'book':
-                                    $route = route('api.ereader.books.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
+                                    $route = route('api.opds.books.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
                                     break;
                             
                                 case 'serie':
-                                    $route = route('api.ereader.series.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
+                                    $route = route('api.opds.series.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
                                     break;
                             
                                 case 'author':
-                                    $route = route('api.ereader.authors.show', ['slug' => $item->meta->slug]);
+                                    $route = route('api.opds.authors.show', ['slug' => $item->meta->slug]);
                                     break;
                             
                                 default:
