@@ -50,7 +50,7 @@ class SerieProvider
             }
             if (is_string($desc)) {
                 $serie->description = $desc;
-                $serie->wikipedia_link = $url;
+                $serie->description_link = $url;
                 $serie->save();
             }
         }

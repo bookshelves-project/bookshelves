@@ -40,8 +40,6 @@
 🎨 [**bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  
 📚 [**Documentation**](https://bookshelves.ink/api/documentation): API documentation  
 
----
-
 ## **I. Setup**
 
 ### *a. Dependencies*

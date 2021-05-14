@@ -80,7 +80,7 @@ class AuthorProvider
             }
             if (is_string($desc)) {
                 $author->description = $desc;
-                $author->wikipedia_link = $url;
+                $author->description_link = $url;
                 $author->save();
             }
         } else {

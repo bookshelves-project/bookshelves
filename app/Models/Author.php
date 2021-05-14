@@ -26,7 +26,7 @@ class Author extends Model implements HasMedia
         'slug',
         'role',
         'description',
-        'wikipedia_link',
+        'description_link',
     ];
 
     public function registerMediaConversions(Media $media = null): void

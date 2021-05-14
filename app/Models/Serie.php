@@ -26,7 +26,7 @@ class Serie extends Model implements HasMedia
         'title_sort',
         'slug',
         'description',
-        'wikipedia_link',
+        'description_link',
     ];
 
     public function registerMediaConversions(Media $media = null): void

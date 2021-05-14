@@ -24,10 +24,10 @@ class SerieResource extends JsonResource
 
         $resource = SerieLightResource::make($serie)->toArray($request);
         $resource = array_merge($resource, [
-            'description'          => $serie->description,
-            'wikipediaLink'        => $serie->wikipedia_link,
-            'language'             => $serie->language?->slug,
-            'picture'              => [
+            'description'            => $serie->description,
+            'descriptionLink'        => $serie->description_link,
+            'language'               => $serie->language?->slug,
+            'picture'                => [
                 'base'      => $serie->image_thumbnail,
                 'openGraph' => $serie->image_open_graph,
                 'color'     => $this->resource->image_color,

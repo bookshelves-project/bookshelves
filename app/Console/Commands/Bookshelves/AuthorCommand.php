@@ -15,7 +15,7 @@ class AuthorCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:authors
-                            {--f|fresh : refresh authors medias, `description` & `wikipedia_link`}';
+                            {--f|fresh : refresh authors medias, `description` & `description_link`}';
 
     /**
      * The console command description.
@@ -52,7 +52,7 @@ class AuthorCommand extends Command
             });
             foreach ($authors as $key => $author) {
                 $author->description = null;
-                $author->wikipedia_link = null;
+                $author->description_link = null;
                 $author->save();
             }
         }

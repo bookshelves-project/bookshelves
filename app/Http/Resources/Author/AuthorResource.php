@@ -24,14 +24,14 @@ class AuthorResource extends JsonResource
 
         $resource = AuthorLightResource::make($author)->toArray($request);
         $resource = array_merge($resource, [
-            'description'          => $author->description,
-            'wikipediaLink'        => $author->wikipedia_link,
-            'size'                 => $author->size,
-            'download'             => $author->download_link,
-            'series'               => SerieLightResource::collection($author->series),
-            'books'                => BookLightResource::collection($author->books),
-            'isFavorite'           => $author->is_favorite,
-            'comments'             => CommentResource::collection($author->comments),
+            'description'            => $author->description,
+            'descriptionLink'        => $author->description_link,
+            'size'                   => $author->size,
+            'download'               => $author->download_link,
+            'series'                 => SerieLightResource::collection($author->series),
+            'books'                  => BookLightResource::collection($author->books),
+            'isFavorite'             => $author->is_favorite,
+            'comments'               => CommentResource::collection($author->comments),
         ]);
 
         return $resource;

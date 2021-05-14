@@ -15,7 +15,7 @@ class SerieCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:series
-                            {--f|fresh : refresh series medias, `description` & `wikipedia_link`}';
+                            {--f|fresh : refresh series medias, `description` & `description_link`}';
 
     /**
      * The console command description.
@@ -52,14 +52,14 @@ class SerieCommand extends Command
             });
             foreach ($series as $key => $serie) {
                 $serie->description = null;
-                $serie->wikipedia_link = null;
+                $serie->description_link = null;
                 $serie->save();
             }
         }
         $this->alert('Bookshelves: series');
         $this->info('- Get cover of vol. 1 to associate picture to serie if exist');
         $this->info("- If a JPG file with slug of serie exist in 'public/storage/raw/covers-series', it's will be this picture");
-        $this->info('- Get description, wikipedia link: HTTP requests');
+        $this->info('- Get description, description link: HTTP requests');
         $this->newLine();
 
         $bar = $this->output->createProgressBar(count($series));

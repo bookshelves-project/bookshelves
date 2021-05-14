@@ -19,7 +19,7 @@ class CreateSeriesTable extends Migration
             $table->string('title_sort')->nullable();
             $table->string('slug')->unique()->nullable();
             $table->text('description')->nullable();
-            $table->string('wikipedia_link')->nullable();
+            $table->string('description_link')->nullable();
         });
 
         Schema::table('books', function (Blueprint $table) {

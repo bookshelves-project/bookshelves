@@ -25,11 +25,6 @@
 
         - **PHP** v{{ $phpVersion }}
         - **Laravel** v{{ $laravelVersion }}
-        - 📀 [**bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves (current
-        repository)
-        - 🎨 [**bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves
-        - 💻 [**bookshelves.ink**](https://bookshelves.ink) : front demo
-        - 📚 [**Documentation**](https://bookshelves.ink/api/documentation)
         @endmarkdown
         @include('pages.api.wiki.content.index')
     </div>

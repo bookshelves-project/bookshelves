@@ -21,7 +21,7 @@ namespace App\Models{
  * @property string|null $name
  * @property string|null $role
  * @property string|null $description
- * @property string|null $wikipedia_link
+ * @property string|null $description_link
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
@@ -44,13 +44,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author query()
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereDescriptionLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereWikipediaLink($value)
  */
 	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
@@ -63,7 +63,6 @@ namespace App\Models{
  * @property string $title
  * @property string|null $title_sort
  * @property string|null $slug
- * @property string|null $slug_unique
  * @property string|null $contributor
  * @property string|null $description
  * @property string|null $date
@@ -121,7 +120,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereRights($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlugUnique($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
@@ -297,7 +295,7 @@ namespace App\Models{
  * @property string|null $slug
  * @property string|null $language_slug
  * @property string|null $description
- * @property string|null $wikipedia_link
+ * @property string|null $description_link
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
  * @property-read int|null $authors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -324,12 +322,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie query()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereDescriptionLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguageSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitleSort($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie whereWikipediaLink($value)
  */
 	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
