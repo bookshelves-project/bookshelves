@@ -77,6 +77,39 @@ php artisan setup
 
 ### *a. Add your own eBooks*
 
+>You can store EPUB files into `public/storage/raw/books` directory or you can create a symbolic link that is really more convenient. Of course, Bookshelves scan recursively this directory, you can have sub directories if you want.
+
+Directly store EPUB files
+
+```bash
+.
++-- public
+|   +-- storage
+|     +-- raw
+|       +-- books
+|         +-- my-ebook.epub
+|         +-- ...
+```
+
+Create symbolic link
+
+```bash
+# pwd => ..bookshelves-back/public/storage/raw/books
+ln -s /home/user/directory-of-ebooks books
+```
+
+```bash
+.
++-- public
+|   +-- storage
+|     +-- raw
+|       +-- books
+|         +-- directory-of-ebooks -> /home/user/directory-of-ebooks
+|         +-- ...
+```
+
+If this directory not exist
+
 Add EPUB files in `public/storage/raw/books` and execute Epub Parser
 
 > `php artisan bookshelves:generate -h` to check options
