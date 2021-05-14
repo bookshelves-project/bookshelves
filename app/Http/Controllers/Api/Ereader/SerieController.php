@@ -24,7 +24,7 @@ class SerieController extends Controller
         $links = $books->onEachSide(1)->links();
         $books = json_decode($books->toJson());
 
-        return view('pages/api/ereader', compact('books', 'links'));
+        return view('pages/api/opds/ereader', compact('books', 'links'));
     }
 
     public function show(Request $request, string $author, string $slug)
@@ -36,6 +36,6 @@ class SerieController extends Controller
         $serie = SerieResource::make($serie);
         $serie = json_decode($serie->toJson());
 
-        return view('pages/api/series/_slug', compact('serie'));
+        return view('pages/api/opds/series/_slug', compact('serie'));
     }
 }

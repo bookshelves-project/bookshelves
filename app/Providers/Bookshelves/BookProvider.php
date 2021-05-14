@@ -31,7 +31,7 @@ class BookProvider
      */
     public static function cover(Book $book): Book
     {
-        $cover = Storage::disk('public')->get("/covers-raw/$book->id.jpg");
+        $cover = Storage::disk('public')->get("/raw/covers/$book->id.jpg");
 
         if (! $book->image) {
             $disk = 'books';
@@ -288,7 +288,7 @@ class BookProvider
     {
         return Book::firstOrCreate([
             'title'        => $metadataExtractor->title,
-            'slug'         => Str::slug($metadataExtractor->title, '-'),
+            'slug'         => Str::slug($metadataExtractor->title, '-').'-'.$metadataExtractor->language,
             'title_sort'   => $metadataExtractor->title_sort,
             'contributor'  => $metadataExtractor->contributor,
             'description'  => $metadataExtractor->description,
@@ -447,7 +447,7 @@ class BookProvider
     public static function rawCover(MetadataExtractor $metadataExtractor, Book $book)
     {
         try {
-            Storage::disk('public')->put("/covers-raw/$book->id.jpg", $metadataExtractor->cover);
+            Storage::disk('public')->put("/raw/covers/$book->id.jpg", $metadataExtractor->cover);
         } catch (\Throwable $th) {
             //throw $th;
         }

@@ -1,7 +1,7 @@
 *
 !books/
 !covers/
-# !books-raw/
+# !raw/books/
 !.gitignore
 !.gitignore-sample
 
@@ -9,3 +9,4 @@
 !demo-ebooks
 !media/
 !debug/
+!raw/

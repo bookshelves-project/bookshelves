@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.opds')
 
 @section('title', 'eReader')
 

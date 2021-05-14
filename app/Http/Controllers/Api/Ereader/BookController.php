@@ -23,7 +23,7 @@ class BookController extends Controller
         $links = $books->onEachSide(1)->links();
         $books = json_decode($books->toJson());
 
-        return view('pages/api/ereader', compact('books', 'links'));
+        return view('pages/api/opds/ereader', compact('books', 'links'));
     }
 
     public function show(Request $request, string $author, string $slug)
@@ -35,6 +35,6 @@ class BookController extends Controller
         $book = BookResource::make($book);
         $book = json_decode($book->toJson());
 
-        return view('pages/api/books/_slug', compact('book'));
+        return view('pages/api/opds/books/_slug', compact('book'));
     }
 }

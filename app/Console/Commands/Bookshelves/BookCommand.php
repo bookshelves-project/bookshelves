@@ -127,7 +127,7 @@ class BookCommand extends Command
         $bar->finish();
         $this->newLine(2);
 
-        $dir = 'public/storage/covers-raw';
+        $dir = 'public/storage/raw/covers';
         $leave_files = ['.gitignore'];
 
         foreach (glob("$dir/*") as $file) {

@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.opds')
 
 @section('title', 'eReader')
 
@@ -9,30 +9,21 @@
                 Back
             </a>
             <div>
-                <div style=" background-image: url({{ $serie->picture->openGraph }})" class="h-32 bg-center bg-cover">
+                <div style=" background-image: url({{ $author->picture->openGraph }})" class="h-32 bg-center bg-cover">
                 </div>
                 <h2 class="mt-6 text-3xl font-semibold">
-                    {{ $serie->title }}
+                    {{ $author->name }}
                 </h2>
                 <div>
-                    Wrote by
-                    @foreach ($serie->authors as $key => $author)
-                        {{ $author->name }}
-                        @if (sizeof($serie->authors) !== $key + 1)
-                            <span>, </span>
-                        @endif
-                    @endforeach
-                </div>
-                <div>
-                    {{ $serie->size }}
+                    {{ $author->size }}
                 </div>
                 <div class="mt-5">
-                    {!! $serie->description !!}
+                    {!! $author->description !!}
                 </div>
-                @isset($serie->books)
+                @isset($author->books)
                     <div class="mt-8">
                         @include('components.blocks.list', [
-                        'data' => collect($serie->books)
+                        'data' => collect($author->books)
                         ])
                     </div>
                 @endisset

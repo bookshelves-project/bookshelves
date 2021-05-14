@@ -24,7 +24,7 @@ class EreaderController extends Controller
 
         // return view('pages/api/ereader', compact('books', 'links'));
 
-        return view('pages/api/ereader');
+        return view('pages/api/opds/ereader');
     }
 
     public function search(Request $request)
@@ -63,7 +63,7 @@ class EreaderController extends Controller
         $links = $books->onEachSide(1)->links();
         $books = json_decode($books->toJson());
 
-        return view('pages/api/ereader', compact('books', 'links'));
+        return view('pages/api/opds/ereader', compact('books', 'links'));
     }
 
     public function authors(Request $request)
@@ -78,6 +78,6 @@ class EreaderController extends Controller
         $links = $books->onEachSide(1)->links();
         $books = json_decode($books->toJson());
 
-        return view('pages/api/ereader', compact('books', 'links'));
+        return view('pages/api/opds/ereader', compact('books', 'links'));
     }
 }

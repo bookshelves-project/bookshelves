@@ -48,23 +48,23 @@ class MetadataExtractorTools
     }
 
     /**
-     * Get all EPUB files from storage/books-raw
-     * Return false if books-raw not exist.
+     * Get all EPUB files from storage/raw/books
+     * Return false if raw/books not exist.
      *
      * @return false|array
      */
     public static function getAllEpubFiles(int $limit = null): array | false
     {
         try {
-            // Get all files in books-raw/
-            $files = Storage::disk('public')->allFiles('books-raw');
+            // Get all files in raw/books/
+            $files = Storage::disk('public')->allFiles('raw/books');
         } catch (\Throwable $th) {
-            dump('storage/books-raw not found');
+            dump('storage/raw/books not found');
 
             return false;
         }
 
-        // Get EPUB files form books-raw/ and create new $epubsFiles[]
+        // Get EPUB files form raw/books/ and create new $epubsFiles[]
         $epubsFiles = [];
         foreach ($files as $key => $value) {
             if (array_key_exists('extension', pathinfo($value)) && 'epub' === pathinfo($value)['extension']) {

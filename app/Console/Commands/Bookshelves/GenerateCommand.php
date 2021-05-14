@@ -28,7 +28,7 @@ class GenerateCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Generate books and covers database from storage/books-raw, set limit option at the end';
+    protected $description = 'Generate books and covers database from storage/raw/books, set limit option at the end';
 
     /**
      * Create a new command instance.
@@ -48,7 +48,7 @@ class GenerateCommand extends Command
         $this->newLine();
         $this->alert('Bookshelves: generate');
 
-        $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/books-raw...');
+        $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/raw/books...');
         $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
         $this->newLine();
 

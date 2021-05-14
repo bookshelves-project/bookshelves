@@ -29,6 +29,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
  * @property-read string $download_link
+ * @property-read string|null $image_color
  * @property-read string|null $image_open_graph
  * @property-read string|null $image_thumbnail
  * @property-read bool $is_favorite
@@ -62,7 +63,7 @@ namespace App\Models{
  * @property string $title
  * @property string|null $title_sort
  * @property string|null $slug
- * @property string|null $unique_identifier
+ * @property string|null $slug_unique
  * @property string|null $contributor
  * @property string|null $description
  * @property string|null $date
@@ -86,6 +87,7 @@ namespace App\Models{
  * @property-read \App\Models\Author|null $author
  * @property-read string $download_link
  * @property-read string|null $epub
+ * @property-read string|null $image_color
  * @property-read string|null $image_open_graph
  * @property-read string|null $image_original
  * @property-read string|null $image_thumbnail
@@ -119,9 +121,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereRights($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlugUnique($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereUniqueIdentifier($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereVolume($value)
  */
@@ -304,8 +306,9 @@ namespace App\Models{
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
- * @property-read \App\Models\Author $author
+ * @property-read \App\Models\Author|null $author
  * @property-read string $download_link
+ * @property-read string|null $image_color
  * @property-read string|null $image_open_graph
  * @property-read string|null $image_thumbnail
  * @property-read bool $is_favorite

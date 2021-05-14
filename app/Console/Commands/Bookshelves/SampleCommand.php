@@ -42,12 +42,12 @@ class SampleCommand extends Command
         $this->alert('Bookshelves: sample');
 
         $demoPath = database_path('seeders/demo-ebooks');
-        $booksRawPath = storage_path('app/public/books-raw');
+        $booksRawPath = storage_path('app/public/raw/books');
         $booksRawPathExist = File::exists($booksRawPath);
 
         if ($booksRawPathExist) {
-            $this->warn('storage/app/public/books-raw path exists!');
-            if ($this->confirm('Do you want to erase books-raw directory to replace it with demo ebooks?', false)) {
+            $this->warn('storage/app/public/raw/books path exists!');
+            if ($this->confirm('Do you want to erase raw/books directory to replace it with demo ebooks?', false)) {
                 $this->generate($booksRawPath, $demoPath);
             } else {
                 $this->warn('Operation cancelled by user');

@@ -28,7 +28,6 @@ class Book extends Model implements HasMedia
         'title',
         'title_sort',
         'slug',
-        'unique_identifier',
         'contributor',
         'description',
         'date',

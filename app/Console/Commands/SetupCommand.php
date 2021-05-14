@@ -49,10 +49,9 @@ class SetupCommand extends Command
     {
         $this->welcome();
 
-        $this->warn("\n".'Choose mode:');
+        $this->newLine();
         $prod = false;
 
-        // .env file
         $this->info('Config .env...');
         $requestCreateEnv = $this->createEnvFile();
         if ($requestCreateEnv) {
@@ -61,6 +60,7 @@ class SetupCommand extends Command
             Artisan::call('key:generate', [], $this->getOutput());
             $this->cleaningDev();
         }
+
         if ($this->confirm('Do you want setup this app in production?', false)) {
             $prod = true;
 
@@ -73,7 +73,7 @@ class SetupCommand extends Command
             $this->warn('~ Development enabled.'."\n");
         }
         $this->call('storage:link');
-        // npm install
+
         $this->info('Node.js dependencies installation...');
         $process = new Process(['yarn', '--colors=always']);
         $process->setTimeout(0);
@@ -83,31 +83,17 @@ class SetupCommand extends Command
             echo $data;
         }
         exec('yarn prod');
-        // migration
-        $this->info('Database migration...');
-        if ($this->confirm('Do you want to migrate database?', true)) {
-            Artisan::call('migrate --force', [], $this->getOutput());
 
-            $this->line('~ Database successfully migrated.');
-
-            if ($this->confirm('Do you want to migrate fresh database with seeds? /* THIS WILL ERASE ALL DATA */', false)) {
-                Artisan::call('migrate:fresh --seed --force', [], $this->getOutput());
-
-                $this->line('~ Database successfully migrated with seeds.');
-            }
-        }
-        if ($this->confirm('Do you want to make directory public/storage/books-raw?', true)) {
-            $path = 'public/storage/books-raw';
-            if (! is_dir($path)) {
-                mkdir($path);
-            }
-        }
         $this->info('Cleaning...');
         if ($prod) {
             $this->cleaningProd();
         } else {
             $this->cleaningDev();
         }
+
+        Artisan::call('setup:database', [], $this->getOutput());
+
+        $this->newLine();
         $this->info('Application is ready!');
 
         $this->goodbye();
@@ -191,7 +177,7 @@ class SetupCommand extends Command
     {
         return [
             'APP_URL'                    => $this->ask('Application URL', $this->urlLocal),
-            'L5_SWAGGER_GENERATE_ALWAYS' => $this->ask('Swagger generate', 'true'),
+            'L5_SWAGGER_GENERATE_ALWAYS' => $this->ask('Swagger generate', 'false'),
         ];
     }
 

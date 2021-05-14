@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\WebreaderController;
+use App\Http\Controllers\Api\Wiki\WikiController;
 use App\Http\Controllers\Api\DependencyController;
 use App\Http\Controllers\Api\SubmissionController;
 use App\Http\Controllers\Api\Ereader\EreaderController;
@@ -49,6 +50,13 @@ Route::prefix('ereader')->group(function () {
 
     Route::get('/authors', [EreaderAuthorController::class, 'index'])->name('api.ereader.authors');
     Route::get('/authors/{slug}', [EreaderAuthorController::class, 'show'])->name('api.ereader.authors.show');
+});
+
+/*
+ * Wiki routes
+ */
+Route::prefix('wiki')->group(function () {
+    Route::get('/', [WikiController::class, 'index'])->name('api.wiki.index');
 });
 
 /*
