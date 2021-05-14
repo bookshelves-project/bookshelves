@@ -286,9 +286,15 @@ class BookProvider
      */
     public static function book(MetadataExtractor $metadataExtractor): Book
     {
+        $slug = Str::slug($metadataExtractor->title, '-').'-'.$metadataExtractor->language;
+        $bookIfExist = Book::whereSlug($slug)->first();
+        if ($bookIfExist) {
+            return $bookIfExist;
+        }
+
         return Book::firstOrCreate([
             'title'        => $metadataExtractor->title,
-            'slug'         => Str::slug($metadataExtractor->title, '-').'-'.$metadataExtractor->language,
+            'slug'         => $slug,
             'title_sort'   => $metadataExtractor->title_sort,
             'contributor'  => $metadataExtractor->contributor,
             'description'  => $metadataExtractor->description,

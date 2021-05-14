@@ -58,7 +58,7 @@ class SerieCommand extends Command
         }
         $this->alert('Bookshelves: series');
         $this->info('- Get cover of vol. 1 to associate picture to serie if exist');
-        $this->info("- If a JPG file with slug of serie exist in 'database/seeders/media/series', it's will be this picture");
+        $this->info("- If a JPG file with slug of serie exist in 'public/storage/raw/covers-series', it's will be this picture");
         $this->info('- Get description, wikipedia link: HTTP requests');
         $this->newLine();
 

@@ -35,9 +35,9 @@ class ScanBooksCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return false|array
      */
-    public function handle()
+    public function handle(): false | array
     {
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
@@ -45,6 +45,8 @@ class ScanBooksCommand extends Command
 
         $verbose = $this->option('verbose');
 
+        $this->alert('Bookshelves: scan all EPUB files');
+        $this->warn('Scan public/storage/raw/books directory');
         try {
             // Get all files in raw/books/
             $files = Storage::disk('public')->allFiles('raw/books');
@@ -72,8 +74,9 @@ class ScanBooksCommand extends Command
             return array_slice($epubsFiles, 0, $limit);
         }
 
-        return $epubsFiles;
+        $this->warn(sizeof(($epubsFiles)).' EPUB files found');
+        $this->newLine();
 
-        return 0;
+        return $epubsFiles;
     }
 }
