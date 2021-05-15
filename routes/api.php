@@ -127,6 +127,8 @@ Route::get('/users', [UserController::class, 'users'])->name('api.users');
  * Tags routes
  */
 Route::get('/tags', [TagController::class, 'index'])->name('api.tags.index');
+Route::get('/tags/{tag}', [TagController::class, 'index'])->name('api.tags.show');
+Route::get('/tags/book/{author}/{book}', [TagController::class, 'book'])->name('api.tags.book');
 
 /*
  * Lang routes

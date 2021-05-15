@@ -49,7 +49,7 @@ class SerieProvider
             } catch (\Throwable $th) {
             }
             if (is_string($desc)) {
-                $serie->description = $desc;
+                $serie->description = "$desc...";
                 $serie->description_link = $url;
                 $serie->save();
             }

@@ -79,7 +79,7 @@ class AuthorProvider
             } catch (\Throwable $th) {
             }
             if (is_string($desc)) {
-                $author->description = $desc;
+                $author->description = "$desc...";
                 $author->description_link = $url;
                 $author->save();
             }
