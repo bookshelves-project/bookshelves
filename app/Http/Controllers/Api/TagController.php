@@ -31,22 +31,42 @@ class TagController extends Controller
             return $query->where('author_id', '=', $author->id);
         })->whereSlug($book)->firstOrFail();
 
-        $all_books = collect();
-        $tags = $book->tags;
-        foreach ($tags as $key => $tag) {
-            dump($tag->books);
-            foreach ($tag->books as $key => $value) {
-                $all_books = $all_books->push($value->slug);
-            }
-            // $books_selected = $tag->books->slice(0, 5);
-            // foreach ($books_selected as $key => $book_selected) {
-            //     dump($book_selected->slug);
-            // }
+        // $all_books = collect();
+        // $tags = $book->tags;
+        // foreach ($tags as $key => $tag) {
+        //     dump($tag->books);
+        //     foreach ($tag->books as $key => $value) {
+        //         $all_books = $all_books->push($value->slug);
+        //     }
+        //     // $books_selected = $tag->books->slice(0, 5);
+        //     // foreach ($books_selected as $key => $book_selected) {
+        //     //     dump($book_selected->slug);
+        //     // }
+        // }
+        // $all_books_unique = $all_books->unique();
+        // dump($all_books_unique);
+        // foreach ($all_books_unique as $key => $book_value) {
+        //     // dump($book_value);
+        // }
+
+        echo $book->title;
+        foreach ($book->tags as $tag) {
+            echo $tag->name.'<br>';
         }
-        $all_books_unique = $all_books->unique();
-        dump($all_books_unique);
-        foreach ($all_books_unique as $key => $book_value) {
-            // dump($book_value);
+        echo '<br>';
+
+        $related_books = Book::whereHas('tags', function ($q) use ($book) {
+            return $q->whereIn('name', $book->tags->pluck('name'));
+        })
+        ->where('id', '!=', $book->id) // So you won't fetch same post
+        ->get();
+
+        foreach ($related_books as $book) {
+            echo $book->title.'<br>';
+            foreach ($book->tags as $tag) {
+                echo $tag->name.'<br>';
+            }
+            echo '<br>';
         }
     }
 }

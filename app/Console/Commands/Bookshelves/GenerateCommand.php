@@ -164,6 +164,7 @@ class GenerateCommand extends Command
         $this->comment('Run roles and users seeders');
         Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
         Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
+        Artisan::call('db:seed', ['--class' => 'CategorySeeder', '--force' => true]);
         $this->info('Seeders ready!');
         $this->newLine();
     }

@@ -10,6 +10,7 @@ use App\Models\Tag;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Models\Author;
+use App\Models\Category;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\GoogleBook;
@@ -137,15 +138,22 @@ class BookProvider
                         $tag = $tagIfExist;
                     }
 
-                    $book_tags = $book->tags;
-                    $book_tags_list = [];
-                    foreach ($book_tags as $key => $tagIn) {
-                        array_push($book_tags_list, $tagIn->slug);
-                    }
-                    if (! in_array($tag->slug, $book_tags_list)) {
+                    $tagIfExist = $book->tags()->where('tag_id', $tag->id)->first();
+
+                    if (is_null($tagIfExist)) {
                         $book->tags()->save($tag);
                         $book->save();
                     }
+
+                    // $book_tags = $book->tags;
+                    // $book_tags_list = [];
+                    // foreach ($book_tags as $key => $tagIn) {
+                    //     array_push($book_tags_list, $tagIn->slug);
+                    // }
+                    // if (! in_array($tag->slug, $book_tags_list)) {
+                    //     $book->tags()->save($tag);
+                    //     $book->save();
+                    // }
                 }
             } catch (\Throwable $th) {
             }
@@ -251,6 +259,9 @@ class BookProvider
             $book = self::book($metadataExtractor);
             $book = self::authors($metadataExtractor, $book);
             $book = self::tags($metadataExtractor, $book);
+            $category = Category::take(1)->first();
+            $book->category()->save($category);
+            $book->category($category);
             $book = self::publisher($metadataExtractor, $book);
             $book = self::serie($metadataExtractor, $book);
             self::rawCover($metadataExtractor, $book);
@@ -359,15 +370,22 @@ class BookProvider
             }
 
             if ($tag) {
-                $book_tags = $book->tags;
-                $book_tags_list = [];
-                foreach ($book_tags as $key => $tagIn) {
-                    array_push($book_tags_list, $tagIn->slug);
-                }
-                if (! in_array($tag->slug, $book_tags_list)) {
+                $tagIfExist = $book->tags()->where('tag_id', $tag->id)->first();
+
+                if (is_null($tagIfExist)) {
                     $book->tags()->save($tag);
                     $book->save();
                 }
+
+                // $book_tags = $book->tags;
+                // $book_tags_list = [];
+                // foreach ($book_tags as $key => $tagIn) {
+                //     array_push($book_tags_list, $tagIn->slug);
+                // }
+                // if (! in_array($tag->slug, $book_tags_list)) {
+                //     $book->tags()->save($tag);
+                //     $book->save();
+                // }
             }
         }
 
