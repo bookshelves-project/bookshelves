@@ -68,7 +68,7 @@ class UserController extends Controller
 
             $user->addMediaFromString($photo_path)
                 ->setName($user->slug)
-                ->setFileName($user->slug.'.'.config('bookshelves.cover_extension'))
+                ->setFileName($user->slug . '.' . config('bookshelves.cover_extension'))
                 ->toMediaCollection('users', 'users');
             $user = $user->refresh();
 

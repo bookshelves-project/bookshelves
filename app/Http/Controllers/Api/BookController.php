@@ -65,7 +65,7 @@ class BookController extends Controller
         $langParameters = ['fr', 'en'];
         if ($lang && ! in_array($lang, $langParameters)) {
             return response()->json(
-                "Invalid 'lang' query parameter, must be like '".implode("' or '", $langParameters)."'",
+                "Invalid 'lang' query parameter, must be like '" . implode("' or '", $langParameters) . "'",
                 400
             );
         }
@@ -85,7 +85,7 @@ class BookController extends Controller
         $limitParameters = ['pagination', 'all', 'full'];
         if (! in_array($limit, $limitParameters)) {
             return response()->json(
-                "Invalid 'limit' query parameter, must be like '".implode("' or '", $limitParameters)."'",
+                "Invalid 'limit' query parameter, must be like '" . implode("' or '", $limitParameters) . "'",
                 400
             );
         }
@@ -122,19 +122,23 @@ class BookController extends Controller
             case 'pagination':
                 $books = $books->paginate($perPage);
                 $books = BookLightResource::collection($books);
+
                 break;
 
             case 'all':
                 $books = BookLightestResource::collection($books);
+
                 break;
 
             case 'full':
                 $books = BookLightResource::collection($books);
+
                 break;
 
             default:
                 $books = $books->paginate($perPage);
                 $books = BookLightResource::collection($books);
+
                 break;
         }
 

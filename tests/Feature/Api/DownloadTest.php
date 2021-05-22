@@ -51,7 +51,7 @@ it('can download random Authors zip', function () {
 });
 
 it('can download all EPUB', function () {
-    $response = $this->get(__API_BOOKS__.'?all=true');
+    $response = $this->get(__API_BOOKS__ . '?all=true');
     $responseContent = json_decode($response->content());
     $numberOfPages = $responseContent->data;
     for ($i = 0; $i < (sizeof($numberOfPages) - 1); $i++) {
@@ -59,6 +59,6 @@ it('can download all EPUB', function () {
         $response = $this->get($showLink);
         $showContent = json_decode($response->content());
         $download_epub = $showContent->data->epub->download;
-        $this->assertNotNull($download_epub, 'Download EPUB link is not available for '.$responseContent->data[$i]->title);
+        $this->assertNotNull($download_epub, 'Download EPUB link is not available for ' . $responseContent->data[$i]->title);
     }
 });

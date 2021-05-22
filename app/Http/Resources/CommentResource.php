@@ -27,18 +27,22 @@ class CommentResource extends JsonResource
         switch ($for) {
             case 'book':
                 $title = $entity->title;
+
                 break;
 
             case 'serie':
                 $title = $entity->title;
+
                 break;
 
             case 'author':
                 $title = $entity->name;
+
                 break;
 
             default:
                 $title = null;
+
                 break;
         }
 

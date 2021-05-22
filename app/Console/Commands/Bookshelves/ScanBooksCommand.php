@@ -47,6 +47,7 @@ class ScanBooksCommand extends Command
 
         $this->alert('Bookshelves: scan all EPUB files');
         $this->warn('Scan public/storage/raw/books directory');
+
         try {
             // Get all files in raw/books/
             $files = Storage::disk('public')->allFiles('raw/books');
@@ -66,7 +67,7 @@ class ScanBooksCommand extends Command
 
         if ($verbose) {
             foreach ($epubsFiles as $key => $file) {
-                echo $key.' '.pathinfo($file)['filename']."\n";
+                echo $key . ' ' . pathinfo($file)['filename'] . "\n";
             }
         }
 
@@ -74,7 +75,7 @@ class ScanBooksCommand extends Command
             return array_slice($epubsFiles, 0, $limit);
         }
 
-        $this->warn(sizeof(($epubsFiles)).' EPUB files found');
+        $this->warn(sizeof(($epubsFiles)) . ' EPUB files found');
         $this->newLine();
 
         return $epubsFiles;

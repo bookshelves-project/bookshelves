@@ -37,7 +37,7 @@ class MetadataExtractorTools
         // Transform XML to Array
         $metadata = self::convertXML(xml: $xml_string, filepath: $filepath);
 
-        Storage::disk('public')->put('/debug/'.pathinfo($filepath)['basename'].'.opf', $xml_string);
+        Storage::disk('public')->put('/debug/' . pathinfo($filepath)['basename'] . '.opf', $xml_string);
         for ($i = 0; $i < $zip->numFiles; $i++) {
             $file = $zip->statIndex($i);
             $cover = $zip->getFromName($metadata['cover']['file']);
@@ -103,7 +103,7 @@ class MetadataExtractorTools
             'une ',
         ];
         foreach ($articles as $key => $value) {
-            $title_sort = preg_replace('/^'.preg_quote($value, '/').'/i', '', $title_sort);
+            $title_sort = preg_replace('/^' . preg_quote($value, '/') . '/i', '', $title_sort);
         }
         // $title_sort = str_replace($articles, '', $title_sort);
         $title_sort = BookshelvesTools::cleanString($title_sort);
@@ -114,6 +114,7 @@ class MetadataExtractorTools
     public static function cleanText(string $text, string $type = 'html', int $limit = null): string
     {
         $isUTF8 = mb_check_encoding($text, 'UTF-8');
+
         try {
             $text = iconv('UTF-8', 'UTF-8//IGNORE', $text);
 
@@ -158,10 +159,11 @@ class MetadataExtractorTools
                 $cover = $value;
             }
         }
-        unset($xml['MANIFEST']);
-        unset($xml['SPINE']);
+        unset($xml['MANIFEST'], $xml['SPINE']);
+
         $xml['COVER'] = $cover;
         $title = pathinfo($filepath)['basename'];
+
         try {
             $xmlToJson = json_encode($xml, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             Storage::disk('public')->put("/debug/$title.json", $xmlToJson);
@@ -170,6 +172,7 @@ class MetadataExtractorTools
         }
 
         $metadata = [];
+
         try {
             $meta = $xml['METADATA'];
             $creators = $meta['DC:CREATOR'] ?? null;
@@ -215,6 +218,7 @@ class MetadataExtractorTools
             }
 
             $subjects_arr = [];
+
             try {
                 $subjects = (array) $meta['DC:SUBJECT'] ?? null;
                 foreach ($subjects as $key => $value) {
@@ -310,9 +314,9 @@ class MetadataExtractorTools
                 $multi_key[$x_tag][$x_level]++;
             }
             while ($start_level < $x_level) {
-                $php_stmt .= '[$level['.$start_level.']]';
+                $php_stmt .= '[$level[' . $start_level . ']]';
                 if (isset($multi_key[$level[$start_level]][$start_level]) && $multi_key[$level[$start_level]][$start_level]) {
-                    $php_stmt .= '['.($multi_key[$level[$start_level]][$start_level] - 1).']';
+                    $php_stmt .= '[' . ($multi_key[$level[$start_level]][$start_level] - 1) . ']';
                 }
                 $start_level++;
             }
@@ -323,23 +327,23 @@ class MetadataExtractorTools
                 }
                 $multi_key2[$x_tag][$x_level]++;
 
-                $add = '['.$multi_key2[$x_tag][$x_level].']';
+                $add = '[' . $multi_key2[$x_tag][$x_level] . ']';
             }
             if (isset($xml_elem['value']) && '' != trim($xml_elem['value']) && ! array_key_exists('attributes', $xml_elem)) {
                 if ('open' == $x_type) {
-                    $php_stmt_main = $php_stmt.'[$x_type]'.$add.'[\'content\'] = $xml_elem[\'value\'];';
+                    $php_stmt_main = $php_stmt . '[$x_type]' . $add . '[\'content\'] = $xml_elem[\'value\'];';
                 } else {
-                    $php_stmt_main = $php_stmt.'[$x_tag]'.$add.' = $xml_elem[\'value\'];';
+                    $php_stmt_main = $php_stmt . '[$x_tag]' . $add . ' = $xml_elem[\'value\'];';
                 }
                 eval($php_stmt_main);
             }
             if (array_key_exists('attributes', $xml_elem)) {
                 if (isset($xml_elem['value'])) {
-                    $php_stmt_main = $php_stmt.'[$x_tag]'.$add.'[\'content\'] = $xml_elem[\'value\'];';
+                    $php_stmt_main = $php_stmt . '[$x_tag]' . $add . '[\'content\'] = $xml_elem[\'value\'];';
                     eval($php_stmt_main);
                 }
                 foreach ($xml_elem['attributes'] as $key=>$value) {
-                    $php_stmt_att = $php_stmt.'[$x_tag]'.$add.'[$key] = $value;';
+                    $php_stmt_att = $php_stmt . '[$x_tag]' . $add . '[$key] = $value;';
                     eval($php_stmt_att);
                 }
             }

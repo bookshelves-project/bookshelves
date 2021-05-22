@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
                     $file_path = File::get($custom_avatar_path);
                     $userCreated->addMediaFromString($file_path)
                         ->setName($userCreated->slug)
-                        ->setFileName($userCreated->slug.'.'.config('bookshelves.cover_extension'))
+                        ->setFileName($userCreated->slug . '.' . config('bookshelves.cover_extension'))
                         ->toMediaCollection($disk, $disk);
 
                     $userCreated->refresh();

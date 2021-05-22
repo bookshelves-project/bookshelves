@@ -140,9 +140,9 @@ class Book extends Model implements HasMedia
     {
         $serie = null;
         if ($this->serie) {
-            $volume = strlen($this->volume) < 2 ? '0'.$this->volume : $this->volume;
-            $serie = $this->serie?->title_sort.' '.$volume;
-            $serie = Str::slug($serie).'_';
+            $volume = strlen($this->volume) < 2 ? '0' . $this->volume : $this->volume;
+            $serie = $this->serie?->title_sort . ' ' . $volume;
+            $serie = Str::slug($serie) . '_';
         }
         $title = Str::slug($this->title_sort);
 

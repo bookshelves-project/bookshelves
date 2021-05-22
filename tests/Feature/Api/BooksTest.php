@@ -19,7 +19,7 @@ it('have content', function () {
 });
 
 it('all pages available', function () {
-    $response = $this->get(__API_BOOKS__.'?limit=full');
+    $response = $this->get(__API_BOOKS__ . '?limit=full');
     $response->assertStatus(200);
 });
 

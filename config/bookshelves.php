@@ -10,4 +10,12 @@ return [
         'email'    => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),
         'password' => env('BOOKSHELVES_ADMIN_PASSWORD', 'password'),
     ],
+    'genres' => [
+        'Action and adventures',
+        'Crime and mystery',
+        'Fantasy',
+        'Horror',
+        'Romance',
+        'Science fiction',
+    ],
 ];

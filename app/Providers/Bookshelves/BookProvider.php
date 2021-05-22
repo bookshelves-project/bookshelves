@@ -37,7 +37,7 @@ class BookProvider
             $disk = 'books';
             $book->addMediaFromString($cover)
                 ->setName($book->slug)
-                ->setFileName($book->slug.'.'.config('bookshelves.cover_extension'))
+                ->setFileName($book->slug . '.' . config('bookshelves.cover_extension'))
                 ->toMediaCollection($disk, $disk);
 
             $book = $book->refresh();
@@ -183,18 +183,18 @@ class BookProvider
         $authorName = '';
         if ($book->authors) {
             if (array_key_exists(0, $book->authors->toArray())) {
-                $authorName = $book->authors[0]->slug.'_';
+                $authorName = $book->authors[0]->slug . '_';
             }
         }
         $serieNumber = '';
         if ($book->volume) {
             $serieNumber = $book->volume;
             if (1 === strlen((string) $book->volume)) {
-                $serieNumber = '0'.$book->volume;
+                $serieNumber = '0' . $book->volume;
             }
-            $serieName = $serieName.'-'.$serieNumber.'_';
+            $serieName = $serieName . '-' . $serieNumber . '_';
         } else {
-            $serieName = $serieName.'_';
+            $serieName = $serieName . '_';
         }
         $bookName = $book->slug;
 
@@ -206,7 +206,7 @@ class BookProvider
                 $epub_file = File::get(storage_path("app/public/$epubFilePath"));
                 $book->addMediaFromString($epub_file)
                     ->setName($new_file_name)
-                    ->setFileName($new_file_name.".$ebook_extension")
+                    ->setFileName($new_file_name . ".$ebook_extension")
                     ->toMediaCollection('epubs', 'epubs');
                 $result = true;
             } catch (\Throwable $th) {
@@ -225,7 +225,7 @@ class BookProvider
      */
     public static function book(MetadataExtractor $metadataExtractor): Book
     {
-        $slug = Str::slug($metadataExtractor->title, '-').'-'.$metadataExtractor->language;
+        $slug = Str::slug($metadataExtractor->title, '-') . '-' . $metadataExtractor->language;
         $bookIfExist = Book::whereSlug($slug)->first();
         if ($bookIfExist) {
             return $bookIfExist;
@@ -304,14 +304,7 @@ class BookProvider
      */
     public static function tagRaw(string $tag, Book $book): Book
     {
-        $main_genres = [
-            'Action and adventures',
-            'Crime and mystery',
-            'Fantasy',
-            'Horror',
-            'Romance',
-            'Science fiction',
-        ];
+        $main_genres = config('bookshelves.genres');
 
         if (strlen($tag) > 1 && strlen($tag) < 30) {
             if (in_array($tag, $main_genres)) {
@@ -386,7 +379,7 @@ class BookProvider
                 $serie = Serie::firstOrCreate([
                     'title'      => $metadataExtractor->serie,
                     'title_sort' => $metadataExtractor->serie_sort,
-                    'slug'       => Str::slug($metadataExtractor->serie).'-'.$metadataExtractor->language,
+                    'slug'       => Str::slug($metadataExtractor->serie) . '-' . $metadataExtractor->language,
                 ]);
             } else {
                 $serie = $serieIfExist;

@@ -25,6 +25,7 @@ class AuthorProvider
         $url = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=$name&format=json";
         $pictureDefault = database_path('seeders/media/authors/no-picture.jpg');
         $pageId = null;
+
         try {
             $response = Http::get($url);
             $response = $response->json();
@@ -33,6 +34,7 @@ class AuthorProvider
             foreach ($search as $key => $result) {
                 if (strpos($result['title'], '(writer)')) {
                     $pageId = $result['pageid'];
+
                     break;
                 }
             }
@@ -44,6 +46,7 @@ class AuthorProvider
         if ($pageId) {
             $url = "http://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url&prop=pageimages&pithumbsize=512";
             $picture = null;
+
             try {
                 $response = Http::get($url);
                 $response = $response->json();
@@ -57,17 +60,18 @@ class AuthorProvider
                 $defaultPictureFile = File::get($pictureDefault);
                 $author->addMediaFromString($defaultPictureFile)
                             ->setName($author->slug)
-                            ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
+                            ->setFileName($author->slug . '.' . config('bookshelves.cover_extension'))
                             ->toMediaCollection('authors', 'authors');
             } else {
                 $author->addMediaFromUrl($picture)
                             ->setName($author->slug)
-                            ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
+                            ->setFileName($author->slug . '.' . config('bookshelves.cover_extension'))
                             ->toMediaCollection('authors', 'authors');
             }
 
             $url = "http://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url";
             $desc = null;
+
             try {
                 $response = Http::get($url);
                 $response = $response->json();

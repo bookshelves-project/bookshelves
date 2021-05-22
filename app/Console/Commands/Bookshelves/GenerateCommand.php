@@ -122,6 +122,7 @@ class GenerateCommand extends Command
     public function clearAllMediaCollection(): bool
     {
         $isSuccess = false;
+
         try {
             $books = Book::all();
             $series = Serie::all();

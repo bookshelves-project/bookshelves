@@ -23,7 +23,7 @@ class FavoriteController extends Controller
     public function toggle(string $model, string $slug)
     {
         if (Auth::check()) {
-            $model_name = 'App\Models\\'.ucfirst($model);
+            $model_name = 'App\Models\\' . ucfirst($model);
             $entity = $model_name::whereSlug($slug)->first();
             $user = Auth::id();
             $user = User::find($user);

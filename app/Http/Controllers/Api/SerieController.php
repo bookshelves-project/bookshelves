@@ -53,7 +53,7 @@ class SerieController extends Controller
         $limitParameters = ['pagination', 'all', 'full'];
         if (! in_array($limit, $limitParameters)) {
             return response()->json(
-                "Invalid 'limit' query parameter, must be like '".implode("' or '", $limitParameters)."'",
+                "Invalid 'limit' query parameter, must be like '" . implode("' or '", $limitParameters) . "'",
                 400
             );
         }
@@ -73,15 +73,18 @@ class SerieController extends Controller
             case 'pagination':
                 $series = $series->paginate($perPage);
                 $series = SerieLightResource::collection($series);
+
                 break;
 
             case 'full':
                 $series = SerieLightResource::collection($series);
+
                 break;
 
             default:
                 $series = $series->paginate($perPage);
                 $series = SerieLightResource::collection($series);
+
                 break;
         }
 

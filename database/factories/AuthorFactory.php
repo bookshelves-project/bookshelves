@@ -25,7 +25,7 @@ class AuthorFactory extends Factory
         $faker = \Faker\Factory::create();
         $firstname = $faker->firstName;
         $lastname = $faker->lastName;
-        $name = $firstname.' '.$lastname;
+        $name = $firstname . ' ' . $lastname;
 
         return [
             'lastname'  => $lastname,

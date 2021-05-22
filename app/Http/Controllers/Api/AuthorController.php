@@ -52,7 +52,7 @@ class AuthorController extends Controller
         $limitParameters = ['pagination', 'all', 'full'];
         if (! in_array($limit, $limitParameters)) {
             return response()->json(
-                "Invalid 'limit' query parameter, must be like '".implode("' or '", $limitParameters)."'",
+                "Invalid 'limit' query parameter, must be like '" . implode("' or '", $limitParameters) . "'",
                 400
             );
         }
@@ -75,15 +75,18 @@ class AuthorController extends Controller
             case 'pagination':
                 $authors = $authors->paginate($perPage);
                 $authors = AuthorLightResource::collection($authors);
+
                 break;
 
             case 'full':
                 $authors = AuthorLightResource::collection($authors);
+
                 break;
 
             default:
                 $authors = $authors->paginate($perPage);
                 $authors = AuthorLightResource::collection($authors);
+
                 break;
         }
 

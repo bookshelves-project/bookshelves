@@ -59,7 +59,7 @@ class ApiController extends Controller
         $sanctumRoutes = [];
         foreach ($routeCollection as $route) {
             if (preg_match('/api/', $route->uri) && ! preg_match('/l5-swagger/', $route->getName()) && ! preg_match('/tokens/', $route->uri())) {
-                $fullRoute = config('app.url').'/'.$route->uri();
+                $fullRoute = config('app.url') . '/' . $route->uri();
                 $paramsList = [];
                 if (preg_match('/[{]/i', $fullRoute)) {
                     $params = explode('/', $route->uri());
@@ -99,8 +99,8 @@ class ApiController extends Controller
                 'public'  => 'Route with public access',
                 'sanctum' => 'Routes available if user is logged',
             ],
-            'documentation'  => config('app.url').'/'.'api/documentation',
-            'opds'           => config('app.url').'/'.'api/opds',
+            'documentation'  => config('app.url') . '/' . 'api/documentation',
+            'opds'           => config('app.url') . '/' . 'api/opds',
             'routes'         => [
                 'public'   => $publicRoutes,
                 'sanctum'  => $sanctumRoutes,

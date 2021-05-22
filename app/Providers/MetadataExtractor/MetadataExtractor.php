@@ -50,6 +50,7 @@ class MetadataExtractor
     public static function run(string $epubFilePath, bool $isDebug = false): MetadataExtractor | bool
     {
         $metadata = [];
+
         try {
             $metadata = MetadataExtractorTools::parseXMLFile($epubFilePath);
         } catch (\Throwable $th) {

@@ -42,7 +42,7 @@ if (! function_exists('get_thumbnail')) {
      */
     function get_thumbnail(string $path, string $size, bool $crop = true): array
     {
-        $filename = md5("$size/$path").'.jpg';
+        $filename = md5("$size/$path") . '.jpg';
         $thumbnailPath = "storage/cache/$filename";
 
         return [

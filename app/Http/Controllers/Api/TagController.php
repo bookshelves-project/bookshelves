@@ -53,7 +53,7 @@ class TagController extends Controller
         echo $book->title;
         foreach ($book->tags as $tag) {
             array_push($tags, $tag->name);
-            echo $tag->name.'<br>';
+            echo $tag->name . '<br>';
         }
         echo '<br>';
 
@@ -65,9 +65,9 @@ class TagController extends Controller
         $books = Book::withAllTags($tags)->get();
 
         foreach ($books as $book) {
-            echo $book->title.'<br>';
+            echo $book->title . '<br>';
             foreach ($book->tags as $tag) {
-                echo $tag->name.'<br>';
+                echo $tag->name . '<br>';
             }
             echo '<br>';
         }

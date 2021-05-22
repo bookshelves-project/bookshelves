@@ -79,7 +79,7 @@ class BookCommand extends Command
     public function books(array $epubFiles)
     {
         $this->alert('Bookshelves: books & relations');
-        $this->comment('- EPUB files detected: '.sizeof($epubFiles));
+        $this->comment('- EPUB files detected: ' . sizeof($epubFiles));
         $this->info('- Generate Book model with relationships');
         $this->info('- Generate new EPUB file with standard name');
         $this->info('- Get extra data from Google Books API: HTTP requests');

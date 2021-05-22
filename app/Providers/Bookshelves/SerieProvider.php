@@ -26,6 +26,7 @@ class SerieProvider
         $name = strtolower($name);
         $url = "https://$lang.wikipedia.org/w/api.php?action=query&list=search&srsearch=$name&format=json";
         $pageId = null;
+
         try {
             $response = Http::get($url);
             $response = $response->json();
@@ -38,6 +39,7 @@ class SerieProvider
         if ($pageId) {
             $url = "http://$lang.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url";
             $desc = null;
+
             try {
                 $response = Http::get($url);
                 $response = $response->json();
@@ -81,7 +83,7 @@ class SerieProvider
                 $file_path = File::get($custom_series_path);
                 $serie->addMediaFromString($file_path)
                     ->setName($serie->slug)
-                    ->setFileName($serie->slug.'.'.config('bookshelves.cover_extension'))
+                    ->setFileName($serie->slug . '.' . config('bookshelves.cover_extension'))
                     ->toMediaCollection($disk, $disk);
             } else {
                 $bookIfExist = Book::whereVolume(1)->whereSerieId($serie->id)->first();
@@ -95,7 +97,7 @@ class SerieProvider
                         $file_path = File::get($book->getMedia('books')->first()->getPath());
                         $serie->addMediaFromString($file_path)
                             ->setName($serie->slug)
-                            ->setFileName($serie->slug.'.'.config('bookshelves.cover_extension'))
+                            ->setFileName($serie->slug . '.' . config('bookshelves.cover_extension'))
                             ->toMediaCollection($disk, $disk);
                     }
                 }
