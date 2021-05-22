@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use Spatie\Tags\HasTags;
 use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -18,6 +19,7 @@ class Book extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasFactory;
+    use HasTags;
 
     /**
      * The attributes that are mass assignable.
@@ -180,11 +182,6 @@ class Book extends Model implements HasMedia
     public function language(): BelongsTo
     {
         return $this->belongsTo(Language::class);
-    }
-
-    public function tags(): MorphToMany
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function identifier(): BelongsTo

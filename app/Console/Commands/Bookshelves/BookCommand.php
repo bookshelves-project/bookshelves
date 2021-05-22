@@ -7,6 +7,7 @@ use Cache;
 use App\Models\Book;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\BookProvider;
+use App\Providers\Bookshelves\BookshelvesProvider;
 use App\Providers\MetadataExtractor\MetadataExtractor;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
@@ -92,7 +93,7 @@ class BookCommand extends Command
             if ($metadataExtractor) {
                 $tryToFindBook = Book::whereSlug(Str::slug($metadataExtractor->title))->first();
                 if (! $tryToFindBook) {
-                    $new_book = BookProvider::convertMetadata(metadataExtractor: $metadataExtractor);
+                    $new_book = BookshelvesProvider::convertMetadata(metadataExtractor: $metadataExtractor);
                     BookProvider::epub(book: $new_book, epubFilePath: $epubFilePath);
                 }
             }

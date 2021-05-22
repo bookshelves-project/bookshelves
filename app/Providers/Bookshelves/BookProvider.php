@@ -6,11 +6,10 @@ use File;
 use Http;
 use Storage;
 use DateTime;
-use App\Models\Tag;
 use App\Models\Book;
+use Spatie\Tags\Tag;
 use App\Models\Serie;
 use App\Models\Author;
-use App\Models\Category;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\GoogleBook;
@@ -126,34 +125,7 @@ class BookProvider
                     }
                 }
                 foreach ($categories as $key => $category) {
-                    $tagIfExist = Tag::whereSlug(Str::slug($category))->first();
-                    $tag = null;
-                    if (! $tagIfExist) {
-                        $tag = Tag::firstOrCreate([
-                            'name' => $category,
-                            'slug' => Str::slug($category),
-                        ]);
-                    }
-                    if (! $tag) {
-                        $tag = $tagIfExist;
-                    }
-
-                    $tagIfExist = $book->tags()->where('tag_id', $tag->id)->first();
-
-                    if (is_null($tagIfExist)) {
-                        $book->tags()->save($tag);
-                        $book->save();
-                    }
-
-                    // $book_tags = $book->tags;
-                    // $book_tags_list = [];
-                    // foreach ($book_tags as $key => $tagIn) {
-                    //     array_push($book_tags_list, $tagIn->slug);
-                    // }
-                    // if (! in_array($tag->slug, $book_tags_list)) {
-                    //     $book->tags()->save($tag);
-                    //     $book->save();
-                    // }
+                    self::tagRaw($category, $book);
                 }
             } catch (\Throwable $th) {
             }
@@ -245,48 +217,6 @@ class BookProvider
     }
 
     /**
-     * Generate new Book with all relations.
-     *
-     * @param MetadataExtractor $metadataExtractor
-     *
-     * @return Book
-     */
-    public static function convertMetadata(MetadataExtractor $metadataExtractor): Book
-    {
-        $bookIfExist = Book::whereSlug(Str::slug($metadataExtractor->title, '-'))->first();
-        $book = null;
-        if (! $bookIfExist) {
-            $book = self::book($metadataExtractor);
-            $book = self::authors($metadataExtractor, $book);
-            $book = self::tags($metadataExtractor, $book);
-            $category = Category::take(1)->first();
-            $book->category()->save($category);
-            $book->category($category);
-            $book = self::publisher($metadataExtractor, $book);
-            $book = self::serie($metadataExtractor, $book);
-            self::rawCover($metadataExtractor, $book);
-            $language = self::language($metadataExtractor);
-            $book->language()->associate($language->slug);
-            $identifier = Identifier::firstOrCreate([
-                'isbn'   => $metadataExtractor->identifiers->isbn,
-                'isbn13' => $metadataExtractor->identifiers->isbn13,
-                'doi'    => $metadataExtractor->identifiers->doi,
-                'amazon' => $metadataExtractor->identifiers->amazon,
-                'google' => $metadataExtractor->identifiers->google,
-            ]);
-            $book->identifier()->associate($identifier);
-            $book->save();
-
-            BookProvider::googleBook(identifier: $identifier, book: $book);
-        }
-        if (! $book) {
-            $book = $bookIfExist;
-        }
-
-        return $book;
-    }
-
-    /**
      * Generate Book from MetadataExtractor.
      *
      * @param MetadataExtractor $metadataExtractor
@@ -357,36 +287,40 @@ class BookProvider
     public static function tags(MetadataExtractor $metadataExtractor, Book $book): Book
     {
         foreach ($metadataExtractor->subjects as $key => $subject) {
-            $tagIfExist = Tag::whereSlug(Str::slug($subject))->first();
-            $tag = null;
-            if (! $tagIfExist && strlen($subject) > 1 && strlen($subject) < 30) {
-                $tag = Tag::firstOrCreate([
-                    'name' => $subject,
-                    'slug' => Str::slug($subject),
-                ]);
-            }
-            if (! $tag) {
-                $tag = $tagIfExist;
+            self::tagRaw($subject, $book);
+        }
+
+        return $book;
+    }
+
+    /**
+     * Attach Tag to Book and define type from list of main tags,
+     * from Wikipedia: https://en.wikipedia.org/wiki/List_of_writing_genres.
+     *
+     * @param string $tag
+     * @param Book   $book
+     *
+     * @return Book
+     */
+    public static function tagRaw(string $tag, Book $book): Book
+    {
+        $main_genres = [
+            'Action and adventures',
+            'Crime and mystery',
+            'Fantasy',
+            'Horror',
+            'Romance',
+            'Science fiction',
+        ];
+
+        if (strlen($tag) > 1 && strlen($tag) < 30) {
+            if (in_array($tag, $main_genres)) {
+                $tag = Tag::findOrCreate($tag, 'genre');
+            } else {
+                $tag = Tag::findOrCreate($tag);
             }
 
-            if ($tag) {
-                $tagIfExist = $book->tags()->where('tag_id', $tag->id)->first();
-
-                if (is_null($tagIfExist)) {
-                    $book->tags()->save($tag);
-                    $book->save();
-                }
-
-                // $book_tags = $book->tags;
-                // $book_tags_list = [];
-                // foreach ($book_tags as $key => $tagIn) {
-                //     array_push($book_tags_list, $tagIn->slug);
-                // }
-                // if (! in_array($tag->slug, $book_tags_list)) {
-                //     $book->tags()->save($tag);
-                //     $book->save();
-                // }
-            }
+            $book->attachTag($tag);
         }
 
         return $book;
@@ -418,6 +352,21 @@ class BookProvider
         }
 
         return $book;
+    }
+
+    public static function identifier(MetadataExtractor $metadataExtractor, Book $book): Identifier
+    {
+        $identifier = Identifier::firstOrCreate([
+            'isbn'   => $metadataExtractor->identifiers->isbn,
+            'isbn13' => $metadataExtractor->identifiers->isbn13,
+            'doi'    => $metadataExtractor->identifiers->doi,
+            'amazon' => $metadataExtractor->identifiers->amazon,
+            'google' => $metadataExtractor->identifiers->google,
+        ]);
+        $book->identifier()->associate($identifier);
+        $book->save();
+
+        return $identifier;
     }
 
     /**

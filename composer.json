@@ -47,6 +47,7 @@
         "spatie/laravel-enum": "^2.4",
         "spatie/laravel-image-optimizer": "^1.6",
         "spatie/laravel-medialibrary": "^9.0.0",
+        "spatie/laravel-tags": "^4.0",
         "tightenco/ziggy": "1.0"
     },
     "require-dev": {

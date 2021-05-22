@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use Spatie\Tags\HasTags;
 use App\Utils\BookshelvesTools;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -19,6 +20,7 @@ class Serie extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
+    use HasTags;
 
     public $timestamps = false;
     protected $fillable = [
@@ -122,11 +124,6 @@ class Serie extends Model implements HasMedia
         }
 
         return $is_favorite;
-    }
-
-    public function tags(): MorphToMany
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function favorites(): MorphToMany

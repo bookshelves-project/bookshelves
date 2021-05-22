@@ -49,19 +49,22 @@ class TagController extends Controller
         //     // dump($book_value);
         // }
 
+        $tags = [];
         echo $book->title;
         foreach ($book->tags as $tag) {
+            array_push($tags, $tag->name);
             echo $tag->name.'<br>';
         }
         echo '<br>';
 
-        $related_books = Book::whereHas('tags', function ($q) use ($book) {
-            return $q->whereIn('name', $book->tags->pluck('name'));
-        })
-        ->where('id', '!=', $book->id) // So you won't fetch same post
-        ->get();
+        // $related_books = Book::whereHas('tags', function ($q) use ($book) {
+        //     return $q->whereIn('name', $book->tags->pluck('name'));
+        // })
+        // ->where('id', '!=', $book->id) // So you won't fetch same post
+        // ->get();
+        $books = Book::withAllTags($tags)->get();
 
-        foreach ($related_books as $book) {
+        foreach ($books as $book) {
             echo $book->title.'<br>';
             foreach ($book->tags as $tag) {
                 echo $tag->name.'<br>';
