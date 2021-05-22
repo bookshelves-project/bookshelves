@@ -309,7 +309,7 @@ class BookProvider
             if (in_array($tag, $main_genres)) {
                 $tag = Tag::findOrCreate($tag, 'genre');
             } else {
-                $tag = Tag::findOrCreate($tag);
+                $tag = Tag::findOrCreate($tag, 'tag');
             }
 
             $book->attachTag($tag);
