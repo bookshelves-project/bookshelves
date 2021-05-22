@@ -294,8 +294,7 @@ class BookProvider
     }
 
     /**
-     * Attach Tag to Book and define type from list of main tags,
-     * from Wikipedia: https://en.wikipedia.org/wiki/List_of_writing_genres.
+     * Attach Tag to Book and define type from list of main tags.
      *
      * @param string $tag
      * @param Book   $book
