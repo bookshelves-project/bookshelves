@@ -87,22 +87,26 @@ class BookshelvesTools
      *
      * @return string
      */
-    public static function stringLimit(string $text, int $limit): string
+    public static function stringLimit(string|null $text, int $limit): string
     {
-        $isUTF8 = mb_check_encoding($text, 'UTF-8');
-        $content = iconv('UTF-8', 'UTF-8//IGNORE', $text);
-
-        if ($isUTF8) {
-            $content = trim($content);
-            if ($limit && strlen($content) > $limit) {
-                $content = substr($content, 0, $limit) . '...';
+        $content = '';
+        if ($text) {
+            $isUTF8 = mb_check_encoding($text, 'UTF-8');
+            $content = iconv('UTF-8', 'UTF-8//IGNORE', $text);
+    
+            if ($isUTF8) {
+                $content = trim($content);
+                if ($limit && strlen($content) > $limit) {
+                    $content = substr($content, 0, $limit) . '...';
+                }
+                $content = strip_tags($content);
+                $content = Str::ascii($content);
+                $content = str_replace('<<', '"', $content);
+                $content = str_replace('>>', '"', $content);
+                $content = trim($content);
             }
-            $content = strip_tags($content);
-            $content = Str::ascii($content);
-            $content = str_replace('<<', '"', $content);
-            $content = str_replace('>>', '"', $content);
-            $content = trim($content);
         }
+
 
         return $content;
 
