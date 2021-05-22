@@ -42,7 +42,7 @@ class BookCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return bool
      */
     public function handle()
     {
@@ -65,6 +65,8 @@ class BookCommand extends Command
         if (! $no_covers) {
             $this->covers();
         }
+
+        return true;
     }
 
     /**

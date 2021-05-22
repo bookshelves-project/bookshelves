@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Tag;
 use App\Models\Book;
 use App\Models\Author;
 use App\Http\Resources\TagResource;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Book\BookLightResource;
+use Spatie\Tags\Tag;
 
 class TagController extends Controller
 {
@@ -50,26 +51,25 @@ class TagController extends Controller
         // }
 
         $tags = [];
-        echo $book->title;
         foreach ($book->tags as $tag) {
             array_push($tags, $tag->name);
-            echo $tag->name . '<br>';
         }
-        echo '<br>';
-
-        // $related_books = Book::whereHas('tags', function ($q) use ($book) {
-        //     return $q->whereIn('name', $book->tags->pluck('name'));
-        // })
-        // ->where('id', '!=', $book->id) // So you won't fetch same post
-        // ->get();
         $books = Book::withAllTags($tags)->get();
 
-        foreach ($books as $book) {
-            echo $book->title . '<br>';
-            foreach ($book->tags as $tag) {
-                echo $tag->name . '<br>';
-            }
-            echo '<br>';
-        }
+        // echo $book->title;
+        // foreach ($book->tags as $tag) {
+        //     echo $tag->name . '<br>';
+        // }
+        // echo '<br>';
+
+        // foreach ($books as $book) {
+        //     echo $book->title . '<br>';
+        //     foreach ($book->tags as $tag) {
+        //         echo $tag->name . '<br>';
+        //     }
+        //     echo '<br>';
+        // }
+
+        return BookLightResource::collection($books);
     }
 }
