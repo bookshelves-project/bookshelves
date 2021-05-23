@@ -24,9 +24,9 @@ class BookshelvesProvider
             $book = BookProvider::book($metadataExtractor);
             $book = BookProvider::authors($metadataExtractor, $book);
             $book = BookProvider::tags($metadataExtractor, $book);
-            $category = Category::take(1)->first();
-            $book->category()->save($category);
-            $book->category($category);
+            // $category = Category::take(1)->first();
+            // $book->category()->save($category);
+            // $book->category($category);
             $book = BookProvider::publisher($metadataExtractor, $book);
             $book = BookProvider::serie($metadataExtractor, $book);
             BookProvider::rawCover($metadataExtractor, $book);
