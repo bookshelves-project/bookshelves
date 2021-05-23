@@ -67,12 +67,11 @@ class SerieCommand extends Command
         $bar = $this->output->createProgressBar(count($series));
         $bar->start();
         foreach ($series as $key => $serie) {
-            SerieProvider::cover(serie: $serie);
+            SerieProvider::cover(serie: $serie, alone: $alone);
             SerieProvider::language(serie: $serie);
             if (!$alone) {
                 SerieProvider::description(serie: $serie);
             }
-            
             $bar->advance();
         }
         $bar->finish();
