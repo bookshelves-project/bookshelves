@@ -15,18 +15,16 @@ class BookLightestResource extends JsonResource
      *
      * @param \Illuminate\Http\Request $request
      * @mixin Book
-     *
-     * @return array
      */
     public function toArray($request): array
     {
         return [
-            'title'        => $this->resource->title,
-            'slug'         => $this->resource->slug,
-            'author'       => $this->resource->author?->slug,
-            'serie'        => $this->resource->serie?->title,
-            'meta'         => [
-                'show'        => $this->resource->show_link,
+            'title'  => $this->resource->title,
+            'slug'   => $this->resource->slug,
+            'author' => $this->resource->author?->slug,
+            'serie'  => $this->resource->serie?->title,
+            'meta'   => [
+                'show' => $this->resource->show_link,
             ],
         ];
     }

@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Cache;
 use App\Models\Serie;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\SerieProvider;
+use Artisan;
 
 class SerieCommand extends Command
 {
@@ -16,6 +16,7 @@ class SerieCommand extends Command
      */
     protected $signature = 'bookshelves:series
                             {--a|alone : prevent external HTTP requests to public API for additional informations}
+                            {--c|covers : prevent generation of covers}
                             {--f|fresh : refresh series medias, `description` & `description_link`}';
 
     /**
@@ -42,9 +43,8 @@ class SerieCommand extends Command
      */
     public function handle()
     {
-        Cache::forget('series');
-
         $isFresh = $this->option('fresh');
+        $no_covers = $this->option('covers');
         $alone = $this->option('alone');
 
         $series = Serie::orderBy('title_sort')->get();
@@ -59,23 +59,29 @@ class SerieCommand extends Command
             }
         }
         $this->alert('Bookshelves: series');
-        $this->info('- Get cover of vol. 1 to associate picture to serie if exist');
-        $this->info("- If a JPG file with slug of serie exist in 'public/storage/raw/covers-series', it's will be this picture");
-        $this->info('- Get description, description link: HTTP requests');
+        $this->info('- Get cover of vol. 1 (or next) to associate picture to serie if exist');
+        $this->info("- If a JPG file with slug of serie exist in 'public/storage/raw/pictures-series', it's will be this picture");
+        if ($alone) {
+            $this->info('- Get description, description link: HTTP requests');
+        }
         $this->newLine();
 
         $bar = $this->output->createProgressBar(count($series));
         $bar->start();
         foreach ($series as $key => $serie) {
-            SerieProvider::cover(serie: $serie, alone: $alone);
+            if (!$no_covers) {
+                SerieProvider::cover(serie: $serie);
+            }
             SerieProvider::language(serie: $serie);
-            if (!$alone) {
+            if (! $alone) {
                 SerieProvider::description(serie: $serie);
             }
             $bar->advance();
         }
         $bar->finish();
         $this->newLine(2);
+
+        Artisan::call('bookshelves:clear', [], $this->getOutput());
 
         return 0;
     }

@@ -4,11 +4,13 @@ use Tests\TestCase;
 use App\Models\Book;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class BookTest extends TestCase
 {
     use WithFaker;
     // use DatabaseMigrations;
+    // use DatabaseTransactions;
 
     public function testBookCanBeCreate()
     {
@@ -21,6 +23,6 @@ class BookTest extends TestCase
 
         // Then
         $this->assertNotNull($book_to_find);
-        Book::destroy($book->id);
+        // Book::destroy($book->id);
     }
 }

@@ -20,8 +20,8 @@ class LanguageResource extends JsonResource
         $language = $this;
 
         return [
-            'slug'    => $language->slug,
-            'name'    => $language->name,
+            'slug' => $language->slug,
+            'name' => $language->name,
         ];
     }
 }

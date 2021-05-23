@@ -3,13 +3,13 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Str;
-use Cache;
 use App\Models\Book;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\BookProvider;
 use App\Providers\Bookshelves\BookshelvesProvider;
 use App\Providers\MetadataExtractor\MetadataExtractor;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
+use Artisan;
 
 class BookCommand extends Command
 {
@@ -47,8 +47,6 @@ class BookCommand extends Command
      */
     public function handle()
     {
-        Cache::forget('books');
-
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
@@ -67,6 +65,8 @@ class BookCommand extends Command
         if (! $no_covers) {
             $this->covers();
         }
+        
+        Artisan::call('bookshelves:clear', [], $this->getOutput());
 
         return true;
     }
@@ -76,7 +76,6 @@ class BookCommand extends Command
      *
      * Generate `Book` model with all relationships
      *
-     * @param array $epubFiles
      * @param arrray
      *
      * @return void
@@ -87,7 +86,7 @@ class BookCommand extends Command
         $this->comment('- EPUB files detected: ' . sizeof($epubFiles));
         $this->info('- Generate Book model with relationships');
         $this->info('- Generate new EPUB file with standard name');
-        if (!$alone) {
+        if (! $alone) {
             $this->info('- Get extra data from Google Books API: HTTP requests');
         }
         $this->newLine();

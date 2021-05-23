@@ -27,9 +27,9 @@ class CommentFactory extends Factory
         $user = $users->random();
 
         return [
-            'text'           => $faker->paragraph(),
-            'rating'         => $faker->numberBetween(null, 5),
-            'user_id'        => $user->id,
+            'text'    => $faker->paragraph(),
+            'rating'  => $faker->numberBetween(null, 5),
+            'user_id' => $user->id,
         ];
     }
 }

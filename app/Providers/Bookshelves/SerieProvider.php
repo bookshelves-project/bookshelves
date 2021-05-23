@@ -13,10 +13,6 @@ class SerieProvider
 {
     /**
      * Generate Serie description from Wikipedia if found.
-     *
-     * @param Serie $serie
-     *
-     * @return Serie
      */
     public static function description(Serie $serie): Serie
     {
@@ -63,13 +59,8 @@ class SerieProvider
     /**
      * Generate Serie image from 'public/storage/raw/pictures-series' if JPG file with Serie slug exist
      * if not get image from Book with 'book_number' like '1'.
-     * If $alone is set true, no search for external informations.
      *
      * Manage by spatie/laravel-medialibrary.
-     *
-     * @param Serie $serie
-     *
-     * @return Serie
      */
     public static function cover(Serie $serie): Serie
     {
@@ -78,7 +69,7 @@ class SerieProvider
             // Check if JPG file with series' slug name exist
             // To know slug name, check into database when serie was created
             $disk = 'series';
-            $custom_series_path = public_path("storage/raw/covers-$disk/$serie->slug.jpg");
+            $custom_series_path = public_path("storage/raw/pictures-$disk/$serie->slug.jpg");
 
             if (File::exists($custom_series_path)) {
                 $file_path = File::get($custom_series_path);
@@ -124,10 +115,6 @@ class SerieProvider
 
     /**
      * Generate Language relationship for Serie from first Book of Serie.
-     *
-     * @param Serie $serie
-     *
-     * @return Serie
      */
     public static function language(Serie $serie): Serie
     {

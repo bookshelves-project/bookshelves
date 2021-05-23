@@ -103,8 +103,6 @@ class SetupCommand extends Command
     /**
      * Update the .env file from an array of $key => $value pairs.
      *
-     * @param array $updatedValues
-     *
      * @return void
      */
     protected function updateEnvironmentFile(array $updatedValues)
@@ -166,11 +164,11 @@ class SetupCommand extends Command
     protected function allowProduction()
     {
         return [
-            'APP_ENV'                    => $this->ask('Environnement', 'production'),
-            'APP_DEBUG'                  => $this->ask('Debug', 'false'),
-            'APP_URL'                    => $this->ask('Application URL', $this->urlProd),
-            'SANCTUM_STATEFUL_DOMAINS'   => $this->ask('Sanctum stateful domains', 'bookshelves.ink'),
-            'SESSION_DOMAIN'             => $this->ask('Session domain', '.bookshelves.ink'),
+            'APP_ENV'                  => $this->ask('Environnement', 'production'),
+            'APP_DEBUG'                => $this->ask('Debug', 'false'),
+            'APP_URL'                  => $this->ask('Application URL', $this->urlProd),
+            'SANCTUM_STATEFUL_DOMAINS' => $this->ask('Sanctum stateful domains', 'bookshelves.ink'),
+            'SESSION_DOMAIN'           => $this->ask('Session domain', '.bookshelves.ink'),
         ];
     }
 
@@ -190,15 +188,15 @@ class SetupCommand extends Command
     protected function requestDatabaseCredentials()
     {
         return [
-            'APP_NAME'                   => $this->ask('App name', $this->appName),
-            'DB_DATABASE'                => $this->ask('Database name', "$this->appNameSlug"),
-            'DB_PORT'                    => $this->ask('Database port', '3306'),
-            'DB_USERNAME'                => $this->ask('Database user', 'root'),
-            'DB_PASSWORD'                => $this->askHiddenWithDefault('Database password (leave blank for no password)'),
-            'MAIL_HOST'                  => $this->ask('Mail host', 'smtp.mailtrap.io'),
-            'MAIL_USERNAME'              => $this->ask('Mail user', ''),
-            'MAIL_PASSWORD'              => $this->ask('Mail password', ''),
-            'TELESCOPE_ENABLED'          => $this->ask('Telescope enabled?', 'false'),
+            'APP_NAME'          => $this->ask('App name', $this->appName),
+            'DB_DATABASE'       => $this->ask('Database name', "$this->appNameSlug"),
+            'DB_PORT'           => $this->ask('Database port', '3306'),
+            'DB_USERNAME'       => $this->ask('Database user', 'root'),
+            'DB_PASSWORD'       => $this->askHiddenWithDefault('Database password (leave blank for no password)'),
+            'MAIL_HOST'         => $this->ask('Mail host', 'smtp.mailtrap.io'),
+            'MAIL_USERNAME'     => $this->ask('Mail user', ''),
+            'MAIL_PASSWORD'     => $this->ask('Mail password', ''),
+            'TELESCOPE_ENABLED' => $this->ask('Telescope enabled?', 'false'),
         ];
     }
 

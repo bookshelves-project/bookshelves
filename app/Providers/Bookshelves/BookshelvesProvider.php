@@ -11,11 +11,6 @@ class BookshelvesProvider
     /**
      * Generate new Book with all relations.
      * If $alone is set true, no search for external informations.
-     *
-     * @param MetadataExtractor $metadataExtractor
-     * @param bool $alone
-     *
-     * @return Book
      */
     public static function convertMetadata(MetadataExtractor $metadataExtractor, bool $alone): Book
     {
@@ -33,7 +28,7 @@ class BookshelvesProvider
             $identifier = BookProvider::identifier($metadataExtractor, $book);
             $book->save();
 
-            if (!$alone) {
+            if (! $alone) {
                 BookProvider::googleBook(identifier: $identifier, book: $book);
             }
         }

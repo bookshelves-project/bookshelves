@@ -151,8 +151,6 @@ class Book extends Model implements HasMedia
 
     /**
      * Authors MorphToMany.
-     *
-     * @return MorphToMany
      */
     public function authors(): MorphToMany
     {

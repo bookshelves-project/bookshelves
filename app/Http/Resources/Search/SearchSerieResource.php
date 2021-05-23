@@ -21,16 +21,16 @@ class SearchSerieResource extends JsonResource
     {
         return [
             'meta' => [
-                'entity'   => 'serie',
-                'author'   => $this->resource->author->slug,
-                'slug'     => $this->resource->slug,
+                'entity' => 'serie',
+                'author' => $this->resource->author->slug,
+                'slug'   => $this->resource->slug,
             ],
-            'title'         => $this->resource->title,
-            'author'        => $this->resource->books[0]->author->name,
-            'picture'       => $this->resource->image_thumbnail,
-            'picture_og'    => $this->resource->image_open_graph,
-            'color'         => $this->resource->image_color,
-            'text'          => BookshelvesTools::stringLimit($this->resource->description, 140),
+            'title'      => $this->resource->title,
+            'author'     => $this->resource->books[0]->author->name,
+            'picture'    => $this->resource->image_thumbnail,
+            'picture_og' => $this->resource->image_open_graph,
+            'color'      => $this->resource->image_color,
+            'text'       => BookshelvesTools::stringLimit($this->resource->description, 140),
         ];
     }
 }

@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Bookshelves;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 
-class LogClearCommand extends Command
+class ClearCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'log:clear {name : name of log file}';
+    protected $signature = 'bookshelves:clear';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Clear specific log';
+    protected $description = 'Command description';
 
     /**
      * Create a new command instance.
@@ -32,12 +33,13 @@ class LogClearCommand extends Command
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
-    public function handle(): bool
+    public function handle()
     {
-        $logFileName = $this->argument('name');
-        shell_exec("truncate -s 0 ./storage/logs/$logFileName.log");
+        Cache::clear();
 
-        return true;
+        return 0;
     }
 }

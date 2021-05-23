@@ -24,20 +24,20 @@ class SerieResource extends JsonResource
 
         $resource = SerieLightResource::make($serie)->toArray($request);
         $resource = array_merge($resource, [
-            'description'            => $serie->description,
-            'descriptionLink'        => $serie->description_link,
-            'language'               => $serie->language?->slug,
-            'picture'                => [
+            'description'     => $serie->description,
+            'descriptionLink' => $serie->description_link,
+            'language'        => $serie->language?->slug,
+            'picture'         => [
                 'base'      => $serie->image_thumbnail,
                 'openGraph' => $serie->image_open_graph,
                 'color'     => $this->resource->image_color,
             ],
-            'tags'           => TagResource::collection($serie->tags),
-            'download'       => $serie->download_link,
-            'size'           => $serie->size,
-            'books'          => BookSerieResource::collection($serie->books),
-            'isFavorite'     => $serie->is_favorite,
-            'comments'       => CommentResource::collection($serie->comments),
+            'tags'       => TagResource::collection($serie->tags),
+            'download'   => $serie->download_link,
+            'size'       => $serie->size,
+            'books'      => BookSerieResource::collection($serie->books),
+            'isFavorite' => $serie->is_favorite,
+            'comments'   => CommentResource::collection($serie->comments),
         ]);
 
         return $resource;

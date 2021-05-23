@@ -13,9 +13,9 @@ class SubmissionController extends Controller
     public function send(Request $request)
     {
         $validate = $this->validate($request, [
-            'name'                  => 'required|string',
-            'email'                 => 'required|email:rfc,strict,dns,filter',
-            'message'               => 'required|string|min:25',
+            'name'    => 'required|string',
+            'email'   => 'required|email:rfc,strict,dns,filter',
+            'message' => 'required|string|min:25',
         ]);
 
         // Create model

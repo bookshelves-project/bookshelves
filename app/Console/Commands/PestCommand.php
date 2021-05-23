@@ -2,17 +2,18 @@
 
 namespace App\Console\Commands;
 
+use Artisan;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
-class TestCommand extends Command
+class PestCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'pest:run';
+    protected $signature = 'pest';
 
     /**
      * The console command description.
@@ -33,8 +34,6 @@ class TestCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return bool
      */
     public function handle(): bool
     {
@@ -50,6 +49,7 @@ class TestCommand extends Command
         foreach ($iterator as $data) {
             echo $data;
         }
+        
 
         return true;
     }

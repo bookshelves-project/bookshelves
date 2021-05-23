@@ -46,11 +46,11 @@ class FavoriteResource extends JsonResource
         }
 
         return [
-            'meta'                  => [
-                'type'        => 'favorite',
-                'for'         => $for,
-                'author'      => $favoritable->favoritable->author?->slug,
-                'slug'        => $favoritable->favoritable->slug,
+            'meta' => [
+                'type'   => 'favorite',
+                'for'    => $for,
+                'author' => $favoritable->favoritable->author?->slug,
+                'slug'   => $favoritable->favoritable->slug,
             ],
             'title'   => $title,
             'picture' => $favoritable->favoritable->image_thumbnail,

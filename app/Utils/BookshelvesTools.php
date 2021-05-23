@@ -14,10 +14,6 @@ class BookshelvesTools
 {
     /**
      * Global search on Book, Serie and Author.
-     *
-     * @param string $searchTermRaw
-     *
-     * @return array
      */
     public static function searchGlobal(string $searchTermRaw): array
     {
@@ -42,8 +38,6 @@ class BookshelvesTools
      * Remove accents from string.
      *
      * @param mixed $stripAccents
-     *
-     * @return string
      */
     public static function stripAccents($stripAccents): string
     {
@@ -60,9 +54,6 @@ class BookshelvesTools
      * Convert bytes to human readable filesize.
      *
      * @param string|int $bytes
-     * @param int|null   $decimals
-     *
-     * @return string
      */
     public static function humanFilesize(string | int $bytes, ?int $decimals = 2): string
     {
@@ -81,13 +72,8 @@ class BookshelvesTools
 
     /**
      * Limit length of a string and sanitize.
-     *
-     * @param string $text
-     * @param int    $limit
-     *
-     * @return string
      */
-    public static function stringLimit(string|null $text, int $limit): string
+    public static function stringLimit(string | null $text, int $limit): string
     {
         $content = '';
         if ($text) {
@@ -119,15 +105,11 @@ class BookshelvesTools
 
     /**
      * Sanitize string.
-     *
-     * @param string $string
-     *
-     * @return string
      */
     public static function hyphenize(string $string): string
     {
         $dict = [
-            "I'm"      => 'I am',
+            "I'm" => 'I am',
             // Add your own replacements here
         ];
 
@@ -149,32 +131,28 @@ class BookshelvesTools
 
     /**
      * Clean accents and special characters of string.
-     *
-     * @param string $text
-     *
-     * @return string
      */
     public static function cleanString(string $text): string
     {
         $utf8 = [
-            '/[áàâãªä]/u'   => 'a',
-            '/[ÁÀÂÃÄ]/u'    => 'A',
-            '/[ÍÌÎÏ]/u'     => 'I',
-            '/[íìîï]/u'     => 'i',
-            '/[éèêë]/u'     => 'e',
-            '/[ÉÈÊË]/u'     => 'E',
-            '/[óòôõºö]/u'   => 'o',
-            '/[ÓÒÔÕÖ]/u'    => 'O',
-            '/[úùûü]/u'     => 'u',
-            '/[ÚÙÛÜ]/u'     => 'U',
-            '/ç/'           => 'c',
-            '/Ç/'           => 'C',
-            '/ñ/'           => 'n',
-            '/Ñ/'           => 'N',
-            '/–/'           => '-', // UTF-8 hyphen to "normal" hyphen
-            '/[’‘‹›‚]/u'    => ' ', // Literally a single quote
-            '/[“”«»„]/u'    => ' ', // Double quote
-            '/ /'           => ' ', // nonbreaking space (equiv. to 0x160)
+            '/[áàâãªä]/u' => 'a',
+            '/[ÁÀÂÃÄ]/u'  => 'A',
+            '/[ÍÌÎÏ]/u'   => 'I',
+            '/[íìîï]/u'   => 'i',
+            '/[éèêë]/u'   => 'e',
+            '/[ÉÈÊË]/u'   => 'E',
+            '/[óòôõºö]/u' => 'o',
+            '/[ÓÒÔÕÖ]/u'  => 'O',
+            '/[úùûü]/u'   => 'u',
+            '/[ÚÙÛÜ]/u'   => 'U',
+            '/ç/'         => 'c',
+            '/Ç/'         => 'C',
+            '/ñ/'         => 'n',
+            '/Ñ/'         => 'N',
+            '/–/'         => '-', // UTF-8 hyphen to "normal" hyphen
+            '/[’‘‹›‚]/u'  => ' ', // Literally a single quote
+            '/[“”«»„]/u'  => ' ', // Double quote
+            '/ /'         => ' ', // nonbreaking space (equiv. to 0x160)
         ];
 
         $string = preg_replace(array_keys($utf8), array_values($utf8), $text);

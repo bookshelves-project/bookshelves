@@ -27,8 +27,8 @@ class UserController extends Controller
         $user = Auth::user();
 
         return [
-            'data'          => $user,
-            'isAdmin'       => $user->hasRole(RoleEnum::ADMIN()),
+            'data'    => $user,
+            'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
         ];
     }
 
@@ -47,9 +47,9 @@ class UserController extends Controller
         $request->gravatar = false;
         $gravatar = filter_var($request->input('gravatar'), FILTER_VALIDATE_BOOLEAN);
         $request->validate([
-            'name'     => 'required|string|max:256',
-            'email'    => 'required|email|max:256',
-            'photo'    => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
+            'name'  => 'required|string|max:256',
+            'email' => 'required|email|max:256',
+            'photo' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $user->name = $request->name;
@@ -79,14 +79,14 @@ class UserController extends Controller
                 ->save();
 
             return [
-                'data'          => $user,
-                'isAdmin'       => $user->hasRole(RoleEnum::ADMIN()),
+                'data'    => $user,
+                'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
             ];
         }
 
         return [
-            'data'          => $user,
-            'isAdmin'       => $user->hasRole(RoleEnum::ADMIN()),
+            'data'    => $user,
+            'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
         ];
     }
 
@@ -98,8 +98,8 @@ class UserController extends Controller
         $user->clearMediaCollection('users');
 
         return [
-            'data'          => $user,
-            'isAdmin'       => $user->hasRole(RoleEnum::ADMIN()),
+            'data'    => $user,
+            'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
         ];
     }
 
@@ -109,9 +109,9 @@ class UserController extends Controller
         $user = Auth::user();
 
         $request->validate([
-            'current_password'         => 'required|string|max:256',
-            'password'                 => 'required|string|max:256',
-            'password_confirmation'    => 'required|string|max:256',
+            'current_password'      => 'required|string|max:256',
+            'password'              => 'required|string|max:256',
+            'password_confirmation' => 'required|string|max:256',
         ]);
 
         if (Hash::check($request->current_password, $user->password)) {

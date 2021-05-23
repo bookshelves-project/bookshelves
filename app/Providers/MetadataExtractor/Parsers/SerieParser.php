@@ -16,11 +16,6 @@ class SerieParser
     /**
      * Generate series from SimpleXMLElement $package
      * with Calibre meta.
-     *
-     * @param string|null $serie
-     * @param string|null $volume
-     *
-     * @return SerieParser
      */
     public static function run(?string $serie, ?string $volume): SerieParser
     {

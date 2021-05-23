@@ -11,8 +11,6 @@ class RegisterController extends Controller
 {
     /**
      * Create a new registered user.
-     *
-     * @param \Illuminate\Http\Request $request
      */
     public function register(Request $request)
     {

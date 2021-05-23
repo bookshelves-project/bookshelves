@@ -20,12 +20,12 @@ class SerieUltraLightResource extends JsonResource
         $serie = $this;
 
         $base = [
-            'title'     => $serie->title,
-            'slug'      => $serie->slug,
-            'author'    => $serie->author?->slug,
-            'picture'   => [
-                'base'      => $serie->image_thumbnail,
-                'color'     => $this->resource->image_color,
+            'title'   => $serie->title,
+            'slug'    => $serie->slug,
+            'author'  => $serie->author?->slug,
+            'picture' => [
+                'base'  => $serie->image_thumbnail,
+                'color' => $this->resource->image_color,
             ],
             'meta' => [
                 'show' => $serie->show_link,

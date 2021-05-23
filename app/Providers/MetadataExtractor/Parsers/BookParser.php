@@ -19,12 +19,6 @@ class BookParser
 
     /**
      * Generate Book from parameters.
-     *
-     * @param string      $title
-     * @param string|null $description
-     * @param string|null $date
-     *
-     * @return BookParser
      */
     public static function run(string $title, ?string $contributor, ?string $description, ?string $date, ?string $rights): BookParser
     {

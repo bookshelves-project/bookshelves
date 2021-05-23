@@ -27,9 +27,9 @@ class SerieFactory extends Factory
         $title = ucfirst($faker->words($faker->numberBetween(2, 5), true));
 
         return [
-            'title'        => $title,
-            'title_sort'   => MetadataExtractorTools::getSortString($title),
-            'slug'         => Str::slug($title),
+            'title'      => $title,
+            'title_sort' => MetadataExtractorTools::getSortString($title),
+            'slug'       => Str::slug($title),
         ];
     }
 }

@@ -16,8 +16,6 @@ class CreatorsParser
      * Generate author from XML dc:creator string.
      *
      * @param iterable|string $creators
-     *
-     * @return CreatorsParser
      */
     public static function run(iterable | string $creators): CreatorsParser
     {

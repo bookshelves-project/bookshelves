@@ -16,8 +16,6 @@ class BookLightResource extends JsonResource
      *
      * @param \Illuminate\Http\Request $request
      * @mixin Book
-     *
-     * @return array
      */
     public function toArray($request): array
     {

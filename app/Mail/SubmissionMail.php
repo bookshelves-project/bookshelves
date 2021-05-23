@@ -24,8 +24,6 @@ class SubmissionMail extends Mailable
 
     /**
      * Build the message.
-     *
-     * @return Mailable
      */
     public function build(): Mailable
     {
@@ -43,9 +41,9 @@ class SubmissionMail extends Mailable
             ->subject($subject)
             ->markdown('emails.submission')
             ->with([
-                'name'       => $this->submission->name,
-                'email'      => $this->submission->email,
-                'message'    => $this->submission->message,
+                'name'    => $this->submission->name,
+                'email'   => $this->submission->email,
+                'message' => $this->submission->message,
             ]);
     }
 }

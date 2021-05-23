@@ -18,8 +18,6 @@ class BookUltraLightResource extends JsonResource
      *
      * @param \Illuminate\Http\Request $request
      * @mixin Book
-     *
-     * @return array
      */
     public function toArray($request): array
     {
@@ -36,10 +34,10 @@ class BookUltraLightResource extends JsonResource
                 'openGraph' => $this->resource->image_open_graph,
                 'color'     => $this->resource->image_color,
             ],
-            'publisher'    => PublisherResource::make($this->resource->publisher),
-            'volume'       => $this->resource->volume,
-            'meta'         => [
-                'show'        => $this->resource->show_link,
+            'publisher' => PublisherResource::make($this->resource->publisher),
+            'volume'    => $this->resource->volume,
+            'meta'      => [
+                'show' => $this->resource->show_link,
             ],
         ];
 

@@ -17,8 +17,6 @@ class IdentifiersParser
      * Generate ISBN from $identifiers.
      *
      * @param array|string $identifiers
-     *
-     * @return IdentifiersParser
      */
     public static function run(array $identifiers): IdentifiersParser
     {

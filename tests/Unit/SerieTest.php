@@ -19,6 +19,6 @@ class SerieTest extends TestCase
 
         // Then
         $this->assertNotNull($book_to_find);
-        Serie::destroy($book->id);
+        // Serie::destroy($book->id);
     }
 }

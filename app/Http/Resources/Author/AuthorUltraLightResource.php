@@ -20,10 +20,10 @@ class AuthorUltraLightResource extends JsonResource
         $author = $this;
 
         return [
-            'name'        => $author->name,
-            'slug'        => $author->slug,
-            'meta'        => [
-                'show'        => $author->show_link,
+            'name' => $author->name,
+            'slug' => $author->slug,
+            'meta' => [
+                'show' => $author->show_link,
             ],
         ];
     }

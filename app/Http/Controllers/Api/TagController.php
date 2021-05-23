@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Book;
+use Spatie\Tags\Tag;
 use App\Models\Author;
 use App\Http\Resources\TagResource;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookLightResource;
-use Spatie\Tags\Tag;
 
 class TagController extends Controller
 {

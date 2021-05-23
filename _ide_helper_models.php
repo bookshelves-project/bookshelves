@@ -8,35 +8,37 @@
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  */
+
 namespace App\Models{
     /**
-     * App\Models\Author
+     * App\Models\Author.
      *
-     * @property int $id
-     * @property string|null $slug
-     * @property string|null $lastname
-     * @property string|null $firstname
-     * @property string|null $name
-     * @property string|null $role
-     * @property string|null $description
-     * @property string|null $description_link
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
-     * @property-read int|null $books_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
-     * @property-read int|null $comments_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
-     * @property-read int|null $favorites_count
-     * @property-read string $download_link
-     * @property-read string|null $image_color
-     * @property-read string|null $image_open_graph
-     * @property-read string|null $image_thumbnail
-     * @property-read bool $is_favorite
-     * @property-read string $show_link
-     * @property-read string $size
-     * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
-     * @property-read int|null $media_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
-     * @property-read int|null $series_count
+     * @property int                                                                                                                           $id
+     * @property string|null                                                                                                                   $slug
+     * @property string|null                                                                                                                   $lastname
+     * @property string|null                                                                                                                   $firstname
+     * @property string|null                                                                                                                   $name
+     * @property string|null                                                                                                                   $role
+     * @property string|null                                                                                                                   $description
+     * @property string|null                                                                                                                   $description_link
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]                                                                   $books
+     * @property int|null                                                                                                                      $books_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[]                                                                $comments
+     * @property int|null                                                                                                                      $comments_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\User[]                                                                   $favorites
+     * @property int|null                                                                                                                      $favorites_count
+     * @property string                                                                                                                        $download_link
+     * @property string|null                                                                                                                   $image_color
+     * @property string|null                                                                                                                   $image_open_graph
+     * @property string|null                                                                                                                   $image_thumbnail
+     * @property bool                                                                                                                          $is_favorite
+     * @property string                                                                                                                        $show_link
+     * @property string                                                                                                                        $size
+     * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+     * @property int|null                                                                                                                      $media_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[]                                                                  $series
+     * @property int|null                                                                                                                      $series_count
+     *
      * @method static \Database\Factories\AuthorFactory factory(...$parameters)
      * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
@@ -57,51 +59,52 @@ namespace App\Models{
 
 namespace App\Models{
     /**
-     * App\Models\Book
+     * App\Models\Book.
      *
-     * @property int $id
-     * @property string $title
-     * @property string|null $title_sort
-     * @property string|null $slug
-     * @property string|null $contributor
-     * @property string|null $description
-     * @property string|null $date
-     * @property string|null $rights
-     * @property int|null $serie_id
-     * @property int|null $volume
-     * @property int|null $publisher_id
-     * @property string|null $language_slug
-     * @property int|null $identifier_id
-     * @property int|null $google_book_id
-     * @property int|null $page_count
-     * @property string|null $maturity_rating
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
-     * @property-read int|null $authors_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
-     * @property-read int|null $comments_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
-     * @property-read int|null $favorites_count
-     * @property-read \App\Models\Author|null $author
-     * @property-read string $download_link
-     * @property-read string|null $epub
-     * @property-read string|null $image_color
-     * @property-read string|null $image_open_graph
-     * @property-read string|null $image_original
-     * @property-read string|null $image_thumbnail
-     * @property-read bool $is_favorite
-     * @property-read string $show_link
-     * @property-read string $sort_name
-     * @property-read \App\Models\GoogleBook|null $googleBook
-     * @property-read \App\Models\Identifier|null $identifier
-     * @property-read \App\Models\Language|null $language
-     * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
-     * @property-read int|null $media_count
-     * @property-read \App\Models\Publisher|null $publisher
-     * @property-read \App\Models\Serie|null $serie
-     * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
-     * @property-read int|null $tags_count
+     * @property int                                                                                                                           $id
+     * @property string                                                                                                                        $title
+     * @property string|null                                                                                                                   $title_sort
+     * @property string|null                                                                                                                   $slug
+     * @property string|null                                                                                                                   $contributor
+     * @property string|null                                                                                                                   $description
+     * @property string|null                                                                                                                   $date
+     * @property string|null                                                                                                                   $rights
+     * @property int|null                                                                                                                      $serie_id
+     * @property int|null                                                                                                                      $volume
+     * @property int|null                                                                                                                      $publisher_id
+     * @property string|null                                                                                                                   $language_slug
+     * @property int|null                                                                                                                      $identifier_id
+     * @property int|null                                                                                                                      $google_book_id
+     * @property int|null                                                                                                                      $page_count
+     * @property string|null                                                                                                                   $maturity_rating
+     * @property \Illuminate\Support\Carbon|null                                                                                               $created_at
+     * @property \Illuminate\Support\Carbon|null                                                                                               $updated_at
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Author[]                                                                 $authors
+     * @property int|null                                                                                                                      $authors_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[]                                                                $comments
+     * @property int|null                                                                                                                      $comments_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\User[]                                                                   $favorites
+     * @property int|null                                                                                                                      $favorites_count
+     * @property \App\Models\Author|null                                                                                                       $author
+     * @property string                                                                                                                        $download_link
+     * @property string|null                                                                                                                   $epub
+     * @property string|null                                                                                                                   $image_color
+     * @property string|null                                                                                                                   $image_open_graph
+     * @property string|null                                                                                                                   $image_original
+     * @property string|null                                                                                                                   $image_thumbnail
+     * @property bool                                                                                                                          $is_favorite
+     * @property string                                                                                                                        $show_link
+     * @property string                                                                                                                        $sort_name
+     * @property \App\Models\GoogleBook|null                                                                                                   $googleBook
+     * @property \App\Models\Identifier|null                                                                                                   $identifier
+     * @property \App\Models\Language|null                                                                                                     $language
+     * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+     * @property int|null                                                                                                                      $media_count
+     * @property \App\Models\Publisher|null                                                                                                    $publisher
+     * @property \App\Models\Serie|null                                                                                                        $serie
+     * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[]                                                                   $tags
+     * @property int|null                                                                                                                      $tags_count
+     *
      * @method static \Database\Factories\BookFactory factory(...$parameters)
      * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery()
@@ -136,24 +139,25 @@ namespace App\Models{
 
 namespace App\Models{
     /**
-     * App\Models\Comment
+     * App\Models\Comment.
      *
-     * @property int $id
-     * @property string|null $text
-     * @property int|null $rating
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property int|null $user_id
-     * @property int|null $commentable_id
-     * @property string|null $commentable_type
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
-     * @property-read int|null $authors_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
-     * @property-read int|null $books_count
-     * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $commentable
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
-     * @property-read int|null $series_count
-     * @property-read \App\Models\User|null $user
+     * @property int                                                           $id
+     * @property string|null                                                   $text
+     * @property int|null                                                      $rating
+     * @property \Illuminate\Support\Carbon|null                               $created_at
+     * @property \Illuminate\Support\Carbon|null                               $updated_at
+     * @property int|null                                                      $user_id
+     * @property int|null                                                      $commentable_id
+     * @property string|null                                                   $commentable_type
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
+     * @property int|null                                                      $authors_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]   $books
+     * @property int|null                                                      $books_count
+     * @property \Illuminate\Database\Eloquent\Model|\Eloquent                 $commentable
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[]  $series
+     * @property int|null                                                      $series_count
+     * @property \App\Models\User|null                                         $user
+     *
      * @method static \Database\Factories\CommentFactory factory(...$parameters)
      * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
@@ -174,12 +178,13 @@ namespace App\Models{
 
 namespace App\Models{
     /**
-     * App\Models\Favoritable
+     * App\Models\Favoritable.
      *
-     * @property int $user_id
-     * @property int $favoritable_id
-     * @property string $favoritable_type
-     * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $favoritable
+     * @property int                                           $user_id
+     * @property int                                           $favoritable_id
+     * @property string                                        $favoritable_type
+     * @property \Illuminate\Database\Eloquent\Model|\Eloquent $favoritable
+     *
      * @method static \Illuminate\Database\Eloquent\Builder|Favoritable newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Favoritable newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Favoritable query()
@@ -194,16 +199,17 @@ namespace App\Models{
 
 namespace App\Models{
     /**
-     * App\Models\GoogleBook
+     * App\Models\GoogleBook.
      *
-     * @property int $id
-     * @property string|null $preview_link
-     * @property string|null $buy_link
-     * @property int|null $retail_price
-     * @property string|null $retail_price_currency
-     * @property string|null $created_at
-     * @property string|null $updated_at
-     * @property-read \App\Models\Book|null $book
+     * @property int                   $id
+     * @property string|null           $preview_link
+     * @property string|null           $buy_link
+     * @property int|null              $retail_price
+     * @property string|null           $retail_price_currency
+     * @property string|null           $created_at
+     * @property string|null           $updated_at
+     * @property \App\Models\Book|null $book
+     *
      * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook query()
@@ -222,15 +228,16 @@ namespace App\Models{
 
 namespace App\Models{
     /**
-     * App\Models\Identifier
+     * App\Models\Identifier.
      *
-     * @property int $id
-     * @property string|null $isbn
-     * @property string|null $isbn13
-     * @property string|null $doi
-     * @property string|null $amazon
-     * @property string|null $google
-     * @property-read \App\Models\Book|null $book
+     * @property int                   $id
+     * @property string|null           $isbn
+     * @property string|null           $isbn13
+     * @property string|null           $doi
+     * @property string|null           $amazon
+     * @property string|null           $google
+     * @property \App\Models\Book|null $book
+     *
      * @method static \Illuminate\Database\Eloquent\Builder|Identifier newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Identifier newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Identifier query()
@@ -248,14 +255,15 @@ namespace App\Models{
 
 namespace App\Models{
     /**
-     * App\Models\Language
+     * App\Models\Language.
      *
-     * @property string|null $slug
-     * @property string|null $name
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
-     * @property-read int|null $books_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
-     * @property-read int|null $series_count
+     * @property string|null                                                  $slug
+     * @property string|null                                                  $name
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]  $books
+     * @property int|null                                                     $books_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
+     * @property int|null                                                     $series_count
+     *
      * @method static \Illuminate\Database\Eloquent\Builder|Language newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Language newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Language query()
@@ -269,13 +277,14 @@ namespace App\Models{
 
 namespace App\Models{
     /**
-     * App\Models\Publisher
+     * App\Models\Publisher.
      *
-     * @property int $id
-     * @property string|null $slug
-     * @property string|null $name
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
-     * @property-read int|null $books_count
+     * @property int                                                         $id
+     * @property string|null                                                 $slug
+     * @property string|null                                                 $name
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
+     * @property int|null                                                    $books_count
+     *
      * @method static \Illuminate\Database\Eloquent\Builder|Publisher newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Publisher newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Publisher query()
@@ -290,10 +299,11 @@ namespace App\Models{
 
 namespace App\Models{
     /**
-     * App\Models\Role
+     * App\Models\Role.
      *
-     * @property int $id
+     * @property int                 $id
      * @property \App\Enums\RoleEnum $name
+     *
      * @method static \Illuminate\Database\Eloquent\Builder|Role newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Role newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Role query()
@@ -307,36 +317,37 @@ namespace App\Models{
 
 namespace App\Models{
     /**
-     * App\Models\Serie
+     * App\Models\Serie.
      *
-     * @property int $id
-     * @property string|null $title
-     * @property string|null $title_sort
-     * @property string|null $slug
-     * @property string|null $language_slug
-     * @property string|null $description
-     * @property string|null $description_link
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
-     * @property-read int|null $authors_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
-     * @property-read int|null $books_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
-     * @property-read int|null $comments_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
-     * @property-read int|null $favorites_count
-     * @property-read \App\Models\Author|null $author
-     * @property-read string $download_link
-     * @property-read string|null $image_color
-     * @property-read string|null $image_open_graph
-     * @property-read string|null $image_thumbnail
-     * @property-read bool $is_favorite
-     * @property-read string $show_link
-     * @property-read string $size
-     * @property-read \App\Models\Language|null $language
-     * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
-     * @property-read int|null $media_count
-     * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
-     * @property-read int|null $tags_count
+     * @property int                                                                                                                           $id
+     * @property string|null                                                                                                                   $title
+     * @property string|null                                                                                                                   $title_sort
+     * @property string|null                                                                                                                   $slug
+     * @property string|null                                                                                                                   $language_slug
+     * @property string|null                                                                                                                   $description
+     * @property string|null                                                                                                                   $description_link
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Author[]                                                                 $authors
+     * @property int|null                                                                                                                      $authors_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]                                                                   $books
+     * @property int|null                                                                                                                      $books_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[]                                                                $comments
+     * @property int|null                                                                                                                      $comments_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\User[]                                                                   $favorites
+     * @property int|null                                                                                                                      $favorites_count
+     * @property \App\Models\Author|null                                                                                                       $author
+     * @property string                                                                                                                        $download_link
+     * @property string|null                                                                                                                   $image_color
+     * @property string|null                                                                                                                   $image_open_graph
+     * @property string|null                                                                                                                   $image_thumbnail
+     * @property bool                                                                                                                          $is_favorite
+     * @property string                                                                                                                        $show_link
+     * @property string                                                                                                                        $size
+     * @property \App\Models\Language|null                                                                                                     $language
+     * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+     * @property int|null                                                                                                                      $media_count
+     * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[]                                                                   $tags
+     * @property int|null                                                                                                                      $tags_count
+     *
      * @method static \Database\Factories\SerieFactory factory(...$parameters)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
@@ -360,14 +371,15 @@ namespace App\Models{
 
 namespace App\Models{
     /**
-     * App\Models\Submission
+     * App\Models\Submission.
      *
-     * @property int $id
-     * @property string|null $name
-     * @property string|null $email
-     * @property string|null $message
+     * @property int                             $id
+     * @property string|null                     $name
+     * @property string|null                     $email
+     * @property string|null                     $message
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property \Illuminate\Support\Carbon|null $updated_at
+     *
      * @method static \Illuminate\Database\Eloquent\Builder|Submission newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Submission newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Submission query()
@@ -385,35 +397,36 @@ namespace App\Models{
 
 namespace App\Models{
     /**
-     * App\Models\User
+     * App\Models\User.
      *
-     * @property int $id
-     * @property string $name
-     * @property string $slug
-     * @property string $email
-     * @property \Illuminate\Support\Carbon|null $email_verified_at
-     * @property string $password
-     * @property string|null $two_factor_secret
-     * @property string|null $two_factor_recovery_codes
-     * @property string|null $remember_token
-     * @property int|null $current_team_id
-     * @property bool $gravatar
-     * @property \Illuminate\Support\Carbon|null $created_at
-     * @property \Illuminate\Support\Carbon|null $updated_at
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
-     * @property-read int|null $books_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
-     * @property-read int|null $comments_count
-     * @property-read string $avatar
-     * @property-read string $profile_photo_url
-     * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
-     * @property-read int|null $media_count
-     * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
-     * @property-read int|null $notifications_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
-     * @property-read int|null $roles_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
-     * @property-read int|null $tokens_count
+     * @property int                                                                                                                           $id
+     * @property string                                                                                                                        $name
+     * @property string                                                                                                                        $slug
+     * @property string                                                                                                                        $email
+     * @property \Illuminate\Support\Carbon|null                                                                                               $email_verified_at
+     * @property string                                                                                                                        $password
+     * @property string|null                                                                                                                   $two_factor_secret
+     * @property string|null                                                                                                                   $two_factor_recovery_codes
+     * @property string|null                                                                                                                   $remember_token
+     * @property int|null                                                                                                                      $current_team_id
+     * @property bool                                                                                                                          $gravatar
+     * @property \Illuminate\Support\Carbon|null                                                                                               $created_at
+     * @property \Illuminate\Support\Carbon|null                                                                                               $updated_at
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]                                                                   $books
+     * @property int|null                                                                                                                      $books_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[]                                                                $comments
+     * @property int|null                                                                                                                      $comments_count
+     * @property string                                                                                                                        $avatar
+     * @property string                                                                                                                        $profile_photo_url
+     * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+     * @property int|null                                                                                                                      $media_count
+     * @property \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[]                     $notifications
+     * @property int|null                                                                                                                      $notifications_count
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Role[]                                                                   $roles
+     * @property int|null                                                                                                                      $roles_count
+     * @property \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[]                                               $tokens
+     * @property int|null                                                                                                                      $tokens_count
+     *
      * @method static \Database\Factories\UserFactory factory(...$parameters)
      * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()

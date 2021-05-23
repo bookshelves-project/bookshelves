@@ -43,7 +43,6 @@ class MetadataExtractor
      * return bool `false`
      *
      * @param string $epubFilePath Absolute path of EPUB file to extract metadata
-     * @param bool   $isDebug
      *
      * @return MetadataExtractor|bool
      */

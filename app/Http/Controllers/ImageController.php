@@ -9,13 +9,9 @@ use Spatie\Image\Exceptions\InvalidManipulation;
 class ImageController extends Controller
 {
     /**
-     * @param string $size
-     * @param string $path
-     * @param bool   $crop = true
+     * @param bool $crop = true
      *
      * @throws InvalidManipulation
-     *
-     * @return mixed
      */
     public static function thumbnail(string $size, string $path, bool $crop = true): mixed
     {

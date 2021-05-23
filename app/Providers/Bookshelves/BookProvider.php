@@ -26,8 +26,6 @@ class BookProvider
      * Manage by spatie/laravel-medialibrary.
      *
      * @param MetadataExtractor $metadataExtractor
-     *
-     * @return Book
      */
     public static function cover(Book $book): Book
     {
@@ -59,11 +57,6 @@ class BookProvider
      *
      * Get all useful data to improve Book, Identifier, Publisher and Tag
      * If data exist, create GoogleBook associate with Book with useful data to purchase eBook
-     *
-     * @param Identifier $identifier
-     * @param Book       $book
-     *
-     * @return Book
      */
     public static function googleBook(Identifier $identifier, Book $book): Book
     {
@@ -166,11 +159,6 @@ class BookProvider
     /**
      * Generate new EPUB file with standard name.
      * Managed by spatie/laravel-medialibrary.
-     *
-     * @param Book   $book
-     * @param string $epubFilePath
-     *
-     * @return bool
      */
     public static function epub(Book $book, string $epubFilePath): bool
     {
@@ -218,10 +206,6 @@ class BookProvider
 
     /**
      * Generate Book from MetadataExtractor.
-     *
-     * @param MetadataExtractor $metadataExtractor
-     *
-     * @return Book
      */
     public static function book(MetadataExtractor $metadataExtractor): Book
     {
@@ -232,24 +216,19 @@ class BookProvider
         }
 
         return Book::firstOrCreate([
-            'title'        => $metadataExtractor->title,
-            'slug'         => $slug,
-            'title_sort'   => $metadataExtractor->title_sort,
-            'contributor'  => $metadataExtractor->contributor,
-            'description'  => $metadataExtractor->description,
-            'date'         => $metadataExtractor->date,
-            'rights'       => $metadataExtractor->rights,
-            'volume'       => $metadataExtractor->volume,
+            'title'       => $metadataExtractor->title,
+            'slug'        => $slug,
+            'title_sort'  => $metadataExtractor->title_sort,
+            'contributor' => $metadataExtractor->contributor,
+            'description' => $metadataExtractor->description,
+            'date'        => $metadataExtractor->date,
+            'rights'      => $metadataExtractor->rights,
+            'volume'      => $metadataExtractor->volume,
         ]);
     }
 
     /**
      * Generate Author[] for Book from MetadataExtractor.
-     *
-     * @param MetadataExtractor $metadataExtractor
-     * @param Book              $book
-     *
-     * @return Book
      */
     public static function authors(MetadataExtractor $metadataExtractor, Book $book): Book
     {
@@ -278,11 +257,6 @@ class BookProvider
 
     /**
      * Generate Tag[] for Book from MetadataExtractor.
-     *
-     * @param MetadataExtractor $metadataExtractor
-     * @param Book              $book
-     *
-     * @return Book
      */
     public static function tags(MetadataExtractor $metadataExtractor, Book $book): Book
     {
@@ -295,11 +269,6 @@ class BookProvider
 
     /**
      * Attach Tag to Book and define type from list of main tags.
-     *
-     * @param string $tag
-     * @param Book   $book
-     *
-     * @return Book
      */
     public static function tagRaw(string $tag, Book $book): Book
     {
@@ -320,11 +289,6 @@ class BookProvider
 
     /**
      * Generate Publisher for Book from MetadataExtractor.
-     *
-     * @param MetadataExtractor $metadataExtractor
-     * @param Book              $book
-     *
-     * @return Book
      */
     public static function publisher(MetadataExtractor $metadataExtractor, Book $book): Book
     {
@@ -363,11 +327,6 @@ class BookProvider
 
     /**
      * Generate Serie for Book from MetadataExtractor.
-     *
-     * @param MetadataExtractor $metadataExtractor
-     * @param Book              $book
-     *
-     * @return Book
      */
     public static function serie(MetadataExtractor $metadataExtractor, Book $book): Book
     {
@@ -403,10 +362,6 @@ class BookProvider
 
     /**
      * Set Language from MetadataExtractor.
-     *
-     * @param MetadataExtractor $metadataExtractor
-     *
-     * @return Language
      */
     public static function language(MetadataExtractor $metadataExtractor): Language
     {
@@ -427,9 +382,6 @@ class BookProvider
 
     /**
      * Generate JPG for Book from MetadataExtractor, use only during generation.
-     *
-     * @param MetadataExtractor $metadataExtractor
-     * @param Book              $book
      */
     public static function rawCover(MetadataExtractor $metadataExtractor, Book $book)
     {

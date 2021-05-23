@@ -93,17 +93,17 @@ class ApiController extends Controller
         $composerJson = json_decode($composerJson);
 
         return response()->json([
-            'success'        => 'Bookshelves API is available',
-            'api-version'    => $composerJson->version,
-            'about'          => [
+            'success'     => 'Bookshelves API is available',
+            'api-version' => $composerJson->version,
+            'about'       => [
                 'public'  => 'Route with public access',
                 'sanctum' => 'Routes available if user is logged',
             ],
-            'documentation'  => config('app.url') . '/' . 'api/documentation',
-            'opds'           => config('app.url') . '/' . 'api/opds',
-            'routes'         => [
-                'public'   => $publicRoutes,
-                'sanctum'  => $sanctumRoutes,
+            'documentation' => config('app.url') . '/' . 'api/documentation',
+            'opds'          => config('app.url') . '/' . 'api/opds',
+            'routes'        => [
+                'public'  => $publicRoutes,
+                'sanctum' => $sanctumRoutes,
             ],
         ], 200);
     }

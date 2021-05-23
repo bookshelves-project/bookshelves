@@ -15,14 +15,12 @@ class BookSerieResource extends JsonResource
      *
      * @param \Illuminate\Http\Request $request
      * @mixin Book
-     *
-     * @return array
      */
     public function toArray($request): array
     {
         $resource = BookUltraLightResource::make($this->resource)->toArray($request);
         $resource = array_merge($resource, [
-            'picture'     => [
+            'picture' => [
                 'base'      => $this->resource->image_thumbnail,
                 'openGraph' => $this->resource->image_open_graph,
                 'original'  => $this->resource->image_original,

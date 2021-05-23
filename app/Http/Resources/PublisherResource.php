@@ -20,8 +20,8 @@ class PublisherResource extends JsonResource
         $publisher = $this;
 
         return [
-            'name'     => $publisher->name,
-            'slug'     => $publisher->slug,
+            'name' => $publisher->name,
+            'slug' => $publisher->slug,
         ];
     }
 }

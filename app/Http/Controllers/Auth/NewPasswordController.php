@@ -24,8 +24,6 @@ class NewPasswordController extends Controller
     /**
      * Handle an incoming new password request.
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @throws \Illuminate\Validation\ValidationException
      *
      * @return \Illuminate\Http\RedirectResponse

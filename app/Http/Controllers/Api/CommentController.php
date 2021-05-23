@@ -45,8 +45,8 @@ class CommentController extends Controller
         $comment_text = $request->text;
         $comment_text = MetadataExtractorTools::cleanText($comment_text, 'markdown', 1800);
         $comment = Comment::create([
-            'text'    => $comment_text,
-            'rating'  => $request->rating,
+            'text'   => $comment_text,
+            'rating' => $request->rating,
         ]);
         $comment->user()->associate($user);
         $entity->comments()->save($comment);

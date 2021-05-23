@@ -17,8 +17,8 @@ class CommandController extends Controller
             $books = Artisan::call('books:generate -Fs');
 
             return response()->json([
-                'success'       => 'New eBooks are available',
-                'books'         => $books,
+                'success' => 'New eBooks are available',
+                'books'   => $books,
             ]);
         }
 

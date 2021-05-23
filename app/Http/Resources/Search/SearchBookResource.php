@@ -33,14 +33,14 @@ class SearchBookResource extends JsonResource
                 'author' => $this->resource->author->slug,
                 'slug'   => $this->resource->slug,
             ],
-            'title'         => $this->resource->title,
-            'subtitle'      => $this->resource->serie?->title,
-            'author'        => $this->resource->author->name,
-            'serie'         => $serie,
-            'picture'       => $this->resource->image_thumbnail,
-            'picture_og'    => $this->resource->image_open_graph,
-            'color'         => $this->resource->image_color,
-            'text'          => BookshelvesTools::stringLimit($this->resource->description, 140),
+            'title'      => $this->resource->title,
+            'subtitle'   => $this->resource->serie?->title,
+            'author'     => $this->resource->author->name,
+            'serie'      => $serie,
+            'picture'    => $this->resource->image_thumbnail,
+            'picture_og' => $this->resource->image_open_graph,
+            'color'      => $this->resource->image_color,
+            'text'       => BookshelvesTools::stringLimit($this->resource->description, 140),
         ];
     }
 }

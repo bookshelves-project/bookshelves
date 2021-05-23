@@ -22,8 +22,6 @@ class BookResource extends JsonResource
      *
      * @param \Illuminate\Http\Request $request
      * @mixin Book
-     *
-     * @return array
      */
     public function toArray($request): array
     {
@@ -34,9 +32,9 @@ class BookResource extends JsonResource
 
         $resource = BookLightResource::make($book)->toArray($request);
         $resource = array_merge($resource, [
-            'serie'       => SerieLightResource::make($book->serie),
-            'authors'     => AuthorUltraLightResource::collection($book->authors),
-            'picture'     => [
+            'serie'   => SerieLightResource::make($book->serie),
+            'authors' => AuthorUltraLightResource::collection($book->authors),
+            'picture' => [
                 'base'      => $book->image_thumbnail,
                 'openGraph' => $book->image_open_graph,
                 'original'  => $book->image_original,

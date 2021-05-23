@@ -14,8 +14,6 @@ class MetadataExtractorTools
 {
     /**
      * Parse OPF file as PHP XML file.
-     *
-     * @return array
      */
     public static function parseXMLFile(string $filepath): array
     {
@@ -142,11 +140,6 @@ class MetadataExtractorTools
 
     /**
      * Transform OPF file as array.
-     *
-     * @param string $xml
-     * @param string $filepath
-     *
-     * @return array
      */
     public static function convertXML(string $xml, string $filepath): array
     {
@@ -246,19 +239,19 @@ class MetadataExtractorTools
             ];
 
             $metadata = [
-                'title'         => $meta['DC:TITLE'] ?? null,
-                'creators'      => $creators_arr,
-                'contributor'   => $contributors,
-                'description'   => $meta['DC:DESCRIPTION'] ?? null,
-                'date'          => $meta['DC:DATE'] ?? null,
-                'identifiers'   => $identifiers_arr,
-                'publisher'     => $meta['DC:PUBLISHER'] ?? null,
-                'subjects'      => $subjects_arr,
-                'language'      => $meta['DC:LANGUAGE'] ?? null,
-                'rights'        => $meta['DC:RIGHTS'] ?? null,
-                'serie'         => $serie,
-                'volume'        => $volume,
-                'cover'         => $cover,
+                'title'       => $meta['DC:TITLE'] ?? null,
+                'creators'    => $creators_arr,
+                'contributor' => $contributors,
+                'description' => $meta['DC:DESCRIPTION'] ?? null,
+                'date'        => $meta['DC:DATE'] ?? null,
+                'identifiers' => $identifiers_arr,
+                'publisher'   => $meta['DC:PUBLISHER'] ?? null,
+                'subjects'    => $subjects_arr,
+                'language'    => $meta['DC:LANGUAGE'] ?? null,
+                'rights'      => $meta['DC:RIGHTS'] ?? null,
+                'serie'       => $serie,
+                'volume'      => $volume,
+                'cover'       => $cover,
             ];
         } catch (\Throwable $th) {
             dump($th);
@@ -269,10 +262,6 @@ class MetadataExtractorTools
 
     /**
      * Convert XML to an Array.
-     *
-     * @param string $XML
-     *
-     * @return array
      */
     public static function XMLtoArray(string $XML): array
     {
@@ -342,7 +331,7 @@ class MetadataExtractorTools
                     $php_stmt_main = $php_stmt . '[$x_tag]' . $add . '[\'content\'] = $xml_elem[\'value\'];';
                     eval($php_stmt_main);
                 }
-                foreach ($xml_elem['attributes'] as $key=>$value) {
+                foreach ($xml_elem['attributes'] as $key => $value) {
                     $php_stmt_att = $php_stmt . '[$x_tag]' . $add . '[$key] = $value;';
                     eval($php_stmt_att);
                 }

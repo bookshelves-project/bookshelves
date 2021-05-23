@@ -24,6 +24,7 @@ $finder = PhpCsFixer\Finder::create()
 $config = new PhpCsFixer\Config();
 $config->setRules([
     '@PSR2' => true,
+    '@Symfony' => true,
     'array_syntax' => [ 'syntax' => 'short' ],
     'cast_spaces' => true,
     'combine_consecutive_unsets' => true,
@@ -49,6 +50,18 @@ $config->setRules([
     'trim_array_spaces' => true,
     'no_break_comment' => false,
     'blank_line_before_statement' => true,
+    'no_superfluous_phpdoc_tags' => false,
+    'simplified_null_return' => true,
+    'phpdoc_order' => true,
+    'ordered_imports' => ['sort_algorithm' => 'length'],
+    'array_syntax' => ['syntax' => 'short'],
+    'array_indentation' => true,
+    'binary_operator_spaces' => ['operators' => ['=>' => 'align']],
+    'increment_style' => ['style' => 'post'],
+    'linebreak_after_opening_tag' => true,
+    'no_useless_else' => true,
+    'no_useless_return' => true,
+    'not_operator_with_successor_space' => true,
 ])
 ->setFinder($finder);
 

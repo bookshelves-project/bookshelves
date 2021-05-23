@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Cache;
 use App\Models\Author;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\AuthorProvider;
+use Artisan;
 
 class AuthorCommand extends Command
 {
@@ -15,6 +15,8 @@ class AuthorCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:authors
+                            {--a|alone : prevent external HTTP requests to public API for additional informations}
+                            {--c|covers : prevent generation of covers}
                             {--f|fresh : refresh authors medias, `description` & `description_link`}';
 
     /**
@@ -41,9 +43,9 @@ class AuthorCommand extends Command
      */
     public function handle()
     {
-        Cache::forget('authors');
-
         $isFresh = $this->option('fresh');
+        $no_covers = $this->option('covers');
+        $alone = $this->option('alone');
 
         $authors = Author::orderBy('lastname')->get();
         if ($isFresh) {
@@ -57,17 +59,22 @@ class AuthorCommand extends Command
             }
         }
         $this->alert('Bookshelves: authors');
-        $this->info('- Get pictures and description from Wikipedia: HTTP requests');
+        if (! $alone) {
+            $this->info('- Get pictures and description from Wikipedia: HTTP requests');
+        }
+        $this->info("- If a JPG file with slug of serie exist in 'public/storage/raw/pictures-authors', it's will be this picture");
         $this->newLine();
 
         $bar = $this->output->createProgressBar(count($authors));
         $bar->start();
         foreach ($authors as $key => $author) {
-            AuthorProvider::descriptionAndPicture(author: $author);
+            AuthorProvider::descriptionAndPicture(author: $author, alone: $alone, no_cover: $no_covers);
             $bar->advance();
         }
         $bar->finish();
         $this->newLine(2);
+
+        Artisan::call('bookshelves:clear', [], $this->getOutput());
 
         return 0;
     }

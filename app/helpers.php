@@ -6,13 +6,7 @@ if (! function_exists('image_cache')) {
     /**
      * Resolve image url.
      *
-     * @param string $path
-     * @param string $size
-     * @param bool   $crop
-     *
      * @throws BindingResolutionException
-     *
-     * @return string
      */
     function image_cache(string $path, string $size, bool $crop = true): string
     {
@@ -33,12 +27,6 @@ if (! function_exists('image_cache')) {
 if (! function_exists('get_thumbnail')) {
     /**
      * Resolve image url.
-     *
-     * @param string $path
-     * @param string $size
-     * @param bool   $crop
-     *
-     * @return array
      */
     function get_thumbnail(string $path, string $size, bool $crop = true): array
     {

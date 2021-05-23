@@ -10,7 +10,7 @@ it('random search serie title', function () {
     $randomElement = array_rand($json->data, 1);
     $randomTitle = $json->data[$randomElement]->title;
     $response = $this->get('/api/search?q=' . $randomTitle);
-    if ($response->getStatusCode() !== 200) {
+    if (200 !== $response->getStatusCode()) {
         echo $randomTitle;
     }
     $this->assertEquals(200, $response->getStatusCode());
@@ -24,7 +24,7 @@ it('random search book title', function () {
     $randomElement = array_rand($json->data, 1);
     $randomTitle = $json->data[$randomElement]->title;
     $response = $this->get('/api/search?q=' . $randomTitle);
-    if ($response->getStatusCode() !== 200) {
+    if (200 !== $response->getStatusCode()) {
         echo $randomTitle;
     }
     $this->assertEquals(200, $response->getStatusCode());
@@ -38,7 +38,7 @@ it('random search author title', function () {
     $randomElement = array_rand($json->data, 1);
     $randomTitle = $json->data[$randomElement]->name;
     $response = $this->get('/api/search?q=' . $randomTitle);
-    if ($response->getStatusCode() !== 200) {
+    if (200 !== $response->getStatusCode()) {
         echo $randomTitle;
     }
     $this->assertEquals(200, $response->getStatusCode());
