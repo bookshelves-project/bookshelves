@@ -23,6 +23,6 @@ class BookTest extends TestCase
 
         // Then
         $this->assertNotNull($book_to_find);
-        // Book::destroy($book->id);
+        Book::destroy($book->id);
     }
 }

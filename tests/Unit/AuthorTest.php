@@ -22,6 +22,6 @@ class AuthorTest extends TestCase
 
         // Then
         $this->assertNotNull($author_to_find);
-        // Author::destroy($author->id);
+        Author::destroy($author->id);
     }
 }

@@ -6,6 +6,7 @@ use File;
 use Http;
 use App\Models\Author;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
+use App\Utils\BookshelvesTools;
 
 class AuthorProvider
 {
@@ -27,6 +28,7 @@ class AuthorProvider
         $pageId = null;
         if (! $alone) {
             $pageId = self::wikipediaPageId($name);
+            $author = self::description($author, $pageId);
             if (!$no_cover) {
                 $author = self::picture($author, $pageId);
             }
@@ -65,6 +67,30 @@ class AuthorProvider
         }
 
         return $pageId;
+    }
+
+    public static function description(Author $author, string $pageId): Author
+    {
+        $url = "http://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url";
+        $desc = null;
+
+        try {
+            $response = Http::get($url);
+            $response = $response->json();
+            $desc = $response['query']['pages'];
+            $desc = reset($desc);
+            $url = $desc['fullurl'];
+            $desc = $desc['extract'];
+            $desc = BookshelvesTools::stringLimit($desc, 500);
+        } catch (\Throwable $th) {
+        }
+        if (is_string($desc)) {
+            $author->description = "$desc...";
+            $author->description_link = $url;
+            $author->save();
+        }
+
+        return $author;
     }
 
     /**

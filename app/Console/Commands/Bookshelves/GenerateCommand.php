@@ -8,7 +8,6 @@ use App\Models\Serie;
 use App\Models\Author;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Process\Process;
 
 class GenerateCommand extends Command
 {
@@ -108,14 +107,7 @@ class GenerateCommand extends Command
         $this->alert('Tests');
         if ($this->confirm('Do you want to run tests?', true)) {
             $this->line('Run tests...');
-            shell_exec('php artisan test --env=testing');
-            $process = new Process(['php artisan test', '--env=testing']);
-            $process->setTimeout(0);
-            $process->start();
-            $iterator = $process->getIterator($process::ITER_SKIP_ERR | $process::ITER_KEEP_OUTPUT);
-            foreach ($iterator as $data) {
-                echo $data;
-            }
+            Artisan::call('bookshelves:test');
         }
 
         $this->newLine();

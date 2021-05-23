@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Api;
 
 use Tests\TestCase;
 
@@ -25,7 +25,7 @@ class AuthorTest extends TestCase
 
     public function test_all_pages_available()
     {
-        $response = $this->get(route('api.authors.index', ['limite' => 'full']));
+        $response = $this->get(route('api.authors.index', ['limit' => 'all']));
 
         $response->assertStatus(200);
     }
