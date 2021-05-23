@@ -61,8 +61,9 @@ class SerieProvider
     }
 
     /**
-     * Generate Serie image from 'public/storage/raw/covers-series' if JPG file with Serie slug exist
+     * Generate Serie image from 'public/storage/raw/pictures-series' if JPG file with Serie slug exist
      * if not get image from Book with 'book_number' like '1'.
+     * If $alone is set true, no search for external informations.
      *
      * Manage by spatie/laravel-medialibrary.
      *
@@ -73,7 +74,7 @@ class SerieProvider
     public static function cover(Serie $serie): Serie
     {
         if ($serie->getMedia('series')->isEmpty()) {
-            // Add special cover if exist from `database/seeders/medias/series/`
+            // Add special cover if exist from `public/storage/raw/pictures-series/`
             // Check if JPG file with series' slug name exist
             // To know slug name, check into database when serie was created
             $disk = 'series';

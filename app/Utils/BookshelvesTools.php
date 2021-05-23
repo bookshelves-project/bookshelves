@@ -93,7 +93,7 @@ class BookshelvesTools
         if ($text) {
             $isUTF8 = mb_check_encoding($text, 'UTF-8');
             $content = iconv('UTF-8', 'UTF-8//IGNORE', $text);
-    
+
             if ($isUTF8) {
                 $content = trim($content);
                 if ($limit && strlen($content) > $limit) {
@@ -106,7 +106,6 @@ class BookshelvesTools
                 $content = trim($content);
             }
         }
-
 
         return $content;
 

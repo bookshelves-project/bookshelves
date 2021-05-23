@@ -79,8 +79,6 @@ namespace App\Models{
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
      * @property-read int|null $authors_count
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $category
-     * @property-read int|null $category_count
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
      * @property-read int|null $comments_count
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
@@ -132,31 +130,6 @@ namespace App\Models{
      * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTagsOfAnyType($tags)
      */
     class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia
-    {
-    }
-}
-
-namespace App\Models{
-    /**
-     * App\Models\Category
-     *
-     * @property int $id
-     * @property string $name
-     * @property string $slug
-     * @property string|null $created_at
-     * @property string|null $updated_at
-     * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $categorable
-     * @method static \Database\Factories\CategoryFactory factory(...$parameters)
-     * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
-     * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
-     * @method static \Illuminate\Database\Eloquent\Builder|Category query()
-     * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|Category whereSlug($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
-     */
-    class Category extends \Eloquent
     {
     }
 }

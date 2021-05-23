@@ -15,6 +15,7 @@ class SerieCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:series
+                            {--a|alone : prevent external HTTP requests to public API for additional informations}
                             {--f|fresh : refresh series medias, `description` & `description_link`}';
 
     /**
@@ -44,6 +45,7 @@ class SerieCommand extends Command
         Cache::forget('series');
 
         $isFresh = $this->option('fresh');
+        $alone = $this->option('alone');
 
         $series = Serie::orderBy('title_sort')->get();
         if ($isFresh) {
@@ -67,7 +69,10 @@ class SerieCommand extends Command
         foreach ($series as $key => $serie) {
             SerieProvider::cover(serie: $serie);
             SerieProvider::language(serie: $serie);
-            SerieProvider::description(serie: $serie);
+            if (!$alone) {
+                SerieProvider::description(serie: $serie);
+            }
+            
             $bar->advance();
         }
         $bar->finish();

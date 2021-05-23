@@ -19,8 +19,8 @@ class GenerateCommand extends Command
     protected $signature = 'bookshelves:generate
                             {--f|fresh : reset current database to fresh install, execute seeders}
                             {--F|force : skip confirm question for prod}
-                            {--t|tests : skip tests}
                             {--c|covers : prevent generation of covers}
+                            {--a|alone : prevent external HTTP requests to public API for additional informations}
                             {--l|limit= : limit epub files to generate, useful for debug}';
 
     /**
@@ -55,20 +55,17 @@ class GenerateCommand extends Command
         // setup options
         $isForce = $this->option('force');
         $isFresh = $this->option('fresh');
-        $no_tests = $this->option('tests');
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
         $no_covers = $this->option('covers');
+        $alone = $this->option('alone');
 
         if ($isFresh) {
             $this->warn('- Option --fresh: erase current database, migrate and seed basics also clear all medias.');
         }
         if ($limit) {
             $this->warn("- Option --limit: limit eBooks generated to $limit.");
-        }
-        if ($no_tests) {
-            $this->warn('- Option --tests: skip tests execution.');
         }
         if ($no_covers) {
             $this->warn('- Option --covers: skip cover generation for Book, Serie and Author.');
@@ -88,18 +85,23 @@ class GenerateCommand extends Command
          * Generate commands
          */
         Artisan::call('bookshelves:books', [
+            '--alone' => $alone,
             '--covers'  => $no_covers,
             '--limit'   => $limit,
         ], $this->getOutput());
         if (! $no_covers) {
-            Artisan::call('bookshelves:series', [], $this->getOutput());
-            Artisan::call('bookshelves:authors', [], $this->getOutput());
+            Artisan::call('bookshelves:series', [
+                '--alone' => $alone,
+            ], $this->getOutput());
+            Artisan::call('bookshelves:authors', [
+                '--alone' => $alone,
+            ], $this->getOutput());
         }
 
         /*
          * Tests
          */
-        if (! $no_tests) {
+        if ($this->confirm('You are in production environement, do you want really continue?', true)) {
             $this->alert('Run tests...');
             Artisan::call('pest:run');
         }
@@ -162,10 +164,9 @@ class GenerateCommand extends Command
         $this->alert('Run migrate:fresh...');
         Artisan::call('migrate:fresh', ['--force' => true], $this->getOutput());
         $this->newLine();
-        $this->comment('Run roles and users seeders');
+        $this->comment('Run roles seeders');
         Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
-        Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
-        Artisan::call('db:seed', ['--class' => 'CategorySeeder', '--force' => true]);
+        // Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
         $this->info('Seeders ready!');
         $this->newLine();
     }

@@ -1,38 +1,14 @@
 <?php
 
-define('__API_AUTHORS__', '/api/authors');
+namespace Tests\Feature\Api;
 
-it('first page available', function () {
-    $response = $this->get(__API_AUTHORS__);
-    $response->assertStatus(200);
-});
+use Tests\TestCase;
 
-it('have content', function () {
-    $response = $this->get(__API_AUTHORS__);
-
-    $this->assertEquals(200, $response->getStatusCode());
-    $json = json_decode($response->content());
-    $this->assertNotEmpty($json->data, true);
-
-    $response->assertStatus(200);
-});
-
-it('all pages available', function () {
-    $response = $this->get(__API_AUTHORS__ . '?limit=full');
-    $response->assertStatus(200);
-});
-
-it('random author detail', function () {
-    $response = $this->get(__API_AUTHORS__);
-    $json = json_decode($response->content());
-    $randomElement = array_rand($json->data, 1);
-    $showLink = $json->data[$randomElement]->meta->show;
-
-    $response = $this->get($showLink);
-    $response->assertStatus(200);
-});
-
-it('count', function () {
-    $response = $this->get('/api/count?entity=author');
-    $response->assertStatus(200);
-});
+class AuthorsTest extends TestCase
+{
+    public function firstPageAvailable()
+    {
+        $response = $this->get(route('api.authors.index'));
+        $response->assertStatus(200);
+    }
+}

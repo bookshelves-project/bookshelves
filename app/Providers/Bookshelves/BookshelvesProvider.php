@@ -3,7 +3,6 @@
 namespace App\Providers\Bookshelves;
 
 use App\Models\Book;
-use App\Models\Category;
 use Illuminate\Support\Str;
 use App\Providers\MetadataExtractor\MetadataExtractor;
 
@@ -11,12 +10,14 @@ class BookshelvesProvider
 {
     /**
      * Generate new Book with all relations.
+     * If $alone is set true, no search for external informations.
      *
      * @param MetadataExtractor $metadataExtractor
+     * @param bool $alone
      *
      * @return Book
      */
-    public static function convertMetadata(MetadataExtractor $metadataExtractor): Book
+    public static function convertMetadata(MetadataExtractor $metadataExtractor, bool $alone): Book
     {
         $bookIfExist = Book::whereSlug(Str::slug($metadataExtractor->title, '-'))->first();
         $book = null;
@@ -24,9 +25,6 @@ class BookshelvesProvider
             $book = BookProvider::book($metadataExtractor);
             $book = BookProvider::authors($metadataExtractor, $book);
             $book = BookProvider::tags($metadataExtractor, $book);
-            $category = Category::take(1)->first();
-            $book->category()->save($category);
-            $book->category($category);
             $book = BookProvider::publisher($metadataExtractor, $book);
             $book = BookProvider::serie($metadataExtractor, $book);
             BookProvider::rawCover($metadataExtractor, $book);
@@ -35,7 +33,9 @@ class BookshelvesProvider
             $identifier = BookProvider::identifier($metadataExtractor, $book);
             $book->save();
 
-            BookProvider::googleBook(identifier: $identifier, book: $book);
+            if (!$alone) {
+                BookProvider::googleBook(identifier: $identifier, book: $book);
+            }
         }
         if (! $book) {
             $book = $bookIfExist;

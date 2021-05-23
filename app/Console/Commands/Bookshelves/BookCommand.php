@@ -20,6 +20,7 @@ class BookCommand extends Command
      */
     protected $signature = 'bookshelves:books
                             {--c|covers : prevent generation of covers}
+                            {--a|alone : prevent external HTTP requests to public API for additional informations}
                             {--l|limit= : limit epub files to generate, useful for debug}';
 
     /**
@@ -52,12 +53,13 @@ class BookCommand extends Command
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
         $no_covers = $this->option('covers');
+        $alone = $this->option('alone');
         $epubFiles = MetadataExtractorTools::getAllEpubFiles(limit: $limit);
 
         /*
          * Books
          */
-        $this->books($epubFiles);
+        $this->books($epubFiles, $alone);
 
         /*
          * Books covers
@@ -75,16 +77,19 @@ class BookCommand extends Command
      * Generate `Book` model with all relationships
      *
      * @param array $epubFiles
+     * @param arrray
      *
      * @return void
      */
-    public function books(array $epubFiles)
+    public function books(array $epubFiles, bool $alone)
     {
         $this->alert('Bookshelves: books & relations');
         $this->comment('- EPUB files detected: ' . sizeof($epubFiles));
         $this->info('- Generate Book model with relationships');
         $this->info('- Generate new EPUB file with standard name');
-        $this->info('- Get extra data from Google Books API: HTTP requests');
+        if (!$alone) {
+            $this->info('- Get extra data from Google Books API: HTTP requests');
+        }
         $this->newLine();
 
         $epub_bar = $this->output->createProgressBar(sizeof($epubFiles));
@@ -95,7 +100,7 @@ class BookCommand extends Command
             if ($metadataExtractor) {
                 $tryToFindBook = Book::whereSlug(Str::slug($metadataExtractor->title))->first();
                 if (! $tryToFindBook) {
-                    $new_book = BookshelvesProvider::convertMetadata(metadataExtractor: $metadataExtractor);
+                    $new_book = BookshelvesProvider::convertMetadata(metadataExtractor: $metadataExtractor, alone: $alone);
                     BookProvider::epub(book: $new_book, epubFilePath: $epubFilePath);
                 }
             }

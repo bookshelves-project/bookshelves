@@ -203,9 +203,4 @@ class Book extends Model implements HasMedia
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-
-    public function category(): MorphToMany
-    {
-        return $this->morphToMany(Category::class, 'categorable');
-    }
 }
