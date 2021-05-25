@@ -12,6 +12,7 @@ use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookMobileResource;
 use App\Http\Resources\Book\BookLightestResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookController extends Controller
 {
@@ -249,6 +250,14 @@ class BookController extends Controller
         $limit = intval($limit);
 
         $books = Book::orderByDesc('created_at')->limit($limit)->get();
+        $books = BookLightResource::collection($books);
+
+        return $books;
+    }
+
+    public function selection(): JsonResource
+    {
+        $books = Book::inRandomOrder()->limit(10)->get();
         $books = BookLightResource::collection($books);
 
         return $books;

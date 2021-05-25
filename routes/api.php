@@ -103,6 +103,7 @@ Route::get('/download/author/{author}', [DownloadController::class, 'author'])->
  * Last entities routes
  */
 Route::get('/books/latest', [BookController::class, 'latest'])->name('api.books.latest');
+Route::get('/books/selection', [BookController::class, 'selection'])->name('api.books.selection');
 
 /*
  * Submissions routes
