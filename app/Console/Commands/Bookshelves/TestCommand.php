@@ -42,7 +42,7 @@ class TestCommand extends Command
         // Artisan::call('migrate:fresh', []);
         shell_exec('php artisan test');
         // shell_exec('php artisan config:cache');
-        
+
         return 0;
     }
 }

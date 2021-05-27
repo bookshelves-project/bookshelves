@@ -3,15 +3,15 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Str;
+use Artisan;
 use App\Models\Book;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\BookProvider;
 use App\Providers\Bookshelves\BookshelvesProvider;
 use App\Providers\MetadataExtractor\MetadataExtractor;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
-use Artisan;
 
-class BookCommand extends Command
+class BooksCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -21,7 +21,9 @@ class BookCommand extends Command
     protected $signature = 'bookshelves:books
                             {--c|covers : prevent generation of covers}
                             {--a|alone : prevent external HTTP requests to public API for additional informations}
-                            {--l|limit= : limit epub files to generate, useful for debug}';
+                            {--f|fresh : reset current books and relation, keep users}
+                            {--l|limit= : limit epub files to generate, useful for debug}
+                            {--d|debug= : generate metadata files into public/storage/debug for debug}';
 
     /**
      * The console command description.
@@ -52,23 +54,60 @@ class BookCommand extends Command
         $limit = intval($limit);
         $no_covers = $this->option('covers');
         $alone = $this->option('alone');
+        $isFresh = $this->option('fresh');
+        $debug = $this->option('debug') ?? false;
         $epubFiles = MetadataExtractorTools::getAllEpubFiles(limit: $limit);
+        
+        if ($isFresh) {
+            $books = Book::all();
+            $books->each(function ($query) {
+                $query->clearMediaCollection('books');
+                $query->clearMediaCollection('epubs');
+            });
+        }
+
+        if (!$isFresh) {
+            $this->warn('No fresh, scan for new eBooks');
+            $this->newLine();
+            $epubFiles = $this->getOnlyNewBooks($epubFiles, $debug);
+        }
+        $this->newLine(2);
 
         /*
          * Books
          */
-        $this->books($epubFiles, $alone);
+        $books = $this->books($epubFiles, $alone, $debug);
 
         /*
          * Books covers
          */
         if (! $no_covers) {
-            $this->covers();
+            $this->covers($books);
         }
-        
+
         Artisan::call('bookshelves:clear', [], $this->getOutput());
 
         return true;
+    }
+
+    public function getOnlyNewBooks(array $epubFiles, bool $debug = false)
+    {
+        $epubFilesNew = [];
+        $epub_bar = $this->output->createProgressBar(sizeof($epubFiles));
+        $epub_bar->start();
+        foreach ($epubFiles as $key => $epubFilePath) {
+            $metadataExtractor = MetadataExtractor::run($epubFilePath);
+            $slug = Str::slug($metadataExtractor->title.' '.$metadataExtractor->language);
+
+            $book = Book::whereSlug($slug)->first();
+            if (!$book) {
+                array_push($epubFilesNew, $epubFilePath);    
+            }
+            $epub_bar->advance();
+        }
+        $epub_bar->finish();
+
+        return $epubFilesNew;
     }
 
     /**
@@ -78,9 +117,9 @@ class BookCommand extends Command
      *
      * @param arrray
      *
-     * @return void
+     * @return array
      */
-    public function books(array $epubFiles, bool $alone)
+    public function books(array $epubFiles, bool $alone, bool $debug = false): array
     {
         $this->alert('Bookshelves: books & relations');
         $this->comment('- EPUB files detected: ' . sizeof($epubFiles));
@@ -93,20 +132,24 @@ class BookCommand extends Command
 
         $epub_bar = $this->output->createProgressBar(sizeof($epubFiles));
         $epub_bar->start();
+        $books = [];
         foreach ($epubFiles as $key => $epubFilePath) {
-            $metadataExtractor = MetadataExtractor::run($epubFilePath);
+            $metadataExtractor = MetadataExtractor::run($epubFilePath, $debug);
             // Check if XML have no error
             if ($metadataExtractor) {
                 $tryToFindBook = Book::whereSlug(Str::slug($metadataExtractor->title))->first();
                 if (! $tryToFindBook) {
                     $new_book = BookshelvesProvider::convertMetadata(metadataExtractor: $metadataExtractor, alone: $alone);
                     BookProvider::epub(book: $new_book, epubFilePath: $epubFilePath);
+                    array_push($books, $new_book);
                 }
             }
             $epub_bar->advance();
         }
         $epub_bar->finish();
         $this->newLine(2);
+        
+        return $books;
     }
 
     /**
@@ -114,7 +157,7 @@ class BookCommand extends Command
      *
      * Format can be specify into `bookshelves` config
      */
-    public function covers()
+    public function covers(array $books)
     {
         $format = config('bookshelves.cover_extension');
         $this->comment('Generate covers...');
@@ -124,7 +167,6 @@ class BookCommand extends Command
         $this->info('- Open Graph in JPG format');
         $this->newLine();
 
-        $books = Book::all();
         $bar = $this->output->createProgressBar(count($books));
         $bar->start();
         foreach ($books as $key => $book) {

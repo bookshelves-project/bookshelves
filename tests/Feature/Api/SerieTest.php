@@ -6,31 +6,31 @@ use Tests\TestCase;
 
 class SerieTest extends TestCase
 {
-    public function test_first_page_available()
+    public function testFirstPageAvailable()
     {
         $response = $this->get(route('api.series.index'));
 
         $response->assertStatus(200);
     }
 
-    public function test_have_content()
+    public function testHaveContent()
     {
         $response = $this->get(route('api.series.index'));
         $this->assertEquals(200, $response->getStatusCode());
         $json = json_decode($response->content());
         $this->assertNotEmpty($json->data, true);
-    
+
         $response->assertStatus(200);
     }
 
-    public function test_all_pages_available()
+    public function testAllPagesAvailable()
     {
         $response = $this->get(route('api.series.index', ['limit' => 'all']));
 
         $response->assertStatus(200);
     }
 
-    public function test_random_author_detail()
+    public function testRandomAuthorDetail()
     {
         $response = $this->get(route('api.series.index'));
         $json = json_decode($response->content());
@@ -41,7 +41,7 @@ class SerieTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_count()
+    public function testCount()
     {
         $response = $this->get(route('api.count', ['entity' => 'serie']));
 

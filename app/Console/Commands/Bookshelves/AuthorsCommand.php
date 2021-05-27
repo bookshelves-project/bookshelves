@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use Artisan;
 use App\Models\Author;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\AuthorProvider;
-use Artisan;
 
-class AuthorCommand extends Command
+class AuthorsCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -17,7 +17,7 @@ class AuthorCommand extends Command
     protected $signature = 'bookshelves:authors
                             {--a|alone : prevent external HTTP requests to public API for additional informations}
                             {--c|covers : prevent generation of covers}
-                            {--f|fresh : refresh authors medias, `description` & `description_link`}';
+                            {--f|fresh : refresh authors medias, `description` & `link`}';
 
     /**
      * The console command description.
@@ -54,13 +54,16 @@ class AuthorCommand extends Command
             });
             foreach ($authors as $key => $author) {
                 $author->description = null;
-                $author->description_link = null;
+                $author->link = null;
                 $author->save();
             }
         }
         $this->alert('Bookshelves: authors');
         if (! $alone) {
             $this->info('- Get pictures and description from Wikipedia: HTTP requests');
+            $this->info('- Take description and link from public/storage/raw/authors.json if exists');
+        } else {
+            $this->info('- Take description and link from public/storage/raw/authors.json if exists');
         }
         $this->info("- If a JPG file with slug of serie exist in 'public/storage/raw/pictures-authors', it's will be this picture");
         $this->newLine();
@@ -68,7 +71,9 @@ class AuthorCommand extends Command
         $bar = $this->output->createProgressBar(count($authors));
         $bar->start();
         foreach ($authors as $key => $author) {
-            AuthorProvider::descriptionAndPicture(author: $author, alone: $alone, no_cover: $no_covers);
+            if (!$author->description && !$author->link) {
+                AuthorProvider::descriptionAndPicture(author: $author, alone: $alone, no_cover: $no_covers);
+            }
             $bar->advance();
         }
         $bar->finish();

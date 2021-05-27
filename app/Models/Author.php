@@ -18,7 +18,6 @@ class Author extends Model implements HasMedia
     use InteractsWithMedia;
     use HasFactory;
 
-    public $timestamps = false;
     protected $fillable = [
         'lastname',
         'firstname',
@@ -26,7 +25,7 @@ class Author extends Model implements HasMedia
         'slug',
         'role',
         'description',
-        'description_link',
+        'link',
     ];
 
     public function registerMediaConversions(Media $media = null): void

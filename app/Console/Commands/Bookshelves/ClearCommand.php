@@ -40,6 +40,15 @@ class ClearCommand extends Command
     {
         Cache::clear();
 
+        $dir = 'public/storage/debug';
+        $leave_files = ['.gitignore'];
+
+        foreach (glob("$dir/*") as $file) {
+            if (! in_array(basename($file), $leave_files)) {
+                unlink($file);
+            }
+        }
+
         return 0;
     }
 }

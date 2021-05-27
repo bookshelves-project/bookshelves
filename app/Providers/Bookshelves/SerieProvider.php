@@ -8,9 +8,31 @@ use App\Models\Book;
 use App\Models\Serie;
 use App\Utils\BookshelvesTools;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
+use Storage;
 
 class SerieProvider
 {
+    public static function localDescription(Serie $serie): ?Serie
+    {
+        if (File::exists(public_path('storage/raw/series.json'))) {
+            $json = Storage::disk('public')->get('raw/series.json');
+            $json = json_decode($json);
+            foreach ($json as $key => $value) {
+                if ($key === $serie->slug) {
+                    $serie->description = $value->description;
+                    $serie->link = $value->link;
+                    $serie->save();
+
+                    return $serie;
+                }
+            }
+
+            return null;
+        }
+
+        return null;
+    }
+
     /**
      * Generate Serie description from Wikipedia if found.
      */
@@ -47,8 +69,8 @@ class SerieProvider
             } catch (\Throwable $th) {
             }
             if (is_string($desc)) {
-                $serie->description = "$desc...";
-                $serie->description_link = $url;
+                $serie->description = "$desc";
+                $serie->link = $url;
                 $serie->save();
             }
         }
@@ -106,31 +128,6 @@ class SerieProvider
             $media = $serie->getFirstMedia('series');
             $media->setCustomProperty('color', $color);
             $media->save();
-
-            return $serie;
-        }
-
-        return $serie;
-    }
-
-    /**
-     * Generate Language relationship for Serie from first Book of Serie.
-     */
-    public static function language(Serie $serie): Serie
-    {
-        if (! $serie->language) {
-            $bookSelected = $serie->books[0];
-            foreach ($serie->books as $key => $book) {
-                if (1 === $book->volume) {
-                    $bookSelected = $book;
-                } else {
-                    $bookSelected = $book;
-                }
-            }
-            if ($bookSelected->language) {
-                $serie->language()->associate($bookSelected->language);
-                $serie->save();
-            }
 
             return $serie;
         }

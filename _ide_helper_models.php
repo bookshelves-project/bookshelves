@@ -20,7 +20,7 @@ namespace App\Models{
      * @property string|null                                                                                                                   $name
      * @property string|null                                                                                                                   $role
      * @property string|null                                                                                                                   $description
-     * @property string|null                                                                                                                   $description_link
+     * @property string|null                                                                                                                   $link
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]                                                                   $books
      * @property int|null                                                                                                                      $books_count
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[]                                                                $comments
@@ -44,10 +44,10 @@ namespace App\Models{
      * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Author query()
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereDescription($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|Author whereDescriptionLink($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|Author whereLink($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereName($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereRole($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
@@ -325,7 +325,7 @@ namespace App\Models{
      * @property string|null                                                                                                                   $slug
      * @property string|null                                                                                                                   $language_slug
      * @property string|null                                                                                                                   $description
-     * @property string|null                                                                                                                   $description_link
+     * @property string|null                                                                                                                   $link
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Author[]                                                                 $authors
      * @property int|null                                                                                                                      $authors_count
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]                                                                   $books
@@ -353,9 +353,9 @@ namespace App\Models{
      * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Serie query()
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereDescription($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|Serie whereDescriptionLink($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguageSlug($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLink($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereSlug($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitleSort($value)

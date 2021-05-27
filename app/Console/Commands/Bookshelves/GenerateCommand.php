@@ -6,8 +6,16 @@ use Artisan;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Models\Author;
+use App\Models\Comment;
+use App\Models\Favoritable;
+use App\Models\GoogleBook;
+use App\Models\Identifier;
+use App\Models\Language;
+use App\Models\Publisher;
+use DB;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Tags\Tag;
 
 class GenerateCommand extends Command
 {
@@ -17,11 +25,12 @@ class GenerateCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:generate
-                            {--f|fresh : reset current database to fresh install, execute seeders}
+                            {--f|fresh : reset current books and relation, keep users}
                             {--F|force : skip confirm question for prod}
                             {--c|covers : prevent generation of covers}
                             {--a|alone : prevent external HTTP requests to public API for additional informations}
-                            {--l|limit= : limit epub files to generate, useful for debug}';
+                            {--l|limit= : limit epub files to generate, useful for debug}
+                            {--d|debug= : generate metadata files into public/storage/debug for debug}';
 
     /**
      * The console command description.
@@ -60,6 +69,7 @@ class GenerateCommand extends Command
         $limit = intval($limit);
         $no_covers = $this->option('covers');
         $alone = $this->option('alone');
+        $debug = $this->option('debug');
 
         if ($isFresh) {
             $this->warn('- Option --fresh: erase current database, migrate and seed basics also clear all medias.');
@@ -90,14 +100,18 @@ class GenerateCommand extends Command
         Artisan::call('bookshelves:books', [
             '--alone'  => $alone,
             '--covers' => $no_covers,
+            '--fresh' => $isFresh,
             '--limit'  => $limit,
+            '--debug'  => $debug,
         ], $this->getOutput());
         Artisan::call('bookshelves:series', [
             '--alone'  => $alone,
+            '--fresh' => $isFresh,
             '--covers' => $no_covers,
         ], $this->getOutput());
         Artisan::call('bookshelves:authors', [
             '--alone'  => $alone,
+            '--fresh' => $isFresh,
             '--covers' => $no_covers,
         ], $this->getOutput());
 
@@ -165,13 +179,46 @@ class GenerateCommand extends Command
         $this->clearAllMediaCollection();
 
         $this->newLine();
-        $this->alert('Run migrate:fresh...');
-        Artisan::call('migrate:fresh', ['--force' => true], $this->getOutput());
-        $this->newLine();
-        $this->comment('Run roles seeders');
-        Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
+        $this->alert('Clear Bookshelves data...');
+        // Artisan::call('migrate:fresh', ['--force' => true], $this->getOutput());
+        $this->clearTables();
+        // $this->comment('Run roles seeders');
+        // Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
         // Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
-        $this->info('Seeders ready!');
+        // $this->info('Seeders ready!');
         $this->newLine();
+    }
+    
+    public function clearTables()
+    {
+        DB::statement('SET foreign_key_checks=0');
+        
+        $this->info('Truncate authorables table');
+        DB::table('authorables')->truncate();
+        $this->info('Truncate favoritables table');
+        DB::table('favoritables')->truncate();
+        $this->info('Truncate taggables table');
+        DB::table('taggables')->truncate();
+
+        $this->info('Truncate books table');
+        Book::truncate();
+        $this->info('Truncate series table');
+        Serie::truncate();
+        $this->info('Truncate authors table');
+        Author::truncate();
+        $this->info('Truncate publishers table');
+        Publisher::truncate();
+        $this->info('Truncate languages table');
+        Language::truncate();
+        $this->info('Truncate identifiers table');
+        Identifier::truncate();
+        $this->info('Truncate comments table');
+        Comment::truncate();
+        $this->info('Truncate google_books table');
+        GoogleBook::truncate();
+        $this->info('Truncate tags table');
+        Tag::truncate();
+        
+        DB::statement('SET foreign_key_checks=1');
     }
 }

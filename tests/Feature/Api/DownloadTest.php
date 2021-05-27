@@ -3,8 +3,8 @@
 namespace Tests\Feature\Api;
 
 use File;
-use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
+use Illuminate\Testing\TestResponse;
 
 class DownloadTest extends TestCase
 {
@@ -14,22 +14,22 @@ class DownloadTest extends TestCase
         $json = json_decode($response->content());
         $randomElement = array_rand($json->data, 1);
         $showLink = $json->data[$randomElement]->meta->show;
-        
+
         $response = $this->get($showLink);
         $showContent = json_decode($response->content());
 
         $download = match ($type) {
-            'epub' => $showContent->data->epub->download,
-            'zip' => $showContent->data->download,
+            'epub'  => $showContent->data->epub->download,
+            'zip'   => $showContent->data->download,
             default => 'unknown type',
         };
-        
+
         $response = $this->get($download);
-        
+
         return $response;
     }
 
-    public function test_can_download_random_epub()
+    public function testCanDownloadRandomEpub()
     {
         $response = $this->download(route('api.books.index'), 'epub');
 
@@ -37,7 +37,7 @@ class DownloadTest extends TestCase
         $this->assertEquals($contentType, 'application/epub+zip');
     }
 
-    public function test_can_download_random_serie_zip()
+    public function testCanDownloadRandomSerieZip()
     {
         $response = $this->download(route('api.series.index'), 'zip');
 
@@ -49,7 +49,7 @@ class DownloadTest extends TestCase
         }
     }
 
-    public function test_can_download_random_author_zip()
+    public function testCanDownloadRandomAuthorZip()
     {
         $response = $this->download(route('api.authors.index', ['limit' => 'all']), 'zip');
 
@@ -61,12 +61,12 @@ class DownloadTest extends TestCase
         }
     }
 
-    public function test_can_download_all_epub()
+    public function testCanDownloadAllEpub()
     {
         $response = $this->get(route('api.books.index', ['limit' => 'all']));
         $responseContent = json_decode($response->content());
         $numberOfPages = $responseContent->data;
-        
+
         for ($i = 0; $i < (sizeof($numberOfPages) - 1); $i++) {
             $showLink = $responseContent->data[$i]->meta->show;
             $response = $this->get($showLink);

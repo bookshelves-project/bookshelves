@@ -339,6 +339,8 @@ class BookProvider
                     'title_sort' => $metadataExtractor->serie_sort,
                     'slug'       => Str::slug($metadataExtractor->serie) . '-' . $metadataExtractor->language,
                 ]);
+                $serie->language()->associate($metadataExtractor->language);
+                $serie->save();
             } else {
                 $serie = $serieIfExist;
             }

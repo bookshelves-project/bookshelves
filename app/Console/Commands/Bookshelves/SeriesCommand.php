@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use Artisan;
 use App\Models\Serie;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\SerieProvider;
-use Artisan;
 
-class SerieCommand extends Command
+class SeriesCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -17,7 +17,7 @@ class SerieCommand extends Command
     protected $signature = 'bookshelves:series
                             {--a|alone : prevent external HTTP requests to public API for additional informations}
                             {--c|covers : prevent generation of covers}
-                            {--f|fresh : refresh series medias, `description` & `description_link`}';
+                            {--f|fresh : refresh series medias, `description` & `link`}';
 
     /**
      * The console command description.
@@ -54,27 +54,38 @@ class SerieCommand extends Command
             });
             foreach ($series as $key => $serie) {
                 $serie->description = null;
-                $serie->description_link = null;
+                $serie->link = null;
                 $serie->save();
             }
         }
         $this->alert('Bookshelves: series');
         $this->info('- Get cover of vol. 1 (or next) to associate picture to serie if exist');
         $this->info("- If a JPG file with slug of serie exist in 'public/storage/raw/pictures-series', it's will be this picture");
-        if (!$alone) {
-            $this->info('- Get description, description link: HTTP requests');
+        if (! $alone) {
+            $this->info('- Get description, link: HTTP requests');
+            $this->info('- Take description and link from public/storage/raw/series.json if exists');
+        } else {
+            $this->info('- Take description and link from public/storage/raw/series.json if exists');
         }
         $this->newLine();
 
         $bar = $this->output->createProgressBar(count($series));
         $bar->start();
         foreach ($series as $key => $serie) {
-            if (!$no_covers) {
-                SerieProvider::cover(serie: $serie);
+            if ($serie->image_thumbnail) {
+                if (! $no_covers) {
+                    SerieProvider::cover(serie: $serie);
+                }
             }
-            SerieProvider::language(serie: $serie);
-            if (! $alone) {
-                SerieProvider::description(serie: $serie);
+            if (!$serie->description && !$serie->link) {
+                if (! $alone) {
+                    $result = SerieProvider::localDescription(serie: $serie);
+                    if (!$result) {
+                        SerieProvider::description(serie: $serie);
+                    }
+                } else {
+                    SerieProvider::localDescription(serie: $serie);
+                }
             }
             $bar->advance();
         }

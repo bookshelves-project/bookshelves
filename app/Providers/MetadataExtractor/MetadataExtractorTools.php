@@ -15,7 +15,7 @@ class MetadataExtractorTools
     /**
      * Parse OPF file as PHP XML file.
      */
-    public static function parseXMLFile(string $filepath): array
+    public static function parseXMLFile(string $filepath, bool $debug = false): array
     {
         $filepath = storage_path("app/public/$filepath");
         $metadata = [];
@@ -33,9 +33,11 @@ class MetadataExtractorTools
         }
 
         // Transform XML to Array
-        $metadata = self::convertXML(xml: $xml_string, filepath: $filepath);
+        $metadata = self::convertXML(xml: $xml_string, filepath: $filepath, debug: $debug);
 
-        Storage::disk('public')->put('/debug/' . pathinfo($filepath)['basename'] . '.opf', $xml_string);
+        if ($debug) {
+            Storage::disk('public')->put('/debug/' . pathinfo($filepath)['basename'] . '.opf', $xml_string);
+        }
         for ($i = 0; $i < $zip->numFiles; $i++) {
             $file = $zip->statIndex($i);
             $cover = $zip->getFromName($metadata['cover']['file']);
@@ -141,7 +143,7 @@ class MetadataExtractorTools
     /**
      * Transform OPF file as array.
      */
-    public static function convertXML(string $xml, string $filepath): array
+    public static function convertXML(string $xml, string $filepath, bool $debug = false): array
     {
         $xml = self::XMLtoArray($xml);
         $xml = $xml['PACKAGE'];
@@ -157,11 +159,13 @@ class MetadataExtractorTools
         $xml['COVER'] = $cover;
         $title = pathinfo($filepath)['basename'];
 
-        try {
-            $xmlToJson = json_encode($xml, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-            Storage::disk('public')->put("/debug/$title.json", $xmlToJson);
-        } catch (\Throwable $th) {
-            dump($th);
+        if ($debug) {
+            try {
+                $xmlToJson = json_encode($xml, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                Storage::disk('public')->put("/debug/$title.json", $xmlToJson);
+            } catch (\Throwable $th) {
+                dump($th);
+            }
         }
 
         $metadata = [];
@@ -378,8 +382,8 @@ class MetadataExtractorTools
         }
         $newImg = imagecreatetruecolor(1, 1); // FIND DOMINANT COLOR
         imagecopyresampled($newImg, $image, 0, 0, 0, 0, 1, 1, imagesx($image), imagesy($image));
-        $hexa_color =dechex(imagecolorat($newImg, 0, 0));
-        if (!self::is_hex($hexa_color)) {
+        $hexa_color = dechex(imagecolorat($newImg, 0, 0));
+        if (! self::is_hex($hexa_color)) {
             $hexa_color = $default;
         }
 
@@ -388,6 +392,6 @@ class MetadataExtractorTools
 
     public static function is_hex($hex_code)
     {
-        return @preg_match("/^[a-f0-9]{2,}$/i", $hex_code) && !(strlen($hex_code) & 1);
+        return @preg_match('/^[a-f0-9]{2,}$/i', $hex_code) && ! (strlen($hex_code) & 1);
     }
 }

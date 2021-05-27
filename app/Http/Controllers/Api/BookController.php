@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookMobileResource;
-use App\Http\Resources\Book\BookLightestResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Book\BookLightestResource;
 
 class BookController extends Controller
 {

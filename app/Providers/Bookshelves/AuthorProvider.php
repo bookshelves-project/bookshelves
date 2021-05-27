@@ -5,13 +5,14 @@ namespace App\Providers\Bookshelves;
 use File;
 use Http;
 use App\Models\Author;
-use App\Providers\MetadataExtractor\MetadataExtractorTools;
 use App\Utils\BookshelvesTools;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
+use Storage;
 
 class AuthorProvider
 {
     /**
-     * Generate Author image & description
+     * Generate Author image & description.
      *
      * Generate description:
      * - from Wikipedia if found.
@@ -26,14 +27,19 @@ class AuthorProvider
         $name = $author->name;
         $name = str_replace(' ', '%20', $name);
         $pageId = null;
+
         if (! $alone) {
             $pageId = self::wikipediaPageId($name);
-            $author = self::description($author, $pageId);
-            if (!$no_cover) {
+            $result = self::localDescription($author);
+            if (!$result) {
+                $author = self::description($author, $pageId);
+            }
+            if (! $no_cover) {
                 $author = self::picture($author, $pageId);
             }
         } else {
-            if (!$no_cover) {
+            $author = self::localDescription($author);
+            if (! $no_cover) {
                 $author = self::localPicture($author);
             }
         }
@@ -69,6 +75,27 @@ class AuthorProvider
         return $pageId;
     }
 
+    public static function localDescription(Author $author): Author|null
+    {
+        if (File::exists(public_path('storage/raw/authors.json'))) {
+            $json = Storage::disk('public')->get('raw/authors.json');
+            $json = json_decode($json);
+            foreach ($json as $key => $value) {
+                if ($key === $author->slug) {
+                    $author->description = $value->description;
+                    $author->link = $value->link;
+                    $author->save();
+
+                    return $author;
+                }
+            }
+
+            return null;
+        }
+
+        return null;
+    }
+
     public static function description(Author $author, string $pageId): Author
     {
         $url = "http://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url";
@@ -85,8 +112,8 @@ class AuthorProvider
         } catch (\Throwable $th) {
         }
         if (is_string($desc)) {
-            $author->description = "$desc...";
-            $author->description_link = $url;
+            $author->description = "$desc";
+            $author->link = $url;
             $author->save();
         }
 

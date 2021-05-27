@@ -21,9 +21,9 @@ class BookshelvesProvider
             $book = BookProvider::authors($metadataExtractor, $book);
             $book = BookProvider::tags($metadataExtractor, $book);
             $book = BookProvider::publisher($metadataExtractor, $book);
+            $language = BookProvider::language($metadataExtractor);
             $book = BookProvider::serie($metadataExtractor, $book);
             BookProvider::rawCover($metadataExtractor, $book);
-            $language = BookProvider::language($metadataExtractor);
             $book->language()->associate($language->slug);
             $identifier = BookProvider::identifier($metadataExtractor, $book);
             $book->save();

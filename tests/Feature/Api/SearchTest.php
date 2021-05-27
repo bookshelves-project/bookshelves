@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Api;
 
-use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
+use Illuminate\Testing\TestResponse;
 
 class SearchTest extends TestCase
 {
@@ -16,12 +16,12 @@ class SearchTest extends TestCase
 
         $randomTitle = match ($type) {
             'title' => $json->data[$randomElement]->title,
-            'name' => $json->data[$randomElement]->name,
+            'name'  => $json->data[$randomElement]->name,
             default => 'unknown type',
         };
 
         $response = $this->get('/api/search?q=' . $randomTitle);
-        
+
         if (200 !== $response->getStatusCode()) {
             echo $randomTitle;
         }
@@ -29,21 +29,21 @@ class SearchTest extends TestCase
         return $response;
     }
 
-    public function test_random_search_serie_title()
+    public function testRandomSearchSerieTitle()
     {
         $response = $this->search(route('api.series.index', ['limit' => 'all']), 'title');
 
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function test_random_search_book_title()
+    public function testRandomSearchBookTitle()
     {
         $response = $this->search(route('api.books.index', ['limit' => 'all']), 'title');
 
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function test_random_search_author_title()
+    public function testRandomSearchAuthorTitle()
     {
         $response = $this->search(route('api.authors.index', ['limit' => 'all']), 'name');
 

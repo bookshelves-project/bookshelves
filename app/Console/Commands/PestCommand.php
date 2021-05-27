@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use Artisan;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
@@ -49,7 +48,6 @@ class PestCommand extends Command
         foreach ($iterator as $data) {
             echo $data;
         }
-        
 
         return true;
     }

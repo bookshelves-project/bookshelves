@@ -22,13 +22,12 @@ class Serie extends Model implements HasMedia
     use InteractsWithMedia;
     use HasTags;
 
-    public $timestamps = false;
     protected $fillable = [
         'title',
         'title_sort',
         'slug',
         'description',
-        'description_link',
+        'link',
     ];
 
     public function registerMediaConversions(Media $media = null): void

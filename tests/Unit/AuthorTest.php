@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\Author;
 use Tests\TestCase;
-use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 

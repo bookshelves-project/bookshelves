@@ -90,6 +90,8 @@ class BookshelvesTools
                 $content = str_replace('<<', '"', $content);
                 $content = str_replace('>>', '"', $content);
                 $content = trim($content);
+                $content = preg_replace("/\([^)]+\)/", '', $content);
+                $content = preg_replace('/\s\s+/', ' ', $content);
             }
         }
 
