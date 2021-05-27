@@ -182,10 +182,6 @@ class GenerateCommand extends Command
         $this->alert('Clear Bookshelves data...');
         // Artisan::call('migrate:fresh', ['--force' => true], $this->getOutput());
         $this->clearTables();
-        // $this->comment('Run roles seeders');
-        // Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
-        // Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
-        // $this->info('Seeders ready!');
         $this->newLine();
     }
     

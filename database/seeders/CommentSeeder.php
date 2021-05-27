@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Serie;
 use App\Models\Author;
 use App\Models\Comment;
+use DB;
 use Illuminate\Database\Seeder;
 
 class CommentSeeder extends Seeder
@@ -17,6 +18,10 @@ class CommentSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET foreign_key_checks=0');
+        Comment::truncate();
+        DB::statement('SET foreign_key_checks=1');
+
         $books = Book::inRandomOrder()->limit(10)->get();
         $authors = Author::inRandomOrder()->limit(5)->get();
         $series = Serie::inRandomOrder()->limit(5)->get();

@@ -13,7 +13,11 @@ class SampleCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'bookshelves:sample';
+    protected $signature = 'bookshelves:sample
+                            {--b|books : generate ebooks sample}
+                            {--u|users : generate users with roles sample}
+                            {--r|roles : generate roles sample}
+                            {--f|fake : generate fake comments and favorites sample}';
 
     /**
      * The console command description.
@@ -39,21 +43,49 @@ class SampleCommand extends Command
     {
         $this->alert('Bookshelves: sample');
 
-        $demoPath = database_path('seeders/demo-ebooks');
-        $booksRawPath = storage_path('app/public/raw/books');
-        $booksRawPathExist = File::exists($booksRawPath);
+        $books = $this->option('books') ?? null;
+        $users = $this->option('users') ?? null;
+        $roles = $this->option('roles') ?? null;
+        $fake = $this->option('fake') ?? null;
 
-        if ($booksRawPathExist) {
-            $this->warn('storage/app/public/raw/books path exists!');
-            if ($this->confirm('Do you want to erase raw/books directory to replace it with demo ebooks?', false)) {
-                $this->generate($booksRawPath, $demoPath);
+        if ($books) {
+            $demoPath = database_path('seeders/demo-ebooks');
+            $booksRawPath = storage_path('app/public/raw/books');
+            $booksRawPathExist = File::exists($booksRawPath);
+
+            if ($booksRawPathExist) {
+                $this->warn('storage/app/public/raw/books path exists!');
+                if ($this->confirm('Do you want to erase raw/books directory to replace it with demo ebooks?', false)) {
+                    $this->generate($booksRawPath, $demoPath);
+                } else {
+                    $this->warn('Operation cancelled by user');
+                }
             } else {
-                $this->warn('Operation cancelled by user');
+                $this->generate($booksRawPath, $demoPath);
             }
-        } else {
-            $this->generate($booksRawPath, $demoPath);
+            $this->newLine(2);
         }
-        $this->newLine(2);
+
+        if ($users) {
+            $this->comment('Run roles with users seeders');
+            Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
+            Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
+            $this->info('Seeders ready!');
+        }
+
+        if ($roles) {
+            $this->comment('Run roles seeders');
+            Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
+            $this->info('Seeders ready!');
+        }
+
+        if ($fake) {
+            $this->comment('Run comments and favorites seeders');
+            Artisan::call('db:seed', ['--class' => 'CommentSeeder', '--force' => true]);
+            Artisan::call('db:seed', ['--class' => 'FavoriteSeeder', '--force' => true]);
+            $this->info('Seeders ready!');
+        }
+        
 
         return true;
     }
