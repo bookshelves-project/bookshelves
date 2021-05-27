@@ -180,7 +180,6 @@ class GenerateCommand extends Command
 
         $this->newLine();
         $this->alert('Clear Bookshelves data...');
-        // Artisan::call('migrate:fresh', ['--force' => true], $this->getOutput());
         $this->clearTables();
         $this->newLine();
     }
