@@ -54,11 +54,11 @@ class BooksCommand extends Command
         $limit = intval($limit);
         $no_covers = $this->option('covers');
         $alone = $this->option('alone');
-        $isFresh = $this->option('fresh');
+        $fresh = $this->option('fresh');
         $debug = $this->option('debug') ?? false;
         $epubFiles = MetadataExtractorTools::getAllEpubFiles(limit: $limit);
         
-        if ($isFresh) {
+        if ($fresh) {
             $books = Book::all();
             $books->each(function ($query) {
                 $query->clearMediaCollection('books');
@@ -66,7 +66,7 @@ class BooksCommand extends Command
             });
         }
 
-        if (!$isFresh) {
+        if (!$fresh) {
             $this->warn('No fresh, scan for new eBooks');
             $this->newLine();
             $epubFiles = $this->getOnlyNewBooks($epubFiles, $debug);

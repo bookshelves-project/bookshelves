@@ -43,12 +43,12 @@ class AuthorsCommand extends Command
      */
     public function handle()
     {
-        $isFresh = $this->option('fresh');
+        $fresh = $this->option('fresh');
         $no_covers = $this->option('covers');
         $alone = $this->option('alone');
 
         $authors = Author::orderBy('lastname')->get();
-        if ($isFresh) {
+        if ($fresh) {
             $authors->each(function ($query) {
                 $query->clearMediaCollection('authors');
             });

@@ -43,12 +43,12 @@ class SeriesCommand extends Command
      */
     public function handle()
     {
-        $isFresh = $this->option('fresh');
+        $fresh = $this->option('fresh');
         $no_covers = $this->option('covers');
         $alone = $this->option('alone');
 
         $series = Serie::orderBy('title_sort')->get();
-        if ($isFresh) {
+        if ($fresh) {
             $series->each(function ($query) {
                 $query->clearMediaCollection('series');
             });
@@ -72,7 +72,7 @@ class SeriesCommand extends Command
         $bar = $this->output->createProgressBar(count($series));
         $bar->start();
         foreach ($series as $key => $serie) {
-            if ($serie->image_thumbnail) {
+            if (empty($serie->getFirstMediaUrl('series'))) {
                 if (! $no_covers) {
                     SerieProvider::cover(serie: $serie);
                 }

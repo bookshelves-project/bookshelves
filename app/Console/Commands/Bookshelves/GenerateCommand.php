@@ -63,7 +63,7 @@ class GenerateCommand extends Command
 
         // setup options
         $isForce = $this->option('force');
-        $isFresh = $this->option('fresh');
+        $fresh = $this->option('fresh');
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
@@ -71,7 +71,7 @@ class GenerateCommand extends Command
         $alone = $this->option('alone');
         $debug = $this->option('debug');
 
-        if ($isFresh) {
+        if ($fresh) {
             $this->warn('- Option --fresh: erase current database, migrate and seed basics also clear all medias.');
         }
         if ($limit) {
@@ -90,7 +90,7 @@ class GenerateCommand extends Command
                 return;
             }
         }
-        if ($isFresh) {
+        if ($fresh) {
             $this->fresh();
         }
 
@@ -100,18 +100,18 @@ class GenerateCommand extends Command
         Artisan::call('bookshelves:books', [
             '--alone'  => $alone,
             '--covers' => $no_covers,
-            '--fresh' => $isFresh,
+            '--fresh' => $fresh,
             '--limit'  => $limit,
             '--debug'  => $debug,
         ], $this->getOutput());
         Artisan::call('bookshelves:series', [
             '--alone'  => $alone,
-            '--fresh' => $isFresh,
+            '--fresh' => $fresh,
             '--covers' => $no_covers,
         ], $this->getOutput());
         Artisan::call('bookshelves:authors', [
             '--alone'  => $alone,
-            '--fresh' => $isFresh,
+            '--fresh' => $fresh,
             '--covers' => $no_covers,
         ], $this->getOutput());
 
