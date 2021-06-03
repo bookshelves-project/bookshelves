@@ -35,9 +35,6 @@ class ImageController extends Controller
                 Image::load("$path")
                     ->save($thumbnail['filepath']);
             }
-            // Image::load("$path")
-            //     ->fit(Manipulations::FIT_CROP, 480, 770)
-            //     ->save($thumbnail['filepath']);
         }
 
         return response()->file($thumbnail['filepath']);
