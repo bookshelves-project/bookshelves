@@ -77,10 +77,10 @@ class SeriesCommand extends Command
                     SerieProvider::cover(serie: $serie);
                 }
             }
-            if (!$serie->description && !$serie->link) {
+            if (! $serie->description && ! $serie->link) {
                 if (! $alone) {
                     $result = SerieProvider::localDescription(serie: $serie);
-                    if (!$result) {
+                    if (! $result) {
                         SerieProvider::description(serie: $serie);
                     }
                 } else {

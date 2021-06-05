@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\Book\BookLightResource;
-use App\Http\Resources\Book\BookMobileResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Book\BookLightestResource;
 
@@ -93,11 +92,11 @@ class BookController extends Controller
 
         $serie = $request->get('serie');
         $serie = $serie ? filter_var($serie, FILTER_VALIDATE_BOOLEAN) : null;
-        
-        if (!isset($cachedBooks)) {
+
+        if (! isset($cachedBooks)) {
             $cachedBooks = null;
         }
-        
+
         Cache::forget('books');
         if ($lang || $serie) {
             Cache::forget('books');
@@ -113,14 +112,14 @@ class BookController extends Controller
             } else {
                 $books = Book::all();
             }
-            if ($serie === true) {
+            if (true === $serie) {
                 if ($lang) {
                     Language::whereSlug($lang)->firstOrFail();
                     $books = Book::has('serie')->whereLanguageSlug($lang)->get();
                 } else {
                     $books = Book::has('serie')->get();
                 }
-            } elseif ($serie === false) {
+            } elseif (false === $serie) {
                 if ($lang) {
                     Language::whereSlug($lang)->firstOrFail();
                     $books = Book::doesntHave('serie')->whereLanguageSlug($lang)->get();

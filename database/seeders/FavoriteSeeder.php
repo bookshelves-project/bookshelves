@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use DB;
 use App\Models\Book;
 use App\Models\User;
 use App\Models\Serie;
 use App\Models\Author;
-use DB;
 use Illuminate\Database\Seeder;
 
 class FavoriteSeeder extends Seeder

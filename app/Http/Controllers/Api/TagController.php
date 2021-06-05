@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Book;
 use Spatie\Tags\Tag;
-use App\Models\Author;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Book\BookLightResource;
-use App\Http\Resources\Tag\TagLightResource;
 use App\Http\Resources\Tag\TagResource;
+use App\Http\Resources\Tag\TagLightResource;
 
 class TagController extends Controller
 {

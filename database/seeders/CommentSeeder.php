@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use DB;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Models\Author;
 use App\Models\Comment;
-use DB;
 use Illuminate\Database\Seeder;
 
 class CommentSeeder extends Seeder

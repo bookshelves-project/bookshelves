@@ -4,11 +4,11 @@ namespace App\Providers\Bookshelves;
 
 use File;
 use Http;
+use Storage;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Utils\BookshelvesTools;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
-use Storage;
 
 class SerieProvider
 {

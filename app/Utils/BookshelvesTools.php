@@ -5,11 +5,11 @@ namespace App\Utils;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Models\Author;
+use App\Models\Identifier;
 use Illuminate\Support\Str;
 use App\Http\Resources\Search\SearchBookResource;
 use App\Http\Resources\Search\SearchSerieResource;
 use App\Http\Resources\Search\SearchAuthorResource;
-use App\Models\Identifier;
 
 class BookshelvesTools
 {

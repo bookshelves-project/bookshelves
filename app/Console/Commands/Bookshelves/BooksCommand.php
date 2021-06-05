@@ -5,12 +5,12 @@ namespace App\Console\Commands\Bookshelves;
 use Str;
 use Artisan;
 use App\Models\Book;
+use Spatie\Tags\Tag;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\BookProvider;
 use App\Providers\Bookshelves\BookshelvesProvider;
 use App\Providers\MetadataExtractor\MetadataExtractor;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
-use Spatie\Tags\Tag;
 
 class BooksCommand extends Command
 {
@@ -58,7 +58,7 @@ class BooksCommand extends Command
         $fresh = $this->option('fresh');
         $debug = $this->option('debug') ?? false;
         $epubFiles = MetadataExtractorTools::getAllEpubFiles(limit: $limit);
-        
+
         if ($fresh) {
             $books = Book::all();
             $books->each(function ($query) {
@@ -67,7 +67,7 @@ class BooksCommand extends Command
             });
         }
 
-        if (!$fresh) {
+        if (! $fresh) {
             $this->warn('No fresh, scan for new eBooks');
             $this->newLine();
             $epubFiles = $this->getOnlyNewBooks($epubFiles, $debug);
@@ -98,10 +98,10 @@ class BooksCommand extends Command
         $epub_bar->start();
         foreach ($epubFiles as $key => $epubFilePath) {
             $metadataExtractor = MetadataExtractor::run($epubFilePath);
-            $slug = Str::slug($metadataExtractor->title.' '.$metadataExtractor->language);
+            $slug = Str::slug($metadataExtractor->title . ' ' . $metadataExtractor->language);
 
             $book = Book::whereSlug($slug)->first();
-            if (!$book) {
+            if (! $book) {
                 array_push($epubFilesNew, $epubFilePath);
             }
             $epub_bar->advance();
@@ -154,7 +154,7 @@ class BooksCommand extends Command
         }
         $epub_bar->finish();
         $this->newLine(2);
-        
+
         return $books;
     }
 

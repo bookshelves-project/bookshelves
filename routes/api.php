@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CountController;
+use App\Http\Controllers\Api\GenreController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
@@ -18,7 +19,6 @@ use App\Http\Controllers\Api\Opds\OpdsController;
 use App\Http\Controllers\Api\WebreaderController;
 use App\Http\Controllers\Api\Wiki\WikiController;
 use App\Http\Controllers\Api\DependencyController;
-use App\Http\Controllers\Api\GenreController;
 use App\Http\Controllers\Api\SubmissionController;
 use App\Http\Controllers\Api\Opds\BookController as OpdsBookController;
 use App\Http\Controllers\Api\Opds\SerieController as OpdsSerieController;
@@ -134,7 +134,7 @@ Route::get('/tags', [TagController::class, 'index'])->name('api.tags.index');
 Route::get('/tags/{tag}', [TagController::class, 'index'])->name('api.tags.show');
 Route::get('/tags/book/{author}/{book}', [TagController::class, 'book'])->name('api.tags.book');
 
-/** Genres routes */
+/* Genres routes */
 Route::get('/genres', [GenreController::class, 'index'])->name('api.genres.index');
 Route::get('/genres/{genre}', [GenreController::class, 'show'])->name('api.genres.show');
 

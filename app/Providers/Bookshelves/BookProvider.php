@@ -314,13 +314,13 @@ class BookProvider
 
     public static function identifier(MetadataExtractor $metadataExtractor, Book $book): ?Identifier
     {
-        if ($metadataExtractor->identifiers->isbn === null && $metadataExtractor->identifiers->isbn13 === null &&
-        $metadataExtractor->identifiers->doi === null &&
-        $metadataExtractor->identifiers->amazon === null &&
-        $metadataExtractor->identifiers->google === null) {
+        if (null === $metadataExtractor->identifiers->isbn && null === $metadataExtractor->identifiers->isbn13 &&
+        null === $metadataExtractor->identifiers->doi &&
+        null === $metadataExtractor->identifiers->amazon &&
+        null === $metadataExtractor->identifiers->google) {
             return null;
         }
-        
+
         $identifier = Identifier::firstOrCreate([
             'isbn'   => $metadataExtractor->identifiers->isbn,
             'isbn13' => $metadataExtractor->identifiers->isbn13,

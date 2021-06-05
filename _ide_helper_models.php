@@ -21,6 +21,8 @@ namespace App\Models{
      * @property string|null                                                                                                                   $role
      * @property string|null                                                                                                                   $description
      * @property string|null                                                                                                                   $link
+     * @property \Illuminate\Support\Carbon|null                                                                                               $created_at
+     * @property \Illuminate\Support\Carbon|null                                                                                               $updated_at
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]                                                                   $books
      * @property int|null                                                                                                                      $books_count
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[]                                                                $comments
@@ -43,6 +45,7 @@ namespace App\Models{
      * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Author query()
+     * @method static \Illuminate\Database\Eloquent\Builder|Author whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereDescription($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value)
@@ -51,6 +54,7 @@ namespace App\Models{
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereName($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereRole($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
      */
     class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia
     {
@@ -88,6 +92,7 @@ namespace App\Models{
      * @property \App\Models\Author|null                                                                                                       $author
      * @property string                                                                                                                        $download_link
      * @property string|null                                                                                                                   $epub
+     * @property mixed                                                                                                                         $genres_list
      * @property string|null                                                                                                                   $image_color
      * @property string|null                                                                                                                   $image_open_graph
      * @property string|null                                                                                                                   $image_original
@@ -95,6 +100,7 @@ namespace App\Models{
      * @property bool                                                                                                                          $is_favorite
      * @property string                                                                                                                        $show_link
      * @property string                                                                                                                        $sort_name
+     * @property mixed                                                                                                                         $tags_list
      * @property \App\Models\GoogleBook|null                                                                                                   $googleBook
      * @property \App\Models\Identifier|null                                                                                                   $identifier
      * @property \App\Models\Language|null                                                                                                     $language
@@ -326,6 +332,8 @@ namespace App\Models{
      * @property string|null                                                                                                                   $language_slug
      * @property string|null                                                                                                                   $description
      * @property string|null                                                                                                                   $link
+     * @property \Illuminate\Support\Carbon|null                                                                                               $created_at
+     * @property \Illuminate\Support\Carbon|null                                                                                               $updated_at
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Author[]                                                                 $authors
      * @property int|null                                                                                                                      $authors_count
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]                                                                   $books
@@ -336,12 +344,14 @@ namespace App\Models{
      * @property int|null                                                                                                                      $favorites_count
      * @property \App\Models\Author|null                                                                                                       $author
      * @property string                                                                                                                        $download_link
+     * @property mixed                                                                                                                         $genres_list
      * @property string|null                                                                                                                   $image_color
      * @property string|null                                                                                                                   $image_open_graph
      * @property string|null                                                                                                                   $image_thumbnail
      * @property bool                                                                                                                          $is_favorite
      * @property string                                                                                                                        $show_link
      * @property string                                                                                                                        $size
+     * @property mixed                                                                                                                         $tags_list
      * @property \App\Models\Language|null                                                                                                     $language
      * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
      * @property int|null                                                                                                                      $media_count
@@ -352,6 +362,7 @@ namespace App\Models{
      * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Serie query()
+     * @method static \Illuminate\Database\Eloquent\Builder|Serie whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereDescription($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguageSlug($value)
@@ -359,6 +370,7 @@ namespace App\Models{
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereSlug($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitleSort($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTagsOfAnyType($tags)
      * @method static \Illuminate\Database\Eloquent\Builder|Serie withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
@@ -391,6 +403,24 @@ namespace App\Models{
      * @method static \Illuminate\Database\Eloquent\Builder|Submission whereUpdatedAt($value)
      */
     class Submission extends \Eloquent
+    {
+    }
+}
+
+namespace App\Models{
+    /**
+     * App\Models\TagExtend.
+     *
+     * @property array $translations
+     *
+     * @method static \Illuminate\Database\Eloquent\Builder|Tag containing(string $name, $locale = null)
+     * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newModelQuery()
+     * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newQuery()
+     * @method static \Illuminate\Database\Eloquent\Builder|Tag ordered(string $direction = 'asc')
+     * @method static \Illuminate\Database\Eloquent\Builder|TagExtend query()
+     * @method static \Illuminate\Database\Eloquent\Builder|Tag withType(?string $type = null)
+     */
+    class TagExtend extends \Eloquent
     {
     }
 }

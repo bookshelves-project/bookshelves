@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources\Tag;
 
-use App\Enums\CountSizeEnum;
-use App\Http\Resources\Book\BookLightestResource;
-use App\Http\Resources\Book\BookLightResource;
 use App\Models\Book;
 use Spatie\Tags\Tag;
+use App\Http\Resources\Book\BookLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -30,7 +28,7 @@ class TagResource extends JsonResource
 
         $resource = TagLightResource::make($this->resource)->toArray($request);
         $resource = array_merge($resource, [
-            'books' => BookLightResource::collection($books)
+            'books' => BookLightResource::collection($books),
         ]);
 
         return $resource;

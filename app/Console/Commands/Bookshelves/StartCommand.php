@@ -3,8 +3,8 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Artisan;
-use Illuminate\Console\Command;
 use Storage;
+use Illuminate\Console\Command;
 
 class StartCommand extends Command
 {
@@ -51,13 +51,13 @@ class StartCommand extends Command
 
         Artisan::call('bookshelves:generate', [
             '--fresh' => true,
-            '--force' => true
+            '--force' => true,
         ], $this->getOutput());
 
         Artisan::call('bookshelves:sample', [
             '--users' => $users,
             '--roles' => $roles,
-            '--fake' => $fake
+            '--fake'  => $fake,
         ], $this->getOutput());
 
         return 0;

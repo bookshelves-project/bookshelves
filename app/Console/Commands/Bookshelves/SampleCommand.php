@@ -85,7 +85,6 @@ class SampleCommand extends Command
             Artisan::call('db:seed', ['--class' => 'FavoriteSeeder', '--force' => true]);
             $this->info('Seeders ready!');
         }
-        
 
         return true;
     }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Tag;
 
-use App\Enums\CountSizeEnum;
 use App\Models\Book;
 use Spatie\Tags\Tag;
+use App\Enums\CountSizeEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -45,7 +45,7 @@ class TagLightResource extends JsonResource
         //     case $percentage <= 50:
         //         $size = CountSizeEnum::XL();
         //         break;
-            
+
         //     default:
         //         $size = CountSizeEnum::XS();
         //         break;
@@ -59,9 +59,9 @@ class TagLightResource extends JsonResource
             // 'size' => $size,
             'meta' => [
                 'show' => route('api.genres.show', [
-                    'genre' => $this->resource->slug
-                ])
-            ]
+                    'genre' => $this->resource->slug,
+                ]),
+            ],
         ];
     }
 }

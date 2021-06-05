@@ -4,10 +4,10 @@ namespace App\Providers\Bookshelves;
 
 use File;
 use Http;
+use Storage;
 use App\Models\Author;
 use App\Utils\BookshelvesTools;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
-use Storage;
 
 class AuthorProvider
 {
@@ -31,7 +31,7 @@ class AuthorProvider
         if (! $alone) {
             $pageId = self::wikipediaPageId($name);
             $result = self::localDescription($author);
-            if (!$result) {
+            if (! $result) {
                 $author = self::description($author, $pageId);
             }
             if (! $no_cover) {
@@ -75,7 +75,7 @@ class AuthorProvider
         return $pageId;
     }
 
-    public static function localDescription(Author $author): Author|null
+    public static function localDescription(Author $author): Author | null
     {
         if (File::exists(public_path('storage/raw/authors.json'))) {
             $json = Storage::disk('public')->get('raw/authors.json');

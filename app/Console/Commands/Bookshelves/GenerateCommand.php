@@ -2,20 +2,19 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use DB;
 use Artisan;
 use App\Models\Book;
+use Spatie\Tags\Tag;
 use App\Models\Serie;
 use App\Models\Author;
 use App\Models\Comment;
-use App\Models\Favoritable;
-use App\Models\GoogleBook;
-use App\Models\Identifier;
 use App\Models\Language;
 use App\Models\Publisher;
-use DB;
+use App\Models\GoogleBook;
+use App\Models\Identifier;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Tags\Tag;
 
 class GenerateCommand extends Command
 {
@@ -100,18 +99,18 @@ class GenerateCommand extends Command
         Artisan::call('bookshelves:books', [
             '--alone'  => $alone,
             '--covers' => $no_covers,
-            '--fresh' => $fresh,
+            '--fresh'  => $fresh,
             '--limit'  => $limit,
             '--debug'  => $debug,
         ], $this->getOutput());
         Artisan::call('bookshelves:series', [
             '--alone'  => $alone,
-            '--fresh' => $fresh,
+            '--fresh'  => $fresh,
             '--covers' => $no_covers,
         ], $this->getOutput());
         Artisan::call('bookshelves:authors', [
             '--alone'  => $alone,
-            '--fresh' => $fresh,
+            '--fresh'  => $fresh,
             '--covers' => $no_covers,
         ], $this->getOutput());
 
@@ -183,11 +182,11 @@ class GenerateCommand extends Command
         $this->clearTables();
         $this->newLine();
     }
-    
+
     public function clearTables()
     {
         DB::statement('SET foreign_key_checks=0');
-        
+
         $this->info('Truncate authorables table');
         DB::table('authorables')->truncate();
         $this->info('Truncate favoritables table');
@@ -213,7 +212,7 @@ class GenerateCommand extends Command
         GoogleBook::truncate();
         $this->info('Truncate tags table');
         Tag::truncate();
-        
+
         DB::statement('SET foreign_key_checks=1');
     }
 }
