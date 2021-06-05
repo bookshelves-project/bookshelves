@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Http\Resources\Search\SearchBookResource;
 use App\Http\Resources\Search\SearchSerieResource;
 use App\Http\Resources\Search\SearchAuthorResource;
+use App\Models\Identifier;
 
 class BookshelvesTools
 {
@@ -21,13 +22,39 @@ class BookshelvesTools
         $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->get();
         $series = Serie::whereLike(['title', 'authors.name'], $searchTerm)->get();
         $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
+        $identifier = Identifier::whereLike(['isbn', 'isbn13', 'doi', 'amazon', 'google'], $searchTerm)->first();
+        if ($identifier) {
+            $book = $identifier->book;
+            $books = collect([$book]);
 
-        $authors = SearchAuthorResource::collection($authors);
-        $series = SearchSerieResource::collection($series);
+            $books = SearchBookResource::collection($books);
+            $collection = collect([]);
+            $collection = $collection->merge($books);
+        } else {
+            $authors = SearchAuthorResource::collection($authors);
+            $series = SearchSerieResource::collection($series);
+            $books = SearchBookResource::collection($books);
+            $collection = collect([]);
+            $collection = $collection->merge($authors);
+            $collection = $collection->merge($series);
+            $collection = $collection->merge($books);
+        }
+
+        return $collection->all();
+    }
+
+    /**
+     * Global search on Book, Serie and Author.
+     */
+    public static function searchGlobalIdentifier(string $searchTermRaw): array
+    {
+        $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
+        $identifier = Identifier::whereLike(['isbn', 'isbn13', 'doi', 'amazon', 'google'], $searchTerm)->first();
+        $book = $identifier->book;
+        $books = collect([$book]);
+
         $books = SearchBookResource::collection($books);
         $collection = collect([]);
-        $collection = $collection->merge($authors);
-        $collection = $collection->merge($series);
         $collection = $collection->merge($books);
 
         return $collection->all();

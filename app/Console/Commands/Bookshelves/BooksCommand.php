@@ -10,6 +10,7 @@ use App\Providers\Bookshelves\BookProvider;
 use App\Providers\Bookshelves\BookshelvesProvider;
 use App\Providers\MetadataExtractor\MetadataExtractor;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
+use Spatie\Tags\Tag;
 
 class BooksCommand extends Command
 {
@@ -101,7 +102,7 @@ class BooksCommand extends Command
 
             $book = Book::whereSlug($slug)->first();
             if (!$book) {
-                array_push($epubFilesNew, $epubFilePath);    
+                array_push($epubFilesNew, $epubFilePath);
             }
             $epub_bar->advance();
         }
@@ -129,6 +130,11 @@ class BooksCommand extends Command
             $this->info('- Get extra data from Google Books API: HTTP requests');
         }
         $this->newLine();
+
+        $genres = config('bookshelves.genres');
+        foreach ($genres as $key => $genre) {
+            Tag::findOrCreate($genre, 'genre');
+        }
 
         $epub_bar = $this->output->createProgressBar(sizeof($epubFiles));
         $epub_bar->start();

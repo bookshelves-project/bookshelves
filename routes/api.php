@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\Opds\OpdsController;
 use App\Http\Controllers\Api\WebreaderController;
 use App\Http\Controllers\Api\Wiki\WikiController;
 use App\Http\Controllers\Api\DependencyController;
+use App\Http\Controllers\Api\GenreController;
 use App\Http\Controllers\Api\SubmissionController;
 use App\Http\Controllers\Api\Opds\BookController as OpdsBookController;
 use App\Http\Controllers\Api\Opds\SerieController as OpdsSerieController;
@@ -84,11 +85,13 @@ Route::get('/search', [SearchController::class, 'index'])->name('api.search.inde
 Route::get('/search/books', [SearchController::class, 'books'])->name('api.search.books');
 Route::get('/search/authors', [SearchController::class, 'authors'])->name('api.search.authors');
 Route::get('/search/series', [SearchController::class, 'series'])->name('api.search.series');
+Route::get('/search/advanced', [SearchController::class, 'advanced'])->name('api.search.advanced');
 
 /*
  * Details routes
  */
 Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('api.books.show');
+Route::get('/books/more/{author}/{slug}', [BookController::class, 'more'])->name('api.books.more');
 Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('api.series.show');
 Route::get('/authors/{author}', [AuthorController::class, 'show'])->name('api.authors.show');
 
@@ -130,6 +133,10 @@ Route::get('/users', [UserController::class, 'users'])->name('api.users');
 Route::get('/tags', [TagController::class, 'index'])->name('api.tags.index');
 Route::get('/tags/{tag}', [TagController::class, 'index'])->name('api.tags.show');
 Route::get('/tags/book/{author}/{book}', [TagController::class, 'book'])->name('api.tags.book');
+
+/** Genres routes */
+Route::get('/genres', [GenreController::class, 'index'])->name('api.genres.index');
+Route::get('/genres/{genre}', [GenreController::class, 'show'])->name('api.genres.show');
 
 /*
  * Lang routes

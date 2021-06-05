@@ -3,9 +3,10 @@
 namespace App\Http\Resources\Serie;
 
 use App\Models\Serie;
-use App\Http\Resources\TagResource;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\Book\BookSerieResource;
+use App\Http\Resources\Tag\TagLightResource;
+use App\Http\Resources\Tag\TagResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SerieResource extends JsonResource
@@ -32,7 +33,8 @@ class SerieResource extends JsonResource
                 'openGraph' => $serie->image_open_graph,
                 'color'     => $this->resource->image_color,
             ],
-            'tags'       => TagResource::collection($serie->tags),
+            'tags'           => TagLightResource::collection($serie->tags_list),
+            'genres'           => TagLightResource::collection($serie->genres_list),
             'download'   => $serie->download_link,
             'size'       => $serie->size,
             'books'      => BookSerieResource::collection($serie->books),

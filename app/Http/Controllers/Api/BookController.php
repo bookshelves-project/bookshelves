@@ -91,9 +91,15 @@ class BookController extends Controller
             );
         }
 
-        $mobile = filter_var($request->get('mobile'), FILTER_VALIDATE_BOOLEAN);
-
-        if ($lang) {
+        $serie = $request->get('serie');
+        $serie = $serie ? filter_var($serie, FILTER_VALIDATE_BOOLEAN) : null;
+        
+        if (!isset($cachedBooks)) {
+            $cachedBooks = null;
+        }
+        
+        Cache::forget('books');
+        if ($lang || $serie) {
             Cache::forget('books');
             $cachedBooks = null;
         } else {
@@ -104,6 +110,23 @@ class BookController extends Controller
             if ($lang) {
                 Language::whereSlug($lang)->firstOrFail();
                 $books = Book::whereLanguageSlug($lang)->get();
+            } else {
+                $books = Book::all();
+            }
+            if ($serie === true) {
+                if ($lang) {
+                    Language::whereSlug($lang)->firstOrFail();
+                    $books = Book::has('serie')->whereLanguageSlug($lang)->get();
+                } else {
+                    $books = Book::has('serie')->get();
+                }
+            } elseif ($serie === false) {
+                if ($lang) {
+                    Language::whereSlug($lang)->firstOrFail();
+                    $books = Book::doesntHave('serie')->whereLanguageSlug($lang)->get();
+                } else {
+                    $books = Book::doesntHave('serie')->get();
+                }
             } else {
                 $books = Book::all();
             }
@@ -142,13 +165,6 @@ class BookController extends Controller
 
                 break;
         }
-
-        if ($mobile) {
-            $books = BookMobileResource::collection($books);
-
-            return $books;
-        }
-        // dd($books);
 
         return $books;
     }
@@ -306,5 +322,17 @@ class BookController extends Controller
     public function count()
     {
         return Book::count();
+    }
+
+    public function more(string $authorSlug, string $bookSlug)
+    {
+        $author = Author::whereSlug($authorSlug)->first();
+        $book = Book::whereSlug($bookSlug)->first();
+        $tags = $book->tags;
+
+        $related_books = Book::withAllTags($tags)->whereLanguageSlug($book->language_slug)->inRandomOrder();
+        $related_books = $related_books->limit(10)->get();
+
+        return BookLightestResource::collection($related_books);
     }
 }

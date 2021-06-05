@@ -105,6 +105,16 @@ class Serie extends Model implements HasMedia
         return $size;
     }
 
+    public function getTagsListAttribute()
+    {
+        return $this->tags()->whereType('tag')->get();
+    }
+
+    public function getGenresListAttribute()
+    {
+        return $this->tags()->whereType('genre')->get();
+    }
+
     public function books(): HasMany
     {
         return $this->hasMany(Book::class)->orderBy('volume');

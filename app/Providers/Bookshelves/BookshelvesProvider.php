@@ -28,7 +28,7 @@ class BookshelvesProvider
             $identifier = BookProvider::identifier($metadataExtractor, $book);
             $book->save();
 
-            if (! $alone) {
+            if (! $alone && $identifier) {
                 BookProvider::googleBook(identifier: $identifier, book: $book);
             }
         }

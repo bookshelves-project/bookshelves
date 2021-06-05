@@ -273,6 +273,8 @@ class BookProvider
     public static function tagRaw(string $tag, Book $book): Book
     {
         $main_genres = config('bookshelves.genres');
+        $tag = str_replace(' and ', ' & ', $tag);
+        $tag = str_replace('-', ' ', $tag);
 
         if (strlen($tag) > 1 && strlen($tag) < 30) {
             if (in_array($tag, $main_genres)) {
@@ -310,8 +312,15 @@ class BookProvider
         return $book;
     }
 
-    public static function identifier(MetadataExtractor $metadataExtractor, Book $book): Identifier
+    public static function identifier(MetadataExtractor $metadataExtractor, Book $book): ?Identifier
     {
+        if ($metadataExtractor->identifiers->isbn === null && $metadataExtractor->identifiers->isbn13 === null &&
+        $metadataExtractor->identifiers->doi === null &&
+        $metadataExtractor->identifiers->amazon === null &&
+        $metadataExtractor->identifiers->google === null) {
+            return null;
+        }
+        
         $identifier = Identifier::firstOrCreate([
             'isbn'   => $metadataExtractor->identifiers->isbn,
             'isbn13' => $metadataExtractor->identifiers->isbn13,

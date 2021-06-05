@@ -4,13 +4,13 @@ namespace App\Http\Resources\Book;
 
 use App\Models\Book;
 use App\Utils\BookshelvesTools;
-use App\Http\Resources\TagResource;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\GoogleBookResource;
 use App\Http\Resources\IdentifierResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Author\AuthorUltraLightResource;
+use App\Http\Resources\Tag\TagLightResource;
 
 /**
  * @property \App\Models\Book $resource
@@ -44,7 +44,8 @@ class BookResource extends JsonResource
             'identifier'     => IdentifierResource::make($book->identifier),
             'pageCount'      => $book->page_count,
             'maturityRating' => $book->maturity_rating,
-            'tags'           => TagResource::collection($book->tags),
+            'tags'           => TagLightResource::collection($book->tags_list),
+            'genres'           => TagLightResource::collection($book->genres_list),
             'epub'           => [
                 'name'     => $book->getMedia('epubs')->first()->file_name,
                 'size'     => BookshelvesTools::humanFilesize($book->getMedia('epubs')->first()->size),

@@ -149,6 +149,16 @@ class Book extends Model implements HasMedia
         return "$serie$title";
     }
 
+    public function getTagsListAttribute()
+    {
+        return $this->tags()->whereType('tag')->get();
+    }
+
+    public function getGenresListAttribute()
+    {
+        return $this->tags()->whereType('genre')->get();
+    }
+
     /**
      * Authors MorphToMany.
      */
