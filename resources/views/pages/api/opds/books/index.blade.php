@@ -18,7 +18,7 @@
                     <div class="p-6 bg-white rounded-lg shadow-sm">
                         <div class="grid grid-cols-6">
                             <img class="object-cover w-12 h-12 col-span-1 rounded-full"
-                                src="{{ $book->picture ? $book->picture->base : 'images/no-cover.webp' }}"
+                                src="{{ $book->picture ? $book->picture->og : 'images/no-cover.webp' }}"
                                 title="{{ $book->title }}" alt="{{ $book->title }}">
                             <div class="col-span-5">
                                 @if ($book->serie)

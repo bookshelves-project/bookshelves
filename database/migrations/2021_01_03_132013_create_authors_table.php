@@ -22,6 +22,7 @@ class CreateAuthorsTable extends Migration
             $table->string('role')->nullable();
             $table->text('description')->nullable();
             $table->string('link')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

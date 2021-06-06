@@ -20,4 +20,13 @@ return [
         'Romance',
         'Science fiction',
     ],
+
+    'forbidden_tags' => [
+        'SF',
+        'General'
+    ],
+
+    'converted_tags' => [
+        'Action & Adventure' => 'Action & adventures'
+    ],
 ];

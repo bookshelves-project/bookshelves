@@ -26,9 +26,11 @@ class SearchAuthorResource extends JsonResource
             ],
             'title'      => $this->resource->lastname . ' ' . $this->resource->firstname,
             'author'     => $this->resource->name,
-            'picture'    => $this->resource->image_thumbnail,
-            'picture_og' => $this->resource->image_open_graph,
-            'color'      => $this->resource->image_color,
+            'picture'    => [
+                'base'    => $this->resource->image_thumbnail,
+                'og'      => $this->resource->image_open_graph,
+                'color'   => $this->resource->image_color,
+            ],
             'text'       => BookshelvesTools::stringLimit($this->resource->description, 140),
         ];
     }

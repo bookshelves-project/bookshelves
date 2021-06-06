@@ -82,8 +82,9 @@ class AuthorProvider
             $json = json_decode($json);
             foreach ($json as $key => $value) {
                 if ($key === $author->slug) {
-                    $author->description = $value->description;
-                    $author->link = $value->link;
+                    $author->description = $value->description ?? null;
+                    $author->link = $value->link ?? null;
+                    $author->note = $value->note ?? null;
                     $author->save();
 
                     return $author;

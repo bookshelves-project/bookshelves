@@ -7,8 +7,11 @@ use Spatie\Tags\HasTags;
 use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use App\Http\Resources\Book\BookLightResource;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -157,6 +160,28 @@ class Book extends Model implements HasMedia
     public function getGenresListAttribute()
     {
         return $this->tags()->whereType('genre')->get();
+    }
+
+    public static function withPaginate(Collection $books)
+    {
+        $books = $books->sortBy(function ($book) {
+            return $book->sort_name;
+        });
+        $books = $books->paginate(32);
+        $books = BookLightResource::collection($books);
+
+        $page = 1;
+        $perPage = 32;
+
+        $paginate = new LengthAwarePaginator(
+            $books->forPage($page, $perPage),
+            $books->count(),
+            $perPage,
+            $page,
+            ['path' => url('api/books')]
+        );
+
+        return $paginate;
     }
 
     /**

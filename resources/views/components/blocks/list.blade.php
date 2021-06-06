@@ -10,7 +10,7 @@
                         <td height="300px" valign="top">
                             <a
                                 href="{{ route('api.opds.books.show', ['author' => $item->author, 'slug' => $item->slug]) }}">
-                                <div style=" background-image: url({{ $item->picture->openGraph }})"
+                                <div style=" background-image: url({{ $item->picture->og }})"
                                     class="h-32 bg-center bg-cover">
                                 </div>
                                 <div class="p-5">

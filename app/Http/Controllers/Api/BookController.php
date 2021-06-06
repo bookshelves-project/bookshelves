@@ -12,6 +12,8 @@ use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\Book\BookLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Book\BookLightestResource;
+use App\Http\Resources\Book\BookSerieResource;
+use App\Models\Serie;
 
 class BookController extends Controller
 {
@@ -97,7 +99,7 @@ class BookController extends Controller
             $cachedBooks = null;
         }
 
-        Cache::forget('books');
+        // Cache::forget('books');
         if ($lang || $serie) {
             Cache::forget('books');
             $cachedBooks = null;
@@ -326,12 +328,38 @@ class BookController extends Controller
     public function more(string $authorSlug, string $bookSlug)
     {
         $author = Author::whereSlug($authorSlug)->first();
-        $book = Book::whereSlug($bookSlug)->first();
+        $book = Book::whereHas('authors', function ($query) use ($author) {
+            return $query->where('author_id', '=', $author->id);
+        })->whereSlug($bookSlug)->firstOrFail();
         $tags = $book->tags;
 
-        $related_books = Book::withAllTags($tags)->whereLanguageSlug($book->language_slug)->inRandomOrder();
-        $related_books = $related_books->limit(10)->get();
+        if (sizeof($tags) >= 1) {
+            $serie_books = Serie::whereSlug($book->serie?->slug)->first();
+            $serie_books = $serie_books?->books;
 
-        return BookLightestResource::collection($related_books);
+            $related_books = Book::withAllTags($tags)->whereLanguageSlug($book->language_slug)->inRandomOrder()->limit(10)->get();
+        
+            if ($serie_books) {
+                $filtered = $related_books->filter(function ($book, $key) use ($serie_books) {
+                    foreach ($serie_books as $key => $serie_book) {
+                        if ($book->serie) {
+                            return $book->serie->slug != $serie_book->serie->slug;
+                        }
+                    }
+                });
+                $related_books = $filtered;
+            }
+
+            $related_books = $related_books->filter(function ($related_book, $key) use ($book) {
+                return $related_book->slug != $book->slug;
+            });
+
+            return BookSerieResource::collection($related_books);
+        }
+        
+        return response()->json(
+            "No tags",
+            400
+        );
     }
 }

@@ -16,17 +16,10 @@ class TagController extends Controller
         return TagLightResource::collection($tags);
     }
 
-    public function show(string $tag)
+    public function show(string $tag_slug)
     {
-        $tag = Tag::whereSlug($tag)->first();
+        $tag = Tag::where('slug->en', $tag_slug)->first();
 
-        return TagLightResource::make($tag);
-    }
-
-    public function genres()
-    {
-        $genres = Tag::whereType('genre')->get();
-
-        return TagResource::collection($genres);
+        return TagResource::make($tag);
     }
 }

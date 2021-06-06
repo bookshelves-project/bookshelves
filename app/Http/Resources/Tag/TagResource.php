@@ -4,8 +4,8 @@ namespace App\Http\Resources\Tag;
 
 use App\Models\Book;
 use Spatie\Tags\Tag;
-use App\Http\Resources\Book\BookLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Search\SearchBookResource;
 
 /**
  * @property Tag $resource
@@ -22,13 +22,11 @@ class TagResource extends JsonResource
     public function toArray($request)
     {
         $books = Book::withAllTags([$this->resource])->get();
-        $books = $books->sortBy(function ($book) {
-            return $book->sort_name;
-        });
+        $books = SearchBookResource::collection($books);
 
         $resource = TagLightResource::make($this->resource)->toArray($request);
         $resource = array_merge($resource, [
-            'books' => BookLightResource::collection($books),
+            'books' => $books,
         ]);
 
         return $resource;

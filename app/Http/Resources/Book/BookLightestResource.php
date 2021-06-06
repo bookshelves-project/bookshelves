@@ -19,9 +19,13 @@ class BookLightestResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'title'  => $this->resource->title,
-            'slug'   => $this->resource->slug,
-            'author' => $this->resource->author?->slug,
+            'title'       => $this->resource->title,
+            'slug'        => $this->resource->slug,
+            'author'      => $this->resource->author?->slug,
+            'picture'     => [
+                'base'      => $this->resource->image_thumbnail,
+                'color'     => $this->resource->image_color,
+            ],
             'serie'  => $this->resource->serie?->title,
             'meta'   => [
                 'show' => $this->resource->show_link,

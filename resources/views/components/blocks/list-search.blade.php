@@ -30,7 +30,7 @@
                         @endphp
                         <td height="300px" valign="top">
                             <a href="{{ $route }}">
-                                <div style=" background-image: url({{ $item->picture_og }})"
+                                <div style=" background-image: url({{ $item->picture->og }})"
                                     class="h-32 bg-center bg-cover">
                                 </div>
                                 <div class="p-5">

@@ -180,7 +180,6 @@ class GenerateCommand extends Command
         $this->newLine();
         $this->alert('Clear Bookshelves data...');
         $this->clearTables();
-        $this->newLine();
     }
 
     public function clearTables()

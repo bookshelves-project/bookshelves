@@ -22,7 +22,7 @@ class TagLightResource extends JsonResource
     public function toArray($request)
     {
         // $total = Book::count();
-        // $count = Book::withAllTags([$this->resource])->count();
+        $count = Book::withAllTags([$this->resource])->count();
         // $percentage = intval($count * 100 / $total);
 
         // switch ($percentage) {
@@ -50,16 +50,17 @@ class TagLightResource extends JsonResource
         //         $size = CountSizeEnum::XS();
         //         break;
         // }
+        $type = $this->resource->type;
 
         return [
-            'name' => $this->resource->name,
-            'slug' => $this->resource->slug,
-            'type' => $this->resource->type,
-            // 'count' => $count,
+            'name'  => $this->resource->name,
+            'slug'  => $this->resource->slug,
+            'type'  => $this->resource->type,
+            'count' => $count,
             // 'size' => $size,
             'meta' => [
-                'show' => route('api.genres.show', [
-                    'genre' => $this->resource->slug,
+                'show' => route('api.' . $type . 's.show', [
+                    $type => $this->resource->slug,
                 ]),
             ],
         ];

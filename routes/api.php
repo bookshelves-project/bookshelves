@@ -131,10 +131,12 @@ Route::get('/users', [UserController::class, 'users'])->name('api.users');
  * Tags routes
  */
 Route::get('/tags', [TagController::class, 'index'])->name('api.tags.index');
-Route::get('/tags/{tag}', [TagController::class, 'index'])->name('api.tags.show');
+Route::get('/tags/{tag}', [TagController::class, 'show'])->name('api.tags.show');
 Route::get('/tags/book/{author}/{book}', [TagController::class, 'book'])->name('api.tags.book');
 
-/* Genres routes */
+/*
+ * Genres routes
+ */
 Route::get('/genres', [GenreController::class, 'index'])->name('api.genres.index');
 Route::get('/genres/{genre}', [GenreController::class, 'show'])->name('api.genres.show');
 

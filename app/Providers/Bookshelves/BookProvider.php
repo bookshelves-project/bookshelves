@@ -275,8 +275,18 @@ class BookProvider
         $main_genres = config('bookshelves.genres');
         $tag = str_replace(' and ', ' & ', $tag);
         $tag = str_replace('-', ' ', $tag);
+        $forbidden_tags = config('bookshelves.forbidden_tags');
+        $converted_tags = config('bookshelves.converted_tags');
 
-        if (strlen($tag) > 1 && strlen($tag) < 30) {
+        foreach ($converted_tags as $key => $converted_tag) {
+            if ($tag === $key) {
+                $tag = $converted_tag;
+            }
+        }
+
+        if (strlen($tag) > 1 && strlen($tag) < 30 && !in_array($tag, $forbidden_tags)) {
+            $tag = strtolower($tag);
+            $tag = ucfirst($tag);
             if (in_array($tag, $main_genres)) {
                 $tag = Tag::findOrCreate($tag, 'genre');
             } else {
