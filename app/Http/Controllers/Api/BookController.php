@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Book;
+use App\Models\Serie;
 use App\Models\Author;
 use App\Models\Language;
 use Illuminate\Http\Request;
@@ -10,10 +11,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\Book\BookLightResource;
+use App\Http\Resources\Book\BookSerieResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Book\BookLightestResource;
-use App\Http\Resources\Book\BookSerieResource;
-use App\Models\Serie;
 
 class BookController extends Controller
 {
@@ -338,7 +338,7 @@ class BookController extends Controller
             $serie_books = $serie_books?->books;
 
             $related_books = Book::withAllTags($tags)->whereLanguageSlug($book->language_slug)->inRandomOrder()->limit(10)->get();
-        
+
             if ($serie_books) {
                 $filtered = $related_books->filter(function ($book, $key) use ($serie_books) {
                     foreach ($serie_books as $key => $serie_book) {
@@ -356,9 +356,9 @@ class BookController extends Controller
 
             return BookSerieResource::collection($related_books);
         }
-        
+
         return response()->json(
-            "No tags",
+            'No tags',
             400
         );
     }

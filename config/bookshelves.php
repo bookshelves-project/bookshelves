@@ -23,10 +23,10 @@ return [
 
     'forbidden_tags' => [
         'SF',
-        'General'
+        'General',
     ],
 
     'converted_tags' => [
-        'Action & Adventure' => 'Action & adventures'
+        'Action & Adventure' => 'Action & adventures',
     ],
 ];

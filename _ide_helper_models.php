@@ -21,6 +21,7 @@ namespace App\Models{
      * @property string|null                                                                                                                   $role
      * @property string|null                                                                                                                   $description
      * @property string|null                                                                                                                   $link
+     * @property string|null                                                                                                                   $note
      * @property \Illuminate\Support\Carbon|null                                                                                               $created_at
      * @property \Illuminate\Support\Carbon|null                                                                                               $updated_at
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[]                                                                   $books
@@ -52,6 +53,7 @@ namespace App\Models{
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereLink($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereName($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|Author whereNote($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereRole($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)

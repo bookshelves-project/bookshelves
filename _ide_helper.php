@@ -4,7 +4,7 @@
 
     /**
      * A helper file for Laravel, to provide autocomplete information to your IDE
-     * Generated for Laravel 8.42.1.
+     * Generated for Laravel 8.45.1.
      *
      * This file should not be included in your code, only analyzed by your IDE!
      *
@@ -2785,6 +2785,21 @@ namespace Illuminate\Support\Facades {
             }
 
             /**
+             * Add a handler to be executed before echoing a given class.
+             *
+             * @param string|callable $class
+             * @param callable|null   $handler
+             *
+             * @return void
+             * @static
+             */
+            public static function stringable($class, $handler = null)
+            {
+                /* @var \Illuminate\View\Compilers\BladeCompiler $instance */
+                $instance->stringable($class, $handler);
+            }
+
+            /**
              * Register a new precompiler.
              *
              * @param callable $precompiler
@@ -5550,6 +5565,18 @@ namespace Illuminate\Support\Facades {
             }
 
             /**
+             * Get the database connection full name.
+             *
+             * @return string|null
+             * @static
+             */
+            public static function getNameWithReadWriteType()
+            {            //Method inherited from \Illuminate\Database\Connection
+                /* @var \Illuminate\Database\MySqlConnection $instance */
+                return $instance->getNameWithReadWriteType();
+            }
+
+            /**
              * Get an option from the configuration options.
              *
              * @param string|null $option
@@ -5813,6 +5840,20 @@ namespace Illuminate\Support\Facades {
             {            //Method inherited from \Illuminate\Database\Connection
                 /* @var \Illuminate\Database\MySqlConnection $instance */
                 return $instance->setDatabaseName($database);
+            }
+
+            /**
+             * Set the read / write type of the connection.
+             *
+             * @param string|null $readWriteType
+             *
+             * @return \Illuminate\Database\MySqlConnection
+             * @static
+             */
+            public static function setReadWriteType($readWriteType)
+            {            //Method inherited from \Illuminate\Database\Connection
+                /* @var \Illuminate\Database\MySqlConnection $instance */
+                return $instance->setReadWriteType($readWriteType);
             }
 
             /**
@@ -7727,6 +7768,18 @@ namespace Illuminate\Support\Facades {
             {
                 /* @var \Illuminate\Http\Client\Factory $instance */
                 return $instance->recorded($callback);
+            }
+
+            /**
+             * Get the current event dispatcher implementation.
+             *
+             * @return \Illuminate\Contracts\Events\Dispatcher|null
+             * @static
+             */
+            public static function getDispatcher()
+            {
+                /* @var \Illuminate\Http\Client\Factory $instance */
+                return $instance->getDispatcher();
             }
 
             /**
@@ -18988,22 +19041,6 @@ namespace  {
                 }
 
                 /**
-                 * Apply the callback's query changes if the given "value" is true.
-                 *
-                 * @param mixed         $value
-                 * @param callable      $callback
-                 * @param callable|null $default
-                 *
-                 * @return mixed|$this
-                 * @static
-                 */
-                public static function when($value, $callback, $default = null)
-                {
-                    /* @var \Illuminate\Database\Eloquent\Builder $instance */
-                    return $instance->when($value, $callback, $default);
-                }
-
-                /**
                  * Pass the query to a given callback.
                  *
                  * @param callable $callback
@@ -19018,13 +19055,29 @@ namespace  {
                 }
 
                 /**
-                 * Apply the callback's query changes if the given "value" is false.
+                 * Apply the callback if the given "value" is truthy.
                  *
                  * @param mixed         $value
                  * @param callable      $callback
                  * @param callable|null $default
                  *
-                 * @return mixed|$this
+                 * @return mixed
+                 * @static
+                 */
+                public static function when($value, $callback, $default = null)
+                {
+                    /* @var \Illuminate\Database\Eloquent\Builder $instance */
+                    return $instance->when($value, $callback, $default);
+                }
+
+                /**
+                 * Apply the callback if the given "value" is falsy.
+                 *
+                 * @param mixed         $value
+                 * @param callable      $callback
+                 * @param callable|null $default
+                 *
+                 * @return mixed
                  * @static
                  */
                 public static function unless($value, $callback, $default = null)
@@ -20549,6 +20602,32 @@ namespace  {
                 {
                     /* @var \Illuminate\Database\Query\Builder $instance */
                     return $instance->sharedLock();
+                }
+
+                /**
+                 * Register a closure to be invoked before the query is executed.
+                 *
+                 * @param callable $callback
+                 *
+                 * @return \Illuminate\Database\Query\Builder
+                 * @static
+                 */
+                public static function beforeQuery($callback)
+                {
+                    /* @var \Illuminate\Database\Query\Builder $instance */
+                    return $instance->beforeQuery($callback);
+                }
+
+                /**
+                 * Invoke the "before query" modification callbacks.
+                 *
+                 * @return void
+                 * @static
+                 */
+                public static function applyBeforeQueryCallbacks()
+                {
+                    /* @var \Illuminate\Database\Query\Builder $instance */
+                    $instance->applyBeforeQueryCallbacks();
                 }
 
                 /**

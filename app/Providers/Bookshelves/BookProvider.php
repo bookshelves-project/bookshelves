@@ -284,7 +284,7 @@ class BookProvider
             }
         }
 
-        if (strlen($tag) > 1 && strlen($tag) < 30 && !in_array($tag, $forbidden_tags)) {
+        if (strlen($tag) > 1 && strlen($tag) < 30 && ! in_array($tag, $forbidden_tags)) {
             $tag = strtolower($tag);
             $tag = ucfirst($tag);
             if (in_array($tag, $main_genres)) {
