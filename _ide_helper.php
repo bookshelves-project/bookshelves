@@ -17078,11 +17078,9 @@ namespace Illuminate\Support\Facades {
                 return $instance->renderTranslation();
             }
         }
-
 }
 
 namespace Illuminate\Support {
-
         class Arr
         {
         }
@@ -17107,11 +17105,9 @@ namespace Illuminate\Support {
                 return \Illuminate\Support\Collection::paginate($perPage, $total, $page, $pageName);
             }
         }
-
 }
 
 namespace L5Swagger {
-
         class L5SwaggerFacade
         {
             /**
@@ -17124,7 +17120,6 @@ namespace L5Swagger {
                 return $instance->generateDocs();
             }
         }
-
 }
 
 namespace Facade\Ignition\Facades {
@@ -17387,19 +17382,15 @@ namespace Facade\Ignition\Facades {
                 return $instance->group($groupName, $properties);
             }
         }
-
 }
 
 namespace Fruitcake\TelescopeToolbar {
-
         class Toolbar
         {
         }
-
 }
 
 namespace Intervention\Image\Facades {
-
         class Image
         {
             /**
@@ -17463,11 +17454,9 @@ namespace Intervention\Image\Facades {
                 return $instance->cache($callback, $lifetime, $returnObj);
             }
         }
-
 }
 
 namespace Spatie\LaravelImageOptimizer\Facades {
-
         class ImageOptimizer
         {
             /**
@@ -17524,11 +17513,9 @@ namespace Spatie\LaravelImageOptimizer\Facades {
                 return $instance->optimize($pathToImage, $pathToOutput);
             }
         }
-
 }
 
 namespace Illuminate\Http {
-
         class Request
         {
             /**
@@ -17589,7 +17576,6 @@ namespace Illuminate\Http {
                 \Illuminate\Http\Request::transformEnums($transformations);
             }
         }
-
 }
 
 namespace Illuminate\Routing {
@@ -17610,7 +17596,6 @@ namespace Illuminate\Routing {
                 return \Illuminate\Routing\Router::enum($key, $class);
             }
         }
-
 }
 
 namespace  {
@@ -21159,5 +21144,4 @@ namespace  {
             class ImageOptimizer extends \Spatie\LaravelImageOptimizer\Facades\ImageOptimizer
             {
             }
-
 }
