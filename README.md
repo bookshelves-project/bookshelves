@@ -172,3 +172,4 @@ php artisan bookshelves:sample
     - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/defining-conversions>
 - [ ] larastan upgrade level
 - [ ] more tests for models
+- [ ] authors notes WIP
