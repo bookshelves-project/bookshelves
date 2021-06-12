@@ -327,7 +327,7 @@ class BookController extends Controller
 			$related_books = $related_books->merge($series_list);
 			$related_books = $related_books->sortBy('title_sort');
 			if ($limit) {
-				$related_books->slice(0, 10);
+				$related_books = $related_books->slice(0, 10);
 			}
 
 			return BookOrSerieResource::collection($related_books);
