@@ -99,7 +99,7 @@ Route::get('/search/advanced', [SearchController::class, 'advanced'])->name('api
  * Details routes
  */
 Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('api.books.show');
-Route::get('/books/more/{author}/{slug}', [BookController::class, 'more'])->name('api.books.more');
+Route::get('/books/related/{author}/{slug}', [BookController::class, 'related'])->name('api.books.related');
 Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('api.series.show');
 Route::get('/authors/{author}', [AuthorController::class, 'show'])->name('api.authors.show');
 

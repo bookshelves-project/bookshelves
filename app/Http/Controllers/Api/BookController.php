@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookLightestResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookResource;
-use App\Http\Resources\Book\BookSerieResource;
+use App\Http\Resources\BookOrSerieResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
@@ -69,8 +69,7 @@ class BookController extends Controller
 			);
 		}
 
-		$perPage = $request->get('per-page');
-		$perPage = $perPage ? $perPage : 32;
+		$perPage = $request->get('per-page') ? $request->get('per-page') : 32;
 		if (!is_numeric($perPage)) {
 			return response()->json(
 				"Invalid 'per-page' query parameter, must be an int",
@@ -79,11 +78,9 @@ class BookController extends Controller
 		}
 		$perPage = intval($perPage);
 
-		$serie = $request->get('serie');
-		$serie = $serie ? filter_var($serie, FILTER_VALIDATE_BOOLEAN) : null;
+		$serie = $request->get('serie') ? filter_var($request->get('serie'), FILTER_VALIDATE_BOOLEAN) : null;
 
-		$limit = $request->get('limit');
-		$limit = $limit ? $limit : 'pagination';
+		$limit = $request->get('limit') ? $request->get('limit') : 'pagination';
 		$limitParameters = ['pagination', 'all', 'full'];
 		if (!in_array($limit, $limitParameters)) {
 			return response()->json(
@@ -92,53 +89,28 @@ class BookController extends Controller
 			);
 		}
 
-		if ($lang) {
+		$books = Book::orderBy('title_sort');
+
+		// If lang
+		if (null !== $lang) {
 			Language::whereSlug($lang)->firstOrFail();
-			$books = Book::whereLanguageSlug($lang)->get();
-		} else {
-			$books = Book::all();
+			$books = $books->whereLanguageSlug($lang);
 		}
-		if (true === $serie) {
-			if ($lang) {
-				Language::whereSlug($lang)->firstOrFail();
-				$books = Book::has('serie')->whereLanguageSlug($lang)->get();
+		// If serie
+		if (null !== $serie) {
+			if ($serie) {
+				$books->has('serie');
 			} else {
-				$books = Book::has('serie')->get();
+				$books->doesntHave('serie');
 			}
-		} elseif (false === $serie) {
-			if ($lang) {
-				Language::whereSlug($lang)->firstOrFail();
-				$books = Book::doesntHave('serie')->whereLanguageSlug($lang)->get();
-			} else {
-				$books = Book::doesntHave('serie')->get();
-			}
-		} else {
-			$books = Book::orderBy('title_sort');
 		}
 
-		switch ($limit) {
-			case 'pagination':
-				$books = $books->paginate($perPage);
-				$books = BookLightResource::collection($books);
-
-				break;
-
-			case 'all':
-				$books = BookLightestResource::collection($books);
-
-				break;
-
-			case 'full':
-				$books = BookLightResource::collection($books);
-
-				break;
-
-			default:
-				$books = $books->paginate($perPage);
-				$books = BookLightResource::collection($books);
-
-				break;
-		}
+		$books = match ($limit) {
+			'pagination' => BookLightResource::collection($books->paginate($perPage)),
+			'all' => BookLightestResource::collection($books),
+			'full' => BookLightResource::collection($books),
+			default => BookLightResource::collection($books->paginate($perPage)),
+		};
 
 		return $books;
 	}
@@ -298,23 +270,33 @@ class BookController extends Controller
 		return Book::count();
 	}
 
-	public function more(string $authorSlug, string $bookSlug)
+	public function related(string $authorSlug, string $bookSlug, Request $request)
 	{
+		$limit = $request->get('limit') ? filter_var($request->get('limit'), FILTER_VALIDATE_BOOLEAN) : null;
+
+		// get book
 		$author = Author::whereSlug($authorSlug)->first();
 		$book = Book::whereHas('authors', function ($query) use ($author) {
 			return $query->where('author_id', '=', $author->id);
 		})->whereSlug($bookSlug)->firstOrFail();
+		// get book tags
 		$tags = $book->tags;
 
+		// if tags
 		if (sizeof($tags) >= 1) {
+			// get serie of current book
 			$serie_books = Serie::whereSlug($book->serie?->slug)->first();
+			// get books of this serie
 			$serie_books = $serie_books?->books;
 
-			$related_books = Book::withAllTags($tags)->whereLanguageSlug($book->language_slug)->inRandomOrder()->limit(10)->get();
+			// get related books by tags, same lang, limited to 10 results
+			$related_books = Book::withAllTags($tags)->whereLanguageSlug($book->language_slug)->get();
 
+			// if serie exist
 			if ($serie_books) {
-				$filtered = $related_books->filter(function ($book, $key) use ($serie_books) {
-					foreach ($serie_books as $key => $serie_book) {
+				// remove all books from this serie
+				$filtered = $related_books->filter(function ($book) use ($serie_books) {
+					foreach ($serie_books as $serie_book) {
 						if ($book->serie) {
 							return $book->serie->slug != $serie_book->serie->slug;
 						}
@@ -322,12 +304,33 @@ class BookController extends Controller
 				});
 				$related_books = $filtered;
 			}
-
-			$related_books = $related_books->filter(function ($related_book, $key) use ($book) {
+			// remove current book
+			$related_books = $related_books->filter(function ($related_book) use ($book) {
 				return $related_book->slug != $book->slug;
 			});
 
-			return BookSerieResource::collection($related_books);
+			// get series of related
+			$series_list = collect();
+			foreach ($related_books as $key => $book) {
+				if ($book->serie) {
+					$series_list->add($book->serie);
+				}
+			}
+			// remove all books of series
+			$related_books = $related_books->filter(function ($book) {
+				return null === $book->serie;
+			});
+
+			// unique on series
+			$series_list = $series_list->unique();
+
+			$related_books = $related_books->merge($series_list);
+			$related_books = $related_books->sortBy('title_sort');
+			if ($limit) {
+				$related_books->slice(0, 10);
+			}
+
+			return BookOrSerieResource::collection($related_books);
 		}
 
 		return response()->json(
