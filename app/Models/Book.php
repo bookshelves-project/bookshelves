@@ -165,7 +165,7 @@ class Book extends Model implements HasMedia
     public static function withPaginate(Collection $books)
     {
         $books = $books->sortBy(function ($book) {
-            return $book->sort_name;
+            return $book->title_sort;
         });
         $books = $books->paginate(32);
         $books = BookLightResource::collection($books);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Opds;
+namespace App\Http\Controllers\Api\OpdsWeb;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookLightResource;
 
-class OpdsController extends Controller
+class OpdsWebController extends Controller
 {
     public function index(Request $request)
     {

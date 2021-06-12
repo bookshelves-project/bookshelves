@@ -25,7 +25,7 @@
 
 <body class="font-sans antialiased relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     {{-- @include('components.layout.navbar') --}}
-    <a href="{{ route('api.opds.index') }}" class="flex items-center justify-center mt-4 font-handlee">
+    <a href="{{ route('api.opds-web.index') }}" class="flex items-center justify-center mt-4 font-handlee">
         <table class="mx-auto">
             <tr>
                 <td>
@@ -49,17 +49,17 @@
             <tbody>
                 <tr>
                     <td class="text-xl font-semibold">
-                        <a href="{{ route('api.opds.index') }}">
+                        <a href="{{ route('api.opds-web.index') }}">
                             Home
                         </a>
                     </td>
                     <td class="text-xl font-semibold">
-                        <a href="{{ route('api.opds.authors') }}">
+                        <a href="{{ route('api.opds-web.authors') }}">
                             Authors
                         </a>
                     </td>
                     <td class="text-xl font-semibold">
-                        <a href="{{ route('api.opds.series') }}">
+                        <a href="{{ route('api.opds-web.series') }}">
                             Series
                         </a>
                     </td>

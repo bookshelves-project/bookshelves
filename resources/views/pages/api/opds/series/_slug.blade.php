@@ -9,7 +9,7 @@
                 Back
             </a>
             <div>
-                <div style=" background-image: url({{ $serie->picture->og }})" class="h-32 bg-center bg-cover">
+                <div style=" background-image: url({{ $serie->picture->openGraph }})" class="h-32 bg-center bg-cover">
                 </div>
                 <h2 class="mt-6 text-3xl font-semibold">
                     {{ $serie->title }}

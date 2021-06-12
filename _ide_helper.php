@@ -12633,6 +12633,36 @@ namespace Illuminate\Support\Facades {
             {
                 return \Illuminate\Routing\ResponseFactory::hasMacro($name);
             }
+
+            /**
+             * @see \Mtownsend\ResponseXml\Providers\ResponseXmlServiceProvider::loadLaravelResponseMacros()
+             *
+             * @param mixed $xml
+             * @param mixed $status
+             * @param array $headers
+             * @param mixed $xmlRoot
+             * @param mixed $encoding
+             * @static
+             */
+            public static function xml($xml, $status = 200, $headers = [], $xmlRoot = 'response', $encoding = null)
+            {
+                return \Illuminate\Routing\ResponseFactory::xml($xml, $status, $headers, $xmlRoot, $encoding);
+            }
+
+            /**
+             * @see \Mtownsend\ResponseXml\Providers\ResponseXmlServiceProvider::loadLaravelResponseMacros()
+             *
+             * @param mixed $data
+             * @param mixed $status
+             * @param array $headers
+             * @param mixed $xmlRoot
+             * @param mixed $encoding
+             * @static
+             */
+            public static function preferredFormat($data, $status = 200, $headers = [], $xmlRoot = 'response', $encoding = null)
+            {
+                return \Illuminate\Routing\ResponseFactory::preferredFormat($data, $status, $headers, $xmlRoot, $encoding);
+            }
         }
         /**
          * @method static \Illuminate\Routing\RouteRegistrar as(string $value)
@@ -17549,6 +17579,227 @@ namespace Intervention\Image\Facades {
         }
 }
 
+namespace Clockwork\Support\Laravel {
+        class Facade
+        {
+            /**
+             * @static
+             */
+            public static function addDataSource($dataSource)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->addDataSource($dataSource);
+            }
+
+            /**
+             * @static
+             */
+            public static function resolveRequest()
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->resolveRequest();
+            }
+
+            /**
+             * @static
+             */
+            public static function resolveAsCommand($name, $exitCode = null, $arguments = [], $options = [], $argumentsDefaults = [], $optionsDefaults = [], $output = null)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->resolveAsCommand($name, $exitCode, $arguments, $options, $argumentsDefaults, $optionsDefaults, $output);
+            }
+
+            /**
+             * @static
+             */
+            public static function resolveAsQueueJob($name, $description = null, $status = 'processed', $payload = [], $queue = null, $connection = null, $options = [])
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->resolveAsQueueJob($name, $description, $status, $payload, $queue, $connection, $options);
+            }
+
+            /**
+             * @static
+             */
+            public static function resolveAsTest($name, $status = 'passed', $statusMessage = null, $asserts = [])
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->resolveAsTest($name, $status, $statusMessage, $asserts);
+            }
+
+            /**
+             * @static
+             */
+            public static function extendRequest($request = null)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->extendRequest($request);
+            }
+
+            /**
+             * @static
+             */
+            public static function storeRequest()
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->storeRequest();
+            }
+
+            /**
+             * @static
+             */
+            public static function reset()
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->reset();
+            }
+
+            /**
+             * @static
+             */
+            public static function request($request = null)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->request($request);
+            }
+
+            /**
+             * @static
+             */
+            public static function log($level = null, $message = null, $context = [])
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->log($level, $message, $context);
+            }
+
+            /**
+             * @static
+             */
+            public static function timeline()
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->timeline();
+            }
+
+            /**
+             * @static
+             */
+            public static function event($description, $data = [])
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->event($description, $data);
+            }
+
+            /**
+             * @static
+             */
+            public static function shouldCollect($shouldCollect = null)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->shouldCollect($shouldCollect);
+            }
+
+            /**
+             * @static
+             */
+            public static function shouldRecord($shouldRecord = null)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->shouldRecord($shouldRecord);
+            }
+
+            /**
+             * @static
+             */
+            public static function dataSources($dataSources = null)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->dataSources($dataSources);
+            }
+
+            /**
+             * @static
+             */
+            public static function storage($storage = null)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->storage($storage);
+            }
+
+            /**
+             * @static
+             */
+            public static function authenticator($authenticator = null)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->authenticator($authenticator);
+            }
+
+            /**
+             * @static
+             */
+            public static function getDataSources()
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->getDataSources();
+            }
+
+            /**
+             * @static
+             */
+            public static function getRequest()
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->getRequest();
+            }
+
+            /**
+             * @static
+             */
+            public static function setRequest($request)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->setRequest($request);
+            }
+
+            /**
+             * @static
+             */
+            public static function getStorage()
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->getStorage();
+            }
+
+            /**
+             * @static
+             */
+            public static function setStorage($storage)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->setStorage($storage);
+            }
+
+            /**
+             * @static
+             */
+            public static function getAuthenticator()
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->getAuthenticator();
+            }
+
+            /**
+             * @static
+             */
+            public static function setAuthenticator($authenticator)
+            {
+                /* @var \Clockwork\Clockwork $instance */
+                return $instance->setAuthenticator($authenticator);
+            }
+        }
+}
+
 namespace Spatie\LaravelImageOptimizer\Facades {
         class ImageOptimizer
         {
@@ -17672,6 +17923,38 @@ namespace Illuminate\Http {
 }
 
 namespace Illuminate\Routing {
+        class ResponseFactory
+        {
+            /**
+             * @see \Mtownsend\ResponseXml\Providers\ResponseXmlServiceProvider::loadLaravelResponseMacros()
+             *
+             * @param mixed $xml
+             * @param mixed $status
+             * @param array $headers
+             * @param mixed $xmlRoot
+             * @param mixed $encoding
+             * @static
+             */
+            public static function xml($xml, $status = 200, $headers = [], $xmlRoot = 'response', $encoding = null)
+            {
+                return \Illuminate\Routing\ResponseFactory::xml($xml, $status, $headers, $xmlRoot, $encoding);
+            }
+
+            /**
+             * @see \Mtownsend\ResponseXml\Providers\ResponseXmlServiceProvider::loadLaravelResponseMacros()
+             *
+             * @param mixed $data
+             * @param mixed $status
+             * @param array $headers
+             * @param mixed $xmlRoot
+             * @param mixed $encoding
+             * @static
+             */
+            public static function preferredFormat($data, $status = 200, $headers = [], $xmlRoot = 'response', $encoding = null)
+            {
+                return \Illuminate\Routing\ResponseFactory::preferredFormat($data, $status, $headers, $xmlRoot, $encoding);
+            }
+        }
         /**
          * @mixin \Illuminate\Routing\RouteRegistrar
          */
@@ -21258,6 +21541,9 @@ namespace  {
             {
             }
             class Image extends \Intervention\Image\Facades\Image
+            {
+            }
+            class Clockwork extends \Clockwork\Support\Laravel\Facade
             {
             }
             class ImageOptimizer extends \Spatie\LaravelImageOptimizer\Facades\ImageOptimizer

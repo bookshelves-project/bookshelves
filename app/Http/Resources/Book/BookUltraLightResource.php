@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Book;
 
 use App\Http\Resources\Author\AuthorUltraLightResource;
-use App\Http\Resources\Publisher\PublisherResource;
+use App\Http\Resources\Publisher\PublisherLightResource;
 use App\Models\Book;
 use App\Utils\BookshelvesTools;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -34,7 +34,7 @@ class BookUltraLightResource extends JsonResource
 				'openGraph' => $this->resource->image_open_graph,
 				'color' => $this->resource->image_color,
 			],
-			'publisher' => PublisherResource::make($this->resource->publisher),
+			'publisher' => PublisherLightResource::make($this->resource->publisher),
 			'volume' => $this->resource->volume,
 			'meta' => [
 				'show' => $this->resource->show_link,

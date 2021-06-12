@@ -9,8 +9,8 @@
                     @foreach ($chunk as $item)
                         <td height="300px" valign="top">
                             <a
-                                href="{{ route('api.opds.books.show', ['author' => $item->author, 'slug' => $item->slug]) }}">
-                                <div style=" background-image: url({{ $item->picture->og }})"
+                                href="{{ route('api.opds-web.books.show', ['author' => $item->author, 'slug' => $item->slug]) }}">
+                                <div style=" background-image: url({{ $item->picture->openGraph }})"
                                     class="h-32 bg-center bg-cover">
                                 </div>
                                 <div class="p-5">

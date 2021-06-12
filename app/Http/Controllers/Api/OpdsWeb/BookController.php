@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Opds;
+namespace App\Http\Controllers\Api\OpdsWeb;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookLightResource;
@@ -14,9 +14,11 @@ class BookController extends Controller
 	public function index(Request $request)
 	{
 		$books = Book::orderBy('title_sort')->paginate(32);
-		// $books = BookLightResource::collection($books);
+		$books = BookLightResource::collection($books);
+		$links = $books->onEachSide(1)->links();
+		$books = json_decode($books->toJson());
 
-		return response()->xml($books);
+		return view('pages/api/opds/books/index', compact('books', 'links'));
 	}
 
 	public function show(Request $request, string $author, string $slug)

@@ -9,18 +9,18 @@
                     @foreach ($chunk as $item)
                         @php
                             $item = json_decode(json_encode($item));
-                            $route = route('api.opds.index');
+                            $route = route('api.opds-web.index');
                             switch ($type) {
                                 case 'book':
-                                    $route = route('api.opds.books.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
+                                    $route = route('api.opds-web.books.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
                                     break;
                             
                                 case 'serie':
-                                    $route = route('api.opds.series.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
+                                    $route = route('api.opds-web.series.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
                                     break;
                             
                                 case 'author':
-                                    $route = route('api.opds.authors.show', ['slug' => $item->meta->slug]);
+                                    $route = route('api.opds-web.authors.show', ['slug' => $item->meta->slug]);
                                     break;
                             
                                 default:
@@ -30,7 +30,7 @@
                         @endphp
                         <td height="300px" valign="top">
                             <a href="{{ $route }}">
-                                <div style=" background-image: url({{ $item->picture->og }})"
+                                <div style=" background-image: url({{ $item->picture->openGraph }})"
                                     class="h-32 bg-center bg-cover">
                                 </div>
                                 <div class="p-5">
