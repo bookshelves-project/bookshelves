@@ -59,7 +59,7 @@ class TagLightResource extends JsonResource
             'count' => $count,
             // 'size' => $size,
             'meta' => [
-                'show' => route('api.' . $type . 's.show', [
+                'show' => route('api.'.$type.'s.show', [
                     $type => $this->resource->slug,
                 ]),
             ],

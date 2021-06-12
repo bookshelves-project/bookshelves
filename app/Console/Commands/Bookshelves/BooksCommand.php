@@ -98,7 +98,7 @@ class BooksCommand extends Command
         $epub_bar->start();
         foreach ($epubFiles as $key => $epubFilePath) {
             $metadataExtractor = MetadataExtractor::run($epubFilePath);
-            $slug = Str::slug($metadataExtractor->title . ' ' . $metadataExtractor->language);
+            $slug = Str::slug($metadataExtractor->title.' '.$metadataExtractor->language);
 
             $book = Book::whereSlug($slug)->first();
             if (! $book) {
@@ -123,7 +123,7 @@ class BooksCommand extends Command
     public function books(array $epubFiles, bool $alone, bool $debug = false): array
     {
         $this->alert('Bookshelves: books & relations');
-        $this->comment('- EPUB files detected: ' . sizeof($epubFiles));
+        $this->comment('- EPUB files detected: '.sizeof($epubFiles));
         $this->info('- Generate Book model with relationships');
         $this->info('- Generate new EPUB file with standard name');
         if (! $alone) {

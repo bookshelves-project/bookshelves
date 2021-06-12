@@ -1,28 +1,29 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Controllers\Api\TagController;
-use App\Http\Controllers\Api\BookController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\CountController;
-use App\Http\Controllers\Api\GenreController;
-use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
-use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CommandController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\CountController;
+use App\Http\Controllers\Api\DependencyController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\GenreController;
 use App\Http\Controllers\Api\LanguageController;
+use App\Http\Controllers\Api\Opds\AuthorController as OpdsAuthorController;
+use App\Http\Controllers\Api\Opds\BookController as OpdsBookController;
 use App\Http\Controllers\Api\Opds\OpdsController;
+use App\Http\Controllers\Api\Opds\SerieController as OpdsSerieController;
+use App\Http\Controllers\Api\PublisherController;
+use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\SerieController;
+use App\Http\Controllers\Api\SubmissionController;
+use App\Http\Controllers\Api\TagController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WebreaderController;
 use App\Http\Controllers\Api\Wiki\WikiController;
-use App\Http\Controllers\Api\DependencyController;
-use App\Http\Controllers\Api\SubmissionController;
-use App\Http\Controllers\Api\Opds\BookController as OpdsBookController;
-use App\Http\Controllers\Api\Opds\SerieController as OpdsSerieController;
-use App\Http\Controllers\Api\Opds\AuthorController as OpdsAuthorController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,24 +42,24 @@ Route::get('/', [ApiController::class, 'index'])->name('api.index');
  * opds routes
  */
 Route::prefix('opds')->group(function () {
-    Route::get('/', [OpdsController::class, 'index'])->name('api.opds.index');
-    Route::get('/search', [OpdsController::class, 'search'])->name('api.opds.search');
+	Route::get('/', [OpdsController::class, 'index'])->name('api.opds.index');
+	Route::get('/search', [OpdsController::class, 'search'])->name('api.opds.search');
 
-    // Route::get('/books', [OpdsBookController::class, 'index'])->name('api.opds.books');
-    Route::get('/books/{author}/{slug}', [OpdsBookController::class, 'show'])->name('api.opds.books.show');
+	// Route::get('/books', [OpdsBookController::class, 'index'])->name('api.opds.books');
+	Route::get('/books/{author}/{slug}', [OpdsBookController::class, 'show'])->name('api.opds.books.show');
 
-    Route::get('/series', [OpdsSerieController::class, 'index'])->name('api.opds.series');
-    Route::get('/series/{author}/{slug}', [OpdsSerieController::class, 'show'])->name('api.opds.series.show');
+	Route::get('/series', [OpdsSerieController::class, 'index'])->name('api.opds.series');
+	Route::get('/series/{author}/{slug}', [OpdsSerieController::class, 'show'])->name('api.opds.series.show');
 
-    Route::get('/authors', [OpdsAuthorController::class, 'index'])->name('api.opds.authors');
-    Route::get('/authors/{slug}', [OpdsAuthorController::class, 'show'])->name('api.opds.authors.show');
+	Route::get('/authors', [OpdsAuthorController::class, 'index'])->name('api.opds.authors');
+	Route::get('/authors/{slug}', [OpdsAuthorController::class, 'show'])->name('api.opds.authors.show');
 });
 
 /*
  * Wiki routes
  */
 Route::prefix('wiki')->group(function () {
-    Route::get('/', [WikiController::class, 'index'])->name('api.wiki.index');
+	Route::get('/', [WikiController::class, 'index'])->name('api.wiki.index');
 });
 
 /*
@@ -140,6 +141,10 @@ Route::get('/tags/book/{author}/{book}', [TagController::class, 'book'])->name('
 Route::get('/genres', [GenreController::class, 'index'])->name('api.genres.index');
 Route::get('/genres/{genre}', [GenreController::class, 'show'])->name('api.genres.show');
 
+/* Publishers routes */
+Route::get('/publishers', [PublisherController::class, 'index'])->name('api.publishers.index');
+Route::get('/publishers/{publisher}', [PublisherController::class, 'show'])->name('api.publishers.show');
+
 /*
  * Lang routes
  */
@@ -149,30 +154,30 @@ Route::get('/languages', [LanguageController::class, 'index'])->name('api.langua
  * Users features routes
  */
 Route::middleware(['auth:sanctum'])->group(function () {
-    /*
-     * Favorites routes
-     */
-    Route::get('/favorites/by-user/{user}', [FavoriteController::class, 'byUser'])->name('api.favorites.by-user');
-    Route::post('/favorites/toggle/{model}/{slug}', [FavoriteController::class, 'toggle'])->name('api.favorites.toggle');
+	/*
+	 * Favorites routes
+	 */
+	Route::get('/favorites/by-user/{user}', [FavoriteController::class, 'byUser'])->name('api.favorites.by-user');
+	Route::post('/favorites/toggle/{model}/{slug}', [FavoriteController::class, 'toggle'])->name('api.favorites.toggle');
 
-    /*
-     * Comments routes
-     */
-    Route::post('/comments/store/{model}/{slug}', [CommentController::class, 'store'])->name('api.comments.store');
-    Route::post('/comments/edit/{book}', [CommentController::class, 'edit'])->name('api.comments.edit');
-    Route::post('/comments/update/{book}', [CommentController::class, 'update'])->name('api.comments.update');
-    Route::post('/comments/destroy/{book}', [CommentController::class, 'destroy'])->name('api.comments.destroy');
+	/*
+	 * Comments routes
+	 */
+	Route::post('/comments/store/{model}/{slug}', [CommentController::class, 'store'])->name('api.comments.store');
+	Route::post('/comments/edit/{book}', [CommentController::class, 'edit'])->name('api.comments.edit');
+	Route::post('/comments/update/{book}', [CommentController::class, 'update'])->name('api.comments.update');
+	Route::post('/comments/destroy/{book}', [CommentController::class, 'destroy'])->name('api.comments.destroy');
 
-    /*
-     * Commands routes
-     */
-    Route::get('/commands/update-books', [CommandController::class, 'updateBooks'])->name('api.commands.update-books');
+	/*
+	 * Commands routes
+	 */
+	Route::get('/commands/update-books', [CommandController::class, 'updateBooks'])->name('api.commands.update-books');
 
-    /*
-     * User routes
-     */
-    Route::get('/user', [UserController::class, 'sanctum'])->name('api.user');
-    Route::post('/user/update', [UserController::class, 'update'])->name('api.user.update');
-    Route::post('/user/update-password', [UserController::class, 'updatePassword'])->name('api.user.update-password');
-    Route::get('/user/delete/avatar', [UserController::class, 'deleteAvatar'])->name('api.user.delete.avatar');
+	/*
+	 * User routes
+	 */
+	Route::get('/user', [UserController::class, 'sanctum'])->name('api.user');
+	Route::post('/user/update', [UserController::class, 'update'])->name('api.user.update');
+	Route::post('/user/update-password', [UserController::class, 'updatePassword'])->name('api.user.update-password');
+	Route::get('/user/delete/avatar', [UserController::class, 'deleteAvatar'])->name('api.user.delete.avatar');
 });

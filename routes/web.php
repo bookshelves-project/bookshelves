@@ -14,6 +14,8 @@ use App\Http\Controllers\NavigationController;
 |
 */
 
+Route::get('cache/resolve/{method}/{size}/{path}', 'ImageController@thumbnail')->where('path', '.*');
+
 Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

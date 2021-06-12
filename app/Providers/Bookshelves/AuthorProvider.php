@@ -134,7 +134,7 @@ class AuthorProvider
             $file_path = File::get($custom_authors_path);
             $author->addMediaFromString($file_path)
                 ->setName($author->slug)
-                ->setFileName($author->slug . '.' . config('bookshelves.cover_extension'))
+                ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
                 ->toMediaCollection($disk, $disk);
             $author->save();
         }
@@ -152,7 +152,7 @@ class AuthorProvider
             $defaultPictureFile = File::get($pictureDefault);
             $author->addMediaFromString($defaultPictureFile)
                 ->setName($author->slug)
-                ->setFileName($author->slug . '.' . config('bookshelves.cover_extension'))
+                ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
                 ->toMediaCollection('authors', 'authors');
         }
 
@@ -173,12 +173,12 @@ class AuthorProvider
                 $defaultPictureFile = File::get($pictureDefault);
                 $author->addMediaFromString($defaultPictureFile)
                     ->setName($author->slug)
-                    ->setFileName($author->slug . '.' . config('bookshelves.cover_extension'))
+                    ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
                     ->toMediaCollection('authors', 'authors');
             } else {
                 $author->addMediaFromUrl($picture)
                     ->setName($author->slug)
-                    ->setFileName($author->slug . '.' . config('bookshelves.cover_extension'))
+                    ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
                     ->toMediaCollection('authors', 'authors');
             }
         }

@@ -72,7 +72,7 @@ class DownloadTest extends TestCase
             $response = $this->get($showLink);
             $showContent = json_decode($response->content());
             $download_epub = $showContent->data->epub->download;
-            $this->assertNotNull($download_epub, 'Download EPUB link is not available for ' . $responseContent->data[$i]->title);
+            $this->assertNotNull($download_epub, 'Download EPUB link is not available for '.$responseContent->data[$i]->title);
         }
     }
 }

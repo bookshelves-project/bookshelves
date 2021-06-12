@@ -97,7 +97,7 @@ class SerieProvider
                 $file_path = File::get($custom_series_path);
                 $serie->addMediaFromString($file_path)
                     ->setName($serie->slug)
-                    ->setFileName($serie->slug . '.' . config('bookshelves.cover_extension'))
+                    ->setFileName($serie->slug.'.'.config('bookshelves.cover_extension'))
                     ->toMediaCollection($disk, $disk);
             } else {
                 $bookIfExist = Book::whereVolume(1)->whereSerieId($serie->id)->first();
@@ -111,7 +111,7 @@ class SerieProvider
                         $file_path = File::get($book->getMedia('books')->first()->getPath());
                         $serie->addMediaFromString($file_path)
                             ->setName($serie->slug)
-                            ->setFileName($serie->slug . '.' . config('bookshelves.cover_extension'))
+                            ->setFileName($serie->slug.'.'.config('bookshelves.cover_extension'))
                             ->toMediaCollection($disk, $disk);
                     }
                 }

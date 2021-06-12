@@ -38,6 +38,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "graham-campbell/markdown": "^13.1",
         "guzzlehttp/guzzle": "^7.0.1",
+        "itsgoingd/clockwork": "^5.0",
         "laravel/fortify": "^1.7",
         "laravel/framework": "^8.12",
         "laravel/sanctum": "2.9",
@@ -48,6 +49,7 @@
         "spatie/laravel-enum": "^2.4",
         "spatie/laravel-image-optimizer": "^1.6",
         "spatie/laravel-medialibrary": "^9.0.0",
+        "spatie/laravel-route-attributes": "^1.4",
         "spatie/laravel-tags": "^4.0",
         "tightenco/ziggy": "1.0"
     },

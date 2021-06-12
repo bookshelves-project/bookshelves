@@ -4,7 +4,7 @@
 
     /**
      * A helper file for Laravel, to provide autocomplete information to your IDE
-     * Generated for Laravel 8.45.1.
+     * Generated for Laravel 8.46.0.
      *
      * This file should not be included in your code, only analyzed by your IDE!
      *
@@ -2785,21 +2785,6 @@ namespace Illuminate\Support\Facades {
             }
 
             /**
-             * Add a handler to be executed before echoing a given class.
-             *
-             * @param string|callable $class
-             * @param callable|null   $handler
-             *
-             * @return void
-             * @static
-             */
-            public static function stringable($class, $handler = null)
-            {
-                /* @var \Illuminate\View\Compilers\BladeCompiler $instance */
-                $instance->stringable($class, $handler);
-            }
-
-            /**
              * Register a new precompiler.
              *
              * @param callable $precompiler
@@ -2958,6 +2943,21 @@ namespace Illuminate\Support\Facades {
             }
 
             /**
+             * Add a handler to be executed before echoing a given class.
+             *
+             * @param string|callable $class
+             * @param callable|null   $handler
+             *
+             * @return void
+             * @static
+             */
+            public static function stringable($class, $handler = null)
+            {
+                /* @var \Illuminate\View\Compilers\BladeCompiler $instance */
+                $instance->stringable($class, $handler);
+            }
+
+            /**
              * Compile Blade echos into valid PHP.
              *
              * @param string $value
@@ -2969,6 +2969,20 @@ namespace Illuminate\Support\Facades {
             {
                 /* @var \Illuminate\View\Compilers\BladeCompiler $instance */
                 return $instance->compileEchos($value);
+            }
+
+            /**
+             * Apply the echo handler for the value if it exists.
+             *
+             * @param $value string
+             *
+             * @return string
+             * @static
+             */
+            public static function applyEchoHandler($value)
+            {
+                /* @var \Illuminate\View\Compilers\BladeCompiler $instance */
+                return $instance->applyEchoHandler($value);
             }
         }
         /**
@@ -5400,6 +5414,18 @@ namespace Illuminate\Support\Facades {
             }
 
             /**
+             * Determine if the database connection has modified any database records.
+             *
+             * @return bool
+             * @static
+             */
+            public static function hasModifiedRecords()
+            {            //Method inherited from \Illuminate\Database\Connection
+                /* @var \Illuminate\Database\MySqlConnection $instance */
+                return $instance->hasModifiedRecords();
+            }
+
+            /**
              * Indicate if any records have been modified.
              *
              * @param bool $value
@@ -5423,6 +5449,20 @@ namespace Illuminate\Support\Facades {
             {            //Method inherited from \Illuminate\Database\Connection
                 /* @var \Illuminate\Database\MySqlConnection $instance */
                 $instance->forgetRecordModificationState();
+            }
+
+            /**
+             * Indicate that the connection should use the write PDO connection for reads.
+             *
+             * @param bool $value
+             *
+             * @return \Illuminate\Database\MySqlConnection
+             * @static
+             */
+            public static function useWriteConnectionWhenReading($value = true)
+            {            //Method inherited from \Illuminate\Database\Connection
+                /* @var \Illuminate\Database\MySqlConnection $instance */
+                return $instance->useWriteConnectionWhenReading($value);
             }
 
             /**
@@ -17131,11 +17171,9 @@ namespace Illuminate\Support\Facades {
                 return $instance->renderTranslation();
             }
         }
-
 }
 
 namespace Illuminate\Support {
-
         class Arr
         {
         }
@@ -17160,11 +17198,9 @@ namespace Illuminate\Support {
                 return \Illuminate\Support\Collection::paginate($perPage, $total, $page, $pageName);
             }
         }
-
 }
 
 namespace L5Swagger {
-
         class L5SwaggerFacade
         {
             /**
@@ -17177,7 +17213,6 @@ namespace L5Swagger {
                 return $instance->generateDocs();
             }
         }
-
 }
 
 namespace Facade\Ignition\Facades {
@@ -17440,19 +17475,15 @@ namespace Facade\Ignition\Facades {
                 return $instance->group($groupName, $properties);
             }
         }
-
 }
 
 namespace Fruitcake\TelescopeToolbar {
-
         class Toolbar
         {
         }
-
 }
 
 namespace Intervention\Image\Facades {
-
         class Image
         {
             /**
@@ -17516,11 +17547,9 @@ namespace Intervention\Image\Facades {
                 return $instance->cache($callback, $lifetime, $returnObj);
             }
         }
-
 }
 
 namespace Spatie\LaravelImageOptimizer\Facades {
-
         class ImageOptimizer
         {
             /**
@@ -17577,11 +17606,9 @@ namespace Spatie\LaravelImageOptimizer\Facades {
                 return $instance->optimize($pathToImage, $pathToOutput);
             }
         }
-
 }
 
 namespace Illuminate\Http {
-
         class Request
         {
             /**
@@ -17642,7 +17669,6 @@ namespace Illuminate\Http {
                 \Illuminate\Http\Request::transformEnums($transformations);
             }
         }
-
 }
 
 namespace Illuminate\Routing {
@@ -17663,7 +17689,6 @@ namespace Illuminate\Routing {
                 return \Illuminate\Routing\Router::enum($key, $class);
             }
         }
-
 }
 
 namespace  {
@@ -18193,7 +18218,7 @@ namespace  {
                  *
                  * @throws \Illuminate\Pagination\CursorPaginationException
                  *
-                 * @return \Illuminate\Contracts\Pagination\Paginator
+                 * @return \Illuminate\Contracts\Pagination\CursorPaginator
                  * @static
                  */
                 public static function cursorPaginate($perPage = null, $columns = [], $cursorName = 'cursor', $cursor = null)
@@ -21238,5 +21263,4 @@ namespace  {
             class ImageOptimizer extends \Spatie\LaravelImageOptimizer\Facades\ImageOptimizer
             {
             }
-
 }

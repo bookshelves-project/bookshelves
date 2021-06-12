@@ -64,13 +64,13 @@ class SetupCommand extends Command
         if ($this->confirm('Do you want setup this app in production?', false)) {
             $prod = true;
 
-            $this->warn('~ Production enabled.' . "\n");
+            $this->warn('~ Production enabled.'."\n");
             $production = $this->allowProduction();
             $this->updateEnvironmentFile($production);
         } else {
             $local = $this->setupLocal();
             $this->updateEnvironmentFile($local);
-            $this->warn('~ Development enabled.' . "\n");
+            $this->warn('~ Development enabled.'."\n");
         }
         $this->call('storage:link');
 
@@ -145,7 +145,7 @@ class SetupCommand extends Command
      */
     protected function welcome()
     {
-        $this->info('>> Welcome to ' . $this->appName . ' autosetup <<');
+        $this->info('>> Welcome to '.$this->appName.' autosetup <<');
     }
 
     /**
@@ -208,7 +208,7 @@ class SetupCommand extends Command
         if (! file_exists('.env')) {
             copy('.env.example', '.env');
 
-            $this->warn('.env file successfully created' . "\n");
+            $this->warn('.env file successfully created'."\n");
 
             return true;
         }
@@ -216,11 +216,11 @@ class SetupCommand extends Command
             unlink('.env');
             copy('.env.example', '.env');
 
-            $this->warn('~ .env file successfully recreated' . "\n");
+            $this->warn('~ .env file successfully recreated'."\n");
 
             return true;
         }
-        $this->warn('~ .env file creation skipped' . "\n");
+        $this->warn('~ .env file creation skipped'."\n");
 
         return false;
     }

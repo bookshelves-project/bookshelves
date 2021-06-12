@@ -30,7 +30,7 @@ class SubmissionMail extends Mailable
         /** @var Mailable $mail */
         $mail = $this;
 
-        $subject = '[Bookshelves] Contact from ' . $this->submission->name;
+        $subject = '[Bookshelves] Contact from '.$this->submission->name;
         $from_address = config('mail.from.address');
         $from_name = config('mail.from.name');
         $to_address = config('mail.to.address');

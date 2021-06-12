@@ -53,7 +53,7 @@ class SerieController extends Controller
         $limitParameters = ['pagination', 'all', 'full'];
         if (! in_array($limit, $limitParameters)) {
             return response()->json(
-                "Invalid 'limit' query parameter, must be like '" . implode("' or '", $limitParameters) . "'",
+                "Invalid 'limit' query parameter, must be like '".implode("' or '", $limitParameters)."'",
                 400
             );
         }

@@ -46,8 +46,8 @@ class ManageStorage
     public static function directoryToStorage($dir)
     {
         $database_files = database_path('seeders/storage/');
-        $src = $database_files . $dir;
-        $dst = storage_path('app/public/' . $dir);
+        $src = $database_files.$dir;
+        $dst = storage_path('app/public/'.$dir);
         self::recurseCopy($src, $dst);
     }
 
@@ -57,10 +57,10 @@ class ManageStorage
         @mkdir($dst, 0775, true);
         while (false !== ($file = readdir($dir))) {
             if (('.' != $file) && ('..' != $file)) {
-                if (is_dir($src . '/' . $file)) {
-                    self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
+                if (is_dir($src.'/'.$file)) {
+                    self::recurseCopy($src.'/'.$file, $dst.'/'.$file);
                 } else {
-                    copy($src . '/' . $file, $dst . '/' . $file);
+                    copy($src.'/'.$file, $dst.'/'.$file);
                 }
             }
         }
@@ -73,10 +73,10 @@ class ManageStorage
             $objects = scandir($dir);
             foreach ($objects as $object) {
                 if ('.' != $object && '..' != $object) {
-                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object) && ! is_link($dir . '/' . $object)) {
-                        self::rrmdir($dir . DIRECTORY_SEPARATOR . $object);
+                    if (is_dir($dir.DIRECTORY_SEPARATOR.$object) && ! is_link($dir.'/'.$object)) {
+                        self::rrmdir($dir.DIRECTORY_SEPARATOR.$object);
                     } else {
-                        unlink($dir . DIRECTORY_SEPARATOR . $object);
+                        unlink($dir.DIRECTORY_SEPARATOR.$object);
                     }
                 }
             }

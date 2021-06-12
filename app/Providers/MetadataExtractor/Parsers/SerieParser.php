@@ -26,7 +26,7 @@ class SerieParser
             $title = $serie;
             $title_sort = MetadataExtractorTools::getSortString($title);
             if (1 === strlen((string) $volume)) {
-                $volume = '0' . $volume;
+                $volume = '0'.$volume;
             }
         } else {
             $volume = 0;

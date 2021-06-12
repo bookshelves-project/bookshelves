@@ -94,7 +94,7 @@ class BookshelvesTools
         ];
         $factor = floor((strlen($bytes) - 1) / 3);
 
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . ' ' . @$sz[$factor];
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).' '.@$sz[$factor];
     }
 
     /**
@@ -110,7 +110,7 @@ class BookshelvesTools
             if ($isUTF8) {
                 $content = trim($content);
                 if ($limit && strlen($content) > $limit) {
-                    $content = substr($content, 0, $limit) . '...';
+                    $content = substr($content, 0, $limit).'...';
                 }
                 $content = strip_tags($content);
                 $content = Str::ascii($content);

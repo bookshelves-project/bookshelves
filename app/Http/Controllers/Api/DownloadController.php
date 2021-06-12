@@ -171,7 +171,7 @@ class DownloadController extends Controller
      */
     public function getZip(string $model_name, string $slug)
     {
-        $modelName = '\App\Models' . '\\' . $model_name;
+        $modelName = '\App\Models'.'\\'.$model_name;
         $model = $modelName::with('books')->whereSlug($slug)->firstOrFail();
 
         try {
@@ -193,9 +193,9 @@ class DownloadController extends Controller
             }
 
             $zip = new ZipArchive();
-            $fileName = $dirname . '.zip';
+            $fileName = $dirname.'.zip';
 
-            if (true === $zip->open(public_path('storage/' . $fileName), ZipArchive::CREATE)) {
+            if (true === $zip->open(public_path('storage/'.$fileName), ZipArchive::CREATE)) {
                 $files = File::files(public_path("storage/$dirname"));
 
                 foreach ($files as $key => $value) {

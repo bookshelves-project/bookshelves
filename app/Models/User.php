@@ -82,7 +82,7 @@ class User extends Authenticatable implements HasMedia
             return $this->getMedia('users')->first()?->getUrl();
         }
 
-        return 'https://eu.ui-avatars.com/api/?name=' . $this->name . '&color=7F9CF5&background=EBF4FF';
+        return 'https://eu.ui-avatars.com/api/?name='.$this->name.'&color=7F9CF5&background=EBF4FF';
     }
 
     public function hasRole(RoleEnum $role_to_verify): bool
