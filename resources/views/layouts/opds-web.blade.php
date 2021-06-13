@@ -63,6 +63,11 @@
                             Series
                         </a>
                     </td>
+                    <td class="text-xl font-semibold">
+                        <a href="{{ route('api.opds.index') }}">
+                            OPDS by Atom
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>

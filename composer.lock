@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "201558e7c34cef85833791fd87fee15e",
+    "content-hash": "b65d8cf214f9dfb981513a64c3ce4e9e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2597,69 +2597,6 @@
             "time": "2020-12-14T13:15:25+00:00"
         },
         {
-            "name": "mtownsend/response-xml",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mtownsend5512/response-xml.git",
-                "reference": "4051c9d1847f267182fccb4bff3980e437d31328"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mtownsend5512/response-xml/zipball/4051c9d1847f267182fccb4bff3980e437d31328",
-                "reference": "4051c9d1847f267182fccb4bff3980e437d31328",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/container": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0",
-                "illuminate/http": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0",
-                "illuminate/routing": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0",
-                "illuminate/support": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0",
-                "php": "~7.0|~8.0",
-                "spatie/array-to-xml": "^2.16"
-            },
-            "require-dev": {
-                "laravel/framework": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0",
-                "phpunit/phpunit": "^6.4|^8.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Mtownsend\\ResponseXml\\Providers\\ResponseXmlServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Mtownsend\\ResponseXml\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mark Townsend",
-                    "email": "mtownsend5512@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "The missing XML support for Laravel's Response class.",
-            "keywords": [
-                "api",
-                "laravel",
-                "response",
-                "xml"
-            ],
-            "support": {
-                "issues": "https://github.com/mtownsend5512/response-xml/issues",
-                "source": "https://github.com/mtownsend5512/response-xml/tree/2.0.0"
-            },
-            "time": "2021-01-11T14:04:45+00:00"
-        },
-        {
             "name": "myclabs/php-enum",
             "version": "1.8.0",
             "source": {
@@ -2721,16 +2658,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.48.1",
+            "version": "2.49.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "8d1f50f1436fb4b05e7127360483dd9c6e73da16"
+                "reference": "93d9db91c0235c486875d22f1e08b50bdf3e6eee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/8d1f50f1436fb4b05e7127360483dd9c6e73da16",
-                "reference": "8d1f50f1436fb4b05e7127360483dd9c6e73da16",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/93d9db91c0235c486875d22f1e08b50bdf3e6eee",
+                "reference": "93d9db91c0235c486875d22f1e08b50bdf3e6eee",
                 "shasum": ""
             },
             "require": {
@@ -2810,7 +2747,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-26T22:08:38+00:00"
+            "time": "2021-06-02T07:31:40+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -3816,25 +3753,25 @@
         },
         {
             "name": "spatie/array-to-xml",
-            "version": "2.16.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/array-to-xml.git",
-                "reference": "db39308c5236b69b89cadc3f44f191704814eae2"
+                "reference": "360a0787faf8df8f767b05bde42f917d0640bd41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/db39308c5236b69b89cadc3f44f191704814eae2",
-                "reference": "db39308c5236b69b89cadc3f44f191704814eae2",
+                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/360a0787faf8df8f767b05bde42f917d0640bd41",
+                "reference": "360a0787faf8df8f767b05bde42f917d0640bd41",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
-                "php": "^7.4|^8.0"
+                "php": "^8.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.2",
-                "phpunit/phpunit": "^9.0",
+                "phpunit/phpunit": "^9.5",
                 "spatie/phpunit-snapshot-assertions": "^4.2"
             },
             "type": "library",
@@ -3864,7 +3801,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/array-to-xml/issues",
-                "source": "https://github.com/spatie/array-to-xml/tree/2.16.0"
+                "source": "https://github.com/spatie/array-to-xml/tree/3.0.0"
             },
             "funding": [
                 {
@@ -3876,7 +3813,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-18T22:03:17+00:00"
+            "time": "2021-04-23T11:54:50+00:00"
         },
         {
             "name": "spatie/eloquent-sortable",
@@ -4477,16 +4414,16 @@
         },
         {
             "name": "spatie/laravel-route-attributes",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-route-attributes.git",
-                "reference": "8c2bc2c6c8ed3220dec8605038f2e8c31ab91665"
+                "reference": "fd4e44ffdd102a38046089ca7b8804922623a310"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-route-attributes/zipball/8c2bc2c6c8ed3220dec8605038f2e8c31ab91665",
-                "reference": "8c2bc2c6c8ed3220dec8605038f2e8c31ab91665",
+                "url": "https://api.github.com/repos/spatie/laravel-route-attributes/zipball/fd4e44ffdd102a38046089ca7b8804922623a310",
+                "reference": "fd4e44ffdd102a38046089ca7b8804922623a310",
                 "shasum": ""
             },
             "require": {
@@ -4504,10 +4441,7 @@
                 "laravel": {
                     "providers": [
                         "Spatie\\RouteAttributes\\RouteAttributesServiceProvider"
-                    ],
-                    "aliases": {
-                        "RouteAttributes": "Spatie\\RouteAttributes\\RouteAttributesFacade"
-                    }
+                    ]
                 }
             },
             "autoload": {
@@ -4536,7 +4470,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-route-attributes/issues",
-                "source": "https://github.com/spatie/laravel-route-attributes/tree/1.4.0"
+                "source": "https://github.com/spatie/laravel-route-attributes/tree/1.4.1"
             },
             "funding": [
                 {
@@ -4548,7 +4482,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-04-08T21:14:08+00:00"
+            "time": "2021-06-09T15:27:29+00:00"
         },
         {
             "name": "spatie/laravel-tags",
@@ -8058,16 +7992,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.1.2",
+            "version": "2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "1845e6854aa3f37f2c6c24bc525541b00b8b28e4"
+                "reference": "fc5c4573aafce3a018eb7f1f8f91cea423970f2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/1845e6854aa3f37f2c6c24bc525541b00b8b28e4",
-                "reference": "1845e6854aa3f37f2c6c24bc525541b00b8b28e4",
+                "url": "https://api.github.com/repos/composer/composer/zipball/fc5c4573aafce3a018eb7f1f8f91cea423970f2e",
+                "reference": "fc5c4573aafce3a018eb7f1f8f91cea423970f2e",
                 "shasum": ""
             },
             "require": {
@@ -8136,7 +8070,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.1.2"
+                "source": "https://github.com/composer/composer/tree/2.1.3"
             },
             "funding": [
                 {
@@ -8152,7 +8086,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-07T14:03:06+00:00"
+            "time": "2021-06-09T14:31:20+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -8856,16 +8790,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.10.1",
+            "version": "2.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "508d80f91de953617977e5666f8953669b6e81f2"
+                "reference": "43688227bbf27c43bc1ad83af224f135b6ef0ff4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/508d80f91de953617977e5666f8953669b6e81f2",
-                "reference": "508d80f91de953617977e5666f8953669b6e81f2",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/43688227bbf27c43bc1ad83af224f135b6ef0ff4",
+                "reference": "43688227bbf27c43bc1ad83af224f135b6ef0ff4",
                 "shasum": ""
             },
             "require": {
@@ -8929,7 +8863,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-06-03T21:41:42+00:00"
+            "time": "2021-06-11T06:57:25+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -9269,16 +9203,16 @@
         },
         {
             "name": "laravel/breeze",
-            "version": "v1.2.3",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/breeze.git",
-                "reference": "e87021e61e50a202e87896bd2e0763e423ac0c27"
+                "reference": "31083193c2050a970bfd38378a93ecf166b5c985"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/breeze/zipball/e87021e61e50a202e87896bd2e0763e423ac0c27",
-                "reference": "e87021e61e50a202e87896bd2e0763e423ac0c27",
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/31083193c2050a970bfd38378a93ecf166b5c985",
+                "reference": "31083193c2050a970bfd38378a93ecf166b5c985",
                 "shasum": ""
             },
             "require": {
@@ -9322,7 +9256,7 @@
                 "issues": "https://github.com/laravel/breeze/issues",
                 "source": "https://github.com/laravel/breeze"
             },
-            "time": "2021-06-08T13:45:26+00:00"
+            "time": "2021-06-08T20:27:33+00:00"
         },
         {
             "name": "laravel/sail",
@@ -9964,16 +9898,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.88",
+            "version": "0.12.89",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "464d1a81af49409c41074aa6640ed0c4cbd9bb68"
+                "reference": "54c0f5a6c30511b77128d58b6369f718df250542"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/464d1a81af49409c41074aa6640ed0c4cbd9bb68",
-                "reference": "464d1a81af49409c41074aa6640ed0c4cbd9bb68",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/54c0f5a6c30511b77128d58b6369f718df250542",
+                "reference": "54c0f5a6c30511b77128d58b6369f718df250542",
                 "shasum": ""
             },
             "require": {
@@ -10004,11 +9938,15 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.88"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.89"
             },
             "funding": [
                 {
                     "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/phpstan",
                     "type": "github"
                 },
                 {
@@ -10020,7 +9958,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-17T12:24:49+00:00"
+            "time": "2021-06-09T20:23:49+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -10999,16 +10937,16 @@
         },
         {
             "name": "sebastian/global-state",
-            "version": "5.0.2",
+            "version": "5.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "a90ccbddffa067b51f574dea6eb25d5680839455"
+                "reference": "23bd5951f7ff26f12d4e3242864df3e08dec4e49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/a90ccbddffa067b51f574dea6eb25d5680839455",
-                "reference": "a90ccbddffa067b51f574dea6eb25d5680839455",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/23bd5951f7ff26f12d4e3242864df3e08dec4e49",
+                "reference": "23bd5951f7ff26f12d4e3242864df3e08dec4e49",
                 "shasum": ""
             },
             "require": {
@@ -11051,7 +10989,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/global-state/issues",
-                "source": "https://github.com/sebastianbergmann/global-state/tree/5.0.2"
+                "source": "https://github.com/sebastianbergmann/global-state/tree/5.0.3"
             },
             "funding": [
                 {
@@ -11059,7 +10997,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-26T15:55:19+00:00"
+            "time": "2021-06-11T13:31:12+00:00"
         },
         {
             "name": "sebastian/lines-of-code",

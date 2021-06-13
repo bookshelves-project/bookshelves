@@ -53,6 +53,11 @@
                             v1.2
                         </a>
                     </td>
+                    <td class="text-xl font-semibold">
+                        <a href="{{ route('api.opds-web.index') }}">
+                            OPDS Web
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>

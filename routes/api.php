@@ -58,8 +58,9 @@ Route::prefix('opds-web')->group(function () {
 });
 
 Route::get('/opds', [OpdsController::class, 'index'])->name('api.opds.index');
+
 Route::prefix('opds/v1.2')->group(function () {
-	Route::get('/feed', [OpdsBookController::class, 'index'])->name('api.opds.1-2.feed');
+	Route::get('/', [OpdsController::class, 'feed'])->name('api.opds.1-2.feed');
 });
 
 /*
