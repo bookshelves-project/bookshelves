@@ -27,6 +27,7 @@ class BookOrSerieResource extends JsonResource
 			],
 			'title' => $this->resource->title,
 			'authors' => AuthorUltraLightResource::collection($this->resource->authors),
+			'volume' => $this->resource->volume ? $this->resource->volume : null,
 			'picture' => [
 				'base' => $this->resource->image_thumbnail,
 				'original' => $this->resource->image_original,

@@ -99,8 +99,10 @@ Route::get('/search/advanced', [SearchController::class, 'advanced'])->name('api
  * Details routes
  */
 Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('api.books.show');
+Route::get('/books/light/{author}/{book}', [BookController::class, 'showLight'])->name('api.books.show-light');
 Route::get('/books/related/{author}/{slug}', [BookController::class, 'related'])->name('api.books.related');
 Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('api.series.show');
+Route::get('/series/books/{volume}/{author}/{serie}', [SerieController::class, 'showCurrent'])->name('api.series.show-current');
 Route::get('/authors/{author}', [AuthorController::class, 'show'])->name('api.authors.show');
 
 /*
@@ -151,6 +153,8 @@ Route::get('/genres/{genre}', [GenreController::class, 'show'])->name('api.genre
 /* Publishers routes */
 Route::get('/publishers', [PublisherController::class, 'index'])->name('api.publishers.index');
 Route::get('/publishers/{publisher}', [PublisherController::class, 'show'])->name('api.publishers.show');
+Route::get('/publishers/light/{publisher}', [PublisherController::class, 'showLight'])->name('api.publishers.show-light');
+Route::get('/publishers/books/{publisher}', [PublisherController::class, 'showBooks'])->name('api.publishers.show-books');
 
 /*
  * Lang routes

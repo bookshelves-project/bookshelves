@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\Book\BookLightestResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookResource;
@@ -13,6 +14,7 @@ use App\Models\Language;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
 
 class BookController extends Controller
 {
@@ -169,6 +171,21 @@ class BookController extends Controller
 		return $book;
 	}
 
+	public function showLight(Request $request, string $author, string $book)
+	{
+		$author = Author::whereSlug($author)->firstOrFail();
+		$book = Book::whereHas('authors', function ($query) use ($author) {
+			return $query->where('author_id', '=', $author->id);
+		})->whereSlug($book)->firstOrFail();
+
+		return response()->json([
+			'data' => [
+				'title' => $book->title,
+				'authors' => AuthorUltraLightResource::collection($book->authors),
+			],
+		]);
+	}
+
 	public function update(Request $request)
 	{
 		$books = Book::limit(5)->get();
@@ -272,7 +289,7 @@ class BookController extends Controller
 
 	public function related(string $authorSlug, string $bookSlug, Request $request)
 	{
-		$limit = $request->get('limit') ? filter_var($request->get('limit'), FILTER_VALIDATE_BOOLEAN) : null;
+		$limit = $request->get('limit') ? filter_var($request->get('limit'), FILTER_VALIDATE_BOOLEAN) : false;
 
 		// get book
 		$author = Author::whereSlug($authorSlug)->first();
@@ -284,50 +301,13 @@ class BookController extends Controller
 
 		// if tags
 		if (sizeof($tags) >= 1) {
-			// get serie of current book
-			$serie_books = Serie::whereSlug($book->serie?->slug)->first();
-			// get books of this serie
-			$serie_books = $serie_books?->books;
-
 			// get related books by tags, same lang, limited to 10 results
 			$related_books = Book::withAllTags($tags)->whereLanguageSlug($book->language_slug)->get();
+			$related_books = $this->filterRelatedBooks($book, $related_books, $limit);
 
-			// if serie exist
-			if ($serie_books) {
-				// remove all books from this serie
-				$filtered = $related_books->filter(function ($book) use ($serie_books) {
-					foreach ($serie_books as $serie_book) {
-						if ($book->serie) {
-							return $book->serie->slug != $serie_book->serie->slug;
-						}
-					}
-				});
-				$related_books = $filtered;
-			}
-			// remove current book
-			$related_books = $related_books->filter(function ($related_book) use ($book) {
-				return $related_book->slug != $book->slug;
-			});
-
-			// get series of related
-			$series_list = collect();
-			foreach ($related_books as $key => $book) {
-				if ($book->serie) {
-					$series_list->add($book->serie);
-				}
-			}
-			// remove all books of series
-			$related_books = $related_books->filter(function ($book) {
-				return null === $book->serie;
-			});
-
-			// unique on series
-			$series_list = $series_list->unique();
-
-			$related_books = $related_books->merge($series_list);
-			$related_books = $related_books->sortBy('title_sort');
-			if ($limit) {
-				$related_books = $related_books->slice(0, 10);
+			if ($related_books->count() <= 1) {
+				$related_books = Book::withAnyTags($tags)->whereLanguageSlug($book->language_slug)->get();
+				$related_books = $this->filterRelatedBooks($book, $related_books, $limit);
 			}
 
 			return BookOrSerieResource::collection($related_books);
@@ -337,5 +317,58 @@ class BookController extends Controller
 			'No tags',
 			400
 		);
+	}
+
+	public function filterRelatedBooks(Book $book, Collection $related_books, bool $limit): Collection
+	{
+		// get serie of current book
+		$serie_books = Serie::whereSlug($book->serie?->slug)->first();
+		// get books of this serie
+		$serie_books = $serie_books?->books;
+
+		// if serie exist
+		if ($serie_books) {
+			// remove all books from this serie
+			$filtered = $related_books->filter(function ($book) use ($serie_books) {
+				foreach ($serie_books as $serie_book) {
+					if ($book->serie) {
+						return $book->serie->slug != $serie_book->serie->slug;
+					}
+				}
+			});
+			$related_books = $filtered;
+		}
+		// remove current book
+		$related_books = $related_books->filter(function ($related_book) use ($book) {
+			return $related_book->slug != $book->slug;
+		});
+
+		// get series of related
+		$series_list = collect();
+		foreach ($related_books as $key => $book) {
+			if ($book->serie) {
+				$series_list->add($book->serie);
+			}
+		}
+		// remove all books of series
+		$related_books = $related_books->filter(function ($book) {
+			return null === $book->serie;
+		});
+
+		// unique on series
+		$series_list = $series_list->unique();
+
+		// merge books and series
+		$related_books = $related_books->merge($series_list);
+
+		// sort entities
+		$related_books = $related_books->sortBy('title_sort');
+
+		// set limit
+		if ($limit) {
+			$related_books = $related_books->slice(0, 10);
+		}
+
+		return $related_books;
 	}
 }
