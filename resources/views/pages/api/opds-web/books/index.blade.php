@@ -1,4 +1,4 @@
-@extends('layouts.opds')
+@extends('layouts.opds-web')
 
 @section('title', 'Books')
 

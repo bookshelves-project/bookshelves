@@ -57,9 +57,9 @@ Route::prefix('opds-web')->group(function () {
 	Route::get('/authors/{slug}', [OpdsWebAuthorController::class, 'show'])->name('api.opds-web.authors.show');
 });
 
-Route::prefix('opds')->group(function () {
-	Route::get('/', [OpdsController::class, 'index'])->name('api.opds.index');
-	Route::get('/books', [OpdsBookController::class, 'index'])->name('api.opds.books.index');
+Route::get('/opds', [OpdsController::class, 'index'])->name('api.opds.index');
+Route::prefix('opds/v1.2')->group(function () {
+	Route::get('/feed', [OpdsBookController::class, 'index'])->name('api.opds.1-2.feed');
 });
 
 /*

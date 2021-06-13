@@ -8,7 +8,7 @@
 
     <title>
         @hasSection('title')
-            @yield('title') · OPDS · {{ config('app.name') }}
+            @yield('title') · OPDS Web · {{ config('app.name') }}
         @else
             {{ config('app.name') }}
         @endif
@@ -34,10 +34,10 @@
                 <td>
                     <div class="ml-4">
                         <div class="text-4xl">
-                            Bookshelves OPDS
+                            Bookshelves OPDS Web
                         </div>
                         <div class="text-sm">
-                            Open Publication Distribution System
+                            Open Publication Distribution System Web
                         </div>
                     </div>
                 </td>
@@ -49,8 +49,18 @@
             <tbody>
                 <tr>
                     <td class="text-xl font-semibold">
-                        <a href="{{ route('api.opds.1-2.feed') }}">
-                            v1.2
+                        <a href="{{ route('api.opds-web.index') }}">
+                            Home
+                        </a>
+                    </td>
+                    <td class="text-xl font-semibold">
+                        <a href="{{ route('api.opds-web.authors') }}">
+                            Authors
+                        </a>
+                    </td>
+                    <td class="text-xl font-semibold">
+                        <a href="{{ route('api.opds-web.series') }}">
+                            Series
                         </a>
                     </td>
                 </tr>
