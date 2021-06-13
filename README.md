@@ -173,3 +173,4 @@ php artisan bookshelves:sample
 - [ ] larastan upgrade level
 - [ ] more tests for models
 - [ ] authors notes WIP
+- [ ] opds <https://specs.opds.io/opds-1.2>
