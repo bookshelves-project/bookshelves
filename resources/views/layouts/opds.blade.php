@@ -8,7 +8,7 @@
 
     <title>
         @hasSection('title')
-            @yield('title') · OPDS · {{ config('app.name') }}
+            @yield('title') · {{ config('app.name') }} OPDS
         @else
             {{ config('app.name') }}
         @endif
@@ -49,13 +49,13 @@
             <tbody>
                 <tr>
                     <td class="text-xl font-semibold">
-                        <a href="{{ route('api.opds.1-2.feed') }}">
+                        <a href="{{ route('api.opds.1-2') }}">
                             v1.2
                         </a>
                     </td>
                     <td class="text-xl font-semibold">
                         <a href="{{ route('api.catalog.index') }}">
-                            Catalog (for eReader browser)
+                            Catalog, OPDS alternative
                         </a>
                     </td>
                 </tr>

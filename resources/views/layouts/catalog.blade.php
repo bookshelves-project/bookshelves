@@ -8,7 +8,7 @@
 
     <title>
         @hasSection('title')
-            @yield('title') · Catalog · {{ config('app.name') }}
+            @yield('title') · {{ config('app.name') }} Catalog
         @else
             {{ config('app.name') }}
         @endif
@@ -34,10 +34,10 @@
                 <td>
                     <div class="ml-4">
                         <div class="text-4xl">
-                            Bookshelves
+                            Bookshelves Catalog
                         </div>
                         <div class="text-sm">
-                            eReader Catalog
+                            eBooks catalog for eReader browser
                         </div>
                     </div>
                 </td>
