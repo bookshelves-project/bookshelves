@@ -25,7 +25,7 @@
 
 <body class="font-sans antialiased relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     {{-- @include('components.layout.navbar') --}}
-    <a href="{{ route('api.opds-web.index') }}" class="flex items-center justify-center mt-4 font-handlee">
+    <a href="{{ route('api.catalog.index') }}" class="flex items-center justify-center mt-4 font-handlee">
         <table class="mx-auto">
             <tr>
                 <td>
@@ -54,8 +54,8 @@
                         </a>
                     </td>
                     <td class="text-xl font-semibold">
-                        <a href="{{ route('api.opds-web.index') }}">
-                            OPDS Web
+                        <a href="{{ route('api.catalog.index') }}">
+                            Catalog (for eReader browser)
                         </a>
                     </td>
                 </tr>

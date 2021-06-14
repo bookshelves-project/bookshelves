@@ -3,6 +3,10 @@
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\Api\Catalog\AuthorController as CatalogAuthorController;
+use App\Http\Controllers\Api\Catalog\BookController as CatalogBookController;
+use App\Http\Controllers\Api\Catalog\CatalogController;
+use App\Http\Controllers\Api\Catalog\SerieController as CatalogSerieController;
 use App\Http\Controllers\Api\CommandController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CountController;
@@ -13,10 +17,6 @@ use App\Http\Controllers\Api\GenreController;
 use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\Opds\BookController as OpdsBookController;
 use App\Http\Controllers\Api\Opds\OpdsController;
-use App\Http\Controllers\Api\OpdsWeb\AuthorController as OpdsWebAuthorController;
-use App\Http\Controllers\Api\OpdsWeb\BookController as OpdsWebBookController;
-use App\Http\Controllers\Api\OpdsWeb\OpdsWebController;
-use App\Http\Controllers\Api\OpdsWeb\SerieController as OpdsWebSerieController;
 use App\Http\Controllers\Api\PublisherController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SerieController;
@@ -43,18 +43,18 @@ Route::get('/', [ApiController::class, 'index'])->name('api.index');
 /*
  * opds routes
  */
-Route::prefix('opds-web')->group(function () {
-	Route::get('/', [OpdsWebController::class, 'index'])->name('api.opds-web.index');
-	Route::get('/search', [OpdsWebController::class, 'search'])->name('api.opds-web.search');
+Route::prefix('catalog')->group(function () {
+	Route::get('/', [CatalogController::class, 'index'])->name('api.catalog.index');
+	Route::get('/search', [CatalogController::class, 'search'])->name('api.catalog.search');
 
-	// Route::get('/books', [OpdsBookController::class, 'index'])->name('api.opds-web.books');
-	Route::get('/books/{author}/{slug}', [OpdsWebBookController::class, 'show'])->name('api.opds-web.books.show');
+	// Route::get('/books', [OpdsBookController::class, 'index'])->name('api.catalog.books');
+	Route::get('/books/{author}/{slug}', [CatalogBookController::class, 'show'])->name('api.catalog.books.show');
 
-	Route::get('/series', [OpdsWebSerieController::class, 'index'])->name('api.opds-web.series');
-	Route::get('/series/{author}/{slug}', [OpdsWebSerieController::class, 'show'])->name('api.opds-web.series.show');
+	Route::get('/series', [CatalogSerieController::class, 'index'])->name('api.catalog.series');
+	Route::get('/series/{author}/{slug}', [CatalogSerieController::class, 'show'])->name('api.catalog.series.show');
 
-	Route::get('/authors', [OpdsWebAuthorController::class, 'index'])->name('api.opds-web.authors');
-	Route::get('/authors/{slug}', [OpdsWebAuthorController::class, 'show'])->name('api.opds-web.authors.show');
+	Route::get('/authors', [CatalogAuthorController::class, 'index'])->name('api.catalog.authors');
+	Route::get('/authors/{slug}', [CatalogAuthorController::class, 'show'])->name('api.catalog.authors.show');
 });
 
 Route::get('/opds', [OpdsController::class, 'index'])->name('api.opds.index');

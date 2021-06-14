@@ -1,4 +1,4 @@
-@extends('layouts.opds-web')
+@extends('layouts.catalog')
 
 @section('title', $serie->title)
 

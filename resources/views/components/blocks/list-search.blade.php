@@ -9,18 +9,18 @@
                     @foreach ($chunk as $item)
                         @php
                             $item = json_decode(json_encode($item));
-                            $route = route('api.opds-web.index');
+                            $route = route('api.catalog.index');
                             switch ($type) {
                                 case 'book':
-                                    $route = route('api.opds-web.books.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
+                                    $route = route('api.catalog.books.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
                                     break;
                             
                                 case 'serie':
-                                    $route = route('api.opds-web.series.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
+                                    $route = route('api.catalog.series.show', ['author' => $item->meta->author, 'slug' => $item->meta->slug]);
                                     break;
                             
                                 case 'author':
-                                    $route = route('api.opds-web.authors.show', ['slug' => $item->meta->slug]);
+                                    $route = route('api.catalog.authors.show', ['slug' => $item->meta->slug]);
                                     break;
                             
                                 default:

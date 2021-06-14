@@ -1,4 +1,4 @@
-@extends('layouts.opds-web')
+@extends('layouts.catalog')
 
 @section('title', 'Books')
 
@@ -16,12 +16,12 @@
             <div class="grid gap-5 mx-auto mt-12 md:grid-cols-2 lg:grid-cols-3 lg:max-w-none">
                 @foreach ($books as $book)
                     <div class="p-6 bg-white rounded-lg shadow-sm">
-                                    <div class="grid grid-cols-6">
-                                        <img class="object-cover w-12 h-12 col-span-1 rounded-full"
-                                            src="{{ $book->picture ? $book->picture->openGraph : 'images/no-cover.webp' }}"
-                                            title="{{ $book->title }}" alt="{{ $book->title }}">
-                                        <div class="col-span-5">
-                                            @if ($book->serie)
+                        <div class="grid grid-cols-6">
+                            <img class="object-cover w-12 h-12 col-span-1 rounded-full"
+                                src="{{ $book->picture ? $book->picture->openGraph : 'images/no-cover.webp' }}"
+                                title="{{ $book->title }}" alt="{{ $book->title }}">
+                            <div class="col-span-5">
+                                @if ($book->serie)
                                     <p class="text-sm font-medium text-primary-600">
                                         {{ $book->serie?->title }}, vol. {{ $book->volume }}
                                     </p>

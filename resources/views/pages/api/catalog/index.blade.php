@@ -1,12 +1,12 @@
-@extends('layouts.opds-web')
+@extends('layouts.catalog')
 
-@section('title', 'Catalog')
+@section('title', 'Home')
 
 @section('content')
     <div class="relative px-4 pb-20 sm:px-6 lg:pb-28 lg:px-8">
         <div class="relative mx-auto max-w-7xl">
             <div class="mt-10">
-                <form action="/api/opds-web/search" method="GET">
+                <form action="/api/catalog/search" method="GET">
                     <input type="search" name="q" class="block w-full max-w-xl mx-auto mt-1 rounded-md"
                         placeholder="Search by book title, by author name or by series title">
                     <button class="block px-3 py-2 mx-auto mt-3 text-3xl font-semibold text-center">
@@ -23,15 +23,6 @@
                         hesitate to tap on an author or a series, you will see list of books associated with, just tap on
                         the book that you want.
                     </div>
-                    <div class="mt-5">
-                        This is a very simple version for eReaders browsers with OPDS Web. Do you search OPDS Catalog format
-                        based on Atom
-                        ?
-                    </div>
-                    <a href="{{ route('api.opds.index') }}"
-                        class="block px-3 py-2 mx-auto mt-3 text-3xl font-semibold text-center">
-                        Get OPDS feed
-                    </a>
                 </div>
             </div>
             <div class="my-10"></div>

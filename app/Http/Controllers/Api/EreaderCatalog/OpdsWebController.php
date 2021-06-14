@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\OpdsWeb;
+namespace App\Http\Controllers\Api\Catalog;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookLightResource;
@@ -8,11 +8,11 @@ use App\Models\Book;
 use App\Utils\BookshelvesTools;
 use Illuminate\Http\Request;
 
-class OpdsWebController extends Controller
+class CatalogController extends Controller
 {
 	public function index(Request $request)
 	{
-		return view('pages.api.opds-web.index');
+		return view('pages.api.catalog.index');
 	}
 
 	public function search(Request $request)
@@ -33,7 +33,7 @@ class OpdsWebController extends Controller
 			});
 			$books = collect($books);
 
-			return view('pages.api.opds-web.search', compact('authors', 'series', 'books'));
+			return view('pages.api.catalog.search', compact('authors', 'series', 'books'));
 		}
 
 		return response()->json(['error' => 'Need to have terms query parameter'], 401);
@@ -46,7 +46,7 @@ class OpdsWebController extends Controller
 		$links = $books->onEachSide(1)->links();
 		$books = json_decode($books->toJson());
 
-		return view('pages.api.opds-web.series.index', compact('books', 'links'));
+		return view('pages.api.catalog.series.index', compact('books', 'links'));
 	}
 
 	public function authors(Request $request)
@@ -56,6 +56,6 @@ class OpdsWebController extends Controller
 		$links = $books->onEachSide(1)->links();
 		$books = json_decode($books->toJson());
 
-		return view('pages.api.opds-web.authors.index', compact('books', 'links'));
+		return view('pages.api.catalog.authors.index', compact('books', 'links'));
 	}
 }

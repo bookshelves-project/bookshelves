@@ -349,6 +349,7 @@ namespace App\Models{
      * @property mixed                                                                                                                         $genres_list
      * @property string|null                                                                                                                   $image_color
      * @property string|null                                                                                                                   $image_open_graph
+     * @property string|null                                                                                                                   $image_original
      * @property string|null                                                                                                                   $image_thumbnail
      * @property bool                                                                                                                          $is_favorite
      * @property string                                                                                                                        $show_link

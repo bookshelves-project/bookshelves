@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Opds;
+namespace App\Http\Controllers\Api\Catalog;
 
 use App\Models\Serie;
 use App\Models\Author;
@@ -18,7 +18,7 @@ class SerieController extends Controller
         $series = SearchSerieResource::collection($series);
         $series = collect($series);
 
-        return view('pages/api/opds/series/index', compact('series'));
+        return view('pages.api.catalog.series.index', compact('series'));
     }
 
     public function show(Request $request, string $author, string $slug)
@@ -30,6 +30,6 @@ class SerieController extends Controller
         $serie = SerieResource::make($serie);
         $serie = json_decode($serie->toJson());
 
-        return view('pages/api/opds/series/_slug', compact('serie'));
+        return view('pages.api.catalog.series._slug', compact('serie'));
     }
 }

@@ -160,12 +160,10 @@ class BookController extends Controller
 	 *     ),
 	 * )
 	 */
-	public function show(Request $request, string $author, string $book)
+	public function show(Request $request, string $author_slug, string $book_slug)
 	{
-		$author = Author::whereSlug($author)->firstOrFail();
-		$book = Book::whereHas('authors', function ($query) use ($author) {
-			return $query->where('author_id', '=', $author->id);
-		})->whereSlug($book)->firstOrFail();
+		$author = Author::whereSlug($author_slug)->firstOrFail();
+		$book = $author->books->firstWhere('slug', $book_slug);
 		$book = BookResource::make($book);
 
 		return $book;
