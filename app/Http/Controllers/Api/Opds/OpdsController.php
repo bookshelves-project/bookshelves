@@ -9,7 +9,6 @@ use DateTime;
 use Illuminate\Http\Request;
 use Response;
 use Route;
-use SimpleXMLElement;
 use Spatie\ArrayToXml\ArrayToXml;
 
 class OpdsController extends Controller
@@ -22,7 +21,6 @@ class OpdsController extends Controller
 	public function feed(Request $request)
 	{
 		$books = Book::orderBy('title_sort')->limit(30)->get();
-		// $books = $books->toArray();
 		$books = BookLightestResource::collection($books);
 		$books = $books->toArray($request);
 
@@ -30,12 +28,85 @@ class OpdsController extends Controller
 		foreach ($books as $key => $book) {
 			array_push($books_list, $book['title']);
 		}
-		// dd($books_list);
 
+		$id = parse_url(config('app.url'))['host'];
 		$date = new DateTime();
+		$date = $date->format('Y-m-d H:i:s');
+
+		$entries = [
+			[
+				'title' => 'Authors',
+				'updated' => $date,
+				'id' => "$id:authors",
+				'content' => [
+					'_attributes' => [
+						'type' => 'text',
+					],
+				],
+				'__custom:link:1' => [
+					'_attributes' => [
+						'href' => route(Route::currentRouteName()),
+						'type' => 'application/atom+xml;profile=opds-catalog;kind=navigation',
+					],
+				],
+				'__custom:link:2' => [
+					'_attributes' => [
+						'href' => 'image-path',
+						'type' => 'image/png',
+						'rel' => 'http://opds-spec.org/image/thumbnail',
+					],
+				],
+			],
+			[
+				'title' => 'Series',
+				'updated' => $date,
+				'id' => "$id:series",
+				'content' => [
+					'_attributes' => [
+						'type' => 'text',
+					],
+				],
+				'__custom:link:1' => [
+					'_attributes' => [
+						'href' => route(Route::currentRouteName()),
+						'type' => 'application/atom+xml;profile=opds-catalog;kind=navigation',
+					],
+				],
+				'__custom:link:2' => [
+					'_attributes' => [
+						'href' => 'image-path',
+						'type' => 'image/png',
+						'rel' => 'http://opds-spec.org/image/thumbnail',
+					],
+				],
+			],
+			[
+				'title' => 'Publishers',
+				'updated' => $date,
+				'id' => "$id:publishers",
+				'content' => [
+					'_attributes' => [
+						'type' => 'text',
+					],
+				],
+				'__custom:link:1' => [
+					'_attributes' => [
+						'href' => route(Route::currentRouteName()),
+						'type' => 'application/atom+xml;profile=opds-catalog;kind=navigation',
+					],
+				],
+				'__custom:link:2' => [
+					'_attributes' => [
+						'href' => 'image-path',
+						'type' => 'image/png',
+						'rel' => 'http://opds-spec.org/image/thumbnail',
+					],
+				],
+			],
+		];
 
 		$xml = [
-			'id' => parse_url(config('app.url'))['host'],
+			'id' => "$id:catalog",
 			'__custom:link:1' => [
 				'_attributes' => [
 					'rel' => 'self',
@@ -53,15 +124,14 @@ class OpdsController extends Controller
 				],
 			],
 			'title' => config('app.name') . ' OPDS',
-			'updated' => $date->format('Y-m-d H:i:s'),
+			'updated' => $date,
 			'author' => [
 				'name' => config('app.name'),
 				'uri' => config('app.url'),
 			],
-			'entry' => $books_list,
+			'entry' => $entries,
 		];
 
-		// $result = ArrayToXml::convert($test_array, [], true, 'UTF-8', '1.1', [], true);
 		$result = ArrayToXml::convert($xml, [
 			'rootElementName' => 'feed',
 			'_attributes' => [
@@ -75,17 +145,9 @@ class OpdsController extends Controller
 				'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
 			],
 		], true, 'UTF-8');
-		// $xml = new SimpleXMLElement('<root/>');
-		// array_walk_recursive($test_array, [$xml, 'addChild']);
-
-		// header("Content-type: text/xml; charset=utf-8");
-		// echo sendResponse($type,$cause);
 
 		return response($result)->withHeaders([
 			'Content-Type' => 'text/xml',
-			// 'charset' => 'utf-8',
 		]);
-
-		// return response()->xml($xml);
 	}
 }
