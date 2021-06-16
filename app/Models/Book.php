@@ -49,9 +49,9 @@ class Book extends Model implements HasMedia
 	/** @mixin \Spatie\Image\Manipulations */
 	public function registerMediaConversions(Media $media = null): void
 	{
-		$formatBasic = config('image.thumbnails.picture_cover');
-		$formatThumbnail = config('image.thumbnails.picture_thumbnail');
-		$formatStandard = config('image.thumbnails.picture_open_graph');
+		$formatThumbnail = config('image.pictures.thumbnail');
+		$formatStandard = config('image.pictures.open_graph');
+		$formatSimple = config('image.pictures.simple');
 
 		// $this->addMediaConversion('basic')
 		//     ->crop(Manipulations::CROP_TOP, $formatBasic['width'], $formatBasic['height'])
@@ -64,6 +64,10 @@ class Book extends Model implements HasMedia
 		$this->addMediaConversion('open_graph')
 			->crop(Manipulations::CROP_CENTER, $formatStandard['width'], $formatStandard['height'])
 			->format('jpg');
+
+		$this->addMediaConversion('simple')
+			->crop(Manipulations::CROP_CENTER, $formatSimple['width'], $formatSimple['height'])
+			->format('jpg');
 	}
 
 	public function getImageThumbnailAttribute(): string | null
@@ -74,6 +78,11 @@ class Book extends Model implements HasMedia
 	public function getImageOpenGraphAttribute(): string | null
 	{
 		return $this->getFirstMediaUrl('books', 'open_graph');
+	}
+
+	public function getImageSimpleAttribute(): string | null
+	{
+		return $this->getFirstMediaUrl('books', 'simple');
 	}
 
 	public function getImageOriginalAttribute(): string | null

@@ -1,0 +1,16 @@
+[
+    {
+        "key": "authors",
+        "model": "Author",
+        "title": "Authors",
+        "content": "Authors availables",
+        "route": "api.opds.1-2.authors"
+    },
+    {
+        "key": "series",
+        "model": "Serie",
+        "title": "Series",
+        "content": "Series availables",
+        "route": "api.opds.1-2.series"
+    }
+]

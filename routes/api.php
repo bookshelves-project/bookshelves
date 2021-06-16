@@ -15,7 +15,6 @@ use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\GenreController;
 use App\Http\Controllers\Api\LanguageController;
-use App\Http\Controllers\Api\Opds\BookController as OpdsBookController;
 use App\Http\Controllers\Api\Opds\OpdsController;
 use App\Http\Controllers\Api\PublisherController;
 use App\Http\Controllers\Api\SearchController;
@@ -48,19 +47,22 @@ Route::prefix('catalog')->group(function () {
 	Route::get('/search', [CatalogController::class, 'search'])->name('api.catalog.search');
 
 	// Route::get('/books', [OpdsBookController::class, 'index'])->name('api.catalog.books');
-	Route::get('/books/{author}/{slug}', [CatalogBookController::class, 'show'])->name('api.catalog.books.show');
+	Route::get('/books/{author}/{book}', [CatalogBookController::class, 'show'])->name('api.catalog.books.show');
 
 	Route::get('/series', [CatalogSerieController::class, 'index'])->name('api.catalog.series');
-	Route::get('/series/{author}/{slug}', [CatalogSerieController::class, 'show'])->name('api.catalog.series.show');
+	Route::get('/series/{author}/{serie}', [CatalogSerieController::class, 'show'])->name('api.catalog.series.show');
 
 	Route::get('/authors', [CatalogAuthorController::class, 'index'])->name('api.catalog.authors');
-	Route::get('/authors/{slug}', [CatalogAuthorController::class, 'show'])->name('api.catalog.authors.show');
+	Route::get('/authors/{author}', [CatalogAuthorController::class, 'show'])->name('api.catalog.authors.show');
 });
 
 Route::get('/opds', [OpdsController::class, 'index'])->name('api.opds.index');
 
 Route::prefix('opds/v1.2')->group(function () {
 	Route::get('/', [OpdsController::class, 'feed'])->name('api.opds.1-2');
+	Route::get('/books', [OpdsController::class, 'books'])->name('api.opds.1-2.books');
+	Route::get('/series', [OpdsController::class, 'series'])->name('api.opds.1-2.series');
+	Route::get('/authors', [OpdsController::class, 'authors'])->name('api.opds.1-2.authors');
 });
 
 /*
@@ -101,7 +103,7 @@ Route::get('/search/advanced', [SearchController::class, 'advanced'])->name('api
  */
 Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('api.books.show');
 Route::get('/books/light/{author}/{book}', [BookController::class, 'showLight'])->name('api.books.show-light');
-Route::get('/books/related/{author}/{slug}', [BookController::class, 'related'])->name('api.books.related');
+Route::get('/books/related/{author}/{book}', [BookController::class, 'related'])->name('api.books.related');
 Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('api.series.show');
 Route::get('/series/books/{volume}/{author}/{serie}', [SerieController::class, 'showCurrent'])->name('api.series.show-current');
 Route::get('/authors/{author}', [AuthorController::class, 'show'])->name('api.authors.show');

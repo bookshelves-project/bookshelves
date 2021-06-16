@@ -3,10 +3,10 @@
 !covers/
 # !raw/books/
 !.gitignore
-!.gitignore-sample
 
 !cache/
 !demo-ebooks
 !media/
 !debug/
 !raw/
+!assets/*

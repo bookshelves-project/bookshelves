@@ -72,7 +72,7 @@
             </tbody>
         </table>
     </nav>
-    <div class="max-w-5xl p-5 mx-auto">
+    <div class="max-w-5xl mx-auto">
         @yield('content')
     </div>
     <script src="{{ asset('js/app.js') }}"></script>

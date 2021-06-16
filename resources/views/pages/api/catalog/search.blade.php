@@ -9,7 +9,7 @@
                 <form action="/api/catalog/search" method="GET">
                     <input type="search" name="q" class="block w-full max-w-xl mx-auto mt-1 rounded-md"
                         placeholder="Search by book title, by author name or by series title">
-                    <button class="block px-3 py-2 mx-auto mt-3 text-3xl font-semibold text-center">
+                    <button class="block px-3 py-2 mx-auto mt-3 text-3xl font-handlee text-center">
                         Launch search
                     </button>
                 </form>

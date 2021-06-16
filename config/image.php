@@ -1,7 +1,7 @@
 <?php
 
 return [
-    /*
+	/*
   |--------------------------------------------------------------------------
   | Image Driver
   |--------------------------------------------------------------------------
@@ -14,46 +14,52 @@ return [
   |
   */
 
-    'driver' => env('IMAGE_DRIVER', 'gd'),
-    'format' => 'webp',
+	'driver' => env('IMAGE_DRIVER', 'gd'),
+	'format' => 'webp',
 
-    'thumbnails' => [
-        // Classic
-        'admin_preview' => [
-            'width'  => 200,
-            'height' => 200,
-        ],
-        'small' => [
-            'width'  => 400,
-            'height' => 400,
-        ],
-        'medium' => [
-            'width'  => 900,
-            'height' => 900,
-        ],
-        'large' => [
-            'width'  => 1800,
-            'height' => 1800,
-        ],
+	'pictures' => [
+		// Custom sizes
+		// 1.6:1 aspect ratio cover
+		'cover' => [
+			'width' => 400,
+			'height' => 640,
+		],
+		// 1.6:1 aspect ratio thumbnail
+		'simple' => [
+			'width' => 100,
+			'height' => 160,
+		],
+		'thumbnail' => [
+			'width' => 200,
+			'height' => 320,
+		],
+		'open_graph' => [
+			'width' => 600,
+			'height' => 300,
+		],
+	],
 
-        // Custom sizes
-        // 1.6:1 aspect ratio cover
-        'picture_cover' => [
-            'width'  => 400,
-            'height' => 640,
-        ],
-        // 1.6:1 aspect ratio thumbnail
-        'picture_thumbnail' => [
-            'width'  => 200,
-            'height' => 320,
-        ],
-        'picture_open_graph' => [
-            'width'  => 600,
-            'height' => 300,
-        ],
-        'avatar' => [
-            'width'  => 250,
-            'height' => 250,
-        ],
-    ],
+	'thumbnails' => [
+		// Classic
+		'admin_preview' => [
+			'width' => 200,
+			'height' => 200,
+		],
+		'small' => [
+			'width' => 400,
+			'height' => 400,
+		],
+		'medium' => [
+			'width' => 900,
+			'height' => 900,
+		],
+		'large' => [
+			'width' => 1800,
+			'height' => 1800,
+		],
+		'avatar' => [
+			'width' => 250,
+			'height' => 250,
+		],
+	],
 ];
