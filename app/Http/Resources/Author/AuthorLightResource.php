@@ -29,7 +29,7 @@ class AuthorLightResource extends JsonResource
 				'simple' => $author->image_simple,
 				'color' => $this->resource->image_color,
 			],
-			'count' => count($author->books),
+			'count' => $author->books()->count(),
 		]);
 
 		return $resource;

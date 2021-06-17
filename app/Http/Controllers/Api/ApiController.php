@@ -67,6 +67,7 @@ class ApiController extends Controller
 						if (preg_match('/[{]/i', $param)) {
 							$param = str_replace('{', '', $param);
 							$param = str_replace('}', '', $param);
+							$routeParam = null;
 							try {
 								$routeParam = route('api.' . $param . 's.index');
 							} catch (\Throwable $th) {
@@ -84,8 +85,10 @@ class ApiController extends Controller
 				foreach ($paramsList as $key => $param) {
 					$model_name = 'App\Models\\' . ucfirst($param['parameter']);
 					try {
-						$entity = $model_name::first();
-						$params_example[$param] = $entity->slug;
+						if (is_string($model_name)) {
+							$entity = $model_name::first();
+							$params_example[$param] = $entity->slug;
+						}
 					} catch (\Throwable $th) {
 						//throw $th;
 					}

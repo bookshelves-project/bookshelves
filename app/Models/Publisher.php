@@ -7,14 +7,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Publisher extends Model
 {
-    public $timestamps = false;
-    protected $fillable = [
-        'name',
-        'slug',
-    ];
+	public $timestamps = false;
+	protected $fillable = [
+		'name',
+		'slug',
+	];
 
-    public function books(): HasMany
-    {
-        return $this->hasMany(Book::class)->orderBy('serie_id')->orderBy('volume');
-    }
+	public function getShowLinkAttribute(): string
+	{
+		$route = route('api.publishers.show', [
+			'publisher' => $this->slug,
+		]);
+
+		return $route;
+	}
+
+	public function books(): HasMany
+	{
+		return $this->hasMany(Book::class)->orderBy('serie_id')->orderBy('volume');
+	}
 }

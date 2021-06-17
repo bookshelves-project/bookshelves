@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Author\AuthorUltraLightResource;
-use App\Http\Resources\Book\BookLightestResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\BookOrSerieResource;
@@ -24,15 +23,7 @@ class BookController extends Controller
 	 *     tags={"books"},
 	 *     summary="List of books",
 	 *     description="Get list of books with some query parameters, check default value for each param",
-	 *     @OA\Parameter(
-	 *         name="limit",
-	 *         in="query",
-	 *         description="To show books with pagination, all books with light version or full version, default value: 'pagination'",
-	 *         required=false,
-	 *         @OA\Schema(
-	 *           enum={"pagination", "all", "full"}
-	 *         ),
-	 *     ),
+
 	 *     @OA\Parameter(
 	 *         name="per-page",
 	 *         in="query",
@@ -82,16 +73,8 @@ class BookController extends Controller
 
 		$serie = $request->get('serie') ? filter_var($request->get('serie'), FILTER_VALIDATE_BOOLEAN) : null;
 
-		$limit = $request->get('limit') ? $request->get('limit') : 'pagination';
-		$limitParameters = ['pagination', 'all', 'full'];
-		if (!in_array($limit, $limitParameters)) {
-			return response()->json(
-				"Invalid 'limit' query parameter, must be like '" . implode("' or '", $limitParameters) . "'",
-				400
-			);
-		}
-
-		$books = Book::orderBy('title_sort');
+		// $books = Book::orderBy('title_sort');
+		$books = Book::with(['serie', 'authors'])->orderBy('title_sort');
 
 		// If lang
 		if (null !== $lang) {
@@ -107,14 +90,7 @@ class BookController extends Controller
 			}
 		}
 
-		$books = match ($limit) {
-			'pagination' => BookLightResource::collection($books->paginate($perPage)),
-			'all' => BookLightestResource::collection($books),
-			'full' => BookLightResource::collection($books),
-			default => BookLightResource::collection($books->paginate($perPage)),
-		};
-
-		return $books;
+		return BookLightResource::collection($books->paginate($perPage));
 	}
 
 	/**

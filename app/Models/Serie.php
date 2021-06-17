@@ -30,6 +30,10 @@ class Serie extends Model implements HasMedia
 		'link',
 	];
 
+	protected $with = [
+		'language',
+	];
+
 	public function registerMediaConversions(Media $media = null): void
 	{
 		$formatThumbnail = config('image.pictures.thumbnail');
@@ -165,20 +169,20 @@ class Serie extends Model implements HasMedia
 	}
 
 	/**
-	 * Authors MorphToMany.
-	 */
-	public function authors(): MorphToMany
-	{
-		return $this->morphToMany(Author::class, 'authorable');
-	}
-
-	/**
 	 * First Author for router.
 	 *
 	 * @return Author|null
 	 */
 	public function getAuthorAttribute(): Author | null
 	{
-		return $this->morphToMany(Author::class, 'authorable')->first();
+		return $this->authors->first();
+	}
+
+	/**
+	 * Authors MorphToMany.
+	 */
+	public function authors(): MorphToMany
+	{
+		return $this->morphToMany(Author::class, 'authorable');
 	}
 }

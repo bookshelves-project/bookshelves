@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use App\Http\Resources\Book\BookLightResource;
 use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -171,28 +168,6 @@ class Book extends Model implements HasMedia
 		return $this->tags()->whereType('genre')->get();
 	}
 
-	public static function withPaginate(Collection $books)
-	{
-		$books = $books->sortBy(function ($book) {
-			return $book->title_sort;
-		});
-		$books = $books->paginate(32);
-		$books = BookLightResource::collection($books);
-
-		$page = 1;
-		$perPage = 32;
-
-		$paginate = new LengthAwarePaginator(
-			$books->forPage($page, $perPage),
-			$books->count(),
-			$perPage,
-			$page,
-			['path' => url('api/books')]
-		);
-
-		return $paginate;
-	}
-
 	/**
 	 * Authors MorphToMany.
 	 */
@@ -208,7 +183,7 @@ class Book extends Model implements HasMedia
 	 */
 	public function getAuthorAttribute(): Author | null
 	{
-		return $this->morphToMany(Author::class, 'authorable')->first();
+		return $this->authors->first();
 	}
 
 	public function publisher(): BelongsTo

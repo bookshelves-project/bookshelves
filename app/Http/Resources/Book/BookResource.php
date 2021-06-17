@@ -6,6 +6,7 @@ use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\GoogleBookResource;
 use App\Http\Resources\IdentifierResource;
+use App\Http\Resources\Publisher\PublisherLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Tag\TagLightResource;
 use App\Models\Book;
@@ -45,6 +46,7 @@ class BookResource extends JsonResource
 			'identifier' => IdentifierResource::make($book->identifier),
 			'pageCount' => $book->page_count,
 			'maturityRating' => $book->maturity_rating,
+			'publisher' => PublisherLightResource::make($this->resource->publisher),
 			'tags' => TagLightResource::collection($book->tags_list),
 			'genres' => TagLightResource::collection($book->genres_list),
 			'epub' => [

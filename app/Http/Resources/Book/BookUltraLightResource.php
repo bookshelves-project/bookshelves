@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Book;
 
 use App\Http\Resources\Author\AuthorUltraLightResource;
-use App\Http\Resources\Publisher\PublisherLightResource;
 use App\Models\Book;
 use App\Utils\BookshelvesTools;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,8 +22,11 @@ class BookUltraLightResource extends JsonResource
 	{
 		$base = [
 			'title' => $this->resource->title,
-			'slug' => $this->resource->slug,
-			'author' => $this->resource->author?->slug,
+			'meta' => [
+				'slug' => $this->resource->slug,
+				'author' => $this->resource->author?->slug,
+				'show' => $this->resource->show_link,
+			],
 			'authors' => AuthorUltraLightResource::collection($this->resource->authors),
 			'summary' => BookshelvesTools::stringLimit($this->resource->description, 140),
 			'language' => $this->resource->language?->slug,
@@ -35,11 +37,7 @@ class BookUltraLightResource extends JsonResource
 				'simple' => $this->resource->image_simple,
 				'color' => $this->resource->image_color,
 			],
-			'publisher' => PublisherLightResource::make($this->resource->publisher),
 			'volume' => $this->resource->volume,
-			'meta' => [
-				'show' => $this->resource->show_link,
-			],
 		];
 
 		return $base;
