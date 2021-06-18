@@ -22,7 +22,7 @@ class SearchSerieResource extends JsonResource
 		return [
 			'meta' => [
 				'entity' => 'serie',
-				'author' => $this->resource->author->slug,
+				'author' => $this->resource->meta_author,
 				'slug' => $this->resource->slug,
 			],
 			'title' => $this->resource->title,

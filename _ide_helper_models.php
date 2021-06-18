@@ -33,6 +33,7 @@ namespace App\Models{
      * @property string                                                                                                                        $download_link
      * @property string|null                                                                                                                   $image_color
      * @property string|null                                                                                                                   $image_open_graph
+     * @property string|null                                                                                                                   $image_simple
      * @property string|null                                                                                                                   $image_thumbnail
      * @property bool                                                                                                                          $is_favorite
      * @property string                                                                                                                        $show_link
@@ -98,6 +99,7 @@ namespace App\Models{
      * @property string|null                                                                                                                   $image_color
      * @property string|null                                                                                                                   $image_open_graph
      * @property string|null                                                                                                                   $image_original
+     * @property string|null                                                                                                                   $image_simple
      * @property string|null                                                                                                                   $image_thumbnail
      * @property bool                                                                                                                          $is_favorite
      * @property string                                                                                                                        $show_link
@@ -292,6 +294,7 @@ namespace App\Models{
      * @property string|null                                                 $name
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
      * @property int|null                                                    $books_count
+     * @property string                                                      $show_link
      *
      * @method static \Illuminate\Database\Eloquent\Builder|Publisher newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Publisher newQuery()
@@ -350,6 +353,7 @@ namespace App\Models{
      * @property string|null                                                                                                                   $image_color
      * @property string|null                                                                                                                   $image_open_graph
      * @property string|null                                                                                                                   $image_original
+     * @property string|null                                                                                                                   $image_simple
      * @property string|null                                                                                                                   $image_thumbnail
      * @property bool                                                                                                                          $is_favorite
      * @property string                                                                                                                        $show_link

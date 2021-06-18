@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Author\AuthorLightResource;
 use App\Http\Resources\Author\AuthorResource;
+use App\Http\Resources\Book\BookLightResource;
+use App\Http\Resources\Serie\SerieLightResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -50,16 +52,16 @@ class AuthorController extends Controller
 		$cachedAuthors = Cache::get('authors');
 
 		if (!$cachedAuthors) {
-			$authors = Author::orderBy('lastname');
+			$authors = Author::with('media')->orderBy('lastname')->withCount('books')->paginate($perPage);
 
-		// Cache::remember('authors', 86400, function () use ($authors) {
-			// 	return $authors;
-			// });
+			Cache::remember('authors', 86400, function () use ($authors) {
+				return $authors;
+			});
 		} else {
 			$authors = $cachedAuthors;
 		}
 
-		return AuthorLightResource::collection($authors->paginate($perPage));
+		return AuthorLightResource::collection($authors);
 	}
 
 	/**
@@ -93,12 +95,26 @@ class AuthorController extends Controller
 	 *     ),
 	 * )
 	 */
-	public function show(Request $request, string $author)
+	public function show(string $author)
 	{
-		$author = Author::whereSlug($author)->firstOrFail();
+		$author = Author::whereSlug($author)->with('media')->withCount('books')->firstOrFail();
 		$author = AuthorResource::make($author);
 
 		return $author;
+	}
+
+	public function books(string $author)
+	{
+		$author = Author::whereSlug($author)->with(['books.media', 'books.authors', 'books.serie', 'books.language'])->firstOrFail();
+
+		return BookLightResource::collection($author->books);
+	}
+
+	public function series(string $author)
+	{
+		$author = Author::whereSlug($author)->with(['series.media', 'series.authors', 'series.language'])->firstOrFail();
+
+		return SerieLightResource::collection($author->series);
 	}
 
 	/**

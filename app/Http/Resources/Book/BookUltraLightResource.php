@@ -24,7 +24,7 @@ class BookUltraLightResource extends JsonResource
 			'title' => $this->resource->title,
 			'meta' => [
 				'slug' => $this->resource->slug,
-				'author' => $this->resource->author?->slug,
+				'author' => $this->resource->meta_author,
 				'show' => $this->resource->show_link,
 			],
 			'authors' => AuthorUltraLightResource::collection($this->resource->authors),
@@ -33,7 +33,6 @@ class BookUltraLightResource extends JsonResource
 			'publishDate' => $this->resource->date,
 			'picture' => [
 				'base' => $this->resource->image_thumbnail,
-				'openGraph' => $this->resource->image_open_graph,
 				'simple' => $this->resource->image_simple,
 				'color' => $this->resource->image_color,
 			],

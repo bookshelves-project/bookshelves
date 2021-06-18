@@ -5,7 +5,7 @@ namespace App\Http\Resources\Serie;
 use App\Models\Serie;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SerieUltraLightResource extends JsonResource
+class SerieBookCollectionResource extends JsonResource
 {
 	/**
 	 * Transform the resource into an array.
@@ -25,12 +25,6 @@ class SerieUltraLightResource extends JsonResource
 				'slug' => $serie->slug,
 				'author' => $serie->meta_author,
 				'show' => $serie->show_link,
-				'books' => $serie->show_books_link,
-			],
-			'picture' => [
-				'base' => $serie->image_thumbnail,
-				'simple' => $serie->image_simple,
-				'color' => $this->resource->image_color,
 			],
 		];
 

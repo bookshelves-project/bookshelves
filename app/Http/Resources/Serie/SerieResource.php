@@ -5,9 +5,11 @@ namespace App\Http\Resources\Serie;
 use App\Http\Resources\Book\BookSerieResource;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\Tag\TagLightResource;
-use App\Models\Serie;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property \App\Models\Serie $resource
+ */
 class SerieResource extends JsonResource
 {
 	/**
@@ -19,27 +21,24 @@ class SerieResource extends JsonResource
 	 */
 	public function toArray($request)
 	{
-		/** @var Serie $serie */
-		$serie = $this;
-
-		$resource = SerieLightResource::make($serie)->toArray($request);
+		$resource = SerieLightResource::make($this->resource)->toArray($request);
 		$resource = array_merge($resource, [
-			'description' => $serie->description,
-			'link' => $serie->link,
-			'language' => $serie->language?->slug,
+			'description' => $this->resource->description,
+			'link' => $this->resource->link,
+			'language' => $this->resource->language?->slug,
 			'picture' => [
-				'base' => $serie->image_thumbnail,
-				'openGraph' => $serie->image_open_graph,
-				'simple' => $serie->image_simple,
+				'base' => $this->resource->image_thumbnail,
+				'openGraph' => $this->resource->image_open_graph,
+				'simple' => $this->resource->image_simple,
 				'color' => $this->resource->image_color,
 			],
-			'tags' => TagLightResource::collection($serie->tags_list),
-			'genres' => TagLightResource::collection($serie->genres_list),
-			'download' => $serie->download_link,
-			'size' => $serie->size,
-			'books' => BookSerieResource::collection($serie->books),
-			'isFavorite' => $serie->is_favorite,
-			'comments' => CommentResource::collection($serie->comments),
+			'tags' => TagLightResource::collection($this->resource->tags_list),
+			'genres' => TagLightResource::collection($this->resource->genres_list),
+			'download' => $this->resource->download_link,
+			'size' => $this->resource->size,
+			// 'books'      => BookSerieResource::collection($this->resource->books),
+			'isFavorite' => $this->resource->is_favorite,
+			'comments' => CommentResource::collection($this->resource->comments),
 		]);
 
 		return $resource;

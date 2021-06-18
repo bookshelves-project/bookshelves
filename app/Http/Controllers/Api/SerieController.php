@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\BookOrSerieResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Serie\SerieResource;
@@ -61,16 +62,16 @@ class SerieController extends Controller
 
 		$cachedSeries = Cache::get('series');
 		if (!$cachedSeries) {
-			$series = Serie::with('authors')->orderBy('title_sort');
+			$series = Serie::with(['authors', 'media'])->orderBy('title_sort')->withCount('books')->paginate($perPage);
 
-		// Cache::remember('series', 86400, function () use ($series) {
-			// 	return $series;
-			// });
+			Cache::remember('series', 86400, function () use ($series) {
+				return $series;
+			});
 		} else {
 			$series = $cachedSeries;
 		}
 
-		return SerieLightResource::collection($series->paginate($perPage));
+		return SerieLightResource::collection($series);
 	}
 
 	/**
@@ -124,6 +125,19 @@ class SerieController extends Controller
 		})->whereSlug($serie)->first();
 
 		return SerieResource::make($serie);
+	}
+
+	public function books(string $author_slug, string $serie_slug)
+	{
+		Author::whereSlug($author_slug)->firstOrFail();
+		$serie = Serie::whereSlug($serie_slug)->with(['books', 'books.media', 'books.authors', 'books.serie', 'books.language'])->firstOrFail();
+		if ($author_slug === $serie->meta_author) {
+			$books = $serie->books;
+
+			return BookLightResource::collection($books);
+		} else {
+			return abort(404);
+		}
 	}
 
 	public function showCurrent(Request $request, string $volume, string $author, string $serie)

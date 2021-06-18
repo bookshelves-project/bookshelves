@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\BookOrSerieResource;
@@ -74,7 +73,7 @@ class BookController extends Controller
 		$serie = $request->get('serie') ? filter_var($request->get('serie'), FILTER_VALIDATE_BOOLEAN) : null;
 
 		// $books = Book::orderBy('title_sort');
-		$books = Book::with(['serie', 'authors'])->orderBy('title_sort');
+		$books = Book::with(['serie', 'authors', 'media'])->orderBy('title_sort');
 
 		// If lang
 		if (null !== $lang) {
@@ -143,21 +142,6 @@ class BookController extends Controller
 		$book = BookResource::make($book);
 
 		return $book;
-	}
-
-	public function showLight(Request $request, string $author, string $book)
-	{
-		$author = Author::whereSlug($author)->firstOrFail();
-		$book = Book::whereHas('authors', function ($query) use ($author) {
-			return $query->where('author_id', '=', $author->id);
-		})->whereSlug($book)->firstOrFail();
-
-		return response()->json([
-			'data' => [
-				'title' => $book->title,
-				'authors' => AuthorUltraLightResource::collection($book->authors),
-			],
-		]);
 	}
 
 	public function update(Request $request)

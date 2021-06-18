@@ -38,7 +38,7 @@ class ClearCommand extends Command
 	 */
 	public function handle()
 	{
-		Cache::forget();
+		// Cache::forget();
 
 		$dir = 'public/storage/debug';
 		$leave_files = ['.gitignore'];

@@ -30,12 +30,11 @@ class SearchBookResource extends JsonResource
 		return [
 			'meta' => [
 				'entity' => 'book',
-				'author' => $this->resource->author->slug,
+				'author' => $this->resource->meta_author,
 				'slug' => $this->resource->slug,
 			],
 			'title' => $this->resource->title,
 			'subtitle' => $this->resource->serie?->title,
-			'author' => $this->resource->author->name,
 			'serie' => $serie,
 			'picture' => [
 				'base' => $this->resource->image_thumbnail,

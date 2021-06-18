@@ -3,9 +3,11 @@
 namespace App\Http\Resources\Serie;
 
 use App\Http\Resources\Author\AuthorUltraLightResource;
-use App\Models\Serie;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property \App\Models\Serie $resource
+ */
 class SerieLightResource extends JsonResource
 {
 	/**
@@ -17,14 +19,11 @@ class SerieLightResource extends JsonResource
 	 */
 	public function toArray($request)
 	{
-		/** @var Serie $serie */
-		$serie = $this;
-
-		$resource = SerieUltraLightResource::make($serie)->toArray($request);
+		$resource = SerieUltraLightResource::make($this->resource)->toArray($request);
 		$resource = array_merge($resource, [
-			'language' => $serie->language?->slug,
-			'authors' => AuthorUltraLightResource::collection($serie->authors),
-			'count' => $serie->books()->count(),
+			'language' => $this->resource->language?->slug,
+			'authors' => AuthorUltraLightResource::collection($this->resource->authors),
+			'count' => $this->resource->books_count,
 		]);
 
 		return $resource;

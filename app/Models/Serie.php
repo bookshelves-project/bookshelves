@@ -89,9 +89,9 @@ class Serie extends Model implements HasMedia
 
 	public function getShowLinkAttribute(): string
 	{
-		if ($this->author?->slug && $this->slug) {
+		if ($this->meta_author && $this->slug) {
 			$route = route('api.series.show', [
-				'author' => $this->author?->slug,
+				'author' => $this->meta_author,
 				'serie' => $this->slug,
 			]);
 
@@ -101,10 +101,20 @@ class Serie extends Model implements HasMedia
 		return '';
 	}
 
+	public function getShowBooksLinkAttribute(): string
+	{
+		$route = route('api.series.show.books', [
+			'author' => $this->meta_author,
+			'serie' => $this->slug,
+		]);
+
+		return $route;
+	}
+
 	public function getDownloadLinkAttribute(): string
 	{
 		$route = route('api.download.serie', [
-			'author' => $this->author?->slug,
+			'author' => $this->meta_author,
 			'serie' => $this->slug,
 		]);
 
@@ -114,7 +124,9 @@ class Serie extends Model implements HasMedia
 	public function getSizeAttribute(): string
 	{
 		$size = [];
-		foreach ($this->books as $key => $book) {
+		$serie = Serie::whereSlug($this->slug)->with('books.media')->first();
+		$books = $serie->books;
+		foreach ($books as $key => $book) {
 			array_push($size, $book->getMedia('epubs')->first()?->size);
 		}
 		$size = array_sum($size);
@@ -168,14 +180,11 @@ class Serie extends Model implements HasMedia
 		return $this->belongsTo(Language::class);
 	}
 
-	/**
-	 * First Author for router.
-	 *
-	 * @return Author|null
-	 */
-	public function getAuthorAttribute(): Author | null
+	public function getMetaAuthorAttribute(): string | null
 	{
-		return $this->authors->first();
+		$author = $this->authors->first();
+
+		return $author->slug;
 	}
 
 	/**

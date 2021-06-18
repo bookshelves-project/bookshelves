@@ -49,7 +49,7 @@ class FavoriteResource extends JsonResource
             'meta' => [
                 'type'   => 'favorite',
                 'for'    => $for,
-                'author' => $favoritable->favoritable->author?->slug,
+                'author' => $favoritable->favoritable->meta_author,
                 'slug'   => $favoritable->favoritable->slug,
             ],
             'title'   => $title,

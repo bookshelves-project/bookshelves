@@ -108,9 +108,9 @@ class Book extends Model implements HasMedia
 
 	public function getShowLinkAttribute(): string
 	{
-		if ($this->author?->slug && $this->slug) {
+		if ($this->meta_author && $this->slug) {
 			$route = route('api.books.show', [
-				'author' => $this->author?->slug,
+				'author' => $this->meta_author,
 				'book' => $this->slug,
 			]);
 
@@ -123,7 +123,7 @@ class Book extends Model implements HasMedia
 	public function getDownloadLinkAttribute(): string
 	{
 		$route = route('api.download.book', [
-			'author' => $this->author?->slug,
+			'author' => $this->meta_author,
 			'book' => $this->slug,
 		]);
 
@@ -176,14 +176,11 @@ class Book extends Model implements HasMedia
 		return $this->morphToMany(Author::class, 'authorable');
 	}
 
-	/**
-	 * First Author for router.
-	 *
-	 * @return Author|null
-	 */
-	public function getAuthorAttribute(): Author | null
+	public function getMetaAuthorAttribute(): string | null
 	{
-		return $this->authors->first();
+		$author = $this->authors->first();
+
+		return $author->slug;
 	}
 
 	public function publisher(): BelongsTo

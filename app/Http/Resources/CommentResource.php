@@ -50,7 +50,7 @@ class CommentResource extends JsonResource
             'meta' => [
                 'type'   => 'comment',
                 'for'    => $for,
-                'author' => $comment->commentable->author?->slug,
+                'author' => $comment->commentable->meta_author,
                 'slug'   => $comment->commentable->slug,
             ],
             'id'     => $comment->id,

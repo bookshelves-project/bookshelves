@@ -86,6 +86,24 @@ class Author extends Model implements HasMedia
 		return $route;
 	}
 
+	public function getShowBooksLinkAttribute(): string
+	{
+		$route = route('api.authors.show.books', [
+			'author' => $this->slug,
+		]);
+
+		return $route;
+	}
+
+	public function getShowSeriesLinkAttribute(): string
+	{
+		$route = route('api.authors.show.series', [
+			'author' => $this->slug,
+		]);
+
+		return $route;
+	}
+
 	public function getDownloadLinkAttribute(): string
 	{
 		$route = route('api.download.author', [
@@ -98,7 +116,9 @@ class Author extends Model implements HasMedia
 	public function getSizeAttribute(): string
 	{
 		$size = [];
-		foreach ($this->books as $key => $book) {
+		$author = Author::whereSlug($this->slug)->with('books.media')->first();
+		$books = $author->books;
+		foreach ($books as $key => $book) {
 			array_push($size, $book->getMedia('epubs')->first()?->size);
 		}
 		$size = array_sum($size);

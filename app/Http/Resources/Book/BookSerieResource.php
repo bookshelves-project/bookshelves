@@ -10,25 +10,25 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class BookSerieResource extends JsonResource
 {
-	/**
-	 * Transform the Book into an array.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @mixin Book
-	 */
-	public function toArray($request): array
-	{
-		$resource = BookUltraLightResource::make($this->resource)->toArray($request);
-		$resource = array_merge($resource, [
-			'picture' => [
-				'base' => $this->resource->image_thumbnail,
-				'openGraph' => $this->resource->image_open_graph,
-				'simple' => $this->resource->image_simple,
-				'original' => $this->resource->image_original,
-				'color' => $this->resource->image_color,
-			],
-		]);
+    /**
+     * Transform the Book into an array.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @mixin Book
+     */
+    public function toArray($request): array
+    {
+        $resource = BookUltraLightResource::make($this->resource)->toArray($request);
+        $resource = array_merge($resource, [
+            'picture' => [
+                'base'      => $this->resource->image_thumbnail,
+                'openGraph' => $this->resource->image_open_graph,
+                'simple'    => $this->resource->image_simple,
+                'original'  => $this->resource->image_original,
+                'color'     => $this->resource->image_color,
+            ],
+        ]);
 
-		return $resource;
-	}
+        return $resource;
+    }
 }
