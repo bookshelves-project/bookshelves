@@ -36,7 +36,9 @@ namespace App\Models{
      * @property string|null                                                                                                                   $image_simple
      * @property string|null                                                                                                                   $image_thumbnail
      * @property bool                                                                                                                          $is_favorite
+     * @property string                                                                                                                        $show_books_link
      * @property string                                                                                                                        $show_link
+     * @property string                                                                                                                        $show_series_link
      * @property string                                                                                                                        $size
      * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
      * @property int|null                                                                                                                      $media_count
@@ -92,7 +94,6 @@ namespace App\Models{
      * @property int|null                                                                                                                      $comments_count
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\User[]                                                                   $favorites
      * @property int|null                                                                                                                      $favorites_count
-     * @property \App\Models\Author|null                                                                                                       $author
      * @property string                                                                                                                        $download_link
      * @property string|null                                                                                                                   $epub
      * @property mixed                                                                                                                         $genres_list
@@ -102,6 +103,7 @@ namespace App\Models{
      * @property string|null                                                                                                                   $image_simple
      * @property string|null                                                                                                                   $image_thumbnail
      * @property bool                                                                                                                          $is_favorite
+     * @property string|null                                                                                                                   $meta_author
      * @property string                                                                                                                        $show_link
      * @property string                                                                                                                        $sort_name
      * @property mixed                                                                                                                         $tags_list
@@ -347,7 +349,6 @@ namespace App\Models{
      * @property int|null                                                                                                                      $comments_count
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\User[]                                                                   $favorites
      * @property int|null                                                                                                                      $favorites_count
-     * @property \App\Models\Author|null                                                                                                       $author
      * @property string                                                                                                                        $download_link
      * @property mixed                                                                                                                         $genres_list
      * @property string|null                                                                                                                   $image_color
@@ -356,6 +357,8 @@ namespace App\Models{
      * @property string|null                                                                                                                   $image_simple
      * @property string|null                                                                                                                   $image_thumbnail
      * @property bool                                                                                                                          $is_favorite
+     * @property string|null                                                                                                                   $meta_author
+     * @property string                                                                                                                        $show_books_link
      * @property string                                                                                                                        $show_link
      * @property string                                                                                                                        $size
      * @property mixed                                                                                                                         $tags_list

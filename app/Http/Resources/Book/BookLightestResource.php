@@ -10,26 +10,26 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class BookLightestResource extends JsonResource
 {
-	/**
-	 * Transform the Book into an array.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @mixin Book
-	 */
-	public function toArray($request): array
-	{
-		return [
-			'title' => $this->resource->title,
-			'meta' => [
-				'slug' => $this->resource->slug,
-				'author' => $this->resource->meta_author,
-				'show' => $this->resource->show_link,
-			],
-			'picture' => [
-				'base' => $this->resource->image_thumbnail,
-				'color' => $this->resource->image_color,
-			],
-			'serie' => $this->resource->serie?->title,
-		];
-	}
+    /**
+     * Transform the Book into an array.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @mixin Book
+     */
+    public function toArray($request): array
+    {
+        return [
+            'title' => $this->resource->title,
+            'meta'  => [
+                'slug'   => $this->resource->slug,
+                'author' => $this->resource->meta_author,
+                'show'   => $this->resource->show_link,
+            ],
+            'picture' => [
+                'base'  => $this->resource->image_thumbnail,
+                'color' => $this->resource->image_color,
+            ],
+            'serie' => $this->resource->serie?->title,
+        ];
+    }
 }
