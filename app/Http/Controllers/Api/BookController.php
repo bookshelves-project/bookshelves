@@ -91,6 +91,8 @@ class BookController extends Controller
 
 		$all = $request->get('all') ? filter_var($request->get('all'), FILTER_VALIDATE_BOOLEAN) : null;
 		if ($all) {
+			$books = Book::orderBy('title_sort')->get();
+
 			return BookLightestResource::collection($books);
 		}
 

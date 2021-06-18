@@ -52,7 +52,7 @@ class AuthorController extends Controller
 
 		$all = $request->get('all') ? filter_var($request->get('all'), FILTER_VALIDATE_BOOLEAN) : null;
 		if ($all) {
-			$authors = Author::orderBy('title_sort')->get();
+			$authors = Author::orderBy('lastname')->get();
 
 			return AuthorUltraLightResource::collection($authors);
 		}
