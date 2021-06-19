@@ -10,7 +10,6 @@ use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class AuthorController extends Controller
 {
@@ -57,49 +56,35 @@ class AuthorController extends Controller
 			return AuthorUltraLightResource::collection($authors);
 		}
 
-		$cachedAuthors = Cache::get('authors');
-
-		if (!$cachedAuthors) {
-			$authors = Author::with('media')->orderBy('lastname')->withCount('books')->paginate($perPage);
-
-			Cache::remember('authors', 86400, function () use ($authors) {
-				return $authors;
-			});
-		} else {
-			$authors = $cachedAuthors;
-		}
+		$authors = Author::with('media')->orderBy('lastname')->withCount('books')->paginate($perPage);
 
 		return AuthorLightResource::collection($authors);
 	}
 
 	/**
 	 * @OA\Get(
-	 *     path="/authors/{author-slug}",
+	 *     path="/authors/{author}",
 	 *     summary="Show author by author slug",
 	 *     tags={"authors"},
 	 *     description="Get details for a single author with list of series and books, check /authors endpoint to get list of slugs",
 	 *     operationId="findAuthorByAuthorSlug",
 	 *     @OA\Parameter(
-	 *         name="author-slug",
+	 *         name="author",
 	 *         in="path",
 	 *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
 	 *         required=true,
 	 *         example="auel-jean-m",
-	 *         @OA\Schema(
-	 *           type="string",
-	 *           @OA\Items(type="string"),
-	 *         ),
 	 *         style="form"
 	 *     ),
 	 *     @OA\Response(
 	 *         response=200,
 	 *         description="successful operation",
-	 *         @OA\Schema(ref="#/components/schemas/ApiResponse")
+	 *         @OA\JsonContent(),
 	 *     ),
 	 *     @OA\Response(
 	 *         response="404",
 	 *         description="Invalid author-slug value or book-slug value",
-	 *         @OA\Schema(ref="#/components/schemas/ApiResponse")
+	 *         @OA\JsonContent(),
 	 *     ),
 	 * )
 	 */
@@ -123,22 +108,5 @@ class AuthorController extends Controller
 		$author = Author::whereSlug($author)->with(['series.media', 'series.authors', 'series.language'])->firstOrFail();
 
 		return SerieLightResource::collection($author->series);
-	}
-
-	/**
-	 * @OA\Get(
-	 *     path="/authors/count",
-	 *     tags={"authors"},
-	 *     summary="Count for authors",
-	 *     description="Count authors",
-	 *     @OA\Response(
-	 *         response=200,
-	 *         description="Successful operation"
-	 *     )
-	 * )
-	 */
-	public function count()
-	{
-		return Author::count();
 	}
 }

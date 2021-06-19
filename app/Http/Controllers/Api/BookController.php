@@ -22,13 +22,14 @@ class BookController extends Controller
 	 *     path="/books",
 	 *     tags={"books"},
 	 *     summary="List of books",
-	 *     description="Get list of books with some query parameters, check default value for each param",
+	 *     description="Get list of books with query parameters, default list use pagination.",
 
 	 *     @OA\Parameter(
 	 *         name="per-page",
 	 *         in="query",
-	 *         description="Integer to choose how many books you show in each page, default valuel: '32'",
+	 *         description="Integer to choose how many books you show in each page, default 32",
 	 *         required=false,
+	 * 		   example=32,
 	 *         @OA\Schema(
 	 *           type="integer",
 	 *           format="int64"
@@ -36,9 +37,19 @@ class BookController extends Controller
 	 *         style="form"
 	 *     ),
 	 *     @OA\Parameter(
+	 *         name="all",
+	 *         in="query",
+	 *         description="Boolean to get list of all books without pagination, default false",
+	 *         required=false,
+	 *         example=false,
+	 * 		   @OA\Schema(
+	 * 		     type="boolean"
+	 *         ),
+	 *     ),
+	 *     @OA\Parameter(
 	 *         name="lang",
 	 *         in="query",
-	 *         description="String to select existant eBook language, default value: null",
+	 *         description="String to select existant eBook language, default null",
 	 *         required=false,
 	 *         @OA\Schema(
 	 *           enum={"fr", "en"},
@@ -46,7 +57,8 @@ class BookController extends Controller
 	 *     ),
 	 *     @OA\Response(
 	 *         response=200,
-	 *         description="Successful operation"
+	 *         description="Successful operation",
+	 * 		   @OA\JsonContent(),
 	 *     )
 	 * )
 	 */
@@ -101,44 +113,36 @@ class BookController extends Controller
 
 	/**
 	 * @OA\Get(
-	 *     path="/books/{author-slug}/{book-slug}",
+	 *     path="/books/{author}/{book}",
 	 *     summary="Show book by author slug and book slug",
 	 *     tags={"books"},
 	 *     description="Get details for a single book, check /books endpoint to get list of slugs",
-	 *     operationId="findBookByAuthorSlugBookSlug",
+	 *     operationId="findBookByAuthorBook",
 	 *     @OA\Parameter(
-	 *         name="author-slug",
+	 *         name="author",
 	 *         in="path",
-	 *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
+	 *         description="Slug of author name like 'lovecraft-howard-phillips' for Howard Phillips Lovecraft",
 	 *         required=true,
-	 *         example="auel-jean-m",
-	 *         @OA\Schema(
-	 *           type="string",
-	 *           @OA\Items(type="string"),
-	 *         ),
+	 *         example="lovecraft-howard-phillips",
 	 *         style="form"
 	 *     ),
 	 *     @OA\Parameter(
-	 *         name="book-slug",
+	 *         name="book",
 	 *         in="path",
-	 *         description="Slug of book name like 'les-refuges-de-pierre' for Les refuges de pierre",
+	 *         description="Slug of book name like 'les-montagnes-hallucinees-fr' for Les Montagnes Hallucinées",
 	 *         required=true,
-	 *         example="les-refuges-de-pierre",
-	 *         @OA\Schema(
-	 *           type="string",
-	 *           @OA\Items(type="string"),
-	 *         ),
+	 *         example="les-montagnes-hallucinees-fr",
 	 *         style="form"
 	 *     ),
 	 *     @OA\Response(
 	 *         response=200,
 	 *         description="successful operation",
-	 *         @OA\Schema(ref="#/components/schemas/ApiResponse")
+	 *         @OA\JsonContent(),
 	 *     ),
 	 *     @OA\Response(
 	 *         response="404",
 	 *         description="Invalid author-slug value or book-slug value",
-	 *         @OA\Schema(ref="#/components/schemas/ApiResponse")
+	 *         @OA\JsonContent(),
 	 *     ),
 	 * )
 	 */
@@ -146,6 +150,19 @@ class BookController extends Controller
 	{
 		$author = Author::whereSlug($author_slug)->firstOrFail();
 		$book = $author->books->firstWhere('slug', $book_slug);
+		if (!$book) {
+			return response()->json([
+				'status' => 'failed',
+				'message' => 'No book with this author and this title.',
+				'data' => [
+					'route' => $request->route()->uri,
+					'params' => [
+						'author' => $author_slug,
+						'book' => $book_slug,
+					],
+				],
+			], 404);
+		}
 		$book = BookResource::make($book);
 
 		return $book;
@@ -167,8 +184,9 @@ class BookController extends Controller
 	 *     @OA\Parameter(
 	 *         name="limit",
 	 *         in="query",
-	 *         description="Integer to choose how many books you show, default value: '10'",
+	 *         description="Integer to choose how many books you show, default 10",
 	 *         required=false,
+	 *         example=10,
 	 *         @OA\Schema(
 	 *           type="integer",
 	 *           format="int64"
@@ -177,7 +195,8 @@ class BookController extends Controller
 	 *     ),
 	 *     @OA\Response(
 	 *         response=200,
-	 *         description="Successful operation"
+	 *         description="Successful operation",
+	 *         @OA\JsonContent(),
 	 *     )
 	 * )
 	 */
@@ -205,51 +224,6 @@ class BookController extends Controller
 		$books = BookLightResource::collection($books);
 
 		return $books;
-	}
-
-	/**
-	 * @OA\Get(
-	 *     path="/books/count-langs",
-	 *     tags={"books"},
-	 *     summary="Count for books by lang",
-	 *     description="Count books by lang",
-	 *     @OA\Response(
-	 *         response=200,
-	 *         description="Successful operation"
-	 *     )
-	 * )
-	 */
-	public function count_langs()
-	{
-		$langs = Language::with('books')->get();
-		$langs_books = collect($langs)
-			->map(function ($lang) {
-				return [
-					'id' => $lang->slug,
-					'flag' => $lang->flag,
-					'count' => $lang->books->count(),
-				];
-			})
-			->all();
-
-		return $langs_books;
-	}
-
-	/**
-	 * @OA\Get(
-	 *     path="/books/count",
-	 *     tags={"books"},
-	 *     summary="Count for books",
-	 *     description="Count books",
-	 *     @OA\Response(
-	 *         response=200,
-	 *         description="Successful operation"
-	 *     )
-	 * )
-	 */
-	public function count()
-	{
-		return Book::count();
 	}
 
 	public function related(string $authorSlug, string $bookSlug, Request $request)

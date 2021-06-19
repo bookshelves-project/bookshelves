@@ -12,145 +12,156 @@ declare(strict_types=1);
  */
 
 return [
-    /*
-    |--------------------------------------------------------------------------
-    | Enable View Integration
-    |--------------------------------------------------------------------------
-    |
-    | This option specifies if the view integration is enabled so you can write
-    | markdown views and have them rendered as html. The following extensions
-    | are currently supported: ".md", ".md.php", and ".md.blade.php". You may
-    | disable this integration if it is conflicting with another package.
-    |
-    | Default: true
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| Enable View Integration
+	|--------------------------------------------------------------------------
+	|
+	| This option specifies if the view integration is enabled so you can write
+	| markdown views and have them rendered as html. The following extensions
+	| are currently supported: ".md", ".md.php", and ".md.blade.php". You may
+	| disable this integration if it is conflicting with another package.
+	|
+	| Default: true
+	|
+	*/
 
-    'views' => true,
+	'views' => true,
 
-    /*
-    |--------------------------------------------------------------------------
-    | CommonMark Extensions
-    |--------------------------------------------------------------------------
-    |
-    | This option specifies what extensions will be automatically enabled.
-    | Simply provide your extension class names here.
-    |
-    | Default: []
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| CommonMark Extensions
+	|--------------------------------------------------------------------------
+	|
+	| This option specifies what extensions will be automatically enabled.
+	| Simply provide your extension class names here.
+	|
+	| Default: []
+	|
+	*/
 
-    'extensions' => [],
+	'extensions' => [
+		League\CommonMark\Extension\TableOfContents\TableOfContentsExtension::class,
+	],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Renderer Configuration
-    |--------------------------------------------------------------------------
-    |
-    | This option specifies an array of options for rendering HTML.
-    |
-    | Default: [
-    |              'block_separator' => "\n",
-    |              'inner_separator' => "\n",
-    |              'soft_break'      => "\n",
-    |          ]
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| Renderer Configuration
+	|--------------------------------------------------------------------------
+	|
+	| This option specifies an array of options for rendering HTML.
+	|
+	| Default: [
+	|              'block_separator' => "\n",
+	|              'inner_separator' => "\n",
+	|              'soft_break'      => "\n",
+	|          ]
+	|
+	*/
 
-    'renderer' => [
-        'block_separator' => "\n",
-        'inner_separator' => "\n",
-        'soft_break'      => "\n",
-    ],
+	'renderer' => [
+		'block_separator' => "\n",
+		'inner_separator' => "\n",
+		'soft_break' => "\n",
+	],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Enable Em Tag Parsing
-    |--------------------------------------------------------------------------
-    |
-    | This option specifies if `<em>` parsing is enabled.
-    |
-    | Default: true
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| Enable Em Tag Parsing
+	|--------------------------------------------------------------------------
+	|
+	| This option specifies if `<em>` parsing is enabled.
+	|
+	| Default: true
+	|
+	*/
 
-    'enable_em' => true,
+	'enable_em' => true,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Enable Strong Tag Parsing
-    |--------------------------------------------------------------------------
-    |
-    | This option specifies if `<strong>` parsing is enabled.
-    |
-    | Default: true
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| Enable Strong Tag Parsing
+	|--------------------------------------------------------------------------
+	|
+	| This option specifies if `<strong>` parsing is enabled.
+	|
+	| Default: true
+	|
+	*/
 
-    'enable_strong' => true,
+	'enable_strong' => true,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Enable Asterisk Parsing
-    |--------------------------------------------------------------------------
-    |
-    | This option specifies if `*` should be parsed for emphasis.
-    |
-    | Default: true
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| Enable Asterisk Parsing
+	|--------------------------------------------------------------------------
+	|
+	| This option specifies if `*` should be parsed for emphasis.
+	|
+	| Default: true
+	|
+	*/
 
-    'use_asterisk' => true,
+	'use_asterisk' => true,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Enable Underscore Parsing
-    |--------------------------------------------------------------------------
-    |
-    | This option specifies if `_` should be parsed for emphasis.
-    |
-    | Default: true
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| Enable Underscore Parsing
+	|--------------------------------------------------------------------------
+	|
+	| This option specifies if `_` should be parsed for emphasis.
+	|
+	| Default: true
+	|
+	*/
 
-    'use_underscore' => true,
+	'use_underscore' => true,
 
-    /*
-    |--------------------------------------------------------------------------
-    | HTML Input
-    |--------------------------------------------------------------------------
-    |
-    | This option specifies how to handle untrusted HTML input.
-    |
-    | Default: 'strip'
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| HTML Input
+	|--------------------------------------------------------------------------
+	|
+	| This option specifies how to handle untrusted HTML input.
+	|
+	| Default: 'strip'
+	|
+	*/
 
-    'html_input' => 'strip',
+	'html_input' => 'strip',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Allow Unsafe Links
-    |--------------------------------------------------------------------------
-    |
-    | This option specifies whether to allow risky image URLs and links.
-    |
-    | Default: true
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| Allow Unsafe Links
+	|--------------------------------------------------------------------------
+	|
+	| This option specifies whether to allow risky image URLs and links.
+	|
+	| Default: true
+	|
+	*/
 
-    'allow_unsafe_links' => true,
+	'allow_unsafe_links' => true,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Maximum Nesting Level
-    |--------------------------------------------------------------------------
-    |
-    | This option specifies the maximum permitted block nesting level.
-    |
-    | Default: INF
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| Maximum Nesting Level
+	|--------------------------------------------------------------------------
+	|
+	| This option specifies the maximum permitted block nesting level.
+	|
+	| Default: INF
+	|
+	*/
 
-    'max_nesting_level' => INF,
+	'max_nesting_level' => INF,
+
+	'table_of_contents' => [
+		'html_class' => 'table-of-contents',
+		'position' => 'top',
+		'style' => 'bullet',
+		'min_heading_level' => 1,
+		'max_heading_level' => 6,
+		'normalize' => 'relative',
+	],
 ];

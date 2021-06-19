@@ -54,7 +54,7 @@
                 }
             }
         },
-        "/authors/{author-slug}": {
+        "/authors/{author}": {
             "get": {
                 "tags": [
                     "authors"
@@ -64,41 +64,30 @@
                 "operationId": "findAuthorByAuthorSlug",
                 "parameters": [
                     {
-                        "name": "author-slug",
+                        "name": "author",
                         "in": "path",
                         "description": "Slug of author name like 'auel-jean-m' for Jean M. Auel",
                         "required": true,
                         "style": "form",
-                        "schema": {
-                            "type": "string",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
                         "example": "auel-jean-m"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Invalid author-slug value or book-slug value"
-                    }
-                }
-            }
-        },
-        "/authors/count": {
-            "get": {
-                "tags": [
-                    "authors"
-                ],
-                "summary": "Count for authors",
-                "description": "Count authors",
-                "operationId": "App\\Http\\Controllers\\Api\\AuthorController::count",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
+                        "description": "Invalid author-slug value or book-slug value",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 }
             }
@@ -109,37 +98,35 @@
                     "books"
                 ],
                 "summary": "List of books",
-                "description": "Get list of books with some query parameters, check default value for each param",
+                "description": "Get list of books with query parameters, default list use pagination.",
                 "operationId": "App\\Http\\Controllers\\Api\\BookController::index",
                 "parameters": [
                     {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "To show books with pagination, all books with light version or full version, default value: 'pagination'",
-                        "required": false,
-                        "schema": {
-                            "enum": [
-                                "pagination",
-                                "all",
-                                "full"
-                            ]
-                        }
-                    },
-                    {
                         "name": "per-page",
                         "in": "query",
-                        "description": "Integer to choose how many books you show in each page, default valuel: '32'",
+                        "description": "Integer to choose how many books you show in each page, default 32",
                         "required": false,
                         "style": "form",
                         "schema": {
                             "type": "integer",
                             "format": "int64"
-                        }
+                        },
+                        "example": 32
+                    },
+                    {
+                        "name": "all",
+                        "in": "query",
+                        "description": "Boolean to get list of all books without pagination, default false",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": false
                     },
                     {
                         "name": "lang",
                         "in": "query",
-                        "description": "String to select existant eBook language, default value: null",
+                        "description": "String to select existant eBook language, default null",
                         "required": false,
                         "schema": {
                             "enum": [
@@ -151,55 +138,58 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 }
             }
         },
-        "/books/{author-slug}/{book-slug}": {
+        "/books/{author}/{book}": {
             "get": {
                 "tags": [
                     "books"
                 ],
                 "summary": "Show book by author slug and book slug",
                 "description": "Get details for a single book, check /books endpoint to get list of slugs",
-                "operationId": "findBookByAuthorSlugBookSlug",
+                "operationId": "findBookByAuthorBook",
                 "parameters": [
                     {
-                        "name": "author-slug",
+                        "name": "author",
                         "in": "path",
-                        "description": "Slug of author name like 'auel-jean-m' for Jean M. Auel",
+                        "description": "Slug of author name like 'lovecraft-howard-phillips' for Howard Phillips Lovecraft",
                         "required": true,
                         "style": "form",
-                        "schema": {
-                            "type": "string",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "example": "auel-jean-m"
+                        "example": "lovecraft-howard-phillips"
                     },
                     {
-                        "name": "book-slug",
+                        "name": "book",
                         "in": "path",
-                        "description": "Slug of book name like 'les-refuges-de-pierre' for Les refuges de pierre",
+                        "description": "Slug of book name like 'les-montagnes-hallucinees-fr' for Les Montagnes Hallucinées",
                         "required": true,
                         "style": "form",
-                        "schema": {
-                            "type": "string",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "example": "les-refuges-de-pierre"
+                        "example": "les-montagnes-hallucinees-fr"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Invalid author-slug value or book-slug value"
+                        "description": "Invalid author-slug value or book-slug value",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 }
             }
@@ -216,53 +206,64 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Integer to choose how many books you show, default value: '10'",
+                        "description": "Integer to choose how many books you show, default 10",
                         "required": false,
                         "style": "form",
                         "schema": {
                             "type": "integer",
                             "format": "int64"
+                        },
+                        "example": 10
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/count": {
+            "get": {
+                "tags": [
+                    "count"
+                ],
+                "summary": "Count of entities",
+                "description": "Get count by entities, use query parameter to select entity.",
+                "operationId": "App\\Http\\Controllers\\Api\\CountController::count",
+                "parameters": [
+                    {
+                        "name": "entity",
+                        "in": "query",
+                        "description": "String to select existant entity",
+                        "required": true,
+                        "schema": {
+                            "enum": [
+                                "book",
+                                "serie",
+                                "author"
+                            ]
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 }
             }
         },
-        "/books/count-langs": {
-            "get": {
-                "tags": [
-                    "books"
-                ],
-                "summary": "Count for books by lang",
-                "description": "Count books by lang",
-                "operationId": "App\\Http\\Controllers\\Api\\BookController::count_langs",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    }
-                }
-            }
-        },
-        "/books/count": {
-            "get": {
-                "tags": [
-                    "books"
-                ],
-                "summary": "Count for books",
-                "description": "Count books",
-                "operationId": "App\\Http\\Controllers\\Api\\BookController::count",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    }
-                }
-            }
-        },
-        "/download/book/{author-slug}/{book-slug}": {
+        "/download/book/{author}/{book}": {
             "get": {
                 "tags": [
                     "download"
@@ -272,31 +273,19 @@
                 "operationId": "App\\Http\\Controllers\\Api\\DownloadController::book",
                 "parameters": [
                     {
-                        "name": "author-slug",
+                        "name": "author",
                         "in": "path",
                         "description": "Slug of author name like 'auel-jean-m' for Jean M. Auel",
                         "required": true,
                         "style": "form",
-                        "schema": {
-                            "type": "string",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
                         "example": "auel-jean-m"
                     },
                     {
-                        "name": "book-slug",
+                        "name": "book",
                         "in": "path",
                         "description": "Slug of book name like 'les-refuges-de-pierre' for Les refuges de pierre",
                         "required": true,
                         "style": "form",
-                        "schema": {
-                            "type": "string",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
                         "example": "les-refuges-de-pierre"
                     }
                 ],
@@ -307,7 +296,7 @@
                 }
             }
         },
-        "/download/serie/{author-slug}/{serie-slug}": {
+        "/download/serie/{author}/{serie}": {
             "get": {
                 "tags": [
                     "download"
@@ -317,31 +306,19 @@
                 "operationId": "App\\Http\\Controllers\\Api\\DownloadController::serie",
                 "parameters": [
                     {
-                        "name": "author-slug",
+                        "name": "author",
                         "in": "path",
                         "description": "Slug of author name like 'auel-jean-m' for Jean M. Auel",
                         "required": true,
                         "style": "form",
-                        "schema": {
-                            "type": "string",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
                         "example": "auel-jean-m"
                     },
                     {
-                        "name": "book-slug",
+                        "name": "book",
                         "in": "path",
                         "description": "Slug of book name like 'les-enfants-de-la-terre' for Les enfants de la terre",
                         "required": true,
                         "style": "form",
-                        "schema": {
-                            "type": "string",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
                         "example": "les-enfants-de-la-terre"
                     }
                 ],
@@ -352,7 +329,7 @@
                 }
             }
         },
-        "/download/author/{author-slug}": {
+        "/download/author/{author}": {
             "get": {
                 "tags": [
                     "download"
@@ -362,23 +339,22 @@
                 "operationId": "App\\Http\\Controllers\\Api\\DownloadController::author",
                 "parameters": [
                     {
-                        "name": "author-slug",
+                        "name": "author",
                         "in": "path",
                         "description": "Slug of author name like 'auel-jean-m' for Jean M. Auel",
                         "required": true,
                         "style": "form",
-                        "schema": {
-                            "type": "string",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
                         "example": "auel-jean-m"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 }
             }
@@ -401,7 +377,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "bottero"
+                        "example": "lovecraft"
                     }
                 ],
                 "responses": {
@@ -435,12 +411,17 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 }
             }
         },
-        "/series/{author-slug}/{series-slug}": {
+        "/series/{author}/{series}": {
             "get": {
                 "tags": [
                     "series"
@@ -450,55 +431,38 @@
                 "operationId": "findAuthorByAuthorSlug",
                 "parameters": [
                     {
-                        "name": "author-slug",
+                        "name": "author",
                         "in": "path",
-                        "description": "Slug of author name like 'auel-jean-m' for Jean M. Auel",
+                        "description": "Slug of author name like 'lovecraft-howard-phillips' for Howard Phillips Lovecraft",
                         "required": true,
                         "style": "form",
-                        "schema": {
-                            "type": "string",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "example": "auel-jean-m"
+                        "example": "lovecraft-howard-phillips"
                     },
                     {
-                        "name": "series-slug",
+                        "name": "series",
                         "in": "path",
-                        "description": "Slug of series name like 'les-enfants-de-la-terre' for Les enfants de la terre",
+                        "description": "Slug of book name like 'cthulhu-le-mythe-fr' for Cthulhu : Le Mythe",
                         "required": true,
                         "style": "form",
-                        "schema": {
-                            "type": "string",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "example": "les-enfants-de-la-terre"
+                        "example": "cthulhu-le-mythe-fr"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Invalid author-slug value or book-slug value"
-                    }
-                }
-            }
-        },
-        "/series/count": {
-            "get": {
-                "tags": [
-                    "series"
-                ],
-                "summary": "Count for series",
-                "description": "Count series",
-                "operationId": "App\\Http\\Controllers\\Api\\SerieController::count",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
+                        "description": "Invalid author-slug value or book-slug value",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 }
             }

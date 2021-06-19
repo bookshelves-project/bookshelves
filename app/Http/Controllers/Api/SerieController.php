@@ -11,7 +11,6 @@ use App\Http\Resources\Serie\SerieUltraLightResource;
 use App\Models\Author;
 use App\Models\Serie;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class SerieController extends Controller
 {
@@ -35,7 +34,8 @@ class SerieController extends Controller
 	 *     ),
 	 *     @OA\Response(
 	 *         response=200,
-	 *         description="Successful operation"
+	 *         description="Successful operation",
+	 * 		   @OA\JsonContent(),
 	 *     )
 	 * )
 	 */
@@ -58,60 +58,43 @@ class SerieController extends Controller
 			return SerieUltraLightResource::collection($series);
 		}
 
-		$cachedSeries = Cache::get('series');
-		if (!$cachedSeries) {
-			$series = Serie::with(['authors', 'media'])->orderBy('title_sort')->withCount('books')->paginate($perPage);
-
-			Cache::remember('series', 86400, function () use ($series) {
-				return $series;
-			});
-		} else {
-			$series = $cachedSeries;
-		}
+		$series = Serie::with(['authors', 'media'])->orderBy('title_sort')->withCount('books')->paginate($perPage);
 
 		return SerieLightResource::collection($series);
 	}
 
 	/**
 	 * @OA\Get(
-	 *     path="/series/{author-slug}/{series-slug}",
+	 *     path="/series/{author}/{series}",
 	 *     summary="Show series by author slug and by series slug",
 	 *     tags={"series"},
 	 *     description="Get details for a single series with list of books, check /series endpoint to get list of slugs",
 	 *     operationId="findAuthorByAuthorSlug",
 	 *     @OA\Parameter(
-	 *         name="author-slug",
+	 *         name="author",
 	 *         in="path",
-	 *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
+	 *         description="Slug of author name like 'lovecraft-howard-phillips' for Howard Phillips Lovecraft",
 	 *         required=true,
-	 *         example="auel-jean-m",
-	 *         @OA\Schema(
-	 *           type="string",
-	 *           @OA\Items(type="string"),
-	 *         ),
+	 *         example="lovecraft-howard-phillips",
 	 *         style="form"
 	 *     ),
 	 *     @OA\Parameter(
-	 *         name="series-slug",
+	 *         name="series",
 	 *         in="path",
-	 *         description="Slug of series name like 'les-enfants-de-la-terre' for Les enfants de la terre",
+	 *         description="Slug of book name like 'cthulhu-le-mythe-fr' for Cthulhu : Le Mythe",
 	 *         required=true,
-	 *         example="les-enfants-de-la-terre",
-	 *         @OA\Schema(
-	 *           type="string",
-	 *           @OA\Items(type="string"),
-	 *         ),
+	 *         example="cthulhu-le-mythe-fr",
 	 *         style="form"
 	 *     ),
 	 *     @OA\Response(
 	 *         response=200,
 	 *         description="successful operation",
-	 *         @OA\Schema(ref="#/components/schemas/ApiResponse")
+	 *         @OA\JsonContent(),
 	 *     ),
 	 *     @OA\Response(
 	 *         response="404",
 	 *         description="Invalid author-slug value or book-slug value",
-	 *         @OA\Schema(ref="#/components/schemas/ApiResponse")
+	 *         @OA\JsonContent(),
 	 *     ),
 	 * )
 	 */
@@ -159,22 +142,5 @@ class SerieController extends Controller
 		}
 
 		return BookOrSerieResource::collection($books);
-	}
-
-	/**
-	 * @OA\Get(
-	 *     path="/series/count",
-	 *     tags={"series"},
-	 *     summary="Count for series",
-	 *     description="Count series",
-	 *     @OA\Response(
-	 *         response=200,
-	 *         description="Successful operation"
-	 *     )
-	 * )
-	 */
-	public function count()
-	{
-		return Serie::count();
 	}
 }

@@ -16,32 +16,24 @@ class DownloadController extends Controller
 {
 	/**
 	 * @OA\Get(
-	 *     path="/download/book/{author-slug}/{book-slug}",
+	 *     path="/download/book/{author}/{book}",
 	 *     tags={"download"},
 	 *     summary="Download specific book",
 	 *     description="Download specific book, check /books endpoint to get list of slugs",
 	 *     @OA\Parameter(
-	 *         name="author-slug",
+	 *         name="author",
 	 *         in="path",
 	 *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
 	 *         required=true,
 	 *         example="auel-jean-m",
-	 *         @OA\Schema(
-	 *           type="string",
-	 *           @OA\Items(type="string"),
-	 *         ),
 	 *         style="form"
 	 *     ),
 	 *     @OA\Parameter(
-	 *         name="book-slug",
+	 *         name="book",
 	 *         in="path",
 	 *         description="Slug of book name like 'les-refuges-de-pierre' for Les refuges de pierre",
 	 *         required=true,
 	 *         example="les-refuges-de-pierre",
-	 *         @OA\Schema(
-	 *           type="string",
-	 *           @OA\Items(type="string"),
-	 *         ),
 	 *         style="form"
 	 *     ),
 	 *     @OA\Response(
@@ -64,32 +56,24 @@ class DownloadController extends Controller
 
 	/**
 	 * @OA\Get(
-	 *     path="/download/serie/{author-slug}/{serie-slug}",
+	 *     path="/download/serie/{author}/{serie}",
 	 *     tags={"download"},
 	 *     summary="Download specific serie's books with ZIP",
 	 *     description="Download specific serie, check /series endpoint to get list of slugs",
 	 *     @OA\Parameter(
-	 *         name="author-slug",
+	 *         name="author",
 	 *         in="path",
 	 *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
 	 *         required=true,
 	 *         example="auel-jean-m",
-	 *         @OA\Schema(
-	 *           type="string",
-	 *           @OA\Items(type="string"),
-	 *         ),
 	 *         style="form"
 	 *     ),
 	 *     @OA\Parameter(
-	 *         name="book-slug",
+	 *         name="book",
 	 *         in="path",
 	 *         description="Slug of book name like 'les-enfants-de-la-terre' for Les enfants de la terre",
 	 *         required=true,
 	 *         example="les-enfants-de-la-terre",
-	 *         @OA\Schema(
-	 *           type="string",
-	 *           @OA\Items(type="string"),
-	 *         ),
 	 *         style="form"
 	 *     ),
 	 *     @OA\Response(
@@ -128,25 +112,22 @@ class DownloadController extends Controller
 
 	/**
 	 * @OA\Get(
-	 *     path="/download/author/{author-slug}",
+	 *     path="/download/author/{author}",
 	 *     tags={"download"},
 	 *     summary="Download specific author's books with ZIP",
 	 *     description="Download specific author, check /authors endpoint to get list of slugs",
 	 *     @OA\Parameter(
-	 *         name="author-slug",
+	 *         name="author",
 	 *         in="path",
 	 *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
 	 *         required=true,
 	 *         example="auel-jean-m",
-	 *         @OA\Schema(
-	 *           type="string",
-	 *           @OA\Items(type="string"),
-	 *         ),
 	 *         style="form"
 	 *     ),
 	 *     @OA\Response(
 	 *         response=200,
-	 *         description="Successful operation"
+	 *         description="Successful operation",
+	 * 		   @OA\JsonContent(),
 	 *     )
 	 * )
 	 */
