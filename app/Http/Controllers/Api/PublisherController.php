@@ -27,7 +27,7 @@ class PublisherController extends Controller
     public function books(string $publisher_slug)
     {
         $pub = Publisher::whereSlug($publisher_slug)->firstOrFail();
-        $books = $pub->books;
+        $books = $pub->books->paginate(32);
 
         return BookLightResource::collection($books);
     }

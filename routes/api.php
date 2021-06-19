@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CountController;
-use App\Http\Controllers\Api\GenreController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
@@ -151,13 +150,7 @@ Route::get('/users', [UserController::class, 'users'])->name('api.users');
  */
 Route::get('/tags', [TagController::class, 'index'])->name('api.tags.index');
 Route::get('/tags/{tag}', [TagController::class, 'show'])->name('api.tags.show');
-Route::get('/tags/book/{author}/{book}', [TagController::class, 'book'])->name('api.tags.book');
-
-/*
- * Genres routes
- */
-Route::get('/genres', [GenreController::class, 'index'])->name('api.genres.index');
-Route::get('/genres/{genre}', [GenreController::class, 'show'])->name('api.genres.show');
+Route::get('/tags/books/{tag}', [TagController::class, 'books'])->name('api.tags.show.books');
 
 /* Publishers routes */
 Route::get('/publishers', [PublisherController::class, 'index'])->name('api.publishers.index');
