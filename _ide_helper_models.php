@@ -44,6 +44,8 @@ namespace App\Models{
      * @property int|null                                                                                                                      $media_count
      * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[]                                                                  $series
      * @property int|null                                                                                                                      $series_count
+     * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[]                                                                   $tags
+     * @property int|null                                                                                                                      $tags_count
      *
      * @method static \Database\Factories\AuthorFactory factory(...$parameters)
      * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
@@ -60,6 +62,10 @@ namespace App\Models{
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereRole($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
+     * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTagsOfAnyType($tags)
+     * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
+     * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTagsOfAnyType($tags)
      */
     class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia
     {
@@ -421,13 +427,29 @@ namespace App\Models{
     /**
      * App\Models\TagExtend.
      *
-     * @property array $translations
+     * @property int                                                         $id
+     * @property array                                                       $name
+     * @property array                                                       $slug
+     * @property string|null                                                 $type
+     * @property int|null                                                    $order_column
+     * @property \Illuminate\Support\Carbon|null                             $created_at
+     * @property \Illuminate\Support\Carbon|null                             $updated_at
+     * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
+     * @property int|null                                                    $books_count
+     * @property array                                                       $translations
      *
      * @method static \Illuminate\Database\Eloquent\Builder|Tag containing(string $name, $locale = null)
      * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder|Tag ordered(string $direction = 'asc')
      * @method static \Illuminate\Database\Eloquent\Builder|TagExtend query()
+     * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereCreatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereName($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereOrderColumn($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereSlug($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereType($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|Tag withType(?string $type = null)
      */
     class TagExtend extends \Eloquent

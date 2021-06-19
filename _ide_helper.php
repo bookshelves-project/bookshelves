@@ -4,7 +4,7 @@
 
     /**
      * A helper file for Laravel, to provide autocomplete information to your IDE
-     * Generated for Laravel 8.46.0.
+     * Generated for Laravel 8.47.0.
      *
      * This file should not be included in your code, only analyzed by your IDE!
      *
@@ -1236,6 +1236,36 @@ namespace Illuminate\Support\Facades {
             }
 
             /**
+             * Register a scoped binding in the container.
+             *
+             * @param string               $abstract
+             * @param \Closure|string|null $concrete
+             *
+             * @return void
+             * @static
+             */
+            public static function scoped($abstract, $concrete = null)
+            {            //Method inherited from \Illuminate\Container\Container
+                /* @var \Illuminate\Foundation\Application $instance */
+                $instance->scoped($abstract, $concrete);
+            }
+
+            /**
+             * Register a scoped binding if it hasn't already been registered.
+             *
+             * @param string               $abstract
+             * @param \Closure|string|null $concrete
+             *
+             * @return void
+             * @static
+             */
+            public static function scopedIf($abstract, $concrete = null)
+            {            //Method inherited from \Illuminate\Container\Container
+                /* @var \Illuminate\Foundation\Application $instance */
+                $instance->scopedIf($abstract, $concrete);
+            }
+
+            /**
              * "Extend" an abstract type in the container.
              *
              * @param string   $abstract
@@ -1551,6 +1581,18 @@ namespace Illuminate\Support\Facades {
             {            //Method inherited from \Illuminate\Container\Container
                 /* @var \Illuminate\Foundation\Application $instance */
                 $instance->forgetInstances();
+            }
+
+            /**
+             * Clear all of the scoped instances from the container.
+             *
+             * @return void
+             * @static
+             */
+            public static function forgetScopedInstances()
+            {            //Method inherited from \Illuminate\Container\Container
+                /* @var \Illuminate\Foundation\Application $instance */
+                $instance->forgetScopedInstances();
             }
 
             /**
@@ -5437,6 +5479,20 @@ namespace Illuminate\Support\Facades {
             {            //Method inherited from \Illuminate\Database\Connection
                 /* @var \Illuminate\Database\MySqlConnection $instance */
                 $instance->recordsHaveBeenModified($value);
+            }
+
+            /**
+             * Set the record modification state.
+             *
+             * @param bool $value
+             *
+             * @return \Illuminate\Database\MySqlConnection
+             * @static
+             */
+            public static function setRecordModificationState($value)
+            {            //Method inherited from \Illuminate\Database\Connection
+                /* @var \Illuminate\Database\MySqlConnection $instance */
+                return $instance->setRecordModificationState($value);
             }
 
             /**
