@@ -72,6 +72,7 @@ class SeriesCommand extends Command
         $bar = $this->output->createProgressBar(count($series));
         $bar->start();
         foreach ($series as $key => $serie) {
+            SerieProvider::tags(serie: $serie);
             if (empty($serie->getFirstMediaUrl('series'))) {
                 if (! $no_covers) {
                     SerieProvider::cover(serie: $serie);

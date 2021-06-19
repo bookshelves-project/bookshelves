@@ -71,6 +71,7 @@ class AuthorsCommand extends Command
         $bar = $this->output->createProgressBar(count($authors));
         $bar->start();
         foreach ($authors as $key => $author) {
+            AuthorProvider::tags($author);
             if (! $author->description && ! $author->link) {
                 AuthorProvider::descriptionAndPicture(author: $author, alone: $alone, no_cover: $no_covers);
             }
