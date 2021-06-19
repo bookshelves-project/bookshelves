@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use Spatie\Tags\HasTags;
 use App\Utils\BookshelvesTools;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -17,6 +18,7 @@ class Author extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasFactory;
+    use HasTags;
 
     protected $fillable = [
         'lastname',
