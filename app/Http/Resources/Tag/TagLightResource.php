@@ -3,12 +3,12 @@
 namespace App\Http\Resources\Tag;
 
 use App\Models\Book;
-use Spatie\Tags\Tag;
+use App\Models\TagExtend;
 use App\Enums\CountSizeEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property Tag $resource
+ * @property TagExtend $resource
  */
 class TagLightResource extends JsonResource
 {
@@ -21,8 +21,10 @@ class TagLightResource extends JsonResource
      */
     public function toArray($request)
     {
+        $count = 0;
         // $total = Book::count();
-        $count = Book::withAllTags([$this->resource])->count();
+        $count = $this->resource->books_count;
+        // $count = Book::withAllTags([$this->resource])->count();
         // $percentage = intval($count * 100 / $total);
 
         // switch ($percentage) {
@@ -58,9 +60,12 @@ class TagLightResource extends JsonResource
             'count' => $count,
             // 'size' => $size,
             'meta' => [
-                'slug' => $this->resource->slug,
-                'show' => route('api.'.$type.'s.show', [
-                    $type => $this->resource->slug,
+                'slug'  => $this->resource->slug,
+                'books' => route('api.tags.show.books', [
+                    'tag' => $this->resource->slug,
+                ]),
+                'show' => route('api.tags.show', [
+                    'tag' => $this->resource->slug,
                 ]),
             ],
         ];

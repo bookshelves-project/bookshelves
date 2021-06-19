@@ -25,8 +25,8 @@ class SearchSerieResource extends JsonResource
                 'author' => $this->resource->meta_author,
                 'slug'   => $this->resource->slug,
             ],
-            'title'   => $this->resource->title,
-            'author'  => $this->resource->books[0]->author->name,
+            'title' => $this->resource->title,
+            // 'author' => $this->resource->books?->author_meta,
             'picture' => [
                 'base'      => $this->resource->image_thumbnail,
                 'openGraph' => $this->resource->image_open_graph,

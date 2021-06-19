@@ -19,14 +19,6 @@ class SearchBookResource extends JsonResource
      */
     public function toArray($request)
     {
-        $serie = null;
-        if ($this->resource->serie) {
-            $serie = [
-                'title'  => $this->resource->serie->title,
-                'number' => $this->resource->volume,
-            ];
-        }
-
         return [
             'meta' => [
                 'entity' => 'book',
@@ -35,8 +27,11 @@ class SearchBookResource extends JsonResource
             ],
             'title'    => $this->resource->title,
             'subtitle' => $this->resource->serie?->title,
-            'serie'    => $serie,
-            'picture'  => [
+            'serie'    => [
+                'title'  => $this->resource->serie?->title,
+                'number' => $this->resource->volume,
+            ],
+            'picture' => [
                 'base'      => $this->resource->image_thumbnail,
                 'openGraph' => $this->resource->image_open_graph,
                 'simple'    => $this->resource->image_simple,
