@@ -134,4 +134,23 @@ class SerieProvider
 
         return $serie;
     }
+
+    /**
+     * Generate Serie tags from Books relationship tags.
+     */
+    public static function tags(Serie $serie): Serie
+    {
+        $books = Book::whereSerieId($serie->id)->get();
+        $tags = [];
+        foreach ($books as $key => $book) {
+            foreach ($book->tags as $key => $tag) {
+                array_push($tags, $tag);
+            }
+        }
+
+        $serie->syncTags($tags);
+        $serie->save();
+
+        return $serie;
+    }
 }

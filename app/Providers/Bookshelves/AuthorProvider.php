@@ -191,4 +191,23 @@ class AuthorProvider
 
         return $author;
     }
+
+    /**
+     * Generate Author tags from Books relationship tags.
+     */
+    public static function tags(Author $author): Author
+    {
+        $books = $author->books;
+        $tags = [];
+        foreach ($books as $key => $book) {
+            foreach ($book->tags as $key => $tag) {
+                array_push($tags, $tag);
+            }
+        }
+
+        $author->syncTags($tags);
+        $author->save();
+
+        return $author;
+    }
 }
