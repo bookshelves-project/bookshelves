@@ -7,9 +7,8 @@ use App\Models\Serie;
 use App\Models\Author;
 use App\Models\Identifier;
 use Illuminate\Support\Str;
+use App\Http\Resources\EntityResource;
 use App\Http\Resources\Search\SearchBookResource;
-use App\Http\Resources\Search\SearchSerieResource;
-use App\Http\Resources\Search\SearchAuthorResource;
 
 class BookshelvesTools
 {
@@ -19,9 +18,9 @@ class BookshelvesTools
     public static function searchGlobal(string $searchTermRaw): array
     {
         $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
-        $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->get();
-        $series = Serie::whereLike(['title', 'authors.name'], $searchTerm)->get();
-        $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
+        $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->with('media')->get();
+        $series = Serie::whereLike(['title', 'authors.name'], $searchTerm)->with(['authors', 'media'])->get();
+        $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $searchTerm)->with(['authors', 'media'])->doesntHave('serie')->orderBy('serie_id')->orderBy('volume')->get();
         $identifier = Identifier::whereLike(['isbn', 'isbn13', 'doi', 'amazon', 'google'], $searchTerm)->first();
         if ($identifier) {
             $book = $identifier->book;
@@ -31,9 +30,9 @@ class BookshelvesTools
             $collection = collect([]);
             $collection = $collection->merge($books);
         } else {
-            $authors = SearchAuthorResource::collection($authors);
-            $series = SearchSerieResource::collection($series);
-            $books = SearchBookResource::collection($books);
+            $authors = EntityResource::collection($authors);
+            $series = EntityResource::collection($series);
+            $books = EntityResource::collection($books);
             $collection = collect([]);
             $collection = $collection->merge($authors);
             $collection = $collection->merge($series);
@@ -49,11 +48,11 @@ class BookshelvesTools
     public static function searchGlobalIdentifier(string $searchTermRaw): array
     {
         $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
-        $identifier = Identifier::whereLike(['isbn', 'isbn13', 'doi', 'amazon', 'google'], $searchTerm)->first();
+        $identifier = Identifier::whereLike(['isbn', 'isbn13', 'doi', 'amazon', 'google'], $searchTerm)->with(['authors', 'media'])->first();
         $book = $identifier->book;
         $books = collect([$book]);
 
-        $books = SearchBookResource::collection($books);
+        $books = EntityResource::collection($books);
         $collection = collect([]);
         $collection = $collection->merge($books);
 
@@ -152,7 +151,7 @@ class BookshelvesTools
                       array_keys($dict),
                     array_values($dict),
                     urldecode($string)
-                  )
+                )
               )
             )
         );
