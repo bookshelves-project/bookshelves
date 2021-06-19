@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Wiki;
 
 use App\Http\Controllers\Controller;
+use App\Providers\CommonMark;
+use File;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
@@ -19,6 +21,11 @@ class WikiController extends Controller
 		$laravelVersion = Application::VERSION;
 		$phpVersion = PHP_VERSION;
 
-		return view('pages.api.wiki.index', compact('laravelVersion', 'phpVersion'));
+		$path = resource_path('views/pages/api/wiki/content/index.md');
+		$content = File::get($path);
+
+		$html = CommonMark::convertToHtml($content);
+
+		return view('pages.api.wiki.index', compact('laravelVersion', 'phpVersion', 'html'));
 	}
 }

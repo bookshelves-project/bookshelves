@@ -1,46 +1,25 @@
+# About
 
-## Demo & documentation
+This Wiki is about Bookshelves project, you will find two parts covered here: the back-end part made in Laravel
+which is clearly the most important part in Bookshelves and the front-end part in NuxtJS which retrieves data from
+the API in order to display it in a nice user interface.
+
+If you are interested in Bookshelves, you can keep only the back-end part and create your own front-end with the
+technology you want. All the logic of Bookshelves is in the backend and it is even possible to not use an external
+frontend and use Bookshelves with the internal backend interface.
+
+# Demo & documentation
 
 🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of Bookshelves  
-📚 [**bookshelves.ink/api/wiki**](https://bookshelves.ink/api/wiki): wiki for Bookshelves usage, if this link not work check [**files here**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/tree/master/resources/views/pages/api/wiki/content)  
+📚 [**bookshelves.ink/api/wiki**](https://bookshelves.ink/api/wiki): wiki for Bookshelves usage  
 📚 [**bookshelves.ink/api/documentation**](https://bookshelves.ink/api/documentation): API documentation  
 
----
-
-📀 [**gitlab.com/ewilan-riviere/bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves (current repository)  
+📀 [**gitlab.com/ewilan-riviere/bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves  
 🎨 [**gitlab.com/ewilan-riviere/bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  
 
-## **Table of contents**
+# **I. Setup**
 
-- [Demo & documentation](#demo--documentation)
-- [**Table of contents**](#table-of-contents)
-- [**I. Setup**](#i-setup)
-  - [*a. Dependencies*](#a-dependencies)
-  - [*b. Setup*](#b-setup)
-- [**II. Generate eBooks data**](#ii-generate-ebooks-data)
-  - [*a. Add your own eBooks*](#a-add-your-own-ebooks)
-  - [*b. Test with demo eBook*](#b-test-with-demo-ebook)
-- [**III. Tools**](#iii-tools)
-  - [*a. Swagger*](#a-swagger)
-  - [*b. Laravel Telescope*](#b-laravel-telescope)
-  - [*c. Spatie Media*](#c-spatie-media)
-  - [*d. Tests*](#d-tests)
-  - [*e. Mails*](#e-mails)
-  - [*f. Sanctum*](#f-sanctum)
-    - [Login 419 error: "CSRF token mismatch"](#login-419-error-csrf-token-mismatch)
-  - [*g. MetadataExtractor*](#g-metadataextractor)
-  - [*h. Larastan*](#h-larastan)
-  - [*i. Wikipedia*](#i-wikipedia)
-- [**IV. `.env`**](#iv-env)
-  - [*a. For local*](#a-for-local)
-  - [*b. For production*](#b-for-production)
-- [V. **VHost: NGINX**](#v-vhost-nginx)
-
----
-
-## **I. Setup**
-
-### *a. Dependencies*
+## *a. Dependencies*
 
 Extensions for PHP, here for `php8.0`
 
@@ -58,7 +37,7 @@ sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp
 npm install -g svgo
 ```
 
-### *b. Setup*
+## *b. Setup*
 
 Download dependencies
 
@@ -72,11 +51,9 @@ Execute `setup` and follow guide
 php artisan setup
 ```
 
----
+# **II. Generate eBooks data**
 
-## **II. Generate eBooks data**
-
-### *a. Add your own eBooks*
+## *a. Add your own eBooks*
 
 Add EPUB files in `public/storage/raw/books` and execute Epub Parser
 
@@ -87,7 +64,7 @@ Add EPUB files in `public/storage/raw/books` and execute Epub Parser
 php artisan bookshelves:generate -fF
 ```
 
-### *b. Test with demo eBook*
+## *b. Test with demo eBook*
 
 If you want to test Bookshelves, you can use `bookshelves:sample` to generate data from libre eBooks
 
@@ -97,11 +74,9 @@ If you want to test Bookshelves, you can use `bookshelves:sample` to generate da
 php artisan bookshelves:sample
 ```
 
----
+# **III. Tools**
 
-## **III. Tools**
-
-### *a. Swagger*
+## *a. Swagger*
 
 - [**zircote.github.io/swagger-php**](https://zircote.github.io/swagger-php/): documentation of Swagger PHP
 - [**github.com/DarkaOnLine/L5-Swagger**](https://github.com/DarkaOnLine/L5-Swagger): `darkaonline/l5-swagger` repository
@@ -149,7 +124,7 @@ class BookController extends Controller
 
 ```
 
-### *b. Laravel Telescope*
+## *b. Laravel Telescope*
 
 - [**laravel.com/docs/8.x/telescope**](https://laravel.com/docs/8.x/telescope): `laravel/telescope` package doc
 
@@ -163,7 +138,7 @@ In **dotenv** set `TELESCOPE_ENABLED` to `true`
 TELESCOPE_ENABLED=true
 ```
 
-### *c. Spatie Media*
+## *c. Spatie Media*
 
 - [**spatie.be/docs/laravel-medialibrary**](https://spatie.be/docs/laravel-medialibrary/v9/introduction): `spatie/laravel-medialibrary` package doc
 
@@ -173,7 +148,7 @@ If you update `registerMediaConversions()` in any Model, you can regenerate conv
 php artisan media-library:regenerate
 ```
 
-### *d. Tests*
+## *d. Tests*
 
 - [**phpunit.de**](https://phpunit.de): `phpunit/phpunit` package doc
 - [**pestphp.com**](https://pestphp.com): `pestphp/pest` package doc
@@ -188,27 +163,27 @@ You can run Pest and PHP Unit tests
 php artisan pest:run
 ```
 
-### *e. Mails*
+## *e. Mails*
 
 TODO
 
-### *f. Sanctum*
+## *f. Sanctum*
 
 - [**laravel.com/docs/8.x/sanctum**](https://laravel.com/docs/8.x/sanctum): `laravel/sanctum` package doc
 
 TODO
 
-#### Login 419 error: "CSRF token mismatch"
+### Login 419 error: "CSRF token mismatch"
 
 ```bash
 php artisan cache:clear ; php artisan route:clear ; php artisan config:clear ; php artisan view:clear ; php artisan optimize:clear
 ```
 
-### *g. MetadataExtractor*
+## *g. MetadataExtractor*
 
 TODO
 
-### *h. Larastan*
+## *h. Larastan*
 
 - [**github.com/nunomaduro/larastan**](https://github.com/nunomaduro/larastan): package
 
@@ -216,17 +191,15 @@ TODO
 php artisan larastan
 ```
 
-### *i. Wikipedia*
+## *i. Wikipedia*
 
 - <https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch=pierre%20bottero&format=json>
 - <http://fr.wikipedia.org/w/api.php?action=query&prop=info&pageids=1064109&inprop=url&format=json&prop=info|extracts&inprop=url>
 - <https://en.wikipedia.org/w/api.php?format=json&action=query&origin=*&titles=Pierre%20Bottero&prop=info|extracts&inprop=url>
 
----
+# **IV. `.env`**
 
-## **IV. `.env`**
-
-### *a. For local*
+## *a. For local*
 
 ```yml
 APP_URL=http://localhost:8000
@@ -258,7 +231,7 @@ MAIL_TO_ADDRESS=contact@bookshelves.ink
 MAIL_TO_NAME="${APP_NAME}"
 ```
 
-### *b. For production*
+## *b. For production*
 
 ```yml
 APP_URL=https://www.mydomain.com
@@ -291,7 +264,9 @@ MAIL_TO_ADDRESS=contact@bookshelves.ink
 MAIL_TO_NAME="${APP_NAME}"
 ```
 
-## V. **VHost: NGINX**
+# V. **VHost**
+
+## a. *NGINX*
 
 ```nginx
 server {
