@@ -1,34 +1,3 @@
-<style>
-    .entity {
-        clear: both;
-        min-height: 90px;
-        position: relative;
-        border-bottom: 1px solid black;
-        display: block;
-        padding-bottom: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .entity__cover {
-        float: left;
-        margin: 4px 10px 4px 4px;
-        width: 60px;
-        height: 100%;
-        position: absolute;
-    }
-
-    .entity__right {
-        float: right;
-        line-height: 40px;
-        text-align: right;
-        margin: 6px;
-    }
-
-    .entity__center {
-        margin: 0px 0px 4px 75px;
-    }
-
-</style>
 <section>
     <h3 class="text-3xl text-center pb-5 font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
         {{ $title }}
@@ -55,35 +24,37 @@
                     break;
             }
         @endphp
-        <article class="entity">
-            <a href="{{ $route }}">
-                <span class="entity__cover">
-                    <img src="{{ $item->picture->simple }}" alt="{{ $item->title }}">
-                </span>
-                <h2 class="entity__right">
-                    <div style="text-decoration: none !important;">
-                        <i class="fas fa-download"></i> EPUB
-                    </div>
-                </h2>
+        <a href="{{ $route }}" class="entity">
+            <span class="entity__cover">
+                <img src="{{ $item->picture->simple }}" alt="{{ $item->title }}">
+            </span>
+            <h2 class="entity__right">
                 <div style="text-decoration: none !important;">
-                    <div class="entity__center">
-                        <div class="pb-3">
-                            <h2 class="text-xl font-semibold">
-                                {{ $item->title }}
-                            </h2>
-                        </div>
-                        @if ($type !== 'author')
-                            <div>
-                                <i>Authors</i> : {{ $item->author }}
-                            </div>
-                        @endif
-                        <div>
-                            <i>Tags</i> : Action &amp; Adventure, Fiction, Historical, Romance
-                        </div>
-                        <div><i>Series</i> : D'Artagnan Romances (1.0)</div>
-                    </div>
+                    <i class="fas fa-download"></i> EPUB
                 </div>
-            </a>
-        </article>
+            </h2>
+            <div style="text-decoration: none !important;">
+                <div class="entity__center">
+                    <div class="pb-3">
+                        <h2 class="text-xl font-semibold">
+                            {{ $item->title }}
+                        </h2>
+                    </div>
+                    @if ($type !== 'author')
+                        @isset($item->authors)
+                            <div>
+                                <i>Authors</i> : @foreach ($item->authors as $author)
+                                    {{ $author->name }}
+                                @endforeach
+                            </div>
+                        @endisset
+                    @endif
+                    <div>
+                        <i>Tags</i> : Action &amp; Adventure, Fiction, Historical, Romance
+                    </div>
+                    {{-- <div><i>Series</i> : {{ $item->serie->title }}, vol. {{ $item->volume }}</div> --}}
+                </div>
+            </div>
+        </a>
     @endforeach
 </section>

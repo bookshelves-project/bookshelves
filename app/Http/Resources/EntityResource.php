@@ -32,6 +32,7 @@ class EntityResource extends JsonResource
 			'volume' => $this->resource->volume ?? null,
 			'picture' => [
 				'base' => $this->resource->image_thumbnail,
+				'simple' => $this->resource->image_simple,
 				'color' => $this->resource->image_color,
 			],
 		];

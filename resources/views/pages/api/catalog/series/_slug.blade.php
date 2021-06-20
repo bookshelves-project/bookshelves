@@ -8,35 +8,38 @@
             <a href="{{ url()->previous() }}" class="block px-3 py-2 mb-6 font-semibold">
                 Back
             </a>
-            <div>
-                <div style=" background-image: url({{ $serie->picture->simple }})" class="h-32 bg-center bg-cover">
-                </div>
-                <h2 class="mt-6 text-3xl font-semibold">
-                    {{ $serie->title }}
-                </h2>
-                <div>
-                    Wrote by
-                    @foreach ($serie->authors as $key => $author)
-                        {{ $author->name }}
-                        @if (sizeof($serie->authors) !== $key + 1)
-                            <span>, </span>
-                        @endif
-                    @endforeach
-                </div>
-                <div>
-                    {{ $serie->size }}
-                </div>
-                <div class="mt-5">
-                    {!! $serie->description !!}
-                </div>
-                @isset($serie->books)
-                    <div class="mt-8">
-                        @include('components.blocks.list', [
-                        'data' => collect($serie->books)
-                        ])
+            <article class="entity">
+                <span class="entity__cover">
+                    <img src="{{ $serie->picture->simple }}" alt="{{ $serie->title }}">
+                </span>
+                <h2 class="entity__right">
+                    <div style="text-decoration: none !important;">
+                        <i class="fas fa-download"></i> EPUB
                     </div>
-                @endisset
-            </div>
+                </h2>
+                <div style="text-decoration: none !important;">
+                    <div class="entity__center">
+                        <div class="pb-3">
+                            <h2 class="text-xl font-semibold">
+                                {{ $serie->title }}
+                            </h2>
+                        </div>
+                        <div>
+                            {!! $serie->description !!}
+                        </div>
+                        <div>
+                            <i>Tags</i> : Action &amp; Adventure, Fiction, Historical, Romance
+                        </div>
+                    </div>
+                </div>
+            </article>
+            @isset($books)
+                <div class="mt-8">
+                    @include('components.blocks.list', [
+                    'data' => collect($books)
+                    ])
+                </div>
+            @endisset
         </div>
     </div>
 
