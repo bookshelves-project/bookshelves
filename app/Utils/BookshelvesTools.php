@@ -26,7 +26,7 @@ class BookshelvesTools
             $book = $identifier->book;
             $books = collect([$book]);
 
-            $books = SearchBookResource::collection($books);
+            $books = EntityResource::collection($books);
             $collection = collect([]);
             $collection = $collection->merge($books);
         } else {

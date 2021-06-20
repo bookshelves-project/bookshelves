@@ -2,30 +2,33 @@
 
 namespace App\Http\Controllers\Api\Opds;
 
-use App\Models\Author;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Author\AuthorResource;
-use App\Http\Resources\Search\SearchAuthorResource;
+use App\Models\Author;
+use App\Providers\Bookshelves\OpdsProvider;
+use Route;
 
 class AuthorController extends Controller
 {
-    public function index(Request $request)
-    {
-        $authors = Author::all();
+	public function index()
+	{
+		$entities = Author::orderBy('lastname')->get();
+		$result = OpdsProvider::template(endpoint: 'author', data: $entities, route: route(Route::currentRouteName()));
 
-        $authors = SearchAuthorResource::collection($authors);
-        $authors = collect($authors);
+		return response($result)->withHeaders([
+			'Content-Type' => 'text/xml',
+		]);
+	}
 
-        return view('pages/api/opds/authors/index', compact('authors'));
-    }
+	public function show(string $author_slug)
+	{
+		$route = route(Route::currentRouteName(), [
+			'author' => $author_slug,
+		]);
+		$author = Author::whereSlug($author_slug)->firstOrFail();
+		$result = OpdsProvider::template(endpoint: 'author', data: $author, route: $route);
 
-    public function show(Request $request, string $slug)
-    {
-        $author = Author::whereSlug($slug)->firstOrFail();
-        $author = AuthorResource::make($author);
-        $author = json_decode($author->toJson());
-
-        return view('pages/api/opds/authors/_slug', compact('author'));
-    }
+		return response($result)->withHeaders([
+			'Content-Type' => 'text/xml',
+		]);
+	}
 }

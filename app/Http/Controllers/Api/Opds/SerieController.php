@@ -2,34 +2,37 @@
 
 namespace App\Http\Controllers\Api\Opds;
 
-use App\Models\Serie;
-use App\Models\Author;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Serie\SerieResource;
-use App\Http\Resources\Search\SearchSerieResource;
+use App\Models\Author;
+use App\Models\Serie;
+use App\Providers\Bookshelves\OpdsProvider;
+use Illuminate\Http\Request;
+use Route;
 
 class SerieController extends Controller
 {
-    public function index(Request $request)
-    {
-        $series = Serie::all();
+	public function index(Request $request)
+	{
+		$series = Serie::orderBy('title_sort')->get();
+		$result = OpdsProvider::template(data: $series, endpoint: 'serie', route: Route::currentRouteName());
 
-        $series = SearchSerieResource::collection($series);
-        $series = collect($series);
+		return response($result)->withHeaders([
+			'Content-Type' => 'text/xml',
+		]);
+	}
 
-        return view('pages/api/opds/series/index', compact('series'));
-    }
+	public function show(string $author_slug, string $serie_slug)
+	{
+		$author = Author::whereSlug($author_slug)->firstOrFail();
+		$serie = $author->series->firstWhere('slug', $serie_slug);
+		$route = route(Route::currentRouteName(), [
+			'author' => $author_slug,
+			'serie' => $serie_slug,
+		]);
+		$result = OpdsProvider::template(endpoint: 'serie', data: $serie, route: $route);
 
-    public function show(Request $request, string $author, string $slug)
-    {
-        $author = Author::whereSlug($author)->firstOrFail();
-        $serie = Serie::whereHas('authors', function ($query) use ($author) {
-            return $query->where('author_id', '=', $author->id);
-        })->whereSlug($slug)->firstOrFail();
-        $serie = SerieResource::make($serie);
-        $serie = json_decode($serie->toJson());
-
-        return view('pages/api/opds/series/_slug', compact('serie'));
-    }
+		return response($result)->withHeaders([
+			'Content-Type' => 'text/xml',
+		]);
+	}
 }
