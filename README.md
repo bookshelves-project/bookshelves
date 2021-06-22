@@ -10,11 +10,15 @@
 [![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=14.16&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
 [![yarn](https://img.shields.io/static/v1?label=Yarn&message=v1.2&color=2C8EBB&style=flat-square&logo=yarn&logoColor=ffffff)](https://yarnpkg.com/lang/en/)
 
----
+📀 [**bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves (current repository)  
+🎨 [**bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  
+
+💻 [**bookshelves.ink**](https://bookshelves.ink): front demo  
+📚 [**bookshelves.ink/api/documentation**](https://bookshelves.ink/api/documentation): Documentation API  
+📚 [**bookshelves.ink/api/wiki**](https://bookshelves.ink/api/wiki): wiki for Bookshelves usage, if this link not work check [**files here**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/tree/master/resources/views/pages/api/wiki/content)
 
 **Table of contents**
 
-- [Demo & documentation](#demo--documentation)
 - [**I. Setup**](#i-setup)
   - [*a. Dependencies*](#a-dependencies)
   - [*b. Setup*](#b-setup)
@@ -26,19 +30,6 @@
     - [Option: Scan](#option-scan)
     - [Generate books](#generate-books)
   - [*c. Test with demo eBook*](#c-test-with-demo-ebook)
-
----
-
-## Demo & documentation
-
-🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of Bookshelves  
-📚 [**Wiki**](https://bookshelves.ink/api/wiki): wiki for Bookshelves usage, if this link not work check [**files here**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/tree/master/resources/views/pages/api/wiki/content)
-
----
-
-📀 [**bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves (current repository)  
-🎨 [**bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  
-📚 [**Documentation**](https://bookshelves.ink/api/documentation): API documentation  
 
 ## **I. Setup**
 
@@ -73,8 +64,6 @@ Execute `setup` and follow guide
 ```bash
 php artisan setup
 ```
-
----
 
 ## **II. Generate eBooks data**
 
@@ -136,7 +125,7 @@ Add EPUB files in `public/storage/raw/books` and execute Epub Parser
 > `php artisan bookshelves:generate -h` to check options
 
 ```bash
-# for fresh installation (erase current database) with force option for production
+# for fresh installation (erase tables with books data) with force option for production
 php artisan bookshelves:generate -fF
 ```
 
@@ -149,8 +138,6 @@ If you want to test Bookshelves, you can use `bookshelves:sample` to generate da
 ```bash
 php artisan bookshelves:sample
 ```
-
----
 
 ## **TODO** <!-- omit in toc -->
 

@@ -14,7 +14,9 @@ class SerieController extends Controller
 	public function index(Request $request)
 	{
 		$series = Serie::orderBy('title_sort')->get();
-		$result = OpdsProvider::template(data: $series, endpoint: 'serie', route: Route::currentRouteName());
+		$result = OpdsProvider::template(data: $series, endpoint: 'serie', route: route(Route::currentRouteName(), [
+			'version' => 'v1.2',
+		]));
 
 		return response($result)->withHeaders([
 			'Content-Type' => 'text/xml',
@@ -26,6 +28,7 @@ class SerieController extends Controller
 		$author = Author::whereSlug($author_slug)->firstOrFail();
 		$serie = $author->series->firstWhere('slug', $serie_slug);
 		$route = route(Route::currentRouteName(), [
+			'version' => 'v1.2',
 			'author' => $author_slug,
 			'serie' => $serie_slug,
 		]);

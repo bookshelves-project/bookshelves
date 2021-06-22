@@ -60,17 +60,17 @@ Route::prefix('catalog')->group(function () {
 
 Route::get('/opds', [OpdsController::class, 'index'])->name('api.opds.index');
 
-Route::prefix('opds/v1.2')->group(function () {
-	Route::get('/', [OpdsController::class, 'feed'])->name('api.opds.1-2');
+Route::prefix('opds/{version}')->group(function () {
+	Route::get('/', [OpdsController::class, 'feed'])->name('api.opds');
 
-	Route::get('/books', [OpdsBookController::class, 'index'])->name('api.opds.1-2.books');
-	Route::get('/books/{author}/{book}', [OpdsBookController::class, 'show'])->name('api.opds.1-2.books.show');
+	Route::get('/books', [OpdsBookController::class, 'index'])->name('api.opds.books');
+	Route::get('/books/{author}/{book}', [OpdsBookController::class, 'show'])->name('api.opds.books.show');
 
-	Route::get('/series', [OpdsSerieController::class, 'index'])->name('api.opds.1-2.series');
-	Route::get('/series/{author}/{serie}', [OpdsSerieController::class, 'show'])->name('api.opds.1-2.series.show');
+	Route::get('/series', [OpdsSerieController::class, 'index'])->name('api.opds.series');
+	Route::get('/series/{author}/{serie}', [OpdsSerieController::class, 'show'])->name('api.opds.series.show');
 
-	Route::get('/authors', [OpdsAuthorController::class, 'index'])->name('api.opds.1-2.authors');
-	Route::get('/authors/{author}', [OpdsAuthorController::class, 'show'])->name('api.opds.1-2.authors.show');
+	Route::get('/authors', [OpdsAuthorController::class, 'index'])->name('api.opds.authors');
+	Route::get('/authors/{author}', [OpdsAuthorController::class, 'show'])->name('api.opds.authors.show');
 });
 
 /*

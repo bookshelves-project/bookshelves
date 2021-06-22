@@ -49,13 +49,13 @@
             <tbody>
                 <tr>
                     <td class="text-xl font-semibold">
-                        <a href="{{ route('api.opds.1-2') }}">
+                        <a href="{{ route('api.opds', ['version' => 'v1.2']) }}">
                             v1.2
                         </a>
                     </td>
                     <td class="text-xl font-semibold">
                         <a href="{{ route('api.catalog.index') }}">
-                            Catalog, OPDS alternative
+                            Catalog
                         </a>
                     </td>
                 </tr>

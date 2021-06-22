@@ -4,18 +4,26 @@
 
 @section('content')
     <div class="relative px-4 pb-20 sm:px-6 lg:pb-28 lg:px-8">
-        <div class="relative mx-auto max-w-7xl">
+        <div class="relative mx-auto max-w-2xl">
             <div class="mt-10">
                 <form action="/api/catalog/search" method="GET">
-                    <input type="search" name="q" class="block w-full max-w-xl mx-auto mt-1 rounded-md"
-                        placeholder="Search by book title, by author name or by series title">
-                    <button class="block px-3 py-2 mx-auto mt-3 text-3xl font-handlee text-center">
-                        Launch search
-                    </button>
+                    <article class="entity" style="min-height: 0; border: none;">
+                        <h2 class="entity__right">
+                            <button type="submit" class="block mx-auto text-2xl text-center">
+                                Search
+                            </button>
+                        </h2>
+                        <div style="text-decoration: none !important;">
+                            <div class="entity__center" style="margin: 0 120px 4px 0;">
+                                <input type="search" name="q" class="block w-full mx-auto mt-1"
+                                    placeholder="Search by book title, by author name or by series title">
+                            </div>
+                        </div>
+                    </article>
                 </form>
             </div>
             <div class="">
-                <div class="max-w-2xl mx-auto mt-3 text-xl text-gray-500 sm:mt-4">
+                <div class="mx-auto mt-3 text-xl text-gray-500 sm:mt-4">
                     <div>
                         Find now the book what you want from book's title, book's series or book's author. If you have an
                         author

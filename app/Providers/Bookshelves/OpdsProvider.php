@@ -24,7 +24,7 @@ class OpdsProvider
 						key: $entry->key,
 						title: $entry->title,
 						content: $entry->content,
-						route: route($entry->route),
+						route: route($entry->route, ['version' => 'v1.2']),
 						picture: config('app.url') . "/storage/assets/$entry->key.png"
 					);
 				} else {
@@ -82,7 +82,7 @@ class OpdsProvider
 			'__custom:link:2' => [
 				'_attributes' => [
 					'rel' => 'start',
-					'href' => route('api.opds.1-2'),
+					'href' => route('api.opds', ['version' => 'v1.2']),
 					'type' => 'application/atom+xml;profile=opds-catalog;kind=navigation',
 					'title' => 'Feed',
 				],

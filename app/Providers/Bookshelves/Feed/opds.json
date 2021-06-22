@@ -4,13 +4,13 @@
         "model": "Author",
         "title": "Authors",
         "content": "Authors availables",
-        "route": "api.opds.1-2.authors"
+        "route": "api.opds.authors"
     },
     {
         "key": "series",
         "model": "Serie",
         "title": "Series",
         "content": "Series availables",
-        "route": "api.opds.1-2.series"
+        "route": "api.opds.series"
     }
 ]

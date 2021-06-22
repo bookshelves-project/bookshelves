@@ -12,7 +12,9 @@ class AuthorController extends Controller
 	public function index()
 	{
 		$entities = Author::orderBy('lastname')->get();
-		$result = OpdsProvider::template(endpoint: 'author', data: $entities, route: route(Route::currentRouteName()));
+		$result = OpdsProvider::template(endpoint: 'author', data: $entities, route: route(Route::currentRouteName(), [
+			'version' => 'v1.2',
+		]));
 
 		return response($result)->withHeaders([
 			'Content-Type' => 'text/xml',
@@ -22,6 +24,7 @@ class AuthorController extends Controller
 	public function show(string $author_slug)
 	{
 		$route = route(Route::currentRouteName(), [
+			'version' => 'v1.2',
 			'author' => $author_slug,
 		]);
 		$author = Author::whereSlug($author_slug)->firstOrFail();

@@ -32,7 +32,9 @@ class OpdsController extends Controller
 		$feed = File::get(app_path('Providers/Bookshelves/Feed/opds.json'));
 		$feed = json_decode($feed);
 
-		$result = OpdsProvider::template(data: $feed, endpoint: 'feed', route: route(Route::currentRouteName()));
+		$result = OpdsProvider::template(data: $feed, endpoint: 'feed', route: route(Route::currentRouteName(), [
+			'version' => 'v1.2',
+		]));
 
 		return response($result)->withHeaders([
 			'Content-Type' => 'text/xml',
