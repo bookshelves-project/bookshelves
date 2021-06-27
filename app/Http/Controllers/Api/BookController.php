@@ -9,6 +9,7 @@ use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EntityResource;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\BookOrSerieResource;
 use App\Http\Resources\Book\BookLightResource;
@@ -221,7 +222,7 @@ class BookController extends Controller
     public function selection(): JsonResource
     {
         $books = Book::inRandomOrder()->limit(10)->get();
-        $books = BookLightResource::collection($books);
+        $books = EntityResource::collection($books);
 
         return $books;
     }
