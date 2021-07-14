@@ -8,6 +8,9 @@ use App\Providers\CommonMark;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Application;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class WikiController extends Controller
 {
     public function index(Request $request)

@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\Bookshelves\OpdsProvider;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class SerieController extends Controller
 {
     public function index(Request $request)

@@ -8,6 +8,9 @@ use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Publisher\PublisherResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
 
+/**
+ * @group Publisher
+ */
 class PublisherController extends Controller
 {
     public function index()

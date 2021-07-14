@@ -7,45 +7,7 @@ use Route;
 use App\Http\Controllers\Controller;
 
 /**
- * @OA\Info(
- *     version="1.0.0",
- *     title="Bookshelves API",
- *     description="Documentation about Bookshelves API"
- * ),
- * @OA\Tag(
- *     name="global",
- *     description="Global requests"
- * ),
- * @OA\Tag(
- *     name="books",
- *     description="Books requests"
- * ),
- * @OA\Tag(
- *     name="series",
- *     description="Series requests"
- * ),
- * @OA\Tag(
- *     name="authors",
- *     description="Authors requests"
- * ),
- * @OA\Tag(
- *     name="search",
- *     description="Search requests"
- * ),
- * @OA\Tag(
- *     name="download",
- *     description="Download requests"
- * ),
- * @OA\Get(
- *     path="/",
- *     tags={"global"},
- *     summary="Basic documentation",
- *     description="Documentation to use this API",
- *     @OA\Response(
- *         response=200,
- *         description="Successful operation"
- *     )
- * )
+ * @hideFromAPIDocumentation
  */
 class ApiController extends Controller
 {

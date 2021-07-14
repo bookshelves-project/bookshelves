@@ -7,6 +7,9 @@ use Illuminate\Auth\Events\Verified;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class VerifyEmailController extends Controller
 {
     /**

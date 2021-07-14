@@ -10,6 +10,9 @@ use App\Http\Resources\Serie\SerieResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Search\SearchSerieResource;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class SerieController extends Controller
 {
     public function index(Request $request)

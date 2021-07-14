@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class ConfirmablePasswordController extends Controller
 {
     /**

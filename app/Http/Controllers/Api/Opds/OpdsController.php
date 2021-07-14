@@ -11,6 +11,9 @@ use App\Http\Controllers\Controller;
 use App\Providers\Bookshelves\OpdsProvider;
 use App\Http\Resources\Book\BookLightestResource;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class OpdsController extends Controller
 {
     public function index(Request $request)

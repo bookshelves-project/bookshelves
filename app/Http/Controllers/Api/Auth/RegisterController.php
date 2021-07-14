@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Auth\Events\Registered;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class RegisterController extends Controller
 {
     /**

@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\Book\BookLightResource;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class BookController extends Controller
 {
     public function index(Request $request)

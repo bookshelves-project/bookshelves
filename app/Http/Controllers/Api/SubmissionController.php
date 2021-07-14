@@ -8,6 +8,9 @@ use App\Mail\SubmissionMail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class SubmissionController extends Controller
 {
     public function send(Request $request)

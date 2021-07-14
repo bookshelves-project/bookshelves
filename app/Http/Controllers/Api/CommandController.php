@@ -7,6 +7,9 @@ use Artisan;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class CommandController extends Controller
 {
     public function updateBooks()

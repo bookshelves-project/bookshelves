@@ -14,6 +14,9 @@ use Illuminate\Http\UploadedFile;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class UserController extends Controller
 {
     public function auth()

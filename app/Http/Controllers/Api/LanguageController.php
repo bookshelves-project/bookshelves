@@ -6,6 +6,9 @@ use App\Models\Language;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LanguageResource;
 
+/**
+ * @group Language
+ */
 class LanguageController extends Controller
 {
     public function index()

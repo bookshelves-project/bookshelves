@@ -12,6 +12,9 @@ use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Serie\SerieUltraLightResource;
 
+/**
+ * @group Serie
+ */
 class SerieController extends Controller
 {
     /**
@@ -21,7 +24,7 @@ class SerieController extends Controller
      *     summary="List of series",
      *     description="Series",
      *     @OA\Parameter(
-     *         name="perPage",
+     *         name="page",
      *         in="query",
      *         description="Integer to choose how many books you show in each page",
      *         required=false,
@@ -41,15 +44,15 @@ class SerieController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->get('per-page');
-        $perPage = $perPage ? $perPage : 32;
-        if (! is_numeric($perPage)) {
+        $page = $request->get('per-page');
+        $page = $page ? $page : 32;
+        if (! is_numeric($page)) {
             return response()->json(
                 "Invalid 'per-page' query parameter, must be an int",
                 400
             );
         }
-        $perPage = intval($perPage);
+        $page = intval($page);
 
         $all = $request->get('all') ? filter_var($request->get('all'), FILTER_VALIDATE_BOOLEAN) : null;
         if ($all) {
@@ -58,7 +61,7 @@ class SerieController extends Controller
             return SerieUltraLightResource::collection($series);
         }
 
-        $series = Serie::with(['authors', 'media'])->orderBy('title_sort')->withCount('books')->paginate($perPage);
+        $series = Serie::with(['authors', 'media'])->orderBy('title_sort')->withCount('books')->paginate($page);
 
         return SerieLightResource::collection($series);
     }

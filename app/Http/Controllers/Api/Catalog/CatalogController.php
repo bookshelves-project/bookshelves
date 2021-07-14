@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class CatalogController extends Controller
 {
     public function index(Request $request)

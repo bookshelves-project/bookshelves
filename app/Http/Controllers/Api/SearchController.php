@@ -15,6 +15,9 @@ use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Search\SearchAuthorResource;
 
+/**
+ * @group Search
+ */
 class SearchController extends Controller
 {
     /**

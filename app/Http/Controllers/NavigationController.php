@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Application;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class NavigationController extends Controller
 {
     public function welcome()

@@ -11,6 +11,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class CommentController extends Controller
 {
     public function index(string $model, string $slug)

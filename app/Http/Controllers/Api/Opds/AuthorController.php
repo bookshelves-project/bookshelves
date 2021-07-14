@@ -7,6 +7,9 @@ use App\Models\Author;
 use App\Http\Controllers\Controller;
 use App\Providers\Bookshelves\OpdsProvider;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class AuthorController extends Controller
 {
     public function index()

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class RegisteredUserController extends Controller
 {
     /**

@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class NewPasswordController extends Controller
 {
     /**

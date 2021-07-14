@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\LoginRequest;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class AuthenticatedSessionController extends Controller
 {
     /**

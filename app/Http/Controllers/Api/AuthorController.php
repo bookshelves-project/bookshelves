@@ -11,7 +11,12 @@ use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Author\AuthorLightResource;
 use App\Http\Resources\Author\AuthorUltraLightResource;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * @group Author
+ */
 class AuthorController extends Controller
 {
     /**
@@ -21,7 +26,7 @@ class AuthorController extends Controller
      *     summary="List of authors",
      *     description="Authors",
      *     @OA\Parameter(
-     *         name="perPage",
+     *         name="page",
      *         in="query",
      *         description="Integer to choose how many books you show in each page",
      *         required=false,
@@ -38,17 +43,26 @@ class AuthorController extends Controller
      *     )
      * )
      */
+
+    /**
+     * Authors list
+     *
+     * You can get all authors with alphabetic order on lastname with pagination.
+     *
+     * @queryParam per-page int Entities per page.
+     * @queryParam page int The page number.
+     */
     public function index(Request $request)
     {
-        $perPage = $request->get('per-page');
-        $perPage = $perPage ? $perPage : 32;
-        if (! is_numeric($perPage)) {
+        $page = $request->get('per-page');
+        $page = $page ? $page : 32;
+        if (! is_numeric($page)) {
             return response()->json(
                 "Invalid 'per-page' query parameter, must be an int",
                 400
             );
         }
-        $perPage = intval($perPage);
+        $page = intval($page);
 
         $all = $request->get('all') ? filter_var($request->get('all'), FILTER_VALIDATE_BOOLEAN) : null;
         if ($all) {
@@ -62,42 +76,34 @@ class AuthorController extends Controller
         // $authors = BookshelvesTools::chunkByAlpha($authors, 'lastname');
         // dd($authors);
 
-        return AuthorLightResource::collection($authors->paginate($perPage));
+        return AuthorLightResource::collection($authors->paginate($page));
     }
 
     /**
-     * @OA\Get(
-     *     path="/authors/{author}",
-     *     summary="Show author by author slug",
-     *     tags={"authors"},
-     *     description="Get details for a single author with list of series and books, check /authors endpoint to get list of slugs",
-     *     operationId="findAuthorByAuthorSlug",
-     *     @OA\Parameter(
-     *         name="author",
-     *         in="path",
-     *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
-     *         required=true,
-     *         example="auel-jean-m",
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="successful operation",
-     *         @OA\JsonContent(),
-     *     ),
-     *     @OA\Response(
-     *         response="404",
-     *         description="Invalid author-slug value or book-slug value",
-     *         @OA\JsonContent(),
-     *     ),
-     * )
+     * @primaryKey slug
+     * @urlParam author string required The slug of author.
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     *
+     * @throws HttpException
+     * @throws NotFoundHttpException
+     *
+     * @return AuthorResource|void
      */
-    public function show(string $author)
+    public function show(Author $author)
     {
-        $author = Author::whereSlug($author)->with('media')->withCount('books')->firstOrFail();
-        $author = AuthorResource::make($author);
+        try {
+            // $author = Author::whereSlug($author->slug)->with('media')->withCount('books')->firstOrFail();
+            // $author = AuthorResource::make($author);
 
-        return $author;
+            // return $author;
+            return '';
+        } catch (\Throwable $th) {
+            return abort(404);
+        }
     }
 
     public function books(Request $request, string $author)

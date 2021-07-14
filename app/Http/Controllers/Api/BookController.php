@@ -16,6 +16,9 @@ use App\Http\Resources\Book\BookLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Book\BookLightestResource;
 
+/**
+ * @group Book
+ */
 class BookController extends Controller
 {
     /**
@@ -26,7 +29,7 @@ class BookController extends Controller
      *     description="Get list of books with query parameters, default list use pagination.",
 
      *     @OA\Parameter(
-     *         name="per-page",
+     *         name="page",
      *         in="query",
      *         description="Integer to choose how many books you show in each page, default 32",
      *         required=false,
@@ -75,14 +78,14 @@ class BookController extends Controller
             );
         }
 
-        $perPage = $request->get('per-page') ? $request->get('per-page') : 32;
-        if (! is_numeric($perPage)) {
+        $page = $request->get('per-page') ? $request->get('per-page') : 32;
+        if (! is_numeric($page)) {
             return response()->json(
                 "Invalid 'per-page' query parameter, must be an int",
                 400
             );
         }
-        $perPage = intval($perPage);
+        $page = intval($page);
 
         $serie = $request->get('serie') ? filter_var($request->get('serie'), FILTER_VALIDATE_BOOLEAN) : null;
 
@@ -109,7 +112,7 @@ class BookController extends Controller
             return BookLightestResource::collection($books);
         }
 
-        return BookLightResource::collection($books->paginate($perPage));
+        return BookLightResource::collection($books->paginate($page));
     }
 
     /**
@@ -214,7 +217,7 @@ class BookController extends Controller
         $limit = intval($limit);
 
         $books = Book::orderByDesc('created_at')->limit($limit)->get();
-        $books = BookLightResource::collection($books);
+        $books = EntityResource::collection($books);
 
         return $books;
     }

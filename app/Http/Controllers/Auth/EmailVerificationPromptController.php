@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class EmailVerificationPromptController extends Controller
 {
     /**

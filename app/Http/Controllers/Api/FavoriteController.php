@@ -9,6 +9,9 @@ use App\Models\Favoritable;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FavoriteResource;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class FavoriteController extends Controller
 {
     // #[Route("/api/favorites/by-user/{user}", methods: ["GET"])]

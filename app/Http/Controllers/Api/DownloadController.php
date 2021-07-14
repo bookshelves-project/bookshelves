@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\MediaLibrary\Support\MediaStream;
 
+/**
+ * @group Download
+ */
 class DownloadController extends Controller
 {
     /**

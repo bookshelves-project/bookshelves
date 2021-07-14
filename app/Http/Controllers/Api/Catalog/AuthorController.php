@@ -9,6 +9,9 @@ use App\Http\Resources\Author\AuthorResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Search\SearchAuthorResource;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class AuthorController extends Controller
 {
     public function index(Request $request)

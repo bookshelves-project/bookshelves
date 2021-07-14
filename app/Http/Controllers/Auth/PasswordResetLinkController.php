@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
 
+/**
+ * @hideFromAPIDocumentation
+ */
 class PasswordResetLinkController extends Controller
 {
     /**

@@ -11,6 +11,9 @@ use App\Http\Resources\EntityResource;
 use App\Http\Resources\Tag\TagResource;
 use App\Http\Resources\Tag\TagLightResource;
 
+/**
+ * @group Tag
+ */
 class TagController extends Controller
 {
     public function index(Request $request)
