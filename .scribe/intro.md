@@ -1,6 +1,6 @@
 # Introduction
 
-
+The API documentation for Bookshelves to use endpoints with another app.
 
 This documentation aims to provide all the information you need to work with our API.
 

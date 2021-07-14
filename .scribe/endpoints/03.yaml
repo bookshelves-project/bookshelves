@@ -1,0 +1,154 @@
+name: Endpoints
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/login
+    metadata:
+      title: 'Attempt to authenticate a new session.'
+      description: ''
+      authenticated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      email:
+        name: email
+        description: ''
+        required: true
+        example: id
+        type: string
+      password:
+        name: password
+        description: ''
+        required: true
+        example: unde
+        type: string
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/logout
+    metadata:
+      title: 'Destroy an authenticated session.'
+      description: ''
+      authenticated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/register
+    metadata:
+      title: 'Create a new registered user.'
+      description: ''
+      authenticated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: api/user/confirmed-password-status
+    metadata:
+      title: 'Get the password confirmation status.'
+      description: ''
+      authenticated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6IkZaMFpsNXdLSWxOVDZhRkFURTdXL3c9PSIsInZhbHVlIjoidU9sYmJPVWtaTExPYjVtdnl5ZmtlaXB4K1ZyV0dRSFFLVFdCMzhXOG51NmZFR0dFQVdhOEhEa3hDUEpEcXVxZ2RUMkRyeEFOb0RMWUJibXpPMmZVak4vN0pPWTRIaHRJSEEyckJYY3E1M1FLYVhRN1Vxc3RhQjdGN2FSSWw5Y08iLCJtYWMiOiI3YzBhOGViZDBiZTM1ZDk2ZWQwMTMyNGZjOGExOWVkYTllNDJjMjVkMDU4OGVkYzQxNzZhMzdjMzdkNTI0MjI0In0%3D; expires=Thu, 15-Jul-2021 10:34:09 GMT; Max-Age=86400; path=/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6InlkZTVRSG1ZaHZZdFlXZE5SYklxQWc9PSIsInZhbHVlIjoiSEMxU3NrZjB1NFZ5UXFPV3lVbnhZTHBqcGdVeEQxWnVLdENPTFJQdVUvd3RXL1REYkh4dUF4UndSOWhnUU9XMVFPT3lkS2prZC9RditJUVZpams1b1lOSXl3WlQ3V0ZlY2JHVGg4SXRMK1B1cDdrZ3FhcExkRVh5KzJKcjE2Q20iLCJtYWMiOiJkMzYzOTA4MGI1OWZhNjllNTdkZGZmMWM1NWE0NzkwZDFiYmRkNDMzZTdiM2YzOGI4YzM0M2M0YjRjYmI2YTVjIn0%3D; expires=Thu, 15-Jul-2021 10:34:09 GMT; Max-Age=86400; path=/; domain=localhost; httponly; samesite=lax'
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/user/confirm-password
+    metadata:
+      title: 'Confirm the user''s password.'
+      description: ''
+      authenticated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: api/sanctum/csrf-cookie
+    metadata:
+      title: 'Return an empty response simply to trigger the storage of the CSRF cookie in the browser.'
+      description: ''
+      authenticated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 204
+        content: ''
+        headers:
+          cache-control: 'no-cache, private'
+          vary: Origin
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6IklLcGtEUFJpbnlqazhNc2RwMmhkZHc9PSIsInZhbHVlIjoiK2lYTEZxdi9HN2VLaDhrRFMzVGJ4Y2l0RE5lcHphUWdnWXpqd1FsSXhMQ1lERlVPKytLSWgvbjZCdGF3N1ZBK3NGM2JtZXhieFg2YTJiU3JnMjRCN1lJa2Y5TVBPTjdpZG11N2hPK3loeStDM0pIWW1VNUJFR1UzcXE4Y1cxbk0iLCJtYWMiOiIzNWYwODZlOTg0ZjRlNTQ5NzZkMTA3YTVhNDk1ZmU4N2UwOWZmNzA1MjUwNTA4MTAzNDg3NzBhODQxYjU5OTYyIn0%3D; expires=Thu, 15-Jul-2021 10:34:09 GMT; Max-Age=86400; path=/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6ImlMdlZoUzA1RmlabE9JQnVXZnUxN2c9PSIsInZhbHVlIjoieko4LytCakJlb3Nrek5lVk5ZbFM3amkrUHFrQU5HemVPWGhOYWh4a003ZHNvbUt4bHEyNkMrOWZINEFiU3dHV21mMXJLdFlpYjk2alhUMnlJWkVwUUhyZXZDL0N0TndwUWJWTUo1YmVaUXpGeU1Nbk5PYjZuem5VWTZGVXU1OXYiLCJtYWMiOiJlMmE3N2ZmNjIwMjQxYTFlMDc4ZjQwMzUwNDg4N2IxZDU2Zjk4YjAyMmY5Y2U2MjJkOGEwYzExMTBhMWEyMGVjIn0%3D; expires=Thu, 15-Jul-2021 10:34:09 GMT; Max-Age=86400; path=/; domain=localhost; httponly; samesite=lax'
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: api/count
+    metadata:
+      title: ''
+      description: ''
+      authenticated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 400
+        content: '"Invalid ''entity'' query parameter, must be like ''book'' or ''serie'' or ''author''"'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '5000'
+          x-ratelimit-remaining: '4961'
+          vary: Origin
+        description: null
+    responseFields: []
