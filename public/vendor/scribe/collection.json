@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Bookshelves API Documentation",
-        "_postman_id": "e337e332-3874-400e-b95d-25968ca0928e",
+        "_postman_id": "3a9d581e-5292-4ec7-916d-ce520669b2ad",
         "description": "The API documentation for Bookshelves to use endpoints with another app.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -20,7 +20,7 @@
             "description": "\nEndpoint to get Authors data.",
             "item": [
                 {
-                    "name": "GET Author collection",
+                    "name": "Authors list",
                     "request": {
                         "url": {
                             "protocol": "http",
@@ -76,7 +76,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4992"
+                                    "value": "4984"
                                 },
                                 {
                                     "key": "vary",
@@ -90,7 +90,7 @@
                     ]
                 },
                 {
-                    "name": "GET Author resource",
+                    "name": "Author details.",
                     "request": {
                         "url": {
                             "protocol": "http",
@@ -103,7 +103,7 @@
                                     "id": "id",
                                     "key": "id",
                                     "value": "lovecraft-howard-phillips",
-                                    "description": "The slug of author like 'lovecraft-howard-phillips'."
+                                    "description": "The slug of author."
                                 }
                             ]
                         },
@@ -141,7 +141,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4991"
+                                    "value": "4983"
                                 },
                                 {
                                     "key": "vary",
@@ -149,13 +149,13 @@
                                 }
                             ],
                             "code": 404,
-                            "body": "{\"failed\":\"No result for 1\"}",
+                            "body": "{\"failed\":\"No result for this param.\"}",
                             "name": null
                         }
                     ]
                 },
                 {
-                    "name": "GET Book collection of Author",
+                    "name": "api\/authors\/books\/{author}",
                     "request": {
                         "url": {
                             "protocol": "http",
@@ -167,8 +167,8 @@
                                 {
                                     "id": "author",
                                     "key": "author",
-                                    "value": "lovecraft-howard-phillips",
-                                    "description": "The slug of author like 'lovecraft-howard-phillips'."
+                                    "value": "4",
+                                    "description": ""
                                 }
                             ]
                         },
@@ -184,7 +184,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "Books list from one author, find by slug.",
+                        "description": "",
                         "auth": {
                             "type": "noauth"
                         }
@@ -206,21 +206,21 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4990"
+                                    "value": "4982"
                                 },
                                 {
                                     "key": "vary",
                                     "value": "Origin"
                                 }
                             ],
-                            "code": 200,
-                            "body": "{\"data\":[{\"title\":\"L'Affaire Charles Dexter Ward\",\"meta\":{\"slug\":\"laffaire-charles-dexter-ward-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/laffaire-charles-dexter-ward-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Providence, Etats-Unis, 1918. Charles Dexter Ward est un jeune homme passionne d'archeologie, d'histoire, et de genealogie. C'est pa...\",\"language\":\"fr\",\"publishDate\":\"1928-06-14 23:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/975\\\/conversions\\\/laffaire-charles-dexter-ward-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/975\\\/conversions\\\/laffaire-charles-dexter-ward-fr-simple.jpg\",\"color\":\"#f0d9b6\"},\"volume\":0,\"serie\":null},{\"title\":\"Air Froid\",\"meta\":{\"slug\":\"air-froid-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/air-froid-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Cool Air, 1926 Un jeune homme frileux, recemment installe dans un appartement new-yorkais, fait la connaissance d'un vieil homme qui ap...\",\"language\":\"fr\",\"publishDate\":\"1926-06-14 23:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/976\\\/conversions\\\/air-froid-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/976\\\/conversions\\\/air-froid-fr-simple.jpg\",\"color\":\"#eee\"},\"volume\":0,\"serie\":null},{\"title\":\"L'appel de Cthulhu\",\"meta\":{\"slug\":\"lappel-de-cthulhu-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/lappel-de-cthulhu-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"La terreur, l'horreur, l'informe du rve, Lovecraft ne les veille pas pour jouer. Il sait seulement que tout cela nous en disposons d...\",\"language\":\"fr\",\"publishDate\":\"2007-11-14 23:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/977\\\/conversions\\\/lappel-de-cthulhu-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/977\\\/conversions\\\/lappel-de-cthulhu-fr-simple.jpg\",\"color\":\"#f4e5c7\"},\"volume\":0,\"serie\":null},{\"title\":\"Celui qui hantait les t\\u00e9n\\u00e8bres\",\"meta\":{\"slug\":\"celui-qui-hantait-les-tenebres-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/celui-qui-hantait-les-tenebres-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"The Haunter of the Dark, 1935 Paru dans Weird Tales, decembre 1936 Robert Blake est retrouve mort chez lui, une expression de terreur s...\",\"language\":\"fr\",\"publishDate\":\"2011-06-15 22:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/978\\\/conversions\\\/celui-qui-hantait-les-tenebres-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/978\\\/conversions\\\/celui-qui-hantait-les-tenebres-fr-simple.jpg\",\"color\":\"#857045\"},\"volume\":0,\"serie\":null},{\"title\":\"The Complete Works of H. P. Lovecraft\",\"meta\":{\"slug\":\"the-complete-works-of-h-p-lovecraft-en\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/the-complete-works-of-h-p-lovecraft-en\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"&quot;The Complete Works of H.P. Lovecraft contains all the original stories which Lovecraft wrote as an adult. It begins in 1917 with &q...\",\"language\":\"en\",\"publishDate\":\"1917-01-02 00:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/979\\\/conversions\\\/the-complete-works-of-h-p-lovecraft-en-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/979\\\/conversions\\\/the-complete-works-of-h-p-lovecraft-en-simple.jpg\",\"color\":\"#4a4343\"},\"volume\":0,\"serie\":null},{\"title\":\"Fungi From Yuggoth\",\"meta\":{\"slug\":\"fungi-from-yuggoth-en\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/fungi-from-yuggoth-en\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Ce livre est une oeuvre du domaine public editee au format numerique par Ebooks libres et gratuits. L'achat de l'edition Kindle i...\",\"language\":\"en\",\"publishDate\":\"2011-07-03 16:20:47\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/980\\\/conversions\\\/fungi-from-yuggoth-en-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/980\\\/conversions\\\/fungi-from-yuggoth-en-simple.jpg\",\"color\":\"#6c6265\"},\"volume\":0,\"serie\":null},{\"title\":\"Herbert West, R\\u00e9animateur\",\"meta\":{\"slug\":\"herbert-west-reanimateur-en\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/herbert-west-reanimateur-en\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Howard Phillips Lovecraft est sans nul doute l'auteur fantastique le plus influent du XXe siecle. Son imaginaire unique et terrifiant...\",\"language\":\"en\",\"publishDate\":\"2012-08-01 18:21:24\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/981\\\/conversions\\\/herbert-west-reanimateur-en-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/981\\\/conversions\\\/herbert-west-reanimateur-en-simple.jpg\",\"color\":\"#a28b5a\"},\"volume\":0,\"serie\":null},{\"title\":\"L'Indicible\",\"meta\":{\"slug\":\"lindicible-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/lindicible-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"The Unnamable, 1923 Une nouvelle dont le titre servira a lui seul de presentation......\",\"language\":\"fr\",\"publishDate\":\"2011-06-15 22:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/982\\\/conversions\\\/lindicible-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/982\\\/conversions\\\/lindicible-fr-simple.jpg\",\"color\":\"#9b865a\"},\"volume\":0,\"serie\":null},{\"title\":\"Le Cauchemar d\\u2019Innsmouth\",\"meta\":{\"slug\":\"le-cauchemar-dinnsmouth-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/le-cauchemar-dinnsmouth-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"The Shadow over Innsmouth, 1931 Lovecraft nous narre les aventures d'un jeune homme qui, en visitant la tenebreuse Innsmouth, se rend c...\",\"language\":\"fr\",\"publishDate\":\"2011-06-15 22:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/983\\\/conversions\\\/le-cauchemar-dinnsmouth-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/983\\\/conversions\\\/le-cauchemar-dinnsmouth-fr-simple.jpg\",\"color\":\"#f1ddbc\"},\"volume\":0,\"serie\":null},{\"title\":\"La Maison de la sorci\\u00e8re\",\"meta\":{\"slug\":\"la-maison-de-la-sorciere-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/la-maison-de-la-sorciere-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"The Dreams in the Witch-House, 1932 Paru dans Weird Tales, juillet 1933 Lovecraft revisite le mythe de la mauvaise fee dans un hu...\",\"language\":\"fr\",\"publishDate\":\"2011-06-15 22:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/984\\\/conversions\\\/la-maison-de-la-sorciere-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/984\\\/conversions\\\/la-maison-de-la-sorciere-fr-simple.jpg\",\"color\":\"#978252\"},\"volume\":0,\"serie\":null},{\"title\":\"Le Monstre sur le seuil\",\"meta\":{\"slug\":\"le-monstre-sur-le-seuil-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/le-monstre-sur-le-seuil-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"The Thing on the Doorstep, 1923 Paru dans Weird Tales, janvier 1937 L'auteur distille lentement l'horreur qui nous fait basculer d...\",\"language\":\"fr\",\"publishDate\":\"2011-06-15 22:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/985\\\/conversions\\\/le-monstre-sur-le-seuil-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/985\\\/conversions\\\/le-monstre-sur-le-seuil-fr-simple.jpg\",\"color\":\"#90794c\"},\"volume\":0,\"serie\":null},{\"title\":\"Le necronomicon\",\"meta\":{\"slug\":\"le-necronomicon-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/le-necronomicon-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Quand pour la premiere fois, l'existence du Necronomicon - ce guide de l'Empire des Morts - fut revelee par Howard Phillips Lovecraft...\",\"language\":\"fr\",\"publishDate\":\"1995-12-31 23:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/986\\\/conversions\\\/le-necronomicon-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/986\\\/conversions\\\/le-necronomicon-fr-simple.jpg\",\"color\":\"#cb8a49\"},\"volume\":0,\"serie\":null},{\"title\":\"Night Ocean et autres nouvelles\",\"meta\":{\"slug\":\"night-ocean-et-autres-nouvelles-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/night-ocean-et-autres-nouvelles-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Oceans qui ne sont pas de ce monde, eaux maudites par la lune, lugubres rivages et, dans le mystere des profondeurs, l'innommable... Po...\",\"language\":\"fr\",\"publishDate\":\"1985-03-19 23:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/987\\\/conversions\\\/night-ocean-et-autres-nouvelles-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/987\\\/conversions\\\/night-ocean-et-autres-nouvelles-fr-simple.jpg\",\"color\":\"#7f5b46\"},\"volume\":0,\"serie\":null},{\"title\":\"\\u0152uvres\",\"meta\":{\"slug\":\"oeuvres-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/oeuvres-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Cthulhu, Yog-Sothoth, Nyarlathotep, autant de noms qui font rever les fans de litterature fantastique. Lovecraft, le grand maitre de l...\",\"language\":\"fr\",\"publishDate\":\"2013-02-23 23:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/988\\\/conversions\\\/oeuvres-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/988\\\/conversions\\\/oeuvres-fr-simple.jpg\",\"color\":\"#b1b0b0\"},\"volume\":0,\"serie\":null},{\"title\":\"Par-Del\\u00e0 Le Mur Du Sommeil\",\"meta\":{\"slug\":\"par-dela-le-mur-du-sommeil-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/par-dela-le-mur-du-sommeil-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Un trappeur demeure de Casthill est interne en 1901 apres avoir sauvagement tue un homme. Ses visions sont d'une precision et d'une...\",\"language\":\"fr\",\"publishDate\":\"1956-01-01 05:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/989\\\/conversions\\\/par-dela-le-mur-du-sommeil-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/989\\\/conversions\\\/par-dela-le-mur-du-sommeil-fr-simple.jpg\",\"color\":\"#957d4e\"},\"volume\":0,\"serie\":null},{\"title\":\"La Peur qui r\\u00f4de\",\"meta\":{\"slug\":\"la-peur-qui-rode-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/la-peur-qui-rode-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"La nouvelle met en scene de violents orages, une maison abandonnee, une creature terrifiante qui a la tombee de la nuit s'empare des...\",\"language\":\"fr\",\"publishDate\":\"2010-06-15 08:22:08\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/990\\\/conversions\\\/la-peur-qui-rode-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/990\\\/conversions\\\/la-peur-qui-rode-fr-simple.jpg\",\"color\":\"#9a8351\"},\"volume\":0,\"serie\":null},{\"title\":\"La qu\\u00eate onirique de Kadath l'inconnue\",\"meta\":{\"slug\":\"la-quete-onirique-de-kadath-linconnue-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/la-quete-onirique-de-kadath-linconnue-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"L'idee de retrouver la cite du couchant, la ville de ses reves, obsede Randolph Carter. Il decide alors de laisser derriere lui la...\",\"language\":\"fr\",\"publishDate\":\"2015-06-14 22:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/991\\\/conversions\\\/la-quete-onirique-de-kadath-linconnue-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/991\\\/conversions\\\/la-quete-onirique-de-kadath-linconnue-fr-simple.jpg\",\"color\":\"#6a5f57\"},\"volume\":0,\"serie\":null},{\"title\":\"Le R\\u00f4deur devant le seuil\",\"meta\":{\"slug\":\"le-rodeur-devant-le-seuil-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/le-rodeur-devant-le-seuil-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"...\",\"language\":\"fr\",\"publishDate\":\"1988-06-14 22:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/992\\\/conversions\\\/le-rodeur-devant-le-seuil-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/992\\\/conversions\\\/le-rodeur-devant-le-seuil-fr-simple.jpg\",\"color\":\"#37372b\"},\"volume\":0,\"serie\":null},{\"title\":\"Cthulhu : Le Mythe\",\"meta\":{\"slug\":\"cthulhu-le-mythe-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/cthulhu-le-mythe-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Howard Phillips Lovecraft est sans nul doute l'auteur fantastique le plus influent du XXe siecle. Son imaginaire unique et terrifiant...\",\"language\":\"fr\",\"publishDate\":\"2015-10-31 23:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/972\\\/conversions\\\/cthulhu-le-mythe-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/972\\\/conversions\\\/cthulhu-le-mythe-fr-simple.jpg\",\"color\":\"#806c47\"},\"volume\":1,\"serie\":{\"title\":\"Cthulhu : Le Mythe\",\"meta\":{\"slug\":\"cthulhu-le-mythe-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/series\\\/lovecraft-howard-phillips\\\/cthulhu-le-mythe-fr\"}}},{\"title\":\"Cthulhu : Le Mythe, Livre II\",\"meta\":{\"slug\":\"cthulhu-le-mythe-livre-ii-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/cthulhu-le-mythe-livre-ii-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Howard Phillips Lovecraft est sans nul doute l'auteur fantastique le plus influent du XXe siecle. Son imaginaire unique et terrifiant...\",\"language\":\"fr\",\"publishDate\":\"2017-04-06 08:23:23\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/973\\\/conversions\\\/cthulhu-le-mythe-livre-ii-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/973\\\/conversions\\\/cthulhu-le-mythe-livre-ii-fr-simple.jpg\",\"color\":\"#a17f51\"},\"volume\":2,\"serie\":{\"title\":\"Cthulhu : Le Mythe\",\"meta\":{\"slug\":\"cthulhu-le-mythe-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/series\\\/lovecraft-howard-phillips\\\/cthulhu-le-mythe-fr\"}}},{\"title\":\"Cthulhu : Le Mythe, Livre III\",\"meta\":{\"slug\":\"cthulhu-le-mythe-livre-iii-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/cthulhu-le-mythe-livre-iii-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Onze recits essentiels du mythe sont ici reunis dans une toute nouvelle traduction :Horreur a Red Hook Herbert West, reanimateurLa Ma...\",\"language\":\"fr\",\"publishDate\":\"2017-04-06 08:22:30\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/974\\\/conversions\\\/cthulhu-le-mythe-livre-iii-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/974\\\/conversions\\\/cthulhu-le-mythe-livre-iii-fr-simple.jpg\",\"color\":\"#927b51\"},\"volume\":3,\"serie\":{\"title\":\"Cthulhu : Le Mythe\",\"meta\":{\"slug\":\"cthulhu-le-mythe-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/series\\\/lovecraft-howard-phillips\\\/cthulhu-le-mythe-fr\"}}},{\"title\":\"Les montagnes hallucin\\u00e9es\",\"meta\":{\"slug\":\"les-montagnes-hallucinees-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/books\\\/lovecraft-howard-phillips\\\/les-montagnes-hallucinees-fr\"},\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"summary\":\"Outre-monts, outre-tombes ! De memoire d'homme, jamais on ne vit paysages plus hallucinants ! Labyrinthes grouillants de murs, de tours,...\",\"language\":\"fr\",\"publishDate\":\"1936-06-14 23:00:00\",\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/993\\\/conversions\\\/les-montagnes-hallucinees-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/993\\\/conversions\\\/les-montagnes-hallucinees-fr-simple.jpg\",\"color\":\"#6e7c80\"},\"volume\":1,\"serie\":{\"title\":\"Les montagnes hallucin\\u00e9es\",\"meta\":{\"slug\":\"les-montagnes-hallucinees-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/series\\\/lovecraft-howard-phillips\\\/les-montagnes-hallucinees-fr\"}}}]}",
+                            "code": 404,
+                            "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Author].\",\n    \"exception\": \"Symfony\\\\Component\\\\HttpKernel\\\\Exception\\\\NotFoundHttpException\",\n    \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Exceptions\/Handler.php\",\n    \"line\": 383,\n    \"trace\": [\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Exceptions\/Handler.php\",\n            \"line\": 332,\n            \"function\": \"prepareException\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/nunomaduro\/collision\/src\/Adapters\/Laravel\/ExceptionHandler.php\",\n            \"line\": 54,\n            \"function\": \"render\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php\",\n            \"line\": 51,\n            \"function\": \"render\",\n            \"class\": \"NunoMaduro\\\\Collision\\\\Adapters\\\\Laravel\\\\ExceptionHandler\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 130,\n            \"function\": \"handleException\",\n            \"class\": \"Illuminate\\\\Routing\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/SubstituteBindings.php\",\n            \"line\": 50,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\SubstituteBindings\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php\",\n            \"line\": 127,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php\",\n            \"line\": 103,\n            \"function\": \"handleRequest\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\ThrottleRequests\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php\",\n            \"line\": 55,\n            \"function\": \"handleRequestUsingNamedLimiter\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\ThrottleRequests\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\ThrottleRequests\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php\",\n            \"line\": 33,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 128,\n            \"function\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\{closure}\",\n            \"class\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 103,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php\",\n            \"line\": 34,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 103,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 697,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 672,\n            \"function\": \"runRouteWithinStack\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 636,\n            \"function\": \"runRoute\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 625,\n            \"function\": \"dispatchToRoute\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 166,\n            \"function\": \"dispatch\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 128,\n            \"function\": \"Illuminate\\\\Foundation\\\\Http\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php\",\n            \"line\": 21,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ConvertEmptyStringsToNull.php\",\n            \"line\": 31,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\ConvertEmptyStringsToNull\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php\",\n            \"line\": 21,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TrimStrings.php\",\n            \"line\": 40,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TrimStrings\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ValidatePostSize.php\",\n            \"line\": 27,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\ValidatePostSize\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/PreventRequestsDuringMaintenance.php\",\n            \"line\": 86,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\PreventRequestsDuringMaintenance\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/fruitcake\/laravel-cors\/src\/HandleCors.php\",\n            \"line\": 52,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Fruitcake\\\\Cors\\\\HandleCors\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/fideloper\/proxy\/src\/TrustProxies.php\",\n            \"line\": 57,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Fideloper\\\\Proxy\\\\TrustProxies\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 103,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 141,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 110,\n            \"function\": \"sendRequestThroughRouter\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 287,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 275,\n            \"function\": \"callLaravelOrLumenRoute\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 86,\n            \"function\": \"makeApiCall\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 44,\n            \"function\": \"makeResponseCall\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 34,\n            \"function\": \"makeResponseCallIfConditionsPass\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 225,\n            \"function\": \"__invoke\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 182,\n            \"function\": \"iterateThroughStrategies\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 116,\n            \"function\": \"fetchResponses\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 118,\n            \"function\": \"processRoute\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 75,\n            \"function\": \"extractEndpointsInfoFromLaravelApp\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 51,\n            \"function\": \"extractEndpointsInfoAndWriteToDisk\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Commands\/GenerateDocumentation.php\",\n            \"line\": 39,\n            \"function\": \"get\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 36,\n            \"function\": \"handle\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Commands\\\\GenerateDocumentation\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Util.php\",\n            \"line\": 40,\n            \"function\": \"Illuminate\\\\Container\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 93,\n            \"function\": \"unwrapIfClosure\",\n            \"class\": \"Illuminate\\\\Container\\\\Util\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 37,\n            \"function\": \"callBoundMethod\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Container.php\",\n            \"line\": 651,\n            \"function\": \"call\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php\",\n            \"line\": 136,\n            \"function\": \"call\",\n            \"class\": \"Illuminate\\\\Container\\\\Container\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Command\/Command.php\",\n            \"line\": 299,\n            \"function\": \"execute\",\n            \"class\": \"Illuminate\\\\Console\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php\",\n            \"line\": 121,\n            \"function\": \"run\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Command\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 978,\n            \"function\": \"run\",\n            \"class\": \"Illuminate\\\\Console\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 295,\n            \"function\": \"doRunCommand\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 167,\n            \"function\": \"doRun\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Application.php\",\n            \"line\": 92,\n            \"function\": \"run\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Console\/Kernel.php\",\n            \"line\": 129,\n            \"function\": \"run\",\n            \"class\": \"Illuminate\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/artisan\",\n            \"line\": 37,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Console\\\\Kernel\",\n            \"type\": \"->\"\n        }\n    ]\n}",
                             "name": null
                         }
                     ]
                 },
                 {
-                    "name": "GET Serie collection of Author",
+                    "name": "api\/authors\/series\/{author}",
                     "request": {
                         "url": {
                             "protocol": "http",
@@ -232,8 +232,8 @@
                                 {
                                     "id": "author",
                                     "key": "author",
-                                    "value": "lovecraft-howard-phillips",
-                                    "description": "The slug of author like 'lovecraft-howard-phillips'."
+                                    "value": "aut",
+                                    "description": ""
                                 }
                             ]
                         },
@@ -249,7 +249,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "Series list from one author, find by slug.",
+                        "description": "",
                         "auth": {
                             "type": "noauth"
                         }
@@ -271,15 +271,15 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4989"
+                                    "value": "4981"
                                 },
                                 {
                                     "key": "vary",
                                     "value": "Origin"
                                 }
                             ],
-                            "code": 200,
-                            "body": "{\"data\":[{\"title\":\"Cthulhu : Le Mythe\",\"meta\":{\"slug\":\"cthulhu-le-mythe-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/series\\\/lovecraft-howard-phillips\\\/cthulhu-le-mythe-fr\",\"books\":\"http:\\\/\\\/localhost:8000\\\/api\\\/series\\\/books\\\/lovecraft-howard-phillips\\\/cthulhu-le-mythe-fr\"},\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/series\\\/1144\\\/conversions\\\/cthulhu-le-mythe-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/series\\\/1144\\\/conversions\\\/cthulhu-le-mythe-fr-simple.jpg\",\"color\":\"#806c47\"},\"language\":\"fr\",\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"count\":3},{\"title\":\"Les montagnes hallucin\\u00e9es\",\"meta\":{\"slug\":\"les-montagnes-hallucinees-fr\",\"author\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/series\\\/lovecraft-howard-phillips\\\/les-montagnes-hallucinees-fr\",\"books\":\"http:\\\/\\\/localhost:8000\\\/api\\\/series\\\/books\\\/lovecraft-howard-phillips\\\/les-montagnes-hallucinees-fr\"},\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/series\\\/1178\\\/conversions\\\/les-montagnes-hallucinees-fr-thumbnail.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/series\\\/1178\\\/conversions\\\/les-montagnes-hallucinees-fr-simple.jpg\",\"color\":\"#6e7c80\"},\"language\":\"fr\",\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"count\":1}]}",
+                            "code": 404,
+                            "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Author].\",\n    \"exception\": \"Symfony\\\\Component\\\\HttpKernel\\\\Exception\\\\NotFoundHttpException\",\n    \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Exceptions\/Handler.php\",\n    \"line\": 383,\n    \"trace\": [\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Exceptions\/Handler.php\",\n            \"line\": 332,\n            \"function\": \"prepareException\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/nunomaduro\/collision\/src\/Adapters\/Laravel\/ExceptionHandler.php\",\n            \"line\": 54,\n            \"function\": \"render\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php\",\n            \"line\": 51,\n            \"function\": \"render\",\n            \"class\": \"NunoMaduro\\\\Collision\\\\Adapters\\\\Laravel\\\\ExceptionHandler\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 130,\n            \"function\": \"handleException\",\n            \"class\": \"Illuminate\\\\Routing\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/SubstituteBindings.php\",\n            \"line\": 50,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\SubstituteBindings\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php\",\n            \"line\": 127,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php\",\n            \"line\": 103,\n            \"function\": \"handleRequest\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\ThrottleRequests\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php\",\n            \"line\": 55,\n            \"function\": \"handleRequestUsingNamedLimiter\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\ThrottleRequests\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\ThrottleRequests\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php\",\n            \"line\": 33,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 128,\n            \"function\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\{closure}\",\n            \"class\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 103,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php\",\n            \"line\": 34,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 103,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 697,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 672,\n            \"function\": \"runRouteWithinStack\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 636,\n            \"function\": \"runRoute\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 625,\n            \"function\": \"dispatchToRoute\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 166,\n            \"function\": \"dispatch\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 128,\n            \"function\": \"Illuminate\\\\Foundation\\\\Http\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php\",\n            \"line\": 21,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ConvertEmptyStringsToNull.php\",\n            \"line\": 31,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\ConvertEmptyStringsToNull\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php\",\n            \"line\": 21,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TrimStrings.php\",\n            \"line\": 40,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TrimStrings\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ValidatePostSize.php\",\n            \"line\": 27,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\ValidatePostSize\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/PreventRequestsDuringMaintenance.php\",\n            \"line\": 86,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\PreventRequestsDuringMaintenance\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/fruitcake\/laravel-cors\/src\/HandleCors.php\",\n            \"line\": 52,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Fruitcake\\\\Cors\\\\HandleCors\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/fideloper\/proxy\/src\/TrustProxies.php\",\n            \"line\": 57,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 167,\n            \"function\": \"handle\",\n            \"class\": \"Fideloper\\\\Proxy\\\\TrustProxies\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 103,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 141,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 110,\n            \"function\": \"sendRequestThroughRouter\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 287,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 275,\n            \"function\": \"callLaravelOrLumenRoute\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 86,\n            \"function\": \"makeApiCall\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 44,\n            \"function\": \"makeResponseCall\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 34,\n            \"function\": \"makeResponseCallIfConditionsPass\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 225,\n            \"function\": \"__invoke\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 182,\n            \"function\": \"iterateThroughStrategies\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 116,\n            \"function\": \"fetchResponses\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 118,\n            \"function\": \"processRoute\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 75,\n            \"function\": \"extractEndpointsInfoFromLaravelApp\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 51,\n            \"function\": \"extractEndpointsInfoAndWriteToDisk\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Commands\/GenerateDocumentation.php\",\n            \"line\": 39,\n            \"function\": \"get\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 36,\n            \"function\": \"handle\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Commands\\\\GenerateDocumentation\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Util.php\",\n            \"line\": 40,\n            \"function\": \"Illuminate\\\\Container\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 93,\n            \"function\": \"unwrapIfClosure\",\n            \"class\": \"Illuminate\\\\Container\\\\Util\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 37,\n            \"function\": \"callBoundMethod\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Container.php\",\n            \"line\": 651,\n            \"function\": \"call\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php\",\n            \"line\": 136,\n            \"function\": \"call\",\n            \"class\": \"Illuminate\\\\Container\\\\Container\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Command\/Command.php\",\n            \"line\": 299,\n            \"function\": \"execute\",\n            \"class\": \"Illuminate\\\\Console\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php\",\n            \"line\": 121,\n            \"function\": \"run\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Command\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 978,\n            \"function\": \"run\",\n            \"class\": \"Illuminate\\\\Console\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 295,\n            \"function\": \"doRunCommand\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 167,\n            \"function\": \"doRun\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Application.php\",\n            \"line\": 92,\n            \"function\": \"run\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Console\/Kernel.php\",\n            \"line\": 129,\n            \"function\": \"run\",\n            \"class\": \"Illuminate\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/mnt\/c\/workspace\/projets\/bookshelves-back\/artisan\",\n            \"line\": 37,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Console\\\\Kernel\",\n            \"type\": \"->\"\n        }\n    ]\n}",
                             "name": null
                         }
                     ]
@@ -334,7 +334,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4999"
+                                    "value": "4991"
                                 },
                                 {
                                     "key": "vary",
@@ -360,13 +360,13 @@
                                 {
                                     "id": "author",
                                     "key": "author",
-                                    "value": "16",
+                                    "value": "3",
                                     "description": ""
                                 },
                                 {
                                     "id": "book",
                                     "key": "book",
-                                    "value": "est",
+                                    "value": "voluptatem",
                                     "description": ""
                                 }
                             ]
@@ -405,7 +405,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4998"
+                                    "value": "4990"
                                 },
                                 {
                                     "key": "vary",
@@ -431,13 +431,13 @@
                                 {
                                     "id": "author",
                                     "key": "author",
-                                    "value": "dicta",
+                                    "value": "enim",
                                     "description": ""
                                 },
                                 {
                                     "id": "book",
                                     "key": "book",
-                                    "value": "laudantium",
+                                    "value": "alias",
                                     "description": ""
                                 }
                             ]
@@ -476,7 +476,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4997"
+                                    "value": "4989"
                                 },
                                 {
                                     "key": "vary",
@@ -533,7 +533,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4979"
+                                    "value": "4971"
                                 },
                                 {
                                     "key": "vary",
@@ -590,7 +590,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4978"
+                                    "value": "4970"
                                 },
                                 {
                                     "key": "vary",
@@ -598,7 +598,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"data\":[{\"meta\":{\"entity\":\"book\",\"author\":\"hobb-robin\",\"slug\":\"en-quete-de-vengeance-fr\"},\"title\":\"En qu\\u00eate de vengeance\",\"authors\":[{\"name\":\"Robin Hobb\",\"meta\":{\"slug\":\"hobb-robin\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/hobb-robin\"}}],\"serie\":\"Le Fou et l'Assassin\",\"language\":\"fr\",\"volume\":3,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/903\\\/conversions\\\/en-quete-de-vengeance-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/903\\\/en-quete-de-vengeance-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/903\\\/conversions\\\/en-quete-de-vengeance-fr-simple.jpg\",\"color\":\"#424452\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"martin-george-r-r\",\"slug\":\"les-sables-de-dorne-fr\"},\"title\":\"Les sables de Dorne\",\"authors\":[{\"name\":\"George R. R. Martin\",\"meta\":{\"slug\":\"martin-george-r-r\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/martin-george-r-r\"}}],\"serie\":\"Le Tr\\u00f4ne de Fer\",\"language\":\"fr\",\"volume\":11,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/995\\\/conversions\\\/les-sables-de-dorne-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/995\\\/les-sables-de-dorne-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/995\\\/conversions\\\/les-sables-de-dorne-fr-simple.jpg\",\"color\":\"#b44b2e\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"arnaud-georges-jean\",\"slug\":\"la-caste-des-aiguilleurs-fr\"},\"title\":\"La caste des Aiguilleurs\",\"authors\":[{\"name\":\"Georges-Jean Arnaud\",\"meta\":{\"slug\":\"arnaud-georges-jean\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/arnaud-georges-jean\"}}],\"serie\":\"La Compagnie des glaces\",\"language\":\"fr\",\"volume\":39,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/598\\\/conversions\\\/la-caste-des-aiguilleurs-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/598\\\/la-caste-des-aiguilleurs-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/598\\\/conversions\\\/la-caste-des-aiguilleurs-fr-simple.jpg\",\"color\":\"#797a7d\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"audouin-mamikonian-sophie\",\"slug\":\"le-dragon-renegat-fr\"},\"title\":\"Le Dragon Ren\\u00e9gat\",\"authors\":[{\"name\":\"Sophie Audouin-Mamikonian\",\"meta\":{\"slug\":\"audouin-mamikonian-sophie\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/audouin-mamikonian-sophie\"}}],\"serie\":\"Tara Duncan\",\"language\":\"fr\",\"volume\":4,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/674\\\/conversions\\\/le-dragon-renegat-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/674\\\/le-dragon-renegat-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/674\\\/conversions\\\/le-dragon-renegat-fr-simple.jpg\",\"color\":\"#4e432e\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"hunter-erin\",\"slug\":\"avant-la-tempete-fr\"},\"title\":\"Avant la Temp\\u00eate\",\"authors\":[{\"name\":\"Erin Hunter\",\"meta\":{\"slug\":\"hunter-erin\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/hunter-erin\"}}],\"serie\":\"La guerre des Clans\",\"language\":\"fr\",\"volume\":4,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/940\\\/conversions\\\/avant-la-tempete-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/940\\\/avant-la-tempete-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/940\\\/conversions\\\/avant-la-tempete-fr-simple.jpg\",\"color\":\"#7d3842\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"asimov-isaac\",\"slug\":\"terre-et-fondation-fr\"},\"title\":\"Terre et Fondation\",\"authors\":[{\"name\":\"Isaac Asimov\",\"meta\":{\"slug\":\"asimov-isaac\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/asimov-isaac\"}}],\"serie\":\"Fondation\",\"language\":\"fr\",\"volume\":7,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/639\\\/conversions\\\/terre-et-fondation-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/639\\\/terre-et-fondation-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/639\\\/conversions\\\/terre-et-fondation-fr-simple.jpg\",\"color\":\"#5d4f45\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"lovecraft-howard-phillips\",\"slug\":\"les-montagnes-hallucinees-fr\"},\"title\":\"Les montagnes hallucin\\u00e9es\",\"authors\":[{\"name\":\"Howard Phillips Lovecraft\",\"meta\":{\"slug\":\"lovecraft-howard-phillips\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lovecraft-howard-phillips\"}}],\"serie\":\"Les montagnes hallucin\\u00e9es\",\"language\":\"fr\",\"volume\":1,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/993\\\/conversions\\\/les-montagnes-hallucinees-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/993\\\/les-montagnes-hallucinees-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/993\\\/conversions\\\/les-montagnes-hallucinees-fr-simple.jpg\",\"color\":\"#6e7c80\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"gemmell-david\",\"slug\":\"le-bouclier-du-tonnerre-fr\"},\"title\":\"Le Bouclier du Tonnerre\",\"authors\":[{\"name\":\"David Gemmell\",\"meta\":{\"slug\":\"gemmell-david\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/gemmell-david\"}}],\"serie\":\"Troie\",\"language\":\"fr\",\"volume\":2,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/861\\\/conversions\\\/le-bouclier-du-tonnerre-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/861\\\/le-bouclier-du-tonnerre-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/861\\\/conversions\\\/le-bouclier-du-tonnerre-fr-simple.jpg\",\"color\":\"#5d5757\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"hobb-robin\",\"slug\":\"les-gardiens-des-souvenirs-fr\"},\"title\":\"Les Gardiens des souvenirs\",\"authors\":[{\"name\":\"Robin Hobb\",\"meta\":{\"slug\":\"hobb-robin\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/hobb-robin\"}}],\"serie\":\"Les Cit\\u00e9s des Anciens\",\"language\":\"fr\",\"volume\":5,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/929\\\/conversions\\\/les-gardiens-des-souvenirs-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/929\\\/les-gardiens-des-souvenirs-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/929\\\/conversions\\\/les-gardiens-des-souvenirs-fr-simple.jpg\",\"color\":\"#6a583f\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"fforde-jasper\",\"slug\":\"the-locked-room-mystery-mystery-en\"},\"title\":\"The Locked Room Mystery mystery\",\"authors\":[{\"name\":\"Jasper Fforde\",\"meta\":{\"slug\":\"fforde-jasper\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/fforde-jasper\"}}],\"serie\":\"Thursday Next\",\"language\":\"en\",\"volume\":1,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/806\\\/conversions\\\/the-locked-room-mystery-mystery-en-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/806\\\/the-locked-room-mystery-mystery-en.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/806\\\/conversions\\\/the-locked-room-mystery-mystery-en-simple.jpg\",\"color\":\"#bdc7cb\"}}]}",
+                            "body": "{\"data\":[{\"meta\":{\"entity\":\"book\",\"author\":\"hobb-robin\",\"slug\":\"les-eaux-acides-fr\"},\"title\":\"Les Eaux Acides\",\"authors\":[{\"name\":\"Robin Hobb\",\"meta\":{\"slug\":\"hobb-robin\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/hobb-robin\"}}],\"serie\":\"Les Cit\\u00e9s des Anciens\",\"language\":\"fr\",\"volume\":2,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/926\\\/conversions\\\/les-eaux-acides-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/926\\\/les-eaux-acides-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/926\\\/conversions\\\/les-eaux-acides-fr-simple.jpg\",\"color\":\"#555239\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"pratchett-terry\",\"slug\":\"coup-de-tabac-fr\"},\"title\":\"Coup de tabac\",\"authors\":[{\"name\":\"Terry Pratchett\",\"meta\":{\"slug\":\"pratchett-terry\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/pratchett-terry\"}}],\"serie\":\"Les Annales du Disque-Monde\",\"language\":\"fr\",\"volume\":34,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/1045\\\/conversions\\\/coup-de-tabac-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/1045\\\/coup-de-tabac-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/1045\\\/conversions\\\/coup-de-tabac-fr-simple.jpg\",\"color\":\"#596058\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"tolkien-j-r-r\",\"slug\":\"les-deux-tours-fr\"},\"title\":\"Les Deux Tours\",\"authors\":[{\"name\":\"J. R. R. Tolkien\",\"meta\":{\"slug\":\"tolkien-j-r-r\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/tolkien-j-r-r\"}}],\"serie\":\"Seigneur des Anneaux\",\"language\":\"fr\",\"volume\":2,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/1111\\\/conversions\\\/les-deux-tours-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/1111\\\/les-deux-tours-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/1111\\\/conversions\\\/les-deux-tours-fr-simple.jpg\",\"color\":\"#6d788e\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"lore-pittacus\",\"slug\":\"le-pouvoir-des-six-fr\"},\"title\":\"Le Pouvoir des Six\",\"authors\":[{\"name\":\"Pittacus Lore\",\"meta\":{\"slug\":\"lore-pittacus\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/lore-pittacus\"}}],\"serie\":\"Les Loriens\",\"language\":\"fr\",\"volume\":2,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/967\\\/conversions\\\/le-pouvoir-des-six-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/967\\\/le-pouvoir-des-six-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/967\\\/conversions\\\/le-pouvoir-des-six-fr-simple.jpg\",\"color\":\"#3d311d\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"hobb-robin\",\"slug\":\"le-fou-et-lassassin-fr\"},\"title\":\"Le Fou et l'Assassin\",\"authors\":[{\"name\":\"Robin Hobb\",\"meta\":{\"slug\":\"hobb-robin\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/hobb-robin\"}}],\"serie\":\"Le Fou et l'Assassin\",\"language\":\"fr\",\"volume\":1,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/901\\\/conversions\\\/le-fou-et-lassassin-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/901\\\/le-fou-et-lassassin-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/901\\\/conversions\\\/le-fou-et-lassassin-fr-simple.jpg\",\"color\":\"#aba596\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"hobb-robin\",\"slug\":\"la-fureur-du-fleuve-fr\"},\"title\":\"La fureur du fleuve\",\"authors\":[{\"name\":\"Robin Hobb\",\"meta\":{\"slug\":\"hobb-robin\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/hobb-robin\"}}],\"serie\":\"Les Cit\\u00e9s des Anciens\",\"language\":\"fr\",\"volume\":3,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/927\\\/conversions\\\/la-fureur-du-fleuve-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/927\\\/la-fureur-du-fleuve-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/927\\\/conversions\\\/la-fureur-du-fleuve-fr-simple.jpg\",\"color\":\"#5b665d\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"explorer-asp\",\"slug\":\"kalon-et-lile-du-dieu-fou-fr\"},\"title\":\"Kalon et l'\\u00eele du dieu fou\",\"authors\":[{\"name\":\"Asp Explorer\",\"meta\":{\"slug\":\"explorer-asp\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/explorer-asp\"}}],\"serie\":\"Les Merveilleuses Aventures de Kalon\",\"language\":\"fr\",\"volume\":1,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/800\\\/conversions\\\/kalon-et-lile-du-dieu-fou-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/800\\\/kalon-et-lile-du-dieu-fou-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/800\\\/conversions\\\/kalon-et-lile-du-dieu-fou-fr-simple.jpg\",\"color\":\"#d2be98\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"asimov-isaac\",\"slug\":\"noel-sur-ganymede-fr\"},\"title\":\"No\\u00ebl sur Ganym\\u00e8de\",\"authors\":[{\"name\":\"Isaac Asimov\",\"meta\":{\"slug\":\"asimov-isaac\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/asimov-isaac\"}}],\"serie\":null,\"language\":\"fr\",\"volume\":0,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/654\\\/conversions\\\/noel-sur-ganymede-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/654\\\/noel-sur-ganymede-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/654\\\/conversions\\\/noel-sur-ganymede-fr-simple.jpg\",\"color\":\"#686d66\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"arnaud-georges-jean\",\"slug\":\"lavenir-des-dupes-fr\"},\"title\":\"L'avenir des Dupes\",\"authors\":[{\"name\":\"Georges-Jean Arnaud\",\"meta\":{\"slug\":\"arnaud-georges-jean\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/arnaud-georges-jean\"}}],\"serie\":\"La Compagnie des glaces\",\"language\":\"fr\",\"volume\":62,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/623\\\/conversions\\\/lavenir-des-dupes-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/623\\\/lavenir-des-dupes-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/623\\\/conversions\\\/lavenir-des-dupes-fr-simple.jpg\",\"color\":\"#afa7aa\"}},{\"meta\":{\"entity\":\"book\",\"author\":\"gemmell-david\",\"slug\":\"le-seigneur-de-larc-dargent-fr\"},\"title\":\"Le Seigneur de l'Arc d'Argent\",\"authors\":[{\"name\":\"David Gemmell\",\"meta\":{\"slug\":\"gemmell-david\",\"show\":\"http:\\\/\\\/localhost:8000\\\/api\\\/authors\\\/gemmell-david\"}}],\"serie\":\"Troie\",\"language\":\"fr\",\"volume\":1,\"picture\":{\"base\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/860\\\/conversions\\\/le-seigneur-de-larc-dargent-fr-thumbnail.webp\",\"original\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/860\\\/le-seigneur-de-larc-dargent-fr.webp\",\"simple\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/media\\\/books\\\/860\\\/conversions\\\/le-seigneur-de-larc-dargent-fr-simple.jpg\",\"color\":\"#3b3829\"}}]}",
                             "name": null
                         }
                     ]
@@ -622,13 +622,13 @@
                                 {
                                     "id": "author",
                                     "key": "author",
-                                    "value": "12",
+                                    "value": "6",
                                     "description": ""
                                 },
                                 {
                                     "id": "book",
                                     "key": "book",
-                                    "value": "sit",
+                                    "value": "in",
                                     "description": ""
                                 }
                             ]
@@ -667,7 +667,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4982"
+                                    "value": "4974"
                                 },
                                 {
                                     "key": "vary",
@@ -693,13 +693,13 @@
                                 {
                                     "id": "author",
                                     "key": "author",
-                                    "value": "11",
+                                    "value": "16",
                                     "description": ""
                                 },
                                 {
                                     "id": "serie",
                                     "key": "serie",
-                                    "value": "aut",
+                                    "value": "fuga",
                                     "description": ""
                                 }
                             ]
@@ -738,7 +738,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4981"
+                                    "value": "4973"
                                 },
                                 {
                                     "key": "vary",
@@ -764,7 +764,7 @@
                                 {
                                     "id": "author",
                                     "key": "author",
-                                    "value": "3",
+                                    "value": "9",
                                     "description": ""
                                 }
                             ]
@@ -803,7 +803,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4980"
+                                    "value": "4972"
                                 },
                                 {
                                     "key": "vary",
@@ -819,70 +819,7 @@
             ]
         },
         {
-            "name": "Language",
-            "description": "",
-            "item": [
-                {
-                    "name": "api\/languages",
-                    "request": {
-                        "url": {
-                            "protocol": "http",
-                            "host": "{{baseUrl}}",
-                            "path": "api\/languages",
-                            "query": [],
-                            "raw": "http:\/\/{{baseUrl}}\/api\/languages"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-ratelimit-limit",
-                                    "value": "5000"
-                                },
-                                {
-                                    "key": "x-ratelimit-remaining",
-                                    "value": "4971"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 200,
-                            "body": "{\"data\":[{\"name\":\"French\",\"meta\":{\"slug\":\"fr\"}},{\"name\":\"English\",\"meta\":{\"slug\":\"en\"}}]}",
-                            "name": null
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Misc",
+            "name": "Endpoints",
             "description": "",
             "item": [
                 {
@@ -908,7 +845,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"nihil\",\"password\":\"facere\"}"
+                            "raw": "{\"email\":\"magni\",\"password\":\"quae\"}"
                         },
                         "description": "",
                         "auth": {
@@ -1019,7 +956,7 @@
                                 },
                                 {
                                     "key": "set-cookie",
-                                    "value": "XSRF-TOKEN=eyJpdiI6Im9yV0tyYlJMeGRBdlRZUGtzYnhHc3c9PSIsInZhbHVlIjoiL1BsUUNFTWppbUM5MmlsQ09jL05RVCtYYWw5S1hKL2dmeVZwb1NtblA5bHovMDZmZURSanBwbFBGbmRPUDRVV0tKZFNXUmtNZTUydnQ2Q2QzMFpjSnFDUkFYRU9GT0xmK2VCeE1xYi9mZ09kUlRUOGJsa1NlMVpDUFlSZ0VHb2YiLCJtYWMiOiJiMzc4ZmZiNjVjZTE1OWM4MzQ2OTI2NmNhMmQ5NjU2YWU2MjU0ZDc3YzkxYTVkYmEyOWI3ZDgxMDUxYTIyZThkIn0%3D; expires=Thu, 15-Jul-2021 14:21:01 GMT; Max-Age=86400; path=\/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6IklnVTA5YmhKNkYvVUVPNllNMmkyQ0E9PSIsInZhbHVlIjoiVjlYemR1blRNM2x0dkdOZlh4R1hFak0yNmdUbzdWVG1rWXVjNU9pSmdaU2I4WGlLM1o2SldJNUlEVjJLZVJNSGxzT3hXNHF2d2taR0pLcmVhQ2pPdWdtVUdYUVRPYTVUY3gxQ3dmdEhvMVRWcEhacVRNdGxncUs3SXpKQmF1TmIiLCJtYWMiOiI0ZDUxOWY1N2NmNDZiZmViNWZlZTUxNjc2NGZiNWMwMTk5YTc1ZTU4YWRjYzlkMWJkMTZkYWU3NmUxOTM3NDJjIn0%3D; expires=Thu, 15-Jul-2021 14:21:01 GMT; Max-Age=86400; path=\/; domain=localhost; httponly; samesite=lax"
+                                    "value": "XSRF-TOKEN=eyJpdiI6IkJZdDBsVWw4VXoraHlBd2VWeCsvMlE9PSIsInZhbHVlIjoicW53S2hKeXI2dTJ4NHJERUJKL2NRTjk0bms5dUE5MkNWWTd3alBpRE02eHVqeHYxVE02bWJBUk11VFlBd3NsUDNoS2dpbG1BZVhNaVJSaTREeVVnZWViZ2FRK3p4RXZZVVQ1UlJDYWhldS9kV29VM3dJeEdGbmJWTnhLRjNJaGgiLCJtYWMiOiJhNDA4ZGY1MWY5M2Y4NDQxM2MwMTljODQyNWY1Mzc2N2YwNTdiYWFhZTMzNzFkMGU3NjRlZjZhOWI3YzRmN2EwIn0%3D; expires=Thu, 15-Jul-2021 11:06:09 GMT; Max-Age=86400; path=\/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6IkVnNnBha1JRRE14cTZRVGtPRDduemc9PSIsInZhbHVlIjoiVjI0MThLYkIyTmlYZytwZU54U09wQXgwa09sekVvRmNrK1BiTk5tVExZMkU4MUd5WkN3cUptRm5PaVhvTnFSNy85dFZkRlNOR3ZRY2NDRFB6Tm9MS3VBU1dScXk3K1VweHJ5Q0kwTm1WM0dFenFNTm1FOTNFOE1COVlkVVdtZGEiLCJtYWMiOiI1ZjZkMGJjOTcwMWVkMGIzNGZkNjg0OTRlNTllYzU2YjA0YjAzZTUwM2ExMzkyMGZkYzVkOTNmYzk4MzZmZTgwIn0%3D; expires=Thu, 15-Jul-2021 11:06:09 GMT; Max-Age=86400; path=\/; domain=localhost; httponly; samesite=lax"
                                 }
                             ],
                             "code": 401,
@@ -1097,7 +1034,7 @@
                                 },
                                 {
                                     "key": "set-cookie",
-                                    "value": "XSRF-TOKEN=eyJpdiI6IldxcUwvZC9nK0VzU0xINmdzeW5ITUE9PSIsInZhbHVlIjoiWTBubVN4TE91Z1EwUjJaUmp0Z09neUFUR0ZYclg2cFhFTnVGKzAwdEtDNVpTNXF4YnNrVUhhMjkyY1AyNHc4OFN3dHlQNlRRS2hYRVFud1Nld2hBMGdGT1RscklBVDBFVGVkM2dza2czb3FFZHN3LzhLVFJLK0QwMjJkRi9KSGEiLCJtYWMiOiJmODU0MzFmOTk4OThlM2VmYzg2YTBlYzkzY2ExYzk5YzMyZjlkMjY2MTRhZjNjODhlMGNiYzkzNWYyYjhjYzg5In0%3D; expires=Thu, 15-Jul-2021 14:21:01 GMT; Max-Age=86400; path=\/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6IkpMZVZ4MzU1Qzhsc01WRlA5QW1vK0E9PSIsInZhbHVlIjoiK3pqcXdhazFTT3EwcWszdENXUndMaFExZEhsL091MitBdXJpZTRLdG1qenAxdDQvcHlRYnpzYzkza3ZGek5PNktlVXpSR2kxVm9lZldrTjBaZkN2a01LMWVxM2gzMzFWcWUrZEtMOEVUZGZyN3FBcnoyWnlQeTRrRUxVNzJLTWUiLCJtYWMiOiIzMTYxYTQxMjgxYmNlODcyNzMxZmM2ODdlMjcyMTNjZjVjZmJkMmFlYTVjM2Y2MmNkNTRkYTQ2YjNkZGFjZmI2In0%3D; expires=Thu, 15-Jul-2021 14:21:01 GMT; Max-Age=86400; path=\/; domain=localhost; httponly; samesite=lax"
+                                    "value": "XSRF-TOKEN=eyJpdiI6IndHQ3VYZDJnNGkwTStiNWIwbmkyaXc9PSIsInZhbHVlIjoiTnlOMHRGWEJhSHR5aFhyRk15YXIzM043QlJubGJwSnFrdVE3S3hhVTdIaW1IQUlHNlJPaFZsdktxSzdKK29NelRDMDRtbWF5R0VwYzBUaG12bnFPTjlIbDR1eEtwOGtFTmJXOWYzaHFGTUN3OWR4dWxtYWVyY0gwRHlGU0UyN2UiLCJtYWMiOiJiNTYzMzYxNzE3NmY1ZmIwOGJhMGJhODc3YWQ3MTRkM2FkODA5ZjcxMjU5OGJhNTg5OGQyNzIyNzlmNmMyMjQyIn0%3D; expires=Thu, 15-Jul-2021 11:06:09 GMT; Max-Age=86400; path=\/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6IlFCUkNDNm9iUUEyS1ByQ3htTXloVGc9PSIsInZhbHVlIjoicDZpckJYc0tpbC9JSjRlWUlTY0dLSlhLVVFVZVlTWnIrbncxRlNWQnYremk3bkc1dGg5Tzh6RHhmb2VlQ1hwRGtDOFJlMXU1NzJsSjEwdWtMeGgxNEhSNUU0Y1FicWZHNmRONkp5bHBFTmtqWk9HcU1hN3BoeFRhYVV5WGxyTksiLCJtYWMiOiI0NjMyYTIzODk1YmQwNGJjYWZiMWNlZTUyNDAxM2M0YWM3ZjM0ZDYwNzg3OTU3NmFjMzVmNTYxNTkzMWU4NjEwIn0%3D; expires=Thu, 15-Jul-2021 11:06:09 GMT; Max-Age=86400; path=\/; domain=localhost; httponly; samesite=lax"
                                 }
                             ],
                             "code": 204,
@@ -1150,7 +1087,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4988"
+                                    "value": "4980"
                                 },
                                 {
                                     "key": "vary",
@@ -1159,6 +1096,69 @@
                             ],
                             "code": 400,
                             "body": "\"Invalid 'entity' query parameter, must be like 'book' or 'serie' or 'author'\"",
+                            "name": null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Language",
+            "description": "",
+            "item": [
+                {
+                    "name": "api\/languages",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/languages",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/languages"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "5000"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "4993"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"data\":[{\"name\":\"French\",\"meta\":{\"slug\":\"fr\"}},{\"name\":\"English\",\"meta\":{\"slug\":\"en\"}}]}",
                             "name": null
                         }
                     ]
@@ -1213,7 +1213,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4974"
+                                    "value": "4996"
                                 },
                                 {
                                     "key": "vary",
@@ -1239,7 +1239,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "20",
+                                    "value": "17",
                                     "description": "The ID of the publisher."
                                 }
                             ]
@@ -1278,7 +1278,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4973"
+                                    "value": "4995"
                                 },
                                 {
                                     "key": "vary",
@@ -1304,7 +1304,7 @@
                                 {
                                     "id": "publisher",
                                     "key": "publisher",
-                                    "value": "6",
+                                    "value": "7",
                                     "description": ""
                                 }
                             ]
@@ -1343,7 +1343,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4972"
+                                    "value": "4994"
                                 },
                                 {
                                     "key": "vary",
@@ -1406,7 +1406,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4987"
+                                    "value": "4979"
                                 },
                                 {
                                     "key": "vary",
@@ -1463,7 +1463,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4986"
+                                    "value": "4978"
                                 },
                                 {
                                     "key": "vary",
@@ -1520,7 +1520,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4985"
+                                    "value": "4977"
                                 },
                                 {
                                     "key": "vary",
@@ -1577,7 +1577,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4984"
+                                    "value": "4976"
                                 },
                                 {
                                     "key": "vary",
@@ -1634,7 +1634,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4983"
+                                    "value": "4975"
                                 },
                                 {
                                     "key": "vary",
@@ -1697,7 +1697,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4996"
+                                    "value": "4988"
                                 },
                                 {
                                     "key": "vary",
@@ -1723,13 +1723,13 @@
                                 {
                                     "id": "author",
                                     "key": "author",
-                                    "value": "eos",
+                                    "value": "vel",
                                     "description": ""
                                 },
                                 {
                                     "id": "serie",
                                     "key": "serie",
-                                    "value": "omnis",
+                                    "value": "a",
                                     "description": ""
                                 }
                             ]
@@ -1768,7 +1768,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4995"
+                                    "value": "4987"
                                 },
                                 {
                                     "key": "vary",
@@ -1794,13 +1794,13 @@
                                 {
                                     "id": "author",
                                     "key": "author",
-                                    "value": "9",
+                                    "value": "10",
                                     "description": ""
                                 },
                                 {
                                     "id": "serie",
                                     "key": "serie",
-                                    "value": "inventore",
+                                    "value": "voluptatem",
                                     "description": ""
                                 }
                             ]
@@ -1839,7 +1839,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4994"
+                                    "value": "4986"
                                 },
                                 {
                                     "key": "vary",
@@ -1865,19 +1865,19 @@
                                 {
                                     "id": "volume",
                                     "key": "volume",
-                                    "value": "7",
+                                    "value": "11",
                                     "description": ""
                                 },
                                 {
                                     "id": "author",
                                     "key": "author",
-                                    "value": "possimus",
+                                    "value": "temporibus",
                                     "description": ""
                                 },
                                 {
                                     "id": "serie",
                                     "key": "serie",
-                                    "value": "quia",
+                                    "value": "aut",
                                     "description": ""
                                 }
                             ]
@@ -1916,7 +1916,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4993"
+                                    "value": "4985"
                                 },
                                 {
                                     "key": "vary",
@@ -1979,7 +1979,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4977"
+                                    "value": "4999"
                                 },
                                 {
                                     "key": "vary",
@@ -2005,7 +2005,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "ea",
+                                    "value": "deserunt",
                                     "description": "The ID of the tag."
                                 }
                             ]
@@ -2044,7 +2044,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4976"
+                                    "value": "4998"
                                 },
                                 {
                                     "key": "vary",
@@ -2070,7 +2070,7 @@
                                 {
                                     "id": "tag",
                                     "key": "tag",
-                                    "value": "18",
+                                    "value": "13",
                                     "description": ""
                                 }
                             ]
@@ -2109,7 +2109,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "4975"
+                                    "value": "4997"
                                 },
                                 {
                                     "key": "vary",

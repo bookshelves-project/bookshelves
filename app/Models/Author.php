@@ -39,10 +39,10 @@ class Author extends Model implements HasMedia
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function resolveRouteBinding($value, $field = null)
-    {
-        return $this->where('slug', $value)->first();
-    }
+    // public function resolveRouteBinding($value, $field = 'slug')
+    // {
+    //     return $this->where($field, $value)->first();
+    // }
 
     public function registerMediaConversions(Media $media = null): void
     {

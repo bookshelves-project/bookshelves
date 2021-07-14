@@ -251,7 +251,7 @@ INTRO
      */
     'example_languages' => [
         'bash',
-        'javascript',
+        // 'javascript',
     ],
 
     /*
@@ -291,7 +291,7 @@ INTRO
     /*
      * Endpoints which don't have a @group will be placed in this default group.
      */
-    'default_group' => 'Endpoints',
+    'default_group' => 'Misc',
 
     /*
      * Custom logo path. This will be used as the value of the src attribute for the <img> tag,

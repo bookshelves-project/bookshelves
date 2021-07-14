@@ -16,41 +16,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @group Author
+ *
+ * Endpoint to get Authors data.
  */
 class AuthorController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/authors",
-     *     tags={"authors"},
-     *     summary="List of authors",
-     *     description="Authors",
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         description="Integer to choose how many books you show in each page",
-     *         required=false,
-     *         example=32,
-     *         @OA\Schema(
-     *           type="integer",
-     *           format="int64"
-     *         ),
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation"
-     *     )
-     * )
-     */
-
-    /**
-     * Authors list
+     * GET Author collection
      *
      * You can get all authors with alphabetic order on lastname with pagination.
      *
-     * @queryParam per-page int Entities per page.
-     * @queryParam page int The page number.
+     * @queryParam per-page int Entities per page, 32 by default. Example: 5.
+     * @queryParam page int The page number, 1 by default. No-example
      */
     public function index(Request $request)
     {
@@ -80,32 +57,33 @@ class AuthorController extends Controller
     }
 
     /**
-     * @primaryKey slug
-     * @urlParam author string required The slug of author.
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
+     * GET Author resource
      *
-     * @throws HttpException
-     * @throws NotFoundHttpException
+     * Details for one author, find by slug.
      *
-     * @return AuthorResource|void
+     * @urlParam id string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     *
      */
-    public function show(Author $author)
+    public function show(string $slug)
     {
         try {
-            // $author = Author::whereSlug($author->slug)->with('media')->withCount('books')->firstOrFail();
-            // $author = AuthorResource::make($author);
+            $author = Author::whereSlug($slug)->with('media')->withCount('books')->firstOrFail();
+            $author = AuthorResource::make($author);
 
-            // return $author;
-            return '';
+            return $author;
         } catch (\Throwable $th) {
-            return abort(404);
+            return response()->json(['failed' => 'No result for '.$slug], 404);
         }
     }
 
+    /**
+     * GET Book collection of Author
+     *
+     * Books list from one author, find by slug.
+     *
+     * @urlParam author string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     *
+     */
     public function books(Request $request, string $author)
     {
         $standalone = $request->get('standalone') ? filter_var($request->get('standalone'), FILTER_VALIDATE_BOOLEAN) : false;
@@ -121,6 +99,14 @@ class AuthorController extends Controller
         return BookLightResource::collection($author->books);
     }
 
+    /**
+     * GET Serie collection of Author
+     *
+     * Series list from one author, find by slug.
+     *
+     * @urlParam author string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     *
+     */
     public function series(string $author)
     {
         $author = Author::whereSlug($author)->with(['series' => function ($query) {

@@ -8,9 +8,9 @@
 
     <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../docs/css/theme-default.style.css" media="screen">
-    <link rel="stylesheet" href="../docs/css/theme-default.print.css" media="print">
-    <script src="../docs/js/theme-default-3.6.0.js"></script>
+    <link rel="stylesheet" href="{{ asset("vendor/scribe/css/theme-default.style.css") }}" media="screen">
+    <link rel="stylesheet" href="{{ asset("vendor/scribe/css/theme-default.print.css") }}" media="print">
+    <script src="{{ asset("vendor/scribe/js/theme-default-3.6.0.js") }}"></script>
 
     <link rel="stylesheet"
           href="//unpkg.com/@highlightjs/cdn-assets@10.7.2/styles/obsidian.min.css">
@@ -21,20 +21,21 @@
     <script>
         var baseUrl = "http://localhost:8000";
     </script>
-    <script src="../docs/js/tryitout-3.6.0.js"></script>
+    <script src="{{ asset("vendor/scribe/js/tryitout-3.6.0.js") }}"></script>
 
 </head>
 
-<body data-languages="[&quot;bash&quot;]">
+<body data-languages="[&quot;bash&quot;,&quot;javascript&quot;]">
 <a href="#" id="nav-button">
       <span>
         MENU
-        <img src="../docs/images/navbar.png" alt="navbar-image" />
+        <img src="{{ asset("vendor/scribe/images/navbar.png") }}" alt="navbar-image" />
       </span>
 </a>
 <div class="tocify-wrapper">
                 <div class="lang-selector">
                             <a href="#" data-language-name="bash">bash</a>
+                            <a href="#" data-language-name="javascript">javascript</a>
                     </div>
         <div class="search">
         <input type="text" class="search" id="input-search" placeholder="Search">
@@ -45,8 +46,8 @@
     </ul>
 
             <ul class="toc-footer" id="toc-footer">
-                            <li><a href="../docs/collection.json">View Postman collection</a></li>
-                            <li><a href="../docs/openapi.yaml">View OpenAPI spec</a></li>
+                            <li><a href="{{ route("scribe.postman") }}">View Postman collection</a></li>
+                            <li><a href="{{ route("scribe.openapi") }}">View OpenAPI spec</a></li>
                             <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
                     </ul>
             <ul class="toc-footer" id="last-updated">
@@ -73,7 +74,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
     <p>Endpoint to get Authors data.</p>
 
-            <h2 id="author-GETapi-authors">GET Author collection</h2>
+            <h2 id="author-GETapi-authors">Authors list</h2>
 
 <p>
 </p>
@@ -88,6 +89,26 @@ You can switch the language used with the tabs at the top right (or from the nav
     --get "http://localhost:8000/api/authors?per-page=5" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/authors"
+);
+
+const params = {
+    "per-page": "5",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-authors">
@@ -337,7 +358,7 @@ vary: Origin
 <p>The page number, 1 by default.</p>            </p>
                 </form>
 
-            <h2 id="author-GETapi-authors--id-">GET Author resource</h2>
+            <h2 id="author-GETapi-authors--id-">Author details</h2>
 
 <p>
 </p>
@@ -352,6 +373,20 @@ vary: Origin
     --get "http://localhost:8000/api/authors/lovecraft-howard-phillips" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/authors/lovecraft-howard-phillips"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-authors--id-">
@@ -371,7 +406,7 @@ vary: Origin
         </details>         <pre>
 
 <code class="language-json">{
-    &quot;failed&quot;: &quot;No result for 1&quot;
+    &quot;failed&quot;: &quot;No result for this param.&quot;
 }</code>
  </pre>
     </span>
@@ -422,29 +457,43 @@ vary: Origin
                data-endpoint="GETapi-authors--id-"
                data-component="url" required  hidden>
     <br>
-<p>The slug of author like 'lovecraft-howard-phillips'.</p>            </p>
+<p>The slug of author.</p>            </p>
                     </form>
 
-            <h2 id="author-GETapi-authors-books--author-">GET Book collection of Author</h2>
+            <h2 id="author-GETapi-authors-books--author-">GET api/authors/books/{author}</h2>
 
 <p>
 </p>
 
-<p>Books list from one author, find by slug.</p>
+
 
 <span id="example-requests-GETapi-authors-books--author-">
 <blockquote>Example request:</blockquote>
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/authors/books/lovecraft-howard-phillips" \
+    --get "http://localhost:8000/api/authors/books/3" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/authors/books/3"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-authors-books--author-">
             <blockquote>
-            <p>Example response (200):</p>
+            <p>Example response (404):</p>
         </blockquote>
                 <details class="annotation">
             <summary>
@@ -459,628 +508,465 @@ vary: Origin
         </details>         <pre>
 
 <code class="language-json">{
-    &quot;data&quot;: [
+    &quot;message&quot;: &quot;No query results for model [App\\Models\\Author].&quot;,
+    &quot;exception&quot;: &quot;Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException&quot;,
+    &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Exceptions\/Handler.php&quot;,
+    &quot;line&quot;: 383,
+    &quot;trace&quot;: [
         {
-            &quot;title&quot;: &quot;L'Affaire Charles Dexter Ward&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;laffaire-charles-dexter-ward-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/laffaire-charles-dexter-ward-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Providence, Etats-Unis, 1918. Charles Dexter Ward est un jeune homme passionne d'archeologie, d'histoire, et de genealogie. C'est pa...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;1928-06-14 23:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/975\/conversions\/laffaire-charles-dexter-ward-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/975\/conversions\/laffaire-charles-dexter-ward-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#f0d9b6&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Exceptions\/Handler.php&quot;,
+            &quot;line&quot;: 332,
+            &quot;function&quot;: &quot;prepareException&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Exceptions\\Handler&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Air Froid&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;air-froid-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/air-froid-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Cool Air, 1926 Un jeune homme frileux, recemment installe dans un appartement new-yorkais, fait la connaissance d'un vieil homme qui ap...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;1926-06-14 23:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/976\/conversions\/air-froid-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/976\/conversions\/air-froid-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#eee&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/nunomaduro\/collision\/src\/Adapters\/Laravel\/ExceptionHandler.php&quot;,
+            &quot;line&quot;: 54,
+            &quot;function&quot;: &quot;render&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Exceptions\\Handler&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;L'appel de Cthulhu&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;lappel-de-cthulhu-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/lappel-de-cthulhu-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;La terreur, l'horreur, l'informe du rve, Lovecraft ne les veille pas pour jouer. Il sait seulement que tout cela nous en disposons d...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2007-11-14 23:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/977\/conversions\/lappel-de-cthulhu-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/977\/conversions\/lappel-de-cthulhu-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#f4e5c7&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php&quot;,
+            &quot;line&quot;: 51,
+            &quot;function&quot;: &quot;render&quot;,
+            &quot;class&quot;: &quot;NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Celui qui hantait les t&eacute;n&egrave;bres&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;celui-qui-hantait-les-tenebres-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/celui-qui-hantait-les-tenebres-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;The Haunter of the Dark, 1935 Paru dans Weird Tales, decembre 1936 Robert Blake est retrouve mort chez lui, une expression de terreur s...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2011-06-15 22:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/978\/conversions\/celui-qui-hantait-les-tenebres-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/978\/conversions\/celui-qui-hantait-les-tenebres-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#857045&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 130,
+            &quot;function&quot;: &quot;handleException&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;The Complete Works of H. P. Lovecraft&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;the-complete-works-of-h-p-lovecraft-en&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/the-complete-works-of-h-p-lovecraft-en&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;&amp;quot;The Complete Works of H.P. Lovecraft contains all the original stories which Lovecraft wrote as an adult. It begins in 1917 with &amp;q...&quot;,
-            &quot;language&quot;: &quot;en&quot;,
-            &quot;publishDate&quot;: &quot;1917-01-02 00:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/979\/conversions\/the-complete-works-of-h-p-lovecraft-en-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/979\/conversions\/the-complete-works-of-h-p-lovecraft-en-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#4a4343&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/SubstituteBindings.php&quot;,
+            &quot;line&quot;: 50,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Fungi From Yuggoth&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;fungi-from-yuggoth-en&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/fungi-from-yuggoth-en&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Ce livre est une oeuvre du domaine public editee au format numerique par Ebooks libres et gratuits. L'achat de l'edition Kindle i...&quot;,
-            &quot;language&quot;: &quot;en&quot;,
-            &quot;publishDate&quot;: &quot;2011-07-03 16:20:47&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/980\/conversions\/fungi-from-yuggoth-en-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/980\/conversions\/fungi-from-yuggoth-en-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#6c6265&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\SubstituteBindings&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Herbert West, R&eacute;animateur&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;herbert-west-reanimateur-en&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/herbert-west-reanimateur-en&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Howard Phillips Lovecraft est sans nul doute l'auteur fantastique le plus influent du XXe siecle. Son imaginaire unique et terrifiant...&quot;,
-            &quot;language&quot;: &quot;en&quot;,
-            &quot;publishDate&quot;: &quot;2012-08-01 18:21:24&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/981\/conversions\/herbert-west-reanimateur-en-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/981\/conversions\/herbert-west-reanimateur-en-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#a28b5a&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php&quot;,
+            &quot;line&quot;: 127,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;L'Indicible&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;lindicible-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/lindicible-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;The Unnamable, 1923 Une nouvelle dont le titre servira a lui seul de presentation......&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2011-06-15 22:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/982\/conversions\/lindicible-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/982\/conversions\/lindicible-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#9b865a&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php&quot;,
+            &quot;line&quot;: 103,
+            &quot;function&quot;: &quot;handleRequest&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\ThrottleRequests&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Le Cauchemar d&rsquo;Innsmouth&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;le-cauchemar-dinnsmouth-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/le-cauchemar-dinnsmouth-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;The Shadow over Innsmouth, 1931 Lovecraft nous narre les aventures d'un jeune homme qui, en visitant la tenebreuse Innsmouth, se rend c...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2011-06-15 22:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/983\/conversions\/le-cauchemar-dinnsmouth-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/983\/conversions\/le-cauchemar-dinnsmouth-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#f1ddbc&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php&quot;,
+            &quot;line&quot;: 55,
+            &quot;function&quot;: &quot;handleRequestUsingNamedLimiter&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\ThrottleRequests&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;La Maison de la sorci&egrave;re&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;la-maison-de-la-sorciere-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/la-maison-de-la-sorciere-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;The Dreams in the Witch-House, 1932 Paru dans Weird Tales, juillet 1933 Lovecraft revisite le mythe de la mauvaise fee dans un hu...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2011-06-15 22:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/984\/conversions\/la-maison-de-la-sorciere-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/984\/conversions\/la-maison-de-la-sorciere-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#978252&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\ThrottleRequests&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Le Monstre sur le seuil&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;le-monstre-sur-le-seuil-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/le-monstre-sur-le-seuil-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;The Thing on the Doorstep, 1923 Paru dans Weird Tales, janvier 1937 L'auteur distille lentement l'horreur qui nous fait basculer d...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2011-06-15 22:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/985\/conversions\/le-monstre-sur-le-seuil-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/985\/conversions\/le-monstre-sur-le-seuil-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#90794c&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php&quot;,
+            &quot;line&quot;: 33,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Le necronomicon&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;le-necronomicon-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/le-necronomicon-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Quand pour la premiere fois, l'existence du Necronomicon - ce guide de l'Empire des Morts - fut revelee par Howard Phillips Lovecraft...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;1995-12-31 23:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/986\/conversions\/le-necronomicon-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/986\/conversions\/le-necronomicon-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#cb8a49&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 128,
+            &quot;function&quot;: &quot;Laravel\\Sanctum\\Http\\Middleware\\{closure}&quot;,
+            &quot;class&quot;: &quot;Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Night Ocean et autres nouvelles&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;night-ocean-et-autres-nouvelles-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/night-ocean-et-autres-nouvelles-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Oceans qui ne sont pas de ce monde, eaux maudites par la lune, lugubres rivages et, dans le mystere des profondeurs, l'innommable... Po...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;1985-03-19 23:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/987\/conversions\/night-ocean-et-autres-nouvelles-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/987\/conversions\/night-ocean-et-autres-nouvelles-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#7f5b46&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 103,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;&OElig;uvres&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;oeuvres-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/oeuvres-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Cthulhu, Yog-Sothoth, Nyarlathotep, autant de noms qui font rever les fans de litterature fantastique. Lovecraft, le grand maitre de l...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2013-02-23 23:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/988\/conversions\/oeuvres-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/988\/conversions\/oeuvres-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#b1b0b0&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php&quot;,
+            &quot;line&quot;: 34,
+            &quot;function&quot;: &quot;then&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Par-Del&agrave; Le Mur Du Sommeil&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;par-dela-le-mur-du-sommeil-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/par-dela-le-mur-du-sommeil-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Un trappeur demeure de Casthill est interne en 1901 apres avoir sauvagement tue un homme. Ses visions sont d'une precision et d'une...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;1956-01-01 05:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/989\/conversions\/par-dela-le-mur-du-sommeil-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/989\/conversions\/par-dela-le-mur-du-sommeil-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#957d4e&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;La Peur qui r&ocirc;de&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;la-peur-qui-rode-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/la-peur-qui-rode-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;La nouvelle met en scene de violents orages, une maison abandonnee, une creature terrifiante qui a la tombee de la nuit s'empare des...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2010-06-15 08:22:08&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/990\/conversions\/la-peur-qui-rode-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/990\/conversions\/la-peur-qui-rode-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#9a8351&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 103,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;La qu&ecirc;te onirique de Kadath l'inconnue&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;la-quete-onirique-de-kadath-linconnue-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/la-quete-onirique-de-kadath-linconnue-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;L'idee de retrouver la cite du couchant, la ville de ses reves, obsede Randolph Carter. Il decide alors de laisser derriere lui la...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2015-06-14 22:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/991\/conversions\/la-quete-onirique-de-kadath-linconnue-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/991\/conversions\/la-quete-onirique-de-kadath-linconnue-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#6a5f57&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php&quot;,
+            &quot;line&quot;: 697,
+            &quot;function&quot;: &quot;then&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Le R&ocirc;deur devant le seuil&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;le-rodeur-devant-le-seuil-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/le-rodeur-devant-le-seuil-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;1988-06-14 22:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/992\/conversions\/le-rodeur-devant-le-seuil-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/992\/conversions\/le-rodeur-devant-le-seuil-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#37372b&quot;
-            },
-            &quot;volume&quot;: 0,
-            &quot;serie&quot;: null
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php&quot;,
+            &quot;line&quot;: 672,
+            &quot;function&quot;: &quot;runRouteWithinStack&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Cthulhu : Le Mythe&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;cthulhu-le-mythe-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/cthulhu-le-mythe-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Howard Phillips Lovecraft est sans nul doute l'auteur fantastique le plus influent du XXe siecle. Son imaginaire unique et terrifiant...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2015-10-31 23:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/972\/conversions\/cthulhu-le-mythe-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/972\/conversions\/cthulhu-le-mythe-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#806c47&quot;
-            },
-            &quot;volume&quot;: 1,
-            &quot;serie&quot;: {
-                &quot;title&quot;: &quot;Cthulhu : Le Mythe&quot;,
-                &quot;meta&quot;: {
-                    &quot;slug&quot;: &quot;cthulhu-le-mythe-fr&quot;,
-                    &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                    &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/series\/lovecraft-howard-phillips\/cthulhu-le-mythe-fr&quot;
-                }
-            }
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php&quot;,
+            &quot;line&quot;: 636,
+            &quot;function&quot;: &quot;runRoute&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Cthulhu : Le Mythe, Livre II&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;cthulhu-le-mythe-livre-ii-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/cthulhu-le-mythe-livre-ii-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Howard Phillips Lovecraft est sans nul doute l'auteur fantastique le plus influent du XXe siecle. Son imaginaire unique et terrifiant...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2017-04-06 08:23:23&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/973\/conversions\/cthulhu-le-mythe-livre-ii-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/973\/conversions\/cthulhu-le-mythe-livre-ii-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#a17f51&quot;
-            },
-            &quot;volume&quot;: 2,
-            &quot;serie&quot;: {
-                &quot;title&quot;: &quot;Cthulhu : Le Mythe&quot;,
-                &quot;meta&quot;: {
-                    &quot;slug&quot;: &quot;cthulhu-le-mythe-fr&quot;,
-                    &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                    &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/series\/lovecraft-howard-phillips\/cthulhu-le-mythe-fr&quot;
-                }
-            }
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php&quot;,
+            &quot;line&quot;: 625,
+            &quot;function&quot;: &quot;dispatchToRoute&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Cthulhu : Le Mythe, Livre III&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;cthulhu-le-mythe-livre-iii-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/cthulhu-le-mythe-livre-iii-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Onze recits essentiels du mythe sont ici reunis dans une toute nouvelle traduction :Horreur a Red Hook Herbert West, reanimateurLa Ma...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;2017-04-06 08:22:30&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/974\/conversions\/cthulhu-le-mythe-livre-iii-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/974\/conversions\/cthulhu-le-mythe-livre-iii-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#927b51&quot;
-            },
-            &quot;volume&quot;: 3,
-            &quot;serie&quot;: {
-                &quot;title&quot;: &quot;Cthulhu : Le Mythe&quot;,
-                &quot;meta&quot;: {
-                    &quot;slug&quot;: &quot;cthulhu-le-mythe-fr&quot;,
-                    &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                    &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/series\/lovecraft-howard-phillips\/cthulhu-le-mythe-fr&quot;
-                }
-            }
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php&quot;,
+            &quot;line&quot;: 166,
+            &quot;function&quot;: &quot;dispatch&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Les montagnes hallucin&eacute;es&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;les-montagnes-hallucinees-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/books\/lovecraft-howard-phillips\/les-montagnes-hallucinees-fr&quot;
-            },
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;summary&quot;: &quot;Outre-monts, outre-tombes ! De memoire d'homme, jamais on ne vit paysages plus hallucinants ! Labyrinthes grouillants de murs, de tours,...&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;publishDate&quot;: &quot;1936-06-14 23:00:00&quot;,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/993\/conversions\/les-montagnes-hallucinees-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/993\/conversions\/les-montagnes-hallucinees-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#6e7c80&quot;
-            },
-            &quot;volume&quot;: 1,
-            &quot;serie&quot;: {
-                &quot;title&quot;: &quot;Les montagnes hallucin&eacute;es&quot;,
-                &quot;meta&quot;: {
-                    &quot;slug&quot;: &quot;les-montagnes-hallucinees-fr&quot;,
-                    &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                    &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/series\/lovecraft-howard-phillips\/les-montagnes-hallucinees-fr&quot;
-                }
-            }
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 128,
+            &quot;function&quot;: &quot;Illuminate\\Foundation\\Http\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php&quot;,
+            &quot;line&quot;: 21,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ConvertEmptyStringsToNull.php&quot;,
+            &quot;line&quot;: 31,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php&quot;,
+            &quot;line&quot;: 21,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TrimStrings.php&quot;,
+            &quot;line&quot;: 40,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TrimStrings&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ValidatePostSize.php&quot;,
+            &quot;line&quot;: 27,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/PreventRequestsDuringMaintenance.php&quot;,
+            &quot;line&quot;: 86,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/fruitcake\/laravel-cors\/src\/HandleCors.php&quot;,
+            &quot;line&quot;: 52,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Fruitcake\\Cors\\HandleCors&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/fideloper\/proxy\/src\/TrustProxies.php&quot;,
+            &quot;line&quot;: 57,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Fideloper\\Proxy\\TrustProxies&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 103,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php&quot;,
+            &quot;line&quot;: 141,
+            &quot;function&quot;: &quot;then&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php&quot;,
+            &quot;line&quot;: 110,
+            &quot;function&quot;: &quot;sendRequestThroughRouter&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php&quot;,
+            &quot;line&quot;: 287,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php&quot;,
+            &quot;line&quot;: 275,
+            &quot;function&quot;: &quot;callLaravelOrLumenRoute&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php&quot;,
+            &quot;line&quot;: 86,
+            &quot;function&quot;: &quot;makeApiCall&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php&quot;,
+            &quot;line&quot;: 44,
+            &quot;function&quot;: &quot;makeResponseCall&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php&quot;,
+            &quot;line&quot;: 34,
+            &quot;function&quot;: &quot;makeResponseCallIfConditionsPass&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php&quot;,
+            &quot;line&quot;: 225,
+            &quot;function&quot;: &quot;__invoke&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php&quot;,
+            &quot;line&quot;: 182,
+            &quot;function&quot;: &quot;iterateThroughStrategies&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php&quot;,
+            &quot;line&quot;: 116,
+            &quot;function&quot;: &quot;fetchResponses&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php&quot;,
+            &quot;line&quot;: 118,
+            &quot;function&quot;: &quot;processRoute&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php&quot;,
+            &quot;line&quot;: 75,
+            &quot;function&quot;: &quot;extractEndpointsInfoFromLaravelApp&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php&quot;,
+            &quot;line&quot;: 51,
+            &quot;function&quot;: &quot;extractEndpointsInfoAndWriteToDisk&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Commands\/GenerateDocumentation.php&quot;,
+            &quot;line&quot;: 39,
+            &quot;function&quot;: &quot;get&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php&quot;,
+            &quot;line&quot;: 36,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Commands\\GenerateDocumentation&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Util.php&quot;,
+            &quot;line&quot;: 40,
+            &quot;function&quot;: &quot;Illuminate\\Container\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php&quot;,
+            &quot;line&quot;: 93,
+            &quot;function&quot;: &quot;unwrapIfClosure&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\Util&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php&quot;,
+            &quot;line&quot;: 37,
+            &quot;function&quot;: &quot;callBoundMethod&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Container.php&quot;,
+            &quot;line&quot;: 651,
+            &quot;function&quot;: &quot;call&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php&quot;,
+            &quot;line&quot;: 136,
+            &quot;function&quot;: &quot;call&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\Container&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Command\/Command.php&quot;,
+            &quot;line&quot;: 299,
+            &quot;function&quot;: &quot;execute&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Console\\Command&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php&quot;,
+            &quot;line&quot;: 121,
+            &quot;function&quot;: &quot;run&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Command\\Command&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php&quot;,
+            &quot;line&quot;: 978,
+            &quot;function&quot;: &quot;run&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Console\\Command&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php&quot;,
+            &quot;line&quot;: 295,
+            &quot;function&quot;: &quot;doRunCommand&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;doRun&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Application.php&quot;,
+            &quot;line&quot;: 92,
+            &quot;function&quot;: &quot;run&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Console\/Kernel.php&quot;,
+            &quot;line&quot;: 129,
+            &quot;function&quot;: &quot;run&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Console\\Application&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/artisan&quot;,
+            &quot;line&quot;: 37,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Console\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         }
     ]
 }</code>
@@ -1127,35 +1013,49 @@ vary: Origin
         </p>
                     <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <p>
-                <b><code>author</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
+                <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
                name="author"
                data-endpoint="GETapi-authors-books--author-"
                data-component="url" required  hidden>
     <br>
-<p>The slug of author like 'lovecraft-howard-phillips'.</p>            </p>
+            </p>
                     </form>
 
-            <h2 id="author-GETapi-authors-series--author-">GET Serie collection of Author</h2>
+            <h2 id="author-GETapi-authors-series--author-">GET api/authors/series/{author}</h2>
 
 <p>
 </p>
 
-<p>Series list from one author, find by slug.</p>
+
 
 <span id="example-requests-GETapi-authors-series--author-">
 <blockquote>Example request:</blockquote>
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/authors/series/lovecraft-howard-phillips" \
+    --get "http://localhost:8000/api/authors/series/dolor" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/authors/series/dolor"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-authors-series--author-">
             <blockquote>
-            <p>Example response (200):</p>
+            <p>Example response (404):</p>
         </blockquote>
                 <details class="annotation">
             <summary>
@@ -1170,56 +1070,465 @@ vary: Origin
         </details>         <pre>
 
 <code class="language-json">{
-    &quot;data&quot;: [
+    &quot;message&quot;: &quot;No query results for model [App\\Models\\Author].&quot;,
+    &quot;exception&quot;: &quot;Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException&quot;,
+    &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Exceptions\/Handler.php&quot;,
+    &quot;line&quot;: 383,
+    &quot;trace&quot;: [
         {
-            &quot;title&quot;: &quot;Cthulhu : Le Mythe&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;cthulhu-le-mythe-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/series\/lovecraft-howard-phillips\/cthulhu-le-mythe-fr&quot;,
-                &quot;books&quot;: &quot;http:\/\/localhost:8000\/api\/series\/books\/lovecraft-howard-phillips\/cthulhu-le-mythe-fr&quot;
-            },
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/series\/1144\/conversions\/cthulhu-le-mythe-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/series\/1144\/conversions\/cthulhu-le-mythe-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#806c47&quot;
-            },
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;count&quot;: 3
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Exceptions\/Handler.php&quot;,
+            &quot;line&quot;: 332,
+            &quot;function&quot;: &quot;prepareException&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Exceptions\\Handler&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;title&quot;: &quot;Les montagnes hallucin&eacute;es&quot;,
-            &quot;meta&quot;: {
-                &quot;slug&quot;: &quot;les-montagnes-hallucinees-fr&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/series\/lovecraft-howard-phillips\/les-montagnes-hallucinees-fr&quot;,
-                &quot;books&quot;: &quot;http:\/\/localhost:8000\/api\/series\/books\/lovecraft-howard-phillips\/les-montagnes-hallucinees-fr&quot;
-            },
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/series\/1178\/conversions\/les-montagnes-hallucinees-fr-thumbnail.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/series\/1178\/conversions\/les-montagnes-hallucinees-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#6e7c80&quot;
-            },
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;count&quot;: 1
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/nunomaduro\/collision\/src\/Adapters\/Laravel\/ExceptionHandler.php&quot;,
+            &quot;line&quot;: 54,
+            &quot;function&quot;: &quot;render&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Exceptions\\Handler&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php&quot;,
+            &quot;line&quot;: 51,
+            &quot;function&quot;: &quot;render&quot;,
+            &quot;class&quot;: &quot;NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 130,
+            &quot;function&quot;: &quot;handleException&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/SubstituteBindings.php&quot;,
+            &quot;line&quot;: 50,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\SubstituteBindings&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php&quot;,
+            &quot;line&quot;: 127,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php&quot;,
+            &quot;line&quot;: 103,
+            &quot;function&quot;: &quot;handleRequest&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\ThrottleRequests&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php&quot;,
+            &quot;line&quot;: 55,
+            &quot;function&quot;: &quot;handleRequestUsingNamedLimiter&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\ThrottleRequests&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\ThrottleRequests&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php&quot;,
+            &quot;line&quot;: 33,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 128,
+            &quot;function&quot;: &quot;Laravel\\Sanctum\\Http\\Middleware\\{closure}&quot;,
+            &quot;class&quot;: &quot;Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 103,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php&quot;,
+            &quot;line&quot;: 34,
+            &quot;function&quot;: &quot;then&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 103,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php&quot;,
+            &quot;line&quot;: 697,
+            &quot;function&quot;: &quot;then&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php&quot;,
+            &quot;line&quot;: 672,
+            &quot;function&quot;: &quot;runRouteWithinStack&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php&quot;,
+            &quot;line&quot;: 636,
+            &quot;function&quot;: &quot;runRoute&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php&quot;,
+            &quot;line&quot;: 625,
+            &quot;function&quot;: &quot;dispatchToRoute&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php&quot;,
+            &quot;line&quot;: 166,
+            &quot;function&quot;: &quot;dispatch&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 128,
+            &quot;function&quot;: &quot;Illuminate\\Foundation\\Http\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php&quot;,
+            &quot;line&quot;: 21,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ConvertEmptyStringsToNull.php&quot;,
+            &quot;line&quot;: 31,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php&quot;,
+            &quot;line&quot;: 21,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TrimStrings.php&quot;,
+            &quot;line&quot;: 40,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TrimStrings&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ValidatePostSize.php&quot;,
+            &quot;line&quot;: 27,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/PreventRequestsDuringMaintenance.php&quot;,
+            &quot;line&quot;: 86,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/fruitcake\/laravel-cors\/src\/HandleCors.php&quot;,
+            &quot;line&quot;: 52,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Fruitcake\\Cors\\HandleCors&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/fideloper\/proxy\/src\/TrustProxies.php&quot;,
+            &quot;line&quot;: 57,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Fideloper\\Proxy\\TrustProxies&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php&quot;,
+            &quot;line&quot;: 103,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php&quot;,
+            &quot;line&quot;: 141,
+            &quot;function&quot;: &quot;then&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php&quot;,
+            &quot;line&quot;: 110,
+            &quot;function&quot;: &quot;sendRequestThroughRouter&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php&quot;,
+            &quot;line&quot;: 287,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php&quot;,
+            &quot;line&quot;: 275,
+            &quot;function&quot;: &quot;callLaravelOrLumenRoute&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php&quot;,
+            &quot;line&quot;: 86,
+            &quot;function&quot;: &quot;makeApiCall&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php&quot;,
+            &quot;line&quot;: 44,
+            &quot;function&quot;: &quot;makeResponseCall&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php&quot;,
+            &quot;line&quot;: 34,
+            &quot;function&quot;: &quot;makeResponseCallIfConditionsPass&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php&quot;,
+            &quot;line&quot;: 225,
+            &quot;function&quot;: &quot;__invoke&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php&quot;,
+            &quot;line&quot;: 182,
+            &quot;function&quot;: &quot;iterateThroughStrategies&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php&quot;,
+            &quot;line&quot;: 116,
+            &quot;function&quot;: &quot;fetchResponses&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php&quot;,
+            &quot;line&quot;: 118,
+            &quot;function&quot;: &quot;processRoute&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php&quot;,
+            &quot;line&quot;: 75,
+            &quot;function&quot;: &quot;extractEndpointsInfoFromLaravelApp&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php&quot;,
+            &quot;line&quot;: 51,
+            &quot;function&quot;: &quot;extractEndpointsInfoAndWriteToDisk&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/knuckleswtf\/scribe\/src\/Commands\/GenerateDocumentation.php&quot;,
+            &quot;line&quot;: 39,
+            &quot;function&quot;: &quot;get&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php&quot;,
+            &quot;line&quot;: 36,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Commands\\GenerateDocumentation&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Util.php&quot;,
+            &quot;line&quot;: 40,
+            &quot;function&quot;: &quot;Illuminate\\Container\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php&quot;,
+            &quot;line&quot;: 93,
+            &quot;function&quot;: &quot;unwrapIfClosure&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\Util&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php&quot;,
+            &quot;line&quot;: 37,
+            &quot;function&quot;: &quot;callBoundMethod&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Container.php&quot;,
+            &quot;line&quot;: 651,
+            &quot;function&quot;: &quot;call&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php&quot;,
+            &quot;line&quot;: 136,
+            &quot;function&quot;: &quot;call&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\Container&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Command\/Command.php&quot;,
+            &quot;line&quot;: 299,
+            &quot;function&quot;: &quot;execute&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Console\\Command&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php&quot;,
+            &quot;line&quot;: 121,
+            &quot;function&quot;: &quot;run&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Command\\Command&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php&quot;,
+            &quot;line&quot;: 978,
+            &quot;function&quot;: &quot;run&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Console\\Command&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php&quot;,
+            &quot;line&quot;: 295,
+            &quot;function&quot;: &quot;doRunCommand&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/symfony\/console\/Application.php&quot;,
+            &quot;line&quot;: 167,
+            &quot;function&quot;: &quot;doRun&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Application.php&quot;,
+            &quot;line&quot;: 92,
+            &quot;function&quot;: &quot;run&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Console\/Kernel.php&quot;,
+            &quot;line&quot;: 129,
+            &quot;function&quot;: &quot;run&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Console\\Application&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;\/mnt\/c\/workspace\/projets\/bookshelves-back\/artisan&quot;,
+            &quot;line&quot;: 37,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Console\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
         }
     ]
 }</code>
@@ -1272,7 +1581,7 @@ vary: Origin
                data-endpoint="GETapi-authors-series--author-"
                data-component="url" required  hidden>
     <br>
-<p>The slug of author like 'lovecraft-howard-phillips'.</p>            </p>
+            </p>
                     </form>
 
         <h1 id="book">Book</h1>
@@ -1294,6 +1603,20 @@ vary: Origin
     --get "http://localhost:8000/api/books" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/books"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-books">
@@ -2502,9 +2825,23 @@ vary: Origin
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/books/16/est" \
+    --get "http://localhost:8000/api/books/20/eos" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/books/20/eos"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-books--author---book-">
@@ -3058,9 +3395,23 @@ vary: Origin
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/books/related/dicta/laudantium" \
+    --get "http://localhost:8000/api/books/related/laboriosam/expedita" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/books/related/laboriosam/expedita"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-books-related--author---book-">
@@ -3687,6 +4038,20 @@ vary: Origin
     --get "http://localhost:8000/api/books/latest" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/books/latest"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-books-latest">
@@ -4027,6 +4392,20 @@ vary: Origin
     --get "http://localhost:8000/api/books/selection" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/books/selection"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-books-selection">
@@ -4050,62 +4429,62 @@ vary: Origin
         {
             &quot;meta&quot;: {
                 &quot;entity&quot;: &quot;book&quot;,
-                &quot;author&quot;: &quot;hobb-robin&quot;,
-                &quot;slug&quot;: &quot;en-quete-de-vengeance-fr&quot;
+                &quot;author&quot;: &quot;bottero-pierre&quot;,
+                &quot;slug&quot;: &quot;le-subtil-parfum-du-soufre-fr&quot;
             },
-            &quot;title&quot;: &quot;En qu&ecirc;te de vengeance&quot;,
+            &quot;title&quot;: &quot;Le Subtil Parfum du Soufre&quot;,
             &quot;authors&quot;: [
                 {
-                    &quot;name&quot;: &quot;Robin Hobb&quot;,
+                    &quot;name&quot;: &quot;Pierre Bottero&quot;,
                     &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;hobb-robin&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/hobb-robin&quot;
+                        &quot;slug&quot;: &quot;bottero-pierre&quot;,
+                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/bottero-pierre&quot;
                     }
                 }
             ],
-            &quot;serie&quot;: &quot;Le Fou et l'Assassin&quot;,
+            &quot;serie&quot;: &quot;A comme Association&quot;,
             &quot;language&quot;: &quot;fr&quot;,
-            &quot;volume&quot;: 3,
+            &quot;volume&quot;: 4,
             &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/903\/conversions\/en-quete-de-vengeance-fr-thumbnail.webp&quot;,
-                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/903\/en-quete-de-vengeance-fr.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/903\/conversions\/en-quete-de-vengeance-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#424452&quot;
+                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/731\/conversions\/le-subtil-parfum-du-soufre-fr-thumbnail.webp&quot;,
+                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/731\/le-subtil-parfum-du-soufre-fr.webp&quot;,
+                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/731\/conversions\/le-subtil-parfum-du-soufre-fr-simple.jpg&quot;,
+                &quot;color&quot;: &quot;#8d2a28&quot;
             }
         },
         {
             &quot;meta&quot;: {
                 &quot;entity&quot;: &quot;book&quot;,
-                &quot;author&quot;: &quot;martin-george-r-r&quot;,
-                &quot;slug&quot;: &quot;les-sables-de-dorne-fr&quot;
+                &quot;author&quot;: &quot;pratchett-terry&quot;,
+                &quot;slug&quot;: &quot;masquarade-fr&quot;
             },
-            &quot;title&quot;: &quot;Les sables de Dorne&quot;,
+            &quot;title&quot;: &quot;Masquarade&quot;,
             &quot;authors&quot;: [
                 {
-                    &quot;name&quot;: &quot;George R. R. Martin&quot;,
+                    &quot;name&quot;: &quot;Terry Pratchett&quot;,
                     &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;martin-george-r-r&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/martin-george-r-r&quot;
+                        &quot;slug&quot;: &quot;pratchett-terry&quot;,
+                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/pratchett-terry&quot;
                     }
                 }
             ],
-            &quot;serie&quot;: &quot;Le Tr&ocirc;ne de Fer&quot;,
+            &quot;serie&quot;: &quot;Les Annales du Disque-Monde&quot;,
             &quot;language&quot;: &quot;fr&quot;,
-            &quot;volume&quot;: 11,
+            &quot;volume&quot;: 18,
             &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/995\/conversions\/les-sables-de-dorne-fr-thumbnail.webp&quot;,
-                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/995\/les-sables-de-dorne-fr.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/995\/conversions\/les-sables-de-dorne-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#b44b2e&quot;
+                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1027\/conversions\/masquarade-fr-thumbnail.webp&quot;,
+                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1027\/masquarade-fr.webp&quot;,
+                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1027\/conversions\/masquarade-fr-simple.jpg&quot;,
+                &quot;color&quot;: &quot;#643c28&quot;
             }
         },
         {
             &quot;meta&quot;: {
                 &quot;entity&quot;: &quot;book&quot;,
                 &quot;author&quot;: &quot;arnaud-georges-jean&quot;,
-                &quot;slug&quot;: &quot;la-caste-des-aiguilleurs-fr&quot;
+                &quot;slug&quot;: &quot;le-sanctuaire-des-glaces-fr&quot;
             },
-            &quot;title&quot;: &quot;La caste des Aiguilleurs&quot;,
+            &quot;title&quot;: &quot;Le Sanctuaire des glaces&quot;,
             &quot;authors&quot;: [
                 {
                     &quot;name&quot;: &quot;Georges-Jean Arnaud&quot;,
@@ -4117,194 +4496,194 @@ vary: Origin
             ],
             &quot;serie&quot;: &quot;La Compagnie des glaces&quot;,
             &quot;language&quot;: &quot;fr&quot;,
-            &quot;volume&quot;: 39,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/598\/conversions\/la-caste-des-aiguilleurs-fr-thumbnail.webp&quot;,
-                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/598\/la-caste-des-aiguilleurs-fr.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/598\/conversions\/la-caste-des-aiguilleurs-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#797a7d&quot;
-            }
-        },
-        {
-            &quot;meta&quot;: {
-                &quot;entity&quot;: &quot;book&quot;,
-                &quot;author&quot;: &quot;audouin-mamikonian-sophie&quot;,
-                &quot;slug&quot;: &quot;le-dragon-renegat-fr&quot;
-            },
-            &quot;title&quot;: &quot;Le Dragon Ren&eacute;gat&quot;,
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Sophie Audouin-Mamikonian&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;audouin-mamikonian-sophie&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/audouin-mamikonian-sophie&quot;
-                    }
-                }
-            ],
-            &quot;serie&quot;: &quot;Tara Duncan&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;volume&quot;: 4,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/674\/conversions\/le-dragon-renegat-fr-thumbnail.webp&quot;,
-                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/674\/le-dragon-renegat-fr.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/674\/conversions\/le-dragon-renegat-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#4e432e&quot;
-            }
-        },
-        {
-            &quot;meta&quot;: {
-                &quot;entity&quot;: &quot;book&quot;,
-                &quot;author&quot;: &quot;hunter-erin&quot;,
-                &quot;slug&quot;: &quot;avant-la-tempete-fr&quot;
-            },
-            &quot;title&quot;: &quot;Avant la Temp&ecirc;te&quot;,
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Erin Hunter&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;hunter-erin&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/hunter-erin&quot;
-                    }
-                }
-            ],
-            &quot;serie&quot;: &quot;La guerre des Clans&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;volume&quot;: 4,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/940\/conversions\/avant-la-tempete-fr-thumbnail.webp&quot;,
-                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/940\/avant-la-tempete-fr.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/940\/conversions\/avant-la-tempete-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#7d3842&quot;
-            }
-        },
-        {
-            &quot;meta&quot;: {
-                &quot;entity&quot;: &quot;book&quot;,
-                &quot;author&quot;: &quot;asimov-isaac&quot;,
-                &quot;slug&quot;: &quot;terre-et-fondation-fr&quot;
-            },
-            &quot;title&quot;: &quot;Terre et Fondation&quot;,
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Isaac Asimov&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;asimov-isaac&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/asimov-isaac&quot;
-                    }
-                }
-            ],
-            &quot;serie&quot;: &quot;Fondation&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;volume&quot;: 7,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/639\/conversions\/terre-et-fondation-fr-thumbnail.webp&quot;,
-                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/639\/terre-et-fondation-fr.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/639\/conversions\/terre-et-fondation-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#5d4f45&quot;
-            }
-        },
-        {
-            &quot;meta&quot;: {
-                &quot;entity&quot;: &quot;book&quot;,
-                &quot;author&quot;: &quot;lovecraft-howard-phillips&quot;,
-                &quot;slug&quot;: &quot;les-montagnes-hallucinees-fr&quot;
-            },
-            &quot;title&quot;: &quot;Les montagnes hallucin&eacute;es&quot;,
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Howard Phillips Lovecraft&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;lovecraft-howard-phillips&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lovecraft-howard-phillips&quot;
-                    }
-                }
-            ],
-            &quot;serie&quot;: &quot;Les montagnes hallucin&eacute;es&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
-            &quot;volume&quot;: 1,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/993\/conversions\/les-montagnes-hallucinees-fr-thumbnail.webp&quot;,
-                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/993\/les-montagnes-hallucinees-fr.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/993\/conversions\/les-montagnes-hallucinees-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#6e7c80&quot;
-            }
-        },
-        {
-            &quot;meta&quot;: {
-                &quot;entity&quot;: &quot;book&quot;,
-                &quot;author&quot;: &quot;gemmell-david&quot;,
-                &quot;slug&quot;: &quot;le-bouclier-du-tonnerre-fr&quot;
-            },
-            &quot;title&quot;: &quot;Le Bouclier du Tonnerre&quot;,
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;David Gemmell&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;gemmell-david&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/gemmell-david&quot;
-                    }
-                }
-            ],
-            &quot;serie&quot;: &quot;Troie&quot;,
-            &quot;language&quot;: &quot;fr&quot;,
             &quot;volume&quot;: 2,
             &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/861\/conversions\/le-bouclier-du-tonnerre-fr-thumbnail.webp&quot;,
-                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/861\/le-bouclier-du-tonnerre-fr.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/861\/conversions\/le-bouclier-du-tonnerre-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#5d5757&quot;
+                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/590\/conversions\/le-sanctuaire-des-glaces-fr-thumbnail.webp&quot;,
+                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/590\/le-sanctuaire-des-glaces-fr.webp&quot;,
+                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/590\/conversions\/le-sanctuaire-des-glaces-fr-simple.jpg&quot;,
+                &quot;color&quot;: &quot;#96615a&quot;
             }
         },
         {
             &quot;meta&quot;: {
                 &quot;entity&quot;: &quot;book&quot;,
-                &quot;author&quot;: &quot;hobb-robin&quot;,
-                &quot;slug&quot;: &quot;les-gardiens-des-souvenirs-fr&quot;
+                &quot;author&quot;: &quot;arnaud-georges-jean&quot;,
+                &quot;slug&quot;: &quot;la-compagnie-des-glaces-fr&quot;
             },
-            &quot;title&quot;: &quot;Les Gardiens des souvenirs&quot;,
+            &quot;title&quot;: &quot;La Compagnie des glaces&quot;,
             &quot;authors&quot;: [
                 {
-                    &quot;name&quot;: &quot;Robin Hobb&quot;,
+                    &quot;name&quot;: &quot;Georges-Jean Arnaud&quot;,
                     &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;hobb-robin&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/hobb-robin&quot;
+                        &quot;slug&quot;: &quot;arnaud-georges-jean&quot;,
+                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/arnaud-georges-jean&quot;
                     }
                 }
             ],
-            &quot;serie&quot;: &quot;Les Cit&eacute;s des Anciens&quot;,
+            &quot;serie&quot;: &quot;La Compagnie des glaces&quot;,
             &quot;language&quot;: &quot;fr&quot;,
-            &quot;volume&quot;: 5,
-            &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/929\/conversions\/les-gardiens-des-souvenirs-fr-thumbnail.webp&quot;,
-                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/929\/les-gardiens-des-souvenirs-fr.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/929\/conversions\/les-gardiens-des-souvenirs-fr-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#6a583f&quot;
-            }
-        },
-        {
-            &quot;meta&quot;: {
-                &quot;entity&quot;: &quot;book&quot;,
-                &quot;author&quot;: &quot;fforde-jasper&quot;,
-                &quot;slug&quot;: &quot;the-locked-room-mystery-mystery-en&quot;
-            },
-            &quot;title&quot;: &quot;The Locked Room Mystery mystery&quot;,
-            &quot;authors&quot;: [
-                {
-                    &quot;name&quot;: &quot;Jasper Fforde&quot;,
-                    &quot;meta&quot;: {
-                        &quot;slug&quot;: &quot;fforde-jasper&quot;,
-                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/fforde-jasper&quot;
-                    }
-                }
-            ],
-            &quot;serie&quot;: &quot;Thursday Next&quot;,
-            &quot;language&quot;: &quot;en&quot;,
             &quot;volume&quot;: 1,
             &quot;picture&quot;: {
-                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/806\/conversions\/the-locked-room-mystery-mystery-en-thumbnail.webp&quot;,
-                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/806\/the-locked-room-mystery-mystery-en.webp&quot;,
-                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/806\/conversions\/the-locked-room-mystery-mystery-en-simple.jpg&quot;,
-                &quot;color&quot;: &quot;#bdc7cb&quot;
+                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/580\/conversions\/la-compagnie-des-glaces-fr-thumbnail.webp&quot;,
+                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/580\/la-compagnie-des-glaces-fr.webp&quot;,
+                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/580\/conversions\/la-compagnie-des-glaces-fr-simple.jpg&quot;,
+                &quot;color&quot;: &quot;#303331&quot;
+            }
+        },
+        {
+            &quot;meta&quot;: {
+                &quot;entity&quot;: &quot;book&quot;,
+                &quot;author&quot;: &quot;lewis-clive-staples&quot;,
+                &quot;slug&quot;: &quot;prince-caspian-fr&quot;
+            },
+            &quot;title&quot;: &quot;Prince Caspian&quot;,
+            &quot;authors&quot;: [
+                {
+                    &quot;name&quot;: &quot;Clive Staples Lewis&quot;,
+                    &quot;meta&quot;: {
+                        &quot;slug&quot;: &quot;lewis-clive-staples&quot;,
+                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/lewis-clive-staples&quot;
+                    }
+                }
+            ],
+            &quot;serie&quot;: &quot;Les Chroniques de Narnia&quot;,
+            &quot;language&quot;: &quot;fr&quot;,
+            &quot;volume&quot;: 4,
+            &quot;picture&quot;: {
+                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/956\/conversions\/prince-caspian-fr-thumbnail.webp&quot;,
+                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/956\/prince-caspian-fr.webp&quot;,
+                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/956\/conversions\/prince-caspian-fr-simple.jpg&quot;,
+                &quot;color&quot;: &quot;#af8663&quot;
+            }
+        },
+        {
+            &quot;meta&quot;: {
+                &quot;entity&quot;: &quot;book&quot;,
+                &quot;author&quot;: &quot;bottero-pierre&quot;,
+                &quot;slug&quot;: &quot;ellana-la-prophetie-fr&quot;
+            },
+            &quot;title&quot;: &quot;Ellana - La proph&eacute;tie&quot;,
+            &quot;authors&quot;: [
+                {
+                    &quot;name&quot;: &quot;Pierre Bottero&quot;,
+                    &quot;meta&quot;: {
+                        &quot;slug&quot;: &quot;bottero-pierre&quot;,
+                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/bottero-pierre&quot;
+                    }
+                }
+            ],
+            &quot;serie&quot;: &quot;Le Pacte des Marchombres&quot;,
+            &quot;language&quot;: &quot;fr&quot;,
+            &quot;volume&quot;: 3,
+            &quot;picture&quot;: {
+                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/740\/conversions\/ellana-la-prophetie-fr-thumbnail.webp&quot;,
+                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/740\/ellana-la-prophetie-fr.webp&quot;,
+                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/740\/conversions\/ellana-la-prophetie-fr-simple.jpg&quot;,
+                &quot;color&quot;: &quot;#847c40&quot;
+            }
+        },
+        {
+            &quot;meta&quot;: {
+                &quot;entity&quot;: &quot;book&quot;,
+                &quot;author&quot;: &quot;pratchett-terry&quot;,
+                &quot;slug&quot;: &quot;le-dernier-heros-fr&quot;
+            },
+            &quot;title&quot;: &quot;Le dernier h&eacute;ros&quot;,
+            &quot;authors&quot;: [
+                {
+                    &quot;name&quot;: &quot;Terry Pratchett&quot;,
+                    &quot;meta&quot;: {
+                        &quot;slug&quot;: &quot;pratchett-terry&quot;,
+                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/pratchett-terry&quot;
+                    }
+                }
+            ],
+            &quot;serie&quot;: &quot;Les Annales du Disque-Monde&quot;,
+            &quot;language&quot;: &quot;fr&quot;,
+            &quot;volume&quot;: 23,
+            &quot;picture&quot;: {
+                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1033\/conversions\/le-dernier-heros-fr-thumbnail.webp&quot;,
+                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1033\/le-dernier-heros-fr.webp&quot;,
+                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1033\/conversions\/le-dernier-heros-fr-simple.jpg&quot;,
+                &quot;color&quot;: &quot;#7e6c78&quot;
+            }
+        },
+        {
+            &quot;meta&quot;: {
+                &quot;entity&quot;: &quot;book&quot;,
+                &quot;author&quot;: &quot;robillard-anne&quot;,
+                &quot;slug&quot;: &quot;represailles-fr&quot;
+            },
+            &quot;title&quot;: &quot;Represailles&quot;,
+            &quot;authors&quot;: [
+                {
+                    &quot;name&quot;: &quot;Anne Robillard&quot;,
+                    &quot;meta&quot;: {
+                        &quot;slug&quot;: &quot;robillard-anne&quot;,
+                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/robillard-anne&quot;
+                    }
+                }
+            ],
+            &quot;serie&quot;: &quot;Les Chevaliers d'&Eacute;meraude&quot;,
+            &quot;language&quot;: &quot;fr&quot;,
+            &quot;volume&quot;: 10,
+            &quot;picture&quot;: {
+                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1058\/conversions\/represailles-fr-thumbnail.webp&quot;,
+                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1058\/represailles-fr.webp&quot;,
+                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1058\/conversions\/represailles-fr-simple.jpg&quot;,
+                &quot;color&quot;: &quot;#604e39&quot;
+            }
+        },
+        {
+            &quot;meta&quot;: {
+                &quot;entity&quot;: &quot;book&quot;,
+                &quot;author&quot;: &quot;colfer-eoin&quot;,
+                &quot;slug&quot;: &quot;le-paradoxe-du-temps-fr&quot;
+            },
+            &quot;title&quot;: &quot;Le Paradoxe du Temps&quot;,
+            &quot;authors&quot;: [
+                {
+                    &quot;name&quot;: &quot;Eoin Colfer&quot;,
+                    &quot;meta&quot;: {
+                        &quot;slug&quot;: &quot;colfer-eoin&quot;,
+                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/colfer-eoin&quot;
+                    }
+                }
+            ],
+            &quot;serie&quot;: &quot;Artemis Fowl&quot;,
+            &quot;language&quot;: &quot;fr&quot;,
+            &quot;volume&quot;: 6,
+            &quot;picture&quot;: {
+                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/775\/conversions\/le-paradoxe-du-temps-fr-thumbnail.webp&quot;,
+                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/775\/le-paradoxe-du-temps-fr.webp&quot;,
+                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/775\/conversions\/le-paradoxe-du-temps-fr-simple.jpg&quot;,
+                &quot;color&quot;: &quot;#9e8543&quot;
+            }
+        },
+        {
+            &quot;meta&quot;: {
+                &quot;entity&quot;: &quot;book&quot;,
+                &quot;author&quot;: &quot;troisi-licia&quot;,
+                &quot;slug&quot;: &quot;le-sacrifice-fr&quot;
+            },
+            &quot;title&quot;: &quot;Le Sacrifice&quot;,
+            &quot;authors&quot;: [
+                {
+                    &quot;name&quot;: &quot;Licia Troisi&quot;,
+                    &quot;meta&quot;: {
+                        &quot;slug&quot;: &quot;troisi-licia&quot;,
+                        &quot;show&quot;: &quot;http:\/\/localhost:8000\/api\/authors\/troisi-licia&quot;
+                    }
+                }
+            ],
+            &quot;serie&quot;: &quot;Les royaumes de Nashira&quot;,
+            &quot;language&quot;: &quot;fr&quot;,
+            &quot;volume&quot;: 3,
+            &quot;picture&quot;: {
+                &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1126\/conversions\/le-sacrifice-fr-thumbnail.webp&quot;,
+                &quot;original&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1126\/le-sacrifice-fr.webp&quot;,
+                &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/books\/1126\/conversions\/le-sacrifice-fr-simple.jpg&quot;,
+                &quot;color&quot;: &quot;#693f45&quot;
             }
         }
     ]
@@ -4368,9 +4747,23 @@ vary: Origin
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/download/book/12/sit" \
+    --get "http://localhost:8000/api/download/book/10/neque" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/download/book/10/neque"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-download-book--author---book-">
@@ -4924,9 +5317,23 @@ vary: Origin
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/download/serie/11/aut" \
+    --get "http://localhost:8000/api/download/serie/1/velit" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/download/serie/1/velit"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-download-serie--author---serie-">
@@ -5480,9 +5887,23 @@ vary: Origin
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/download/author/3" \
+    --get "http://localhost:8000/api/download/author/14" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/download/author/14"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-download-author--author-">
@@ -6016,6 +6437,606 @@ vary: Origin
             </p>
                     </form>
 
+        <h1 id="endpoints">Endpoints</h1>
+
+    
+
+            <h2 id="endpoints-POSTapi-login">Attempt to authenticate a new session.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-login">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/login" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"ab\",
+    \"password\": \"ab\"
+}"
+</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/login"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "ab",
+    "password": "ab"
+}
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre>
+</span>
+
+<span id="example-responses-POSTapi-login">
+</span>
+<span id="execution-results-POSTapi-login" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-login"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-login"></code></pre>
+</span>
+<span id="execution-error-POSTapi-login" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-login"></code></pre>
+</span>
+<form id="form-POSTapi-login" data-method="POST"
+      data-path="api/login"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-login', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-login"
+                    onclick="tryItOut('POSTapi-login');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-login"
+                    onclick="cancelTryOut('POSTapi-login');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-login" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/login</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>email</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="email"
+               data-endpoint="POSTapi-login"
+               data-component="body" required  hidden>
+    <br>
+        </p>
+                <p>
+            <b><code>password</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="password"
+               data-endpoint="POSTapi-login"
+               data-component="body" required  hidden>
+    <br>
+        </p>
+    
+    </form>
+
+            <h2 id="endpoints-POSTapi-logout">Destroy an authenticated session.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-logout">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/logout" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/logout"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+</span>
+
+<span id="example-responses-POSTapi-logout">
+</span>
+<span id="execution-results-POSTapi-logout" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-logout"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-logout"></code></pre>
+</span>
+<span id="execution-error-POSTapi-logout" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-logout"></code></pre>
+</span>
+<form id="form-POSTapi-logout" data-method="POST"
+      data-path="api/logout"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-logout', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-logout"
+                    onclick="tryItOut('POSTapi-logout');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-logout"
+                    onclick="cancelTryOut('POSTapi-logout');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-logout" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/logout</code></b>
+        </p>
+                    </form>
+
+            <h2 id="endpoints-POSTapi-register">Create a new registered user.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-register">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/register" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/register"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+</span>
+
+<span id="example-responses-POSTapi-register">
+</span>
+<span id="execution-results-POSTapi-register" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-register"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-register"></code></pre>
+</span>
+<span id="execution-error-POSTapi-register" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-register"></code></pre>
+</span>
+<form id="form-POSTapi-register" data-method="POST"
+      data-path="api/register"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-register', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-register"
+                    onclick="tryItOut('POSTapi-register');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-register"
+                    onclick="cancelTryOut('POSTapi-register');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-register" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/register</code></b>
+        </p>
+                    </form>
+
+            <h2 id="endpoints-GETapi-user-confirmed-password-status">Get the password confirmation status.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-user-confirmed-password-status">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/user/confirmed-password-status" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/user/confirmed-password-status"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+</span>
+
+<span id="example-responses-GETapi-user-confirmed-password-status">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+vary: Origin
+set-cookie: XSRF-TOKEN=eyJpdiI6ImYwOHR4UWZtUFZZckZFNk04U1VmeXc9PSIsInZhbHVlIjoiT2dMUUpucklQSCtTc3V2eDhhck9ueDVjZDc0VE9BU2tkZmc3NkJMNk5JdTVRdExDVTYzcE9JTlZuS3Z3ekhOZ3BSeWhYRzdjOXdPTE1TWTMxai8rQk13SFZZZzRtWUpKbDNkNGtrTXBaUkVjbmt5VklLRVJSWFBYS3B5bTJsR3YiLCJtYWMiOiI0ZWUyMGE5MGYxNmFiOTJmMWU4MGU3YjgwNTVlMmU5OWRjODdiMTJjOTE0NWEwZGRkMTM4ZGIzMWEyYThjZTcwIn0%3D; expires=Thu, 15-Jul-2021 11:10:15 GMT; Max-Age=86400; path=/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6IlBmdWNjZkN6UXYwUUpBL0VXcGZVWUE9PSIsInZhbHVlIjoib3Y2Y0lTaTNZeXh1WEh2MmFiM3BUNFFSUk9yOTl5WGpBL09KOFBJR1laeDhQbUM2WEU5d2Q2Sk00Z0hsRUp4STJ4VmpyKzRLUUJkd2dYU2JuWU05ZS9TM0c5alB2UENjR3Frc2RZK1kwU0R3eDN3VC9zV2FEemhmTlRQejl0eXAiLCJtYWMiOiJjZjUzN2I4ZDJmNmFkZDY0YTZlZjlkZGJhNDVmNTMzZWY0ZThkYzczYTA0OGQwOTcxZDIwMzcwMGVhYzBlMDMxIn0%3D; expires=Thu, 15-Jul-2021 11:10:15 GMT; Max-Age=86400; path=/; domain=localhost; httponly; samesite=lax
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-user-confirmed-password-status" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-user-confirmed-password-status"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-user-confirmed-password-status"></code></pre>
+</span>
+<span id="execution-error-GETapi-user-confirmed-password-status" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-user-confirmed-password-status"></code></pre>
+</span>
+<form id="form-GETapi-user-confirmed-password-status" data-method="GET"
+      data-path="api/user/confirmed-password-status"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-user-confirmed-password-status', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-user-confirmed-password-status"
+                    onclick="tryItOut('GETapi-user-confirmed-password-status');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-user-confirmed-password-status"
+                    onclick="cancelTryOut('GETapi-user-confirmed-password-status');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-user-confirmed-password-status" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/user/confirmed-password-status</code></b>
+        </p>
+                    </form>
+
+            <h2 id="endpoints-POSTapi-user-confirm-password">Confirm the user&#039;s password.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-user-confirm-password">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/user/confirm-password" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/user/confirm-password"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+</span>
+
+<span id="example-responses-POSTapi-user-confirm-password">
+</span>
+<span id="execution-results-POSTapi-user-confirm-password" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-user-confirm-password"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-user-confirm-password"></code></pre>
+</span>
+<span id="execution-error-POSTapi-user-confirm-password" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-user-confirm-password"></code></pre>
+</span>
+<form id="form-POSTapi-user-confirm-password" data-method="POST"
+      data-path="api/user/confirm-password"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-user-confirm-password', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-user-confirm-password"
+                    onclick="tryItOut('POSTapi-user-confirm-password');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-user-confirm-password"
+                    onclick="cancelTryOut('POSTapi-user-confirm-password');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-user-confirm-password" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/user/confirm-password</code></b>
+        </p>
+                    </form>
+
+            <h2 id="endpoints-GETapi-sanctum-csrf-cookie">Return an empty response simply to trigger the storage of the CSRF cookie in the browser.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-sanctum-csrf-cookie">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/sanctum/csrf-cookie" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/sanctum/csrf-cookie"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+</span>
+
+<span id="example-responses-GETapi-sanctum-csrf-cookie">
+            <blockquote>
+            <p>Example response (204):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+vary: Origin
+set-cookie: XSRF-TOKEN=eyJpdiI6InNIcVdtU21OYkNPNmFlZ1ltYVdUOFE9PSIsInZhbHVlIjoiK1NmNUxsQ2FzTEtZLzdUTlFoRkR4MWc3RnhZN3lLbnppK2daNmw5aXlKTGsrZXIrRVRTRGFndGdrUC8vRXJJbGhxcDVsdHk3T2tsRU1uSHgzMnZJbVRJUDkwUkhjcUhkb3ZSZVR0QlZnakJGQ1ppTVJlWWpQTTZjbWc1RWtMYXciLCJtYWMiOiI5YTNkYWRlNzM1NDUzMmQ0MTg1OTI1MWRhYTFkM2VjNmVmZDg1NzU4MTliYzJiNmY0NTBhZjJiM2UyMmYyZTkwIn0%3D; expires=Thu, 15-Jul-2021 11:10:15 GMT; Max-Age=86400; path=/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6InNxYi96anptZ3lZVzhoQ21ZNkhzcmc9PSIsInZhbHVlIjoiYk16UVRDcGROb0J6NkZ5Z3lHZUxDcmdNY3V5NG1sem9hb0FwbGpkSndodkhxNG5ORERzQzl4NHNMRitNYWxIT0ViWDZzWXFyT1ZOQWJ0dWpSanpzaE9xU1FjNkc4UXZERmh0NkNBbjZVY25VZHhLeG40VGRCNnE5ekxvQWFJQmsiLCJtYWMiOiJlMmU0ZGU3YTJjZTdiZmI1M2RhMTYzZGZlN2VmNzQ5YmUyYjQxOWMyMmZhMjliYjVjOWFhNTEzYTEyMDQ1YzdhIn0%3D; expires=Thu, 15-Jul-2021 11:10:15 GMT; Max-Age=86400; path=/; domain=localhost; httponly; samesite=lax
+ </code></pre>
+        </details>         <pre>
+<code>[Empty response]</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-sanctum-csrf-cookie" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-sanctum-csrf-cookie"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-sanctum-csrf-cookie"></code></pre>
+</span>
+<span id="execution-error-GETapi-sanctum-csrf-cookie" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-sanctum-csrf-cookie"></code></pre>
+</span>
+<form id="form-GETapi-sanctum-csrf-cookie" data-method="GET"
+      data-path="api/sanctum/csrf-cookie"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-sanctum-csrf-cookie', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-sanctum-csrf-cookie"
+                    onclick="tryItOut('GETapi-sanctum-csrf-cookie');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-sanctum-csrf-cookie"
+                    onclick="cancelTryOut('GETapi-sanctum-csrf-cookie');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-sanctum-csrf-cookie" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/sanctum/csrf-cookie</code></b>
+        </p>
+                    </form>
+
+            <h2 id="endpoints-GETapi-count">GET api/count</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-count">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/count" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/count"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+</span>
+
+<span id="example-responses-GETapi-count">
+            <blockquote>
+            <p>Example response (400):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 5000
+x-ratelimit-remaining: 4988
+vary: Origin
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">&quot;Invalid 'entity' query parameter, must be like 'book' or 'serie' or 'author'&quot;</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-count" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-count"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-count"></code></pre>
+</span>
+<span id="execution-error-GETapi-count" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-count"></code></pre>
+</span>
+<form id="form-GETapi-count" data-method="GET"
+      data-path="api/count"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-count', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-count"
+                    onclick="tryItOut('GETapi-count');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-count"
+                    onclick="cancelTryOut('GETapi-count');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-count" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/count</code></b>
+        </p>
+                    </form>
+
         <h1 id="language">Language</h1>
 
     
@@ -6035,6 +7056,20 @@ vary: Origin
     --get "http://localhost:8000/api/languages" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/languages"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-languages">
@@ -6112,502 +7147,6 @@ vary: Origin
         </p>
                     </form>
 
-        <h1 id="misc">Misc</h1>
-
-    
-
-            <h2 id="misc-POSTapi-login">Attempt to authenticate a new session.</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-POSTapi-login">
-<blockquote>Example request:</blockquote>
-
-
-<pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/login" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --data "{
-    \"email\": \"nihil\",
-    \"password\": \"facere\"
-}"
-</code></pre>
-</span>
-
-<span id="example-responses-POSTapi-login">
-</span>
-<span id="execution-results-POSTapi-login" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-POSTapi-login"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-login"></code></pre>
-</span>
-<span id="execution-error-POSTapi-login" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-login"></code></pre>
-</span>
-<form id="form-POSTapi-login" data-method="POST"
-      data-path="api/login"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-login', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-login"
-                    onclick="tryItOut('POSTapi-login');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-login"
-                    onclick="cancelTryOut('POSTapi-login');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-login" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-black">POST</small>
-            <b><code>api/login</code></b>
-        </p>
-                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
-        <p>
-            <b><code>email</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="email"
-               data-endpoint="POSTapi-login"
-               data-component="body" required  hidden>
-    <br>
-        </p>
-                <p>
-            <b><code>password</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="password"
-               data-endpoint="POSTapi-login"
-               data-component="body" required  hidden>
-    <br>
-        </p>
-    
-    </form>
-
-            <h2 id="misc-POSTapi-logout">Destroy an authenticated session.</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-POSTapi-logout">
-<blockquote>Example request:</blockquote>
-
-
-<pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/logout" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre>
-</span>
-
-<span id="example-responses-POSTapi-logout">
-</span>
-<span id="execution-results-POSTapi-logout" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-POSTapi-logout"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-logout"></code></pre>
-</span>
-<span id="execution-error-POSTapi-logout" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-logout"></code></pre>
-</span>
-<form id="form-POSTapi-logout" data-method="POST"
-      data-path="api/logout"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-logout', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-logout"
-                    onclick="tryItOut('POSTapi-logout');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-logout"
-                    onclick="cancelTryOut('POSTapi-logout');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-logout" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-black">POST</small>
-            <b><code>api/logout</code></b>
-        </p>
-                    </form>
-
-            <h2 id="misc-POSTapi-register">Create a new registered user.</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-POSTapi-register">
-<blockquote>Example request:</blockquote>
-
-
-<pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/register" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre>
-</span>
-
-<span id="example-responses-POSTapi-register">
-</span>
-<span id="execution-results-POSTapi-register" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-POSTapi-register"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-register"></code></pre>
-</span>
-<span id="execution-error-POSTapi-register" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-register"></code></pre>
-</span>
-<form id="form-POSTapi-register" data-method="POST"
-      data-path="api/register"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-register', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-register"
-                    onclick="tryItOut('POSTapi-register');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-register"
-                    onclick="cancelTryOut('POSTapi-register');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-register" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-black">POST</small>
-            <b><code>api/register</code></b>
-        </p>
-                    </form>
-
-            <h2 id="misc-GETapi-user-confirmed-password-status">Get the password confirmation status.</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-GETapi-user-confirmed-password-status">
-<blockquote>Example request:</blockquote>
-
-
-<pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/user/confirmed-password-status" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre>
-</span>
-
-<span id="example-responses-GETapi-user-confirmed-password-status">
-            <blockquote>
-            <p>Example response (401):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-vary: Origin
-set-cookie: XSRF-TOKEN=eyJpdiI6Im9yV0tyYlJMeGRBdlRZUGtzYnhHc3c9PSIsInZhbHVlIjoiL1BsUUNFTWppbUM5MmlsQ09jL05RVCtYYWw5S1hKL2dmeVZwb1NtblA5bHovMDZmZURSanBwbFBGbmRPUDRVV0tKZFNXUmtNZTUydnQ2Q2QzMFpjSnFDUkFYRU9GT0xmK2VCeE1xYi9mZ09kUlRUOGJsa1NlMVpDUFlSZ0VHb2YiLCJtYWMiOiJiMzc4ZmZiNjVjZTE1OWM4MzQ2OTI2NmNhMmQ5NjU2YWU2MjU0ZDc3YzkxYTVkYmEyOWI3ZDgxMDUxYTIyZThkIn0%3D; expires=Thu, 15-Jul-2021 14:21:01 GMT; Max-Age=86400; path=/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6IklnVTA5YmhKNkYvVUVPNllNMmkyQ0E9PSIsInZhbHVlIjoiVjlYemR1blRNM2x0dkdOZlh4R1hFak0yNmdUbzdWVG1rWXVjNU9pSmdaU2I4WGlLM1o2SldJNUlEVjJLZVJNSGxzT3hXNHF2d2taR0pLcmVhQ2pPdWdtVUdYUVRPYTVUY3gxQ3dmdEhvMVRWcEhacVRNdGxncUs3SXpKQmF1TmIiLCJtYWMiOiI0ZDUxOWY1N2NmNDZiZmViNWZlZTUxNjc2NGZiNWMwMTk5YTc1ZTU4YWRjYzlkMWJkMTZkYWU3NmUxOTM3NDJjIn0%3D; expires=Thu, 15-Jul-2021 14:21:01 GMT; Max-Age=86400; path=/; domain=localhost; httponly; samesite=lax
- </code></pre>
-        </details>         <pre>
-
-<code class="language-json">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-user-confirmed-password-status" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-user-confirmed-password-status"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-user-confirmed-password-status"></code></pre>
-</span>
-<span id="execution-error-GETapi-user-confirmed-password-status" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-user-confirmed-password-status"></code></pre>
-</span>
-<form id="form-GETapi-user-confirmed-password-status" data-method="GET"
-      data-path="api/user/confirmed-password-status"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-user-confirmed-password-status', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-user-confirmed-password-status"
-                    onclick="tryItOut('GETapi-user-confirmed-password-status');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-user-confirmed-password-status"
-                    onclick="cancelTryOut('GETapi-user-confirmed-password-status');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-user-confirmed-password-status" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/user/confirmed-password-status</code></b>
-        </p>
-                    </form>
-
-            <h2 id="misc-POSTapi-user-confirm-password">Confirm the user&#039;s password.</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-POSTapi-user-confirm-password">
-<blockquote>Example request:</blockquote>
-
-
-<pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/user/confirm-password" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre>
-</span>
-
-<span id="example-responses-POSTapi-user-confirm-password">
-</span>
-<span id="execution-results-POSTapi-user-confirm-password" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-POSTapi-user-confirm-password"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-user-confirm-password"></code></pre>
-</span>
-<span id="execution-error-POSTapi-user-confirm-password" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-user-confirm-password"></code></pre>
-</span>
-<form id="form-POSTapi-user-confirm-password" data-method="POST"
-      data-path="api/user/confirm-password"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-user-confirm-password', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-user-confirm-password"
-                    onclick="tryItOut('POSTapi-user-confirm-password');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-user-confirm-password"
-                    onclick="cancelTryOut('POSTapi-user-confirm-password');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-user-confirm-password" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-black">POST</small>
-            <b><code>api/user/confirm-password</code></b>
-        </p>
-                    </form>
-
-            <h2 id="misc-GETapi-sanctum-csrf-cookie">Return an empty response simply to trigger the storage of the CSRF cookie in the browser.</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-GETapi-sanctum-csrf-cookie">
-<blockquote>Example request:</blockquote>
-
-
-<pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/sanctum/csrf-cookie" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre>
-</span>
-
-<span id="example-responses-GETapi-sanctum-csrf-cookie">
-            <blockquote>
-            <p>Example response (204):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-vary: Origin
-set-cookie: XSRF-TOKEN=eyJpdiI6IldxcUwvZC9nK0VzU0xINmdzeW5ITUE9PSIsInZhbHVlIjoiWTBubVN4TE91Z1EwUjJaUmp0Z09neUFUR0ZYclg2cFhFTnVGKzAwdEtDNVpTNXF4YnNrVUhhMjkyY1AyNHc4OFN3dHlQNlRRS2hYRVFud1Nld2hBMGdGT1RscklBVDBFVGVkM2dza2czb3FFZHN3LzhLVFJLK0QwMjJkRi9KSGEiLCJtYWMiOiJmODU0MzFmOTk4OThlM2VmYzg2YTBlYzkzY2ExYzk5YzMyZjlkMjY2MTRhZjNjODhlMGNiYzkzNWYyYjhjYzg5In0%3D; expires=Thu, 15-Jul-2021 14:21:01 GMT; Max-Age=86400; path=/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6IkpMZVZ4MzU1Qzhsc01WRlA5QW1vK0E9PSIsInZhbHVlIjoiK3pqcXdhazFTT3EwcWszdENXUndMaFExZEhsL091MitBdXJpZTRLdG1qenAxdDQvcHlRYnpzYzkza3ZGek5PNktlVXpSR2kxVm9lZldrTjBaZkN2a01LMWVxM2gzMzFWcWUrZEtMOEVUZGZyN3FBcnoyWnlQeTRrRUxVNzJLTWUiLCJtYWMiOiIzMTYxYTQxMjgxYmNlODcyNzMxZmM2ODdlMjcyMTNjZjVjZmJkMmFlYTVjM2Y2MmNkNTRkYTQ2YjNkZGFjZmI2In0%3D; expires=Thu, 15-Jul-2021 14:21:01 GMT; Max-Age=86400; path=/; domain=localhost; httponly; samesite=lax
- </code></pre>
-        </details>         <pre>
-<code>[Empty response]</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-sanctum-csrf-cookie" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-sanctum-csrf-cookie"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-sanctum-csrf-cookie"></code></pre>
-</span>
-<span id="execution-error-GETapi-sanctum-csrf-cookie" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-sanctum-csrf-cookie"></code></pre>
-</span>
-<form id="form-GETapi-sanctum-csrf-cookie" data-method="GET"
-      data-path="api/sanctum/csrf-cookie"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-sanctum-csrf-cookie', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-sanctum-csrf-cookie"
-                    onclick="tryItOut('GETapi-sanctum-csrf-cookie');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-sanctum-csrf-cookie"
-                    onclick="cancelTryOut('GETapi-sanctum-csrf-cookie');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-sanctum-csrf-cookie" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/sanctum/csrf-cookie</code></b>
-        </p>
-                    </form>
-
-            <h2 id="misc-GETapi-count">GET api/count</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-GETapi-count">
-<blockquote>Example request:</blockquote>
-
-
-<pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/count" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre>
-</span>
-
-<span id="example-responses-GETapi-count">
-            <blockquote>
-            <p>Example response (400):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-x-ratelimit-limit: 5000
-x-ratelimit-remaining: 4988
-vary: Origin
- </code></pre>
-        </details>         <pre>
-
-<code class="language-json">&quot;Invalid 'entity' query parameter, must be like 'book' or 'serie' or 'author'&quot;</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-count" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-count"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-count"></code></pre>
-</span>
-<span id="execution-error-GETapi-count" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-count"></code></pre>
-</span>
-<form id="form-GETapi-count" data-method="GET"
-      data-path="api/count"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-count', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-count"
-                    onclick="tryItOut('GETapi-count');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-count"
-                    onclick="cancelTryOut('GETapi-count');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-count" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/count</code></b>
-        </p>
-                    </form>
-
         <h1 id="publisher">Publisher</h1>
 
     
@@ -6627,6 +7166,20 @@ vary: Origin
     --get "http://localhost:8000/api/publishers" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/publishers"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-publishers">
@@ -7361,9 +7914,23 @@ vary: Origin
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/publishers/20" \
+    --get "http://localhost:8000/api/publishers/7" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/publishers/7"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-publishers--id-">
@@ -7909,9 +8476,23 @@ vary: Origin
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/publishers/books/6" \
+    --get "http://localhost:8000/api/publishers/books/2" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/publishers/books/2"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-publishers-books--publisher-">
@@ -8464,6 +9045,20 @@ vary: Origin
     --get "http://localhost:8000/api/search" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/search"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-search">
@@ -8543,6 +9138,20 @@ vary: Origin
     --get "http://localhost:8000/api/search/books" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/search/books"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-search-books">
@@ -9131,6 +9740,20 @@ vary: Origin
     --get "http://localhost:8000/api/search/authors" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/search/authors"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-search-authors">
@@ -9719,6 +10342,20 @@ vary: Origin
     --get "http://localhost:8000/api/search/series" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/search/series"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-search-series">
@@ -10307,6 +10944,20 @@ vary: Origin
     --get "http://localhost:8000/api/search/advanced" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/search/advanced"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-search-advanced">
@@ -10390,6 +11041,20 @@ vary: Origin
     --get "http://localhost:8000/api/series" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/series"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-series">
@@ -11316,9 +11981,23 @@ vary: Origin
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/series/eos/omnis" \
+    --get "http://localhost:8000/api/series/nobis/similique" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/series/nobis/similique"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-series--author---serie-">
@@ -11872,9 +12551,23 @@ vary: Origin
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/series/books/9/inventore" \
+    --get "http://localhost:8000/api/series/books/13/laudantium" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/series/books/13/laudantium"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-series-books--author---serie-">
@@ -12428,9 +13121,23 @@ vary: Origin
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/series/books/7/possimus/quia" \
+    --get "http://localhost:8000/api/series/books/18/sunt/nemo" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/series/books/18/sunt/nemo"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-series-books--volume---author---serie-">
@@ -12999,6 +13706,20 @@ vary: Origin
     --get "http://localhost:8000/api/tags" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/tags"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-tags">
@@ -14616,9 +15337,23 @@ vary: Origin
 
 
 <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/tags/ea" \
+    --get "http://localhost:8000/api/tags/rerum" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/tags/rerum"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-tags--id-">
@@ -15202,6 +15937,20 @@ vary: Origin
     --get "http://localhost:8000/api/tags/books/18" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/tags/books/18"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
 </span>
 
 <span id="example-responses-GETapi-tags-books--tag-">
@@ -15850,12 +16599,13 @@ vary: Origin
     <div class="dark-box">
                     <div class="lang-selector">
                                     <a href="#" data-language-name="bash">bash</a>
+                                    <a href="#" data-language-name="javascript">javascript</a>
                             </div>
             </div>
 </div>
 <script>
     $(function () {
-        var exampleLanguages = ["bash"];
+        var exampleLanguages = ["bash","javascript"];
         setupLanguages(exampleLanguages);
     });
 </script>
