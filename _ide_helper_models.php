@@ -38,6 +38,7 @@ namespace App\Models{
      * @property bool                                                                                                                          $is_favorite
      * @property string                                                                                                                        $show_books_link
      * @property string                                                                                                                        $show_link
+     * @property string                                                                                                                        $show_link_opds
      * @property string                                                                                                                        $show_series_link
      * @property string                                                                                                                        $size
      * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media

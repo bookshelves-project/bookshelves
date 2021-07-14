@@ -4,7 +4,7 @@
 
     /**
      * A helper file for Laravel, to provide autocomplete information to your IDE
-     * Generated for Laravel 8.47.0.
+     * Generated for Laravel 8.50.0.
      *
      * This file should not be included in your code, only analyzed by your IDE!
      *
@@ -2245,7 +2245,7 @@ namespace Illuminate\Support\Facades {
              *
              * @throws \Illuminate\Auth\AuthenticationException
              *
-             * @return bool|null
+             * @return \App\Models\User|null
              * @static
              */
             public static function logoutOtherDevices($password, $attribute = 'password')
@@ -8260,6 +8260,8 @@ namespace Illuminate\Support\Facades {
             }
         }
         /**
+         * @method static \Illuminate\Log\Logger withContext(array $context = [])
+         * @method static \Illuminate\Log\Logger withoutContext()
          * @method static void write(string $level, string $message, array $context = [])
          * @method static void listen(\Closure $callback)
          *
@@ -14871,6 +14873,20 @@ namespace Illuminate\Support\Facades {
             }
 
             /**
+             * Build an on-demand disk.
+             *
+             * @param string|array $config
+             *
+             * @return \Illuminate\Filesystem\FilesystemAdapter
+             * @static
+             */
+            public static function build($config)
+            {
+                /* @var \Illuminate\Filesystem\FilesystemManager $instance */
+                return $instance->build($config);
+            }
+
+            /**
              * Create an instance of the local driver.
              *
              * @param array $config
@@ -16186,6 +16202,18 @@ namespace Illuminate\Support\Facades {
             }
 
             /**
+             * Indicate that unvalidated array keys should be excluded, even if the parent array was validated.
+             *
+             * @return void
+             * @static
+             */
+            public static function excludeUnvalidatedArrayKeys()
+            {
+                /* @var \Illuminate\Validation\Factory $instance */
+                $instance->excludeUnvalidatedArrayKeys();
+            }
+
+            /**
              * Set the Validator instance resolver.
              *
              * @param \Closure $resolver
@@ -17256,21 +17284,6 @@ namespace Illuminate\Support {
         }
 }
 
-namespace L5Swagger {
-        class L5SwaggerFacade
-        {
-            /**
-             * @throws L5SwaggerException
-             * @static
-             */
-            public static function generateDocs()
-            {
-                /* @var \L5Swagger\Generator $instance */
-                return $instance->generateDocs();
-            }
-        }
-}
-
 namespace Facade\Ignition\Facades {
         /**
          * Class Flare.
@@ -18129,7 +18142,7 @@ namespace  {
                  * @param mixed                                                       $value
                  * @param string                                                      $boolean
                  *
-                 * @return \Illuminate\Database\Eloquent\Model|static
+                 * @return \Illuminate\Database\Eloquent\Model|static|null
                  * @static
                  */
                 public static function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
@@ -18492,8 +18505,6 @@ namespace  {
                  * @param array       $columns
                  * @param string      $cursorName
                  * @param string|null $cursor
-                 *
-                 * @throws \Illuminate\Pagination\CursorPaginationException
                  *
                  * @return \Illuminate\Contracts\Pagination\CursorPaginator
                  * @static
@@ -19956,7 +19967,7 @@ namespace  {
                 /**
                  * Add an "or where null" clause to the query.
                  *
-                 * @param string $column
+                 * @param string|array $column
                  *
                  * @return \Illuminate\Database\Query\Builder
                  * @static
@@ -20681,7 +20692,7 @@ namespace  {
                 /**
                  * Add a descending "order by" clause to the query.
                  *
-                 * @param string $column
+                 * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string $column
                  *
                  * @return \Illuminate\Database\Query\Builder
                  * @static
@@ -20827,8 +20838,8 @@ namespace  {
                 /**
                  * Remove all existing orders and optionally add a new order.
                  *
-                 * @param string|null $column
-                 * @param string      $direction
+                 * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string|null $column
+                 * @param string                                                                                        $direction
                  *
                  * @return \Illuminate\Database\Query\Builder
                  * @static
@@ -21523,9 +21534,6 @@ namespace  {
             {
             }
             class View extends \Illuminate\Support\Facades\View
-            {
-            }
-            class L5Swagger extends \L5Swagger\L5SwaggerFacade
             {
             }
             class Flare extends \Facade\Ignition\Facades\Flare
