@@ -19,17 +19,23 @@
                 </div>
             </div>
             <ul class="flex mt-6">
-                <a href="/api" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                <a href="{{ route('api.index') }}"
+                    class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     API
                 </a>
-                <a href="/api/documentation"
-                    class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                    API Documentation
+                <a href="/docs" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                    Documentation
                 </a>
-                <a href="/api/opds" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                <a href="{{ route('wiki.index') }}"
+                    class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                    Wiki
+                </a>
+                <a href="{{ route('opds.index') }}"
+                    class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     OPDS
                 </a>
-                <a href="/api/catalog" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                <a href="{{ route('catalog.index') }}"
+                    class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     Catalog
                 </a>
             </ul>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Catalog;
+namespace App\Http\Controllers\Catalog;
 
 use Illuminate\Http\Request;
 use App\Utils\BookshelvesTools;
@@ -13,7 +13,7 @@ class CatalogController extends Controller
 {
     public function index(Request $request)
     {
-        return view('pages.api.catalog.index');
+        return view('pages.catalog.index');
     }
 
     public function search(Request $request)
@@ -34,7 +34,7 @@ class CatalogController extends Controller
             });
             $books = collect($books);
 
-            return view('pages.api.catalog.search', compact('authors', 'series', 'books'));
+            return view('pages.catalog.search', compact('authors', 'series', 'books'));
         }
 
         return response()->json(['error' => 'Need to have terms query parameter'], 401);

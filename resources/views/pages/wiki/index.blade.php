@@ -3,5 +3,7 @@
 @section('title', 'Home')
 
 @section('content')
-    {!! $html !!}
+    <x-markdown theme="github-dark">
+        {{ $content }}
+    </x-markdown>
 @endsection

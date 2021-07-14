@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Catalog;
+namespace App\Http\Controllers\Catalog;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class AuthorController extends Controller
         $authors = SearchAuthorResource::collection($authors);
         $authors = collect($authors);
 
-        return view('pages.api.catalog.authors.index', compact('authors'));
+        return view('pages.catalog.authors.index', compact('authors'));
     }
 
     public function show(Request $request, string $slug)
@@ -34,6 +34,6 @@ class AuthorController extends Controller
         $author = AuthorResource::make($author);
         $author = json_decode($author->toJson());
 
-        return view('pages.api.catalog.authors._slug', compact('author', 'books'));
+        return view('pages.catalog.authors._slug', compact('author', 'books'));
     }
 }

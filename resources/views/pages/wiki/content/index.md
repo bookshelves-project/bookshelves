@@ -11,8 +11,8 @@ frontend and use Bookshelves with the internal backend interface.
 # Demo & documentation
 
 🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of Bookshelves  
-📚 [**bookshelves.ink/api/wiki**](https://bookshelves.ink/api/wiki): wiki for Bookshelves usage  
-📚 [**bookshelves.ink/api/documentation**](https://bookshelves.ink/api/documentation): API documentation  
+📚 [**bookshelves.ink/api/wiki**](https://bookshelves.ink/wiki): wiki for Bookshelves usage  
+📚 [**bookshelves.ink/api/documentation**](https://bookshelves.ink/docs): API documentation  
 
 📀 [**gitlab.com/ewilan-riviere/bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves  
 🎨 [**gitlab.com/ewilan-riviere/bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  

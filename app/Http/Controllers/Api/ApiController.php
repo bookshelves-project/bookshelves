@@ -99,8 +99,8 @@ class ApiController extends Controller
             'name'          => 'Bookshelves API',
             'version'       => $composerJson->version,
             'documentation' => config('app.url').'/api/documentation',
-            'opds'          => route('api.opds.index'),
-            'catalog'       => route('api.catalog.index'),
+            'opds'          => route('opds.index'),
+            'catalog'       => route('catalog.index'),
             // 'about' => [
             // 	'public' => 'Route with public access',
             // 	'sanctum' => 'Routes available if user is logged',

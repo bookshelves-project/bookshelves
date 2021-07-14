@@ -1,7 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Opds\OpdsController;
+use App\Http\Controllers\Wiki\WikiController;
 use App\Http\Controllers\NavigationController;
+use App\Http\Controllers\Catalog\BookController;
+use App\Http\Controllers\Catalog\SerieController;
+use App\Http\Controllers\Catalog\AuthorController;
+use App\Http\Controllers\Catalog\CatalogController;
+use App\Http\Controllers\Opds\BookController as OpdsBookController;
+use App\Http\Controllers\Opds\SerieController as OpdsSerieController;
+use App\Http\Controllers\Opds\AuthorController as OpdsAuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +31,46 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return '';
 })->name('dashboard');
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+/*
+ * opds routes
+ */
+Route::prefix('catalog')->group(function () {
+    Route::get('/', [CatalogController::class, 'index'])->name('catalog.index');
+    Route::get('/search', [CatalogController::class, 'search'])->name('catalog.search');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
+    // Route::get('/books', [OpdsBookController::class, 'index'])->name('catalog.books');
+    Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('catalog.books.show');
 
-// require __DIR__.'/auth.php';
+    Route::get('/series', [SerieController::class, 'index'])->name('catalog.series');
+    Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('catalog.series.show');
+
+    Route::get('/authors', [AuthorController::class, 'index'])->name('catalog.authors');
+    Route::get('/authors/{author}', [AuthorController::class, 'show'])->name('catalog.authors.show');
+});
+
+Route::get('/opds', [OpdsController::class, 'index'])->name('opds.index');
+
+Route::prefix('opds/{version}')->group(function () {
+    Route::get('/', [OpdsController::class, 'feed'])->name('opds');
+
+    Route::get('/books', [OpdsBookController::class, 'index'])->name('opds.books');
+    Route::get('/books/{author}/{book}', [OpdsBookController::class, 'show'])->name('opds.books.show');
+
+    Route::get('/series', [OpdsSerieController::class, 'index'])->name('opds.series');
+    Route::get('/series/{author}/{serie}', [OpdsSerieController::class, 'show'])->name('opds.series.show');
+
+    Route::get('/authors', [OpdsAuthorController::class, 'index'])->name('opds.authors');
+    Route::get('/authors/{author}', [OpdsAuthorController::class, 'show'])->name('opds.authors.show');
+});
+
+/*
+ * Wiki routes
+ */
+Route::prefix('wiki')->group(function () {
+    Route::get('/', [WikiController::class, 'index'])->name('wiki.index');
+});
+
+/*
+ * Web reader routes
+ */
+Route::get('/webreader', [WebreaderController::class, 'index'])->name('webreader.index');

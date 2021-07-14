@@ -3,7 +3,7 @@
         Books
     </h3>
     @foreach ($data as $item)
-        <a href="{{ route('api.catalog.books.show', ['author' => $item->meta->author, 'book' => $item->meta->slug]) }}"
+        <a href="{{ route('catalog.books.show', ['author' => $item->meta->author, 'book' => $item->meta->slug]) }}"
             class="entity">
             <span class="entity__cover">
                 <img src="{{ $item->picture->simple }}" alt="{{ $item->title }}">

@@ -14,18 +14,8 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LanguageController;
-use App\Http\Controllers\Api\Opds\OpdsController;
 use App\Http\Controllers\Api\PublisherController;
-use App\Http\Controllers\Api\WebreaderController;
-use App\Http\Controllers\Api\Wiki\WikiController;
 use App\Http\Controllers\Api\SubmissionController;
-use App\Http\Controllers\Api\Catalog\CatalogController;
-use App\Http\Controllers\Api\Opds\BookController as OpdsBookController;
-use App\Http\Controllers\Api\Opds\SerieController as OpdsSerieController;
-use App\Http\Controllers\Api\Opds\AuthorController as OpdsAuthorController;
-use App\Http\Controllers\Api\Catalog\BookController as CatalogBookController;
-use App\Http\Controllers\Api\Catalog\SerieController as CatalogSerieController;
-use App\Http\Controllers\Api\Catalog\AuthorController as CatalogAuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,50 +29,6 @@ use App\Http\Controllers\Api\Catalog\AuthorController as CatalogAuthorController
 */
 
 Route::get('/', [ApiController::class, 'index'])->name('api.index');
-
-/*
- * opds routes
- */
-Route::prefix('catalog')->group(function () {
-    Route::get('/', [CatalogController::class, 'index'])->name('api.catalog.index');
-    Route::get('/search', [CatalogController::class, 'search'])->name('api.catalog.search');
-
-    // Route::get('/books', [OpdsBookController::class, 'index'])->name('api.catalog.books');
-    Route::get('/books/{author}/{book}', [CatalogBookController::class, 'show'])->name('api.catalog.books.show');
-
-    Route::get('/series', [CatalogSerieController::class, 'index'])->name('api.catalog.series');
-    Route::get('/series/{author}/{serie}', [CatalogSerieController::class, 'show'])->name('api.catalog.series.show');
-
-    Route::get('/authors', [CatalogAuthorController::class, 'index'])->name('api.catalog.authors');
-    Route::get('/authors/{author}', [CatalogAuthorController::class, 'show'])->name('api.catalog.authors.show');
-});
-
-Route::get('/opds', [OpdsController::class, 'index'])->name('api.opds.index');
-
-Route::prefix('opds/{version}')->group(function () {
-    Route::get('/', [OpdsController::class, 'feed'])->name('api.opds');
-
-    Route::get('/books', [OpdsBookController::class, 'index'])->name('api.opds.books');
-    Route::get('/books/{author}/{book}', [OpdsBookController::class, 'show'])->name('api.opds.books.show');
-
-    Route::get('/series', [OpdsSerieController::class, 'index'])->name('api.opds.series');
-    Route::get('/series/{author}/{serie}', [OpdsSerieController::class, 'show'])->name('api.opds.series.show');
-
-    Route::get('/authors', [OpdsAuthorController::class, 'index'])->name('api.opds.authors');
-    Route::get('/authors/{author}', [OpdsAuthorController::class, 'show'])->name('api.opds.authors.show');
-});
-
-/*
- * Wiki routes
- */
-Route::prefix('wiki')->group(function () {
-    Route::get('/', [WikiController::class, 'index'])->name('api.wiki.index');
-});
-
-/*
- * Web reader routes
- */
-Route::get('/webreader', [WebreaderController::class, 'index'])->name('api.webreader.index');
 
 /*
  * Books routes

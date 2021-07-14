@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Catalog;
+namespace App\Http\Controllers\Opds;
 
 use App\Models\Book;
 use App\Models\Author;
@@ -17,11 +17,9 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $books = Book::orderBy('title_sort')->paginate(32);
-        $books = BookLightResource::collection($books);
-        $links = $books->onEachSide(1)->links();
-        $books = json_decode($books->toJson());
+        // $books = BookLightResource::collection($books);
 
-        return view('pages.api.catalog.books.index', compact('books', 'links'));
+        return response()->xml($books);
     }
 
     public function show(Request $request, string $author, string $slug)
@@ -33,6 +31,6 @@ class BookController extends Controller
         $book = BookResource::make($book);
         $book = json_decode($book->toJson());
 
-        return view('pages.api.catalog.books._slug', compact('book'));
+        return view('pages/api/opds/books/_slug', compact('book'));
     }
 }

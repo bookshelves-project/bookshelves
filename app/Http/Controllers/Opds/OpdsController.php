@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Opds;
+namespace App\Http\Controllers\Opds;
 
 use File;
 use Route;
@@ -18,7 +18,7 @@ class OpdsController extends Controller
 {
     public function index(Request $request)
     {
-        return view('pages.api.opds.index');
+        return view('pages.opds.index');
     }
 
     public function feed(Request $request)

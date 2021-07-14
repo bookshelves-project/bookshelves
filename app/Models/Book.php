@@ -120,6 +120,17 @@ class Book extends Model implements HasMedia
         return '';
     }
 
+    public function getShowLinkOpdsAttribute(): string
+    {
+        $route = route('opds.books.show', [
+            'version' => 'v1.2',
+            'author'  => $this->meta_author,
+            'book'    => $this->slug,
+        ]);
+
+        return $route;
+    }
+
     public function getDownloadLinkAttribute(): string
     {
         $route = route('api.download.book', [

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Opds;
+namespace App\Http\Controllers\Opds;
 
 use Route;
 use App\Models\Serie;

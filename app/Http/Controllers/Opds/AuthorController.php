@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Opds;
+namespace App\Http\Controllers\Opds;
 
 use Route;
 use App\Models\Author;
@@ -12,11 +12,11 @@ use App\Providers\Bookshelves\OpdsProvider;
  */
 class AuthorController extends Controller
 {
-    public function index()
+    public function index(string $version)
     {
         $entities = Author::orderBy('lastname')->get();
-        $result = OpdsProvider::template(endpoint: 'author', data: $entities, route: route(Route::currentRouteName(), [
-            'version' => 'v1.2',
+        $result = OpdsProvider::template(entity: 'auhtor', endpoint: 'author', data: $entities, route: route(Route::currentRouteName(), [
+            'version' => $version,
         ]));
 
         return response($result)->withHeaders([
@@ -24,14 +24,15 @@ class AuthorController extends Controller
         ]);
     }
 
-    public function show(string $author_slug)
+    public function show(string $version, string $author_slug)
     {
         $route = route(Route::currentRouteName(), [
-            'version' => 'v1.2',
+            'version' => $version,
             'author'  => $author_slug,
         ]);
         $author = Author::whereSlug($author_slug)->firstOrFail();
-        $result = OpdsProvider::template(endpoint: 'author', data: $author, route: $route);
+        $books = $author->books;
+        $result = OpdsProvider::template(entity: Author::class, endpoint: 'author', data: $books, route: $route, id: "authors:$author->slug", title: "Author: $author->name");
 
         return response($result)->withHeaders([
             'Content-Type' => 'text/xml',

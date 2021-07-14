@@ -5,18 +5,18 @@
     @foreach ($data as $item)
         @php
             $item = json_decode(json_encode($item));
-            $route = route('api.catalog.index');
+            $route = route('catalog.index');
             switch ($type) {
                 case 'book':
-                    $route = route('api.catalog.books.show', ['author' => $item->meta->author, 'book' => $item->meta->slug]);
+                    $route = route('catalog.books.show', ['author' => $item->meta->author, 'book' => $item->meta->slug]);
                     break;
             
                 case 'serie':
-                    $route = route('api.catalog.series.show', ['author' => $item->meta->author, 'serie' => $item->meta->slug]);
+                    $route = route('catalog.series.show', ['author' => $item->meta->author, 'serie' => $item->meta->slug]);
                     break;
             
                 case 'author':
-                    $route = route('api.catalog.authors.show', ['author' => $item->meta->slug]);
+                    $route = route('catalog.authors.show', ['author' => $item->meta->slug]);
                     break;
             
                 default:

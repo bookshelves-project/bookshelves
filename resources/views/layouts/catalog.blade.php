@@ -25,7 +25,7 @@
 
 <body class="font-sans antialiased relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     {{-- @include('components.layout.navbar') --}}
-    <a href="{{ route('api.catalog.index') }}" class="flex items-center justify-center mt-4 font-handlee">
+    <a href="{{ route('catalog.index') }}" class="flex items-center justify-center mt-4 font-handlee">
         <table class="mx-auto">
             <tr>
                 <td>
@@ -49,22 +49,22 @@
             <tbody>
                 <tr>
                     <td class="text-xl font-semibold">
-                        <a href="{{ route('api.catalog.index') }}">
+                        <a href="{{ route('catalog.index') }}">
                             Home
                         </a>
                     </td>
                     <td class="text-xl font-semibold">
-                        <a href="{{ route('api.catalog.authors') }}">
+                        <a href="{{ route('catalog.authors') }}">
                             Authors
                         </a>
                     </td>
                     <td class="text-xl font-semibold">
-                        <a href="{{ route('api.catalog.series') }}">
+                        <a href="{{ route('catalog.series') }}">
                             Series
                         </a>
                     </td>
                     <td class="text-xl font-semibold">
-                        <a href="{{ route('api.opds.index') }}">
+                        <a href="{{ route('opds.index') }}">
                             OPDS
                         </a>
                     </td>
