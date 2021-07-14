@@ -14,6 +14,7 @@ yarn-error.log
 
 .php-cs-fixer.cache
 .php_cs.cache
+.scribe/
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
@@ -82,3 +83,6 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 .DS_Store
+public/docs/collection.json
+public/docs/index.html
+public/docs/openapi.yaml
