@@ -19,8 +19,7 @@
         "api",
         "epubs",
         "books",
-        "ebooks",
-        "swagger"
+        "ebooks"
     ],
     "repositories": [
         {
@@ -32,7 +31,6 @@
     "version": "0.9.0",
     "require": {
         "php": "^7.3|^8.0",
-        "darkaonline/l5-swagger": "^8.0",
         "fideloper/proxy": "^4.4",
         "friendsofphp/php-cs-fixer": "^3.0",
         "fruitcake/laravel-cors": "^2.0",
@@ -60,6 +58,7 @@
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.13",
         "fruitcake/laravel-telescope-toolbar": "1.3.x-dev",
+        "knuckleswtf/scribe": "^3.6",
         "laravel/breeze": "^1.1",
         "laravel/sail": "^0.0.5",
         "mockery/mockery": "^1.4.2",
