@@ -18,7 +18,6 @@ use App\Http\Controllers\Api\Opds\OpdsController;
 use App\Http\Controllers\Api\PublisherController;
 use App\Http\Controllers\Api\WebreaderController;
 use App\Http\Controllers\Api\Wiki\WikiController;
-use App\Http\Controllers\Api\DependencyController;
 use App\Http\Controllers\Api\SubmissionController;
 use App\Http\Controllers\Api\Catalog\CatalogController;
 use App\Http\Controllers\Api\Opds\BookController as OpdsBookController;
@@ -139,12 +138,6 @@ Route::get('/books/selection', [BookController::class, 'selection'])->name('api.
  * Submissions routes
  */
 Route::post('submission', [SubmissionController::class, 'send'])->name('api.submission.send');
-
-/*
- * Dependencies routes
- */
-Route::get('/dependencies', [DependencyController::class, 'index'])->name('api.dependencies.index');
-// Route::get('/dependencies/{slashData?}', [DependencyController::class, 'show'])->name('api.dependencies.show')->where('slashData', '(.*)');
 
 /*
  * Comments routes

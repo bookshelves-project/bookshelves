@@ -31,6 +31,19 @@ class Author extends Model implements HasMedia
         'note',
     ];
 
+    /**
+     * Retrieve the model for a bound value.
+     *
+     * @param mixed       $value
+     * @param string|null $field
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where('slug', $value)->first();
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $formatThumbnail = config('image.pictures.thumbnail');

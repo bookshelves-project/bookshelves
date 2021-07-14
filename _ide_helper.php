@@ -17271,15 +17271,15 @@ namespace Illuminate\Support {
             /**
              * @see \App\Providers\AppServiceProvider::boot()
              *
-             * @param mixed $perPage
+             * @param mixed $page
              * @param mixed $total
              * @param mixed $page
              * @param mixed $pageName
              * @static
              */
-            public static function paginate($perPage, $total = null, $page = null, $pageName = 'page')
+            public static function paginate($page, $total = null, $page = null, $pageName = 'page')
             {
-                return \Illuminate\Support\Collection::paginate($perPage, $total, $page, $pageName);
+                return \Illuminate\Support\Collection::paginate($page, $total, $page, $pageName);
             }
         }
 }
@@ -18465,7 +18465,7 @@ namespace  {
                 /**
                  * Paginate the given query.
                  *
-                 * @param int|null $perPage
+                 * @param int|null $page
                  * @param array    $columns
                  * @param string   $pageName
                  * @param int|null $page
@@ -18475,16 +18475,16 @@ namespace  {
                  * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
                  * @static
                  */
-                public static function paginate($perPage = null, $columns = [], $pageName = 'page', $page = null)
+                public static function paginate($page = null, $columns = [], $pageName = 'page', $page = null)
                 {
                     /* @var \Illuminate\Database\Eloquent\Builder $instance */
-                    return $instance->paginate($perPage, $columns, $pageName, $page);
+                    return $instance->paginate($page, $columns, $pageName, $page);
                 }
 
                 /**
                  * Paginate the given query into a simple paginator.
                  *
-                 * @param int|null $perPage
+                 * @param int|null $page
                  * @param array    $columns
                  * @param string   $pageName
                  * @param int|null $page
@@ -18492,16 +18492,16 @@ namespace  {
                  * @return \Illuminate\Contracts\Pagination\Paginator
                  * @static
                  */
-                public static function simplePaginate($perPage = null, $columns = [], $pageName = 'page', $page = null)
+                public static function simplePaginate($page = null, $columns = [], $pageName = 'page', $page = null)
                 {
                     /* @var \Illuminate\Database\Eloquent\Builder $instance */
-                    return $instance->simplePaginate($perPage, $columns, $pageName, $page);
+                    return $instance->simplePaginate($page, $columns, $pageName, $page);
                 }
 
                 /**
                  * Paginate the given query into a cursor paginator.
                  *
-                 * @param int|null    $perPage
+                 * @param int|null    $page
                  * @param array       $columns
                  * @param string      $cursorName
                  * @param string|null $cursor
@@ -18509,10 +18509,10 @@ namespace  {
                  * @return \Illuminate\Contracts\Pagination\CursorPaginator
                  * @static
                  */
-                public static function cursorPaginate($perPage = null, $columns = [], $cursorName = 'cursor', $cursor = null)
+                public static function cursorPaginate($page = null, $columns = [], $cursorName = 'cursor', $cursor = null)
                 {
                     /* @var \Illuminate\Database\Eloquent\Builder $instance */
-                    return $instance->cursorPaginate($perPage, $columns, $cursorName, $cursor);
+                    return $instance->cursorPaginate($page, $columns, $cursorName, $cursor);
                 }
 
                 /**
@@ -20792,47 +20792,47 @@ namespace  {
                  * Set the limit and offset for a given page.
                  *
                  * @param int $page
-                 * @param int $perPage
+                 * @param int $page
                  *
                  * @return \Illuminate\Database\Query\Builder
                  * @static
                  */
-                public static function forPage($page, $perPage = 15)
+                public static function forPage($page, $page = 15)
                 {
                     /* @var \Illuminate\Database\Query\Builder $instance */
-                    return $instance->forPage($page, $perPage);
+                    return $instance->forPage($page, $page);
                 }
 
                 /**
                  * Constrain the query to the previous "page" of results before a given ID.
                  *
-                 * @param int      $perPage
+                 * @param int      $page
                  * @param int|null $lastId
                  * @param string   $column
                  *
                  * @return \Illuminate\Database\Query\Builder
                  * @static
                  */
-                public static function forPageBeforeId($perPage = 15, $lastId = 0, $column = 'id')
+                public static function forPageBeforeId($page = 15, $lastId = 0, $column = 'id')
                 {
                     /* @var \Illuminate\Database\Query\Builder $instance */
-                    return $instance->forPageBeforeId($perPage, $lastId, $column);
+                    return $instance->forPageBeforeId($page, $lastId, $column);
                 }
 
                 /**
                  * Constrain the query to the next "page" of results after a given ID.
                  *
-                 * @param int      $perPage
+                 * @param int      $page
                  * @param int|null $lastId
                  * @param string   $column
                  *
                  * @return \Illuminate\Database\Query\Builder
                  * @static
                  */
-                public static function forPageAfterId($perPage = 15, $lastId = 0, $column = 'id')
+                public static function forPageAfterId($page = 15, $lastId = 0, $column = 'id')
                 {
                     /* @var \Illuminate\Database\Query\Builder $instance */
-                    return $instance->forPageAfterId($perPage, $lastId, $column);
+                    return $instance->forPageAfterId($page, $lastId, $column);
                 }
 
                 /**

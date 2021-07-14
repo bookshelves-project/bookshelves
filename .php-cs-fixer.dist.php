@@ -22,7 +22,7 @@ $finder = PhpCsFixer\Finder::create()
 
 $config = new PhpCsFixer\Config();
 $config->setRules([
-    '@Symfony'                          => true,
+    '@PSR2'                             => true,
     'array_syntax'                      => ['syntax' => 'short'],
     'array_indentation'                 => true,
     'binary_operator_spaces'            => ['operators' => ['=>' => 'align']],
