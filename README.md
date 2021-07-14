@@ -5,8 +5,6 @@
 [![mysql](https://img.shields.io/static/v1?label=MySQL&message=v8.0&color=4479A1&style=flat-square&logo=mysql&logoColor=ffffff)](https://www.mysql.com)
 
 [![laravel](https://img.shields.io/static/v1?label=Laravel&message=v8.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
-[![swagger](https://img.shields.io/static/v1?label=Swagger&message=v3.0&color=85EA2D&style=flat-square&logo=swagger&logoColo=ffffff)](https://swagger.io)
-
 [![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=14.16&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
 [![yarn](https://img.shields.io/static/v1?label=Yarn&message=v1.2&color=2C8EBB&style=flat-square&logo=yarn&logoColor=ffffff)](https://yarnpkg.com/lang/en/)
 
@@ -14,7 +12,7 @@
 🎨 [**bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  
 
 💻 [**bookshelves.ink**](https://bookshelves.ink): front demo  
-📚 [**bookshelves.ink/api/documentation**](https://bookshelves.ink/api/documentation): Documentation API  
+📚 [**bookshelves.ink/docs**](https://bookshelves.ink/api/documentation): Documentation API  
 📚 [**bookshelves.ink/api/wiki**](https://bookshelves.ink/api/wiki): wiki for Bookshelves usage, if this link not work check [**files here**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/tree/master/resources/views/pages/api/wiki/content)
 
 **Table of contents**
@@ -30,6 +28,7 @@
     - [Option: Scan](#option-scan)
     - [Generate books](#generate-books)
   - [*c. Test with demo eBook*](#c-test-with-demo-ebook)
+- [API Doc](#api-doc)
 
 ## **I. Setup**
 
@@ -137,6 +136,14 @@ If you want to test Bookshelves, you can use `bookshelves:sample` to generate da
 
 ```bash
 php artisan bookshelves:sample
+```
+
+## API Doc
+
+API documentation is generated with [**knuckleswtf/scribe**](https://scribe.knuckles.wtf/laravel/)
+
+```bash
+php artisan scribe:generate
 ```
 
 ## **TODO** <!-- omit in toc -->
