@@ -22,53 +22,9 @@ use App\Http\Resources\Book\BookLightestResource;
 class BookController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/books",
-     *     tags={"books"},
-     *     summary="List of books",
-     *     description="Get list of books with query parameters, default list use pagination.",
-
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         description="Integer to choose how many books you show in each page, default 32",
-     *         required=false,
-     * 		   example=32,
-     *         @OA\Schema(
-     *           type="integer",
-     *           format="int64"
-     *         ),
-     *         style="form"
-     *     ),
-     *     @OA\Parameter(
-     *         name="all",
-     *         in="query",
-     *         description="Boolean to get list of all books without pagination, default false",
-     *         required=false,
-     *         example=false,
-     * 		   @OA\Schema(
-     * 		     type="boolean"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="lang",
-     *         in="query",
-     *         description="String to select existant eBook language, default null",
-     *         required=false,
-     *         @OA\Schema(
-     *           enum={"fr", "en"},
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     * 		   @OA\JsonContent(),
-     *     )
-     * )
-     */
-
-    /**
     * GET Book collection
+    *
+    * <small class="badge badge-blue">WITH PAGINATION</small>
     *
     * You can get all books with alphabetic order on title & series' title with pagination.
     *

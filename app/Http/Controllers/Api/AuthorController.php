@@ -24,6 +24,8 @@ class AuthorController extends Controller
     /**
      * GET Author collection
      *
+     * <small class="badge badge-blue">WITH PAGINATION</small>
+     *
      * You can get all authors with alphabetic order on lastname with pagination.
      *
      * @queryParam per-page int Entities per page, 32 by default. Example: 32.

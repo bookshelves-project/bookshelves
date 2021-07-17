@@ -14,12 +14,16 @@ use App\Http\Resources\Publisher\PublisherLightResource;
 class PublisherController extends Controller
 {
     /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
-     */
+    * GET Publisher collection
+    *
+    * Get all publishers.
+    *
+    * @response {
+    *  "id": 4,
+    *  "name": "Jessica Jones",
+    *  "roles": ["admin"]
+    * }
+    */
     public function index()
     {
         $pubs = Publisher::orderBy('name')->get();

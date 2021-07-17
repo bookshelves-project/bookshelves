@@ -5,37 +5,17 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @group Count
+ */
 class CountController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/count",
-     *     tags={"count"},
-     *     summary="Count of entities",
-     *     description="Get count by entities, use query parameter to select entity.",
-     *     @OA\Parameter(
-     *         name="entity",
-     *         in="query",
-     *         description="String to select existant entity",
-     *         required=true,
-     *         @OA\Schema(
-     *           enum={"book", "serie", "author"},
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     * 		   @OA\JsonContent(),
-     *     )
-     * )
-     */
-
-    /**
-    * @response {
-    *  "id": 4,
-    *  "name": "Jessica Jones",
-    *  "roles": ["admin"]
-    * }
+    * GET Count
+    *
+    * Get count of entities for a selected collection. Available for Book, Serie and Author.
+    *
+    * @queryParam entity required filters[book,serie,author] To get count for an entity. Example: book
     */
     public function count(Request $request)
     {
