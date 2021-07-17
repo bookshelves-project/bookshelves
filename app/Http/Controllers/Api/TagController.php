@@ -16,6 +16,13 @@ use App\Http\Resources\Tag\TagLightResource;
  */
 class TagController extends Controller
 {
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function index(Request $request)
     {
         $type = $request->get('type');
@@ -33,6 +40,13 @@ class TagController extends Controller
         return TagLightResource::collection($tags);
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function show(string $tag_slug)
     {
         $tag = Tag::where('slug->en', $tag_slug)->first();
@@ -40,6 +54,13 @@ class TagController extends Controller
         return TagResource::make($tag);
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function books(string $tag_slug)
     {
         $tag = Tag::where('slug->en', $tag_slug)->first();

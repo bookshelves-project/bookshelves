@@ -11,6 +11,13 @@ use App\Http\Resources\LanguageResource;
  */
 class LanguageController extends Controller
 {
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function index()
     {
         $langs = Language::all();

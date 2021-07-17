@@ -29,6 +29,14 @@ class CountController extends Controller
      *     )
      * )
      */
+
+    /**
+    * @response {
+    *  "id": 4,
+    *  "name": "Jessica Jones",
+    *  "roles": ["admin"]
+    * }
+    */
     public function count(Request $request)
     {
         $entity = $request->get('entity');

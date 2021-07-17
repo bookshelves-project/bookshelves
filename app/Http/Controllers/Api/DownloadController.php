@@ -45,6 +45,14 @@ class DownloadController extends Controller
      *     )
      * )
      */
+
+    /**
+    * @response {
+    *  "id": 4,
+    *  "name": "Jessica Jones",
+    *  "roles": ["admin"]
+    * }
+    */
     public function book(Request $request, string $author, string $book)
     {
         $book = Book::whereSlug($book)->firstOrFail();
@@ -85,6 +93,14 @@ class DownloadController extends Controller
      *     )
      * )
      */
+
+    /**
+    * @response {
+    *  "id": 4,
+    *  "name": "Jessica Jones",
+    *  "roles": ["admin"]
+    * }
+    */
     public function serie(string $author, string $serie)
     {
         $epubs = [];
@@ -134,6 +150,14 @@ class DownloadController extends Controller
      *     )
      * )
      */
+
+    /**
+    * @response {
+    *  "id": 4,
+    *  "name": "Jessica Jones",
+    *  "roles": ["admin"]
+    * }
+    */
     public function author(string $author)
     {
         $epubs = [];

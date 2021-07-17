@@ -43,6 +43,14 @@ class SearchController extends Controller
      *     )
      * )
      */
+
+    /**
+    * @response {
+    *  "id": 4,
+    *  "name": "Jessica Jones",
+    *  "roles": ["admin"]
+    * }
+    */
     public function index(Request $request)
     {
         $searchTermRaw = $request->input('q');
@@ -57,6 +65,13 @@ class SearchController extends Controller
         return response()->json(['error' => 'Need to have terms query parameter'], 401);
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function books(Request $request)
     {
         $searchTerm = $request->input('q');
@@ -65,6 +80,13 @@ class SearchController extends Controller
         return BookLightResource::collection($books);
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function authors(Request $request)
     {
         $searchTerm = $request->input('q');
@@ -74,6 +96,13 @@ class SearchController extends Controller
         return SearchAuthorResource::collection($authors);
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function series(Request $request)
     {
         $searchTerm = $request->input('q');
@@ -82,6 +111,13 @@ class SearchController extends Controller
         return SerieLightResource::collection($books);
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function advanced(Request $request)
     {
         // GET ALL PARAMS

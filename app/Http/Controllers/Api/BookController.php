@@ -66,6 +66,18 @@ class BookController extends Controller
      *     )
      * )
      */
+
+    /**
+    * GET Book collection
+    *
+    * You can get all books with alphabetic order on title & series' title with pagination.
+    *
+    * @queryParam per-page int Entities per page, 32 by default. Example: 32.
+    * @queryParam page int The page number, 1 by default. No-example
+    * @queryParam all bool To disable pagination, false by default. No-example
+    * @queryParam lang filters[fr,en] To select specific lang, null by default. No-example
+    * @responseFile public/storage/responses/books.get.json
+    */
     public function index(Request $request)
     {
         $lang = $request->get('lang');
@@ -150,6 +162,14 @@ class BookController extends Controller
      *     ),
      * )
      */
+
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function show(Request $request, string $author_slug, string $book_slug)
     {
         $author = Author::whereSlug($author_slug)->firstOrFail();
@@ -204,6 +224,14 @@ class BookController extends Controller
      *     )
      * )
      */
+
+    /**
+    * @response {
+    *  "id": 4,
+    *  "name": "Jessica Jones",
+    *  "roles": ["admin"]
+    * }
+    */
     public function latest(Request $request)
     {
         $limit = $request->get('limit');
@@ -222,6 +250,13 @@ class BookController extends Controller
         return $books;
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function selection(): JsonResource
     {
         $books = Book::inRandomOrder()->limit(10)->get();
@@ -230,6 +265,13 @@ class BookController extends Controller
         return $books;
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function related(string $authorSlug, string $bookSlug, Request $request)
     {
         $limit = $request->get('limit') ? filter_var($request->get('limit'), FILTER_VALIDATE_BOOLEAN) : false;

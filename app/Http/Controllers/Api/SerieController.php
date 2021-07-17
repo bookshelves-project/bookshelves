@@ -42,6 +42,14 @@ class SerieController extends Controller
      *     )
      * )
      */
+
+    /**
+    * @response {
+    *  "id": 4,
+    *  "name": "Jessica Jones",
+    *  "roles": ["admin"]
+    * }
+    */
     public function index(Request $request)
     {
         $page = $request->get('per-page');
@@ -101,6 +109,14 @@ class SerieController extends Controller
      *     ),
      * )
      */
+
+    /**
+    * @response {
+    *  "id": 4,
+    *  "name": "Jessica Jones",
+    *  "roles": ["admin"]
+    * }
+    */
     public function show(string $author, string $serie)
     {
         $author = Author::whereSlug($author)->firstOrFail();
@@ -111,6 +127,13 @@ class SerieController extends Controller
         return SerieResource::make($serie);
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function books(Request $request, string $author_slug, string $serie_slug)
     {
         $page = $request->get('per-page');
@@ -134,6 +157,13 @@ class SerieController extends Controller
         return abort(404);
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function showCurrent(Request $request, string $volume, string $author, string $serie)
     {
         $limit = $request->get('limit') ? filter_var($request->get('limit'), FILTER_VALIDATE_BOOLEAN) : null;

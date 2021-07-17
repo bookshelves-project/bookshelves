@@ -13,6 +13,13 @@ use App\Http\Resources\Publisher\PublisherLightResource;
  */
 class PublisherController extends Controller
 {
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function index()
     {
         $pubs = Publisher::orderBy('name')->get();
@@ -20,6 +27,13 @@ class PublisherController extends Controller
         return PublisherLightResource::collection($pubs);
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function show(string $publisher_slug)
     {
         $pub = Publisher::whereSlug($publisher_slug)->firstOrFail();
@@ -27,6 +41,13 @@ class PublisherController extends Controller
         return PublisherResource::make($pub);
     }
 
+    /**
+     * @response {
+     *  "id": 4,
+     *  "name": "Jessica Jones",
+     *  "roles": ["admin"]
+     * }
+     */
     public function books(string $publisher_slug)
     {
         $pub = Publisher::whereSlug($publisher_slug)->firstOrFail();
