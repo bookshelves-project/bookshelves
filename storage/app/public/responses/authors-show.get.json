@@ -1,0 +1,47 @@
+{
+    "data": {
+        "name": "Howard Phillips Lovecraft",
+        "meta": {
+            "slug": "lovecraft-howard-phillips",
+            "show": "http://127.0.0.1:8000/api/authors/lovecraft-howard-phillips",
+            "books": "http://127.0.0.1:8000/api/authors/books/lovecraft-howard-phillips",
+            "series": "http://127.0.0.1:8000/api/authors/series/lovecraft-howard-phillips"
+        },
+        "lastname": "Lovecraft",
+        "firstname": "Howard Phillips",
+        "picture": {
+            "base": "http://localhost:8000/storage/media/authors/picture-thumbnail.webp",
+            "openGraph": "http://localhost:8000/storage/media/authors/picture-open_graph.jpg",
+            "simple": "http://localhost:8000/storage/media/authors/picture-simple.jpg",
+            "color": "#8a817b"
+        },
+        "count": 22,
+        "description": "Howard Phillips Lovecraft was an American writer of weird and horror fiction, who is known for his creation of what became known as the Cthulhu Mythos.Born in Providence, Rhode Island, Lovecraft spent most of his life in New England. He was born into affluence, but his family's wealth dissipated soon after the death of his grandfather. In 1913, he wrote a critical letter to a pu...",
+        "link": "https://en.wikipedia.org/wiki/H._P._Lovecraft",
+        "size": "20.58 Mo",
+        "download": "http://127.0.0.1:8000/api/download/author/lovecraft-howard-phillips",
+        "isFavorite": false,
+        "comments": [
+            {
+                "meta": {
+                    "type": "comment",
+                    "for": "author",
+                    "author": null,
+                    "slug": "lovecraft-howard-phillips"
+                },
+                "id": 1,
+                "text": "Sapiente corporis iure minima veritatis in omnis eos ut. Aut veritatis dolor error. Adipisci pariatur eos unde voluptatem aperiam consequatur sed. Dolor tempora amet ab dolores accusamus recusandae non.",
+                "rating": null,
+                "user": {
+                    "id": 1,
+                    "name": "Username",
+                    "picture": "http://localhost:8000/storage/media/users/picture.webp"
+                },
+                "createdAt": "2021-06-20T13:32:19.000000Z",
+                "updatedAt": "2021-06-20T13:32:19.000000Z",
+                "title": "Serge Brussolo",
+                "picture": "http://localhost:8000/storage/media/authors/picture.webp"
+            }
+        ]
+    }
+}

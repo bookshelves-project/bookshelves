@@ -26,8 +26,9 @@ class AuthorController extends Controller
      *
      * You can get all authors with alphabetic order on lastname with pagination.
      *
-     * @queryParam per-page int Entities per page, 32 by default. Example: 5.
+     * @queryParam per-page int Entities per page, 32 by default. Example: 32.
      * @queryParam page int The page number, 1 by default. No-example
+     * @responseFile public/storage/responses/authors.get.json
      */
     public function index(Request $request)
     {
@@ -62,8 +63,7 @@ class AuthorController extends Controller
      * Details for one author, find by slug.
      *
      * @urlParam slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     *
-     * @responseFile public/storage/responses/authors.get.json
+     * @responseFile public/storage/responses/authors-show.get.json
      *
      */
     public function show(Author $author)
@@ -82,11 +82,24 @@ class AuthorController extends Controller
      *
      * Books list from one author, find by slug.
      *
-     * @urlParam author string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @queryParam per-page int Entities per page, 32 by default. Example: 32.
+     * @queryParam page int The page number, 1 by default. No-example
+     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @responseFile public/storage/responses/authors-books.get.json
      *
      */
     public function books(Request $request, string $author)
     {
+        $page = $request->get('per-page');
+        $page = $page ? $page : 32;
+        if (! is_numeric($page)) {
+            return response()->json(
+                "Invalid 'per-page' query parameter, must be an int",
+                400
+            );
+        }
+        $page = intval($page);
+
         $standalone = $request->get('standalone') ? filter_var($request->get('standalone'), FILTER_VALIDATE_BOOLEAN) : false;
 
         if ($standalone) {
@@ -97,7 +110,7 @@ class AuthorController extends Controller
             $author = Author::whereSlug($author)->with(['books.media', 'books.authors', 'books.serie', 'books.language'])->firstOrFail();
         }
 
-        return BookLightResource::collection($author->books);
+        return BookLightResource::collection($author->books->paginate($page));
     }
 
     /**
@@ -105,15 +118,28 @@ class AuthorController extends Controller
      *
      * Series list from one author, find by slug.
      *
-     * @urlParam author string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @queryParam per-page int Entities per page, 32 by default. Example: 32.
+     * @queryParam page int The page number, 1 by default. No-example
+     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @responseFile public/storage/responses/authors-series.get.json
      *
      */
-    public function series(string $author)
+    public function series(Request $request, string $author)
     {
+        $page = $request->get('per-page');
+        $page = $page ? $page : 32;
+        if (! is_numeric($page)) {
+            return response()->json(
+                "Invalid 'per-page' query parameter, must be an int",
+                400
+            );
+        }
+        $page = intval($page);
+
         $author = Author::whereSlug($author)->with(['series' => function ($query) {
             $query->withCount('books');
         }, 'series.media', 'series.authors', 'series.language', 'series.books'])->firstOrFail();
 
-        return SerieLightResource::collection($author->series);
+        return SerieLightResource::collection($author->series->paginate($page));
     }
 }

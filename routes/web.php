@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Opds\OpdsController;
 use App\Http\Controllers\Wiki\WikiController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\Catalog\BookController;
+use App\Http\Controllers\Api\WebreaderController;
 use App\Http\Controllers\Catalog\SerieController;
 use App\Http\Controllers\Catalog\AuthorController;
 use App\Http\Controllers\Catalog\CatalogController;
@@ -23,7 +25,7 @@ use App\Http\Controllers\Opds\AuthorController as OpdsAuthorController;
 |
 */
 
-Route::get('cache/resolve/{method}/{size}/{path}', 'ImageController@thumbnail')->where('path', '.*');
+Route::get('cache/resolve/{method}/{size}/{path}', [ImageController::class, 'thumbnail'])->where('path', '.*');
 
 Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
 

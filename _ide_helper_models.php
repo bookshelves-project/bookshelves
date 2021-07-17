@@ -112,6 +112,7 @@ namespace App\Models{
  * @property-read bool $is_favorite
  * @property-read string|null $meta_author
  * @property-read string $show_link
+ * @property-read string $show_link_opds
  * @property-read string $sort_name
  * @property-read mixed $tags_list
  * @property-read \App\Models\GoogleBook|null $googleBook

@@ -1,26 +1,56 @@
 {
-    "data": {
-        "name": "Howard Phillips Lovecraft",
-        "meta": {
-            "slug": "lovecraft-howard-phillips",
-            "show": "http://127.0.0.1:8000/api/authors/lovecraft-howard-phillips",
-            "books": "http://127.0.0.1:8000/api/authors/books/lovecraft-howard-phillips",
-            "series": "http://127.0.0.1:8000/api/authors/series/lovecraft-howard-phillips"
+    "data": [
+        {
+            "name": "Howard Phillips Lovecraft",
+            "meta": {
+                "slug": "lovecraft-howard-phillips",
+                "show": "http://127.0.0.1:8000/api/authors/lovecraft-howard-phillips"
+            },
+            "lastname": "Adams",
+            "firstname": "Douglas",
+            "picture": {
+                "base": "http://localhost:8000/storage/media/authors/lovecraft-howard-phillips-thumbnail.webp",
+                "openGraph": "http://localhost:8000/storage/media/authors/lovecraft-howard-phillips-open_graph.jpg",
+                "simple": "http://localhost:8000/storage/media/authors/lovecraft-howard-phillips-simple.jpg",
+                "color": "#7b654f"
+            },
+            "count": 5
         },
-        "lastname": "Lovecraft",
-        "firstname": "Howard Phillips",
-        "picture": {
-            "base": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-thumbnail.webp",
-            "openGraph": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-open_graph.jpg",
-            "simple": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-simple.jpg",
-            "color": "#8a817b"
-        },
-        "count": 22,
-        "description": "Howard Phillips Lovecraft was an American writer of weird and horror fiction, who is known for his creation of what became known as the Cthulhu Mythos.Born in Providence, Rhode Island, Lovecraft spent most of his life in New England. He was born into affluence, but his family's wealth dissipated soon after the death of his grandfather. In 1913, he wrote a critical letter to a pu...",
-        "link": "https://en.wikipedia.org/wiki/H._P._Lovecraft",
-        "size": "20.58 Mo",
-        "download": "http://127.0.0.1:8000/api/download/author/lovecraft-howard-phillips",
-        "isFavorite": false,
-        "comments": []
+        {
+            // ...
+        }
+    ],
+    "links": {
+        "first": "http://127.0.0.1:8000/api/authors?page=1",
+        "last": "http://127.0.0.1:8000/api/authors?page=2",
+        "prev": null,
+        "next": "http://127.0.0.1:8000/api/authors?page=2"
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 2,
+        "links": [
+            { "url": null, "label": "&laquo; Previous", "active": false },
+            {
+                "url": "http://127.0.0.1:8000/api/authors?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": "http://127.0.0.1:8000/api/authors?page=2",
+                "label": "2",
+                "active": false
+            },
+            {
+                "url": "http://127.0.0.1:8000/api/authors?page=2",
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "path": "http://127.0.0.1:8000/api/authors",
+        "per_page": 32,
+        "to": 32,
+        "total": 58
     }
 }

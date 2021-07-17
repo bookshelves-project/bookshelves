@@ -49,9 +49,9 @@ Route::get('/series/books/{volume}/{author}/{serie}', [SerieController::class, '
  * Authors routes
  */
 Route::get('/authors', [AuthorController::class, 'index'])->name('api.authors.index');
-Route::get('/authors/{author}', [AuthorController::class, 'show'])->name('api.authors.show');
-Route::get('/authors/books/{author}', [AuthorController::class, 'books'])->name('api.authors.show.books');
-Route::get('/authors/series/{author}', [AuthorController::class, 'series'])->name('api.authors.show.series');
+Route::get('/authors/{author:slug}', [AuthorController::class, 'show'])->name('api.authors.show');
+Route::get('/authors/books/{author:slug}', [AuthorController::class, 'books'])->name('api.authors.show.books');
+Route::get('/authors/series/{author:slug}', [AuthorController::class, 'series'])->name('api.authors.show.series');
 
 /*
  * Count routes

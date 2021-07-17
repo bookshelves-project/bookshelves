@@ -143,9 +143,9 @@ class BookshelvesTools
               self::cleanString(
                   str_replace( // preg_replace can be used to support more complicated replacements
                       array_keys($dict),
-                    array_values($dict),
-                    urldecode($string)
-                )
+                      array_values($dict),
+                      urldecode($string)
+                  )
               )
             )
         );

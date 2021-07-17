@@ -111,14 +111,24 @@ class SerieController extends Controller
         return SerieResource::make($serie);
     }
 
-    public function books(string $author_slug, string $serie_slug)
+    public function books(Request $request, string $author_slug, string $serie_slug)
     {
+        $page = $request->get('per-page');
+        $page = $page ? $page : 32;
+        if (! is_numeric($page)) {
+            return response()->json(
+                "Invalid 'per-page' query parameter, must be an int",
+                400
+            );
+        }
+        $page = intval($page);
+
         Author::whereSlug($author_slug)->firstOrFail();
         $serie = Serie::whereSlug($serie_slug)->with(['books', 'books.media', 'books.authors', 'books.serie', 'books.language'])->firstOrFail();
         if ($author_slug === $serie->meta_author) {
             $books = $serie->books;
 
-            return BookLightResource::collection($books);
+            return BookLightResource::collection($books->paginate($page));
         }
 
         return abort(404);
