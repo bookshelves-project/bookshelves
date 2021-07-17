@@ -61,18 +61,19 @@ class AuthorController extends Controller
      *
      * Details for one author, find by slug.
      *
-     * @urlParam id string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @urlParam slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     *
+     * @responseFile public/storage/responses/authors.get.json
      *
      */
-    public function show(string $slug)
+    public function show(Author $author)
     {
         try {
-            $author = Author::whereSlug($slug)->with('media')->withCount('books')->firstOrFail();
             $author = AuthorResource::make($author);
 
             return $author;
         } catch (\Throwable $th) {
-            return response()->json(['failed' => 'No result for '.$slug], 404);
+            return response()->json(['failed' => 'No result for '.$author], 404);
         }
     }
 

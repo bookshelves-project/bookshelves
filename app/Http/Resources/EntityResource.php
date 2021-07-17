@@ -24,6 +24,7 @@ class EntityResource extends JsonResource
                 'entity' => $entity,
                 'author' => $this->resource->meta_author ?? null,
                 'slug'   => $this->resource->slug,
+                'show'   => $this->resource->show_link,
             ],
             'title'    => $this->resource->title ?? $this->resource->name,
             'authors'  => $this->resource->authors ? AuthorUltraLightResource::collection($this->resource->authors) : null,
