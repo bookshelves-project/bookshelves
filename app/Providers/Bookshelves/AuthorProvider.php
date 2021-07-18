@@ -176,10 +176,14 @@ class AuthorProvider
                     ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
                     ->toMediaCollection('authors', 'authors');
             } else {
-                $author->addMediaFromUrl($picture)
+                try {
+                    $author->addMediaFromUrl($picture)
                     ->setName($author->slug)
                     ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
                     ->toMediaCollection('authors', 'authors');
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
             }
         }
 

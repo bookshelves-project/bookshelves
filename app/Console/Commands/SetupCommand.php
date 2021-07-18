@@ -91,6 +91,7 @@ class SetupCommand extends Command
         } else {
             $this->cleaningDev();
         }
+        Artisan::call('config:cache');
 
         Artisan::call('setup:database', [], $this->getOutput());
 
