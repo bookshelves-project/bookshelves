@@ -187,11 +187,15 @@ class AuthorProvider
             }
         }
 
-        $image = $author->getFirstMediaPath('authors');
-        $color = MetadataExtractorTools::simple_color_thief($image);
-        $media = $author->getFirstMedia('authors');
-        $media->setCustomProperty('color', $color);
-        $media->save();
+        try {
+            $image = $author->getFirstMediaPath('authors');
+            $color = MetadataExtractorTools::simple_color_thief($image);
+            $media = $author->getFirstMedia('authors');
+            $media->setCustomProperty('color', $color);
+            $media->save();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
 
         return $author;
     }
