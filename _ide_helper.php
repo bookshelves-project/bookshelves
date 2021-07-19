@@ -18664,7 +18664,7 @@ namespace  {
                 }
              
                 /**
-             * Set To limit and offset for a given page.
+             * Set the limit and offset for a given page.
              *
              * @param int $page
              * @param int $perPage

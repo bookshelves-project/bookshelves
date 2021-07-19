@@ -31,6 +31,7 @@ namespace App\Models{
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
+ * @property-read string $content_opds
  * @property-read string $download_link
  * @property-read string|null $image_color
  * @property-read string|null $image_open_graph
@@ -349,6 +350,7 @@ namespace App\Models{
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
+ * @property-read string $content_opds
  * @property-read string $download_link
  * @property-read mixed $genres_list
  * @property-read string|null $image_color
@@ -360,6 +362,7 @@ namespace App\Models{
  * @property-read string|null $meta_author
  * @property-read string $show_books_link
  * @property-read string $show_link
+ * @property-read string $show_link_opds
  * @property-read string $size
  * @property-read mixed $tags_list
  * @property-read \App\Models\Language|null $language
