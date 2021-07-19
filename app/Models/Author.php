@@ -111,6 +111,11 @@ class Author extends Model implements HasMedia
         return $route;
     }
 
+    public function getContentOpdsAttribute(): string
+    {
+        return $this->books->count().' books';
+    }
+
     public function getShowBooksLinkAttribute(): string
     {
         $route = route('api.authors.show.books', [

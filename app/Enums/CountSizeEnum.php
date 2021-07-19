@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use Closure;
 use Spatie\Enum\Laravel\Enum;
 
 /**
@@ -13,4 +14,8 @@ use Spatie\Enum\Laravel\Enum;
  */
 final class CountSizeEnum extends Enum
 {
+    protected static function values(): Closure
+    {
+        return fn (string $name) => mb_strtolower($name);
+    }
 }

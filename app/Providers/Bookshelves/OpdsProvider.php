@@ -5,74 +5,81 @@ namespace App\Providers\Bookshelves;
 use Route;
 use DateTime;
 use App\Models\Book;
+use App\Enums\EntitiesEnum;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Spatie\ArrayToXml\ArrayToXml;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class OpdsProvider
 {
-    public static function feed(string $entity, object | array $data, string $endpoint, string $route)
+    public function __construct(
+        public string $version,
+        public EntitiesEnum $entity,
+        public string $route,
+        public Collection | Model $data,
+    ) {
+    }
+
+    public function feed(): array
     {
         $id = strtolower(config('app.name'));
         $date = new DateTime();
         $date = $date->format('Y-m-d H:i:s');
 
         $entries = [];
-        if ($data instanceof Collection || 'array' === gettype($data)) {
-            foreach ($data as $key => $entry) {
-                // home page with feed
-                if ('feed' === $endpoint) {
-                    $templateEntry = self::entry(
-                        key: $entry->key,
-                        title: $entry->title,
-                        content: $entry->content,
-                        route: route($entry->route, ['version' => 'v1.2']),
-                        picture: config('app.url')."/storage/assets/$entry->key.png"
-                    );
-                }
-                dd($entity);
-                // collection
-                $templateEntry = self::entryBook(
-                    key: "$endpoint:$entry->slug",
-                    book: $entry,
-                );
+        if ($this->data instanceof Collection) {
+            foreach ($this->data as $key => $entry) {
+                //         // home page with feed
+                // if ('feed' === $endpoint) {
+                // }
+                $templateEntry = $this->entry($entry);
+                //         dd($entity);
+                //         // collection
+                //         $templateEntry = self::entryBook(
+                //             key: "$endpoint:$entry->slug",
+                //             book: $entry,
+                //         );
                 
+
+                //         array_push($entries, $templateEntry);
+                //     }
+                // } elseif ($data instanceof Model) {
+                //     // resource
+                //     $templateEntry = self::entry(
+                //         key: "$endpoint:$data->slug",
+                //         title: $data->title ?? "$data->lastname $data->firstname",
+                //         content: ucfirst($endpoint),
+                //         route: $data->show_link_opds,
+                //         picture: $data->image_thumbnail
+                //     );
 
                 array_push($entries, $templateEntry);
             }
-        } elseif ($data instanceof Model) {
-            // resource
-            $templateEntry = self::entry(
-                key: "$endpoint:$data->slug",
-                title: $data->title ?? "$data->lastname $data->firstname",
-                content: ucfirst($endpoint),
-                route: $data->show_link_opds,
-                picture: $data->image_thumbnail
-            );
-
-            array_push($entries, $templateEntry);
+        } elseif ($this->data instanceof Model) {
+            $templateEntry = $this->entry($this->data);
+            $entries = $templateEntry;
         }
 
         return $entries;
     }
 
-    public static function template(string $entity, object | array $data, string $endpoint, string $route, string $id = null, string $title = null)
+    public function template(string $title = null)
     {
-        if (! $id) {
-            $id = Str::slug(config('app.name')).':catalog';
-        } else {
-            $id = Str::slug(config('app.name')).':catalog:'.$id;
-        }
+        $id = Str::slug(config('app.name'));
+        $id .= ':'.Str::slug($this->entity->label);
+        $id .= $title ? ':'.Str::slug($title) : null;
 
-        if (! $title) {
-            $title = config('app.name').' OPDS';
-        }
+        $feed_title = config('app.name').' OPDS';
+        $feed_title .= ': '.ucfirst(strtolower($this->entity->label)) ?? null;
+        $feed_title .= $title !== null ? ': '.$title : null;
 
         $date = new DateTime();
         $date = $date->format('Y-m-d H:i:s');
 
+        
         $feed_links = [
             'xmlns:app'        => 'http://www.w3.org/2007/app',
             'xmlns:opds'       => 'http://opds-spec.org/2010/catalog',
@@ -83,32 +90,43 @@ class OpdsProvider
             'xmlns:thr'        => 'http://purl.org/syndication/thread/1.0',
             'xmlns:xsi'        => 'http://www.w3.org/2001/XMLSchema-instance',
         ];
-        $template = ArrayToXml::convert([
+
+        $feed = (array) [
             'id'              => $id,
             '__custom:link:1' => [
                 '_attributes' => [
-                    'rel'   => 'self',
-                    'href'  => $route,
+                    'rel'   => 'start',
+                    'href'  => route('opds', ['version' => $this->version]),
                     'type'  => 'application/atom+xml;profile=opds-catalog;kind=navigation',
                     'title' => 'Home',
                 ],
             ],
             '__custom:link:2' => [
                 '_attributes' => [
-                    'rel'   => 'start',
-                    'href'  => route('opds', ['version' => 'v1.2']),
+                    'rel'   => 'self',
+                    'href'  => $this->route,
                     'type'  => 'application/atom+xml;profile=opds-catalog;kind=navigation',
-                    'title' => 'Feed',
+                    'title' => 'self',
                 ],
             ],
-            'title'   => $title,
+            '__custom:link:3' => [
+                '_attributes' => [
+                    'rel'   => 'search',
+                    'href'  => route('opds', ['version' => 'v1.2']),
+                    'type'  => 'application/atom+xml;profile=opds-catalog;kind=navigation',
+                    'title' => 'Search here',
+                ],
+            ],
+            'title'   => $feed_title,
             'updated' => $date,
             'author'  => [
                 'name' => config('app.name'),
                 'uri'  => config('app.url'),
             ],
-            'entry' => OpdsProvider::feed(entity: $entity, endpoint: $endpoint, data: $data, route: $route),
-        ], [
+            'entry' => $this->feed(),
+        ];
+
+        $template = ArrayToXml::convert($feed, [
             'rootElementName' => 'feed',
             '_attributes'     => $feed_links,
         ], true, 'UTF-8');
@@ -116,21 +134,25 @@ class OpdsProvider
         return $template;
     }
 
-    public static function entry(string $key, string $title, string $content, string $route, string $picture)
+    public function entry(object $entry): array
     {
         $app = strtolower(config('app.name'));
         $date = new DateTime();
         $date = $date->format('Y-m-d H:i:s');
 
+        $title = $entry->title ?? "$entry->lastname $entry->firstname";
+        $description = $entry->content_opds ?? $entry->content;
+        $route = $entry->show_link_opds ?? $entry->route;
+
         $template = [
             'title'   => $title,
             'updated' => $date,
-            'id'      => $app.':'.$key,
+            'id'      => $app.':'.Str::slug($this->entity->label).':'.Str::slug($title),
             'content' => [
                 '_attributes' => [
                     'type' => 'text',
                 ],
-                '_value' => $content,
+                '_value' => (string) $description,
             ],
             '__custom:link:1' => [
                 '_attributes' => [
@@ -140,7 +162,7 @@ class OpdsProvider
             ],
             '__custom:link:2' => [
                 '_attributes' => [
-                    'href' => $picture,
+                    'href' => $entry->image_thumbnail ?? null,
                     'type' => 'image/png',
                     'rel'  => 'http://opds-spec.org/image/thumbnail',
                 ],

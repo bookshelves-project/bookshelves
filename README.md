@@ -148,6 +148,9 @@ php artisan scribe:generate
 
 ## **TODO** <!-- omit in toc -->
 
+- API doc
+  - [ ] improve doc responseField
+  - [ ] improve bind routes
 - [ ] Logs for EpubParser
 - [ ] Improve libre ebooks meta
 - [ ] Add attribute on each method for Controller

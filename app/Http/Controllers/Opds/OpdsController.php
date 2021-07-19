@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Opds;
 
 use File;
 use Route;
-use Response;
-use App\Models\Book;
+use App\Enums\EntitiesEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\Bookshelves\OpdsProvider;
-use App\Http\Resources\Book\BookLightestResource;
 
 /**
  * @hideFromAPIDocumentation
@@ -21,23 +19,26 @@ class OpdsController extends Controller
         return view('pages.opds.index');
     }
 
-    public function feed(Request $request)
+    public function feed(Request $request, string $version)
     {
-        $books = Book::orderBy('title_sort')->limit(30)->get();
-        $books = BookLightestResource::collection($books);
-        $books = $books->toArray($request);
-
-        $books_list = [];
-        foreach ($books as $key => $book) {
-            array_push($books_list, $book['title']);
-        }
-
         $feed = File::get(app_path('Providers/Bookshelves/Feed/opds.json'));
-        $feed = json_decode($feed);
+        $feed = (array) json_decode($feed);
+        foreach ($feed as $key => $value) {
+            $model_name = 'App\Models\\'.ucfirst($value->model);
+            $value->image_thumbnail = config('app.url').'/storage/assets/'.$value->key.'.png';
+            $value->route = route($value->route, ['version' => $version]);
+            $value->content = $model_name::count().' '.$value->content;
+        }
+        $feed = collect($feed);
 
-        $result = OpdsProvider::template(data: $feed, endpoint: 'feed', route: route(Route::currentRouteName(), [
-            'version' => 'v1.2',
-        ]));
+        $current_route = route(Route::currentRouteName(), ['version' => $version]);
+        $opdsProvider = new OpdsProvider(
+            version: $version,
+            entity: EntitiesEnum::FEED(),
+            route: $current_route,
+            data: $feed,
+        );
+        $result = $opdsProvider->template();
 
         return response($result)->withHeaders([
             'Content-Type' => 'text/xml',

@@ -101,6 +101,22 @@ class Serie extends Model implements HasMedia
         return '';
     }
 
+    public function getShowLinkOpdsAttribute(): string
+    {
+        $route = route('opds.series.show', [
+            'version' => 'v1.2',
+            'author'  => $this->meta_author,
+            'serie'   => $this->slug,
+        ]);
+
+        return $route;
+    }
+
+    public function getContentOpdsAttribute(): string
+    {
+        return $this->books->count().' books';
+    }
+
     public function getShowBooksLinkAttribute(): string
     {
         $route = route('api.series.show.books', [

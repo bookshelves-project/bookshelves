@@ -4,6 +4,7 @@
         "model": "Author",
         "title": "Authors",
         "content": "Authors availables",
+        "image_thumbnail": "",
         "route": "opds.authors"
     },
     {
@@ -11,6 +12,7 @@
         "model": "Serie",
         "title": "Series",
         "content": "Series availables",
+        "image_thumbnail": "",
         "route": "opds.series"
     }
 ]
