@@ -1,0 +1,34 @@
+{
+    "data": [
+        {
+            "meta": {
+                "entity": "book",
+                "author": "arnaud-georges-jean",
+                "slug": "les-chasseurs-des-glaces-fr",
+                "show": "http://127.0.0.1:8000/api/books/arnaud-georges-jean/les-chasseurs-des-glaces-fr"
+            },
+            "title": "Les Chasseurs des glaces",
+            "authors": [
+                {
+                    "name": "Georges-Jean Arnaud",
+                    "meta": {
+                        "slug": "arnaud-georges-jean",
+                        "show": "http://127.0.0.1:8000/api/authors/arnaud-georges-jean"
+                    }
+                }
+            ],
+            "serie": "La Compagnie des glaces",
+            "language": "fr",
+            "volume": 4,
+            "picture": {
+                "base": "http://localhost:8000/storage/media/books/609/conversions/les-chasseurs-des-glaces-fr-thumbnail.webp",
+                "original": "http://localhost:8000/storage/media/books/609/les-chasseurs-des-glaces-fr.webp",
+                "simple": "http://localhost:8000/storage/media/books/609/conversions/les-chasseurs-des-glaces-fr-simple.jpg",
+                "color": "#a19689"
+            }
+        },
+        {
+            // ...
+        }
+    ]
+}

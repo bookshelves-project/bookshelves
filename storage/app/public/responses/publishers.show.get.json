@@ -1,0 +1,11 @@
+{
+    "data": {
+        "name": "Bragelonne",
+        "count": 52,
+        "meta": {
+            "slug": "bragelonne",
+            "books": "http://localhost:8000/api/publishers/books/bragelonne",
+            "show": "http://localhost:8000/api/publishers/bragelonne"
+        }
+    }
+}

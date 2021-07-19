@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 
 /**
  * @group Count
+ *
+ * Endpoint to get count of entities.
  */
 class CountController extends Controller
 {

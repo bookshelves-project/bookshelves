@@ -1,0 +1,63 @@
+{
+    "data": [
+        {
+            "meta": {
+                "entity": "serie",
+                "author": "jubert-herve",
+                "slug": "beauregard-fr"
+            },
+            "title": "Beauregard",
+            "authors": [
+                {
+                    "name": "Hervé Jubert",
+                    "meta": {
+                        "slug": "jubert-herve",
+                        "show": "http://127.0.0.1:8000/api/authors/jubert-herve"
+                    }
+                }
+            ],
+            "volume": null,
+            "picture": {
+                "base": "http://localhost:8000/storage/media/series/1133/conversions/beauregard-fr-thumbnail.webp",
+                "original": "http://localhost:8000/storage/media/series/1133/beauregard-fr.webp",
+                "openGraph": "http://localhost:8000/storage/media/series/1133/conversions/beauregard-fr-open_graph.jpg",
+                "color": "#564923"
+            }
+        },
+        {
+            // ...
+        }
+    ],
+    "links": {
+        "first": "http://127.0.0.1:8000/api/books/related/lovecraft-howard-phillips/les-montagnes-hallucinees-fr?page=1",
+        "last": "http://127.0.0.1:8000/api/books/related/lovecraft-howard-phillips/les-montagnes-hallucinees-fr?page=1",
+        "prev": null,
+        "next": null
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 1,
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http://127.0.0.1:8000/api/books/related/lovecraft-howard-phillips/les-montagnes-hallucinees-fr?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "path": "http://127.0.0.1:8000/api/books/related/lovecraft-howard-phillips/les-montagnes-hallucinees-fr",
+        "per_page": 32,
+        "to": 23,
+        "total": 23
+    }
+}

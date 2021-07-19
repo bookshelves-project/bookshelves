@@ -1,11 +1,11 @@
 {
     "data": [
         {
-            "title": "L'Affaire Charles Dexter Ward",
+            "title": "Les montagnes hallucinées",
             "meta": {
-                "slug": "laffaire-charles-dexter-ward-fr",
+                "slug": "les-montagnes-hallucinees-fr",
                 "author": "lovecraft-howard-phillips",
-                "show": "http://127.0.0.1:8000/api/books/lovecraft-howard-phillips/laffaire-charles-dexter-ward-fr"
+                "show": "http://127.0.0.1:8000/api/books/lovecraft-howard-phillips/les-montagnes-hallucinees-fr"
             },
             "authors": [
                 {
@@ -16,16 +16,23 @@
                     }
                 }
             ],
-            "summary": "Providence, Etats-Unis, 1918. Charles Dexter Ward est un jeune homme passionne d'archeologie, d'histoire, et de genealogie. C'est pa...",
+            "summary": "Outre-monts, outre-tombes ! De memoire d'homme, jamais on ne vit paysages plus hallucinants ! Labyrinthes grouillants de murs, de tours,...",
             "language": "fr",
-            "publishDate": "1928-06-14 23:00:00",
+            "publishDate": "1936-06-14 23:00:00",
             "picture": {
-                "base": "http://localhost:8000/storage/media/books/975/conversions/laffaire-charles-dexter-ward-fr-thumbnail.webp",
-                "simple": "http://localhost:8000/storage/media/books/975/conversions/laffaire-charles-dexter-ward-fr-simple.jpg",
-                "color": "#f0d9b6"
+                "base": "http://localhost:8000/storage/media/books/993/conversions/les-montagnes-hallucinees-fr-thumbnail.webp",
+                "simple": "http://localhost:8000/storage/media/books/993/conversions/les-montagnes-hallucinees-fr-simple.jpg",
+                "color": "#6e7c80"
             },
-            "volume": 0,
-            "serie": null
+            "volume": 1,
+            "serie": {
+                "title": "Les montagnes hallucinées",
+                "meta": {
+                    "slug": "les-montagnes-hallucinees-fr",
+                    "author": "lovecraft-howard-phillips",
+                    "show": "http://127.0.0.1:8000/api/series/lovecraft-howard-phillips/les-montagnes-hallucinees-fr"
+                }
+            }
         },
         {
             // ...

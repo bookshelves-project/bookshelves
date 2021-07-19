@@ -18,6 +18,8 @@ use App\Http\Resources\Book\BookLightestResource;
 
 /**
  * @group Book
+ *
+ * Endpoint to get Books data.
  */
 class BookController extends Controller
 {
@@ -26,13 +28,16 @@ class BookController extends Controller
     *
     * <small class="badge badge-blue">WITH PAGINATION</small>
     *
-    * You can get all books with alphabetic order on title & series' title with pagination.
+    * Get all Books ordered by 'title' & Series' 'title'.
     *
-    * @queryParam per-page int Entities per page, 32 by default. Example: 32.
-    * @queryParam page int The page number, 1 by default. No-example
+    * @queryParam per-page int Entities per page, '32' by default. No-example
+    * @queryParam page int The page number, '1' by default. No-example
     * @queryParam all bool To disable pagination, false by default. No-example
     * @queryParam lang filters[fr,en] To select specific lang, null by default. No-example
-    * @responseFile public/storage/responses/books.get.json
+    *
+    * @responseField title string Book's title.
+    *
+    * @responseFile public/storage/responses/books.index.get.json
     */
     public function index(Request $request)
     {
@@ -84,52 +89,16 @@ class BookController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *     path="/books/{author}/{book}",
-     *     summary="Show book by author slug and book slug",
-     *     tags={"books"},
-     *     description="Get details for a single book, check /books endpoint to get list of slugs",
-     *     operationId="findBookByAuthorBook",
-     *     @OA\Parameter(
-     *         name="author",
-     *         in="path",
-     *         description="Slug of author name like 'lovecraft-howard-phillips' for Howard Phillips Lovecraft",
-     *         required=true,
-     *         example="lovecraft-howard-phillips",
-     *         style="form"
-     *     ),
-     *     @OA\Parameter(
-     *         name="book",
-     *         in="path",
-     *         description="Slug of book name like 'les-montagnes-hallucinees-fr' for Les Montagnes Hallucinées",
-     *         required=true,
-     *         example="les-montagnes-hallucinees-fr",
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="successful operation",
-     *         @OA\JsonContent(),
-     *     ),
-     *     @OA\Response(
-     *         response="404",
-     *         description="Invalid author-slug value or book-slug value",
-     *         @OA\JsonContent(),
-     *     ),
-     * )
-     */
-
-    /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
-     */
-    public function show(Request $request, string $author_slug, string $book_slug)
+    * GET Book resource
+    *
+    * Get details of Book model, find by slug of book and slug of author.
+    *
+    * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+    * @urlParam book_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
+    * @responseFile public/storage/responses/books.show.get.json
+    */
+    public function show(Request $request, Author $author, Book $book)
     {
-        $author = Author::whereSlug($author_slug)->firstOrFail();
-        $book = $author->books->firstWhere('slug', $book_slug);
         if (! $book) {
             return response()->json([
                 'status'  => 'failed',
@@ -137,8 +106,8 @@ class BookController extends Controller
                 'data'    => [
                     'route'  => $request->route()->uri,
                     'params' => [
-                        'author' => $author_slug,
-                        'book'   => $book_slug,
+                        'author' => $author->slug,
+                        'book'   => $book->slug,
                     ],
                 ],
             ], 404);
@@ -182,11 +151,16 @@ class BookController extends Controller
      */
 
     /**
-    * @response {
-    *  "id": 4,
-    *  "name": "Jessica Jones",
-    *  "roles": ["admin"]
-    * }
+    * GET Book collection latest entries
+    *
+    * <small class="badge badge-blue">WITH PAGINATION</small>
+    *
+    * Get all Books ordered by date 'created_at'.
+    *
+    * @queryParam limit int To limit of entities, '10' by default. No-example
+    * @queryParam per-page int Entities per page, '32' by default. No-example
+    * @queryParam page int The page number, '1' by default. No-example
+    * @responseFile public/storage/responses/books.latest.get.json
     */
     public function latest(Request $request)
     {
@@ -200,19 +174,28 @@ class BookController extends Controller
         }
         $limit = intval($limit);
 
+        $page = $request->get('per-page') ? $request->get('per-page') : 32;
+        if (! is_numeric($page)) {
+            return response()->json(
+                "Invalid 'per-page' query parameter, must be an int",
+                400
+            );
+        }
+        $page = intval($page);
+
         $books = Book::orderByDesc('created_at')->limit($limit)->get();
-        $books = EntityResource::collection($books);
+        $books = EntityResource::collection($books->paginate($page));
 
         return $books;
     }
 
     /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
-     */
+    * GET Book collection of selection
+    *
+    * Get all Books selected by team, limited to '10' results (no pagination).
+    *
+    * @responseFile public/storage/responses/books.selection.get.json
+    */
     public function selection(): JsonResource
     {
         $books = Book::inRandomOrder()->limit(10)->get();
@@ -222,15 +205,41 @@ class BookController extends Controller
     }
 
     /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
+     * GET Book collection related entries
+     *
+     * <small class="badge badge-blue">WITH PAGINATION</small>
+     *
+     * Get all Series/Books related to selected Book from Tag/Genre.
+     *
+     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @urlParam book_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
+     *
+     * @queryParam limit int To limit of entities. No-example
+     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam page int The page number, '1' by default. No-example
+     *
+     * @responseFile public/storage/responses/books.related.get.json
      */
-    public function related(string $authorSlug, string $bookSlug, Request $request)
+    public function related(Request $request, string $authorSlug, string $bookSlug)
     {
-        $limit = $request->get('limit') ? filter_var($request->get('limit'), FILTER_VALIDATE_BOOLEAN) : false;
+        $limit = $request->get('limit');
+        $limit = $limit ? $limit : 0;
+        if (! is_numeric($limit)) {
+            return response()->json(
+                "Invalid 'limit' query parameter, must be an int",
+                400
+            );
+        }
+        $limit = intval($limit);
+
+        $page = $request->get('per-page') ? $request->get('per-page') : 32;
+        if (! is_numeric($page)) {
+            return response()->json(
+                "Invalid 'per-page' query parameter, must be an int",
+                400
+            );
+        }
+        $page = intval($page);
 
         // get book
         $author = Author::whereSlug($authorSlug)->first();
@@ -251,7 +260,7 @@ class BookController extends Controller
                 $related_books = $this->filterRelatedBooks($book, $related_books, $limit);
             }
 
-            return BookOrSerieResource::collection($related_books);
+            return BookOrSerieResource::collection($related_books->paginate($page));
         }
 
         return response()->json(
@@ -260,7 +269,7 @@ class BookController extends Controller
         );
     }
 
-    public function filterRelatedBooks(Book $book, Collection $related_books, bool $limit): Collection
+    public function filterRelatedBooks(Book $book, Collection $related_books, int $limit = 0): Collection
     {
         // get serie of current book
         $serie_books = Serie::whereSlug($book->serie?->slug)->first();
@@ -306,8 +315,8 @@ class BookController extends Controller
         $related_books = $related_books->sortBy('title_sort');
 
         // set limit
-        if ($limit) {
-            $related_books = $related_books->slice(0, 10);
+        if ($limit !== 0) {
+            $related_books = $related_books->slice(0, $limit);
         }
 
         return $related_books;

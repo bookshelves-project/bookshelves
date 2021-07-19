@@ -62,6 +62,12 @@ return [
              */
             'exclude' => [
                 // '/health', 'admin.*'
+                'api/login',
+                'api/logout',
+                'api/register',
+                'api/user/confirmed-password-status',
+                'api/user/confirm-password',
+                'api/sanctum/csrf-cookie'
             ],
 
             /*
@@ -319,7 +325,7 @@ INTRO
             Strategies\Metadata\GetFromDocBlocks::class,
         ],
         'urlParameters' => [
-            Strategies\UrlParameters\GetFromLaravelAPI::class,
+            // Strategies\UrlParameters\GetFromLaravelAPI::class,
             Strategies\UrlParameters\GetFromLumenAPI::class,
             Strategies\UrlParameters\GetFromUrlParamTag::class,
         ],

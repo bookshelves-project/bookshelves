@@ -14,44 +14,21 @@ use Spatie\MediaLibrary\Support\MediaStream;
 
 /**
  * @group Download
+ *
+ * Endpoint to download EPUB/ZIP.
  */
 class DownloadController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/download/book/{author}/{book}",
-     *     tags={"download"},
-     *     summary="Download specific book",
-     *     description="Download specific book, check /books endpoint to get list of slugs",
-     *     @OA\Parameter(
-     *         name="author",
-     *         in="path",
-     *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
-     *         required=true,
-     *         example="auel-jean-m",
-     *         style="form"
-     *     ),
-     *     @OA\Parameter(
-     *         name="book",
-     *         in="path",
-     *         description="Slug of book name like 'les-refuges-de-pierre' for Les refuges de pierre",
-     *         required=true,
-     *         example="les-refuges-de-pierre",
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation"
-     *     )
-     * )
-     */
-
-    /**
-    * @response {
-    *  "id": 4,
-    *  "name": "Jessica Jones",
-    *  "roles": ["admin"]
-    * }
+    * GET Book EPUB
+    *
+    * <small class="badge badge-green">Content-Type application/epub+zip</small>
+    *
+    * Download Book EPUB, find by slug of book and slug of author.
+    *
+    * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+    * @urlParam book_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
+    * @response 200
     */
     public function book(Request $request, string $author, string $book)
     {
@@ -66,40 +43,15 @@ class DownloadController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *     path="/download/serie/{author}/{serie}",
-     *     tags={"download"},
-     *     summary="Download specific serie's books with ZIP",
-     *     description="Download specific serie, check /series endpoint to get list of slugs",
-     *     @OA\Parameter(
-     *         name="author",
-     *         in="path",
-     *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
-     *         required=true,
-     *         example="auel-jean-m",
-     *         style="form"
-     *     ),
-     *     @OA\Parameter(
-     *         name="book",
-     *         in="path",
-     *         description="Slug of book name like 'les-enfants-de-la-terre' for Les enfants de la terre",
-     *         required=true,
-     *         example="les-enfants-de-la-terre",
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation"
-     *     )
-     * )
-     */
-
-    /**
-    * @response {
-    *  "id": 4,
-    *  "name": "Jessica Jones",
-    *  "roles": ["admin"]
-    * }
+    * GET Serie ZIP
+    *
+    * <small class="badge badge-green">Content-Type application/octet-stream</small>
+    *
+    * Download Serie ZIP, find by slug of serie and slug of author.
+    *
+    * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+    * @urlParam serie_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
+    * @response 200
     */
     public function serie(string $author, string $serie)
     {
@@ -130,33 +82,14 @@ class DownloadController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *     path="/download/author/{author}",
-     *     tags={"download"},
-     *     summary="Download specific author's books with ZIP",
-     *     description="Download specific author, check /authors endpoint to get list of slugs",
-     *     @OA\Parameter(
-     *         name="author",
-     *         in="path",
-     *         description="Slug of author name like 'auel-jean-m' for Jean M. Auel",
-     *         required=true,
-     *         example="auel-jean-m",
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     * 		   @OA\JsonContent(),
-     *     )
-     * )
-     */
-
-    /**
-    * @response {
-    *  "id": 4,
-    *  "name": "Jessica Jones",
-    *  "roles": ["admin"]
-    * }
+    * GET Author ZIP
+    *
+    * <small class="badge badge-green">Content-Type application/octet-stream</small>
+    *
+    * Download Author ZIP, find by slug of author.
+    *
+    * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+    * @response 200
     */
     public function author(string $author)
     {

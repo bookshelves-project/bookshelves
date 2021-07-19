@@ -14,6 +14,8 @@ use App\Http\Resources\Serie\SerieUltraLightResource;
 
 /**
  * @group Serie
+ *
+ * Endpoint to get Series data.
  */
 class SerieController extends Controller
 {
@@ -44,11 +46,17 @@ class SerieController extends Controller
      */
 
     /**
-    * @response {
-    *  "id": 4,
-    *  "name": "Jessica Jones",
-    *  "roles": ["admin"]
-    * }
+    * GET Serie collection
+    *
+    * <small class="badge badge-blue">WITH PAGINATION</small>
+    *
+    * Get all Series ordered by 'title'.
+    *
+    * @queryParam per-page int Entities per page, '32' by default. No-example
+    * @queryParam page int The page number, '1' by default. No-example
+    * @queryParam all bool To disable pagination, false by default. No-example
+    *
+    * @responseFile public/storage/responses/series.index.get.json
     */
     public function index(Request $request)
     {
@@ -111,11 +119,14 @@ class SerieController extends Controller
      */
 
     /**
-    * @response {
-    *  "id": 4,
-    *  "name": "Jessica Jones",
-    *  "roles": ["admin"]
-    * }
+    * GET Serie resource
+    *
+    * Get details of Serie model, find by slug of serie and slug of author.
+    *
+    * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+    * @urlParam serie_slug string required The slug of serie like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
+    *
+    * @responseFile public/storage/responses/series.show.get.json
     */
     public function show(string $author, string $serie)
     {
@@ -128,11 +139,16 @@ class SerieController extends Controller
     }
 
     /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
+     * GET Book collection of Serie
+     *
+     * Books list from one Serie, find by slug.
+     *
+     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam page int The page number, '1' by default. No-example
+     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @urlParam serie_slug string required The slug of serie like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
+     *
+     * @responseFile public/storage/responses/series.books.get.json
      */
     public function books(Request $request, string $author_slug, string $serie_slug)
     {
@@ -158,13 +174,17 @@ class SerieController extends Controller
     }
 
     /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
+     * GET Book collection of Serie (from volume)
+     *
+     * Books list from one Serie, find by slug from volume and limited to 10 results.
+     *
+     * @urlParam author_slug string required The slug of author like '1'. Example: 1
+     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @urlParam serie_slug string required The slug of serie like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
+     *
+     * @responseFile public/storage/responses/series.current.get.json
      */
-    public function showCurrent(Request $request, string $volume, string $author, string $serie)
+    public function current(Request $request, string $volume, string $author, string $serie)
     {
         $limit = $request->get('limit') ? filter_var($request->get('limit'), FILTER_VALIDATE_BOOLEAN) : null;
         $volume = intval($volume);

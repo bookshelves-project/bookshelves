@@ -1,0 +1,47 @@
+{
+    "data": {
+        "title": "Les montagnes hallucinées",
+        "meta": {
+            "slug": "les-montagnes-hallucinees-fr",
+            "author": "lovecraft-howard-phillips",
+            "show": "http://localhost:8000/api/series/lovecraft-howard-phillips/les-montagnes-hallucinees-fr",
+            "books": "http://localhost:8000/api/series/books/lovecraft-howard-phillips/les-montagnes-hallucinees-fr"
+        },
+        "picture": {
+            "base": "http://localhost:8000/storage/media/series/1178/conversions/les-montagnes-hallucinees-fr-thumbnail.webp",
+            "openGraph": "http://localhost:8000/storage/media/series/1178/conversions/les-montagnes-hallucinees-fr-open_graph.jpg",
+            "simple": "http://localhost:8000/storage/media/series/1178/conversions/les-montagnes-hallucinees-fr-simple.jpg",
+            "color": "#6e7c80"
+        },
+        "language": "fr",
+        "authors": [
+            {
+                "name": "Howard Phillips Lovecraft",
+                "meta": {
+                    "slug": "lovecraft-howard-phillips",
+                    "show": "http://localhost:8000/api/authors/lovecraft-howard-phillips"
+                }
+            }
+        ],
+        "count": 1,
+        "description": "Les Montagnes hallucinees, ou Montagnes de la folie , est un roman court de science-fiction de l'ecrivain americain Howard Phillips Lovecraft, initialement publie dans les numeros de fevrier, mars et avril 1936 du magazine Astounding Stories. Redige par Lovecraft en fevrier et mars 1931, ce roman a connu de nombreu...",
+        "link": "https://fr.wikipedia.org/wiki/Les_Montagnes_hallucin%C3%A9es",
+        "tags": [],
+        "genres": [
+            {
+                "name": "Science fiction",
+                "type": "genre",
+                "count": null,
+                "meta": {
+                    "slug": "science-fiction",
+                    "books": "http://localhost:8000/api/tags/books/science-fiction",
+                    "show": "http://localhost:8000/api/tags/science-fiction"
+                }
+            }
+        ],
+        "download": "http://localhost:8000/api/download/serie/lovecraft-howard-phillips/les-montagnes-hallucinees-fr",
+        "size": "260.25 Ko",
+        "isFavorite": false,
+        "comments": []
+    }
+}

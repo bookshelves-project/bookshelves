@@ -1,0 +1,80 @@
+{
+    "data": [
+        {
+            "meta": {
+                "entity": "author",
+                "author": null,
+                "slug": "lovecraft-howard-phillips",
+                "show": "http://127.0.0.1:8000/api/authors/lovecraft-howard-phillips"
+            },
+            "title": "Howard Phillips Lovecraft",
+            "authors": null,
+            "serie": null,
+            "language": null,
+            "volume": null,
+            "picture": {
+                "base": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-thumbnail.webp",
+                "original": null,
+                "simple": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-simple.jpg",
+                "color": "#8a817b"
+            }
+        },
+        {
+            "meta": {
+                "entity": "serie",
+                "author": "lovecraft-howard-phillips",
+                "slug": "cthulhu-le-mythe-fr",
+                "show": "http://127.0.0.1:8000/api/series/lovecraft-howard-phillips/cthulhu-le-mythe-fr"
+            },
+            "title": "Cthulhu : Le Mythe",
+            "authors": [
+                {
+                    "name": "Howard Phillips Lovecraft",
+                    "meta": {
+                        "slug": "lovecraft-howard-phillips",
+                        "show": "http://127.0.0.1:8000/api/authors/lovecraft-howard-phillips"
+                    }
+                }
+            ],
+            "serie": null,
+            "language": "fr",
+            "volume": null,
+            "picture": {
+                "base": "http://localhost:8000/storage/media/series/1144/conversions/cthulhu-le-mythe-fr-thumbnail.webp",
+                "original": "http://localhost:8000/storage/media/series/1144/cthulhu-le-mythe-fr.webp",
+                "simple": "http://localhost:8000/storage/media/series/1144/conversions/cthulhu-le-mythe-fr-simple.jpg",
+                "color": "#806c47"
+            }
+        },
+        {
+            "meta": {
+                "entity": "book",
+                "author": "lovecraft-howard-phillips",
+                "slug": "laffaire-charles-dexter-ward-fr",
+                "show": "http://127.0.0.1:8000/api/books/lovecraft-howard-phillips/laffaire-charles-dexter-ward-fr"
+            },
+            "title": "L'Affaire Charles Dexter Ward",
+            "authors": [
+                {
+                    "name": "Howard Phillips Lovecraft",
+                    "meta": {
+                        "slug": "lovecraft-howard-phillips",
+                        "show": "http://127.0.0.1:8000/api/authors/lovecraft-howard-phillips"
+                    }
+                }
+            ],
+            "serie": null,
+            "language": "fr",
+            "volume": 0,
+            "picture": {
+                "base": "http://localhost:8000/storage/media/books/975/conversions/laffaire-charles-dexter-ward-fr-thumbnail.webp",
+                "original": "http://localhost:8000/storage/media/books/975/laffaire-charles-dexter-ward-fr.webp",
+                "simple": "http://localhost:8000/storage/media/books/975/conversions/laffaire-charles-dexter-ward-fr-simple.jpg",
+                "color": "#f0d9b6"
+            }
+        },
+        {
+            // ...
+        }
+    ]
+}

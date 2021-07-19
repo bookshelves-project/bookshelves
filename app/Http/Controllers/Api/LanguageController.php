@@ -8,6 +8,8 @@ use App\Http\Resources\LanguageResource;
 
 /**
  * @group Language
+ *
+ * Endpoint to get Languages data.
  */
 class LanguageController extends Controller
 {

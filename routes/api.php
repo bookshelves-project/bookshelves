@@ -34,16 +34,16 @@ Route::get('/', [ApiController::class, 'index'])->name('api.index');
  * Books routes
  */
 Route::get('/books', [BookController::class, 'index'])->name('api.books.index');
-Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('api.books.show');
-Route::get('/books/related/{author}/{book}', [BookController::class, 'related'])->name('api.books.related');
+Route::get('/books/{author:slug}/{book:slug}', [BookController::class, 'show'])->name('api.books.show');
+Route::get('/books/related/{author:slug}/{book:slug}', [BookController::class, 'related'])->name('api.books.related');
 
 /*
  * Series routes
  */
 Route::get('/series', [SerieController::class, 'index'])->name('api.series.index');
-Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('api.series.show');
-Route::get('/series/books/{author}/{serie}', [SerieController::class, 'books'])->name('api.series.show.books');
-Route::get('/series/books/{volume}/{author}/{serie}', [SerieController::class, 'showCurrent'])->name('api.series.show-current');
+Route::get('/series/{author:slug}/{serie:slug}', [SerieController::class, 'show'])->name('api.series.show');
+Route::get('/series/books/{author:slug}/{serie:slug}', [SerieController::class, 'books'])->name('api.series.show.books');
+Route::get('/series/books/{volume}/{author:slug}/{serie:slug}', [SerieController::class, 'current'])->name('api.series.current');
 
 /*
  * Authors routes
@@ -70,9 +70,9 @@ Route::get('/search/advanced', [SearchController::class, 'advanced'])->name('api
 /*
  * Download routes
  */
-Route::get('/download/book/{author}/{book}', [DownloadController::class, 'book'])->name('api.download.book');
-Route::get('/download/serie/{author}/{serie}', [DownloadController::class, 'serie'])->name('api.download.serie');
-Route::get('/download/author/{author}', [DownloadController::class, 'author'])->name('api.download.author');
+Route::get('/download/book/{author:slug}/{book:slug}', [DownloadController::class, 'book'])->name('api.download.book');
+Route::get('/download/serie/{author:slug}/{serie:slug}', [DownloadController::class, 'serie'])->name('api.download.serie');
+Route::get('/download/author/{author:slug}', [DownloadController::class, 'author'])->name('api.download.author');
 
 /*
  * Last entities routes
@@ -88,7 +88,7 @@ Route::post('submission', [SubmissionController::class, 'send'])->name('api.subm
 /*
  * Comments routes
  */
-Route::get('/comments/by-user/{user}', [CommentController::class, 'byUser'])->name('api.comments.by-user');
+Route::get('/comments/by-user/{user:id}', [CommentController::class, 'byUser'])->name('api.comments.by-user');
 Route::get('/comments/{model}/{slug}', [CommentController::class, 'index'])->name('api.comments.index');
 
 Route::get('/users', [UserController::class, 'users'])->name('api.users');
@@ -102,8 +102,8 @@ Route::get('/tags/books/{tag}', [TagController::class, 'books'])->name('api.tags
 
 /* Publishers routes */
 Route::get('/publishers', [PublisherController::class, 'index'])->name('api.publishers.index');
-Route::get('/publishers/{publisher}', [PublisherController::class, 'show'])->name('api.publishers.show');
-Route::get('/publishers/books/{publisher}', [PublisherController::class, 'books'])->name('api.publishers.show.books');
+Route::get('/publishers/{publisher:slug}', [PublisherController::class, 'show'])->name('api.publishers.show');
+Route::get('/publishers/books/{publisher:slug}', [PublisherController::class, 'books'])->name('api.publishers.show.books');
 
 /*
  * Lang routes
@@ -117,16 +117,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     /*
      * Favorites routes
      */
-    Route::get('/favorites/by-user/{user}', [FavoriteController::class, 'byUser'])->name('api.favorites.by-user');
+    Route::get('/favorites/by-user/{user:id}', [FavoriteController::class, 'byUser'])->name('api.favorites.by-user');
     Route::post('/favorites/toggle/{model}/{slug}', [FavoriteController::class, 'toggle'])->name('api.favorites.toggle');
 
     /*
      * Comments routes
      */
     Route::post('/comments/store/{model}/{slug}', [CommentController::class, 'store'])->name('api.comments.store');
-    Route::post('/comments/edit/{book}', [CommentController::class, 'edit'])->name('api.comments.edit');
-    Route::post('/comments/update/{book}', [CommentController::class, 'update'])->name('api.comments.update');
-    Route::post('/comments/destroy/{book}', [CommentController::class, 'destroy'])->name('api.comments.destroy');
+    Route::post('/comments/edit/{book:slug}', [CommentController::class, 'edit'])->name('api.comments.edit');
+    Route::post('/comments/update/{book:slug}', [CommentController::class, 'update'])->name('api.comments.update');
+    Route::post('/comments/destroy/{book:slug}', [CommentController::class, 'destroy'])->name('api.comments.destroy');
 
     /*
      * Commands routes

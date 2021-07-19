@@ -1,0 +1,58 @@
+{
+    "data": [
+        {
+            "name": "Bragelonne",
+            "count": 3,
+            "meta": {
+                "slug": "bragelonne",
+                "books": "http://localhost:8000/api/publishers/books/bragelonne",
+                "show": "http://localhost:8000/api/publishers/bragelonne"
+            }
+        },
+        {
+            // ...
+        }
+    ],
+    "links": {
+        "first": "http://localhost:8000/api/publishers?page=1",
+        "last": "http://localhost:8000/api/publishers?page=3",
+        "prev": null,
+        "next": "http://localhost:8000/api/publishers?page=2"
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 3,
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http://localhost:8000/api/publishers?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": "http://localhost:8000/api/publishers?page=2",
+                "label": "2",
+                "active": false
+            },
+            {
+                "url": "http://localhost:8000/api/publishers?page=3",
+                "label": "3",
+                "active": false
+            },
+            {
+                "url": "http://localhost:8000/api/publishers?page=2",
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "path": "http://localhost:8000/api/publishers",
+        "per_page": 32,
+        "to": 32,
+        "total": 73
+    }
+}

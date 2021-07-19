@@ -156,7 +156,6 @@ php artisan scribe:generate
   - <https://stitcher.io/blog/attributes-in-php-8>
   - <https://grafikart.fr/tutoriels/attribut-php8-1371>
 - [ ] numberOfPages: <https://idpf.github.io/epub-guides/package-metadata/#schema-numberOfPages>
-  - async epubparser for Google data
 - [ ] Add explanation form each part of EpubParser
 - [ ] spatie/laravel-medialibrary
   - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/optimizing-converted-images>

@@ -6,15 +6,15 @@
                 "slug": "lovecraft-howard-phillips",
                 "show": "http://127.0.0.1:8000/api/authors/lovecraft-howard-phillips"
             },
-            "lastname": "Adams",
-            "firstname": "Douglas",
+            "lastname": "Lovecraft",
+            "firstname": "Howard Phillips",
             "picture": {
-                "base": "http://localhost:8000/storage/media/authors/lovecraft-howard-phillips-thumbnail.webp",
-                "openGraph": "http://localhost:8000/storage/media/authors/lovecraft-howard-phillips-open_graph.jpg",
-                "simple": "http://localhost:8000/storage/media/authors/lovecraft-howard-phillips-simple.jpg",
-                "color": "#7b654f"
+                "base": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-thumbnail.webp",
+                "openGraph": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-open_graph.jpg",
+                "simple": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-simple.jpg",
+                "color": "#8a817b"
             },
-            "count": 5
+            "count": 22
         },
         {
             // ...

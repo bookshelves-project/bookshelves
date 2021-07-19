@@ -45,11 +45,13 @@ class SearchController extends Controller
      */
 
     /**
-    * @response {
-    *  "id": 4,
-    *  "name": "Jessica Jones",
-    *  "roles": ["admin"]
-    * }
+    * GET Entities collection
+    *
+    * Get Authors/Series/Books entities ordered by entity and lastname / title. Query can be series' title, book's title, author's firstname or lastname.
+    *
+    * @queryParam q string required Query search, null by default. Example: lovecraft
+    *
+    * @responseFile public/storage/responses/search.index.get.json
     */
     public function index(Request $request)
     {
@@ -66,58 +68,14 @@ class SearchController extends Controller
     }
 
     /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
-     */
-    public function books(Request $request)
-    {
-        $searchTerm = $request->input('q');
-        $books = Book::whereLike(['title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
-
-        return BookLightResource::collection($books);
-    }
-
-    /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
-     */
-    public function authors(Request $request)
-    {
-        $searchTerm = $request->input('q');
-        // $books = Book::whereLike(['author.name', 'author.firstname', 'author.lastname'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
-        $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->get();
-
-        return SearchAuthorResource::collection($authors);
-    }
-
-    /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
-     */
-    public function series(Request $request)
-    {
-        $searchTerm = $request->input('q');
-        $books = Book::whereLike(['serie.title'], $searchTerm)->orderBy('serie_id')->orderBy('volume')->get();
-
-        return SerieLightResource::collection($books);
-    }
-
-    /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
-     */
+    * GET Entities collection (advanced)
+    *
+    * Get Authors/Series/Books entities ordered by entity and lastname / title.
+    *
+    * @queryParam q string required Query search, null by default. Example: lovecraft
+    *
+    * @responseFile public/storage/responses/search.index.get.json
+    */
     public function advanced(Request $request)
     {
         // GET ALL PARAMS

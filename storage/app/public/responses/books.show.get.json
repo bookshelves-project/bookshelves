@@ -1,0 +1,116 @@
+{
+    "data": {
+        "title": "Les montagnes hallucinées",
+        "meta": {
+            "slug": "les-montagnes-hallucinees-fr",
+            "author": "lovecraft-howard-phillips",
+            "show": "http://127.0.0.1:8000/api/books/lovecraft-howard-phillips/les-montagnes-hallucinees-fr"
+        },
+        "authors": [
+            {
+                "name": "Howard Phillips Lovecraft",
+                "meta": {
+                    "slug": "lovecraft-howard-phillips",
+                    "show": "http://127.0.0.1:8000/api/authors/lovecraft-howard-phillips"
+                }
+            }
+        ],
+        "summary": "Outre-monts, outre-tombes ! De memoire d'homme, jamais on ne vit paysages plus hallucinants ! Labyrinthes grouillants de murs, de tours,...",
+        "language": "fr",
+        "publishDate": "1936-06-14 23:00:00",
+        "picture": {
+            "base": "http://localhost:8000/storage/media/books/993/conversions/les-montagnes-hallucinees-fr-thumbnail.webp",
+            "openGraph": "http://localhost:8000/storage/media/books/993/conversions/les-montagnes-hallucinees-fr-open_graph.jpg",
+            "simple": "http://localhost:8000/storage/media/books/993/conversions/les-montagnes-hallucinees-fr-simple.jpg",
+            "original": "http://localhost:8000/storage/media/books/993/les-montagnes-hallucinees-fr.webp",
+            "color": "#6e7c80"
+        },
+        "volume": 1,
+        "serie": {
+            "title": "Les montagnes hallucinées",
+            "meta": {
+                "slug": "les-montagnes-hallucinees-fr",
+                "author": "lovecraft-howard-phillips",
+                "show": "http://127.0.0.1:8000/api/series/lovecraft-howard-phillips/les-montagnes-hallucinees-fr",
+                "books": "http://127.0.0.1:8000/api/series/books/lovecraft-howard-phillips/les-montagnes-hallucinees-fr"
+            },
+            "picture": {
+                "base": "http://localhost:8000/storage/media/series/1178/conversions/les-montagnes-hallucinees-fr-thumbnail.webp",
+                "simple": "http://localhost:8000/storage/media/series/1178/conversions/les-montagnes-hallucinees-fr-simple.jpg",
+                "color": "#6e7c80"
+            },
+            "language": "fr",
+            "authors": [
+                {
+                    "name": "Howard Phillips Lovecraft",
+                    "meta": {
+                        "slug": "lovecraft-howard-phillips",
+                        "show": "http://127.0.0.1:8000/api/authors/lovecraft-howard-phillips"
+                    }
+                }
+            ],
+            "count": null
+        },
+        "description": "<p>Outre-monts, outre-tombes ! De mémoire d'homme, jamais on ne vit paysages plus hallucinants ! Labyrinthes grouillants de murs, de tours, de minarets fabuleux qui surgissent de vapeurs glacées. Une expédition au pied du volcan Erebus dans l'Antarctique met au jour ce site maléfique. Mais Lake, qui l'a organisé disparaît avec toute son équipe... Images d'un autre monde ! Elles obsèdent aussi Nathaniel Peaslee jusque dans ses rêves. Lui, situe les ruines près du tropique du Capricorne. Une monstrueuse cité de pierre noire dont les fondements descendent au centre de la Terre... Les deux hommes ne se connaissent pas, ils vivent à des époques différentes. Tous deux pourtant sont hantés par ces êtres qui ont vécu à l'époque des dinosaures et se déchaînent de temps à autre. Maître des vents furieux et des musiques démoniaques. Prédateurs ? Esprits migrants ? Créatures effroyables ? Des Anciens qu'il ne fait pas bon rencontrer...</p>\n",
+        "identifier": {
+            "isbn": null,
+            "isbn13": "9782290043264",
+            "doi": null,
+            "amazon": null,
+            "google": null
+        },
+        "pageCount": null,
+        "maturityRating": null,
+        "publisher": {
+            "name": "Bragelonne",
+            "count": 52,
+            "meta": {
+                "slug": "bragelonne",
+                "books": "http://127.0.0.1:8000/api/publishers/books/bragelonne",
+                "show": "http://127.0.0.1:8000/api/publishers/bragelonne"
+            }
+        },
+        "tags": [],
+        "genres": [
+            {
+                "name": "Science fiction",
+                "type": "genre",
+                "count": null,
+                "meta": {
+                    "slug": "science-fiction",
+                    "books": "http://127.0.0.1:8000/api/tags/books/science-fiction",
+                    "show": "http://127.0.0.1:8000/api/tags/science-fiction"
+                }
+            }
+        ],
+        "epub": {
+            "name": "lovecraft-howard-phillips_les-montagnes-hallucinees-fr-01_les-montagnes-hallucinees-fr.epub",
+            "size": "260.25 Ko",
+            "download": "http://127.0.0.1:8000/api/download/book/lovecraft-howard-phillips/les-montagnes-hallucinees-fr"
+        },
+        "googleBook": null,
+        "isFavorite": false,
+        "comments": [
+            {
+                "meta": {
+                    "type": "comment",
+                    "for": "book",
+                    "author": "lovecraft-howard-phillips",
+                    "slug": "les-montagnes-hallucinees-fr"
+                },
+                "id": 3,
+                "text": "Quia eligendi cum assumenda illum et facilis sed. Sunt sint quo molestiae aliquid repellat dolorum assumenda. Accusamus error provident esse explicabo culpa qui ex. Velit quaerat est autem nihil est quia.",
+                "rating": null,
+                "user": {
+                    "id": 2,
+                    "name": "Edward",
+                    "picture": "https://eu.ui-avatars.com/api/?name=Edward&color=7F9CF5&background=EBF4FF"
+                },
+                "createdAt": "2021-06-20T13:32:19.000000Z",
+                "updatedAt": "2021-06-20T13:32:19.000000Z",
+                "title": "Les montagnes hallucinées",
+                "picture": "http://localhost:8000/storage/media/books/993/conversions/les-montagnes-hallucinees-fr-thumbnail.webp"
+            }
+        ]
+    }
+}

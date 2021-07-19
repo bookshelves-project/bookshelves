@@ -17,12 +17,16 @@ use App\Http\Resources\Tag\TagLightResource;
 class TagController extends Controller
 {
     /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
-     */
+    * GET Tag collection
+    *
+    * Get all Tags ordered by 'name'.
+    *
+    * @queryParam type filters[tag,genre] Type of Tag, 'tag' by default. No-example
+    *
+    * @responseField name string Tag's name.
+    *
+    * @responseFile public/storage/responses/tags.index.get.json
+    */
     public function index(Request $request)
     {
         $type = $request->get('type');
@@ -41,12 +45,16 @@ class TagController extends Controller
     }
 
     /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
-     */
+    * GET Tag resrouce
+    *
+    * Get Tag details.
+    *
+    * @queryParam type filters[tag,genre] Type of Tag, 'tag' by default. No-example
+    *
+    * @responseField name string Tag's name.
+    *
+    * @responseFile public/storage/responses/tags.show.get.json
+    */
     public function show(string $tag_slug)
     {
         $tag = Tag::where('slug->en', $tag_slug)->first();
@@ -55,12 +63,14 @@ class TagController extends Controller
     }
 
     /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
-     */
+    * GET Book collection of Tag
+    *
+    * Get all Books of selected Tag.
+    *
+    * @urlParam tag string Slug of Tag. Example: 'anticipation'
+    *
+    * @responseFile public/storage/responses/tags.books.get.json
+    */
     public function books(string $tag_slug)
     {
         $tag = Tag::where('slug->en', $tag_slug)->first();

@@ -1,0 +1,28 @@
+{
+    "data": [
+        {
+            "meta": {
+                "entity": "book",
+                "author": "lovecraft-howard-phillips",
+                "slug": "les-montagnes-hallucinees-fr"
+            },
+            "title": "Les montagnes hallucinées",
+            "authors": [
+                {
+                    "name": "Howard Phillips Lovecraft",
+                    "meta": {
+                        "slug": "lovecraft-howard-phillips",
+                        "show": "http://localhost:8000/api/authors/lovecraft-howard-phillips"
+                    }
+                }
+            ],
+            "volume": 1,
+            "picture": {
+                "base": "http://localhost:8000/storage/media/books/993/conversions/les-montagnes-hallucinees-fr-thumbnail.webp",
+                "original": "http://localhost:8000/storage/media/books/993/les-montagnes-hallucinees-fr.webp",
+                "openGraph": "http://localhost:8000/storage/media/books/993/conversions/les-montagnes-hallucinees-fr-open_graph.jpg",
+                "color": "#6e7c80"
+            }
+        }
+    ]
+}
