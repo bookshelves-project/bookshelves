@@ -32,29 +32,11 @@ class OpdsProvider
         $entries = [];
         if ($this->data instanceof Collection) {
             foreach ($this->data as $key => $entry) {
-                //         // home page with feed
-                // if ('feed' === $endpoint) {
-                // }
-                $templateEntry = $this->entry($entry);
-                //         dd($entity);
-                //         // collection
-                //         $templateEntry = self::entryBook(
-                //             key: "$endpoint:$entry->slug",
-                //             book: $entry,
-                //         );
-                
-
-                //         array_push($entries, $templateEntry);
-                //     }
-                // } elseif ($data instanceof Model) {
-                //     // resource
-                //     $templateEntry = self::entry(
-                //         key: "$endpoint:$data->slug",
-                //         title: $data->title ?? "$data->lastname $data->firstname",
-                //         content: ucfirst($endpoint),
-                //         route: $data->show_link_opds,
-                //         picture: $data->image_thumbnail
-                //     );
+                if ($this->entity === EntitiesEnum::BOOK()) {
+                    $templateEntry = $this->entryBook($entry);
+                } else {
+                    $templateEntry = $this->entry($entry);
+                }
 
                 array_push($entries, $templateEntry);
             }
@@ -172,13 +154,16 @@ class OpdsProvider
         return $template;
     }
 
-    public static function entryBook(
-        string $key,
-        Book $book,
-    ) {
+    public function entryBook(Book $book)
+    {
         $app = strtolower(config('app.name'));
         $date = new DateTime();
         $date = $date->format('Y-m-d H:i:s');
+
+
+        $id = $app.':books:';
+        $id .= $book->serie ? Str::slug($book->serie->title).':' : null;
+        $id .= $book->slug;
 
         $categories = [];
         $tags = $book->tags;
@@ -194,7 +179,7 @@ class OpdsProvider
         $template = [
             'title'   => $book->title,
             'updated' => $date,
-            'id'      => $app.':'.$key,
+            'id'      => $id,
             'content' => [
                 '_attributes' => [
                     'type' => 'text/html',
@@ -236,6 +221,7 @@ class OpdsProvider
             ],
             'dcterms:issued'   => $book->date,
             'published'        => $book->date,
+            'volume'           => $book->volume,
             'dcterms:language' => $book->language->name,
         ];
 

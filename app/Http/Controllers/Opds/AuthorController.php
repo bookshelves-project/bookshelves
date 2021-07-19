@@ -33,7 +33,8 @@ class AuthorController extends Controller
 
     public function show(string $version, string $author_slug)
     {
-        $author = Author::whereSlug($author_slug)->firstOrFail();
+        $author = Author::with('books.authors', 'books.tags', 'books.media', 'books.serie', 'books.language')->whereSlug($author_slug)->firstOrFail();
+        $books = $author->books;
 
         $current_route = route(Route::currentRouteName(), [
             'version' => $version,
@@ -41,15 +42,11 @@ class AuthorController extends Controller
         ]);
         $opdsProvider = new OpdsProvider(
             version: $version,
-            entity: EntitiesEnum::AUTHOR(),
+            entity: EntitiesEnum::BOOK(),
             route: $current_route,
-            data: $author
+            data: $books
         );
         $result = $opdsProvider->template("$author->lastname $author->firstname");
-
-        // $books = $author->books;
-        // $result = OpdsProvider::template(entity: Author::class, endpoint: 'author', data: $books, route: $route, id: "authors:$author->slug", title: "Author: $author->name");
-
         
         return response($result)->withHeaders([
             'Content-Type' => 'text/xml',
