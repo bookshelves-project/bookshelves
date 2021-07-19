@@ -35,10 +35,6 @@ class SerieController extends Controller
 
     public function show(Request $request, string $version, string $author_slug, string $serie_slug)
     {
-        // $author = Author::whereSlug($author_slug)->firstOrFail();
-        // $entity = $author->series->firstWhere('slug', $serie_slug);
-        // $books = $entity->books;
-
         $author = Author::with('series.books', 'series.books.authors', 'series.books.tags', 'series.books.media', 'series.books.serie', 'series.books.language')->whereSlug($author_slug)->firstOrFail();
         $serie = $author->series->firstWhere('slug', $serie_slug);
         $books = $serie->books;
