@@ -42,7 +42,7 @@ class AuthorProvider
         } else {
             $author = self::setLocalDescription($author);
             if (! $no_cover) {
-                $author = self::setLocalPicture($author);
+                self::setPicture($author);
             }
         }
 
@@ -107,47 +107,48 @@ class AuthorProvider
      * Get local picture from `public/storage/raw/pictures-authors`
      * Only JPG file with author slug as name.
      */
-    public static function setLocalPicture(Author $author): bool
+    public static function getLocalPicture(Author $author): string | null
     {
-        $localExist = false;
         $disk = 'authors';
         $custom_authors_path = public_path("storage/raw/pictures-$disk/$author->slug.jpg");
 
         if (File::exists($custom_authors_path)) {
-            $localExist = true;
-            $file_path = File::get($custom_authors_path);
-            $author->addMediaFromString($file_path)
-                ->setName($author->slug)
-                ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
-                ->toMediaCollection($disk, $disk);
-            $author->save();
+            $picture = File::get($custom_authors_path);
+            return $picture;
         }
 
-        return $localExist;
+        return null;
+    }
+
+    public static function setPicture(Author $author, string $picture_file = null): Author
+    {
+        if (! $picture_file) {
+            $picture_file = self::getLocalPicture($author);
+            if (! $picture_file) {
+                $picture_file = database_path('seeders/media/authors/no-picture.jpg');
+                $picture_file = File::get($picture_file);
+            }
+        }
+
+        $author->addMediaFromString($picture_file)
+            ->setName($author->slug)
+            ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
+            ->toMediaCollection('authors', 'authors');
+        
+        $image = $author->getFirstMediaPath('authors');
+        $color = ImageProvider::simple_color_thief($image);
+        $media = $author->getFirstMedia('authors');
+        $media->setCustomProperty('color', $color);
+        $media->save();
+
+        return $author;
     }
 
     public static function setWikipediaPicture(Author $author, WikipediaProvider $wikipediaProvider): Author
     {
         try {
             $picture_file = WikipediaProvider::getPictureFile($wikipediaProvider);
-            if (! $picture_file) {
-                $exist = self::setLocalPicture($author);
-                if (! $exist) {
-                    $picture_file = database_path('seeders/media/authors/no-picture.jpg');
-                    $picture_file = File::get($picture_file);
-                }
-            }
-            
-            $author->addMediaFromString($picture_file)
-                ->setName($author->slug)
-                ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
-                ->toMediaCollection('authors', 'authors');
-            
-            $image = $author->getFirstMediaPath('authors');
-            $color = ImageProvider::simple_color_thief($image);
-            $media = $author->getFirstMedia('authors');
-            $media->setCustomProperty('color', $color);
-            $media->save();
+            self::setPicture($author, $picture_file);
         } catch (\Throwable $th) {
             echo "\nNo wikipedia picture_file for $wikipediaProvider->query\n";
         }
