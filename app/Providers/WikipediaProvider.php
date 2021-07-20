@@ -21,7 +21,7 @@ class WikipediaProvider
      *
      * @return WikipediaProvider
      */
-    public static function create(string $query, string $lang = 'en')
+    public static function create(string $query, string $lang = 'en', bool $debug = false)
     {
         $pageId = null;
         $response = null;
@@ -50,6 +50,9 @@ class WikipediaProvider
             try {
                 $wiki_url_page_id = "http://$lang.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts|pageimages&pithumbsize=512";
 
+                if ($debug) {
+                    echo $wiki_url_page_id."\n";
+                }
                 $response = Http::get($wiki_url_page_id);
                 $response = $response->json();
 
@@ -59,21 +62,29 @@ class WikipediaProvider
                 try {
                     $picture_url = $page['thumbnail']['source'];
                 } catch (\Throwable $th) {
-                    echo "No picture for ".$query."\n";
+                    if ($debug) {
+                        echo "No picture for ".$query."\n";
+                    }
                 }
 
                 try {
                     $page_url = $page['fullurl'];
                     $extract = $page['extract'];
                 } catch (\Throwable $th) {
-                    echo "No extract for ".$query."\n";
+                    if ($debug) {
+                        echo "No extract for ".$query."\n";
+                    }
                 }
             } catch (\Throwable $th) {
                 //throw $th;
-                echo "\nError on response/page for $query\n";
+                if ($debug) {
+                    echo "\nError on response/page for $query\n";
+                }
             }
         } catch (\Throwable $th) {
-            echo "\nNo wikipedia page for $query\n";
+            if ($debug) {
+                echo "\nNo wikipedia page for $query\n";
+            }
         }
 
         $wiki = new WikipediaProvider($query, $pageId, $response, $extract, $page_url, $picture_url);

@@ -107,12 +107,14 @@ class AuthorProvider
      * Get local picture from `public/storage/raw/pictures-authors`
      * Only JPG file with author slug as name.
      */
-    public static function setLocalPicture(Author $author): Author
+    public static function setLocalPicture(Author $author): bool
     {
+        $localExist = false;
         $disk = 'authors';
         $custom_authors_path = public_path("storage/raw/pictures-$disk/$author->slug.jpg");
 
         if (File::exists($custom_authors_path)) {
+            $localExist = true;
             $file_path = File::get($custom_authors_path);
             $author->addMediaFromString($file_path)
                 ->setName($author->slug)
@@ -121,7 +123,7 @@ class AuthorProvider
             $author->save();
         }
 
-        return $author;
+        return $localExist;
     }
 
     public static function setWikipediaPicture(Author $author, WikipediaProvider $wikipediaProvider): Author
@@ -129,8 +131,11 @@ class AuthorProvider
         try {
             $picture_file = WikipediaProvider::getPictureFile($wikipediaProvider);
             if (! $picture_file) {
-                $picture_file = database_path('seeders/media/authors/no-picture.jpg');
-                $picture_file = File::get($picture_file);
+                $exist = self::setLocalPicture($author);
+                if (! $exist) {
+                    $picture_file = database_path('seeders/media/authors/no-picture.jpg');
+                    $picture_file = File::get($picture_file);
+                }
             }
             
             $author->addMediaFromString($picture_file)
