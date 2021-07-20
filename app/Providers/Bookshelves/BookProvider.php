@@ -15,6 +15,7 @@ use App\Models\Publisher;
 use App\Models\GoogleBook;
 use App\Models\Identifier;
 use Illuminate\Support\Str;
+use App\Providers\ImageProvider;
 use League\ColorExtractor\Color;
 use App\Providers\MetadataExtractor\MetadataExtractor;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
@@ -42,7 +43,7 @@ class BookProvider
 
             // Get color
             $image = $book->getFirstMediaPath('books');
-            $color = MetadataExtractorTools::simple_color_thief($image);
+            $color = ImageProvider::simple_color_thief($image);
             $media = $book->getFirstMedia('books');
             $media->setCustomProperty('color', $color);
             $media->save();
