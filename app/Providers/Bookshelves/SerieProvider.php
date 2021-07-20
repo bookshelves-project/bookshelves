@@ -8,11 +8,13 @@ use Storage;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Utils\BookshelvesTools;
+use App\Providers\ImageProvider;
+use App\Providers\WikipediaProvider;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class SerieProvider
 {
-    public static function localDescription(Serie $serie): ?Serie
+    public static function setLocalDescription(Serie $serie): ?Serie
     {
         if (File::exists(public_path('storage/raw/series.json'))) {
             $json = Storage::disk('public')->get('raw/series.json');
@@ -36,44 +38,19 @@ class SerieProvider
     /**
      * Generate Serie description from Wikipedia if found.
      */
-    public static function description(Serie $serie): Serie
+    public static function setDescription(Serie $serie): Serie
     {
         $name = $serie->title;
         $lang = $serie->language->slug;
         $name = str_replace(' ', '%20', $name);
         $name = strtolower($name);
-        $url = "https://$lang.wikipedia.org/w/api.php?action=query&list=search&srsearch=$name&format=json";
-        $pageId = null;
 
-        try {
-            $response = Http::get($url);
-            $response = $response->json();
-            $search = $response['query']['search'];
-            if (array_key_exists(0, $search)) {
-                $pageId = $search[0]['pageid'];
-            }
-        } catch (\Throwable $th) {
-        }
-        if ($pageId) {
-            $url = "http://$lang.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url";
-            $desc = null;
+        $wiki = WikipediaProvider::create($name, $lang);
 
-            try {
-                $response = Http::get($url);
-                $response = $response->json();
-                $desc = $response['query']['pages'];
-                $desc = reset($desc);
-                $url = $desc['fullurl'];
-                $desc = $desc['extract'];
-                $desc = BookshelvesTools::stringLimit($desc, 500);
-            } catch (\Throwable $th) {
-            }
-            if (is_string($desc)) {
-                $serie->description = "$desc";
-                $serie->link = $url;
-                $serie->save();
-            }
-        }
+        $extract = BookshelvesTools::stringLimit($wiki->extract, 500);
+        $serie->description = $extract;
+        $serie->link = $wiki->page_url;
+        $serie->save();
 
         return $serie;
     }
@@ -84,7 +61,7 @@ class SerieProvider
      *
      * Manage by spatie/laravel-medialibrary.
      */
-    public static function cover(Serie $serie): Serie
+    public static function setCover(Serie $serie): Serie
     {
         if ($serie->getMedia('series')->isEmpty()) {
             // Add special cover if exist from `public/storage/raw/pictures-series/`
@@ -124,7 +101,7 @@ class SerieProvider
 
             // Get color
             $image = $serie->getFirstMediaPath('series');
-            $color = MetadataExtractorTools::simple_color_thief($image);
+            $color = ImageProvider::simple_color_thief($image);
             $media = $serie->getFirstMedia('series');
             $media->setCustomProperty('color', $color);
             $media->save();
@@ -138,7 +115,7 @@ class SerieProvider
     /**
      * Generate Serie tags from Books relationship tags.
      */
-    public static function tags(Serie $serie): Serie
+    public static function setTags(Serie $serie): Serie
     {
         $books = Book::whereSerieId($serie->id)->get();
         $tags = [];

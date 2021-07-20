@@ -7,6 +7,8 @@ use Http;
 use Storage;
 use App\Models\Author;
 use App\Utils\BookshelvesTools;
+use App\Providers\ImageProvider;
+use App\Providers\WikipediaProvider;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class AuthorProvider
@@ -26,21 +28,21 @@ class AuthorProvider
     {
         $name = $author->name;
         $name = str_replace(' ', '%20', $name);
-        $pageId = null;
 
         if (! $alone) {
-            $pageId = self::wikipediaPageId($name);
-            $result = self::localDescription($author);
+            $wiki = WikipediaProvider::create($author->name);
+            $result = self::setLocalDescription($author);
+            $author = self::setLocalNotes($author);
             if (! $result) {
-                $author = self::description($author, $pageId);
+                $author = self::setWikipediaDescription($author, $wiki);
             }
             if (! $no_cover) {
-                $author = self::picture($author, $pageId);
+                $author = self::setWikipediaPicture($author, $wiki);
             }
         } else {
-            $author = self::localDescription($author);
+            $author = self::setLocalDescription($author);
             if (! $no_cover) {
-                $author = self::localPicture($author);
+                $author = self::setLocalPicture($author);
             }
         }
 
@@ -49,33 +51,7 @@ class AuthorProvider
         return $author;
     }
 
-    public static function wikipediaPageId(string $name): string | null
-    {
-        $pageId = null;
-        $url = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=$name&format=json";
-
-        try {
-            $response = Http::get($url);
-            $response = $response->json();
-            $search = $response['query']['search'];
-            $search = array_slice($search, 0, 5);
-            foreach ($search as $key => $result) {
-                if (strpos($result['title'], '(writer)')) {
-                    $pageId = $result['pageid'];
-
-                    break;
-                }
-            }
-            if (! $pageId && array_key_exists(0, $search)) {
-                $pageId = $search[0]['pageid'];
-            }
-        } catch (\Throwable $th) {
-        }
-
-        return $pageId;
-    }
-
-    public static function localDescription(Author $author): Author | null
+    public static function setLocalDescription(Author $author): Author | null
     {
         if (File::exists(public_path('storage/raw/authors.json'))) {
             $json = Storage::disk('public')->get('raw/authors.json');
@@ -84,7 +60,6 @@ class AuthorProvider
                 if ($key === $author->slug) {
                     $author->description = $value->description ?? null;
                     $author->link = $value->link ?? null;
-                    $author->note = $value->note ?? null;
                     $author->save();
 
                     return $author;
@@ -97,26 +72,33 @@ class AuthorProvider
         return null;
     }
 
-    public static function description(Author $author, string $pageId): Author
+    public static function setLocalNotes(Author $author): Author | null
     {
-        $url = "http://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url";
-        $desc = null;
+        if (File::exists(public_path('storage/raw/authors-notes.json'))) {
+            $json = Storage::disk('public')->get('raw/authors.json');
+            $json = json_decode($json);
+            foreach ($json as $key => $value) {
+                if ($key === $author->slug) {
+                    $author->note = $value->note ?? null;
+                    $author->save();
 
-        try {
-            $response = Http::get($url);
-            $response = $response->json();
-            $desc = $response['query']['pages'];
-            $desc = reset($desc);
-            $url = $desc['fullurl'];
-            $desc = $desc['extract'];
-            $desc = BookshelvesTools::stringLimit($desc, 500);
-        } catch (\Throwable $th) {
+                    return $author;
+                }
+            }
+
+            return $author;
         }
-        if (is_string($desc)) {
-            $author->description = "$desc";
-            $author->link = $url;
-            $author->save();
-        }
+
+        return $author;
+    }
+
+    public static function setWikipediaDescription(Author $author, WikipediaProvider $wikipediaProvider): Author
+    {
+        $extract = BookshelvesTools::stringLimit($wikipediaProvider->extract, 1000);
+
+        $author->description = $extract;
+        $author->link = $wikipediaProvider->page_url;
+        $author->save();
 
         return $author;
     }
@@ -125,7 +107,7 @@ class AuthorProvider
      * Get local picture from `public/storage/raw/pictures-authors`
      * Only JPG file with author slug as name.
      */
-    public static function localPicture(Author $author): Author
+    public static function setLocalPicture(Author $author): Author
     {
         $disk = 'authors';
         $custom_authors_path = public_path("storage/raw/pictures-$disk/$author->slug.jpg");
@@ -142,59 +124,27 @@ class AuthorProvider
         return $author;
     }
 
-    public static function picture(Author $author, string | null $pageId): Author
+    public static function setWikipediaPicture(Author $author, WikipediaProvider $wikipediaProvider): Author
     {
-        $pictureDefault = database_path('seeders/media/authors/no-picture.jpg');
-        $url = "http://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts&inprop=url&prop=pageimages&pithumbsize=512";
-        $picture = null;
-
-        if (! $pageId) {
-            $defaultPictureFile = File::get($pictureDefault);
-            $author->addMediaFromString($defaultPictureFile)
+        try {
+            $picture_file = WikipediaProvider::getPictureFile($wikipediaProvider);
+            if (! $picture_file) {
+                $picture_file = database_path('seeders/media/authors/no-picture.jpg');
+                $picture_file = File::get($picture_file);
+            }
+            
+            $author->addMediaFromString($picture_file)
                 ->setName($author->slug)
                 ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
                 ->toMediaCollection('authors', 'authors');
-        }
-
-        $disk = 'authors';
-        $custom_authors_path = public_path("storage/raw/pictures-$disk/$author->slug.jpg");
-        if (File::exists($custom_authors_path)) {
-            self::localPicture($author);
-        } else {
-            try {
-                $response = Http::get($url);
-                $response = $response->json();
-                $picture = $response['query']['pages'];
-                $picture = reset($picture);
-                $picture = $picture['thumbnail']['source'];
-            } catch (\Throwable $th) {
-            }
-            if (! is_string($picture)) {
-                $defaultPictureFile = File::get($pictureDefault);
-                $author->addMediaFromString($defaultPictureFile)
-                    ->setName($author->slug)
-                    ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
-                    ->toMediaCollection('authors', 'authors');
-            } else {
-                try {
-                    $author->addMediaFromUrl($picture)
-                    ->setName($author->slug)
-                    ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
-                    ->toMediaCollection('authors', 'authors');
-                } catch (\Throwable $th) {
-                    //throw $th;
-                }
-            }
-        }
-
-        try {
+            
             $image = $author->getFirstMediaPath('authors');
-            $color = MetadataExtractorTools::simple_color_thief($image);
+            $color = ImageProvider::simple_color_thief($image);
             $media = $author->getFirstMedia('authors');
             $media->setCustomProperty('color', $color);
             $media->save();
         } catch (\Throwable $th) {
-            //throw $th;
+            echo "\nNo wikipedia picture_file for $wikipediaProvider->query\n";
         }
 
         return $author;

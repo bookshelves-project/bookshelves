@@ -72,20 +72,20 @@ class SeriesCommand extends Command
         $bar = $this->output->createProgressBar(count($series));
         $bar->start();
         foreach ($series as $key => $serie) {
-            SerieProvider::tags(serie: $serie);
+            SerieProvider::setTags(serie: $serie);
             if (empty($serie->getFirstMediaUrl('series'))) {
                 if (! $no_covers) {
-                    SerieProvider::cover(serie: $serie);
+                    SerieProvider::setCover(serie: $serie);
                 }
             }
             if (! $serie->description && ! $serie->link) {
                 if (! $alone) {
-                    $result = SerieProvider::localDescription(serie: $serie);
+                    $result = SerieProvider::setLocalDescription(serie: $serie);
                     if (! $result) {
-                        SerieProvider::description(serie: $serie);
+                        SerieProvider::setDescription(serie: $serie);
                     }
                 } else {
-                    SerieProvider::localDescription(serie: $serie);
+                    SerieProvider::setLocalDescription(serie: $serie);
                 }
             }
             $bar->advance();
