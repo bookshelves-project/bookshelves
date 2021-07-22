@@ -47,7 +47,7 @@ class SerieProvider
 
         $wiki = WikipediaProvider::create($name, $lang);
 
-        $extract = BookshelvesTools::stringLimit($wiki->extract, 500);
+        $extract = BookshelvesTools::stringLimit($wiki->extract, 1000);
         $serie->description = $extract;
         $serie->link = $wiki->page_url;
         $serie->save();
