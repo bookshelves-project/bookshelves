@@ -5,7 +5,7 @@
 @section('content')
     <div class="h-screen flex">
         <a href="{{ $open }}" class="m-auto p-5">
-            <img src="{{ $cover }}" alt="" class="mx-auto">
+            <img src="{{ $cover }}" alt="" class="mx-auto h-96 max-w-full object-cover shadow-md rounded-sm">
             <div>
                 <div class="text-center mt-6 text-3xl font-semibold">
                     {{ $book->title }}

@@ -9,6 +9,8 @@ use App\Models\Author;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use League\HTMLToMarkdown\HtmlConverter;
+use Spatie\LaravelMarkdown\MarkdownRenderer;
 use App\Providers\MetadataExtractor\Parsers\CreatorParser;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
@@ -61,7 +63,7 @@ class WebreaderController extends Controller
         }
 
         $webreader_files = 'storage/webreader/'.$epub_file->file_name.'/';
-        $filePath = $webreader_files.$page.'.html';
+        $filePath = $webreader_files.$page.'.md';
         if (! File::exists($filePath)) {
             return redirect()->route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
         }
@@ -69,7 +71,7 @@ class WebreaderController extends Controller
         $max_pages = sizeof(File::allFiles($webreader_files));
 
         $current_page_content = $file;
-        $current_page_content = preg_replace("/<img[^>]+\>/i", '', $current_page_content);
+        $current_page_content = app(MarkdownRenderer::class)->toHtml($current_page_content);
         
         $next_page = request()->page + 1;
         if ($next_page > $max_pages) {
@@ -150,6 +152,7 @@ class WebreaderController extends Controller
 
             try {
                 Storage::disk('public')->makeDirectory("/webreader/$title");
+                $i = 0;
                 foreach ($manifest as $key => $value) {
                     $d = new DOMDocument;
                     $mock = new DOMDocument;
@@ -161,12 +164,18 @@ class WebreaderController extends Controller
                         $mock->appendChild($mock->importNode($child, true));
                     }
                     $file = $mock->saveHTML();
-            
-                    $current_page_content = $file;
-                    $current_page_content = preg_replace("/<img[^>]+\>/i", '', $current_page_content);
+                    $file = preg_replace("/<img[^>]+\>/i", '', $file);
 
-                    if ($value['MEDIA-TYPE'] === 'application/xhtml+xml' && $value['ID'] !== 'titlepage') {
-                        Storage::disk('public')->put("/webreader/$title/$key.html", $file);
+                    $converter = new HtmlConverter();
+                    $markdown = $converter->convert($file);
+                    $markdown = strip_tags($markdown);
+                    $markdown = trim(str_replace('\n', '', (str_replace('\r', '', $markdown))));
+
+                    $is_not_empty = $markdown != '';
+
+                    if ($value['MEDIA-TYPE'] === 'application/xhtml+xml' && $value['ID'] !== 'titlepage' && $is_not_empty) {
+                        $i++;
+                        Storage::disk('public')->put("/webreader/$title/$i.md", $markdown);
                     }
                 }
             } catch (\Throwable $th) {
