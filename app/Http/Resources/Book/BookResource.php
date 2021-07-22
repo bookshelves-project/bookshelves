@@ -54,6 +54,7 @@ class BookResource extends JsonResource
                 'size'     => BookshelvesTools::humanFilesize($book->getMedia('epubs')->first()->size),
                 'download' => $book->download_link,
             ],
+            'webreader'  => $book->webreader_link,
             'googleBook' => GoogleBookResource::make($book->googleBook),
             'isFavorite' => $book->is_favorite,
             'comments'   => CommentResource::collection($book->comments),

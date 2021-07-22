@@ -10,7 +10,7 @@
         @hasSection('title')
             @yield('title') · {{ config('app.name') }} Catalog
         @else
-            {{ config('app.name') }}
+            {{ config('app.name') }} Catalog
         @endif
     </title>
 

@@ -92,13 +92,15 @@ class WikipediaProvider
         return $wiki;
     }
 
-    public static function getPictureFile(WikipediaProvider $wikipediaProvider): string | null
+    public static function getPictureFile(WikipediaProvider $wikipediaProvider, bool $debug = false): string | null
     {
         $picture = null;
         try {
             $picture = Http::get($wikipediaProvider->picture_url)->body();
         } catch (\Throwable $th) {
-            echo "\nNo wikipedia picture_url for $wikipediaProvider->query\n";
+            if ($debug) {
+                echo "\nNo wikipedia picture_url for $wikipediaProvider->query\n";
+            }
         }
 
         return $picture;

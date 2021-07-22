@@ -13,7 +13,6 @@ const mix = require("laravel-mix");
 
 mix
   .js("resources/js/app.js", "public/js")
-  .js("resources/js/epub.js", "public/js")
   .css("resources/css/markdown.css", "public/css")
   .css("resources/css/code.css", "public/css")
   .postCss("resources/css/app.css", "public/css", [require("tailwindcss")])

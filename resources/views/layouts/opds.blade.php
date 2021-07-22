@@ -10,7 +10,7 @@
         @hasSection('title')
             @yield('title') · {{ config('app.name') }} OPDS
         @else
-            {{ config('app.name') }}
+            {{ config('app.name') }} OPDS
         @endif
     </title>
 

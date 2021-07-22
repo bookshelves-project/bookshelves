@@ -102,6 +102,7 @@ namespace App\Models{
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
+ * @property-read string $authors_names
  * @property-read string $download_link
  * @property-read string|null $epub
  * @property-read mixed $genres_list
@@ -116,6 +117,7 @@ namespace App\Models{
  * @property-read string $show_link_opds
  * @property-read string $sort_name
  * @property-read mixed $tags_list
+ * @property-read string $webreader_link
  * @property-read \App\Models\GoogleBook|null $googleBook
  * @property-read \App\Models\Identifier|null $identifier
  * @property-read \App\Models\Language|null $language

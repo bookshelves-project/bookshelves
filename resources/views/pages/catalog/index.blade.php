@@ -1,6 +1,6 @@
 @extends('layouts.catalog')
 
-@section('title', 'Home')
+{{-- @section('title', 'Home') --}}
 
 @section('content')
     <div class="relative px-4 pb-20 sm:px-6 lg:pb-28 lg:px-8">

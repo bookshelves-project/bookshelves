@@ -42,6 +42,7 @@
         "laravel/telescope": "^4.4",
         "laravel/tinker": "^2.5",
         "league/commonmark": "^1.6",
+        "oscarotero/inline-svg": "^2.0",
         "spatie/array-to-xml": "^3.0",
         "spatie/commonmark-highlighter": "^2.1",
         "spatie/image": "^1.10",

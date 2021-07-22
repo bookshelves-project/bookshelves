@@ -8,9 +8,9 @@
 
     <title>
         @hasSection('title')
-            @yield('title') · Wiki · {{ config('app.name') }}
+            @yield('title') · {{ config('app.name') }} Wiki
         @else
-            {{ config('app.name') }}
+            {{ config('app.name') }} Wiki
         @endif
     </title>
 

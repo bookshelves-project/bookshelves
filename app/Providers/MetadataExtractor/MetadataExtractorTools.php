@@ -43,6 +43,7 @@ class MetadataExtractorTools
             $cover = $zip->getFromName($metadata['cover']['file']);
         }
         $metadata['cover']['file'] = $cover;
+        $zip->close();
 
         return $metadata;
     }

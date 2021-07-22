@@ -144,13 +144,15 @@ class AuthorProvider
         return $author;
     }
 
-    public static function setWikipediaPicture(Author $author, WikipediaProvider $wikipediaProvider): Author
+    public static function setWikipediaPicture(Author $author, WikipediaProvider $wikipediaProvider, bool $debug = false): Author
     {
         try {
             $picture_file = WikipediaProvider::getPictureFile($wikipediaProvider);
             self::setPicture($author, $picture_file);
         } catch (\Throwable $th) {
-            echo "\nNo wikipedia picture_file for $wikipediaProvider->query\n";
+            if ($debug) {
+                echo "\nNo wikipedia picture_file for $wikipediaProvider->query\n";
+            }
         }
 
         return $author;

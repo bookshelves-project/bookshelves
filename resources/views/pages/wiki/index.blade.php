@@ -1,6 +1,6 @@
 @extends('layouts.wiki')
 
-@section('title', 'Home')
+{{-- @section('title', 'Home') --}}
 
 @section('content')
     <x-markdown theme="github-dark">

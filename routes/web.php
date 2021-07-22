@@ -6,10 +6,10 @@ use App\Http\Controllers\Opds\OpdsController;
 use App\Http\Controllers\Wiki\WikiController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\Catalog\BookController;
-use App\Http\Controllers\Api\WebreaderController;
 use App\Http\Controllers\Catalog\SerieController;
 use App\Http\Controllers\Catalog\AuthorController;
 use App\Http\Controllers\Catalog\CatalogController;
+use App\Http\Controllers\Webreader\WebreaderController;
 use App\Http\Controllers\Opds\BookController as OpdsBookController;
 use App\Http\Controllers\Opds\SerieController as OpdsSerieController;
 use App\Http\Controllers\Opds\AuthorController as OpdsAuthorController;
@@ -75,4 +75,5 @@ Route::prefix('wiki')->group(function () {
 /*
  * Web reader routes
  */
-Route::get('/webreader', [WebreaderController::class, 'index'])->name('webreader.index');
+Route::get('/webreader/{author:slug}/{book:slug}', [WebreaderController::class, 'cover'])->name('webreader.index');
+Route::get('/webreader/{author:slug}/{book:slug}/{page}', [WebreaderController::class, 'read'])->name('webreader.page');

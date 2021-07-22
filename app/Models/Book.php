@@ -119,6 +119,16 @@ class Book extends Model implements HasMedia
         return $this->getFirstMediaUrl('epubs');
     }
 
+    public function getAuthorsNamesAttribute(): string
+    {
+        $authors = [];
+        foreach ($this->authors as $key => $author) {
+            array_push($authors, $author->name);
+        }
+
+        return implode(', ', $authors);
+    }
+
     public function getShowLinkAttribute(): string
     {
         if ($this->meta_author && $this->slug) {
@@ -152,6 +162,20 @@ class Book extends Model implements HasMedia
         ]);
 
         return $route;
+    }
+
+    public function getWebreaderLinkAttribute(): string
+    {
+        if ($this->meta_author && $this->slug) {
+            $route = route('webreader.index', [
+                'author' => $this->meta_author,
+                'book'   => $this->slug,
+            ]);
+
+            return $route;
+        }
+
+        return '';
     }
 
     public function getIsFavoriteAttribute(): bool
