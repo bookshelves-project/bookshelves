@@ -22,7 +22,7 @@ class WebreaderController extends Controller
         $author = Author::whereSlug($author)->firstOrFail();
         $book = Book::whereHas('authors', function ($query) use ($author) {
             return $query->where('author_id', '=', $author->id);
-        })->first();
+        })->whereSlug($book)->firstOrFail();
         
         $cover = $book->image_original;
         
@@ -40,13 +40,13 @@ class WebreaderController extends Controller
         $author = Author::whereSlug($author)->firstOrFail();
         $book = Book::whereHas('authors', function ($query) use ($author) {
             return $query->where('author_id', '=', $author->id);
-        })->first();
+        })->whereSlug($book)->firstOrFail();
 
         $page = intval($page);
 
         $title = 'Page '.$page.' in ';
         $title .= $book->title;
-        $title .= ' ('.$book->serie->title.', vol. '.$book->volume.')';
+        $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : null;
         $title .= ' by '.$book->authors_names;
 
         $epub_path = $book->getFirstMediaPath('epubs');

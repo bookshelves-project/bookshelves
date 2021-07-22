@@ -11,7 +11,8 @@
                     {{ $book->title }}
                 </div>
                 <div class="text-center mt-3 text-xl">
-                    {{ $book->serie->title }}, vol. {{ $book->volume }} by {{ $book->authors_names }}
+                    @if ($book->serie) {{ $book->serie->title }}, vol.
+                        {{ $book->volume }} @endif by {{ $book->authors_names }}
                 </div>
             </div>
             <div class="mx-auto w-max mt-6">
