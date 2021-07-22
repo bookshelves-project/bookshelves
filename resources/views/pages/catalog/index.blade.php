@@ -6,7 +6,7 @@
     <div class="relative px-4 pb-20 sm:px-6 lg:pb-28 lg:px-8">
         <div class="relative mx-auto max-w-2xl">
             <div class="mt-10">
-                <form action="/api/catalog/search" method="GET">
+                <form action="/catalog/search" method="GET">
                     <article class="entity" style="min-height: 0; border: none;">
                         <h2 class="entity__right">
                             <button type="submit" class="block mx-auto text-2xl text-center">
@@ -16,7 +16,7 @@
                         <div style="text-decoration: none !important;">
                             <div class="entity__center" style="margin: 0 120px 4px 0;">
                                 <input type="search" name="q" class="block w-full mx-auto mt-1"
-                                    placeholder="Search by book title, by author name or by series title">
+                                    placeholder="Search by book title, by author name or by series title" required>
                             </div>
                         </div>
                     </article>

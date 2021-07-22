@@ -2,7 +2,7 @@
     font-family: Handlee;
     display: table;
     position: relative;
-    margin-top: 8rem !important;
+    margin-top: 6rem !important;
     margin-bottom: 2rem;
     font-size: 1.5rem /* 24px */;
     line-height: 2rem /* 32px */;
@@ -39,7 +39,6 @@
     margin-top: 0.5rem;
     margin-bottom: 0.25rem;
     border-radius: 0.25rem;
-    border: 2px dashed #108775;
 }
 
 .markdown-body h3 {
@@ -159,7 +158,7 @@
 }
 
 .markdown-body h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin: 0.67em 0;
 }
 
@@ -775,11 +774,6 @@
 .markdown-body h6 {
     font-size: 0.85em;
     color: #6a737d;
-}
-
-.markdown-body ol,
-.markdown-body ul {
-    padding-left: 2em;
 }
 
 .markdown-body ol ol,

@@ -165,11 +165,14 @@ class WebreaderController extends Controller
                     }
                     $file = $mock->saveHTML();
                     $file = preg_replace("/<img[^>]+\>/i", '', $file);
+                    $file = str_replace('&nbsp;', '', $file);
 
                     $converter = new HtmlConverter();
                     $markdown = $converter->convert($file);
                     $markdown = strip_tags($markdown);
                     $markdown = trim(str_replace('\n', '', (str_replace('\r', '', $markdown))));
+                    $markdown = str_replace('* *', '', $markdown);
+                    $markdown = str_replace('**', '', $markdown);
 
                     $is_not_empty = $markdown != '';
 

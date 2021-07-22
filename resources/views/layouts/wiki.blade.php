@@ -25,21 +25,11 @@
     @yield('style')
 </head>
 
-<body class="font-sans antialiased markdown-body relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
-    {{-- @include('components.layout.navbar') --}}
-    <div id="top" class="container max-w-3xl p-5 mx-auto prose prose-lg">
-        <div class="flex items-center justify-center mt-4 font-handlee">
-            <img src="{{ asset('images/bookshelves.svg') }}" alt="Bookshelves" class="w-24">
-            <div class="ml-4">
-                <div class="text-4xl">
-                    Bookshelves Wiki
-                </div>
-                <div class="text-sm">
-                    Documentation about Bookshelves
-                </div>
-            </div>
-        </div>
-        <div class="mt-20">
+<body class="font-sans antialiased relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
+    @include('components.blocks.hero', ['route' => 'wiki.index', 'title' => 'Bookshelves Wiki', 'text' => 'Documentation
+    about Bookshelves'])
+    <div id="top" class="container max-w-3xl p-5 mx-auto prose prose-lg markdown-body">
+        <div class="mt-6">
             @yield('content')
         </div>
         <a href="#top"

@@ -6,10 +6,10 @@
     <div class="relative px-4 pb-20 sm:px-6 lg:pb-28 lg:px-8">
         <div class="relative mx-auto max-w-7xl">
             <div class="mt-10">
-                <form action="/api/catalog/search" method="GET">
+                <form action="/catalog/search" method="GET">
                     <input type="search" name="q" class="block w-full max-w-xl mx-auto mt-1 rounded-md"
-                        placeholder="Search by book title, by author name or by series title">
-                    <button class="block px-3 py-2 mx-auto mt-3 text-3xl font-handlee text-center">
+                        placeholder="Search by book title, by author name or by series title" required>
+                    <button type="submit" class="block px-3 py-2 mx-auto mt-3 text-3xl font-handlee text-center">
                         Launch search
                     </button>
                 </form>

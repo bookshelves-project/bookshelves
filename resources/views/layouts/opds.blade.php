@@ -24,26 +24,8 @@
 </head>
 
 <body class="font-sans antialiased relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
-    {{-- @include('components.layout.navbar') --}}
-    <a href="{{ route('catalog.index') }}" class="flex items-center justify-center mt-4 font-handlee">
-        <table class="mx-auto">
-            <tr>
-                <td>
-                    <img src="{{ asset('images/bookshelves.svg') }}" alt="Bookshelves" class="w-24">
-                </td>
-                <td>
-                    <div class="ml-4">
-                        <div class="text-4xl">
-                            Bookshelves OPDS
-                        </div>
-                        <div class="text-sm">
-                            Open Publication Distribution System
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </a>
+    @include('components.blocks.hero', ['route' => 'opds.index', 'title' => 'Bookshelves OPDS', 'text' => 'Open
+    Publication Distribution System'])
     <nav>
         <table class="mx-auto" cellpadding="20px" cellspacing="0" height="100%" class="table-fixed">
             <tbody>

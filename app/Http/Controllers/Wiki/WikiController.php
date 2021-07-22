@@ -21,10 +21,11 @@ class WikiController extends Controller
 
         $laravelVersion = Application::VERSION;
         $phpVersion = PHP_VERSION;
+        $appVersion = $composer->version;
 
         $path = resource_path('views/pages/wiki/content/index.md');
         $content = File::get($path);
 
-        return view('pages.wiki.index', compact('laravelVersion', 'phpVersion', 'content'));
+        return view('pages.wiki.index', compact('laravelVersion', 'phpVersion', 'appVersion', 'content'));
     }
 }

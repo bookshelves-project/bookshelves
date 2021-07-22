@@ -8,14 +8,44 @@ If you are interested in Bookshelves, you can keep only the back-end part and cr
 technology you want. All the logic of Bookshelves is in the backend and it is even possible to not use an external
 frontend and use Bookshelves with the internal backend interface.
 
-# Demo & documentation
+# Links
 
 🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of Bookshelves  
+
 📚 [**bookshelves.ink/wiki**](https://bookshelves.ink/wiki): wiki for Bookshelves usage  
 📚 [**bookshelves.ink/docs**](https://bookshelves.ink/docs): API documentation  
+📚 [**bookshelves.ink/opds**](https://bookshelves.ink/opds): OPDS  
+📚 [**bookshelves.ink/catalog**](https://bookshelves.ink/catalog): Catalog  
 
 📀 [**gitlab.com/ewilan-riviere/bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves  
 🎨 [**gitlab.com/ewilan-riviere/bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  
+
+# TODO
+
+```bash
+"php"
+"friendsofphp/php-cs-fixer"
+"fruitcake/laravel-cors"
+"itsgoingd/clockwork"
+"laravel/sanctum"
+"laravel/telescope"
+"league/commonmark"
+"league/html-to-markdown"
+"oscarotero/inline-svg"
+"spatie/array-to-xml"
+"spatie/commonmark-highlighter"
+"spatie/image"
+"spatie/laravel-enum"
+"spatie/laravel-image-optimizer"
+"spatie/laravel-markdown"
+"spatie/laravel-medialibrary"
+"spatie/laravel-route-attributes"
+"spatie/laravel-tags"
+"barryvdh/laravel-ide-helper"
+"fakerphp/faker"
+"fruitcake/laravel-telescope-toolbar"
+"knuckleswtf/scribe"
+```
 
 # **I. Setup**
 
@@ -76,26 +106,19 @@ php artisan bookshelves:sample
 
 # **III. Tools**
 
-## *a. Swagger*
+## *a. API documentation: knuckleswtf/scribe*
 
-- [**zircote.github.io/swagger-php**](https://zircote.github.io/swagger-php/): documentation of Swagger PHP
-- [**github.com/DarkaOnLine/L5-Swagger**](https://github.com/DarkaOnLine/L5-Swagger): `darkaonline/l5-swagger` repository
-- [**ivankolodiy.medium.com**](https://ivankolodiy.medium.com/how-to-write-swagger-documentation-for-laravel-api-tips-examples-5510fb392a94): useful article about L5-Swagger
-- [**localhost:8000/api/documentation**](http://localhost:8000/api/documentation): if you use `php artisan serve`, Swagger is available on `/api/documentation`
+- [**scribe.knuckles.wtf/laravel**](https://scribe.knuckles.wtf/laravel/): documentation of knuckleswtf/scribe
+- [**github.com/knuckleswtf/scribe**](https://github.com/knuckleswtf/scribe): `knuckleswtf/scribe` repository
+- [**localhost:8000/docs**](http://localhost:8000/docs): if you use `php artisan serve`, knuckleswtf/scribe is available on `/docs`
 
-To generate documentation from **@OA** comments
-
-```yml
-# In dotenv
-L5_SWAGGER_GENERATE_ALWAYS=true
-L5_SWAGGER_BASE_PATH=/api
-```
+To generate documentation from controllers
 
 ```bash
-php artisan l5-swagger:generate
+php artisan scribe:generate
 ```
 
-To update documentation change **@OA** comments in controllers
+To update documentation change comments in controllers
 
 ```php
 <?php
@@ -105,17 +128,21 @@ To update documentation change **@OA** comments in controllers
 class BookController extends Controller
 {
   /**
-  * @OA\Get(
-  *     path="/books",
-  *     tags={"books"},
-  *     summary="List of books",
-  *     description="Books",
-  *     @OA\Response(
-  *         response=200,
-  *         description="Successful operation"
-  *     )
-  * )
-  */
+    * GET Book collection
+    *
+    * <small class="badge badge-blue">WITH PAGINATION</small>
+    *
+    * Get all Books ordered by 'title' & Series' 'title'.
+    *
+    * @queryParam per-page int Entities per page, '32' by default. No-example
+    * @queryParam page int The page number, '1' by default. No-example
+    * @queryParam all bool To disable pagination, false by default. No-example
+    * @queryParam lang filters[fr,en] To select specific lang, null by default. No-example
+    *
+    * @responseField title string Book's title.
+    *
+    * @responseFile public/storage/responses/books.index.get.json
+    */
   public function index()
   {
     // ...
@@ -193,15 +220,15 @@ php artisan larastan
 
 ## *i. Wikipedia*
 
-- <https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch=pierre%20bottero&format=json>
-- <http://fr.wikipedia.org/w/api.php?action=query&prop=info&pageids=1064109&inprop=url&format=json&prop=info|extracts&inprop=url>
-- <https://en.wikipedia.org/w/api.php?format=json&action=query&origin=*&titles=Pierre%20Bottero&prop=info|extracts&inprop=url>
+TODO
+
+- WikipediaProvider
 
 # **IV. `.env`**
 
 ## *a. For local*
 
-```yml
+```yaml
 APP_URL=http://localhost:8000
 # OR
 # APP_URL=http://api.bookshelves.test
@@ -220,11 +247,11 @@ BOOKSHELVES_ADMIN_PASSWORD=password
 
 Setup for [**Mailtrap**](https://mailtrap.io/)
 
-```yml
+```yaml
 MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=587
-MAIL_USERNAME=<mailtrap_username>
-MAIL_PASSWORD=<mailtrap_password>
+MAIL_USERNAME=mailtrap_username
+MAIL_PASSWORD=mailtrap_password
 MAIL_FROM_ADDRESS=noreply@bookshelves.ink
 MAIL_FROM_NAME="${APP_NAME}"
 MAIL_TO_ADDRESS=contact@bookshelves.ink
@@ -233,7 +260,7 @@ MAIL_TO_NAME="${APP_NAME}"
 
 ## *b. For production*
 
-```yml
+```yaml
 APP_URL=https://www.mydomain.com
 
 L5_SWAGGER_GENERATE_ALWAYS=false
@@ -247,17 +274,17 @@ TELESCOPE_ENABLED=false
 
 Setup for [**Mailgun**](https://www.mailgun.com/)
 
-> For credentials
->
-> - Create an account
-> - After setup domain
-> - Sending -> Domain settings -> SMTP credentials
+For credentials
 
-```yml
+- Create an account
+- After setup domain
+- Sending -> Domain settings -> SMTP credentials
+
+```yaml
 MAIL_HOST=smtp.eu.mailgun.org
 MAIL_PORT=587
-MAIL_USERNAME=<mailgun_user_login>
-MAIL_PASSWORD=<mailgun_user_password>
+MAIL_USERNAME=mailgun_user_login
+MAIL_PASSWORD=mailgun_user_password
 MAIL_FROM_ADDRESS=noreply@bookshelves.ink
 MAIL_FROM_NAME="${APP_NAME}"
 MAIL_TO_ADDRESS=contact@bookshelves.ink

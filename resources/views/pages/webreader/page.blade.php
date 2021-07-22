@@ -57,7 +57,7 @@
             </span>
         </a>
     </div>
-    <main class="text-justify px-3 py-6 prose prose-lg mx-auto min-h-screen">
+    <main class="text-justify px-3 py-16 prose prose-lg mx-auto min-h-screen">
         <section class="content">
             {!! $current_page_content !!}
         </section>

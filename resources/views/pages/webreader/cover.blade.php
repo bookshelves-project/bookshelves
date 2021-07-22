@@ -3,8 +3,11 @@
 @section('title', $title)
 
 @section('content')
-    <div class="h-screen flex">
-        <a href="{{ $open }}" class="m-auto p-5">
+    <div class="h-screen">
+        @include('components.blocks.hero', ['route' => null, 'title' => 'Bookshelves Webreader', 'text' => 'To
+        read
+        eBooks in your browser'])
+        <a href="{{ $open }}" class="mx-auto mt-16 p-5">
             <img src="{{ $cover }}" alt="" class="mx-auto h-96 max-w-full object-cover shadow-md rounded-sm">
             <div>
                 <div class="text-center mt-6 text-3xl font-semibold">

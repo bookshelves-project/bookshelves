@@ -11,7 +11,8 @@
                 acquisition of electronic publications.OPDS use existing or emergent open standards and
                 conventions, with a priority on simplicity.
             </div>
-            <a href="https://opds.io/" class="block px-3 py-2 mx-auto mt-3 text-xl font-semibold text-center">
+            <a href="https://opds.io/" target="_blank" rel="noopener noreferrer"
+                class="block px-3 py-2 mx-auto mt-3 text-xl font-semibold text-center">
                 More about OPDS
             </a>
         </div>

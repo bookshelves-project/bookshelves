@@ -17,10 +17,10 @@
 
 **Table of contents**
 
-- [**I. Setup**](#i-setup)
+- [**Setup**](#setup)
   - [*a. Dependencies*](#a-dependencies)
   - [*b. Setup*](#b-setup)
-- [**II. Generate eBooks data**](#ii-generate-ebooks-data)
+- [**Generate eBooks data**](#generate-ebooks-data)
   - [*a. Create directory where store eBooks*](#a-create-directory-where-store-ebooks)
     - [Option 1: Directly store EPUB files](#option-1-directly-store-epub-files)
     - [Option 2: Create symbolic link](#option-2-create-symbolic-link)
@@ -30,7 +30,7 @@
   - [*c. Test with demo eBook*](#c-test-with-demo-ebook)
 - [API Doc](#api-doc)
 
-## **I. Setup**
+## **Setup**
 
 ### *a. Dependencies*
 
@@ -64,7 +64,7 @@ Execute `setup` and follow guide
 php artisan setup
 ```
 
-## **II. Generate eBooks data**
+## **Generate eBooks data**
 
 ### *a. Create directory where store eBooks*
 
