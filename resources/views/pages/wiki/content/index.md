@@ -14,38 +14,161 @@ frontend and use Bookshelves with the internal backend interface.
 
 📚 [**bookshelves.ink/wiki**](https://bookshelves.ink/wiki): wiki for Bookshelves usage  
 📚 [**bookshelves.ink/docs**](https://bookshelves.ink/docs): API documentation  
-📚 [**bookshelves.ink/opds**](https://bookshelves.ink/opds): OPDS  
-📚 [**bookshelves.ink/catalog**](https://bookshelves.ink/catalog): Catalog  
+📚 [**bookshelves.ink/opds**](https://bookshelves.ink/opds): OPDS feed for applications which can read this feed  
+📚 [**bookshelves.ink/catalog**](https://bookshelves.ink/catalog): Catalog, a basic interface for eReader browser to download eBook from eReader  
+📚 [**bookshelves.ink/webreader**](https://bookshelves.ink/webreader): Webreader, to read any Bookshelves eBook into your browser  
 
 📀 [**gitlab.com/ewilan-riviere/bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves  
 🎨 [**gitlab.com/ewilan-riviere/bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  
 
-# TODO
+# Packages
+
+## Auth
+
+[**laravel/sanctum**](https://github.com/laravel/sanctum): Laravel Sanctum provides a featherweight authentication system for SPAs (single page applications), mobile applications, and simple, token based APIs. Sanctum allows each user of your application to generate multiple API tokens for their account. These tokens may be granted abilities / scopes which specify which actions the tokens are allowed to perform.
+
+Routes can be protected like this
+
+```php
+Route::middleware(['auth:sanctum'])->group(function () {
+  // routes
+}
+```
+
+## API documentation
+
+[**knuckleswtf/scribe**](https://github.com/knuckleswtf/scribe): Scribe helps you generate API documentation for humans from your Laravel/Lumen/Dingo codebase. See a live example at [demo.scribe.knuckles.wtf](https://demo.scribe.knuckles.wtf).
+
+You can set parameters into each Controller, check [**scribe.knuckles.wtf/laravel**](https://scribe.knuckles.wtf/laravel/) to know more, like this
+
+```php
+<?php
+
+/**
+ * @group Author
+ *
+ * Endpoint to get Authors data.
+ */
+class AuthorController extends Controller
+{
+  /**
+   * GET Author collection
+   *
+   * <small class="badge badge-blue">WITH PAGINATION</small>
+   *
+   * You can get all Authors with alphabetic order on lastname with pagination.
+   *
+   * @queryParam per-page int Entities per page, '32' by default. No-example
+   * @queryParam page int The page number, '1' by default. No-example
+   * @responseFile public/storage/responses/authors.index.get.json
+   */
+  public function index(Request $request)
+  {
+      $page = $request->get('per-page');
+      $page = $page ? $page : 32;
+      if (! is_numeric($page)) {
+          return response()->json(
+              "Invalid 'per-page' query parameter, must be an int",
+              400
+          );
+      }
+      $page = intval($page);
+
+      $all = $request->get('all') ? filter_var($request->get('all'), FILTER_VALIDATE_BOOLEAN) : null;
+      if ($all) {
+          $authors = Author::orderBy('lastname')->get();
+
+          return AuthorUltraLightResource::collection($authors);
+      }
+
+      $authors = Author::with('media')->orderBy('lastname')->withCount('books')->get();
+
+      return AuthorLightResource::collection($authors->paginate($page));
+  }
+}
+```
+
+And generate documentation
 
 ```bash
-"php"
-"friendsofphp/php-cs-fixer"
-"fruitcake/laravel-cors"
-"itsgoingd/clockwork"
-"laravel/sanctum"
-"laravel/telescope"
-"league/commonmark"
-"league/html-to-markdown"
-"oscarotero/inline-svg"
-"spatie/array-to-xml"
-"spatie/commonmark-highlighter"
-"spatie/image"
-"spatie/laravel-enum"
-"spatie/laravel-image-optimizer"
-"spatie/laravel-markdown"
-"spatie/laravel-medialibrary"
-"spatie/laravel-route-attributes"
-"spatie/laravel-tags"
-"barryvdh/laravel-ide-helper"
-"fakerphp/faker"
-"fruitcake/laravel-telescope-toolbar"
-"knuckleswtf/scribe"
+php artisan scribe:generate
 ```
+
+## Code linter & helpers
+
+### Clockwork
+
+[**itsgoingd/clockwork**](https://github.com/itsgoingd/clockwork): Clockwork is a development tool for PHP available right in your browser. Clockwork gives you an insight into your application runtime - including request data, performance metrics, log entries, database queries, cache queries, redis commands, dispatched events, queued jobs, rendered views and more - for HTTP requests, commands, queue jobs and tests.
+
+To use Clockwork, you have to install browser extension: [**Chrome**](https://chrome.google.com/webstore/detail/clockwork/dmggabnehkmmfmdffgajcflpdjlnoemp) or [**Firefox**](https://addons.mozilla.org/en-US/firefox/addon/clockwork-dev-tools/). When it's done, just open DevTools and choose Clockwork.
+
+### IDE helper
+
+[**barryvdh/laravel-ide-helper**](https://github.com/barryvdh/laravel-ide-helper): to generate magic methods for each model to help IDE completion
+
+```bash
+composer helper
+```
+
+### larastan
+
+[**nunomaduro/larastan**](https://github.com/nunomaduro/larastan): Adds static analysis to Laravel improving developer productivity and code quality.
+
+```bash
+php artisan larastan
+```
+
+### PHP CS Fixer
+
+[**friendsofphp/php-cs-fixer**](https://github.com/friendsofphp/php-cs-fixer): A tool to automatically fix PHP Coding Standards issues
+
+```bash
+composer helper
+```
+
+### Telescope
+
+*Only available on `routes/web.php`*
+
+- [**laravel/telescope**](https://github.com/laravel/telescope): Telescope makes a wonderful companion to your local Laravel development environment. Telescope provides insight into the requests coming into your application, exceptions, log entries, database queries, queued jobs, mail, notifications, cache operations, scheduled tasks, variable dumps, and more.
+- [**fruitcake/laravel-telescope-toolbar**](https://github.com/fruitcake/laravel-telescope-toolbar): A toolbar for Laravel Telescope, based on the Symfony Web Profiler.
+
+To enable Telescope, just change variable in `.env`
+
+```yaml
+TELESCOPE_ENABLED=true
+```
+
+## Tools
+
+### CORS
+
+[**fruitcake/laravel-cors**](https://github.com/fruitcake/laravel-cors): Adds CORS (Cross-Origin Resource Sharing) headers support in your Laravel application
+
+### Database
+
+- [**spatie/laravel-medialibrary**](https://github.com/spatie/laravel-medialibrary): Associate files with Eloquent models
+- [**spatie/laravel-tags**](https://github.com/spatie/laravel-tags): Add tags and taggable behaviour to your Laravel app
+- [**fakerphp/faker**](https://github.com/fakerphp/faker): Faker is a PHP library that generates fake data for you
+
+### Images
+
+- [**spatie/image**](https://github.com/spatie/image): Manipulate images with an expressive API
+- [**spatie/laravel-image-optimizer**](https://github.com/spatie/laravel-image-optimizer): Optimize images in your Laravel app
+
+### Markdown
+
+- [**thephpleague/commonmark**](https://github.com/thephpleague/commonmark): Highly-extensible PHP Markdown parser which fully supports the CommonMark and GFM specs.
+- [**spatie/commonmark-highlighter**](https://github.com/spatie/commonmark-highlighter): Highlight code blocks with league/commonmark
+- [**thephpleague/html-to-markdown**](https://github.com/thephpleague/html-to-markdown): Convert HTML to Markdown with PHP
+- [**spatie/laravel-markdown**](https://github.com/spatie/laravel-markdown): A highly configurable markdown renderer and Blade component for Laravel
+
+### Misc
+
+- [**oscarotero/inline-svg**](https://github.com/oscarotero/inline-svg): Insert svg in the html so you can use css to change the style
+- [**spatie/array-to-xml**](https://github.com/spatie/array-to-xml): A simple class to convert an array to xml
+- [**spatie/laravel-enum**](https://github.com/spatie/laravel-enum): Laravel support for spatie/enum
+- [**spatie/laravel-route-attributes**](https://github.com/spatie/laravel-route-attributes): Use PHP 8 attributes to register routes in a Laravel app
 
 # **I. Setup**
 

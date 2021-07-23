@@ -20,6 +20,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/wiki.css') }}">
     <link rel="stylesheet" href="{{ mix('css/markdown.css') }}">
     <link rel="stylesheet" href="{{ mix('css/code.css') }}">
     @yield('style')
@@ -41,7 +42,7 @@
             </svg>
         </a>
     </div>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/wiki.js') }}"></script>
     @yield('scripts')
 </body>
 

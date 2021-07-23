@@ -14,7 +14,7 @@ return [
          *
          * More info: https://github.com/spatie/laravel-markdown#specifying-the-theme-used-for-code-highlighting
          */
-        'theme' => 'github-light',
+        'theme' => 'github-dark',
     ],
 
     /*
@@ -57,6 +57,7 @@ return [
      * More info: https://commonmark.thephpleague.com/1.6/extensions/overview/
      */
     'extensions' => [
+        // League\CommonMark\Extension\TableOfContents::class
     ],
 
     /*

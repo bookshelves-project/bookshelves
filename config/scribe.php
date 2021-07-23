@@ -18,7 +18,7 @@ return [
     /*
      * The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
      */
-    'base_url' => config('app.url'),
+    'base_url' => config('app.url').'/api',
 
     /*
      * Tell Scribe what routes to generate documentation for.

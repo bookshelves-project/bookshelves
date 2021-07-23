@@ -1,0 +1,146 @@
+#toc {
+    @apply fixed bg-gray-100 z-40;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    padding-left: 1rem;
+    height: 100vh;
+}
+
+#toc ul {
+    list-style: none !important;
+}
+
+.sidenav {
+    margin-bottom: 0;
+    margin-top: 0;
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 1.06rem;
+    line-height: 1.3;
+}
+
+.sidenav a:hover {
+    text-decoration: none;
+}
+
+.sidenav .active {
+    position: relative;
+    color: #005ea2;
+    font-weight: 700;
+}
+
+.sidenav .active a:visited {
+    color: #005ea2;
+}
+
+.sidenav .active::after {
+    background-color: #005ea2;
+    border-radius: 99rem;
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0.25rem;
+    top: 0.25rem;
+    width: 0.25rem;
+    left: 0;
+}
+
+.sidenav__sublist .active::after {
+    display: none;
+}
+
+.sidenav a:not(.active) {
+    color: #212121;
+}
+
+.sidenav a {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+}
+
+.sidenav__sublist {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.sidenav__sublist a {
+    padding-left: 2rem;
+}
+
+.sidenav__sublist .sidenav__sublist a {
+    padding-left: 3rem;
+}
+
+.sidenav__sublist .sidenav__sublist .sidenav__sublist a {
+    padding-left: 4rem;
+}
+
+pre {
+    position: relative;
+}
+.copy-code-button {
+    @apply absolute top-5 right-5 z-30;
+}
+
+:root {
+    --mainColor: #ff9800;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: "Merriweather", serif;
+}
+
+#navbar {
+    background: #1e2640;
+}
+
+#home {
+    background: #f2b705;
+    color: #1e2640;
+}
+
+#bio {
+    background: #f21b42;
+    color: #f2b705;
+}
+
+#work {
+    background: #1e2640;
+    color: #f21b42;
+}
+
+#contact {
+    background: black;
+    color: white;
+}
+
+h1 {
+    font-size: 5em;
+}
+
+.nav-item {
+    transition: background 200ms;
+}
+
+.nav-link {
+    outline: none;
+    background: linear-gradient(
+        to bottom,
+        var(--mainColor) 0%,
+        var(--mainColor) 100%
+    );
+    background-position: 0 100%;
+    background-repeat: repeat-x;
+    background-size: 1px 1px;
+    transition: background-size 0.2s;
+}
+
+.nav-item.active .nav-link {
+    background-size: 4px 50px;
+}
