@@ -25,9 +25,6 @@ class WikiController extends Controller
 
         $path = resource_path('views/pages/wiki/content/index.md');
         $content = File::get($path);
-        $content = app(MarkdownRenderer::class)
-                        ->highlightTheme('github-dark')
-                        ->toHtml($content);
 
         return view('pages.wiki.index', compact('laravelVersion', 'phpVersion', 'appVersion', 'content'));
     }

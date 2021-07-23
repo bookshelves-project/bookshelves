@@ -90,5 +90,5 @@ pre {
     position: relative;
 }
 .copy-code-button {
-    @apply absolute top-5 right-5 z-30;
+    @apply absolute top-3 right-3 z-30;
 }
