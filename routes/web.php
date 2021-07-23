@@ -75,5 +75,6 @@ Route::prefix('wiki')->group(function () {
 /*
  * Web reader routes
  */
-Route::get('/webreader/{author:slug}/{book:slug}', [WebreaderController::class, 'cover'])->name('webreader.index');
+Route::get('/webreader', [WebreaderController::class, 'index'])->name('webreader.index');
+Route::get('/webreader/{author:slug}/{book:slug}', [WebreaderController::class, 'cover'])->name('webreader.cover');
 Route::get('/webreader/{author:slug}/{book:slug}/{page}', [WebreaderController::class, 'read'])->name('webreader.page');

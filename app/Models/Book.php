@@ -167,7 +167,7 @@ class Book extends Model implements HasMedia
     public function getWebreaderLinkAttribute(): string
     {
         if ($this->meta_author && $this->slug) {
-            $route = route('webreader.index', [
+            $route = route('webreader.cover', [
                 'author' => $this->meta_author,
                 'book'   => $this->slug,
             ]);
