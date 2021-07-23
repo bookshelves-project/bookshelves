@@ -19,7 +19,6 @@
     </button>
     <div id="toc"
         class="-translate-x-full 2xl:translate-x-0 relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-indigo-700 transform transition duration-100">
-        <h3>Table of Contents</h3>
     </div>
     <main id="content" class="prose prose-lg markdown-body mt-16">
         {!! $content !!}
