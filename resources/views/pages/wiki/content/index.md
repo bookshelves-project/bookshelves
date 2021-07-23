@@ -94,7 +94,7 @@ And generate documentation
 php artisan scribe:generate
 ```
 
-## Code linter & helpers
+## Code linter
 
 ### Clockwork
 
@@ -414,9 +414,9 @@ MAIL_TO_ADDRESS=contact@bookshelves.ink
 MAIL_TO_NAME="${APP_NAME}"
 ```
 
-# V. **VHost**
+# V. **Deployment**
 
-## a. *NGINX*
+## a. *VHost: NGINX*
 
 ```nginx
 server {

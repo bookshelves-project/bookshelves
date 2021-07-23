@@ -29,7 +29,7 @@
 <body class="font-sans antialiased relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     @include('components.blocks.hero', ['route' => 'wiki.index', 'title' => 'Bookshelves Wiki', 'text' => 'Documentation
     about Bookshelves'])
-    <div id="top" class="container max-w-3xl p-5 mx-auto prose prose-lg markdown-body">
+    <div id="top" class="container max-w-3xl p-5 mx-auto">
         <div class="mt-6">
             @yield('content')
         </div>

@@ -23,9 +23,14 @@ const spyScrolling = () => {
     for (let s in sections)
       if (sections.hasOwnProperty(s) && sections[s].offsetTop <= scrollPos) {
         const id = sections[s].id;
-        document.querySelector(".active").classList.remove("active");
+        try {
+          document.querySelector(".active").classList.remove("active");
+        } catch (error) {}
+        let id_strip = id.replace(/(<([^>]+)>)/gi, "");
+        id_strip = id_strip.replace(/[^a-zA-Z ]/g, "");
+        id_strip = id_strip.replace("heading", "");
         document
-          .querySelector(`a[href*=${id}]`)
+          .querySelector(`#${id_strip}`)
           .parentNode.classList.add("active");
       }
   };

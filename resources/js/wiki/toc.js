@@ -16,14 +16,19 @@ window.addEventListener("DOMContentLoaded", function (event) {
     var level = headings[i].localName.replace("h", ""); // Getting the header a level for hierarchy
     var title = headings[i].innerHTML; // Set the title to the text of the header
 
-    headings[i].setAttribute("id", id); // Set header ID to its text in lower case text with hyphens instead of spaces.
-    // headings[i].classList.add("hero-bg");
+    let id_strip = id.replace(/(<([^>]+)>)/gi, "");
+    id_strip = id_strip.replace(/[^a-zA-Z ]/g, "");
+
+    headings[i].setAttribute("id", `heading-${id_strip}`); // Set header ID to its text in lower case text with hyphens instead of spaces.
+    headings[i].classList.add("hero-bg");
 
     var li = document.createElement("li"); // create li element.
     li.setAttribute("class", "sidenav__item"); // Assign a class to the li
 
     var a = document.createElement("a"); // Create a link
-    a.setAttribute("href", "#" + id); // Set the href to the heading ID
+    a.setAttribute("id", id_strip);
+    a.setAttribute("href", `#heading-${id_strip}`); // Set the href to the heading ID
+    a.setAttribute("class", "nav-link");
     a.innerHTML = title; // Set the link text to the heading text
 
     // Creeate the hierarchy
@@ -57,13 +62,15 @@ window.addEventListener("DOMContentLoaded", function (event) {
   // Add a class to the first list item to allow for toggling active state.
   var links = tocContainer.getElementsByClassName("sidenav__item");
 
-  links[0].classList.add("active");
+  // links[0].classList.add("active");
 
   // Loop through the links and add the active class to the active/clicked link
   for (var i = 0; i < links.length; i++) {
     links[i].addEventListener("click", function () {
       var active = document.getElementsByClassName("active");
-      active[0].className = active[0].className.replace(" active", "");
+      try {
+        active[0].className = active[0].className.replace(" active", "");
+      } catch (error) {}
       this.className += " active";
     });
   }
