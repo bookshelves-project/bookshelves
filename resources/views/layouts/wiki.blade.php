@@ -42,7 +42,7 @@
             </svg>
         </a>
     </div>
-    <script src="{{ asset('js/wiki.js') }}"></script>
+    <script src="{{ asset('css/wiki.js') }}"></script>
     @yield('scripts')
 </body>
 
