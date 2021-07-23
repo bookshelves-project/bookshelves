@@ -62,7 +62,7 @@ if (! function_exists('getIcon')) {
         int $width = null,
         int $height = null
     ) : string {
-        $svgPath = base_path($_ENV['SVG_PATH'] ? $_ENV['SVG_PATH'] : 'resources/svg');
+        $svgPath = config('app.svg');
         $icons = Collection::fromPath($svgPath);
         $icons->addTransformer(new Cleaner());
   
