@@ -1,7 +1,5 @@
 @extends('layouts.default')
 
-@section('title', 'Welcome')
-
 
 @section('content')
     <div class="relative flex justify-center min-h-screen bg-white items-top dark:bg-gray-900 sm:items-center sm:pt-0">
@@ -23,7 +21,7 @@
                     class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     API
                 </a>
-                <a href="/docs" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                <a href="docs" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     Documentation
                 </a>
                 <a href="{{ route('wiki.index') }}"
@@ -37,6 +35,10 @@
                 <a href="{{ route('catalog.index') }}"
                     class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     Catalog
+                </a>
+                <a href="{{ route('webreader.index') }}"
+                    class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                    Webreader
                 </a>
             </ul>
         </div>
