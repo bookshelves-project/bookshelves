@@ -22,7 +22,7 @@
 @endsection
 
 @section('content')
-    <div class="fixed top-0 flex lg:block right-0 bg-gray-400 bg-opacity-75 text-white">
+    <div class="fixed top-0 flex lg:block right-0 bg-gray-400 bg-opacity-75 z-50 text-white">
         <a href="{{ route('webreader.cover', ['author' => request()->author, 'book' => request()->book]) }}"
             class="hover:bg-gray-500 transition-colors duration-100 block p-3">
             <span class="my-auto">
@@ -46,13 +46,6 @@
         <a href="{{ $last }}" class="hover:bg-gray-500 transition-colors duration-100 block p-3">
             <span class="my-auto">
                 {!! svg('arrow-double-right', 30) !!}
-            </span>
-        </a>
-    </div>
-    <div class="fixed bottom-0 right-0">
-        <a href="#top" class="hover:bg-gray-400 bg-gray-300 transition-colors duration-100 block p-3">
-            <span class="my-auto">
-                {!! svg('arrow-top', 30) !!}
             </span>
         </a>
     </div>

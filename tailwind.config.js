@@ -64,6 +64,9 @@ module.exports = {
             blockquote: {
               color: theme("colors.gray.200"),
             },
+            code: {
+              color: theme("colors.gray.200"),
+            },
             a: {
               color: theme("colors.primary.100"),
               "&:hover": {
@@ -88,6 +91,7 @@ module.exports = {
       backgroundOpacity: ["dark"],
       borderColor: ["hover", "focus", "group-hover"],
       borderRadius: ["dark"],
+      typography: ["responsive", "dark"],
     },
   },
   plugins: [

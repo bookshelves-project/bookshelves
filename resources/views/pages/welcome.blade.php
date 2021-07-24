@@ -17,12 +17,13 @@
                 </div>
             </div>
             <ul class="flex mt-6">
+                <a href="docs" target="_blank" rel="noopener noreferrer"
+                    class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                    API documentation
+                </a>
                 <a href="{{ route('wiki.index') }}"
                     class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     Wiki
-                </a>
-                <a href="docs" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                    Documentation
                 </a>
                 <a href="{{ route('opds.index') }}"
                     class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">

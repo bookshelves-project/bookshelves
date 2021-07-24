@@ -11,10 +11,10 @@
                 <a href="{{ $route ? route($route) : null }}">
                     <div class="ml-4">
                         <div class="text-lg lg:text-4xl">
-                            {{ config('app.name') }} {{ $title }}
+                            {{ config('app.name') }} @yield('title-template')
                         </div>
                         <div class="text-sm">
-                            {{ $text }}
+                            @yield('title-text')
                         </div>
                     </div>
                 </a>

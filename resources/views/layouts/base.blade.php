@@ -8,15 +8,11 @@
 
     <title>
         @hasSection('title')
-            @yield('title') · {{ config('app.name') }} OPDS
+            @yield('title') · {{ config('app.name') }} @yield('title-template')
         @else
-            {{ config('app.name') }} OPDS
+            {{ config('app.name') }} @yield('title-template')
         @endif
     </title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
@@ -25,11 +21,9 @@
 
 <body
     class="font-sans antialiased relative dark:bg-gray-900 {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
-    <div id="top"></div>
+    <div id="top" class="mb-20 lg:mb-10"></div>
     @include('components.blocks.hero', [
-    'route' => 'opds.index',
-    'title' => 'OPDS',
-    'text' => 'Open Publication Distribution System'
+    'route' => $route ?? null,
     ])
     @include('components.blocks.slide-over-links')
     <div class="container p-5 mx-auto dark:text-gray-100">

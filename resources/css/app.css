@@ -1,7 +1,26 @@
-@tailwind base;
-@tailwind components;
-@tailwind screens;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@font-face {
+    font-family: Handlee;
+    src: url("./fonts/Handlee-Regular.ttf");
+}
+
+@font-face {
+    font-family: Quicksand;
+    src: url("./fonts/Quicksand-Regular.ttf");
+}
+
+@font-face {
+    font-family: Quicksand-SemiBold;
+    src: url("./fonts/Quicksand-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: Quicksand-Bold;
+    src: url("./fonts/Quicksand-Bold.ttf");
+}
 
 body {
     overflow-y: scroll;
@@ -34,4 +53,12 @@ body {
 
 .entity__center {
     margin: 0px 0px 4px 125px;
+}
+
+.hyphenate {
+    text-align: justify !important;
+    -webkit-hyphens: auto !important;
+    -moz-hyphens: auto !important;
+    -ms-hyphens: auto !important;
+    hyphens: auto !important;
 }

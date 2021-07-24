@@ -4,9 +4,6 @@
 
 @section('content')
     <div class="h-screen">
-        @include('components.blocks.hero', ['route' => null, 'title' => 'Webreader', 'text' => 'To
-        read
-        eBooks in your browser'])
         <a href="{{ $open }}" class="mx-auto mt-16 p-5">
             <img src="{{ $cover }}" alt="" class="mx-auto h-96 max-w-full object-cover shadow-md rounded-sm">
             <div>
