@@ -42,7 +42,3 @@
         @yield('content')
     </div>
 @endsection
-
-@section('scripts')
-    <script src="{{ asset('css/wiki.js') }}"></script>
-@endsection

@@ -10,9 +10,10 @@
 
 @section('content-base')
     @include('components.blocks.sidebar')
-    <div class="prose prose-xl dark:prose-light markdown-body mx-auto hyphenate">
-        @yield('content')
-    </div>
+@endsection
+
+@section('content-markdown')
+    @yield('content')
 @endsection
 
 @section('scripts')
