@@ -31,6 +31,7 @@
     "version": "1.0.0",
     "require": {
         "php": "^7.3|^8.0",
+        "blade-ui-kit/blade-ui-kit": "^0.2.0",
         "fideloper/proxy": "^4.4",
         "friendsofphp/php-cs-fixer": "^3.0",
         "fruitcake/laravel-cors": "^2.0",

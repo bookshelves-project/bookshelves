@@ -8,7 +8,7 @@
                 <div class="flex justify-center mt-4 font-handlee sm:items-center sm:justify-between">
                     <div class="mx-auto">
                         <div class="text-6xl">
-                            Bookshelves
+                            {{ config('app.name') }}
                         </div>
                         <div class="mt-1 ml-4 text-sm text-center text-gray-500 sm:text-right sm:ml-0">
                             Laravel v{{ $laravelVersion }} (PHP v{{ $phpVersion }})

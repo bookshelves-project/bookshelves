@@ -1,11 +1,11 @@
 @component('mail::message')
-  # A new contact from Bookshelves
+    # A new contact from {{ config('app.name') }}
 
-  **Name** : {{ $name }}<br />
-  **Email**&nbsp;: <a href="mailto:{{ $email }}">{{ $email }}</a>
+    **Name** : {{ $name }}<br />
+    **Email**&nbsp;: <a href="mailto:{{ $email }}">{{ $email }}</a>
 
-  **Message**&nbsp;:<br />
-  {{ $message }}
+    **Message**&nbsp;:<br />
+    {{ $message }}
 
-  *Bookshelves Team*
+    *{{ config('app.name') }} Team*
 @endcomponent

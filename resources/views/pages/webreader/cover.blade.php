@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="h-screen">
-        @include('components.blocks.hero', ['route' => null, 'title' => 'Bookshelves Webreader', 'text' => 'To
+        @include('components.blocks.hero', ['route' => null, 'title' => 'Webreader', 'text' => 'To
         read
         eBooks in your browser'])
         <a href="{{ $open }}" class="mx-auto mt-16 p-5">

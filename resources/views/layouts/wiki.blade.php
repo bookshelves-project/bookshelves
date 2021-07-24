@@ -22,14 +22,16 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="{{ mix('css/wiki.css') }}">
     <link rel="stylesheet" href="{{ mix('css/markdown.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/code.css') }}">
+    {{-- <link rel="stylesheet" href="{{ mix('css/code.css') }}"> --}}
     @yield('style')
 </head>
 
 <body class="font-sans antialiased relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
-    @include('components.blocks.hero', ['route' => 'wiki.index', 'title' => 'Bookshelves Wiki', 'text' => 'Documentation
-    about Bookshelves'])
+    @include('components.blocks.hero', ['route' => 'wiki.index', 'title' => 'Wiki', 'text' => 'Documentation
+    to install & use application'])
     <div id="top" class="container max-w-3xl p-5 mx-auto">
+        @include('components.blocks.sidebar')
+        @include('components.blocks.slide-over-links')
         <div class="mt-6">
             @yield('content')
         </div>
@@ -43,6 +45,7 @@
         </a>
     </div>
     <script src="{{ asset('css/wiki.js') }}"></script>
+    <script src="{{ asset('css/slide-over.js') }}"></script>
     @yield('scripts')
 </body>
 

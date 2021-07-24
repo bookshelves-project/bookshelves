@@ -43,7 +43,7 @@ if (! function_exists('get_thumbnail')) {
     }
 }
 
-if (! function_exists('getIcon')) {
+if (! function_exists('svg')) {
     /**
       * Get SVG icon inline with attributes
       *
@@ -55,7 +55,7 @@ if (! function_exists('getIcon')) {
       *
       * @return string $requestedIcon <svg></svg>
       */
-    function getIcon(
+    function svg(
         string $name,
         int $size = 20,
         string $class = '',

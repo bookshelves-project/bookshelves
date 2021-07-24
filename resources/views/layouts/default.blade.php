@@ -28,7 +28,7 @@
     <div class="max-w-5xl p-5 mx-auto">
         @yield('content')
     </div>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('css/app.js') }}"></script>
     @yield('scripts')
 </body>
 

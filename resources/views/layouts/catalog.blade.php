@@ -24,7 +24,7 @@
 </head>
 
 <body class="font-sans antialiased relative {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
-    @include('components.blocks.hero', ['route' => 'catalog.index', 'title' => 'Bookshelves Catalog', 'text' => 'eBooks
+    @include('components.blocks.hero', ['route' => 'catalog.index', 'title' => 'Catalog', 'text' => 'eBooks
     catalog for eReader browser'])
     <nav>
         <table class="mx-auto" cellpadding="20px" cellspacing="0" height="100%" class="table-fixed">
@@ -54,10 +54,12 @@
             </tbody>
         </table>
     </nav>
+    @include('components.blocks.slide-over-links')
     <div class="max-w-5xl mx-auto">
         @yield('content')
     </div>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('css/app.js') }}"></script>
+    <script src="{{ asset('css/slide-over.js') }}"></script>
     @yield('scripts')
 </body>
 

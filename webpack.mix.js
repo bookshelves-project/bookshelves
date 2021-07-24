@@ -14,6 +14,7 @@ const mix = require("laravel-mix");
 mix
   .js("resources/js/app.js", "public/css")
   .js("resources/js/wiki.js", "public/css")
+  .js("resources/js/slide-over.js", "public/css")
   .css("resources/css/markdown.css", "public/css")
   .css("resources/css/code.css", "public/css")
   .postCss("resources/css/wiki.css", "public/css", [require("tailwindcss")])

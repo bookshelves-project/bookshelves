@@ -26,10 +26,12 @@
 
 <body
     class="font-sans antialiased bg-yellow-100 relative overflow-y-scroll {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
+    @include('components.blocks.slide-over-links')
     <div class="mx-auto">
         @yield('content')
     </div>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('css/app.js') }}"></script>
+    <script src="{{ asset('css/slide-over.js') }}"></script>
     @yield('scripts')
 </body>
 
