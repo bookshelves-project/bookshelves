@@ -28,8 +28,6 @@ use App\Http\Controllers\Api\SubmissionController;
 |
 */
 
-Route::get('/', [ApiController::class, 'index'])->name('api.index');
-
 /*
  * Books routes
  */

@@ -7,7 +7,7 @@
             <div class="block max-w-6xl p-5 mx-auto sm:px-6 lg:px-8 ">
                 <div class="flex justify-center mt-4 font-handlee sm:items-center sm:justify-between">
                     <div class="mx-auto">
-                        <div class="text-6xl">
+                        <div class="lg:text-6xl text-xl">
                             {{ config('app.name') }}
                         </div>
                         <div class="mt-1 ml-4 text-sm text-center text-gray-500 sm:text-right sm:ml-0">
@@ -17,16 +17,12 @@
                 </div>
             </div>
             <ul class="flex mt-6">
-                <a href="{{ route('api.index') }}"
-                    class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                    API
-                </a>
-                <a href="docs" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                    Documentation
-                </a>
                 <a href="{{ route('wiki.index') }}"
                     class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     Wiki
+                </a>
+                <a href="docs" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                    Documentation
                 </a>
                 <a href="{{ route('opds.index') }}"
                     class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Wiki;
 
 use File;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use App\Providers\CommonMark;
+use Illuminate\Support\Carbon;
 use League\CommonMark\Environment;
 use App\Http\Controllers\Controller;
 use League\CommonMark\CommonMarkConverter;
@@ -20,7 +23,10 @@ class WikiController extends Controller
     public function index(Request $request)
     {
         $path = resource_path('views/pages/wiki/content/index.md');
-        $content = File::get($path);
+        $markdown = File::get($path);
+        $lastModified = File::lastModified($path);
+        $lastModified = Carbon::createFromTimestamp($lastModified)->toDateString();
+
         // $content = app(MarkdownRenderer::class)
         //                 ->highlightTheme('github-dark')
         //                 ->toHtml($content);
@@ -37,8 +43,8 @@ class WikiController extends Controller
 
         $converter = new CommonMarkConverter($options, $environment);
 
-        $content = $converter->convertToHtml($content);
+        $content = $converter->convertToHtml($markdown);
 
-        return view('pages.wiki.index', compact('content'));
+        return view('pages.wiki.index', compact('lastModified', 'markdown', 'content'));
     }
 }

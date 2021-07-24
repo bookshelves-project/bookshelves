@@ -7,17 +7,27 @@ document.querySelectorAll("pre > code").forEach(function (codeBlock) {
   button.addEventListener("click", function () {
     var copyText = codeBlock.innerText;
     console.log(copyText);
-    navigator.clipboard.writeText(copyText).then(
-      function () {
-        /* clipboard successfully set */
-        button.blur();
-        button.innerText = "Copied!";
-      },
-      function () {
-        /* clipboard write failed */
-        button.innerText = "Error";
-      }
-    );
+    // navigator clipboard api needs a secure context (https)
+    if (navigator.clipboard && window.isSecureContext) {
+      // navigator clipboard api method'
+      return navigator.clipboard.writeText(copyText);
+    } else {
+      // text area method
+      let textArea = document.createElement("textarea");
+      textArea.value = copyText;
+      // make the textarea out of viewport
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      return new Promise((res, rej) => {
+        // here the magic happens
+        document.execCommand("copy") ? res() : rej();
+        textArea.remove();
+      });
+    }
   });
 
   var pre = codeBlock;

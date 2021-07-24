@@ -22,7 +22,6 @@
 @endsection
 
 @section('content')
-    <div id="top"></div>
     <div class="fixed top-0 flex lg:block right-0 bg-gray-400 bg-opacity-75 text-white">
         <a href="{{ route('webreader.cover', ['author' => request()->author, 'book' => request()->book]) }}"
             class="hover:bg-gray-500 transition-colors duration-100 block p-3">

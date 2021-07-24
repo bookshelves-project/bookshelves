@@ -11,18 +11,18 @@
         "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix"
     },
     "devDependencies": {
-        "@tailwindcss/aspect-ratio": "^0.2.0",
-        "@tailwindcss/forms": "^0.3.2",
-        "@tailwindcss/line-clamp": "^0.2.0",
-        "@tailwindcss/typography": "^0.4.0",
-        "alpinejs": "^2.7.3",
-        "autoprefixer": "^10.1.0",
+        "@tailwindcss/aspect-ratio": "^0.2.1",
+        "@tailwindcss/forms": "^0.3.3",
+        "@tailwindcss/line-clamp": "^0.2.1",
+        "@tailwindcss/typography": "^0.4.1",
+        "alpinejs": "^3.2.2",
+        "autoprefixer": "^10.3.1",
         "axios": "^0.21",
-        "laravel-mix": "^6.0.16",
+        "laravel-mix": "^6.0.25",
         "lodash": "^4.17.19",
-        "postcss": "^8.2.10",
-        "postcss-import": "^14.0.1",
-        "tailwindcss": "^2.0.2",
+        "postcss": "^8.3.6",
+        "postcss-import": "^14.0.2",
+        "tailwindcss": "^2.2.7",
         "tailwindcss-debug-screens": "^2.0.0"
     },
     "dependencies": {

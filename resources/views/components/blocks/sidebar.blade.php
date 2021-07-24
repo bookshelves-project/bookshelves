@@ -6,6 +6,6 @@
         </span>
     </button>
     <div id="toc"
-        class="-translate-x-full 2xl:translate-x-0 relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-indigo-700 transform transition duration-300">
+        class="-translate-x-full 2xl:translate-x-0 max-w-xs w-full pt-5 pb-4 transform transition duration-300 fixed right-0 top-0 bg-gray-100 z-40 overflow-y-auto pl-4 h-screen">
     </div>
 </div>

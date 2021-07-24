@@ -7,7 +7,7 @@ module.exports = {
     "./resources/views/**/*.blade.php",
     "./resources/js/**/*.vue",
   ],
-
+  darkMode: "class",
   theme: {
     container: {
       center: true,
@@ -38,22 +38,56 @@ module.exports = {
         quicksand: ["Quicksand"],
         handlee: ["Handlee"],
       },
-      height: {
-        hero: "32rem",
-      },
-      maxWidth: {
-        extra: "120rem",
-      },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            h1: {
+              fontSize: "2rem",
+            },
+          },
+        },
+        light: {
+          css: {
+            color: theme("colors.gray.100"),
+            h1: {
+              color: theme("colors.gray.100"),
+            },
+            h2: {
+              color: theme("colors.gray.100"),
+            },
+            h3: {
+              color: theme("colors.gray.100"),
+            },
+            strong: {
+              color: theme("colors.gray.200"),
+            },
+            blockquote: {
+              color: theme("colors.gray.200"),
+            },
+            a: {
+              color: theme("colors.primary.100"),
+              "&:hover": {
+                color: theme("colors.primary.200"),
+              },
+            },
+          },
+        },
+      }),
     },
   },
   variants: {
     extend: {
+      display: ["dark"],
+      opacity: ["dark"],
       width: ["hover", "focus"],
-      textColor: ["responsive", "hover", "focus", "group-hover"],
+      textColor: ["responsive", "hover", "focus", "group-hover", "dark"],
       scale: ["responsive", "hover", "focus", "active", "group-hover"],
+      boxShadow: ["dark"],
       translate: ["responsive", "hover", "focus", "active", "group-hover"],
-      backgroundColor: ["hover", "focus", "group-hover"],
+      backgroundColor: ["hover", "focus", "group-hover", "dark"],
+      backgroundOpacity: ["dark"],
       borderColor: ["hover", "focus", "group-hover"],
+      borderRadius: ["dark"],
     },
   },
   plugins: [

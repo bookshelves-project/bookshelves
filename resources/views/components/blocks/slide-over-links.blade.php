@@ -18,37 +18,30 @@ $appVersion = $composer->version;
         class="translate-x-full 2xl:translate-x-0 max-w-xs w-full pt-5 pb-4 transform transition duration-300 fixed right-0 top-0 bg-gray-100 z-40 overflow-y-auto pl-4 h-screen">
         <ul>
             <li>
-                <a href="{{ route('api.index') }}" target="_blank" rel="noopener noreferrer"
-                    class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                    {{ config('app.name') }} API
-                </a>
-            </li>
-            <li>
-                <a href="docs" target="_blank" rel="noopener noreferrer"
-                    class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                <a href="docs" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     {{ config('app.name') }} Documentation
                 </a>
             </li>
             <li>
-                <a href="{{ route('wiki.index') }}" target="_blank" rel="noopener noreferrer"
+                <a href="{{ route('wiki.index') }}"
                     class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     {{ config('app.name') }} Wiki
                 </a>
             </li>
             <li>
-                <a href="{{ route('opds.index') }}" target="_blank" rel="noopener noreferrer"
+                <a href="{{ route('opds.index') }}"
                     class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     {{ config('app.name') }} OPDS
                 </a>
             </li>
             <li>
-                <a href="{{ route('catalog.index') }}" target="_blank" rel="noopener noreferrer"
+                <a href="{{ route('catalog.index') }}"
                     class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     {{ config('app.name') }} Catalog
                 </a>
             </li>
             <li>
-                <a href="{{ route('webreader.index') }}" target="_blank" rel="noopener noreferrer"
+                <a href="{{ route('webreader.index') }}"
                     class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                     {{ config('app.name') }} Webreader
                 </a>

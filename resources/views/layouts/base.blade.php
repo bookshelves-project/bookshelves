@@ -8,9 +8,9 @@
 
     <title>
         @hasSection('title')
-            @yield('title') · {{ config('app.name') }} Webreader
+            @yield('title') · {{ config('app.name') }} OPDS
         @else
-            {{ config('app.name') }} Webreader
+            {{ config('app.name') }} OPDS
         @endif
     </title>
 
@@ -20,16 +20,22 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/markdown.css') }}">
-    @yield('style')
+    @yield('styles')
 </head>
 
 <body
-    class="font-sans antialiased bg-yellow-100 dark:bg-gray-900 relative overflow-y-scroll {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
+    class="font-sans antialiased relative dark:bg-gray-900 {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
+    <div id="top"></div>
+    @include('components.blocks.hero', [
+    'route' => 'opds.index',
+    'title' => 'OPDS',
+    'text' => 'Open Publication Distribution System'
+    ])
     @include('components.blocks.slide-over-links')
-    <div class="mx-auto">
-        @yield('content')
+    <div class="container p-5 mx-auto dark:text-gray-100">
+        @yield('content-base')
     </div>
+    @include('components.blocks.to-top')
     <script src="{{ asset('css/app.js') }}"></script>
     <script src="{{ asset('css/slide-over.js') }}"></script>
     @yield('scripts')
