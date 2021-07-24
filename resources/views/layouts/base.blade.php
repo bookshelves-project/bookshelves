@@ -32,7 +32,7 @@
     @include('components.blocks.slide-over-links')
     <div class="container p-5 mx-auto dark:text-gray-100">
         @yield('content-base')
-        <div class="prose prose-xl dark:prose-light markdown-body mx-auto hyphenate">
+        <div class="prose lg:prose-lg dark:prose-light markdown-body mx-auto hyphenate">
             @yield('content-markdown')
         </div>
     </div>

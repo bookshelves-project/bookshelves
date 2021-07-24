@@ -55,7 +55,7 @@ Execute `setup` and follow guide
 php artisan setup
 ```
 
-# **II. `.env`**
+# **II. .env**
 
 ## *a. For local*
 
@@ -168,7 +168,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 ### Login 419 error: "CSRF token mismatch"
 
 ```bash
-php artisan cache:clear ; php artisan route:clear ; php artisan config:clear ; php artisan view:clear ; php artisan optimize:clear
+php artisan cache:clear
+php artisan route:clear
+php artisan config:clear
+php artisan view:clear
+php artisan optimize:clear
 ```
 
 ## *b. API documentation*

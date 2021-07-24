@@ -10,6 +10,12 @@ document.querySelectorAll("pre > code").forEach(function (codeBlock) {
     // navigator clipboard api needs a secure context (https)
     if (navigator.clipboard && window.isSecureContext) {
       // navigator clipboard api method'
+
+      button.innerText = "Copied!";
+      setTimeout(() => {
+        button.innerText = "Copy";
+      }, 300);
+
       return navigator.clipboard.writeText(copyText);
     } else {
       // text area method
@@ -22,6 +28,12 @@ document.querySelectorAll("pre > code").forEach(function (codeBlock) {
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();
+
+      button.innerText = "Copied!";
+      setTimeout(() => {
+        button.innerText = "Copy";
+      }, 300);
+
       return new Promise((res, rej) => {
         // here the magic happens
         document.execCommand("copy") ? res() : rej();

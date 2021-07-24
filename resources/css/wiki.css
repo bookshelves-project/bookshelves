@@ -81,5 +81,5 @@ pre {
     position: relative;
 }
 .copy-code-button {
-    @apply absolute top-3 right-3 z-30;
+    @apply absolute top-0 right-0 z-30 bg-gray-700 bg-opacity-50 hover:bg-gray-600 transition-colors duration-100 p-2 rounded-bl-md text-sm border-b border-l border-gray-300;
 }
