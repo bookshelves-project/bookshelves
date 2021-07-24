@@ -36,7 +36,7 @@ module.exports = {
       },
       fontFamily: {
         quicksand: ["Quicksand"],
-        handlee: ["Handlee"],
+        handlee: ["Handlee, cursive"],
       },
       typography: (theme) => ({
         DEFAULT: {

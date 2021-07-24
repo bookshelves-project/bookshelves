@@ -2,26 +2,6 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@font-face {
-    font-family: Handlee;
-    src: url("./fonts/Handlee-Regular.ttf");
-}
-
-@font-face {
-    font-family: Quicksand;
-    src: url("./fonts/Quicksand-Regular.ttf");
-}
-
-@font-face {
-    font-family: Quicksand-SemiBold;
-    src: url("./fonts/Quicksand-SemiBold.ttf");
-}
-
-@font-face {
-    font-family: Quicksand-Bold;
-    src: url("./fonts/Quicksand-Bold.ttf");
-}
-
 body {
     overflow-y: scroll;
 }
