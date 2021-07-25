@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use League\HTMLToMarkdown\HtmlConverter;
+use League\CommonMark\CommonMarkConverter;
 use Spatie\LaravelMarkdown\MarkdownRenderer;
 use App\Providers\MetadataExtractor\Parsers\CreatorParser;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
@@ -79,7 +80,8 @@ class WebreaderController extends Controller
         $max_pages = sizeof(File::allFiles($webreader_files));
 
         $current_page_content = $file;
-        $current_page_content = app(MarkdownRenderer::class)->toHtml($current_page_content);
+        $converter = new CommonMarkConverter();
+        $current_page_content = $converter->convertToHtml($current_page_content);
         
         $next_page = request()->page + 1;
         if ($next_page > $max_pages) {

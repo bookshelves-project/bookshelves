@@ -8,6 +8,41 @@ If you are interested in Bookshelves, you can keep only the back-end part and cr
 technology you want. All the logic of Bookshelves is in the backend and it is even possible to not use an external
 frontend and use Bookshelves with the internal backend interface.
 
+## *Concept*
+
+The goal of Bookshelves is to create a database from a list of eBooks that are analyzed by the back-end in Laravel (PHP). All the metadata of each eBook are extracted and processed to create each book with its relationships: authors, publisher, year of release, language, identifiers (ISBN, ISBN13), tags, summary, cover. The series and volume are also retrieved if they are present according to the system created by Calibre, this information not being listed by the EPUB format. The tags are separated into tags and genres to create main and secondary tags, the genres are taken from [Wikipedia](https://en.wikipedia.org/wiki/List_of_writing_genres).
+
+From these relations, all the books of the same series can be listed but also the books and series close by tag. It is interesting to note that a book can have several authors even if only one "main" author is considered for URL generation. Of course, with such a system if the eBooks have a single error on important data, this can have unexpected consequences.
+
+> Example "Language": let's take the language of an English eBook that is mistakenly indicated as French and that is part of a "D'Artagan Romances" series, then this eBook will be part of its own specific series "D'Artagan Romances" indicated as French while the others will be part of the "D'Artagan Romances" series indicated as English. This allows to have two series with the same name in several languages but requires a precise work in setting up the metadata with Calibre for example.
+
+> Example "Author": an eBook "The Three Musketeers" has a lastname-firstname author name such as "Alexandre Dumas" while another eBook of the same series "Twenty Years After" has a lastname-firstname author name such as "Dumas Alexandre". During the generation, two different authors will be created and thus two different series, so all the eBooks must have the name of each author indicated in the same way, the proposal of Bookshelves is to prefer firstname-lastname.
+
+The back-end can work without the front-end by using only Catalog as an interface
+
+- Generation of eBooks with additional data generation with GoogleBooks and Wikipedia API
+  - eBooks : number of pages
+  - Authors: description, URL link, photo
+  - Series: description, link
+  - Each information can be overridden with JSON files presenting the data or JPG files for the pictures
+- Generation of an API with documentation
+- Wiki with a documentation for installation and use
+- An OPDS (Open Publication Distribution System) feed
+- An interface called Catalog presenting the data in a very simplified way in order to allow access from the browser of an eReader and thus to download eBooks with an integrated search
+- An eBook reader in the browser, WebReader, in order to consult directly an eBook
+
+The front-end offers a more modern interface by providing
+
+- More data for each entry
+- An advanced search
+- A pagination on the data in collection
+- The download of eBooks but also of all the books of a specific author or series as a ZIP file.
+- A commenting and bookmarking system for logged-in users.
+- Retrieval of additional data: publishers, tags, genres and associated eBooks & series
+- Guides to inform users on how to use an eReader or eBooks
+- Dark mode
+- Contact form
+
 ## *Links*
 
 🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of Bookshelves  
@@ -41,6 +76,14 @@ sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp
 npm install -g svgo
 ```
 
+You need this to use Bookshelves
+
+- PHP v8.0
+- Composer v2.0
+- MySQL v8.0
+- NodeJS v14.16
+- Yarn v1.2
+
 ## *b. Setup*
 
 Download dependencies
@@ -49,10 +92,58 @@ Download dependencies
 composer install
 ```
 
+### Setup command (easy way)
+
 Execute `setup` and follow guide
 
 ```bash
 php artisan setup
+```
+
+### Manual
+
+Create `.env`
+
+```bash
+cp .env.example .env
+```
+
+Generate key
+
+```bash
+php artisan key:generate
+```
+
+Set database informations, you can set more data if you want, check [**II. .env**](#heading-iienv)
+
+```bash
+DB_DATABASE=<database_name>
+DB_USERNAME=<database_user>
+DB_PASSWORD=<database_password>
+```
+
+Download NodeJS dependencies
+
+```bash
+yarn
+```
+
+Execute Laravel mix
+
+```bash
+yarn dev
+```
+
+Generation API documentation
+
+```bash
+php artisan scribe:generate
+```
+
+Migrate database
+
+```bash
+php artisan migrate
 ```
 
 # **II. .env**

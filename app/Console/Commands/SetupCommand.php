@@ -95,6 +95,8 @@ class SetupCommand extends Command
 
         Artisan::call('setup:database', [], $this->getOutput());
 
+        Artisan::call('scribe:generate');
+
         $this->newLine();
         $this->info('Application is ready!');
 
@@ -177,7 +179,6 @@ class SetupCommand extends Command
     {
         return [
             'APP_URL'                    => $this->ask('Application URL', $this->urlLocal),
-            'L5_SWAGGER_GENERATE_ALWAYS' => $this->ask('Swagger generate', 'false'),
         ];
     }
 
