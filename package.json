@@ -1,8 +1,8 @@
 {
     "private": true,
     "scripts": {
-        "dev": "mix",
-        "development": "mix",
+        "dev": "npm run development",
+        "development": "TAILWIND_MODE=build mix",
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
