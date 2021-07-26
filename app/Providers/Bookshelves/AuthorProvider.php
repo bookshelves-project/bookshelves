@@ -3,13 +3,10 @@
 namespace App\Providers\Bookshelves;
 
 use File;
-use Http;
 use Storage;
 use App\Models\Author;
 use App\Utils\BookshelvesTools;
 use App\Providers\ImageProvider;
-use App\Providers\WikipediaProvider;
-use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class AuthorProvider
 {

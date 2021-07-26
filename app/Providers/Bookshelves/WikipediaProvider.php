@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers\Bookshelves;
 
 use App\Utils\BookshelvesTools;
 use Illuminate\Support\Facades\Http;

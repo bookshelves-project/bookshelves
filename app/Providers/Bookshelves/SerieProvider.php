@@ -9,7 +9,6 @@ use App\Models\Book;
 use App\Models\Serie;
 use App\Utils\BookshelvesTools;
 use App\Providers\ImageProvider;
-use App\Providers\WikipediaProvider;
 
 class SerieProvider
 {
