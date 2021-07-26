@@ -10,6 +10,11 @@ return [
         'email'    => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),
         'password' => env('BOOKSHELVES_ADMIN_PASSWORD', 'password'),
     ],
+    'authors' => [
+        // For all ebooks: if you have authors' names like lastname_firstname
+        // set to false to reverse
+        'firstname_lastname' => true,
+    ],
     // From Wikipedia: https://en.wikipedia.org/wiki/List_of_writing_genres.
     // Any tag add here will be used as 'genre'
     'genres' => [

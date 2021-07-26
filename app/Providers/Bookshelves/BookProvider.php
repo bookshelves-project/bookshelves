@@ -236,15 +236,12 @@ class BookProvider
         $authors = [];
         /** @var Creator $creator */
         foreach ($metadataExtractor->creators as $key => $creator) {
-            $author_name = explode(' ', $creator->name);
-            $lastname = $author_name[sizeof($author_name) - 1];
-            array_pop($author_name);
-            $firstname = implode(' ', $author_name);
+            $authorProvider = AuthorProvider::create($creator);
             $author = Author::firstOrCreate([
-                'lastname'  => $lastname,
-                'firstname' => $firstname,
-                'name'      => "$firstname $lastname",
-                'slug'      => Str::slug("$lastname $firstname", '-'),
+                'lastname'  => $authorProvider->lastname,
+                'firstname' => $authorProvider->firstname,
+                'name'      => "$authorProvider->firstname $authorProvider->lastname",
+                'slug'      => Str::slug("$authorProvider->lastname $authorProvider->firstname", '-'),
                 'role'      => $creator->role,
             ]);
             array_push($authors, $author);

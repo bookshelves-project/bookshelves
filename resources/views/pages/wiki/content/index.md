@@ -15,8 +15,14 @@ The goal of Bookshelves is to create a database from a list of eBooks that are a
 From these relations, all the books of the same series can be listed but also the books and series close by tag. It is interesting to note that a book can have several authors even if only one "main" author is considered for URL generation. Of course, with such a system if the eBooks have a single error on important data, this can have unexpected consequences.
 
 > Example "Language": let's take the language of an English eBook that is mistakenly indicated as French and that is part of a "D'Artagan Romances" series, then this eBook will be part of its own specific series "D'Artagan Romances" indicated as French while the others will be part of the "D'Artagan Romances" series indicated as English. This allows to have two series with the same name in several languages but requires a precise work in setting up the metadata with Calibre for example.
+>
+> - The Three Musketeers from Alexandre Dumas in french: /dumas-alexandre/d-artagnan-romances-fr
+> - Twenty Years After from Alexandre Dumas in english: /alexandre-dumas/d-artagnan-romances-fr
 
-> Example "Author": an eBook "The Three Musketeers" has a lastname-firstname author name such as "Alexandre Dumas" while another eBook of the same series "Twenty Years After" has a lastname-firstname author name such as "Dumas Alexandre". During the generation, two different authors will be created and thus two different series, so all the eBooks must have the name of each author indicated in the same way, the proposal of Bookshelves is to prefer firstname-lastname.
+> Example "Author": an eBook "The Three Musketeers" has a lastname-firstname author name such as "Alexandre Dumas" while another eBook of the same series "Twenty Years After" has a lastname-firstname author name such as "Dumas Alexandre". During the generation, two different authors will be created and thus two different series, so all the eBooks must have the name of each author indicated in the same way, the proposal of Bookshelves is to prefer firstname-lastname. It's important because with this order, Bookshelves can seperate firstname and lastname to order authors. **You can reverse firstnamle-lastname into config/bookshelves.php**
+>
+> - The Three Musketeers from Alexandre Dumas: /dumas-alexandre/three-musketeers-en from serie /dumas-alexandre/d-artagnan-romances-en
+> - Twenty Years After from Dumas Alexandre: /alexandre-dumas/twenty-years-after from serie /alexandre-dumas/d-artagnan-romances-en
 
 The back-end can work without the front-end by using only Catalog as an interface
 
@@ -42,6 +48,13 @@ The front-end offers a more modern interface by providing
 - Guides to inform users on how to use an eReader or eBooks
 - Dark mode
 - Contact form
+
+### What Bookshelves is not
+
+Bookshelves is not like Calibre with dynamic database from EPUB into a specific directory, with Bookshelves you have to parse all EPUB in a directory and, if you add another, you have to parse for new EPUB (fastly than first parse) to generate new eBooks for database. You can use this application like Calibre but it's not same. If you want a Calibre app for web, check these projects:
+
+- [**github.com/janeczku/calibre-web**](https://github.com/janeczku/calibre-web)
+- [**github.com/seblucas/cops**](https://github.com/seblucas/cops)
 
 ## *Links*
 

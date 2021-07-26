@@ -13,6 +13,31 @@ use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class AuthorProvider
 {
+    public function __construct(
+        public string $firstname,
+        public string $lastname,
+    ) {
+    }
+
+    public static function create(object $creator)
+    {
+        $orderClassic = config('bookshelves.authors.firstname_lastname');
+
+        if ($orderClassic) {
+            $author_name = explode(' ', $creator->name);
+            $lastname = $author_name[sizeof($author_name) - 1];
+            array_pop($author_name);
+            $firstname = implode(' ', $author_name);
+        } else {
+            $author_name = explode(' ', $creator->name);
+            $firstname = $author_name[sizeof($author_name) - 1];
+            array_pop($author_name);
+            $lastname = implode(' ', $author_name);
+        }
+
+        return new AuthorProvider($firstname, $lastname);
+    }
+
     /**
      * Generate Author image & description.
      *
