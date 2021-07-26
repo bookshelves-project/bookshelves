@@ -27,14 +27,16 @@
     class="font-sans antialiased relative dark:bg-gray-900 {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     @php
         $agent = new Jenssegers\Agent\Agent();
-        $platform = $agent->platform();
-        $isAndroid = $platform === 'AndroidOS' ?? false;
+        // $platform = $agent->platform();
+        // $isEreader = $platform === 'AndroidOS' ?? false;
+        $device = $agent->device();
+        $isEreader = str_contains($device, 'kobo') ?? false;
     @endphp
-    <div id="top" class="{{ !$isAndroid ? 'mb-20' : '' }} lg:mb-10"></div>
+    <div id="top" class="{{ !$isEreader ? 'mb-20' : '' }} lg:mb-10"></div>
     @include('components.blocks.hero', [
     'route' => $route ?? null,
     ])
-    @if (!$isAndroid)
+    @if (!$isEreader)
         @include('components.blocks.sidebar')
         @include('components.blocks.slide-over-links')
     @endif
