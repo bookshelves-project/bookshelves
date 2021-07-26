@@ -30,13 +30,13 @@
         // $platform = $agent->platform();
         // $isEreader = $platform === 'AndroidOS' ?? false;
         $device = $agent->device();
-        $isEreader = str_contains($device, 'kobo') ?? false;
+        $isReader = str_contains(strtolower($device), 'kobo') ?? false;
     @endphp
-    <div id="top" class="{{ !$isEreader ? 'mb-20' : '' }} lg:mb-10"></div>
+    <div id="top" class="{{ !$isReader ? 'mb-20' : '' }} lg:mb-10"></div>
     @include('components.blocks.hero', [
     'route' => $route ?? null,
     ])
-    @if (!$isEreader)
+    @if (!$isReader)
         @include('components.blocks.sidebar')
         @include('components.blocks.slide-over-links')
     @endif
