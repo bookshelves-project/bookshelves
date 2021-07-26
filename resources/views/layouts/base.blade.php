@@ -27,9 +27,6 @@
     class="font-sans antialiased relative dark:bg-gray-900 {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     @php
         $agent = new Jenssegers\Agent\Agent();
-        $device = $agent->device();
-        
-        $agent = new Agent();
     @endphp
     {{ $agent->platform() }}
     {{ $agent->deviceType() }}
