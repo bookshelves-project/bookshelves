@@ -25,12 +25,12 @@
 
 <body
     class="font-sans antialiased relative dark:bg-gray-900 {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
-    <div id="top" class="mb-20 lg:mb-10"></div>
     @php
         $agent = new Jenssegers\Agent\Agent();
         $platform = $agent->platform();
         $isAndroid = $platform === 'AndroidOS' ?? false;
     @endphp
+    <div id="top" class="{{ !$isAndroid ? 'mb-20' : '' }} lg:mb-10"></div>
     @include('components.blocks.hero', [
     'route' => $route ?? null,
     ])
