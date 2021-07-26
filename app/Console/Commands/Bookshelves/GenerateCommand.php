@@ -29,7 +29,8 @@ class GenerateCommand extends Command
                             {--c|covers : prevent generation of covers}
                             {--a|alone : prevent external HTTP requests to public API for additional informations}
                             {--l|limit= : limit epub files to generate, useful for debug}
-                            {--d|debug= : generate metadata files into public/storage/debug for debug}';
+                            {--d|debug= : generate metadata files into public/storage/debug for debug}
+                            {--t|test : execute tests at the end}';
 
     /**
      * The console command description.
@@ -69,6 +70,7 @@ class GenerateCommand extends Command
         $no_covers = $this->option('covers');
         $alone = $this->option('alone');
         $debug = $this->option('debug');
+        $test = $this->option('test') ?? null;
 
         if ($fresh) {
             $this->warn('- Option --fresh: erase current database, migrate and seed basics also clear all medias.');
@@ -117,10 +119,12 @@ class GenerateCommand extends Command
         /*
          * Tests
          */
-        $this->alert('Tests');
-        if ($this->confirm('Do you want to run tests?', true)) {
-            $this->line('Run tests...');
-            Artisan::call('bookshelves:test');
+        if ($test) {
+            $this->alert('Tests');
+            if ($this->confirm('Do you want to run tests?', true)) {
+                $this->line('Run tests...');
+                Artisan::call('bookshelves:test');
+            }
         }
 
         $this->newLine();

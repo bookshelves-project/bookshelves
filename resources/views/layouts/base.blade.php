@@ -29,6 +29,7 @@
     @include('components.blocks.hero', [
     'route' => $route ?? null,
     ])
+    @include('components.blocks.sidebar')
     @include('components.blocks.slide-over-links')
     <div class="container p-5 mx-auto dark:text-gray-100">
         @yield('content-base')

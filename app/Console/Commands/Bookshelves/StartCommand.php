@@ -16,7 +16,8 @@ class StartCommand extends Command
     protected $signature = 'bookshelves:start
                             {--u|users : start with users and roles sample}
                             {--r|roles : generate roles sample}
-                            {--f|fake : start with fake comments and favorites sample}';
+                            {--f|fake : start with fake comments and favorites sample}
+                            {--t|test : execute tests at the end}';
 
     /**
      * The console command description.
@@ -45,6 +46,7 @@ class StartCommand extends Command
         $users = $this->option('users') ?? null;
         $roles = $this->option('roles') ?? null;
         $fake = $this->option('fake') ?? null;
+        $test = $this->option('test') ?? null;
 
         Artisan::call('migrate:fresh --force', [], $this->getOutput());
         Storage::disk('public')->deleteDirectory('media');

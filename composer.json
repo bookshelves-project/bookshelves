@@ -37,6 +37,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "itsgoingd/clockwork": "^5.0",
+        "jenssegers/agent": "^2.6",
         "laravel/fortify": "^1.7",
         "laravel/framework": "^8.12",
         "laravel/sanctum": "2.9",
