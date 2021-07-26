@@ -1,10 +1,10 @@
 @extends('layouts.wiki')
 
 @section('content')
-    <div class="text-xl italic">
+    <div class="text-sm italic">
         Last update: {{ $lastModified }}
     </div>
-    <main id="content">
+    <main id="content" class="overflow-hidden max-w-full">
         {!! $content !!}
     </main>
 @endsection

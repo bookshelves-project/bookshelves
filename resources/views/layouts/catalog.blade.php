@@ -9,7 +9,6 @@
 @section('title-text', 'eBooks catalog for eReader browser')
 
 @section('content-base')
-    @include('components.blocks.sidebar')
     <nav>
         <table class="mx-auto" cellpadding="20px" cellspacing="0" height="100%" class="table-fixed">
             <tbody>

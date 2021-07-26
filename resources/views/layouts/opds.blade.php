@@ -9,7 +9,6 @@
 @section('title-text', 'Open Publication Distibution System')
 
 @section('content-base')
-    @include('components.blocks.sidebar')
     <div class="prose prose-xl dark:prose-light markdown-body mx-auto hyphenate">
         @yield('content')
     </div>

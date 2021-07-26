@@ -10,7 +10,7 @@
             <td>
                 <a href="{{ $route ? route($route) : null }}">
                     <div class="ml-4">
-                        <div class="text-lg lg:text-4xl">
+                        <div class="text-lg md:text-2xl lg:text-4xl">
                             {{ config('app.name') }} @yield('title-template')
                         </div>
                         <div class="text-sm">

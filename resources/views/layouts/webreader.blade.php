@@ -9,7 +9,6 @@
 @section('title-text', 'To read eBooks in your browser')
 
 @section('content-base')
-    @include('components.blocks.sidebar')
     <div class="prose prose-xl dark:prose-light markdown-body mx-auto hyphenate">
         @yield('content')
     </div>

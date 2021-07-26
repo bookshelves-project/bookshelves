@@ -38,7 +38,7 @@
         @include('components.blocks.sidebar')
         @include('components.blocks.slide-over-links')
     @endif
-    <div class="container p-5 mx-auto dark:text-gray-100">
+    <div class="p-5 mx-auto dark:text-gray-100">
         @yield('content-base')
         <div class="prose lg:prose-lg dark:prose-light markdown-body mx-auto hyphenate">
             @yield('content-markdown')
