@@ -9,7 +9,6 @@
 @section('title-text', 'Installation and usage')
 
 @section('content-markdown')
-    {{ $device }}
     @yield('content')
 @endsection
 

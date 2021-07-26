@@ -3,11 +3,7 @@
 namespace App\Http\Controllers\Wiki;
 
 use File;
-use DateTime;
-use DateTimeZone;
-use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
-use App\Providers\CommonMark;
 use Illuminate\Support\Carbon;
 use League\CommonMark\Environment;
 use App\Http\Controllers\Controller;
@@ -44,11 +40,10 @@ class WikiController extends Controller
 
         $converter = new CommonMarkConverter($options, $environment);
 
-        $agent = new Agent();
-        $device = $agent->device();
+        
 
         $content = $converter->convertToHtml($markdown);
 
-        return view('pages.wiki.index', compact('lastModified', 'markdown', 'content', 'device'));
+        return view('pages.wiki.index', compact('lastModified', 'markdown', 'content'));
     }
 }
