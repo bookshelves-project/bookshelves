@@ -40,6 +40,7 @@
             {{ $agent->deviceType() }}
             {{ $agent->device() }}
             {{ $agent->browser() }}
+            {{ $agent->version($agent->platform()) }}
         </div>
         @yield('content-base')
         <div class="prose lg:prose-lg dark:prose-light markdown-body mx-auto hyphenate">
