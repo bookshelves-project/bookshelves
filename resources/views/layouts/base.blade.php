@@ -26,22 +26,19 @@
 <body
     class="font-sans antialiased relative dark:bg-gray-900 {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     <div id="top" class="mb-20 lg:mb-10"></div>
+    @php
+        $agent = new Jenssegers\Agent\Agent();
+        $platform = $agent->platform();
+        $isAndroid = $platform === 'AndroidOS' ?? false;
+    @endphp
     @include('components.blocks.hero', [
     'route' => $route ?? null,
     ])
-    @include('components.blocks.sidebar')
-    @include('components.blocks.slide-over-links')
+    @if (!$isAndroid)
+        @include('components.blocks.sidebar')
+        @include('components.blocks.slide-over-links')
+    @endif
     <div class="container p-5 mx-auto dark:text-gray-100">
-        <div>
-            @php
-                $agent = new Jenssegers\Agent\Agent();
-            @endphp
-            {{ $agent->platform() }}
-            {{ $agent->deviceType() }}
-            {{ $agent->device() }}
-            {{ $agent->browser() }}
-            {{ $agent->version($agent->platform()) }}
-        </div>
         @yield('content-base')
         <div class="prose lg:prose-lg dark:prose-light markdown-body mx-auto hyphenate">
             @yield('content-markdown')
