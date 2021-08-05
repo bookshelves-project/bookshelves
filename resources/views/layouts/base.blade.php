@@ -41,7 +41,7 @@
             @include('components.blocks.sidebar')
         @endif
         @if ($slideover ?? false)
-            @include('components.blocks.slide-over-links')
+            @include('components.blocks.slide-over-links', ['links' => $links ?? null])
         @endif
     @endif
     <div class="p-5 mx-auto dark:text-gray-100">

@@ -42,7 +42,10 @@ module.exports = {
         DEFAULT: {
           css: {
             h1: {
-              fontSize: "2rem",
+              fontSize: "1.6rem",
+            },
+            li: {
+              spacing: "0.1rem",
             },
           },
         },

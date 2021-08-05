@@ -17,17 +17,15 @@ use League\CommonMark\Block\Renderer\IndentedCodeRenderer;
  */
 class WikiController extends Controller
 {
-    public function index(Request $request)
+    public static function getContent(string $path)
     {
-        $path = resource_path('views/pages/wiki/content/index.md');
         $markdown = File::get($path);
-        $lastModified = File::lastModified($path);
-        $lastModified = Carbon::createFromTimestamp($lastModified)->toDateString();
+        $date = File::lastModified($path);
+        $date = Carbon::createFromTimestamp($date)->toDateString();
 
         // $content = app(MarkdownRenderer::class)
         //                 ->highlightTheme('github-dark')
         //                 ->toHtml($content);
-
         
         $environment = Environment::createCommonMarkEnvironment();
         $options = [
@@ -39,11 +37,24 @@ class WikiController extends Controller
         $environment->addBlockRenderer(IndentedCode::class, new IndentedCodeRenderer($langs));
 
         $converter = new CommonMarkConverter($options, $environment);
-
-        
-
         $content = $converter->convertToHtml($markdown);
 
-        return view('pages.wiki.index', compact('lastModified', 'markdown', 'content'));
+        $links = [
+            'home',
+            'setup',
+            'usage',
+            'packages',
+            'deployment'
+        ];
+
+        return view('pages.wiki.index', compact('date', 'content', 'links'));
+    }
+
+    public function index(Request $request)
+    {
+        $page = $request->page ?? 'home';
+        $path = resource_path("views/pages/wiki/content/$page.md");
+
+        return self::getContent($path);
     }
 }

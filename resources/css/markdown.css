@@ -46,3 +46,12 @@
     margin-bottom: 2rem;
     font-weight: 700;
 }
+
+code {
+    /* white-space: pre-wrap; */
+}
+
+li {
+    margin-top: 0.2rem !important;
+    margin-bottom: 0.2rem !important;
+}

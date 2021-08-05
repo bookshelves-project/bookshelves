@@ -1,4 +1,4 @@
-@extends('layouts.base', ['route' => 'wiki.index', 'sidebar' => true, 'slideover' => true])
+@extends('layouts.base', ['route' => 'wiki.index', 'sidebar' => true, 'slideover' => true, 'links' => $links])
 
 @section('styles')
     <link rel="stylesheet" href="{{ mix('css/wiki.css') }}">

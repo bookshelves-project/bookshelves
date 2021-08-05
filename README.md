@@ -20,12 +20,6 @@
 - [**Setup**](#setup)
   - [*a. Dependencies*](#a-dependencies)
   - [*b. Setup*](#b-setup)
-- [**Generate eBooks data**](#generate-ebooks-data)
-  - [*a. Create directory where store eBooks*](#a-create-directory-where-store-ebooks)
-    - [Option 1: Directly store EPUB files](#option-1-directly-store-epub-files)
-    - [Option 2: Create symbolic link](#option-2-create-symbolic-link)
-  - [*b. Add your own eBooks*](#b-add-your-own-ebooks)
-    - [Option: Scan](#option-scan)
     - [Generate books](#generate-books)
   - [*c. Test with demo eBook*](#c-test-with-demo-ebook)
 - [API Doc](#api-doc)
@@ -62,59 +56,6 @@ Execute `setup` and follow guide
 
 ```bash
 php artisan setup
-```
-
-## **Generate eBooks data**
-
-### *a. Create directory where store eBooks*
-
-**On Bookshelves you have to create directory where you will store your EPUB files: `public/storage/raw/books`**
-
->If you want to know why, it's simple, EPUB files aren't on git of course, but more it's not really practical to store all ebooks into Bookshelves directly, it's more convenient to set symbolic link. That's reason why we choose to not create an empty directory because if you delete directory to create symbolic link, you will have conflict with git.  
->
->You **can't set `books` directory and a symbolic link INTO `books` directory**, you **have to set a symbolic link instead of `books` directory** cause of League\Flysystem\NotSupportedException which not supported symbolic links to scan directories (but **it works if the scan directory is a symbolic link**).  
->
->You can store EPUB files into `public/storage/raw/books` directory or you can create a symbolic link that is really more convenient. Of course, Bookshelves scan recursively this directory, you can have sub directories if you want.  
-
-#### Option 1: Directly store EPUB files
-
-```bash
-mkdir public/storage/raw/books
-```
-
-```bash
-.
-+-- public
-|   +-- storage
-|     +-- raw
-|       +-- books
-|         +-- my-ebook.epub
-|         +-- ...
-```
-
-#### Option 2: Create symbolic link
-
-```bash
-# pwd => ..bookshelves-back/public/storage/raw
-ln -s /home/user/directory-of-ebooks books
-```
-
-```bash
-.
-+-- public
-|   +-- storage
-|     +-- raw
-|       +-- books -> /home/user/directory-of-ebooks
-```
-
-### *b. Add your own eBooks*
-
-#### Option: Scan
-
-You can scan `books` directory to get a list of your EPUB files to know if everything works.
-
-```bash
-php artisan bookshelves:scan -v
 ```
 
 #### Generate books

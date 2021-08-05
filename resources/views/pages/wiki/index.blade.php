@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="text-sm italic">
-        Last update: {{ $lastModified }}
+        Last update: {{ $date }}
     </div>
     <main id="content" class="overflow-hidden max-w-full">
         {!! $content !!}

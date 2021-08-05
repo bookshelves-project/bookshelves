@@ -69,7 +69,7 @@ Route::prefix('opds/{version}')->group(function () {
  * Wiki routes
  */
 Route::prefix('wiki')->group(function () {
-    Route::get('/', [WikiController::class, 'index'])->name('wiki.index');
+    Route::get('/{page?}', [WikiController::class, 'index'])->name('wiki.index');
 });
 
 /*

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\UserController;
