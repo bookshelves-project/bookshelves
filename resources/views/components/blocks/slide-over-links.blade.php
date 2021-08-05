@@ -39,7 +39,7 @@ $appVersion = $composer->version;
                 </div>
                 <ul>
                     <li>
-                        <a href="docs" target="_blank" rel="noopener noreferrer"
+                        <a href="/docs" target="_blank" rel="noopener noreferrer"
                             class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                             {{ config('app.name') }} API documentation
                         </a>

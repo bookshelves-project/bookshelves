@@ -54,7 +54,7 @@ class AuthorController extends Controller
 }
 ```
 
-And generate documentation
+## Generate documentation
 
 ```bash
 php artisan scribe:generate

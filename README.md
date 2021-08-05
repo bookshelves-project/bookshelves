@@ -20,9 +20,7 @@
 - [**Setup**](#setup)
   - [*a. Dependencies*](#a-dependencies)
   - [*b. Setup*](#b-setup)
-    - [Generate books](#generate-books)
-  - [*c. Test with demo eBook*](#c-test-with-demo-ebook)
-- [API Doc](#api-doc)
+- [**Usage**](#usage)
 
 ## **Setup**
 
@@ -58,34 +56,9 @@ Execute `setup` and follow guide
 php artisan setup
 ```
 
-#### Generate books
+## **Usage**
 
-Add EPUB files in `public/storage/raw/books` and execute Epub Parser
-
-> `php artisan bookshelves:generate -h` to check options
-
-```bash
-# for fresh installation (erase tables with books data) with force option for production
-php artisan bookshelves:generate -fF
-```
-
-### *c. Test with demo eBook*
-
-If you want to test Bookshelves, you can use `bookshelves:sample` to generate data from libre eBooks
-
-> `php artisan bookshelves:sample -h` to check options
-
-```bash
-php artisan bookshelves:sample
-```
-
-## API Doc
-
-API documentation is generated with [**knuckleswtf/scribe**](https://scribe.knuckles.wtf/laravel/)
-
-```bash
-php artisan scribe:generate
-```
+To get full documentation, you can read [**Wiki of Bookshelves**](https://bookshelves.ink/wiki), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/blob/master/resources/views/pages/wiki/content) on repository.
 
 ## **TODO** <!-- omit in toc -->
 
