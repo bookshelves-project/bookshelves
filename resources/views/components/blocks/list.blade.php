@@ -8,11 +8,11 @@
             <span class="entity__cover">
                 <img src="{{ $item->picture->simple }}" alt="{{ $item->title }}">
             </span>
-            <h2 class="entity__right">
+            {{-- <h2 class="entity__right">
                 <div style="text-decoration: none !important;">
                     <i class="fas fa-download"></i> EPUB
                 </div>
-            </h2>
+            </h2> --}}
             <div style="text-decoration: none !important;">
                 <div class="entity__center">
                     <div class="pb-3">
@@ -26,7 +26,9 @@
                     <div>
                         <i>Tags</i> : Action &amp; Adventure, Fiction, Historical, Romance
                     </div>
-                    <div><i>Series</i> : {{ $item->serie->title }}, vol. {{ $item->volume }}</div>
+                    @if ($item->serie)
+                        <div><i>Series</i> : {{ $item->serie->title }}, vol. {{ $item->volume }}</div>
+                    @endif
                 </div>
             </div>
         </a>

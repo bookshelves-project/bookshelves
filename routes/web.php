@@ -53,7 +53,7 @@ Route::prefix('catalog')->group(function () {
 Route::get('/opds', [OpdsController::class, 'index'])->name('opds.index');
 
 Route::prefix('opds/{version}')->group(function () {
-    Route::get('/', [OpdsController::class, 'feed'])->name('opds');
+    Route::get('/', [OpdsController::class, 'feed'])->name('opds.feed');
 
     Route::get('/books', [OpdsBookController::class, 'index'])->name('opds.books');
     Route::get('/books/{author}/{book}', [OpdsBookController::class, 'show'])->name('opds.books.show');

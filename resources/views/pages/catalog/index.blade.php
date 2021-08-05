@@ -15,7 +15,8 @@
                         </h2>
                         <div style="text-decoration: none !important;">
                             <div class="entity__center" style="margin: 0 120px 4px 0;">
-                                <input type="search" name="q" class="block w-full mx-auto mt-1"
+                                <input type="search" name="q"
+                                    class="block w-full mx-auto mt-1 placeholder-black border-black"
                                     placeholder="Search by book title, by author name or by series title" required>
                             </div>
                         </div>

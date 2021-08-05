@@ -37,8 +37,12 @@
     'route' => $route ?? null,
     ])
     @if (!$isReader)
-        @include('components.blocks.sidebar')
-        @include('components.blocks.slide-over-links')
+        @if ($sidebar ?? false)
+            @include('components.blocks.sidebar')
+        @endif
+        @if ($slideover ?? false)
+            @include('components.blocks.slide-over-links')
+        @endif
     @endif
     <div class="p-5 mx-auto dark:text-gray-100">
         @yield('content-base')

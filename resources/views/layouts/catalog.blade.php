@@ -1,4 +1,4 @@
-@extends('layouts.base', ['route' => 'catalog.index'])
+@extends('layouts.base', ['route' => 'catalog.index', 'slideover' => true])
 
 @section('styles')
     <link rel="stylesheet" href="{{ mix('css/wiki.css') }}">
@@ -41,7 +41,8 @@
             </tbody>
         </table>
     </nav>
-    <div class="max-w-5xl mx-auto">
-        @yield('content')
-    </div>
+@endsection
+
+@section('content-markdown')
+    @yield('content')
 @endsection

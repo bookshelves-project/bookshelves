@@ -1,4 +1,4 @@
-@extends('layouts.base', ['route' => 'webreader.index'])
+@extends('layouts.base', ['route' => 'webreader.index', 'slideover' => true])
 
 @section('styles')
     <link rel="stylesheet" href="{{ mix('css/wiki.css') }}">
@@ -8,8 +8,6 @@
 @section('title-template', 'Webreader')
 @section('title-text', 'To read eBooks in your browser')
 
-@section('content-base')
-    <div class="prose prose-xl dark:prose-light markdown-body mx-auto hyphenate">
-        @yield('content')
-    </div>
+@section('content-markdown')
+    @yield('content')
 @endsection
