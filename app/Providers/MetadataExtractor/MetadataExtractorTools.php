@@ -17,7 +17,7 @@ class MetadataExtractorTools
      */
     public static function parseXMLFile(string $filepath, bool $debug = false): array
     {
-        $filepath = storage_path("app/public/$filepath");
+        // $filepath = storage_path("app/public/$filepath");
         $metadata = [];
 
         $zip = new ZipArchive();
@@ -33,16 +33,31 @@ class MetadataExtractorTools
         }
 
         // Transform XML to Array
-        $metadata = self::convertXML(xml: $xml_string, filepath: $filepath, debug: $debug);
+        try {
+            $metadata = self::convertXML(xml: $xml_string, filepath: $filepath, debug: $debug);
+        } catch (\Throwable $th) {
+            //throw $th;
+            MetadataExtractorTools::error('convert XML file', basename($filepath));
+        }
 
         if ($debug) {
             Storage::disk('public')->put('/debug/'.pathinfo($filepath)['basename'].'.opf', $xml_string);
         }
+
+        $cover = null;
         for ($i = 0; $i < $zip->numFiles; $i++) {
             $file = $zip->statIndex($i);
-            $cover = $zip->getFromName($metadata['cover']['file']);
+            try {
+                if (array_key_exists('cover_file', $metadata) && $metadata['cover_file']) {
+                    $cover = $zip->getFromName($metadata['cover_file']);
+                }
+            } catch (\Throwable $th) {
+                throw $th;
+                echo "No cover for ".basename($filepath)."\n";
+            }
         }
-        $metadata['cover']['file'] = $cover;
+        $metadata['cover_file'] = $cover;
+
         $zip->close();
 
         return $metadata;
@@ -58,19 +73,20 @@ class MetadataExtractorTools
     {
         try {
             // Get all files in raw/books/
-            $files = Storage::disk('public')->allFiles('raw/books');
+            // $files = Storage::disk('public')->allFiles('raw/books');
+            $epubsFiles = [];
+            $path = 'public/storage/raw/books';
+            foreach (self::getDirContents($path) as $file) {
+                if (array_key_exists('extension', pathinfo($file)) && 'epub' === pathinfo($file)['extension']) {
+                    $file = str_replace('public/storage/', '', $file);
+                    array_push($epubsFiles, $file);
+                }
+            }
         } catch (\Throwable $th) {
-            dump('storage/raw/books not found');
+            echo "storage/raw/books not found\n";
+            echo $th;
 
             return false;
-        }
-
-        // Get EPUB files form raw/books/ and create new $epubsFiles[]
-        $epubsFiles = [];
-        foreach ($files as $key => $value) {
-            if (array_key_exists('extension', pathinfo($value)) && 'epub' === pathinfo($value)['extension']) {
-                array_push($epubsFiles, $value);
-            }
         }
 
         if ($limit) {
@@ -141,6 +157,23 @@ class MetadataExtractorTools
         return $text;
     }
 
+    public static function getDirContents($dir)
+    {
+        $files = scandir($dir);
+        foreach ($files as $key => $value) {
+            $path = realpath($dir.DIRECTORY_SEPARATOR.$value);
+            if (! is_dir($path)) {
+                yield $path;
+            } elseif ($value != "." && $value != "..") {
+                yield from self::getDirContents($path);
+                yield $path;
+            }
+        }
+    }
+    
+
+    
+
     /**
      * Transform OPF file as array.
      */
@@ -150,9 +183,15 @@ class MetadataExtractorTools
         $xml = $xml['PACKAGE'];
         $cover = null;
         $manifest = $xml['MANIFEST']['ITEM'];
+        $i = 0;
         foreach ($manifest as $key => $value) {
-            if ('cover' === $value['ID']) {
-                $cover = $value;
+            if ($value['MEDIA-TYPE'] === 'image/jpeg' || $value['MEDIA-TYPE'] === 'image/png') {
+                $i++;
+                if ('cover' === $value['ID']) {
+                    $cover = $value;
+                } elseif ($i === 1) {
+                    $cover = $value;
+                }
             }
         }
         unset($xml['MANIFEST'], $xml['SPINE']);
@@ -201,10 +240,15 @@ class MetadataExtractorTools
             foreach ($identifiers as $key => $value) {
                 // More than one identifier
                 if (is_numeric($key)) {
-                    array_push($identifiers_arr, [
-                        'id'    => $value['OPF:SCHEME'],
-                        'value' => $value['content'],
-                    ]);
+                    try {
+                        array_push($identifiers_arr, [
+                            'id'    => $value['OPF:SCHEME'],
+                            'value' => $value['content'],
+                        ]);
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                        // echo $th->getMessage();
+                    }
                 } else {
                     $identifiers_arr = [];
                 }
@@ -224,12 +268,14 @@ class MetadataExtractorTools
                 }
             } catch (\Throwable $th) {
                 //throw $th;
+                // echo $th->getMessage();
             }
 
             $serie = null;
             $volume = null;
             $meta_serie = $meta['META'] ?? null;
             foreach ($meta_serie as $key => $value) {
+                // dump($meta_serie);
                 if ('calibre:series' === $value['NAME']) {
                     $serie = $value['CONTENT'];
                 }
@@ -238,28 +284,32 @@ class MetadataExtractorTools
                 }
             }
 
-            $cover = [
-                'file'      => $cover['HREF'] ?? null,
-                'extension' => pathinfo($cover['HREF'], PATHINFO_EXTENSION) ?? null,
-            ];
+            if ($cover) {
+                $cover_file = $cover['HREF'] ?? null;
+                $cover_extension = pathinfo($cover['HREF'], PATHINFO_EXTENSION) ?? null;
+            } else {
+                dump('NO COVER');
+            }
 
             $metadata = [
-                'title'       => $meta['DC:TITLE'] ?? null,
-                'creators'    => $creators_arr,
-                'contributor' => $contributors,
-                'description' => $meta['DC:DESCRIPTION'] ?? null,
-                'date'        => $meta['DC:DATE'] ?? null,
-                'identifiers' => $identifiers_arr,
-                'publisher'   => $meta['DC:PUBLISHER'] ?? null,
-                'subjects'    => $subjects_arr,
-                'language'    => $meta['DC:LANGUAGE'] ?? null,
-                'rights'      => $meta['DC:RIGHTS'] ?? null,
-                'serie'       => $serie,
-                'volume'      => $volume,
-                'cover'       => $cover,
+                'title'                 => $meta['DC:TITLE'] ?? null,
+                'creators'              => $creators_arr,
+                'contributor'           => $contributors,
+                'description'           => $meta['DC:DESCRIPTION'] ?? null,
+                'date'                  => is_string($meta['DC:DATE']) ? $meta['DC:DATE'] : null ?? null,
+                'identifiers'           => $identifiers_arr,
+                'publisher'             => $meta['DC:PUBLISHER'] ?? null,
+                'subjects'              => $subjects_arr,
+                'language'              => $meta['DC:LANGUAGE'] ?? null,
+                'rights'                => $meta['DC:RIGHTS'] ?? null,
+                'serie'                 => $serie,
+                'volume'                => $volume,
+                'cover_file'            => $cover_file ?? null,
+                'cover_extension'       => $cover_extension ?? null,
             ];
         } catch (\Throwable $th) {
-            dump($th);
+            // throw $th;
+            echo $th->getMessage();
         }
 
         return $metadata;

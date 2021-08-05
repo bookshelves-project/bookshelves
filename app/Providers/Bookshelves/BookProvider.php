@@ -18,7 +18,6 @@ use Illuminate\Support\Str;
 use App\Providers\ImageProvider;
 use League\ColorExtractor\Color;
 use App\Providers\MetadataExtractor\MetadataExtractor;
-use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class BookProvider
 {
@@ -26,7 +25,7 @@ class BookProvider
      * Generate Book image from original cover string file.
      * Manage by spatie/laravel-medialibrary.
      *
-     * @param MetadataExtractor $metadataExtractor
+     * @param Book $book
      */
     public static function cover(Book $book): Book
     {
@@ -34,19 +33,26 @@ class BookProvider
 
         if (! $book->image) {
             $disk = 'books';
-            $book->addMediaFromString($cover)
-                ->setName($book->slug)
-                ->setFileName($book->slug.'.'.config('bookshelves.cover_extension'))
-                ->toMediaCollection($disk, $disk);
+            try {
+                $book->addMediaFromString($cover)
+                    ->setName($book->slug)
+                    ->setFileName($book->slug.'.'.config('bookshelves.cover_extension'))
+                    ->toMediaCollection($disk, $disk);
 
-            $book = $book->refresh();
+                $book = $book->refresh();
 
-            // Get color
-            $image = $book->getFirstMediaPath('books');
-            $color = ImageProvider::simple_color_thief($image);
-            $media = $book->getFirstMedia('books');
-            $media->setCustomProperty('color', $color);
-            $media->save();
+                // Get color
+                $image = $book->getFirstMediaPath('books');
+                $color = ImageProvider::simple_color_thief($image);
+                $media = $book->getFirstMedia('books');
+                $media->setCustomProperty('color', $color);
+                $media->save();
+            } catch (\Throwable $th) {
+                //throw $th;
+                echo "Can't convert cover for $book->title\n";
+                // dump($th);
+                $book->clearMediaCollection('books');
+            }
         }
 
         return $book;
@@ -192,13 +198,14 @@ class BookProvider
         $result = false;
         if (pathinfo($epubFilePath)['basename'] !== $new_file_name) {
             try {
-                $epub_file = File::get(storage_path("app/public/$epubFilePath"));
+                $epub_file = File::get($epubFilePath);
                 $book->addMediaFromString($epub_file)
                     ->setName($new_file_name)
                     ->setFileName($new_file_name.".$ebook_extension")
                     ->toMediaCollection('epubs', 'epubs');
                 $result = true;
             } catch (\Throwable $th) {
+                dump($th);
             }
         }
 
@@ -424,6 +431,7 @@ class BookProvider
             Storage::disk('public')->put("/raw/covers/$book->id.jpg", $metadataExtractor->cover);
         } catch (\Throwable $th) {
             //throw $th;
+            dump($th);
         }
     }
 }

@@ -53,27 +53,27 @@ class MetadataExtractor
         try {
             $metadata = MetadataExtractorTools::parseXMLFile($epubFilePath, $debug);
         } catch (\Throwable $th) {
+            throw $th;
             MetadataExtractorTools::error('XML file', $epubFilePath);
-            // dump($th);
 
             return false;
         }
 
-        $title = (string) $metadata['title'];
-        $creators = (array) $metadata['creators'];
-        $contributor = (string) $metadata['contributor'];
-        $description = (string) $metadata['description'];
-        $date = (string) $metadata['date'];
-        $identifiers = (array) $metadata['identifiers'];
-        $publisher = (string) $metadata['publisher'];
-        $subjects = (array) $metadata['subjects'];
-        $language = (string) $metadata['language'];
-        $rights = (string) $metadata['rights'];
-        $serie = (string) $metadata['serie'];
-        $volume = (string) $metadata['volume'];
-        $cover = $metadata['cover']['file'];
-        $coverExtension = $metadata['cover']['extension'];
-        $epubFilePath = (string) $epubFilePath;
+        $title = (string) $metadata['title'] ?? null;
+        $creators = (array) $metadata['creators'] ?? null;
+        $contributor = (string) $metadata['contributor'] ?? null;
+        $description = (string) $metadata['description'] ?? null;
+        $date = (string) $metadata['date'] ?? null;
+        $identifiers = (array) $metadata['identifiers'] ?? null;
+        $publisher = (string) $metadata['publisher'] ?? null;
+        $subjects = (array) $metadata['subjects'] ?? null;
+        $language = (string) $metadata['language'] ?? null;
+        $rights = (string) $metadata['rights'] ?? null;
+        $serie = (string) $metadata['serie'] ?? null;
+        $volume = (string) $metadata['volume'] ?? null;
+        $cover = $metadata['cover_file'] ?? null;
+        $coverExtension = $metadata['cover_extension'] ?? null;
+        $epubFilePath = (string) $epubFilePath ?? null;
 
         $identifiersParsed = IdentifiersParser::run(identifiers: $identifiers);
         $serieParsed = SerieParser::run(serie: $serie, volume: $volume);
@@ -88,6 +88,11 @@ class MetadataExtractor
             date: $date,
             rights: $rights
         );
+
+        if (! $bookParsed->title) {
+            echo "No title, eBook not created";
+            return false;
+        }
 
         $epubParser = new MetadataExtractor(
             title: $bookParsed->title,

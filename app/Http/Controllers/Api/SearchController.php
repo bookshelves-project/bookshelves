@@ -11,9 +11,6 @@ use Illuminate\Http\Request;
 use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EntityResource;
-use App\Http\Resources\Book\BookLightResource;
-use App\Http\Resources\Serie\SerieLightResource;
-use App\Http\Resources\Search\SearchAuthorResource;
 
 /**
  * @group Search

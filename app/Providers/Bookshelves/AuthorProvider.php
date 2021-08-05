@@ -46,31 +46,39 @@ class AuthorProvider
      * - from Wikipedia if found, managed by `spatie/laravel-medialibrary`
      * - if not use default image `database/seeders/media/authors/no-picture.jpg`
      */
-    public static function descriptionAndPicture(Author $author, bool $alone, bool $no_cover): Author
+    public static function descriptionAndPicture(Author $author, bool $alone, bool $no_cover): Author | false
     {
-        $name = $author->name;
-        $name = str_replace(' ', '%20', $name);
+        if ($author) {
+            $name = $author->name;
+            $name = str_replace(' ', '%20', $name);
 
-        if (! $alone) {
-            $wiki = WikipediaProvider::create($author->name);
-            $result = self::setLocalDescription($author);
-            $author = self::setLocalNotes($author);
-            if (! $result) {
-                $author = self::setWikipediaDescription($author, $wiki);
+            if (! $alone) {
+                $wiki = WikipediaProvider::create($author->name);
+                $result = self::setLocalDescription($author);
+                $author = self::setLocalNotes($author);
+                if (! $result) {
+                    $author = self::setWikipediaDescription($author, $wiki);
+                }
+                if (! $no_cover) {
+                    $author = self::setWikipediaPicture($author, $wiki);
+                }
+            } else {
+                $author = self::setLocalDescription($author);
+                if ($author && ! $no_cover) {
+                    self::setPicture($author);
+                }
             }
-            if (! $no_cover) {
-                $author = self::setWikipediaPicture($author, $wiki);
+
+            if ($author) {
+                $author = $author->refresh();
+            } else {
+                $author = false;
             }
-        } else {
-            $author = self::setLocalDescription($author);
-            if (! $no_cover) {
-                self::setPicture($author);
-            }
+
+            return $author;
         }
 
-        $author = $author->refresh();
-
-        return $author;
+        return false;
     }
 
     public static function setLocalDescription(Author $author): Author | null

@@ -2,9 +2,6 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Http;
-use Illuminate\Database\Eloquent\Model;
-
 class ImageProvider
 {
     /**

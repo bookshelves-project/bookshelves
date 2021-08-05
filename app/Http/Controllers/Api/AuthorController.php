@@ -11,8 +11,6 @@ use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Author\AuthorLightResource;
 use App\Http\Resources\Author\AuthorUltraLightResource;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @group Author
