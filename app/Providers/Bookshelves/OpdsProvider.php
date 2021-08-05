@@ -7,11 +7,9 @@ use DateTime;
 use App\Models\Book;
 use App\Enums\EntitiesEnum;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use Spatie\ArrayToXml\ArrayToXml;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 class OpdsProvider
 {
@@ -78,7 +76,7 @@ class OpdsProvider
             '__custom:link:1' => [
                 '_attributes' => [
                     'rel'   => 'start',
-                    'href'  => route('opds', ['version' => $this->version]),
+                    'href'  => route('opds.feed', ['version' => $this->version]),
                     'type'  => 'application/atom+xml;profile=opds-catalog;kind=navigation',
                     'title' => 'Home',
                 ],
@@ -94,7 +92,7 @@ class OpdsProvider
             '__custom:link:3' => [
                 '_attributes' => [
                     'rel'   => 'search',
-                    'href'  => route('opds', ['version' => 'v1.2']),
+                    'href'  => route('opds.feed', ['version' => $this->version]),
                     'type'  => 'application/atom+xml;profile=opds-catalog;kind=navigation',
                     'title' => 'Search here',
                 ],
