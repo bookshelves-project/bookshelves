@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use League\HTMLToMarkdown\HtmlConverter;
 use League\CommonMark\CommonMarkConverter;
-use Spatie\LaravelMarkdown\MarkdownRenderer;
 use App\Providers\MetadataExtractor\Parsers\CreatorParser;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
@@ -96,8 +95,9 @@ class WebreaderController extends Controller
         $next = $next_page ? route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $next_page]) : null;
         $prev = $previous_page ? route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $previous_page]) : null;
         $last = route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $max_pages]);
+        $first = route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
         
-        return view('pages.webreader.page', compact('current_page_content', 'page', 'next', 'prev', 'last', 'title'));
+        return view('pages.webreader.page', compact('current_page_content', 'page', 'next', 'prev', 'last', 'first', 'title'));
     }
 
     public static function parseXMLFile(string $filepath, string $disk, bool $debug = false): array
@@ -273,7 +273,7 @@ class WebreaderController extends Controller
             ];
 
             $metadata = [
-                'title'       => $meta['DC:TITLE'] ?? null,
+                'title'       => $meta['DC:TITLE'],
                 'creators'    => $creators_arr,
                 'contributor' => $contributors,
                 'description' => $meta['DC:DESCRIPTION'] ?? null,
