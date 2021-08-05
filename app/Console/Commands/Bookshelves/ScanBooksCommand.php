@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Storage;
 use Illuminate\Console\Command;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class ScanBooksCommand extends Command
 {
@@ -48,36 +48,21 @@ class ScanBooksCommand extends Command
         $this->alert('Bookshelves: scan all EPUB files');
         $this->warn('Scan public/storage/raw/books directory');
 
-        try {
-            // Get all files in raw/books/
-            $files = Storage::disk('public')->allFiles('raw/books');
-        } catch (\Throwable $th) {
-            dump('storage/raw/books not found');
-
-            return false;
-        }
-
-        // Get EPUB files form raw/books/ and create new $epubsFiles[]
-        $epubsFiles = [];
-        foreach ($files as $key => $value) {
-            if (array_key_exists('extension', pathinfo($value)) && 'epub' === pathinfo($value)['extension']) {
-                array_push($epubsFiles, $value);
-            }
-        }
+        $epubFiles = MetadataExtractorTools::getAllEpubFiles(limit: $limit);
 
         if ($verbose) {
-            foreach ($epubsFiles as $key => $file) {
+            foreach ($epubFiles as $key => $file) {
                 echo $key.' '.pathinfo($file)['filename']."\n";
             }
         }
 
         if ($limit) {
-            return array_slice($epubsFiles, 0, $limit);
+            return array_slice($epubFiles, 0, $limit);
         }
 
-        $this->warn(sizeof(($epubsFiles)).' EPUB files found');
+        $this->warn(sizeof(($epubFiles)).' EPUB files found');
         $this->newLine();
 
-        return $epubsFiles;
+        return $epubFiles;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Artisan;
 use App\Models\Author;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\AuthorProvider;
@@ -72,15 +71,13 @@ class AuthorsCommand extends Command
         $bar->start();
         foreach ($authors as $key => $author) {
             AuthorProvider::tags($author);
-            if (! $author->description && ! $author->link) {
+            if ($author && ! $author->description && ! $author->link) {
                 AuthorProvider::descriptionAndPicture(author: $author, alone: $alone, no_cover: $no_covers);
             }
             $bar->advance();
         }
         $bar->finish();
         $this->newLine(2);
-
-        Artisan::call('bookshelves:clear', [], $this->getOutput());
 
         return 0;
     }

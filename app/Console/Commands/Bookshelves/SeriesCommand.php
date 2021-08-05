@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Artisan;
 use App\Models\Serie;
 use Illuminate\Console\Command;
 use App\Providers\Bookshelves\SerieProvider;
@@ -92,8 +91,6 @@ class SeriesCommand extends Command
         }
         $bar->finish();
         $this->newLine(2);
-
-        Artisan::call('bookshelves:clear', [], $this->getOutput());
 
         return 0;
     }

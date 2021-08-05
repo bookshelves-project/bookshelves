@@ -29,7 +29,7 @@ class GenerateCommand extends Command
                             {--c|covers : prevent generation of covers}
                             {--a|alone : prevent external HTTP requests to public API for additional informations}
                             {--l|limit= : limit epub files to generate, useful for debug}
-                            {--d|debug= : generate metadata files into public/storage/debug for debug}
+                            {--d|debug : generate metadata files into public/storage/debug for debug}
                             {--t|test : execute tests at the end}';
 
     /**
@@ -69,7 +69,7 @@ class GenerateCommand extends Command
         $limit = intval($limit);
         $no_covers = $this->option('covers');
         $alone = $this->option('alone');
-        $debug = $this->option('debug');
+        $debug = $this->option('debug') ?? false;
         $test = $this->option('test') ?? null;
 
         if ($fresh) {
@@ -134,7 +134,9 @@ class GenerateCommand extends Command
         );
         $this->newLine();
 
-        Artisan::call('bookshelves:clear', [], $this->getOutput());
+        if (! $debug) {
+            Artisan::call('bookshelves:clear', [], $this->getOutput());
+        }
 
         $this->info('Done!');
     }

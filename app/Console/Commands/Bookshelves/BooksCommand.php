@@ -24,7 +24,7 @@ class BooksCommand extends Command
                             {--a|alone : prevent external HTTP requests to public API for additional informations}
                             {--f|fresh : reset current books and relation, keep users}
                             {--l|limit= : limit epub files to generate, useful for debug}
-                            {--d|debug= : generate metadata files into public/storage/debug for debug}';
+                            {--d|debug : generate metadata files into public/storage/debug for debug}';
 
     /**
      * The console command description.
@@ -86,7 +86,9 @@ class BooksCommand extends Command
             $this->covers($books);
         }
 
-        Artisan::call('bookshelves:clear', [], $this->getOutput());
+        if (! $debug) {
+            Artisan::call('bookshelves:clear', [], $this->getOutput());
+        }
 
         return true;
     }

@@ -17,6 +17,8 @@ class StartCommand extends Command
                             {--u|users : start with users and roles sample}
                             {--r|roles : generate roles sample}
                             {--f|fake : start with fake comments and favorites sample}
+                            {--a|alone : prevent external HTTP requests to public API for additional informations}
+                            {--d|debug : generate metadata files into public/storage/debug for debug}
                             {--t|test : execute tests at the end}';
 
     /**
@@ -47,6 +49,8 @@ class StartCommand extends Command
         $roles = $this->option('roles') ?? null;
         $fake = $this->option('fake') ?? null;
         $test = $this->option('test') ?? null;
+        $alone = $this->option('alone') ?? null;
+        $debug = $this->option('debug') ?? false;
 
         Artisan::call('migrate:fresh --force', [], $this->getOutput());
         Storage::disk('public')->deleteDirectory('media');
@@ -54,6 +58,8 @@ class StartCommand extends Command
         Artisan::call('bookshelves:generate', [
             '--fresh' => true,
             '--force' => true,
+            '--alone' => $alone,
+            '--debug' => $debug,
         ], $this->getOutput());
 
         Artisan::call('bookshelves:sample', [
