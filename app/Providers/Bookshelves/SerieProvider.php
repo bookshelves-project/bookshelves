@@ -3,7 +3,6 @@
 namespace App\Providers\Bookshelves;
 
 use File;
-use Http;
 use Storage;
 use App\Models\Book;
 use App\Models\Serie;
@@ -99,10 +98,12 @@ class SerieProvider
 
             // Get color
             $image = $serie->getFirstMediaPath('series');
-            $color = ImageProvider::simple_color_thief($image);
-            $media = $serie->getFirstMedia('series');
-            $media->setCustomProperty('color', $color);
-            $media->save();
+            if ($image) {
+                $color = ImageProvider::simple_color_thief($image);
+                $media = $serie->getFirstMedia('series');
+                $media->setCustomProperty('color', $color);
+                $media->save();
+            }
 
             return $serie;
         }
