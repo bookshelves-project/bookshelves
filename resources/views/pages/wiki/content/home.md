@@ -60,11 +60,15 @@ Bookshelves is not like Calibre with dynamic database from EPUB into a specific 
 
 🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of Bookshelves  
 
+## *Features*
+
 📚 [**bookshelves.ink/wiki**](https://bookshelves.ink/wiki): wiki for Bookshelves usage  
 📚 [**bookshelves.ink/docs**](https://bookshelves.ink/docs): API documentation  
 📚 [**bookshelves.ink/opds**](https://bookshelves.ink/opds): OPDS feed for applications which can read this feed  
 📚 [**bookshelves.ink/catalog**](https://bookshelves.ink/catalog): Catalog, a basic interface for eReader browser to download eBook from eReader  
 📚 [**bookshelves.ink/webreader**](https://bookshelves.ink/webreader): Webreader, to read any Bookshelves eBook into your browser  
+
+## *Repository*
 
 📀 [**gitlab.com/ewilan-riviere/bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves  
 🎨 [**gitlab.com/ewilan-riviere/bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  
