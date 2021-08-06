@@ -16,26 +16,40 @@ class EntityResource extends JsonResource
      */
     public function toArray($request)
     {
-        $entity = str_replace('App\Models\\', '', $this->resource::class);
+        if ($request->relation) {
+            $className = $request->relation;
+            $className = $this->resource->$className;
+            $className = get_class($className);
+
+            $relation = $request->relation;
+            $relation = $this->$relation;
+        } else {
+            $className = $this->resource;
+            $className = get_class($className);
+
+            $relation = $this->resource;
+        }
+
+        $entity = str_replace('App\Models\\', '', $className);
         $entity = strtolower($entity);
 
         return [
             'meta' => [
                 'entity' => $entity,
-                'author' => $this->resource->meta_author ?? null,
-                'slug'   => $this->resource->slug,
-                'show'   => $this->resource->show_link,
+                'author' => $relation->meta_author ?? null,
+                'slug'   => $relation->slug,
+                'show'   => $relation->show_link,
             ],
-            'title'    => $this->resource->title ?? $this->resource->name,
-            'authors'  => $this->resource->authors ? AuthorUltraLightResource::collection($this->resource->authors) : null,
-            'serie'    => $this->resource->serie?->title,
-            'language' => $this->resource->language?->slug,
-            'volume'   => $this->resource->volume ?? null,
+            'title'    => $relation->title ?? $relation->name,
+            'authors'  => $relation->authors ? AuthorUltraLightResource::collection($relation->authors) : null,
+            'serie'    => $relation->serie?->title,
+            'language' => $relation->language?->slug,
+            'volume'   => $relation->volume ?? null,
             'picture'  => [
-                'base'     => $this->resource->image_thumbnail,
-                'original' => $this->resource->image_original,
-                'simple'   => $this->resource->image_simple,
-                'color'    => $this->resource->image_color,
+                'base'     => $relation->image_thumbnail,
+                'original' => $relation->image_original,
+                'simple'   => $relation->image_simple,
+                'color'    => $relation->image_color,
             ],
         ];
     }

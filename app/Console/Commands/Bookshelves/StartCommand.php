@@ -14,10 +14,12 @@ class StartCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:start
-                            {--u|users : start with users and roles sample}
-                            {--r|roles : generate roles sample}
-                            {--f|fake : start with fake comments and favorites sample}
-                            {--a|alone : prevent external HTTP requests to public API for additional informations}
+                            {--r|roles : generate roles}
+                            {--u|users : generate users with roles}
+                            {--a|account : generate fake comments, favorites sample (users with roles will be generated)}
+                            {--s|selection : generate fake selection sample (users with roles will be generated)}
+                            {--L|local : prevent external HTTP requests to public API for additional informations}
+                            {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
                             {--t|test : execute tests at the end}';
 
@@ -47,10 +49,14 @@ class StartCommand extends Command
     {
         $users = $this->option('users') ?? null;
         $roles = $this->option('roles') ?? null;
-        $fake = $this->option('fake') ?? null;
         $test = $this->option('test') ?? null;
-        $alone = $this->option('alone') ?? null;
+        $local = $this->option('local') ?? null;
         $debug = $this->option('debug') ?? false;
+        $limit = $this->option('limit');
+        $limit = str_replace('=', '', $limit);
+        $limit = intval($limit);
+        $account = $this->option('account') ?? false;
+        $selection = $this->option('selection') ?? false;
 
         Artisan::call('migrate:fresh --force', [], $this->getOutput());
         Storage::disk('public')->deleteDirectory('media');
@@ -58,14 +64,17 @@ class StartCommand extends Command
         Artisan::call('bookshelves:generate', [
             '--fresh' => true,
             '--force' => true,
-            '--alone' => $alone,
+            '--local' => $local,
             '--debug' => $debug,
+            '--limit' => $limit,
+            '--test'  => $test,
         ], $this->getOutput());
 
         Artisan::call('bookshelves:sample', [
-            '--users' => $users,
-            '--roles' => $roles,
-            '--fake'  => $fake,
+            '--users'     => $users,
+            '--roles'     => $roles,
+            '--account'   => $account,
+            '--selection' => $selection,
         ], $this->getOutput());
 
         return 0;

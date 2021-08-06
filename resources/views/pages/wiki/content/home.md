@@ -1,5 +1,3 @@
-# **About**
-
 This Wiki is about Bookshelves project, you will find two parts covered here: the back-end part made in Laravel
 which is clearly the most important part in Bookshelves and the front-end part in NuxtJS which retrieves data from
 the API in order to display it in a nice user interface.
@@ -8,7 +6,7 @@ If you are interested in Bookshelves, you can keep only the back-end part and cr
 technology you want. All the logic of Bookshelves is in the backend and it is even possible to not use an external
 frontend and use Bookshelves with the internal backend interface.
 
-## *Concept*
+# **Concept**
 
 The goal of Bookshelves is to create a database from a list of eBooks that are analyzed by the back-end in Laravel (PHP). All the metadata of each eBook are extracted and processed to create each book with its relationships: authors, publisher, year of release, language, identifiers (ISBN, ISBN13), tags, summary, cover. The series and volume are also retrieved if they are present according to the system created by Calibre, this information not being listed by the EPUB format. The tags are separated into tags and genres to create main and secondary tags, the genres are taken from [Wikipedia](https://en.wikipedia.org/wiki/List_of_writing_genres).
 
@@ -39,7 +37,7 @@ From these relations, all the books of the same series can be listed but also th
 - Dark mode
 - Contact form
 
-### Common mistakes
+## *Common mistakes*
 
 Example "Language": let's take the language of an English eBook that is mistakenly indicated as French and that is part of a "D'Artagan Romances" series, then this eBook will be part of its own specific series "D'Artagan Romances" indicated as French while the others will be part of the "D'Artagan Romances" series indicated as English. This allows to have two series with the same name in several languages but requires a precise work in setting up the metadata with Calibre for example.
 
@@ -51,14 +49,14 @@ Example "Author": an eBook "The Three Musketeers" has a lastname-firstname autho
 > - The Three Musketeers from Alexandre Dumas: `/dumas-alexandre/three-musketeers-en` from serie `/dumas-alexandre/d-artagnan-romances-en`
 > - Twenty Years After from Dumas Alexandre: `/alexandre-dumas/twenty-years-after` from serie `/alexandre-dumas/d-artagnan-romances-en`
 
-### What Bookshelves is not
+## *What Bookshelves is not*
 
 Bookshelves is not like Calibre with dynamic database from EPUB into a specific directory, with Bookshelves you have to parse all EPUB in a directory and, if you add another, you have to parse for new EPUB (fastly than first parse) to generate new eBooks for database. You can use this application like Calibre but it's not same. If you want a Calibre app for web, check these projects:
 
 - [**github.com/janeczku/calibre-web**](https://github.com/janeczku/calibre-web)
 - [**github.com/seblucas/cops**](https://github.com/seblucas/cops)
 
-## *Links*
+# **Links**
 
 🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of Bookshelves  
 

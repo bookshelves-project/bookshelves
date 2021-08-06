@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\Serie;
 use App\Utils\BookshelvesTools;
 use App\Providers\ImageProvider;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class SerieProvider
 {
@@ -65,11 +66,19 @@ class SerieProvider
             // Check if JPG file with series' slug name exist
             // To know slug name, check into database when serie was created
             $disk = 'series';
-            $custom_series_path = public_path("storage/raw/pictures-$disk/$serie->slug.jpg");
 
-            if (File::exists($custom_series_path)) {
-                $file_path = File::get($custom_series_path);
-                $serie->addMediaFromString($file_path)
+            $path = public_path("storage/raw/pictures-$disk");
+            $files = MetadataExtractorTools::getDirContents($path);
+
+            $cover = null;
+            foreach ($files as $key => $file) {
+                if (pathinfo($file)['filename'] === $serie->slug) {
+                    $cover = file_get_contents($file);
+                }
+            }
+
+            if ($cover) {
+                $serie->addMediaFromString($cover)
                     ->setName($serie->slug)
                     ->setFileName($serie->slug.'.'.config('bookshelves.cover_extension'))
                     ->toMediaCollection($disk, $disk);

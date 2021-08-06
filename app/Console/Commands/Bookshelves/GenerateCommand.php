@@ -27,7 +27,7 @@ class GenerateCommand extends Command
                             {--f|fresh : reset current books and relation, keep users}
                             {--F|force : skip confirm question for prod}
                             {--c|covers : prevent generation of covers}
-                            {--a|alone : prevent external HTTP requests to public API for additional informations}
+                            {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
                             {--t|test : execute tests at the end}';
@@ -68,7 +68,7 @@ class GenerateCommand extends Command
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
         $no_covers = $this->option('covers');
-        $alone = $this->option('alone');
+        $local = $this->option('local');
         $debug = $this->option('debug') ?? false;
         $test = $this->option('test') ?? null;
 
@@ -81,8 +81,8 @@ class GenerateCommand extends Command
         if ($no_covers) {
             $this->warn('- Option --covers: skip cover generation for Book, Serie and Author.');
         }
-        if ($alone) {
-            $this->warn('- Option --alone: skip HTTP requests.');
+        if ($local) {
+            $this->warn('- Option --local: skip HTTP requests.');
         }
 
         $isProd = 'production' === config('app.env') ? true : false;
@@ -99,19 +99,19 @@ class GenerateCommand extends Command
          * Generate commands
          */
         Artisan::call('bookshelves:books', [
-            '--alone'  => $alone,
+            '--local'  => $local,
             '--covers' => $no_covers,
             '--fresh'  => $fresh,
             '--limit'  => $limit,
             '--debug'  => $debug,
         ], $this->getOutput());
         Artisan::call('bookshelves:series', [
-            '--alone'  => $alone,
+            '--local'  => $local,
             '--fresh'  => $fresh,
             '--covers' => $no_covers,
         ], $this->getOutput());
         Artisan::call('bookshelves:authors', [
-            '--alone'  => $alone,
+            '--local'  => $local,
             '--fresh'  => $fresh,
             '--covers' => $no_covers,
         ], $this->getOutput());
@@ -139,6 +139,7 @@ class GenerateCommand extends Command
         }
 
         $this->info('Done!');
+        $this->newLine();
     }
 
     /**
@@ -198,6 +199,8 @@ class GenerateCommand extends Command
         DB::table('favoritables')->truncate();
         $this->info('Truncate taggables table');
         DB::table('taggables')->truncate();
+        $this->info('Truncate selectionables table');
+        DB::table('selectionables')->truncate();
 
         $this->info('Truncate books table');
         Book::truncate();

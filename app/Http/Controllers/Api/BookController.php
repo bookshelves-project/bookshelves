@@ -7,6 +7,7 @@ use App\Models\Serie;
 use App\Models\Author;
 use App\Models\Language;
 use Illuminate\Http\Request;
+use App\Models\Selectionable;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EntityResource;
@@ -192,16 +193,21 @@ class BookController extends Controller
     /**
     * GET Book collection of selection
     *
-    * Get all Books selected by team, limited to '10' results (no pagination).
+    * Get all Books selected by team, limited to '10' results by default (no pagination).
     *
     * @responseFile public/storage/responses/books.selection.get.json
     */
-    public function selection(): JsonResource
+    public function selection(Request $request): JsonResource
     {
-        $books = Book::inRandomOrder()->limit(10)->get();
-        $books = EntityResource::collection($books);
+        $limit = $request->get('limit');
+        $limit = $limit ? $limit : 10;
 
-        return $books;
+        $request->relation = 'selectionable';
+
+        $selection = Selectionable::orderBy('updated_at')->limit($limit)->get();
+        $selection = EntityResource::collection($selection);
+
+        return $selection;
     }
 
     /**

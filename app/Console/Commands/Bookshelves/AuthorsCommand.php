@@ -14,7 +14,7 @@ class AuthorsCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:authors
-                            {--a|alone : prevent external HTTP requests to public API for additional informations}
+                            {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--c|covers : prevent generation of covers}
                             {--f|fresh : refresh authors medias, `description` & `link`}';
 
@@ -44,7 +44,7 @@ class AuthorsCommand extends Command
     {
         $fresh = $this->option('fresh');
         $no_covers = $this->option('covers');
-        $alone = $this->option('alone');
+        $local = $this->option('local');
 
         $authors = Author::orderBy('lastname')->get();
         if ($fresh) {
@@ -58,7 +58,7 @@ class AuthorsCommand extends Command
             }
         }
         $this->alert('Bookshelves: authors');
-        if (! $alone) {
+        if (! $local) {
             $this->info('- Get pictures and description from Wikipedia: HTTP requests');
             $this->info('- Take description and link from public/storage/raw/authors.json if exists');
         } else {
@@ -72,7 +72,7 @@ class AuthorsCommand extends Command
         foreach ($authors as $key => $author) {
             AuthorProvider::tags($author);
             if ($author && ! $author->description && ! $author->link) {
-                AuthorProvider::descriptionAndPicture(author: $author, alone: $alone, no_cover: $no_covers);
+                AuthorProvider::descriptionAndPicture(author: $author, local: $local, no_cover: $no_covers);
             }
             $bar->advance();
         }

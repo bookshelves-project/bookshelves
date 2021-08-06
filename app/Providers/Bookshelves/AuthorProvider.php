@@ -7,6 +7,7 @@ use Storage;
 use App\Models\Author;
 use App\Utils\BookshelvesTools;
 use App\Providers\ImageProvider;
+use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class AuthorProvider
 {
@@ -46,13 +47,13 @@ class AuthorProvider
      * - from Wikipedia if found, managed by `spatie/laravel-medialibrary`
      * - if not use default image `database/seeders/media/authors/no-picture.jpg`
      */
-    public static function descriptionAndPicture(Author $author, bool $alone, bool $no_cover): Author | false
+    public static function descriptionAndPicture(Author $author, bool $local, bool $no_cover): Author | false
     {
         if ($author) {
             $name = $author->name;
             $name = str_replace(' ', '%20', $name);
 
-            if (! $alone) {
+            if (! $local) {
                 $wiki = WikipediaProvider::create($author->name);
                 $result = self::setLocalDescription($author);
                 $author = self::setLocalNotes($author);
@@ -81,7 +82,7 @@ class AuthorProvider
         return false;
     }
 
-    public static function setLocalDescription(Author $author): Author | null
+    public static function setLocalDescription(Author $author): Author
     {
         if (File::exists(public_path('storage/raw/authors.json'))) {
             $json = Storage::disk('public')->get('raw/authors.json');
@@ -96,13 +97,13 @@ class AuthorProvider
                 }
             }
 
-            return null;
+            return $author;
         }
 
-        return null;
+        return $author;
     }
 
-    public static function setLocalNotes(Author $author): Author | null
+    public static function setLocalNotes(Author $author): Author
     {
         if (File::exists(public_path('storage/raw/authors-notes.json'))) {
             $json = Storage::disk('public')->get('raw/authors.json');
@@ -140,11 +141,15 @@ class AuthorProvider
     public static function getLocalPicture(Author $author): string | null
     {
         $disk = 'authors';
-        $custom_authors_path = public_path("storage/raw/pictures-$disk/$author->slug.jpg");
 
-        if (File::exists($custom_authors_path)) {
-            $picture = File::get($custom_authors_path);
-            return $picture;
+        $path = public_path("storage/raw/pictures-$disk");
+        $files = MetadataExtractorTools::getDirContents($path);
+
+        foreach ($files as $key => $file) {
+            if (pathinfo($file)['filename'] === $author->slug) {
+                $cover = file_get_contents($file);
+                return $cover;
+            }
         }
 
         return null;

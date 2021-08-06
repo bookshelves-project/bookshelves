@@ -21,7 +21,7 @@ class BooksCommand extends Command
      */
     protected $signature = 'bookshelves:books
                             {--c|covers : prevent generation of covers}
-                            {--a|alone : prevent external HTTP requests to public API for additional informations}
+                            {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--f|fresh : reset current books and relation, keep users}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}';
@@ -54,7 +54,7 @@ class BooksCommand extends Command
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
         $no_covers = $this->option('covers');
-        $alone = $this->option('alone');
+        $local = $this->option('local');
         $fresh = $this->option('fresh');
         $debug = $this->option('debug') ?? false;
         $epubFiles = MetadataExtractorTools::getAllEpubFiles(limit: $limit);
@@ -77,7 +77,7 @@ class BooksCommand extends Command
         /*
          * Books
          */
-        $books = $this->books($epubFiles, $alone, $debug);
+        $books = $this->books($epubFiles, $local, $debug);
 
         /*
          * Books covers
@@ -118,13 +118,13 @@ class BooksCommand extends Command
      *
      * Generate `Book` model with all relationships
      */
-    public function books(array $epubFiles, bool $alone, bool $debug = false): array
+    public function books(array $epubFiles, bool $local, bool $debug = false): array
     {
         $this->alert('Bookshelves: books & relations');
         $this->comment('- EPUB files detected: '.sizeof($epubFiles));
         $this->info('- Generate Book model with relationships');
         $this->info('- Generate new EPUB file with standard name');
-        if (! $alone) {
+        if (! $local) {
             $this->info('- Get extra data from Google Books API: HTTP requests');
         }
         $this->newLine();
@@ -143,7 +143,7 @@ class BooksCommand extends Command
             if ($metadataExtractor) {
                 $tryToFindBook = Book::whereSlug(Str::slug($metadataExtractor->title))->first();
                 if (! $tryToFindBook) {
-                    $new_book = BookshelvesProvider::convertMetadata(metadataExtractor: $metadataExtractor, alone: $alone);
+                    $new_book = BookshelvesProvider::convertMetadata(metadataExtractor: $metadataExtractor, local: $local);
                     BookProvider::epub(book: $new_book, epubFilePath: $epubFilePath);
                     array_push($books, $new_book);
                 }

@@ -10,9 +10,9 @@ class BookshelvesProvider
 {
     /**
      * Generate new Book with all relations.
-     * If $alone is set true, no search for external informations.
+     * If $local is set true, no search for external informations.
      */
-    public static function convertMetadata(MetadataExtractor $metadataExtractor, bool $alone): Book
+    public static function convertMetadata(MetadataExtractor $metadataExtractor, bool $local): Book
     {
         $bookIfExist = Book::whereSlug(Str::slug($metadataExtractor->title, '-'))->first();
         $book = null;
@@ -29,7 +29,7 @@ class BookshelvesProvider
             $book->title_sort = BookProvider::sortTitleWithSerie($book);
             $book->save();
 
-            if (! $alone && $identifier) {
+            if (! $local && $identifier) {
                 BookProvider::googleBook(identifier: $identifier, book: $book);
             }
         }

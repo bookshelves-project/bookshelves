@@ -14,7 +14,7 @@ class SeriesCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:series
-                            {--a|alone : prevent external HTTP requests to public API for additional informations}
+                            {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--c|covers : prevent generation of covers}
                             {--f|fresh : refresh series medias, `description` & `link`}';
 
@@ -44,7 +44,7 @@ class SeriesCommand extends Command
     {
         $fresh = $this->option('fresh');
         $no_covers = $this->option('covers');
-        $alone = $this->option('alone');
+        $local = $this->option('local');
 
         $series = Serie::orderBy('title_sort')->get();
         if ($fresh) {
@@ -60,7 +60,7 @@ class SeriesCommand extends Command
         $this->alert('Bookshelves: series');
         $this->info('- Get cover of vol. 1 (or next) to associate picture to serie if exist');
         $this->info("- If a JPG file with slug of serie exist in 'public/storage/raw/pictures-series', it's will be this picture");
-        if (! $alone) {
+        if (! $local) {
             $this->info('- Get description, link: HTTP requests');
             $this->info('- Take description and link from public/storage/raw/series.json if exists');
         } else {
@@ -78,7 +78,7 @@ class SeriesCommand extends Command
                 }
             }
             if (! $serie->description && ! $serie->link) {
-                if (! $alone) {
+                if (! $local) {
                     $result = SerieProvider::setLocalDescription(serie: $serie);
                     if (! $result) {
                         SerieProvider::setDescription(serie: $serie);
