@@ -62,7 +62,64 @@ ln -s /any/directory/books-classic/**/*.epub public/storage/raw/books
 |         +-- another-ebook.epub -> /any/directory/books-classic/another-ebook.epub
 ```
 
-# **II. Scan**
+# **II. Custom data**
+
+When Bookshelves parse EPUB to generate data, it will try to find extra data from Internet on GoogleBooks and Wikipedia. If you don't want to get these data, you can use `--local` option to skip it. But if you want to set custom data directly from parsing by Bookshelves, it's possible.
+
+## *a. Description and link*
+
+For extra data with authors and series for `description` and `link`, you can create JSON file. If an entry with `slug` of author or serie exist, Bookshelves will take it and don't use external API.
+
+```bash
+cp public/storage/raw/authors.example.json public/storage/raw/authors.json
+cp public/storage/raw/series.example.json public/storage/raw/series.json
+```
+
+An example for authors.
+
+```json
+{
+    "hugo-victor": {
+        "description": "Victor Hugo est un poète, dramaturge, écrivain, romancier et dessinateur romantique français, né le 7 ventôse an X (26 février 1802) à Besançon et mort le 22 mai 1885 à Paris. Il est considéré comme l'un des plus importants écrivains de la langue française. Il est aussi une personnalité politique et un intellectuel engagé qui a eu un rôle idéologique majeur et occupe une place marquante dans l'histoire des lettres françaises au XIXe siècle.",
+        "link": "https://gallica.bnf.fr"
+    }
+}
+```
+
+## *b. Picture*
+
+Bookshelves will use cover of first book of a serie to generate cover's serie and will use Wikipedia API to get picture of an author. You can set custom pictures for series and authors. Just put **JPG** file with `slug` of author / serie into specific directory.
+
+- `public/storage/raw/pictures-authors`: for authors
+- `public/storage/raw/pictures-series`: for series
+
+```bash
+.
++-- public
+|   +-- storage
+|     +-- raw
+|       +-- pictures-authors
+|         +-- hugo-victor.jpg
+|         +-- ...
+```
+
+You can set symbolic link like this to get pictures from another directory.
+
+```bash
+ln -s /any/directory/authors public/storage/raw/pictures-authors
+ln -s /any/directory/series public/storage/raw/pictures-series
+```
+
+```bash
+.
++-- public
+|   +-- storage
+|     +-- raw
+|       +-- pictures-authors
+|         +-- authors -> /any/directory/authors
+```
+
+# **III. Scan**
 
 You can scan `books` directory to get a list of your EPUB files to know if everything works.
 
@@ -72,7 +129,7 @@ You can scan `books` directory to get a list of your EPUB files to know if every
 php artisan bookshelves:scan -v
 ```
 
-# **III. Bookshelves commands**
+# **IV. Bookshelves commands**
 
 Commands have some options, use `-h` to get list of all options.
 
@@ -162,7 +219,7 @@ If you want to test Bookshelves, you can use `bookshelves:sample` to generate da
 php artisan bookshelves:sample-books
 ```
 
-# **IV. Extra commands**
+# **V. Extra commands**
 
 ## *a. Tests*
 
@@ -198,7 +255,7 @@ php artisan log:clear
 php artisan log:read
 ```
 
-# **V. Features**
+# **VI. Features**
 
 ## *g. MetadataExtractor*
 
