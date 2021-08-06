@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\UserController;
@@ -26,6 +27,8 @@ use App\Http\Controllers\Api\SubmissionController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/', [ApiController::class, 'index'])->name('api.index');
 
 /*
  * Books routes
