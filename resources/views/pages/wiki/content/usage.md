@@ -200,40 +200,6 @@ php artisan log:read
 
 # **V. Features**
 
-## *e. Mails*
-
-Bookshelves can send emails from contact form, you have to set `.env` variables.
-
-Example for local with [**mailtrap**](https://mailtrap.io/)
-
-```yaml
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.mailtrap.io
-MAIL_PORT=587
-MAIL_USERNAME=16a36c1ca81e03
-MAIL_PASSWORD=d49144dd24808d
-MAIL_ENCRYPTION=null
-MAIL_FROM_ADDRESS=noreply@bookshelves.ink
-MAIL_FROM_NAME="${APP_NAME}"
-MAIL_TO_ADDRESS=contact@bookshelves.ink
-MAIL_TO_NAME="${APP_NAME} contact"
-```
-
-Example for production with [**mailgun**](https://www.mailgun.com/)
-
-```yaml
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.eu.mailgun.org
-MAIL_PORT=587
-MAIL_USERNAME=<mailgun_email>
-MAIL_PASSWORD=<mailgun_password>
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=noreply@bookshelves.ink
-MAIL_FROM_NAME="${APP_NAME}"
-MAIL_TO_ADDRESS=contact@bookshelves.ink
-MAIL_TO_NAME="${APP_NAME} contact"
-```
-
 ## *g. MetadataExtractor*
 
 TODO

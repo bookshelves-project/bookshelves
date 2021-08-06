@@ -91,7 +91,55 @@ php artisan migrate
 
 # **II. Variables for .env**
 
-## *a. For local*
+## *a. Mails*
+
+Bookshelves can send emails from contact form, you have to set `.env` variables.
+
+*Example for local with [**mailtrap**](https://mailtrap.io/)*
+
+```yaml
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=587
+MAIL_USERNAME=16a36c1ca81e03
+MAIL_PASSWORD=d49144dd24808d
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=noreply@bookshelves.ink
+MAIL_FROM_NAME="${APP_NAME}"
+MAIL_TO_ADDRESS=contact@bookshelves.ink
+MAIL_TO_NAME="${APP_NAME} contact"
+```
+
+*Example for production with [**mailgun**](https://www.mailgun.com/)*
+
+>For credentials
+>
+>- Create an account
+>- After setup domain
+>- Sending -> Domain settings -> SMTP credentials
+
+```yaml
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.eu.mailgun.org
+MAIL_PORT=587
+MAIL_USERNAME=<mailgun_email>
+MAIL_PASSWORD=<mailgun_password>
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=noreply@bookshelves.ink
+MAIL_FROM_NAME="${APP_NAME}"
+MAIL_TO_ADDRESS=contact@bookshelves.ink
+MAIL_TO_NAME="${APP_NAME} contact"
+```
+
+## *b. Authentication*
+
+Bookshelves use [**laravel/sanctum**](https://github.com/laravel/sanctum) for authentication with front-end which use [**nuxt/auth**](https://auth.nuxtjs.org/) to setup auth, you have to set correct variables into `.env` of back-end.
+
+- `APP_URL`: URL of back-end
+- `SANCTUM_STATEFUL_DOMAINS`: URL of front-end
+- `SESSION_DOMAIN`: domain
+- `BOOKSHELVES_ADMIN_EMAIL`: credential for `bookshelves:sample` to generate admin
+- `BOOKSHELVES_ADMIN_PASSWORD`: password for admin
 
 ```yaml
 APP_URL=http://localhost:8000
@@ -99,51 +147,13 @@ APP_URL=http://localhost:8000
 SANCTUM_STATEFUL_DOMAINS=localhost:3000
 SESSION_DOMAIN=localhost
 
-TELESCOPE_ENABLED=true
-
 BOOKSHELVES_ADMIN_EMAIL=admin@mail.com
 BOOKSHELVES_ADMIN_PASSWORD=password
 ```
 
-Setup for [**Mailtrap**](https://mailtrap.io/)
+In production with front-end at <https://bookshelves.ink>
 
 ```yaml
-MAIL_HOST=smtp.mailtrap.io
-MAIL_PORT=587
-MAIL_USERNAME=mailtrap_username
-MAIL_PASSWORD=mailtrap_password
-MAIL_FROM_ADDRESS=noreply@bookshelves.ink
-MAIL_FROM_NAME="${APP_NAME}"
-MAIL_TO_ADDRESS=contact@bookshelves.ink
-MAIL_TO_NAME="${APP_NAME}"
-```
-
-## *b. For production*
-
-```yaml
-APP_URL=https://www.mydomain.com
-
-SANCTUM_STATEFUL_DOMAINS=www.mydomain.com
-SESSION_DOMAIN=.mydomain.com
-
-TELESCOPE_ENABLED=false
-```
-
-Setup for [**Mailgun**](https://www.mailgun.com/)
-
-For credentials
-
-- Create an account
-- After setup domain
-- Sending -> Domain settings -> SMTP credentials
-
-```yaml
-MAIL_HOST=smtp.eu.mailgun.org
-MAIL_PORT=587
-MAIL_USERNAME=mailgun_user_login
-MAIL_PASSWORD=mailgun_user_password
-MAIL_FROM_ADDRESS=noreply@bookshelves.ink
-MAIL_FROM_NAME="${APP_NAME}"
-MAIL_TO_ADDRESS=contact@bookshelves.ink
-MAIL_TO_NAME="${APP_NAME}"
+SANCTUM_STATEFUL_DOMAINS=bookshelves.ink
+SESSION_DOMAIN=.bookshelves.ink
 ```
