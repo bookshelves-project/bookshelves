@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Favoritable extends Model
+class Selectionable extends Model
 {
-    public function favoritable()
+    public function selectionable()
     {
         return $this->morphTo();
     }

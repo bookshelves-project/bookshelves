@@ -124,6 +124,8 @@ namespace App\Models{
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @property-read \App\Models\Publisher|null $publisher
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Selectionable[] $selections
+ * @property-read int|null $selections_count
  * @property-read \App\Models\Serie|null $serie
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
@@ -327,6 +329,24 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
  */
     class Role extends \Eloquent
+    {
+    }
+}
+
+namespace App\Models{
+/**
+ * App\Models\Selectionable
+ *
+ * @property int $selectionable_id
+ * @property string $selectionable_type
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $selectionable
+ * @method static \Illuminate\Database\Eloquent\Builder|Selectionable newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Selectionable newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Selectionable query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereSelectionableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereSelectionableType($value)
+ */
+    class Selectionable extends \Eloquent
     {
     }
 }

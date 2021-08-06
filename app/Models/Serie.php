@@ -210,4 +210,9 @@ class Serie extends Model implements HasMedia
     {
         return $this->morphToMany(Author::class, 'authorable');
     }
+
+    public function selections(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'selectionable');
+    }
 }

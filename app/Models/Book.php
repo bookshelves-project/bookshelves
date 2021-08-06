@@ -265,4 +265,9 @@ class Book extends Model implements HasMedia
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+    public function selections(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'selectionable')->withTimestamps();
+    }
 }

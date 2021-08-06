@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use File;
 use Artisan;
 use Illuminate\Console\Command;
 
@@ -14,17 +13,17 @@ class SampleCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:sample
-                            {--b|books : generate ebooks sample}
-                            {--u|users : generate users with roles sample}
-                            {--r|roles : generate roles sample}
-                            {--f|fake : generate fake comments and favorites sample}';
+                            {--r|roles : generate roles}
+                            {--u|users : generate users with roles}
+                            {--a|account : generate fake comments, favorites sample (users with roles will be generated)}
+                            {--s|selection : generate fake selection sample (users with roles will be generated)}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Setup Bookshelves with libre eBooks to have data';
+    protected $description = 'Setup Bookshelves with users features: roles, comments, favorites and selection.';
 
     /**
      * Create a new command instance.
@@ -43,28 +42,10 @@ class SampleCommand extends Command
     {
         $this->alert('Bookshelves: sample');
 
-        $books = $this->option('books') ?? null;
         $users = $this->option('users') ?? null;
         $roles = $this->option('roles') ?? null;
-        $fake = $this->option('fake') ?? null;
-
-        if ($books) {
-            $demoPath = database_path('seeders/demo-ebooks');
-            $booksRawPath = storage_path('app/public/raw/books');
-            $booksRawPathExist = File::exists($booksRawPath);
-
-            if ($booksRawPathExist) {
-                $this->warn('storage/app/public/raw/books path exists!');
-                if ($this->confirm('Do you want to erase raw/books directory to replace it with demo ebooks?', false)) {
-                    $this->generate($booksRawPath, $demoPath);
-                } else {
-                    $this->warn('Operation cancelled by user');
-                }
-            } else {
-                $this->generate($booksRawPath, $demoPath);
-            }
-            $this->newLine(2);
-        }
+        $account = $this->option('account') ?? null;
+        $selection = $this->option('selection') ?? null;
 
         if ($users) {
             $this->comment('Run roles with users seeders');
@@ -79,22 +60,29 @@ class SampleCommand extends Command
             $this->info('Seeders ready!');
         }
 
-        if ($fake) {
+        if ($account) {
+            $this->comment('Run roles with users seeders');
+            Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
+            Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
+            $this->info('Seeders ready!');
+
             $this->comment('Run comments and favorites seeders');
             Artisan::call('db:seed', ['--class' => 'CommentSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'FavoriteSeeder', '--force' => true]);
             $this->info('Seeders ready!');
         }
 
-        return true;
-    }
+        if ($selection) {
+            $this->comment('Run roles with users seeders');
+            Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
+            Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
+            $this->info('Seeders ready!');
 
-    public function generate(string $booksRawPath, string $demoPath)
-    {
-        File::deleteDirectory($booksRawPath);
-        File::copyDirectory($demoPath, $booksRawPath);
-        $this->info('Demo ebooks ready!');
-        $command = 'books:generate -fF';
-        Artisan::call($command, [], $this->getOutput());
+            $this->comment('Run selection seeders');
+            Artisan::call('db:seed', ['--class' => 'SelectionSeeder', '--force' => true]);
+            $this->info('Seeders ready!');
+        }
+
+        return true;
     }
 }

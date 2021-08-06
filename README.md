@@ -86,8 +86,8 @@ To get full documentation, you can read [**Wiki of Bookshelves**](https://booksh
 - [ ] opds <https://specs.opds.io/opds-1.2>
 
 ```bash
-ln -s /home/jails/sftp/pictures-authors/* public/storage/raw/pictures-authors
-ln -s /home/jails/sftp/pictures-series/* public/storage/raw/pictures-series
+ln -s /home/jails/sftp/pictures-authors public/storage/raw/pictures-authors
+ln -s /home/jails/sftp/pictures-series public/storage/raw/pictures-series
 
 ln -s /home/jails/sftp/books-libres books public/storage/raw/books
 ```
@@ -96,6 +96,6 @@ ln -s /home/jails/sftp/books-libres books public/storage/raw/books
 ln -s /mnt/e/WorkInProgress/ebooks/environment/books-libres public/storage/raw/books
 ln -s /mnt/e/WorkInProgress/ebooks/environment/books-pirates public/storage/raw/books
 
-ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-authors/* public/storage/raw/pictures-authors
-ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-series/* public/storage/raw/pictures-series
+ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-authors public/storage/raw/pictures-authors
+ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-series public/storage/raw/pictures-series
 ```
