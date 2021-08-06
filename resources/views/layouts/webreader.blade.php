@@ -8,6 +8,6 @@
 @section('title-template', 'Webreader')
 @section('title-text', 'To read eBooks in your browser')
 
-@section('content-markdown')
+@section('content-base')
     @yield('content')
 @endsection

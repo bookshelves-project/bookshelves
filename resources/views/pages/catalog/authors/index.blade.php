@@ -31,14 +31,6 @@
                     </div>
                 </div>
             </div>
-            {{-- @if (sizeof($authors))
-                @include('components.blocks.list-search', [
-                'title' => 'Authors',
-                'type' => 'author',
-                'data' => $authors
-                ])
-            @endif --}}
         </div>
     </div>
-
 @endsection

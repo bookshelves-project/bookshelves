@@ -2,9 +2,12 @@
 
 @section('content')
     <div class="h-screen">
-        <div class="prose prose-lg mx-auto mt-16">
-            With Webreader, you can read any {{ config('app.name') }} eBook directly into your browser, here you can find
-            a random eBook (reload page if you want to try another).
+        <div class="mx-auto mt-16">
+            <div class="prose prose-lg mx-auto">
+                With Webreader, you can read any {{ config('app.name') }} eBook directly into your browser, here you can
+                find
+                a random eBook (reload page if you want to try another).
+            </div>
             <div>
                 <div class="text-center mt-6 text-3xl font-semibold">
                     {{ $random_book->title }}
