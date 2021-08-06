@@ -33,6 +33,7 @@ namespace App\Models{
  * @property-read int|null $favorites_count
  * @property-read string $content_opds
  * @property-read string $download_link
+ * @property-read bool $first_char
  * @property-read string|null $image_color
  * @property-read string|null $image_open_graph
  * @property-read string|null $image_simple
@@ -45,6 +46,8 @@ namespace App\Models{
  * @property-read string $size
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
+ * @property-read int|null $selections_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
@@ -124,7 +127,7 @@ namespace App\Models{
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @property-read \App\Models\Publisher|null $publisher
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Selectionable[] $selections
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
  * @property-read int|null $selections_count
  * @property-read \App\Models\Serie|null $serie
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
@@ -337,14 +340,20 @@ namespace App\Models{
 /**
  * App\Models\Selectionable
  *
+ * @property int $user_id
  * @property int $selectionable_id
  * @property string $selectionable_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $selectionable
  * @method static \Illuminate\Database\Eloquent\Builder|Selectionable newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Selectionable newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Selectionable query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereSelectionableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereSelectionableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereUserId($value)
  */
     class Selectionable extends \Eloquent
     {
@@ -390,6 +399,8 @@ namespace App\Models{
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
+ * @property-read int|null $selections_count
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
  * @method static \Database\Factories\SerieFactory factory(...$parameters)

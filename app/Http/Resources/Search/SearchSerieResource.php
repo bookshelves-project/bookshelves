@@ -25,15 +25,16 @@ class SearchSerieResource extends JsonResource
                 'author' => $this->resource->meta_author,
                 'slug'   => $this->resource->slug,
             ],
-            'title' => $this->resource->title,
-            // 'author' => $this->resource->books?->author_meta,
+            'title'   => $this->resource->title,
+            'authors' => $this->resource->authors,
             'picture' => [
                 'base'      => $this->resource->image_thumbnail,
                 'openGraph' => $this->resource->image_open_graph,
                 'simple'    => $this->resource->image_simple,
                 'color'     => $this->resource->image_color,
             ],
-            'text' => BookshelvesTools::stringLimit($this->resource->description, 140),
+            'text'     => BookshelvesTools::stringLimit($this->resource->description, 140),
+            'language' => $this->resource->language->slug,
         ];
     }
 }

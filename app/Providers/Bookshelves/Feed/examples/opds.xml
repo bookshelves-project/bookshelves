@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:app="http://www.w3.org/2007/app" xmlns:opds="http://opds-spec.org/2010/catalog" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:odl="http://opds-spec.org/odl" xmlns:dcterms="http://purl.org/dc/terms/" xmlns="http://www.w3.org/2005/Atom" xmlns:thr="http://purl.org/syndication/thread/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <id>gallica.bnf.fr</id>
+    <title>Recherche : </title>
+    <updated>2021-06-13T13:50:01</updated>
+    <icon>https://gallica.bnf.fr/mbImage/perso/favicon.ico</icon>
+    <author>
+        <name>Gallica</name>
+        <uri>gallica.bnf.fr</uri>
+    </author>
+    <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/opds?query=" rel="self"/>
+    <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/opds?query=" rel="start" title="Accueil"/>
+    <link type="application/opensearchdescription+xml" href="https://gallica.bnf.fr/assets/static/opensearchdescription.xml" rel="search" title="Rechercher sur Gallica"/>
+    <entry>
+        <title>Dernières mises en ligne</title>
+        <id>https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dc.format%20all%20%22epub%22%20sortby%20indexationdate%2Fsort.descending%20&amp;filter=provenance%20all%20%22bnf.fr%22</id>
+        <updated>2021-06-13T13:50:01</updated>
+        <summary type="text">Tout juste ajouté sur Gallica</summary>
+        <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dc.format%20all%20%22epub%22%20sortby%20indexationdate%2Fsort.descending%20&amp;filter=provenance%20all%20%22bnf.fr%22" rel="http://opds-spec.org/sort/popular"/>
+    </entry>
+    <entry>
+        <title>Formats accessibles</title>
+        <id>https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dc.format%20adj%20%22Format%20adaptable%22%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22</id>
+        <updated>2021-06-13T13:50:01</updated>
+        <summary type="text">Livres téléchargeables dans un format accessible (EPUB 3, DAISY DTBook)</summary>
+        <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dc.format%20adj%20%22Format%20adaptable%22%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22" rel="subsection"/>
+    </entry>
+    <entry>
+        <title>Littérature francophone</title>
+        <id>https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=sdewey%20all%20%2284%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22</id>
+        <updated>2021-06-13T13:50:01</updated>
+        <summary type="text">Cet ensemble donne accès aux ouvrages imprimés de Gallica indexés suivant la Classification décimale Dewey, classes 840 à 849 : Littérature des langues romanes, littérature française</summary>
+        <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=sdewey%20all%20%2284%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22" rel="subsection"/>
+    </entry>
+    <entry>
+        <title>Littérature anglaise</title>
+        <id>https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=sdewey%20all%20%2282%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22</id>
+        <updated>2021-06-13T13:50:01</updated>
+        <summary type="text">Cet ensemble donne accès aux ouvrages imprimés de Gallica indexés suivant la Classification décimale Dewey, classes 820 à 829 : Littérature anglaise et anglo-saxonne</summary>
+        <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=sdewey%20all%20%2282%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22" rel="subsection"/>
+    </entry>
+    <entry>
+        <title>Philosophie et psychologie</title>
+        <id>https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%221%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22</id>
+        <updated>2021-06-13T13:50:01</updated>
+        <summary type="text">Cet ensemble donne accès aux ouvrages imprimés de Gallica indexés suivant la Classification décimale Dewey, classes 100 à 199 :Philosophie et psychologie</summary>
+        <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%221%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22" rel="subsection"/>
+    </entry>
+    <entry>
+        <title>Religion</title>
+        <id>https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%222%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22</id>
+        <updated>2021-06-13T13:50:01</updated>
+        <summary type="text">Cet ensemble donne accès aux ouvrages imprimés de Gallica indexés suivant la Classification décimale Dewey, classes 200 à 299 : Religion</summary>
+        <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%222%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22" rel="subsection"/>
+    </entry>
+    <entry>
+        <title>Arts et Loisirs</title>
+        <id>https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%227%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22</id>
+        <updated>2021-06-13T13:50:01</updated>
+        <summary type="text">Cet ensemble donne accès aux ouvrages imprimés de Gallica indexés suivant la Classification décimale Dewey, classes 700 à 799 : Arts</summary>
+        <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%227%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22" rel="subsection"/>
+    </entry>
+    <entry>
+        <title>Histoire et géographie</title>
+        <id>https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%229%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22</id>
+        <updated>2021-06-13T13:50:01</updated>
+        <summary type="text">Cet ensemble donne accès aux ouvrages imprimés de Gallica indexés suivant la Classification décimale Dewey, classes 900 à 999 : Histoire et géographie</summary>
+        <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%229%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22" rel="subsection"/>
+    </entry>
+    <entry>
+        <title>Sciences sociales</title>
+        <id>https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%223%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22</id>
+        <updated>2021-06-13T13:50:01</updated>
+        <summary type="text">Cet ensemble donne accès aux ouvrages imprimés de Gallica indexés suivant la Classification décimale Dewey, classes 300 à 399 : Sciences sociales</summary>
+        <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%223%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22" rel="subsection"/>
+    </entry>
+    <entry>
+        <title>Sciences</title>
+        <id>https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%225%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22</id>
+        <updated>2021-06-13T13:50:01</updated>
+        <summary type="text">Cet ensemble donne accès aux ouvrages imprimés de Gallica indexés suivant la Classification décimale Dewey, classes 500 à 599 : Sciences</summary>
+        <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%225%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22" rel="subsection"/>
+    </entry>
+    <entry>
+        <title>Techniques</title>
+        <id>https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%226%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22</id>
+        <updated>2021-06-13T13:50:01</updated>
+        <summary type="text">Cet ensemble donne accès aux ouvrages imprimés de Gallica indexés suivant la Classification décimale Dewey, classes 600 à 699 : Technologie</summary>
+        <link type="application/atom+xml;profile=opds-catalog;kind=navigation" href="https://gallica.bnf.fr/services/engine/search/opds?operation=searchRetrieve&amp;version=1.2&amp;exactSearch=false&amp;query=dewey%20all%20%226%22)%20and%20dc.format%20all%20%22epub%22&amp;filter=provenance%20all%20%22bnf.fr%22" rel="subsection"/>
+    </entry>
+</feed>

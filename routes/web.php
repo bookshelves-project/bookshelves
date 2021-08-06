@@ -47,7 +47,8 @@ Route::prefix('catalog')->group(function () {
     Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('catalog.series.show');
 
     Route::get('/authors', [AuthorController::class, 'index'])->name('catalog.authors');
-    Route::get('/authors/{author}', [AuthorController::class, 'show'])->name('catalog.authors.show');
+    Route::get('/authors/{character}', [AuthorController::class, 'character'])->name('catalog.authors.character');
+    Route::get('/authors/{character}/{author}', [AuthorController::class, 'show'])->name('catalog.authors.show');
 });
 
 Route::get('/opds', [OpdsController::class, 'index'])->name('opds.index');

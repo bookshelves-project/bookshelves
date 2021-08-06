@@ -6,32 +6,23 @@
     <div class="relative px-4 pb-20 sm:px-6 lg:pb-28 lg:px-8">
         <div class="relative mx-auto max-w-2xl">
             <div class="mt-10">
-                <form action="/catalog/search" method="GET">
-                    <article class="entity" style="min-height: 0; border: none;">
-                        <h2 class="entity__right">
-                            <button type="submit" class="block mx-auto text-2xl text-center">
-                                Search
-                            </button>
-                        </h2>
-                        <div style="text-decoration: none !important;">
-                            <div class="entity__center" style="margin: 0 120px 4px 0;">
-                                <input type="search" name="q"
-                                    class="block w-full mx-auto mt-1 placeholder-black border-black"
-                                    placeholder="Search by book title, by author name or by series title" required>
-                            </div>
-                        </div>
-                    </article>
-                </form>
+                @include('components.catalog.search')
             </div>
             <div class="">
-                <div class="mx-auto mt-3 text-xl text-gray-500 sm:mt-4">
-                    <div>
-                        Find now the book what you want from book's title, book's series or book's author. If you have an
-                        author
-                        or a series as result, you can't download books directly, you have to download one by one but don't
-                        hesitate to tap on an author or a series, you will see list of books associated with, just tap on
-                        the book that you want.
-                    </div>
+                <div class="mx-auto mt-3 text-xl text-gray-500 sm:mt-4 prose prose-lg">
+                    <ul>
+                        <li>
+                            Find now the book what you want from book's title, book's series or book's author.
+                        </li>
+                        <li>
+                            If you have an author or a series as result, you can't download books directly.
+                        </li>
+                        <li>
+                            You have to download one by one but don't hesitate to tap on an author or a series, you will see
+                            list of books associated with, just tap on
+                            the book that you want.
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="my-10"></div>

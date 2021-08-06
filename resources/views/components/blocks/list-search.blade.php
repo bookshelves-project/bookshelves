@@ -1,5 +1,5 @@
-<section>
-    <h3 class="text-3xl text-center pb-5 font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl">
+<section class="mb-40">
+    <h3 class="text-3xl text-center pb-5 font-semibold tracking-tight text-gray-900 font-handlee sm:text-4xl mb-10">
         {{ $title }}
     </h3>
     @foreach ($data as $item)
@@ -16,7 +16,7 @@
                     break;
             
                 case 'author':
-                    $route = route('catalog.authors.show', ['author' => $item->meta->slug]);
+                    $route = route('catalog.authors.show', ['character' => $item->first_char, 'author' => $item->meta->slug]);
                     break;
             
                 default:
@@ -49,10 +49,16 @@
                             </div>
                         @endisset
                     @endif
-                    <div>
-                        <i>Tags</i> : Action &amp; Adventure, Fiction, Historical, Romance
-                    </div>
-                    {{-- <div><i>Series</i> : {{ $item->serie->title }}, vol. {{ $item->volume }}</div> --}}
+                    @isset($item->language)
+                        <div>
+                            <i>Language</i> : {{ $item->language }}
+                        </div>
+                    @endisset
+                    @isset($item->serie)
+                        <div>
+                            <i>Serie</i> : {{ $item->serie->title }}, vol. {{ $item->volume }}
+                        </div>
+                    @endisset
                 </div>
             </div>
         </a>

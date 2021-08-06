@@ -171,6 +171,10 @@ class Author extends Model implements HasMedia
 
         return $is_favorite;
     }
+    public function getFirstCharAttribute(): string
+    {
+        return strtolower($this->lastname[0]);
+    }
 
     public function favorites(): MorphToMany
     {
