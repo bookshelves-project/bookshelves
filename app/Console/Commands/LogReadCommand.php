@@ -11,7 +11,7 @@ class LogReadCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'log:read';
 
     /**
      * The console command description.

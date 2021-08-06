@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Bookshelves;
+namespace App\Console\Commands;
 
 use Artisan;
 use Illuminate\Console\Command;
@@ -19,7 +19,7 @@ class TestCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Bookshelves tests';
 
     /**
      * Create a new command instance.

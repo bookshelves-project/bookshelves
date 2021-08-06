@@ -55,9 +55,9 @@ class AuthorProvider
 
             if (! $local) {
                 $wiki = WikipediaProvider::create($author->name);
-                $result = self::setLocalDescription($author);
+                $author = self::setLocalDescription($author);
                 $author = self::setLocalNotes($author);
-                if (! $result) {
+                if (! $author->description) {
                     $author = self::setWikipediaDescription($author, $wiki);
                 }
                 if (! $no_cover) {

@@ -62,15 +62,15 @@ class GenerateCommand extends Command
         $this->newLine();
 
         // setup options
-        $isForce = $this->option('force');
-        $fresh = $this->option('fresh');
+        $isForce = $this->option('force') ?? false;
+        $fresh = $this->option('fresh') ?? false;
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
         $no_covers = $this->option('covers');
-        $local = $this->option('local');
+        $local = $this->option('local') ?? false;
         $debug = $this->option('debug') ?? false;
-        $test = $this->option('test') ?? null;
+        $test = $this->option('test') ?? false;
 
         if ($fresh) {
             $this->warn('- Option --fresh: erase current database, migrate and seed basics also clear all medias.');
@@ -94,6 +94,7 @@ class GenerateCommand extends Command
         if ($fresh) {
             $this->fresh();
         }
+        
 
         /*
          * Generate commands

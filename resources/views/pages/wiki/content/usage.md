@@ -72,39 +72,173 @@ You can scan `books` directory to get a list of your EPUB files to know if every
 php artisan bookshelves:scan -v
 ```
 
-# **III. Commands**
+# **III. Bookshelves commands**
 
-## *a. Start*
+Commands have some options, use `-h` to get list of all options.
+
+## *a. start*
+
+`bookshelves:start` will delete ALL DATA with `migrate:fresh --force` and ALL MEDIA from `public/storage/media`, it's useful for initialization of Bookshelves or if you want to refresh all data without keeping accounts data. It will launch multiple commands:
+
+- `bookshelves:generate`
+- `bookshelves:sample`
+
+>--r|roles : generate roles  
+>--u|users : generate users with roles  
+>--a|account : generate fake comments, favorites sample (users with roles will be generated)  
+>--s|selection : generate fake selection sample (users with roles will be generated)  
+>--L|local : prevent external HTTP requests to public API for additional informations  
+>--l|limit= : limit epub files to generate, useful for debug  
+>--d|debug : generate metadata files into public/storage/debug for debug  
+>--t|test : execute tests at the end  
+
+*Example: here `-as` will generate account data and selection books with users*
 
 ```bash
-php artisan bookshelves:start -uf
+php artisan bookshelves:start -as
 ```
 
-## *b. Generate*
+## *b. generate*
+
+**Main command of Bookshelves**, can parse all eBooks and **detect new eBooks** *OR* remove all eBooks data (and keep accounts) with `--fresh` like `php artisan bookshelves:generate -f`. When you want to detect new eBooks, just launch command without any option. It will launch multiple commands:
+
+- `bookshelves:books`: parse all EPUB files, extract data, create relations and generate covers **if not exist**
+- `bookshelves:series`: parse all series into database (don't create series) to generate cover and extra data **if haven't extra data**
+- `bookshelves:authors`: parse all authors into database (don't create authors) to generate cover and extra data **if haven't extra data**
+
+All these commands try to get extra data from Internet (Wikipedia and GoogleBooks), use `--local` like `php artisan bookshelves:generate -L` option to skip this feature.
+
+>--f|fresh : reset current books and relation, keep users  
+>--F|force : skip confirm question for prod  
+>--c|covers : prevent generation of covers  
+>--L|local : prevent external HTTP requests to public API for additional informations  
+>--l|limit= : limit epub files to generate, useful for debug  
+>--d|debug : generate metadata files into public/storage/debug for debug  
+>--t|test : execute tests at the end  
+
+*Example: here command will check only new eBooks*
 
 ```bash
-php artisan bookshelves:generate -fF
+php artisan bookshelves:generate
 ```
 
-# *b. Test with demo eBook*
+### books
 
-If you want to test Bookshelves, you can use `bookshelves:sample` to generate data from libre eBooks
+```bash
+php artisan bookshelves:books
+```
 
-> `php artisan bookshelves:sample -h` to check options
+### series
+
+```bash
+php artisan bookshelves:series
+```
+
+### authors
+
+```bash
+php artisan bookshelves:authors
+```
+
+### clear
+
+```bash
+php artisan bookshelves:clear
+```
+
+## *c. sample*
+
+### sample account data
 
 ```bash
 php artisan bookshelves:sample
 ```
 
-# *e. Mails*
+### sample books
+
+If you want to test Bookshelves, you can use `bookshelves:sample` to generate data from libre eBooks
+
+```bash
+php artisan bookshelves:sample-books
+```
+
+# **IV. Extra commands**
+
+## *a. Tests*
+
+```bash
+php artisan bookshelves:test
+```
+
+```bash
+php artisan pest
+```
+
+```bash
+php artisan larastan
+```
+
+## *b. Setup*
+
+```bash
+php artisan setup
+```
+
+## *c. Misc*
+
+```bash
+php artisan webreader:clear
+```
+
+```bash
+php artisan log:clear
+```
+
+```bash
+php artisan log:read
+```
+
+# **V. Features**
+
+## *e. Mails*
+
+Bookshelves can send emails from contact form, you have to set `.env` variables.
+
+Example for local with [**mailtrap**](https://mailtrap.io/)
+
+```yaml
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=587
+MAIL_USERNAME=16a36c1ca81e03
+MAIL_PASSWORD=d49144dd24808d
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=noreply@bookshelves.ink
+MAIL_FROM_NAME="${APP_NAME}"
+MAIL_TO_ADDRESS=contact@bookshelves.ink
+MAIL_TO_NAME="${APP_NAME} contact"
+```
+
+Example for production with [**mailgun**](https://www.mailgun.com/)
+
+```yaml
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.eu.mailgun.org
+MAIL_PORT=587
+MAIL_USERNAME=<mailgun_email>
+MAIL_PASSWORD=<mailgun_password>
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=noreply@bookshelves.ink
+MAIL_FROM_NAME="${APP_NAME}"
+MAIL_TO_ADDRESS=contact@bookshelves.ink
+MAIL_TO_NAME="${APP_NAME} contact"
+```
+
+## *g. MetadataExtractor*
 
 TODO
 
-# *g. MetadataExtractor*
-
-TODO
-
-# *i. Wikipedia*
+## *i. Wikipedia*
 
 TODO
 

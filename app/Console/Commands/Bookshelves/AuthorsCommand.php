@@ -42,9 +42,9 @@ class AuthorsCommand extends Command
      */
     public function handle()
     {
-        $fresh = $this->option('fresh');
-        $no_covers = $this->option('covers');
-        $local = $this->option('local');
+        $fresh = $this->option('fresh') ?? false;
+        $no_covers = $this->option('covers') ?? false;
+        $local = $this->option('local') ?? false;
 
         $authors = Author::orderBy('lastname')->get();
         if ($fresh) {
@@ -71,7 +71,7 @@ class AuthorsCommand extends Command
         $bar->start();
         foreach ($authors as $key => $author) {
             AuthorProvider::tags($author);
-            if ($author && ! $author->description && ! $author->link) {
+            if (! $author->description && ! $author->link) {
                 AuthorProvider::descriptionAndPicture(author: $author, local: $local, no_cover: $no_covers);
             }
             $bar->advance();

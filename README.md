@@ -86,6 +86,10 @@ To get full documentation, you can read [**Wiki of Bookshelves**](https://booksh
 - [ ] opds <https://specs.opds.io/opds-1.2>
 
 ```bash
+php artisan bookshelves:start -as
+```
+
+```bash
 ln -s /home/jails/sftp/pictures-authors public/storage/raw/pictures-authors
 ln -s /home/jails/sftp/pictures-series public/storage/raw/pictures-series
 

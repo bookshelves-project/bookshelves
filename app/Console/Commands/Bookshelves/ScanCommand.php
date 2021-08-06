@@ -5,7 +5,7 @@ namespace App\Console\Commands\Bookshelves;
 use Illuminate\Console\Command;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
-class ScanBooksCommand extends Command
+class ScanCommand extends Command
 {
     /**
      * The name and signature of the console command.
