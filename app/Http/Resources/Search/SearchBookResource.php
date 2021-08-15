@@ -32,10 +32,10 @@ class SearchBookResource extends JsonResource
                 'number' => $this->resource->volume,
             ],
             'picture' => [
-                'base'      => $this->resource->image_thumbnail,
-                'openGraph' => $this->resource->image_open_graph,
-                'simple'    => $this->resource->image_simple,
-                'color'     => $this->resource->image_color,
+                'thumbnail'      => $this->resource->image_thumbnail,
+                'og'             => $this->resource->image_og,
+                'simple'         => $this->resource->image_simple,
+                'color'          => $this->resource->image_color,
             ],
             'text' => BookshelvesTools::stringLimit($this->resource->description, 140),
         ];

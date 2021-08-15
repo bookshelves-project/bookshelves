@@ -46,10 +46,10 @@ class EntityResource extends JsonResource
             'language' => $relation->language?->slug,
             'volume'   => $relation->volume ?? null,
             'picture'  => [
-                'base'     => $relation->image_thumbnail,
-                'original' => $relation->image_original,
-                'simple'   => $relation->image_simple,
-                'color'    => $relation->image_color,
+                'thumbnail'     => $relation->image_thumbnail,
+                'original'      => $relation->image_original,
+                'simple'        => $relation->image_simple,
+                'color'         => $relation->image_color,
             ],
         ];
     }

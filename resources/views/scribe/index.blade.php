@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
@@ -8,89 +9,92 @@
 
     <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset("vendor/scribe/css/theme-default.style.css") }}" media="screen">
-    <link rel="stylesheet" href="{{ asset("vendor/scribe/css/theme-default.print.css") }}" media="print">
-    <script src="{{ asset("vendor/scribe/js/theme-default-3.6.0.js") }}"></script>
+    <link rel="stylesheet" href="{{ asset('vendor/scribe/css/theme-default.style.css') }}" media="screen">
+    <link rel="stylesheet" href="{{ asset('vendor/scribe/css/theme-default.print.css') }}" media="print">
+    <script src="{{ asset('vendor/scribe/js/theme-default-3.6.0.js') }}"></script>
 
-    <link rel="stylesheet"
-          href="//unpkg.com/@highlightjs/cdn-assets@10.7.2/styles/obsidian.min.css">
+    <link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@10.7.2/styles/obsidian.min.css">
     <script src="//unpkg.com/@highlightjs/cdn-assets@10.7.2/highlight.min.js"></script>
-    <script>hljs.highlightAll();</script>
+    <script>
+        hljs.highlightAll();
+    </script>
 
     <script src="//cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
     <script>
         var baseUrl = "http://localhost:8000";
     </script>
-    <script src="{{ asset("vendor/scribe/js/tryitout-3.6.0.js") }}"></script>
+    <script src="{{ asset('vendor/scribe/js/tryitout-3.6.0.js') }}"></script>
 
 </head>
 
 <body data-languages="[&quot;bash&quot;,&quot;javascript&quot;]">
-<a href="#" id="nav-button">
-      <span>
-        MENU
-        <img src="{{ asset("vendor/scribe/images/navbar.png") }}" alt="navbar-image" />
-      </span>
-</a>
-<div class="tocify-wrapper">
-                <div class="lang-selector">
-                            <a href="#" data-language-name="bash">bash</a>
-                            <a href="#" data-language-name="javascript">javascript</a>
-                    </div>
+    <a href="#" id="nav-button">
+        <span>
+            MENU
+            <img src="{{ asset('vendor/scribe/images/navbar.png') }}" alt="navbar-image" />
+        </span>
+    </a>
+    <div class="tocify-wrapper">
+        <div class="lang-selector">
+            <a href="#" data-language-name="bash">bash</a>
+            <a href="#" data-language-name="javascript">javascript</a>
+        </div>
         <div class="search">
-        <input type="text" class="search" id="input-search" placeholder="Search">
-    </div>
-    <ul class="search-results"></ul>
+            <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
 
-    <ul id="toc">
-    </ul>
+        <ul id="toc">
+        </ul>
 
-            <ul class="toc-footer" id="toc-footer">
-                            <li><a href="{{ route("scribe.postman") }}">View Postman collection</a></li>
-                            <li><a href="{{ route("scribe.openapi") }}">View OpenAPI spec</a></li>
-                            <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
-                    </ul>
-            <ul class="toc-footer" id="last-updated">
+        <ul class="toc-footer" id="toc-footer">
+            <li><a href="{{ route('scribe.postman') }}">View Postman collection</a></li>
+            <li><a href="{{ route('scribe.openapi') }}">View OpenAPI spec</a></li>
+            <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
+        </ul>
+        <ul class="toc-footer" id="last-updated">
             <li>Last updated: July 14 2021</li>
         </ul>
-</div>
-<div class="page-wrapper">
-    <div class="dark-box"></div>
-    <div class="content">
-        <h1>Introduction</h1>
-<p>The API documentation for Bookshelves to use endpoints with another app.</p>
-<p>This documentation aims to provide all the information you need to work with our API.</p>
-<aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
-You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
-<blockquote>
-<p>Base URL</p>
-</blockquote>
-<pre><code class="language-yaml">http://localhost:8000</code></pre>
+    </div>
+    <div class="page-wrapper">
+        <div class="dark-box"></div>
+        <div class="content">
+            <h1>Introduction</h1>
+            <p>The API documentation for Bookshelves to use endpoints with another app.</p>
+            <p>This documentation aims to provide all the information you need to work with our API.</p>
+            <aside>As you scroll, you'll see code examples for working with the API in different programming languages
+                in the dark area to the right (or as part of the content on mobile).
+                You can switch the language used with the tabs at the top right (or from the nav menu at the top left on
+                mobile).</aside>
+            <blockquote>
+                <p>Base URL</p>
+            </blockquote>
+            <pre><code class="language-yaml">http://localhost:8000</code></pre>
 
-        <h1>Authenticating requests</h1>
-<p>This API is not authenticated.</p>
+            <h1>Authenticating requests</h1>
+            <p>This API is not authenticated.</p>
 
-        <h1 id="author">Author</h1>
+            <h1 id="author">Author</h1>
 
-    <p>Endpoint to get Authors data.</p>
+            <p>Endpoint to get Authors data.</p>
 
             <h2 id="author-GETapi-authors">Authors list</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
-<p>You can get all authors with alphabetic order on lastname with pagination.</p>
+            <p>You can get all authors with alphabetic order on lastname with pagination.</p>
 
-<span id="example-requests-GETapi-authors">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-authors">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/authors?per-page=5" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/authors"
 );
 
@@ -109,23 +113,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-authors">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-authors">
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4992
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;data&quot;: [
@@ -139,7 +146,7 @@ vary: Origin
             &quot;firstname&quot;: &quot;Douglas&quot;,
             &quot;picture&quot;: {
                 &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1207\/conversions\/adams-douglas-thumbnail.webp&quot;,
-                &quot;openGraph&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1207\/conversions\/adams-douglas-open_graph.jpg&quot;,
+                &quot;og&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1207\/conversions\/adams-douglas-og.jpg&quot;,
                 &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1207\/conversions\/adams-douglas-simple.jpg&quot;,
                 &quot;color&quot;: &quot;#7b654f&quot;
             },
@@ -155,7 +162,7 @@ vary: Origin
             &quot;firstname&quot;: &quot;Ilona&quot;,
             &quot;picture&quot;: {
                 &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1208\/conversions\/andrews-ilona-thumbnail.webp&quot;,
-                &quot;openGraph&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1208\/conversions\/andrews-ilona-open_graph.jpg&quot;,
+                &quot;og&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1208\/conversions\/andrews-ilona-og.jpg&quot;,
                 &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1208\/conversions\/andrews-ilona-simple.jpg&quot;,
                 &quot;color&quot;: &quot;#474134&quot;
             },
@@ -171,7 +178,7 @@ vary: Origin
             &quot;firstname&quot;: &quot;Georges-Jean&quot;,
             &quot;picture&quot;: {
                 &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1209\/conversions\/arnaud-georges-jean-thumbnail.webp&quot;,
-                &quot;openGraph&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1209\/conversions\/arnaud-georges-jean-open_graph.jpg&quot;,
+                &quot;og&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1209\/conversions\/arnaud-georges-jean-og.jpg&quot;,
                 &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1209\/conversions\/arnaud-georges-jean-simple.jpg&quot;,
                 &quot;color&quot;: &quot;#635947&quot;
             },
@@ -187,7 +194,7 @@ vary: Origin
             &quot;firstname&quot;: &quot;Isaac&quot;,
             &quot;picture&quot;: {
                 &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1210\/conversions\/asimov-isaac-thumbnail.webp&quot;,
-                &quot;openGraph&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1210\/conversions\/asimov-isaac-open_graph.jpg&quot;,
+                &quot;og&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1210\/conversions\/asimov-isaac-og.jpg&quot;,
                 &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1210\/conversions\/asimov-isaac-simple.jpg&quot;,
                 &quot;color&quot;: &quot;#313131&quot;
             },
@@ -203,7 +210,7 @@ vary: Origin
             &quot;firstname&quot;: &quot;Sophie&quot;,
             &quot;picture&quot;: {
                 &quot;base&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1211\/conversions\/audouin-mamikonian-sophie-thumbnail.webp&quot;,
-                &quot;openGraph&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1211\/conversions\/audouin-mamikonian-sophie-open_graph.jpg&quot;,
+                &quot;og&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1211\/conversions\/audouin-mamikonian-sophie-og.jpg&quot;,
                 &quot;simple&quot;: &quot;http:\/\/localhost:8000\/storage\/media\/authors\/1211\/conversions\/audouin-mamikonian-sophie-simple.jpg&quot;,
                 &quot;color&quot;: &quot;#967d75&quot;
             },
@@ -299,82 +306,70 @@ vary: Origin
     }
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-authors" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-authors"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-authors"></code></pre>
-</span>
-<span id="execution-error-GETapi-authors" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-authors"></code></pre>
-</span>
-<form id="form-GETapi-authors" data-method="GET"
-      data-path="api/authors"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-authors', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-authors" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-authors"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-authors"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-authors" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-authors"></code></pre>
+            </span>
+            <form id="form-GETapi-authors" data-method="GET" data-path="api/authors" data-authed="0" data-hasfiles="0"
+                data-isarraybody="0" data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+                autocomplete="off" onsubmit="event.preventDefault(); executeTryOut('GETapi-authors', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-authors"
-                    onclick="tryItOut('GETapi-authors');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-authors"
-                    onclick="cancelTryOut('GETapi-authors');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-authors" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/authors</code></b>
-        </p>
-                        <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
-                    <p>
-                <b><code>per-page</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
-                <input type="number"
-               name="per-page"
-               data-endpoint="GETapi-authors"
-               data-component="query"  hidden>
-    <br>
-<p>Entities per page, 32 by default.</p>            </p>
-                    <p>
-                <b><code>page</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
-                <input type="number"
-               name="page"
-               data-endpoint="GETapi-authors"
-               data-component="query"  hidden>
-    <br>
-<p>The page number, 1 by default.</p>            </p>
-                </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-authors" onclick="tryItOut('GETapi-authors');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-authors" onclick="cancelTryOut('GETapi-authors');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-authors" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/authors</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                <p>
+                    <b><code>per-page</code></b>&nbsp;&nbsp;<small>integer</small> <i>optional</i> &nbsp;
+                    <input type="number" name="per-page" data-endpoint="GETapi-authors" data-component="query" hidden>
+                    <br>
+                <p>Entities per page, 32 by default.</p>
+                </p>
+                <p>
+                    <b><code>page</code></b>&nbsp;&nbsp;<small>integer</small> <i>optional</i> &nbsp;
+                    <input type="number" name="page" data-endpoint="GETapi-authors" data-component="query" hidden>
+                    <br>
+                <p>The page number, 1 by default.</p>
+                </p>
+            </form>
 
             <h2 id="author-GETapi-authors--id-">Author details</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
-<p>Details for one author, find by slug.</p>
+            <p>Details for one author, find by slug.</p>
 
-<span id="example-requests-GETapi-authors--id-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-authors--id-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/authors/lovecraft-howard-phillips" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/authors/lovecraft-howard-phillips"
 );
 
@@ -387,96 +382,92 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-authors--id-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-authors--id-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4991
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;failed&quot;: &quot;No result for this param.&quot;
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-authors--id-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-authors--id-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-authors--id-"></code></pre>
-</span>
-<span id="execution-error-GETapi-authors--id-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-authors--id-"></code></pre>
-</span>
-<form id="form-GETapi-authors--id-" data-method="GET"
-      data-path="api/authors/{id}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-authors--id-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-authors--id-" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-authors--id-"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-authors--id-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-authors--id-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-authors--id-"></code></pre>
+            </span>
+            <form id="form-GETapi-authors--id-" data-method="GET" data-path="api/authors/{id}" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-authors--id-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-authors--id-"
-                    onclick="tryItOut('GETapi-authors--id-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-authors--id-"
-                    onclick="cancelTryOut('GETapi-authors--id-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-authors--id-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/authors/{id}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="id"
-               data-endpoint="GETapi-authors--id-"
-               data-component="url" required  hidden>
-    <br>
-<p>The slug of author.</p>            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-authors--id-" onclick="tryItOut('GETapi-authors--id-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-authors--id-" onclick="cancelTryOut('GETapi-authors--id-');"
+                        hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-authors--id-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/authors/{id}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>id</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="id" data-endpoint="GETapi-authors--id-" data-component="url" required
+                        hidden>
+                    <br>
+                <p>The slug of author.</p>
+                </p>
+            </form>
 
             <h2 id="author-GETapi-authors-books--author-">GET api/authors/books/{author}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-authors-books--author-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-authors-books--author-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/authors/books/3" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/authors/books/3"
 );
 
@@ -489,23 +480,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-authors-books--author-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-authors-books--author-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4990
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;No query results for model [App\\Models\\Author].&quot;,
@@ -971,74 +965,67 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-authors-books--author-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-authors-books--author-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-authors-books--author-"></code></pre>
-</span>
-<span id="execution-error-GETapi-authors-books--author-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-authors-books--author-"></code></pre>
-</span>
-<form id="form-GETapi-authors-books--author-" data-method="GET"
-      data-path="api/authors/books/{author}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-authors-books--author-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-authors-books--author-" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-authors-books--author-"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-authors-books--author-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-authors-books--author-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-authors-books--author-"></code></pre>
+            </span>
+            <form id="form-GETapi-authors-books--author-" data-method="GET" data-path="api/authors/books/{author}"
+                data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-authors-books--author-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-authors-books--author-"
-                    onclick="tryItOut('GETapi-authors-books--author-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-authors-books--author-"
-                    onclick="cancelTryOut('GETapi-authors-books--author-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-authors-books--author-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/authors/books/{author}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="author"
-               data-endpoint="GETapi-authors-books--author-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-authors-books--author-"
+                        onclick="tryItOut('GETapi-authors-books--author-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-authors-books--author-"
+                        onclick="cancelTryOut('GETapi-authors-books--author-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-authors-books--author-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/authors/books/{author}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small> &nbsp;
+                    <input type="number" name="author" data-endpoint="GETapi-authors-books--author-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+            </form>
 
             <h2 id="author-GETapi-authors-series--author-">GET api/authors/series/{author}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-authors-series--author-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-authors-series--author-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/authors/series/dolor" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/authors/series/dolor"
 );
 
@@ -1051,23 +1038,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-authors-series--author-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-authors-series--author-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4989
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;No query results for model [App\\Models\\Author].&quot;,
@@ -1533,78 +1523,72 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-authors-series--author-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-authors-series--author-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-authors-series--author-"></code></pre>
-</span>
-<span id="execution-error-GETapi-authors-series--author-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-authors-series--author-"></code></pre>
-</span>
-<form id="form-GETapi-authors-series--author-" data-method="GET"
-      data-path="api/authors/series/{author}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-authors-series--author-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-authors-series--author-" hidden>
+                <blockquote>Received response<span
+                        id="execution-response-status-GETapi-authors-series--author-"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-authors-series--author-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-authors-series--author-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-authors-series--author-"></code></pre>
+            </span>
+            <form id="form-GETapi-authors-series--author-" data-method="GET" data-path="api/authors/series/{author}"
+                data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-authors-series--author-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-authors-series--author-"
-                    onclick="tryItOut('GETapi-authors-series--author-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-authors-series--author-"
-                    onclick="cancelTryOut('GETapi-authors-series--author-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-authors-series--author-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/authors/series/{author}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>author</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="author"
-               data-endpoint="GETapi-authors-series--author-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-authors-series--author-"
+                        onclick="tryItOut('GETapi-authors-series--author-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-authors-series--author-"
+                        onclick="cancelTryOut('GETapi-authors-series--author-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-authors-series--author-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/authors/series/{author}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>author</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="author" data-endpoint="GETapi-authors-series--author-" data-component="url"
+                        required hidden>
+                    <br>
+                </p>
+            </form>
 
-        <h1 id="book">Book</h1>
+            <h1 id="book">Book</h1>
 
-    
+
 
             <h2 id="book-GETapi-books">GET api/books</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-books">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-books">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/books" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/books"
 );
 
@@ -1617,23 +1601,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-books">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-books">
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4999
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;data&quot;: [
@@ -2771,65 +2758,57 @@ vary: Origin
     }
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-books" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-books"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-books"></code></pre>
-</span>
-<span id="execution-error-GETapi-books" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-books"></code></pre>
-</span>
-<form id="form-GETapi-books" data-method="GET"
-      data-path="api/books"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-books', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-books" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-books"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-books"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-books" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-books"></code></pre>
+            </span>
+            <form id="form-GETapi-books" data-method="GET" data-path="api/books" data-authed="0" data-hasfiles="0"
+                data-isarraybody="0" data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+                autocomplete="off" onsubmit="event.preventDefault(); executeTryOut('GETapi-books', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-books"
-                    onclick="tryItOut('GETapi-books');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-books"
-                    onclick="cancelTryOut('GETapi-books');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-books" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/books</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-books" onclick="tryItOut('GETapi-books');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-books" onclick="cancelTryOut('GETapi-books');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-books" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/books</code></b>
+                </p>
+            </form>
 
             <h2 id="book-GETapi-books--author---book-">GET api/books/{author}/{book}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-books--author---book-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-books--author---book-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/books/20/eos" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/books/20/eos"
 );
 
@@ -2842,23 +2821,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-books--author---book-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-books--author---book-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4998
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;No query results for model [App\\Models\\Author].&quot;,
@@ -3324,82 +3306,73 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-books--author---book-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-books--author---book-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-books--author---book-"></code></pre>
-</span>
-<span id="execution-error-GETapi-books--author---book-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-books--author---book-"></code></pre>
-</span>
-<form id="form-GETapi-books--author---book-" data-method="GET"
-      data-path="api/books/{author}/{book}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-books--author---book-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-books--author---book-" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-books--author---book-"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-books--author---book-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-books--author---book-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-books--author---book-"></code></pre>
+            </span>
+            <form id="form-GETapi-books--author---book-" data-method="GET" data-path="api/books/{author}/{book}"
+                data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-books--author---book-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-books--author---book-"
-                    onclick="tryItOut('GETapi-books--author---book-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-books--author---book-"
-                    onclick="cancelTryOut('GETapi-books--author---book-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-books--author---book-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/books/{author}/{book}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="author"
-               data-endpoint="GETapi-books--author---book-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    <p>
-                <b><code>book</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="book"
-               data-endpoint="GETapi-books--author---book-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-books--author---book-"
+                        onclick="tryItOut('GETapi-books--author---book-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-books--author---book-"
+                        onclick="cancelTryOut('GETapi-books--author---book-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-books--author---book-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/books/{author}/{book}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small> &nbsp;
+                    <input type="number" name="author" data-endpoint="GETapi-books--author---book-" data-component="url"
+                        required hidden>
+                    <br>
+                </p>
+                <p>
+                    <b><code>book</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="book" data-endpoint="GETapi-books--author---book-" data-component="url"
+                        required hidden>
+                    <br>
+                </p>
+            </form>
 
             <h2 id="book-GETapi-books-related--author---book-">GET api/books/related/{author}/{book}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-books-related--author---book-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-books-related--author---book-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/books/related/laboriosam/expedita" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/books/related/laboriosam/expedita"
 );
 
@@ -3412,23 +3385,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-books-related--author---book-">
-            <blockquote>
-            <p>Example response (500):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-books-related--author---book-">
+                <blockquote>
+                    <p>Example response (500):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4997
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;Attempt to read property \&quot;id\&quot; on null&quot;,
@@ -3964,82 +3940,75 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-books-related--author---book-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-books-related--author---book-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-books-related--author---book-"></code></pre>
-</span>
-<span id="execution-error-GETapi-books-related--author---book-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-books-related--author---book-"></code></pre>
-</span>
-<form id="form-GETapi-books-related--author---book-" data-method="GET"
-      data-path="api/books/related/{author}/{book}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-books-related--author---book-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-books-related--author---book-" hidden>
+                <blockquote>Received response<span
+                        id="execution-response-status-GETapi-books-related--author---book-"></span>:
+                </blockquote>
+                <pre
+                    class="json"><code id="execution-response-content-GETapi-books-related--author---book-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-books-related--author---book-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-books-related--author---book-"></code></pre>
+            </span>
+            <form id="form-GETapi-books-related--author---book-" data-method="GET"
+                data-path="api/books/related/{author}/{book}" data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-books-related--author---book-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-books-related--author---book-"
-                    onclick="tryItOut('GETapi-books-related--author---book-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-books-related--author---book-"
-                    onclick="cancelTryOut('GETapi-books-related--author---book-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-books-related--author---book-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/books/related/{author}/{book}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>author</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="author"
-               data-endpoint="GETapi-books-related--author---book-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    <p>
-                <b><code>book</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="book"
-               data-endpoint="GETapi-books-related--author---book-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-books-related--author---book-"
+                        onclick="tryItOut('GETapi-books-related--author---book-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-books-related--author---book-"
+                        onclick="cancelTryOut('GETapi-books-related--author---book-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-books-related--author---book-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/books/related/{author}/{book}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>author</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="author" data-endpoint="GETapi-books-related--author---book-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+                <p>
+                    <b><code>book</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="book" data-endpoint="GETapi-books-related--author---book-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+            </form>
 
             <h2 id="book-GETapi-books-latest">GET api/books/latest</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-books-latest">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-books-latest">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/books/latest" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/books/latest"
 );
 
@@ -4052,23 +4021,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-books-latest">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-books-latest">
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4979
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;data&quot;: [
@@ -4335,65 +4307,59 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-books-latest" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-books-latest"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-books-latest"></code></pre>
-</span>
-<span id="execution-error-GETapi-books-latest" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-books-latest"></code></pre>
-</span>
-<form id="form-GETapi-books-latest" data-method="GET"
-      data-path="api/books/latest"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-books-latest', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-books-latest" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-books-latest"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-books-latest"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-books-latest" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-books-latest"></code></pre>
+            </span>
+            <form id="form-GETapi-books-latest" data-method="GET" data-path="api/books/latest" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-books-latest', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-books-latest"
-                    onclick="tryItOut('GETapi-books-latest');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-books-latest"
-                    onclick="cancelTryOut('GETapi-books-latest');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-books-latest" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/books/latest</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-books-latest" onclick="tryItOut('GETapi-books-latest');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-books-latest" onclick="cancelTryOut('GETapi-books-latest');"
+                        hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-books-latest" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/books/latest</code></b>
+                </p>
+            </form>
 
             <h2 id="book-GETapi-books-selection">GET api/books/selection</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-books-selection">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-books-selection">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/books/selection" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/books/selection"
 );
 
@@ -4406,23 +4372,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-books-selection">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-books-selection">
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4978
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;data&quot;: [
@@ -4689,69 +4658,64 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-books-selection" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-books-selection"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-books-selection"></code></pre>
-</span>
-<span id="execution-error-GETapi-books-selection" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-books-selection"></code></pre>
-</span>
-<form id="form-GETapi-books-selection" data-method="GET"
-      data-path="api/books/selection"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-books-selection', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-books-selection" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-books-selection"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-books-selection"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-books-selection" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-books-selection"></code></pre>
+            </span>
+            <form id="form-GETapi-books-selection" data-method="GET" data-path="api/books/selection" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-books-selection', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-books-selection"
-                    onclick="tryItOut('GETapi-books-selection');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-books-selection"
-                    onclick="cancelTryOut('GETapi-books-selection');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-books-selection" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/books/selection</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-books-selection" onclick="tryItOut('GETapi-books-selection');">Try it out
+                        ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-books-selection" onclick="cancelTryOut('GETapi-books-selection');"
+                        hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-books-selection" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/books/selection</code></b>
+                </p>
+            </form>
 
-        <h1 id="download">Download</h1>
+            <h1 id="download">Download</h1>
 
-    
+
 
             <h2 id="download-GETapi-download-book--author---book-">GET api/download/book/{author}/{book}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-download-book--author---book-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-download-book--author---book-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/download/book/10/neque" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/download/book/10/neque"
 );
 
@@ -4764,23 +4728,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-download-book--author---book-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-download-book--author---book-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4982
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;No query results for model [App\\Models\\Book].&quot;,
@@ -5246,82 +5213,75 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-download-book--author---book-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-download-book--author---book-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-download-book--author---book-"></code></pre>
-</span>
-<span id="execution-error-GETapi-download-book--author---book-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-download-book--author---book-"></code></pre>
-</span>
-<form id="form-GETapi-download-book--author---book-" data-method="GET"
-      data-path="api/download/book/{author}/{book}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-download-book--author---book-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-download-book--author---book-" hidden>
+                <blockquote>Received response<span
+                        id="execution-response-status-GETapi-download-book--author---book-"></span>:
+                </blockquote>
+                <pre
+                    class="json"><code id="execution-response-content-GETapi-download-book--author---book-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-download-book--author---book-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-download-book--author---book-"></code></pre>
+            </span>
+            <form id="form-GETapi-download-book--author---book-" data-method="GET"
+                data-path="api/download/book/{author}/{book}" data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-download-book--author---book-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-download-book--author---book-"
-                    onclick="tryItOut('GETapi-download-book--author---book-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-download-book--author---book-"
-                    onclick="cancelTryOut('GETapi-download-book--author---book-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-download-book--author---book-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/download/book/{author}/{book}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="author"
-               data-endpoint="GETapi-download-book--author---book-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    <p>
-                <b><code>book</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="book"
-               data-endpoint="GETapi-download-book--author---book-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-download-book--author---book-"
+                        onclick="tryItOut('GETapi-download-book--author---book-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-download-book--author---book-"
+                        onclick="cancelTryOut('GETapi-download-book--author---book-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-download-book--author---book-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/download/book/{author}/{book}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small> &nbsp;
+                    <input type="number" name="author" data-endpoint="GETapi-download-book--author---book-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+                <p>
+                    <b><code>book</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="book" data-endpoint="GETapi-download-book--author---book-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+            </form>
 
             <h2 id="download-GETapi-download-serie--author---serie-">GET api/download/serie/{author}/{serie}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-download-serie--author---serie-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-download-serie--author---serie-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/download/serie/1/velit" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/download/serie/1/velit"
 );
 
@@ -5334,23 +5294,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-download-serie--author---serie-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-download-serie--author---serie-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4981
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;No query results for model [App\\Models\\Author].&quot;,
@@ -5816,82 +5779,75 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-download-serie--author---serie-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-download-serie--author---serie-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-download-serie--author---serie-"></code></pre>
-</span>
-<span id="execution-error-GETapi-download-serie--author---serie-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-download-serie--author---serie-"></code></pre>
-</span>
-<form id="form-GETapi-download-serie--author---serie-" data-method="GET"
-      data-path="api/download/serie/{author}/{serie}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-download-serie--author---serie-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-download-serie--author---serie-" hidden>
+                <blockquote>Received response<span
+                        id="execution-response-status-GETapi-download-serie--author---serie-"></span>:
+                </blockquote>
+                <pre
+                    class="json"><code id="execution-response-content-GETapi-download-serie--author---serie-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-download-serie--author---serie-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-download-serie--author---serie-"></code></pre>
+            </span>
+            <form id="form-GETapi-download-serie--author---serie-" data-method="GET"
+                data-path="api/download/serie/{author}/{serie}" data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-download-serie--author---serie-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-download-serie--author---serie-"
-                    onclick="tryItOut('GETapi-download-serie--author---serie-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-download-serie--author---serie-"
-                    onclick="cancelTryOut('GETapi-download-serie--author---serie-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-download-serie--author---serie-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/download/serie/{author}/{serie}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="author"
-               data-endpoint="GETapi-download-serie--author---serie-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    <p>
-                <b><code>serie</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="serie"
-               data-endpoint="GETapi-download-serie--author---serie-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-download-serie--author---serie-"
+                        onclick="tryItOut('GETapi-download-serie--author---serie-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-download-serie--author---serie-"
+                        onclick="cancelTryOut('GETapi-download-serie--author---serie-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-download-serie--author---serie-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/download/serie/{author}/{serie}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small> &nbsp;
+                    <input type="number" name="author" data-endpoint="GETapi-download-serie--author---serie-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+                <p>
+                    <b><code>serie</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="serie" data-endpoint="GETapi-download-serie--author---serie-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+            </form>
 
             <h2 id="download-GETapi-download-author--author-">GET api/download/author/{author}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-download-author--author-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-download-author--author-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/download/author/14" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/download/author/14"
 );
 
@@ -5904,23 +5860,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-download-author--author-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-download-author--author-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4980
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;No query results for model [App\\Models\\Author].&quot;,
@@ -6386,73 +6345,67 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-download-author--author-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-download-author--author-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-download-author--author-"></code></pre>
-</span>
-<span id="execution-error-GETapi-download-author--author-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-download-author--author-"></code></pre>
-</span>
-<form id="form-GETapi-download-author--author-" data-method="GET"
-      data-path="api/download/author/{author}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-download-author--author-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-download-author--author-" hidden>
+                <blockquote>Received response<span
+                        id="execution-response-status-GETapi-download-author--author-"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-download-author--author-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-download-author--author-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-download-author--author-"></code></pre>
+            </span>
+            <form id="form-GETapi-download-author--author-" data-method="GET" data-path="api/download/author/{author}"
+                data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-download-author--author-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-download-author--author-"
-                    onclick="tryItOut('GETapi-download-author--author-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-download-author--author-"
-                    onclick="cancelTryOut('GETapi-download-author--author-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-download-author--author-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/download/author/{author}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="author"
-               data-endpoint="GETapi-download-author--author-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-download-author--author-"
+                        onclick="tryItOut('GETapi-download-author--author-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-download-author--author-"
+                        onclick="cancelTryOut('GETapi-download-author--author-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-download-author--author-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/download/author/{author}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small> &nbsp;
+                    <input type="number" name="author" data-endpoint="GETapi-download-author--author-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+            </form>
 
-        <h1 id="endpoints">Endpoints</h1>
+            <h1 id="endpoints">Endpoints</h1>
 
-    
+
 
             <h2 id="endpoints-POSTapi-login">Attempt to authenticate a new session.</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-POSTapi-login">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-POSTapi-login">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request POST \
+                <pre><code class="language-bash">curl --request POST \
     "http://localhost:8000/api/login" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -6462,7 +6415,7 @@ vary: Origin
 }"
 </code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/login"
 );
 
@@ -6481,86 +6434,73 @@ fetch(url, {
     headers,
     body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-POSTapi-login">
-</span>
-<span id="execution-results-POSTapi-login" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-POSTapi-login"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-login"></code></pre>
-</span>
-<span id="execution-error-POSTapi-login" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-login"></code></pre>
-</span>
-<form id="form-POSTapi-login" data-method="POST"
-      data-path="api/login"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-login', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            <span id="example-responses-POSTapi-login">
+            </span>
+            <span id="execution-results-POSTapi-login" hidden>
+                <blockquote>Received response<span id="execution-response-status-POSTapi-login"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-POSTapi-login"></code></pre>
+            </span>
+            <span id="execution-error-POSTapi-login" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-POSTapi-login"></code></pre>
+            </span>
+            <form id="form-POSTapi-login" data-method="POST" data-path="api/login" data-authed="0" data-hasfiles="0"
+                data-isarraybody="0" data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+                autocomplete="off" onsubmit="event.preventDefault(); executeTryOut('POSTapi-login', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-login"
-                    onclick="tryItOut('POSTapi-login');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-login"
-                    onclick="cancelTryOut('POSTapi-login');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-login" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-black">POST</small>
-            <b><code>api/login</code></b>
-        </p>
-                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
-        <p>
-            <b><code>email</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="email"
-               data-endpoint="POSTapi-login"
-               data-component="body" required  hidden>
-    <br>
-        </p>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-POSTapi-login" onclick="tryItOut('POSTapi-login');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-POSTapi-login" onclick="cancelTryOut('POSTapi-login');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-POSTapi-login" hidden>Send Request 💥
+                    </button>
+                </h3>
                 <p>
-            <b><code>password</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="password"
-               data-endpoint="POSTapi-login"
-               data-component="body" required  hidden>
-    <br>
-        </p>
-    
-    </form>
+                    <small class="badge badge-black">POST</small>
+                    <b><code>api/login</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+                <p>
+                    <b><code>email</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="email" data-endpoint="POSTapi-login" data-component="body" required hidden>
+                    <br>
+                </p>
+                <p>
+                    <b><code>password</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="password" data-endpoint="POSTapi-login" data-component="body" required
+                        hidden>
+                    <br>
+                </p>
+
+            </form>
 
             <h2 id="endpoints-POSTapi-logout">Destroy an authenticated session.</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-POSTapi-logout">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-POSTapi-logout">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request POST \
+                <pre><code class="language-bash">curl --request POST \
     "http://localhost:8000/api/logout" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/logout"
 );
 
@@ -6573,68 +6513,60 @@ fetch(url, {
     method: "POST",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-POSTapi-logout">
-</span>
-<span id="execution-results-POSTapi-logout" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-POSTapi-logout"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-logout"></code></pre>
-</span>
-<span id="execution-error-POSTapi-logout" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-logout"></code></pre>
-</span>
-<form id="form-POSTapi-logout" data-method="POST"
-      data-path="api/logout"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-logout', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            <span id="example-responses-POSTapi-logout">
+            </span>
+            <span id="execution-results-POSTapi-logout" hidden>
+                <blockquote>Received response<span id="execution-response-status-POSTapi-logout"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-POSTapi-logout"></code></pre>
+            </span>
+            <span id="execution-error-POSTapi-logout" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-POSTapi-logout"></code></pre>
+            </span>
+            <form id="form-POSTapi-logout" data-method="POST" data-path="api/logout" data-authed="0" data-hasfiles="0"
+                data-isarraybody="0" data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+                autocomplete="off" onsubmit="event.preventDefault(); executeTryOut('POSTapi-logout', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-logout"
-                    onclick="tryItOut('POSTapi-logout');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-logout"
-                    onclick="cancelTryOut('POSTapi-logout');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-logout" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-black">POST</small>
-            <b><code>api/logout</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-POSTapi-logout" onclick="tryItOut('POSTapi-logout');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-POSTapi-logout" onclick="cancelTryOut('POSTapi-logout');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-POSTapi-logout" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-black">POST</small>
+                    <b><code>api/logout</code></b>
+                </p>
+            </form>
 
             <h2 id="endpoints-POSTapi-register">Create a new registered user.</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-POSTapi-register">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-POSTapi-register">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request POST \
+                <pre><code class="language-bash">curl --request POST \
     "http://localhost:8000/api/register" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/register"
 );
 
@@ -6647,68 +6579,61 @@ fetch(url, {
     method: "POST",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-POSTapi-register">
-</span>
-<span id="execution-results-POSTapi-register" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-POSTapi-register"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-register"></code></pre>
-</span>
-<span id="execution-error-POSTapi-register" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-register"></code></pre>
-</span>
-<form id="form-POSTapi-register" data-method="POST"
-      data-path="api/register"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-register', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            <span id="example-responses-POSTapi-register">
+            </span>
+            <span id="execution-results-POSTapi-register" hidden>
+                <blockquote>Received response<span id="execution-response-status-POSTapi-register"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-POSTapi-register"></code></pre>
+            </span>
+            <span id="execution-error-POSTapi-register" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-POSTapi-register"></code></pre>
+            </span>
+            <form id="form-POSTapi-register" data-method="POST" data-path="api/register" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('POSTapi-register', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-register"
-                    onclick="tryItOut('POSTapi-register');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-register"
-                    onclick="cancelTryOut('POSTapi-register');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-register" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-black">POST</small>
-            <b><code>api/register</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-POSTapi-register" onclick="tryItOut('POSTapi-register');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-POSTapi-register" onclick="cancelTryOut('POSTapi-register');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-POSTapi-register" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-black">POST</small>
+                    <b><code>api/register</code></b>
+                </p>
+            </form>
 
             <h2 id="endpoints-GETapi-user-confirmed-password-status">Get the password confirmation status.</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-user-confirmed-password-status">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-user-confirmed-password-status">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/user/confirmed-password-status" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/user/confirmed-password-status"
 );
 
@@ -6721,86 +6646,86 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-user-confirmed-password-status">
-            <blockquote>
-            <p>Example response (401):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-user-confirmed-password-status">
+                <blockquote>
+                    <p>Example response (401):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 vary: Origin
 set-cookie: XSRF-TOKEN=eyJpdiI6ImYwOHR4UWZtUFZZckZFNk04U1VmeXc9PSIsInZhbHVlIjoiT2dMUUpucklQSCtTc3V2eDhhck9ueDVjZDc0VE9BU2tkZmc3NkJMNk5JdTVRdExDVTYzcE9JTlZuS3Z3ekhOZ3BSeWhYRzdjOXdPTE1TWTMxai8rQk13SFZZZzRtWUpKbDNkNGtrTXBaUkVjbmt5VklLRVJSWFBYS3B5bTJsR3YiLCJtYWMiOiI0ZWUyMGE5MGYxNmFiOTJmMWU4MGU3YjgwNTVlMmU5OWRjODdiMTJjOTE0NWEwZGRkMTM4ZGIzMWEyYThjZTcwIn0%3D; expires=Thu, 15-Jul-2021 11:10:15 GMT; Max-Age=86400; path=/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6IlBmdWNjZkN6UXYwUUpBL0VXcGZVWUE9PSIsInZhbHVlIjoib3Y2Y0lTaTNZeXh1WEh2MmFiM3BUNFFSUk9yOTl5WGpBL09KOFBJR1laeDhQbUM2WEU5d2Q2Sk00Z0hsRUp4STJ4VmpyKzRLUUJkd2dYU2JuWU05ZS9TM0c5alB2UENjR3Frc2RZK1kwU0R3eDN3VC9zV2FEemhmTlRQejl0eXAiLCJtYWMiOiJjZjUzN2I4ZDJmNmFkZDY0YTZlZjlkZGJhNDVmNTMzZWY0ZThkYzczYTA0OGQwOTcxZDIwMzcwMGVhYzBlMDMxIn0%3D; expires=Thu, 15-Jul-2021 11:10:15 GMT; Max-Age=86400; path=/; domain=localhost; httponly; samesite=lax
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;Unauthenticated.&quot;
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-user-confirmed-password-status" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-user-confirmed-password-status"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-user-confirmed-password-status"></code></pre>
-</span>
-<span id="execution-error-GETapi-user-confirmed-password-status" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-user-confirmed-password-status"></code></pre>
-</span>
-<form id="form-GETapi-user-confirmed-password-status" data-method="GET"
-      data-path="api/user/confirmed-password-status"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-user-confirmed-password-status', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-user-confirmed-password-status" hidden>
+                <blockquote>Received response<span
+                        id="execution-response-status-GETapi-user-confirmed-password-status"></span>:
+                </blockquote>
+                <pre
+                    class="json"><code id="execution-response-content-GETapi-user-confirmed-password-status"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-user-confirmed-password-status" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-user-confirmed-password-status"></code></pre>
+            </span>
+            <form id="form-GETapi-user-confirmed-password-status" data-method="GET"
+                data-path="api/user/confirmed-password-status" data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-user-confirmed-password-status', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-user-confirmed-password-status"
-                    onclick="tryItOut('GETapi-user-confirmed-password-status');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-user-confirmed-password-status"
-                    onclick="cancelTryOut('GETapi-user-confirmed-password-status');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-user-confirmed-password-status" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/user/confirmed-password-status</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-user-confirmed-password-status"
+                        onclick="tryItOut('GETapi-user-confirmed-password-status');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-user-confirmed-password-status"
+                        onclick="cancelTryOut('GETapi-user-confirmed-password-status');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-user-confirmed-password-status" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/user/confirmed-password-status</code></b>
+                </p>
+            </form>
 
             <h2 id="endpoints-POSTapi-user-confirm-password">Confirm the user&#039;s password.</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-POSTapi-user-confirm-password">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-POSTapi-user-confirm-password">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request POST \
+                <pre><code class="language-bash">curl --request POST \
     "http://localhost:8000/api/user/confirm-password" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/user/confirm-password"
 );
 
@@ -6813,68 +6738,64 @@ fetch(url, {
     method: "POST",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-POSTapi-user-confirm-password">
-</span>
-<span id="execution-results-POSTapi-user-confirm-password" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-POSTapi-user-confirm-password"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-user-confirm-password"></code></pre>
-</span>
-<span id="execution-error-POSTapi-user-confirm-password" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-user-confirm-password"></code></pre>
-</span>
-<form id="form-POSTapi-user-confirm-password" data-method="POST"
-      data-path="api/user/confirm-password"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-user-confirm-password', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            <span id="example-responses-POSTapi-user-confirm-password">
+            </span>
+            <span id="execution-results-POSTapi-user-confirm-password" hidden>
+                <blockquote>Received response<span id="execution-response-status-POSTapi-user-confirm-password"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-POSTapi-user-confirm-password"></code></pre>
+            </span>
+            <span id="execution-error-POSTapi-user-confirm-password" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-POSTapi-user-confirm-password"></code></pre>
+            </span>
+            <form id="form-POSTapi-user-confirm-password" data-method="POST" data-path="api/user/confirm-password"
+                data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('POSTapi-user-confirm-password', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-user-confirm-password"
-                    onclick="tryItOut('POSTapi-user-confirm-password');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-user-confirm-password"
-                    onclick="cancelTryOut('POSTapi-user-confirm-password');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-user-confirm-password" hidden>Send Request 💥
-            </button>
-            </h3>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-POSTapi-user-confirm-password"
+                        onclick="tryItOut('POSTapi-user-confirm-password');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-POSTapi-user-confirm-password"
+                        onclick="cancelTryOut('POSTapi-user-confirm-password');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-POSTapi-user-confirm-password" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-black">POST</small>
+                    <b><code>api/user/confirm-password</code></b>
+                </p>
+            </form>
+
+            <h2 id="endpoints-GETapi-sanctum-csrf-cookie">Return an empty response simply to trigger the storage of the
+                CSRF cookie in the browser.</h2>
+
             <p>
-            <small class="badge badge-black">POST</small>
-            <b><code>api/user/confirm-password</code></b>
-        </p>
-                    </form>
-
-            <h2 id="endpoints-GETapi-sanctum-csrf-cookie">Return an empty response simply to trigger the storage of the CSRF cookie in the browser.</h2>
-
-<p>
-</p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-sanctum-csrf-cookie">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-sanctum-csrf-cookie">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/sanctum/csrf-cookie" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/sanctum/csrf-cookie"
 );
 
@@ -6887,82 +6808,80 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-sanctum-csrf-cookie">
-            <blockquote>
-            <p>Example response (204):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-sanctum-csrf-cookie">
+                <blockquote>
+                    <p>Example response (204):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 vary: Origin
 set-cookie: XSRF-TOKEN=eyJpdiI6InNIcVdtU21OYkNPNmFlZ1ltYVdUOFE9PSIsInZhbHVlIjoiK1NmNUxsQ2FzTEtZLzdUTlFoRkR4MWc3RnhZN3lLbnppK2daNmw5aXlKTGsrZXIrRVRTRGFndGdrUC8vRXJJbGhxcDVsdHk3T2tsRU1uSHgzMnZJbVRJUDkwUkhjcUhkb3ZSZVR0QlZnakJGQ1ppTVJlWWpQTTZjbWc1RWtMYXciLCJtYWMiOiI5YTNkYWRlNzM1NDUzMmQ0MTg1OTI1MWRhYTFkM2VjNmVmZDg1NzU4MTliYzJiNmY0NTBhZjJiM2UyMmYyZTkwIn0%3D; expires=Thu, 15-Jul-2021 11:10:15 GMT; Max-Age=86400; path=/; domain=localhost; samesite=lax; bookshelves_session=eyJpdiI6InNxYi96anptZ3lZVzhoQ21ZNkhzcmc9PSIsInZhbHVlIjoiYk16UVRDcGROb0J6NkZ5Z3lHZUxDcmdNY3V5NG1sem9hb0FwbGpkSndodkhxNG5ORERzQzl4NHNMRitNYWxIT0ViWDZzWXFyT1ZOQWJ0dWpSanpzaE9xU1FjNkc4UXZERmh0NkNBbjZVY25VZHhLeG40VGRCNnE5ekxvQWFJQmsiLCJtYWMiOiJlMmU0ZGU3YTJjZTdiZmI1M2RhMTYzZGZlN2VmNzQ5YmUyYjQxOWMyMmZhMjliYjVjOWFhNTEzYTEyMDQ1YzdhIn0%3D; expires=Thu, 15-Jul-2021 11:10:15 GMT; Max-Age=86400; path=/; domain=localhost; httponly; samesite=lax
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 <code>[Empty response]</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-sanctum-csrf-cookie" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-sanctum-csrf-cookie"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-sanctum-csrf-cookie"></code></pre>
-</span>
-<span id="execution-error-GETapi-sanctum-csrf-cookie" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-sanctum-csrf-cookie"></code></pre>
-</span>
-<form id="form-GETapi-sanctum-csrf-cookie" data-method="GET"
-      data-path="api/sanctum/csrf-cookie"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-sanctum-csrf-cookie', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-sanctum-csrf-cookie" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-sanctum-csrf-cookie"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-sanctum-csrf-cookie"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-sanctum-csrf-cookie" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-sanctum-csrf-cookie"></code></pre>
+            </span>
+            <form id="form-GETapi-sanctum-csrf-cookie" data-method="GET" data-path="api/sanctum/csrf-cookie"
+                data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-sanctum-csrf-cookie', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-sanctum-csrf-cookie"
-                    onclick="tryItOut('GETapi-sanctum-csrf-cookie');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-sanctum-csrf-cookie"
-                    onclick="cancelTryOut('GETapi-sanctum-csrf-cookie');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-sanctum-csrf-cookie" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/sanctum/csrf-cookie</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-sanctum-csrf-cookie" onclick="tryItOut('GETapi-sanctum-csrf-cookie');">Try
+                        it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-sanctum-csrf-cookie"
+                        onclick="cancelTryOut('GETapi-sanctum-csrf-cookie');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-sanctum-csrf-cookie" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/sanctum/csrf-cookie</code></b>
+                </p>
+            </form>
 
             <h2 id="endpoints-GETapi-count">GET api/count</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-count">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-count">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/count" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/count"
 );
 
@@ -6975,89 +6894,84 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-count">
-            <blockquote>
-            <p>Example response (400):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-count">
+                <blockquote>
+                    <p>Example response (400):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4988
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">&quot;Invalid 'entity' query parameter, must be like 'book' or 'serie' or 'author'&quot;</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-count" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-count"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-count"></code></pre>
-</span>
-<span id="execution-error-GETapi-count" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-count"></code></pre>
-</span>
-<form id="form-GETapi-count" data-method="GET"
-      data-path="api/count"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-count', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-count" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-count"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-count"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-count" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-count"></code></pre>
+            </span>
+            <form id="form-GETapi-count" data-method="GET" data-path="api/count" data-authed="0" data-hasfiles="0"
+                data-isarraybody="0" data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+                autocomplete="off" onsubmit="event.preventDefault(); executeTryOut('GETapi-count', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-count"
-                    onclick="tryItOut('GETapi-count');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-count"
-                    onclick="cancelTryOut('GETapi-count');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-count" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/count</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-count" onclick="tryItOut('GETapi-count');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-count" onclick="cancelTryOut('GETapi-count');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-count" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/count</code></b>
+                </p>
+            </form>
 
-        <h1 id="language">Language</h1>
+            <h1 id="language">Language</h1>
 
-    
+
 
             <h2 id="language-GETapi-languages">GET api/languages</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-languages">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-languages">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/languages" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/languages"
 );
 
@@ -7070,23 +6984,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-languages">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-languages">
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4971
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;data&quot;: [
@@ -7105,69 +7022,62 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-languages" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-languages"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-languages"></code></pre>
-</span>
-<span id="execution-error-GETapi-languages" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-languages"></code></pre>
-</span>
-<form id="form-GETapi-languages" data-method="GET"
-      data-path="api/languages"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-languages', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-languages" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-languages"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-languages"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-languages" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-languages"></code></pre>
+            </span>
+            <form id="form-GETapi-languages" data-method="GET" data-path="api/languages" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-languages', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-languages"
-                    onclick="tryItOut('GETapi-languages');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-languages"
-                    onclick="cancelTryOut('GETapi-languages');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-languages" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/languages</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-languages" onclick="tryItOut('GETapi-languages');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-languages" onclick="cancelTryOut('GETapi-languages');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-languages" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/languages</code></b>
+                </p>
+            </form>
 
-        <h1 id="publisher">Publisher</h1>
+            <h1 id="publisher">Publisher</h1>
 
-    
+
 
             <h2 id="publisher-GETapi-publishers">GET api/publishers</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-publishers">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-publishers">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/publishers" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/publishers"
 );
 
@@ -7180,23 +7090,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-publishers">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-publishers">
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4974
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;data&quot;: [
@@ -7860,65 +7773,59 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-publishers" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-publishers"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-publishers"></code></pre>
-</span>
-<span id="execution-error-GETapi-publishers" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-publishers"></code></pre>
-</span>
-<form id="form-GETapi-publishers" data-method="GET"
-      data-path="api/publishers"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-publishers', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-publishers" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-publishers"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-publishers"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-publishers" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-publishers"></code></pre>
+            </span>
+            <form id="form-GETapi-publishers" data-method="GET" data-path="api/publishers" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-publishers', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-publishers"
-                    onclick="tryItOut('GETapi-publishers');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-publishers"
-                    onclick="cancelTryOut('GETapi-publishers');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-publishers" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/publishers</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-publishers" onclick="tryItOut('GETapi-publishers');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-publishers" onclick="cancelTryOut('GETapi-publishers');"
+                        hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-publishers" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/publishers</code></b>
+                </p>
+            </form>
 
             <h2 id="publisher-GETapi-publishers--id-">GET api/publishers/{id}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-publishers--id-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-publishers--id-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/publishers/7" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/publishers/7"
 );
 
@@ -7931,23 +7838,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-publishers--id-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-publishers--id-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4973
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;No query results for model [App\\Models\\Publisher].&quot;,
@@ -8413,74 +8323,68 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-publishers--id-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-publishers--id-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-publishers--id-"></code></pre>
-</span>
-<span id="execution-error-GETapi-publishers--id-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-publishers--id-"></code></pre>
-</span>
-<form id="form-GETapi-publishers--id-" data-method="GET"
-      data-path="api/publishers/{id}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-publishers--id-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-publishers--id-" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-publishers--id-"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-publishers--id-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-publishers--id-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-publishers--id-"></code></pre>
+            </span>
+            <form id="form-GETapi-publishers--id-" data-method="GET" data-path="api/publishers/{id}" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-publishers--id-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-publishers--id-"
-                    onclick="tryItOut('GETapi-publishers--id-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-publishers--id-"
-                    onclick="cancelTryOut('GETapi-publishers--id-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-publishers--id-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/publishers/{id}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="id"
-               data-endpoint="GETapi-publishers--id-"
-               data-component="url" required  hidden>
-    <br>
-<p>The ID of the publisher.</p>            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-publishers--id-" onclick="tryItOut('GETapi-publishers--id-');">Try it out
+                        ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-publishers--id-" onclick="cancelTryOut('GETapi-publishers--id-');"
+                        hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-publishers--id-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/publishers/{id}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small> &nbsp;
+                    <input type="number" name="id" data-endpoint="GETapi-publishers--id-" data-component="url" required
+                        hidden>
+                    <br>
+                <p>The ID of the publisher.</p>
+                </p>
+            </form>
 
             <h2 id="publisher-GETapi-publishers-books--publisher-">GET api/publishers/books/{publisher}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-publishers-books--publisher-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-publishers-books--publisher-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/publishers/books/2" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/publishers/books/2"
 );
 
@@ -8493,23 +8397,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-publishers-books--publisher-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-publishers-books--publisher-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4972
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;No query results for model [App\\Models\\Publisher].&quot;,
@@ -8975,78 +8882,73 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-publishers-books--publisher-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-publishers-books--publisher-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-publishers-books--publisher-"></code></pre>
-</span>
-<span id="execution-error-GETapi-publishers-books--publisher-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-publishers-books--publisher-"></code></pre>
-</span>
-<form id="form-GETapi-publishers-books--publisher-" data-method="GET"
-      data-path="api/publishers/books/{publisher}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-publishers-books--publisher-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-publishers-books--publisher-" hidden>
+                <blockquote>Received response<span
+                        id="execution-response-status-GETapi-publishers-books--publisher-"></span>:
+                </blockquote>
+                <pre
+                    class="json"><code id="execution-response-content-GETapi-publishers-books--publisher-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-publishers-books--publisher-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-publishers-books--publisher-"></code></pre>
+            </span>
+            <form id="form-GETapi-publishers-books--publisher-" data-method="GET"
+                data-path="api/publishers/books/{publisher}" data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-publishers-books--publisher-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-publishers-books--publisher-"
-                    onclick="tryItOut('GETapi-publishers-books--publisher-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-publishers-books--publisher-"
-                    onclick="cancelTryOut('GETapi-publishers-books--publisher-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-publishers-books--publisher-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/publishers/books/{publisher}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>publisher</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="publisher"
-               data-endpoint="GETapi-publishers-books--publisher-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-publishers-books--publisher-"
+                        onclick="tryItOut('GETapi-publishers-books--publisher-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-publishers-books--publisher-"
+                        onclick="cancelTryOut('GETapi-publishers-books--publisher-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-publishers-books--publisher-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/publishers/books/{publisher}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>publisher</code></b>&nbsp;&nbsp;<small>integer</small> &nbsp;
+                    <input type="number" name="publisher" data-endpoint="GETapi-publishers-books--publisher-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+            </form>
 
-        <h1 id="search">Search</h1>
+            <h1 id="search">Search</h1>
 
-    
+
 
             <h2 id="search-GETapi-search">GET api/search</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-search">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-search">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/search" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/search"
 );
 
@@ -9059,87 +8961,82 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-search">
-            <blockquote>
-            <p>Example response (401):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-search">
+                <blockquote>
+                    <p>Example response (401):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4987
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;error&quot;: &quot;Need to have terms query parameter&quot;
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-search" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-search"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-search"></code></pre>
-</span>
-<span id="execution-error-GETapi-search" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-search"></code></pre>
-</span>
-<form id="form-GETapi-search" data-method="GET"
-      data-path="api/search"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-search', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-search" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-search"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-search"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-search" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-search"></code></pre>
+            </span>
+            <form id="form-GETapi-search" data-method="GET" data-path="api/search" data-authed="0" data-hasfiles="0"
+                data-isarraybody="0" data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+                autocomplete="off" onsubmit="event.preventDefault(); executeTryOut('GETapi-search', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-search"
-                    onclick="tryItOut('GETapi-search');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-search"
-                    onclick="cancelTryOut('GETapi-search');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-search" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/search</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-search" onclick="tryItOut('GETapi-search');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-search" onclick="cancelTryOut('GETapi-search');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-search" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/search</code></b>
+                </p>
+            </form>
 
             <h2 id="search-GETapi-search-books">GET api/search/books</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-search-books">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-search-books">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/search/books" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/search/books"
 );
 
@@ -9152,23 +9049,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-search-books">
-            <blockquote>
-            <p>Example response (500):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-search-books">
+                <blockquote>
+                    <p>Example response (500):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4986
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;Illuminate\\Database\\Eloquent\\Builder::App\\Providers\\{closure}(): Argument #2 ($searchTerm) must be of type string, null given, called in \/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Database\/Eloquent\/Builder.php on line 1609&quot;,
@@ -9683,65 +9583,59 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-search-books" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-search-books"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-search-books"></code></pre>
-</span>
-<span id="execution-error-GETapi-search-books" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-search-books"></code></pre>
-</span>
-<form id="form-GETapi-search-books" data-method="GET"
-      data-path="api/search/books"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-search-books', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-search-books" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-search-books"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-search-books"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-search-books" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-search-books"></code></pre>
+            </span>
+            <form id="form-GETapi-search-books" data-method="GET" data-path="api/search/books" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-search-books', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-search-books"
-                    onclick="tryItOut('GETapi-search-books');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-search-books"
-                    onclick="cancelTryOut('GETapi-search-books');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-search-books" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/search/books</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-search-books" onclick="tryItOut('GETapi-search-books');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-search-books" onclick="cancelTryOut('GETapi-search-books');"
+                        hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-search-books" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/search/books</code></b>
+                </p>
+            </form>
 
             <h2 id="search-GETapi-search-authors">GET api/search/authors</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-search-authors">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-search-authors">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/search/authors" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/search/authors"
 );
 
@@ -9754,23 +9648,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-search-authors">
-            <blockquote>
-            <p>Example response (500):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-search-authors">
+                <blockquote>
+                    <p>Example response (500):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4985
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;Illuminate\\Database\\Eloquent\\Builder::App\\Providers\\{closure}(): Argument #2 ($searchTerm) must be of type string, null given, called in \/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Database\/Eloquent\/Builder.php on line 1609&quot;,
@@ -10285,65 +10182,59 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-search-authors" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-search-authors"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-search-authors"></code></pre>
-</span>
-<span id="execution-error-GETapi-search-authors" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-search-authors"></code></pre>
-</span>
-<form id="form-GETapi-search-authors" data-method="GET"
-      data-path="api/search/authors"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-search-authors', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-search-authors" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-search-authors"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-search-authors"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-search-authors" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-search-authors"></code></pre>
+            </span>
+            <form id="form-GETapi-search-authors" data-method="GET" data-path="api/search/authors" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-search-authors', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-search-authors"
-                    onclick="tryItOut('GETapi-search-authors');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-search-authors"
-                    onclick="cancelTryOut('GETapi-search-authors');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-search-authors" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/search/authors</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-search-authors" onclick="tryItOut('GETapi-search-authors');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-search-authors" onclick="cancelTryOut('GETapi-search-authors');"
+                        hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-search-authors" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/search/authors</code></b>
+                </p>
+            </form>
 
             <h2 id="search-GETapi-search-series">GET api/search/series</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-search-series">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-search-series">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/search/series" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/search/series"
 );
 
@@ -10356,23 +10247,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-search-series">
-            <blockquote>
-            <p>Example response (500):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-search-series">
+                <blockquote>
+                    <p>Example response (500):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4984
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;Illuminate\\Database\\Eloquent\\Builder::App\\Providers\\{closure}(): Argument #2 ($searchTerm) must be of type string, null given, called in \/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/laravel\/framework\/src\/Illuminate\/Database\/Eloquent\/Builder.php on line 1609&quot;,
@@ -10887,65 +10781,59 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-search-series" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-search-series"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-search-series"></code></pre>
-</span>
-<span id="execution-error-GETapi-search-series" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-search-series"></code></pre>
-</span>
-<form id="form-GETapi-search-series" data-method="GET"
-      data-path="api/search/series"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-search-series', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-search-series" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-search-series"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-search-series"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-search-series" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-search-series"></code></pre>
+            </span>
+            <form id="form-GETapi-search-series" data-method="GET" data-path="api/search/series" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-search-series', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-search-series"
-                    onclick="tryItOut('GETapi-search-series');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-search-series"
-                    onclick="cancelTryOut('GETapi-search-series');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-search-series" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/search/series</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-search-series" onclick="tryItOut('GETapi-search-series');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-search-series" onclick="cancelTryOut('GETapi-search-series');"
+                        hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-search-series" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/search/series</code></b>
+                </p>
+            </form>
 
             <h2 id="search-GETapi-search-advanced">GET api/search/advanced</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-search-advanced">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-search-advanced">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/search/advanced" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/search/advanced"
 );
 
@@ -10958,91 +10846,89 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-search-advanced">
-            <blockquote>
-            <p>Example response (401):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-search-advanced">
+                <blockquote>
+                    <p>Example response (401):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4983
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;error&quot;: &quot;Need to have terms query parameter&quot;
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-search-advanced" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-search-advanced"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-search-advanced"></code></pre>
-</span>
-<span id="execution-error-GETapi-search-advanced" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-search-advanced"></code></pre>
-</span>
-<form id="form-GETapi-search-advanced" data-method="GET"
-      data-path="api/search/advanced"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-search-advanced', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-search-advanced" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-search-advanced"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-search-advanced"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-search-advanced" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-search-advanced"></code></pre>
+            </span>
+            <form id="form-GETapi-search-advanced" data-method="GET" data-path="api/search/advanced" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-search-advanced', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-search-advanced"
-                    onclick="tryItOut('GETapi-search-advanced');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-search-advanced"
-                    onclick="cancelTryOut('GETapi-search-advanced');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-search-advanced" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/search/advanced</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-search-advanced" onclick="tryItOut('GETapi-search-advanced');">Try it out
+                        ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-search-advanced" onclick="cancelTryOut('GETapi-search-advanced');"
+                        hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-search-advanced" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/search/advanced</code></b>
+                </p>
+            </form>
 
-        <h1 id="serie">Serie</h1>
+            <h1 id="serie">Serie</h1>
 
-    
+
 
             <h2 id="serie-GETapi-series">GET api/series</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-series">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-series">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/series" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/series"
 );
 
@@ -11055,23 +10941,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-series">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-series">
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4996
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;data&quot;: [
@@ -11927,65 +11816,57 @@ vary: Origin
     }
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-series" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-series"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-series"></code></pre>
-</span>
-<span id="execution-error-GETapi-series" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-series"></code></pre>
-</span>
-<form id="form-GETapi-series" data-method="GET"
-      data-path="api/series"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-series', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-series" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-series"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-series"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-series" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-series"></code></pre>
+            </span>
+            <form id="form-GETapi-series" data-method="GET" data-path="api/series" data-authed="0" data-hasfiles="0"
+                data-isarraybody="0" data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+                autocomplete="off" onsubmit="event.preventDefault(); executeTryOut('GETapi-series', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-series"
-                    onclick="tryItOut('GETapi-series');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-series"
-                    onclick="cancelTryOut('GETapi-series');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-series" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/series</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-series" onclick="tryItOut('GETapi-series');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-series" onclick="cancelTryOut('GETapi-series');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-series" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/series</code></b>
+                </p>
+            </form>
 
             <h2 id="serie-GETapi-series--author---serie-">GET api/series/{author}/{serie}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-series--author---serie-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-series--author---serie-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/series/nobis/similique" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/series/nobis/similique"
 );
 
@@ -11998,23 +11879,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-series--author---serie-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-series--author---serie-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4995
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;No query results for model [App\\Models\\Author].&quot;,
@@ -12480,82 +12364,74 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-series--author---serie-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-series--author---serie-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-series--author---serie-"></code></pre>
-</span>
-<span id="execution-error-GETapi-series--author---serie-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-series--author---serie-"></code></pre>
-</span>
-<form id="form-GETapi-series--author---serie-" data-method="GET"
-      data-path="api/series/{author}/{serie}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-series--author---serie-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-series--author---serie-" hidden>
+                <blockquote>Received response<span
+                        id="execution-response-status-GETapi-series--author---serie-"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-series--author---serie-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-series--author---serie-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-series--author---serie-"></code></pre>
+            </span>
+            <form id="form-GETapi-series--author---serie-" data-method="GET" data-path="api/series/{author}/{serie}"
+                data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-series--author---serie-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-series--author---serie-"
-                    onclick="tryItOut('GETapi-series--author---serie-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-series--author---serie-"
-                    onclick="cancelTryOut('GETapi-series--author---serie-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-series--author---serie-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/series/{author}/{serie}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>author</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="author"
-               data-endpoint="GETapi-series--author---serie-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    <p>
-                <b><code>serie</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="serie"
-               data-endpoint="GETapi-series--author---serie-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-series--author---serie-"
+                        onclick="tryItOut('GETapi-series--author---serie-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-series--author---serie-"
+                        onclick="cancelTryOut('GETapi-series--author---serie-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-series--author---serie-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/series/{author}/{serie}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>author</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="author" data-endpoint="GETapi-series--author---serie-" data-component="url"
+                        required hidden>
+                    <br>
+                </p>
+                <p>
+                    <b><code>serie</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="serie" data-endpoint="GETapi-series--author---serie-" data-component="url"
+                        required hidden>
+                    <br>
+                </p>
+            </form>
 
             <h2 id="serie-GETapi-series-books--author---serie-">GET api/series/books/{author}/{serie}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-series-books--author---serie-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-series-books--author---serie-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/series/books/13/laudantium" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/series/books/13/laudantium"
 );
 
@@ -12568,23 +12444,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-series-books--author---serie-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-series-books--author---serie-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4994
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;No query results for model [App\\Models\\Author].&quot;,
@@ -13050,82 +12929,76 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-series-books--author---serie-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-series-books--author---serie-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-series-books--author---serie-"></code></pre>
-</span>
-<span id="execution-error-GETapi-series-books--author---serie-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-series-books--author---serie-"></code></pre>
-</span>
-<form id="form-GETapi-series-books--author---serie-" data-method="GET"
-      data-path="api/series/books/{author}/{serie}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-series-books--author---serie-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-series-books--author---serie-" hidden>
+                <blockquote>Received response<span
+                        id="execution-response-status-GETapi-series-books--author---serie-"></span>:
+                </blockquote>
+                <pre
+                    class="json"><code id="execution-response-content-GETapi-series-books--author---serie-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-series-books--author---serie-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-series-books--author---serie-"></code></pre>
+            </span>
+            <form id="form-GETapi-series-books--author---serie-" data-method="GET"
+                data-path="api/series/books/{author}/{serie}" data-authed="0" data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-series-books--author---serie-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-series-books--author---serie-"
-                    onclick="tryItOut('GETapi-series-books--author---serie-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-series-books--author---serie-"
-                    onclick="cancelTryOut('GETapi-series-books--author---serie-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-series-books--author---serie-" hidden>Send Request 💥
-            </button>
-            </h3>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-series-books--author---serie-"
+                        onclick="tryItOut('GETapi-series-books--author---serie-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-series-books--author---serie-"
+                        onclick="cancelTryOut('GETapi-series-books--author---serie-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-series-books--author---serie-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/series/books/{author}/{serie}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small> &nbsp;
+                    <input type="number" name="author" data-endpoint="GETapi-series-books--author---serie-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+                <p>
+                    <b><code>serie</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="serie" data-endpoint="GETapi-series-books--author---serie-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+            </form>
+
+            <h2 id="serie-GETapi-series-books--volume---author---serie-">GET api/series/books/{volume}/{author}/{serie}
+            </h2>
+
             <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/series/books/{author}/{serie}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>author</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="author"
-               data-endpoint="GETapi-series-books--author---serie-"
-               data-component="url" required  hidden>
-    <br>
             </p>
-                    <p>
-                <b><code>serie</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="serie"
-               data-endpoint="GETapi-series-books--author---serie-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
-
-            <h2 id="serie-GETapi-series-books--volume---author---serie-">GET api/series/books/{volume}/{author}/{serie}</h2>
-
-<p>
-</p>
 
 
 
-<span id="example-requests-GETapi-series-books--volume---author---serie-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-series-books--volume---author---serie-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/series/books/18/sunt/nemo" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/series/books/18/sunt/nemo"
 );
 
@@ -13138,23 +13011,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-series-books--volume---author---serie-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-series-books--volume---author---serie-">
+                <blockquote>
+                    <p>Example response (404):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4993
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;No query results for model [App\\Models\\Author].&quot;,
@@ -13620,94 +13496,86 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-series-books--volume---author---serie-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-series-books--volume---author---serie-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-series-books--volume---author---serie-"></code></pre>
-</span>
-<span id="execution-error-GETapi-series-books--volume---author---serie-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-series-books--volume---author---serie-"></code></pre>
-</span>
-<form id="form-GETapi-series-books--volume---author---serie-" data-method="GET"
-      data-path="api/series/books/{volume}/{author}/{serie}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-series-books--volume---author---serie-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-series-books--volume---author---serie-" hidden>
+                <blockquote>Received response<span
+                        id="execution-response-status-GETapi-series-books--volume---author---serie-"></span>:
+                </blockquote>
+                <pre
+                    class="json"><code id="execution-response-content-GETapi-series-books--volume---author---serie-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-series-books--volume---author---serie-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-series-books--volume---author---serie-"></code></pre>
+            </span>
+            <form id="form-GETapi-series-books--volume---author---serie-" data-method="GET"
+                data-path="api/series/books/{volume}/{author}/{serie}" data-authed="0" data-hasfiles="0"
+                data-isarraybody="0" data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+                autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-series-books--volume---author---serie-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-series-books--volume---author---serie-"
-                    onclick="tryItOut('GETapi-series-books--volume---author---serie-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-series-books--volume---author---serie-"
-                    onclick="cancelTryOut('GETapi-series-books--volume---author---serie-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-series-books--volume---author---serie-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/series/books/{volume}/{author}/{serie}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>volume</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="volume"
-               data-endpoint="GETapi-series-books--volume---author---serie-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    <p>
-                <b><code>author</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="author"
-               data-endpoint="GETapi-series-books--volume---author---serie-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    <p>
-                <b><code>serie</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="serie"
-               data-endpoint="GETapi-series-books--volume---author---serie-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-series-books--volume---author---serie-"
+                        onclick="tryItOut('GETapi-series-books--volume---author---serie-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-series-books--volume---author---serie-"
+                        onclick="cancelTryOut('GETapi-series-books--volume---author---serie-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-series-books--volume---author---serie-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/series/books/{volume}/{author}/{serie}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>volume</code></b>&nbsp;&nbsp;<small>integer</small> &nbsp;
+                    <input type="number" name="volume" data-endpoint="GETapi-series-books--volume---author---serie-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+                <p>
+                    <b><code>author</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="author" data-endpoint="GETapi-series-books--volume---author---serie-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+                <p>
+                    <b><code>serie</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="serie" data-endpoint="GETapi-series-books--volume---author---serie-"
+                        data-component="url" required hidden>
+                    <br>
+                </p>
+            </form>
 
-        <h1 id="tag">Tag</h1>
+            <h1 id="tag">Tag</h1>
 
-    
+
 
             <h2 id="tag-GETapi-tags">GET api/tags</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-tags">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-tags">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/tags" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/tags"
 );
 
@@ -13720,23 +13588,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-tags">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-tags">
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4977
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;data&quot;: [
@@ -15283,65 +15154,57 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-tags" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-tags"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-tags"></code></pre>
-</span>
-<span id="execution-error-GETapi-tags" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-tags"></code></pre>
-</span>
-<form id="form-GETapi-tags" data-method="GET"
-      data-path="api/tags"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-tags', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-tags" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-tags"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-tags"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-tags" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-tags"></code></pre>
+            </span>
+            <form id="form-GETapi-tags" data-method="GET" data-path="api/tags" data-authed="0" data-hasfiles="0"
+                data-isarraybody="0" data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+                autocomplete="off" onsubmit="event.preventDefault(); executeTryOut('GETapi-tags', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-tags"
-                    onclick="tryItOut('GETapi-tags');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-tags"
-                    onclick="cancelTryOut('GETapi-tags');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-tags" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/tags</code></b>
-        </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-tags" onclick="tryItOut('GETapi-tags');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-tags" onclick="cancelTryOut('GETapi-tags');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-tags" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/tags</code></b>
+                </p>
+            </form>
 
             <h2 id="tag-GETapi-tags--id-">GET api/tags/{id}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-tags--id-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-tags--id-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/tags/rerum" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/tags/rerum"
 );
 
@@ -15354,23 +15217,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-tags--id-">
-            <blockquote>
-            <p>Example response (500):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-tags--id-">
+                <blockquote>
+                    <p>Example response (500):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4976
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;Attempt to read property \&quot;books_count\&quot; on null&quot;,
@@ -15871,74 +15737,65 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-tags--id-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-tags--id-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-tags--id-"></code></pre>
-</span>
-<span id="execution-error-GETapi-tags--id-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-tags--id-"></code></pre>
-</span>
-<form id="form-GETapi-tags--id-" data-method="GET"
-      data-path="api/tags/{id}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-tags--id-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-tags--id-" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-tags--id-"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-tags--id-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-tags--id-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-tags--id-"></code></pre>
+            </span>
+            <form id="form-GETapi-tags--id-" data-method="GET" data-path="api/tags/{id}" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-tags--id-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-tags--id-"
-                    onclick="tryItOut('GETapi-tags--id-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-tags--id-"
-                    onclick="cancelTryOut('GETapi-tags--id-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-tags--id-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/tags/{id}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-                <input type="text"
-               name="id"
-               data-endpoint="GETapi-tags--id-"
-               data-component="url" required  hidden>
-    <br>
-<p>The ID of the tag.</p>            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-tags--id-" onclick="tryItOut('GETapi-tags--id-');">Try it out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-tags--id-" onclick="cancelTryOut('GETapi-tags--id-');" hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-tags--id-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/tags/{id}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>id</code></b>&nbsp;&nbsp;<small>string</small> &nbsp;
+                    <input type="text" name="id" data-endpoint="GETapi-tags--id-" data-component="url" required hidden>
+                    <br>
+                <p>The ID of the tag.</p>
+                </p>
+            </form>
 
             <h2 id="tag-GETapi-tags-books--tag-">GET api/tags/books/{tag}</h2>
 
-<p>
-</p>
+            <p>
+            </p>
 
 
 
-<span id="example-requests-GETapi-tags-books--tag-">
-<blockquote>Example request:</blockquote>
+            <span id="example-requests-GETapi-tags-books--tag-">
+                <blockquote>Example request:</blockquote>
 
 
-<pre><code class="language-bash">curl --request GET \
+                <pre><code class="language-bash">curl --request GET \
     --get "http://localhost:8000/api/tags/books/18" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>
 
-<pre><code class="language-javascript">const url = new URL(
+                <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/tags/books/18"
 );
 
@@ -15951,23 +15808,26 @@ fetch(url, {
     method: "GET",
     headers,
 }).then(response =&gt; response.json());</code></pre>
-</span>
+            </span>
 
-<span id="example-responses-GETapi-tags-books--tag-">
-            <blockquote>
-            <p>Example response (500):</p>
-        </blockquote>
+            <span id="example-responses-GETapi-tags-books--tag-">
+                <blockquote>
+                    <p>Example response (500):</p>
+                </blockquote>
                 <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
+                    <summary>
+                        <small
+                            onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show
+                            headers</small>
+                    </summary>
+                    <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 5000
 x-ratelimit-remaining: 4975
 vary: Origin
  </code></pre>
-        </details>         <pre>
+                </details>
+                <pre>
 
 <code class="language-json">{
     &quot;message&quot;: &quot;Spatie\\Tags\\Tag::findFromString(): Argument #1 ($name) must be of type string, null given, called in \/mnt\/c\/workspace\/projets\/bookshelves-back\/vendor\/spatie\/laravel-tags\/src\/HasTags.php on line 201&quot;,
@@ -16541,73 +16401,67 @@ vary: Origin
     ]
 }</code>
  </pre>
-    </span>
-<span id="execution-results-GETapi-tags-books--tag-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-tags-books--tag-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-tags-books--tag-"></code></pre>
-</span>
-<span id="execution-error-GETapi-tags-books--tag-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-tags-books--tag-"></code></pre>
-</span>
-<form id="form-GETapi-tags-books--tag-" data-method="GET"
-      data-path="api/tags/books/{tag}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-tags-books--tag-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
+            </span>
+            <span id="execution-results-GETapi-tags-books--tag-" hidden>
+                <blockquote>Received response<span id="execution-response-status-GETapi-tags-books--tag-"></span>:
+                </blockquote>
+                <pre class="json"><code id="execution-response-content-GETapi-tags-books--tag-"></code></pre>
+            </span>
+            <span id="execution-error-GETapi-tags-books--tag-" hidden>
+                <blockquote>Request failed with error:</blockquote>
+                <pre><code id="execution-error-message-GETapi-tags-books--tag-"></code></pre>
+            </span>
+            <form id="form-GETapi-tags-books--tag-" data-method="GET" data-path="api/tags/books/{tag}" data-authed="0"
+                data-hasfiles="0" data-isarraybody="0"
+                data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}' autocomplete="off"
+                onsubmit="event.preventDefault(); executeTryOut('GETapi-tags-books--tag-', this);">
+                <h3>
+                    Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-tags-books--tag-"
-                    onclick="tryItOut('GETapi-tags-books--tag-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-tags-books--tag-"
-                    onclick="cancelTryOut('GETapi-tags-books--tag-');" hidden>Cancel
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-tags-books--tag-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/tags/books/{tag}</code></b>
-        </p>
-                    <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>tag</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="tag"
-               data-endpoint="GETapi-tags-books--tag-"
-               data-component="url" required  hidden>
-    <br>
-            </p>
-                    </form>
+                        style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-tryout-GETapi-tags-books--tag-" onclick="tryItOut('GETapi-tags-books--tag-');">Try it
+                        out ⚡
+                    </button>
+                    <button type="button"
+                        style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-canceltryout-GETapi-tags-books--tag-" onclick="cancelTryOut('GETapi-tags-books--tag-');"
+                        hidden>Cancel
+                    </button>&nbsp;&nbsp;
+                    <button type="submit"
+                        style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                        id="btn-executetryout-GETapi-tags-books--tag-" hidden>Send Request 💥
+                    </button>
+                </h3>
+                <p>
+                    <small class="badge badge-green">GET</small>
+                    <b><code>api/tags/books/{tag}</code></b>
+                </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                <p>
+                    <b><code>tag</code></b>&nbsp;&nbsp;<small>integer</small> &nbsp;
+                    <input type="number" name="tag" data-endpoint="GETapi-tags-books--tag-" data-component="url"
+                        required hidden>
+                    <br>
+                </p>
+            </form>
 
-    
 
-        
-    </div>
-    <div class="dark-box">
-                    <div class="lang-selector">
-                                    <a href="#" data-language-name="bash">bash</a>
-                                    <a href="#" data-language-name="javascript">javascript</a>
-                            </div>
+
+
+        </div>
+        <div class="dark-box">
+            <div class="lang-selector">
+                <a href="#" data-language-name="bash">bash</a>
+                <a href="#" data-language-name="javascript">javascript</a>
             </div>
-</div>
-<script>
-    $(function () {
-        var exampleLanguages = ["bash","javascript"];
-        setupLanguages(exampleLanguages);
-    });
-</script>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            var exampleLanguages = ["bash", "javascript"];
+            setupLanguages(exampleLanguages);
+        });
+    </script>
 </body>
+
 </html>

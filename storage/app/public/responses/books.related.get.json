@@ -20,7 +20,7 @@
             "picture": {
                 "base": "http://localhost:8000/storage/media/series/1133/conversions/beauregard-fr-thumbnail.webp",
                 "original": "http://localhost:8000/storage/media/series/1133/beauregard-fr.webp",
-                "openGraph": "http://localhost:8000/storage/media/series/1133/conversions/beauregard-fr-open_graph.jpg",
+                "og": "http://localhost:8000/storage/media/series/1133/conversions/beauregard-fr-og.jpg",
                 "color": "#564923"
             }
         },

@@ -5,7 +5,6 @@ namespace App\Models;
 use Auth;
 use Spatie\Tags\HasTags;
 use App\Utils\BookshelvesTools;
-use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -44,38 +43,19 @@ class Author extends Model implements HasMedia
         return $this->where('slug', $value)->with('media')->withCount('books')->firstOrFail();
     }
 
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $formatThumbnail = config('image.pictures.thumbnail');
-        $formatStandard = config('image.pictures.open_graph');
-        $formatSimple = config('image.pictures.simple');
-
-        $this->addMediaConversion('thumbnail')
-            ->fit(Manipulations::FIT_CROP, $formatThumbnail['width'], $formatThumbnail['height'])
-            ->format(config('bookshelves.cover_extension'));
-
-        $this->addMediaConversion('open_graph')
-            ->crop(Manipulations::CROP_CENTER, $formatStandard['width'], $formatStandard['height'])
-            ->format('jpg');
-
-        $this->addMediaConversion('simple')
-            ->crop(Manipulations::CROP_CENTER, $formatSimple['width'], $formatSimple['height'])
-            ->format('jpg');
-    }
-
     public function getImageThumbnailAttribute(): string | null
     {
-        return $this->getFirstMediaUrl('authors', 'thumbnail');
+        return BookshelvesTools::convertPicture($this, $this->slug);
     }
 
-    public function getImageOpenGraphAttribute(): string | null
+    public function getImageogAttribute(): string | null
     {
-        return $this->getFirstMediaUrl('authors', 'open_graph');
+        return BookshelvesTools::convertPicture($this, $this->slug, 'og');
     }
 
     public function getImageSimpleAttribute(): string | null
     {
-        return $this->getFirstMediaUrl('authors', 'simple');
+        return BookshelvesTools::convertPicture($this, $this->slug, 'simple');
     }
 
     public function getImageColorAttribute(): string | null

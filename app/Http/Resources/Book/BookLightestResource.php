@@ -26,8 +26,8 @@ class BookLightestResource extends JsonResource
                 'show'   => $this->resource->show_link,
             ],
             'picture' => [
-                'base'  => $this->resource->image_thumbnail,
-                'color' => $this->resource->image_color,
+                'thumbnail'  => $this->resource->image_thumbnail,
+                'color'      => $this->resource->image_color,
             ],
             'serie' => $this->resource->serie?->title,
         ];

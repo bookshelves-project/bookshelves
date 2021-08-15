@@ -81,12 +81,25 @@ if (! function_exists('svg')) {
     }
 }
 
-if (! function_exists('get_url')) {
-    function get_url(string $path)
+if (! function_exists('getUrlStorage')) {
+    function getUrlStorage(string $path)
     {
-        $url = config('app.url');
-        $path = basename($path);
+        $path = str_replace('\\', '/', $path);
+        $path_array = explode("/", $path);
+        $path_array_begin = 0;
+        // find key for storage path
+        foreach ($path_array as $key => $path_el) {
+            if ($path_el === 'storage') {
+                $path_array_begin = $key;
+            }
+        }
+        // remove begin of path
+        $path_array = array_splice($path_array, $path_array_begin);
+        // recreate path
+        $path = implode('/', $path_array);
+        // remove for storage link
+        $path = str_replace('app/public/', '', $path);
 
-        return $url.'/storage/cache/'.$path;
+        return config('app.url').'/'.$path;
     }
 }

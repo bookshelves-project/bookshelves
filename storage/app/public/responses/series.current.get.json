@@ -20,7 +20,7 @@
             "picture": {
                 "base": "http://localhost:8000/storage/media/books/993/conversions/les-montagnes-hallucinees-fr-thumbnail.webp",
                 "original": "http://localhost:8000/storage/media/books/993/les-montagnes-hallucinees-fr.webp",
-                "openGraph": "http://localhost:8000/storage/media/books/993/conversions/les-montagnes-hallucinees-fr-open_graph.jpg",
+                "og": "http://localhost:8000/storage/media/books/993/conversions/les-montagnes-hallucinees-fr-og.jpg",
                 "color": "#6e7c80"
             }
         }

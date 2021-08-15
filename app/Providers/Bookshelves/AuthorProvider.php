@@ -47,7 +47,7 @@ class AuthorProvider
      * - from Wikipedia if found, managed by `spatie/laravel-medialibrary`
      * - if not use default image `database/seeders/media/authors/no-picture.jpg`
      */
-    public static function descriptionAndPicture(Author $author, bool $local, bool $no_cover): Author | false
+    public static function descriptionAndPicture(Author $author, bool $local, bool $no_cover = false): Author | false
     {
         if ($author) {
             $name = $author->name;

@@ -21,11 +21,11 @@ class BookSerieResource extends JsonResource
         $resource = BookUltraLightResource::make($this->resource)->toArray($request);
         $resource = array_merge($resource, [
             'picture' => [
-                'base'      => $this->resource->image_thumbnail,
-                'openGraph' => $this->resource->image_open_graph,
-                'simple'    => $this->resource->image_simple,
-                'original'  => $this->resource->image_original,
-                'color'     => $this->resource->image_color,
+                'thumbnail'      => $this->resource->image_thumbnail,
+                'og'             => $this->resource->image_og,
+                'simple'         => $this->resource->image_simple,
+                'original'       => $this->resource->image_original,
+                'color'          => $this->resource->image_color,
             ],
         ]);
 

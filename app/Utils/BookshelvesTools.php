@@ -185,30 +185,25 @@ class BookshelvesTools
         return $string ? $string : '';
     }
     
-    public static function convertPicture(Model $model): string
+    public static function convertPicture(Model $model, string $name, string $type = 'thumbnail'): string
     {
         $extension = config('bookshelves.cover_extension');
 
-        $type = 'thumbnail';
-        $format = config('image.pictures.'.$type);
-        $disk = 'books';
-        $collection = $disk.'_'.$type;
-        $name = $model->meta_author.'_'.$model->slug;
-        $path = storage_path('app/public/temp/').$name.'_'.$collection.'_'.$type.'.'.$extension;
+        $format = config('image.covers.'.$type);
+        $disk = $model->getTable();
 
-        if (! File::exists($model->getFirstMediaPath($collection))) {
+        $base_path = storage_path("app/public/cache/$disk/$type/");
+        $path = $base_path.$name.'.'.$extension;
+
+        if (! File::exists($path)) {
+            if (! is_dir($base_path)) {
+                mkdir($base_path, 0777, true);
+            }
             Image::load($model->getFirstMediaPath($disk))
                 ->fit('crop', $format['width'], $format['height'])
                 ->save($path);
-            $file = file_get_contents($path);
-
-            $model->addMediaFromString($file)
-                ->setName($model->slug)
-                ->setFileName($model->slug.'.'.config('bookshelves.cover_extension'))
-                ->toMediaCollection($collection, $disk);
-            File::delete($path);
         }
 
-        return $model->getFirstMediaUrl($collection);
+        return getUrlStorage($path);
     }
 }

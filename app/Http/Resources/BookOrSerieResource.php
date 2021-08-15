@@ -29,10 +29,10 @@ class BookOrSerieResource extends JsonResource
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
             'volume'  => $this->resource->volume ? $this->resource->volume : null,
             'picture' => [
-                'base'      => $this->resource->image_thumbnail,
-                'original'  => $this->resource->image_original,
-                'openGraph' => $this->resource->image_open_graph,
-                'color'     => $this->resource->image_color,
+                'thumbnail'      => $this->resource->image_thumbnail,
+                'original'       => $this->resource->image_original,
+                'og'             => $this->resource->image_og,
+                'color'          => $this->resource->image_color,
             ],
         ];
     }

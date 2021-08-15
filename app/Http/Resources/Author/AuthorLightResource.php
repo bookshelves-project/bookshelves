@@ -24,10 +24,10 @@ class AuthorLightResource extends JsonResource
             'lastname'  => $author->lastname,
             'firstname' => $author->firstname,
             'picture'   => [
-                'base'      => $author->image_thumbnail,
-                'openGraph' => $author->image_open_graph,
-                'simple'    => $author->image_simple,
-                'color'     => $this->resource->image_color,
+                'thumbnail'      => $author->image_thumbnail,
+                'og'             => $author->image_og,
+                'simple'         => $author->image_simple,
+                'color'          => $this->resource->image_color,
             ],
             'count' => $author->books_count,
         ]);

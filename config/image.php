@@ -18,9 +18,13 @@ return [
     'format' => 'webp',
 
     'pictures' => [
+        
+    ],
+
+    'covers' => [
         // Custom sizes
         // 1.6:1 aspect ratio cover
-        'cover' => [
+        'full' => [
             'width'  => 400,
             'height' => 640,
         ],
@@ -33,7 +37,7 @@ return [
             'width'  => 200,
             'height' => 320,
         ],
-        'open_graph' => [
+        'og' => [
             'width'  => 600,
             'height' => 300,
         ],

@@ -32,9 +32,9 @@ class BookUltraLightResource extends JsonResource
             'language'    => $this->resource->language?->slug,
             'publishDate' => $this->resource->date,
             'picture'     => [
-                'base'   => $this->resource->image_thumbnail,
-                'simple' => $this->resource->image_simple,
-                'color'  => $this->resource->image_color,
+                'thumbnail'   => $this->resource->image_thumbnail,
+                'simple'      => $this->resource->image_simple,
+                'color'       => $this->resource->image_color,
             ],
             'volume' => $this->resource->volume,
         ];

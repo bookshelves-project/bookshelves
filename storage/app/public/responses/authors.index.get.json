@@ -10,7 +10,7 @@
             "firstname": "Howard Phillips",
             "picture": {
                 "base": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-thumbnail.webp",
-                "openGraph": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-open_graph.jpg",
+                "og": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-og.jpg",
                 "simple": "http://localhost:8000/storage/media/authors/1248/conversions/lovecraft-howard-phillips-simple.jpg",
                 "color": "#8a817b"
             },
