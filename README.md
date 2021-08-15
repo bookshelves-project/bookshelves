@@ -21,6 +21,7 @@
   - [*a. Dependencies*](#a-dependencies)
   - [*b. Setup*](#b-setup)
 - [**Usage**](#usage)
+- [Features](#features)
 
 ## **Setup**
 
@@ -85,8 +86,16 @@ To get full documentation, you can read [**Wiki of Bookshelves**](https://booksh
 - [ ] authors notes WIP
 - [ ] opds <https://specs.opds.io/opds-1.2>
 
+## Features
+
+- rewrite ebook parsing engine
+- back-office with datatables
+- admin for front
+  - selection books
+  - update no ebooks entities
+
 ```bash
-php artisan bookshelves:start -as
+php artisan bookshelves:generate -e
 ```
 
 ```bash

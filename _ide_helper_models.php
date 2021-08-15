@@ -33,11 +33,11 @@ namespace App\Models{
  * @property-read int|null $favorites_count
  * @property-read string $content_opds
  * @property-read string $download_link
- * @property-read bool $first_char
+ * @property-read string $first_char
  * @property-read string|null $image_color
- * @property-read string|null $image_open_graph
  * @property-read string|null $image_simple
  * @property-read string|null $image_thumbnail
+ * @property-read string|null $imageog
  * @property-read bool $is_favorite
  * @property-read string $show_books_link
  * @property-read string $show_link
@@ -110,10 +110,10 @@ namespace App\Models{
  * @property-read string|null $epub
  * @property-read mixed $genres_list
  * @property-read string|null $image_color
- * @property-read string|null $image_open_graph
  * @property-read string|null $image_original
  * @property-read string|null $image_simple
  * @property-read string|null $image_thumbnail
+ * @property-read string|null $imageog
  * @property-read bool $is_favorite
  * @property-read string|null $meta_author
  * @property-read string $show_link
@@ -385,10 +385,10 @@ namespace App\Models{
  * @property-read string $download_link
  * @property-read mixed $genres_list
  * @property-read string|null $image_color
- * @property-read string|null $image_open_graph
  * @property-read string|null $image_original
  * @property-read string|null $image_simple
  * @property-read string|null $image_thumbnail
+ * @property-read string|null $imageog
  * @property-read bool $is_favorite
  * @property-read string|null $meta_author
  * @property-read string $show_books_link
