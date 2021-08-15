@@ -4924,16 +4924,16 @@
         },
         {
             "name": "spatie/laravel-markdown",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-markdown.git",
-                "reference": "fd2f898d067191080980f3d09a9cea622422fd3a"
+                "reference": "de6b2cee86fdc4ac37b136f388a2b5d7ed0cbaed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-markdown/zipball/fd2f898d067191080980f3d09a9cea622422fd3a",
-                "reference": "fd2f898d067191080980f3d09a9cea622422fd3a",
+                "url": "https://api.github.com/repos/spatie/laravel-markdown/zipball/de6b2cee86fdc4ac37b136f388a2b5d7ed0cbaed",
+                "reference": "de6b2cee86fdc4ac37b136f388a2b5d7ed0cbaed",
                 "shasum": ""
             },
             "require": {
@@ -4986,7 +4986,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/laravel-markdown/tree/1.1.1"
+                "source": "https://github.com/spatie/laravel-markdown/tree/1.1.2"
             },
             "funding": [
                 {
@@ -4994,7 +4994,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-07-25T10:19:51+00:00"
+            "time": "2021-08-13T14:18:40+00:00"
         },
         {
             "name": "spatie/laravel-medialibrary",
@@ -5163,16 +5163,16 @@
         },
         {
             "name": "spatie/laravel-route-attributes",
-            "version": "1.4.2",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-route-attributes.git",
-                "reference": "0cb35d95e07bcae3e82ea9fbf79fbd1dbb587c52"
+                "reference": "79d74e8c17a060542b466c30dab9fcd6a4ff0799"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-route-attributes/zipball/0cb35d95e07bcae3e82ea9fbf79fbd1dbb587c52",
-                "reference": "0cb35d95e07bcae3e82ea9fbf79fbd1dbb587c52",
+                "url": "https://api.github.com/repos/spatie/laravel-route-attributes/zipball/79d74e8c17a060542b466c30dab9fcd6a4ff0799",
+                "reference": "79d74e8c17a060542b466c30dab9fcd6a4ff0799",
                 "shasum": ""
             },
             "require": {
@@ -5219,7 +5219,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-route-attributes/issues",
-                "source": "https://github.com/spatie/laravel-route-attributes/tree/1.4.2"
+                "source": "https://github.com/spatie/laravel-route-attributes/tree/1.5.0"
             },
             "funding": [
                 {
@@ -5231,7 +5231,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-07-05T17:44:11+00:00"
+            "time": "2021-08-15T09:56:02+00:00"
         },
         {
             "name": "spatie/laravel-tags",
@@ -10264,16 +10264,16 @@
         },
         {
             "name": "nunomaduro/collision",
-            "version": "v5.7.0",
+            "version": "v5.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/collision.git",
-                "reference": "0f0f46b6345ee788325b5ce9d53c4e851b2293a0"
+                "reference": "0c3c393462eada1233513664e2d22bb9f69ca393"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/0f0f46b6345ee788325b5ce9d53c4e851b2293a0",
-                "reference": "0f0f46b6345ee788325b5ce9d53c4e851b2293a0",
+                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/0c3c393462eada1233513664e2d22bb9f69ca393",
+                "reference": "0c3c393462eada1233513664e2d22bb9f69ca393",
                 "shasum": ""
             },
             "require": {
@@ -10348,7 +10348,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-08-12T13:56:54+00:00"
+            "time": "2021-08-13T14:23:01+00:00"
         },
         {
             "name": "nunomaduro/larastan",
