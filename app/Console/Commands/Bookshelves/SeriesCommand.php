@@ -15,7 +15,6 @@ class SeriesCommand extends Command
      */
     protected $signature = 'bookshelves:series
                             {--L|local : prevent external HTTP requests to public API for additional informations}
-                            {--c|covers : prevent generation of covers}
                             {--f|fresh : refresh series medias, `description` & `link`}';
 
     /**
@@ -43,7 +42,6 @@ class SeriesCommand extends Command
     public function handle()
     {
         $fresh = $this->option('fresh');
-        $no_covers = $this->option('covers');
         $local = $this->option('local');
 
         $series = Serie::orderBy('title_sort')->get();
@@ -73,9 +71,7 @@ class SeriesCommand extends Command
         foreach ($series as $key => $serie) {
             SerieProvider::setTags(serie: $serie);
             if (empty($serie->getFirstMediaUrl('series'))) {
-                if (! $no_covers) {
-                    SerieProvider::setCover(serie: $serie);
-                }
+                SerieProvider::setCover(serie: $serie);
             }
             if (! $serie->description && ! $serie->link) {
                 if (! $local) {

@@ -28,12 +28,11 @@ class GenerateCommand extends Command
                             {--e|erase : erase all data}
                             {--f|fresh : reset current books and relation, keep users}
                             {--F|force : skip confirm question for prod}
-                            {--C|covers : prevent generation of covers}
                             {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
                             {--t|test : execute tests at the end}
-                            {--A|admin : skip admin and roles generation}';
+                            {--A|skip-admin : skip admin and roles generation}';
 
     /**
      * The console command description.
@@ -71,7 +70,6 @@ class GenerateCommand extends Command
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
-        $no_covers = $this->option('covers');
         $local = $this->option('local') ?? false;
         $debug = $this->option('debug') ?? false;
         $test = $this->option('test') ?? false;
@@ -81,9 +79,6 @@ class GenerateCommand extends Command
         }
         if ($limit) {
             $this->warn("- Option --limit: limit eBooks generated to $limit.");
-        }
-        if ($no_covers) {
-            $this->warn('- Option --covers: skip cover generation for Book, Serie and Author.');
         }
         if ($local) {
             $this->warn('- Option --local: skip HTTP requests.');
@@ -109,7 +104,6 @@ class GenerateCommand extends Command
          */
         Artisan::call('bookshelves:books', [
             '--local'  => $local,
-            '--covers' => $no_covers,
             '--fresh'  => $fresh,
             '--limit'  => $limit,
             '--debug'  => $debug,
@@ -117,12 +111,10 @@ class GenerateCommand extends Command
         Artisan::call('bookshelves:series', [
             '--local'  => $local,
             '--fresh'  => $fresh,
-            '--covers' => $no_covers,
         ], $this->getOutput());
         Artisan::call('bookshelves:authors', [
             '--local'  => $local,
             '--fresh'  => $fresh,
-            '--covers' => $no_covers,
         ], $this->getOutput());
 
         /*

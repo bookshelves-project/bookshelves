@@ -19,7 +19,6 @@ class BooksCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:books
-                            {--c|covers : prevent generation of covers}
                             {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--f|fresh : reset current books and relation, keep users}
                             {--l|limit= : limit epub files to generate, useful for debug}
@@ -52,7 +51,6 @@ class BooksCommand extends Command
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
-        $no_covers = $this->option('covers');
         $local = $this->option('local');
         $fresh = $this->option('fresh');
         $debug = $this->option('debug') ?? false;
@@ -81,9 +79,7 @@ class BooksCommand extends Command
         /*
          * Books covers
          */
-        if (! $no_covers) {
-            $this->covers($books);
-        }
+        $this->covers($books);
 
         return true;
     }

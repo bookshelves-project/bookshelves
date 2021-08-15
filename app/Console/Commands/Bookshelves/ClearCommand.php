@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use FilesystemIterator;
+use RecursiveIteratorIterator;
 use Illuminate\Console\Command;
+use RecursiveDirectoryIterator;
 
 class ClearCommand extends Command
 {
@@ -52,10 +55,29 @@ class ClearCommand extends Command
 
         foreach (glob("$dir/*") as $file) {
             if (! in_array(basename($file), $leave_files)) {
-                unlink($file);
+                if (is_dir($file)) {
+                    $this->rmdir_recursive($file);
+                } else {
+                    unlink($file);
+                }
             }
         }
 
-        $this->info("Clear $dir");
+        $path = 'storage/app/public/'.basename($dir);
+        $this->info("Clear $path");
+    }
+
+    public function rmdir_recursive($dir)
+    {
+        $it = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
+        $it = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($it as $file) {
+            if ($file->isDir()) {
+                rmdir($file->getPathname());
+            } else {
+                unlink($file->getPathname());
+            }
+        }
+        rmdir($dir);
     }
 }

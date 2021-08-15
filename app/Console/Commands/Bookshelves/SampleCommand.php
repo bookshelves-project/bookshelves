@@ -16,7 +16,7 @@ class SampleCommand extends Command
                             {--r|roles : generate roles}
                             {--u|users : generate users with roles}
                             {--a|account : generate fake comments, favorites sample (users with roles will be generated)}
-                            {--s|selection : generate fake selection sample (users with roles will be generated)}';
+                            {--s|selection : generate fake selection sample (user admin with roles will be generated)}';
 
     /**
      * The console command description.
@@ -74,8 +74,7 @@ class SampleCommand extends Command
 
         if ($selection) {
             $this->comment('Run roles with users seeders');
-            Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
-            Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
+            Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
             $this->info('Seeders ready!');
 
             $this->comment('Run selection seeders');

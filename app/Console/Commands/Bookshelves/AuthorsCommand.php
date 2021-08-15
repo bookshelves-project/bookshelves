@@ -15,7 +15,6 @@ class AuthorsCommand extends Command
      */
     protected $signature = 'bookshelves:authors
                             {--L|local : prevent external HTTP requests to public API for additional informations}
-                            {--c|covers : prevent generation of covers}
                             {--f|fresh : refresh authors medias, `description` & `link`}';
 
     /**
@@ -43,7 +42,6 @@ class AuthorsCommand extends Command
     public function handle()
     {
         $fresh = $this->option('fresh') ?? false;
-        $no_covers = $this->option('covers') ?? false;
         $local = $this->option('local') ?? false;
 
         $authors = Author::orderBy('lastname')->get();
@@ -72,7 +70,7 @@ class AuthorsCommand extends Command
         foreach ($authors as $key => $author) {
             AuthorProvider::tags($author);
             if (! $author->description && ! $author->link) {
-                AuthorProvider::descriptionAndPicture(author: $author, local: $local, no_cover: $no_covers);
+                AuthorProvider::descriptionAndPicture(author: $author, local: $local);
             }
             $bar->advance();
         }
