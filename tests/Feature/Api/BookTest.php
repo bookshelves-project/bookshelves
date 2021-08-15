@@ -36,6 +36,7 @@ class BookTest extends TestCase
 
             return $this->testAllPagesAvailable($next);
         }
+        $response->assertStatus(200);
     }
 
     public function testRandomShow()
