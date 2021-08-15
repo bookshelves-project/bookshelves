@@ -5,7 +5,6 @@ You need this to use Bookshelves
 - Composer v2.0
 - MySQL v8.0
 - NodeJS v14.16
-- Yarn v1.2
 
 # **I. Installation**
 
@@ -68,13 +67,13 @@ DB_PASSWORD=<database_password>
 Download NodeJS dependencies
 
 ```bash
-yarn
+npm i
 ```
 
 Execute Laravel mix
 
 ```bash
-yarn dev
+npm run dev
 ```
 
 Generation API documentation
