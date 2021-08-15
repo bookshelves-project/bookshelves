@@ -3,7 +3,6 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Str;
-use Artisan;
 use App\Models\Book;
 use Spatie\Tags\Tag;
 use Illuminate\Console\Command;
@@ -84,10 +83,6 @@ class BooksCommand extends Command
          */
         if (! $no_covers) {
             $this->covers($books);
-        }
-
-        if (! $debug) {
-            Artisan::call('bookshelves:clear', [], $this->getOutput());
         }
 
         return true;

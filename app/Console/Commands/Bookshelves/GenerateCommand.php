@@ -5,6 +5,7 @@ namespace App\Console\Commands\Bookshelves;
 use DB;
 use Artisan;
 use App\Models\Book;
+use App\Models\User;
 use Spatie\Tags\Tag;
 use App\Models\Serie;
 use App\Models\Author;
@@ -24,13 +25,15 @@ class GenerateCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:generate
+                            {--e|erase : erase all data}
                             {--f|fresh : reset current books and relation, keep users}
                             {--F|force : skip confirm question for prod}
-                            {--c|covers : prevent generation of covers}
+                            {--C|covers : prevent generation of covers}
                             {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
-                            {--t|test : execute tests at the end}';
+                            {--t|test : execute tests at the end}
+                            {--A|admin : skip admin and roles generation}';
 
     /**
      * The console command description.
@@ -64,6 +67,7 @@ class GenerateCommand extends Command
         // setup options
         $isForce = $this->option('force') ?? false;
         $fresh = $this->option('fresh') ?? false;
+        $erase = $this->option('erase') ?? false;
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
         $limit = intval($limit);
@@ -83,6 +87,10 @@ class GenerateCommand extends Command
         }
         if ($local) {
             $this->warn('- Option --local: skip HTTP requests.');
+        }
+
+        if ($erase) {
+            Artisan::call('migrate:fresh --force', [], $this->getOutput());
         }
 
         $isProd = 'production' === config('app.env') ? true : false;
@@ -138,6 +146,9 @@ class GenerateCommand extends Command
         if (! $debug) {
             Artisan::call('bookshelves:clear', [], $this->getOutput());
         }
+
+        $this->createAdmin();
+        $this->info('Admin was created from `.env` variables with email '.config('bookshelves.admin.email'));
 
         $this->info('Done!');
         $this->newLine();
@@ -223,5 +234,12 @@ class GenerateCommand extends Command
         Tag::truncate();
 
         DB::statement('SET foreign_key_checks=1');
+    }
+    
+    public function createAdmin()
+    {
+        if (! User::exists()) {
+            Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
+        }
     }
 }

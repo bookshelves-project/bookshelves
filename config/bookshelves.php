@@ -5,10 +5,10 @@ return [
         'to'   => 'info@bookshelves.com',
         'from' => 'noreplyinfo@bookshelves.com',
     ],
-    'cover_extension' => 'jpg',
+    'cover_extension' => 'webp',
     'admin'           => [
-        'email'    => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),
-        'password' => env('BOOKSHELVES_ADMIN_PASSWORD', 'password'),
+        'email'    => env('ADMIN_EMAIL', 'admin@mail.com'),
+        'password' => env('ADMIN_PASSWORD', 'password'),
     ],
     'authors' => [
         // For all ebooks: if you have authors' names like lastname_firstname

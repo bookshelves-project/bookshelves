@@ -5,6 +5,7 @@ namespace App\Models;
 use Auth;
 use Spatie\Tags\HasTags;
 use Illuminate\Support\Str;
+use App\Utils\BookshelvesTools;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
@@ -67,22 +68,22 @@ class Book extends Model implements HasMedia
         //     ->crop(Manipulations::CROP_TOP, $formatBasic['width'], $formatBasic['height'])
         //     ->format(config('bookshelves.cover_extension'));
 
-        $this->addMediaConversion('thumbnail')
-            ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
-            ->format(config('bookshelves.cover_extension'));
+        // $this->addMediaConversion('thumbnail')
+        //     ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
+        //     ->format(config('bookshelves.cover_extension'));
 
-        $this->addMediaConversion('open_graph')
-            ->crop(Manipulations::CROP_CENTER, $formatStandard['width'], $formatStandard['height'])
-            ->format('jpg');
+        // $this->addMediaConversion('open_graph')
+        //     ->crop(Manipulations::CROP_CENTER, $formatStandard['width'], $formatStandard['height'])
+        //     ->format('jpg');
 
-        $this->addMediaConversion('simple')
-            ->crop(Manipulations::CROP_CENTER, $formatSimple['width'], $formatSimple['height'])
-            ->format('jpg');
+        // $this->addMediaConversion('simple')
+        //     ->crop(Manipulations::CROP_CENTER, $formatSimple['width'], $formatSimple['height'])
+        //     ->format('jpg');
     }
 
     public function getImageThumbnailAttribute(): string | null
     {
-        return $this->getFirstMediaUrl('books', 'thumbnail');
+        return BookshelvesTools::convertPicture($this);
     }
 
     public function getImageOpenGraphAttribute(): string | null

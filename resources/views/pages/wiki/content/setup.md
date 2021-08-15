@@ -138,8 +138,8 @@ Bookshelves use [**laravel/sanctum**](https://github.com/laravel/sanctum) for au
 - `APP_URL`: URL of back-end
 - `SANCTUM_STATEFUL_DOMAINS`: URL of front-end
 - `SESSION_DOMAIN`: domain
-- `BOOKSHELVES_ADMIN_EMAIL`: credential for `bookshelves:sample` to generate admin
-- `BOOKSHELVES_ADMIN_PASSWORD`: password for admin
+- `ADMIN_EMAIL`: credential for `bookshelves:sample` to generate admin
+- `ADMIN_PASSWORD`: password for admin
 
 ```yaml
 APP_URL=http://localhost:8000
@@ -147,8 +147,8 @@ APP_URL=http://localhost:8000
 SANCTUM_STATEFUL_DOMAINS=localhost:3000
 SESSION_DOMAIN=localhost
 
-BOOKSHELVES_ADMIN_EMAIL=admin@mail.com
-BOOKSHELVES_ADMIN_PASSWORD=password
+ADMIN_EMAIL=admin@mail.com
+ADMIN_PASSWORD=password
 ```
 
 In production with front-end at <https://bookshelves.ink>

@@ -133,29 +133,7 @@ php artisan bookshelves:scan -v
 
 Commands have some options, use `-h` to get list of all options.
 
-## *a. start*
-
-`bookshelves:start` will delete ALL DATA with `migrate:fresh --force` and ALL MEDIA from `public/storage/media`, it's useful for initialization of Bookshelves or if you want to refresh all data without keeping accounts data. It will launch multiple commands:
-
-- `bookshelves:generate`
-- `bookshelves:sample`
-
->--r|roles : generate roles  
->--u|users : generate users with roles  
->--a|account : generate fake comments, favorites sample (users with roles will be generated)  
->--s|selection : generate fake selection sample (users with roles will be generated)  
->--L|local : prevent external HTTP requests to public API for additional informations  
->--l|limit= : limit epub files to generate, useful for debug  
->--d|debug : generate metadata files into public/storage/debug for debug  
->--t|test : execute tests at the end  
-
-*Example: here `-as` will generate account data and selection books with users*
-
-```bash
-php artisan bookshelves:start -as
-```
-
-## *b. generate*
+## *a. generate*
 
 **Main command of Bookshelves**, can parse all eBooks and **detect new eBooks** *OR* remove all eBooks data (and keep accounts) with `--fresh` like `php artisan bookshelves:generate -f`. When you want to detect new eBooks, just launch command without any option. It will launch multiple commands:
 
@@ -166,12 +144,14 @@ php artisan bookshelves:start -as
 All these commands try to get extra data from Internet (Wikipedia and GoogleBooks), use `--local` like `php artisan bookshelves:generate -L` option to skip this feature.
 
 >--f|fresh : reset current books and relation, keep users  
+>--e|erase : erase all data
 >--F|force : skip confirm question for prod  
->--c|covers : prevent generation of covers  
+>--C|covers : prevent generation of covers  
 >--L|local : prevent external HTTP requests to public API for additional informations  
 >--l|limit= : limit epub files to generate, useful for debug  
 >--d|debug : generate metadata files into public/storage/debug for debug  
 >--t|test : execute tests at the end  
+>--A|admin : skip admin and roles generation
 
 *Example: here command will check only new eBooks*
 
@@ -203,7 +183,7 @@ php artisan bookshelves:authors
 php artisan bookshelves:clear
 ```
 
-## *c. sample*
+## *b. sample*
 
 ### sample account data
 

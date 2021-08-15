@@ -17,7 +17,7 @@ class BookLightResource extends JsonResource
      * @param \Illuminate\Http\Request $request
      * @mixin Book
      */
-    public function toArray($request): array
+    public function toArray($request)
     {
         $resource = BookUltraLightResource::make($this->resource)->toArray($request);
         $resource = array_merge($resource, [

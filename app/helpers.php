@@ -80,3 +80,13 @@ if (! function_exists('svg')) {
         return $requestedIcon;
     }
 }
+
+if (! function_exists('get_url')) {
+    function get_url(string $path)
+    {
+        $url = config('app.url');
+        $path = basename($path);
+
+        return $url.'/storage/cache/'.$path;
+    }
+}

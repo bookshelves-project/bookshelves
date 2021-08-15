@@ -3,7 +3,6 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 
 class ClearCommand extends Command
 {
@@ -19,7 +18,7 @@ class ClearCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Clear files from Bookshelves debug';
+    protected $description = 'Clear temporary files from Bookshelves';
 
     /**
      * Create a new command instance.
@@ -38,9 +37,17 @@ class ClearCommand extends Command
      */
     public function handle()
     {
-        // Cache::forget();
+        $this->alert('Bookshelves: clear');
+        $this->clearDir(storage_path('app/public/debug'));
+        $this->clearDir(storage_path('app/public/cache'));
+        $this->clearDir(storage_path('app/public/temp'));
+        $this->newLine();
 
-        $dir = 'public/storage/debug';
+        return 0;
+    }
+
+    public function clearDir(string $dir)
+    {
         $leave_files = ['.gitignore'];
 
         foreach (glob("$dir/*") as $file) {
@@ -49,6 +56,6 @@ class ClearCommand extends Command
             }
         }
 
-        return 0;
+        $this->info("Clear $dir");
     }
 }

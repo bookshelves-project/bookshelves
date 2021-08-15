@@ -5,10 +5,13 @@ namespace App\Utils;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Models\Author;
+use Spatie\Image\Image;
 use App\Models\Identifier;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
 use App\Http\Resources\EntityResource;
+use Illuminate\Database\Eloquent\Model;
 
 class BookshelvesTools
 {
@@ -180,5 +183,32 @@ class BookshelvesTools
         $string = preg_replace(array_keys($utf8), array_values($utf8), $text);
 
         return $string ? $string : '';
+    }
+    
+    public static function convertPicture(Model $model): string
+    {
+        $extension = config('bookshelves.cover_extension');
+
+        $type = 'thumbnail';
+        $format = config('image.pictures.'.$type);
+        $disk = 'books';
+        $collection = $disk.'_'.$type;
+        $name = $model->meta_author.'_'.$model->slug;
+        $path = storage_path('app/public/temp/').$name.'_'.$collection.'_'.$type.'.'.$extension;
+
+        if (! File::exists($model->getFirstMediaPath($collection))) {
+            Image::load($model->getFirstMediaPath($disk))
+                ->fit('crop', $format['width'], $format['height'])
+                ->save($path);
+            $file = file_get_contents($path);
+
+            $model->addMediaFromString($file)
+                ->setName($model->slug)
+                ->setFileName($model->slug.'.'.config('bookshelves.cover_extension'))
+                ->toMediaCollection($collection, $disk);
+            File::delete($path);
+        }
+
+        return $model->getFirstMediaUrl($collection);
     }
 }
