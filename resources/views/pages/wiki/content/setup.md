@@ -88,6 +88,19 @@ Migrate database
 php artisan migrate
 ```
 
+For Linux Debian-like only, give rights for `www-data` group on `storage` and `bootstrap/cache`
+
+```bash
+sudo chown -R $USER:www-data * ; sudo chmod -R ug+rwx storage bootstrap/cache
+```
+
+**WARNING** use this command if you haven't any custom changement
+Previous command will add tracking changes for git, skip it with this command
+
+```bash
+git checkout .
+```
+
 # **II. Variables for .env**
 
 ## *a. Mails*
