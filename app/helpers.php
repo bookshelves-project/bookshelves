@@ -1,7 +1,5 @@
 <?php
 
-use InlineSvg\Collection;
-use InlineSvg\Transformers\Cleaner;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 if (! function_exists('image_cache')) {
@@ -40,44 +38,6 @@ if (! function_exists('get_thumbnail')) {
             'filename' => $filename,
             'filepath' => $thumbnailPath,
         ];
-    }
-}
-
-if (! function_exists('svg')) {
-    /**
-      * Get SVG icon inline with attributes
-      *
-      * @param string $name name of SVG file
-      * @param int $size if SVG is a square, just square length
-      * @param string|null $class additionnal class for <svg class="">
-      * @param int|null $width width of SVG to overwrite $size if SVG is not square
-      * @param int|null $height height of SVG to overwrite $size if SVG is not square
-      *
-      * @return string $requestedIcon <svg></svg>
-      */
-    function svg(
-        string $name,
-        int $size = 20,
-        string $class = '',
-        int $width = null,
-        int $height = null
-    ) : string {
-        $svgPath = base_path(config('app.svg'));
-        $icons = Collection::fromPath($svgPath);
-        $icons->addTransformer(new Cleaner());
-  
-        if ($width === null && $height === null) {
-            $width = $size;
-            $height = $size;
-        }
-  
-        $requestedIcon = $icons->get($name);
-        $requestedIcon = $requestedIcon->withAttributes([
-            'width'  => $width,
-            'height' => $height,
-            'class'  => $class,
-        ]);
-        return $requestedIcon;
     }
 }
 
