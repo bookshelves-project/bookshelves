@@ -5,6 +5,7 @@ You need this to use Bookshelves
 - Composer v2.0
 - MySQL v8.0
 - NodeJS v14.16
+- yarn v1.2
 
 # **I. Installation**
 
