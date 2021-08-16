@@ -57,7 +57,7 @@ class AuthorsCommand extends Command
         }
         $this->alert('Bookshelves: authors');
         if (! $local) {
-            $this->info('- Get pictures and description from Wikipedia: HTTP requests');
+            $this->info('- Get pictures and description from Wikipedia: HTTP requests (--local to skip)');
             $this->info('- Take description and link from public/storage/raw/authors.json if exists');
         } else {
             $this->info('- Take description and link from public/storage/raw/authors.json if exists');

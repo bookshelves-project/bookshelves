@@ -59,7 +59,7 @@ class SeriesCommand extends Command
         $this->info('- Get cover of vol. 1 (or next) to associate picture to serie if exist');
         $this->info("- If a JPG file with slug of serie exist in 'public/storage/raw/pictures-series', it's will be this picture");
         if (! $local) {
-            $this->info('- Get description, link: HTTP requests');
+            $this->info('- Get description, link: HTTP requests (--local to skip)');
             $this->info('- Take description and link from public/storage/raw/series.json if exists');
         } else {
             $this->info('- Take description and link from public/storage/raw/series.json if exists');

@@ -116,7 +116,7 @@ class BooksCommand extends Command
         $this->info('- Generate Book model with relationships');
         $this->info('- Generate new EPUB file with standard name');
         if (! $local) {
-            $this->info('- Get extra data from Google Books API: HTTP requests');
+            $this->info('- Get extra data from Google Books API: HTTP requests (--local to skip)');
         }
         $this->newLine();
 

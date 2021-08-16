@@ -77,14 +77,24 @@ class GenerateCommand extends Command
         if ($fresh) {
             $this->warn('- Option --fresh: erase current database, migrate and seed basics also clear all medias.');
         }
+        if ($erase) {
+            $this->warn('- Option --erase: erase all data.');
+        }
         if ($limit) {
             $this->warn("- Option --limit: limit eBooks generated to $limit.");
         }
         if ($local) {
             $this->warn('- Option --local: skip HTTP requests.');
         }
+        if ($debug) {
+            $this->warn('- Option --debug: generate metadata files into public/storage/debug for debug.');
+        }
+        if ($test) {
+            $this->warn('- Option --test: execute tests at the end.');
+        }
 
         if ($erase) {
+            $this->newLine();
             Artisan::call('migrate:fresh --force', [], $this->getOutput());
         }
 
