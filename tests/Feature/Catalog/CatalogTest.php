@@ -9,17 +9,17 @@ use App\Models\Author;
 
 class CatalogTest extends TestCase
 {
-    // public function testStatus()
-    // {
-    //     $response = $this->get(route('catalog.index'));
-    //     $response->assertStatus(200);
+    public function testMainPages()
+    {
+        $response = $this->get(route('catalog.index'));
+        $response->assertStatus(200);
 
-    //     $response = $this->get(route('catalog.series'));
-    //     $response->assertStatus(200);
+        $response = $this->get(route('catalog.series'));
+        $response->assertStatus(200);
 
-    //     $response = $this->get(route('catalog.authors'));
-    //     $response->assertStatus(200);
-    // }
+        $response = $this->get(route('catalog.authors'));
+        $response->assertStatus(200);
+    }
 
     // public function testSearch()
     // {
