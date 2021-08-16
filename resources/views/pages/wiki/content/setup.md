@@ -91,7 +91,8 @@ php artisan migrate
 For Linux Debian-like only, give rights for `www-data` group on `storage` and `bootstrap/cache`
 
 ```bash
-sudo chown -R $USER:www-data * ; sudo chmod -R ug+rwx storage bootstrap/cache
+chown -R $USER:www-data *
+chmod -R ug+rwx storage bootstrap/cache
 ```
 
 **WARNING** use this command if you haven't any custom changement
@@ -113,8 +114,8 @@ Bookshelves can send emails from contact form, you have to set `.env` variables.
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=587
-MAIL_USERNAME=16a36c1ca81e03
-MAIL_PASSWORD=d49144dd24808d
+MAIL_USERNAME=<mailtrap_email>
+MAIL_PASSWORD=<mailtrap_password>
 MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=noreply@bookshelves.ink
 MAIL_FROM_NAME="${APP_NAME}"
@@ -123,6 +124,8 @@ MAIL_TO_NAME="${APP_NAME} contact"
 ```
 
 *Example for production with [**mailgun**](https://www.mailgun.com/)*
+
+You can use any other mailing service, it's just my configuration for Mailgun.
 
 >For credentials
 >
@@ -168,4 +171,25 @@ In production with front-end at <https://bookshelves.ink>
 ```yaml
 SANCTUM_STATEFUL_DOMAINS=bookshelves.ink
 SESSION_DOMAIN=.bookshelves.ink
+```
+
+## **III. Webhook**
+
+If you use Webhook to get update from your git forge, you can setup `.git/hooks/post-merge` with this config
+
+```bash
+#!/bin/bash
+
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+
+composer install
+php artisan config:cache
+php artisan view:cache
+php artisan route:cache
+php artisan scribe:generate
+
+npm i
+npm run prod
 ```
