@@ -67,13 +67,13 @@ DB_PASSWORD=<database_password>
 Download NodeJS dependencies
 
 ```bash
-npm i
+yarn
 ```
 
 Execute Laravel mix
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 Generation API documentation
@@ -100,6 +100,28 @@ Previous command will add tracking changes for git, skip it with this command
 
 ```bash
 git checkout .
+```
+
+## Common errors
+
+## `webpack-cli` to install
+
+```bash
+> @ watch /path/to/bookshelves-back
+> mix watch
+
+npx: installed 73 in 4.909s
+CLI for webpack must be installed.
+  webpack-cli (https://github.com/webpack/webpack-cli)
+
+We will use "pnpm" to install the CLI via "pnpm install -D webpack-cli".
+Do you want to install 'webpack-cli' (yes/no):
+```
+
+If you have this request, you can accept but CLI will make request again and again... Install some dependencies globally to fix this problem
+
+```bash
+pnpm i -g cross-env laravel-mix webpack
 ```
 
 # **II. Variables for .env**
@@ -190,6 +212,6 @@ php artisan view:cache
 php artisan route:cache
 php artisan scribe:generate
 
-npm i
-npm run prod
+yarn
+yarn prod
 ```

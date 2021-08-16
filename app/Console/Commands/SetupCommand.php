@@ -75,7 +75,7 @@ class SetupCommand extends Command
         $this->call('storage:link');
 
         $this->info('Node.js dependencies installation...');
-        $process = new Process(['npm', 'run','dev','--colors=always']);
+        $process = new Process(['yarn','--colors=always']);
         $process->setTimeout(0);
         $process->start();
         $iterator = $process->getIterator($process::ITER_SKIP_ERR | $process::ITER_KEEP_OUTPUT);
@@ -83,7 +83,7 @@ class SetupCommand extends Command
             echo $data;
         }
         $this->info('Laravel mix, wait a minute...');
-        exec('npm run prod');
+        exec('yarn prod');
 
         $this->info('Cleaning...');
         if ($prod) {
