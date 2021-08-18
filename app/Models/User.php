@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Traits\HasAvatar;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
+use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -19,6 +20,7 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
     use HasFactory;
+    use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
     use InteractsWithMedia;
@@ -30,7 +32,11 @@ class User extends Authenticatable implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'slug', 'gravatar',
+        'name',
+        'email',
+        'password',
+        'slug',
+        'gravatar',
     ];
 
     /**
@@ -45,10 +51,6 @@ class User extends Authenticatable implements HasMedia
         'two_factor_secret',
     ];
 
-    protected $appends = [
-        'avatar',
-    ];
-
     /**
      * The attributes that should be cast to native types.
      *
@@ -58,6 +60,18 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'gravatar'          => 'boolean',
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'profile_photo_url',
+    ];
+    // protected $appends = [
+    //     'avatar',
+    // ];
 
     public static function boot()
     {
