@@ -1,11 +1,11 @@
 You need this to use Bookshelves
 
-- Linux / macOS / Windows WSL
-- PHP v8.0
-- Composer v2.0
-- MySQL v8.0
-- NodeJS v14.16
-- yarn v1.2
+- 💻 Linux / macOS / Windows WSL
+- 🐘 PHP v8.0 : [php.net](https://www.php.net)
+- 🎶 Composer v2.0 : [getcomposer.org](https://getcomposer.org)
+- 🐬 MySQL v8.0 : [mysql.com](https://www.mysql.com)
+- 🟢 NodeJS v14.16 : [nodejs.org](https://nodejs.org/en)
+- 🧶 yarn v1.2 : [classic.yarnpkg.com](https://classic.yarnpkg.com/lang/en/)
 
 # **I. Installation**
 
@@ -25,6 +25,12 @@ sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp
 
 ```bash
 npm install -g svgo
+```
+
+For `pnpm`
+
+```bash
+npm i -g webpack-cli laravel-mix
 ```
 
 ## *b. Setup*
@@ -122,7 +128,7 @@ Do you want to install 'webpack-cli' (yes/no):
 If you have this request, you can accept but CLI will make request again and again... Install some dependencies globally to fix this problem
 
 ```bash
-pnpm i -g cross-env laravel-mix webpack
+npm i -g webpack-cli laravel-mix
 ```
 
 # **II. Variables for .env**
