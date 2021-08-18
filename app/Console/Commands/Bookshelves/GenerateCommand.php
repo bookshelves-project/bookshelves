@@ -127,17 +127,6 @@ class GenerateCommand extends Command
             '--fresh'  => $fresh,
         ], $this->getOutput());
 
-        /*
-         * Tests
-         */
-        if ($test) {
-            $this->alert('Tests');
-            if ($this->confirm('Do you want to run tests?', true)) {
-                $this->line('Run tests...');
-                Artisan::call('bookshelves:test');
-            }
-        }
-
         $this->newLine();
         $this->table(
             ['Books', 'Series', 'Authors'],
@@ -151,6 +140,17 @@ class GenerateCommand extends Command
 
         $this->createAdmin();
         $this->info('Admin was created from `.env` variables with email '.config('bookshelves.admin.email'));
+
+        /*
+         * Tests
+         */
+        if ($test) {
+            $this->alert('Tests');
+            if ($this->confirm('Do you want to run tests?', true)) {
+                $this->line('Run tests...');
+                Artisan::call('bookshelves:test');
+            }
+        }
 
         $this->info('Done!');
         $this->newLine();
