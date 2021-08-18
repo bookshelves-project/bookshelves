@@ -161,31 +161,31 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('a
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('api.auth.logout');
 
 Route::get('/register', [RegisteredUserController::class,'create'])->name('api.auth.register');
-Route::post('/register', [RegisteredUserController::class,'store'])->name('api.auth.register');
+Route::post('/register', [RegisteredUserController::class,'store'])->name('api.auth.register.post');
 
 Route::prefix('auth')->group(function () {
     Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('api.auth.forgot-password');
-    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('api.auth.forgot-password');
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('api.auth.forgot-password.post');
 
     Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('api.auth.reset-password');
-    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('api.auth.reset-password');
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('api.auth.reset-password.post');
     Route::get('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'create'])->name('api.auth.two-factor-challenge');
-    Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store'])->name('api.auth.two-factor-challenge');
+    Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store'])->name('api.auth.two-factor-challenge.post');
 
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/user/confirm-password', [ConfirmablePasswordController::class, 'show'])->name('api.auth.confirm-password');
-        Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store'])->name('api.auth.confirm-password');
+        Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store'])->name('api.auth.confirm-password.post');
         Route::get('/user/confirmed-password-status', [ConfirmedPasswordStatusController::class, 'show'])->name('api.auth.confirmed-password-status');
         Route::put('/user/password', [PasswordController::class, 'update'])->name('api.auth.password-controller');
         
         Route::put('/user/profile-information', [ProfileInformationController::class, 'update'])->name('api.auth.profile-information');
         
         Route::post('/user/two-factor-authentication', [TwoFactorAuthenticationController::class, 'store'])->name('api.auth.two-factor-authentication');
-        Route::delete('/user/two-factor-authentication', [TwoFactorAuthenticationController::class, 'destroy'])->name('api.auth.two-factor-authentication');
+        Route::delete('/user/two-factor-authentication', [TwoFactorAuthenticationController::class, 'destroy'])->name('api.auth.two-factor-authentication.post');
         
         Route::get('/user/two-factor-qr-code', [TwoFactorQrCodeController::class, 'show'])->name('api.auth.two-factor-qr-code');
         Route::get('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'index'])->name('api.auth.recovery-code');
-        Route::post('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'store'])->name('api.auth.recovery-code');
+        Route::post('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'store'])->name('api.auth.recovery-code.post');
     });
 });
 
