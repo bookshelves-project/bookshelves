@@ -51,8 +51,6 @@
         </div>
     </div>
     @include('components.blocks.to-top')
-    <script src="{{ asset('css/app.js') }}"></script>
-    <script src="{{ asset('css/slide-over.js') }}"></script>
     @yield('scripts')
 </body>
 

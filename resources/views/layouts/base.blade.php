@@ -21,8 +21,8 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     @yield('styles')
-    <script src="{{ mix('css/app.js') }}" defer></script>
-    <script src="{{ mix('css/slide-over.js') }}" defer></script>
+    <script src="{{ mix('css/blade.js') }}"></script>
+    <script src="{{ mix('css/slide-over.js') }}"></script>
 </head>
 
 <body
