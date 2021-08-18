@@ -18,7 +18,7 @@ class SampleCommand extends Command
                             {--u|users : generate users with roles}
                             {--a|account : generate fake comments, favorites sample (users with roles will be generated)}
                             {--s|selection : generate fake selection sample (user admin with roles will be generated)}
-                            {--A|admin : generate only admin with roles';
+                            {--A|admin : generate only admin with roles}';
 
     /**
      * The console command description.
@@ -88,6 +88,8 @@ class SampleCommand extends Command
         if ($admin) {
             if (! User::exists()) {
                 Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
+            } else {
+                $this->info('Admin not created, some users exists!');
             }
         }
 
