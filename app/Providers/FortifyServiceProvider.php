@@ -41,7 +41,11 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::whereEmail($request->email)->firstOrFail();
-            if ($user->hasRole(RoleEnum::ADMIN())) {
+            if ($request->getRequestUri() === '/admin/login') {
+                if ($user->hasRole(RoleEnum::ADMIN())) {
+                    return $user;
+                }
+            } else {
                 return $user;
             }
         });
