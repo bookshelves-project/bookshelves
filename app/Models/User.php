@@ -24,7 +24,7 @@ class User extends Authenticatable implements HasMedia
     use Notifiable;
     use TwoFactorAuthenticatable;
     use InteractsWithMedia;
-    use HasAvatar;
+    // use HasAvatar;
 
     /**
      * The attributes that are mass assignable.
