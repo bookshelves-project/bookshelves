@@ -161,10 +161,16 @@ All these commands try to get extra data from Internet (Wikipedia and GoogleBook
 php artisan bookshelves:generate
 ```
 
-*Example: here command will check all eBooks and erase books with relationships with `-f`, erase all data with `migrate:fresh` with `-e` and execute tests at the end with `-t`*
+*Example: here command will erase all data with `migrate:fresh` with `-e`, check all eBooks and erase books with relationships with `-f`, and execute tests at the end with `-t`*
 
 ```bash
-php artisan bookshelves:generate -fet
+php artisan bookshelves:generate -eft
+```
+
+*Example: here command will use only local data with `-L`, get only 100 first EPUB files with `-l=100`*
+
+```bash
+php artisan bookshelves:generate -Ll=100
 ```
 
 ### books

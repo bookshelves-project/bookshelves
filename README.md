@@ -95,7 +95,7 @@ To get full documentation, you can read [**Wiki of Bookshelves**](https://booksh
   - update no ebooks entities
 
 ```bash
-php artisan bookshelves:generate -e
+php artisan bookshelves:generate -eft
 ```
 
 ```bash
