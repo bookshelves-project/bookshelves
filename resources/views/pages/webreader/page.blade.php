@@ -8,28 +8,28 @@
         <a href="{{ $first }}"
             class="hover:bg-gray-500 transition-colors duration-100 block p-3 rotate-180 transform">
             <span class="my-auto">
-                {!! svg('arrow-double-right', 30) !!}
+                <x-icon-arrow-double-right class="w-6 h-6" />
             </span>
         </a>
         <a href="{{ $prev }}" class="hover:bg-gray-500 transition-colors duration-100 block p-3">
             <span class="my-auto">
-                {!! svg('arrow-left', 30) !!}
+                <x-icon-arrow-left class="w-6 h-6" />
             </span>
         </a>
         <a href="{{ route('webreader.cover', ['author' => request()->author, 'book' => request()->book]) }}"
             class="hover:bg-gray-500 transition-colors duration-100 block p-3">
             <span class="my-auto">
-                {!! svg('home', 30) !!}
+                <x-icon-home class="w-6 h-6" />
             </span>
         </a>
         <a href="{{ $next }}" class="hover:bg-gray-500 transition-colors duration-100 block p-3">
             <span class="my-auto">
-                {!! svg('arrow-right', 30) !!}
+                <x-icon-arrow-right class="w-6 h-6" />
             </span>
         </a>
         <a href="{{ $last }}" class="hover:bg-gray-500 transition-colors duration-100 block p-3">
             <span class="my-auto">
-                {!! svg('arrow-double-right', 30) !!}
+                <x-icon-arrow-double-right class="w-6 h-6" />
             </span>
         </a>
     </div>

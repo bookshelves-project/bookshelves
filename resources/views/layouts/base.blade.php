@@ -21,6 +21,8 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     @yield('styles')
+    <script src="{{ mix('css/app.js') }}" defer></script>
+    <script src="{{ mix('css/slide-over.js') }}" defer></script>
 </head>
 
 <body
@@ -51,8 +53,6 @@
         </div>
     </div>
     @include('components.blocks.to-top')
-    <script src="{{ asset('css/app.js') }}"></script>
-    <script src="{{ asset('css/slide-over.js') }}"></script>
     @yield('scripts')
 </body>
 
