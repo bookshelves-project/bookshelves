@@ -29,10 +29,10 @@ class GenerateCommand extends Command
                             {--f|fresh : reset current books and relation, keep users}
                             {--F|force : skip confirm question for prod}
                             {--L|local : prevent external HTTP requests to public API for additional informations}
-                            {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
                             {--t|test : execute tests at the end}
-                            {--A|skip-admin : skip admin and roles generation}';
+                            {--A|skip-admin : skip admin and roles generation}
+                            {--l|limit= : limit epub files to generate, useful for debug}';
 
     /**
      * The console command description.

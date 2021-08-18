@@ -16,6 +16,18 @@ use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\PublisherController;
 use App\Http\Controllers\Api\SubmissionController;
+use Laravel\Fortify\Http\Controllers\PasswordController;
+use Laravel\Fortify\Http\Controllers\NewPasswordController;
+use Laravel\Fortify\Http\Controllers\RecoveryCodeController;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
+use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
+use Laravel\Fortify\Http\Controllers\ProfileInformationController;
+use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\ConfirmedPasswordStatusController;
+use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController;
+use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +39,8 @@ use App\Http\Controllers\Api\SubmissionController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+
 
 Route::get('/', [ApiController::class, 'index'])->name('api.index');
 
@@ -141,3 +155,45 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/user/update-password', [UserController::class, 'updatePassword'])->name('api.user.update-password');
     Route::get('/user/delete/avatar', [UserController::class, 'deleteAvatar'])->name('api.user.delete.avatar');
 });
+
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('api.auth.login');
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('api.auth.login');
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('api.auth.logout');
+
+Route::get('/register', [RegisteredUserController::class,'create'])->name('api.auth.register');
+Route::post('/register', [RegisteredUserController::class,'store'])->name('api.auth.register');
+
+Route::prefix('auth')->group(function () {
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('api.auth.forgot-password');
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('api.auth.forgot-password');
+
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('api.auth.reset-password');
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('api.auth.reset-password');
+    Route::get('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'create'])->name('api.auth.two-factor-challenge');
+    Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store'])->name('api.auth.two-factor-challenge');
+
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/user/confirm-password', [ConfirmablePasswordController::class, 'show'])->name('api.auth.confirm-password');
+        Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store'])->name('api.auth.confirm-password');
+        Route::get('/user/confirmed-password-status', [ConfirmedPasswordStatusController::class, 'show'])->name('api.auth.confirmed-password-status');
+        Route::put('/user/password', [PasswordController::class, 'update'])->name('api.auth.password-controller');
+        
+        Route::put('/user/profile-information', [ProfileInformationController::class, 'update'])->name('api.auth.profile-information');
+        
+        Route::post('/user/two-factor-authentication', [TwoFactorAuthenticationController::class, 'store'])->name('api.auth.two-factor-authentication');
+        Route::delete('/user/two-factor-authentication', [TwoFactorAuthenticationController::class, 'destroy'])->name('api.auth.two-factor-authentication');
+        
+        Route::get('/user/two-factor-qr-code', [TwoFactorQrCodeController::class, 'show'])->name('api.auth.two-factor-qr-code');
+        Route::get('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'index'])->name('api.auth.recovery-code');
+        Route::post('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'store'])->name('api.auth.recovery-code');
+    });
+});
+
+// Route::fallback(function () {
+//     Route::any('{any}', function () {
+//         return response()->json([
+//             'status'    => false,
+//             'message'   => 'Page Not Found.',
+//         ], 404);
+//     })->where('any', '.*');
+// });

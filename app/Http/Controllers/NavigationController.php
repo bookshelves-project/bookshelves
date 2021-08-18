@@ -16,4 +16,11 @@ class NavigationController extends Controller
 
         return view('pages/welcome', compact('laravelVersion', 'phpVersion'));
     }
+
+    public function fallback()
+    {
+        return response()->json([
+            'failed' => 'Route not found'
+        ], 404);
+    }
 }

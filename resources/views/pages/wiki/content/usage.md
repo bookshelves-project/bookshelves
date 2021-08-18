@@ -143,20 +143,28 @@ Commands have some options, use `-h` to get list of all options.
 
 All these commands try to get extra data from Internet (Wikipedia and GoogleBooks), use `--local` like `php artisan bookshelves:generate -L` option to skip this feature.
 
->--f|fresh : reset current books and relation, keep users  
->--e|erase : erase all data
->--F|force : skip confirm question for prod  
->--C|covers : prevent generation of covers  
->--L|local : prevent external HTTP requests to public API for additional informations  
->--l|limit= : limit epub files to generate, useful for debug  
->--d|debug : generate metadata files into public/storage/debug for debug  
->--t|test : execute tests at the end  
->--A|admin : skip admin and roles generation
+>{--e|erase : erase all data}
+>{--f|fresh : reset current books and relation, keep users}
+>{--F|force : skip confirm question for prod}
+>{--L|local : prevent external HTTP requests to public API for additional informations}
+>{--d|debug : generate metadata files into public/storage/debug for debug}
+>{--t|test : execute tests at the end}
+>{--A|skip-admin : skip admin and roles generation}
+>{--l|limit= : limit epub files to generate, useful for debug}
+
+**WARNING**  
+*`--l|limit=` option have to be set at the end of options*
 
 *Example: here command will check only new eBooks*
 
 ```bash
 php artisan bookshelves:generate
+```
+
+*Example: here command will check all eBooks and erase books with relationships with `-f`, erase all data with `migrate:fresh` with `-e` and execute tests at the end with `-t`*
+
+```bash
+php artisan bookshelves:generate -fet
 ```
 
 ### books
