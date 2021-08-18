@@ -11,19 +11,25 @@
         "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix"
     },
     "devDependencies": {
+        "@inertiajs/inertia": "^0.10.0",
+        "@inertiajs/inertia-vue3": "^0.5.1",
+        "@inertiajs/progress": "^0.2.6",
         "@tailwindcss/aspect-ratio": "^0.2.1",
-        "@tailwindcss/forms": "^0.3.3",
+        "@tailwindcss/forms": "^0.2.1",
         "@tailwindcss/line-clamp": "^0.2.1",
-        "@tailwindcss/typography": "^0.4.1",
+        "@tailwindcss/typography": "^0.3.0",
+        "@vue/compiler-sfc": "^3.0.5",
         "alpinejs": "^3.2.2",
         "autoprefixer": "^10.3.1",
         "axios": "^0.21",
         "laravel-mix": "^6.0.25",
         "lodash": "^4.17.19",
         "postcss": "^8.3.6",
-        "postcss-import": "^14.0.2",
-        "tailwindcss": "^2.2.7",
-        "tailwindcss-debug-screens": "^2.0.0"
+        "postcss-import": "^12.0.1",
+        "tailwindcss": "^2.0.1",
+        "tailwindcss-debug-screens": "^2.0.0",
+        "vue": "^3.0.5",
+        "vue-loader": "^16.1.2"
     },
     "dependencies": {
         "shiki": "^0.9.5"

@@ -1,29 +1,20 @@
-require("./bootstrap");
+require('./bootstrap');
 
-require("alpinejs");
+import { createApp, h } from 'vue';
+import { createInertiaApp } from '@inertiajs/inertia-vue3';
+import { InertiaProgress } from '@inertiajs/progress';
 
-let switchColor = document.getElementById("switchColorBtn");
-let html = document.getElementsByTagName("html");
-html = html[0];
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
-// if (
-//   window.matchMedia &&
-//   window.matchMedia("(prefers-color-scheme: dark)").matches
-// ) {
-//   html.classList.add("dark");
-// }
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) => require(`./Pages/${name}.vue`),
+    setup({ el, app, props, plugin }) {
+        return createApp({ render: () => h(app, props) })
+            .use(plugin)
+            .mixin({ methods: { route } })
+            .mount(el);
+    },
+});
 
-let colorMode = localStorage.getItem("color-mode");
-if (colorMode === "dark") {
-  html.classList.add("dark");
-}
-
-function switchColorMode() {
-  html.classList.toggle("dark");
-  if (html.classList.contains("dark")) {
-    localStorage.setItem("color-mode", "dark");
-  } else {
-    localStorage.setItem("color-mode", "light");
-  }
-}
-switchColor.addEventListener("click", switchColorMode);
+InertiaProgress.init({ color: '#4B5563' });

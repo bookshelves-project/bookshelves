@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4165a08b31f1c74521caac5b1eebe34",
+    "content-hash": "66fba7458a90bba4b5bd28ecf03a9815",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -347,16 +347,16 @@
         },
         {
             "name": "brick/math",
-            "version": "0.9.2",
+            "version": "0.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "dff976c2f3487d42c1db75a3b180e2b9f0e72ce0"
+                "reference": "ca57d18f028f84f777b2168cd1911b0dee2343ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/dff976c2f3487d42c1db75a3b180e2b9f0e72ce0",
-                "reference": "dff976c2f3487d42c1db75a3b180e2b9f0e72ce0",
+                "url": "https://api.github.com/repos/brick/math/zipball/ca57d18f028f84f777b2168cd1911b0dee2343ae",
+                "reference": "ca57d18f028f84f777b2168cd1911b0dee2343ae",
                 "shasum": ""
             },
             "require": {
@@ -366,7 +366,7 @@
             "require-dev": {
                 "php-coveralls/php-coveralls": "^2.2",
                 "phpunit/phpunit": "^7.5.15 || ^8.5 || ^9.0",
-                "vimeo/psalm": "4.3.2"
+                "vimeo/psalm": "4.9.2"
             },
             "type": "library",
             "autoload": {
@@ -391,15 +391,19 @@
             ],
             "support": {
                 "issues": "https://github.com/brick/math/issues",
-                "source": "https://github.com/brick/math/tree/0.9.2"
+                "source": "https://github.com/brick/math/tree/0.9.3"
             },
             "funding": [
+                {
+                    "url": "https://github.com/BenMorel",
+                    "type": "github"
+                },
                 {
                     "url": "https://tidelift.com/funding/github/packagist/brick/math",
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-20T22:51:39+00:00"
+            "time": "2021-08-15T20:50:18+00:00"
         },
         {
             "name": "composer/semver",
@@ -1548,6 +1552,74 @@
             "time": "2020-07-09T08:09:16+00:00"
         },
         {
+            "name": "inertiajs/inertia-laravel",
+            "version": "v0.4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inertiajs/inertia-laravel.git",
+                "reference": "3a08d87bc8de80f774f889918b696e2d3a2d11f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/3a08d87bc8de80f774f889918b696e2d3a2d11f1",
+                "reference": "3a08d87bc8de80f774f889918b696e2d3a2d11f1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/framework": "^5.4|^6.0|^7.0|^8.0",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^8.0|^9.0",
+                "roave/security-advisories": "dev-master"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Inertia\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Inertia\\": "src"
+                },
+                "files": [
+                    "./helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Reinink",
+                    "email": "jonathan@reinink.ca",
+                    "homepage": "https://reinink.ca"
+                }
+            ],
+            "description": "The Laravel adapter for Inertia.js.",
+            "keywords": [
+                "inertia",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/inertiajs/inertia-laravel/issues",
+                "source": "https://github.com/inertiajs/inertia-laravel/tree/v0.4.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/reinink",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-07-30T10:32:53+00:00"
+        },
+        {
             "name": "intervention/image",
             "version": "2.6.1",
             "source": {
@@ -1900,16 +1972,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.54.0",
+            "version": "v8.55.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "7b88554cd1aeb52b7f82689bf244182e7a81894b"
+                "reference": "997e2aa23e9103137715018ae926c52f8a1703f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/7b88554cd1aeb52b7f82689bf244182e7a81894b",
-                "reference": "7b88554cd1aeb52b7f82689bf244182e7a81894b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/997e2aa23e9103137715018ae926c52f8a1703f2",
+                "reference": "997e2aa23e9103137715018ae926c52f8a1703f2",
                 "shasum": ""
             },
             "require": {
@@ -1982,7 +2054,7 @@
                 "illuminate/view": "self.version"
             },
             "require-dev": {
-                "aws/aws-sdk-php": "^3.186.4",
+                "aws/aws-sdk-php": "^3.189.0",
                 "doctrine/dbal": "^2.6|^3.0",
                 "filp/whoops": "^2.8",
                 "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
@@ -1995,7 +2067,7 @@
                 "symfony/cache": "^5.1.4"
             },
             "suggest": {
-                "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage and SES mail driver (^3.186.4).",
+                "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage and SES mail driver (^3.189.0).",
                 "brianium/paratest": "Required to run tests in parallel (^6.0).",
                 "doctrine/dbal": "Required to rename columns and drop SQLite columns (^2.6|^3.0).",
                 "ext-ftp": "Required to use the Flysystem FTP driver.",
@@ -2064,20 +2136,86 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-08-10T14:25:51+00:00"
+            "time": "2021-08-17T14:13:34+00:00"
         },
         {
-            "name": "laravel/sanctum",
-            "version": "v2.9.0",
+            "name": "laravel/jetstream",
+            "version": "v2.3.15",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel/sanctum.git",
-                "reference": "eb191ddfc3ec04bbead33593bf982e871095f25c"
+                "url": "https://github.com/laravel/jetstream.git",
+                "reference": "6318fc4a734ef894f38d0298f2dee42f7ee0e90c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sanctum/zipball/eb191ddfc3ec04bbead33593bf982e871095f25c",
-                "reference": "eb191ddfc3ec04bbead33593bf982e871095f25c",
+                "url": "https://api.github.com/repos/laravel/jetstream/zipball/6318fc4a734ef894f38d0298f2dee42f7ee0e90c",
+                "reference": "6318fc4a734ef894f38d0298f2dee42f7ee0e90c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/support": "^8.0",
+                "jenssegers/agent": "^2.6",
+                "laravel/fortify": "^1.6.1",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "inertiajs/inertia-laravel": "^0.3",
+                "laravel/sanctum": "^2.6",
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Jetstream\\JetstreamServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Jetstream\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Tailwind scaffolding for the Laravel framework.",
+            "keywords": [
+                "auth",
+                "laravel",
+                "tailwind"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/jetstream/issues",
+                "source": "https://github.com/laravel/jetstream"
+            },
+            "time": "2021-08-17T15:53:22+00:00"
+        },
+        {
+            "name": "laravel/sanctum",
+            "version": "v2.11.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/sanctum.git",
+                "reference": "b21e65cbe13896946986cb0868180cd69e1bd5d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/sanctum/zipball/b21e65cbe13896946986cb0868180cd69e1bd5d3",
+                "reference": "b21e65cbe13896946986cb0868180cd69e1bd5d3",
                 "shasum": ""
             },
             "require": {
@@ -2128,20 +2266,20 @@
                 "issues": "https://github.com/laravel/sanctum/issues",
                 "source": "https://github.com/laravel/sanctum"
             },
-            "time": "2021-01-26T19:47:38+00:00"
+            "time": "2021-06-15T15:56:21+00:00"
         },
         {
             "name": "laravel/telescope",
-            "version": "v4.6.1",
+            "version": "v4.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "0ad3dfd523f6fda6fa5e7adaa6a72a5d8921f752"
+                "reference": "e82daf606bf4ac64c445b5bd58f80784dd16f97a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/0ad3dfd523f6fda6fa5e7adaa6a72a5d8921f752",
-                "reference": "0ad3dfd523f6fda6fa5e7adaa6a72a5d8921f752",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/e82daf606bf4ac64c445b5bd58f80784dd16f97a",
+                "reference": "e82daf606bf4ac64c445b5bd58f80784dd16f97a",
                 "shasum": ""
             },
             "require": {
@@ -2190,9 +2328,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/telescope/issues",
-                "source": "https://github.com/laravel/telescope/tree/v4.6.1"
+                "source": "https://github.com/laravel/telescope/tree/v4.6.2"
             },
-            "time": "2021-08-03T18:44:23+00:00"
+            "time": "2021-08-17T16:10:10+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -2365,16 +2503,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.1.4",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "f3ad69181b8afed2c9edf7be5a2918144ff4ea32"
+                "reference": "18634df356bfd4119fe3d6156bdb990c414c14ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f3ad69181b8afed2c9edf7be5a2918144ff4ea32",
-                "reference": "f3ad69181b8afed2c9edf7be5a2918144ff4ea32",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/18634df356bfd4119fe3d6156bdb990c414c14ea",
+                "reference": "18634df356bfd4119fe3d6156bdb990c414c14ea",
                 "shasum": ""
             },
             "require": {
@@ -2447,7 +2585,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/1.1.4"
+                "source": "https://github.com/thephpleague/flysystem/tree/1.1.5"
             },
             "funding": [
                 {
@@ -2455,7 +2593,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-06-23T21:56:05+00:00"
+            "time": "2021-08-17T13:49:42+00:00"
         },
         {
             "name": "league/glide",
@@ -5163,16 +5301,16 @@
         },
         {
             "name": "spatie/laravel-route-attributes",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-route-attributes.git",
-                "reference": "79d74e8c17a060542b466c30dab9fcd6a4ff0799"
+                "reference": "1cddbafee4ad06ef69100150ea6c203faf8b23dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-route-attributes/zipball/79d74e8c17a060542b466c30dab9fcd6a4ff0799",
-                "reference": "79d74e8c17a060542b466c30dab9fcd6a4ff0799",
+                "url": "https://api.github.com/repos/spatie/laravel-route-attributes/zipball/1cddbafee4ad06ef69100150ea6c203faf8b23dc",
+                "reference": "1cddbafee4ad06ef69100150ea6c203faf8b23dc",
                 "shasum": ""
             },
             "require": {
@@ -5219,7 +5357,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-route-attributes/issues",
-                "source": "https://github.com/spatie/laravel-route-attributes/tree/1.5.0"
+                "source": "https://github.com/spatie/laravel-route-attributes/tree/1.6.0"
             },
             "funding": [
                 {
@@ -5231,7 +5369,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-08-15T09:56:02+00:00"
+            "time": "2021-08-15T19:51:24+00:00"
         },
         {
             "name": "spatie/laravel-tags",
@@ -8034,16 +8172,16 @@
         },
         {
             "name": "tightenco/ziggy",
-            "version": "v1.0.0",
+            "version": "v1.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tighten/ziggy.git",
-                "reference": "95132ce755bfbb25bbb1d63a6447093748edfb7f"
+                "reference": "05411b50ffb9d1fa8a0f86cf71c72702c2baf5ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tighten/ziggy/zipball/95132ce755bfbb25bbb1d63a6447093748edfb7f",
-                "reference": "95132ce755bfbb25bbb1d63a6447093748edfb7f",
+                "url": "https://api.github.com/repos/tighten/ziggy/zipball/05411b50ffb9d1fa8a0f86cf71c72702c2baf5ab",
+                "reference": "05411b50ffb9d1fa8a0f86cf71c72702c2baf5ab",
                 "shasum": ""
             },
             "require": {
@@ -8094,9 +8232,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tighten/ziggy/issues",
-                "source": "https://github.com/tighten/ziggy/tree/v1.0.0"
+                "source": "https://github.com/tighten/ziggy/tree/v1.3.5"
             },
-            "time": "2020-11-06T22:19:04+00:00"
+            "time": "2021-07-20T15:07:27+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -9527,16 +9665,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.11.2",
+            "version": "2.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "7c4e7a7da184cd00c7ce6eacc590200bb9672de7"
+                "reference": "1b8d83c5dac7c5ee8429daf284ce3f19b1d17ea2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/7c4e7a7da184cd00c7ce6eacc590200bb9672de7",
-                "reference": "7c4e7a7da184cd00c7ce6eacc590200bb9672de7",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/1b8d83c5dac7c5ee8429daf284ce3f19b1d17ea2",
+                "reference": "1b8d83c5dac7c5ee8429daf284ce3f19b1d17ea2",
                 "shasum": ""
             },
             "require": {
@@ -9599,7 +9737,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-07-20T14:01:22+00:00"
+            "time": "2021-08-17T11:45:33+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -12501,16 +12639,16 @@
         },
         {
             "name": "spatie/data-transfer-object",
-            "version": "3.6.0",
+            "version": "3.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/data-transfer-object.git",
-                "reference": "55b7aa2de1b885f5a02c6a599695bc9331048167"
+                "reference": "2dd4e4d5e758b5892e6219bc444a9f38ad77c5af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/data-transfer-object/zipball/55b7aa2de1b885f5a02c6a599695bc9331048167",
-                "reference": "55b7aa2de1b885f5a02c6a599695bc9331048167",
+                "url": "https://api.github.com/repos/spatie/data-transfer-object/zipball/2dd4e4d5e758b5892e6219bc444a9f38ad77c5af",
+                "reference": "2dd4e4d5e758b5892e6219bc444a9f38ad77c5af",
                 "shasum": ""
             },
             "require": {
@@ -12551,7 +12689,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/data-transfer-object/issues",
-                "source": "https://github.com/spatie/data-transfer-object/tree/3.6.0"
+                "source": "https://github.com/spatie/data-transfer-object/tree/3.6.1"
             },
             "funding": [
                 {
@@ -12563,7 +12701,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-12T03:58:42+00:00"
+            "time": "2021-08-17T03:36:52+00:00"
         },
         {
             "name": "symfony/var-exporter",

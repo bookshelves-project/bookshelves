@@ -12,15 +12,24 @@ const mix = require("laravel-mix");
  */
 
 mix
-  .js("resources/js/app.js", "public/css")
-  .js("resources/js/wiki.js", "public/css")
-  .js("resources/js/slide-over.js", "public/css")
-  .css("resources/css/markdown.css", "public/css")
-  .css("resources/css/code.css", "public/css")
-  .postCss("resources/css/wiki.css", "public/css", [require("tailwindcss")])
-  .postCss("resources/css/app.css", "public/css", [require("tailwindcss")])
+  .js("resources/js/app.js", "public/js")
+  .vue()
+  .postCss("resources/css/app.css", "public/css", [
+    require("postcss-import"),
+    require("tailwindcss"),
+  ])
   .webpackConfig(require("./webpack.config"));
 
 if (mix.inProduction()) {
   mix.version();
 }
+
+// mix
+//   .js("resources/js/app.js", "public/css")
+//   .js("resources/js/wiki.js", "public/css")
+//   .js("resources/js/slide-over.js", "public/css")
+//   .css("resources/css/markdown.css", "public/css")
+//   .css("resources/css/code.css", "public/css")
+//   .postCss("resources/css/wiki.css", "public/css", [require("tailwindcss")])
+//   .postCss("resources/css/app.css", "public/css", [require("tailwindcss")])
+//   .webpackConfig(require("./webpack.config"));
