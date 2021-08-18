@@ -5,7 +5,6 @@ namespace App\Console\Commands\Bookshelves;
 use DB;
 use Artisan;
 use App\Models\Book;
-use App\Models\User;
 use Spatie\Tags\Tag;
 use App\Models\Serie;
 use App\Models\Author;
@@ -138,8 +137,8 @@ class GenerateCommand extends Command
             Artisan::call('bookshelves:clear', [], $this->getOutput());
         }
 
-        $this->createAdmin();
-        $this->info('Admin was created from `.env` variables with email '.config('bookshelves.admin.email'));
+        Artisan::call('bookshelves:sample', ['-A'], $this->getOutput());
+        
 
         /*
          * Tests
@@ -236,12 +235,5 @@ class GenerateCommand extends Command
         Tag::truncate();
 
         DB::statement('SET foreign_key_checks=1');
-    }
-    
-    public function createAdmin()
-    {
-        if (! User::exists()) {
-            Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
-        }
     }
 }

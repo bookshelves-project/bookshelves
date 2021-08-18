@@ -88,6 +88,7 @@ class SampleCommand extends Command
         if ($admin) {
             if (! User::exists()) {
                 Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
+                $this->info('Admin was created from `.env` variables with email '.config('bookshelves.admin.email'));
             } else {
                 $this->info('Admin not created, some users exists!');
             }
