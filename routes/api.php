@@ -157,7 +157,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('api.auth.login');
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('api.auth.login');
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('api.auth.login.post');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('api.auth.logout');
 
 Route::get('/register', [RegisteredUserController::class,'create'])->name('api.auth.register');
