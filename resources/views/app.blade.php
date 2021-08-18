@@ -16,7 +16,7 @@
 
     <!-- Scripts -->
     @routes
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    <script src="{{ mix('css/app.js') }}" defer></script>
 </head>
 
 <body class="font-sans antialiased">
