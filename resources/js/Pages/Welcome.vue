@@ -1,6 +1,4 @@
 <template>
-  <Head title="Welcome" />
-
   <div
     class="
       relative
@@ -61,11 +59,10 @@
 </template>
 
 <script>
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Link } from '@inertiajs/inertia-vue3'
 
 export default {
   components: {
-    Head,
     Link,
   },
 
@@ -75,5 +72,5 @@ export default {
     laravelVersion: String,
     phpVersion: String,
   },
-};
+}
 </script>

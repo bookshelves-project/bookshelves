@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.54.0.
+ * Generated for Laravel 8.55.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -5497,7 +5497,7 @@
             /**
          * Register an event listener with the dispatcher.
          *
-         * @param \Closure|string $listener
+         * @param \Closure|string|array $listener
          * @param bool $wildcard
          * @return \Closure
          * @static
@@ -7652,9 +7652,22 @@
                 $instance->assertSent($mailable, $callback);
             }
             /**
+         * Determine if a mailable was not sent or queued to be sent based on a truth-test callback.
+         *
+         * @param string|\Closure $mailable
+         * @param callable|null $callback
+         * @return void
+         * @static
+         */
+            public static function assertNotOutgoing($mailable, $callback = null)
+            {
+                /** @var \Illuminate\Support\Testing\Fakes\MailFake $instance */
+                $instance->assertNotOutgoing($mailable, $callback);
+            }
+            /**
          * Determine if a mailable was not sent based on a truth-test callback.
          *
-         * @param string $mailable
+         * @param string|\Closure $mailable
          * @param callable|null $callback
          * @return void
          * @static
@@ -7663,6 +7676,17 @@
             {
                 /** @var \Illuminate\Support\Testing\Fakes\MailFake $instance */
                 $instance->assertNotSent($mailable, $callback);
+            }
+            /**
+         * Assert that no mailables were sent or queued to be sent.
+         *
+         * @return void
+         * @static
+         */
+            public static function assertNothingOutgoing()
+            {
+                /** @var \Illuminate\Support\Testing\Fakes\MailFake $instance */
+                $instance->assertNothingOutgoing();
             }
             /**
          * Assert that no mailables were sent.
@@ -7691,7 +7715,7 @@
             /**
          * Determine if a mailable was not queued based on a truth-test callback.
          *
-         * @param string $mailable
+         * @param string|\Closure $mailable
          * @param callable|null $callback
          * @return void
          * @static
@@ -7715,7 +7739,7 @@
             /**
          * Get all of the mailables matching a truth-test callback.
          *
-         * @param string $mailable
+         * @param string|\Closure $mailable
          * @param callable|null $callback
          * @return \Illuminate\Support\Collection
          * @static
@@ -7740,7 +7764,7 @@
             /**
          * Get all of the queued mailables matching a truth-test callback.
          *
-         * @param string $mailable
+         * @param string|\Closure $mailable
          * @param callable|null $callback
          * @return \Illuminate\Support\Collection
          * @static
@@ -8200,7 +8224,6 @@
             /**
      *
      *
-     * @method static void popUsing(string $workerName, callable $callback)
      * @see \Illuminate\Queue\QueueManager
      * @see \Illuminate\Queue\Queue
      */
@@ -10967,6 +10990,16 @@
             /**
          *
          *
+         * @see \Inertia\ServiceProvider::registerRequestMacro()
+         * @static
+         */
+            public static function inertia()
+            {
+                return \Illuminate\Http\Request::inertia();
+            }
+            /**
+         *
+         *
          * @see \Spatie\Enum\Laravel\Http\EnumRequest::transformEnums()
          * @param array $transformations
          * @return void
@@ -12099,6 +12132,19 @@
             {
                 /** @var \Illuminate\Routing\Router $instance */
                 return $instance->macroCall($method, $parameters);
+            }
+            /**
+         *
+         *
+         * @see \Inertia\ServiceProvider::registerRouterMacro()
+         * @param mixed $uri
+         * @param mixed $component
+         * @param mixed $props
+         * @static
+         */
+            public static function inertia($uri, $component, $props = [])
+            {
+                return \Illuminate\Routing\Router::inertia($uri, $component, $props);
             }
             /**
          *
@@ -17705,6 +17751,16 @@
             /**
          *
          *
+         * @see \Inertia\ServiceProvider::registerRequestMacro()
+         * @static
+         */
+            public static function inertia()
+            {
+                return \Illuminate\Http\Request::inertia();
+            }
+            /**
+         *
+         *
          * @see \Spatie\Enum\Laravel\Http\EnumRequest::transformEnums()
          * @param array $transformations
          * @return void
@@ -17713,6 +17769,35 @@
             public static function transformEnums($transformations)
             {
                 \Illuminate\Http\Request::transformEnums($transformations);
+            }
+        }
+            /**
+     *
+     *
+     */
+        class RedirectResponse
+        {
+            /**
+         *
+         *
+         * @see \Laravel\Jetstream\JetstreamServiceProvider::boot()
+         * @param mixed $message
+         * @static
+         */
+            public static function banner($message)
+            {
+                return \Illuminate\Http\RedirectResponse::banner($message);
+            }
+            /**
+         *
+         *
+         * @see \Laravel\Jetstream\JetstreamServiceProvider::boot()
+         * @param mixed $message
+         * @static
+         */
+            public static function dangerBanner($message)
+            {
+                return \Illuminate\Http\RedirectResponse::dangerBanner($message);
             }
         }
      
@@ -17729,6 +17814,19 @@
             /**
          *
          *
+         * @see \Inertia\ServiceProvider::registerRouterMacro()
+         * @param mixed $uri
+         * @param mixed $component
+         * @param mixed $props
+         * @static
+         */
+            public static function inertia($uri, $component, $props = [])
+            {
+                return \Illuminate\Routing\Router::inertia($uri, $component, $props);
+            }
+            /**
+         *
+         *
          * @see \Spatie\Enum\Laravel\EnumServiceProvider::registerRouteBindingMacro()
          * @param string $key
          * @param string $class
@@ -17737,6 +17835,39 @@
             public static function enum($key, $class)
             {
                 return \Illuminate\Routing\Router::enum($key, $class);
+            }
+        }
+     
+}
+
+    namespace Illuminate\Testing {
+            /**
+     *
+     *
+     * @mixin \Illuminate\Http\Response
+     */
+        class TestResponse
+        {
+            /**
+         *
+         *
+         * @see \Inertia\Testing\TestResponseMacros::assertInertia()
+         * @param \Closure|null $callback
+         * @static
+         */
+            public static function assertInertia($callback = null)
+            {
+                return \Illuminate\Testing\TestResponse::assertInertia($callback);
+            }
+            /**
+         *
+         *
+         * @see \Inertia\Testing\TestResponseMacros::inertiaPage()
+         * @static
+         */
+            public static function inertiaPage()
+            {
+                return \Illuminate\Testing\TestResponse::inertiaPage();
             }
         }
      
@@ -19030,7 +19161,7 @@ namespace  {
              * Pass the query to a given callback.
              *
              * @param callable $callback
-             * @return \Illuminate\Database\Eloquent\Builder|static
+             * @return $this|mixed
              * @static
              */
                 public static function tap($callback)

@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Jetstream\Features;
 use Tests\TestCase;
+use App\Models\User;
+use Laravel\Jetstream\Features;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateApiTokenTest extends TestCase
 {
@@ -24,7 +24,7 @@ class CreateApiTokenTest extends TestCase
         }
 
         $response = $this->post('/user/api-tokens', [
-            'name' => 'Test Token',
+            'name'        => 'Test Token',
             'permissions' => [
                 'read',
                 'update',

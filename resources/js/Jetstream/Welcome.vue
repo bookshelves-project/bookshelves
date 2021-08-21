@@ -192,11 +192,11 @@
 </template>
 
 <script>
-import JetApplicationLogo from "@/Jetstream/ApplicationLogo.vue";
+import JetApplicationLogo from '@/Jetstream/ApplicationLogo.vue'
 
 export default {
   components: {
     JetApplicationLogo,
   },
-};
+}
 </script>

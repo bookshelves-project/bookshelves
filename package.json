@@ -8,7 +8,7 @@
         "hot": "mix watch --hot",
         "prod": "mix --production",
         "production": "mix --production",
-        "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix"
+        "lint": "./node_modules/.bin/eslint resources/js/ --ext .js,.vue"
     },
     "devDependencies": {
         "@inertiajs/inertia": "^0.10.0",
@@ -22,12 +22,18 @@
         "alpinejs": "^3.2.2",
         "autoprefixer": "^10.3.1",
         "axios": "^0.21",
+        "babel-eslint": "^10.1.0",
         "browser-sync": "^2.27.5",
         "browser-sync-webpack-plugin": "^2.3.0",
+        "eslint": "^7.32.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^3.4.1",
+        "eslint-plugin-vue": "^7.16.0",
         "laravel-mix": "^6.0.25",
         "lodash": "^4.17.19",
         "postcss": "^8.3.6",
         "postcss-import": "^12.0.1",
+        "prettier": "^2.3.2",
         "tailwindcss": "^2.0.1",
         "tailwindcss-debug-screens": "^2.0.0",
         "vue": "^3.0.5",

@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdatePasswordTest extends TestCase
 {
@@ -16,8 +16,8 @@ class UpdatePasswordTest extends TestCase
         $this->actingAs($user = User::factory()->create());
 
         $response = $this->put('/user/password', [
-            'current_password' => 'password',
-            'password' => 'new-password',
+            'current_password'      => 'password',
+            'password'              => 'new-password',
             'password_confirmation' => 'new-password',
         ]);
 
@@ -29,8 +29,8 @@ class UpdatePasswordTest extends TestCase
         $this->actingAs($user = User::factory()->create());
 
         $response = $this->put('/user/password', [
-            'current_password' => 'wrong-password',
-            'password' => 'new-password',
+            'current_password'      => 'wrong-password',
+            'password'              => 'new-password',
             'password_confirmation' => 'new-password',
         ]);
 
@@ -44,8 +44,8 @@ class UpdatePasswordTest extends TestCase
         $this->actingAs($user = User::factory()->create());
 
         $response = $this->put('/user/password', [
-            'current_password' => 'password',
-            'password' => 'new-password',
+            'current_password'      => 'password',
+            'password'              => 'new-password',
             'password_confirmation' => 'wrong-password',
         ]);
 

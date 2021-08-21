@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class ProfileInformationTest extends TestCase
 {
@@ -15,7 +15,7 @@ class ProfileInformationTest extends TestCase
         $this->actingAs($user = User::factory()->create());
 
         $response = $this->put('/user/profile-information', [
-            'name' => 'Test Name',
+            'name'  => 'Test Name',
             'email' => 'test@example.com',
         ]);
 
