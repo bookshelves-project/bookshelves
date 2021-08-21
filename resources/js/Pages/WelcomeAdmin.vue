@@ -44,20 +44,6 @@
       <div>
         <div class="flex mx-auto w-max">
           <a
-            :href="route('login')"
-            class="
-              mx-4
-              hover:bg-gray-200
-              transition-colors
-              duration-100
-              block
-              rounded-md
-              p-2
-            "
-          >
-            Back-office
-          </a>
-          <a
             :href="route('opds.index')"
             class="
               mx-4
@@ -101,6 +87,20 @@
           </a>
         </div>
         <div class="flex mx-auto w-max">
+          <a
+            :href="route('login')"
+            class="
+              mx-4
+              hover:bg-gray-200
+              transition-colors
+              duration-100
+              block
+              rounded-md
+              p-2
+            "
+          >
+            Admin
+          </a>
           <a
             :href="route('wiki.index')"
             class="
