@@ -200,9 +200,13 @@ class BookshelvesTools
             if (! is_dir($base_path)) {
                 mkdir($base_path, 0777, true);
             }
-            Image::load($model->getFirstMediaPath($disk))
-                ->fit('crop', $format['width'], $format['height'])
-                ->save($path);
+            try {
+                Image::load($model->getFirstMediaPath($disk))
+                    ->fit('crop', $format['width'], $format['height'])
+                    ->save($path);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
 
         return getUrlStorage($path);
