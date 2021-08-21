@@ -44,6 +44,7 @@ class ClearCommand extends Command
         $this->clearDir(storage_path('app/public/debug'));
         $this->clearDir(storage_path('app/public/cache'));
         $this->clearDir(storage_path('app/public/temp'));
+        $this->clearDir(storage_path('app/public/glide'));
         $this->newLine();
 
         return 0;
