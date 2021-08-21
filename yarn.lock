@@ -4241,11 +4241,6 @@ mitt@^1.1.3:
   resolved "https://registry.yarnpkg.com/mitt/-/mitt-1.2.0.tgz#cb24e6569c806e31bd4e3995787fe38a04fdf90d"
   integrity sha512-r6lj77KlwqLhIUku9UWYes7KJtsczvolZkzp8hbaDPPaE24OmWl5s539Mytlj22siEQKosZ26qCBgda2PKwoJw==
 
-mix-env-file@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/mix-env-file/-/mix-env-file-0.1.1.tgz#64581bac4d70c7a12ff84dc2b3f5a71ff50555ca"
-  integrity sha512-bfeOoRlW4J4aS17Qu3XROkWXR/IN5/j/3aSKeQ2qBjFR8tXYbwY8wnO0w0Xhrfv9EHCbBUihNa0YBOAy2jm7dg==
-
 mkdirp@^0.5.5:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def"
