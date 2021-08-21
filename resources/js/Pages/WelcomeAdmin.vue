@@ -146,13 +146,8 @@
 </template>
 
 <script>
-import AppGuest from "@/Layouts/AppGuest.vue";
-
 export default {
-  components:
-    AppGuest,
-  },
-
+  name: "WelcomeAdmin",
   props: {
     canLogin: Boolean,
     canRegister: Boolean,

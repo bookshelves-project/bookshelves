@@ -92,7 +92,7 @@
       </div>
       <div class="mt-8 md:mt-0 md:order-1">
         <p class="text-center text-base text-gray-400">
-          &copy; {{ date(2020)) }} {{ $inertia.page.props.app.name }}, Inc. All
+          &copy; {{ getDate }} {{ $inertia.page.props.app.name }}, Inc. All
           rights reserved.
         </p>
       </div>
@@ -112,6 +112,11 @@ export default {
         return begin
       }
       return year
+    },
+  },
+  methods: {
+    getDate() {
+      return '2020'
     },
   },
 }
