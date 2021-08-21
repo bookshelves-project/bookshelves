@@ -25,7 +25,7 @@ class WikiController extends Controller
 
         // $content = app(MarkdownRenderer::class)
         //                 ->highlightTheme('github-dark')
-        //                 ->toHtml($content);
+        //                 ->toHtml($markdown);
         
         $environment = Environment::createCommonMarkEnvironment();
         $options = [

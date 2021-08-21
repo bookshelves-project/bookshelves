@@ -27,7 +27,9 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
             public function toResponse($request)
             {
-                return redirect('/admin/login');
+                if ($request->getRequestUri() !== '/api/logout') {
+                    return redirect('/admin/login');
+                }
             }
         });
     }
@@ -48,6 +50,12 @@ class FortifyServiceProvider extends ServiceProvider
             } else {
                 return $user;
             }
+        });
+        Fortify::registerView(function () {
+            // return view('auth.register');
+            return response()->json([
+                'message' => 'Disabled',
+            ], 404);
         });
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);

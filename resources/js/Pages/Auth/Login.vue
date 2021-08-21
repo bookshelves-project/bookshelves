@@ -1,6 +1,10 @@
 <template>
   <Head title="Log in" />
 
+  <div class="absolute top-5 left-5">
+    <a :href="route('admin')"> Back to admin </a>
+  </div>
+
   <jet-authentication-card>
     <template #logo>
       <jet-authentication-card-logo />

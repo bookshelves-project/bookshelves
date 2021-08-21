@@ -37,8 +37,14 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
-        return redirect('/admin/login');
-    });
+        // return redirect('/admin/login');
+        return Inertia::render('WelcomeAdmin', [
+            'canLogin'       => Route::has('login'),
+            'canRegister'    => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion'     => PHP_VERSION,
+        ]);
+    })->name('admin');
     // override fortify
     // Route::post('/login', [AuthenticatedSessionControllerOverride::class, 'store'])->name('admin.auth.login');
     // Route::post('/logout', [AuthenticatedSessionControllerOverride::class, 'destroy'])->name('admin.auth.logout');

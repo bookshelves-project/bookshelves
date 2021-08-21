@@ -13,5 +13,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('css/wiki.js') }}"></script>
+    <script src="{{ asset('css/js/blade/wiki.js') }}"></script>
 @endsection

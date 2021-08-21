@@ -39,12 +39,16 @@ From these relations, all the books of the same series can be listed but also th
 
 ## *Common mistakes*
 
-Example "Language": let's take the language of an English eBook that is mistakenly indicated as French and that is part of a "D'Artagan Romances" series, then this eBook will be part of its own specific series "D'Artagan Romances" indicated as French while the others will be part of the "D'Artagan Romances" series indicated as English. This allows to have two series with the same name in several languages but requires a precise work in setting up the metadata with Calibre for example.
+### Example with Language
+
+let's take the language of an English eBook that is mistakenly indicated as French and that is part of a "D'Artagan Romances" series, then this eBook will be part of its own specific series "D'Artagan Romances" indicated as French while the others will be part of the "D'Artagan Romances" series indicated as English. This allows to have two series with the same name in several languages but requires a precise work in setting up the metadata with Calibre for example.
 
 > - The Three Musketeers from Alexandre Dumas in french: `/dumas-alexandre/d-artagnan-romances-fr`
 > - Twenty Years After from Alexandre Dumas in english: `/alexandre-dumas/d-artagnan-romances-en`
 
-Example "Author": an eBook "The Three Musketeers" has a lastname-firstname author name such as "Alexandre Dumas" while another eBook of the same series "Twenty Years After" has a lastname-firstname author name such as "Dumas Alexandre". During the generation, two different authors will be created and thus two different series, so all the eBooks must have the name of each author indicated in the same way, the proposal of Bookshelves is to prefer firstname-lastname. It's important because with this order, Bookshelves can seperate firstname and lastname to order authors. **You can reverse firstname-lastname into config/bookshelves.php**
+### Example with Author
+
+an eBook "The Three Musketeers" has a lastname-firstname author name such as "Alexandre Dumas" while another eBook of the same series "Twenty Years After" has a lastname-firstname author name such as "Dumas Alexandre". During the generation, two different authors will be created and thus two different series, so all the eBooks must have the name of each author indicated in the same way, the proposal of Bookshelves is to prefer firstname-lastname. It's important because with this order, Bookshelves can seperate firstname and lastname to order authors. **You can reverse firstname-lastname into config/bookshelves.php**
 
 > - The Three Musketeers from Alexandre Dumas: `/dumas-alexandre/three-musketeers-en` from serie `/dumas-alexandre/d-artagnan-romances-en`
 > - Twenty Years After from Dumas Alexandre: `/alexandre-dumas/twenty-years-after` from serie `/alexandre-dumas/d-artagnan-romances-en`
@@ -62,11 +66,12 @@ Bookshelves is not like Calibre with dynamic database from EPUB into a specific 
 
 ## *Features*
 
-📚 [**bookshelves.ink/wiki**](https://bookshelves.ink/wiki): wiki for Bookshelves usage  
-📚 [**bookshelves.ink/docs**](https://bookshelves.ink/docs): API documentation  
-📚 [**bookshelves.ink/opds**](https://bookshelves.ink/opds): OPDS feed for applications which can read this feed  
+🔒 [**bookshelves.ink/admin**](https://bookshelves.ink/admin): admin of Bookshelves usage  
+📔 [**bookshelves.ink/wiki**](https://bookshelves.ink/wiki): wiki for Bookshelves usage  
+👩‍💻 [**bookshelves.ink/docs**](https://bookshelves.ink/docs): API documentation  
+🔖 [**bookshelves.ink/opds**](https://bookshelves.ink/opds): OPDS feed for applications which can read this feed  
 📚 [**bookshelves.ink/catalog**](https://bookshelves.ink/catalog): Catalog, a basic interface for eReader browser to download eBook from eReader  
-📚 [**bookshelves.ink/webreader**](https://bookshelves.ink/webreader): Webreader, to read any Bookshelves eBook into your browser  
+📖 [**bookshelves.ink/webreader**](https://bookshelves.ink/webreader): Webreader, to read any Bookshelves eBook into your browser  
 
 ## *Repository*
 

@@ -192,7 +192,8 @@ class BookshelvesTools
         $format = config('image.covers.'.$type);
         $disk = $model->getTable();
 
-        $base_path = storage_path("app/public/cache/$disk/$type/");
+        $converted_pictures_directory = config('bookshelves.converted_pictures_directory');
+        $base_path = storage_path("app/public/$converted_pictures_directory/$disk/$type/");
         $path = $base_path.$name.'.'.$extension;
 
         if (! File::exists($path)) {

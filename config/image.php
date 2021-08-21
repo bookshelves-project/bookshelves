@@ -17,10 +17,6 @@ return [
     'driver' => env('IMAGE_DRIVER', 'gd'),
     'format' => 'webp',
 
-    'pictures' => [
-        
-    ],
-
     'covers' => [
         // Custom sizes
         // 1.6:1 aspect ratio cover

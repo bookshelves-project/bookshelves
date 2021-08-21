@@ -189,7 +189,7 @@ Bookshelves use [**laravel/sanctum**](https://github.com/laravel/sanctum) for au
 APP_URL=http://localhost:8000
 
 SANCTUM_STATEFUL_DOMAINS=localhost:3000
-SESSION_DOMAIN=localhost
+SESSION_DOMAIN=null
 
 ADMIN_EMAIL=admin@mail.com
 ADMIN_PASSWORD=password
@@ -202,7 +202,7 @@ SANCTUM_STATEFUL_DOMAINS=bookshelves.ink
 SESSION_DOMAIN=.bookshelves.ink
 ```
 
-## **III. Webhook**
+# **III. Webhook**
 
 If you use Webhook to get update from your git forge, you can setup `.git/hooks/post-merge` with this config
 

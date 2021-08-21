@@ -5,8 +5,9 @@ return [
         'to'   => 'info@bookshelves.com',
         'from' => 'noreplyinfo@bookshelves.com',
     ],
-    'cover_extension' => 'webp',
-    'admin'           => [
+    'cover_extension'              => 'webp',
+    'converted_pictures_directory' => 'glide',
+    'admin'                        => [
         'email'    => env('ADMIN_EMAIL', 'admin@mail.com'),
         'password' => env('ADMIN_PASSWORD', 'password'),
     ],

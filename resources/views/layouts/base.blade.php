@@ -20,9 +20,10 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/blade.css') }}">
     @yield('styles')
-    <script src="{{ mix('css/blade.js') }}"></script>
-    <script src="{{ mix('css/slide-over.js') }}"></script>
+
+
 </head>
 
 <body
@@ -54,6 +55,8 @@
     </div>
     @include('components.blocks.to-top')
     @yield('scripts')
+    <script src="{{ mix('css/js/blade/blade.js') }}"></script>
+    <script src="{{ mix('css/js/blade/slide-over.js') }}"></script>
 </body>
 
 </html>

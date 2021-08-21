@@ -25,7 +25,7 @@ $appVersion = $composer->version;
                     @foreach ($links as $link)
                         <li>
                             <a href="/wiki/{{ $link }}"
-                                class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2 {{ Request::url() === config('app.url') . '/wiki/' . $link ? 'bg-gray-200 dark:bg-gray-800' : '' }}">
+                                class="mx-4 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-100 block rounded-md p-2 {{ Request::url() === config('app.url') . '/wiki/' . $link ? 'bg-gray-200 dark:bg-gray-800' : '' }}">
                                 {{ ucfirst($link) }}
                             </a>
                         </li>
@@ -39,33 +39,38 @@ $appVersion = $composer->version;
                 </div>
                 <ul>
                     <li>
-                        <a href="/docs" target="_blank" rel="noopener noreferrer"
+                        <a href="{{ route('admin') }}"
                             class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                            {{ config('app.name') }} API documentation
+                            Admin
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/docs" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                            API documentation
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('wiki.index') }}"
                             class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                            {{ config('app.name') }} Wiki
+                            Wiki
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('opds.index') }}"
                             class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                            {{ config('app.name') }} OPDS
+                            OPDS
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('catalog.index') }}"
                             class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                            {{ config('app.name') }} Catalog
+                            Catalog
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('webreader.index') }}"
                             class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                            {{ config('app.name') }} Webreader
+                            Webreader
                         </a>
                     </li>
                 </ul>

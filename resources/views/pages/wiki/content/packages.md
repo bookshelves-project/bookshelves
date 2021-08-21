@@ -108,6 +108,16 @@ php artisan media-library:regenerate
 
 # **V. Tools**
 
+## Browser Sync
+
+- [**BrowserSync/browser-sync**](https://github.com/Browsersync/browser-sync): Keep multiple browsers & devices in sync when building websites.
+
+To enable or disable Browser Sync, just change variable in `.env`
+
+```yaml
+BROWSER_SYNC=true
+```
+
 ## Clockwork
 
 [**itsgoingd/clockwork**](https://github.com/itsgoingd/clockwork): Clockwork is a development tool for PHP available right in your browser. Clockwork gives you an insight into your application runtime - including request data, performance metrics, log entries, database queries, cache queries, redis commands, dispatched events, queued jobs, rendered views and more - for HTTP requests, commands, queue jobs and tests.
