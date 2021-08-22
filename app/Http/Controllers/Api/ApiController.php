@@ -96,22 +96,26 @@ class ApiController extends Controller
         $composerJson = json_decode($composerJson);
 
         return response()->json([
-            'name'                => 'Bookshelves API',
-            'version'             => $composerJson->version,
-            'api-documentation'   => config('app.url').'/docs',
-            'wiki'                => route('wiki.index'),
-            'catalog'             => route('catalog.index'),
-            'opds'                => route('opds.index'),
-            'webreader'           => route('webreader.index'),
-            // 'about' => [
-            // 	'public' => 'Route with public access',
-            // 	'sanctum' => 'Routes available if user is logged',
-            // ],
-            // 'routes' => $publicRoutes,
-            // 'routes' => [
-            // 	'public' => $publicRoutes,
-            // 	'sanctum' => $sanctumRoutes,
-            // ],
+            'name'                 => 'Bookshelves API',
+            'version'              => $composerJson->version,
+            'routes'               => [
+                'catalog'              => $this->getRouteData('catalog.index', 'UI for eReader browser to get eBooks on it.'),
+                'opds'                 => $this->getRouteData('opds.index', 'OPDS API for application which use it.'),
+                'webreader'            => $this->getRouteData('webreader.index', 'UI to read directly an eBook into browser.'),
+                'admin'                => $this->getRouteData('admin', 'For admin to manage data.'),
+                'wiki'                 => $this->getRouteData('wiki.index', 'Wiki for setup and usage, useful for developers.'),
+                'api-documentation'    => $this->getRouteData(config('app.url').'/docs', 'API documentation to use data on others applications', false),
+            ],
         ], 200);
+    }
+
+    public function getRouteData(string $route, string $description, $isLaravelRoute = true)
+    {
+        $values = [
+            'route'       => $isLaravelRoute ? route($route) : $route,
+            'description' => $description
+        ];
+
+        return $values;
     }
 }

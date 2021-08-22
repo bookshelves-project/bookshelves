@@ -39,23 +39,6 @@ $appVersion = $composer->version;
                 </div>
                 <ul>
                     <li>
-                        <a href="{{ route('admin') }}"
-                            class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                            Admin
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/docs" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                            API documentation
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('wiki.index') }}"
-                            class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
-                            Wiki
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{ route('opds.index') }}"
                             class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                             OPDS
@@ -71,6 +54,23 @@ $appVersion = $composer->version;
                         <a href="{{ route('webreader.index') }}"
                             class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
                             Webreader
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin') }}"
+                            class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                            Admin
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/docs" class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                            API documentation
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('wiki.index') }}"
+                            class="mx-4 hover:bg-gray-200 transition-colors duration-100 block rounded-md p-2">
+                            Wiki
                         </a>
                     </li>
                 </ul>
