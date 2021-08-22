@@ -35,6 +35,8 @@
         "vue-loader": "^16.1.2"
     },
     "dependencies": {
+        "@headlessui/vue": "^1.4.0",
+        "@heroicons/vue": "^1.0.4",
         "shiki": "^0.9.5"
     }
 }

@@ -5,6 +5,7 @@ namespace App\Providers;
 use Arr;
 use Inertia\Inertia;
 use Illuminate\Support\Collection;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -28,7 +29,9 @@ class AppServiceProvider extends ServiceProvider
                     'email'    => env('ADMIN_EMAIL', 'admin@mail.com'),
                     'password' => env('ADMIN_PASSWORD', 'password'),
                 ],
-            ]
+            ],
+            'laravelVersion' => Application::VERSION,
+            'phpVersion'     => PHP_VERSION,
         ]);
         
         Builder::macro('whereLike', function ($attributes, string $searchTerm) {
