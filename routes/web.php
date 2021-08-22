@@ -37,7 +37,6 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
-        // return redirect('/admin/login');
         return Inertia::render('WelcomeAdmin', [
             'canLogin'       => Route::has('login'),
             'canRegister'    => Route::has('register'),
@@ -55,8 +54,6 @@ Route::prefix('admin')->group(function () {
 });
 
 // Route::get('cache/resolve/{method}/{size}/{path}', [ImageController::class, 'thumbnail'])->where('path', '.*');
-
-// Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
 
 /*
  * opds routes
