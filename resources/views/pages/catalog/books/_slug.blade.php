@@ -10,7 +10,7 @@
             </a>
             <article class="entity">
                 <span class="entity__cover">
-                    <img src="{{ $book->picture->simple }}" alt="{{ $book->title }}">
+                    <img src="{{ $book->cover->simple }}" alt="{{ $book->title }}">
                 </span>
                 <h2 class="entity__right">
                     <div style="text-decoration: none !important;">

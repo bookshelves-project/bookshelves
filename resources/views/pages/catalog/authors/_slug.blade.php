@@ -10,7 +10,7 @@
             </a>
             <article class="entity">
                 <span class="entity__cover">
-                    <img src="{{ $author->picture->simple }}" alt="{{ $author->name }}">
+                    <img src="{{ $author->cover->simple }}" alt="{{ $author->name }}">
                 </span>
                 <h2 class="entity__right">
                     <div style="text-decoration: none !important;">

@@ -26,7 +26,7 @@
         @endphp
         <a href="{{ $route }}" class="entity">
             <span class="entity__cover">
-                <img src="{{ $item->picture->simple }}" alt="{{ $item->title }}">
+                <img src="{{ $item->cover->simple }}" alt="{{ $item->title }}">
             </span>
             {{-- <h2 class="entity__right">
                 <div style="text-decoration: none !important;">
