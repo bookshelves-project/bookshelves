@@ -30,7 +30,7 @@ class BookOrSerieResource extends JsonResource
             'volume'  => $this->resource->volume ? $this->resource->volume : null,
             'cover'   => [
                 'thumbnail'      => $this->resource->cover_thumbnail,
-                'original'       => $this->resource->image_original,
+                'original'       => $this->resource->cover_original,
                 'og'             => $this->resource->cover_og,
                 'color'          => $this->resource->cover_color,
             ],

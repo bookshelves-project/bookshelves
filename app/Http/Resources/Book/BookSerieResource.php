@@ -24,7 +24,7 @@ class BookSerieResource extends JsonResource
                 'thumbnail'      => $this->resource->cover_thumbnail,
                 'og'             => $this->resource->cover_og,
                 'simple'         => $this->resource->cover_simple,
-                'original'       => $this->resource->image_original,
+                'original'       => $this->resource->cover_original,
                 'color'          => $this->resource->cover_color,
             ],
         ]);

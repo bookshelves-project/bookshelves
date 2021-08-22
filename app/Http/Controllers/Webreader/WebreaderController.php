@@ -34,7 +34,7 @@ class WebreaderController extends Controller
             return $query->where('author_id', '=', $author->id);
         })->whereSlug($book)->firstOrFail();
         
-        $cover = $book->image_original;
+        $cover = $book->cover_original;
         
         $title = $book->title;
         $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';

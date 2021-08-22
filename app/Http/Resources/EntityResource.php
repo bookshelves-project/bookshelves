@@ -47,7 +47,7 @@ class EntityResource extends JsonResource
             'volume'   => $relation->volume ?? null,
             'cover'    => [
                 'thumbnail'     => $relation->cover_thumbnail,
-                'original'      => $relation->image_original,
+                'original'      => $relation->cover_original,
                 'simple'        => $relation->cover_simple,
                 'color'         => $relation->cover_color,
             ],

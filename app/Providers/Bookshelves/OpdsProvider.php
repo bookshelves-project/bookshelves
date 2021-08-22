@@ -192,7 +192,7 @@ class OpdsProvider
             ],
             '__custom:link:2' => [
                 '_attributes' => [
-                    'href' => $book->image_original,
+                    'href' => $book->cover_original,
                     'type' => 'image/png',
                     'rel'  => 'http://opds-spec.org/image',
                 ],

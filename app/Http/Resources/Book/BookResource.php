@@ -39,7 +39,7 @@ class BookResource extends JsonResource
                 'thumbnail'      => $book->cover_thumbnail,
                 'og'             => $book->cover_og,
                 'simple'         => $book->cover_simple,
-                'original'       => $book->image_original,
+                'original'       => $book->cover_original,
                 'color'          => $this->resource->cover_color,
             ],
             'description'    => $book->description,
