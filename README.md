@@ -36,7 +36,7 @@ sudo apt-get install -y php8.0-xml php8.0-gd
 For spatie image optimize tools
 
 ```bash
-sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp
+sudo apt-get install -y jpegoptim optipng pngquant optipng gifsicle webp
 ```
 
 ```bash

@@ -32,12 +32,13 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
  * @property-read string $content_opds
+ * @property-read string|null $cover_color
+ * @property-read string|null $cover_og
+ * @property-read string|null $cover_original
+ * @property-read string|null $cover_simple
+ * @property-read string|null $cover_thumbnail
  * @property-read string $download_link
  * @property-read string $first_char
- * @property-read string|null $image_color
- * @property-read string|null $image_simple
- * @property-read string|null $image_thumbnail
- * @property-read string|null $imageog
  * @property-read bool $is_favorite
  * @property-read string $show_books_link
  * @property-read string $show_link
@@ -106,14 +107,14 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
  * @property-read string $authors_names
+ * @property-read string|null $cover_color
+ * @property-read string|null $cover_og
+ * @property-read string|null $cover_original
+ * @property-read string|null $cover_simple
+ * @property-read string|null $cover_thumbnail
  * @property-read string $download_link
  * @property-read string|null $epub
  * @property-read mixed $genres_list
- * @property-read string|null $image_color
- * @property-read string|null $image_original
- * @property-read string|null $image_simple
- * @property-read string|null $image_thumbnail
- * @property-read string|null $imageog
  * @property-read bool $is_favorite
  * @property-read string|null $meta_author
  * @property-read string $show_link
@@ -381,21 +382,22 @@ namespace App\Models{
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
+ * @property-read string $authors_names
  * @property-read string $content_opds
+ * @property-read string|null $cover_color
+ * @property-read string|null $cover_og
+ * @property-read string|null $cover_original
+ * @property-read string|null $cover_simple
+ * @property-read string|null $cover_thumbnail
  * @property-read string $download_link
  * @property-read mixed $genres_list
- * @property-read string|null $image_color
- * @property-read string|null $image_original
- * @property-read string|null $image_simple
- * @property-read string|null $image_thumbnail
- * @property-read string|null $imageog
  * @property-read bool $is_favorite
  * @property-read string|null $meta_author
- * @property-read string $show_books_link
  * @property-read string $show_link
  * @property-read string $show_link_opds
  * @property-read string $size
  * @property-read mixed $tags_list
+ * @property-read string $webreader_link
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
