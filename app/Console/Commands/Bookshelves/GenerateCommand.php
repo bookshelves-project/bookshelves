@@ -137,7 +137,9 @@ class GenerateCommand extends Command
             Artisan::call('bookshelves:clear', [], $this->getOutput());
         }
 
-        Artisan::call('bookshelves:sample', ['-A'], $this->getOutput());
+        Artisan::call('bookshelves:sample', [
+            '--admin' => true,
+        ], $this->getOutput());
         
 
         /*

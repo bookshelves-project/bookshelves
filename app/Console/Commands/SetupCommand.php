@@ -91,11 +91,11 @@ class SetupCommand extends Command
         } else {
             $this->cleaningDev();
         }
-        Artisan::call('config:cache');
+        Artisan::call('config:cache', [], $this->getOutput());
 
         Artisan::call('setup:database', [], $this->getOutput());
 
-        Artisan::call('scribe:generate');
+        Artisan::call('scribe:generate', [], $this->getOutput());
 
         $this->newLine();
         $this->info('Application is ready!');

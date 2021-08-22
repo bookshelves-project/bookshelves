@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use Artisan;
 use FilesystemIterator;
 use RecursiveIteratorIterator;
 use Illuminate\Console\Command;
@@ -45,6 +46,13 @@ class ClearCommand extends Command
         $this->clearDir(storage_path('app/public/cache'));
         $this->clearDir(storage_path('app/public/temp'));
         $this->clearDir(storage_path('app/public/glide'));
+
+        Artisan::call('cache:clear', [], $this->getOutput());
+        Artisan::call('route:clear', [], $this->getOutput());
+        Artisan::call('config:clear', [], $this->getOutput());
+        Artisan::call('view:clear', [], $this->getOutput());
+        Artisan::call('optimize:clear', [], $this->getOutput());
+
         $this->newLine();
 
         return 0;

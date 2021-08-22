@@ -44,11 +44,11 @@ class SampleCommand extends Command
     {
         $this->alert('Bookshelves: sample');
 
-        $users = $this->option('users') ?? null;
-        $roles = $this->option('roles') ?? null;
-        $account = $this->option('account') ?? null;
-        $selection = $this->option('selection') ?? null;
-        $admin = $this->option('admin') ?? null;
+        $users = $this->option('users') ?? false;
+        $roles = $this->option('roles') ?? false;
+        $account = $this->option('account') ?? false;
+        $selection = $this->option('selection') ?? false;
+        $admin = $this->option('admin') ?? false;
 
         if ($users) {
             $this->comment('Run roles with users seeders');
@@ -90,9 +90,10 @@ class SampleCommand extends Command
                 Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
                 $this->info('Admin was created from `.env` variables with email '.config('bookshelves.admin.email'));
             } else {
-                $this->info('Admin not created, some users exists!');
+                $this->error('Admin not created, some users exists!');
             }
         }
+        $this->newLine();
 
         return true;
     }

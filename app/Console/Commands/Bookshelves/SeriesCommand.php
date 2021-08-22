@@ -55,7 +55,7 @@ class SeriesCommand extends Command
                 $serie->save();
             }
         }
-        $this->alert('Bookshelves: series');
+        $this->alert('Bookshelves: series assets');
         $this->info('- Get cover of vol. 1 (or next) to associate picture to serie if exist');
         $this->info("- If a JPG file with slug of serie exist in 'public/storage/raw/pictures-series', it's will be this picture");
         if (! $local) {

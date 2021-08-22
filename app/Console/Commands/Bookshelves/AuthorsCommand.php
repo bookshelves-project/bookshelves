@@ -55,7 +55,7 @@ class AuthorsCommand extends Command
                 $author->save();
             }
         }
-        $this->alert('Bookshelves: authors');
+        $this->alert('Bookshelves: authors assets');
         if (! $local) {
             $this->info('- Get pictures and description from Wikipedia: HTTP requests (--local to skip)');
             $this->info('- Take description and link from public/storage/raw/authors.json if exists');
