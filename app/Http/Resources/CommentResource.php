@@ -59,12 +59,12 @@ class CommentResource extends JsonResource
             'user'   => [
                 'id'      => $comment->user->id,
                 'name'    => $comment->user->name,
-                'picture' => $comment->user->avatar,
+                'cover'   => $comment->user->avatar,
             ],
             'createdAt' => $comment->created_at,
             'updatedAt' => $comment->updated_at,
             'title'     => $title,
-            'picture'   => $comment->commentable->image_thumbnail,
+            'cover'     => $comment->commentable->cover_thumbnail,
         ];
     }
 }

@@ -26,11 +26,11 @@ class SerieResource extends JsonResource
             'description' => $this->resource->description,
             'link'        => $this->resource->link,
             'language'    => $this->resource->language?->slug,
-            'picture'     => [
-                'thumbnail'      => $this->resource->image_thumbnail,
-                'og'             => $this->resource->image_og,
-                'simple'         => $this->resource->image_simple,
-                'color'          => $this->resource->image_color,
+            'cover'       => [
+                'thumbnail'      => $this->resource->cover_thumbnail,
+                'og'             => $this->resource->cover_og,
+                'simple'         => $this->resource->cover_simple,
+                'color'          => $this->resource->cover_color,
             ],
             'tags'     => TagLightResource::collection($this->resource->tags_list),
             'genres'   => TagLightResource::collection($this->resource->genres_list),

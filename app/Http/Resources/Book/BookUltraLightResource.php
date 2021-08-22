@@ -31,10 +31,10 @@ class BookUltraLightResource extends JsonResource
             'summary'     => BookshelvesTools::stringLimit($this->resource->description, 140),
             'language'    => $this->resource->language?->slug,
             'publishDate' => $this->resource->date,
-            'picture'     => [
-                'thumbnail'   => $this->resource->image_thumbnail,
-                'simple'      => $this->resource->image_simple,
-                'color'       => $this->resource->image_color,
+            'cover'       => [
+                'thumbnail'   => $this->resource->cover_thumbnail,
+                'simple'      => $this->resource->cover_simple,
+                'color'       => $this->resource->cover_color,
             ],
             'volume' => $this->resource->volume,
         ];

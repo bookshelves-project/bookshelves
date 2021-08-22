@@ -45,11 +45,11 @@ class EntityResource extends JsonResource
             'serie'    => $relation->serie?->title,
             'language' => $relation->language?->slug,
             'volume'   => $relation->volume ?? null,
-            'picture'  => [
-                'thumbnail'     => $relation->image_thumbnail,
+            'cover'    => [
+                'thumbnail'     => $relation->cover_thumbnail,
                 'original'      => $relation->image_original,
-                'simple'        => $relation->image_simple,
-                'color'         => $relation->image_color,
+                'simple'        => $relation->cover_simple,
+                'color'         => $relation->cover_color,
             ],
         ];
     }

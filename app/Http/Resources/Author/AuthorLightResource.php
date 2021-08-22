@@ -23,11 +23,11 @@ class AuthorLightResource extends JsonResource
         $resource = array_merge($resource, [
             'lastname'  => $author->lastname,
             'firstname' => $author->firstname,
-            'picture'   => [
-                'thumbnail'      => $author->image_thumbnail,
-                'og'             => $author->image_og,
-                'simple'         => $author->image_simple,
-                'color'          => $this->resource->image_color,
+            'cover'     => [
+                'thumbnail'      => $author->cover_thumbnail,
+                'og'             => $author->cover_og,
+                'simple'         => $author->cover_simple,
+                'color'          => $this->resource->cover_color,
             ],
             'count' => $author->books_count,
         ]);

@@ -142,7 +142,7 @@ class OpdsProvider
             ],
             '__custom:link:2' => [
                 '_attributes' => [
-                    'href' => $entry->image_thumbnail ?? null,
+                    'href' => $entry->cover_thumbnail ?? null,
                     'type' => 'image/png',
                     'rel'  => 'http://opds-spec.org/image/thumbnail',
                 ],
@@ -199,7 +199,7 @@ class OpdsProvider
             ],
             '__custom:link:3' => [
                 '_attributes' => [
-                    'href' => $book->image_thumbnail,
+                    'href' => $book->cover_thumbnail,
                     'type' => 'image/png',
                     'rel'  => 'http://opds-spec.org/image/thumbnail',
                 ],

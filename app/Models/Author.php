@@ -2,22 +2,27 @@
 
 namespace App\Models;
 
-use Auth;
 use Spatie\Tags\HasTags;
 use App\Utils\BookshelvesTools;
+use App\Models\Traits\HasCovers;
 use Spatie\MediaLibrary\HasMedia;
+use App\Models\Traits\HasComments;
+use App\Models\Traits\HasClassName;
+use App\Models\Traits\HasFavorites;
+use App\Models\Traits\HasSelections;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Author extends Model implements HasMedia
 {
-    use InteractsWithMedia;
     use HasFactory;
     use HasTags;
+    use HasClassName;
+    use HasCovers;
+    use HasFavorites;
+    use HasComments;
+    use HasSelections;
 
     protected $fillable = [
         'lastname',
@@ -41,35 +46,6 @@ class Author extends Model implements HasMedia
     public function resolveRouteBinding($value, $field = null)
     {
         return $this->where('slug', $value)->with('media')->withCount('books')->firstOrFail();
-    }
-
-    public function getImageThumbnailAttribute(): string | null
-    {
-        return BookshelvesTools::convertPicture($this, $this->slug);
-    }
-
-    public function getImageogAttribute(): string | null
-    {
-        return BookshelvesTools::convertPicture($this, $this->slug, 'og');
-    }
-
-    public function getImageSimpleAttribute(): string | null
-    {
-        return BookshelvesTools::convertPicture($this, $this->slug, 'simple');
-    }
-
-    public function getImageColorAttribute(): string | null
-    {
-        /** @var Media $media */
-        $media = $this->getFirstMedia('authors');
-
-        if ($media) {
-            $color = $media->getCustomProperty('color');
-
-            return "#$color";
-        }
-
-        return null;
     }
 
     public function getShowLinkAttribute(): string
@@ -137,33 +113,9 @@ class Author extends Model implements HasMedia
         return $size;
     }
 
-    public function getIsFavoriteAttribute(): bool
-    {
-        $is_favorite = false;
-        if (Auth::check()) {
-            $entity = Author::whereSlug($this->slug)->first();
-
-            $checkIfFavorite = Author::find($entity->id)->favorites;
-            if (! sizeof($checkIfFavorite) < 1) {
-                $is_favorite = true;
-            }
-        }
-
-        return $is_favorite;
-    }
     public function getFirstCharAttribute(): string
     {
         return strtolower($this->lastname[0]);
-    }
-
-    public function favorites(): MorphToMany
-    {
-        return $this->morphToMany(User::class, 'favoritable');
-    }
-
-    public function comments(): MorphMany
-    {
-        return $this->morphMany(Comment::class, 'commentable');
     }
 
     /**
@@ -180,10 +132,5 @@ class Author extends Model implements HasMedia
     public function series(): MorphToMany
     {
         return $this->morphedByMany(Serie::class, 'authorable')->orderBy('title_sort');
-    }
-
-    public function selections(): MorphToMany
-    {
-        return $this->morphToMany(User::class, 'selectionable');
     }
 }

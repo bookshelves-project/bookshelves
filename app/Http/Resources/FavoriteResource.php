@@ -53,7 +53,7 @@ class FavoriteResource extends JsonResource
                 'slug'   => $favoritable->favoritable->slug,
             ],
             'title'   => $title,
-            'picture' => $favoritable->favoritable->image_thumbnail,
+            'cover'   => $favoritable->favoritable->cover_thumbnail,
         ];
     }
 }

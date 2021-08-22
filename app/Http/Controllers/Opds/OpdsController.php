@@ -25,7 +25,7 @@ class OpdsController extends Controller
         $feed = (array) json_decode($feed);
         foreach ($feed as $key => $value) {
             $model_name = 'App\Models\\'.ucfirst($value->model);
-            $value->image_thumbnail = config('app.url').'/storage/assets/'.$value->key.'.png';
+            $value->cover_thumbnail = config('app.url').'/storage/assets/'.$value->key.'.png';
             $value->route = route($value->route, ['version' => $version]);
             $value->content = $model_name::count().' '.$value->content;
         }

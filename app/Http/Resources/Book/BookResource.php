@@ -35,12 +35,12 @@ class BookResource extends JsonResource
         $resource = array_merge($resource, [
             'serie'   => SerieLightResource::make($book->serie),
             'authors' => AuthorUltraLightResource::collection($book->authors),
-            'picture' => [
-                'thumbnail'      => $book->image_thumbnail,
-                'og'             => $book->image_og,
-                'simple'         => $book->image_simple,
+            'cover'   => [
+                'thumbnail'      => $book->cover_thumbnail,
+                'og'             => $book->cover_og,
+                'simple'         => $book->cover_simple,
                 'original'       => $book->image_original,
-                'color'          => $this->resource->image_color,
+                'color'          => $this->resource->cover_color,
             ],
             'description'    => $book->description,
             'identifier'     => IdentifierResource::make($book->identifier),

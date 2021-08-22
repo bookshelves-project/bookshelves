@@ -27,10 +27,10 @@ class SerieUltraLightResource extends JsonResource
                 'show'   => $serie->show_link,
                 'books'  => $serie->show_books_link,
             ],
-            'picture' => [
-                'thumbnail'   => $serie->image_thumbnail,
-                'simple'      => $serie->image_simple,
-                'color'       => $this->resource->image_color,
+            'cover' => [
+                'thumbnail'   => $serie->cover_thumbnail,
+                'simple'      => $serie->cover_simple,
+                'color'       => $this->resource->cover_color,
             ],
         ];
 

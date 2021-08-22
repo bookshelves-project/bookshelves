@@ -27,11 +27,11 @@ class SearchSerieResource extends JsonResource
             ],
             'title'   => $this->resource->title,
             'authors' => $this->resource->authors,
-            'picture' => [
-                'thumbnail'      => $this->resource->image_thumbnail,
-                'og'             => $this->resource->image_og,
-                'simple'         => $this->resource->image_simple,
-                'color'          => $this->resource->image_color,
+            'cover'   => [
+                'thumbnail'      => $this->resource->cover_thumbnail,
+                'og'             => $this->resource->cover_og,
+                'simple'         => $this->resource->cover_simple,
+                'color'          => $this->resource->cover_color,
             ],
             'text'     => BookshelvesTools::stringLimit($this->resource->description, 140),
             'language' => $this->resource->language->slug,
