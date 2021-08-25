@@ -8,7 +8,7 @@ class WikipediaProvider
 {
     public function __construct(
         public string $query,
-        public string $pageId,
+        public ?string $pageId = null,
         public array $response,
         public ?string $extract = null,
         public ?string $page_url = null,
