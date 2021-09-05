@@ -1,4 +1,4 @@
-const mix = require('laravel-mix')
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -12,37 +12,36 @@ const mix = require('laravel-mix')
  */
 
 mix
-  .js('resources/js/app.js', 'public/css/js')
+  .js("resources/js/app.js", "public/css/js")
   .vue()
-  .postCss('resources/css/app.css', 'public/css', [
-    require('postcss-import'),
-    require('tailwindcss'),
+  .postCss("resources/css/app.css", "public/css", [
+    require("postcss-import"),
+    require("tailwindcss"),
   ])
-  .js('resources/js/blade/blade.js', 'public/css/js/blade')
-  .js('resources/js/blade/wiki.js', 'public/css/js/blade')
-  .js('resources/js/blade/slide-over.js', 'public/css/js/blade')
-  .css('resources/css/markdown.css', 'public/css')
-  .css('resources/css/code.css', 'public/css')
-  .postCss('resources/css/wiki.css', 'public/css', [require('tailwindcss')])
-  .postCss('resources/css/blade.css', 'public/css', [require('tailwindcss')])
-  .webpackConfig(require('./webpack.config'))
+  .js("resources/js/blade/index.js", "public/css/js/blade")
+  .js("resources/js/blade/wiki.js", "public/css/js/blade")
+  .css("resources/css/markdown.css", "public/css")
+  .css("resources/css/code.css", "public/css")
+  .postCss("resources/css/wiki.css", "public/css", [require("tailwindcss")])
+  .postCss("resources/css/blade.css", "public/css", [require("tailwindcss")])
+  .webpackConfig(require("./webpack.config"));
 
 if (mix.inProduction()) {
-  mix.version()
+  mix.version();
 } else {
-  let withBrowserSync = process.env.BROWSER_SYNC
+  let withBrowserSync = process.env.BROWSER_SYNC;
   if (withBrowserSync) {
-    let appUrl = process.env.APP_URL
-    appUrl = appUrl.replace(/(^\w+:|^)\/\//, '')
+    let appUrl = process.env.APP_URL;
+    appUrl = appUrl.replace(/(^\w+:|^)\/\//, "");
 
     /**
      * Browser sync
      */
     const PATHS = {
-      src: 'src',
-      dist: 'resources',
+      src: "src",
+      dist: "resources",
       proxy: appUrl,
-    }
+    };
 
     mix
       .disableSuccessNotifications()
@@ -52,20 +51,20 @@ if (mix.inProduction()) {
         ui: false,
         injectChanges: true,
         notify: true,
-        host: 'localhost',
+        host: "localhost",
         port: 8001,
         proxy: `${PATHS.proxy}`,
         // files: [`${PATHS.dist}/*.*`],
         files: [
-          'public/css/**/*.css',
-          'public/js/**/*.js',
-          'app/**/*',
-          'routes/**/*',
-          'resources/js/**/*',
-          'resources/css/**/*',
-          'resources/views/**/*',
-          'resources/lang/**/*',
+          "public/css/**/*.css",
+          "public/js/**/*.js",
+          "app/**/*",
+          "routes/**/*",
+          "resources/js/**/*",
+          "resources/css/**/*",
+          "resources/views/**/*",
+          "resources/lang/**/*",
         ],
-      })
+      });
   }
 }

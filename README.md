@@ -102,7 +102,7 @@ php artisan bookshelves:generate -eft
 ln -s /home/jails/sftp/pictures-authors public/storage/raw/pictures-authors
 ln -s /home/jails/sftp/pictures-series public/storage/raw/pictures-series
 
-ln -s /home/jails/sftp/books-libres books public/storage/raw/books
+ln -s /home/jails/sftp/books-libres public/storage/raw/books
 ```
 
 ```bash
