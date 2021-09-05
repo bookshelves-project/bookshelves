@@ -1,4 +1,5 @@
-@extends('layouts.default', ['route' => 'catalog.index', 'slideover' => true])
+@extends('layouts.default', ['title' => 'Catalog, eBooks catalog for eReader browser', 'route' => 'catalog.index',
+'slideover' => true])
 
 @section('styles')
     <link rel="stylesheet" href="{{ mix('css/wiki.css') }}">
@@ -10,8 +11,6 @@
 
     </style>
 @endsection
-
-@section('title', 'Catalog, eBooks catalog for eReader browser')
 
 @section('content')
     <nav>

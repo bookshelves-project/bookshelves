@@ -10,11 +10,7 @@
                 <div class="w-full flex xl:ml-0">
                     <h1
                         class="xl:ml-4 text-lg lg:text-2xl font-semibold text-gray-900 dark:text-white my-auto line-clamp-1">
-                        @hasSection('title')
-                            @yield('title')
-                        @else
-                            {{ config('app.name') }}
-                        @endif
+                        {{ $title }}
                     </h1>
                 </div>
             </div>

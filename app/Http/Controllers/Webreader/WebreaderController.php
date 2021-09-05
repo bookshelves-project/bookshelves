@@ -22,9 +22,10 @@ class WebreaderController extends Controller
     public function index()
     {
         $random_book = Book::inRandomOrder()->first();
+        $cover = $random_book->getCoverThumbnailAttribute();
         $route = route('webreader.cover', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
 
-        return view('pages.webreader.index', compact('random_book', 'route'));
+        return view('pages.webreader.index', compact('random_book', 'cover', 'route'));
     }
 
     public function cover(string $author, string $book)

@@ -14,22 +14,20 @@
         @endif
     </title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Quicksand&display=swap" rel="stylesheet">
-
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="{{ mix('css/markdown.css') }}">
 </head>
 
-<body>
-    <h2 class="text-center mt-20">
-        @yield('title')
-    </h2>
-    <div class="prose prose-xl dark:prose-light markdown-body mx-auto hyphenate">
-        @yield('content')
-    </div>
+<body class="relative">
+    <a href="{{ route('webreader.index') }}"
+        class="fixed top-2 left-2 text-center text-lg font-semibold flex items-center hover:bg-gray-200 rounded-md p-2">
+        <x-icon-arrow-sm-right class="w-4 h-4 transform rotate-180" />
+        <span class="ml-2">
+            Back
+        </span>
+    </a>
+    @yield('content')
 </body>
 
 </html>
