@@ -27,7 +27,7 @@
             "url": "https://gitlab.com/ewilan-riviere/bookshelves-back"
         }
     ],
-    "license": "MIT",
+    "license": "BSD 2-Clause",
     "version": "1.0.0",
     "require": {
         "php": "^7.3|^8.0",
