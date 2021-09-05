@@ -1,6 +1,6 @@
 @extends('layouts.webreader')
 
-@section('content')
+@section('webreader')
     <div class="h-screen">
         <div class="mx-auto mt-16">
             <div class="prose prose-lg mx-auto">

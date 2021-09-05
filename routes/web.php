@@ -5,11 +5,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Opds\OpdsController;
 use App\Http\Controllers\Wiki\WikiController;
+use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\Catalog\BookController;
 use App\Http\Controllers\Catalog\SerieController;
 use App\Http\Controllers\Catalog\AuthorController;
 use App\Http\Controllers\Catalog\CatalogController;
 use App\Http\Controllers\Webreader\WebreaderController;
+use Knuckles\Scribe\Http\Controller as ScribeController;
 use App\Http\Controllers\Opds\BookController as OpdsBookController;
 use App\Http\Controllers\Auth\AuthenticatedSessionControllerOverride;
 use App\Http\Controllers\Opds\SerieController as OpdsSerieController;
@@ -26,18 +28,30 @@ use App\Http\Controllers\Opds\AuthorController as OpdsAuthorController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin'       => Route::has('login'),
-        'canRegister'    => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion'     => PHP_VERSION,
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin'       => Route::has('login'),
+//         'canRegister'    => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion'     => PHP_VERSION,
+//     ]);
+// });
+Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
+// Route::get('/welcome', [NavigationController::class, 'welcome'])->name('welcome');
+
+
+
+$prefix = config('scribe.laravel.docs_url', '/docs');
+$middleware = config('scribe.laravel.middleware', []);
+
+Route::middleware($middleware)
+    ->group(function () use ($prefix) {
+        Route::get($prefix, [ScribeController::class, 'webpage'])->name('scribe');
+    });
 
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
-        return Inertia::render('WelcomeAdmin', [
+        return Inertia::render('Auth/Login', [
             'canLogin'       => Route::has('login'),
             'canRegister'    => Route::has('register'),
             'laravelVersion' => Application::VERSION,

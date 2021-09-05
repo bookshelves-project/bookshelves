@@ -1,19 +1,58 @@
-let slideBtn = document.getElementById('slideBtn')
-let panelLinks = document.getElementById('panelLinks')
+let slideOver = document.getElementById("slide-over");
+let slideOverCloseButton = document.getElementById("slide-over-close-button");
+let slideOverBackdrop = document.getElementById("slide-over-backdrop");
 
-function togglePanelLinks() {
-  panelLinks.classList.toggle('translate-x-0')
-  panelLinks.classList.toggle('translate-x-full')
-}
-slideBtn.addEventListener('click', togglePanelLinks)
+if (slideOver && slideOverCloseButton && slideOverBackdrop) {
+  function toggleSlideOver(toOpen = true) {
+    let slideOverWrapper = document.getElementById("slide-over-wrapper");
 
-let slideOverLinks = document.getElementById('slideOverLinks')
+    if (toOpen) {
+      slideOverWrapper.classList.toggle("hidden");
 
-document.addEventListener('click', function (event) {
-  var isClickInside = slideOverLinks.contains(event.target)
+      setTimeout(() => {
+        slideOverBackdrop.classList.toggle("opacity-0");
+        slideOverBackdrop.classList.toggle("opacity-100");
+        setTimeout(() => {
+          slideOver.classList.toggle("translate-x-full");
+          slideOver.classList.toggle("translate-x-0");
+        }, 150);
+      }, 150);
+    } else {
+      slideOver.classList.toggle("translate-x-full");
+      slideOver.classList.toggle("translate-x-0");
 
-  if (!isClickInside) {
-    panelLinks.classList.remove('translate-x-0')
-    panelLinks.classList.add('translate-x-full')
+      setTimeout(() => {
+        slideOverBackdrop.classList.toggle("opacity-0");
+        slideOverBackdrop.classList.toggle("opacity-100");
+        setTimeout(() => {
+          slideOverWrapper.classList.toggle("hidden");
+        }, 150);
+      }, 150);
+    }
+
+    let status = slideOver.getAttribute("data-status") === "true";
+    slideOver.setAttribute("data-status", !status);
   }
-})
+
+  let slideOverHeaderButton = document.getElementById(
+    "slide-over-header-button"
+  );
+  slideOverHeaderButton.addEventListener("click", () => {
+    toggleSlideOver(true);
+  });
+
+  let slideOverCloseButtonBtn = slideOverCloseButton.firstElementChild;
+  slideOverCloseButtonBtn.addEventListener("click", () => {
+    toggleSlideOver(false);
+  });
+
+  document.addEventListener("click", (evt) => {
+    let targetElement = evt.target; // clicked element
+
+    if (targetElement == slideOverBackdrop) {
+      toggleSlideOver(false);
+    } else {
+      return;
+    }
+  });
+}

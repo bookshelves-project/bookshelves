@@ -2,15 +2,9 @@
 
 namespace App\Http\Controllers\Wiki;
 
-use File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use League\CommonMark\Environment;
 use App\Http\Controllers\Controller;
-use League\CommonMark\CommonMarkConverter;
-use Spatie\LaravelMarkdown\MarkdownRenderer;
-use League\CommonMark\Block\Renderer\FencedCodeRenderer;
-use League\CommonMark\Block\Renderer\IndentedCodeRenderer;
+use App\Providers\CommonMarkProvider;
 
 /**
  * @hideFromAPIDocumentation
@@ -19,32 +13,48 @@ class WikiController extends Controller
 {
     public static function getContent(string $path)
     {
-        $markdown = File::get($path);
-        $date = File::lastModified($path);
-        $date = Carbon::createFromTimestamp($date)->toDateString();
+        $markdown = CommonMarkProvider::generate($path);
+        $content = $markdown->content;
+        $date = $markdown->date;
 
-        // $content = app(MarkdownRenderer::class)
-        //                 ->highlightTheme('github-dark')
-        //                 ->toHtml($markdown);
-        
-        $environment = Environment::createCommonMarkEnvironment();
-        $options = [
-            'html_input'         => 'strip',
-            'allow_unsafe_links' => false,
-        ];
-        $langs = ['html', 'php', 'js', 'yaml', 'nginx', 'bash'];
-        $environment->addBlockRenderer(FencedCode::class, new FencedCodeRenderer($langs));
-        $environment->addBlockRenderer(IndentedCode::class, new IndentedCodeRenderer($langs));
-
-        $converter = new CommonMarkConverter($options, $environment);
-        $content = $converter->convertToHtml($markdown);
-
+        // $links = [
+        //     'home',
+        //     'setup',
+        //     'usage',
+        //     'packages',
+        //     'deployment'
+        // ];
         $links = [
-            'home',
-            'setup',
-            'usage',
-            'packages',
-            'deployment'
+            [
+                'route'      => 'wiki.index',
+                'parameters' => ['page' => 'home'],
+                'title'      => 'Home',
+                'external'   => false
+            ],
+            [
+                'route'      => 'wiki.index',
+                'parameters' => ['page' => 'setup'],
+                'title'      => 'Setup',
+                'external'   => false
+            ],
+            [
+                'route'      => 'wiki.index',
+                'parameters' => ['page' => 'usage'],
+                'title'      => 'Usage',
+                'external'   => false
+            ],
+            [
+                'route'      => 'wiki.index',
+                'parameters' => ['page' => 'packages'],
+                'title'      => 'Packages',
+                'external'   => false
+            ],
+            [
+                'route'      => 'wiki.index',
+                'parameters' => ['page' => 'deployment'],
+                'title'      => 'Deployment',
+                'external'   => false
+            ],
         ];
 
         return view('pages.wiki.index', compact('date', 'content', 'links'));

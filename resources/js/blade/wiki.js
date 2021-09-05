@@ -1,3 +1,2 @@
-require('./wiki/toc')
-require('./wiki/copy-button')
-require('./wiki/sidebar')
+require("./wiki/toc");
+require("./wiki/copy-button");

@@ -1,10 +1,6 @@
 <template>
   <Head title="Log in" />
 
-  <div class="absolute top-5 left-5">
-    <a :href="route('admin')"> Back to admin </a>
-  </div>
-
   <jet-authentication-card>
     <template #logo>
       <jet-authentication-card-logo />
@@ -70,14 +66,14 @@
 </template>
 
 <script>
-import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue'
-import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue'
-import JetButton from '@/Jetstream/Button.vue'
-import JetInput from '@/Jetstream/Input.vue'
-import JetCheckbox from '@/Jetstream/Checkbox.vue'
-import JetLabel from '@/Jetstream/Label.vue'
-import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
-import { Head, Link } from '@inertiajs/inertia-vue3'
+import JetAuthenticationCard from "@/Jetstream/AuthenticationCard.vue";
+import JetAuthenticationCardLogo from "@/Jetstream/AuthenticationCardLogo.vue";
+import JetButton from "@/Jetstream/Button.vue";
+import JetInput from "@/Jetstream/Input.vue";
+import JetCheckbox from "@/Jetstream/Checkbox.vue";
+import JetLabel from "@/Jetstream/Label.vue";
+import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 
 export default {
   components: {
@@ -100,18 +96,18 @@ export default {
   data() {
     return {
       form: this.$inertia.form({
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         remember: false,
       }),
-    }
+    };
   },
 
   mounted() {
-    if (this.$inertia.page.props.app.env === 'local') {
-      this.form.email = this.$inertia.page.props.bookshelves.admin.email
-      this.form.password = this.$inertia.page.props.bookshelves.admin.password
-      this.form.remember = true
+    if (this.$inertia.page.props.app.env === "local") {
+      this.form.email = this.$inertia.page.props.bookshelves.admin.email;
+      this.form.password = this.$inertia.page.props.bookshelves.admin.password;
+      this.form.remember = true;
     }
   },
 
@@ -120,12 +116,12 @@ export default {
       this.form
         .transform((data) => ({
           ...data,
-          remember: this.form.remember ? 'on' : '',
+          remember: this.form.remember ? "on" : "",
         }))
-        .post(this.route('login'), {
-          onFinish: () => this.form.reset('password'),
-        })
+        .post(this.route("login"), {
+          onFinish: () => this.form.reset("password"),
+        });
     },
   },
-}
+};
 </script>

@@ -35,4 +35,47 @@ return [
     'converted_tags' => [
         'Action & Adventure' => 'Action & adventures',
     ],
+    
+    'navigation'=> [
+        'admin' => [
+            'route'    => 'admin',
+            'title'    => 'Back-office',
+            'icon'     => 'lock-open',
+            'external' => true
+        ],
+        'user' => [
+            [
+                'route'    => 'opds.index',
+                'title'    => 'OPDS',
+                'icon'     => 'feed',
+                'external' => false
+            ],
+            [
+                'route'    => 'catalog.index',
+                'title'    => 'Catalog',
+                'icon'     => 'book-open',
+                'external' => false
+            ],
+            [
+                'route'    => 'webreader.index',
+                'title'    => 'Webreader',
+                'icon'     => 'ereader',
+                'external' => false
+            ],
+        ],
+        'dev' => [
+            [
+                'route'    => 'wiki.index',
+                'title'    => 'Wiki',
+                'icon'     => 'wiki',
+                'external' => false
+            ],
+            [
+                'route'    => 'scribe',
+                'title'    => 'API doc',
+                'icon'     => 'api',
+                'external' => true
+            ]
+        ]
+    ]
 ];

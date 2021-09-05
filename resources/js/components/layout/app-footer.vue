@@ -1,8 +1,7 @@
 <template>
-  <footer class="bg-white">
+  <footer>
     <div
       class="
-        max-w-7xl
         mx-auto
         py-6
         px-4

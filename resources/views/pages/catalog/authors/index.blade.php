@@ -2,7 +2,7 @@
 
 @section('title', 'Authors')
 
-@section('content')
+@section('catalog')
     <div class="relative px-4 pt-6 pb-20 sm:px-6 lg:pt-12 lg:pb-28 lg:px-8">
         <div class="relative mx-auto max-w-7xl">
             <div class="flex flex-col">

@@ -3,8 +3,7 @@
 @section('title', $title)
 
 @section('content')
-    <div
-        class="fixed transform -translate-x-1/2 top-0 left-1/2 flex items-center bg-gray-400 bg-opacity-75 z-50 text-white">
+    <div class="fixed transform -translate-x-1/2 top-0 left-1/2 flex items-center bg-gray-400 bg-opacity-75 z-50 text-white">
         <a href="{{ $first }}"
             class="hover:bg-gray-500 transition-colors duration-100 block p-3 rotate-180 transform">
             <span class="my-auto">

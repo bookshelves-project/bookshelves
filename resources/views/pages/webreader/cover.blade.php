@@ -2,7 +2,7 @@
 
 @section('title', $title)
 
-@section('content')
+@section('webreader')
     <div class="h-screen">
         <a href="{{ $open }}" class="mx-auto mt-16 p-5">
             <img src="{{ $cover }}" alt="" class="mx-auto h-96 max-w-full object-cover shadow-md rounded-sm">

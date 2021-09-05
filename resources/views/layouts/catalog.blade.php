@@ -1,4 +1,4 @@
-@extends('layouts.base', ['route' => 'catalog.index', 'slideover' => true])
+@extends('layouts.default', ['route' => 'catalog.index', 'slideover' => true])
 
 @section('styles')
     <link rel="stylesheet" href="{{ mix('css/wiki.css') }}">
@@ -11,10 +11,9 @@
     </style>
 @endsection
 
-@section('title-template', 'Catalog')
-@section('title-text', 'eBooks catalog for eReader browser')
+@section('title', 'Catalog, eBooks catalog for eReader browser')
 
-@section('content-base')
+@section('content')
     <nav>
         <table class="mx-auto" cellpadding="20px" cellspacing="0" height="100%" class="table-fixed">
             <tbody>
@@ -39,7 +38,7 @@
         </table>
     </nav>
     <div class="container max-w-2xl mx-auto hyphenate">
-        @yield('content')
+        @yield('catalog')
     </div>
 @endsection
 

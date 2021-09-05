@@ -2,13 +2,13 @@
 
 {{-- @section('title', 'Home') --}}
 
-@section('content')
+@section('catalog')
     <div class="relative px-4 pb-20 sm:px-6 lg:pb-28 lg:px-8">
         <div class="relative mx-auto max-w-2xl">
             <div class="mt-10">
                 @include('components.catalog.search')
             </div>
-            <div class="">
+            <div class="___class_+?3___">
                 <div class="mx-auto mt-3 text-xl text-gray-500 sm:mt-4 prose prose-lg">
                     <ul>
                         <li>

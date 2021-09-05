@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Carbon;
 use League\CommonMark\Environment;
+use Illuminate\Support\Facades\File;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Block\Element\FencedCode;
 use League\CommonMark\Block\Element\IndentedCode;
@@ -19,7 +21,7 @@ use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\Extension\DisallowedRawHtml\DisallowedRawHtmlExtension;
 
-class CommonMark
+class CommonMarkProvider
 {
     public static function convertToHtml($markdown)
     {
@@ -83,5 +85,29 @@ class CommonMark
         $commonMarkConverter = new CommonMarkConverter([], $environment);
 
         return $commonMarkConverter->convertToHtml($markdown);
+    }
+
+    public static function generate(string $path)
+    {
+        $markdown = File::get($path);
+        $date = File::lastModified($path);
+        $date = Carbon::createFromTimestamp($date)->toDateString();
+
+        $environment = Environment::createCommonMarkEnvironment();
+        $options = [
+            'html_input'         => 'strip',
+            'allow_unsafe_links' => false,
+        ];
+        $langs = ['html', 'php', 'js', 'yaml', 'nginx', 'bash'];
+        $environment->addBlockRenderer(FencedCode::class, new FencedCodeRenderer($langs));
+        $environment->addBlockRenderer(IndentedCode::class, new IndentedCodeRenderer($langs));
+
+        $converter = new CommonMarkConverter($options, $environment);
+        $content = $converter->convertToHtml($markdown);
+
+        return json_decode(json_encode([
+            'content' => $content,
+            'date'    => $date
+        ]));
     }
 }

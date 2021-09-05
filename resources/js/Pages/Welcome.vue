@@ -39,27 +39,12 @@
           </div>
         </div>
       </div>
-      <div class="flex">
-        <Link
-          :href="route('admin')"
-          class="
-            text-sm text-gray-700
-            mx-auto
-            border-b border-transparent
-            transition-colors
-            duration-100
-            hover:border-gray-700
-          "
-        >
-          Access to admin
-        </Link>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from "@inertiajs/inertia-vue3";
 
 export default {
   components: {
@@ -72,5 +57,5 @@ export default {
     laravelVersion: String,
     phpVersion: String,
   },
-}
+};
 </script>
