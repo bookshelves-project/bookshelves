@@ -56,6 +56,7 @@ if (!isset($title)) {
 
     {{-- <x-blocks.to-top /> --}}
     @yield('scripts')
+    <script type="module" src="{{ mix('assets/js/blade/switch-color.js') }}"></script>
     <script src="{{ mix('assets/js/blade/index.js') }}"></script>
 </body>
 
