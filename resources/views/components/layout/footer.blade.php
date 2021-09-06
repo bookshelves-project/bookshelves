@@ -13,11 +13,11 @@
             </a>
             <a href="https://laravel.com/" class="text-gray-400 block text-center hover:text-gray-500" target="_blank"
                 rel="noopener noreferrer">
-                Laravel v{{ $laravelVersion }}
+                Laravel v{{ $laravelVersion ?? '' }}
             </a>
             <a href="https://www.php.net/" class="text-gray-400 block text-center hover:text-gray-500" target="_blank"
                 rel="noopener noreferrer">
-                PHP v{{ $phpVersion }}
+                PHP v{{ $phpVersion ?? '' }}
             </a>
         </div>
         <div class="xl:mt-0 xl:order-1">
