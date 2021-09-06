@@ -13,10 +13,10 @@
 <meta property="og:url" content="{{ Request::fullUrl() }}">
 <meta property="og:title" content="{{ $title }}">
 <meta property="og:description" content="{{ config('app.name') }}">
-<meta property="og:image" content="{{ asset('images/default.jpg') }}">
+<meta property="og:image" content="{{ asset('assets/images/default.jpg') }}">
 <meta property="og:image:alt" content="{{ config('app.name') }}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="{{ Request::fullUrl() }}">
 <meta name="twitter:title" content="{{ $title }}">
 <meta name="twitter:description" content="{{ config('app.name') }}">
-<meta name="twitter:image" content="{{ asset('images/default.jpg') }}">
+<meta name="twitter:image" content="{{ asset('assets/images/default.jpg') }}">

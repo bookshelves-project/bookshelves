@@ -12,19 +12,19 @@ const mix = require("laravel-mix");
  */
 
 mix
-  .js("resources/js/app.js", "public/css/js")
+  .js("resources/js/app.js", "public/assets/js")
   .vue()
-  .postCss("resources/css/app.css", "public/css", [
+  .postCss("resources/css/app.css", "public/assets/css", [
     require("postcss-import"),
     require("tailwindcss"),
   ])
-  .js("resources/js/blade/index.js", "public/css/js/blade")
-  .js("resources/js/blade/wiki.js", "public/css/js/blade")
-  .css("resources/css/blade/markdown.css", "public/css/blade")
-  .postCss("resources/css/blade/wiki.css", "public/css/blade", [
+  .js("resources/js/blade/index.js", "public/assets/js/blade")
+  .js("resources/js/blade/wiki.js", "public/assets/js/blade")
+  .css("resources/css/blade/markdown.css", "public/assets/css/blade")
+  .postCss("resources/css/blade/wiki.css", "public/assets/css/blade", [
     require("tailwindcss"),
   ])
-  .postCss("resources/css/blade/index.css", "public/css/blade", [
+  .postCss("resources/css/blade/index.css", "public/assets/css/blade", [
     require("tailwindcss"),
   ])
   .webpackConfig(require("./webpack.config"));

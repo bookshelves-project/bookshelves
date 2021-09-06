@@ -1,9 +1,9 @@
 @font-face {
     font-family: Handlee;
-    src: url("/css/fonts/Handlee-Regular.ttf");
+    src: url("/assets/fonts/Handlee-Regular.ttf");
 }
 
 @font-face {
     font-family: Quicksand;
-    src: url("/css/fonts/Quicksand-VariableFont_wght.ttf");
+    src: url("/assets/fonts/Quicksand-VariableFont_wght.ttf");
 }

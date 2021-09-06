@@ -2,8 +2,8 @@
 $links])
 
 @section('styles')
-    <link rel="stylesheet" href="{{ mix('css/blade/wiki.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/blade/markdown.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/blade/wiki.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/blade/markdown.css') }}">
 @endsection
 
 @section('content')
@@ -13,5 +13,5 @@ $links])
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('css/js/blade/wiki.js') }}"></script>
+    <script src="{{ asset('assets/js/blade/wiki.js') }}"></script>
 @endsection

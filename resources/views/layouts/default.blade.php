@@ -21,8 +21,8 @@ if (!isset($title)) {
     <title>
         {{ $title }} · {{ config('app.name') }} @yield('title-template')
     </title>
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/blade/index.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/blade/index.css') }}">
     @yield('styles')
     <x-layout.social :title="$title" :author="config('app.name').' Team'" />
 </head>
@@ -56,7 +56,7 @@ if (!isset($title)) {
 
     {{-- <x-blocks.to-top /> --}}
     @yield('scripts')
-    <script src="{{ mix('css/js/blade/index.js') }}"></script>
+    <script src="{{ mix('assets/js/blade/index.js') }}"></script>
 </body>
 
 </html>

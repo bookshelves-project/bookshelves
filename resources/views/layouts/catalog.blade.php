@@ -2,8 +2,8 @@
 'slideover' => true])
 
 @section('styles')
-    <link rel="stylesheet" href="{{ mix('css/blade/wiki.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/blade/markdown.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/blade/wiki.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/blade/markdown.css') }}">
     <style>
         a {
             text-decoration: none !important;

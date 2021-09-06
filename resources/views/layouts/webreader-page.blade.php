@@ -15,14 +15,14 @@
     </title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/blade/index.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/blade/markdown.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/blade/index.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/blade/markdown.css') }}">
 </head>
 
 <body class="relative bg-yellow-200 dark:bg-gray-800">
     @yield('content')
-    <script src="{{ mix('css/js/blade/index.js') }}"></script>
+    <script src="{{ mix('assets/js/blade/index.js') }}"></script>
 </body>
 
 </html>
