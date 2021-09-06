@@ -13,7 +13,6 @@ use League\CommonMark\Block\Renderer\IndentedCodeRenderer;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\Footnote\FootnoteExtension;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
-use Spatie\CommonMarkShikiHighlighter\HighlightCodeExtension;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\SmartPunct\SmartPunctExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
@@ -114,9 +113,6 @@ class CommonMarkProvider
         $environment->addBlockRenderer(FencedCode::class, new FencedCodeRenderer($langs));
         $environment->addBlockRenderer(IndentedCode::class, new IndentedCodeRenderer($langs));
         $environment->addExtension(new ExternalLinkExtension());
-        if (config('app.env') !== 'local') {
-            $environment->addExtension(new HighlightCodeExtension('github-dark'));
-        }
 
         $converter = new CommonMarkConverter($options, $environment);
         $content = $converter->convertToHtml($markdown);
