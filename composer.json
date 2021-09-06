@@ -45,6 +45,7 @@
         "laravel/framework": "^8.12",
         "laravel/jetstream": "^2.3",
         "laravel/sanctum": "^2.6",
+        "laravel/scout": "^9.2",
         "laravel/telescope": "^4.4",
         "laravel/tinker": "^2.5",
         "league/commonmark": "^1.6.5",

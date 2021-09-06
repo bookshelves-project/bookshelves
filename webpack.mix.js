@@ -20,10 +20,13 @@ mix
   ])
   .js("resources/js/blade/index.js", "public/css/js/blade")
   .js("resources/js/blade/wiki.js", "public/css/js/blade")
-  .css("resources/css/markdown.css", "public/css")
-  .css("resources/css/code.css", "public/css")
-  .postCss("resources/css/wiki.css", "public/css", [require("tailwindcss")])
-  .postCss("resources/css/blade.css", "public/css", [require("tailwindcss")])
+  .css("resources/css/blade/markdown.css", "public/css/blade")
+  .postCss("resources/css/blade/wiki.css", "public/css/blade", [
+    require("tailwindcss"),
+  ])
+  .postCss("resources/css/blade/index.css", "public/css/blade", [
+    require("tailwindcss"),
+  ])
   .webpackConfig(require("./webpack.config"));
 
 if (mix.inProduction()) {

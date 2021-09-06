@@ -63,7 +63,7 @@ class WikiController extends Controller
     public function index(Request $request)
     {
         $page = $request->page ?? 'home';
-        $path = resource_path("views/pages/wiki/content/$page.md");
+        $path = "wiki/content/$page.md";
 
         return self::getContent($path);
     }

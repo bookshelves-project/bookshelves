@@ -1,7 +1,3 @@
-/* .prose ul > li::before {
-    background-color: transparent !important;
-} */
-
 .sidenav {
     margin-bottom: 0;
     margin-top: 0;
@@ -14,32 +10,6 @@
 .sidenav a:hover {
     text-decoration: none;
 }
-
-/* .active {
-    position: relative;
-    color: #005ea2;
-    font-weight: 700;
-}
-
-.active {
-    color: #005ea2;
-}
-
-.active::after {
-    background-color: #005ea2;
-    border-radius: 99rem;
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: 0.25rem;
-    top: 0.25rem;
-    width: 0.25rem;
-    left: 0;
-}
-
-.active::after {
-    display: none;
-} */
 
 #toc li {
     @apply border-l-4 border-transparent;

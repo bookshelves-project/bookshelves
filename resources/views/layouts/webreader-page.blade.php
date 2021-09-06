@@ -16,18 +16,13 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/markdown.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/blade/index.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/blade/markdown.css') }}">
 </head>
 
-<body class="relative">
-    <a href="{{ route('webreader.index') }}"
-        class="fixed top-2 left-2 text-center text-lg font-semibold flex items-center hover:bg-gray-200 rounded-md p-2">
-        <x-icon-arrow-sm-right class="w-4 h-4 transform rotate-180" />
-        <span class="ml-2">
-            Back
-        </span>
-    </a>
+<body class="relative bg-yellow-200 dark:bg-gray-800">
     @yield('content')
+    <script src="{{ mix('css/js/blade/index.js') }}"></script>
 </body>
 
 </html>

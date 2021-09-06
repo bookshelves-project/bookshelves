@@ -7,6 +7,7 @@ use Route;
 use App\Enums\EntitiesEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Providers\CommonMarkProvider;
 use App\Providers\Bookshelves\OpdsProvider;
 
 /**
@@ -16,7 +17,11 @@ class OpdsController extends Controller
 {
     public function index(Request $request)
     {
-        return view('pages.opds.index');
+        $markdown = CommonMarkProvider::generate("opds/content/index.md");
+        $content = $markdown->content;
+        $date = $markdown->date;
+        
+        return view('pages.opds.index', compact('content'));
     }
 
     public function feed(Request $request, string $version)

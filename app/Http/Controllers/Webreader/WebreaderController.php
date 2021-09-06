@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\Author;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use App\Providers\CommonMarkProvider;
 use Illuminate\Support\Facades\Storage;
 use League\HTMLToMarkdown\HtmlConverter;
 use League\CommonMark\CommonMarkConverter;
@@ -25,7 +26,11 @@ class WebreaderController extends Controller
         $cover = $random_book->getCoverThumbnailAttribute();
         $route = route('webreader.cover', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
 
-        return view('pages.webreader.index', compact('random_book', 'cover', 'route'));
+        $markdown = CommonMarkProvider::generate("webreader/content/index.md");
+        $content = $markdown->content;
+        $date = $markdown->date;
+
+        return view('pages.webreader.index', compact('random_book', 'cover', 'route', 'content'));
     }
 
     public function cover(string $author, string $book)
@@ -59,6 +64,10 @@ class WebreaderController extends Controller
         $title .= $book->title;
         $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : null;
         $title .= ' by '.$book->authors_names;
+
+        $bookTitle = $book->title;
+        $bookSerie = $book->serie ? $book->serie->title.', vol. '.$book->volume : '';
+        $bookAuthors = $book->authors_names;
 
         $epub_path = $book->getFirstMediaPath('epubs');
         $epub_file = $book->getFirstMedia('epubs');
@@ -98,7 +107,7 @@ class WebreaderController extends Controller
         $last = route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $max_pages]);
         $first = route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
         
-        return view('pages.webreader.page', compact('current_page_content', 'page', 'next', 'prev', 'last', 'first', 'title'));
+        return view('pages.webreader.page', compact('current_page_content', 'page', 'next', 'prev', 'last', 'first', 'title', 'bookTitle', 'bookSerie', 'bookAuthors'));
     }
 
     public static function parseXMLFile(string $filepath, string $disk, bool $debug = false): array

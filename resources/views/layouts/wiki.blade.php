@@ -2,8 +2,8 @@
 $links])
 
 @section('styles')
-    <link rel="stylesheet" href="{{ mix('css/wiki.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/markdown.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/blade/wiki.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/blade/markdown.css') }}">
 @endsection
 
 @section('content')

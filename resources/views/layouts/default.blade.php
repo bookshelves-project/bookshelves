@@ -22,7 +22,7 @@ if (!isset($title)) {
         {{ $title }} · {{ config('app.name') }} @yield('title-template')
     </title>
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/blade.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/blade/index.css') }}">
     @yield('styles')
     <x-layout.social :title="$title" :author="config('app.name').' Team'" />
 </head>

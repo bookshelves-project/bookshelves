@@ -1,19 +1,19 @@
 <?php
 
-namespace App\View\Components\Layout;
+namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class SidebarStatic extends Component
+class switch-color extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(
-        public ?array $links
-    ) {
+    public function __construct()
+    {
+        //
     }
 
     /**
@@ -23,6 +23,6 @@ class SidebarStatic extends Component
      */
     public function render()
     {
-        return view('components.layout.sidebar-static');
+        return view('components.switch-color');
     }
 }

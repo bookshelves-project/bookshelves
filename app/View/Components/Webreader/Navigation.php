@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components\Layout;
+namespace App\View\Components\Webreader;
 
 use Illuminate\View\Component;
 
-class SidebarStatic extends Component
+class navigation extends Component
 {
     /**
      * Create a new component instance.
@@ -12,7 +12,8 @@ class SidebarStatic extends Component
      * @return void
      */
     public function __construct(
-        public ?array $links
+        public ?string $route,
+        public ?string $icon
     ) {
     }
 
@@ -23,6 +24,6 @@ class SidebarStatic extends Component
      */
     public function render()
     {
-        return view('components.layout.sidebar-static');
+        return view('components.webreader.navigation');
     }
 }

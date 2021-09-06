@@ -18,7 +18,7 @@ class NavigationController extends Controller
 {
     public function welcome()
     {
-        $markdown = CommonMarkProvider::generate(base_path('resources\views\pages\welcome\content\index.md'));
+        $markdown = CommonMarkProvider::generate('welcome/content/index.md');
         $content = $markdown->content;
         $date = $markdown->date;
         
