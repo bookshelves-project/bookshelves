@@ -20,7 +20,7 @@ mix
   ])
   .js("resources/js/blade/index.js", "public/assets/js/blade")
   .js("resources/js/blade/wiki.js", "public/assets/js/blade")
-  .js("resources/js/blade/switch-color.js", "public/assets/js/blade")
+  .js("resources/js/blade/set-color.js", "public/assets/js/blade")
   .css("resources/css/blade/markdown.css", "public/assets/css/blade")
   .postCss("resources/css/blade/wiki.css", "public/assets/css/blade", [
     require("tailwindcss"),

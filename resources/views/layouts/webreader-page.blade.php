@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
     <link rel="stylesheet" href="{{ mix('assets/css/blade/index.css') }}">
     <link rel="stylesheet" href="{{ mix('assets/css/blade/markdown.css') }}">
+    <script src="{{ mix('assets/js/blade/set-color.js') }}"></script>
 </head>
 
 <body class="relative bg-yellow-200 dark:bg-gray-800">

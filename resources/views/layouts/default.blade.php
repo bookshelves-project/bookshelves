@@ -25,7 +25,7 @@ if (!isset($title)) {
     <link rel="stylesheet" href="{{ mix('assets/css/blade/index.css') }}">
     @yield('styles')
     <x-layout.social :title="$title" :author="config('app.name').' Team'" />
-    <script src="{{ mix('assets/js/blade/switch-color.js') }}"></script>
+    <script src="{{ mix('assets/js/blade/set-color.js') }}"></script>
 </head>
 
 <body class="{{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
