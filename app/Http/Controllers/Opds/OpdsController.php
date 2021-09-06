@@ -19,9 +19,15 @@ class OpdsController extends Controller
     {
         $markdown = CommonMarkProvider::generate("opds/content/index.md");
         $content = $markdown->content;
-        $date = $markdown->date;
+
+        $feeds = [
+            [
+                'title' => 'Version 1.2',
+                'param' => 'v1.2',
+            ],
+        ];
         
-        return view('pages.opds.index', compact('content'));
+        return view('pages.opds.index', compact('content', 'feeds'));
     }
 
     public function feed(Request $request, string $version)

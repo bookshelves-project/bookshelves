@@ -28,7 +28,6 @@ class WebreaderController extends Controller
 
         $markdown = CommonMarkProvider::generate("webreader/content/index.md");
         $content = $markdown->content;
-        $date = $markdown->date;
 
         return view('pages.webreader.index', compact('random_book', 'cover', 'route', 'content'));
     }

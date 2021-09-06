@@ -7,9 +7,9 @@
         2xl:flex 2xl:items-center 2xl:justify-between
       ">
         <div class="md:flex md:justify-center md:space-x-6 xl:order-2 space-y-2 md:space-y-0">
-            <a href="{{ $composer->homepage }}" class="text-gray-400 block text-center hover:text-gray-500"
+            <a href="{{ $composer->homepage ?? '' }}" class="text-gray-400 block text-center hover:text-gray-500"
                 target="_blank" rel="noopener noreferrer">
-                Bookshelves v{{ $composer->version }}
+                Bookshelves v{{ $composer->version ?? '' }}
             </a>
             <a href="https://laravel.com/" class="text-gray-400 block text-center hover:text-gray-500" target="_blank"
                 rel="noopener noreferrer">
@@ -36,7 +36,7 @@
                 <span class="hidden md:block mr-1">·</span>
                 <div>
                     {{ config('app.name') }} Team.
-                    {{ $composer->license }}
+                    {{ $composer->license ?? '' }}
                     License.
                 </div>
             </div>

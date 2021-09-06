@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Catalog;
 use Illuminate\Http\Request;
 use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
+use App\Providers\CommonMarkProvider;
 
 /**
  * @hideFromAPIDocumentation
@@ -13,7 +14,10 @@ class CatalogController extends Controller
 {
     public function index(Request $request)
     {
-        return view('pages.catalog.index');
+        $markdown = CommonMarkProvider::generate("catalog/content/index.md");
+        $content = $markdown->content;
+        
+        return view('pages.catalog.index', compact('content'));
     }
 
     public function search(Request $request)

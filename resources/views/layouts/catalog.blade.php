@@ -35,12 +35,11 @@
                 </tr>
             </tbody>
         </table>
+        <div class="mt-6 mb-10">
+            <x-catalog.search />
+        </div>
     </nav>
     <div class="container max-w-2xl mx-auto hyphenate">
         @yield('catalog')
     </div>
-@endsection
-
-@section('content-markdown')
-
 @endsection
