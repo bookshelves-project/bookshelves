@@ -4,7 +4,7 @@ namespace App\View\Components\Webreader;
 
 use Illuminate\View\Component;
 
-class navigation extends Component
+class Navigation extends Component
 {
     /**
      * Create a new component instance.
