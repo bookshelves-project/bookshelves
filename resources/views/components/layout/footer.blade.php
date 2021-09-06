@@ -29,7 +29,7 @@
                         <x-icon-cc-by class="w-5 h-5" />
                         <x-icon-cc-nc class="w-5 h-5" />
                         <span>
-                            {{ $date }}
+                            {{ $date ?? '' }}
                         </span>
                     </div>
                 </a>
