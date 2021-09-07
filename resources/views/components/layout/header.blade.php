@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="ml-4 flex items-center xl:ml-6">
-                <x-switch-color />
+                <x-switch-color-mode />
             </div>
             <button id="slide-over-header-button" type="button"
                 class="px-4 border-l border-gray-200 dark:border-gray-600 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 xl:hidden">

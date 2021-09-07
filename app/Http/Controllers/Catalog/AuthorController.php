@@ -28,7 +28,7 @@ class AuthorController extends Controller
         // $authors = SearchAuthorResource::collection($authors);
         // $authors = collect($authors);
 
-        return view('pages.catalog.authors.index', compact('chunks'));
+        return view('pages.features.catalog.authors.index', compact('chunks'));
     }
 
     public function character(Request $request)
@@ -48,7 +48,7 @@ class AuthorController extends Controller
         $authors = SearchAuthorResource::collection($authors);
         $authors = collect($authors);
 
-        return view('pages.catalog.authors.character', compact('authors'));
+        return view('pages.features.catalog.authors.character', compact('authors'));
     }
 
     public function show(Request $request, string $character, string $slug)
@@ -56,11 +56,9 @@ class AuthorController extends Controller
         $author = Author::whereSlug($slug)->firstOrFail();
 
         $books = BookLightResource::collection($author->books);
-        $books = json_decode($books->toJson());
-
         $author = AuthorResource::make($author);
         $author = json_decode($author->toJson());
 
-        return view('pages.catalog.authors._slug', compact('author', 'books'));
+        return view('pages.features.catalog.authors._slug', compact('author', 'books'));
     }
 }

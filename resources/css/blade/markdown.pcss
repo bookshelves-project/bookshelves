@@ -1,0 +1,95 @@
+.prose h1 {
+    margin-top: 6rem;
+    font-family: Handlee;
+    display: table;
+    position: relative;
+    width: max-content;
+}
+
+.prose h1::after {
+    content: " ";
+    width: 80%;
+    display: block;
+    --border-opacity: 1;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-radius: 0.25rem;
+    border: 2px solid #108775;
+}
+
+.prose h2 {
+    font-family: Quicksand;
+    display: table;
+    position: relative;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    width: max-content;
+}
+
+.prose h2::after {
+    content: " ";
+    width: 80%;
+    display: block;
+    --border-opacity: 1;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-radius: 0.25rem;
+    border: 1px dashed #108775;
+}
+
+.prose h3 {
+    font-family: Quicksand;
+    width: max-content;
+    position: relative;
+    display: table;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+}
+
+code {
+    /* white-space: pre-wrap; */
+}
+
+li {
+    margin-top: 0.2rem !important;
+    margin-bottom: 0.2rem !important;
+}
+
+p {
+    text-align: justify !important;
+    -webkit-hyphens: auto !important;
+    -moz-hyphens: auto !important;
+    -ms-hyphens: auto !important;
+    hyphens: auto !important;
+}
+
+.dark .prose a {
+    @apply from-primary-700 to-primary-700;
+}
+
+.prose a {
+    background-position: 0 100%;
+    background-repeat: repeat-x;
+    background-size: 1px 2px;
+    /* transition: background-size 0.1s; */
+    @apply no-underline bg-gradient-to-r from-primary-300 to-primary-300;
+}
+
+.prose a:hover {
+    background-size: 1px 50px;
+}
+
+/* .prose a {
+    white-space: nowrap;
+    overflow: hidden;
+    @apply inline-block overflow-ellipsis max-w-lg w-max;
+}
+
+@screen md {
+    .prose a {
+        white-space: nowrap;
+        overflow: hidden;
+        @apply overflow-ellipsis max-w-lg;
+    }
+} */

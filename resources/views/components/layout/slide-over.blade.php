@@ -19,7 +19,7 @@
                 <div id="slide-over"
                     class="w-screen max-w-md transform transition ease-in-out duration-300 translate-x-full">
                     <div
-                        class="h-full flex flex-col py-6 bg-white dark:bg-gray-800 shadow-xl overflow-y-scroll scrollbar-thin bg-gray-200">
+                        class="h-full flex flex-col py-6 dark:bg-gray-800 shadow-xl overflow-y-scroll scrollbar-thin bg-gray-200">
                         <div class="px-4 sm:px-6">
                             <div class="flex items-start justify-between">
                                 <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100" id="slide-over-title">

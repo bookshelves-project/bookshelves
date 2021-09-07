@@ -77,17 +77,32 @@ const adminNavigation = [
   { name: "Admin", href: "admin", icon: HomeIcon, current: true },
 ];
 const userNavigation = [
-  { name: "OPDS", href: "opds.index", icon: UsersIcon, current: false },
-  { name: "Catalog", href: "catalog.index", icon: FolderIcon, current: false },
+  {
+    name: "OPDS",
+    href: "features.opds.index",
+    icon: UsersIcon,
+    current: false,
+  },
+  {
+    name: "Catalog",
+    href: "features.catalog.index",
+    icon: FolderIcon,
+    current: false,
+  },
   {
     name: "Webreader",
-    href: "webreader.index",
+    href: "features.webreader.index",
     icon: FolderIcon,
     current: false,
   },
 ];
 const devNavigation = [
-  { name: "Wiki", href: "wiki.index", icon: FolderIcon, current: false },
+  {
+    name: "Wiki",
+    href: "features.wiki.index",
+    icon: FolderIcon,
+    current: false,
+  },
   {
     name: "API Doc",
     link: "docs",

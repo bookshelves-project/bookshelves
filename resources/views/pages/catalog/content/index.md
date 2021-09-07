@@ -1,3 +1,0 @@
-- Find now the book what you want from book's title, book's series or book's author.
-- If you have an author or a series as result, you can't download books directly.
-- You have to download one by one but don't hesitate to tap on an author or a series, you will see list of books associated with, just tap on the book that you want.

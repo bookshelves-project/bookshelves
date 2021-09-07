@@ -1,5 +1,5 @@
 <div class="flex-shrink-0 flex ">
-    <a href="{{ route(config('bookshelves.navigation.admin.route')) }}"
+    <a href="{{ route(config('bookshelves.navigation.admin.route')) }}" target="_blank" rel="noopener noreferrer"
         class="flex-shrink-0 w-full group block hover:bg-gray-200 dark:hover:bg-gray-600 bg-gray-300 dark:bg-gray-700 p-4 text-gray-900 dark:text-white">
         <div class="flex items-center">
             <x-dynamic-component component="{{ 'icon-' . config('bookshelves.navigation.admin.icon') }}"

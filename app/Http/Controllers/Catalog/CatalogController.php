@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Catalog;
 
+use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
@@ -16,8 +17,12 @@ class CatalogController extends Controller
     {
         $markdown = CommonMarkProvider::generate("catalog/content/index.md");
         $content = $markdown->content;
-        
-        return view('pages.catalog.index', compact('content'));
+
+        $agent = new Agent();
+        if ($agent->isDesktop()) {
+            return view('pages.features.catalog.index', compact('content'));
+        }
+        return redirect(route('features.catalog.search'));
     }
 
     public function search(Request $request)
@@ -38,9 +43,9 @@ class CatalogController extends Controller
             });
             $books = collect($books);
 
-            return view('pages.catalog.search', compact('authors', 'series', 'books'));
+            return view('pages.features.catalog.search', compact('authors', 'series', 'books'));
         }
 
-        return response()->json(['error' => 'Need to have terms query parameter'], 401);
+        return view('pages.features.catalog.search');
     }
 }

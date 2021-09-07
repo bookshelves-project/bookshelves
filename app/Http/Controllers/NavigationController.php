@@ -54,7 +54,7 @@ class NavigationController extends Controller
         ];
         $table = json_decode(json_encode($table));
         
-        return view('pages.welcome.index', compact('table', 'content'));
+        return view('pages.features.welcome.index', compact('table', 'content'));
     }
 
     public function fallback()

@@ -51,6 +51,7 @@ class EntityResource extends JsonResource
                 'simple'        => $relation->cover_simple,
                 'color'         => $relation->cover_color,
             ],
+            'first_char' => $relation->first_char,
         ];
     }
 }

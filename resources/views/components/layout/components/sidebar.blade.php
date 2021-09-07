@@ -2,6 +2,9 @@
     <x-layout.components.menu-entry :link="$link" />
 @endforeach
 <hr class="border-gray-300 dark:border-gray-600 my-2" />
+<div class="ml-2 font-semibold my-3 dark:text-gray-100">
+    For developers
+</div>
 @foreach (config('bookshelves.navigation.dev') as $link)
     <x-layout.components.menu-entry :link="$link" />
 @endforeach

@@ -11,13 +11,13 @@ class CatalogTest extends TestCase
 {
     public function testMainPages()
     {
-        $response = $this->get(route('catalog.index'));
+        $response = $this->get(route('features.catalog.index'));
         $response->assertStatus(200);
 
-        $response = $this->get(route('catalog.series'));
+        $response = $this->get(route('features.catalog.series'));
         $response->assertStatus(200);
 
-        $response = $this->get(route('catalog.authors'));
+        $response = $this->get(route('features.catalog.authors'));
         $response->assertStatus(200);
     }
 

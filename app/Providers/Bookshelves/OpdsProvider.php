@@ -2,7 +2,6 @@
 
 namespace App\Providers\Bookshelves;
 
-use Route;
 use DateTime;
 use App\Models\Book;
 use App\Enums\EntitiesEnum;
@@ -76,7 +75,7 @@ class OpdsProvider
             '__custom:link:1' => [
                 '_attributes' => [
                     'rel'   => 'start',
-                    'href'  => route('opds.feed', ['version' => $this->version]),
+                    'href'  => route('features.opds.feed', ['version' => $this->version]),
                     'type'  => 'application/atom+xml;profile=opds-catalog;kind=navigation',
                     'title' => 'Home',
                 ],
@@ -92,7 +91,7 @@ class OpdsProvider
             '__custom:link:3' => [
                 '_attributes' => [
                     'rel'   => 'search',
-                    'href'  => route('opds.feed', ['version' => $this->version]),
+                    'href'  => route('features.opds.feed', ['version' => $this->version]),
                     'type'  => 'application/atom+xml;profile=opds-catalog;kind=navigation',
                     'title' => 'Search here',
                 ],

@@ -57,7 +57,7 @@ trait HasAuthors
 
     public function getShowLinkOpdsAttribute(): string
     {
-        $route = route('opds.'.$this->getClassName(true).'.show', [
+        $route = route('features.opds.'.$this->getClassName(true).'.show', [
             'version'               => 'v1.2',
             'author'                => $this->meta_author,
             $this->getClassName()   => $this->slug,
@@ -79,7 +79,7 @@ trait HasAuthors
     public function getWebreaderLinkAttribute(): string
     {
         if ($this->meta_author && $this->slug) {
-            $route = route('webreader.cover', [
+            $route = route('features.webreader.cover', [
                 'author'                => $this->meta_author,
                 $this->getClassName()   => $this->slug,
             ]);

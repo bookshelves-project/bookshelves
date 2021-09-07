@@ -27,7 +27,7 @@ class OpdsController extends Controller
             ],
         ];
         
-        return view('pages.opds.index', compact('content', 'feeds'));
+        return view('pages.features.opds.index', compact('content', 'feeds'));
     }
 
     public function feed(Request $request, string $version)

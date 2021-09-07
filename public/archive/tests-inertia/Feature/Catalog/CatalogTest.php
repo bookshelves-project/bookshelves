@@ -11,13 +11,13 @@ class CatalogTest extends TestCase
 {
     public function testMainPages()
     {
-        $response = $this->get(route('catalog.index'));
+        $response = $this->get(route('features.catalog.index'));
         $response->assertStatus(200);
 
-        $response = $this->get(route('catalog.series'));
+        $response = $this->get(route('features.catalog.series'));
         $response->assertStatus(200);
 
-        $response = $this->get(route('catalog.authors'));
+        $response = $this->get(route('features.catalog.authors'));
         $response->assertStatus(200);
     }
 
@@ -25,7 +25,7 @@ class CatalogTest extends TestCase
     // {
     //     $book = Book::first();
 
-    //     $response = $this->get(route('catalog.search', [
+    //     $response = $this->get(route('features.catalog.search', [
     //         'q' => $book->title,
     //     ]));
     //     $response->assertStatus(200);
@@ -37,19 +37,19 @@ class CatalogTest extends TestCase
     //     $author = Author::first();
     //     $serie = Serie::first();
 
-    //     $response = $this->get(route('catalog.books.show', [
+    //     $response = $this->get(route('features.catalog.books.show', [
     //         'author' => $author->slug,
     //         'book'   => $book->slug,
     //     ]));
     //     $response->assertStatus(200);
 
-    //     $response = $this->get(route('catalog.series.show', [
+    //     $response = $this->get(route('features.catalog.series.show', [
     //         'author' => $author->slug,
     //         'serie'  => $serie->slug,
     //     ]));
     //     $response->assertStatus(200);
 
-    //     $response = $this->get(route('catalog.authors.show', [
+    //     $response = $this->get(route('features.catalog.authors.show', [
     //         'author' => $author->slug,
     //     ]));
     //     $response->assertStatus(200);

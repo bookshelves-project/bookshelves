@@ -21,7 +21,6 @@
   - [*a. Dependencies*](#a-dependencies)
   - [*b. Setup*](#b-setup)
 - [**Usage**](#usage)
-- [Features](#features)
 
 ## **Setup**
 
@@ -60,55 +59,3 @@ php artisan setup
 ## **Usage**
 
 To get full documentation, you can read [**Wiki of Bookshelves**](https://bookshelves.ink/wiki), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/blob/master/resources/views/pages/wiki/content) on repository.
-
-## **TODO** <!-- omit in toc -->
-
-- API doc
-  - [ ] improve doc responseField
-  - [ ] improve bind routes
-- [ ] Logs for EpubParser
-- [ ] Improve libre ebooks meta
-- [ ] Add attribute on each method for Controller
-- [ ] Check attributes
-  - <https://www.amitmerchant.com/how-to-use-php-80-attributes>
-  - <https://stitcher.io/blog/attributes-in-php-8>
-  - <https://grafikart.fr/tutoriels/attribut-php8-1371>
-- [ ] numberOfPages: <https://idpf.github.io/epub-guides/package-metadata/#schema-numberOfPages>
-- [ ] Add explanation form each part of EpubParser
-- [ ] spatie/laravel-medialibrary
-  - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/optimizing-converted-images>
-  - <https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-vue>
-  - conversions name
-    - <https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files>
-    - <https://spatie.be/docs/laravel-medialibrary/v9/converting-images/defining-conversions>
-- [ ] larastan upgrade level
-- [ ] more tests for models
-- [ ] authors notes WIP
-- [ ] opds <https://specs.opds.io/opds-1.2>
-
-## Features
-
-- rewrite ebook parsing engine
-- back-office with datatables
-- admin for front
-  - selection books
-  - update no ebooks entities
-
-```bash
-php artisan bookshelves:generate -eft
-```
-
-```bash
-ln -s /home/jails/sftp/pictures-authors public/storage/raw/pictures-authors
-ln -s /home/jails/sftp/pictures-series public/storage/raw/pictures-series
-
-ln -s /home/jails/sftp/books-libres public/storage/raw/books
-```
-
-```bash
-ln -s /mnt/e/WorkInProgress/ebooks/environment/books-libres public/storage/raw/books
-ln -s /mnt/e/WorkInProgress/ebooks/environment/books-pirates public/storage/raw/books
-
-ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-authors public/storage/raw/pictures-authors
-ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-series public/storage/raw/pictures-series
-```

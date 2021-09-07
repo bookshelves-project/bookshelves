@@ -24,12 +24,12 @@ class WebreaderController extends Controller
     {
         $random_book = Book::inRandomOrder()->first();
         $cover = $random_book->getCoverThumbnailAttribute();
-        $route = route('webreader.cover', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
+        $route = route('features.webreader.cover', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
 
         $markdown = CommonMarkProvider::generate("webreader/content/index.md");
         $content = $markdown->content;
 
-        return view('pages.webreader.index', compact('random_book', 'cover', 'route', 'content'));
+        return view('pages.features.webreader.index', compact('random_book', 'cover', 'route', 'content'));
     }
 
     public function cover(string $author, string $book)
@@ -45,9 +45,9 @@ class WebreaderController extends Controller
         $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';
         $title .= ' by '.$book->authors_names;
 
-        $open = route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
+        $open = route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
 
-        return view('pages.webreader.cover', compact('cover', 'book', 'open', 'title'));
+        return view('pages.features.webreader.cover', compact('cover', 'book', 'open', 'title'));
     }
 
     public function read(string $author, string $book, string $page)
@@ -82,7 +82,7 @@ class WebreaderController extends Controller
         $webreader_files = 'storage/webreader/'.$epub_file->file_name.'/';
         $filePath = $webreader_files.$page.'.md';
         if (! File::exists($filePath)) {
-            return redirect()->route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
+            return redirect()->route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
         }
         $file = File::get($filePath);
         $max_pages = sizeof(File::allFiles($webreader_files));
@@ -101,12 +101,12 @@ class WebreaderController extends Controller
             $previous_page = null;
         }
 
-        $next = $next_page ? route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $next_page]) : null;
-        $prev = $previous_page ? route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $previous_page]) : null;
-        $last = route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $max_pages]);
-        $first = route('webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
+        $next = $next_page ? route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $next_page]) : null;
+        $prev = $previous_page ? route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $previous_page]) : null;
+        $last = route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $max_pages]);
+        $first = route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
         
-        return view('pages.webreader.page', compact('current_page_content', 'page', 'next', 'prev', 'last', 'first', 'title', 'bookTitle', 'bookSerie', 'bookAuthors'));
+        return view('pages.features.webreader.page', compact('current_page_content', 'page', 'next', 'prev', 'last', 'first', 'title', 'bookTitle', 'bookSerie', 'bookAuthors'));
     }
 
     public static function parseXMLFile(string $filepath, string $disk, bool $debug = false): array

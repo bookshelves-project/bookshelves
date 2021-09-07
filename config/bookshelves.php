@@ -45,19 +45,29 @@ return [
         ],
         'user' => [
             [
-                'route'    => 'opds.index',
+                'route'    => 'features',
+                'href'     => false,
+                'title'    => 'Home',
+                'icon'     => 'home',
+                'external' => false
+            ],
+            [
+                'route'    => 'features.opds.index',
+                'href'     => false,
                 'title'    => 'OPDS',
                 'icon'     => 'feed',
                 'external' => false
             ],
             [
-                'route'    => 'catalog.index',
+                'route'    => 'features.catalog.index',
+                'href'     => false,
                 'title'    => 'Catalog',
                 'icon'     => 'book-open',
                 'external' => false
             ],
             [
-                'route'    => 'webreader.index',
+                'route'    => 'features.webreader.index',
+                'href'     => false,
                 'title'    => 'Webreader',
                 'icon'     => 'ereader',
                 'external' => false
@@ -65,17 +75,33 @@ return [
         ],
         'dev' => [
             [
-                'route'    => 'wiki.index',
+                'route'    => 'features.wiki.index',
+                'href'     => false,
                 'title'    => 'Wiki',
                 'icon'     => 'wiki',
                 'external' => false
             ],
             [
+                'route'    => 'features.roadmap.index',
+                'href'     => false,
+                'title'    => 'Roadmap',
+                'icon'     => 'map',
+                'external' => false
+            ],
+            [
                 'route'    => 'scribe',
+                'href'     => false,
                 'title'    => 'API doc',
                 'icon'     => 'api',
                 'external' => true
-            ]
+            ],
+            [
+                'route'    => false,
+                'href'     => env('APP_REPOSITORY', 'https://gitlab.com/ewilan-riviere/bookshelves-back'),
+                'title'    => 'Repository',
+                'icon'     => 'git-branch',
+                'external' => true
+            ],
         ]
     ]
 ];

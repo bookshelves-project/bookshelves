@@ -1,13 +1,24 @@
-@extends('layouts.default', ['title' => 'Webreader, to read eBooks in your browser', 'route' => 'webreader.index',
-'slideover' => true])
+<!DOCTYPE html>
+<html lang="en">
 
-@section('styles')
-    <link rel="stylesheet" href="{{ mix('assets/css/blade/wiki.css') }}">
-    <link rel="stylesheet" href="{{ mix('assets/css/blade/markdown.css') }}">
-@endsection
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-@section('content')
-    <div class="prose prose-lg dark:prose-light">
-        @yield('webreader')
-    </div>
-@endsection
+    <title>
+        @yield('title') · {{ config('app.name') }} Features
+    </title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/blade/index.css') }}">
+    <script src="{{ mix('assets/js/blade/set-color-mode.js') }}"></script>
+</head>
+
+<body class="relative bg-yellow-200 dark:bg-gray-800">
+    @yield('content')
+    <script src="{{ mix('assets/js/blade/index.js') }}"></script>
+</body>
+
+</html>

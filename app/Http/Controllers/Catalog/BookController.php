@@ -21,7 +21,7 @@ class BookController extends Controller
         $links = $books->onEachSide(1)->links();
         $books = json_decode($books->toJson());
 
-        return view('pages.catalog.books.index', compact('books', 'links'));
+        return view('pages.features.catalog.books.index', compact('books', 'links'));
     }
 
     public function show(Request $request, string $author, string $slug)
@@ -33,6 +33,6 @@ class BookController extends Controller
         $book = BookResource::make($book);
         $book = json_decode($book->toJson());
 
-        return view('pages.catalog.books._slug', compact('book'));
+        return view('pages.features.catalog.books._slug', compact('book'));
     }
 }

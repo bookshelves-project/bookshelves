@@ -19,13 +19,13 @@ if (!isset($title)) {
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
-        {{ $title }} · {{ config('app.name') }} @yield('title-template')
+        {{ $title ?? '' }} · {{ config('app.name') }} Features
     </title>
     <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
     <link rel="stylesheet" href="{{ mix('assets/css/blade/index.css') }}">
     @yield('styles')
     <x-layout.social :title="$title" :author="config('app.name').' Team'" />
-    <script src="{{ mix('assets/js/blade/set-color.js') }}"></script>
+    <script src="{{ mix('assets/js/blade/set-color-mode.js') }}"></script>
 </head>
 
 <body class="{{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
@@ -58,6 +58,7 @@ if (!isset($title)) {
     {{-- <x-blocks.to-top /> --}}
     @yield('scripts')
     <script src="{{ mix('assets/js/blade/index.js') }}"></script>
+    <script src="{{ asset('assets/js/blade/markdown/index.js') }}"></script>
 </body>
 
 </html>

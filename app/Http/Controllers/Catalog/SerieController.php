@@ -22,7 +22,7 @@ class SerieController extends Controller
         $series = SearchSerieResource::collection($series);
         $series = collect($series);
 
-        return view('pages.catalog.series.index', compact('series'));
+        return view('pages.features.catalog.series.index', compact('series'));
     }
 
     public function show(Request $request, string $author, string $slug)
@@ -38,6 +38,6 @@ class SerieController extends Controller
         $serie = SerieResource::make($serie);
         $serie = json_decode($serie->toJson());
 
-        return view('pages.catalog.series._slug', compact('serie', 'books'));
+        return view('pages.features.catalog.series._slug', compact('serie', 'books'));
     }
 }

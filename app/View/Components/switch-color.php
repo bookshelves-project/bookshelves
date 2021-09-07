@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class switch-color extends Component
+class switch-color-mode extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class switch-color extends Component
      */
     public function render()
     {
-        return view('components.switch-color');
+        return view('components.switch-color-mode');
     }
 }

@@ -2,6 +2,6 @@ require("../bootstrap");
 
 require("alpinejs");
 
-require("./switch-color");
-require("./sidebar");
-require("./slide-over");
+require("./assets/switch-color-mode");
+require("./assets/sidebar");
+require("./assets/slide-over");
