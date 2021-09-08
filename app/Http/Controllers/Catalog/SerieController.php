@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Catalog;
 use App\Models\Serie;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Serie\SerieResource;
 use App\Http\Resources\Book\BookLightResource;
@@ -17,12 +18,27 @@ class SerieController extends Controller
 {
     public function index(Request $request)
     {
-        $series = Serie::with(['authors', 'media'])->orderBy('title_sort')->get();
+        $series = Serie::with(['authors', 'media'])->get();
+        $series = BookshelvesTools::chunkByAlpha($series, 'title');
+
+        return view('pages.features.catalog.series.index', compact('series'));
+    }
+
+    public function character(Request $request)
+    {
+        $character = $request->character;
+        $series = Serie::with(['authors', 'media'])->get();
+
+        $chunks = BookshelvesTools::chunkByAlpha($series, 'title');
+        $current_chunk = [];
+        $series = $chunks->first(function ($value, $key) use ($character) {
+            return $key === strtoupper($character);
+        });
 
         $series = SearchSerieResource::collection($series);
         $series = collect($series);
 
-        return view('pages.features.catalog.series.index', compact('series'));
+        return view('pages.features.catalog.series.character', compact('series'));
     }
 
     public function show(Request $request, string $author, string $slug)
@@ -33,7 +49,6 @@ class SerieController extends Controller
         })->whereSlug($slug)->firstOrFail();
 
         $books = BookLightResource::collection($serie->books);
-        $books = json_decode($books->toJson());
 
         $serie = SerieResource::make($serie);
         $serie = json_decode($serie->toJson());

@@ -43,6 +43,7 @@ Route::prefix('features')->group(function () {
         Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('features.catalog.books.show');
 
         Route::get('/series', [SerieController::class, 'index'])->name('features.catalog.series');
+        Route::get('/series/{character}', [SerieController::class, 'character'])->name('features.catalog.series.character');
         Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('features.catalog.series.show');
 
         Route::get('/authors', [AuthorController::class, 'index'])->name('features.catalog.authors');

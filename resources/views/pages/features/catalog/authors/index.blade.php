@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="u-row-container" style="padding: 0px;background-color: transparent">
-        @foreach ($chunks as $key => $item)
+        @foreach ($authors->chunk(3) as $key => $item)
             <div class="u-row"
                 style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
                 <div style="border-collapse: collapse;display: table;width: 100%;background-color: transparent;">

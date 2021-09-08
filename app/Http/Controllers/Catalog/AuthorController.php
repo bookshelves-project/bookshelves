@@ -18,27 +18,16 @@ class AuthorController extends Controller
     public function index(Request $request)
     {
         $authors = Author::with(['media'])->get();
+        $authors = BookshelvesTools::chunkByAlpha($authors, 'lastname');
 
-
-
-        // dd($authors);
-        $chunks = BookshelvesTools::chunkByAlpha($authors, 'lastname');
-        $chunks = $chunks->chunk(3);
-
-        // $authors = SearchAuthorResource::collection($authors);
-        // $authors = collect($authors);
-
-        return view('pages.features.catalog.authors.index', compact('chunks'));
+        return view('pages.features.catalog.authors.index', compact('authors'));
     }
 
     public function character(Request $request)
     {
         $character = $request->character;
         $authors = Author::with(['media'])->get();
-
-
-
-        // dd($authors);
+        
         $chunks = BookshelvesTools::chunkByAlpha($authors, 'lastname');
         $current_chunk = [];
         $authors = $chunks->first(function ($value, $key) use ($character) {
