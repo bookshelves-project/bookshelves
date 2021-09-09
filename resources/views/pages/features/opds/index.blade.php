@@ -1,4 +1,4 @@
-@extends('layouts.default', ['title' => 'OPDS · Open Publication Distibution System', 'route' => 'opds.index',
+@extends('layouts.default', ['title' => 'OPDS, Open Publication Distibution System', 'route' => 'opds.index',
 'slideover' => true])
 
 @section('content')

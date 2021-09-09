@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class switch-color-mode extends Component
+class SwitchColorMode extends Component
 {
     /**
      * Create a new component instance.

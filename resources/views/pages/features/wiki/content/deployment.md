@@ -1,4 +1,4 @@
-Bookshelves works with Server Side Rendering with NuxtJS, so you need to serve back-end with virtual host and front-end with a service like [**PM2**](https://pm2.keymetrics.io/).
+This application works with **Server Side Rendering** with **NuxtJS** and **PHP** with **Laravel**, so you need to serve back-end with virtual host and front-end with a service like [**PM2**](https://pm2.keymetrics.io/).
 
 ## **NGINX (SSR)**
 

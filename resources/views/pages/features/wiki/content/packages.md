@@ -164,7 +164,7 @@ TELESCOPE_ENABLED=true
 
 *Note: only useful in local*
 
-You can use [**laravel/telescope**](https://github.com/laravel/telescope) on Bookshelves at [**http://localhost:8000/telescope**](http://localhost:8000/telescope) if you serve project with `php artisan serve` (adapt URL if you have VHost).
+You can use [**laravel/telescope**](https://github.com/laravel/telescope) on the application at [**http://localhost:8000/telescope**](http://localhost:8000/telescope) if you serve project with `php artisan serve` (adapt URL if you have VHost).
 
 # **VI. Tests**
 

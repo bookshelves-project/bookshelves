@@ -40,10 +40,12 @@ if (!isset($title)) {
 
             <main class="flex-1 relative overflow-y-auto scrollbar-thin focus:outline-none dark:text-gray-100">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 xl:px-8 pt-4 sm:pt-6 xl:pt-8 content-wrapper">
+                    <div id="top"></div>
                     <main class="content-content mx-auto">
                         @yield('content')
                     </main>
                     <x-layout.footer class="content-footer" />
+                    <x-back-to-top />
                 </div>
             </main>
         </div>

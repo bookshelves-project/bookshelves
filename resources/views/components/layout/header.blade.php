@@ -9,7 +9,7 @@
             <div class="flex-1 flex">
                 <div class="w-full flex xl:ml-0">
                     <h1
-                        class="xl:ml-4 text-lg lg:text-2xl font-semibold text-gray-900 dark:text-white my-auto line-clamp-1">
+                        class="xl:ml-4 text-lg lg:text-2xl font-semibold text-gray-900 dark:text-white my-auto line-clamp-1 font-handlee">
                         {{ $title }}
                     </h1>
                 </div>

@@ -1,4 +1,4 @@
-@extends('layouts.default', ['title' => 'Roadmap', 'slideOver' => true])
+@extends('layouts.default', ['title' => 'Roadmap, the future of '.config('app.name'), 'slideOver' => true])
 
 @section('styles')
     <style>

@@ -1,10 +1,10 @@
-@extends('layouts.default', ['title' => 'Features'])
+@extends('layouts.default', ['title' => 'Features, extra options for '.config('app.name')])
 
 @section('content')
     <div class="prose prose-lg dark:prose-light">
         <x-content :content="$content" />
         <h3 class="mt-16">
-            Current Bookshelves data
+            Current {{ config('app.name') }} data
         </h3>
     </div>
 

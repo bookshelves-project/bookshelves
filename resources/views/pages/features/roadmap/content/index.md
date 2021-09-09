@@ -1,7 +1,7 @@
 
 # **Roadmap**
 
-This is roadmap for Bookshelves development, all planned features will be listed here. You can add an issue here to ask for new feature [**bookshelves-back: add issue**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/issues).
+This is roadmap for development, all planned features will be listed here. You can add an issue here to ask for new feature [**bookshelves-back: add issue**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/issues).
 
 ## *Back*
 
@@ -23,6 +23,7 @@ This is roadmap for Bookshelves development, all planned features will be listed
 
 ## *Front*
 
+- [] review each component, remove import
 - [ ] admin for front
   - [ ] selection books
   - [ ] update no ebooks entities
