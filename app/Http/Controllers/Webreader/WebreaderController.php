@@ -42,8 +42,8 @@ class WebreaderController extends Controller
         $cover = $book->cover_original;
         
         $title = $book->title;
-        $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';
-        $title .= ' by '.$book->authors_names;
+        $title .= $book->serie ? ' (' . $book->serie->title . ', vol. ' . $book->volume . ')' : '';
+        $title .= ' by ' . $book->authors_names;
 
         $open = route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
 
@@ -59,28 +59,28 @@ class WebreaderController extends Controller
 
         $page = intval($page);
 
-        $title = 'Page '.$page.' in ';
+        $title = 'Page ' . $page . ' in ';
         $title .= $book->title;
-        $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : null;
-        $title .= ' by '.$book->authors_names;
+        $title .= $book->serie ? ' (' . $book->serie->title . ', vol. ' . $book->volume . ')' : null;
+        $title .= ' by ' . $book->authors_names;
 
         $bookTitle = $book->title;
-        $bookSerie = $book->serie ? $book->serie->title.', vol. '.$book->volume : '';
+        $bookSerie = $book->serie ? $book->serie->title . ', vol. ' . $book->volume : '';
         $bookAuthors = $book->authors_names;
 
         $epub_path = $book->getFirstMediaPath('epubs');
         $epub_file = $book->getFirstMedia('epubs');
 
-        $disk = public_path('storage/cache/'.$book->slug);
-        $is_exist = File::exists('storage/webreader/'.$epub_file->file_name);
+        $disk = public_path('storage/cache/' . $book->slug);
+        $is_exist = File::exists('storage/webreader/' . $epub_file->file_name);
         if (! $is_exist) {
             $metadata = self::parseXMLFile($epub_path, $disk, true);
-        } elseif (sizeof(File::allFiles('storage/webreader/'.$epub_file->file_name)) <= 0) {
+        } elseif (sizeof(File::allFiles('storage/webreader/' . $epub_file->file_name)) <= 0) {
             $metadata = self::parseXMLFile($epub_path, $disk, true);
         }
 
-        $webreader_files = 'storage/webreader/'.$epub_file->file_name.'/';
-        $filePath = $webreader_files.$page.'.md';
+        $webreader_files = 'storage/webreader/' . $epub_file->file_name . '/';
+        $filePath = $webreader_files . $page . '.md';
         if (! File::exists($filePath)) {
             return redirect()->route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
         }

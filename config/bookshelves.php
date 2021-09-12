@@ -62,7 +62,7 @@ return [
                 'route'    => 'features.catalog.index',
                 'href'     => false,
                 'title'    => 'Catalog',
-                'icon'     => 'book-open',
+                'icon'     => 'catalog',
                 'external' => false
             ],
             [

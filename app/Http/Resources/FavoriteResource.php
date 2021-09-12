@@ -52,8 +52,9 @@ class FavoriteResource extends JsonResource
                 'author' => $favoritable->favoritable->meta_author,
                 'slug'   => $favoritable->favoritable->slug,
             ],
-            'title'   => $title,
-            'cover'   => $favoritable->favoritable->cover_thumbnail,
+            'title'     => $title,
+            'cover'     => $favoritable->favoritable->cover_thumbnail,
+            'createdAt' => $favoritable->created_at,
         ];
     }
 }

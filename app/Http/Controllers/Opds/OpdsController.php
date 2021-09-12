@@ -35,10 +35,10 @@ class OpdsController extends Controller
         $feed = File::get(app_path('Providers/Bookshelves/Feed/opds.json'));
         $feed = (array) json_decode($feed);
         foreach ($feed as $key => $value) {
-            $model_name = 'App\Models\\'.ucfirst($value->model);
-            $value->cover_thumbnail = config('app.url').'/storage/assets/'.$value->key.'.png';
+            $model_name = 'App\Models\\' . ucfirst($value->model);
+            $value->cover_thumbnail = config('app.url') . '/storage/assets/' . $value->key . '.png';
             $value->route = route($value->route, ['version' => $version]);
-            $value->content = $model_name::count().' '.$value->content;
+            $value->content = $model_name::count() . ' ' . $value->content;
         }
         $feed = collect($feed);
 

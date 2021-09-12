@@ -25,7 +25,7 @@
         <!-- Current Profile Photo -->
         <div class="mt-2" v-show="!photoPreview">
           <img
-            :src="user.profile_photo_url"
+            :src="user.avatar"
             :alt="user.name"
             class="rounded-full h-20 w-20 object-cover"
           />
@@ -106,13 +106,13 @@
 </template>
 
 <script>
-import JetButton from '@/Jetstream/Button.vue'
-import JetFormSection from '@/Jetstream/FormSection.vue'
-import JetInput from '@/Jetstream/Input.vue'
-import JetInputError from '@/Jetstream/InputError.vue'
-import JetLabel from '@/Jetstream/Label.vue'
-import JetActionMessage from '@/Jetstream/ActionMessage.vue'
-import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
+import JetButton from "@/Jetstream/Button.vue";
+import JetFormSection from "@/Jetstream/FormSection.vue";
+import JetInput from "@/Jetstream/Input.vue";
+import JetInputError from "@/Jetstream/InputError.vue";
+import JetLabel from "@/Jetstream/Label.vue";
+import JetActionMessage from "@/Jetstream/ActionMessage.vue";
+import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
 
 export default {
   components: {
@@ -125,67 +125,67 @@ export default {
     JetSecondaryButton,
   },
 
-  props: ['user'],
+  props: ["user"],
 
   data() {
     return {
       form: this.$inertia.form({
-        _method: 'PUT',
+        _method: "PUT",
         name: this.user.name,
         email: this.user.email,
         photo: null,
       }),
 
       photoPreview: null,
-    }
+    };
   },
 
   methods: {
     updateProfileInformation() {
       if (this.$refs.photo) {
-        this.form.photo = this.$refs.photo.files[0]
+        this.form.photo = this.$refs.photo.files[0];
       }
 
-      this.form.post(route('user-profile-information.update'), {
-        errorBag: 'updateProfileInformation',
+      this.form.post(route("user-profile-information.update"), {
+        errorBag: "updateProfileInformation",
         preserveScroll: true,
         onSuccess: () => this.clearPhotoFileInput(),
-      })
+      });
     },
 
     selectNewPhoto() {
-      this.$refs.photo.click()
+      this.$refs.photo.click();
     },
 
     updatePhotoPreview() {
-      const photo = this.$refs.photo.files[0]
+      const photo = this.$refs.photo.files[0];
 
-      if (!photo) return
+      if (!photo) return;
 
-      const reader = new FileReader()
+      const reader = new FileReader();
 
       reader.onload = (e) => {
-        this.photoPreview = e.target.result
-      }
+        this.photoPreview = e.target.result;
+      };
 
-      reader.readAsDataURL(photo)
+      reader.readAsDataURL(photo);
     },
 
     deletePhoto() {
-      this.$inertia.delete(route('current-user-photo.destroy'), {
+      this.$inertia.delete(route("current-user-photo.destroy"), {
         preserveScroll: true,
         onSuccess: () => {
-          this.photoPreview = null
-          this.clearPhotoFileInput()
+          this.photoPreview = null;
+          this.clearPhotoFileInput();
         },
-      })
+      });
     },
 
     clearPhotoFileInput() {
       if (this.$refs.photo?.value) {
-        this.$refs.photo.value = null
+        this.$refs.photo.value = null;
       }
     },
   },
-}
+};
 </script>

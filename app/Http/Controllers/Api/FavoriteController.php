@@ -17,7 +17,7 @@ class FavoriteController extends Controller
     // #[Route("/api/favorites/by-user/{user}", methods: ["GET"])]
     public function byUser(int $userId)
     {
-        $favorites = Favoritable::whereUserId($userId)->get();
+        $favorites = Favoritable::whereUserId($userId)->orderBy('created_at', 'DESC')->get();
 
         return FavoriteResource::collection($favorites);
     }
@@ -26,7 +26,7 @@ class FavoriteController extends Controller
     public function toggle(string $model, string $slug)
     {
         if (Auth::check()) {
-            $model_name = 'App\Models\\'.ucfirst($model);
+            $model_name = 'App\Models\\' . ucfirst($model);
             $entity = $model_name::whereSlug($slug)->first();
             $user = Auth::id();
             $user = User::find($user);

@@ -72,7 +72,7 @@ class ClearCommand extends Command
             }
         }
 
-        $path = 'storage/app/public/'.basename($dir);
+        $path = 'storage/app/public/' . basename($dir);
         $this->info("Clear $path");
     }
 

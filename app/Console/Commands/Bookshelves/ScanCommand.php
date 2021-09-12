@@ -52,7 +52,7 @@ class ScanCommand extends Command
 
         if ($verbose) {
             foreach ($epubFiles as $key => $file) {
-                echo $key.' '.pathinfo($file)['filename']."\n";
+                echo $key . ' ' . pathinfo($file)['filename'] . "\n";
             }
         }
 
@@ -60,7 +60,7 @@ class ScanCommand extends Command
             return array_slice($epubFiles, 0, $limit);
         }
 
-        $this->warn(sizeof(($epubFiles)).' EPUB files found');
+        $this->warn(sizeof(($epubFiles)) . ' EPUB files found');
         $this->newLine();
 
         return $epubFiles;

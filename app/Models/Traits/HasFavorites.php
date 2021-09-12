@@ -28,6 +28,6 @@ trait HasFavorites
     
     public function favorites(): MorphToMany
     {
-        return $this->morphToMany(User::class, 'favoritable');
+        return $this->morphToMany(User::class, 'favoritable')->withTimestamps();
     }
 }

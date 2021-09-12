@@ -7,7 +7,6 @@ use App\Models\Role;
 use App\Models\User;
 use App\Enums\RoleEnum;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
 
@@ -20,10 +19,6 @@ class UserAdminSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET foreign_key_checks=0');
-        User::truncate();
-        DB::statement('SET foreign_key_checks=1');
-
         if (! Role::exists()) {
             Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
         }
@@ -37,10 +32,11 @@ class UserAdminSeeder extends Seeder
         ];
         foreach ($users as $key => $userRaw) {
             $user = User::create([
-                'name'              => $userRaw['name'],
-                'email'             => $userRaw['email'],
-                'email_verified_at' => new DateTime(),
-                'password'          => $userRaw['password'],
+                'name'                  => $userRaw['name'],
+                'email'                 => $userRaw['email'],
+                'email_verified_at'     => new DateTime(),
+                'password'              => $userRaw['password'],
+                'use_gravatar'          => false,
             ]);
             $user->roles()->attach(Role::whereName(RoleEnum::USER())->first());
             $user->roles()->attach(Role::whereName(RoleEnum::ADMIN())->first());

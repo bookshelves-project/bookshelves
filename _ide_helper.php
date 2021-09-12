@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.58.0.
+ * Generated for Laravel 8.59.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -18978,6 +18978,34 @@ namespace  {
                 {
                     /** @var \Illuminate\Database\Eloquent\Builder $instance */
                     return $instance->orWhereMorphRelation($relation, $types, $column, $operator, $value);
+                }
+             
+                /**
+             * Add a morph-to relationship condition to the query.
+             *
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Model|string $model
+             * @return \Illuminate\Database\Eloquent\Builder|static
+             * @static
+             */
+                public static function whereMorphedTo($relation, $model, $boolean = 'and')
+                {
+                    /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                    return $instance->whereMorphedTo($relation, $model, $boolean);
+                }
+             
+                /**
+             * Add a morph-to relationship condition to the query with an "or where" clause.
+             *
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Model|string $model
+             * @return \Illuminate\Database\Eloquent\Builder|static
+             * @static
+             */
+                public static function orWhereMorphedTo($relation, $model)
+                {
+                    /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                    return $instance->orWhereMorphedTo($relation, $model);
                 }
              
                 /**

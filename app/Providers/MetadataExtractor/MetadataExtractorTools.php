@@ -41,7 +41,7 @@ class MetadataExtractorTools
         }
 
         if ($debug) {
-            Storage::disk('public')->put('/debug/'.pathinfo($filepath)['basename'].'.opf', $xml_string);
+            Storage::disk('public')->put('/debug/' . pathinfo($filepath)['basename'] . '.opf', $xml_string);
         }
 
         $cover = null;
@@ -53,7 +53,7 @@ class MetadataExtractorTools
                 }
             } catch (\Throwable $th) {
                 throw $th;
-                echo "No cover for ".basename($filepath)."\n";
+                echo "No cover for " . basename($filepath) . "\n";
             }
         }
         $metadata['cover_file'] = $cover;
@@ -120,7 +120,7 @@ class MetadataExtractorTools
             'une ',
         ];
         foreach ($articles as $key => $value) {
-            $title_sort = preg_replace('/^'.preg_quote($value, '/').'/i', '', $title_sort);
+            $title_sort = preg_replace('/^' . preg_quote($value, '/') . '/i', '', $title_sort);
         }
         // $title_sort = str_replace($articles, '', $title_sort);
         $title_sort = BookshelvesTools::cleanString($title_sort);
@@ -161,7 +161,7 @@ class MetadataExtractorTools
     {
         $files = scandir($dir);
         foreach ($files as $key => $value) {
-            $path = realpath($dir.DIRECTORY_SEPARATOR.$value);
+            $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
             if (! is_dir($path)) {
                 yield $path;
             } elseif ($value != "." && $value != "..") {
@@ -358,9 +358,9 @@ class MetadataExtractorTools
                 $multi_key[$x_tag][$x_level]++;
             }
             while ($start_level < $x_level) {
-                $php_stmt .= '[$level['.$start_level.']]';
+                $php_stmt .= '[$level[' . $start_level . ']]';
                 if (isset($multi_key[$level[$start_level]][$start_level]) && $multi_key[$level[$start_level]][$start_level]) {
-                    $php_stmt .= '['.($multi_key[$level[$start_level]][$start_level] - 1).']';
+                    $php_stmt .= '[' . ($multi_key[$level[$start_level]][$start_level] - 1) . ']';
                 }
                 $start_level++;
             }
@@ -371,23 +371,23 @@ class MetadataExtractorTools
                 }
                 $multi_key2[$x_tag][$x_level]++;
 
-                $add = '['.$multi_key2[$x_tag][$x_level].']';
+                $add = '[' . $multi_key2[$x_tag][$x_level] . ']';
             }
             if (isset($xml_elem['value']) && '' != trim($xml_elem['value']) && ! array_key_exists('attributes', $xml_elem)) {
                 if ('open' == $x_type) {
-                    $php_stmt_main = $php_stmt.'[$x_type]'.$add.'[\'content\'] = $xml_elem[\'value\'];';
+                    $php_stmt_main = $php_stmt . '[$x_type]' . $add . '[\'content\'] = $xml_elem[\'value\'];';
                 } else {
-                    $php_stmt_main = $php_stmt.'[$x_tag]'.$add.' = $xml_elem[\'value\'];';
+                    $php_stmt_main = $php_stmt . '[$x_tag]' . $add . ' = $xml_elem[\'value\'];';
                 }
                 eval($php_stmt_main);
             }
             if (array_key_exists('attributes', $xml_elem)) {
                 if (isset($xml_elem['value'])) {
-                    $php_stmt_main = $php_stmt.'[$x_tag]'.$add.'[\'content\'] = $xml_elem[\'value\'];';
+                    $php_stmt_main = $php_stmt . '[$x_tag]' . $add . '[\'content\'] = $xml_elem[\'value\'];';
                     eval($php_stmt_main);
                 }
                 foreach ($xml_elem['attributes'] as $key => $value) {
-                    $php_stmt_att = $php_stmt.'[$x_tag]'.$add.'[$key] = $value;';
+                    $php_stmt_att = $php_stmt . '[$x_tag]' . $add . '[$key] = $value;';
                     eval($php_stmt_att);
                 }
             }

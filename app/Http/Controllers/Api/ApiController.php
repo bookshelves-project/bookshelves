@@ -96,7 +96,7 @@ class ApiController extends Controller
         $composerJson = json_decode($composerJson);
 
         return response()->json([
-            'name'                 => 'Bookshelves API',
+            'name'                 => config('app.name') . ' API',
             'version'              => $composerJson->version,
             'routes'               => [
                 'catalog'              => $this->getRouteData('features.catalog.index', 'UI for eReader browser to get eBooks on it.'),
@@ -104,7 +104,7 @@ class ApiController extends Controller
                 'webreader'            => $this->getRouteData('features.webreader.index', 'UI to read directly an eBook into browser.'),
                 'admin'                => $this->getRouteData('admin', 'For admin to manage data.'),
                 'wiki'                 => $this->getRouteData('features.wiki.index', 'Wiki for setup and usage, useful for developers.'),
-                'api-documentation'    => $this->getRouteData(config('app.url').'/docs', 'API documentation to use data on others applications', false),
+                'api-documentation'    => $this->getRouteData(config('app.url') . '/docs', 'API documentation to use data on others applications', false),
             ],
         ], 200);
     }

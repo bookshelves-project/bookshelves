@@ -15,6 +15,6 @@ final class EntitiesEnum extends Enum
 {
     protected static function values(): Closure
     {
-        return fn (string $name) => 'App\Models\\'.ucfirst(mb_strtolower($name));
+        return fn (string $name) => 'App\Models\\' . ucfirst(mb_strtolower($name));
     }
 }

@@ -38,7 +38,7 @@ class ImageController extends Controller
             return abort(404);
         }
 
-        $filename = md5("$size/$path").'.'.pathinfo($path, PATHINFO_EXTENSION);
+        $filename = md5("$size/$path") . '.' . pathinfo($path, PATHINFO_EXTENSION);
         $thumbnail = "storage/cache/$filename";
 
         if (! file_exists($thumbnail)) {

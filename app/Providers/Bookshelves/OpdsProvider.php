@@ -48,12 +48,12 @@ class OpdsProvider
     public function template(string $title = null)
     {
         $id = Str::slug(config('app.name'));
-        $id .= ':'.Str::slug($this->entity->label);
-        $id .= $title ? ':'.Str::slug($title) : null;
+        $id .= ':' . Str::slug($this->entity->label);
+        $id .= $title ? ':' . Str::slug($title) : null;
 
-        $feed_title = config('app.name').' OPDS';
-        $feed_title .= ': '.ucfirst(strtolower($this->entity->label)) ?? null;
-        $feed_title .= $title !== null ? ': '.$title : null;
+        $feed_title = config('app.name') . ' OPDS';
+        $feed_title .= ': ' . ucfirst(strtolower($this->entity->label)) ?? null;
+        $feed_title .= $title !== null ? ': ' . $title : null;
 
         $date = new DateTime();
         $date = $date->format('Y-m-d H:i:s');
@@ -126,7 +126,7 @@ class OpdsProvider
         $template = [
             'title'   => $title,
             'updated' => $date,
-            'id'      => $app.':'.Str::slug($this->entity->label).':'.Str::slug($title),
+            'id'      => $app . ':' . Str::slug($this->entity->label) . ':' . Str::slug($title),
             'content' => [
                 '_attributes' => [
                     'type' => 'text',
@@ -158,8 +158,8 @@ class OpdsProvider
         $date = $date->format('Y-m-d H:i:s');
 
 
-        $id = $app.':books:';
-        $id .= $book->serie ? Str::slug($book->serie->title).':' : null;
+        $id = $app . ':books:';
+        $id .= $book->serie ? Str::slug($book->serie->title) . ':' : null;
         $id .= $book->slug;
 
         $categories = [];

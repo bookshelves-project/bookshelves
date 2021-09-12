@@ -62,6 +62,9 @@ class WikiController extends Controller
 
     public function index(Request $request)
     {
+        if (! $request->page) {
+            return redirect(route('features.wiki.index', ['page' => 'home']));
+        }
         $page = $request->page ?? 'home';
         $path = "wiki/content/$page.md";
 

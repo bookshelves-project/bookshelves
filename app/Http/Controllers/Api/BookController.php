@@ -47,7 +47,7 @@ class BookController extends Controller
         $langParameters = ['fr', 'en'];
         if ($lang && ! in_array($lang, $langParameters)) {
             return response()->json(
-                "Invalid 'lang' query parameter, must be like '".implode("' or '", $langParameters)."'",
+                "Invalid 'lang' query parameter, must be like '" . implode("' or '", $langParameters) . "'",
                 400
             );
         }

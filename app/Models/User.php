@@ -20,11 +20,11 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
     use HasFactory;
-    use HasProfilePhoto;
+    // use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
     use InteractsWithMedia;
-    // use HasAvatar;
+    use HasAvatar;
 
     /**
      * The attributes that are mass assignable.
@@ -36,7 +36,7 @@ class User extends Authenticatable implements HasMedia
         'email',
         'password',
         'slug',
-        'gravatar',
+        'use_gravatar',
     ];
 
     /**
@@ -57,8 +57,8 @@ class User extends Authenticatable implements HasMedia
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'gravatar'          => 'boolean',
+        'email_verified_at'     => 'datetime',
+        'use_gravatar'          => 'boolean',
     ];
 
     /**
@@ -67,11 +67,8 @@ class User extends Authenticatable implements HasMedia
      * @var array
      */
     protected $appends = [
-        'profile_photo_url',
+        'avatar',
     ];
-    // protected $appends = [
-    //     'avatar',
-    // ];
 
     public static function boot()
     {
@@ -87,16 +84,16 @@ class User extends Authenticatable implements HasMedia
 
     public function getAvatarAttribute(): string
     {
-        if ($this->gravatar) {
+        if ($this->use_gravatar) {
             $hash = md5(strtolower(trim($this->email)));
 
-            return "http://www.gravatar.com/avatar/$hash";
+            return "http://www.use_gravatar.com/avatar/$hash";
         }
-        if ($this->getMedia('users')->first()) {
-            return $this->getMedia('users')->first()?->getUrl();
+        if ($this->getMedia('avatar')->first()) {
+            return $this->getMedia('avatar')->first()?->getUrl();
         }
 
-        return 'https://eu.ui-avatars.com/api/?name='.$this->name.'&color=7F9CF5&background=EBF4FF';
+        return 'https://eu.ui-avatars.com/api/?name=' . $this->name . '&color=7F9CF5&background=EBF4FF';
     }
 
     public function hasRole(RoleEnum $role_to_verify): bool

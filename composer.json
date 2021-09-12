@@ -1,6 +1,10 @@
 {
     "name": "bookshelves/back",
     "type": "project",
+    "description": "Back of Bookshelves application.",
+    "license": "BSD 2-Clause",
+    "version": "1.0.0",
+    "homepage": "https://gitlab.com/ewilan-riviere/bookshelves-back",
     "authors": [
         {
             "name": "ewilan-riviere",
@@ -13,8 +17,6 @@
             "role": "Tester, ideas"
         }
     ],
-    "homepage": "https://gitlab.com/ewilan-riviere/bookshelves-back",
-    "description": "Back of Bookshelves application.",
     "keywords": [
         "api",
         "epubs",
@@ -27,8 +29,6 @@
             "url": "https://gitlab.com/ewilan-riviere/bookshelves-back"
         }
     ],
-    "license": "BSD 2-Clause",
-    "version": "1.0.0",
     "require": {
         "php": "^7.3|^8.0",
         "artesaos/seotools": "^0.20.1",

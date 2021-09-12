@@ -34,7 +34,7 @@ class TagController extends Controller
         $typeParameters = ['tag', 'genre'];
         if ($type && ! in_array($type, $typeParameters)) {
             return response()->json(
-                "Invalid 'type' query parameter, must be like '".implode("' or '", $typeParameters)."'",
+                "Invalid 'type' query parameter, must be like '" . implode("' or '", $typeParameters) . "'",
                 400
             );
         }

@@ -22,8 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
-            $table->boolean('gravatar')->default(true);
-            $table->string('profile_photo_path', 2048)->nullable();
+            $table->boolean('use_gravatar')->default(true);
             $table->timestamps();
         });
     }

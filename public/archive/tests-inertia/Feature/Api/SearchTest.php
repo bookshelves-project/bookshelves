@@ -20,7 +20,7 @@ class SearchTest extends TestCase
             default => 'unknown type',
         };
 
-        $response = $this->get('/api/search?q='.$randomTitle);
+        $response = $this->get('/api/search?q=' . $randomTitle);
 
         if (200 !== $response->getStatusCode()) {
             echo $randomTitle;

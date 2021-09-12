@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Spatie\Tags\HasTags;
+use Laravel\Scout\Searchable;
 use App\Utils\BookshelvesTools;
 use App\Models\Traits\HasCovers;
 use Spatie\MediaLibrary\HasMedia;
@@ -23,6 +24,7 @@ class Author extends Model implements HasMedia
     use HasFavorites;
     use HasComments;
     use HasSelections;
+    use Searchable;
 
     protected $fillable = [
         'lastname',
@@ -69,7 +71,7 @@ class Author extends Model implements HasMedia
 
     public function getContentOpdsAttribute(): string
     {
-        return $this->books->count().' books';
+        return $this->books->count() . ' books';
     }
 
     public function getShowBooksLinkAttribute(): string

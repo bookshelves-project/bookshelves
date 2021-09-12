@@ -167,7 +167,7 @@ class AuthorProvider
 
         $author->addMediaFromString($picture_file)
             ->setName($author->slug)
-            ->setFileName($author->slug.'.'.config('bookshelves.cover_extension'))
+            ->setFileName($author->slug . '.' . config('bookshelves.cover_extension'))
             ->toMediaCollection('authors', 'authors');
         
         $image = $author->getFirstMediaPath('authors');

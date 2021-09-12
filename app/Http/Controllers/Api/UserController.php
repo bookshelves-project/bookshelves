@@ -47,8 +47,8 @@ class UserController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $request->gravatar = false;
-        $gravatar = filter_var($request->input('gravatar'), FILTER_VALIDATE_BOOLEAN);
+        $request->use_gravatar = false;
+        $use_gravatar = filter_var($request->input('use_gravatar'), FILTER_VALIDATE_BOOLEAN);
         $request->validate([
             'name'  => 'required|string|max:256',
             'email' => 'required|email|max:256',
@@ -58,7 +58,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->slug = Str::slug($request->name);
         $user->email = $request->email;
-        $user->gravatar = $gravatar;
+        $user->use_gravatar = $use_gravatar;
         $user->save();
 
         if ($request->photo) {
@@ -71,7 +71,7 @@ class UserController extends Controller
 
             $user->addMediaFromString($photo_path)
                 ->setName($user->slug)
-                ->setFileName($user->slug.'.'.config('bookshelves.cover_extension'))
+                ->setFileName($user->slug . '.' . config('bookshelves.cover_extension'))
                 ->toMediaCollection('users', 'users');
             $user = $user->refresh();
 

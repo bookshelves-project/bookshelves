@@ -5,6 +5,7 @@ namespace App\Console\Commands\Bookshelves;
 use Artisan;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class SampleCommand extends Command
 {
@@ -16,7 +17,7 @@ class SampleCommand extends Command
     protected $signature = 'bookshelves:sample
                             {--r|roles : generate roles}
                             {--u|users : generate users with roles}
-                            {--a|account : generate fake comments, favorites sample (users with roles will be generated)}
+                            {--c|comments : generate fake comments, favorites sample (users with roles will be generated)}
                             {--s|selection : generate fake selection sample (user admin with roles will be generated)}
                             {--A|admin : generate only admin with roles}';
 
@@ -46,54 +47,79 @@ class SampleCommand extends Command
 
         $users = $this->option('users') ?? false;
         $roles = $this->option('roles') ?? false;
-        $account = $this->option('account') ?? false;
+        $comments = $this->option('comments') ?? false;
         $selection = $this->option('selection') ?? false;
         $admin = $this->option('admin') ?? false;
 
-        if ($users) {
-            $this->comment('Run roles with users seeders');
-            Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
-            Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
-            $this->info('Seeders ready!');
+        if (config('app.env') !== 'local') {
+            if ($this->confirm('This command will erase all users/roles/comments/selection/admin, do you really want to erase these data?', true)) {
+                $this->info('Confirmed.');
+            } else {
+                $this->error('Stop.');
+                return false;
+            }
+        }
+        
+        $users ? $roles = true : '';
+        if ($comments) {
+            if (! User::exists()) {
+                $roles = true;
+                $users = true;
+            }
+        }
+
+        if ($selection) {
+            $roles = true;
+            $admin = true;
         }
 
         if ($roles) {
             $this->comment('Run roles seeders');
             Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
             $this->info('Seeders ready!');
+            $this->newLine();
+        }
+        
+        if ($admin) {
+            $users = User::all();
+            $users->each(function ($query) {
+                $query->clearMediaCollection('avatar');
+            });
+            DB::statement('SET foreign_key_checks=0');
+            User::truncate();
+            DB::statement('SET foreign_key_checks=1');
+            
+            if (! User::exists()) {
+                Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
+                $this->info('Admin was created from `.env` variables with email ' . config('bookshelves.admin.email'));
+            } else {
+                $this->error('Admin not created, some users exists!');
+            }
+            $this->newLine();
         }
 
-        if ($account) {
-            $this->comment('Run roles with users seeders');
-            Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
+        if ($users) {
+            $this->comment('Run users seeders');
             Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
+            $this->newLine();
             $this->info('Seeders ready!');
+            $this->newLine();
+        }
 
+        if ($comments) {
             $this->comment('Run comments and favorites seeders');
             Artisan::call('db:seed', ['--class' => 'CommentSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'FavoriteSeeder', '--force' => true]);
             $this->info('Seeders ready!');
+            $this->newLine();
         }
 
         if ($selection) {
-            $this->comment('Run roles with users seeders');
-            Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
-            $this->info('Seeders ready!');
-
             $this->comment('Run selection seeders');
             Artisan::call('db:seed', ['--class' => 'SelectionSeeder', '--force' => true]);
             $this->info('Seeders ready!');
+            $this->newLine();
         }
-
-        if ($admin) {
-            if (! User::exists()) {
-                Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
-                $this->info('Admin was created from `.env` variables with email '.config('bookshelves.admin.email'));
-            } else {
-                $this->error('Admin not created, some users exists!');
-            }
-        }
-        $this->newLine();
 
         return true;
     }

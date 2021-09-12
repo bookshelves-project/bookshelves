@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Serie;
 use App\Models\Author;
+use App\Models\Language;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookOrSerieResource;
@@ -55,11 +56,22 @@ class SerieController extends Controller
     * @queryParam per-page int Entities per page, '32' by default. No-example
     * @queryParam page int The page number, '1' by default. No-example
     * @queryParam all bool To disable pagination, false by default. No-example
+    * @queryParam lang filters[fr,en] To select specific lang, null by default. No-example
     *
     * @responseFile public/storage/responses/series.index.get.json
     */
     public function index(Request $request)
     {
+        $lang = $request->get('lang');
+        $lang = $lang ? $lang : null;
+        $langParameters = ['fr', 'en'];
+        if ($lang && ! in_array($lang, $langParameters)) {
+            return response()->json(
+                "Invalid 'lang' query parameter, must be like '" . implode("' or '", $langParameters) . "'",
+                400
+            );
+        }
+
         $page = $request->get('per-page');
         $page = $page ? $page : 32;
         if (! is_numeric($page)) {
@@ -69,7 +81,7 @@ class SerieController extends Controller
             );
         }
         $page = intval($page);
-
+        
         $all = $request->get('all') ? filter_var($request->get('all'), FILTER_VALIDATE_BOOLEAN) : null;
         if ($all) {
             $series = Serie::orderBy('title_sort')->get();
@@ -77,7 +89,14 @@ class SerieController extends Controller
             return SerieUltraLightResource::collection($series);
         }
 
-        $series = Serie::with(['authors', 'media'])->orderBy('title_sort')->withCount('books')->paginate($page);
+        $series = Serie::with(['authors', 'media'])->orderBy('title_sort')->withCount('books');
+        
+        if (null !== $lang) {
+            Language::whereSlug($lang)->firstOrFail();
+            $series = $series->whereLanguageSlug($lang);
+        }
+
+        $series = $series->paginate($page);
 
         return SerieLightResource::collection($series);
     }

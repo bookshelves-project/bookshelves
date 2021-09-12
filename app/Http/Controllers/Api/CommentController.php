@@ -18,7 +18,7 @@ class CommentController extends Controller
 {
     public function index(string $model, string $slug)
     {
-        $model_name = 'App\Models\\'.ucfirst($model);
+        $model_name = 'App\Models\\' . ucfirst($model);
         $entity = $model_name::whereSlug($slug)->first();
         $comments = $entity->comments;
 
@@ -27,14 +27,14 @@ class CommentController extends Controller
 
     public function byUser(int $user)
     {
-        $comments = Comment::whereUserId($user)->get();
+        $comments = Comment::whereUserId($user)->orderBy('created_at', 'DESC')->get();
 
         return CommentResource::collection($comments);
     }
 
     public function store(Request $request, string $model, string $slug)
     {
-        $model_name = 'App\Models\\'.ucfirst($model);
+        $model_name = 'App\Models\\' . ucfirst($model);
         $entity = $model_name::whereSlug($slug)->first();
         $userId = Auth::id();
         $user = Auth::user();

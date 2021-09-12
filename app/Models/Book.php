@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Spatie\Tags\HasTags;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasAuthors;
 use Spatie\MediaLibrary\HasMedia;
@@ -29,6 +30,7 @@ class Book extends Model implements HasMedia
     use HasSelections;
     use HasLanguage;
     use HasTagsAndGenres;
+    use Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -80,13 +82,18 @@ class Book extends Model implements HasMedia
     {
         $serie = null;
         if ($this->serie) {
-            $volume = strlen($this->volume) < 2 ? '0'.$this->volume : $this->volume;
-            $serie = $this->serie?->title_sort.' '.$volume;
-            $serie = Str::slug($serie).'_';
+            $volume = strlen($this->volume) < 2 ? '0' . $this->volume : $this->volume;
+            $serie = $this->serie?->title_sort . ' ' . $volume;
+            $serie = Str::slug($serie) . '_';
         }
         $title = Str::slug($this->title_sort);
 
         return "$serie$title";
+    }
+
+    public function searchableAs()
+    {
+        return 'books_index';
     }
 
     public function publisher(): BelongsTo

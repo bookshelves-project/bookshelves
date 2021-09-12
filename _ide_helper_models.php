@@ -210,12 +210,16 @@ namespace App\Models{
  * @property int $user_id
  * @property int $favoritable_id
  * @property string $favoritable_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $favoritable
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Favoritable whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable whereFavoritableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable whereFavoritableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Favoritable whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable whereUserId($value)
  */
     class Favoritable extends \Eloquent
@@ -500,8 +504,7 @@ namespace App\Models{
  * @property string|null $two_factor_recovery_codes
  * @property string|null $remember_token
  * @property int|null $current_team_id
- * @property bool $gravatar
- * @property string|null $profile_photo_path
+ * @property bool $use_gravatar
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -526,16 +529,15 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCurrentTeamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereGravatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereProfilePhotoPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorRecoveryCodes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUseGravatar($value)
  */
     class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia
     {

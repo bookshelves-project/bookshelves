@@ -30,7 +30,7 @@ if (! function_exists('get_thumbnail')) {
      */
     function get_thumbnail(string $path, string $size, bool $crop = true): array
     {
-        $filename = md5("$size/$path").'.jpg';
+        $filename = md5("$size/$path") . '.jpg';
         $thumbnailPath = "storage/cache/$filename";
 
         return [
@@ -60,6 +60,6 @@ if (! function_exists('getUrlStorage')) {
         // remove for storage link
         $path = str_replace('app/public/', '', $path);
 
-        return config('app.url').'/'.$path;
+        return config('app.url') . '/' . $path;
     }
 }

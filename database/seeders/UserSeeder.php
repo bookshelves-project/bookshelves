@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use DB;
-use File;
-use Hash;
-use DateTime;
+use Http;
 use App\Models\Role;
 use App\Models\User;
 use App\Enums\RoleEnum;
-use Spatie\Image\Image;
 use Illuminate\Database\Seeder;
-use Spatie\Image\Manipulations;
+use App\Providers\ImageProvider;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class UserSeeder extends Seeder
 {
@@ -22,57 +22,51 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET foreign_key_checks=0');
-        User::truncate();
-        DB::statement('SET foreign_key_checks=1');
-
-        $users = [
-            [
-                'name'     => 'Ewilan',
-                'email'    => config('bookshelves.admin.email'),
-                'password' => Hash::make(config('bookshelves.admin.password')),
-            ],
-            [
-                'name'     => 'Edward',
-                'email'    => 'edward@dotslashplay.it',
-                'password' => Hash::make('password'),
-            ],
-        ];
-        foreach ($users as $key => $user) {
-            $userCreated = User::create([
-                'name'              => $user['name'],
-                'email'             => $user['email'],
-                'email_verified_at' => new DateTime(),
-                'password'          => $user['password'],
-            ]);
-            $userCreated->roles()->attach(Role::whereName(RoleEnum::USER())->first());
-
-            if ($userCreated->getMedia('users')->isEmpty()) {
-                $disk = 'users';
-                $custom_avatar_path = database_path("seeders/media/$disk/$userCreated->slug.jpg");
-
-                if (File::exists($custom_avatar_path)) {
-                    $file_path = File::get($custom_avatar_path);
-                    $userCreated->addMediaFromString($file_path)
-                        ->setName($userCreated->slug)
-                        ->setFileName($userCreated->slug.'.'.config('bookshelves.cover_extension'))
-                        ->toMediaCollection($disk, $disk);
-
-                    $userCreated->refresh();
-                    $formatBasic = config('image.thumbnails.avatar');
-                    $avatar = $userCreated->getMedia('users')->first()?->getPath();
-                    $avatar = Image::load($avatar)->crop(Manipulations::CROP_CENTER, $formatBasic['width'], $formatBasic['height'])
-                        ->format(config('bookshelves.cover_extension'))
-                        ->optimize()
-                        ->save();
-                }
-            }
-
-            $userCreated->save();
+        Storage::disk('public')->deleteDirectory('media/users');
+        
+        $users = User::whereRelation('roles', 'name', '!==', RoleEnum::ADMIN())->pluck('id')->toArray();
+        User::destroy($users);
+        
+        if (! Role::exists()) {
+            Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
         }
+        
+        $users = User::factory()->count(20)->create();
 
-        $admin = User::whereEmail(config('bookshelves.admin.email'))->first();
-        $admin->roles()->attach(Role::whereName(RoleEnum::ADMIN())->first());
-        $admin->save();
+        $output = new ConsoleOutput();
+        $progress = new ProgressBar($output, count($users));
+        $progress->start();
+
+        $users->each(function ($user) use ($progress) {
+            $user->roles()->attach(Role::whereName(RoleEnum::USER())->first());
+
+            $avatar = self::generateAvatar();
+            $user->addMediaFromBase64($avatar)
+                ->setName($user->slug)
+                ->setFileName($user->slug . '.' . 'jpg')
+                ->toMediaCollection('avatar', 'users');
+
+            $image = $user->getFirstMediaPath('avatar');
+            $color = ImageProvider::simple_color_thief($image);
+            $media = $user->getFirstMedia('avatar');
+            $media->setCustomProperty('color', $color);
+
+            $user->save();
+            $progress->advance();
+        });
+        $progress->finish();
+    }
+    
+    public static function generateAvatar()
+    {
+        $url = 'https://source.unsplash.com/featured/200x200?face';
+        $response = Http::get($url);
+
+        $body = $response->body();
+        $base64 = base64_encode($body);
+        $original_mime = $response->getHeader('Content-Type')[0];
+        $avatar = ('data:' . $original_mime . ';base64,' . $base64);
+
+        return $avatar;
     }
 }

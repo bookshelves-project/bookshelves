@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Serie;
 use App\Models\Author;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 
 class FavoriteSeeder extends Seeder
 {
@@ -23,26 +24,27 @@ class FavoriteSeeder extends Seeder
         DB::statement('SET foreign_key_checks=1');
 
         $users = User::all();
-        $books = Book::inRandomOrder()->limit(10)->get();
-        $authors = Author::inRandomOrder()->limit(5)->get();
-        $series = Serie::inRandomOrder()->limit(5)->get();
+        
+        $limit = 2;
+        $books_count = intval(Book::count() / $limit);
+        $series_count = intval(Serie::count() / $limit);
+        $authors_count = intval(Author::count() / $limit);
+        $books = Book::inRandomOrder()->limit($books_count)->get();
+        $authors = Author::inRandomOrder()->limit($authors_count)->get();
+        $series = Serie::inRandomOrder()->limit($series_count)->get();
 
-        $books->each(function ($book, $key) use ($users) {
+        self::generate($books, $users);
+        self::generate($series, $users);
+        self::generate($authors, $users);
+    }
+
+    public static function generate(Collection $collect, Collection $users)
+    {
+        $faker = \Faker\Factory::create();
+        $collect->each(function ($entity, $key) use ($faker, $users) {
             $user = $users->random();
 
-            $book->favorites()->save($user);
-        });
-
-        $authors->each(function ($author, $key) use ($users) {
-            $user = $users->random();
-
-            $author->favorites()->save($user);
-        });
-
-        $series->each(function ($serie, $key) use ($users) {
-            $user = $users->random();
-
-            $serie->favorites()->save($user);
+            $entity->favorites()->save($user, ['created_at' => $faker->dateTime]);
         });
     }
 }

@@ -57,9 +57,9 @@ class CommentResource extends JsonResource
             'text'   => $comment->text,
             'rating' => $comment->rating ? $comment->rating : null,
             'user'   => [
-                'id'      => $comment->user->id,
-                'name'    => $comment->user->name,
-                'cover'   => $comment->user->avatar,
+                'id'                  => $comment->user->id,
+                'name'                => $comment->user->name,
+                'avatar'              => $comment->user->avatar,
             ],
             'createdAt' => $comment->created_at,
             'updatedAt' => $comment->updated_at,

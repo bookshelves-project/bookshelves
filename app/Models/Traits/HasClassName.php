@@ -11,7 +11,7 @@ trait HasClassName
     {
         $class = strtolower(str_replace('App\Models\\', '', get_class($this)));
         if ($withPlural) {
-            return $class.'s';
+            return $class . 's';
         }
         return $class;
     }

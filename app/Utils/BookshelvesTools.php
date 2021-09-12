@@ -97,7 +97,7 @@ class BookshelvesTools
         ];
         $factor = floor((strlen($bytes) - 1) / 3);
 
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).' '.@$sz[$factor];
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . ' ' . @$sz[$factor];
     }
 
     /**
@@ -125,7 +125,7 @@ class BookshelvesTools
             }
         }
 
-        return $content.'...';
+        return $content . '...';
     }
 
     /**
@@ -189,12 +189,12 @@ class BookshelvesTools
     {
         $extension = config('bookshelves.cover_extension');
 
-        $format = config('image.covers.'.$type);
+        $format = config('image.covers.' . $type);
         $disk = $model->getTable();
 
         $converted_pictures_directory = config('bookshelves.converted_pictures_directory');
         $base_path = storage_path("app/public/$converted_pictures_directory/$disk/$type/");
-        $path = $base_path.$name.'.'.$extension;
+        $path = $base_path . $name . '.' . $extension;
 
         if (! File::exists($path)) {
             if (! is_dir($base_path)) {

@@ -50,7 +50,7 @@ class WikipediaProvider
                 $wiki_url_page_id = "http://$lang.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts|pageimages&pithumbsize=512";
 
                 if ($debug) {
-                    echo $wiki_url_page_id."\n";
+                    echo $wiki_url_page_id . "\n";
                 }
                 $response = Http::get($wiki_url_page_id);
                 $response = $response->json();
@@ -62,7 +62,7 @@ class WikipediaProvider
                     $picture_url = $page['thumbnail']['source'];
                 } catch (\Throwable $th) {
                     if ($debug) {
-                        echo "No picture for ".$query."\n";
+                        echo "No picture for " . $query . "\n";
                     }
                 }
 
@@ -71,7 +71,7 @@ class WikipediaProvider
                     $extract = $page['extract'];
                 } catch (\Throwable $th) {
                     if ($debug) {
-                        echo "No extract for ".$query."\n";
+                        echo "No extract for " . $query . "\n";
                     }
                 }
             } catch (\Throwable $th) {

@@ -24,7 +24,7 @@ class SearchAuthorResource extends JsonResource
                 'entity' => 'author',
                 'slug'   => $this->resource->slug,
             ],
-            'title'       => $this->resource->lastname.' '.$this->resource->firstname,
+            'title'       => $this->resource->lastname . ' ' . $this->resource->firstname,
             'author'      => $this->resource->name,
             'first_char'  => $this->resource->first_char,
             'cover'       => [

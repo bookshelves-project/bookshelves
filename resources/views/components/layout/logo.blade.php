@@ -5,9 +5,13 @@
             <span class="ml-2">
                 {{ config('app.name') }}
             </span>
-            <span class="absolute -bottom-4 -right-6">
-                Features
-            </span>
+            <div class="absolute -bottom-4 -right-4 flex items-center text-xl">
+                <span>
+                    Features
+                </span>
+                <x-icon-features class="
+                    w-5 h-5 ml-1" />
+            </div>
         </div>
     </div>
 </a>

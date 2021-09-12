@@ -72,7 +72,7 @@ class AuthorController extends Controller
 
             return $author;
         } catch (\Throwable $th) {
-            return response()->json(['failed' => 'No result for '.$author], 404);
+            return response()->json(['failed' => 'No result for ' . $author], 404);
         }
     }
 

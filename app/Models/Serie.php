@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Spatie\Tags\HasTags;
+use Laravel\Scout\Searchable;
 use App\Utils\BookshelvesTools;
 use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasAuthors;
@@ -29,6 +30,7 @@ class Serie extends Model implements HasMedia
     use HasSelections;
     use HasLanguage;
     use HasTagsAndGenres;
+    use Searchable;
 
     protected $fillable = [
         'title',
@@ -44,7 +46,7 @@ class Serie extends Model implements HasMedia
 
     public function getContentOpdsAttribute(): string
     {
-        return $this->books->count().' books';
+        return $this->books->count() . ' books';
     }
 
     public function getSizeAttribute(): string
