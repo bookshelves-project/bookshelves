@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Webreader;
 
-use App\Utils\FileTools;
+use App\Utils\ClearFileTools;
 use Illuminate\Console\Command;
 
 class ClearCommand extends Command
@@ -39,7 +39,7 @@ class ClearCommand extends Command
     public function handle()
     {
         $dir = 'public/storage/webreader';
-        $file = new FileTools($dir);
+        $file = new ClearFileTools($dir);
         $file->clearDir();
         
         return 0;

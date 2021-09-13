@@ -18,30 +18,6 @@ use App\Http\Resources\EntityResource;
 class SearchController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/search",
-     *     tags={"search"},
-     *     summary="List of search results",
-     *     description="To search books, authors and series",
-     *     @OA\Parameter(
-     *         name="q",
-     *         in="query",
-     *         description="String value can be book's title, author's firstname or lastname, series' title",
-     *         required=true,
-     *         example="lovecraft",
-     *         @OA\Schema(
-     *           type="string",
-     *         ),
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation"
-     *     )
-     * )
-     */
-
-    /**
     * GET Entities collection
     *
     * Get Authors/Series/Books entities ordered by entity and lastname / title. Query can be series' title, book's title, author's firstname or lastname.
@@ -54,7 +30,22 @@ class SearchController extends Controller
     {
         $searchTermRaw = $request->input('q');
         if ($searchTermRaw) {
-            $collection = BookshelvesTools::searchGlobal($searchTermRaw);
+            if (config('scout.driver' === 'collection')) {
+                $collection = BookshelvesTools::searchGlobal($searchTermRaw);
+            } else {
+                $books = Book::search($searchTermRaw)->get();
+                $authors = Author::search($searchTermRaw)->get();
+                $series = Serie::search($searchTermRaw)->get();
+
+                $authors = EntityResource::collection($authors);
+                $series = EntityResource::collection($series);
+                $books = EntityResource::collection($books);
+            
+                $collection = collect([]);
+                $collection = $collection->merge($authors);
+                $collection = $collection->merge($series);
+                $collection = $collection->merge($books);
+            }
 
             return response()->json([
                 'data' => $collection,

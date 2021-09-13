@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Artisan;
-use App\Utils\FileTools;
+use App\Utils\ClearFileTools;
 use Illuminate\Console\Command;
 
 class ClearCommand extends Command
@@ -40,10 +40,10 @@ class ClearCommand extends Command
     public function handle()
     {
         $this->alert('Bookshelves: clear');
-        $debug = new FileTools(storage_path('app/public/debug'));
-        $cache = new FileTools(storage_path('app/public/cache'));
-        $temp = new FileTools(storage_path('app/public/temp'));
-        $glide = new FileTools(storage_path('app/public/glide'));
+        $debug = new ClearFileTools(storage_path('app/public/debug'));
+        $cache = new ClearFileTools(storage_path('app/public/cache'));
+        $temp = new ClearFileTools(storage_path('app/public/temp'));
+        $glide = new ClearFileTools(storage_path('app/public/glide'));
 
         $debug->clearDir();
         $cache->clearDir();
