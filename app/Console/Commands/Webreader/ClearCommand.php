@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Webreader;
 
+use App\Utils\FileTools;
 use Illuminate\Console\Command;
 
 class ClearCommand extends Command
@@ -38,19 +39,8 @@ class ClearCommand extends Command
     public function handle()
     {
         $dir = 'public/storage/webreader';
-        $leave_files = ['.gitignore'];
-
-        foreach (glob("$dir/*") as $file) {
-            if (! in_array(basename($file), $leave_files)) {
-                if (is_dir($file)) {
-                    rmdir_recursive($file);
-                } else {
-                    unlink($file);
-                }
-            }
-        }
-
-        $this->info("Clear $dir");
+        $file = new FileTools($dir);
+        $file->clearDir();
         
         return 0;
     }

@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Artisan;
+use App\Utils\FileTools;
 use Illuminate\Console\Command;
 
 class ClearCommand extends Command
@@ -39,10 +40,15 @@ class ClearCommand extends Command
     public function handle()
     {
         $this->alert('Bookshelves: clear');
-        $this->clearDir(storage_path('app/public/debug'));
-        $this->clearDir(storage_path('app/public/cache'));
-        $this->clearDir(storage_path('app/public/temp'));
-        $this->clearDir(storage_path('app/public/glide'));
+        $debug = new FileTools(storage_path('app/public/debug'));
+        $cache = new FileTools(storage_path('app/public/cache'));
+        $temp = new FileTools(storage_path('app/public/temp'));
+        $glide = new FileTools(storage_path('app/public/glide'));
+
+        $debug->clearDir();
+        $cache->clearDir();
+        $temp->clearDir();
+        $glide->clearDir();
 
         Artisan::call('cache:clear', [], $this->getOutput());
         Artisan::call('route:clear', [], $this->getOutput());
@@ -54,23 +60,5 @@ class ClearCommand extends Command
         $this->newLine();
 
         return 0;
-    }
-
-    public function clearDir(string $dir)
-    {
-        $leave_files = ['.gitignore'];
-
-        foreach (glob("$dir/*") as $file) {
-            if (! in_array(basename($file), $leave_files)) {
-                if (is_dir($file)) {
-                    rmdir_recursive($file);
-                } else {
-                    unlink($file);
-                }
-            }
-        }
-
-        $path = 'storage/app/public/' . basename($dir);
-        $this->info("Clear $path");
     }
 }

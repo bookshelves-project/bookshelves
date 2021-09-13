@@ -63,19 +63,3 @@ if (! function_exists('getUrlStorage')) {
         return config('app.url') . '/' . $path;
     }
 }
-
-if (! function_exists('rmdir_recursive')) {
-    function rmdir_recursive($dir)
-    {
-        $it = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
-        $it = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
-        foreach ($it as $file) {
-            if ($file->isDir()) {
-                rmdir($file->getPathname());
-            } else {
-                unlink($file->getPathname());
-            }
-        }
-        rmdir($dir);
-    }
-}

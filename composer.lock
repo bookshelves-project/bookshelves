@@ -2167,16 +2167,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.59.0",
+            "version": "v8.60.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "51d4755cc6232e7f8abb437567d713fa37661da2"
+                "reference": "44f16a31a1d4ac8a51605550d7796e2273984a48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/51d4755cc6232e7f8abb437567d713fa37661da2",
-                "reference": "51d4755cc6232e7f8abb437567d713fa37661da2",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/44f16a31a1d4ac8a51605550d7796e2273984a48",
+                "reference": "44f16a31a1d4ac8a51605550d7796e2273984a48",
                 "shasum": ""
             },
             "require": {
@@ -2331,7 +2331,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-09-07T13:29:53+00:00"
+            "time": "2021-09-08T13:37:21+00:00"
         },
         {
             "name": "laravel/jetstream",
@@ -5338,16 +5338,16 @@
         },
         {
             "name": "spatie/array-to-xml",
-            "version": "3.0.1",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/array-to-xml.git",
-                "reference": "8cdbed88277b40ba286e2676f94cdac1acc8c977"
+                "reference": "3090918cb441ad707660dd8bccc6dc46beb34380"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/8cdbed88277b40ba286e2676f94cdac1acc8c977",
-                "reference": "8cdbed88277b40ba286e2676f94cdac1acc8c977",
+                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/3090918cb441ad707660dd8bccc6dc46beb34380",
+                "reference": "3090918cb441ad707660dd8bccc6dc46beb34380",
                 "shasum": ""
             },
             "require": {
@@ -5386,7 +5386,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/array-to-xml/issues",
-                "source": "https://github.com/spatie/array-to-xml/tree/3.0.1"
+                "source": "https://github.com/spatie/array-to-xml/tree/3.1.0"
             },
             "funding": [
                 {
@@ -5398,7 +5398,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-09-05T13:17:55+00:00"
+            "time": "2021-09-12T17:08:24+00:00"
         },
         {
             "name": "spatie/eloquent-sortable",
@@ -5835,16 +5835,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "9.7.3",
+            "version": "9.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "fd826877f4b38004d8ba15c43c1bca74b0e51026"
+                "reference": "41fa9dd7578c41194d2661d678304c558824c365"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/fd826877f4b38004d8ba15c43c1bca74b0e51026",
-                "reference": "fd826877f4b38004d8ba15c43c1bca74b0e51026",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/41fa9dd7578c41194d2661d678304c558824c365",
+                "reference": "41fa9dd7578c41194d2661d678304c558824c365",
                 "shasum": ""
             },
             "require": {
@@ -5924,7 +5924,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/9.7.3"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/9.7.4"
             },
             "funding": [
                 {
@@ -5936,7 +5936,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-09-03T21:49:25+00:00"
+            "time": "2021-09-10T07:31:02+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
@@ -9871,16 +9871,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.1.1",
+            "version": "3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "8e0fde2b90e3f61361013d1e928621beeea07bc0"
+                "reference": "3ee2622b57370c786f531678f6641208747f7bfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/8e0fde2b90e3f61361013d1e928621beeea07bc0",
-                "reference": "8e0fde2b90e3f61361013d1e928621beeea07bc0",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/3ee2622b57370c786f531678f6641208747f7bfc",
+                "reference": "3ee2622b57370c786f531678f6641208747f7bfc",
                 "shasum": ""
             },
             "require": {
@@ -9892,15 +9892,15 @@
             },
             "require-dev": {
                 "doctrine/coding-standard": "9.0.0",
-                "jetbrains/phpstorm-stubs": "2020.2",
-                "phpstan/phpstan": "0.12.81",
-                "phpstan/phpstan-strict-rules": "^0.12.2",
+                "jetbrains/phpstorm-stubs": "2021.1",
+                "phpstan/phpstan": "0.12.96",
+                "phpstan/phpstan-strict-rules": "^0.12.11",
                 "phpunit/phpunit": "9.5.5",
-                "psalm/plugin-phpunit": "0.13.0",
+                "psalm/plugin-phpunit": "0.16.1",
                 "squizlabs/php_codesniffer": "3.6.0",
                 "symfony/cache": "^5.2|^6.0",
                 "symfony/console": "^2.0.5|^3.0|^4.0|^5.0|^6.0",
-                "vimeo/psalm": "4.6.4"
+                "vimeo/psalm": "4.10.0"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
@@ -9960,7 +9960,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.1.1"
+                "source": "https://github.com/doctrine/dbal/tree/3.1.2"
             },
             "funding": [
                 {
@@ -9976,7 +9976,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-19T17:59:55+00:00"
+            "time": "2021-09-12T20:56:32+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -10301,16 +10301,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.12.0",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "74dcc32a2895a126d1e5f2cd3bbab499cac66db1"
+                "reference": "567b0a4ab04367603e61729b0ca133fb7b4819db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/74dcc32a2895a126d1e5f2cd3bbab499cac66db1",
-                "reference": "74dcc32a2895a126d1e5f2cd3bbab499cac66db1",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/567b0a4ab04367603e61729b0ca133fb7b4819db",
+                "reference": "567b0a4ab04367603e61729b0ca133fb7b4819db",
                 "shasum": ""
             },
             "require": {
@@ -10373,7 +10373,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-08-24T09:53:54+00:00"
+            "time": "2021-09-10T07:19:07+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -10713,16 +10713,16 @@
         },
         {
             "name": "knuckleswtf/scribe",
-            "version": "3.9.1",
+            "version": "3.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knuckleswtf/scribe.git",
-                "reference": "a9cfc732fa5e31b4a16947842b2278d253abb419"
+                "reference": "b4f78bfb949382491c12f1857c52cea433065f2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/a9cfc732fa5e31b4a16947842b2278d253abb419",
-                "reference": "a9cfc732fa5e31b4a16947842b2278d253abb419",
+                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/b4f78bfb949382491c12f1857c52cea433065f2d",
+                "reference": "b4f78bfb949382491c12f1857c52cea433065f2d",
                 "shasum": ""
             },
             "require": {
@@ -10799,7 +10799,7 @@
             ],
             "support": {
                 "issues": "https://github.com/knuckleswtf/scribe/issues",
-                "source": "https://github.com/knuckleswtf/scribe/tree/3.9.1"
+                "source": "https://github.com/knuckleswtf/scribe/tree/3.10.2"
             },
             "funding": [
                 {
@@ -10807,7 +10807,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-08-26T12:53:10+00:00"
+            "time": "2021-09-10T21:21:19+00:00"
         },
         {
             "name": "laravel/breeze",
@@ -11492,33 +11492,33 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.13.0",
+            "version": "1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "be1996ed8adc35c3fd795488a653f4b518be70ea"
+                "reference": "d86dfc2e2a3cd366cee475e52c6bb3bbc371aa0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/be1996ed8adc35c3fd795488a653f4b518be70ea",
-                "reference": "be1996ed8adc35c3fd795488a653f4b518be70ea",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/d86dfc2e2a3cd366cee475e52c6bb3bbc371aa0e",
+                "reference": "d86dfc2e2a3cd366cee475e52c6bb3bbc371aa0e",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.2",
-                "php": "^7.2 || ~8.0, <8.1",
+                "php": "^7.2 || ~8.0, <8.2",
                 "phpdocumentor/reflection-docblock": "^5.2",
                 "sebastian/comparator": "^3.0 || ^4.0",
                 "sebastian/recursion-context": "^3.0 || ^4.0"
             },
             "require-dev": {
-                "phpspec/phpspec": "^6.0",
+                "phpspec/phpspec": "^6.0 || ^7.0",
                 "phpunit/phpunit": "^8.0 || ^9.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.11.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -11553,22 +11553,22 @@
             ],
             "support": {
                 "issues": "https://github.com/phpspec/prophecy/issues",
-                "source": "https://github.com/phpspec/prophecy/tree/1.13.0"
+                "source": "https://github.com/phpspec/prophecy/tree/1.14.0"
             },
-            "time": "2021-03-17T13:42:18+00:00"
+            "time": "2021-09-10T09:02:12+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.98",
+            "version": "0.12.99",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3bb7cc246c057405dd5e290c3ecc62ab51d57e00"
+                "reference": "b4d40f1d759942f523be267a1bab6884f46ca3f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3bb7cc246c057405dd5e290c3ecc62ab51d57e00",
-                "reference": "3bb7cc246c057405dd5e290c3ecc62ab51d57e00",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b4d40f1d759942f523be267a1bab6884f46ca3f7",
+                "reference": "b4d40f1d759942f523be267a1bab6884f46ca3f7",
                 "shasum": ""
             },
             "require": {
@@ -11599,7 +11599,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.98"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.99"
             },
             "funding": [
                 {
@@ -11619,7 +11619,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-02T12:33:01+00:00"
+            "time": "2021-09-12T20:09:55+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -13217,16 +13217,16 @@
         },
         {
             "name": "shalvah/upgrader",
-            "version": "0.1.2",
+            "version": "0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shalvah/upgrader.git",
-                "reference": "573e69bacfc266477d6c113eb869d0e6c2d7f36c"
+                "reference": "3006962363988cbb75ac7860915949fa8fe7cc2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shalvah/upgrader/zipball/573e69bacfc266477d6c113eb869d0e6c2d7f36c",
-                "reference": "573e69bacfc266477d6c113eb869d0e6c2d7f36c",
+                "url": "https://api.github.com/repos/shalvah/upgrader/zipball/3006962363988cbb75ac7860915949fa8fe7cc2a",
+                "reference": "3006962363988cbb75ac7860915949fa8fe7cc2a",
                 "shasum": ""
             },
             "require": {
@@ -13236,7 +13236,6 @@
             },
             "require-dev": {
                 "dms/phpunit-arraysubset-asserts": "^0.2.0",
-                "mockery/mockery": "^1.4",
                 "pestphp/pest": "^1.10",
                 "phpstan/phpstan": "^0.12.90",
                 "spatie/ray": "^1.28"
@@ -13264,7 +13263,7 @@
             ],
             "support": {
                 "issues": "https://github.com/shalvah/upgrader/issues",
-                "source": "https://github.com/shalvah/upgrader/tree/0.1.2"
+                "source": "https://github.com/shalvah/upgrader/tree/0.1.4"
             },
             "funding": [
                 {
@@ -13272,20 +13271,20 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-07-29T13:32:06+00:00"
+            "time": "2021-09-09T15:46:25+00:00"
         },
         {
             "name": "spatie/data-transfer-object",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/data-transfer-object.git",
-                "reference": "34289b121067206701c0e6efa7fb0f1fd3453764"
+                "reference": "7960781ad8eb69e58e7915dcb1d8a912c35f3671"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/data-transfer-object/zipball/34289b121067206701c0e6efa7fb0f1fd3453764",
-                "reference": "34289b121067206701c0e6efa7fb0f1fd3453764",
+                "url": "https://api.github.com/repos/spatie/data-transfer-object/zipball/7960781ad8eb69e58e7915dcb1d8a912c35f3671",
+                "reference": "7960781ad8eb69e58e7915dcb1d8a912c35f3671",
                 "shasum": ""
             },
             "require": {
@@ -13326,7 +13325,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/data-transfer-object/issues",
-                "source": "https://github.com/spatie/data-transfer-object/tree/3.7.0"
+                "source": "https://github.com/spatie/data-transfer-object/tree/3.7.1"
             },
             "funding": [
                 {
@@ -13338,7 +13337,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-26T09:53:42+00:00"
+            "time": "2021-09-09T09:36:07+00:00"
         },
         {
             "name": "symfony/var-exporter",
