@@ -42,7 +42,11 @@ class ClearCommand extends Command
 
         foreach (glob("$dir/*") as $file) {
             if (! in_array(basename($file), $leave_files)) {
-                unlink($file);
+                if ($file->isDir()) {
+                    rmdir($file->getPathname());
+                } else {
+                    unlink($file->getPathname());
+                }
             }
         }
         
