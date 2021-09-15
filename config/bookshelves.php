@@ -5,7 +5,7 @@ return [
         'to'   => 'info@bookshelves.com',
         'from' => 'noreplyinfo@bookshelves.com',
     ],
-    'cover_extension'              => 'webp',
+    'cover_extension'              => env('IMAGE_FORMAT', 'webp'),
     'converted_pictures_directory' => 'glide',
     'admin'                        => [
         'email'    => env('ADMIN_EMAIL', 'admin@mail.com'),
@@ -14,7 +14,12 @@ return [
     'authors' => [
         // For all ebooks: if you have authors' names like lastname_firstname
         // set to false to reverse
-        'firstname_lastname' => true,
+        'order_firstname_lastname'      => env('AUTHORS_ORDER_FIRSTNAME_LASTNAME', true),
+        'skip_homonyms'                 => env('AUTHORS_SKIP_HOMONYMS', false)
+    ],
+    'langs' => [
+        'fr'      => 'French',
+        'en'      => 'English',
     ],
     // From Wikipedia: https://en.wikipedia.org/wiki/List_of_writing_genres.
     // Any tag add here will be used as 'genre'
