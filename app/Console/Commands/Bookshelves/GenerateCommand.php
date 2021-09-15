@@ -30,7 +30,8 @@ class GenerateCommand extends Command
                             {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
                             {--t|test : execute tests at the end}
-                            {--l|limit= : limit epub files to generate, useful for debug}';
+                            {--l|limit= : limit epub files to generate, useful for debug}
+                            {--D|default : use default cover for all (skip covers step)}';
 
     /**
      * The console command description.
@@ -71,6 +72,7 @@ class GenerateCommand extends Command
         $local = $this->option('local') ?? false;
         $debug = $this->option('debug') ?? false;
         $test = $this->option('test') ?? false;
+        $default = $this->option('default');
 
         if ($fresh) {
             $this->warn('- Option --fresh: erase current database, migrate and seed basics also clear all medias.');
@@ -89,6 +91,9 @@ class GenerateCommand extends Command
         }
         if ($test) {
             $this->warn('- Option --test: execute tests at the end.');
+        }
+        if ($default) {
+            $this->warn("- Option --default: skip covers step, use default cover.");
         }
 
         if ($erase) {
@@ -111,24 +116,27 @@ class GenerateCommand extends Command
          * Generate commands
          */
         Artisan::call('bookshelves:books', [
-            '--local'  => $local,
-            '--fresh'  => $fresh,
-            '--limit'  => $limit,
-            '--debug'  => $debug,
+            '--local'   => $local,
+            '--fresh'   => $fresh,
+            '--limit'   => $limit,
+            '--debug'   => $debug,
+            '--default' => $default,
         ], $this->getOutput());
         Artisan::call('bookshelves:series', [
-            '--local'  => $local,
-            '--fresh'  => $fresh,
+            '--local'   => $local,
+            '--fresh'   => $fresh,
+            '--default' => $default,
         ], $this->getOutput());
         Artisan::call('bookshelves:authors', [
-            '--local'  => $local,
-            '--fresh'  => $fresh,
+            '--local'   => $local,
+            '--fresh'   => $fresh,
+            '--default' => $default,
         ], $this->getOutput());
 
         $this->newLine();
         $this->table(
-            ['Books', 'Series', 'Authors'],
-            [[Book::count(), Serie::count(), Author::count()]]
+            ['Books', 'Series', 'Authors', 'Languages', 'Publishers', 'Tags'],
+            [[Book::count(), Serie::count(), Author::count(), Language::count(), Publisher::count(), Tag::count()]]
         );
         $this->newLine();
 

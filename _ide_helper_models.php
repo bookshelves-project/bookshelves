@@ -397,6 +397,7 @@ namespace App\Models{
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $meta_author
+ * @property-read string $show_books_link
  * @property-read string $show_link
  * @property-read string $show_link_opds
  * @property-read string $size
@@ -504,7 +505,10 @@ namespace App\Models{
  * @property string|null $two_factor_recovery_codes
  * @property string|null $remember_token
  * @property int|null $current_team_id
+ * @property string|null $about
  * @property bool $use_gravatar
+ * @property bool $display_favorites
+ * @property bool $display_comments
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -512,7 +516,11 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read string $avatar
- * @property-read string $profile_photo_url
+ * @property-read string|null $avatar_thumbnail
+ * @property-read string|null $color
+ * @property-read string $show_link
+ * @property-read string $show_link_comments
+ * @property-read string $show_link_favorites
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
@@ -525,8 +533,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAbout($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCurrentTeamId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayComments($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayFavorites($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)

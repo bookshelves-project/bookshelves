@@ -4,7 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Models\Serie;
 use Illuminate\Console\Command;
-use App\Providers\Bookshelves\SerieProvider;
+use App\Providers\BookshelvesConverter\SerieConverter;
 
 class SeriesCommand extends Command
 {
@@ -15,7 +15,8 @@ class SeriesCommand extends Command
      */
     protected $signature = 'bookshelves:series
                             {--L|local : prevent external HTTP requests to public API for additional informations}
-                            {--f|fresh : refresh series medias, `description` & `link`}';
+                            {--f|fresh : refresh series medias, `description` & `link`}
+                            {--D|default : use default cover for all (skip covers step)}';
 
     /**
      * The console command description.
@@ -43,6 +44,7 @@ class SeriesCommand extends Command
     {
         $fresh = $this->option('fresh');
         $local = $this->option('local');
+        $default = $this->option('default') ?? false;
 
         $series = Serie::orderBy('title_sort')->get();
         if ($fresh) {
@@ -69,18 +71,18 @@ class SeriesCommand extends Command
         $bar = $this->output->createProgressBar(count($series));
         $bar->start();
         foreach ($series as $key => $serie) {
-            SerieProvider::setTags(serie: $serie);
-            if (empty($serie->getFirstMediaUrl('series'))) {
-                SerieProvider::setCover(serie: $serie);
+            SerieConverter::setTags(serie: $serie);
+            if (empty($serie->getFirstMediaUrl('series')) && ! $default) {
+                SerieConverter::setCover(serie: $serie);
             }
             if (! $serie->description && ! $serie->link) {
                 if (! $local) {
-                    $result = SerieProvider::setLocalDescription(serie: $serie);
+                    $result = SerieConverter::setLocalDescription(serie: $serie);
                     if (! $result) {
-                        SerieProvider::setDescription(serie: $serie);
+                        SerieConverter::setDescription(serie: $serie);
                     }
                 } else {
-                    SerieProvider::setLocalDescription(serie: $serie);
+                    SerieConverter::setLocalDescription(serie: $serie);
                 }
             }
             $bar->advance();

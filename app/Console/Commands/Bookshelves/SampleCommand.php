@@ -3,9 +3,11 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Artisan;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class SampleCommand extends Command
 {
@@ -19,7 +21,8 @@ class SampleCommand extends Command
                             {--u|users : generate users with roles}
                             {--c|comments : generate fake comments, favorites sample (users with roles will be generated)}
                             {--s|selection : generate fake selection sample (user admin with roles will be generated)}
-                            {--A|admin : generate only admin with roles}';
+                            {--A|admin : generate only admin with roles}
+                            {--F|force : skip confirm in prod}';
 
     /**
      * The console command description.
@@ -50,8 +53,9 @@ class SampleCommand extends Command
         $comments = $this->option('comments') ?? false;
         $selection = $this->option('selection') ?? false;
         $admin = $this->option('admin') ?? false;
+        $force = $this->option('force') ?? false;
 
-        if (config('app.env') !== 'local') {
+        if (config('app.env') !== 'local' && ! $force) {
             if ($this->confirm('This command will erase all users/roles/comments/selection/admin, do you really want to erase these data?', true)) {
                 $this->info('Confirmed.');
             } else {
@@ -61,6 +65,12 @@ class SampleCommand extends Command
         }
         
         $users ? $roles = true : '';
+        if ($admin) {
+            if (! Role::exists()) {
+                $roles = true;
+            }
+        }
+
         if ($comments) {
             if (! User::exists()) {
                 $roles = true;
@@ -75,16 +85,20 @@ class SampleCommand extends Command
 
         if ($roles) {
             $this->comment('Run roles seeders');
+            DB::statement('SET foreign_key_checks=0');
+            Role::truncate();
+            DB::statement('SET foreign_key_checks=1');
             Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
             $this->info('Seeders ready!');
             $this->newLine();
         }
         
         if ($admin) {
-            $users = User::all();
-            $users->each(function ($query) {
-                $query->clearMediaCollection('avatar');
-            });
+            // $users = User::all();
+            // $users->each(function ($query) {
+            //     $query->clearMediaCollection('avatar');
+            // });
+            Storage::deleteDirectory(storage_path('app/public/media/users'));
             DB::statement('SET foreign_key_checks=0');
             User::truncate();
             DB::statement('SET foreign_key_checks=1');

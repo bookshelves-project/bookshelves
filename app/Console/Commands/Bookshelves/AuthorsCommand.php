@@ -4,7 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Models\Author;
 use Illuminate\Console\Command;
-use App\Providers\Bookshelves\AuthorProvider;
+use App\Providers\BookshelvesConverter\AuthorConverter;
 
 class AuthorsCommand extends Command
 {
@@ -15,7 +15,8 @@ class AuthorsCommand extends Command
      */
     protected $signature = 'bookshelves:authors
                             {--L|local : prevent external HTTP requests to public API for additional informations}
-                            {--f|fresh : refresh authors medias, `description` & `link`}';
+                            {--f|fresh : refresh authors medias, `description` & `link`}
+                            {--D|default : use default cover for all (skip covers step)}';
 
     /**
      * The console command description.
@@ -43,6 +44,7 @@ class AuthorsCommand extends Command
     {
         $fresh = $this->option('fresh') ?? false;
         $local = $this->option('local') ?? false;
+        $default = $this->option('default') ?? false;
 
         $authors = Author::orderBy('lastname')->get();
         if ($fresh) {
@@ -68,9 +70,9 @@ class AuthorsCommand extends Command
         $bar = $this->output->createProgressBar(count($authors));
         $bar->start();
         foreach ($authors as $key => $author) {
-            AuthorProvider::tags($author);
+            AuthorConverter::tags($author);
             if (! $author->description && ! $author->link) {
-                AuthorProvider::descriptionAndPicture(author: $author, local: $local);
+                AuthorConverter::descriptionAndPicture(author: $author, local: $local, default: $default);
             }
             $bar->advance();
         }

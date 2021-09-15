@@ -1,25 +1,30 @@
 <?php
 
-namespace App\Providers\Bookshelves;
+namespace App\Providers\BookshelvesConverter;
 
 use File;
 use Storage;
+use App\Models\Book;
 use App\Models\Author;
+use Illuminate\Support\Str;
 use App\Utils\BookshelvesTools;
 use App\Providers\ImageProvider;
+use App\Providers\EbookParserEngine\EbookParserEngine;
+use App\Providers\EbookParserEngine\Models\OpfCreator;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
-class AuthorProvider
+class AuthorConverter
 {
     public function __construct(
-        public string $firstname,
-        public string $lastname,
+        public ?string $firstname,
+        public ?string $lastname,
+        public ?string $role,
     ) {
     }
 
-    public static function create(object $creator)
+    public static function create(OpfCreator $creator)
     {
-        $orderClassic = config('bookshelves.authors.firstname_lastname');
+        $orderClassic = config('bookshelves.authors.order_firstname_lastname');
 
         if ($orderClassic) {
             $author_name = explode(' ', $creator->name);
@@ -32,8 +37,63 @@ class AuthorProvider
             array_pop($author_name);
             $lastname = implode(' ', $author_name);
         }
+        $role = $creator->role;
 
-        return new AuthorProvider($firstname, $lastname);
+        return new AuthorConverter($firstname, $lastname, $role);
+    }
+
+    /**
+     * Generate Author[] for Book from EbookParserEngine.
+     */
+    public static function authors(EbookParserEngine $EPE, Book $book): Book
+    {
+        $authors = [];
+        if (empty($EPE->creators)) {
+            $creator = new OpfCreator(
+                name: 'Unknown Author',
+                role: 'aut'
+            );
+            $authorConverter = AuthorConverter::create($creator);
+            $author = self::createAuthor($authorConverter, $creator);
+            array_push($authors, $author);
+        } else {
+            foreach ($EPE->creators as $key => $creator) {
+                $authorConverter = AuthorConverter::create($creator);
+                $skipHomonys = config('bookshelves.authors.skip_homonyms');
+                if ($skipHomonys) {
+                    $lastname = Author::whereFirstname($authorConverter->lastname)->first();
+                    if ($lastname) {
+                        $exist = Author::whereLastname($authorConverter->firstname)->first();
+                        $author = $exist;
+                        array_push($authors, $author);
+                    } else {
+                        $author = self::createAuthor($authorConverter, $creator);
+                        array_push($authors, $author);
+                    }
+                } else {
+                    $author = self::createAuthor($authorConverter, $creator);
+                    array_push($authors, $author);
+                }
+            }
+        }
+        foreach ($authors as $key => $author) {
+            $book->authors()->save($author);
+        }
+        $book->refresh();
+
+        return $book;
+    }
+
+    private static function createAuthor(AuthorConverter $authorConverter, object $creator)
+    {
+        $author = Author::firstOrCreate([
+            'lastname'  => $authorConverter->lastname,
+            'firstname' => $authorConverter->firstname,
+            'name'      => "$authorConverter->firstname $authorConverter->lastname",
+            'slug'      => Str::slug("$authorConverter->lastname $authorConverter->firstname", '-'),
+            'role'      => $creator->role,
+        ]);
+        return $author;
     }
 
     /**
@@ -47,7 +107,7 @@ class AuthorProvider
      * - from Wikipedia if found, managed by `spatie/laravel-medialibrary`
      * - if not use default image `database/seeders/media/authors/no-picture.jpg`
      */
-    public static function descriptionAndPicture(Author $author, bool $local, bool $no_cover = false): Author | false
+    public static function descriptionAndPicture(Author $author, bool $local, bool $default = false): Author | false
     {
         if ($author) {
             $name = $author->name;
@@ -60,12 +120,12 @@ class AuthorProvider
                 if (! $author->description) {
                     $author = self::setWikipediaDescription($author, $wiki);
                 }
-                if (! $no_cover) {
+                if (! $default) {
                     $author = self::setWikipediaPicture($author, $wiki);
                 }
             } else {
                 $author = self::setLocalDescription($author);
-                if ($author && ! $no_cover) {
+                if ($author && ! $default) {
                     self::setPicture($author);
                 }
             }
@@ -143,7 +203,7 @@ class AuthorProvider
         $disk = 'authors';
 
         $path = public_path("storage/raw/pictures-$disk");
-        $files = MetadataExtractorTools::getDirContents($path);
+        $files = MetadataExtractorTools::getDirectoryFiles($path);
 
         foreach ($files as $key => $file) {
             if (pathinfo($file)['filename'] === $author->slug) {

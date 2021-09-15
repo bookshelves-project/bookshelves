@@ -4,6 +4,7 @@ namespace App\Providers\MetadataExtractor;
 
 use File;
 use Storage;
+use Generator;
 use ZipArchive;
 use Illuminate\Support\Str;
 use App\Utils\BookshelvesTools;
@@ -76,7 +77,7 @@ class MetadataExtractorTools
             // $files = Storage::disk('public')->allFiles('raw/books');
             $epubsFiles = [];
             $path = 'public/storage/raw/books';
-            foreach (self::getDirContents($path) as $file) {
+            foreach (self::getDirectoryFiles($path) as $file) {
                 if (array_key_exists('extension', pathinfo($file)) && 'epub' === pathinfo($file)['extension']) {
                     $file = str_replace('public/storage/', '', $file);
                     array_push($epubsFiles, $file);
@@ -102,6 +103,7 @@ class MetadataExtractorTools
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $outputStyle = new OutputFormatterStyle('red', '', ['bold']);
         $output->getFormatter()->setStyle('fire', $outputStyle);
+        
         $output->writeln("<fire>Error about $type:</> $book");
     }
 
@@ -157,7 +159,12 @@ class MetadataExtractorTools
         return $text;
     }
 
-    public static function getDirContents($dir)
+    /**
+     * Parse directory (recursive)
+     * @param mixed $dir
+     * @return Generator<mixed, mixed, mixed, void>
+     */
+    public static function getDirectoryFiles($dir)
     {
         $files = scandir($dir);
         foreach ($files as $key => $value) {
@@ -165,7 +172,7 @@ class MetadataExtractorTools
             if (! is_dir($path)) {
                 yield $path;
             } elseif ($value != "." && $value != "..") {
-                yield from self::getDirContents($path);
+                yield from self::getDirectoryFiles($path);
                 yield $path;
             }
         }
@@ -212,13 +219,17 @@ class MetadataExtractorTools
 
         try {
             $meta = $xml['METADATA'];
+            // dump($meta);
+            
             $creators = $meta['DC:CREATOR'] ?? null;
             $creators_arr = [];
-            if (count($creators) == count($creators, COUNT_RECURSIVE)) {
-                array_push($creators_arr, new CreatorParser(name: $creators['content'], role: $creators['OPF:ROLE']));
-            } else {
-                foreach ($creators as $key => $value) {
-                    array_push($creators_arr, new CreatorParser(name: $value['content'], role: $value['OPF:ROLE']));
+            if (array_key_exists('content', $creators)) {
+                if (count($creators) == count($creators, COUNT_RECURSIVE)) {
+                    array_push($creators_arr, new CreatorParser(name: $creators['content'], role: $creators['OPF:ROLE']));
+                } else {
+                    foreach ($creators as $key => $value) {
+                        array_push($creators_arr, new CreatorParser(name: $value['content'], role: $value['OPF:ROLE']));
+                    }
                 }
             }
 
@@ -254,7 +265,7 @@ class MetadataExtractorTools
                 }
             }
             // only one identifier
-            if (! sizeof($identifiers_arr)) {
+            if (! sizeof($identifiers_arr) && array_key_exists('content', $identifiers)) {
                 $identifiers_arr[0]['id'] = $identifiers['OPF:SCHEME'];
                 $identifiers_arr[0]['content'] = $identifiers['content'];
             }
@@ -275,7 +286,6 @@ class MetadataExtractorTools
             $volume = null;
             $meta_serie = $meta['META'] ?? null;
             foreach ($meta_serie as $key => $value) {
-                // dump($meta_serie);
                 if ('calibre:series' === $value['NAME']) {
                     $serie = $value['CONTENT'];
                 }
@@ -288,7 +298,12 @@ class MetadataExtractorTools
                 $cover_file = $cover['HREF'] ?? null;
                 $cover_extension = pathinfo($cover['HREF'], PATHINFO_EXTENSION) ?? null;
             } else {
-                dump('NO COVER');
+                echo 'NO COVER';
+            }
+
+            $date = null;
+            if (array_key_exists('DC:DATE', $meta)) {
+                $date = is_string($meta['DC:DATE']) ? $meta['DC:DATE'] : null;
             }
 
             $metadata = [
@@ -296,11 +311,11 @@ class MetadataExtractorTools
                 'creators'              => $creators_arr,
                 'contributor'           => $contributors,
                 'description'           => $meta['DC:DESCRIPTION'] ?? null,
-                'date'                  => is_string($meta['DC:DATE']) ? $meta['DC:DATE'] : null ?? null,
+                'date'                  => $date,
                 'identifiers'           => $identifiers_arr,
                 'publisher'             => $meta['DC:PUBLISHER'] ?? null,
                 'subjects'              => $subjects_arr,
-                'language'              => $meta['DC:LANGUAGE'] ?? null,
+                'language'              => $meta['DC:LANGUAGE'] ?? 'unknown',
                 'rights'                => $meta['DC:RIGHTS'] ?? null,
                 'serie'                 => $serie,
                 'volume'                => $volume,
@@ -308,8 +323,7 @@ class MetadataExtractorTools
                 'cover_extension'       => $cover_extension ?? null,
             ];
         } catch (\Throwable $th) {
-            // throw $th;
-            echo $th->getMessage();
+            BookshelvesTools::console(__METHOD__, $th);
         }
 
         return $metadata;

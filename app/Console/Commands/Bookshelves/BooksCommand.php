@@ -2,14 +2,11 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Str;
-use App\Models\Book;
-use Spatie\Tags\Tag;
 use Illuminate\Console\Command;
-use App\Providers\Bookshelves\BookProvider;
-use App\Providers\Bookshelves\BookshelvesProvider;
-use App\Providers\MetadataExtractor\MetadataExtractor;
-use App\Providers\MetadataExtractor\MetadataExtractorTools;
+use Illuminate\Support\Facades\Artisan;
+use App\Providers\EbookParserEngine\EbooksList;
+use App\Providers\EbookParserEngine\EbookParserEngine;
+use App\Providers\BookshelvesConverter\BookshelvesConverter;
 
 class BooksCommand extends Command
 {
@@ -22,7 +19,8 @@ class BooksCommand extends Command
                             {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--f|fresh : reset current books and relation, keep users}
                             {--l|limit= : limit epub files to generate, useful for debug}
-                            {--d|debug : generate metadata files into public/storage/debug for debug}';
+                            {--d|debug : generate metadata files into public/storage/debug for debug}
+                            {--D|default : use default cover for all (skip covers step)}';
 
     /**
      * The console command description.
@@ -48,138 +46,50 @@ class BooksCommand extends Command
      */
     public function handle()
     {
-        $limit = $this->option('limit');
-        $limit = str_replace('=', '', $limit);
+        $limit = str_replace('=', '', $this->option('limit'));
         $limit = intval($limit);
-        $local = $this->option('local');
-        $fresh = $this->option('fresh');
+        $local = $this->option('local') ?? false;
+        $fresh = $this->option('fresh') ?? false;
         $debug = $this->option('debug') ?? false;
-        $epubFiles = MetadataExtractorTools::getAllEpubFiles(limit: $limit);
+        $default = $this->option('default') ?? false;
+
+        $list = EbooksList::getEbooks(limit: $limit);
 
         if ($fresh) {
-            $books = Book::all();
-            $books->each(function ($query) {
-                $query->clearMediaCollection('books');
-                $query->clearMediaCollection('epubs');
-            });
+            Artisan::call('setup:database', [
+                '--books'   => $fresh,
+            ], $this->getOutput());
         }
 
-        if (! $fresh) {
-            $this->warn('No fresh, scan for new eBooks');
-            $this->newLine();
-            $epubFiles = $this->getOnlyNewBooks($epubFiles, $debug);
+        $bar = $this->output->createProgressBar(sizeof($list));
+        $bar->start();
+        foreach ($list as $epub) {
+            $EPE = EbookParserEngine::create($epub, $limit, $debug, true);
+            $book = BookshelvesConverter::create($EPE, $local);
+            // dump($EPE);
+            $bar->advance();
         }
-        $this->newLine(2);
+        $bar->finish();
+
+        // if (! $fresh) {
+        //     $this->warn('No fresh, scan for new eBooks');
+        //     $this->newLine();
+        //     $epubFiles = $this->getOnlyNewBooks($epubFiles, $debug);
+        // }
+        // $this->newLine(2);
 
         /*
          * Books
          */
-        $books = $this->books($epubFiles, $local, $debug);
+        // $books = $this->books($epubFiles, $local, $debug);
 
         /*
          * Books covers
          */
-        $this->covers($books);
+        // if (! $default) {
+        //     $this->covers($books);
+        // }
 
         return true;
-    }
-
-    public function getOnlyNewBooks(array $epubFiles, bool $debug = false)
-    {
-        $epubFilesNew = [];
-        $epub_bar = $this->output->createProgressBar(sizeof($epubFiles));
-        $epub_bar->start();
-        foreach ($epubFiles as $key => $epubFilePath) {
-            $metadataExtractor = MetadataExtractor::run($epubFilePath);
-            $slug = Str::slug($metadataExtractor->title . ' ' . $metadataExtractor->language);
-
-            $book = Book::whereSlug($slug)->first();
-            if (! $book) {
-                array_push($epubFilesNew, $epubFilePath);
-            }
-            $epub_bar->advance();
-        }
-        $epub_bar->finish();
-
-        return $epubFilesNew;
-    }
-
-    /**
-     * Main method of Bookshelves.
-     *
-     * Generate `Book` model with all relationships
-     */
-    public function books(array $epubFiles, bool $local, bool $debug = false): array
-    {
-        $this->alert('Bookshelves: books & relations');
-        $this->comment('- EPUB files detected: ' . sizeof($epubFiles));
-        $this->info('- Generate Book model with relationships');
-        $this->info('- Generate new EPUB file with standard name');
-        if (! $local) {
-            $this->info('- Get extra data from Google Books API: HTTP requests (--local to skip)');
-        }
-        $this->newLine();
-
-        $genres = config('bookshelves.genres');
-        foreach ($genres as $key => $genre) {
-            Tag::findOrCreate($genre, 'genre');
-        }
-
-        $epub_bar = $this->output->createProgressBar(sizeof($epubFiles));
-        $epub_bar->start();
-        $books = [];
-        foreach ($epubFiles as $key => $epubFilePath) {
-            $metadataExtractor = MetadataExtractor::run($epubFilePath, $debug);
-            // Check if XML have no error
-            if ($metadataExtractor) {
-                $tryToFindBook = Book::whereSlug(Str::slug($metadataExtractor->title))->first();
-                if (! $tryToFindBook) {
-                    $new_book = BookshelvesProvider::convertMetadata(metadataExtractor: $metadataExtractor, local: $local);
-                    BookProvider::epub(book: $new_book, epubFilePath: $epubFilePath);
-                    array_push($books, $new_book);
-                }
-            }
-            $epub_bar->advance();
-        }
-        $epub_bar->finish();
-        $this->newLine(2);
-
-        return $books;
-    }
-
-    /**
-     * Generate covers with different dimensions.
-     *
-     * Format can be specify into `bookshelves` config
-     */
-    public function covers(array $books)
-    {
-        $format = config('bookshelves.cover_extension');
-        $this->comment('Generate covers...');
-        $this->newLine();
-        $this->info('- Generate covers with differents dimensions');
-        $this->info("- $format format: original from EPUB, thumbnail");
-        $this->info('- Open Graph in JPG format');
-        $this->newLine();
-
-        $bar = $this->output->createProgressBar(count($books));
-        $bar->start();
-        foreach ($books as $key => $book) {
-            BookProvider::cover(book: $book);
-            $bar->advance();
-        }
-        $bar->finish();
-        $this->newLine(2);
-
-        $dir = 'public/storage/raw/covers';
-        $leave_files = ['.gitignore'];
-
-        foreach (glob("$dir/*") as $file) {
-            if (! in_array(basename($file), $leave_files)) {
-                unlink($file);
-            }
-        }
-
-        return 0;
     }
 }

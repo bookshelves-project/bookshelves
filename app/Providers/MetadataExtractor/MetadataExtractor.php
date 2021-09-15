@@ -3,6 +3,7 @@
 namespace App\Providers\MetadataExtractor;
 
 use DateTime;
+use App\Utils\BookshelvesTools;
 use App\Providers\MetadataExtractor\Parsers\BookParser;
 use App\Providers\MetadataExtractor\Parsers\SerieParser;
 use App\Providers\MetadataExtractor\Parsers\CreatorsParser;
@@ -59,21 +60,26 @@ class MetadataExtractor
             return false;
         }
 
-        $title = (string) $metadata['title'] ?? null;
-        $creators = (array) $metadata['creators'] ?? null;
-        $contributor = (string) $metadata['contributor'] ?? null;
-        $description = (string) $metadata['description'] ?? null;
-        $date = (string) $metadata['date'] ?? null;
-        $identifiers = (array) $metadata['identifiers'] ?? null;
-        $publisher = (string) $metadata['publisher'] ?? null;
-        $subjects = (array) $metadata['subjects'] ?? null;
-        $language = (string) $metadata['language'] ?? null;
-        $rights = (string) $metadata['rights'] ?? null;
-        $serie = (string) $metadata['serie'] ?? null;
-        $volume = (string) $metadata['volume'] ?? null;
-        $cover = $metadata['cover_file'] ?? null;
-        $coverExtension = $metadata['cover_extension'] ?? null;
-        $epubFilePath = (string) $epubFilePath ?? null;
+        try {
+            $title = (string) $metadata['title'] ?? null;
+            $creators = (array) $metadata['creators'] ?? null;
+            $contributor = (string) $metadata['contributor'] ?? null;
+            $description = (string) $metadata['description'] ?? null;
+            $date = (string) $metadata['date'] ?? null;
+            $identifiers = (array) $metadata['identifiers'] ?? null;
+            $publisher = (string) $metadata['publisher'] ?? null;
+            $subjects = (array) $metadata['subjects'] ?? null;
+            $language = (string) $metadata['language'] ?? null;
+            $rights = (string) $metadata['rights'] ?? null;
+            $serie = (string) $metadata['serie'] ?? null;
+            $volume = (string) $metadata['volume'] ?? null;
+            $cover = $metadata['cover_file'] ?? null;
+            $coverExtension = $metadata['cover_extension'] ?? null;
+            $epubFilePath = (string) $epubFilePath ?? null;
+        } catch (\Throwable $th) {
+            BookshelvesTools::console(__METHOD__, $th);
+            return false;
+        }
 
         $identifiersParsed = IdentifiersParser::run(identifiers: $identifiers);
         $serieParsed = SerieParser::run(serie: $serie, volume: $volume);

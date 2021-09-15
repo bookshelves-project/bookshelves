@@ -1,17 +1,71 @@
 <?php
 
-namespace App\Providers\Bookshelves;
+namespace App\Providers\BookshelvesConverter;
 
 use File;
 use Storage;
 use App\Models\Book;
 use App\Models\Serie;
+use Illuminate\Support\Str;
 use App\Utils\BookshelvesTools;
 use App\Providers\ImageProvider;
+use App\Providers\EbookParserEngine\EbookParserEngine;
 use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
-class SerieProvider
-{
+class SerieConverter
+{/**
+     * Generate Serie for Book from EbookParserEngine.
+     */
+    public static function create(EbookParserEngine $EPE, Book $book): Book
+    {
+        if ($EPE->serie) {
+            $serieIfExist = Serie::whereSlug($EPE->serie_slug)->first();
+            $serie = null;
+            if (! $serieIfExist) {
+                $serie = Serie::firstOrCreate([
+                    'title'      => $EPE->serie,
+                    'title_sort' => $EPE->serie_sort,
+                    'slug'       => $EPE->serie_slug_lang,
+                ]);
+                $serie->language()->associate($EPE->language);
+                $serie->save();
+            } else {
+                $serie = $serieIfExist;
+            }
+
+            $authors_serie = [];
+            foreach ($serie->authors as $key => $author) {
+                array_push($authors_serie, $author->slug);
+            }
+            $book_authors = $book->authors;
+            foreach ($book_authors as $key => $author) {
+                if (! in_array($author->slug, $authors_serie)) {
+                    $serie->authors()->save($author);
+                }
+            }
+
+            $book->serie()->associate($serie);
+        }
+
+        return $book;
+    }
+
+    /**
+     * Generate full title sort.
+     */
+    public static function sortTitleWithSerie(Book $book): string
+    {
+        $serie = null;
+        if ($book->serie) {
+            $volume = strlen($book->volume) < 2 ? '0' . $book->volume : $book->volume;
+            $serie = $book->serie?->title_sort . ' ' . $volume;
+            $serie = Str::slug($serie) . '_';
+        }
+        $title = Str::slug($book->title_sort);
+
+        return "$serie$title";
+    }
+
     public static function setLocalDescription(Serie $serie): ?Serie
     {
         if (File::exists(public_path('storage/raw/series.json'))) {
@@ -68,7 +122,7 @@ class SerieProvider
             $disk = 'series';
 
             $path = public_path("storage/raw/pictures-$disk");
-            $files = MetadataExtractorTools::getDirContents($path);
+            $files = MetadataExtractorTools::getDirectoryFiles($path);
 
             $cover = null;
             foreach ($files as $key => $file) {
