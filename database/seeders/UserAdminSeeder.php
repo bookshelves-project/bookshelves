@@ -25,18 +25,21 @@ class UserAdminSeeder extends Seeder
 
         $users = [
             [
-                'name'     => 'Admin',
+                'name'     => config('app.name') . ' Admin',
                 'email'    => config('bookshelves.admin.email'),
                 'password' => Hash::make(config('bookshelves.admin.password')),
             ],
         ];
         foreach ($users as $key => $userRaw) {
             $user = User::create([
-                'name'                  => $userRaw['name'],
-                'email'                 => $userRaw['email'],
-                'email_verified_at'     => new DateTime(),
-                'password'              => $userRaw['password'],
-                'use_gravatar'          => false,
+                'name'                       => $userRaw['name'],
+                'email'                      => $userRaw['email'],
+                'email_verified_at'          => new DateTime(),
+                'password'                   => $userRaw['password'],
+                'about'                      => 'Super admin of plateform',
+                'use_gravatar'               => false,
+                'display_favorites'          => true,
+                'display_comments'           => true,
             ]);
             $user->roles()->attach(Role::whereName(RoleEnum::USER())->first());
             $user->roles()->attach(Role::whereName(RoleEnum::ADMIN())->first());

@@ -43,8 +43,9 @@ class FavoriteSeeder extends Seeder
         $faker = \Faker\Factory::create();
         $collect->each(function ($entity, $key) use ($faker, $users) {
             $user = $users->random();
+            $date = $faker->dateTimeBetween('-3 week', '-1 week', 'Europe/Paris')->format('Y-m-d H:i:s');
 
-            $entity->favorites()->save($user, ['created_at' => $faker->dateTime]);
+            $entity->favorites()->save($user, ['created_at' => $date]);
         });
     }
 }

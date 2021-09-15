@@ -22,7 +22,10 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
-            $table->boolean('use_gravatar')->default(true);
+            $table->string('about')->nullable();
+            $table->boolean('use_gravatar')->default(false);
+            $table->boolean('display_favorites')->default(false);
+            $table->boolean('display_comments')->default(false);
             $table->timestamps();
         });
     }

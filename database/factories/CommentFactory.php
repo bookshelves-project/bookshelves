@@ -29,20 +29,37 @@ class CommentFactory extends Factory
 
         $random_datetime = [
             new DateTime(),
-            $faker->dateTimeBetween('-1 week', '-3 day'),
-            $faker->dateTimeBetween('-3 week', '-1 week'),
-            $faker->dateTimeBetween('-6 month', '-1 month'),
-            $faker->dateTimeBetween('-2 year', '-1 year'),
-            $faker->dateTimeBetween('-8 year', '-5 year'),
+            $faker->dateTimeBetween('-1 week', '-3 day', 'Europe/Paris'),
+            $faker->dateTimeBetween('-3 week', '-1 week', 'Europe/Paris'),
+            $faker->dateTimeBetween('-6 month', '-1 month', 'Europe/Paris'),
+            $faker->dateTimeBetween('-2 year', '-1 year', 'Europe/Paris'),
+            $faker->dateTimeBetween('-8 year', '-5 year', 'Europe/Paris'),
             $faker->dateTime
         ];
         $datetime = $faker->randomElements($random_datetime);
 
+        $text = [
+            $faker->paragraph($faker->numberBetween(2, 10), true),
+            $faker->paragraph($faker->numberBetween(2, 10), true)
+        ];
+        $text = implode('<br>', $text);
+        $text = explode(' ', $text);
+        foreach ($text as $key => $word) {
+            if (! strpos($word, '.')) {
+                if ($key % 8 === 0) {
+                    $text[$key] = "*$word*";
+                }
+                if ($key % 9 === 0) {
+                    $text[$key] = "**$word**";
+                }
+            }
+        }
+        $date = $datetime[0]->format('Y-m-d H:i:s');
+
         return [
-            'text'       => $faker->paragraph(),
+            'text'       => implode(' ', $text),
             'rating'     => $faker->numberBetween(null, 5),
-            'user_id'    => $user->id,
-            'created_at' => $datetime[0],
+            'created_at' => $date,
         ];
     }
 }

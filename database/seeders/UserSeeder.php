@@ -2,16 +2,17 @@
 
 namespace Database\Seeders;
 
-use Http;
 use App\Models\Role;
 use App\Models\User;
 use App\Enums\RoleEnum;
 use Illuminate\Database\Seeder;
 use App\Providers\ImageProvider;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UserSeeder extends Seeder
 {
@@ -26,6 +27,8 @@ class UserSeeder extends Seeder
         
         $users = User::whereRelation('roles', 'name', '!==', RoleEnum::ADMIN())->pluck('id')->toArray();
         User::destroy($users);
+        $media = Media::where('collection_name', 'avatar')->pluck('id')->toArray();
+        Media::destroy($media);
         
         if (! Role::exists()) {
             Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
@@ -41,15 +44,16 @@ class UserSeeder extends Seeder
             $user->roles()->attach(Role::whereName(RoleEnum::USER())->first());
 
             $avatar = self::generateAvatar();
-            $user->addMediaFromBase64($avatar)
+            $user->addMediaFromString($avatar)
                 ->setName($user->slug)
-                ->setFileName($user->slug . '.' . 'jpg')
+                ->setFileName($user->slug . '.' . 'webp')
                 ->toMediaCollection('avatar', 'users');
 
             $image = $user->getFirstMediaPath('avatar');
             $color = ImageProvider::simple_color_thief($image);
             $media = $user->getFirstMedia('avatar');
             $media->setCustomProperty('color', $color);
+            $media->save();
 
             $user->save();
             $progress->advance();
@@ -59,14 +63,11 @@ class UserSeeder extends Seeder
     
     public static function generateAvatar()
     {
-        $url = 'https://source.unsplash.com/featured/200x200?face';
-        $response = Http::get($url);
+        $index = rand(1, 15);
+        $path = database_path('seeders/media/users/user-' . $index . '.webp');
+        $file = File::get($path);
+        
 
-        $body = $response->body();
-        $base64 = base64_encode($body);
-        $original_mime = $response->getHeader('Content-Type')[0];
-        $avatar = ('data:' . $original_mime . ';base64,' . $base64);
-
-        return $avatar;
+        return $file;
     }
 }

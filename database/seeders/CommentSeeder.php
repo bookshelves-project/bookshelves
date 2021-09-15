@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use DB;
-use DateTime;
 use App\Models\Book;
+use App\Models\User;
 use App\Models\Serie;
 use App\Models\Author;
 use App\Models\Comment;
@@ -44,24 +44,24 @@ class CommentSeeder extends Seeder
             $comments = Comment::factory()->count($faker->numberBetween(1, 5))->create();
 
             foreach ($comments as $comment) {
-                $entity->comments()->save($comment);
-            }
-            // remove duplicates
-            $users_id = [];
-            foreach ($entity->comments as $key => $comment) {
-                if (in_array($comment->user_id, $users_id)) {
-                    Comment::destroy($comment->id);
-                } else {
+                $exist_comments_user_id = $entity->comments->pluck('user_id');
+                
+                $user_id = User::inRandomOrder()->first()->id;
+                if (! in_array($user_id, $exist_comments_user_id->toArray())) {
+                    $comment->user_id = $user_id;
+
                     $dateTimes = [
-                        $faker->dateTime(new DateTime('+1 week')),
+                        $faker->dateTimeBetween('-1 week', '-5 day')->format('Y-m-d H:i:s'),
                         $comment->created_at
                     ];
                     $newDateTime = $faker->randomElements($dateTimes);
+                    $date = $newDateTime[0];
 
-                    $comment->updated_at = $newDateTime[0];
-                    $comment->save(['timestamps' => false]);
+                    $comment->updated_at = $date;
+
+                    $entity->comments()->save($comment);
+                    $entity->refresh();
                 }
-                array_push($users_id, $comment->user_id);
             }
         });
     }
