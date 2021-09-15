@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use Throwable;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Models\Author;
@@ -12,6 +13,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use App\Http\Resources\EntityResource;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class BookshelvesTools
 {
@@ -98,6 +100,18 @@ class BookshelvesTools
         $factor = floor((strlen($bytes) - 1) / 3);
 
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . ' ' . @$sz[$factor];
+    }
+
+    public static function console(string $method, Throwable $throwable)
+    {
+        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $outputStyle = new OutputFormatterStyle('red', '', ['bold']);
+        $output->getFormatter()->setStyle('fire', $outputStyle);
+        
+        $output->writeln("<fire>Error about $method:</>");
+        $output->writeln($throwable->getMessage());
+        $output->writeln($throwable->getFile());
+        $output->writeln($throwable->getLine());
     }
 
     /**

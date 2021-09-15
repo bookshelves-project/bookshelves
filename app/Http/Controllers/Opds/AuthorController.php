@@ -6,7 +6,7 @@ use Route;
 use App\Models\Author;
 use App\Enums\EntitiesEnum;
 use App\Http\Controllers\Controller;
-use App\Providers\Bookshelves\OpdsProvider;
+use App\Providers\BookshelvesConverter\OpdsProvider;
 
 /**
  * @hideFromAPIDocumentation

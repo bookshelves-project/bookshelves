@@ -8,7 +8,7 @@ use App\Enums\EntitiesEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\CommonMarkProvider;
-use App\Providers\Bookshelves\OpdsProvider;
+use App\Providers\BookshelvesConverter\OpdsProvider;
 
 /**
  * @hideFromAPIDocumentation
