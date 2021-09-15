@@ -2,78 +2,65 @@
 
 namespace App\Models\Traits;
 
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * Manage avatar with conversions with `spatie/laravel-medialibrary`
+ */
 trait HasAvatar
 {
-    /**
-     * Update the user's profile photo.
-     *
-     * @return void
-     */
-    public function updateProfilePhoto(UploadedFile $photo)
+    use InteractsWithMedia;
+    
+    /** @mixin \Spatie\Cover\Manipulations */
+    public function registerMediaConversions(Media $media = null): void
     {
-        // tap($this->profile_photo_path, function ($previous) use ($photo) {
-        //     $this->forceFill([
-        //         'profile_photo_path' => $photo->storePublicly(
-        //             'profile-photos', ['disk' => $this->profilePhotoDisk()]
-        //         ),
-        //     ])->save();
+        $avatar = config('image.user.avatar');
 
-        //     if ($previous) {
-        //         Storage::disk($this->profilePhotoDisk())->delete($previous);
-        //     }
-        // });
+        $this->addMediaConversion('avatar')
+            ->crop(Manipulations::CROP_TOP, $avatar['width'], $avatar['height'])
+            ->format(config('bookshelves.cover_extension'));
     }
 
-    /**
-     * Delete the user's profile photo.
-     *
-     * @return void
-     */
-    public function deleteProfilePhoto()
+    public function getAvatarAttribute(): string
     {
-        // if (! Features::managesProfilePhotos()) {
-        //     return;
-        // }
+        return $this->getAvatar();
+    }
+    /**
+     * Get cover thumbnail with `spatie/laravel-medialibrary`
+     * With config/bookshelves define format
+     */
+    public function getAvatarThumbnailAttribute(): string | null
+    {
+        return $this->getAvatar('thumbnail');
+    }
+    
+    private function getAvatar(string $collection = '')
+    {
+        if ($this->use_gravatar) {
+            $hash = md5(strtolower(trim($this->email)));
 
-        // Storage::disk($this->profilePhotoDisk())->delete($this->profile_photo_path);
+            return "http://www.gravatar.com/avatar/$hash";
+        }
+        if ($this->getMedia('avatar')->first()) {
+            return $this->getFirstMediaUrl('avatar', $collection);
+        }
 
-        // $this->forceFill([
-        //     'profile_photo_path' => null,
-        // ])->save();
+        return 'https://eu.ui-avatars.com/api/?name=' . $this->name . '&color=7F9CF5&background=EBF4FF';
     }
 
-    /**
-     * Get the URL to the user's profile photo.
-     *
-     * @return string
-     */
-    public function getProfilePhotoUrlAttribute()
+    public function getColorAttribute(): string|null
     {
-        // return $this->profile_photo_path
-        //             ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
-        //             : $this->defaultProfilePhotoUrl();
-    }
+        /** @var Media $media */
+        $media = $this->getFirstMedia('avatar');
 
-    /**
-     * Get the default profile photo URL if no profile photo has been uploaded.
-     *
-     * @return string
-     */
-    protected function defaultProfilePhotoUrl()
-    {
-        // return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';
-    }
+        if ($media) {
+            $color = $media->getCustomProperty('color');
 
-    /**
-     * Get the disk that profile photos should be stored on.
-     *
-     * @return string
-     */
-    protected function profilePhotoDisk()
-    {
-        // return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : config('jetstream.profile_photo_disk', 'public');
+            return "#$color";
+        }
+
+        return null;
     }
 }

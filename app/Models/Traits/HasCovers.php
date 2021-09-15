@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * Manage covers with conversions with `spatie/laravel-medialibrary`
+ * Manage cover with conversions with `spatie/laravel-medialibrary`
  */
 trait HasCovers
 {
@@ -43,8 +43,7 @@ trait HasCovers
      */
     public function getCoverThumbnailAttribute(): string | null
     {
-        // return BookshelvesTools::convertPicture($this, $this->meta_author.'_'.$this->slug);
-        return $this->getFirstMediaUrl($this->getClassName(true), 'thumbnail');
+        return $this->getCover('thumbnail');
     }
 
     /**
@@ -53,8 +52,7 @@ trait HasCovers
      */
     public function getCoverOgAttribute(): string | null
     {
-        // return BookshelvesTools::convertPicture($this, $this->meta_author.'_'.$this->slug, 'og');
-        return $this->getFirstMediaUrl($this->getClassName(true), 'og');
+        return $this->getCover('og');
     }
 
     /**
@@ -63,8 +61,7 @@ trait HasCovers
      */
     public function getCoverSimpleAttribute(): string | null
     {
-        // return BookshelvesTools::convertPicture($this, $this->meta_author.'_'.$this->slug, 'simple');
-        return $this->getFirstMediaUrl($this->getClassName(true), 'simple');
+        return $this->getCover('simple');
     }
 
     /**
@@ -73,7 +70,18 @@ trait HasCovers
      */
     public function getCoverOriginalAttribute(): string | null
     {
-        return $this->getFirstMediaUrl($this->getClassName(true));
+        return $this->getCover();
+    }
+
+    private function getCover(string $collection = '', string $extension = '')
+    {
+        // return BookshelvesTools::convertPicture($this, $this->meta_author.'_'.$this->slug);
+        if (! $extension) {
+            $extension = config('bookshelves.cover_extension');
+        }
+        $class_name = $this->getClassName(true);
+        $cover = $this->getFirstMediaUrl($class_name, $collection);
+        return $cover ? $cover : config('app.url') . '/assets/images/' . ($class_name === 'authors' ? 'no-author.' . $extension :'no-cover.' . $extension);
     }
 
     /**
@@ -91,6 +99,6 @@ trait HasCovers
             return "#$color";
         }
 
-        return null;
+        return "#ffffff";
     }
 }

@@ -41,7 +41,7 @@ class CommentController extends Controller
 
         foreach ($entity->comments as $key => $value) {
             if ($value->user_id === $userId) {
-                return response()->json(['error' => 'A comment exist'], 401);
+                return response()->json(['error' => 'A comment exist, you can post only one comment here.'], 401);
             }
         }
 

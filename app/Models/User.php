@@ -7,9 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Traits\HasAvatar;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
-use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -20,10 +18,8 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
     use HasFactory;
-    // use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use InteractsWithMedia;
     use HasAvatar;
 
     /**
@@ -37,6 +33,9 @@ class User extends Authenticatable implements HasMedia
         'password',
         'slug',
         'use_gravatar',
+        'display_favorites',
+        'display_comments',
+        'about'
     ];
 
     /**
@@ -59,6 +58,8 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'email_verified_at'     => 'datetime',
         'use_gravatar'          => 'boolean',
+        'display_favorites'     => 'boolean',
+        'display_comments'      => 'boolean',
     ];
 
     /**
@@ -76,24 +77,37 @@ class User extends Authenticatable implements HasMedia
             if (! empty($user->slug)) {
                 return;
             }
-            $user->slug = Str::slug($user->name, '-');
+            $user->slug = Str::slug($user->name, '-') . '-' . bin2hex(openssl_random_pseudo_bytes(5));
         });
 
         parent::boot();
     }
 
-    public function getAvatarAttribute(): string
+    public function getShowLinkAttribute(): string
     {
-        if ($this->use_gravatar) {
-            $hash = md5(strtolower(trim($this->email)));
+        $route = route('api.users.show', [
+            'slug' => $this->slug,
+        ]);
 
-            return "http://www.use_gravatar.com/avatar/$hash";
-        }
-        if ($this->getMedia('avatar')->first()) {
-            return $this->getMedia('avatar')->first()?->getUrl();
-        }
+        return $route;
+    }
 
-        return 'https://eu.ui-avatars.com/api/?name=' . $this->name . '&color=7F9CF5&background=EBF4FF';
+    public function getShowLinkCommentsAttribute(): string
+    {
+        $route = route('api.users.comments', [
+            'slug' => $this->slug,
+        ]);
+
+        return $route;
+    }
+
+    public function getShowLinkFavoritesAttribute(): string
+    {
+        $route = route('api.users.favorites', [
+            'slug' => $this->slug,
+        ]);
+
+        return $route;
     }
 
     public function hasRole(RoleEnum $role_to_verify): bool
@@ -108,6 +122,11 @@ class User extends Authenticatable implements HasMedia
         }
 
         return false;
+    }
+
+    public function favorites()
+    {
+        return Favoritable::where('user_id', $this->id)->orderBy('created_at')->get();
     }
 
     public function roles(): BelongsToMany

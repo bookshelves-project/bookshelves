@@ -30,18 +30,23 @@ class PublisherController extends Controller
     */
     public function index(Request $request)
     {
-        $page = $request->get('per-page') ? $request->get('per-page') : 32;
-        if (! is_numeric($page)) {
-            return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
-                400
-            );
-        }
-        $page = intval($page);
+        $page = $request->get('per-page') ? $request->get('per-page') : null;
+
 
         $pubs = Publisher::orderBy('name')->get();
 
-        return PublisherLightResource::collection($pubs->paginate($page));
+        if ($page) {
+            if (! is_numeric($page)) {
+                return response()->json(
+                    "Invalid 'per-page' query parameter, must be an int",
+                    400
+                );
+            }
+            $page = intval($page);
+            $pubs = $pubs->paginate($page);
+        }
+
+        return PublisherLightResource::collection($pubs);
     }
 
     /**

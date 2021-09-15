@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\CommandController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LanguageController;
@@ -139,6 +140,16 @@ Route::prefix('/publishers')->group(function () {
 Route::get('/languages', [LanguageController::class, 'index'])->name('api.languages.index');
 
 /*
+ * Comments routes
+ */
+Route::prefix('/users')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('api.users.index');
+    Route::get('/{slug}', [UserController::class, 'show'])->name('api.users.show');
+    Route::get('/comments/{slug}', [UserController::class, 'comments'])->name('api.users.comments');
+    Route::get('/favorites/{slug}', [UserController::class, 'favorites'])->name('api.users.favorites');
+});
+
+/*
  * Users features routes
  */
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -168,11 +179,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     /*
      * User routes
      */
-    Route::prefix('/user')->group(function () {
-        Route::get('/', [UserController::class, 'sanctum'])->name('api.user');
-        Route::post('/update', [UserController::class, 'update'])->name('api.user.update');
-        Route::post('/update-password', [UserController::class, 'updatePassword'])->name('api.user.update-password');
-        Route::get('/delete/avatar', [UserController::class, 'deleteAvatar'])->name('api.user.delete.avatar');
+    Route::prefix('/profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'sanctum'])->name('api.profile');
+        Route::post('/update', [ProfileController::class, 'update'])->name('api.profile.update');
+        Route::post('/update-password', [ProfileController::class, 'updatePassword'])->name('api.profile.update-password');
+        Route::get('/delete/avatar', [ProfileController::class, 'deleteAvatar'])->name('api.profile.delete.avatar');
     });
 });
 

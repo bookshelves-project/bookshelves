@@ -2,147 +2,59 @@
 
 namespace App\Http\Controllers\Api;
 
-use Str;
-use Auth;
-use Hash;
 use App\Models\User;
-use App\Enums\RoleEnum;
-use Spatie\Image\Image;
 use Illuminate\Http\Request;
-use Spatie\Image\Manipulations;
-use Illuminate\Http\UploadedFile;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\FavoriteResource;
+use App\Http\Resources\User\UserResource;
+use App\Http\Resources\User\UserListResource;
 
 /**
  * @hideFromAPIDocumentation
  */
 class UserController extends Controller
 {
-    public function auth()
+    public function index(Request $request)
     {
-        return response()->json('auth');
-    }
-
-    public function sanctum(Request $request)
-    {
-        /** @var User $user */
-        $user = Auth::user();
-
-        return [
-            'data'    => $user,
-            'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
-        ];
-    }
-
-    public function users(Request $request)
-    {
-        $users = User::all();
-
-        return UserResource::collection($users);
-    }
-
-    public function update(Request $request)
-    {
-        /** @var User $user */
-        $user = Auth::user();
-
-        $request->use_gravatar = false;
-        $use_gravatar = filter_var($request->input('use_gravatar'), FILTER_VALIDATE_BOOLEAN);
-        $request->validate([
-            'name'  => 'required|string|max:256',
-            'email' => 'required|email|max:256',
-            'photo' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
-
-        $user->name = $request->name;
-        $user->slug = Str::slug($request->name);
-        $user->email = $request->email;
-        $user->use_gravatar = $use_gravatar;
-        $user->save();
-
-        if ($request->photo) {
-            $user->clearMediaCollection('users');
-
-            /** @var UploadedFile $photo */
-            $photo = $request->photo;
-            $extension = $photo->extension();
-            $photo_path = file_get_contents($photo->path());
-
-            $user->addMediaFromString($photo_path)
-                ->setName($user->slug)
-                ->setFileName($user->slug . '.' . config('bookshelves.cover_extension'))
-                ->toMediaCollection('users', 'users');
-            $user = $user->refresh();
-
-            $name = pathinfo($user->getMedia('users')->first()?->getPath());
-            $formatBasic = config('image.thumbnails.avatar');
-            $photo = Image::load($user->getMedia('users')->first()?->getPath())
-                ->crop(Manipulations::CROP_CENTER, $formatBasic['width'], $formatBasic['height'])
-                ->save();
-
-            return [
-                'data'    => $user,
-                'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
-            ];
+        $page = $request->get('per-page') ? $request->get('per-page') : 32;
+        if (! is_numeric($page)) {
+            return response()->json(
+                "Invalid 'per-page' query parameter, must be an int",
+                400
+            );
         }
-
-        return [
-            'data'    => $user,
-            'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
-        ];
-    }
-
-    public function deleteAvatar()
-    {
-        /** @var User $user */
-        $user = Auth::user();
-
-        $user->clearMediaCollection('users');
-
-        return [
-            'data'    => $user,
-            'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
-        ];
-    }
-
-    public function updatePassword(Request $request)
-    {
-        /** @var User $user */
-        $user = Auth::user();
-
-        $request->validate([
-            'current_password'      => 'required|string|max:256',
-            'password'              => 'required|string|max:256',
-            'password_confirmation' => 'required|string|max:256',
-        ]);
-
-        if (Hash::check($request->current_password, $user->password)) {
-            if ($request->password === $request->password_confirmation) {
-                $user->password = Hash::make($request->password);
-                $user->save();
-            } else {
-                return response()->json([
-                    'success' => __('New password and new password confirmation does not match.'),
-                ], 402);
-            }
+        $page = intval($page);
+        $users = User::orderBy('name')->with('comments');
+        if ($page) {
+            $users = $users->paginate($page);
         } else {
-            return response()->json([
-                'success' => __('The provided password does not match your current password.'),
-            ], 402);
+            $users = $users->get();
         }
 
-        // Validator::make($input, [
-        //     'current_password' => ['required', 'string'],
-        //     'password'         => $this->passwordRules(),
-        // ])->after(function ($validator) use ($user, $input) {
-        //     if (! isset($input['current_password']) || ! Hash::check($input['current_password'], $user->password)) {
-        //         $validator->errors()->add('current_password', __('The provided password does not match your current password.'));
-        //     }
-        // })->validateWithBag('updatePassword');
+        return UserListResource::collection($users);
+    }
 
-        // $user->forceFill([
-        //     'password' => Hash::make($input['password']),
-        // ])->save();
+    public function show(Request $request, string $user_slug)
+    {
+        $user = User::where('slug', $user_slug)->firstOrFail();
+
+        return UserResource::make($user);
+    }
+
+    public function comments(Request $request, string $user_slug)
+    {
+        $user = User::where('slug', $user_slug)->with('comments')->firstOrFail();
+        $comments = $user->comments;
+
+        return CommentResource::collection($comments);
+    }
+
+    public function favorites(Request $request, string $user_slug)
+    {
+        $user = User::where('slug', $user_slug)->firstOrFail();
+        $favorites = $user->favorites();
+
+        return FavoriteResource::collection($favorites);
     }
 }

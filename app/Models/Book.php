@@ -91,9 +91,17 @@ class Book extends Model implements HasMedia
         return "$serie$title";
     }
 
-    public function searchableAs()
+    public function toSearchableArray()
     {
-        return 'books_index';
+        return [
+            'id'                 => $this->id,
+            'title'              => $this->title,
+            'date'               => $this->date,
+            'author'             => $this->authors_names,
+            // 'description'      => $this->description,
+            'created_at'       => $this->created_at,
+            'updated_at'       => $this->updated_at
+        ];
     }
 
     public function publisher(): BelongsTo

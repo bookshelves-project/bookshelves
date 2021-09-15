@@ -49,6 +49,16 @@ class Serie extends Model implements HasMedia
         return $this->books->count() . ' books';
     }
 
+    public function getShowBooksLinkAttribute(): string
+    {
+        $route = route('api.series.show.books', [
+            'author' => $this->meta_author,
+            'serie'  => $this->slug,
+        ]);
+
+        return $route;
+    }
+
     public function getSizeAttribute(): string
     {
         $size = [];
@@ -61,6 +71,18 @@ class Serie extends Model implements HasMedia
         $size = BookshelvesTools::humanFilesize($size);
 
         return $size;
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'id'                 => $this->id,
+            'title'              => $this->title,
+            'author'             => $this->authors_names,
+            'description'        => $this->description,
+            'created_at'         => $this->created_at,
+            'updated_at'         => $this->updated_at
+        ];
     }
 
     /**

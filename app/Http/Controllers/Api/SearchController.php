@@ -28,6 +28,7 @@ class SearchController extends Controller
     */
     public function index(Request $request)
     {
+        // - with pagination
         $searchTermRaw = $request->input('q');
         if ($searchTermRaw) {
             if (config('scout.driver' === 'collection')) {
@@ -46,6 +47,8 @@ class SearchController extends Controller
                 $collection = $collection->merge($series);
                 $collection = $collection->merge($books);
             }
+            // $collection->splice(50);
+            // dd($collection->count());
 
             return response()->json([
                 'data' => $collection,

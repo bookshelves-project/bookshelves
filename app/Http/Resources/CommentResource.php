@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Comment;
+use Illuminate\Support\Str;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CommentResource extends JsonResource
@@ -54,12 +55,14 @@ class CommentResource extends JsonResource
                 'slug'   => $comment->commentable->slug,
             ],
             'id'     => $comment->id,
-            'text'   => $comment->text,
+            'text'   => Str::markdown($comment->text),
             'rating' => $comment->rating ? $comment->rating : null,
             'user'   => [
                 'id'                  => $comment->user->id,
                 'name'                => $comment->user->name,
+                'slug'                => $comment->user->slug,
                 'avatar'              => $comment->user->avatar,
+                'color'               => $comment->user->color,
             ],
             'createdAt' => $comment->created_at,
             'updatedAt' => $comment->updated_at,

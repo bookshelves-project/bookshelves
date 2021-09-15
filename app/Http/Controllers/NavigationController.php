@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use App\Models\User;
 use Spatie\Tags\Tag;
 use App\Models\Serie;
 use App\Models\Author;
@@ -47,10 +46,6 @@ class NavigationController extends Controller
                 'entity' => 'Tags',
                 'count'  => Tag::count()
             ],
-            [
-                'entity' => 'Users',
-                'count'  => User::count()
-            ]
         ];
         $table = json_decode(json_encode($table));
         
