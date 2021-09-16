@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use Spatie\Tags\Tag;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use App\Providers\EbookParserEngine\EbooksList;
@@ -46,6 +47,7 @@ class BooksCommand extends Command
      */
     public function handle()
     {
+        $app = config('app.name');
         $limit = str_replace('=', '', $this->option('limit'));
         $limit = intval($limit);
         $local = $this->option('local') ?? false;
@@ -53,6 +55,7 @@ class BooksCommand extends Command
         $debug = $this->option('debug') ?? false;
         $default = $this->option('default') ?? false;
 
+        Artisan::call('bookshelves:clear', [], $this->getOutput());
         $list = EbooksList::getEbooks(limit: $limit);
 
         if ($fresh) {
@@ -61,15 +64,37 @@ class BooksCommand extends Command
             ], $this->getOutput());
         }
 
+        $this->alert("$app: books & relations");
+        $this->comment('EPUB files detected: ' . sizeof($list));
+        $this->info('- Generate Book model with relationships');
+        $this->info('- Generate new EPUB file with standard name');
+        if (! $local) {
+            $this->info('- Get extra data from Google Books API: HTTP requests (--local to skip)');
+        }
+        $this->newLine();
+        if (! $default) {
+            $format = config('bookshelves.cover_extension');
+            $this->comment('Generate covers for books and series');
+            $this->info('- Generate covers with differents dimensions');
+            $this->info("- Main format: $format (original from EPUB, thumbnail)");
+            $this->info('- OpenGraph, Simple format: JPG (social, Catalog)');
+            $this->newLine();
+        }
+        
+        $genres = config('bookshelves.genres');
+        foreach ($genres as $key => $genre) {
+            Tag::findOrCreate($genre, 'genre');
+        }
         $bar = $this->output->createProgressBar(sizeof($list));
         $bar->start();
         foreach ($list as $epub) {
-            $EPE = EbookParserEngine::create($epub, $limit, $debug, true);
-            $book = BookshelvesConverter::create($EPE, $local);
-            // dump($EPE);
+            $EPE = EbookParserEngine::create($epub, $debug);
+            BookshelvesConverter::create($EPE, $local, $default);
+
             $bar->advance();
         }
         $bar->finish();
+        $this->newLine();
 
         // if (! $fresh) {
         //     $this->warn('No fresh, scan for new eBooks');

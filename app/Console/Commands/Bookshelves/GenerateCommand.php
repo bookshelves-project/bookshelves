@@ -2,19 +2,14 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use DB;
 use Artisan;
 use App\Models\Book;
 use Spatie\Tags\Tag;
 use App\Models\Serie;
 use App\Models\Author;
-use App\Models\Comment;
 use App\Models\Language;
 use App\Models\Publisher;
-use App\Models\GoogleBook;
-use App\Models\Identifier;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 
 class GenerateCommand extends Command
 {
@@ -29,6 +24,9 @@ class GenerateCommand extends Command
                             {--F|force : skip confirm question for prod}
                             {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
+                            {--b|books : assets for books}
+                            {--a|authors : assets for authors}
+                            {--s|series : assets for series}
                             {--t|test : execute tests at the end}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--D|default : use default cover for all (skip covers step)}';
@@ -38,7 +36,7 @@ class GenerateCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Generate books and covers database from storage/raw/books, set limit option at the end';
+    protected $description = 'Generate books and covers database from storage/data/books, set limit option at the end';
 
     /**
      * Create a new command instance.
@@ -55,16 +53,20 @@ class GenerateCommand extends Command
      */
     public function handle()
     {
+        $app = config('app.name');
         $this->newLine();
-        $this->alert('Bookshelves: generate');
+        $this->alert("$app: generate");
 
-        $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/raw/books...');
+        $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/data/books...');
         $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
         $this->newLine();
 
         // setup options
         $isForce = $this->option('force') ?? false;
         $fresh = $this->option('fresh') ?? false;
+        $books = $this->option('books') ?? false;
+        $authors = $this->option('authors') ?? false;
+        $series = $this->option('series') ?? false;
         $erase = $this->option('erase') ?? false;
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
@@ -89,12 +91,22 @@ class GenerateCommand extends Command
         if ($debug) {
             $this->warn('- Option --debug: generate metadata files into public/storage/debug for debug.');
         }
+        if ($books) {
+            $this->warn('- Option --books: generate assets for authors from GoogleBook.');
+        }
+        if ($authors) {
+            $this->warn('- Option --authors: generate assets for authors from Wikipedia.');
+        }
+        if ($series) {
+            $this->warn('- Option --series: generate assets for series from Wikipedia.');
+        }
         if ($test) {
             $this->warn('- Option --test: execute tests at the end.');
         }
         if ($default) {
             $this->warn("- Option --default: skip covers step, use default cover.");
         }
+        $this->newLine();
 
         if ($erase) {
             $this->newLine();
@@ -107,10 +119,6 @@ class GenerateCommand extends Command
                 return;
             }
         }
-        if ($fresh) {
-            $this->fresh();
-        }
-        
 
         /*
          * Generate commands
@@ -122,12 +130,10 @@ class GenerateCommand extends Command
             '--debug'   => $debug,
             '--default' => $default,
         ], $this->getOutput());
-        Artisan::call('bookshelves:series', [
-            '--local'   => $local,
-            '--fresh'   => $fresh,
-            '--default' => $default,
-        ], $this->getOutput());
-        Artisan::call('bookshelves:authors', [
+        Artisan::call('bookshelves:assets', [
+            '--books'   => $books,
+            '--authors' => $authors,
+            '--series'  => $series,
             '--local'   => $local,
             '--fresh'   => $fresh,
             '--default' => $default,
@@ -162,87 +168,5 @@ class GenerateCommand extends Command
 
         $this->info('Done!');
         $this->newLine();
-    }
-
-    /**
-     * Clear all media collection manage by spatie/laravel-medialibrary.
-     */
-    public function clearAllMediaCollection(): bool
-    {
-        $isSuccess = false;
-
-        try {
-            $books = Book::all();
-            $series = Serie::all();
-            $authors = Author::all();
-            $books->each(function ($query) {
-                $query->clearMediaCollection('books');
-                $query->clearMediaCollection('epubs');
-            });
-            $series->each(function ($query) {
-                $query->clearMediaCollection('series');
-            });
-            $authors->each(function ($query) {
-                $query->clearMediaCollection('authors');
-            });
-            $isSuccess = true;
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-        Storage::disk('public')->deleteDirectory('media');
-
-        $this->newLine();
-        $isSuccess ? $isSuccessText = 'success' : $isSuccessText = 'failed';
-        $this->alert("Clearing media... $isSuccessText!");
-        $this->info("Clear all files into 'public/storage/media' manage by spatie/laravel-medialibrary");
-
-        return $isSuccess;
-    }
-
-    /**
-     * Setup fresh mode.
-     */
-    public function fresh()
-    {
-        $this->clearAllMediaCollection();
-
-        $this->newLine();
-        $this->alert('Clear Bookshelves data...');
-        $this->clearTables();
-    }
-
-    public function clearTables()
-    {
-        DB::statement('SET foreign_key_checks=0');
-
-        $this->info('Truncate authorables table');
-        DB::table('authorables')->truncate();
-        $this->info('Truncate favoritables table');
-        DB::table('favoritables')->truncate();
-        $this->info('Truncate taggables table');
-        DB::table('taggables')->truncate();
-        $this->info('Truncate selectionables table');
-        DB::table('selectionables')->truncate();
-
-        $this->info('Truncate books table');
-        Book::truncate();
-        $this->info('Truncate series table');
-        Serie::truncate();
-        $this->info('Truncate authors table');
-        Author::truncate();
-        $this->info('Truncate publishers table');
-        Publisher::truncate();
-        $this->info('Truncate languages table');
-        Language::truncate();
-        $this->info('Truncate identifiers table');
-        Identifier::truncate();
-        $this->info('Truncate comments table');
-        Comment::truncate();
-        $this->info('Truncate google_books table');
-        GoogleBook::truncate();
-        $this->info('Truncate tags table');
-        Tag::truncate();
-
-        DB::statement('SET foreign_key_checks=1');
     }
 }

@@ -39,6 +39,8 @@ class ScoutCommand extends Command
      */
     public function handle()
     {
+        $app = config('app.name');
+        $this->alert("$app: scout for search");
         $flush = $this->option('flush') ?? false;
 
         $models = [

@@ -20,7 +20,7 @@ class ScanCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Scan directory public/storage/raw/books to get all EPUB files.';
+    protected $description = 'Scan directory public/storage/data/books to get all EPUB files.';
 
     /**
      * Create a new command instance.
@@ -45,8 +45,9 @@ class ScanCommand extends Command
 
         $verbose = $this->option('verbose');
 
-        $this->alert('Bookshelves: scan all EPUB files');
-        $this->warn('Scan public/storage/raw/books directory');
+        $app = config('app.name');
+        $this->alert("$app: scan all EPUB files");
+        $this->warn('Scan public/storage/data/books directory');
 
         $epubFiles = MetadataExtractorTools::getAllEpubFiles(limit: $limit);
 

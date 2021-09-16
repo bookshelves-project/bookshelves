@@ -37,14 +37,15 @@ class SampleBooksCommand extends Command
      */
     public function handle(): bool
     {
-        $this->alert('Bookshelves: sample books');
+        $app = config('app.name');
+        $this->alert("$app: sample books");
 
         $demoPath = database_path('seeders/demo-ebooks');
-        $booksRawPath = storage_path('app/public/raw/books');
+        $booksRawPath = storage_path('app/public/data/books');
         $booksRawPathExist = File::exists($booksRawPath);
 
         if ($booksRawPathExist) {
-            $this->warn('storage/app/public/raw/books path exists!');
+            $this->warn('storage/app/public/data/books path exists!');
             if ($this->confirm('Do you want to erase raw/books directory to replace it with demo ebooks?', false)) {
                 $this->generate($booksRawPath, $demoPath);
             } else {

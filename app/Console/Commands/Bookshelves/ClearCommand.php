@@ -39,16 +39,15 @@ class ClearCommand extends Command
      */
     public function handle()
     {
-        $this->alert('Bookshelves: clear');
+        $app = config('app.name');
+        $this->alert("$app: clear");
         $debug = new ClearFileTools(storage_path('app/public/debug'));
         $cache = new ClearFileTools(storage_path('app/public/cache'));
         $temp = new ClearFileTools(storage_path('app/public/temp'));
-        $glide = new ClearFileTools(storage_path('app/public/glide'));
 
         $debug->clearDir();
         $cache->clearDir();
         $temp->clearDir();
-        $glide->clearDir();
 
         Artisan::call('cache:clear', [], $this->getOutput());
         Artisan::call('route:clear', [], $this->getOutput());

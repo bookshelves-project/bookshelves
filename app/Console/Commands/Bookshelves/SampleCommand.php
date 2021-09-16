@@ -46,7 +46,8 @@ class SampleCommand extends Command
      */
     public function handle(): bool
     {
-        $this->alert('Bookshelves: sample');
+        $app = config('app.name');
+        $this->alert("$app: sample");
 
         $users = $this->option('users') ?? false;
         $roles = $this->option('roles') ?? false;

@@ -77,6 +77,7 @@ class DatabaseCommand extends Command
         $this->newLine();
         $this->alert('Clear Bookshelves data...');
         $this->clearTables();
+        $this->newLine();
     }
 
     /**
