@@ -39,6 +39,22 @@ class EbookParserEngineTools
         return false;
     }
 
+    /**
+     * Generate full title sort.
+     */
+    public static function sortTitleWithSerie(string|null $title, int|null $volume, string|null $serie_title): string
+    {
+        $serie = null;
+        if ($serie_title) {
+            $volume = strlen($volume) < 2 ? '0' . $volume : $volume;
+            $serie = $serie_title . ' ' . $volume;
+            $serie = Str::slug(self::getSortString($serie)) . '_';
+        }
+        $title = Str::slug(self::getSortString($title));
+
+        return "$serie$title";
+    }
+
 
     /**
      * Clean HTML input

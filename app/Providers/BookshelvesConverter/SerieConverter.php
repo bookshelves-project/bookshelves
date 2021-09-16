@@ -6,22 +6,21 @@ use File;
 use Storage;
 use App\Models\Book;
 use App\Models\Serie;
-use Illuminate\Support\Str;
+use App\Utils\MediaTools;
 use App\Utils\BookshelvesTools;
-use App\Providers\ImageProvider;
+use App\Providers\WikipediaProvider;
 use App\Providers\EbookParserEngine\EbookParserEngine;
-use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class SerieConverter
-{/**
+{
+    /**
      * Generate Serie for Book from EbookParserEngine.
      */
-    public static function create(EbookParserEngine $EPE, Book $book): Book
+    public static function create(EbookParserEngine $EPE, Book $book): Serie|false
     {
         if ($EPE->serie) {
-            $serieIfExist = Serie::whereSlug($EPE->serie_slug)->first();
-            $serie = null;
-            if (! $serieIfExist) {
+            $serie = Serie::whereSlug($EPE->serie_slug)->first();
+            if (! $serie) {
                 $serie = Serie::firstOrCreate([
                     'title'      => $EPE->serie,
                     'title_sort' => $EPE->serie_sort,
@@ -29,8 +28,6 @@ class SerieConverter
                 ]);
                 $serie->language()->associate($EPE->language);
                 $serie->save();
-            } else {
-                $serie = $serieIfExist;
             }
 
             $authors_serie = [];
@@ -45,62 +42,41 @@ class SerieConverter
             }
 
             $book->serie()->associate($serie);
+            $book->save();
+
+            return $serie;
         }
 
-        return $book;
+        return false;
     }
 
-    /**
-     * Generate full title sort.
-     */
-    public static function sortTitleWithSerie(Book $book): string
-    {
-        $serie = null;
-        if ($book->serie) {
-            $volume = strlen($book->volume) < 2 ? '0' . $book->volume : $book->volume;
-            $serie = $book->serie?->title_sort . ' ' . $volume;
-            $serie = Str::slug($serie) . '_';
-        }
-        $title = Str::slug($book->title_sort);
+    // public static function setLocalDescription(Serie $serie): ?Serie
+    // {
+    //     if (File::exists(public_path('storage/data/series.json'))) {
+    //         $json = Storage::disk('public')->get('raw/series.json');
+    //         $json = json_decode($json);
+    //         foreach ($json as $key => $value) {
+    //             if ($key === $serie->slug) {
+    //                 $serie->description = $value->description;
+    //                 $serie->link = $value->link;
+    //                 $serie->save();
 
-        return "$serie$title";
-    }
+    //                 return $serie;
+    //             }
+    //         }
 
-    public static function setLocalDescription(Serie $serie): ?Serie
-    {
-        if (File::exists(public_path('storage/raw/series.json'))) {
-            $json = Storage::disk('public')->get('raw/series.json');
-            $json = json_decode($json);
-            foreach ($json as $key => $value) {
-                if ($key === $serie->slug) {
-                    $serie->description = $value->description;
-                    $serie->link = $value->link;
-                    $serie->save();
+    //         return null;
+    //     }
 
-                    return $serie;
-                }
-            }
-
-            return null;
-        }
-
-        return null;
-    }
+    //     return null;
+    // }
 
     /**
      * Generate Serie description from Wikipedia if found.
      */
-    public static function setDescription(Serie $serie): Serie
+    public static function setWikiDescription(Serie $serie, WikipediaProvider $wiki): Serie
     {
-        $name = $serie->title;
-        $lang = $serie->language->slug;
-        $name = str_replace(' ', '%20', $name);
-        $name = strtolower($name);
-
-        $wiki = WikipediaProvider::create($name, $lang);
-
-        $extract = BookshelvesTools::stringLimit($wiki->extract, 1000);
-        $serie->description = $extract;
+        $serie->description = BookshelvesTools::stringLimit($wiki->extract, 1000);
         $serie->link = $wiki->page_url;
         $serie->save();
 
@@ -108,65 +84,60 @@ class SerieConverter
     }
 
     /**
-     * Generate Serie image from 'public/storage/raw/pictures-series' if JPG file with Serie slug exist
+     * Generate Serie image from 'public/storage/data/pictures-series' if JPG file with Serie slug exist
      * if not get image from Book with 'book_number' like '1'.
+     *
+     * Manage by spatie/laravel-medialibrary.
+     */
+    public static function getLocalCover(Serie $serie, string $disk): String|null
+    {
+        // Add special cover if exist from `public/storage/data/pictures-series/`
+        // Check if JPG file with series' slug name exist
+        // To know slug name, check into database when serie was created
+        $path = public_path("storage/data/pictures-$disk");
+        $files = BookshelvesTools::getDirectoryFiles($path);
+
+        $local_cover = null;
+        foreach ($files as $key => $file) {
+            if (pathinfo($file)['filename'] === $serie->slug) {
+                $local_cover = file_get_contents($file);
+            }
+        }
+        
+        return $local_cover;
+    }
+
+    /**
+     * Generate Serie image from Book volume '1' or first.
      *
      * Manage by spatie/laravel-medialibrary.
      */
     public static function setCover(Serie $serie): Serie
     {
         if ($serie->getMedia('series')->isEmpty()) {
-            // Add special cover if exist from `public/storage/raw/pictures-series/`
-            // Check if JPG file with series' slug name exist
-            // To know slug name, check into database when serie was created
             $disk = 'series';
 
-            $path = public_path("storage/raw/pictures-$disk");
-            $files = MetadataExtractorTools::getDirectoryFiles($path);
-
-            $cover = null;
-            foreach ($files as $key => $file) {
-                if (pathinfo($file)['filename'] === $serie->slug) {
-                    $cover = file_get_contents($file);
-                }
-            }
-
-            if ($cover) {
-                $serie->addMediaFromString($cover)
-                    ->setName($serie->slug)
-                    ->setFileName($serie->slug . '.' . config('bookshelves.cover_extension'))
-                    ->toMediaCollection($disk, $disk);
+            // get picture in $path if exist
+            $local_cover = self::getLocalCover($serie, $disk);
+            if ($local_cover) {
+                $cover = $local_cover;
             } else {
-                $bookIfExist = Book::whereVolume(1)->whereSerieId($serie->id)->first();
-                if (! $bookIfExist) {
-                    $bookIfExist = Book::whereSerieId($serie->id)->first();
+                // get first book of serie
+                $book = Book::whereVolume(1)->whereSerieId($serie->id)->first();
+                if (! $book) {
+                    $book = Book::whereSerieId($serie->id)->first();
                 }
-                if ($bookIfExist) {
-                    $book = $bookIfExist;
-                    $file_path_exist = File::exists($book->getMedia('books')->first()?->getPath());
-                    if ($file_path_exist) {
-                        $file_path = File::get($book->getMedia('books')->first()->getPath());
-                        $serie->addMediaFromString($file_path)
-                            ->setName($serie->slug)
-                            ->setFileName($serie->slug . '.' . config('bookshelves.cover_extension'))
-                            ->toMediaCollection($disk, $disk);
-                    }
+                $cover_exist = File::exists($book->getMedia('books')->first()?->getPath());
+                if ($cover_exist) {
+                    $cover = File::get($book->getMedia('books')->first()->getPath());
                 }
-                // TODO
-                // Setup Logs
-                // "$serie->title book not found"
             }
-
-            $serie = $serie->refresh();
-
-            // Get color
-            $image = $serie->getFirstMediaPath('series');
-            if ($image) {
-                $color = ImageProvider::simple_color_thief($image);
-                $media = $serie->getFirstMedia('series');
-                $media->setCustomProperty('color', $color);
-                $media->save();
+            if ($cover) {
+                $media = new MediaTools($serie, $serie->slug, $disk);
+                $media->setMedia($cover);
+                $media->setColor();
             }
+            $serie->refresh();
 
             return $serie;
         }

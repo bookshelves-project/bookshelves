@@ -2,21 +2,23 @@
 
 namespace App\Providers\BookshelvesConverter;
 
+use Str;
 use File;
 use App\Models\Book;
 use App\Providers\EbookParserEngine\EbookParserEngine;
+use App\Utils\BookshelvesTools;
 
 class BookConverter
 {
     /**
      * Generate Book from EbookParserEngine.
      */
-    public static function book(EbookParserEngine $EPE): Book
+    public static function create(EbookParserEngine $EPE): Book
     {
         return Book::firstOrCreate([
             'title'       => $EPE->title,
             'slug'        => $EPE->slug_lang,
-            'title_sort'  => $EPE->title_sort,
+            'title_sort'  => $EPE->title_serie_sort,
             'contributor' => implode(' ', $EPE->contributor),
             'description' => $EPE->description,
             'date'        => $EPE->date,
@@ -33,29 +35,10 @@ class BookConverter
     {
         $ebook_extension = pathinfo($epubFilePath)['extension'];
 
-        $serieName = '';
-        if ($book->serie) {
-            $serieName = $book->serie->slug;
-        }
-        $authorName = '';
-        if ($book->authors) {
-            if (array_key_exists(0, $book->authors->toArray())) {
-                $authorName = $book->authors[0]->slug . '_';
-            }
-        }
-        $serieNumber = '';
-        if ($book->volume) {
-            $serieNumber = $book->volume;
-            if (1 === strlen((string) $book->volume)) {
-                $serieNumber = '0' . $book->volume;
-            }
-            $serieName = $serieName . '-' . $serieNumber . '_';
-        } else {
-            $serieName = $serieName . '_';
-        }
-        $bookName = $book->slug;
-
-        $new_file_name = "$authorName$serieName$bookName";
+        $author = $book->meta_author;
+        $serie = $book->title_sort;
+        $language = $book->language_slug;
+        $new_file_name = Str::slug($author."_".$serie."_".$language);
 
         $result = false;
         if (pathinfo($epubFilePath)['basename'] !== $new_file_name) {
@@ -67,7 +50,7 @@ class BookConverter
                     ->toMediaCollection('epubs', 'epubs');
                 $result = true;
             } catch (\Throwable $th) {
-                dump($th);
+                BookshelvesTools::console(__METHOD__, $th);
             }
         }
 

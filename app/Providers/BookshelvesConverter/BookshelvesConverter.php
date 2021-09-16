@@ -11,25 +11,33 @@ use App\Providers\EbookParserEngine\EbookParserEngine;
  */
 class BookshelvesConverter
 {
-    public static function create(EbookParserEngine $EPE, bool $local): Book
+    public static function create(EbookParserEngine $EPE, bool $local, bool $default): Book
     {
         $bookIsExist = Book::whereSlug($EPE->slug_lang)->first();
         if (! $bookIsExist) {
-            $book = BookConverter::book($EPE);
-            $book = AuthorConverter::authors($EPE, $book);
+            $book = BookConverter::create($EPE);
+            $book = AuthorConverter::generate($EPE, $book);
             $book = TagConverter::create($EPE, $book);
             $book = PublisherConverter::create($EPE, $book);
             $language = LanguageConverter::create($EPE);
-            $book = SerieConverter::create($EPE, $book);
-            CoverConverter::rawCover($EPE, $book);
+            $serie = SerieConverter::create($EPE, $book);
+            if ($serie) {
+                $serie = SerieConverter::setTags($serie);
+            }
+            $book->refresh();
             $book->language()->associate($language->slug);
             $identifier = IdentifierConverter::create($EPE, $book);
-            $book->title_sort = SerieConverter::sortTitleWithSerie($book);
             $book->save();
-
-            if (! $local && $identifier) {
-                GoogleBookConverter::create(identifier: $identifier, book: $book);
+            
+            if (! $default) {
+                $book = CoverConverter::create($EPE, $book);
+                if ($serie) {
+                    $serie = SerieConverter::setCover($serie);
+                }
             }
+
+            BookConverter::epub($book, $EPE->epubPath);
+            
 
             $bookIsExist = $book;
         }

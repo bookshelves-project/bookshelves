@@ -15,10 +15,20 @@ class CreateGoogleBooksTable extends Migration
     {
         Schema::create('google_books', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('date')->nullable();
+            $table->text('description')->nullable();
+            $table->json('industry_identifiers')->nullable();
+            $table->integer('page_count')->nullable();
+            $table->json('categories')->nullable();
+            $table->string('maturity_rating')->nullable();
+            $table->string('language')->nullable();
             $table->string('preview_link')->nullable();
+            $table->string('publisher')->nullable();
+            $table->integer('retail_price_amount')->nullable();
+            $table->integer('retail_price_currency_code')->nullable();
             $table->string('buy_link')->nullable();
-            $table->integer('retail_price')->nullable();
-            $table->string('retail_price_currency')->nullable();
+            $table->string('isbn')->nullable();
+            $table->string('isbn13')->nullable();
             $table->timestamps();
         });
 

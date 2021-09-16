@@ -18,6 +18,7 @@ class EbookParserEngine
     public function __construct(
         public ?string $title = null,
         public ?string $title_sort = null,
+        public ?string $title_serie_sort = null,
         public ?string $slug = null,
         public ?string $slug_lang = null,
         public ?array $creators = [],
@@ -67,6 +68,12 @@ class EbookParserEngine
         $opf->serie_sort = EbookParserEngineTools::getSortString($metadata['serie']);
         $opf->volume = $metadata['volume'];
         $opf->epubPath = $epubPath;
+
+        $opf->title_serie_sort = EbookParserEngineTools::sortTitleWithSerie(
+            $opf->title,
+            $opf->volume,
+            $opf->serie,
+        );
 
         if (! $print) {
             $opf->cover = $metadata['cover_file'];
@@ -179,7 +186,7 @@ class EbookParserEngine
                 $opfToJson = json_encode($opf, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 Storage::disk('public')->put("/debug/$title.json", $opfToJson);
             } catch (\Throwable $th) {
-                // TODO
+                EbookParserEngineTools::console(__METHOD__, $th);
             }
         }
 
@@ -334,7 +341,7 @@ class EbookParserEngine
                     $metadata_to_json = json_encode($metadata, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                     Storage::disk('public')->put("/debug/$title-metadata.json", $metadata_to_json);
                 } catch (\Throwable $th) {
-                    // TODO
+                    EbookParserEngineTools::console(__METHOD__, $th);
                 }
             }
         } catch (\Throwable $th) {

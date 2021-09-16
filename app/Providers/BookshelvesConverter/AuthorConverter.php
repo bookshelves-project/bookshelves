@@ -6,12 +6,12 @@ use File;
 use Storage;
 use App\Models\Book;
 use App\Models\Author;
+use App\Utils\MediaTools;
 use Illuminate\Support\Str;
 use App\Utils\BookshelvesTools;
-use App\Providers\ImageProvider;
+use App\Providers\WikipediaProvider;
 use App\Providers\EbookParserEngine\EbookParserEngine;
 use App\Providers\EbookParserEngine\Models\OpfCreator;
-use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class AuthorConverter
 {
@@ -22,6 +22,13 @@ class AuthorConverter
     ) {
     }
 
+    /**
+     * Convert OpfCreator to AuthorConverter from config order
+     *
+     * @param OpfCreator $creator
+     *
+     * @return AuthorConverter
+     */
     public static function create(OpfCreator $creator)
     {
         $orderClassic = config('bookshelves.authors.order_firstname_lastname');
@@ -43,9 +50,26 @@ class AuthorConverter
     }
 
     /**
+     * Create Author if not exist
+     *
+     * @return Author
+     */
+    private static function convert(AuthorConverter $converter, object $creator)
+    {
+        $author = Author::firstOrCreate([
+            'lastname'  => $converter->lastname,
+            'firstname' => $converter->firstname,
+            'name'      => "$converter->firstname $converter->lastname",
+            'slug'      => Str::slug("$converter->lastname $converter->firstname", '-'),
+            'role'      => $creator->role,
+        ]);
+        return $author;
+    }
+
+    /**
      * Generate Author[] for Book from EbookParserEngine.
      */
-    public static function authors(EbookParserEngine $EPE, Book $book): Book
+    public static function generate(EbookParserEngine $EPE, Book $book): Book
     {
         $authors = [];
         if (empty($EPE->creators)) {
@@ -53,47 +77,36 @@ class AuthorConverter
                 name: 'Unknown Author',
                 role: 'aut'
             );
-            $authorConverter = AuthorConverter::create($creator);
-            $author = self::createAuthor($authorConverter, $creator);
+            $converter = AuthorConverter::create($creator);
+            $author = AuthorConverter::convert($converter, $creator);
             array_push($authors, $author);
         } else {
             foreach ($EPE->creators as $key => $creator) {
-                $authorConverter = AuthorConverter::create($creator);
+                $converter = AuthorConverter::create($creator);
                 $skipHomonys = config('bookshelves.authors.skip_homonyms');
                 if ($skipHomonys) {
-                    $lastname = Author::whereFirstname($authorConverter->lastname)->first();
+                    $lastname = Author::whereFirstname($converter->lastname)->first();
                     if ($lastname) {
-                        $exist = Author::whereLastname($authorConverter->firstname)->first();
+                        $exist = Author::whereLastname($converter->firstname)->first();
                         $author = $exist;
                         array_push($authors, $author);
                     } else {
-                        $author = self::createAuthor($authorConverter, $creator);
+                        $author = AuthorConverter::convert($converter, $creator);
                         array_push($authors, $author);
                     }
                 } else {
-                    $author = self::createAuthor($authorConverter, $creator);
+                    $author = AuthorConverter::convert($converter, $creator);
                     array_push($authors, $author);
                 }
             }
         }
         foreach ($authors as $key => $author) {
             $book->authors()->save($author);
+            AuthorConverter::tags($author);
         }
         $book->refresh();
 
         return $book;
-    }
-
-    private static function createAuthor(AuthorConverter $authorConverter, object $creator)
-    {
-        $author = Author::firstOrCreate([
-            'lastname'  => $authorConverter->lastname,
-            'firstname' => $authorConverter->firstname,
-            'name'      => "$authorConverter->firstname $authorConverter->lastname",
-            'slug'      => Str::slug("$authorConverter->lastname $authorConverter->firstname", '-'),
-            'role'      => $creator->role,
-        ]);
-        return $author;
     }
 
     /**
@@ -103,155 +116,99 @@ class AuthorConverter
      * - from Wikipedia if found.
      *
      * Generate image:
-     * - from `public/storage/raw/pictures-authors` if JPG file with author slug name exists
+     * - from `public/storage/data/pictures-authors` if JPG file with author slug name exists
      * - from Wikipedia if found, managed by `spatie/laravel-medialibrary`
      * - if not use default image `database/seeders/media/authors/no-picture.jpg`
      */
-    public static function descriptionAndPicture(Author $author, bool $local, bool $default = false): Author | false
-    {
-        if ($author) {
-            $name = $author->name;
-            $name = str_replace(' ', '%20', $name);
+    // public static function descriptionAndPicture(Author $author, bool $local, bool $default = false): Author | false
+    // {
+    //     if ($author) {
+    //         $name = $author->name;
+    //         $name = str_replace(' ', '%20', $name);
 
-            if (! $local) {
-                $wiki = WikipediaProvider::create($author->name);
-                $author = self::setLocalDescription($author);
-                $author = self::setLocalNotes($author);
-                if (! $author->description) {
-                    $author = self::setWikipediaDescription($author, $wiki);
-                }
-                if (! $default) {
-                    $author = self::setWikipediaPicture($author, $wiki);
-                }
-            } else {
-                $author = self::setLocalDescription($author);
-                if ($author && ! $default) {
-                    self::setPicture($author);
-                }
-            }
+    //         if (! $local) {
+    //             $wiki = WikipediaProvider::create($author->name);
+    //             $author = self::setLocalDescription($author);
+    //             $author = self::setLocalNotes($author);
+    //             if (! $author->description) {
+    //                 $author = self::setWikipediaDescription($author, $wiki);
+    //             }
+    //             if (! $default) {
+    //                 $author = self::setWikipediaPicture($author, $wiki);
+    //             }
+    //         } else {
+    //             $author = self::setLocalDescription($author);
+    //             if ($author && ! $default) {
+    //                 self::setPicture($author);
+    //             }
+    //         }
 
-            if ($author) {
-                $author = $author->refresh();
-            } else {
-                $author = false;
-            }
+    //         if ($author) {
+    //             $author = $author->refresh();
+    //         } else {
+    //             $author = false;
+    //         }
 
-            return $author;
-        }
+    //         return $author;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
-    public static function setLocalDescription(Author $author): Author
-    {
-        if (File::exists(public_path('storage/raw/authors.json'))) {
-            $json = Storage::disk('public')->get('raw/authors.json');
-            $json = json_decode($json);
-            foreach ($json as $key => $value) {
-                if ($key === $author->slug) {
-                    $author->description = $value->description ?? null;
-                    $author->link = $value->link ?? null;
-                    $author->save();
+    // public static function setLocalDescription(Author $author): Author
+    // {
+    //     if (File::exists(public_path('storage/data/authors.json'))) {
+    //         $json = Storage::disk('public')->get('raw/authors.json');
+    //         $json = json_decode($json);
+    //         foreach ($json as $key => $value) {
+    //             if ($key === $author->slug) {
+    //                 $author->description = $value->description ?? null;
+    //                 $author->link = $value->link ?? null;
+    //                 $author->save();
 
-                    return $author;
-                }
-            }
+    //                 return $author;
+    //             }
+    //         }
 
-            return $author;
-        }
+    //         return $author;
+    //     }
 
-        return $author;
-    }
+    //     return $author;
+    // }
 
-    public static function setLocalNotes(Author $author): Author
-    {
-        if (File::exists(public_path('storage/raw/authors-notes.json'))) {
-            $json = Storage::disk('public')->get('raw/authors.json');
-            $json = json_decode($json);
-            foreach ($json as $key => $value) {
-                if ($key === $author->slug) {
-                    $author->note = $value->note ?? null;
-                    $author->save();
+    // public static function setLocalNotes(Author $author): Author
+    // {
+    //     if (File::exists(public_path('storage/data/authors-notes.json'))) {
+    //         $json = Storage::disk('public')->get('raw/authors.json');
+    //         $json = json_decode($json);
+    //         foreach ($json as $key => $value) {
+    //             if ($key === $author->slug) {
+    //                 $author->note = $value->note ?? null;
+    //                 $author->save();
 
-                    return $author;
-                }
-            }
+    //                 return $author;
+    //             }
+    //         }
 
-            return $author;
-        }
+    //         return $author;
+    //     }
 
-        return $author;
-    }
+    //     return $author;
+    // }
 
-    public static function setWikipediaDescription(Author $author, WikipediaProvider $wikipediaProvider): Author
-    {
-        $extract = BookshelvesTools::stringLimit($wikipediaProvider->extract, 1000);
+    // public static function setWikipediaPicture(Author $author, WikipediaProvider $wikipediaProvider, bool $debug = false): Author
+    // {
+    //     try {
+    //         $picture = WikipediaProvider::getPictureFile($wikipediaProvider);
+    //         self::setPicture($author, $picture);
+    //     } catch (\Throwable $th) {
+    //         if ($debug) {
+    //             echo "\nNo wikipedia picture for $wikipediaProvider->query\n";
+    //         }
+    //     }
 
-        $author->description = $extract;
-        $author->link = $wikipediaProvider->page_url;
-        $author->save();
-
-        return $author;
-    }
-
-    /**
-     * Get local picture from `public/storage/raw/pictures-authors`
-     * Only JPG file with author slug as name.
-     */
-    public static function getLocalPicture(Author $author): string | null
-    {
-        $disk = 'authors';
-
-        $path = public_path("storage/raw/pictures-$disk");
-        $files = MetadataExtractorTools::getDirectoryFiles($path);
-
-        foreach ($files as $key => $file) {
-            if (pathinfo($file)['filename'] === $author->slug) {
-                $cover = file_get_contents($file);
-                return $cover;
-            }
-        }
-
-        return null;
-    }
-
-    public static function setPicture(Author $author, string $picture_file = null): Author
-    {
-        if (! $picture_file) {
-            $picture_file = self::getLocalPicture($author);
-            if (! $picture_file) {
-                $picture_file = database_path('seeders/media/authors/no-picture.jpg');
-                $picture_file = File::get($picture_file);
-            }
-        }
-
-        $author->addMediaFromString($picture_file)
-            ->setName($author->slug)
-            ->setFileName($author->slug . '.' . config('bookshelves.cover_extension'))
-            ->toMediaCollection('authors', 'authors');
-        
-        $image = $author->getFirstMediaPath('authors');
-        $color = ImageProvider::simple_color_thief($image);
-        $media = $author->getFirstMedia('authors');
-        $media->setCustomProperty('color', $color);
-        $media->save();
-
-        return $author;
-    }
-
-    public static function setWikipediaPicture(Author $author, WikipediaProvider $wikipediaProvider, bool $debug = false): Author
-    {
-        try {
-            $picture_file = WikipediaProvider::getPictureFile($wikipediaProvider);
-            self::setPicture($author, $picture_file);
-        } catch (\Throwable $th) {
-            if ($debug) {
-                echo "\nNo wikipedia picture_file for $wikipediaProvider->query\n";
-            }
-        }
-
-        return $author;
-    }
+    //     return $author;
+    // }
 
     /**
      * Generate Author tags from Books relationship tags.
@@ -268,6 +225,76 @@ class AuthorConverter
 
         $author->syncTags($tags);
         $author->save();
+
+        return $author;
+    }
+
+    /**
+     * Set default picture
+     */
+    public static function setDefaultPicture(Author $author): Author
+    {
+        $disk = 'authors';
+        if (! $author->getFirstMediaUrl($disk)) {
+            $path = database_path('seeders/media/authors/no-picture.jpg');
+            $cover = File::get($path);
+            
+            $media = new MediaTools($author, $author->slug, $disk);
+            $media->setMedia($cover);
+            $media->setColor();
+        }
+
+        return $author;
+    }
+
+    /**
+     * Set local picture from `public/storage/data/pictures-authors`
+     * Only JPG file with author slug as name.
+     */
+    public static function setLocalPicture(Author $author): Author
+    {
+        $disk = 'authors';
+
+        $path = public_path("storage/data/pictures-$disk");
+        $files = BookshelvesTools::getDirectoryFiles($path);
+
+        $cover = null;
+        foreach ($files as $key => $file) {
+            if (pathinfo($file)['filename'] === $author->slug) {
+                $cover = file_get_contents($file);
+            }
+        }
+        if ($cover) {
+            $author->clearMediaCollection($disk);
+            $media = new MediaTools($author, $author->slug, $disk);
+            $media->setMedia($cover);
+            $media->setColor();
+        }
+
+        return $author;
+    }
+
+    public static function setWikiDescription(Author $author, WikipediaProvider $wiki):Author
+    {
+        $author->description = BookshelvesTools::stringLimit($wiki->extract, 1000);
+        $author->link = $wiki->page_url;
+        $author->save();
+
+        return $author;
+    }
+
+    public static function setWikiPicture(Author $author, WikipediaProvider $wiki):Author
+    {
+        $picture = $wiki->getPictureFile();
+        $disk = 'authors';
+
+        if ($picture && $author->slug !== 'author-unknown') {
+            $author->clearMediaCollection($disk);
+
+            $media = new MediaTools($author, $author->slug, $disk);
+            $media->setMedia($picture);
+            $media->setColor();
+        }
 
         return $author;
     }
