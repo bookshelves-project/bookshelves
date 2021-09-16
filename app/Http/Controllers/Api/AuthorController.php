@@ -28,7 +28,7 @@ class AuthorController extends Controller
      *
      * @queryParam per-page int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
-     * @responseFile public/storage/responses/authors.index.get.json
+     * @responseFile public/assets/responses/authors.index.get.json
      */
     public function index(Request $request)
     {
@@ -63,7 +63,7 @@ class AuthorController extends Controller
      * Details for one Author, find by slug.
      *
      * @urlParam slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     * @responseFile public/storage/responses/authors.show.get.json
+     * @responseFile public/assets/responses/authors.show.get.json
      */
     public function show(Author $author)
     {
@@ -85,7 +85,7 @@ class AuthorController extends Controller
      * @queryParam page int The page number, '1' by default. No-example
      * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
      *
-     * @responseFile public/storage/responses/authors.books.get.json
+     * @responseFile public/assets/responses/authors.books.get.json
      */
     public function books(Request $request, string $author)
     {
@@ -120,7 +120,7 @@ class AuthorController extends Controller
      * @queryParam per-page int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     * @responseFile public/storage/responses/authors.series.get.json
+     * @responseFile public/assets/responses/authors.series.get.json
      */
     public function series(Request $request, string $author)
     {

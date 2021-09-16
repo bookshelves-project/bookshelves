@@ -8,7 +8,7 @@ use App\Models\Author;
 use App\Enums\EntitiesEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Providers\BookshelvesConverter\OpdsProvider;
+use App\Providers\OpdsProvider;
 
 /**
  * @hideFromAPIDocumentation

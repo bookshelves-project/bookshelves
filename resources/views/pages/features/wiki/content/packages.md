@@ -45,7 +45,7 @@ class AuthorController extends Controller
    *
    * @queryParam per-page int Entities per page, '32' by default. No-example
    * @queryParam page int The page number, '1' by default. No-example
-   * @responseFile public/storage/responses/authors.index.get.json
+   * @responseFile public/assets/responses/authors.index.get.json
    */
   public function index(Request $request)
   {

@@ -24,7 +24,7 @@ class SearchController extends Controller
     *
     * @queryParam q string required Query search, null by default. Example: lovecraft
     *
-    * @responseFile public/storage/responses/search.index.get.json
+    * @responseFile public/assets/responses/search.index.get.json
     */
     public function index(Request $request)
     {
@@ -65,7 +65,7 @@ class SearchController extends Controller
     *
     * @queryParam q string required Query search, null by default. Example: lovecraft
     *
-    * @responseFile public/storage/responses/search.index.get.json
+    * @responseFile public/assets/responses/search.index.get.json
     */
     public function advanced(Request $request)
     {

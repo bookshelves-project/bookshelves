@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Opds;
 use Route;
 use App\Models\Author;
 use App\Enums\EntitiesEnum;
+use App\Providers\OpdsProvider;
 use App\Http\Controllers\Controller;
-use App\Providers\BookshelvesConverter\OpdsProvider;
 
 /**
  * @hideFromAPIDocumentation

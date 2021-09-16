@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\BookshelvesConverter;
+namespace App\Providers;
 
 use DateTime;
 use App\Models\Book;

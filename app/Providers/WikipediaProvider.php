@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Providers\BookshelvesConverter;
+namespace App\Providers;
 
+use App\Utils\BookshelvesTools;
 use Illuminate\Support\Facades\Http;
 
 class WikipediaProvider
 {
     public function __construct(
+        public string $url,
         public string $query,
         public ?string $pageId = null,
         public array $response,
@@ -86,20 +88,18 @@ class WikipediaProvider
             }
         }
 
-        $wiki = new WikipediaProvider($query, $pageId, $response, $extract, $page_url, $picture_url);
+        $wiki = new WikipediaProvider($wiki_url_query, $query, $pageId, $response, $extract, $page_url, $picture_url);
 
         return $wiki;
     }
 
-    public static function getPictureFile(WikipediaProvider $wikipediaProvider, bool $debug = false): string | null
+    public function getPictureFile(): string | null
     {
         $picture = null;
         try {
-            $picture = Http::get($wikipediaProvider->picture_url)->body();
+            $picture = Http::get($this->picture_url)->body();
         } catch (\Throwable $th) {
-            if ($debug) {
-                echo "\nNo wikipedia picture_url for $wikipediaProvider->query\n";
-            }
+            // BookshelvesTools::console(__METHOD__, $th);
         }
 
         return $picture;

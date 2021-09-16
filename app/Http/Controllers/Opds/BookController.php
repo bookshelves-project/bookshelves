@@ -31,6 +31,6 @@ class BookController extends Controller
         $book = BookResource::make($book);
         $book = json_decode($book->toJson());
 
-        return view('pages/api/opds/books/_slug', compact('book'));
+        return view('pages.api.opds.books._slug', compact('book'));
     }
 }

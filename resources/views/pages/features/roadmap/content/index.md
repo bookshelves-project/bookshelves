@@ -266,16 +266,16 @@ php artisan bookshelves:generate -eft
 ```
 
 ```bash
-ln -s /home/jails/sftp/pictures-authors public/storage/raw/pictures-authors
-ln -s /home/jails/sftp/pictures-series public/storage/raw/pictures-series
+ln -s /home/jails/sftp/pictures-authors public/storage/data/pictures-authors
+ln -s /home/jails/sftp/pictures-series public/storage/data/pictures-series
 
-ln -s /home/jails/sftp/books-libres public/storage/raw/books
+ln -s /home/jails/sftp/books-libres public/storage/data/books
 ```
 
 ```bash
-ln -s /mnt/e/WorkInProgress/ebooks/environment/books-libres public/storage/raw/books
-ln -s /mnt/e/WorkInProgress/ebooks/environment/books-pirates public/storage/raw/books
+ln -s /mnt/e/WorkInProgress/ebooks/environment/books-libres public/storage/data/books
+ln -s /mnt/e/WorkInProgress/ebooks/environment/books-pirates public/storage/data/books
 
-ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-authors public/storage/raw/pictures-authors
-ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-series public/storage/raw/pictures-series
+ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-authors public/storage/data/pictures-authors
+ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-series public/storage/data/pictures-series
 ```

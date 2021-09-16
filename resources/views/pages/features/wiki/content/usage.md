@@ -6,13 +6,13 @@ You have to check if `storage:link` is effective with
 php artisan storage:link
 ```
 
-**On Bookshelves you have to store your EPUB files into one directory: `public/storage/raw/books`**
+**On Bookshelves you have to store your EPUB files into one directory: `public/storage/data/books`**
 
-If you want to know why, it's simple, EPUB files aren't on git of course, but more it's not really practical to store all ebooks into Bookshelves directly, it's more convenient to set symbolic link from your eBooks storage which is not into Bookshelves. But you can store EPUB files into `public/storage/raw/books` directory, of course, Bookshelves scan recursively this directory, you can have sub directories if you want.  
+If you want to know why, it's simple, EPUB files aren't on git of course, but more it's not really practical to store all ebooks into Bookshelves directly, it's more convenient to set symbolic link from your eBooks storage which is not into Bookshelves. But you can store EPUB files into `public/storage/data/books` directory, of course, Bookshelves scan recursively this directory, you can have sub directories if you want.  
 
 ## *Option 1: store directly EPUB files*
 
-Git won't track any file into `public/storage/raw/books`
+Git won't track any file into `public/storage/data/books`
 
 ```bash
 .
@@ -29,8 +29,8 @@ Git won't track any file into `public/storage/raw/books`
 This is best solution for my usage, I have some directories with different eBooks but I want to refer all these directories.
 
 ```bash
-ln -s /any/directory/books-fantasy public/storage/raw/books
-ln -s /any/directory/books-classic public/storage/raw/books
+ln -s /any/directory/books-fantasy public/storage/data/books
+ln -s /any/directory/books-classic public/storage/data/books
 ```
 
 ```bash
@@ -48,8 +48,8 @@ ln -s /any/directory/books-classic public/storage/raw/books
 It's possible to link all EPUB files too but if you have any update from original directories, it can broke links or you have to link again.
 
 ```bash
-ln -s /any/directory/books-fantasy/**/*.epub public/storage/raw/books 
-ln -s /any/directory/books-classic/**/*.epub public/storage/raw/books
+ln -s /any/directory/books-fantasy/**/*.epub public/storage/data/books 
+ln -s /any/directory/books-classic/**/*.epub public/storage/data/books
 ```
 
 ```bash
@@ -71,8 +71,8 @@ When Bookshelves parse EPUB to generate data, it will try to find extra data fro
 For extra data with authors and series for `description` and `link`, you can create JSON file. If an entry with `slug` of author or serie exist, Bookshelves will take it and don't use external API.
 
 ```bash
-cp public/storage/raw/authors.example.json public/storage/raw/authors.json
-cp public/storage/raw/series.example.json public/storage/raw/series.json
+cp public/storage/data/authors.example.json public/storage/data/authors.json
+cp public/storage/data/series.example.json public/storage/data/series.json
 ```
 
 An example for authors.
@@ -90,8 +90,8 @@ An example for authors.
 
 Bookshelves will use cover of first book of a serie to generate cover's serie and will use Wikipedia API to get picture of an author. You can set custom pictures for series and authors. Just put **JPG** file with `slug` of author / serie into specific directory.
 
-- `public/storage/raw/pictures-authors`: for authors
-- `public/storage/raw/pictures-series`: for series
+- `public/storage/data/pictures-authors`: for authors
+- `public/storage/data/pictures-series`: for series
 
 ```bash
 .
@@ -106,8 +106,8 @@ Bookshelves will use cover of first book of a serie to generate cover's serie an
 You can set symbolic link like this to get pictures from another directory.
 
 ```bash
-ln -s /any/directory/authors public/storage/raw/pictures-authors
-ln -s /any/directory/series public/storage/raw/pictures-series
+ln -s /any/directory/authors public/storage/data/pictures-authors
+ln -s /any/directory/series public/storage/data/pictures-series
 ```
 
 ```bash

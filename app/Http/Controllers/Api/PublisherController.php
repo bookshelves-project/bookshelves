@@ -26,7 +26,7 @@ class PublisherController extends Controller
     * @queryParam per-page int Entities per page, '32' by default. No-example
     * @queryParam page int The page number, '1' by default. No-example
     *
-    * @responseFile public/storage/responses/publishers.index.get.json
+    * @responseFile public/assets/responses/publishers.index.get.json
     */
     public function index(Request $request)
     {
@@ -56,7 +56,7 @@ class PublisherController extends Controller
      *
      * @urlParam slug string required The slug of author like 'bragelonne'. Example: bragelonne
      *
-     * @responseFile public/storage/responses/publishers.show.get.json
+     * @responseFile public/assets/responses/publishers.show.get.json
      */
     public function show(string $publisher_slug)
     {
@@ -77,7 +77,7 @@ class PublisherController extends Controller
     * @queryParam per-page int Entities per page, '32' by default. No-example
     * @queryParam page int The page number, '1' by default. No-example
     *
-    * @responseFile public/storage/responses/publishers.books.get.json
+    * @responseFile public/assets/responses/publishers.books.get.json
     */
     public function books(Request $request, string $publisher_slug)
     {

@@ -38,7 +38,7 @@ class BookController extends Controller
     *
     * @responseField title string Book's title.
     *
-    * @responseFile public/storage/responses/books.index.get.json
+    * @responseFile public/assets/responses/books.index.get.json
     */
     public function index(Request $request)
     {
@@ -96,7 +96,7 @@ class BookController extends Controller
     *
     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
     * @urlParam book_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
-    * @responseFile public/storage/responses/books.show.get.json
+    * @responseFile public/assets/responses/books.show.get.json
     */
     public function show(Request $request, Author $author, Book $book)
     {
@@ -161,7 +161,7 @@ class BookController extends Controller
     * @queryParam limit int To limit of entities, '10' by default. No-example
     * @queryParam per-page int Entities per page, '32' by default. No-example
     * @queryParam page int The page number, '1' by default. No-example
-    * @responseFile public/storage/responses/books.latest.get.json
+    * @responseFile public/assets/responses/books.latest.get.json
     */
     public function latest(Request $request)
     {
@@ -195,7 +195,7 @@ class BookController extends Controller
     *
     * Get all Books selected by team, limited to '10' results by default (no pagination).
     *
-    * @responseFile public/storage/responses/books.selection.get.json
+    * @responseFile public/assets/responses/books.selection.get.json
     */
     public function selection(Request $request): JsonResource
     {
@@ -224,7 +224,7 @@ class BookController extends Controller
      * @queryParam per-page int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      *
-     * @responseFile public/storage/responses/books.related.get.json
+     * @responseFile public/assets/responses/books.related.get.json
      */
     public function related(Request $request, string $authorSlug, string $bookSlug)
     {

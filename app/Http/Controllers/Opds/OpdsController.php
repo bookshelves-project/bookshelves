@@ -6,9 +6,9 @@ use File;
 use Route;
 use App\Enums\EntitiesEnum;
 use Illuminate\Http\Request;
+use App\Providers\OpdsProvider;
 use App\Http\Controllers\Controller;
 use App\Providers\CommonMarkProvider;
-use App\Providers\BookshelvesConverter\OpdsProvider;
 
 /**
  * @hideFromAPIDocumentation
@@ -32,11 +32,11 @@ class OpdsController extends Controller
 
     public function feed(Request $request, string $version)
     {
-        $feed = File::get(app_path('Providers/Bookshelves/Feed/opds.json'));
+        $feed = File::get(app_path('Providers/OPDS/feed.json'));
         $feed = (array) json_decode($feed);
         foreach ($feed as $key => $value) {
             $model_name = 'App\Models\\' . ucfirst($value->model);
-            $value->cover_thumbnail = config('app.url') . '/storage/assets/' . $value->key . '.png';
+            $value->cover_thumbnail = config('app.url') . '/assets/opds/opds/' . $value->key . '.png';
             $value->route = route($value->route, ['version' => $version]);
             $value->content = $model_name::count() . ' ' . $value->content;
         }

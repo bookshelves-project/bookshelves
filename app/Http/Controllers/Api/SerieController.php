@@ -58,7 +58,7 @@ class SerieController extends Controller
     * @queryParam all bool To disable pagination, false by default. No-example
     * @queryParam lang filters[fr,en] To select specific lang, null by default. No-example
     *
-    * @responseFile public/storage/responses/series.index.get.json
+    * @responseFile public/assets/responses/series.index.get.json
     */
     public function index(Request $request)
     {
@@ -145,7 +145,7 @@ class SerieController extends Controller
     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
     * @urlParam serie_slug string required The slug of serie like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
     *
-    * @responseFile public/storage/responses/series.show.get.json
+    * @responseFile public/assets/responses/series.show.get.json
     */
     public function show(string $author, string $serie)
     {
@@ -167,7 +167,7 @@ class SerieController extends Controller
      * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
      * @urlParam serie_slug string required The slug of serie like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
      *
-     * @responseFile public/storage/responses/series.books.get.json
+     * @responseFile public/assets/responses/series.books.get.json
      */
     public function books(Request $request, string $author_slug, string $serie_slug)
     {
@@ -201,7 +201,7 @@ class SerieController extends Controller
      * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
      * @urlParam serie_slug string required The slug of serie like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
      *
-     * @responseFile public/storage/responses/series.current.get.json
+     * @responseFile public/assets/responses/series.current.get.json
      */
     public function current(Request $request, string $volume, string $author, string $serie)
     {
