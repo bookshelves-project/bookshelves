@@ -51,6 +51,8 @@ class GoogleBookProvider
         $identifier = $book->identifier;
         $original_isbn = $identifier->isbn ?? null;
         $original_isbn13 = $identifier->isbn13 ?? null;
+        
+        $isbn = null;
         if ($original_isbn13) {
             $isbn = $original_isbn13;
         } elseif ($original_isbn) {

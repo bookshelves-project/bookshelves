@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\BookshelvesConverter;
+namespace App\Providers\BookshelvesConverterEngine;
 
 use File;
 use Storage;
@@ -9,6 +9,7 @@ use App\Models\Author;
 use App\Utils\MediaTools;
 use Illuminate\Support\Str;
 use App\Utils\BookshelvesTools;
+use Illuminate\Support\Collection;
 use App\Providers\WikipediaProvider;
 use App\Providers\EbookParserEngine\EbookParserEngine;
 use App\Providers\EbookParserEngine\Models\OpfCreator;
@@ -54,7 +55,7 @@ class AuthorConverter
      *
      * @return Author
      */
-    private static function convert(AuthorConverter $converter, object $creator)
+    private static function convert(AuthorConverter $converter, OpfCreator $creator): Author
     {
         $author = Author::firstOrCreate([
             'lastname'  => $converter->lastname,
@@ -69,7 +70,7 @@ class AuthorConverter
     /**
      * Generate Author[] for Book from EbookParserEngine.
      */
-    public static function generate(EbookParserEngine $EPE, Book $book): Book
+    public static function generate(EbookParserEngine $EPE, Book $book): Collection|false
     {
         $authors = [];
         if (empty($EPE->creators)) {
@@ -88,7 +89,11 @@ class AuthorConverter
                     $lastname = Author::whereFirstname($converter->lastname)->first();
                     if ($lastname) {
                         $exist = Author::whereLastname($converter->firstname)->first();
-                        $author = $exist;
+                        if ($exist) {
+                            $author = $exist;
+                        } else {
+                            $author = AuthorConverter::convert($converter, $creator);
+                        }
                         array_push($authors, $author);
                     } else {
                         $author = AuthorConverter::convert($converter, $creator);
@@ -101,12 +106,18 @@ class AuthorConverter
             }
         }
         foreach ($authors as $key => $author) {
+            if (! $author) {
+                // TODO: log
+                BookshelvesTools::console(__METHOD__, null, 'no author');
+                return false;
+            }
             $book->authors()->save($author);
             AuthorConverter::tags($author);
         }
         $book->refresh();
+        $authors = $book->authors;
 
-        return $book;
+        return $authors;
     }
 
     /**

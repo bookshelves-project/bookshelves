@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\BookshelvesConverter;
+namespace App\Providers\BookshelvesConverterEngine;
 
 use App\Models\Language;
 use App\Providers\EbookParserEngine\EbookParserEngine;

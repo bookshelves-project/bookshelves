@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Providers\BookshelvesConverter;
+namespace App\Providers\BookshelvesConverterEngine;
 
 use App\Models\Book;
 use Spatie\Tags\Tag;
+use Illuminate\Support\Collection;
 use App\Providers\EbookParserEngine\EbookParserEngine;
 
 class TagConverter
@@ -11,13 +12,15 @@ class TagConverter
     /**
     * Generate Tag[] for Book from EbookParserEngine.
     */
-    public static function create(EbookParserEngine $EPE, Book $book): Book
+    public static function create(EbookParserEngine $EPE, Book $book): Collection
     {
         foreach ($EPE->subjects as $key => $subject) {
             self::tagRaw($subject, $book);
         }
+        $book->refresh();
+        $tags = $book->tags;
 
-        return $book;
+        return $tags;
     }
 
     /**
