@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Book;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Providers\MetadataExtractor\MetadataExtractorTools;
 
 class BookFactory extends Factory
 {
@@ -28,7 +27,7 @@ class BookFactory extends Factory
 
         return [
             'title'       => $title,
-            'title_sort'  => MetadataExtractorTools::getSortString($title),
+            'title_sort'  => Str::slug($title),
             'slug'        => Str::slug($title),
             'contributor' => 'Book factory',
             'description' => $faker->paragraph(),

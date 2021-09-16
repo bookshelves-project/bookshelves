@@ -8,9 +8,16 @@ frontend and use Bookshelves with the internal backend interface.
 
 ## **Concept**
 
-The goal of Bookshelves is to create a database from a list of eBooks that are analyzed by the back-end with Laravel (PHP). All the metadata of each eBook are extracted and processed to create each book with its relationships: **authors**, **publisher**, **year of release**, **language**, **identifiers** (*ISBN*, *ISBN13*), **tags**, **summary**, **cover**. The **series** and **volume** are also retrieved if they are present according to the system created by **Calibre**, this information not being listed by the EPUB format. The tags are separated into tags and genres to create main and secondary tags, the genres are taken from [Wikipedia](https://en.wikipedia.org/wiki/List_of_writing_genres).
+The goal of Bookshelves is to create a database from a list of eBooks that are analyzed by the back-end with Laravel (PHP). All the metadata of each eBook are extracted and processed to create each book with its relationships: **authors**, **publisher**, **date of release**, **language**, **identifiers**, **tags**, **description**, **cover** and **serie**.
 
-From these relations, all the books of the same series can be listed but also the books and series close by tag. It is interesting to note that a book can have several authors even if only one "main" author is considered for URL generation. Of course, with such a system if the eBooks have a single error on important data, this can have unexpected consequences.
+- The **identifiers** allow ISBN, ISBN13, DOI, Amazon, Google.
+- The **series** and **volume** are also retrieved if they are present according to the system created by **Calibre**, this information not being listed by the EPUB format.
+- The **tags** are separated into *tags* and *genres* to create main and secondary tags, the genres are taken from [Wikipedia](https://en.wikipedia.org/wiki/List_of_writing_genres).
+
+From these relations, all the books of the same series can be listed but also the books and series close by tag. It is interesting to note that a book can have several authors even if only one "main" author is considered for URL generation. Of course, with such a system if the eBooks have a single error on important data, this can have unexpected consequences. With **EbookParserEngine**, only **title** is *not nullable*, if any other data is null, the engine will set a default value if necessary:
+
+- If eBook doesn't have an author, default author will be `Unkown Author`
+- If eBook doesn't have a language, default language will be `unknown`
 
 **The back-end can work without the front-end by using only Catalog as an interface**
 
