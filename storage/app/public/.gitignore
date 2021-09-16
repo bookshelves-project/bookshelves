@@ -1,15 +1,9 @@
 *
-!books/
-!covers/
-# !raw/books/
 !.gitignore
 
 !cache/
-!demo-ebooks
-!media/
+!data/
 !debug/
-!raw/
-!assets/*
-!responses/
-!webreader/
+!media/
 !temp/
+!webreader/

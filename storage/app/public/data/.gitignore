@@ -1,0 +1,9 @@
+*
+!.gitignore
+
+!covers
+!books
+!pictures-authors
+!pictures-series
+!authors.example.json
+!series.example.json
