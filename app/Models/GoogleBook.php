@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Providers\BookshelvesConverter\TagConverter;
+use App\Providers\BookshelvesConverterEngine\TagConverter;
 
 class GoogleBook extends Model
 {
@@ -39,10 +39,14 @@ class GoogleBook extends Model
         $this->testAttribute('maturity_rating');
 
         if (! $this->book->publisher && $this->publisher) {
-            $publisher = Publisher::firstOrCreate([
-                'name' => $this->publisher,
-                'slug' => Str::slug($this->publisher, '-'),
-            ]);
+            $publisher_slug = Str::slug($this->publisher, '-');
+            $publisher = Publisher::whereSlug($publisher_slug)->first();
+            if (! $publisher) {
+                $publisher = Publisher::firstOrCreate([
+                    'name' => $this->publisher,
+                    'slug' => $publisher_slug,
+                ]);
+            }
             $this->book->publisher()->associate($publisher);
         }
         $this->book->save();
