@@ -124,16 +124,20 @@ class BookshelvesTools
     /**
      * Print in console
      */
-    public static function console(string $method, Throwable $throwable)
+    public static function console(string $method, ?Throwable $throwable, ?string $extra_message = null)
     {
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $outputStyle = new OutputFormatterStyle('red', '', ['bold']);
         $output->getFormatter()->setStyle('fire', $outputStyle);
         
         $output->writeln("<fire>Error about $method:</>");
-        $output->writeln($throwable->getMessage());
-        $output->writeln($throwable->getFile());
-        $output->writeln($throwable->getLine());
+        if ($throwable) {
+            $output->writeln($throwable->getMessage());
+            $output->writeln($throwable->getFile());
+            $output->writeln($throwable->getLine());
+        } else {
+            $output->writeln($extra_message);
+        }
     }
 
     /**
