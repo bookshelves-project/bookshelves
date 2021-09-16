@@ -109,8 +109,8 @@ class GenerateCommand extends Command
         $this->newLine();
 
         if ($erase) {
-            $this->newLine();
             Artisan::call('migrate:fresh --force', [], $this->getOutput());
+            $this->newLine();
         }
 
         $isProd = 'production' === config('app.env') ? true : false;

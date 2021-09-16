@@ -8,8 +8,8 @@ use Illuminate\Console\Command;
 use App\Providers\WikipediaProvider;
 use App\Providers\GoogleBookProvider;
 use Illuminate\Database\Eloquent\Model;
-use App\Providers\BookshelvesConverter\SerieConverter;
-use App\Providers\BookshelvesConverter\AuthorConverter;
+use App\Providers\BookshelvesConverterEngine\SerieConverter;
+use App\Providers\BookshelvesConverterEngine\AuthorConverter;
 
 class AssetsCommand extends Command
 {

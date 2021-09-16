@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use App\Providers\EbookParserEngine\EbooksList;
 use App\Providers\EbookParserEngine\EbookParserEngine;
-use App\Providers\BookshelvesConverter\BookshelvesConverter;
+use App\Providers\BookshelvesConverterEngine\BookshelvesConverterEngine;
 
 class BooksCommand extends Command
 {
@@ -66,15 +66,12 @@ class BooksCommand extends Command
 
         $this->alert("$app: books & relations");
         $this->comment('EPUB files detected: ' . sizeof($list));
-        $this->info('- Generate Book model with relationships');
+        $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie, Identifier');
         $this->info('- Generate new EPUB file with standard name');
-        if (! $local) {
-            $this->info('- Get extra data from Google Books API: HTTP requests (--local to skip)');
-        }
         $this->newLine();
         if (! $default) {
             $format = config('bookshelves.cover_extension');
-            $this->comment('Generate covers for books and series');
+            $this->comment('Generate covers for books and series (--default|-D to skip)');
             $this->info('- Generate covers with differents dimensions');
             $this->info("- Main format: $format (original from EPUB, thumbnail)");
             $this->info('- OpenGraph, Simple format: JPG (social, Catalog)');
@@ -87,11 +84,16 @@ class BooksCommand extends Command
         }
         $bar = $this->output->createProgressBar(sizeof($list));
         $bar->start();
-        foreach ($list as $epub) {
+        foreach ($list as $key => $epub) {
             $EPE = EbookParserEngine::create($epub, $debug);
-            BookshelvesConverter::create($EPE, $local, $default);
+            if ($debug) {
+                $this->info($key . ' ' . $EPE->title);
+            }
+            BookshelvesConverterEngine::create($EPE, $local, $default);
 
-            $bar->advance();
+            if (! $debug) {
+                $bar->advance();
+            }
         }
         $bar->finish();
         $this->newLine();
