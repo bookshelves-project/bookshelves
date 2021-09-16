@@ -12,9 +12,9 @@ class TagConverter
     /**
     * Generate Tag[] for Book from EbookParserEngine.
     */
-    public static function create(EbookParserEngine $EPE, Book $book): Collection
+    public static function create(EbookParserEngine $epe, Book $book): Collection
     {
-        foreach ($EPE->subjects as $key => $subject) {
+        foreach ($epe->subjects as $key => $subject) {
             self::tagRaw($subject, $book);
         }
         $book->refresh();

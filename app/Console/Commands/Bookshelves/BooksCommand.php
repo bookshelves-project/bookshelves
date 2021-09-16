@@ -85,11 +85,11 @@ class BooksCommand extends Command
         $bar = $this->output->createProgressBar(sizeof($list));
         $bar->start();
         foreach ($list as $key => $epub) {
-            $EPE = EbookParserEngine::create($epub, $debug);
+            $epe = EbookParserEngine::create($epub, $debug);
             if ($debug) {
-                $this->info($key . ' ' . $EPE->title);
+                $this->info($key . ' ' . $epe->title);
             }
-            BookshelvesConverterEngine::create($EPE, $local, $default);
+            $bce = BookshelvesConverterEngine::create($epe, $local, $default);
 
             if (! $debug) {
                 $bar->advance();

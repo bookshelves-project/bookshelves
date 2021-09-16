@@ -7,7 +7,7 @@ use Transliterator;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
-class EbookParserEngineTools
+class ParserTools
 {
     /**
      * Try to get sort title

@@ -10,9 +10,9 @@ class LanguageConverter
     /**
      * Set Language from EbookParserEngine.
      */
-    public static function create(EbookParserEngine $EPE): Language
+    public static function create(EbookParserEngine $epe): Language
     {
-        $meta_name = $EPE->language;
+        $meta_name = $epe->language;
 
         $available_langs = config('bookshelves.langs');
         if (array_key_exists($meta_name, $available_langs)) {

@@ -12,15 +12,15 @@ class PublisherConverter
     /**
      * Generate Publisher for Book from EbookParserEngine.
      */
-    public static function create(EbookParserEngine $EPE, Book $book): Publisher|false
+    public static function create(EbookParserEngine $epe, Book $book): Publisher|false
     {
         $publisher = false;
-        if ($EPE->publisher) {
-            $publisherIfExist = Publisher::whereSlug(Str::slug($EPE->publisher))->first();
+        if ($epe->publisher) {
+            $publisherIfExist = Publisher::whereSlug(Str::slug($epe->publisher))->first();
             if (! $publisherIfExist) {
                 $publisher = Publisher::firstOrCreate([
-                    'name' => $EPE->publisher,
-                    'slug' => Str::slug($EPE->publisher),
+                    'name' => $epe->publisher,
+                    'slug' => Str::slug($epe->publisher),
                 ]);
             } else {
                 $publisher = $publisherIfExist;

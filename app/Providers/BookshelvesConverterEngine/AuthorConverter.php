@@ -70,10 +70,10 @@ class AuthorConverter
     /**
      * Generate Author[] for Book from EbookParserEngine.
      */
-    public static function generate(EbookParserEngine $EPE, Book $book): Collection|false
+    public static function generate(EbookParserEngine $epe, Book $book): Collection|false
     {
         $authors = [];
-        if (empty($EPE->creators)) {
+        if (empty($epe->creators)) {
             $creator = new OpfCreator(
                 name: 'Unknown Author',
                 role: 'aut'
@@ -82,7 +82,7 @@ class AuthorConverter
             $author = AuthorConverter::convert($converter, $creator);
             array_push($authors, $author);
         } else {
-            foreach ($EPE->creators as $key => $creator) {
+            foreach ($epe->creators as $key => $creator) {
                 $converter = AuthorConverter::create($creator);
                 $skipHomonys = config('bookshelves.authors.skip_homonyms');
                 if ($skipHomonys) {

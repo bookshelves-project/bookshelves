@@ -50,12 +50,12 @@ class EbookParserEngine
         $metadata = self::OpfToArray($epubPath, $debug);
 
         $opf->title = $metadata['title'];
-        $opf->title_sort = EbookParserEngineTools::getSortString($metadata['title']);
+        $opf->title_sort = ParserTools::getSortString($metadata['title']);
         $opf->slug = Str::slug($metadata['title']);
         $opf->slug_lang = Str::slug($metadata['title'] . ' ' . $metadata['language']);
         $opf->creators = $metadata['creators'];
         $opf->contributor = $metadata['contributors'];
-        $opf->description = EbookParserEngineTools::cleanText($metadata['description'], 'html', 5000);
+        $opf->description = ParserTools::cleanText($metadata['description'], 'html', 5000);
         $opf->date = $metadata['date'];
         $opf->identifiers = $metadata['identifiers'];
         $opf->publisher = $metadata['publisher'];
@@ -65,11 +65,11 @@ class EbookParserEngine
         $opf->serie = $metadata['serie'];
         $opf->serie_slug = Str::slug($metadata['serie']);
         $opf->serie_slug_lang = Str::slug($metadata['serie'] . ' ' . $metadata['language']);
-        $opf->serie_sort = EbookParserEngineTools::getSortString($metadata['serie']);
+        $opf->serie_sort = ParserTools::getSortString($metadata['serie']);
         $opf->volume = $metadata['volume'];
         $opf->epubPath = $epubPath;
 
-        $opf->title_serie_sort = EbookParserEngineTools::sortTitleWithSerie(
+        $opf->title_serie_sort = ParserTools::sortTitleWithSerie(
             $opf->title,
             $opf->volume,
             $opf->serie,
@@ -126,10 +126,10 @@ class EbookParserEngine
 
         // Transform OPF to Array
         try {
-            $opf_as_array = EbookParserEngineTools::XMLtoArray($opf);
+            $opf_as_array = ParserTools::XMLtoArray($opf);
             $metadata = self::parseOpf($opf_as_array, $epubPath, $debug);
         } catch (\Throwable $th) {
-            EbookParserEngineTools::console(__METHOD__, $th);
+            ParserTools::console(__METHOD__, $th);
         }
 
         // Now, we can have cover
@@ -186,7 +186,7 @@ class EbookParserEngine
                 $opfToJson = json_encode($opf, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 Storage::disk('public')->put("/debug/$title.json", $opfToJson);
             } catch (\Throwable $th) {
-                EbookParserEngineTools::console(__METHOD__, $th);
+                ParserTools::console(__METHOD__, $th);
             }
         }
 
@@ -341,11 +341,11 @@ class EbookParserEngine
                     $metadata_to_json = json_encode($metadata, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                     Storage::disk('public')->put("/debug/$title-metadata.json", $metadata_to_json);
                 } catch (\Throwable $th) {
-                    EbookParserEngineTools::console(__METHOD__, $th);
+                    ParserTools::console(__METHOD__, $th);
                 }
             }
         } catch (\Throwable $th) {
-            EbookParserEngineTools::console(__METHOD__, $th);
+            ParserTools::console(__METHOD__, $th);
         }
 
         return $metadata;

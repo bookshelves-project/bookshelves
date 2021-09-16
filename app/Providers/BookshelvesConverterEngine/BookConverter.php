@@ -13,17 +13,17 @@ class BookConverter
     /**
      * Generate Book from EbookParserEngine.
      */
-    public static function create(EbookParserEngine $EPE): Book
+    public static function create(EbookParserEngine $epe): Book
     {
         return Book::firstOrCreate([
-            'title'       => $EPE->title,
-            'slug'        => $EPE->slug_lang,
-            'title_sort'  => $EPE->title_serie_sort,
-            'contributor' => implode(' ', $EPE->contributor),
-            'description' => $EPE->description,
-            'date'        => $EPE->date,
-            'rights'      => $EPE->rights,
-            'volume'      => $EPE->volume,
+            'title'       => $epe->title,
+            'slug'        => $epe->slug_lang,
+            'title_sort'  => $epe->title_serie_sort,
+            'contributor' => implode(' ', $epe->contributor),
+            'description' => $epe->description,
+            'date'        => $epe->date,
+            'rights'      => $epe->rights,
+            'volume'      => $epe->volume,
         ]);
     }
 

@@ -15,14 +15,14 @@ class CoverConverter
      *
      * @param Book $book
      */
-    public static function create(EbookParserEngine $EPE, Book $book): Book
+    public static function create(EbookParserEngine $epe, Book $book): Book
     {
-        if (! $book->getFirstMedia('books') && ! empty($EPE->cover)) {
+        if (! $book->getFirstMedia('books') && ! empty($epe->cover)) {
             $extension = config('bookshelves.cover_extension');
             $disk = 'books';
             try {
                 $media = new MediaTools($book, $book->slug, $disk);
-                $media->setMedia($EPE->cover);
+                $media->setMedia($epe->cover);
                 $media->setColor();
             } catch (\Throwable $th) {
                 BookshelvesTools::console(__METHOD__, $th);

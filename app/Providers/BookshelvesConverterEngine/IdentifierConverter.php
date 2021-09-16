@@ -9,11 +9,11 @@ use App\Providers\EbookParserEngine\Models\OpfIdentifier;
 
 class IdentifierConverter
 {
-    public static function create(EbookParserEngine $EPE, Book $book): ?Identifier
+    public static function create(EbookParserEngine $epe, Book $book): ?Identifier
     {
         $identifiers = [];
         /** @var OpfIdentifier $value */
-        foreach ($EPE->identifiers as $key => $value) {
+        foreach ($epe->identifiers as $key => $value) {
             if ($value->name === 'isbn') {
                 $identifiers['isbn'] = $value->value;
             }

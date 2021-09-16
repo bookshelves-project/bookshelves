@@ -60,20 +60,20 @@ class AssetsCommand extends Command
         $this->comment('Get assets from API: HTTP requests (--local|-L to skip)');
         $this->newLine();
         if ($books) {
-            $this->comment('Books');
-            $this->info("- GoogleBook: extract data to improve Book");
+            $this->comment('Books (REMOVE --books|-b to skip)');
+            $this->info("- GoogleBook: extract data to improve Book (--local|-L to skip)");
             $this->newLine();
         }
         if ($authors) {
-            $this->comment('Authors');
-            $this->info('- Picture from Wikipedia (--default|-D or  --local|-L to skip)');
-            $this->info("  - Custom: default can be JPG file with slug of serie in `public/storage/data/pictures-authors`");
+            $this->comment('Authors (REMOVE --authors|-a to skip)');
+            $this->info('- Picture from Wikipedia (--local|-L to skip)');
+            $this->info("  - Custom: default can be JPG file with slug of serie in `public/storage/data/pictures-authors` (--default|-D to skip)");
             $this->info('- Description from Wikipedia (--local|-L to skip)');
             $this->info("  - Custom: default can be in `public/storage/data/authors.json`");
             $this->newLine();
         }
         if ($series) {
-            $this->comment('Series');
+            $this->comment('Series (REMOVE --series|-s to skip)');
             $this->info('- Tags from all Books of Serie');
             $this->info('- Picture from first Book of Serie (--default|-D to skip)');
             $this->info("  - Custom: default can be JPG file with slug of serie in `public/storage/data/pictures-series`");

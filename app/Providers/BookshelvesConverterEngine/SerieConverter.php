@@ -16,17 +16,17 @@ class SerieConverter
     /**
      * Generate Serie for Book from EbookParserEngine.
      */
-    public static function create(EbookParserEngine $EPE, Book $book): Serie|false
+    public static function create(EbookParserEngine $epe, Book $book): Serie|false
     {
-        if ($EPE->serie) {
-            $serie = Serie::whereSlug($EPE->serie_slug)->first();
+        if ($epe->serie) {
+            $serie = Serie::whereSlug($epe->serie_slug)->first();
             if (! $serie) {
                 $serie = Serie::firstOrCreate([
-                    'title'      => $EPE->serie,
-                    'title_sort' => $EPE->serie_sort,
-                    'slug'       => $EPE->serie_slug_lang,
+                    'title'      => $epe->serie,
+                    'title_sort' => $epe->serie_sort,
+                    'slug'       => $epe->serie_slug_lang,
                 ]);
-                $serie->language()->associate($EPE->language);
+                $serie->language()->associate($epe->language);
                 $serie->save();
             }
 

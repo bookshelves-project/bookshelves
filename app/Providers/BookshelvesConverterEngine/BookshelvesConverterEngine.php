@@ -45,26 +45,26 @@ class BookshelvesConverterEngine
         }
     }
 
-    public static function create(EbookParserEngine $EPE, bool $local, bool $default): BookshelvesConverterEngine|false
+    public static function create(EbookParserEngine $epe, bool $local, bool $default): BookshelvesConverterEngine|false
     {
-        $book = Book::whereSlug($EPE->slug_lang)->first();
+        $book = Book::whereSlug($epe->slug_lang)->first();
         if (! $book) {
-            $book = BookConverter::create($EPE);
-            $authors = AuthorConverter::generate($EPE, $book);
-            $tags = TagConverter::create($EPE, $book);
-            $publisher = PublisherConverter::create($EPE, $book);
-            $language = LanguageConverter::create($EPE);
-            $serie = SerieConverter::create($EPE, $book);
+            $book = BookConverter::create($epe);
+            $authors = AuthorConverter::generate($epe, $book);
+            $tags = TagConverter::create($epe, $book);
+            $publisher = PublisherConverter::create($epe, $book);
+            $language = LanguageConverter::create($epe);
+            $serie = SerieConverter::create($epe, $book);
             $book->refresh();
             $book->language()->associate($language->slug);
-            $identifier = IdentifierConverter::create($EPE, $book);
+            $identifier = IdentifierConverter::create($epe, $book);
             $book->save();
             
             if (! $default) {
-                $book = CoverConverter::create($EPE, $book);
+                $book = CoverConverter::create($epe, $book);
             }
 
-            BookConverter::epub($book, $EPE->epubPath);
+            BookConverter::epub($book, $epe->epubPath);
 
             $engine = new BookshelvesConverterEngine(
                 book: $book,
