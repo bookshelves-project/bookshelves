@@ -55,9 +55,6 @@ class BookshelvesConverterEngine
             $publisher = PublisherConverter::create($EPE, $book);
             $language = LanguageConverter::create($EPE);
             $serie = SerieConverter::create($EPE, $book);
-            if ($serie) {
-                $serie = SerieConverter::setTags($serie);
-            }
             $book->refresh();
             $book->language()->associate($language->slug);
             $identifier = IdentifierConverter::create($EPE, $book);
@@ -65,9 +62,6 @@ class BookshelvesConverterEngine
             
             if (! $default) {
                 $book = CoverConverter::create($EPE, $book);
-                if ($serie) {
-                    $serie = SerieConverter::setCover($serie);
-                }
             }
 
             BookConverter::epub($book, $EPE->epubPath);

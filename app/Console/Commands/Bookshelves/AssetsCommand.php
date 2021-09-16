@@ -66,14 +66,19 @@ class AssetsCommand extends Command
         }
         if ($authors) {
             $this->comment('Authors');
-            $this->info("- Picture: default can be JPG file with slug of serie in `public/storage/data/pictures-authors`");
-            $this->info("- Description & link: default can be in `public/storage/data/authors.json`");
+            $this->info('- Picture from Wikipedia (--default|-D or  --local|-L to skip)');
+            $this->info("  - Custom: default can be JPG file with slug of serie in `public/storage/data/pictures-authors`");
+            $this->info('- Description from Wikipedia (--local|-L to skip)');
+            $this->info("  - Custom: default can be in `public/storage/data/authors.json`");
             $this->newLine();
         }
         if ($series) {
             $this->comment('Series');
-            $this->info("- Picture: default can be JPG file with slug of serie in `public/storage/data/pictures-series`");
-            $this->info("- Description & link: default can be in `public/storage/data/series.json`");
+            $this->info('- Tags from all Books of Serie');
+            $this->info('- Picture from first Book of Serie (--default|-D to skip)');
+            $this->info("  - Custom: default can be JPG file with slug of serie in `public/storage/data/pictures-series`");
+            $this->info('- Description from Wikipedia (--local|-L to skip)');
+            $this->info("  - Custom: default can be in `public/storage/data/series.json`");
             $this->newLine();
         }
 
@@ -153,15 +158,21 @@ class AssetsCommand extends Command
     {
         $fresh = $this->option('fresh') ?? false;
         $local = $this->option('local') ?? false;
+        $default = $this->option('default') ?? false;
         
         if ($fresh) {
+            $model->clearMediaCollection($collection);
             $model->description = null;
             $model->link = null;
             $model->save();
         }
-
+        
         /** @var Serie $model */
         if (! $model->description && ! $model->link) {
+            SerieConverter::setTags($model);
+            if (! $default) {
+                SerieConverter::setCover($model);
+            }
             if (! $local) {
                 $wiki = WikipediaProvider::create($model->title, $model->language_slug);
 

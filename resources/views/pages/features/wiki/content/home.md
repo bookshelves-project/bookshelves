@@ -50,15 +50,15 @@ From these relations, all the books of the same series can be listed but also th
 
 let's take the language of an English eBook that is mistakenly indicated as French and that is part of a "D'Artagan Romances" series, then this eBook will be part of its own specific series "D'Artagan Romances" indicated as French while the others will be part of the "D'Artagan Romances" series indicated as English. This allows to have two series with the same name in several languages but requires a precise work in setting up the metadata with Calibre for example.
 
-> - The Three Musketeers from Alexandre Dumas in french: `/dumas-alexandre/d-artagnan-romances-fr`
-> - Twenty Years After from Alexandre Dumas in english: `/alexandre-dumas/d-artagnan-romances-en`
+> - URL of Serie for The Three Musketeers from Alexandre Dumas in french: `/dumas-alexandre/d-artagnan-romances-fr`
+> - URL for SErie for Twenty Years After from Alexandre Dumas in english: `/dumas-alexandre/d-artagnan-romances-en`
 
 #### Example with Author
 
 an eBook "The Three Musketeers" has a lastname-firstname author name such as "Alexandre Dumas" while another eBook of the same series "Twenty Years After" has a lastname-firstname author name such as "Dumas Alexandre". During the generation, two different authors will be created and thus two different series, so all the eBooks must have the name of each author indicated in the same way, the proposal of Bookshelves is to prefer firstname-lastname. It's important because with this order, Bookshelves can seperate firstname and lastname to order authors. **You can reverse firstname-lastname into config/bookshelves.php**
 
 > - The Three Musketeers from Alexandre Dumas: `/dumas-alexandre/three-musketeers-en` from serie `/dumas-alexandre/d-artagnan-romances-en`
-> - Twenty Years After from Dumas Alexandre: `/alexandre-dumas/twenty-years-after` from serie `/alexandre-dumas/d-artagnan-romances-en`
+> - Twenty Years After from Dumas Alexandre: `/alexandre-dumas/twenty-years-after-en` from serie `/alexandre-dumas/d-artagnan-romances-en`
 
 ### *What Bookshelves is not*
 
