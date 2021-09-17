@@ -105,25 +105,6 @@ class BooksCommand extends Command
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
         $this->info("Time in seconds: $time_elapsed_secs");
 
-        // if (! $fresh) {
-        //     $this->warn('No fresh, scan for new eBooks');
-        //     $this->newLine();
-        //     $epubFiles = $this->getOnlyNewBooks($epubFiles, $debug);
-        // }
-        // $this->newLine(2);
-
-        /*
-         * Books
-         */
-        // $books = $this->books($epubFiles, $local, $debug);
-
-        /*
-         * Books covers
-         */
-        // if (! $default) {
-        //     $this->covers($books);
-        // }
-
         return true;
     }
 }

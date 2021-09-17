@@ -134,17 +134,29 @@ class AssetsCommand extends Command
         if (! $local) {
             $this->info('HTTP requests with async...');
             $this->info('Progress bar is not available with async');
-            $providers = GoogleBookProvider::createAsync($list);
-            $this->newLine();
 
+            $limit = 250;
+            $chunk = $list->chunk($limit);
             $bar = $this->output->createProgressBar(count($list));
             $bar->start();
-            foreach ($providers as $bookID => $provider) {
-                $book = Book::find($bookID);
-                $provider->convert()->improveBookData($book);
-                $bar->advance();
+            foreach ($chunk as $key => $list) {
+                $providers = GoogleBookProvider::createAsync($list);
+                foreach ($providers as $bookID => $provider) {
+                    $book = Book::find($bookID);
+                    $provider->convert()->improveBookData($book);
+                    $bar->advance();
+                }
             }
-            $bar->finish();
+            $this->newLine();
+
+            // $bar = $this->output->createProgressBar(count($list));
+            // $bar->start();
+            // foreach ($providers as $bookID => $provider) {
+            //     $book = Book::find($bookID);
+            //     $provider->convert()->improveBookData($book);
+            //     $bar->advance();
+            // }
+            // $bar->finish();
         }
     }
     
