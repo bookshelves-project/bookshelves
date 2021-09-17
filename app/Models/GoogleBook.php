@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use App\Providers\ConverterEngine\TagConverter;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Providers\BookshelvesConverterEngine\TagConverter;
 
 class GoogleBook extends Model
 {
@@ -29,9 +29,9 @@ class GoogleBook extends Model
     /**
      * Add more data to Book from GoogleBook
      */
-    public function improveBookData()
+    public function improveBookData(Book $book)
     {
-        $book = $this->book;
+        $this->book()->save($book);
 
         $this->testAttribute('date');
         $this->testAttribute('description');

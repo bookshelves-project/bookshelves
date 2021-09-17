@@ -4,10 +4,13 @@ namespace App\Providers;
 
 use DateTime;
 use App\Models\Book;
+use App\Utils\HttpTools;
 use App\Models\Publisher;
 use App\Models\GoogleBook;
 use App\Models\Identifier;
 use App\Utils\BookshelvesTools;
+use Illuminate\Support\Collection;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -18,9 +21,6 @@ use Illuminate\Support\Facades\Http;
 class GoogleBookProvider
 {
     public function __construct(
-        public Book $book,
-        public ?string $original_isbn = null,
-        public ?string $original_isbn13 = null,
         public string $url,
         public ?DateTime $date = null,
         public ?string $description = null,
@@ -40,6 +40,30 @@ class GoogleBookProvider
     }
 
     /**
+     * Async Google Book API calls
+     *
+     * @param Collection $books
+     * @return GoogleBookProvider[]
+     */
+    public static function createAsync(Collection $books): array
+    {
+        $urlList = [];
+        foreach ($books as $key => $book) {
+            $url = self::setIsbn($book);
+            $urlList[$book->id] = $url;
+        }
+        $responses = HttpTools::async($urlList);
+        
+        $providers = [];
+        foreach ($responses as $bookID => $response) {
+            $provider = self::setData($response);
+            $providers[$bookID] = $provider;
+        }
+        
+        return $providers;
+    }
+
+    /**
      * Get data from Google Books API with ISBN from meta
      * Example: https://www.googleapis.com/books/v1/volumes?q=isbn:9782700239904.
      *
@@ -48,66 +72,84 @@ class GoogleBookProvider
      */
     public static function create(Book $book): GoogleBookProvider
     {
-        $identifier = $book->identifier;
-        $original_isbn = $identifier->isbn ?? null;
-        $original_isbn13 = $identifier->isbn13 ?? null;
-        
-        $isbn = null;
-        if ($original_isbn13) {
-            $isbn = $original_isbn13;
-        } elseif ($original_isbn) {
-            $isbn = $original_isbn;
-        }
-        $url = "https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn";
-        $gbook = new GoogleBookProvider($book, $original_isbn, $original_isbn13, $url);
+        $url = self::setIsbn($book);
 
-        if ($isbn) {
+        if ($url) {
             try {
                 $response = Http::get($url);
-                $response = $response->json();
-
-                if (array_key_exists('items', $response)) {
-                    $response = $response['items'][0];
-                    $data = $response['volumeInfo'];
-                    if (array_key_exists('volumeInfo', $response)) {
-                        $gbook->date = new DateTime($data['publishedDate']);
-                        $gbook->publisher = array_key_exists('publisher', $data) ? $data['publisher'] : null;
-                        $gbook->description = array_key_exists('description', $data) ? $data['description'] : null;
-                        $gbook->industry_identifiers = array_key_exists('industryIdentifiers', $data) ? $data['industryIdentifiers'] : null;
-                        $gbook->page_count = array_key_exists('pageCount', $data) ? $data['pageCount'] : null;
-                        $gbook->categories = array_key_exists('categories', $data) ? $data['categories'] : null;
-                        $gbook->maturity_rating = array_key_exists('maturityRating', $data) ? $data['maturityRating'] : null;
-                        $gbook->language = array_key_exists('language', $data) ? $data['language'] : null;
-                        $gbook->preview_link = array_key_exists('previewLink', $data) ? $data['previewLink'] : null;
-                    }
-
-                    $sale_data = $response['saleInfo'];
-                    if (array_key_exists('saleInfo', $response)) {
-                        // $gbook->is_ebook = (bool) $sale_data['isEbook'];
-                        if (array_key_exists('retailPrice', $sale_data)) {
-                            $gbook->retail_price_amount = intval($sale_data['retailPrice']['amount']);
-                            $gbook->retail_price_currency_code = intval($sale_data['retailPrice']['currencyCode']);
-                        }
-                        $gbook->buy_link = array_key_exists('buyLink', $sale_data) ? $sale_data['buyLink'] : null;
-                    }
-
-                    if ($gbook->industry_identifiers) {
-                        foreach ($gbook->industry_identifiers as $key => $new_identifier) {
-                            if ('ISBN_13' === $new_identifier['type']) {
-                                $gbook->isbn13 = $new_identifier['identifier'];
-                            }
-                            if ('ISBN_10' === $new_identifier['type']) {
-                                $gbook->isbn = $new_identifier['identifier'];
-                            }
-                        }
-                    }
-                }
+                $provider = self::setData($response, $url);
             } catch (\Throwable $th) {
                 BookshelvesTools::console(__METHOD__, $th);
             }
         }
 
-        return $gbook;
+        return $provider;
+    }
+    
+    public static function setIsbn(Book $book): string|false
+    {
+        $identifier = $book->identifier;
+        $original_isbn = $identifier->isbn ?? null;
+        $original_isbn13 = $identifier->isbn13 ?? null;
+        
+        $isbn = null;
+        $url = false;
+        if ($original_isbn13) {
+            $isbn = $original_isbn13;
+        } elseif ($original_isbn) {
+            $isbn = $original_isbn;
+        }
+        if ($isbn) {
+            $url = "https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn";
+        }
+        
+        return $url;
+    }
+
+    public static function setData(Response $response): GoogleBookProvider
+    {
+        $url = $response->transferStats->getRequest()->getUri()->getQuery();
+        $provider = new GoogleBookProvider($url);
+        $response = $response->json();
+
+        if (array_key_exists('items', $response)) {
+            $response = $response['items'][0];
+            $data = $response['volumeInfo'];
+            if (array_key_exists('volumeInfo', $response)) {
+                $provider->date = new DateTime($data['publishedDate']);
+                $provider->publisher = array_key_exists('publisher', $data) ? $data['publisher'] : null;
+                $provider->description = array_key_exists('description', $data) ? $data['description'] : null;
+                $provider->industry_identifiers = array_key_exists('industryIdentifiers', $data) ? $data['industryIdentifiers'] : null;
+                $provider->page_count = array_key_exists('pageCount', $data) ? $data['pageCount'] : null;
+                $provider->categories = array_key_exists('categories', $data) ? $data['categories'] : null;
+                $provider->maturity_rating = array_key_exists('maturityRating', $data) ? $data['maturityRating'] : null;
+                $provider->language = array_key_exists('language', $data) ? $data['language'] : null;
+                $provider->preview_link = array_key_exists('previewLink', $data) ? $data['previewLink'] : null;
+            }
+
+            $sale_data = $response['saleInfo'];
+            if (array_key_exists('saleInfo', $response)) {
+                // $provider->is_ebook = (bool) $sale_data['isEbook'];
+                if (array_key_exists('retailPrice', $sale_data)) {
+                    $provider->retail_price_amount = intval($sale_data['retailPrice']['amount']);
+                    $provider->retail_price_currency_code = intval($sale_data['retailPrice']['currencyCode']);
+                }
+                $provider->buy_link = array_key_exists('buyLink', $sale_data) ? $sale_data['buyLink'] : null;
+            }
+
+            if ($provider->industry_identifiers) {
+                foreach ($provider->industry_identifiers as $key => $new_identifier) {
+                    if ('ISBN_13' === $new_identifier['type']) {
+                        $provider->isbn13 = $new_identifier['identifier'];
+                    }
+                    if ('ISBN_10' === $new_identifier['type']) {
+                        $provider->isbn = $new_identifier['identifier'];
+                    }
+                }
+            }
+        }
+
+        return $provider;
     }
 
     /**
@@ -131,7 +173,6 @@ class GoogleBookProvider
             'isbn'                       => $this->isbn,
             'isbn13'                     => $this->isbn13,
         ]);
-        $googleBook->book()->save($this->book);
 
         return $googleBook;
     }

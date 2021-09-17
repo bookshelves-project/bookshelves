@@ -139,7 +139,6 @@ class GenerateCommand extends Command
             '--default' => $default,
         ], $this->getOutput());
 
-        $this->newLine();
         $this->table(
             ['Books', 'Series', 'Authors', 'Languages', 'Publishers', 'Tags'],
             [[Book::count(), Serie::count(), Author::count(), Language::count(), Publisher::count(), Tag::count()]]
@@ -151,7 +150,9 @@ class GenerateCommand extends Command
         }
 
         Artisan::call('bookshelves:sample', [
-            '--admin' => true,
+            '--admin'     => true,
+            '--selection' => true,
+            '--force'     => $isForce
         ], $this->getOutput());
         
 
@@ -167,6 +168,5 @@ class GenerateCommand extends Command
         }
 
         $this->info('Done!');
-        $this->newLine();
     }
 }

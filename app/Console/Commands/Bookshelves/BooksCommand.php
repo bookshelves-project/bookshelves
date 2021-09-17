@@ -5,9 +5,9 @@ namespace App\Console\Commands\Bookshelves;
 use Spatie\Tags\Tag;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use App\Providers\EbookParserEngine\EbooksList;
-use App\Providers\EbookParserEngine\EbookParserEngine;
-use App\Providers\BookshelvesConverterEngine\BookshelvesConverterEngine;
+use App\Providers\ParserEngine\ParserList;
+use App\Providers\ParserEngine\ParserEngine;
+use App\Providers\ConverterEngine\ConverterEngine;
 
 class BooksCommand extends Command
 {
@@ -56,7 +56,7 @@ class BooksCommand extends Command
         $default = $this->option('default') ?? false;
 
         Artisan::call('bookshelves:clear', [], $this->getOutput());
-        $list = EbooksList::getEbooks(limit: $limit);
+        $list = ParserList::getEbooks(limit: $limit);
 
         if ($fresh) {
             Artisan::call('setup:database', [
@@ -82,14 +82,17 @@ class BooksCommand extends Command
         foreach ($genres as $key => $genre) {
             Tag::findOrCreate($genre, 'genre');
         }
+
+        $start = microtime(true);
+        
         $bar = $this->output->createProgressBar(sizeof($list));
         $bar->start();
         foreach ($list as $key => $epub) {
-            $epe = EbookParserEngine::create($epub, $debug);
+            $parser = ParserEngine::create($epub, $debug);
             if ($debug) {
-                $this->info($key . ' ' . $epe->title);
+                $this->info($key . ' ' . $parser->title);
             }
-            $bce = BookshelvesConverterEngine::create($epe, $local, $default);
+            ConverterEngine::create($parser, $local, $default);
 
             if (! $debug) {
                 $bar->advance();
@@ -97,6 +100,10 @@ class BooksCommand extends Command
         }
         $bar->finish();
         $this->newLine();
+
+        $this->newLine();
+        $time_elapsed_secs = number_format(microtime(true) - $start, 2);
+        $this->info("Time in seconds: $time_elapsed_secs");
 
         // if (! $fresh) {
         //     $this->warn('No fresh, scan for new eBooks');
