@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Providers\EbookParserEngine;
+namespace App\Providers\ParserEngine;
 
 use DateTime;
 use ZipArchive;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use App\Providers\EbookParserEngine\Models\OpfCreator;
-use App\Providers\EbookParserEngine\Models\OpfIdentifier;
+use App\Providers\ParserEngine\Models\OpfCreator;
+use App\Providers\ParserEngine\Models\OpfIdentifier;
 
 /**
  * Parser engine for eBook
- * @package App\Providers\EbookParserEngine
+ * @package App\Providers\ParserEngine
  */
-class EbookParserEngine
+class ParserEngine
 {
     public function __construct(
         public ?string $title = null,
@@ -42,11 +42,11 @@ class EbookParserEngine
     }
 
     /**
-     * Transform OPF file to EbookParserEngine
+     * Transform OPF file to ParserEngine
      */
-    public static function create(string $epubPath, bool $debug = false, bool $print = false): EbookParserEngine
+    public static function create(string $epubPath, bool $debug = false, bool $print = false): ParserEngine
     {
-        $opf = new EbookParserEngine();
+        $opf = new ParserEngine();
         $metadata = self::OpfToArray($epubPath, $debug);
 
         $opf->title = $metadata['title'];
@@ -142,6 +142,18 @@ class EbookParserEngine
                 $cover = $zip->getFromName($metadata['cover_file']);
             }
         }
+        
+        // create unique name for cover
+        // $token = bin2hex(openssl_random_pseudo_bytes(5));
+        // $name = $metadata['title'];
+        // $extension = '.' . $metadata['cover_extension'];
+        // $cover_name = Str::slug("$token $name");
+        // $cover_name .= $extension;
+
+        // store to `storage/temp`
+        // Storage::disk('public')->put("temp/$cover_name", $cover);
+        // $metadata['cover_file'] = public_path("/temp/$cover_name");
+
         $metadata['cover_file'] = $cover;
 
         $zip->close();

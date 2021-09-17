@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Providers\BookshelvesConverterEngine;
+namespace App\Providers\ConverterEngine;
 
 use App\Models\Book;
 use App\Models\Identifier;
-use App\Providers\EbookParserEngine\EbookParserEngine;
-use App\Providers\EbookParserEngine\Models\OpfIdentifier;
+use App\Providers\ParserEngine\ParserEngine;
+use App\Providers\ParserEngine\Models\OpfIdentifier;
 
 class IdentifierConverter
 {
-    public static function create(EbookParserEngine $epe, Book $book): ?Identifier
+    public static function create(ParserEngine $parser, Book $book): ?Identifier
     {
         $identifiers = [];
         /** @var OpfIdentifier $value */
-        foreach ($epe->identifiers as $key => $value) {
+        foreach ($parser->identifiers as $key => $value) {
             if ($value->name === 'isbn') {
                 $identifiers['isbn'] = $value->value;
             }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Providers\BookshelvesConverterEngine;
+namespace App\Providers\ConverterEngine;
 
 use App\Models\Book;
 use App\Utils\MediaTools;
 use App\Utils\BookshelvesTools;
-use App\Providers\EbookParserEngine\EbookParserEngine;
+use App\Providers\ParserEngine\ParserEngine;
 
 class CoverConverter
 {
@@ -15,14 +15,14 @@ class CoverConverter
      *
      * @param Book $book
      */
-    public static function create(EbookParserEngine $epe, Book $book): Book
+    public static function create(ParserEngine $parser, Book $book): Book
     {
-        if (! $book->getFirstMedia('books') && ! empty($epe->cover)) {
+        if (! $book->getFirstMedia('books') && ! empty($parser->cover)) {
             $extension = config('bookshelves.cover_extension');
             $disk = 'books';
             try {
                 $media = new MediaTools($book, $book->slug, $disk);
-                $media->setMedia($epe->cover);
+                $media->setMedia($parser->cover);
                 $media->setColor();
             } catch (\Throwable $th) {
                 BookshelvesTools::console(__METHOD__, $th);

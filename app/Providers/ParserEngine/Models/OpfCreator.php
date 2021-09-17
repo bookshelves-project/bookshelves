@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\EbookParserEngine\Models;
+namespace App\Providers\ParserEngine\Models;
 
 class OpfCreator
 {

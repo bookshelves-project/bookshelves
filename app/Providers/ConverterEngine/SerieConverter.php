@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\BookshelvesConverterEngine;
+namespace App\Providers\ConverterEngine;
 
 use File;
 use Storage;
@@ -9,24 +9,26 @@ use App\Models\Serie;
 use App\Utils\MediaTools;
 use App\Utils\BookshelvesTools;
 use App\Providers\WikipediaProvider;
-use App\Providers\EbookParserEngine\EbookParserEngine;
+use App\Providers\ParserEngine\ParserEngine;
 
 class SerieConverter
 {
+    const DISK = 'series';
+
     /**
-     * Generate Serie for Book from EbookParserEngine.
+     * Generate Serie for Book from ParserEngine.
      */
-    public static function create(EbookParserEngine $epe, Book $book): Serie|false
+    public static function create(ParserEngine $parser, Book $book): Serie|false
     {
-        if ($epe->serie) {
-            $serie = Serie::whereSlug($epe->serie_slug)->first();
+        if ($parser->serie) {
+            $serie = Serie::whereSlug($parser->serie_slug)->first();
             if (! $serie) {
                 $serie = Serie::firstOrCreate([
-                    'title'      => $epe->serie,
-                    'title_sort' => $epe->serie_sort,
-                    'slug'       => $epe->serie_slug_lang,
+                    'title'      => $parser->serie,
+                    'title_sort' => $parser->serie_sort,
+                    'slug'       => $parser->serie_slug_lang,
                 ]);
-                $serie->language()->associate($epe->language);
+                $serie->language()->associate($parser->language);
                 $serie->save();
             }
 
@@ -89,8 +91,9 @@ class SerieConverter
      *
      * Manage by spatie/laravel-medialibrary.
      */
-    public static function getLocalCover(Serie $serie, string $disk): String|null
+    public static function getLocalCover(Serie $serie): string|null
     {
+        $disk = self::DISK;
         // Add special cover if exist from `public/storage/data/pictures-series/`
         // Check if JPG file with series' slug name exist
         // To know slug name, check into database when serie was created
@@ -115,10 +118,10 @@ class SerieConverter
     public static function setCover(Serie $serie): Serie
     {
         if ($serie->getMedia('series')->isEmpty()) {
-            $disk = 'series';
+            $disk = self::DISK;
 
             // get picture in $path if exist
-            $local_cover = self::getLocalCover($serie, $disk);
+            $local_cover = self::getLocalCover($serie);
             if ($local_cover) {
                 $cover = $local_cover;
             } else {

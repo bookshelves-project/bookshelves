@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\EbookParserEngine;
+namespace App\Providers\ParserEngine;
 
 use Throwable;
 use Transliterator;

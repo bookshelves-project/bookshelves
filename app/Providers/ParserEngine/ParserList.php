@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers\EbookParserEngine;
+namespace App\Providers\ParserEngine;
 
-class EbooksList
+class ParserList
 {
     /**
      * Get all EPUB files from `storage/data/books`

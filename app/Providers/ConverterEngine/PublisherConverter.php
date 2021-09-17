@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Providers\BookshelvesConverterEngine;
+namespace App\Providers\ConverterEngine;
 
 use App\Models\Book;
 use App\Models\Publisher;
 use Illuminate\Support\Str;
-use App\Providers\EbookParserEngine\EbookParserEngine;
+use App\Providers\ParserEngine\ParserEngine;
 
 class PublisherConverter
 {
     /**
-     * Generate Publisher for Book from EbookParserEngine.
+     * Generate Publisher for Book from ParserEngine.
      */
-    public static function create(EbookParserEngine $epe, Book $book): Publisher|false
+    public static function create(ParserEngine $parser, Book $book): Publisher|false
     {
         $publisher = false;
-        if ($epe->publisher) {
-            $publisherIfExist = Publisher::whereSlug(Str::slug($epe->publisher))->first();
+        if ($parser->publisher) {
+            $publisherIfExist = Publisher::whereSlug(Str::slug($parser->publisher))->first();
             if (! $publisherIfExist) {
                 $publisher = Publisher::firstOrCreate([
-                    'name' => $epe->publisher,
-                    'slug' => Str::slug($epe->publisher),
+                    'name' => $parser->publisher,
+                    'slug' => Str::slug($parser->publisher),
                 ]);
             } else {
                 $publisher = $publisherIfExist;

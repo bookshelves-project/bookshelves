@@ -1,29 +1,29 @@
 <?php
 
-namespace App\Providers\BookshelvesConverterEngine;
+namespace App\Providers\ConverterEngine;
 
 use Str;
 use File;
 use App\Models\Book;
-use App\Providers\EbookParserEngine\EbookParserEngine;
+use App\Providers\ParserEngine\ParserEngine;
 use App\Utils\BookshelvesTools;
 
 class BookConverter
 {
     /**
-     * Generate Book from EbookParserEngine.
+     * Generate Book from ParserEngine.
      */
-    public static function create(EbookParserEngine $epe): Book
+    public static function create(ParserEngine $parser): Book
     {
         return Book::firstOrCreate([
-            'title'       => $epe->title,
-            'slug'        => $epe->slug_lang,
-            'title_sort'  => $epe->title_serie_sort,
-            'contributor' => implode(' ', $epe->contributor),
-            'description' => $epe->description,
-            'date'        => $epe->date,
-            'rights'      => $epe->rights,
-            'volume'      => $epe->volume,
+            'title'       => $parser->title,
+            'slug'        => $parser->slug_lang,
+            'title_sort'  => $parser->title_serie_sort,
+            'contributor' => implode(' ', $parser->contributor),
+            'description' => $parser->description,
+            'date'        => $parser->date,
+            'rights'      => $parser->rights,
+            'volume'      => $parser->volume,
         ]);
     }
 

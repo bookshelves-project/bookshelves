@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Providers\BookshelvesConverterEngine;
+namespace App\Providers\ConverterEngine;
 
 use App\Models\Language;
-use App\Providers\EbookParserEngine\EbookParserEngine;
+use App\Providers\ParserEngine\ParserEngine;
 
 class LanguageConverter
 {
     /**
-     * Set Language from EbookParserEngine.
+     * Set Language from ParserEngine.
      */
-    public static function create(EbookParserEngine $epe): Language
+    public static function create(ParserEngine $parser): Language
     {
-        $meta_name = $epe->language;
+        $meta_name = $parser->language;
 
         $available_langs = config('bookshelves.langs');
         if (array_key_exists($meta_name, $available_langs)) {

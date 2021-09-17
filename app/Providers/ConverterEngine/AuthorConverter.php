@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\BookshelvesConverterEngine;
+namespace App\Providers\ConverterEngine;
 
 use File;
 use Storage;
@@ -11,11 +11,13 @@ use Illuminate\Support\Str;
 use App\Utils\BookshelvesTools;
 use Illuminate\Support\Collection;
 use App\Providers\WikipediaProvider;
-use App\Providers\EbookParserEngine\EbookParserEngine;
-use App\Providers\EbookParserEngine\Models\OpfCreator;
+use App\Providers\ParserEngine\ParserEngine;
+use App\Providers\ParserEngine\Models\OpfCreator;
 
 class AuthorConverter
 {
+    const DISK = 'authors';
+
     public function __construct(
         public ?string $firstname,
         public ?string $lastname,
@@ -68,12 +70,12 @@ class AuthorConverter
     }
 
     /**
-     * Generate Author[] for Book from EbookParserEngine.
+     * Generate Author[] for Book from ParserEngine.
      */
-    public static function generate(EbookParserEngine $epe, Book $book): Collection|false
+    public static function generate(ParserEngine $parser, Book $book): Collection|false
     {
         $authors = [];
-        if (empty($epe->creators)) {
+        if (empty($parser->creators)) {
             $creator = new OpfCreator(
                 name: 'Unknown Author',
                 role: 'aut'
@@ -82,7 +84,7 @@ class AuthorConverter
             $author = AuthorConverter::convert($converter, $creator);
             array_push($authors, $author);
         } else {
-            foreach ($epe->creators as $key => $creator) {
+            foreach ($parser->creators as $key => $creator) {
                 $converter = AuthorConverter::create($creator);
                 $skipHomonys = config('bookshelves.authors.skip_homonyms');
                 if ($skipHomonys) {
@@ -245,7 +247,7 @@ class AuthorConverter
      */
     public static function setDefaultPicture(Author $author): Author
     {
-        $disk = 'authors';
+        $disk = self::DISK;
         if (! $author->getFirstMediaUrl($disk)) {
             $path = database_path('seeders/media/authors/no-picture.jpg');
             $cover = File::get($path);
@@ -259,13 +261,12 @@ class AuthorConverter
     }
 
     /**
-     * Set local picture from `public/storage/data/pictures-authors`
+     * Get local picture from `public/storage/data/pictures-authors`
      * Only JPG file with author slug as name.
      */
-    public static function setLocalPicture(Author $author): Author
+    public static function getLocalPicture(Author $author): string|null
     {
-        $disk = 'authors';
-
+        $disk = self::DISK;
         $path = public_path("storage/data/pictures-$disk");
         $files = BookshelvesTools::getDirectoryFiles($path);
 
@@ -275,6 +276,19 @@ class AuthorConverter
                 $cover = file_get_contents($file);
             }
         }
+
+        return $cover;
+    }
+
+    /**
+     * Set local picture from `public/storage/data/pictures-authors`
+     * Only JPG file with author slug as name.
+     */
+    public static function setLocalPicture(Author $author): Author
+    {
+        $disk = self::DISK;
+        $cover = self::getLocalPicture($author);
+
         if ($cover) {
             $author->clearMediaCollection($disk);
             $media = new MediaTools($author, $author->slug, $disk);
@@ -294,10 +308,20 @@ class AuthorConverter
         return $author;
     }
 
+    /**
+     * Set wiki picture if local not exist
+     * Otherwise, set local picture
+     */
     public static function setWikiPicture(Author $author, WikipediaProvider $wiki):Author
     {
+        $disk = self::DISK;
+        $cover = self::getLocalPicture($author);
+        if ($cover) {
+            self::setLocalPicture($author);
+            return $author;
+        }
+        
         $picture = $wiki->getPictureFile();
-        $disk = 'authors';
 
         if ($picture && $author->slug !== 'author-unknown') {
             $author->clearMediaCollection($disk);
