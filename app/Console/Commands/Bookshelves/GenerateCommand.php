@@ -137,6 +137,7 @@ class GenerateCommand extends Command
             '--local'   => $local,
             '--fresh'   => $fresh,
             '--default' => $default,
+            '--force' => $isForce,
         ], $this->getOutput());
 
         $this->table(
