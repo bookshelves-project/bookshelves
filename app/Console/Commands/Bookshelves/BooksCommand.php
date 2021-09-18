@@ -71,14 +71,17 @@ class BooksCommand extends Command
         $this->newLine();
         if (! $default) {
             $format = config('bookshelves.cover_extension');
-            $this->comment('Generate covers for books and series (--default|-D to skip)');
+            $this->comment('Generate covers for books (--default|-D to skip)');
             $this->info('- Generate covers with differents dimensions');
             $this->info("- Main format: $format (original from EPUB, thumbnail)");
             $this->info('- OpenGraph, Simple format: JPG (social, Catalog)');
+            if (config('app.env') === 'local') {
+                $this->info('You are in local, conversions are generate only in production');
+            }
             $this->newLine();
         }
         
-        $genres = config('bookshelves.genres');
+        $genres = config('bookshelves.tags.genres_list');
         foreach ($genres as $key => $genre) {
             Tag::findOrCreate($genre, 'genre');
         }

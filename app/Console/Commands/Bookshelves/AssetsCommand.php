@@ -190,6 +190,7 @@ class AssetsCommand extends Command
         $providers = WikipediaProvider::make($list, 'name');
         $this->newLine();
 
+        $this->info('Set async data');
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($providers as $key => $provider) {
@@ -247,6 +248,7 @@ class AssetsCommand extends Command
         $providers = WikipediaProvider::make($list, 'title');
         $this->newLine();
 
+        $this->info('Set async data');
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($providers as $key => $provider) {
@@ -259,5 +261,6 @@ class AssetsCommand extends Command
             $bar->advance();
         }
         $bar->finish();
+        $this->newLine();
     }
 }

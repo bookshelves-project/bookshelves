@@ -15,8 +15,13 @@ class LanguageConverter
         $meta_name = $parser->language;
 
         $available_langs = config('bookshelves.langs');
-        if (array_key_exists($meta_name, $available_langs)) {
-            $name = $available_langs[$meta_name];
+        $langs = [];
+        foreach ($available_langs as $lang) {
+            $converted = explode('.', $lang);
+            $langs[$converted[0]] = $converted[1];
+        }
+        if (array_key_exists($meta_name, $langs)) {
+            $name = $langs[$meta_name];
         } else {
             $name = ucfirst($meta_name);
         }

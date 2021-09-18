@@ -28,11 +28,11 @@ class TagConverter
      */
     public static function tagRaw(string $tag, Book $book): Book
     {
-        $main_genres = config('bookshelves.genres');
+        $main_genres = config('bookshelves.tags.genres_list');
         $tag = str_replace(' and ', ' & ', $tag);
         $tag = str_replace('-', ' ', $tag);
-        $forbidden_tags = config('bookshelves.forbidden_tags');
-        $converted_tags = config('bookshelves.converted_tags');
+        $forbidden_tags = config('bookshelves.tags.forbidden');
+        $converted_tags = config('bookshelves.tags.converted');
 
         foreach ($converted_tags as $key => $converted_tag) {
             if ($tag === $key) {

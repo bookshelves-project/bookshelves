@@ -1,46 +1,64 @@
 <?php
 
 return [
-    'mails' => [
-        'to'   => 'info@bookshelves.com',
-        'from' => 'noreplyinfo@bookshelves.com',
-    ],
-    'cover_extension'              => env('IMAGE_FORMAT', 'webp'),
-    'converted_pictures_directory' => 'glide',
+    /**
+     * Authentication
+     */
     'admin'                        => [
-        'email'    => env('ADMIN_EMAIL', 'admin@mail.com'),
-        'password' => env('ADMIN_PASSWORD', 'password'),
+        'email'    => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),
+        'password' => env('BOOKSHELVES_ADMIN_PASSWORD', 'password'),
     ],
+    /**
+     * General
+     */
+    'cover_extension'              => env('BOOKSHELVES_COVER_FORMAT', 'webp'),
+    'converted_pictures_directory' => 'glide',
+    /**
+     * Authors
+     */
     'authors' => [
-        // For all ebooks: if you have authors' names like lastname_firstname
-        // set to false to reverse
-        'order_firstname_lastname'      => env('AUTHORS_ORDER_FIRSTNAME_LASTNAME', true),
-        'skip_homonyms'                 => env('AUTHORS_SKIP_HOMONYMS', false)
+        // Depends of your order of sort for authors
+        // true: `Victor Hugo` will be `firstname`: "Victor", `lastname`: "Hugo"
+        // false: `Hugo Victor` will be `firstname`: "Victor", `lastname`: "Hugo"
+        'order_natural' => env('BOOKSHELVES_AUTHOR_ORDER_NATURAL', true),
+        // true: `Victor Hugo` and `Hugo Victor` will be merge
+        // false: two Author will be created
+        'detect_homonyms' => env('BOOKSHELVES_AUTHOR_DETECT_HOMONYMS', true)
     ],
-    'langs' => [
+    /**
+     * Langs
+     * If a lang is not here, ParserEngine will create lang from meta
+     * Like a book in English with Calibre, meta will be `en`, the engine create `En` lang if not exist
+     */
+    'langs' => explode(',', env('BOOKSHELVES_LANGS', [
         'fr'      => 'French',
         'en'      => 'English',
+    ])),
+    /**
+     * Tags
+     * From Wikipedia: https://en.wikipedia.org/wiki/List_of_writing_genres.
+     * Any tag add here will be used as 'genre'
+     */
+    'tags' => [
+        'genres_list' => explode(',', env('BOOKSHELVES_TAGS_GENRES', [
+            'Action & adventures',
+            'Crime & mystery',
+            'Fantasy',
+            'Horror',
+            'Romance',
+            'Science fiction',
+        ])),
+        'forbidden' => explode(',', env('BOOKSHELVES_TAGS_FORBIDDEN', [
+            'SF',
+            'General',
+        ])),
+        'converted' => [
+            'Action & Adventure' => 'Action & adventures',
+        ]
     ],
-    // From Wikipedia: https://en.wikipedia.org/wiki/List_of_writing_genres.
-    // Any tag add here will be used as 'genre'
-    'genres' => [
-        'Action & adventures',
-        'Crime & mystery',
-        'Fantasy',
-        'Horror',
-        'Romance',
-        'Science fiction',
-    ],
-
-    'forbidden_tags' => [
-        'SF',
-        'General',
-    ],
-
-    'converted_tags' => [
-        'Action & Adventure' => 'Action & adventures',
-    ],
-    
+    /**
+     * Navigation
+     */
     'navigation'=> [
         'admin' => [
             'route'    => 'admin',

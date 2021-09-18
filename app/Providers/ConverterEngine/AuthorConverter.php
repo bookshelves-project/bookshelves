@@ -34,7 +34,7 @@ class AuthorConverter
      */
     public static function create(OpfCreator $creator)
     {
-        $orderClassic = config('bookshelves.authors.order_firstname_lastname');
+        $orderClassic = config('bookshelves.authors.order_natural');
 
         if ($orderClassic) {
             $author_name = explode(' ', $creator->name);
@@ -86,7 +86,7 @@ class AuthorConverter
         } else {
             foreach ($parser->creators as $key => $creator) {
                 $converter = AuthorConverter::create($creator);
-                $skipHomonys = config('bookshelves.authors.skip_homonyms');
+                $skipHomonys = config('bookshelves.authors.detect_homonyms');
                 if ($skipHomonys) {
                     $lastname = Author::whereFirstname($converter->lastname)->first();
                     if ($lastname) {

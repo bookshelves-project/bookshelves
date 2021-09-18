@@ -26,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
             ],
             'bookshelves' => [
                 'admin'           => [
-                    'email'    => env('ADMIN_EMAIL', 'admin@mail.com'),
-                    'password' => env('ADMIN_PASSWORD', 'password'),
+                    'email'    => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),
+                    'password' => env('BOOKSHELVES_ADMIN_PASSWORD', 'password'),
                 ],
             ],
             'laravelVersion' => Application::VERSION,
