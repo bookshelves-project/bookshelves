@@ -20,17 +20,19 @@ trait HasCovers
         $formatStandard = config('image.covers.og');
         $formatSimple = config('image.covers.simple');
 
-        // $this->addMediaConversion('thumbnail')
-        //     ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
-        //     ->format(config('bookshelves.cover_extension'));
+        if (config('app.env') !== 'local') {
+            $this->addMediaConversion('thumbnail')
+                ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
+                ->format(config('bookshelves.cover_extension'));
 
-        // $this->addMediaConversion('og')
-        //     ->crop(Manipulations::CROP_CENTER, $formatStandard['width'], $formatStandard['height'])
-        //     ->format('jpg');
+            $this->addMediaConversion('og')
+                ->crop(Manipulations::CROP_CENTER, $formatStandard['width'], $formatStandard['height'])
+                ->format('jpg');
 
-        // $this->addMediaConversion('simple')
-        //     ->crop(Manipulations::CROP_CENTER, $formatSimple['width'], $formatSimple['height'])
-        //     ->format('jpg');
+            $this->addMediaConversion('simple')
+                ->crop(Manipulations::CROP_CENTER, $formatSimple['width'], $formatSimple['height'])
+                ->format('jpg');
+        }
     }
 
     /**
