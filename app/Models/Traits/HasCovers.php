@@ -76,7 +76,11 @@ trait HasCovers
             $extension = config('bookshelves.cover_extension');
         }
         $class_name = $this->getClassName(true);
-        $cover = $this->getFirstMediaUrl($class_name, $collection);
+        // fix crash if conversion not exist in spatie/laravel-medialibrary
+        try {
+            $cover = $this->getFirstMediaUrl($class_name, $collection);
+        } catch (\Throwable $th) {
+        }
         return $cover ? $cover : config('app.url') . '/assets/images/' . ($class_name === 'authors' ? 'no-author.' . $extension :'no-cover.' . $extension);
     }
 
