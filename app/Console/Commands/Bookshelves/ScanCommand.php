@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Illuminate\Console\Command;
-use App\Providers\MetadataExtractor\MetadataExtractorTools;
+use App\Providers\ParserEngine\ParserList;
 
 class ScanCommand extends Command
 {
@@ -49,7 +49,7 @@ class ScanCommand extends Command
         $this->alert("$app: scan all EPUB files");
         $this->warn('Scan public/storage/data/books directory');
 
-        $epubFiles = MetadataExtractorTools::getAllEpubFiles(limit: $limit);
+        $epubFiles = ParserList::getEbooks(limit: $limit);
 
         if ($verbose) {
             foreach ($epubFiles as $key => $file) {

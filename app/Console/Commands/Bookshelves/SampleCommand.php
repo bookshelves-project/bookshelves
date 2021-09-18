@@ -47,6 +47,7 @@ class SampleCommand extends Command
     public function handle(): bool
     {
         $app = config('app.name');
+        $this->newLine();
         $this->alert("$app: sample");
 
         $users = $this->option('users') ?? false;

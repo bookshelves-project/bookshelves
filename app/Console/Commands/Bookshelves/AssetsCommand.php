@@ -5,6 +5,7 @@ namespace App\Console\Commands\Bookshelves;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Models\Author;
+use App\Utils\HttpTools;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use App\Providers\WikipediaProvider;
@@ -60,7 +61,6 @@ class AssetsCommand extends Command
         $app = config('app.name');
         $this->newLine();
         $this->alert("$app: assets");
-        $this->newLine();
         if ($books) {
             $this->comment('Books (REMOVE --books|-b to skip)');
             if (! $local) {
@@ -121,7 +121,7 @@ class AssetsCommand extends Command
 
         $this->$collection($list, $collection);
 
-        $this->newLine(2);
+        $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
         $this->info("Time in seconds: $time_elapsed_secs");
 
@@ -132,14 +132,15 @@ class AssetsCommand extends Command
     {
         $local = $this->option('local') ?? false;
         if (! $local) {
-            $this->info('HTTP requests with async...');
+            $chunk = $list->chunk(HttpTools::LIMIT);
+
+            $this->info('HTTP requests with async split in 250 entities');
             $this->info('Progress bar is not available with async');
             $this->newLine();
-
-            $limit = 250;
-            $chunk = $list->chunk($limit);
+            
             foreach ($chunk as $key => $list) {
                 $providers = GoogleBookProvider::createAsync($list);
+                $this->info("Use API data for chunk $key");
                 $bar = $this->output->createProgressBar(count($list));
                 $bar->start();
                 foreach ($providers as $bookID => $provider) {
@@ -223,18 +224,20 @@ class AssetsCommand extends Command
         
         if (! $local) {
             $this->seriesAsync($list, $collection);
-        } else {
-            $bar = $this->output->createProgressBar(count($list));
-            $bar->start();
-            foreach ($list as $key => $model) {
-                SerieConverter::setTags($model);
-                if (! $default) {
-                    SerieConverter::setCover($model);
-                }
-                $bar->advance();
-            }
-            $bar->finish();
         }
+
+        $this->newLine(2);
+        $this->info('Set tags and covers');
+        $bar = $this->output->createProgressBar(count($list));
+        $bar->start();
+        foreach ($list as $key => $model) {
+            SerieConverter::setTags($model);
+            if (! $default) {
+                SerieConverter::setCover($model);
+            }
+            $bar->advance();
+        }
+        $bar->finish();
     }
 
     private function seriesAsync(Collection $list, string $collection)
