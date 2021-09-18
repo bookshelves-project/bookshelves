@@ -12,8 +12,8 @@ use App\Providers\CommonMarkProvider;
 use Illuminate\Support\Facades\Storage;
 use League\HTMLToMarkdown\HtmlConverter;
 use League\CommonMark\CommonMarkConverter;
-use App\Providers\MetadataExtractor\Parsers\CreatorParser;
-use App\Providers\MetadataExtractor\MetadataExtractorTools;
+use App\Providers\ParserEngine\ParserTools;
+use App\Providers\ParserEngine\Models\OpfCreator;
 
 /**
  * @hideFromAPIDocumentation
@@ -142,7 +142,7 @@ class WebreaderController extends Controller
 
     public static function convertXML(string $xml, string $filepath, bool $debug = false): array
     {
-        $xml = MetadataExtractorTools::XMLtoArray($xml);
+        $xml = ParserTools::XMLtoArray($xml);
         $xml = $xml['PACKAGE'];
         $cover = null;
         $manifest = $xml['MANIFEST']['ITEM'];
@@ -214,10 +214,10 @@ class WebreaderController extends Controller
             $creators = $meta['DC:CREATOR'] ?? null;
             $creators_arr = [];
             if (count($creators) == count($creators, COUNT_RECURSIVE)) {
-                array_push($creators_arr, new CreatorParser(name: $creators['content'], role: $creators['OPF:ROLE']));
+                array_push($creators_arr, new OpfCreator(name: $creators['content'], role: $creators['OPF:ROLE']));
             } else {
                 foreach ($creators as $key => $value) {
-                    array_push($creators_arr, new CreatorParser(name: $value['content'], role: $value['OPF:ROLE']));
+                    array_push($creators_arr, new OpfCreator(name: $value['content'], role: $value['OPF:ROLE']));
                 }
             }
 

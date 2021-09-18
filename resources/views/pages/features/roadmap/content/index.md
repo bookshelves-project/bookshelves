@@ -278,4 +278,6 @@ ln -s /mnt/e/WorkInProgress/ebooks/environment/books-pirates public/storage/data
 
 ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-authors public/storage/data/pictures-authors
 ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-series public/storage/data/pictures-series
+
+cmd /c mklink /J "C:\workspace\projets\bookshelves-back\public\storage\data\books\books-pirates" "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\environment\books-pirates"
 ```

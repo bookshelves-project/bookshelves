@@ -6,6 +6,8 @@ use Illuminate\Http\Client\Response;
 
 class HttpTools
 {
+    const LIMIT = 250;
+    
     /**
      * Get responses from array of URL
      *
