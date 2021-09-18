@@ -77,6 +77,7 @@ trait HasCovers
         }
         $class_name = $this->getClassName(true);
         // fix crash if conversion not exist in spatie/laravel-medialibrary
+        $cover = null;
         try {
             $cover = $this->getFirstMediaUrl($class_name, $collection);
         } catch (\Throwable $th) {
