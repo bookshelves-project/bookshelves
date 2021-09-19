@@ -29,7 +29,9 @@ class GenerateCommand extends Command
                             {--s|series : assets for series}
                             {--t|test : execute tests at the end}
                             {--l|limit= : limit epub files to generate, useful for debug}
-                            {--D|default : use default cover for all (skip covers step)}';
+                            {--D|default : use default cover for all (skip covers step)}
+                            {--C|comments : sample command for comments}
+                            {--S|selection : sample command for selection}';
 
     /**
      * The console command description.
@@ -75,6 +77,8 @@ class GenerateCommand extends Command
         $debug = $this->option('debug') ?? false;
         $test = $this->option('test') ?? false;
         $default = $this->option('default');
+        $comments = $this->option('comments') ?? false;
+        $selection = $this->option('selection') ?? false;
 
         if ($fresh) {
             $this->warn('- Option --fresh: erase current database, migrate and seed basics also clear all medias.');
@@ -105,6 +109,12 @@ class GenerateCommand extends Command
         }
         if ($default) {
             $this->warn("- Option --default: skip covers step, use default cover.");
+        }
+        if ($comments) {
+            $this->warn("- Option --comments: generate comments and favorites for fake users.");
+        }
+        if ($selection) {
+            $this->warn("- Option --selection: generate selection for home slider.");
         }
         $this->newLine();
 
@@ -151,7 +161,8 @@ class GenerateCommand extends Command
 
         Artisan::call('bookshelves:sample', [
             '--admin'     => true,
-            '--selection' => true,
+            '--selection' => $selection,
+            '--comments'  => $comments,
             '--force'     => $isForce
         ], $this->getOutput());
         

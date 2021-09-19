@@ -114,7 +114,13 @@ Route::prefix('/comments')->group(function () {
     Route::get('/{model}/{slug}', [CommentController::class, 'index'])->name('api.comments.index');
 });
 
-Route::get('/users', [UserController::class, 'users'])->name('api.users');
+/*
+ * Users routes
+ */
+Route::prefix('/users')->group(function () {
+    Route::get('/', [UserController::class, 'users'])->name('api.users');
+    Route::get('/genders', [UserController::class, 'genders'])->name('api.genders');
+});
 
 /*
  * Tags routes

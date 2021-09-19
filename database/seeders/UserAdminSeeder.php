@@ -38,8 +38,9 @@ class UserAdminSeeder extends Seeder
                 'password'                   => $userRaw['password'],
                 'about'                      => 'Super admin of plateform',
                 'use_gravatar'               => false,
-                'display_favorites'          => true,
                 'display_comments'           => true,
+                'display_favorites'          => true,
+                'display_gender'           => true,
             ]);
             $user->roles()->attach(Role::whereName(RoleEnum::USER())->first());
             $user->roles()->attach(Role::whereName(RoleEnum::ADMIN())->first());

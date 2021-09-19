@@ -59,7 +59,7 @@ class CommentableFactory extends Factory
         return [
             'text'       => implode(' ', $text),
             'rating'     => $faker->numberBetween(null, 5),
-            'created_at' => $date,
+            'created_at' => new DateTime($date),
         ];
     }
 }

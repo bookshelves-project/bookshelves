@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\RoleEnum;
+use App\Enums\GenderEnum;
 use Illuminate\Support\Str;
 use App\Models\Traits\HasAvatar;
 use Laravel\Sanctum\HasApiTokens;
@@ -35,7 +36,9 @@ class User extends Authenticatable implements HasMedia
         'use_gravatar',
         'display_favorites',
         'display_comments',
-        'about'
+        'display_gender',
+        'about',
+        'gender'
     ];
 
     /**
@@ -60,6 +63,8 @@ class User extends Authenticatable implements HasMedia
         'use_gravatar'          => 'boolean',
         'display_favorites'     => 'boolean',
         'display_comments'      => 'boolean',
+        'display_gender'        => 'boolean',
+        'gender'                => GenderEnum::class
     ];
 
     /**

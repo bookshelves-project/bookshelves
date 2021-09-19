@@ -23,9 +23,11 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('about')->nullable();
+            $table->string('gender')->default('none');
             $table->boolean('use_gravatar')->default(false);
             $table->boolean('display_favorites')->default(false);
             $table->boolean('display_comments')->default(false);
+            $table->boolean('display_gender')->default(false);
             $table->timestamps();
         });
     }

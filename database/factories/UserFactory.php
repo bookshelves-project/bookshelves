@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Team;
 use App\Models\User;
+use App\Enums\GenderEnum;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -34,6 +35,8 @@ class UserFactory extends Factory
             'use_gravatar'               => false,
             'display_favorites'          => $this->faker->boolean(),
             'display_comments'           => $this->faker->boolean(),
+            'display_gender'           => $this->faker->boolean(),
+            'gender'                     => $this->faker->randomElements(GenderEnum::toArray())[0]
         ];
     }
 

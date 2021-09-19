@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\RoleEnum;
 use Spatie\Image\Image;
+use App\Enums\GenderEnum;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Spatie\Image\Manipulations;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Enum\Laravel\Rules\EnumRule;
 use App\Http\Resources\User\UserResource;
 
 class ProfileController extends Controller
@@ -43,7 +45,9 @@ class ProfileController extends Controller
             'avatar'            => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
             'use_gravatar'      => 'required|boolean',
             'display_favorites' => 'required|boolean',
-            'display_comments'  => 'required|boolean'
+            'display_comments'  => 'required|boolean',
+            'display_gender'    => 'required|boolean',
+            'gender'            => new EnumRule(GenderEnum::class),
         ]);
 
         if ($user->name !== $request->name) {
@@ -57,6 +61,8 @@ class ProfileController extends Controller
         $user->use_gravatar = $request->use_gravatar;
         $user->display_comments = $request->display_comments;
         $user->display_favorites = $request->display_favorites;
+        $user->display_gender = $request->display_gender;
+        $user->gender = $request->gender;
         $user->save();
 
         if ($request->avatar) {

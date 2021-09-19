@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Enums\GenderEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
@@ -40,6 +41,15 @@ class UserController extends Controller
         $user = User::where('slug', $user_slug)->firstOrFail();
 
         return UserResource::make($user);
+    }
+
+    public function genders()
+    {
+        $genders = GenderEnum::toValues();
+
+        return [
+            'data' => $genders
+        ];
     }
 
     public function comments(Request $request, string $user_slug)

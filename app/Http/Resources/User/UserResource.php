@@ -20,8 +20,8 @@ class UserResource extends JsonResource
     {
         $user = UserListResource::make($this->resource)->toArray($request);
         $meta = [
-            'showComments'  => $this->resource->show_link_comments,
-            'showFavorites' => $this->resource->show_link_favorites
+            'show_comments'  => $this->resource->show_link_comments,
+            'show_favorites' => $this->resource->show_link_favorites
         ];
         $user['meta'] = array_merge($user['meta'], $meta);
 
