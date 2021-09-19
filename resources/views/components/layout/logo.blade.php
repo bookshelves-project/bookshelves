@@ -5,7 +5,7 @@
             <span class="ml-2">
                 {{ config('app.name') }}
             </span>
-            <div class="absolute bottom-0 right-4 flex items-center text-xl">
+            <div class="absolute bottom-0 right-4 flex items-center">
                 <span>
                     Features
                 </span>
