@@ -1,4 +1,4 @@
-# **I. Auth**
+## I. Auth
 
 [**laravel/sanctum**](https://github.com/laravel/sanctum): Laravel Sanctum provides a featherweight authentication system for SPAs (single page applications), mobile applications, and simple, token based APIs. Sanctum allows each user of your application to generate multiple API tokens for their account. These tokens may be granted abilities / scopes which specify which actions the tokens are allowed to perform.
 
@@ -10,7 +10,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 }
 ```
 
-## Login 419 error: "CSRF token mismatch"
+### Login 419 error: "CSRF token mismatch"
 
 ```bash
 php artisan cache:clear
@@ -20,7 +20,7 @@ php artisan view:clear
 php artisan optimize:clear
 ```
 
-# **II. API documentation**
+## II. API documentation
 
 [**knuckleswtf/scribe**](https://github.com/knuckleswtf/scribe): Scribe helps you generate API documentation for humans from your Laravel/Lumen/Dingo codebase. See a live example at [demo.scribe.knuckles.wtf](https://demo.scribe.knuckles.wtf).
 
@@ -54,15 +54,15 @@ class AuthorController extends Controller
 }
 ```
 
-## Generate documentation
+### Generate documentation
 
 ```bash
 php artisan scribe:generate
 ```
 
-# **III. Code linter**
+## III. Code linter
 
-## IDE helper
+### IDE helper
 
 [**barryvdh/laravel-ide-helper**](https://github.com/barryvdh/laravel-ide-helper): to generate magic methods for each model to help IDE completion
 
@@ -70,7 +70,7 @@ php artisan scribe:generate
 composer helper
 ```
 
-## larastan
+### larastan
 
 [**nunomaduro/larastan**](https://github.com/nunomaduro/larastan): Adds static analysis to Laravel improving developer productivity and code quality.
 
@@ -78,7 +78,7 @@ composer helper
 php artisan larastan
 ```
 
-## PHP CS Fixer
+### PHP CS Fixer
 
 [**friendsofphp/php-cs-fixer**](https://github.com/friendsofphp/php-cs-fixer): A tool to automatically fix PHP Coding Standards issues
 
@@ -86,15 +86,15 @@ php artisan larastan
 composer helper
 ```
 
-# **IV. Database and models**
+## IV. Database and models
 
 - [**fakerphp/faker**](https://github.com/fakerphp/faker): Faker is a PHP library that generates fake data for you
 
-## Enum
+### Enum
 
 [**spatie/laravel-enum**](https://github.com/spatie/laravel-enum): Laravel support for spatie/enum
 
-## Media library
+### Media library
 
 [**spatie/laravel-medialibrary**](https://github.com/spatie/laravel-medialibrary): Associate files with Eloquent models. If you update `registerMediaConversions()` in any Model, you can regenerate conversions
 
@@ -102,13 +102,13 @@ composer helper
 php artisan media-library:regenerate
 ```
 
-## Tags
+### Tags
 
 [**spatie/laravel-tags**](https://github.com/spatie/laravel-tags): Add tags and taggable behaviour to your Laravel app
 
-# **V. Tools**
+## V. Tools
 
-## Browser Sync
+### Browser Sync
 
 - [**BrowserSync/browser-sync**](https://github.com/Browsersync/browser-sync): Keep multiple browsers & devices in sync when building websites.
 
@@ -118,38 +118,38 @@ To enable or disable Browser Sync, just change variable in `.env`
 BROWSER_SYNC=true
 ```
 
-## Clockwork
+### Clockwork
 
 [**itsgoingd/clockwork**](https://github.com/itsgoingd/clockwork): Clockwork is a development tool for PHP available right in your browser. Clockwork gives you an insight into your application runtime - including request data, performance metrics, log entries, database queries, cache queries, redis commands, dispatched events, queued jobs, rendered views and more - for HTTP requests, commands, queue jobs and tests.
 
 To use Clockwork, you have to install browser extension: [**Chrome**](https://chrome.google.com/webstore/detail/clockwork/dmggabnehkmmfmdffgajcflpdjlnoemp) or [**Firefox**](https://addons.mozilla.org/en-US/firefox/addon/clockwork-dev-tools/). When it's done, just open DevTools and choose Clockwork.
 
-## CORS
+### CORS
 
 [**fruitcake/laravel-cors**](https://github.com/fruitcake/laravel-cors): Adds CORS (Cross-Origin Resource Sharing) headers support in your Laravel application
 
-## Images
+### Images
 
 - [**spatie/image**](https://github.com/spatie/image): Manipulate images with an expressive API
 - [**oscarotero/inline-svg**](https://github.com/oscarotero/inline-svg): Insert svg in the html so you can use css to change the style
 - [**spatie/laravel-image-optimizer**](https://github.com/spatie/laravel-image-optimizer): Optimize images in your Laravel app
 
-## Markdown
+### Markdown
 
 - [**thephpleague/commonmark**](https://github.com/thephpleague/commonmark): Highly-extensible PHP Markdown parser which fully supports the CommonMark and GFM specs.
 - [**spatie/commonmark-highlighter**](https://github.com/spatie/commonmark-highlighter): Highlight code blocks with league/commonmark
 - [**thephpleague/html-to-markdown**](https://github.com/thephpleague/html-to-markdown): Convert HTML to Markdown with PHP
 - [**spatie/laravel-markdown**](https://github.com/spatie/laravel-markdown): A highly configurable markdown renderer and Blade component for Laravel
 
-## XML
+### XML
 
 [**spatie/array-to-xml**](https://github.com/spatie/array-to-xml): A simple class to convert an array to xml
 
-## Routing
+### Routing
 
 [**spatie/laravel-route-attributes**](https://github.com/spatie/laravel-route-attributes): Use PHP 8 attributes to register routes in a Laravel app
 
-## Telescope
+### Telescope
 
 *Only available on `routes/web.php`*
 
@@ -166,7 +166,7 @@ TELESCOPE_ENABLED=true
 
 You can use [**laravel/telescope**](https://github.com/laravel/telescope) on the application at [**http://localhost:8000/telescope**](http://localhost:8000/telescope) if you serve project with `php artisan serve` (adapt URL if you have VHost).
 
-# **VI. Tests**
+## VI. Tests
 
 - [**phpunit.de**](https://phpunit.de): `phpunit/phpunit` package doc
 - [**pestphp.com**](https://pestphp.com): `pestphp/pest` package doc
