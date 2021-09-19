@@ -39,6 +39,12 @@ class WikiController extends Controller
             ],
             [
                 'route'      => 'features.wiki.index',
+                'parameters' => ['page' => 'dotenv'],
+                'title'      => '.env',
+                'external'   => false
+            ],
+            [
+                'route'      => 'features.wiki.index',
                 'parameters' => ['page' => 'usage'],
                 'title'      => 'Usage',
                 'external'   => false

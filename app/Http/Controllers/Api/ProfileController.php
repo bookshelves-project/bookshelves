@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\User\UserResource;
 
 class ProfileController extends Controller
 {
@@ -24,10 +25,7 @@ class ProfileController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        return [
-            'data'    => $user,
-            'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
-        ];
+        return UserResource::make($user);
     }
 
     
@@ -84,10 +82,7 @@ class ProfileController extends Controller
             ];
         }
 
-        return [
-            'data'    => $user,
-            'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
-        ];
+        return UserResource::make($user);
     }
 
     public function deleteAvatar()
@@ -97,10 +92,7 @@ class ProfileController extends Controller
 
         $user->clearMediaCollection('avatar');
 
-        return [
-            'data'    => $user,
-            'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
-        ];
+        return UserResource::make($user);
     }
 
     public function updatePassword(Request $request)

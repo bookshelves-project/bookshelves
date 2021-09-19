@@ -17,7 +17,9 @@ class FavoriteController extends Controller
     // #[Route("/api/favorites/by-user/{user}", methods: ["GET"])]
     public function byUser(int $userId)
     {
-        $favorites = Favoritable::whereUserId($userId)->orderBy('created_at', 'DESC')->get();
+        $favorites = Favoritable::whereUserId($userId)->with([
+            'favoritable'
+        ])->orderBy('created_at', 'DESC')->get();
 
         return FavoriteResource::collection($favorites);
     }

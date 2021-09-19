@@ -52,6 +52,8 @@ class Book extends Model implements HasMedia
 
     protected $with = [
         'language',
+        'authors',
+        'media'
     ];
 
     /**

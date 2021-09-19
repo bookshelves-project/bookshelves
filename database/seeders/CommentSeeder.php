@@ -7,7 +7,7 @@ use App\Models\Book;
 use App\Models\User;
 use App\Models\Serie;
 use App\Models\Author;
-use App\Models\Comment;
+use App\Models\Commentable;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
@@ -21,7 +21,7 @@ class CommentSeeder extends Seeder
     public function run()
     {
         DB::statement('SET foreign_key_checks=0');
-        Comment::truncate();
+        Commentable::truncate();
         DB::statement('SET foreign_key_checks=1');
         
         $limit = 3;
@@ -41,7 +41,7 @@ class CommentSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
         $collect->each(function ($entity, $key) use ($faker) {
-            $comments = Comment::factory()->count($faker->numberBetween(1, 5))->create();
+            $comments = Commentable::factory()->count($faker->numberBetween(1, 5))->create();
 
             foreach ($comments as $comment) {
                 $exist_comments_user_id = $entity->comments->pluck('user_id');

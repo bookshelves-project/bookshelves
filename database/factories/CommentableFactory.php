@@ -4,17 +4,17 @@ namespace Database\Factories;
 
 use DateTime;
 use App\Models\User;
-use App\Models\Comment;
+use App\Models\Commentable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CommentFactory extends Factory
+class CommentableFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Comment::class;
+    protected $model = Commentable::class;
 
     /**
      * Define the model's default state.

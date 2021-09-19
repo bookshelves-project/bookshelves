@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Comment;
+use App\Models\Commentable;
 use Illuminate\Support\Str;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +17,7 @@ class CommentResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var Comment $comment */
+        /** @var Commentable $comment */
         $comment = $this;
 
         $for = strtolower(str_replace('App\\Models\\', '', $comment->commentable_type));

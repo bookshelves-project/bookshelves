@@ -42,6 +42,8 @@ class Serie extends Model implements HasMedia
 
     protected $with = [
         'language',
+        'authors',
+        'media'
     ];
 
     public function getContentOpdsAttribute(): string

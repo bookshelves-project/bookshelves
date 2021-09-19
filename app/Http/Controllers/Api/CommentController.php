@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Auth;
 use App\Models\Book;
-use App\Models\Comment;
+use App\Models\Commentable;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,7 +27,10 @@ class CommentController extends Controller
 
     public function byUser(int $user)
     {
-        $comments = Comment::whereUserId($user)->orderBy('created_at', 'DESC')->get();
+        $comments = Commentable::whereUserId($user)->with([
+            'user',
+            'commentable',
+        ])->orderBy('created_at', 'DESC')->get();
 
         return CommentResource::collection($comments);
     }
@@ -47,7 +50,7 @@ class CommentController extends Controller
 
         $comment_text = $request->text;
         $comment_text = ParserTools::cleanText($comment_text, 'markdown', 1800);
-        $comment = Comment::create([
+        $comment = Commentable::create([
             'text'   => $comment_text,
             'rating' => $request->rating,
         ]);
@@ -55,8 +58,8 @@ class CommentController extends Controller
         $entity->comments()->save($comment);
 
         return response()->json([
-            'Success' => 'Comment created',
-            'Comment' => $comment,
+            'Success'     => 'Commentable created',
+            'Commentable' => $comment,
         ], 200);
     }
 
@@ -65,7 +68,7 @@ class CommentController extends Controller
         $book = Book::whereSlug($book)->first();
         $userId = Auth::id();
 
-        $comment = Comment::whereBookId($book->id)->whereUserId($userId)->firstOrFail();
+        $comment = Commentable::whereBookId($book->id)->whereUserId($userId)->firstOrFail();
         if (null == $comment) {
             return response()->json(['error' => 'A comment exist'], 401);
         }
@@ -78,9 +81,9 @@ class CommentController extends Controller
         $book = Book::whereSlug($book)->first();
         $userId = Auth::id();
 
-        $comment = Comment::whereBookId($book->id)->whereUserId($userId)->firstOrFail();
+        $comment = Commentable::whereBookId($book->id)->whereUserId($userId)->firstOrFail();
         if (null == $comment) {
-            return response()->json(['error' => "Comment don't exist"], 401);
+            return response()->json(['error' => "Commentable don't exist"], 401);
         }
         $comment_text = $request->text;
         $comment_text = Str::markdown($comment_text);
@@ -93,8 +96,8 @@ class CommentController extends Controller
 
     public function destroy(int $id)
     {
-        Comment::destroy($id);
+        Commentable::destroy($id);
 
-        return response()->json(['Success' => 'Comment have been deleted'], 200);
+        return response()->json(['Success' => 'Commentable have been deleted'], 200);
     }
 }

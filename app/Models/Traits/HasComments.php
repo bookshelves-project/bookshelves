@@ -2,7 +2,7 @@
 
 namespace App\Models\Traits;
 
-use App\Models\Comment;
+use App\Models\Commentable;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -13,6 +13,6 @@ trait HasComments
 {
     public function comments(): MorphMany
     {
-        return $this->morphMany(Comment::class, 'commentable')->orderBy('created_at', 'DESC');
+        return $this->morphMany(Commentable::class, 'commentable')->orderBy('created_at', 'DESC');
     }
 }

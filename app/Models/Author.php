@@ -37,6 +37,10 @@ class Author extends Model implements HasMedia
         'note',
     ];
 
+    protected $with = [
+        'media'
+    ];
+
     /**
      * Retrieve the model for a bound value.
      *

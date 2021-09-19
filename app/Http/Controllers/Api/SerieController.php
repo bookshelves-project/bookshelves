@@ -21,32 +21,6 @@ use App\Http\Resources\Serie\SerieUltraLightResource;
 class SerieController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/series",
-     *     tags={"series"},
-     *     summary="List of series",
-     *     description="Series",
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         description="Integer to choose how many books you show in each page",
-     *         required=false,
-     *         example=32,
-     *         @OA\Schema(
-     *           type="integer",
-     *           format="int64"
-     *         ),
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     * 		   @OA\JsonContent(),
-     *     )
-     * )
-     */
-
-    /**
     * GET Serie collection
     *
     * <small class="badge badge-blue">WITH PAGINATION</small>
@@ -100,42 +74,6 @@ class SerieController extends Controller
 
         return SerieLightResource::collection($series);
     }
-
-    /**
-     * @OA\Get(
-     *     path="/series/{author}/{series}",
-     *     summary="Show series by author slug and by series slug",
-     *     tags={"series"},
-     *     description="Get details for a single series with list of books, check /series endpoint to get list of slugs",
-     *     operationId="findAuthorByAuthorSlug",
-     *     @OA\Parameter(
-     *         name="author",
-     *         in="path",
-     *         description="Slug of author name like 'lovecraft-howard-phillips' for Howard Phillips Lovecraft",
-     *         required=true,
-     *         example="lovecraft-howard-phillips",
-     *         style="form"
-     *     ),
-     *     @OA\Parameter(
-     *         name="series",
-     *         in="path",
-     *         description="Slug of book name like 'cthulhu-le-mythe-fr' for Cthulhu : Le Mythe",
-     *         required=true,
-     *         example="cthulhu-le-mythe-fr",
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="successful operation",
-     *         @OA\JsonContent(),
-     *     ),
-     *     @OA\Response(
-     *         response="404",
-     *         description="Invalid author-slug value or book-slug value",
-     *         @OA\JsonContent(),
-     *     ),
-     * )
-     */
 
     /**
     * GET Serie resource

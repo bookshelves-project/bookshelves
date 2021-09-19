@@ -141,6 +141,6 @@ class User extends Authenticatable implements HasMedia
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Commentable::class);
     }
 }
