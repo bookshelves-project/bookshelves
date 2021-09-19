@@ -134,7 +134,7 @@ class AssetsCommand extends Command
         if (! $local) {
             $chunk = $list->chunk(HttpTools::LIMIT);
 
-            $this->info('HTTP requests with async split in 250 entities');
+            $this->info('HTTP requests with async split in 250 entities of '.sizeof($chunk).' chunks.');
             $this->info('Progress bar is not available with async');
             $this->newLine();
             

@@ -150,6 +150,13 @@ Route::prefix('/users')->group(function () {
 });
 
 /*
+ * Favorites routes
+ */
+Route::prefix('/favorites')->group(function () {
+    Route::get('/by-user/{user:id}', [FavoriteController::class, 'byUser'])->name('api.favorites.by-user');
+});
+
+/*
  * Users features routes
  */
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -157,7 +164,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
      * Favorites routes
      */
     Route::prefix('/favorites')->group(function () {
-        Route::get('/by-user/{user:id}', [FavoriteController::class, 'byUser'])->name('api.favorites.by-user');
         Route::post('/toggle/{model}/{slug}', [FavoriteController::class, 'toggle'])->name('api.favorites.toggle');
     });
 

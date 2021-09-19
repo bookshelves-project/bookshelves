@@ -7,11 +7,11 @@ use App\Models\Book;
 use Spatie\Tags\Tag;
 use App\Models\Serie;
 use App\Models\Author;
-use App\Models\Comment;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\GoogleBook;
 use App\Models\Identifier;
+use App\Models\Commentable;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -75,7 +75,7 @@ class DatabaseCommand extends Command
         $this->clearAllMediaCollection();
 
         $this->newLine();
-        $this->alert('Clear Bookshelves data...');
+        $this->alert('Clear ' . config('app.name') . ' data...');
         $this->clearTables();
         $this->newLine();
     }
@@ -140,8 +140,8 @@ class DatabaseCommand extends Command
         Language::truncate();
         $this->info('Truncate identifiers table');
         Identifier::truncate();
-        $this->info('Truncate comments table');
-        Comment::truncate();
+        $this->info('Truncate commentables table');
+        Commentable::truncate();
         $this->info('Truncate google_books table');
         GoogleBook::truncate();
         $this->info('Truncate tags table');

@@ -30,29 +30,16 @@ return [
      * If a lang is not here, ParserEngine will create lang from meta
      * Like a book in English with Calibre, meta will be `en`, the engine create `En` lang if not exist
      */
-    'langs' => explode(',', env('BOOKSHELVES_LANGS', [
-        'fr'      => 'French',
-        'en'      => 'English',
-    ])),
+    'langs' => explode(',', env('BOOKSHELVES_LANGS', 'fr.French,en.English')),
     /**
      * Tags
      * From Wikipedia: https://en.wikipedia.org/wiki/List_of_writing_genres.
      * Any tag add here will be used as 'genre'
      */
     'tags' => [
-        'genres_list' => explode(',', env('BOOKSHELVES_TAGS_GENRES', [
-            'Action & adventures',
-            'Crime & mystery',
-            'Fantasy',
-            'Horror',
-            'Romance',
-            'Science fiction',
-        ])),
-        'forbidden' => explode(',', env('BOOKSHELVES_TAGS_FORBIDDEN', [
-            'SF',
-            'General',
-        ])),
-        'converted' => [
+        'genres_list' => explode(',', env('BOOKSHELVES_TAGS_GENRES', "Action & adventures,Crime & mystery,Fantasy,Horror,Romance,Science fiction")),
+        'forbidden'   => explode(',', env('BOOKSHELVES_TAGS_FORBIDDEN', "SF,General")),
+        'converted'   => [
             'Action & Adventure' => 'Action & adventures',
         ]
     ],

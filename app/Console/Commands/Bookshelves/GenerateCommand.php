@@ -113,7 +113,7 @@ class GenerateCommand extends Command
             $this->newLine();
         }
 
-        $isProd = 'production' === config('app.env') ? true : false;
+        $isProd = 'local' !== config('app.env') ? true : false;
         if ($isProd && ! $isForce) {
             if (! $this->confirm('You are in production environement, do you want really continue?')) {
                 return;
