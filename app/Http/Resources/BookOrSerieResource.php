@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Author\AuthorUltraLightResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookOrSerieResource extends JsonResource
 {
@@ -23,16 +23,16 @@ class BookOrSerieResource extends JsonResource
             'meta' => [
                 'entity' => $entity,
                 'author' => $this->resource->meta_author,
-                'slug'   => $this->resource->slug,
+                'slug' => $this->resource->slug,
             ],
-            'title'   => $this->resource->title,
+            'title' => $this->resource->title,
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
-            'volume'  => $this->resource->volume ? $this->resource->volume : null,
-            'cover'   => [
-                'thumbnail'      => $this->resource->cover_thumbnail,
-                'original'       => $this->resource->cover_original,
-                'og'             => $this->resource->cover_og,
-                'color'          => $this->resource->cover_color,
+            'volume' => $this->resource->volume ? $this->resource->volume : null,
+            'cover' => [
+                'thumbnail' => $this->resource->cover_thumbnail,
+                'original' => $this->resource->cover_original,
+                'og' => $this->resource->cover_og,
+                'color' => $this->resource->cover_color,
             ],
         ];
     }

@@ -26,10 +26,11 @@ class MediaTools
             $collection = $this->disk;
         }
         $method = $this->method;
-        $this->model->$method($data)
+        $this->model->{$method}($data)
             ->setName($this->name)
-            ->setFileName($this->name . '.' . $extension)
-            ->toMediaCollection($collection, $this->disk);
+            ->setFileName($this->name.'.'.$extension)
+            ->toMediaCollection($collection, $this->disk)
+        ;
         $this->model->refresh();
     }
 
@@ -39,7 +40,7 @@ class MediaTools
             $collection = $this->disk;
         }
         $image = $this->model->getFirstMediaPath($collection);
-        
+
         $color = ImageProvider::simple_color_thief($image);
         $media = $this->model->getFirstMedia($collection);
         $media->setCustomProperty('color', $color);

@@ -20,6 +20,7 @@
   - [*a. Dependencies*](#a-dependencies)
   - [*b. Setup*](#b-setup)
 - [**Usage**](#usage)
+- [**Tests**](#tests)
 
 ## **Setup**
 
@@ -58,3 +59,21 @@ php artisan setup
 ## **Usage**
 
 To get full documentation, you can read [**Wiki of Bookshelves**](https://bookshelves.ink/wiki), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/blob/master/resources/views/pages/wiki/content) on repository.
+
+## **Tests**
+
+```bash
+cp .env.testing.example .env.testing
+```
+
+```bash
+php artisan migrate --env=testing
+```
+
+```bash
+php artisan test
+```
+
+```bash
+phpunit-watcher watch
+```

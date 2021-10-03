@@ -20,10 +20,10 @@ class PublisherLightResource extends JsonResource
         $publisher = $this;
 
         return [
-            'name'  => $publisher->name,
+            'name' => $publisher->name,
             'count' => $publisher->books()->count(),
-            'meta'  => [
-                'slug'  => $publisher->slug,
+            'meta' => [
+                'slug' => $publisher->slug,
                 'books' => route('api.publishers.show.books', [
                     'publisher' => $this->resource->slug,
                 ]),

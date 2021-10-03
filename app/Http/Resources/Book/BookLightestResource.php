@@ -20,14 +20,14 @@ class BookLightestResource extends JsonResource
     {
         return [
             'title' => $this->resource->title,
-            'meta'  => [
-                'slug'   => $this->resource->slug,
+            'meta' => [
+                'slug' => $this->resource->slug,
                 'author' => $this->resource->meta_author,
-                'show'   => $this->resource->show_link,
+                'show' => $this->resource->show_link,
             ],
             'cover' => [
-                'thumbnail'  => $this->resource->cover_thumbnail,
-                'color'      => $this->resource->cover_color,
+                'thumbnail' => $this->resource->cover_thumbnail,
+                'color' => $this->resource->cover_color,
             ],
             'serie' => $this->resource->serie?->title,
         ];

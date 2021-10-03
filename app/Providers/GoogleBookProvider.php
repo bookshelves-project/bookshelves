@@ -2,21 +2,20 @@
 
 namespace App\Providers;
 
-use DateTime;
 use App\Models\Book;
-use App\Utils\HttpTools;
-use App\Models\Publisher;
 use App\Models\GoogleBook;
 use App\Models\Identifier;
+use App\Models\Publisher;
 use App\Utils\BookshelvesTools;
-use Illuminate\Support\Collection;
+use App\Utils\HttpTools;
+use DateTime;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 /**
- * @method $this create() get Google Book API data from ISBN or ISBN13
+ * @method $this create()  get Google Book API data from ISBN or ISBN13
  * @method $this convert() Create GoogleBook
- * @package App\Providers
  */
 class GoogleBookProvider
 {
@@ -40,9 +39,8 @@ class GoogleBookProvider
     }
 
     /**
-     * Async Google Book API calls
+     * Async Google Book API calls.
      *
-     * @param Collection $books
      * @return GoogleBookProvider[]
      */
     public static function createAsync(Collection $books): array
@@ -53,13 +51,13 @@ class GoogleBookProvider
             $urlList[$book->id] = $url;
         }
         $responses = HttpTools::async($urlList);
-        
+
         $providers = [];
         foreach ($responses as $bookID => $response) {
             $provider = self::setData($response);
             $providers[$bookID] = $provider;
         }
-        
+
         return $providers;
     }
 
@@ -85,13 +83,13 @@ class GoogleBookProvider
 
         return $provider;
     }
-    
+
     public static function setIsbn(Book $book): string|false
     {
         $identifier = $book->identifier;
         $original_isbn = $identifier->isbn ?? null;
         $original_isbn13 = $identifier->isbn13 ?? null;
-        
+
         $isbn = null;
         $url = false;
         if ($original_isbn13) {
@@ -100,9 +98,9 @@ class GoogleBookProvider
             $isbn = $original_isbn;
         }
         if ($isbn) {
-            $url = "https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn";
+            $url = "https://www.googleapis.com/books/v1/volumes?q=isbn:{$isbn}";
         }
-        
+
         return $url;
     }
 
@@ -153,27 +151,25 @@ class GoogleBookProvider
     }
 
     /**
-     * Create GoogleBook
+     * Create GoogleBook.
      */
     public function convert(): GoogleBook
     {
-        $googleBook = GoogleBook::create([
-            'date'                       => $this->date,
-            'description'                => $this->description,
-            'industry_identifiers'       => json_encode($this->industry_identifiers),
-            'page_count'                 => $this->page_count,
-            'categories'                 => json_encode($this->categories),
-            'maturity_rating'            => $this->maturity_rating,
-            'language'                   => $this->language,
-            'preview_link'               => $this->preview_link,
-            'publisher'                  => $this->publisher,
-            'retail_price_amount'        => $this->retail_price_amount,
+        return GoogleBook::create([
+            'date' => $this->date,
+            'description' => $this->description,
+            'industry_identifiers' => json_encode($this->industry_identifiers),
+            'page_count' => $this->page_count,
+            'categories' => json_encode($this->categories),
+            'maturity_rating' => $this->maturity_rating,
+            'language' => $this->language,
+            'preview_link' => $this->preview_link,
+            'publisher' => $this->publisher,
+            'retail_price_amount' => $this->retail_price_amount,
             'retail_price_currency_code' => $this->retail_price_currency_code,
-            'buy_link'                   => $this->buy_link,
-            'isbn'                       => $this->isbn,
-            'isbn13'                     => $this->isbn13,
+            'buy_link' => $this->buy_link,
+            'isbn' => $this->isbn,
+            'isbn13' => $this->isbn13,
         ]);
-
-        return $googleBook;
     }
 }

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Webreader;
 
-use ZipArchive;
-use DOMDocument;
-use App\Models\Book;
-use App\Models\Author;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
+use App\Models\Author;
+use App\Models\Book;
 use App\Providers\CommonMarkProvider;
-use Illuminate\Support\Facades\Storage;
-use League\HTMLToMarkdown\HtmlConverter;
-use League\CommonMark\CommonMarkConverter;
-use App\Providers\ParserEngine\ParserTools;
 use App\Providers\ParserEngine\Models\OpfCreator;
+use App\Providers\ParserEngine\ParserTools;
+use DOMDocument;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use League\CommonMark\CommonMarkConverter;
+use League\HTMLToMarkdown\HtmlConverter;
+use ZipArchive;
 
 /**
  * @hideFromAPIDocumentation
@@ -26,7 +26,7 @@ class WebreaderController extends Controller
         $cover = $random_book->getCoverThumbnailAttribute();
         $route = route('features.webreader.cover', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
 
-        $markdown = CommonMarkProvider::generate("webreader/content/index.md");
+        $markdown = CommonMarkProvider::generate('webreader/content/index.md');
         $content = $markdown->content;
 
         return view('pages.features.webreader.index', compact('random_book', 'cover', 'route', 'content'));
@@ -38,12 +38,12 @@ class WebreaderController extends Controller
         $book = Book::whereHas('authors', function ($query) use ($author) {
             return $query->where('author_id', '=', $author->id);
         })->whereSlug($book)->firstOrFail();
-        
+
         $cover = $book->cover_original;
-        
+
         $title = $book->title;
-        $title .= $book->serie ? ' (' . $book->serie->title . ', vol. ' . $book->volume . ')' : '';
-        $title .= ' by ' . $book->authors_names;
+        $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';
+        $title .= ' by '.$book->authors_names;
 
         $open = route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
 
@@ -59,28 +59,28 @@ class WebreaderController extends Controller
 
         $page = intval($page);
 
-        $title = 'Page ' . $page . ' in ';
+        $title = 'Page '.$page.' in ';
         $title .= $book->title;
-        $title .= $book->serie ? ' (' . $book->serie->title . ', vol. ' . $book->volume . ')' : null;
-        $title .= ' by ' . $book->authors_names;
+        $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : null;
+        $title .= ' by '.$book->authors_names;
 
         $bookTitle = $book->title;
-        $bookSerie = $book->serie ? $book->serie->title . ', vol. ' . $book->volume : '';
+        $bookSerie = $book->serie ? $book->serie->title.', vol. '.$book->volume : '';
         $bookAuthors = $book->authors_names;
 
         $epub_path = $book->getFirstMediaPath('epubs');
         $epub_file = $book->getFirstMedia('epubs');
 
-        $disk = public_path('storage/cache/' . $book->slug);
-        $is_exist = File::exists('storage/webreader/' . $epub_file->file_name);
+        $disk = public_path('storage/cache/'.$book->slug);
+        $is_exist = File::exists('storage/webreader/'.$epub_file->file_name);
         if (! $is_exist) {
             $metadata = self::parseXMLFile($epub_path, $disk, true);
-        } elseif (sizeof(File::allFiles('storage/webreader/' . $epub_file->file_name)) <= 0) {
+        } elseif (sizeof(File::allFiles('storage/webreader/'.$epub_file->file_name)) <= 0) {
             $metadata = self::parseXMLFile($epub_path, $disk, true);
         }
 
-        $webreader_files = 'storage/webreader/' . $epub_file->file_name . '/';
-        $filePath = $webreader_files . $page . '.md';
+        $webreader_files = 'storage/webreader/'.$epub_file->file_name.'/';
+        $filePath = $webreader_files.$page.'.md';
         if (! File::exists($filePath)) {
             return redirect()->route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
         }
@@ -90,7 +90,7 @@ class WebreaderController extends Controller
         $current_page_content = $file;
         $converter = new CommonMarkConverter();
         $current_page_content = $converter->convertToHtml($current_page_content);
-        
+
         $next_page = request()->page + 1;
         if ($next_page > $max_pages) {
             $next_page = null;
@@ -105,7 +105,7 @@ class WebreaderController extends Controller
         $prev = $previous_page ? route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $previous_page]) : null;
         $last = route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => $max_pages]);
         $first = route('features.webreader.page', ['author' => request()->author, 'book' => request()->book, 'page' => 1]);
-        
+
         return view('pages.features.webreader.page', compact('current_page_content', 'page', 'next', 'prev', 'last', 'first', 'title', 'bookTitle', 'bookSerie', 'bookAuthors'));
     }
 
@@ -119,7 +119,7 @@ class WebreaderController extends Controller
         $xml_string = '';
 
         // extract .opf file
-        for ($i = 0; $i < $zip->numFiles; $i++) {
+        for ($i = 0; $i < $zip->numFiles; ++$i) {
             $file = $zip->statIndex($i);
             if (strpos($file['name'], '.opf')) {
                 $xml_string = $zip->getFromName($file['name']);
@@ -129,7 +129,7 @@ class WebreaderController extends Controller
         // Transform XML to Array
         $metadata = self::convertXML(xml: $xml_string, filepath: $filepath, debug: $debug);
 
-        for ($i = 0; $i < $zip->numFiles; $i++) {
+        for ($i = 0; $i < $zip->numFiles; ++$i) {
             $file = $zip->statIndex($i);
             $cover = $zip->getFromName($metadata['cover']['file']);
         }
@@ -156,6 +156,7 @@ class WebreaderController extends Controller
         $title = pathinfo($filepath)['basename'];
 
         $manifest = [];
+
         try {
             $meta = $xml['MANIFEST'];
 
@@ -170,11 +171,11 @@ class WebreaderController extends Controller
             }
 
             try {
-                Storage::disk('public')->makeDirectory("/webreader/$title");
+                Storage::disk('public')->makeDirectory("/webreader/{$title}");
                 $i = 0;
                 foreach ($manifest as $key => $value) {
-                    $d = new DOMDocument;
-                    $mock = new DOMDocument;
+                    $d = new DOMDocument();
+                    $mock = new DOMDocument();
                     libxml_use_internal_errors(true);
                     $d->loadHTML($value['CONTENT']);
                     libxml_clear_errors();
@@ -183,7 +184,7 @@ class WebreaderController extends Controller
                         $mock->appendChild($mock->importNode($child, true));
                     }
                     $file = $mock->saveHTML();
-                    $file = preg_replace("/<img[^>]+\>/i", '', $file);
+                    $file = preg_replace('/<img[^>]+\\>/i', '', $file);
                     $file = str_replace('&nbsp;', '', $file);
 
                     $converter = new HtmlConverter();
@@ -193,11 +194,11 @@ class WebreaderController extends Controller
                     $markdown = str_replace('* *', '', $markdown);
                     $markdown = str_replace('**', '', $markdown);
 
-                    $is_not_empty = $markdown != '';
+                    $is_not_empty = '' != $markdown;
 
-                    if ($value['MEDIA-TYPE'] === 'application/xhtml+xml' && $value['ID'] !== 'titlepage' && $is_not_empty) {
-                        $i++;
-                        Storage::disk('public')->put("/webreader/$title/$i.md", $markdown);
+                    if ('application/xhtml+xml' === $value['MEDIA-TYPE'] && 'titlepage' !== $value['ID'] && $is_not_empty) {
+                        ++$i;
+                        Storage::disk('public')->put("/webreader/{$title}/{$i}.md", $markdown);
                     }
                 }
             } catch (\Throwable $th) {
@@ -209,6 +210,7 @@ class WebreaderController extends Controller
         }
 
         $metadata = [];
+
         try {
             $meta = $xml['METADATA'];
             $creators = $meta['DC:CREATOR'] ?? null;
@@ -240,7 +242,7 @@ class WebreaderController extends Controller
                 // More than one identifier
                 if (is_numeric($key)) {
                     array_push($identifiers_arr, [
-                        'id'    => $value['OPF:SCHEME'],
+                        'id' => $value['OPF:SCHEME'],
                         'value' => $value['content'],
                     ]);
                 } else {
@@ -277,26 +279,26 @@ class WebreaderController extends Controller
             }
 
             $cover = [
-                'file'      => $cover['HREF'] ?? null,
+                'file' => $cover['HREF'] ?? null,
                 'extension' => pathinfo($cover['HREF'], PATHINFO_EXTENSION) ?? null,
             ];
 
             $metadata = [
-                'title'       => $meta['DC:TITLE'],
-                'creators'    => $creators_arr,
+                'title' => $meta['DC:TITLE'],
+                'creators' => $creators_arr,
                 'contributor' => $contributors,
                 'description' => $meta['DC:DESCRIPTION'] ?? null,
-                'date'        => $meta['DC:DATE'] ?? null,
+                'date' => $meta['DC:DATE'] ?? null,
                 'identifiers' => $identifiers_arr,
-                'publisher'   => $meta['DC:PUBLISHER'] ?? null,
-                'subjects'    => $subjects_arr,
-                'language'    => $meta['DC:LANGUAGE'] ?? null,
-                'rights'      => $meta['DC:RIGHTS'] ?? null,
-                'serie'       => $serie,
-                'volume'      => $volume,
-                'cover'       => $cover,
-                'manifest'    => $manifest,
-                'file'        => $title
+                'publisher' => $meta['DC:PUBLISHER'] ?? null,
+                'subjects' => $subjects_arr,
+                'language' => $meta['DC:LANGUAGE'] ?? null,
+                'rights' => $meta['DC:RIGHTS'] ?? null,
+                'serie' => $serie,
+                'volume' => $volume,
+                'cover' => $cover,
+                'manifest' => $manifest,
+                'file' => $title,
             ];
         } catch (\Throwable $th) {
             dump($th);

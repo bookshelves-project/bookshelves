@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Catalog;
 
-use App\Models\Serie;
-use App\Models\Author;
-use Illuminate\Http\Request;
-use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Serie\SerieResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Search\SearchSerieResource;
+use App\Http\Resources\Serie\SerieResource;
+use App\Models\Author;
+use App\Models\Serie;
+use App\Utils\BookshelvesTools;
+use Illuminate\Http\Request;
 
 /**
  * @hideFromAPIDocumentation

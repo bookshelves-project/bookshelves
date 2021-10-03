@@ -8,8 +8,6 @@ class Header extends Component
 {
     /**
      * Create a new component instance.
-     *
-     * @return void
      */
     public function __construct(
         public $title
@@ -19,7 +17,7 @@ class Header extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return \Closure|\Illuminate\Contracts\View\View|string
      */
     public function render()
     {

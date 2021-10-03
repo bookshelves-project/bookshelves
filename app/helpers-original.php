@@ -13,6 +13,7 @@ if (! function_exists('image_cache')) {
      *
      * @param $path
      * @param $size
+     * @param mixed $method
      *
      * @return string
      */
@@ -25,7 +26,7 @@ if (! function_exists('image_cache')) {
         $thumbnail = get_thumbnail($path, $size);
 
         if (! $thumbnail['resolved']) {
-            return asset("cache/resolve/$method/$size/$path");
+            return asset("cache/resolve/{$method}/{$size}/{$path}");
         }
 
         return asset($thumbnail['filepath']);
@@ -38,13 +39,14 @@ if (! function_exists('get_thumbnail')) {
      *
      * @param $path
      * @param $size
+     * @param mixed $crop
      *
      * @return array
      */
     function get_thumbnail($path, $size, $crop = true)
     {
-        $filename = md5("$size/$path") . '.' . pathinfo($path, PATHINFO_EXTENSION);
-        $thumbnailPath = "storage/cache/$filename";
+        $filename = md5("{$size}/{$path}").'.'.pathinfo($path, PATHINFO_EXTENSION);
+        $thumbnailPath = "storage/cache/{$filename}";
 
         return [
             'resolved' => file_exists($thumbnailPath),

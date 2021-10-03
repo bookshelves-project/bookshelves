@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Catalog;
 
-use Jenssegers\Agent\Agent;
-use Illuminate\Http\Request;
-use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
 use App\Providers\CommonMarkProvider;
+use App\Utils\BookshelvesTools;
+use Illuminate\Http\Request;
+use Jenssegers\Agent\Agent;
 
 /**
  * @hideFromAPIDocumentation
@@ -15,13 +15,14 @@ class CatalogController extends Controller
 {
     public function index(Request $request)
     {
-        $markdown = CommonMarkProvider::generate("catalog/content/index.md");
+        $markdown = CommonMarkProvider::generate('catalog/content/index.md');
         $content = $markdown->content;
 
         $agent = new Agent();
         if ($agent->isDesktop()) {
             return view('pages.features.catalog.index', compact('content'));
         }
+
         return redirect(route('features.catalog.search'));
     }
 

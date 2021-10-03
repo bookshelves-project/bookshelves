@@ -22,8 +22,6 @@ class LogClearCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -36,7 +34,7 @@ class LogClearCommand extends Command
     public function handle(): bool
     {
         $logFileName = $this->argument('name');
-        shell_exec("truncate -s 0 ./storage/logs/$logFileName.log");
+        shell_exec("truncate -s 0 ./storage/logs/{$logFileName}.log");
 
         return true;
     }

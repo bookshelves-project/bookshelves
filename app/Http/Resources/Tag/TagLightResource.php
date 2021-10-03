@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Tag;
 
+use App\Enums\CountSizeEnum;
 use App\Models\Book;
 use App\Models\TagExtend;
-use App\Enums\CountSizeEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -55,12 +55,12 @@ class TagLightResource extends JsonResource
         $type = $this->resource->type;
 
         return [
-            'name'  => $this->resource->name,
-            'type'  => $this->resource->type,
+            'name' => $this->resource->name,
+            'type' => $this->resource->type,
             'count' => $count,
             // 'size' => $size,
             'meta' => [
-                'slug'  => $this->resource->slug,
+                'slug' => $this->resource->slug,
                 'books' => route('api.tags.show.books', [
                     'tag' => $this->resource->slug,
                 ]),

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 /**
  * @group Count
@@ -13,12 +13,12 @@ use App\Http\Controllers\Controller;
 class CountController extends Controller
 {
     /**
-    * GET Count
-    *
-    * Get count of entities for a selected collection. Available for Book, Serie and Author.
-    *
-    * @queryParam entity required filters[book,serie,author] To get count for an entity. Example: book
-    */
+     * GET Count.
+     *
+     * Get count of entities for a selected collection. Available for Book, Serie and Author.
+     *
+     * @queryParam entity required filters[book,serie,author] To get count for an entity. Example: book
+     */
     public function count(Request $request)
     {
         $entity = $request->get('entity');
@@ -26,7 +26,7 @@ class CountController extends Controller
         $entityParameters = ['book', 'serie', 'author'];
         if (! $entity && ! in_array($entity, $entityParameters)) {
             return response()->json(
-                "Invalid 'entity' query parameter, must be like '" . implode("' or '", $entityParameters) . "'",
+                "Invalid 'entity' query parameter, must be like '".implode("' or '", $entityParameters)."'",
                 400
             );
         }
@@ -36,12 +36,12 @@ class CountController extends Controller
         $langParameters = ['fr', 'en'];
         if ($lang && ! in_array($lang, $langParameters)) {
             return response()->json(
-                "Invalid 'lang' query parameter, must be like '" . implode("' or '", $langParameters) . "'",
+                "Invalid 'lang' query parameter, must be like '".implode("' or '", $langParameters)."'",
                 400
             );
         }
 
-        $model_name = 'App\Models\\' . ucfirst($entity);
+        $model_name = 'App\Models\\'.ucfirst($entity);
         $entities_count = 0;
 
         try {

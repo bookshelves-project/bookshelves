@@ -2,15 +2,13 @@
 
 namespace App\View\Components\Layout;
 
-use Illuminate\View\Component;
 use Illuminate\Foundation\Application;
+use Illuminate\View\Component;
 
 class Footer extends Component
 {
     /**
      * Create a new component instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -20,13 +18,13 @@ class Footer extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return \Closure|\Illuminate\Contracts\View\View|string
      */
     public function render()
     {
         $currentYear = date('Y');
         $beginYear = 2020;
-        $date = "$beginYear - $currentYear";
+        $date = "{$beginYear} - {$currentYear}";
         if ($beginYear === $currentYear) {
             $date = $beginYear;
         }

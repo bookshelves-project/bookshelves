@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Spatie\Tags\Tag;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\Tags\Tag;
 
 class TagExtend extends Tag
 {

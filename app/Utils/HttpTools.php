@@ -6,10 +6,10 @@ use Illuminate\Http\Client\Response;
 
 class HttpTools
 {
-    const LIMIT = 250;
-    
+    public const LIMIT = 250;
+
     /**
-     * Get responses from array of URL
+     * Get responses from array of URL.
      *
      * @return Response[]
      */
@@ -41,13 +41,27 @@ class HttpTools
     }
 
     /**
-     * Get responses from array of URL
+     * Get query URL from Response.
+     */
+    public static function getQueryFromResponse(Response $response): string
+    {
+        $uri = $response->transferStats->getRequest()->getUri();
+        $scheme = $uri->getScheme();
+        $host = $uri->getHost();
+        $path = $uri->getPath();
+        $query = $uri->getQuery();
+
+        return "{$scheme}://{$host}{$path}?{$query}";
+    }
+
+    /**
+     * Get responses from array of URL.
      *
      * @return Response[]
      */
     private static function asyncQuery(array $urlList): array
     {
-        $urlList = array_filter($urlList, fn ($value) => ! is_null($value) && $value !== '');
+        $urlList = array_filter($urlList, fn ($value) => ! is_null($value) && '' !== $value);
         $urlList = collect($urlList);
         $pool = function (\Illuminate\Http\Client\Pool $pool) use ($urlList) {
             foreach ($urlList as $id => $url) {
@@ -55,6 +69,7 @@ class HttpTools
                     $arrayPools[] = $pool->as($id)->get($url);
                 }
             }
+
             return $arrayPools;
         };
         $responses = \Illuminate\Support\Facades\Http::pool($pool);
@@ -66,23 +81,5 @@ class HttpTools
         }
 
         return $responses_keep;
-    }
-    
-    /**
-     * Get query URL from Response
-     * @param Response $response
-     * @return string
-     */
-    public static function getQueryFromResponse(Response $response): string
-    {
-        $uri = $response->transferStats->getRequest()->getUri();
-        $scheme = $uri->getScheme();
-        $host = $uri->getHost();
-        $path = $uri->getPath();
-        $query = $uri->getQuery();
-
-        $url = "$scheme://$host$path?$query";
-
-        return $url;
     }
 }

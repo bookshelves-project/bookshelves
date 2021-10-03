@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * Manage comments with `MorphToMany` `comments`
+ * Manage comments with `MorphToMany` `comments`.
  */
 trait HasComments
 {

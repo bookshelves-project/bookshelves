@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
 use App\Providers\ConverterEngine\TagConverter;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Str;
 
 class GoogleBook extends Model
 {
@@ -27,7 +27,7 @@ class GoogleBook extends Model
     ];
 
     /**
-     * Add more data to Book from GoogleBook
+     * Add more data to Book from GoogleBook.
      */
     public function improveBookData(Book $book)
     {
@@ -71,7 +71,7 @@ class GoogleBook extends Model
     public function testAttribute($attribute)
     {
         if (empty($this->book->attribute)) {
-            $this->book->$attribute = $this->$attribute;
+            $this->book->{$attribute} = $this->{$attribute};
         }
     }
 

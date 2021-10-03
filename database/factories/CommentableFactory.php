@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use DateTime;
-use App\Models\User;
 use App\Models\Commentable;
+use App\Models\User;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CommentableFactory extends Factory
@@ -34,31 +34,31 @@ class CommentableFactory extends Factory
             $faker->dateTimeBetween('-6 month', '-1 month', 'Europe/Paris'),
             $faker->dateTimeBetween('-2 year', '-1 year', 'Europe/Paris'),
             $faker->dateTimeBetween('-8 year', '-5 year', 'Europe/Paris'),
-            $faker->dateTime
+            $faker->dateTime,
         ];
         $datetime = $faker->randomElements($random_datetime);
 
         $text = [
             $faker->paragraph($faker->numberBetween(2, 10), true),
-            $faker->paragraph($faker->numberBetween(2, 10), true)
+            $faker->paragraph($faker->numberBetween(2, 10), true),
         ];
         $text = implode('<br>', $text);
         $text = explode(' ', $text);
         foreach ($text as $key => $word) {
             if (! strpos($word, '.')) {
-                if ($key % 8 === 0) {
-                    $text[$key] = "*$word*";
+                if (0 === $key % 8) {
+                    $text[$key] = "*{$word}*";
                 }
-                if ($key % 9 === 0) {
-                    $text[$key] = "**$word**";
+                if (0 === $key % 9) {
+                    $text[$key] = "**{$word}**";
                 }
             }
         }
         $date = $datetime[0]->format('Y-m-d H:i:s');
 
         return [
-            'text'       => implode(' ', $text),
-            'rating'     => $faker->numberBetween(null, 5),
+            'text' => implode(' ', $text),
+            'rating' => $faker->numberBetween(null, 5),
             'created_at' => new DateTime($date),
         ];
     }

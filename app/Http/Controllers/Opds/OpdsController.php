@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Opds;
 
-use File;
-use Route;
 use App\Enums\EntitiesEnum;
-use Illuminate\Http\Request;
-use App\Providers\OpdsProvider;
 use App\Http\Controllers\Controller;
 use App\Providers\CommonMarkProvider;
+use App\Providers\OpdsProvider;
+use File;
+use Illuminate\Http\Request;
+use Route;
 
 /**
  * @hideFromAPIDocumentation
@@ -17,7 +17,7 @@ class OpdsController extends Controller
 {
     public function index(Request $request)
     {
-        $markdown = CommonMarkProvider::generate("opds/content/index.md");
+        $markdown = CommonMarkProvider::generate('opds/content/index.md');
         $content = $markdown->content;
 
         $feeds = [
@@ -26,7 +26,7 @@ class OpdsController extends Controller
                 'param' => 'v1.2',
             ],
         ];
-        
+
         return view('pages.features.opds.index', compact('content', 'feeds'));
     }
 
@@ -35,10 +35,10 @@ class OpdsController extends Controller
         $feed = File::get(app_path('Providers/OPDS/feed.json'));
         $feed = (array) json_decode($feed);
         foreach ($feed as $key => $value) {
-            $model_name = 'App\Models\\' . ucfirst($value->model);
-            $value->cover_thumbnail = config('app.url') . '/assets/opds/opds/' . $value->key . '.png';
+            $model_name = 'App\Models\\'.ucfirst($value->model);
+            $value->cover_thumbnail = config('app.url').'/assets/opds/opds/'.$value->key.'.png';
             $value->route = route($value->route, ['version' => $version]);
-            $value->content = $model_name::count() . ' ' . $value->content;
+            $value->content = $model_name::count().' '.$value->content;
         }
         $feed = collect($feed);
 

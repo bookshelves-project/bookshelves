@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use File;
 use Route;
-use App\Http\Controllers\Controller;
 
 /**
  * @hideFromAPIDocumentation
@@ -96,26 +96,24 @@ class ApiController extends Controller
         $composerJson = json_decode($composerJson);
 
         return response()->json([
-            'name'                 => config('app.name') . ' API',
-            'version'              => $composerJson->version,
-            'routes'               => [
-                'catalog'              => $this->getRouteData('features.catalog.index', 'UI for eReader browser to get eBooks on it.'),
-                'opds'                 => $this->getRouteData('features.opds.index', 'OPDS API for application which use it.'),
-                'webreader'            => $this->getRouteData('features.webreader.index', 'UI to read directly an eBook into browser.'),
-                'admin'                => $this->getRouteData('admin', 'For admin to manage data.'),
-                'wiki'                 => $this->getRouteData('features.wiki.index', 'Wiki for setup and usage, useful for developers.'),
-                'api-documentation'    => $this->getRouteData(config('app.url') . '/docs', 'API documentation to use data on others applications', false),
+            'name' => config('app.name').' API',
+            'version' => $composerJson->version,
+            'routes' => [
+                'catalog' => $this->getRouteData('features.catalog.index', 'UI for eReader browser to get eBooks on it.'),
+                'opds' => $this->getRouteData('features.opds.index', 'OPDS API for application which use it.'),
+                'webreader' => $this->getRouteData('features.webreader.index', 'UI to read directly an eBook into browser.'),
+                'admin' => $this->getRouteData('admin', 'For admin to manage data.'),
+                'wiki' => $this->getRouteData('features.wiki.index', 'Wiki for setup and usage, useful for developers.'),
+                'api-documentation' => $this->getRouteData(config('app.url').'/docs', 'API documentation to use data on others applications', false),
             ],
         ], 200);
     }
 
     public function getRouteData(string $route, string $description, $isLaravelRoute = true)
     {
-        $values = [
-            'route'       => $isLaravelRoute ? route($route) : $route,
-            'description' => $description
+        return [
+            'route' => $isLaravelRoute ? route($route) : $route,
+            'description' => $description,
         ];
-
-        return $values;
     }
 }

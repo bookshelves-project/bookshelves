@@ -9,9 +9,9 @@ class OpfIdentifier
         public ?string $value = null,
     ) {
     }
-    
+
     /**
-     * Normalize identifier
+     * Normalize identifier.
      *
      * @param array $data [id, value]
      */

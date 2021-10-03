@@ -8,8 +8,6 @@ class ConfigData extends Component
 {
     /**
      * Create a new component instance.
-     *
-     * @return void
      */
     public function __construct(
         public array $table,
@@ -19,7 +17,7 @@ class ConfigData extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return \Closure|\Illuminate\Contracts\View\View|string
      */
     public function render()
     {

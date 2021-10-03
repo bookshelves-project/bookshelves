@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use Spatie\Tags\HasTags;
-use Laravel\Scout\Searchable;
-use App\Utils\BookshelvesTools;
-use App\Models\Traits\HasCovers;
-use Spatie\MediaLibrary\HasMedia;
-use App\Models\Traits\HasComments;
 use App\Models\Traits\HasClassName;
+use App\Models\Traits\HasComments;
+use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasSelections;
-use Illuminate\Database\Eloquent\Model;
+use App\Utils\BookshelvesTools;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Laravel\Scout\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\Tags\HasTags;
 
 class Author extends Model implements HasMedia
 {
@@ -38,16 +38,16 @@ class Author extends Model implements HasMedia
     ];
 
     protected $with = [
-        'media'
+        'media',
     ];
 
     /**
      * Retrieve the model for a bound value.
      *
      * @param mixed       $value
-     * @param string|null $field
+     * @param null|string $field
      *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
     public function resolveRouteBinding($value, $field = null)
     {
@@ -56,53 +56,43 @@ class Author extends Model implements HasMedia
 
     public function getShowLinkAttribute(): string
     {
-        $route = route('api.authors.show', [
+        return route('api.authors.show', [
             'author' => $this->slug,
         ]);
-
-        return $route;
     }
 
     public function getShowLinkOpdsAttribute(): string
     {
-        $route = route('features.opds.authors.show', [
+        return route('features.opds.authors.show', [
             'version' => 'v1.2',
-            'author'  => $this->slug,
+            'author' => $this->slug,
         ]);
-
-        return $route;
     }
 
     public function getContentOpdsAttribute(): string
     {
-        return $this->books->count() . ' books';
+        return $this->books->count().' books';
     }
 
     public function getShowBooksLinkAttribute(): string
     {
-        $route = route('api.authors.show.books', [
+        return route('api.authors.show.books', [
             'author' => $this->slug,
         ]);
-
-        return $route;
     }
 
     public function getShowSeriesLinkAttribute(): string
     {
-        $route = route('api.authors.show.series', [
+        return route('api.authors.show.series', [
             'author' => $this->slug,
         ]);
-
-        return $route;
     }
 
     public function getDownloadLinkAttribute(): string
     {
-        $route = route('api.download.author', [
+        return route('api.download.author', [
             'author' => $this->slug,
         ]);
-
-        return $route;
     }
 
     public function getSizeAttribute(): string
@@ -114,21 +104,20 @@ class Author extends Model implements HasMedia
             array_push($size, $book->getMedia('epubs')->first()?->size);
         }
         $size = array_sum($size);
-        $size = BookshelvesTools::humanFilesize($size);
 
-        return $size;
+        return BookshelvesTools::humanFilesize($size);
     }
 
     public function toSearchableArray()
     {
         return [
-            'id'                   => $this->id,
-            'name'                 => $this->name,
-            'firstname'            => $this->firstname,
-            'lastname'             => $this->lastname,
-            'description'          => $this->description,
-            'created_at'           => $this->created_at,
-            'updated_at'           => $this->updated_at
+            'id' => $this->id,
+            'name' => $this->name,
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+            'description' => $this->description,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 

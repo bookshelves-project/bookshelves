@@ -3,7 +3,7 @@
 namespace App\Models\Traits;
 
 /**
- * Manage tags and genres with `spatie/laravel-tags`
+ * Manage tags and genres with `spatie/laravel-tags`.
  */
 trait HasTagsAndGenres
 {

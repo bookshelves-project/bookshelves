@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Illuminate\Console\Command;
 use App\Providers\ParserEngine\ParserList;
+use Illuminate\Console\Command;
 
 class ScanCommand extends Command
 {
@@ -24,8 +24,6 @@ class ScanCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -35,9 +33,9 @@ class ScanCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return false|array
+     * @return array|false
      */
-    public function handle(): false | array
+    public function handle(): false|array
     {
         $limit = $this->option('limit');
         $limit = str_replace('=', '', $limit);
@@ -46,14 +44,14 @@ class ScanCommand extends Command
         $verbose = $this->option('verbose');
 
         $app = config('app.name');
-        $this->alert("$app: scan all EPUB files");
+        $this->alert("{$app}: scan all EPUB files");
         $this->warn('Scan public/storage/data/books directory');
 
         $epubFiles = ParserList::getEbooks(limit: $limit);
 
         if ($verbose) {
             foreach ($epubFiles as $key => $file) {
-                echo $key . ' ' . pathinfo($file)['filename'] . "\n";
+                echo $key.' '.pathinfo($file)['filename']."\n";
             }
         }
 
@@ -61,7 +59,7 @@ class ScanCommand extends Command
             return array_slice($epubFiles, 0, $limit);
         }
 
-        $this->warn(sizeof(($epubFiles)) . ' EPUB files found');
+        $this->warn(sizeof(($epubFiles)).' EPUB files found');
         $this->newLine();
 
         return $epubFiles;

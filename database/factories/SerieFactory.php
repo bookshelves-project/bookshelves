@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Serie;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class SerieFactory extends Factory
 {
@@ -26,9 +26,9 @@ class SerieFactory extends Factory
         $title = ucfirst($faker->words($faker->numberBetween(2, 5), true));
 
         return [
-            'title'      => $title,
+            'title' => $title,
             'title_sort' => Str::slug($title),
-            'slug'       => Str::slug($title),
+            'slug' => Str::slug($title),
         ];
     }
 }

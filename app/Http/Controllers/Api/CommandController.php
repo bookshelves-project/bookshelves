@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use Auth;
-use Artisan;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
+use Artisan;
+use Auth;
 
 /**
  * @hideFromAPIDocumentation
@@ -21,7 +21,7 @@ class CommandController extends Controller
 
             return response()->json([
                 'success' => 'New eBooks are available',
-                'books'   => $books,
+                'books' => $books,
             ]);
         }
 

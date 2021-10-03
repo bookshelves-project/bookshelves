@@ -2,19 +2,19 @@
 
 namespace App\Console\Commands;
 
-use Artisan;
-use App\Models\Book;
-use Spatie\Tags\Tag;
-use App\Models\Serie;
 use App\Models\Author;
-use App\Models\Language;
-use App\Models\Publisher;
+use App\Models\Book;
+use App\Models\Commentable;
 use App\Models\GoogleBook;
 use App\Models\Identifier;
-use App\Models\Commentable;
+use App\Models\Language;
+use App\Models\Publisher;
+use App\Models\Serie;
+use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Tags\Tag;
 
 class DatabaseCommand extends Command
 {
@@ -35,8 +35,6 @@ class DatabaseCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -75,7 +73,7 @@ class DatabaseCommand extends Command
         $this->clearAllMediaCollection();
 
         $this->newLine();
-        $this->alert('Clear ' . config('app.name') . ' data...');
+        $this->alert('Clear '.config('app.name').' data...');
         $this->clearTables();
         $this->newLine();
     }
@@ -109,7 +107,7 @@ class DatabaseCommand extends Command
 
         $this->newLine();
         $isSuccess ? $isSuccessText = 'success' : $isSuccessText = 'failed';
-        $this->alert("Clearing media... $isSuccessText!");
+        $this->alert("Clearing media... {$isSuccessText}!");
         $this->info("Clear all files into 'public/storage/media' manage by spatie/laravel-medialibrary");
 
         return $isSuccess;

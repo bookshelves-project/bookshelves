@@ -19,15 +19,13 @@ class SerieBookCollectionResource extends JsonResource
         /** @var Serie $serie */
         $serie = $this;
 
-        $base = [
+        return [
             'title' => $serie->title,
-            'meta'  => [
-                'slug'   => $serie->slug,
+            'meta' => [
+                'slug' => $serie->slug,
                 'author' => $serie->meta_author,
-                'show'   => $serie->show_link,
+                'show' => $serie->show_link,
             ],
         ];
-
-        return $base;
     }
 }

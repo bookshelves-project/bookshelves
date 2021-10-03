@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Book;
-use Spatie\Tags\Tag;
-use App\Models\Serie;
-use App\Models\Author;
-use App\Models\Language;
-use Illuminate\Http\Request;
-use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EntityResource;
+use App\Models\Author;
+use App\Models\Book;
+use App\Models\Language;
+use App\Models\Serie;
+use App\Utils\BookshelvesTools;
+use Illuminate\Http\Request;
+use Spatie\Tags\Tag;
 
 /**
  * @group Search
@@ -18,14 +18,14 @@ use App\Http\Resources\EntityResource;
 class SearchController extends Controller
 {
     /**
-    * GET Entities collection
-    *
-    * Get Authors/Series/Books entities ordered by entity and lastname / title. Query can be series' title, book's title, author's firstname or lastname.
-    *
-    * @queryParam q string required Query search, null by default. Example: lovecraft
-    *
-    * @responseFile public/assets/responses/search.index.get.json
-    */
+     * GET Entities collection.
+     *
+     * Get Authors/Series/Books entities ordered by entity and lastname / title. Query can be series' title, book's title, author's firstname or lastname.
+     *
+     * @queryParam q string required Query search, null by default. Example: lovecraft
+     *
+     * @responseFile public/assets/responses/search.index.get.json
+     */
     public function index(Request $request)
     {
         // - with pagination
@@ -41,7 +41,7 @@ class SearchController extends Controller
                 $authors = EntityResource::collection($authors);
                 $series = EntityResource::collection($series);
                 $books = EntityResource::collection($books);
-            
+
                 $collection = collect([]);
                 $collection = $collection->merge($authors);
                 $collection = $collection->merge($series);
@@ -59,14 +59,14 @@ class SearchController extends Controller
     }
 
     /**
-    * GET Entities collection (advanced)
-    *
-    * Get Authors/Series/Books entities ordered by entity and lastname / title.
-    *
-    * @queryParam q string required Query search, null by default. Example: lovecraft
-    *
-    * @responseFile public/assets/responses/search.index.get.json
-    */
+     * GET Entities collection (advanced).
+     *
+     * Get Authors/Series/Books entities ordered by entity and lastname / title.
+     *
+     * @queryParam q string required Query search, null by default. Example: lovecraft
+     *
+     * @responseFile public/assets/responses/search.index.get.json
+     */
     public function advanced(Request $request)
     {
         // GET ALL PARAMS
@@ -125,9 +125,8 @@ class SearchController extends Controller
             }
 
             $results = $results->sortBy('title_sort');
-            $results = EntityResource::collection($results);
 
-            return $results;
+            return EntityResource::collection($results);
         }
 
         return response()->json(['error' => 'Need to have terms query parameter'], 401);

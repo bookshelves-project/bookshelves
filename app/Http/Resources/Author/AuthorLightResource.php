@@ -20,18 +20,17 @@ class AuthorLightResource extends JsonResource
         $author = $this;
 
         $resource = AuthorUltraLightResource::make($author)->toArray($request);
-        $resource = array_merge($resource, [
-            'lastname'  => $author->lastname,
+
+        return array_merge($resource, [
+            'lastname' => $author->lastname,
             'firstname' => $author->firstname,
-            'cover'     => [
-                'thumbnail'      => $author->cover_thumbnail,
-                'og'             => $author->cover_og,
-                'simple'         => $author->cover_simple,
-                'color'          => $this->resource->cover_color,
+            'cover' => [
+                'thumbnail' => $author->cover_thumbnail,
+                'og' => $author->cover_og,
+                'simple' => $author->cover_simple,
+                'color' => $this->resource->cover_color,
             ],
             'count' => $author->books_count,
         ]);
-
-        return $resource;
     }
 }

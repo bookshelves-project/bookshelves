@@ -2,14 +2,14 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Artisan;
-use App\Models\Book;
-use Spatie\Tags\Tag;
-use App\Models\Serie;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Language;
 use App\Models\Publisher;
+use App\Models\Serie;
+use Artisan;
 use Illuminate\Console\Command;
+use Spatie\Tags\Tag;
 
 class GenerateCommand extends Command
 {
@@ -42,8 +42,6 @@ class GenerateCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -57,7 +55,7 @@ class GenerateCommand extends Command
     {
         $app = config('app.name');
         $this->newLine();
-        $this->alert("$app: generate");
+        $this->alert("{$app}: generate");
 
         $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/data/books...');
         $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
@@ -87,7 +85,7 @@ class GenerateCommand extends Command
             $this->warn('- Option --erase: erase all data.');
         }
         if ($limit) {
-            $this->warn("- Option --limit: limit eBooks generated to $limit.");
+            $this->warn("- Option --limit: limit eBooks generated to {$limit}.");
         }
         if ($local) {
             $this->warn('- Option --local: skip HTTP requests.');
@@ -108,13 +106,13 @@ class GenerateCommand extends Command
             $this->warn('- Option --test: execute tests at the end.');
         }
         if ($default) {
-            $this->warn("- Option --default: skip covers step, use default cover.");
+            $this->warn('- Option --default: skip covers step, use default cover.');
         }
         if ($comments) {
-            $this->warn("- Option --comments: generate comments and favorites for fake users.");
+            $this->warn('- Option --comments: generate comments and favorites for fake users.');
         }
         if ($selection) {
-            $this->warn("- Option --selection: generate selection for home slider.");
+            $this->warn('- Option --selection: generate selection for home slider.');
         }
         $this->newLine();
 
@@ -134,18 +132,18 @@ class GenerateCommand extends Command
          * Generate commands
          */
         Artisan::call('bookshelves:books', [
-            '--local'   => $local,
-            '--fresh'   => $fresh,
-            '--limit'   => $limit,
-            '--debug'   => $debug,
+            '--local' => $local,
+            '--fresh' => $fresh,
+            '--limit' => $limit,
+            '--debug' => $debug,
             '--default' => $default,
         ], $this->getOutput());
         Artisan::call('bookshelves:assets', [
-            '--books'   => $books,
+            '--books' => $books,
             '--authors' => $authors,
-            '--series'  => $series,
-            '--local'   => $local,
-            '--fresh'   => $fresh,
+            '--series' => $series,
+            '--local' => $local,
+            '--fresh' => $fresh,
             '--default' => $default,
         ], $this->getOutput());
 
@@ -160,12 +158,11 @@ class GenerateCommand extends Command
         }
 
         Artisan::call('bookshelves:sample', [
-            '--admin'     => true,
+            '--admin' => true,
             '--selection' => $selection,
-            '--comments'  => $comments,
-            '--force'     => $isForce
+            '--comments' => $comments,
+            '--force' => $isForce,
         ], $this->getOutput());
-        
 
         /*
          * Tests

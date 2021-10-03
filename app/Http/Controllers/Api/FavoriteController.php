@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use Auth;
-use Route;
-use App\Models\User;
-use App\Models\Favoritable;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FavoriteResource;
+use App\Models\Favoritable;
+use App\Models\User;
+use Auth;
+use Route;
 
 /**
  * @hideFromAPIDocumentation
@@ -18,7 +18,7 @@ class FavoriteController extends Controller
     public function byUser(int $userId)
     {
         $favorites = Favoritable::whereUserId($userId)->with([
-            'favoritable'
+            'favoritable',
         ])->orderBy('created_at', 'DESC')->get();
 
         return FavoriteResource::collection($favorites);
@@ -28,7 +28,7 @@ class FavoriteController extends Controller
     public function toggle(string $model, string $slug)
     {
         if (Auth::check()) {
-            $model_name = 'App\Models\\' . ucfirst($model);
+            $model_name = 'App\Models\\'.ucfirst($model);
             $entity = $model_name::whereSlug($slug)->first();
             $user = Auth::id();
             $user = User::find($user);

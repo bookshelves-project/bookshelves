@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use App\Enums\RoleEnum;
 use App\Enums\GenderEnum;
-use Illuminate\Support\Str;
+use App\Enums\RoleEnum;
 use App\Models\Traits\HasAvatar;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\MediaLibrary\HasMedia;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -38,7 +38,7 @@ class User extends Authenticatable implements HasMedia
         'display_comments',
         'display_gender',
         'about',
-        'gender'
+        'gender',
     ];
 
     /**
@@ -59,12 +59,12 @@ class User extends Authenticatable implements HasMedia
      * @var array
      */
     protected $casts = [
-        'email_verified_at'     => 'datetime',
-        'use_gravatar'          => 'boolean',
-        'display_favorites'     => 'boolean',
-        'display_comments'      => 'boolean',
-        'display_gender'        => 'boolean',
-        'gender'                => GenderEnum::class
+        'email_verified_at' => 'datetime',
+        'use_gravatar' => 'boolean',
+        'display_favorites' => 'boolean',
+        'display_comments' => 'boolean',
+        'display_gender' => 'boolean',
+        'gender' => GenderEnum::class,
     ];
 
     /**
@@ -82,7 +82,7 @@ class User extends Authenticatable implements HasMedia
             if (! empty($user->slug)) {
                 return;
             }
-            $user->slug = Str::slug($user->name, '-') . '-' . bin2hex(openssl_random_pseudo_bytes(5));
+            $user->slug = Str::slug($user->name, '-').'-'.bin2hex(openssl_random_pseudo_bytes(5));
         });
 
         parent::boot();
@@ -90,29 +90,23 @@ class User extends Authenticatable implements HasMedia
 
     public function getShowLinkAttribute(): string
     {
-        $route = route('api.users.show', [
+        return route('api.users.show', [
             'slug' => $this->slug,
         ]);
-
-        return $route;
     }
 
     public function getShowLinkCommentsAttribute(): string
     {
-        $route = route('api.users.comments', [
+        return route('api.users.comments', [
             'slug' => $this->slug,
         ]);
-
-        return $route;
     }
 
     public function getShowLinkFavoritesAttribute(): string
     {
-        $route = route('api.users.favorites', [
+        return route('api.users.favorites', [
             'slug' => $this->slug,
         ]);
-
-        return $route;
     }
 
     public function hasRole(RoleEnum $role_to_verify): bool

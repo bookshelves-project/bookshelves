@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Artisan;
 use App\Models\Role;
 use App\Models\User;
+use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -33,8 +33,6 @@ class SampleCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -48,7 +46,7 @@ class SampleCommand extends Command
     {
         $app = config('app.name');
         $this->newLine();
-        $this->alert("$app: sample");
+        $this->alert("{$app}: sample");
 
         $users = $this->option('users') ?? false;
         $roles = $this->option('roles') ?? false;
@@ -57,15 +55,16 @@ class SampleCommand extends Command
         $admin = $this->option('admin') ?? false;
         $force = $this->option('force') ?? false;
 
-        if (config('app.env') !== 'local' && ! $force) {
+        if ('local' !== config('app.env') && ! $force) {
             if ($this->confirm('This command will erase all users/roles/comments/selection/admin, do you really want to erase these data?', true)) {
                 $this->info('Confirmed.');
             } else {
                 $this->error('Stop.');
+
                 return false;
             }
         }
-        
+
         $users ? $roles = true : '';
         if ($admin) {
             if (! Role::exists()) {
@@ -94,7 +93,7 @@ class SampleCommand extends Command
             $this->info('Seeders ready!');
             $this->newLine();
         }
-        
+
         if ($admin) {
             // $users = User::all();
             // $users->each(function ($query) {
@@ -104,10 +103,10 @@ class SampleCommand extends Command
             DB::statement('SET foreign_key_checks=0');
             User::truncate();
             DB::statement('SET foreign_key_checks=1');
-            
+
             if (! User::exists()) {
                 Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
-                $this->info('Admin was created from `.env` variables with email ' . config('bookshelves.admin.email'));
+                $this->info('Admin was created from `.env` variables with email '.config('bookshelves.admin.email'));
             } else {
                 $this->error('Admin not created, some users exists!');
             }

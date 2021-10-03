@@ -30,58 +30,58 @@ return [
     'disks' => [
         'local' => [
             'driver' => 'local',
-            'root'   => storage_path('app'),
+            'root' => storage_path('app'),
         ],
 
         'authors' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public/media/authors'),
-            'url'        => env('APP_URL') . '/storage/media/authors',
+            'driver' => 'local',
+            'root' => storage_path('app/public/media/authors'),
+            'url' => env('APP_URL').'/storage/media/authors',
             'visibility' => 'public',
         ],
 
         'books' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public/media/books'),
-            'url'        => env('APP_URL') . '/storage/media/books',
+            'driver' => 'local',
+            'root' => storage_path('app/public/media/books'),
+            'url' => env('APP_URL').'/storage/media/books',
             'visibility' => 'public',
         ],
 
         'epubs' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public/media/epubs'),
-            'url'        => env('APP_URL') . '/storage/media/epubs',
+            'driver' => 'local',
+            'root' => storage_path('app/public/media/epubs'),
+            'url' => env('APP_URL').'/storage/media/epubs',
             'visibility' => 'public',
         ],
 
         'series' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public/media/series'),
-            'url'        => env('APP_URL') . '/storage/media/series',
+            'driver' => 'local',
+            'root' => storage_path('app/public/media/series'),
+            'url' => env('APP_URL').'/storage/media/series',
             'visibility' => 'public',
         ],
 
         'users' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public/media/users'),
-            'url'        => env('APP_URL') . '/storage/media/users',
+            'driver' => 'local',
+            'root' => storage_path('app/public/media/users'),
+            'url' => env('APP_URL').'/storage/media/users',
             'visibility' => 'public',
         ],
 
         'public' => [
-            'driver'     => 'local',
-            'root'       => storage_path('app/public'),
-            'url'        => env('APP_URL') . '/storage',
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
 
         's3' => [
-            'driver'   => 's3',
-            'key'      => env('AWS_ACCESS_KEY_ID'),
-            'secret'   => env('AWS_SECRET_ACCESS_KEY'),
-            'region'   => env('AWS_DEFAULT_REGION'),
-            'bucket'   => env('AWS_BUCKET'),
-            'url'      => env('AWS_URL'),
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
     ],

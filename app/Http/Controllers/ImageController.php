@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Spatie\Image\Exceptions\InvalidManipulation;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
-use Spatie\Image\Exceptions\InvalidManipulation;
 
 class ImageController extends Controller
 {
@@ -15,7 +15,7 @@ class ImageController extends Controller
      */
     public static function thumbnail(string $size, string $path, bool $crop = true): mixed
     {
-        $dimensions = config("image.thumbnails.$size");
+        $dimensions = config("image.thumbnails.{$size}");
 
         if (! $dimensions) {
             return response()->json(['error' => 'Dimensions not found'], 401);
@@ -24,15 +24,17 @@ class ImageController extends Controller
         $thumbnail = get_thumbnail($path, $size);
 
         $thumbnail['filepath'] = str_replace('.jpeg', '.jpg', $thumbnail['filepath']);
-        
+
         if (! $thumbnail['resolved']) {
             if ($crop) {
-                Image::load("$path")
+                Image::load("{$path}")
                     ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
-                    ->save($thumbnail['filepath']);
+                    ->save($thumbnail['filepath'])
+                ;
             } else {
-                Image::load("$path")
-                    ->save($thumbnail['filepath']);
+                Image::load("{$path}")
+                    ->save($thumbnail['filepath'])
+                ;
             }
         }
 

@@ -3,8 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Models\Commentable;
-use Illuminate\Support\Str;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class CommentResource extends JsonResource
 {
@@ -49,25 +49,25 @@ class CommentResource extends JsonResource
 
         return [
             'meta' => [
-                'type'   => 'comment',
-                'for'    => $for,
+                'type' => 'comment',
+                'for' => $for,
                 'author' => $comment->commentable->meta_author,
-                'slug'   => $comment->commentable->slug,
+                'slug' => $comment->commentable->slug,
             ],
-            'id'     => $comment->id,
-            'text'   => Str::markdown($comment->text),
+            'id' => $comment->id,
+            'text' => Str::markdown($comment->text),
             'rating' => $comment->rating ? $comment->rating : null,
-            'user'   => [
-                'id'                  => $comment->user->id,
-                'name'                => $comment->user->name,
-                'slug'                => $comment->user->slug,
-                'avatar'              => $comment->user->avatar,
-                'color'               => $comment->user->color,
+            'user' => [
+                'id' => $comment->user->id,
+                'name' => $comment->user->name,
+                'slug' => $comment->user->slug,
+                'avatar' => $comment->user->avatar,
+                'color' => $comment->user->color,
             ],
             'createdAt' => $comment->created_at,
             'updatedAt' => $comment->updated_at,
-            'title'     => $title,
-            'cover'     => $comment->commentable->cover_thumbnail,
+            'title' => $title,
+            'cover' => $comment->commentable->cover_thumbnail,
         ];
     }
 }

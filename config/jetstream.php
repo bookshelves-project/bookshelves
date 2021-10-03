@@ -5,7 +5,7 @@ use Laravel\Jetstream\Features;
 return [
 
     'prefix' => 'admin',
-    
+
     /*
     |--------------------------------------------------------------------------
     | Jetstream Stack

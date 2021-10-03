@@ -15,11 +15,9 @@ class Publisher extends Model
 
     public function getShowLinkAttribute(): string
     {
-        $route = route('api.publishers.show', [
+        return route('api.publishers.show', [
             'publisher' => $this->slug,
         ]);
-
-        return $route;
     }
 
     public function books(): HasMany

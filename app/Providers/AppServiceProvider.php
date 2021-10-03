@@ -3,37 +3,35 @@
 namespace App\Providers;
 
 use Arr;
-use Inertia\Inertia;
-use Illuminate\Support\Collection;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Application;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register()
     {
         Inertia::share([
             'app' => [
                 'name' => config('app.name'),
-                'env'  => config('app.env'),
+                'env' => config('app.env'),
             ],
             'bookshelves' => [
-                'admin'           => [
-                    'email'    => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),
+                'admin' => [
+                    'email' => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),
                     'password' => env('BOOKSHELVES_ADMIN_PASSWORD', 'password'),
                 ],
             ],
             'laravelVersion' => Application::VERSION,
-            'phpVersion'     => PHP_VERSION,
+            'phpVersion' => PHP_VERSION,
         ]);
-        
+
         Builder::macro('whereLike', function ($attributes, string $searchTerm) {
             $this->where(function (Builder $query) use ($attributes, $searchTerm) {
                 foreach (Arr::wrap($attributes) as $attribute) {
@@ -59,8 +57,6 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -82,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
                 $perPage,
                 $page,
                 [
-                    'path'     => LengthAwarePaginator::resolveCurrentPath(),
+                    'path' => LengthAwarePaginator::resolveCurrentPath(),
                     'pageName' => $pageName,
                 ]
             );

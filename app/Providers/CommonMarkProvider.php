@@ -4,23 +4,23 @@ namespace App\Providers;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
-use League\CommonMark\MarkdownConverter;
 use League\CommonMark\Environment\Environment;
-use League\CommonMark\Extension\Table\TableExtension;
-use League\CommonMark\Extension\Mention\MentionExtension;
-use League\CommonMark\Extension\Autolink\AutolinkExtension;
-use League\CommonMark\Extension\Footnote\FootnoteExtension;
-use League\CommonMark\Extension\TaskList\TaskListExtension;
-use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
-use League\CommonMark\Extension\SmartPunct\SmartPunctExtension;
-use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
-use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
-use League\CommonMark\Extension\DescriptionList\DescriptionListExtension;
-use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
+use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
 use League\CommonMark\Extension\DefaultAttributes\DefaultAttributesExtension;
+use League\CommonMark\Extension\DescriptionList\DescriptionListExtension;
 use League\CommonMark\Extension\DisallowedRawHtml\DisallowedRawHtmlExtension;
+use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
+use League\CommonMark\Extension\Footnote\FootnoteExtension;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
+use League\CommonMark\Extension\Mention\MentionExtension;
+use League\CommonMark\Extension\SmartPunct\SmartPunctExtension;
+use League\CommonMark\Extension\Table\TableExtension;
+use League\CommonMark\Extension\TaskList\TaskListExtension;
+use League\CommonMark\MarkdownConverter;
 
 class CommonMarkProvider
 {
@@ -97,7 +97,7 @@ class CommonMarkProvider
     public static function generate(string $path, bool $absolute = false)
     {
         if (! $absolute) {
-            $path = resource_path("views/pages/features/$path");
+            $path = resource_path("views/pages/features/{$path}");
         }
         $markdown = File::get($path);
         $date = File::lastModified($path);
@@ -111,7 +111,7 @@ class CommonMarkProvider
         // $environment->addBlockRenderer(FencedCode::class, new FencedCodeRenderer($langs));
         // $environment->addBlockRenderer(IndentedCode::class, new IndentedCodeRenderer($langs));
         // $environment->addExtension(new ExternalLinkExtension());
-        
+
         // $environment->addExtension(new GithubFlavoredMarkdownExtension());
 
         // $converter = new CommonMarkConverter($options, $environment);
@@ -119,20 +119,20 @@ class CommonMarkProvider
 
         // Define your configuration, if needed
         $config = [
-            'html_input'         => 'strip',
+            'html_input' => 'strip',
             'allow_unsafe_links' => false,
-            'external_link'      => [
-                'internal_hosts'     => config('app.url'),
+            'external_link' => [
+                'internal_hosts' => config('app.url'),
                 'open_in_new_window' => true,
-                'html_class'         => 'external-link',
-                'nofollow'           => '',
-                'noopener'           => 'external',
-                'noreferrer'         => 'external',
+                'html_class' => 'external-link',
+                'nofollow' => '',
+                'noopener' => 'external',
+                'noreferrer' => 'external',
             ],
             'default_attributes' => [
                 Heading::class => [
                     'class' => static function (Heading $node) {
-                        if ($node->getLevel() === 1) {
+                        if (1 === $node->getLevel()) {
                             return 'title-main';
                         }
                     },
@@ -144,46 +144,46 @@ class CommonMarkProvider
                     'class' => ['text-center', 'font-comic-sans'],
                 ],
                 Link::class => [
-                    'class'  => 'btn btn-link',
+                    'class' => 'btn btn-link',
                     'target' => '_blank',
                 ],
             ],
             'footnote' => [
-                'backref_class'      => 'footnote-backref',
-                'backref_symbol'     => '↩',
-                'container_add_hr'   => true,
-                'container_class'    => 'footnotes',
-                'ref_class'          => 'footnote-ref',
-                'ref_id_prefix'      => 'fnref:',
-                'footnote_class'     => 'footnote',
+                'backref_class' => 'footnote-backref',
+                'backref_symbol' => '↩',
+                'container_add_hr' => true,
+                'container_class' => 'footnotes',
+                'ref_class' => 'footnote-ref',
+                'ref_id_prefix' => 'fnref:',
+                'footnote_class' => 'footnote',
                 'footnote_id_prefix' => 'fn:',
             ],
             'heading_permalink' => [
-                'html_class'        => 'heading-permalink',
-                'id_prefix'         => 'content',
-                'fragment_prefix'   => 'content',
-                'insert'            => 'before',
+                'html_class' => 'heading-permalink',
+                'id_prefix' => 'content',
+                'fragment_prefix' => 'content',
+                'insert' => 'before',
                 'min_heading_level' => 1,
                 'max_heading_level' => 6,
-                'title'             => 'Permalink',
-                'symbol'            => '',
+                'title' => 'Permalink',
+                'symbol' => '',
             ],
             'mentions' => [
                 // GitHub handler mention configuration.
                 // Sample Input:  `@colinodell`
                 // Sample Output: `<a href="https://www.github.com/colinodell">@colinodell</a>`
                 'github_handle' => [
-                    'prefix'    => '@',
-                    'pattern'   => '[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}(?!\w)',
+                    'prefix' => '@',
+                    'pattern' => '[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}(?!\w)',
                     'generator' => 'https://github.com/%s',
                 ],
                 // GitHub issue mention configuration.
                 // Sample Input:  `#473`
                 // Sample Output: `<a href="https://github.com/thephpleague/commonmark/issues/473">#473</a>`
                 'github_issue' => [
-                    'prefix'    => '#',
-                    'pattern'   => '\d+',
-                    'generator' => "https://github.com/thephpleague/commonmark/issues/%d",
+                    'prefix' => '#',
+                    'pattern' => '\d+',
+                    'generator' => 'https://github.com/thephpleague/commonmark/issues/%d',
                 ],
                 // Twitter handler mention configuration.
                 // Sample Input:  `@colinodell`
@@ -194,8 +194,8 @@ class CommonMarkProvider
                 // there isn't any real validation to check whether https://www.github.com/colinodell exists. However, in
                 // CMS applications, you could check whether its a local user first, then check Twitter and then GitHub, etc.
                 'twitter_handle' => [
-                    'prefix'    => '@',
-                    'pattern'   => '[A-Za-z0-9_]{1,15}(?!\w)',
+                    'prefix' => '@',
+                    'pattern' => '[A-Za-z0-9_]{1,15}(?!\w)',
                     'generator' => 'https://twitter.com/%s',
                 ],
             ],

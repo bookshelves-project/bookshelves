@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * Get authors
  * - with author for meta
  * - a string with all authors seperated by a comma
- * - API links: `show`, `show-opds`, `download-link`,`webreader-link`
+ * - API links: `show`, `show-opds`, `download-link`,`webreader-link`.
  */
 trait HasAuthors
 {
     /**
-     * Get first Author of entity, used for URL like `...author-slug/entity-slug`
+     * Get first Author of entity, used for URL like `...author-slug/entity-slug`.
      */
-    public function getMetaAuthorAttribute(): string | null
+    public function getMetaAuthorAttribute(): string|null
     {
         $author = $this->authors->first();
 
@@ -24,7 +24,7 @@ trait HasAuthors
     }
 
     /**
-     * Get Authors of entity
+     * Get Authors of entity.
      */
     public function authors(): MorphToMany
     {
@@ -44,12 +44,10 @@ trait HasAuthors
     public function getShowLinkAttribute(): string
     {
         if ($this->meta_author && $this->slug) {
-            $route = route('api.' . $this->getClassName(true) . '.show', [
-                'author'                => $this->meta_author,
-                $this->getClassName()   => $this->slug,
+            return route('api.'.$this->getClassName(true).'.show', [
+                'author' => $this->meta_author,
+                $this->getClassName() => $this->slug,
             ]);
-
-            return $route;
         }
 
         return '';
@@ -57,34 +55,28 @@ trait HasAuthors
 
     public function getShowLinkOpdsAttribute(): string
     {
-        $route = route('features.opds.' . $this->getClassName(true) . '.show', [
-            'version'               => 'v1.2',
-            'author'                => $this->meta_author,
-            $this->getClassName()   => $this->slug,
+        return route('features.opds.'.$this->getClassName(true).'.show', [
+            'version' => 'v1.2',
+            'author' => $this->meta_author,
+            $this->getClassName() => $this->slug,
         ]);
-
-        return $route;
     }
 
     public function getDownloadLinkAttribute(): string
     {
-        $route = route('api.download.' . $this->getClassName(), [
-            'author'                => $this->meta_author,
-            $this->getClassName()   => $this->slug,
+        return route('api.download.'.$this->getClassName(), [
+            'author' => $this->meta_author,
+            $this->getClassName() => $this->slug,
         ]);
-
-        return $route;
     }
 
     public function getWebreaderLinkAttribute(): string
     {
         if ($this->meta_author && $this->slug) {
-            $route = route('features.webreader.cover', [
-                'author'                => $this->meta_author,
-                $this->getClassName()   => $this->slug,
+            return route('features.webreader.cover', [
+                'author' => $this->meta_author,
+                $this->getClassName() => $this->slug,
             ]);
-
-            return $route;
         }
 
         return '';

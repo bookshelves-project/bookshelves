@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateLanguagesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -23,7 +21,8 @@ class CreateLanguagesTable extends Migration
             $table->foreign('language_slug')
                 ->references('slug')
                 ->on('languages')
-                ->onDelete('cascade');
+                ->onDelete('cascade')
+            ;
         });
 
         Schema::table('series', function (Blueprint $table) {
@@ -31,14 +30,13 @@ class CreateLanguagesTable extends Migration
             $table->foreign('language_slug')
                 ->references('slug')
                 ->on('languages')
-                ->onDelete('cascade');
+                ->onDelete('cascade')
+            ;
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

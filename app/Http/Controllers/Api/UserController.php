@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
 use App\Enums\GenderEnum;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\FavoriteResource;
-use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserListResource;
+use App\Http\Resources\User\UserResource;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 /**
  * @hideFromAPIDocumentation
@@ -48,7 +48,7 @@ class UserController extends Controller
         $genders = GenderEnum::toValues();
 
         return [
-            'data' => $genders
+            'data' => $genders,
         ];
     }
 

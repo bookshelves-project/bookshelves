@@ -10,19 +10,19 @@ return [
     'disks' => [
         'authors' => [
             'driver' => 'local',
-            'root'   => storage_path('authors'),
+            'root' => storage_path('authors'),
         ],
         'books' => [
             'driver' => 'local',
-            'root'   => storage_path('books'),
+            'root' => storage_path('books'),
         ],
         'epubs' => [
             'driver' => 'local',
-            'root'   => storage_path('epubs'),
+            'root' => storage_path('epubs'),
         ],
         'series' => [
             'driver' => 'local',
-            'root'   => storage_path('series'),
+            'root' => storage_path('series'),
         ],
     ],
 
@@ -157,7 +157,7 @@ return [
      * thumbnails and have installed the php-ffmpeg/php-ffmpeg composer
      * dependency.
      */
-    'ffmpeg_path'  => env('FFMPEG_PATH', '/usr/bin/ffmpeg'),
+    'ffmpeg_path' => env('FFMPEG_PATH', '/usr/bin/ffmpeg'),
     'ffprobe_path' => env('FFPROBE_PATH', '/usr/bin/ffprobe'),
 
     /*
@@ -165,7 +165,7 @@ return [
      * your custom jobs extend the ones provided by the package.
      */
     'jobs' => [
-        'perform_conversions'        => Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class,
+        'perform_conversions' => Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class,
         'generate_responsive_images' => Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob::class,
     ],
 

@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Language extends Model
 {
-    protected $primaryKey = 'slug';
     public $incrementing = false;
-    protected $keyType = 'string';
     public $timestamps = false;
+    protected $primaryKey = 'slug';
+    protected $keyType = 'string';
     protected $fillable = [
         'slug',
         'name',

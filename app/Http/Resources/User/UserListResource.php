@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\User;
 
-use App\Models\Role;
 use App\Enums\RoleEnum;
+use App\Models\Role;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -27,23 +27,23 @@ class UserListResource extends JsonResource
         }
 
         return [
-            'id'   => $this->resource->id,
+            'id' => $this->resource->id,
             'meta' => [
-                'slug'    => $this->resource->slug,
-                'show'    => $this->resource->show_link,
+                'slug' => $this->resource->slug,
+                'show' => $this->resource->show_link,
             ],
-            'name'             => $this->resource->name,
-            'slug'             => $this->resource->slug,
-            'email'            => $this->resource->email,
-            'about'            => $this->resource->about,
-            'gender'           => $this->resource->gender,
-            'avatar'           => $this->resource->avatar_thumbnail,
-            'commentsCount'    => $this->resource->comments()->count(),
-            'favoritesCount'   => $this->resource->favorites()->count(),
-            'isAdmin'          => $this->resource->hasRole(RoleEnum::ADMIN()),
-            'displayComments'  => $this->resource->display_comments,
+            'name' => $this->resource->name,
+            'slug' => $this->resource->slug,
+            'email' => $this->resource->email,
+            'about' => $this->resource->about,
+            'gender' => $this->resource->gender,
+            'avatar' => $this->resource->avatar_thumbnail,
+            'commentsCount' => $this->resource->comments()->count(),
+            'favoritesCount' => $this->resource->favorites()->count(),
+            'isAdmin' => $this->resource->hasRole(RoleEnum::ADMIN()),
+            'displayComments' => $this->resource->display_comments,
             'displayFavorites' => $this->resource->display_favorites,
-            'displayGender'    => $this->resource->display_gender
+            'displayGender' => $this->resource->display_gender,
             // 'roles'   => $roles,
         ];
     }

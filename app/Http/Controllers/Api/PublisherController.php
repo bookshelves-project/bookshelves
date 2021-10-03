@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Publisher;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookLightResource;
-use App\Http\Resources\Publisher\PublisherResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
+use App\Http\Resources\Publisher\PublisherResource;
+use App\Models\Publisher;
+use Illuminate\Http\Request;
 
 /**
  * @group Publisher
@@ -17,21 +17,20 @@ use App\Http\Resources\Publisher\PublisherLightResource;
 class PublisherController extends Controller
 {
     /**
-    * GET Publisher collection
-    *
-    * <small class="badge badge-blue">WITH PAGINATION</small>
-    *
-    * Get all Publishers ordered by 'name'.
-    *
-    * @queryParam per-page int Entities per page, '32' by default. No-example
-    * @queryParam page int The page number, '1' by default. No-example
-    *
-    * @responseFile public/assets/responses/publishers.index.get.json
-    */
+     * GET Publisher collection.
+     *
+     * <small class="badge badge-blue">WITH PAGINATION</small>
+     *
+     * Get all Publishers ordered by 'name'.
+     *
+     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam page int The page number, '1' by default. No-example
+     *
+     * @responseFile public/assets/responses/publishers.index.get.json
+     */
     public function index(Request $request)
     {
         $page = $request->get('per-page') ? $request->get('per-page') : null;
-
 
         $pubs = Publisher::orderBy('name')->get();
 
@@ -50,7 +49,7 @@ class PublisherController extends Controller
     }
 
     /**
-     * GET Publisher resource
+     * GET Publisher resource.
      *
      * Details for one Publisher, find by slug.
      *
@@ -66,19 +65,19 @@ class PublisherController extends Controller
     }
 
     /**
-    * GET Books collection of Publisher
-    *
-    * <small class="badge badge-blue">WITH PAGINATION</small>
-    *
-    * Get all Books of selected Publisher ordered by Books' 'title'.
-    *
-    * @urlParam publisher_slug string required The slug of author like 'bragelonne'. Example: bragelonne
-    *
-    * @queryParam per-page int Entities per page, '32' by default. No-example
-    * @queryParam page int The page number, '1' by default. No-example
-    *
-    * @responseFile public/assets/responses/publishers.books.get.json
-    */
+     * GET Books collection of Publisher.
+     *
+     * <small class="badge badge-blue">WITH PAGINATION</small>
+     *
+     * Get all Books of selected Publisher ordered by Books' 'title'.
+     *
+     * @urlParam publisher_slug string required The slug of author like 'bragelonne'. Example: bragelonne
+     *
+     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam page int The page number, '1' by default. No-example
+     *
+     * @responseFile public/assets/responses/publishers.books.get.json
+     */
     public function books(Request $request, string $publisher_slug)
     {
         $page = $request->get('per-page') ? $request->get('per-page') : 32;

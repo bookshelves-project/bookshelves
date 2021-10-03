@@ -20,9 +20,9 @@ class IdentifierResource extends JsonResource
         $identifier = $this;
 
         return [
-            'isbn'   => $identifier->isbn,
+            'isbn' => $identifier->isbn,
             'isbn13' => $identifier->isbn13,
-            'doi'    => $identifier->doi,
+            'doi' => $identifier->doi,
             'amazon' => $identifier->amazon,
             'google' => $identifier->google,
         ];

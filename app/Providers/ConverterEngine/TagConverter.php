@@ -3,24 +3,23 @@
 namespace App\Providers\ConverterEngine;
 
 use App\Models\Book;
-use Spatie\Tags\Tag;
-use Illuminate\Support\Collection;
 use App\Providers\ParserEngine\ParserEngine;
+use Illuminate\Support\Collection;
+use Spatie\Tags\Tag;
 
 class TagConverter
 {
     /**
-    * Generate Tag[] for Book from ParserEngine.
-    */
+     * Generate Tag[] for Book from ParserEngine.
+     */
     public static function create(ParserEngine $parser, Book $book): Collection
     {
         foreach ($parser->subjects as $key => $subject) {
             self::tagRaw($subject, $book);
         }
         $book->refresh();
-        $tags = $book->tags;
 
-        return $tags;
+        return $book->tags;
     }
 
     /**

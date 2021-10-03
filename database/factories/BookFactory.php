@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Book;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class BookFactory extends Factory
 {
@@ -26,14 +26,14 @@ class BookFactory extends Factory
         $title = ucfirst($faker->words($faker->numberBetween(2, 5), true));
 
         return [
-            'title'       => $title,
-            'title_sort'  => Str::slug($title),
-            'slug'        => Str::slug($title),
+            'title' => $title,
+            'title_sort' => Str::slug($title),
+            'slug' => Str::slug($title),
             'contributor' => 'Book factory',
             'description' => $faker->paragraph(),
-            'date'        => $faker->dateTime(),
-            'rights'      => 'Bookshelves',
-            'volume'      => $faker->numberBetween(0, 8),
+            'date' => $faker->dateTime(),
+            'rights' => 'Bookshelves',
+            'volume' => $faker->numberBetween(0, 8),
         ];
     }
 }

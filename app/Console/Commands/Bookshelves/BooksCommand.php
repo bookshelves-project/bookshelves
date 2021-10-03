@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Spatie\Tags\Tag;
+use App\Providers\ConverterEngine\ConverterEngine;
+use App\Providers\ParserEngine\ParserEngine;
+use App\Providers\ParserEngine\ParserList;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use App\Providers\ParserEngine\ParserList;
-use App\Providers\ParserEngine\ParserEngine;
-use App\Providers\ConverterEngine\ConverterEngine;
+use Spatie\Tags\Tag;
 
 class BooksCommand extends Command
 {
@@ -32,8 +32,6 @@ class BooksCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -60,12 +58,12 @@ class BooksCommand extends Command
 
         if ($fresh) {
             Artisan::call('setup:database', [
-                '--books'   => $fresh,
+                '--books' => $fresh,
             ], $this->getOutput());
         }
 
-        $this->alert("$app: books & relations");
-        $this->comment('EPUB files detected: ' . sizeof($list));
+        $this->alert("{$app}: books & relations");
+        $this->comment('EPUB files detected: '.sizeof($list));
         $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie, Identifier');
         $this->info('- Generate new EPUB file with standard name');
         $this->newLine();
@@ -73,27 +71,27 @@ class BooksCommand extends Command
             $format = config('bookshelves.cover_extension');
             $this->comment('Generate covers for books (--default|-D to skip)');
             $this->info('- Generate covers with differents dimensions');
-            $this->info("- Main format: $format (original from EPUB, thumbnail)");
+            $this->info("- Main format: {$format} (original from EPUB, thumbnail)");
             $this->info('- OpenGraph, Simple format: JPG (social, Catalog)');
-            if (config('app.env') === 'local') {
+            if ('local' === config('app.env')) {
                 $this->info('You are in local, conversions are generate only in production');
             }
             $this->newLine();
         }
-        
+
         $genres = config('bookshelves.tags.genres_list');
         foreach ($genres as $key => $genre) {
             Tag::findOrCreate($genre, 'genre');
         }
 
         $start = microtime(true);
-        
+
         $bar = $this->output->createProgressBar(sizeof($list));
         $bar->start();
         foreach ($list as $key => $epub) {
             $parser = ParserEngine::create($epub, $debug);
             if ($debug) {
-                $this->info($key . ' ' . $parser->title);
+                $this->info($key.' '.$parser->title);
             }
             ConverterEngine::create($parser, $local, $default);
 
@@ -106,7 +104,7 @@ class BooksCommand extends Command
 
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
-        $this->info("Time in seconds: $time_elapsed_secs");
+        $this->info("Time in seconds: {$time_elapsed_secs}");
 
         return true;
     }

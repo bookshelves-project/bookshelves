@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use File;
 use Artisan;
+use File;
 use Illuminate\Console\Command;
 
 class SampleBooksCommand extends Command
@@ -24,8 +24,6 @@ class SampleBooksCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -38,7 +36,7 @@ class SampleBooksCommand extends Command
     public function handle(): bool
     {
         $app = config('app.name');
-        $this->alert("$app: sample books");
+        $this->alert("{$app}: sample books");
 
         $demoPath = database_path('seeders/demo-ebooks');
         $booksRawPath = storage_path('app/public/data/books');

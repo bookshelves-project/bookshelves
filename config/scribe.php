@@ -8,12 +8,12 @@ return [
     /*
      * The HTML <title> for the generated documentation. If this is empty, Scribe will infer it from config('app.name').
      */
-    'title' => config('app.name') . ' API Documentation',
+    'title' => config('app.name').' API Documentation',
 
     /*
      * A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
      */
-    'description' => 'The API documentation for ' . config('app.name') . ' to use endpoints with another app.',
+    'description' => 'The API documentation for '.config('app.name').' to use endpoints with another app.',
 
     /*
      * The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
@@ -67,7 +67,7 @@ return [
                 'api/register',
                 'api/user/confirmed-password-status',
                 'api/user/confirm-password',
-                'api/sanctum/csrf-cookie'
+                'api/sanctum/csrf-cookie',
             ],
 
             /*
@@ -79,7 +79,7 @@ return [
                  */
                 'headers' => [
                     'Content-Type' => 'application/json',
-                    'Accept'       => 'application/json',
+                    'Accept' => 'application/json',
                 ],
 
                 /*
@@ -249,7 +249,7 @@ return [
     /*
      * Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
      */
-    'intro_text' => <<<INTRO
+    'intro_text' => <<<'INTRO'
 This documentation aims to provide all the information you need to work with our API.
 
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
@@ -266,7 +266,7 @@ INTRO
     'example_languages' => [
         'bash',
         'javascript',
-        'php'
+        'php',
     ],
 
     /*

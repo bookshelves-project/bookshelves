@@ -26,11 +26,9 @@ class LanguageConverter
             $name = ucfirst($meta_name);
         }
 
-        $lang = Language::firstOrCreate([
+        return Language::firstOrCreate([
             'name' => $name,
             'slug' => $meta_name,
         ]);
-
-        return $lang;
     }
 }

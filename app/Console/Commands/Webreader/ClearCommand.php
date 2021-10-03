@@ -23,8 +23,6 @@ class ClearCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -41,7 +39,7 @@ class ClearCommand extends Command
         $dir = 'public/storage/webreader';
         $file = new ClearFileTools($dir);
         $file->clearDir();
-        
+
         return 0;
     }
 }
