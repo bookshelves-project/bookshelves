@@ -17,7 +17,7 @@ return [
     'driver' => env('IMAGE_DRIVER', 'gd'),
     'format' => 'webp',
 
-    /**
+    /*
      * For Book, Serie, Author.
      */
     'covers' => [
@@ -42,7 +42,7 @@ return [
         ],
     ],
 
-    /**
+    /*
      * For User.
      */
     'user' => [
@@ -52,7 +52,7 @@ return [
         ],
     ],
 
-    /**
+    /*
      * For other formats.
      */
     'thumbnails' => [

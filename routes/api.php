@@ -1,34 +1,34 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Controllers\Api\TagController;
-use App\Http\Controllers\Api\BookController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\CountController;
-use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\AuthorController;
-use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CommandController;
 use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\CountController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LanguageController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\PublisherController;
+use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\SubmissionController;
-use Laravel\Fortify\Http\Controllers\PasswordController;
+use App\Http\Controllers\Api\TagController;
+use App\Http\Controllers\Api\UserController;
+use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
+use Laravel\Fortify\Http\Controllers\ConfirmedPasswordStatusController;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
-use Laravel\Fortify\Http\Controllers\RecoveryCodeController;
-use Laravel\Fortify\Http\Controllers\RegisteredUserController;
-use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
+use Laravel\Fortify\Http\Controllers\PasswordController;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\ProfileInformationController;
-use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-use Laravel\Fortify\Http\Controllers\ConfirmedPasswordStatusController;
-use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController;
+use Laravel\Fortify\Http\Controllers\RecoveryCodeController;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController;
+use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,8 +40,6 @@ use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
 
 Route::get('/', [ApiController::class, 'index'])->name('api.index');
 
@@ -203,8 +201,8 @@ Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('a
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('api.auth.login.post');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('api.auth.logout');
 
-Route::get('/register', [RegisteredUserController::class,'create'])->name('api.auth.register');
-Route::post('/register', [RegisteredUserController::class,'store'])->name('api.auth.register.post');
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('api.auth.register');
+Route::post('/register', [RegisteredUserController::class, 'store'])->name('api.auth.register.post');
 
 // Route::prefix('auth')->group(function () {
 //     Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('api.auth.forgot-password');
@@ -220,12 +218,12 @@ Route::post('/register', [RegisteredUserController::class,'store'])->name('api.a
 //         Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store'])->name('api.auth.confirm-password.post');
 //         Route::get('/user/confirmed-password-status', [ConfirmedPasswordStatusController::class, 'show'])->name('api.auth.confirmed-password-status');
 //         Route::put('/user/password', [PasswordController::class, 'update'])->name('api.auth.password-controller');
-        
+
 //         Route::put('/user/profile-information', [ProfileInformationController::class, 'update'])->name('api.auth.profile-information');
-        
+
 //         Route::post('/user/two-factor-authentication', [TwoFactorAuthenticationController::class, 'store'])->name('api.auth.two-factor-authentication');
 //         Route::delete('/user/two-factor-authentication', [TwoFactorAuthenticationController::class, 'destroy'])->name('api.auth.two-factor-authentication.post');
-        
+
 //         Route::get('/user/two-factor-qr-code', [TwoFactorQrCodeController::class, 'show'])->name('api.auth.two-factor-qr-code');
 //         Route::get('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'index'])->name('api.auth.recovery-code');
 //         Route::post('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'store'])->name('api.auth.recovery-code.post');
