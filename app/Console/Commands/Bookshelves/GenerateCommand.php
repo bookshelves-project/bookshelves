@@ -2,14 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Models\Author;
-use App\Models\Book;
-use App\Models\Language;
-use App\Models\Publisher;
-use App\Models\Serie;
 use Artisan;
 use Illuminate\Console\Command;
-use Spatie\Tags\Tag;
 
 class GenerateCommand extends Command
 {
@@ -27,7 +21,6 @@ class GenerateCommand extends Command
                             {--b|books : assets for books}
                             {--a|authors : assets for authors}
                             {--s|series : assets for series}
-                            {--t|test : execute tests at the end}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--D|default : use default cover for all (skip covers step)}
                             {--C|comments : sample command for comments}
@@ -38,7 +31,7 @@ class GenerateCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Generate books and covers database from storage/data/books, set limit option at the end';
+    protected $description = 'Execute bookshelves commands: books, assets, stats and sample.';
 
     /**
      * Create a new command instance.
@@ -73,7 +66,6 @@ class GenerateCommand extends Command
         $limit = intval($limit);
         $local = $this->option('local') ?? false;
         $debug = $this->option('debug') ?? false;
-        $test = $this->option('test') ?? false;
         $default = $this->option('default');
         $comments = $this->option('comments') ?? false;
         $selection = $this->option('selection') ?? false;
@@ -101,9 +93,6 @@ class GenerateCommand extends Command
         }
         if ($series) {
             $this->warn('- Option --series: generate assets for series from Wikipedia.');
-        }
-        if ($test) {
-            $this->warn('- Option --test: execute tests at the end.');
         }
         if ($default) {
             $this->warn('- Option --default: skip covers step, use default cover.');
@@ -147,10 +136,7 @@ class GenerateCommand extends Command
             '--default' => $default,
         ], $this->getOutput());
 
-        $this->table(
-            ['Books', 'Series', 'Authors', 'Languages', 'Publishers', 'Tags'],
-            [[Book::count(), Serie::count(), Author::count(), Language::count(), Publisher::count(), Tag::count()]]
-        );
+        Artisan::call('bookshelves:stats', [], $this->getOutput());
         $this->newLine();
 
         if (! $debug) {
@@ -163,17 +149,6 @@ class GenerateCommand extends Command
             '--comments' => $comments,
             '--force' => $isForce,
         ], $this->getOutput());
-
-        /*
-         * Tests
-         */
-        if ($test) {
-            $this->alert('Tests');
-            if ($this->confirm('Do you want to run tests?', true)) {
-                $this->line('Run tests...');
-                Artisan::call('bookshelves:test');
-            }
-        }
 
         $this->info('Done!');
     }
