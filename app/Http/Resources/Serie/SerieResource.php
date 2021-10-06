@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Serie;
 
 use App\Http\Resources\Book\BookSerieResource;
-use App\Http\Resources\CommentResource;
+use App\Http\Resources\Comment\CommentResource;
 use App\Http\Resources\Tag\TagLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 

@@ -2,19 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\Commentable;
+use App\Models\Comment;
 use App\Models\User;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CommentableFactory extends Factory
+class CommentFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Commentable::class;
+    protected $model = Comment::class;
 
     /**
      * Define the model's default state.
@@ -42,7 +42,7 @@ class CommentableFactory extends Factory
             $faker->paragraph($faker->numberBetween(2, 10), true),
             $faker->paragraph($faker->numberBetween(2, 10), true),
         ];
-        $text = implode('<br>', $text);
+        $text = implode("\n\n", $text);
         $text = explode(' ', $text);
         foreach ($text as $key => $word) {
             if (! strpos($word, '.')) {

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\GenderEnum;
 use App\Enums\RoleEnum;
 use App\Models\Role;
 use App\Models\User;
@@ -35,6 +36,7 @@ class UserAdminSeeder extends Seeder
                 'email_verified_at' => new DateTime(),
                 'password' => $userRaw['password'],
                 'about' => 'Super admin of plateform',
+                'gender' => GenderEnum::NONE(),
                 'use_gravatar' => false,
                 'display_comments' => true,
                 'display_favorites' => true,

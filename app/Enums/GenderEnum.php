@@ -15,7 +15,7 @@ use Spatie\Enum\Laravel\Enum;
  */
 final class GenderEnum extends Enum
 {
-    protected static function values(): Closure
+    protected static function labels(): Closure
     {
         return fn (string $name) => mb_strtolower($name);
     }

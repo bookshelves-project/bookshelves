@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Commentable;
+use App\Models\Comment;
 use App\Models\GoogleBook;
 use App\Models\Identifier;
 use App\Models\Language;
@@ -138,8 +138,8 @@ class DatabaseCommand extends Command
         Language::truncate();
         $this->info('Truncate identifiers table');
         Identifier::truncate();
-        $this->info('Truncate commentables table');
-        Commentable::truncate();
+        $this->info('Truncate comments table');
+        Comment::truncate();
         $this->info('Truncate google_books table');
         GoogleBook::truncate();
         $this->info('Truncate tags table');

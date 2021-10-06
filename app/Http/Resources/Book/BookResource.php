@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Book;
 
 use App\Http\Resources\Author\AuthorUltraLightResource;
-use App\Http\Resources\CommentResource;
+use App\Http\Resources\Comment\CommentResource;
 use App\Http\Resources\GoogleBookResource;
 use App\Http\Resources\IdentifierResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
