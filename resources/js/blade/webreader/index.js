@@ -153,7 +153,7 @@ function setToc() {
   let tocBlock = document.getElementById("toc");
   console.log(rendition.book);
   toc.forEach((el, key) => {
-    tocBlock.innerHTML += `<li id="${el.id} chapter-${key}" data-chapter="${key}" class="toc-item cursor-pointer hover:bg-gray-200 rounded-md">${el.label}</li>`;
+    tocBlock.innerHTML += `<li id="${el.id} chapter-${key}" data-chapter="${key}" class="toc-item cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white group flex links-center px-2 py-2 text-sm font-medium rounded-md my-1 justify-between">${el.label}</li>`;
   });
 
   let tocItem = document.getElementsByClassName("toc-item");

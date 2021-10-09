@@ -17,16 +17,17 @@
     <script src="{{ mix('assets/js/blade/set-color-mode.js') }}"></script>
 </head>
 
-<body class="relative bg-yellow-200 dark:bg-gray-800">
-    <div class="fixed z-10 top-0 left-0">
-        <div class="bg-white p-3 rounded-md">
-            <ul id="toc" class="list-none"></ul>
-        </div>
-    </div>
+<body class="relative bg-yellow-200 dark:bg-gray-800 {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
+    @php
+        $links = [];
+    @endphp
+    <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+    <x-layout.sidebar-epub :title="$title" />
     <div
         class="fixed transform -translate-x-1/2 top-0 left-1/2 flex items-center bg-gray-200 bg-opacity-75 z-50 text-white">
         <x-webreader.navigation-epub id="firstPage" icon="arrow-double-left" />
         <x-webreader.navigation-epub id="prevPage" icon="arrow-left" />
+        <x-webreader.navigation-epub id="sidebar-header-button" icon="menu" />
         <x-webreader.navigation :route="route('features.webreader.index')" icon="home" />
         <a href="{{ $epub_download }}" download>
             <x-webreader.navigation-epub id="download" icon="download" />
