@@ -52,7 +52,6 @@ class ClearCommand extends Command
         Artisan::call('config:clear', [], $this->getOutput());
         Artisan::call('view:clear', [], $this->getOutput());
         Artisan::call('optimize:clear', [], $this->getOutput());
-        Artisan::call('webreader:clear', [], $this->getOutput());
 
         $this->newLine();
 

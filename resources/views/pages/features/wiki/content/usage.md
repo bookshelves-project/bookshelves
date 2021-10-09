@@ -246,10 +246,6 @@ php artisan setup
 ### *c. Misc*
 
 ```bash
-php artisan webreader:clear
-```
-
-```bash
 php artisan log:clear
 ```
 
