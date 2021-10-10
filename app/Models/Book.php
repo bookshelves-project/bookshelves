@@ -10,6 +10,7 @@ use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -93,6 +94,13 @@ class Book extends Model implements HasMedia
         return "{$serie}{$title}";
     }
 
+    public function scopeWhereSerieTitleIs(Builder $query, $title): Builder
+    {
+        return $query
+            ->whereRelation('serie', 'title', '=', $title)
+        ;
+    }
+
     public function toSearchableArray()
     {
         return [
@@ -100,7 +108,6 @@ class Book extends Model implements HasMedia
             'title' => $this->title,
             'date' => $this->date,
             'author' => $this->authors_names,
-            // 'description'      => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

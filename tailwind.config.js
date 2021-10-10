@@ -105,5 +105,6 @@ module.exports = {
     require("@tailwindcss/aspect-ratio"),
     require("@tailwindcss/line-clamp"),
     require("tailwindcss-debug-screens"),
+    require("tailwind-scrollbar"),
   ],
 };

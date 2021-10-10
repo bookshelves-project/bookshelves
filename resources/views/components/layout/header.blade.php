@@ -1,7 +1,7 @@
 <div class="relative z-10 h-16 flex bg-white dark:bg-gray-700 shadow">
     <div class="max-w-7xl flex-shrink-0 flex m-auto w-full">
         <button id="sidebar-header-button" type="button"
-            class="px-4 border-r border-gray-200 dark:border-gray-600 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 xl:hidden">
+            class="px-4 border-r border-gray-200 dark:border-gray-600 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 xl:hidden">
             <span class="sr-only">Open sidebar</span>
             <x-icon-menu class="h-6 w-6" />
         </button>
@@ -18,7 +18,7 @@
                 <x-switch-color-mode />
             </div>
             <button id="slide-over-header-button" type="button"
-                class="px-4 border-l border-gray-200 dark:border-gray-600 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 xl:hidden">
+                class="px-4 border-l border-gray-200 dark:border-gray-600 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 xl:hidden">
                 <span class="sr-only">Open sidebar</span>
                 <x-icon-menu-short class="h-6 w-6" />
             </button>

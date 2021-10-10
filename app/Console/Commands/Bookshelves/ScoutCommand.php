@@ -48,18 +48,17 @@ class ScoutCommand extends Command
         ];
         $path = 'App\\\\Models\\\\';
 
-        // Artisan::call('cache:clear', [], $this->getOutput());
+        // $this->clear();
         if ($flush) {
             foreach ($models as $key => $value) {
-                Artisan::call('scout:flush '.$path.$key, [], $this->getOutput());
-                Artisan::call('scout:delete-index '.$value, [], $this->getOutput());
+                Artisan::call('scout:flush "'.$path.$key.'"', [], $this->getOutput());
+                Artisan::call('scout:delete-index "'.$value.'"', [], $this->getOutput());
             }
         } else {
             foreach ($models as $key => $value) {
-                Artisan::call('scout:import '.$path.$key, [], $this->getOutput());
+                Artisan::call('scout:import "'.$path.$key.'"', [], $this->getOutput());
             }
         }
-        // Artisan::call('cache:clear', [], $this->getOutput());
         // $this->clear();
 
         return 0;

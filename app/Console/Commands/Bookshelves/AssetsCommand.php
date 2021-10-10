@@ -65,6 +65,8 @@ class AssetsCommand extends Command
                 $this->info('- GoogleBook: extract data to improve Book (--local|-L to skip)');
             }
             $this->newLine();
+
+            $this->assets('Book', 'books', 'title_sort');
         }
         if ($authors) {
             $this->comment('Authors (REMOVE --authors|-a to skip)');
@@ -79,6 +81,8 @@ class AssetsCommand extends Command
             }
             $this->info('  - Default description can be in `public/storage/data/authors.json`');
             $this->newLine();
+
+            $this->assets('Author', 'authors', 'lastname');
         }
         if ($series) {
             $this->comment('Series (REMOVE --series|-s to skip)');
@@ -92,15 +96,7 @@ class AssetsCommand extends Command
             }
             $this->info('  - Default description can be in `public/storage/data/series.json`');
             $this->newLine();
-        }
 
-        if ($books) {
-            $this->assets('Book', 'books', 'title_sort');
-        }
-        if ($authors) {
-            $this->assets('Author', 'authors', 'lastname');
-        }
-        if ($series) {
             $this->assets('Serie', 'series', 'title_sort');
         }
 
@@ -111,9 +107,8 @@ class AssetsCommand extends Command
     {
         $books = $this->option('books') ?? false;
         $model_name = 'App\Models\\'.ucfirst($model);
-        $this->comment($model);
-        $this->newLine();
         $list = $model_name::orderBy($orderBy)->get();
+        $this->comment($model.': '.sizeof($list));
 
         $start = microtime(true);
 
@@ -132,13 +127,12 @@ class AssetsCommand extends Command
         if (! $local) {
             $chunk = $list->chunk(HttpTools::LIMIT);
 
-            $this->info('HTTP requests with async split in 250 entities of '.sizeof($chunk).' chunks.');
-            $this->info('Progress bar is not available with async');
+            $this->info('HTTP requests with async splitted in '.HttpTools::LIMIT.' entities of '.sizeof($chunk).' chunks.');
             $this->newLine();
 
             foreach ($chunk as $key => $list) {
+                $this->info('Fetching API data for chunk '.$key + 1);
                 $providers = GoogleBookProvider::createAsync($list);
-                $this->info("Use API data for chunk {$key}");
                 $bar = $this->output->createProgressBar(count($list));
                 $bar->start();
                 foreach ($providers as $bookID => $provider) {

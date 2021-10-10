@@ -54,12 +54,12 @@
                 items-center
                 text-sm
                 font-semibold
-                text-indigo-700
+                text-primary-700
               "
             >
               <div>Explore the documentation</div>
 
-              <div class="ml-1 text-indigo-500">
+              <div class="ml-1 text-primary-500">
                 <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                   <path
                     fill-rule="evenodd"
@@ -109,12 +109,12 @@
                 items-center
                 text-sm
                 font-semibold
-                text-indigo-700
+                text-primary-700
               "
             >
               <div>Start watching Laracasts</div>
 
-              <div class="ml-1 text-indigo-500">
+              <div class="ml-1 text-primary-500">
                 <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                   <path
                     fill-rule="evenodd"
@@ -192,11 +192,11 @@
 </template>
 
 <script>
-import JetApplicationLogo from '@/Jetstream/ApplicationLogo.vue'
+import JetApplicationLogo from "@/Jetstream/ApplicationLogo.vue";
 
 export default {
   components: {
     JetApplicationLogo,
   },
-}
+};
 </script>

@@ -6,11 +6,11 @@
     class="
       rounded
       border-gray-300
-      text-indigo-600
+      text-primary-600
       shadow-sm
-      focus:border-indigo-300
+      focus:border-primary-300
       focus:ring
-      focus:ring-indigo-200
+      focus:ring-primary-200
       focus:ring-opacity-50
     "
   />
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  emits: ['update:checked'],
+  emits: ["update:checked"],
 
   props: {
     checked: {
@@ -33,13 +33,13 @@ export default {
   computed: {
     proxyChecked: {
       get() {
-        return this.checked
+        return this.checked;
       },
 
       set(val) {
-        this.$emit('update:checked', val)
+        this.$emit("update:checked", val);
       },
     },
   },
-}
+};
 </script>

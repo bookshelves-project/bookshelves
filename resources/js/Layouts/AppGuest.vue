@@ -20,7 +20,7 @@
             focus:outline-none
             focus:ring-2
             focus:ring-inset
-            focus:ring-indigo-500
+            focus:ring-primary-500
             md:hidden
           "
           @click="sidebarOpen = !sidebarOpen"

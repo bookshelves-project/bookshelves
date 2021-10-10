@@ -16,7 +16,7 @@
             </button>
         </div>
 
-        <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
+        <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto scrollbar-thin">
             <h1 class="text-xl font-quicksand font-semibold text-black dark:text-gray-100 p-3">
                 {{ $title }}
             </h1>

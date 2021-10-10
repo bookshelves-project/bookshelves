@@ -39,7 +39,11 @@
                                                 {{ $subItem }}@if ($subKey < sizeof(config($item)) - 1),@endif
                                             @endforeach
                                         @else
-                                            {{ config($item) }}
+                                            @if (is_bool(config($item)))
+                                                {{ config($item) ? 'true' : 'false' }}
+                                            @else
+                                                {{ config($item) }}
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>
