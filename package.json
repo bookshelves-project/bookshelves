@@ -37,6 +37,7 @@
     "dependencies": {
         "@headlessui/vue": "^1.4.0",
         "@heroicons/vue": "^1.0.4",
+        "epubjs": "^0.3.88",
         "shiki": "^0.9.5"
     }
 }

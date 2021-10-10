@@ -2,16 +2,16 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Models\Author;
+use App\Providers\ConverterEngine\AuthorConverter;
+use App\Providers\ConverterEngine\SerieConverter;
+use App\Providers\GoogleBookProvider;
+use App\Providers\WikipediaProvider;
 use App\Utils\HttpTools;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use App\Providers\WikipediaProvider;
-use App\Providers\GoogleBookProvider;
-use App\Providers\ConverterEngine\SerieConverter;
-use App\Providers\ConverterEngine\AuthorConverter;
 
 class AssetsCommand extends Command
 {
@@ -37,8 +37,6 @@ class AssetsCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -60,11 +58,11 @@ class AssetsCommand extends Command
 
         $app = config('app.name');
         $this->newLine();
-        $this->alert("$app: assets");
+        $this->alert("{$app}: assets");
         if ($books) {
             $this->comment('Books (REMOVE --books|-b to skip)');
             if (! $local) {
-                $this->info("- GoogleBook: extract data to improve Book (--local|-L to skip)");
+                $this->info('- GoogleBook: extract data to improve Book (--local|-L to skip)');
             }
             $this->newLine();
         }
@@ -74,12 +72,12 @@ class AssetsCommand extends Command
                 $this->info('- Picture from Wikipedia (--local|-L to skip)');
             }
             if (! $default) {
-                $this->info("  - Default picture can be JPG file with slug of serie in `public/storage/data/pictures-authors` (--default|-D to skip)");
+                $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/pictures-authors` (--default|-D to skip)');
             }
             if (! $local) {
                 $this->info('- Description from Wikipedia (--local|-L to skip)');
             }
-            $this->info("  - Default description can be in `public/storage/data/authors.json`");
+            $this->info('  - Default description can be in `public/storage/data/authors.json`');
             $this->newLine();
         }
         if ($series) {
@@ -88,11 +86,11 @@ class AssetsCommand extends Command
             if (! $default) {
                 $this->info('- Picture from first Book of Serie (--default|-D to skip)');
             }
-            $this->info("  - Default picture can be JPG file with slug of serie in `public/storage/data/pictures-series`");
+            $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/pictures-series`');
             if (! $local) {
                 $this->info('- Description from Wikipedia (--local|-L to skip)');
             }
-            $this->info("  - Default description can be in `public/storage/data/series.json`");
+            $this->info('  - Default description can be in `public/storage/data/series.json`');
             $this->newLine();
         }
 
@@ -105,25 +103,25 @@ class AssetsCommand extends Command
         if ($series) {
             $this->assets('Serie', 'series', 'title_sort');
         }
-        
+
         return 0;
     }
 
     private function assets(string $model, string $collection, string $orderBy)
     {
         $books = $this->option('books') ?? false;
-        $model_name = 'App\Models\\' . ucfirst($model);
+        $model_name = 'App\Models\\'.ucfirst($model);
         $this->comment($model);
         $this->newLine();
         $list = $model_name::orderBy($orderBy)->get();
 
         $start = microtime(true);
 
-        $this->$collection($list, $collection);
+        $this->{$collection}($list, $collection);
 
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
-        $this->info("Time in seconds: $time_elapsed_secs");
+        $this->info("Time in seconds: {$time_elapsed_secs}");
 
         $this->newLine();
     }
@@ -134,13 +132,13 @@ class AssetsCommand extends Command
         if (! $local) {
             $chunk = $list->chunk(HttpTools::LIMIT);
 
-            $this->info('HTTP requests with async split in 250 entities');
+            $this->info('HTTP requests with async split in 250 entities of '.sizeof($chunk).' chunks.');
             $this->info('Progress bar is not available with async');
             $this->newLine();
-            
+
             foreach ($chunk as $key => $list) {
                 $providers = GoogleBookProvider::createAsync($list);
-                $this->info("Use API data for chunk $key");
+                $this->info("Use API data for chunk {$key}");
                 $bar = $this->output->createProgressBar(count($list));
                 $bar->start();
                 foreach ($providers as $bookID => $provider) {
@@ -153,7 +151,7 @@ class AssetsCommand extends Command
             }
         }
     }
-    
+
     private function authors(Collection $list, string $collection)
     {
         $fresh = $this->option('fresh') ?? false;
@@ -167,7 +165,7 @@ class AssetsCommand extends Command
                 $model->save();
             }
         }
-        
+
         if (! $local) {
             $this->authorsAsync($list, $collection);
         } else {
@@ -190,11 +188,12 @@ class AssetsCommand extends Command
         $providers = WikipediaProvider::make($list, 'name');
         $this->newLine();
 
+        $this->info('Set async data');
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($providers as $key => $provider) {
             $model = $provider->model_name::find($provider->model_id);
-    
+
             /** @var Author $model */
             if (! $model->description && ! $model->link) {
                 AuthorConverter::setWikiDescription($model, $provider);
@@ -206,7 +205,7 @@ class AssetsCommand extends Command
         }
         $bar->finish();
     }
-    
+
     private function series(Collection $list, string $collection)
     {
         $fresh = $this->option('fresh') ?? false;
@@ -221,7 +220,7 @@ class AssetsCommand extends Command
                 $model->save();
             }
         }
-        
+
         if (! $local) {
             $this->seriesAsync($list, $collection);
         }
@@ -247,11 +246,12 @@ class AssetsCommand extends Command
         $providers = WikipediaProvider::make($list, 'title');
         $this->newLine();
 
+        $this->info('Set async data');
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($providers as $key => $provider) {
             $model = $provider->model_name::find($provider->model_id);
-    
+
             /** @var Serie $model */
             if (! $model->description && ! $model->link) {
                 SerieConverter::setWikiDescription($model, $provider);
@@ -259,5 +259,6 @@ class AssetsCommand extends Command
             $bar->advance();
         }
         $bar->finish();
+        $this->newLine();
     }
 }

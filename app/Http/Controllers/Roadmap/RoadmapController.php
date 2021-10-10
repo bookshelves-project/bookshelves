@@ -9,7 +9,7 @@ class RoadmapController extends Controller
 {
     public function index()
     {
-        $markdown = CommonMarkProvider::generate("roadmap/content/index.md");
+        $markdown = CommonMarkProvider::generate('roadmap/content/index.md');
         $content = $markdown->content;
         $date = $markdown->date;
 

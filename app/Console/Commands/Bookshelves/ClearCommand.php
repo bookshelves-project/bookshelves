@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Artisan;
 use App\Utils\ClearFileTools;
+use Artisan;
 use Illuminate\Console\Command;
 
 class ClearCommand extends Command
@@ -24,8 +24,6 @@ class ClearCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -40,7 +38,7 @@ class ClearCommand extends Command
     public function handle()
     {
         $app = config('app.name');
-        $this->alert("$app: clear");
+        $this->alert("{$app}: clear");
         $debug = new ClearFileTools(storage_path('app/public/debug'));
         $cache = new ClearFileTools(storage_path('app/public/cache'));
         $temp = new ClearFileTools(storage_path('app/public/temp'));
@@ -54,7 +52,6 @@ class ClearCommand extends Command
         Artisan::call('config:clear', [], $this->getOutput());
         Artisan::call('view:clear', [], $this->getOutput());
         Artisan::call('optimize:clear', [], $this->getOutput());
-        Artisan::call('webreader:clear', [], $this->getOutput());
 
         $this->newLine();
 

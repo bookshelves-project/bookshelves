@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * Manage selections with `MorphToMany` `selectionables`
+ * Manage selections with `MorphToMany` `selectionables`.
  */
 trait HasSelections
 {

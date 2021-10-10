@@ -2,16 +2,15 @@
 
 namespace App\Providers;
 
-use App\Utils\HttpTools;
 use App\Utils\BookshelvesTools;
-use Illuminate\Support\Collection;
+use App\Utils\HttpTools;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 /**
  * Use Wikipedia to get some data about authors and series.
  * Doc in french: https://korben.info/comment-utiliser-lapi-de-recherche-de-wikipedia.html.
- * @package App\Providers
  */
 class WikipediaProvider
 {
@@ -32,7 +31,7 @@ class WikipediaProvider
     /**
      * Request to Wikipedia from query.
      * - First request is search to get a list of pages
-     * - Second request is first result of pages
+     * - Second request is first result of pages.
      *
      * @return WikipediaProvider
      */
@@ -44,31 +43,28 @@ class WikipediaProvider
 
         $data = self::getDataUrl($lang, $provider->page_id);
         $response = Http::get($data);
-        $provider = self::getDataProvider($response, $provider);
 
-        return $provider;
+        return self::getDataProvider($response, $provider);
     }
-    
+
     /**
      * Request to Wikipedia from Collection of Model with Guzzle Http Pool.
      * It's async method.
      *
-     * @param Collection $list
      * @param string $attribute which used to search
+     *
      * @return WikipediaProvider[]
      */
     public static function make(Collection $list, string $attribute): array
     {
         $providers = WikipediaProvider::createSearchAsync($list, $attribute);
-        $providers = WikipediaProvider::createDataAsync($providers);
 
-        return $providers;
+        return WikipediaProvider::createDataAsync($providers);
     }
 
     /**
-     * Async Wikipedia API calls
+     * Async Wikipedia API calls.
      *
-     * @param Collection $list
      * @return WikipediaProvider[]
      */
     public static function createSearchAsync(Collection $list, string $attribute): array
@@ -77,33 +73,29 @@ class WikipediaProvider
         $model_name = $list[0];
         $model_name = $model_name->getClassNamespace();
         foreach ($list as $key => $model) {
-            $url = self::getSearchUrl($model->$attribute, $model->language_slug ? $model->language_slug : 'en');
+            $url = self::getSearchUrl($model->{$attribute}, $model->language_slug ? $model->language_slug : 'en');
             $urlList[$model->id] = $url;
         }
         $responses = HttpTools::async($urlList);
-        
+
         $providers = [];
         foreach ($responses as $ID => $response) {
             $provider = self::getSearchProvider($response, $ID, $model_name);
             $providers[$ID] = $provider;
         }
-        
+
         return $providers;
     }
 
-    public static function getSearchUrl(string $query, string $lang = 'en'):string
+    public static function getSearchUrl(string $query, string $lang = 'en'): string
     {
         $query = str_replace(' ', '%20', $query);
-        $url = "https://$lang.wikipedia.org/w/api.php?action=query&list=search&srsearch=$query&format=json";
-        
-        return $url;
+
+        return "https://{$lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch={$query}&format=json";
     }
-    
+
     /**
-     * Get results from query URL
-     *
-     * @param Response $response
-     * @return WikipediaProvider
+     * Get results from query URL.
      */
     public static function getSearchProvider(Response $response, ?int $id = 0, ?string $model_name = null): WikipediaProvider
     {
@@ -121,7 +113,7 @@ class WikipediaProvider
             search_query: $params['srsearch'],
             model_id: $id,
         );
-        
+
         $pageId = false;
         $results = $response->json();
         // try to get writer
@@ -133,7 +125,7 @@ class WikipediaProvider
             foreach ($search as $key => $result) {
                 if (strpos($result['title'], '(writer)')) {
                     $pageId = $result['pageid'];
-    
+
                     break;
                 }
             }
@@ -151,8 +143,10 @@ class WikipediaProvider
     }
 
     /**
-     * Get Data from page
+     * Get Data from page.
+     *
      * @param WikipediaProvider[] $providers
+     *
      * @return WikipediaProvider[]
      */
     public static function createDataAsync(array $providers): array
@@ -165,7 +159,7 @@ class WikipediaProvider
             }
         }
         $responses = HttpTools::async($urlList);
-        
+
         $providers = collect($providers);
         $providers_data = [];
         foreach ($responses as $ID => $response) {
@@ -173,21 +167,19 @@ class WikipediaProvider
             $provider = self::getDataProvider($response, $current);
             array_push($providers_data, $provider);
         }
-        
+
         return $providers_data;
     }
-    
+
     public static function getDataUrl(string $lang, string $pageId)
     {
-        $url = "http://$lang.wikipedia.org/w/api.php?action=query&prop=info&pageids=$pageId&inprop=url&format=json&prop=info|extracts|pageimages&pithumbsize=512";
-
-        return $url;
+        return "http://{$lang}.wikipedia.org/w/api.php?action=query&prop=info&pageids={$pageId}&inprop=url&format=json&prop=info|extracts|pageimages&pithumbsize=512";
     }
 
     public static function getDataProvider(Response $response, WikipediaProvider $provider): WikipediaProvider
     {
         $response = $response->json();
-        
+
         if (array_key_exists('query', $response) && array_key_exists('pages', $response['query']) && array_key_exists($provider->page_id, $response['query']['pages'])) {
             $page = $response['query']['pages'][$provider->page_id];
             if (array_key_exists('extract', $page)) {
@@ -205,17 +197,18 @@ class WikipediaProvider
     }
 
     /**
-     * GETTERS
+     * GETTERS.
      */
 
     /**
-     * Get picture from WikipediaProvider picture_url
+     * Get picture from WikipediaProvider picture_url.
      *
-     * @return string|null
+     * @return null|string
      */
-    public function getPictureFile(): string | null
+    public function getPictureFile(): string|null
     {
         $picture = null;
+
         try {
             $picture = Http::get($this->picture_url)->body();
         } catch (\Throwable $th) {

@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Author;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class AuthorFactory extends Factory
 {
@@ -25,13 +25,13 @@ class AuthorFactory extends Factory
         $faker = \Faker\Factory::create();
         $firstname = $faker->firstName;
         $lastname = $faker->lastName;
-        $name = $firstname . ' ' . $lastname;
+        $name = $firstname.' '.$lastname;
 
         return [
-            'lastname'  => $lastname,
+            'lastname' => $lastname,
             'firstname' => $firstname,
-            'name'      => $name,
-            'slug'      => Str::slug($name),
+            'name' => $name,
+            'slug' => Str::slug($name),
         ];
     }
 }

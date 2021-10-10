@@ -17,7 +17,7 @@ if (! function_exists('image_cache')) {
         $thumbnail = get_thumbnail($path, $size);
 
         if (! $thumbnail['resolved']) {
-            return asset("cache/resolve/$size/$path");
+            return asset("cache/resolve/{$size}/{$path}");
         }
 
         return asset($thumbnail['filepath']);
@@ -30,8 +30,8 @@ if (! function_exists('get_thumbnail')) {
      */
     function get_thumbnail(string $path, string $size, bool $crop = true): array
     {
-        $filename = md5("$size/$path") . '.jpg';
-        $thumbnailPath = "storage/cache/$filename";
+        $filename = md5("{$size}/{$path}").'.jpg';
+        $thumbnailPath = "storage/cache/{$filename}";
 
         return [
             'resolved' => file_exists($thumbnailPath),
@@ -45,11 +45,11 @@ if (! function_exists('getUrlStorage')) {
     function getUrlStorage(string $path)
     {
         $path = str_replace('\\', '/', $path);
-        $path_array = explode("/", $path);
+        $path_array = explode('/', $path);
         $path_array_begin = 0;
         // find key for storage path
         foreach ($path_array as $key => $path_el) {
-            if ($path_el === 'storage') {
+            if ('storage' === $path_el) {
                 $path_array_begin = $key;
             }
         }
@@ -60,6 +60,6 @@ if (! function_exists('getUrlStorage')) {
         // remove for storage link
         $path = str_replace('app/public/', '', $path);
 
-        return config('app.url') . '/' . $path;
+        return config('app.url').'/'.$path;
     }
 }

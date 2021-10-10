@@ -5,12 +5,12 @@ namespace App\Providers\ParserEngine;
 class ParserList
 {
     /**
-     * Get all EPUB files from `storage/data/books`
+     * Get all EPUB files from `storage/data/books`.
      *
      * - return `array` of *absolute paths* of eBooks
      * - return `false` if `raw/books` not exist
      */
-    public static function getEbooks(int $limit = null, string $path = 'public/storage/data/books'): array | false
+    public static function getEbooks(int $limit = null, string $path = 'public/storage/data/books'): array|false
     {
         try {
             // Get all files in raw/books/
@@ -38,18 +38,20 @@ class ParserList
     }
 
     /**
-     * Parse directory (recursive)
+     * Parse directory (recursive).
+     *
      * @param mixed $dir
+     *
      * @return Generator<mixed, mixed, mixed, void>
      */
     private static function getDirectoryFiles($dir)
     {
         $files = scandir($dir);
         foreach ($files as $key => $value) {
-            $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
+            $path = realpath($dir.DIRECTORY_SEPARATOR.$value);
             if (! is_dir($path)) {
                 yield $path;
-            } elseif ($value != "." && $value != "..") {
+            } elseif ('.' != $value && '..' != $value) {
                 yield from self::getDirectoryFiles($path);
                 yield $path;
             }

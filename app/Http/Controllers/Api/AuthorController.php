@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Author;
-use Illuminate\Http\Request;
-use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Author\AuthorLightResource;
 use App\Http\Resources\Author\AuthorResource;
+use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
-use App\Http\Resources\Author\AuthorLightResource;
-use App\Http\Resources\Author\AuthorUltraLightResource;
+use App\Models\Author;
+use App\Utils\BookshelvesTools;
+use Illuminate\Http\Request;
 
 /**
  * @group Author
@@ -20,7 +20,7 @@ use App\Http\Resources\Author\AuthorUltraLightResource;
 class AuthorController extends Controller
 {
     /**
-     * GET Author collection
+     * GET Author collection.
      *
      * <small class="badge badge-blue">WITH PAGINATION</small>
      *
@@ -58,7 +58,7 @@ class AuthorController extends Controller
     }
 
     /**
-     * GET Author resource
+     * GET Author resource.
      *
      * Details for one Author, find by slug.
      *
@@ -68,16 +68,14 @@ class AuthorController extends Controller
     public function show(Author $author)
     {
         try {
-            $author = AuthorResource::make($author);
-
-            return $author;
+            return AuthorResource::make($author);
         } catch (\Throwable $th) {
-            return response()->json(['failed' => 'No result for ' . $author], 404);
+            return response()->json(['failed' => 'No result for '.$author], 404);
         }
     }
 
     /**
-     * GET Book collection of Author
+     * GET Book collection of Author.
      *
      * Books list from one author, find by slug.
      *
@@ -113,7 +111,7 @@ class AuthorController extends Controller
     }
 
     /**
-     * GET Serie collection of Author
+     * GET Serie collection of Author.
      *
      * Series list from one author, find by slug.
      *

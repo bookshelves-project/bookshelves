@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\Book;
 
+use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Models\Book;
 use App\Utils\BookshelvesTools;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Author\AuthorUltraLightResource;
 
 /**
  * @property \App\Models\Book $resource
@@ -20,25 +20,23 @@ class BookUltraLightResource extends JsonResource
      */
     public function toArray($request): array
     {
-        $base = [
+        return [
             'title' => $this->resource->title,
-            'meta'  => [
-                'slug'   => $this->resource->slug,
+            'meta' => [
+                'slug' => $this->resource->slug,
                 'author' => $this->resource->meta_author,
-                'show'   => $this->resource->show_link,
+                'show' => $this->resource->show_link,
             ],
-            'authors'     => AuthorUltraLightResource::collection($this->resource->authors),
-            'summary'     => BookshelvesTools::stringLimit($this->resource->description, 140),
-            'language'    => $this->resource->language?->slug,
+            'authors' => AuthorUltraLightResource::collection($this->resource->authors),
+            'summary' => BookshelvesTools::stringLimit($this->resource->description, 140),
+            'language' => $this->resource->language?->slug,
             'publishDate' => $this->resource->date,
-            'cover'       => [
-                'thumbnail'   => $this->resource->cover_thumbnail,
-                'simple'      => $this->resource->cover_simple,
-                'color'       => $this->resource->cover_color,
+            'cover' => [
+                'thumbnail' => $this->resource->cover_thumbnail,
+                'simple' => $this->resource->cover_simple,
+                'color' => $this->resource->cover_color,
             ],
             'volume' => $this->resource->volume,
         ];
-
-        return $base;
     }
 }

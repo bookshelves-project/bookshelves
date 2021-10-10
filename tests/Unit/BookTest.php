@@ -1,10 +1,10 @@
 <?php
 
-use Tests\TestCase;
 use App\Models\Book;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class BookTest extends TestCase
 {
@@ -23,6 +23,5 @@ class BookTest extends TestCase
 
         // Then
         $this->assertNotNull($book_to_find);
-        Book::destroy($book->id);
     }
 }

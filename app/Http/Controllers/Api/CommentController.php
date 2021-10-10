@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Auth;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Comment\CommentResource;
 use App\Models\Book;
 use App\Models\Comment;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\CommentResource;
 use App\Providers\ParserEngine\ParserTools;
+use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * @hideFromAPIDocumentation
@@ -18,7 +18,7 @@ class CommentController extends Controller
 {
     public function index(string $model, string $slug)
     {
-        $model_name = 'App\Models\\' . ucfirst($model);
+        $model_name = 'App\Models\\'.ucfirst($model);
         $entity = $model_name::whereSlug($slug)->first();
         $comments = $entity->comments;
 
@@ -34,7 +34,7 @@ class CommentController extends Controller
 
     public function store(Request $request, string $model, string $slug)
     {
-        $model_name = 'App\Models\\' . ucfirst($model);
+        $model_name = 'App\Models\\'.ucfirst($model);
         $entity = $model_name::whereSlug($slug)->first();
         $userId = Auth::id();
         $user = Auth::user();
@@ -46,9 +46,9 @@ class CommentController extends Controller
         }
 
         $comment_text = $request->text;
-        $comment_text = ParserTools::cleanText($comment_text, 'markdown', 1800);
+        // $comment_text = ParserTools::cleanText($comment_text, 'markdown', 1800);
         $comment = Comment::create([
-            'text'   => $comment_text,
+            'text' => $comment_text,
             'rating' => $request->rating,
         ]);
         $comment->user()->associate($user);

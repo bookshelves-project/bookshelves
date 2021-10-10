@@ -6,7 +6,7 @@ use App\Models\Language;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Manage language with `BelongsTo` `languages`
+ * Manage language with `BelongsTo` `languages`.
  */
 trait HasLanguage
 {

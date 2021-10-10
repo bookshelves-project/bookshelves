@@ -7,8 +7,6 @@ You need this to use Bookshelves
 - 🟢 NodeJS v14.16 : [nodejs.org](https://nodejs.org/en)
 - 🧶 yarn v1.2 : [classic.yarnpkg.com](https://classic.yarnpkg.com/lang/en/)
 
-# **I. Installation**
-
 ## *a. Dependencies*
 
 Extensions for PHP, here for `php8.0`
@@ -27,12 +25,6 @@ sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp
 npm install -g svgo
 ```
 
-For `pnpm`
-
-```bash
-npm i -g webpack-cli laravel-mix
-```
-
 ## *b. Setup*
 
 Download dependencies
@@ -49,6 +41,8 @@ Execute `setup` and follow guide
 php artisan setup
 ```
 
+**About environment variables, you can check [.env page](/features/wiki/dotenv)**
+
 ### Manual
 
 Create `.env`
@@ -57,30 +51,26 @@ Create `.env`
 cp .env.example .env
 ```
 
+Set database informations in `.env`
+
+```yml
+DB_DATABASE=bookshelves
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+**For more details you can check [.env page](/features/wiki/dotenv)**
+
 Generate key
 
 ```bash
 php artisan key:generate
 ```
 
-Set database informations, you can set more data if you want, check [**II. .env**](#heading-iienv)
-
-```bash
-DB_DATABASE=<database_name>
-DB_USERNAME=<database_user>
-DB_PASSWORD=<database_password>
-```
-
 Download NodeJS dependencies
 
 ```bash
 yarn
-```
-
-Execute Laravel mix
-
-```bash
-yarn dev
 ```
 
 Generation API documentation
@@ -94,6 +84,22 @@ Migrate database
 ```bash
 php artisan migrate
 ```
+
+Execute Laravel mix
+
+```bash
+yarn prod
+```
+
+Serve app
+
+```bash
+php artisan serve
+```
+
+Your app is available at <http://localhost:8000>
+
+## Production rights
 
 For Linux Debian-like only, give rights for `www-data` group on `storage` and `bootstrap/cache`
 
@@ -109,100 +115,29 @@ Previous command will add tracking changes for git, skip it with this command
 git checkout .
 ```
 
-## Common errors
+## Assets
 
-## `webpack-cli` to install
-
-```bash
-> @ watch /path/to/bookshelves-back
-> mix watch
-
-npx: installed 73 in 4.909s
-CLI for webpack must be installed.
-  webpack-cli (https://github.com/webpack/webpack-cli)
-
-We will use "pnpm" to install the CLI via "pnpm install -D webpack-cli".
-Do you want to install 'webpack-cli' (yes/no):
-```
-
-If you have this request, you can accept but CLI will make request again and again... Install some dependencies globally to fix this problem
+Execute Laravel mix
 
 ```bash
-npm i -g webpack-cli laravel-mix
+yarn dev
 ```
 
-# **II. Variables for .env**
+Minified for prod
 
-## *a. Mails*
-
-Bookshelves can send emails from contact form, you have to set `.env` variables.
-
-*Example for local with [**mailtrap**](https://mailtrap.io/)*
-
-```yaml
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.mailtrap.io
-MAIL_PORT=587
-MAIL_USERNAME=<mailtrap_email>
-MAIL_PASSWORD=<mailtrap_password>
-MAIL_ENCRYPTION=null
-MAIL_FROM_ADDRESS=noreply@bookshelves.ink
-MAIL_FROM_NAME="${APP_NAME}"
-MAIL_TO_ADDRESS=contact@bookshelves.ink
-MAIL_TO_NAME="${APP_NAME} contact"
+```bash
+yarn prod
 ```
 
-*Example for production with [**mailgun**](https://www.mailgun.com/)*
+To have [**Browsersync**](https://browsersync.io/), you have to serve app with `php artisan serve` at <http://localhost:8000>
 
-You can use any other mailing service, it's just my configuration for Mailgun.
-
->For credentials
->
->- Create an account
->- After setup domain
->- Sending -> Domain settings -> SMTP credentials
-
-```yaml
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.eu.mailgun.org
-MAIL_PORT=587
-MAIL_USERNAME=<mailgun_email>
-MAIL_PASSWORD=<mailgun_password>
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=noreply@bookshelves.ink
-MAIL_FROM_NAME="${APP_NAME}"
-MAIL_TO_ADDRESS=contact@bookshelves.ink
-MAIL_TO_NAME="${APP_NAME} contact"
+```bash
+yarn watch
 ```
 
-## *b. Authentication*
+You app with [**Browsersync**](https://browsersync.io/) is on <http://localhost:8001>
 
-Bookshelves use [**laravel/sanctum**](https://github.com/laravel/sanctum) for authentication with front-end which use [**nuxt/auth**](https://auth.nuxtjs.org/) to setup auth, you have to set correct variables into `.env` of back-end.
-
-- `APP_URL`: URL of back-end
-- `SANCTUM_STATEFUL_DOMAINS`: URL of front-end
-- `SESSION_DOMAIN`: domain
-- `ADMIN_EMAIL`: credential for `bookshelves:sample` to generate admin
-- `ADMIN_PASSWORD`: password for admin
-
-```yaml
-APP_URL=http://localhost:8000
-
-SANCTUM_STATEFUL_DOMAINS=localhost:3000
-SESSION_DOMAIN=null
-
-ADMIN_EMAIL=admin@mail.com
-ADMIN_PASSWORD=password
-```
-
-In production with front-end at <https://bookshelves.ink>
-
-```yaml
-SANCTUM_STATEFUL_DOMAINS=bookshelves.ink
-SESSION_DOMAIN=.bookshelves.ink
-```
-
-# **III. Webhook**
+## Webhook
 
 If you use Webhook to get update from your git forge, you can setup `.git/hooks/post-merge` with this config
 

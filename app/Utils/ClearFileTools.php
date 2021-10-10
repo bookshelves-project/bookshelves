@@ -3,8 +3,8 @@
 namespace App\Utils;
 
 use FilesystemIterator;
-use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class ClearFileTools
@@ -21,7 +21,7 @@ class ClearFileTools
         $outputStyle = new OutputFormatterStyle('red', '', ['bold', 'blink']);
         $output->getFormatter()->setStyle('fire', $outputStyle);
 
-        foreach (glob("$this->path/*") as $file) {
+        foreach (glob("{$this->path}/*") as $file) {
             if (! in_array(basename($file), $this->ignore)) {
                 if (is_dir($file)) {
                     $this->rmdir_recursive($file);
@@ -31,7 +31,7 @@ class ClearFileTools
             }
         }
 
-        $output->writeln("Clear storage/" . basename($this->path));
+        $output->writeln('Clear storage/'.basename($this->path));
     }
 
     public function rmdir_recursive($dir)

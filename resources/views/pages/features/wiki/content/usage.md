@@ -1,4 +1,4 @@
-# **I. Store eBooks**
+## **I. Store eBooks**
 
 You have to check if `storage:link` is effective with
 
@@ -10,7 +10,7 @@ php artisan storage:link
 
 If you want to know why, it's simple, EPUB files aren't on git of course, but more it's not really practical to store all ebooks into Bookshelves directly, it's more convenient to set symbolic link from your eBooks storage which is not into Bookshelves. But you can store EPUB files into `public/storage/data/books` directory, of course, Bookshelves scan recursively this directory, you can have sub directories if you want.  
 
-## *Option 1: store directly EPUB files*
+### *Option 1: store directly EPUB files*
 
 Git won't track any file into `public/storage/data/books`
 
@@ -24,7 +24,7 @@ Git won't track any file into `public/storage/data/books`
 |         +-- ...
 ```
 
-## *Option 2: create symbolic link*
+### *Option 2: create symbolic link*
 
 This is best solution for my usage, I have some directories with different eBooks but I want to refer all these directories.
 
@@ -43,7 +43,7 @@ ln -s /any/directory/books-classic public/storage/data/books
 |         +-- books-classic -> /any/directory/books-classic
 ```
 
-### With variant: EPUB -> link
+#### With variant: EPUB -> link
 
 It's possible to link all EPUB files too but if you have any update from original directories, it can broke links or you have to link again.
 
@@ -62,11 +62,11 @@ ln -s /any/directory/books-classic/**/*.epub public/storage/data/books
 |         +-- another-ebook.epub -> /any/directory/books-classic/another-ebook.epub
 ```
 
-# **II. Custom data**
+## **II. Custom data**
 
 When Bookshelves parse EPUB to generate data, it will try to find extra data from Internet on GoogleBooks and Wikipedia. If you don't want to get these data, you can use `--local` option to skip it. But if you want to set custom data directly from parsing by Bookshelves, it's possible.
 
-## *a. Description and link*
+### *a. Description and link*
 
 For extra data with authors and series for `description` and `link`, you can create JSON file. If an entry with `slug` of author or serie exist, Bookshelves will take it and don't use external API.
 
@@ -86,7 +86,7 @@ An example for authors.
 }
 ```
 
-## *b. Picture*
+### *b. Picture*
 
 Bookshelves will use cover of first book of a serie to generate cover's serie and will use Wikipedia API to get picture of an author. You can set custom pictures for series and authors. Just put **JPG** file with `slug` of author / serie into specific directory.
 
@@ -119,7 +119,7 @@ ln -s /any/directory/series public/storage/data/pictures-series
 |         +-- authors -> /any/directory/authors
 ```
 
-# **III. Scan**
+## **III. Scan**
 
 You can scan `books` directory to get a list of your EPUB files to know if everything works.
 
@@ -129,11 +129,11 @@ You can scan `books` directory to get a list of your EPUB files to know if every
 php artisan bookshelves:scan -v
 ```
 
-# **IV. Bookshelves commands**
+## **IV. Bookshelves commands**
 
 Commands have some options, use `-h` to get list of all options.
 
-## *a. generate*
+### *a. generate*
 
 **Main command of Bookshelves**, can parse all eBooks and **detect new eBooks** *OR* remove all eBooks data (and keep accounts) with `--fresh` like `php artisan bookshelves:generate -f`. When you want to detect new eBooks, just launch command without any option. It will launch multiple commands:
 
@@ -161,10 +161,18 @@ All these commands try to get extra data from Internet (Wikipedia and GoogleBook
 php artisan bookshelves:generate
 ```
 
-*Example: here command will erase all data with `migrate:fresh` with `-e`, check all eBooks and erase books with relationships with `-f`, and execute tests at the end with `-t`*
+*Example: here command will*
+
+- *erase all data with `migrate:fresh` with `-e` from bookshelves:books*
+- *check all eBooks and erase books with relationships with `-f` from bookshelves:books*
+- *books assets with `-b` from bookshelves:assets*
+- *authors assets with `-a` from bookshelves:assets*
+- *series assets with `-s` from bookshelves:assets*
+- *comments with `-C` from bookshelves:sample*
+- *selection with `-S` from bookshelves:sample*
 
 ```bash
-php artisan bookshelves:generate -eft
+php artisan bookshelves:generate -efbasCS
 ```
 
 *Example: here command will use only local data with `-L`, get only 100 first EPUB files with `-l=100`*
@@ -173,39 +181,39 @@ php artisan bookshelves:generate -eft
 php artisan bookshelves:generate -Ll=100
 ```
 
-### books
+#### books
 
 ```bash
 php artisan bookshelves:books
 ```
 
-### series
+#### series
 
 ```bash
 php artisan bookshelves:series
 ```
 
-### authors
+#### authors
 
 ```bash
 php artisan bookshelves:authors
 ```
 
-### clear
+#### clear
 
 ```bash
 php artisan bookshelves:clear
 ```
 
-## *b. sample*
+### *b. sample*
 
-### sample account data
+#### sample account data
 
 ```bash
 php artisan bookshelves:sample
 ```
 
-### sample books
+#### sample books
 
 If you want to test Bookshelves, you can use `bookshelves:sample` to generate data from libre eBooks
 
@@ -213,9 +221,9 @@ If you want to test Bookshelves, you can use `bookshelves:sample` to generate da
 php artisan bookshelves:sample-books
 ```
 
-# **V. Extra commands**
+## **V. Extra commands**
 
-## *a. Tests*
+### *a. Tests*
 
 ```bash
 php artisan bookshelves:test
@@ -229,17 +237,13 @@ php artisan pest
 php artisan larastan
 ```
 
-## *b. Setup*
+### *b. Setup*
 
 ```bash
 php artisan setup
 ```
 
-## *c. Misc*
-
-```bash
-php artisan webreader:clear
-```
+### *c. Misc*
 
 ```bash
 php artisan log:clear
@@ -249,13 +253,13 @@ php artisan log:clear
 php artisan log:read
 ```
 
-# **VI. Features**
+## **VI. Features**
 
-## *g. MetadataExtractor*
+### *g. MetadataExtractor*
 
 TODO
 
-## *i. Wikipedia*
+### *i. Wikipedia*
 
 TODO
 

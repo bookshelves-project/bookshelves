@@ -4,8 +4,8 @@ namespace App\Providers\ConverterEngine;
 
 use App\Models\Book;
 use App\Models\Identifier;
-use App\Providers\ParserEngine\ParserEngine;
 use App\Providers\ParserEngine\Models\OpfIdentifier;
+use App\Providers\ParserEngine\ParserEngine;
 
 class IdentifierConverter
 {
@@ -14,19 +14,19 @@ class IdentifierConverter
         $identifiers = [];
         /** @var OpfIdentifier $value */
         foreach ($parser->identifiers as $key => $value) {
-            if ($value->name === 'isbn') {
+            if ('isbn' === $value->name) {
                 $identifiers['isbn'] = $value->value;
             }
-            if ($value->name === 'isbn13') {
+            if ('isbn13' === $value->name) {
                 $identifiers['isbn13'] = $value->value;
             }
-            if ($value->name === 'doi') {
+            if ('doi' === $value->name) {
                 $identifiers['doi'] = $value->value;
             }
-            if ($value->name === 'amazon') {
+            if ('amazon' === $value->name) {
                 $identifiers['amazon'] = $value->value;
             }
-            if ($value->name === 'google') {
+            if ('google' === $value->name) {
                 $identifiers['google'] = $value->value;
             }
         }

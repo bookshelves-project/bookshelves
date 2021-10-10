@@ -2,21 +2,21 @@
 
 namespace App\Providers\ConverterEngine;
 
-use File;
-use Storage;
-use App\Models\Book;
 use App\Models\Author;
-use App\Utils\MediaTools;
-use Illuminate\Support\Str;
-use App\Utils\BookshelvesTools;
-use Illuminate\Support\Collection;
-use App\Providers\WikipediaProvider;
-use App\Providers\ParserEngine\ParserEngine;
+use App\Models\Book;
 use App\Providers\ParserEngine\Models\OpfCreator;
+use App\Providers\ParserEngine\ParserEngine;
+use App\Providers\WikipediaProvider;
+use App\Utils\BookshelvesTools;
+use App\Utils\MediaTools;
+use File;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use Storage;
 
 class AuthorConverter
 {
-    const DISK = 'authors';
+    public const DISK = 'authors';
 
     public function __construct(
         public ?string $firstname,
@@ -26,15 +26,13 @@ class AuthorConverter
     }
 
     /**
-     * Convert OpfCreator to AuthorConverter from config order
-     *
-     * @param OpfCreator $creator
+     * Convert OpfCreator to AuthorConverter from config order.
      *
      * @return AuthorConverter
      */
     public static function create(OpfCreator $creator)
     {
-        $orderClassic = config('bookshelves.authors.order_firstname_lastname');
+        $orderClassic = config('bookshelves.authors.order_natural');
 
         if ($orderClassic) {
             $author_name = explode(' ', $creator->name);
@@ -50,23 +48,6 @@ class AuthorConverter
         $role = $creator->role;
 
         return new AuthorConverter($firstname, $lastname, $role);
-    }
-
-    /**
-     * Create Author if not exist
-     *
-     * @return Author
-     */
-    private static function convert(AuthorConverter $converter, OpfCreator $creator): Author
-    {
-        $author = Author::firstOrCreate([
-            'lastname'  => $converter->lastname,
-            'firstname' => $converter->firstname,
-            'name'      => "$converter->firstname $converter->lastname",
-            'slug'      => Str::slug("$converter->lastname $converter->firstname", '-'),
-            'role'      => $creator->role,
-        ]);
-        return $author;
     }
 
     /**
@@ -86,7 +67,7 @@ class AuthorConverter
         } else {
             foreach ($parser->creators as $key => $creator) {
                 $converter = AuthorConverter::create($creator);
-                $skipHomonys = config('bookshelves.authors.skip_homonyms');
+                $skipHomonys = config('bookshelves.authors.detect_homonyms');
                 if ($skipHomonys) {
                     $lastname = Author::whereFirstname($converter->lastname)->first();
                     if ($lastname) {
@@ -111,15 +92,15 @@ class AuthorConverter
             if (! $author) {
                 // TODO: log
                 BookshelvesTools::console(__METHOD__, null, 'no author');
+
                 return false;
             }
             $book->authors()->save($author);
             AuthorConverter::tags($author);
         }
         $book->refresh();
-        $authors = $book->authors;
 
-        return $authors;
+        return $book->authors;
     }
 
     /**
@@ -243,7 +224,7 @@ class AuthorConverter
     }
 
     /**
-     * Set default picture
+     * Set default picture.
      */
     public static function setDefaultPicture(Author $author): Author
     {
@@ -251,7 +232,7 @@ class AuthorConverter
         if (! $author->getFirstMediaUrl($disk)) {
             $path = database_path('seeders/media/authors/no-picture.jpg');
             $cover = File::get($path);
-            
+
             $media = new MediaTools($author, $author->slug, $disk);
             $media->setMedia($cover);
             $media->setColor();
@@ -267,7 +248,7 @@ class AuthorConverter
     public static function getLocalPicture(Author $author): string|null
     {
         $disk = self::DISK;
-        $path = public_path("storage/data/pictures-$disk");
+        $path = public_path("storage/data/pictures-{$disk}");
         $files = BookshelvesTools::getDirectoryFiles($path);
 
         $cover = null;
@@ -299,7 +280,7 @@ class AuthorConverter
         return $author;
     }
 
-    public static function setWikiDescription(Author $author, WikipediaProvider $wiki):Author
+    public static function setWikiDescription(Author $author, WikipediaProvider $wiki): Author
     {
         $author->description = BookshelvesTools::stringLimit($wiki->extract, 1000);
         $author->link = $wiki->page_url;
@@ -310,20 +291,21 @@ class AuthorConverter
 
     /**
      * Set wiki picture if local not exist
-     * Otherwise, set local picture
+     * Otherwise, set local picture.
      */
-    public static function setWikiPicture(Author $author, WikipediaProvider $wiki):Author
+    public static function setWikiPicture(Author $author, WikipediaProvider $wiki): Author
     {
         $disk = self::DISK;
         $cover = self::getLocalPicture($author);
         if ($cover) {
             self::setLocalPicture($author);
+
             return $author;
         }
-        
+
         $picture = $wiki->getPictureFile();
 
-        if ($picture && $author->slug !== 'author-unknown') {
+        if ($picture && 'author-unknown' !== $author->slug) {
             $author->clearMediaCollection($disk);
 
             $media = new MediaTools($author, $author->slug, $disk);
@@ -332,5 +314,19 @@ class AuthorConverter
         }
 
         return $author;
+    }
+
+    /**
+     * Create Author if not exist.
+     */
+    private static function convert(AuthorConverter $converter, OpfCreator $creator): Author
+    {
+        return Author::firstOrCreate([
+            'lastname' => $converter->lastname,
+            'firstname' => $converter->firstname,
+            'name' => "{$converter->firstname} {$converter->lastname}",
+            'slug' => Str::slug("{$converter->lastname} {$converter->firstname}", '-'),
+            'role' => $creator->role,
+        ]);
     }
 }

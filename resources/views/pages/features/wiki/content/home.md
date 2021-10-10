@@ -6,7 +6,7 @@ If you are interested in Bookshelves, you can keep only the back-end part and cr
 technology you want. All the logic of Bookshelves is in the backend and it is even possible to not use an external
 frontend and use Bookshelves with the internal backend interface.
 
-## **Concept**
+## Concept
 
 The goal of Bookshelves is to create a database from a list of eBooks that are analyzed by the back-end with Laravel (PHP). All the metadata of each eBook are extracted and processed to create each book with its relationships: **authors**, **publisher**, **date of release**, **language**, **identifiers**, **tags**, **description**, **cover** and **serie**.
 
@@ -67,7 +67,7 @@ Bookshelves is not like Calibre with dynamic database from EPUB into a specific 
 - [**github.com/janeczku/calibre-web**](https://github.com/janeczku/calibre-web)
 - [**github.com/seblucas/cops**](https://github.com/seblucas/cops)
 
-## **Links**
+## Links
 
 🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of Bookshelves  
 

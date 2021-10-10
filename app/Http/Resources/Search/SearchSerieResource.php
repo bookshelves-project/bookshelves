@@ -23,17 +23,17 @@ class SearchSerieResource extends JsonResource
             'meta' => [
                 'entity' => 'serie',
                 'author' => $this->resource->meta_author,
-                'slug'   => $this->resource->slug,
+                'slug' => $this->resource->slug,
             ],
-            'title'   => $this->resource->title,
+            'title' => $this->resource->title,
             'authors' => $this->resource->authors,
-            'cover'   => [
-                'thumbnail'      => $this->resource->cover_thumbnail,
-                'og'             => $this->resource->cover_og,
-                'simple'         => $this->resource->cover_simple,
-                'color'          => $this->resource->cover_color,
+            'cover' => [
+                'thumbnail' => $this->resource->cover_thumbnail,
+                'og' => $this->resource->cover_og,
+                'simple' => $this->resource->cover_simple,
+                'color' => $this->resource->cover_color,
             ],
-            'text'     => BookshelvesTools::stringLimit($this->resource->description, 140),
+            'text' => BookshelvesTools::stringLimit($this->resource->description, 140),
             'language' => $this->resource->language->slug,
         ];
     }

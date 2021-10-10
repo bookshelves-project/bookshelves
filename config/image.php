@@ -16,65 +16,65 @@ return [
 
     'driver' => env('IMAGE_DRIVER', 'gd'),
     'format' => 'webp',
-    
-    /**
-     * For Book, Serie, Author
+
+    /*
+     * For Book, Serie, Author.
      */
     'covers' => [
         // Custom sizes
         // 1.6:1 aspect ratio cover
         'full' => [
-            'width'  => 400,
+            'width' => 400,
             'height' => 640,
         ],
         // 1.6:1 aspect ratio thumbnail
         'simple' => [
-            'width'  => 100,
+            'width' => 100,
             'height' => 160,
         ],
         'thumbnail' => [
-            'width'  => 200,
+            'width' => 200,
             'height' => 320,
         ],
         'og' => [
-            'width'  => 600,
+            'width' => 600,
             'height' => 300,
         ],
     ],
 
-    /**
-     * For User
+    /*
+     * For User.
      */
     'user' => [
         'avatar' => [
-            'width'  => 250,
+            'width' => 250,
             'height' => 250,
         ],
     ],
 
-    /**
-     * For other formats
+    /*
+     * For other formats.
      */
     'thumbnails' => [
         // Classic
         'admin_preview' => [
-            'width'  => 200,
+            'width' => 200,
             'height' => 200,
         ],
         'small' => [
-            'width'  => 400,
+            'width' => 400,
             'height' => 400,
         ],
         'medium' => [
-            'width'  => 900,
+            'width' => 900,
             'height' => 900,
         ],
         'large' => [
-            'width'  => 1800,
+            'width' => 1800,
             'height' => 1800,
         ],
         'avatar' => [
-            'width'  => 250,
+            'width' => 250,
             'height' => 250,
         ],
     ],

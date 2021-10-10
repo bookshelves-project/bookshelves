@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use DB;
-use App\Models\Book;
-use App\Models\User;
-use App\Models\Serie;
 use App\Models\Author;
+use App\Models\Book;
+use App\Models\Serie;
+use App\Models\User;
+use DB;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
@@ -14,8 +14,6 @@ class FavoriteSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
@@ -24,7 +22,7 @@ class FavoriteSeeder extends Seeder
         DB::statement('SET foreign_key_checks=1');
 
         $users = User::all();
-        
+
         $limit = 2;
         $books_count = intval(Book::count() / $limit);
         $series_count = intval(Serie::count() / $limit);

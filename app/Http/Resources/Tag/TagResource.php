@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Tag;
 
-use Spatie\Tags\Tag;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Tags\Tag;
 
 /**
  * @property Tag $resource
@@ -20,9 +20,8 @@ class TagResource extends JsonResource
     public function toArray($request)
     {
         $resource = TagLightResource::make($this->resource)->toArray($request);
-        $resource = array_merge($resource, [
-        ]);
 
-        return $resource;
+        return array_merge($resource, [
+        ]);
     }
 }

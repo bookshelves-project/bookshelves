@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * Manage comments with `MorphToMany` `comments`
+ * Manage comments with `MorphToMany` `comments`.
  */
 trait HasComments
 {
     public function comments(): MorphMany
     {
-        return $this->morphMany(Comment::class, 'commentable')->orderBy('created_at', 'DESC');
+        return $this->morphMany(Comment::class, 'comments', 'commentable_type', 'commentable_id')->orderBy('created_at', 'DESC');
     }
 }

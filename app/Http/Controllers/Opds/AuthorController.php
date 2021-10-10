@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Opds;
 
-use Route;
-use App\Models\Author;
 use App\Enums\EntitiesEnum;
-use App\Providers\OpdsProvider;
 use App\Http\Controllers\Controller;
+use App\Models\Author;
+use App\Providers\OpdsProvider;
+use Route;
 
 /**
  * @hideFromAPIDocumentation
@@ -38,7 +38,7 @@ class AuthorController extends Controller
 
         $current_route = route(Route::currentRouteName(), [
             'version' => $version,
-            'author'  => $author_slug,
+            'author' => $author_slug,
         ]);
         $opdsProvider = new OpdsProvider(
             version: $version,
@@ -46,8 +46,8 @@ class AuthorController extends Controller
             route: $current_route,
             data: $books
         );
-        $result = $opdsProvider->template("$author->lastname $author->firstname");
-        
+        $result = $opdsProvider->template("{$author->lastname} {$author->firstname}");
+
         return response($result)->withHeaders([
             'Content-Type' => 'text/xml',
         ]);

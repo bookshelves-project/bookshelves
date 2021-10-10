@@ -58,6 +58,7 @@
         "spatie/laravel-enum": "^2.4",
         "spatie/laravel-image-optimizer": "^1.6",
         "spatie/laravel-medialibrary": "^9.0.0",
+        "spatie/laravel-query-builder": "^3.6",
         "spatie/laravel-route-attributes": "^1.4",
         "spatie/laravel-tags": "^4.0",
         "tightenco/ziggy": "^1.0"
@@ -74,7 +75,10 @@
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.7.0",
-        "phpunit/phpunit": "^9.3.3"
+        "pestphp/pest": "^1.20",
+        "pestphp/pest-plugin-laravel": "^1.1",
+        "phpunit/phpunit": "^9.3.3",
+        "spatie/phpunit-watcher": "^1.23"
     },
     "config": {
         "optimize-autoloader": true,
@@ -116,15 +120,27 @@
             "php artisan ide-helper:eloquent",
             "./vendor/bin/php-cs-fixer fix"
         ],
-        "test": [
-            "php artisan test",
-            "php artisan larastan"
-        ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "format": [
+            "php-cs-fixer fix --ansi"
+        ],
+        "analyse": [
+            "phpstan analyse --ansi"
+        ],
+        "larastan": [
+            "php artisan larastan"
+        ],
+        "test": [
+            "@php artisan test --coverage --min=70"
+        ],
+        "test:watch": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpunit-watcher watch"
         ]
     }
 }

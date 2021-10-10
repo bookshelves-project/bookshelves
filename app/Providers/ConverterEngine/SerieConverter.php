@@ -2,18 +2,18 @@
 
 namespace App\Providers\ConverterEngine;
 
-use File;
-use Storage;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Utils\MediaTools;
-use App\Utils\BookshelvesTools;
-use App\Providers\WikipediaProvider;
 use App\Providers\ParserEngine\ParserEngine;
+use App\Providers\WikipediaProvider;
+use App\Utils\BookshelvesTools;
+use App\Utils\MediaTools;
+use File;
+use Storage;
 
 class SerieConverter
 {
-    const DISK = 'series';
+    public const DISK = 'series';
 
     /**
      * Generate Serie for Book from ParserEngine.
@@ -24,9 +24,9 @@ class SerieConverter
             $serie = Serie::whereSlug($parser->serie_slug)->first();
             if (! $serie) {
                 $serie = Serie::firstOrCreate([
-                    'title'      => $parser->serie,
+                    'title' => $parser->serie,
                     'title_sort' => $parser->serie_sort,
-                    'slug'       => $parser->serie_slug_lang,
+                    'slug' => $parser->serie_slug_lang,
                 ]);
                 $serie->language()->associate($parser->language);
                 $serie->save();
@@ -97,7 +97,7 @@ class SerieConverter
         // Add special cover if exist from `public/storage/data/pictures-series/`
         // Check if JPG file with series' slug name exist
         // To know slug name, check into database when serie was created
-        $path = public_path("storage/data/pictures-$disk");
+        $path = public_path("storage/data/pictures-{$disk}");
         $files = BookshelvesTools::getDirectoryFiles($path);
 
         $local_cover = null;
@@ -106,7 +106,7 @@ class SerieConverter
                 $local_cover = file_get_contents($file);
             }
         }
-        
+
         return $local_cover;
     }
 

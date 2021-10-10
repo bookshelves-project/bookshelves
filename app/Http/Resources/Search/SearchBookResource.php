@@ -23,19 +23,19 @@ class SearchBookResource extends JsonResource
             'meta' => [
                 'entity' => 'book',
                 'author' => $this->resource->meta_author,
-                'slug'   => $this->resource->slug,
+                'slug' => $this->resource->slug,
             ],
-            'title'    => $this->resource->title,
+            'title' => $this->resource->title,
             'subtitle' => $this->resource->serie?->title,
-            'serie'    => [
-                'title'  => $this->resource->serie?->title,
+            'serie' => [
+                'title' => $this->resource->serie?->title,
                 'number' => $this->resource->volume,
             ],
             'cover' => [
-                'thumbnail'      => $this->resource->cover_thumbnail,
-                'og'             => $this->resource->cover_og,
-                'simple'         => $this->resource->cover_simple,
-                'color'          => $this->resource->cover_color,
+                'thumbnail' => $this->resource->cover_thumbnail,
+                'og' => $this->resource->cover_og,
+                'simple' => $this->resource->cover_simple,
+                'color' => $this->resource->cover_color,
             ],
             'text' => BookshelvesTools::stringLimit($this->resource->description, 140),
         ];

@@ -3,17 +3,13 @@
 namespace App\Providers\ConverterEngine;
 
 use App\Models\Book;
-use App\Models\Serie;
+use App\Models\Identifier;
 use App\Models\Language;
 use App\Models\Publisher;
-use App\Models\Identifier;
-use Illuminate\Support\Collection;
+use App\Models\Serie;
 use App\Providers\ParserEngine\ParserEngine;
+use Illuminate\Support\Collection;
 
-/**
- *
- * @package App\Providers\ConverterEngine
- */
 class ConverterEngine
 {
     public function __construct(
@@ -59,7 +55,7 @@ class ConverterEngine
             $book->language()->associate($language->slug);
             $identifier = IdentifierConverter::create($parser, $book);
             $book->save();
-            
+
             if (! $default) {
                 $book = CoverConverter::create($parser, $book);
             }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Wiki;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\CommonMarkProvider;
+use Illuminate\Http\Request;
 
 /**
  * @hideFromAPIDocumentation
@@ -26,34 +26,40 @@ class WikiController extends Controller
         // ];
         $links = [
             [
-                'route'      => 'features.wiki.index',
+                'route' => 'features.wiki.index',
                 'parameters' => ['page' => 'home'],
-                'title'      => 'Home',
-                'external'   => false
+                'title' => 'Home',
+                'external' => false,
             ],
             [
-                'route'      => 'features.wiki.index',
+                'route' => 'features.wiki.index',
                 'parameters' => ['page' => 'setup'],
-                'title'      => 'Setup',
-                'external'   => false
+                'title' => 'Setup',
+                'external' => false,
             ],
             [
-                'route'      => 'features.wiki.index',
+                'route' => 'features.wiki.index',
+                'parameters' => ['page' => 'dotenv'],
+                'title' => '.env',
+                'external' => false,
+            ],
+            [
+                'route' => 'features.wiki.index',
                 'parameters' => ['page' => 'usage'],
-                'title'      => 'Usage',
-                'external'   => false
+                'title' => 'Usage',
+                'external' => false,
             ],
             [
-                'route'      => 'features.wiki.index',
+                'route' => 'features.wiki.index',
                 'parameters' => ['page' => 'packages'],
-                'title'      => 'Packages',
-                'external'   => false
+                'title' => 'Packages',
+                'external' => false,
             ],
             [
-                'route'      => 'features.wiki.index',
+                'route' => 'features.wiki.index',
                 'parameters' => ['page' => 'deployment'],
-                'title'      => 'Deployment',
-                'external'   => false
+                'title' => 'Deployment',
+                'external' => false,
             ],
         ];
 
@@ -66,7 +72,7 @@ class WikiController extends Controller
             return redirect(route('features.wiki.index', ['page' => 'home']));
         }
         $page = $request->page ?? 'home';
-        $path = "wiki/content/$page.md";
+        $path = "wiki/content/{$page}.md";
 
         return self::getContent($path, $page);
     }

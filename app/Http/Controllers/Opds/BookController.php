@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Models\Book;
-use App\Models\Author;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\Book\BookLightResource;
+use App\Http\Resources\Book\BookResource;
+use App\Models\Author;
+use App\Models\Book;
+use Illuminate\Http\Request;
 
 /**
  * @hideFromAPIDocumentation

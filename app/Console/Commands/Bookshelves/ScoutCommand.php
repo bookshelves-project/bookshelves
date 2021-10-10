@@ -24,8 +24,6 @@ class ScoutCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -40,30 +38,30 @@ class ScoutCommand extends Command
     public function handle()
     {
         $app = config('app.name');
-        $this->alert("$app: scout for search");
+        $this->alert("{$app}: scout for search");
         $flush = $this->option('flush') ?? false;
 
         $models = [
-            'Book'   => 'books',
-            'Serie'  => 'series',
-            'Author' => 'authors'
+            'Book' => 'books',
+            'Serie' => 'series',
+            'Author' => 'authors',
         ];
-        $path = "App\\\Models\\\\";
+        $path = 'App\\\\Models\\\\';
 
         // Artisan::call('cache:clear', [], $this->getOutput());
         if ($flush) {
             foreach ($models as $key => $value) {
-                Artisan::call('scout:flush ' . $path . $key, [], $this->getOutput());
-                Artisan::call('scout:delete-index ' . $value, [], $this->getOutput());
+                Artisan::call('scout:flush '.$path.$key, [], $this->getOutput());
+                Artisan::call('scout:delete-index '.$value, [], $this->getOutput());
             }
         } else {
             foreach ($models as $key => $value) {
-                Artisan::call('scout:import ' . $path . $key, [], $this->getOutput());
+                Artisan::call('scout:import '.$path.$key, [], $this->getOutput());
             }
         }
         // Artisan::call('cache:clear', [], $this->getOutput());
         // $this->clear();
-        
+
         return 0;
     }
 

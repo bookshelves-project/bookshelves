@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\GenderEnum;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Comment\CommentResource;
+use App\Http\Resources\FavoriteResource;
+use App\Http\Resources\User\UserListResource;
+use App\Http\Resources\User\UserResource;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\CommentResource;
-use App\Http\Resources\FavoriteResource;
-use App\Http\Resources\User\UserResource;
-use App\Http\Resources\User\UserListResource;
 
 /**
  * @hideFromAPIDocumentation
@@ -42,10 +44,19 @@ class UserController extends Controller
         return UserResource::make($user);
     }
 
+    public function genders()
+    {
+        $genders = GenderEnum::toValues();
+
+        return [
+            'data' => $genders,
+        ];
+    }
+
     public function comments(Request $request, string $user_slug)
     {
-        $user = User::where('slug', $user_slug)->with('comments')->firstOrFail();
-        $comments = $user->comments;
+        $user = User::whereSlug($user_slug)->firstOrFail();
+        $comments = Comment::whereUserId($user->id)->get();
 
         return CommentResource::collection($comments);
     }

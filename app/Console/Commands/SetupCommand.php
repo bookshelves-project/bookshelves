@@ -3,11 +3,11 @@
 namespace App\Console\Commands;
 
 use File;
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Process\Process;
 
 class SetupCommand extends Command
 {
@@ -31,8 +31,6 @@ class SetupCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -42,8 +40,6 @@ class SetupCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function handle()
     {
@@ -64,18 +60,18 @@ class SetupCommand extends Command
         if ($this->confirm('Do you want setup this app in production?', false)) {
             $prod = true;
 
-            $this->warn('~ Production enabled.' . "\n");
+            $this->warn('~ Production enabled.'."\n");
             $production = $this->allowProduction();
             $this->updateEnvironmentFile($production);
         } else {
             $local = $this->setupLocal();
             $this->updateEnvironmentFile($local);
-            $this->warn('~ Development enabled.' . "\n");
+            $this->warn('~ Development enabled.'."\n");
         }
         $this->call('storage:link');
 
         $this->info('Node.js dependencies installation...');
-        $process = new Process(['yarn','--colors=always']);
+        $process = new Process(['yarn', '--colors=always']);
         $process->setTimeout(0);
         $process->start();
         $iterator = $process->getIterator($process::ITER_SKIP_ERR | $process::ITER_KEEP_OUTPUT);
@@ -104,9 +100,24 @@ class SetupCommand extends Command
     }
 
     /**
-     * Update the .env file from an array of $key => $value pairs.
+     * Prompt the user for optional input but hide the answer from the console.
      *
-     * @return void
+     * @param string $question
+     * @param bool   $fallback
+     *
+     * @return string
+     */
+    public function askHiddenWithDefault($question, $fallback = true)
+    {
+        $question = new Question($question, 'null');
+
+        $question->setHidden(true)->setHiddenFallback($fallback);
+
+        return $this->output->askQuestion($question);
+    }
+
+    /**
+     * Update the .env file from an array of $key => $value pairs.
      */
     protected function updateEnvironmentFile(array $updatedValues)
     {
@@ -148,7 +159,7 @@ class SetupCommand extends Command
      */
     protected function welcome()
     {
-        $this->info('>> Welcome to ' . $this->appName . ' autosetup <<');
+        $this->info('>> Welcome to '.$this->appName.' autosetup <<');
     }
 
     /**
@@ -167,18 +178,18 @@ class SetupCommand extends Command
     protected function allowProduction()
     {
         return [
-            'APP_ENV'                  => $this->ask('Environnement', 'production'),
-            'APP_DEBUG'                => $this->ask('Debug', 'false'),
-            'APP_URL'                  => $this->ask('Application URL', $this->urlProd),
+            'APP_ENV' => $this->ask('Environnement', 'production'),
+            'APP_DEBUG' => $this->ask('Debug', 'false'),
+            'APP_URL' => $this->ask('Application URL', $this->urlProd),
             'SANCTUM_STATEFUL_DOMAINS' => $this->ask('Sanctum stateful domains', 'bookshelves.ink'),
-            'SESSION_DOMAIN'           => $this->ask('Session domain', '.bookshelves.ink'),
+            'SESSION_DOMAIN' => $this->ask('Session domain', '.bookshelves.ink'),
         ];
     }
 
     protected function setupLocal()
     {
         return [
-            'APP_URL'                    => $this->ask('Application URL', $this->urlLocal),
+            'APP_URL' => $this->ask('Application URL', $this->urlLocal),
         ];
     }
 
@@ -190,14 +201,14 @@ class SetupCommand extends Command
     protected function requestDatabaseCredentials()
     {
         return [
-            'APP_NAME'          => $this->ask('App name', $this->appName),
-            'DB_DATABASE'       => $this->ask('Database name', "$this->appNameSlug"),
-            'DB_PORT'           => $this->ask('Database port', '3306'),
-            'DB_USERNAME'       => $this->ask('Database user', 'root'),
-            'DB_PASSWORD'       => $this->askHiddenWithDefault('Database password (leave blank for no password)'),
-            'MAIL_HOST'         => $this->ask('Mail host', 'smtp.mailtrap.io'),
-            'MAIL_USERNAME'     => $this->ask('Mail user', ''),
-            'MAIL_PASSWORD'     => $this->ask('Mail password', ''),
+            'APP_NAME' => $this->ask('App name', $this->appName),
+            'DB_DATABASE' => $this->ask('Database name', "{$this->appNameSlug}"),
+            'DB_PORT' => $this->ask('Database port', '3306'),
+            'DB_USERNAME' => $this->ask('Database user', 'root'),
+            'DB_PASSWORD' => $this->askHiddenWithDefault('Database password (leave blank for no password)'),
+            'MAIL_HOST' => $this->ask('Mail host', 'smtp.mailtrap.io'),
+            'MAIL_USERNAME' => $this->ask('Mail user', ''),
+            'MAIL_PASSWORD' => $this->ask('Mail password', ''),
             'TELESCOPE_ENABLED' => $this->ask('Telescope enabled?', 'false'),
         ];
     }
@@ -210,7 +221,7 @@ class SetupCommand extends Command
         if (! file_exists('.env')) {
             copy('.env.example', '.env');
 
-            $this->warn('.env file successfully created' . "\n");
+            $this->warn('.env file successfully created'."\n");
 
             return true;
         }
@@ -218,11 +229,11 @@ class SetupCommand extends Command
             unlink('.env');
             copy('.env.example', '.env');
 
-            $this->warn('~ .env file successfully recreated' . "\n");
+            $this->warn('~ .env file successfully recreated'."\n");
 
             return true;
         }
-        $this->warn('~ .env file creation skipped' . "\n");
+        $this->warn('~ .env file creation skipped'."\n");
 
         return false;
     }
@@ -231,8 +242,6 @@ class SetupCommand extends Command
      * Migrate the db with the new credentials.
      *
      * @param array $credentials
-     *
-     * @return void
      */
     protected function migrateDatabaseWithFreshCredentials($credentials)
     {
@@ -249,22 +258,5 @@ class SetupCommand extends Command
         }
 
         $this->call('migrate');
-    }
-
-    /**
-     * Prompt the user for optional input but hide the answer from the console.
-     *
-     * @param string $question
-     * @param bool   $fallback
-     *
-     * @return string
-     */
-    public function askHiddenWithDefault($question, $fallback = true)
-    {
-        $question = new Question($question, 'null');
-
-        $question->setHidden(true)->setHiddenFallback($fallback);
-
-        return $this->output->askQuestion($question);
     }
 }

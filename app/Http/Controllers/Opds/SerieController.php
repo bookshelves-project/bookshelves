@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Opds;
 
-use Route;
-use App\Models\Serie;
-use App\Models\Author;
 use App\Enums\EntitiesEnum;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Author;
+use App\Models\Serie;
 use App\Providers\OpdsProvider;
+use Illuminate\Http\Request;
+use Route;
 
 /**
  * @hideFromAPIDocumentation
@@ -41,8 +41,8 @@ class SerieController extends Controller
 
         $current_route = route(Route::currentRouteName(), [
             'version' => $version,
-            'author'  => $author_slug,
-            'serie'   => $serie_slug,
+            'author' => $author_slug,
+            'serie' => $serie_slug,
         ]);
         $opdsProvider = new OpdsProvider(
             version: $version,
@@ -51,7 +51,7 @@ class SerieController extends Controller
             data: $books
         );
         $result = $opdsProvider->template();
-        
+
         return response($result)->withHeaders([
             'Content-Type' => 'text/xml',
         ]);

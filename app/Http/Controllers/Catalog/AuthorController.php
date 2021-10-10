@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Catalog;
 
-use App\Models\Author;
-use Illuminate\Http\Request;
-use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Author\AuthorResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Search\SearchAuthorResource;
+use App\Models\Author;
+use App\Utils\BookshelvesTools;
+use Illuminate\Http\Request;
 
 /**
  * @hideFromAPIDocumentation
@@ -27,7 +27,7 @@ class AuthorController extends Controller
     {
         $character = $request->character;
         $authors = Author::with(['media'])->get();
-        
+
         $chunks = BookshelvesTools::chunkByAlpha($authors, 'lastname');
         $current_chunk = [];
         $authors = $chunks->first(function ($value, $key) use ($character) {

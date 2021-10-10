@@ -2,12 +2,12 @@
 
 namespace App\Models\Traits;
 
-use Auth;
 use App\Models\User;
+use Auth;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * Manage favorites with `MorphToMany` `favoritables`
+ * Manage favorites with `MorphToMany` `favoritables`.
  */
 trait HasFavorites
 {
@@ -25,7 +25,7 @@ trait HasFavorites
 
         return $is_favorite;
     }
-    
+
     public function favorites(): MorphToMany
     {
         return $this->morphToMany(User::class, 'favoritable')->withTimestamps();

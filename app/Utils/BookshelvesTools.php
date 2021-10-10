@@ -2,18 +2,18 @@
 
 namespace App\Utils;
 
-use Throwable;
-use App\Models\Book;
-use App\Models\Serie;
+use App\Http\Resources\EntityResource;
 use App\Models\Author;
-use Spatie\Image\Image;
+use App\Models\Book;
 use App\Models\Identifier;
-use Illuminate\Support\Str;
+use App\Models\Serie;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
-use App\Http\Resources\EntityResource;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Spatie\Image\Image;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Throwable;
 
 class BookshelvesTools
 {
@@ -70,12 +70,14 @@ class BookshelvesTools
     public static function chunkByAlpha(Collection $collection, string $attribute)
     {
         return $collection->mapToGroups(function ($item, $key) use ($attribute) {
-            return self::isAlpha($item->$attribute[0]) ? [strtoupper($item->$attribute[0]) => $item] : ['#' => $item];
+            return self::isAlpha($item->{$attribute}[0]) ? [strtoupper($item->{$attribute}[0]) => $item] : ['#' => $item];
         })->sortKeys();
     }
 
     /**
      * Check if character is alpha.
+     *
+     * @param mixed $toCheck
      */
     public static function isAlpha($toCheck)
     {
@@ -85,9 +87,9 @@ class BookshelvesTools
     /**
      * Convert bytes to human readable filesize.
      *
-     * @param string|int $bytes
+     * @param int|string $bytes
      */
-    public static function humanFilesize(string | int $bytes, ?int $decimals = 2): string
+    public static function humanFilesize(string|int $bytes, ?int $decimals = 2): string
     {
         $sz = [
             'B',
@@ -99,22 +101,24 @@ class BookshelvesTools
         ];
         $factor = floor((strlen($bytes) - 1) / 3);
 
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . ' ' . @$sz[$factor];
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).' '.@$sz[$factor];
     }
 
     /**
-     * Parse directory (recursive)
+     * Parse directory (recursive).
+     *
      * @param mixed $dir
+     *
      * @return Generator<mixed, mixed, mixed, void>
      */
     public static function getDirectoryFiles($dir)
     {
         $files = scandir($dir);
         foreach ($files as $key => $value) {
-            $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
+            $path = realpath($dir.DIRECTORY_SEPARATOR.$value);
             if (! is_dir($path)) {
                 yield $path;
-            } elseif ($value != "." && $value != "..") {
+            } elseif ('.' != $value && '..' != $value) {
                 yield from self::getDirectoryFiles($path);
                 yield $path;
             }
@@ -122,15 +126,15 @@ class BookshelvesTools
     }
 
     /**
-     * Print in console
+     * Print in console.
      */
     public static function console(string $method, ?Throwable $throwable, ?string $extra_message = null)
     {
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $outputStyle = new OutputFormatterStyle('red', '', ['bold']);
         $output->getFormatter()->setStyle('fire', $outputStyle);
-        
-        $output->writeln("<fire>Error about $method:</>");
+
+        $output->writeln("<fire>Error about {$method}:</>");
         if ($throwable) {
             $output->writeln($throwable->getMessage());
             $output->writeln($throwable->getFile());
@@ -143,7 +147,7 @@ class BookshelvesTools
     /**
      * Limit length of a string and sanitize.
      */
-    public static function stringLimit(string | null $text, int $limit): string
+    public static function stringLimit(string|null $text, int $limit): string
     {
         $content = '';
         if ($text) {
@@ -160,12 +164,12 @@ class BookshelvesTools
                 $content = str_replace('<<', '"', $content);
                 $content = str_replace('>>', '"', $content);
                 $content = trim($content);
-                $content = preg_replace("/\([^)]+\)/", '', $content);
+                $content = preg_replace('/\\([^)]+\\)/', '', $content);
                 $content = preg_replace('/\s\s+/', ' ', $content);
             }
         }
 
-        return $content . '...';
+        return $content.'...';
     }
 
     /**
@@ -201,49 +205,51 @@ class BookshelvesTools
     {
         $utf8 = [
             '/[áàâãªä]/u' => 'a',
-            '/[ÁÀÂÃÄ]/u'  => 'A',
-            '/[ÍÌÎÏ]/u'   => 'I',
-            '/[íìîï]/u'   => 'i',
-            '/[éèêë]/u'   => 'e',
-            '/[ÉÈÊË]/u'   => 'E',
+            '/[ÁÀÂÃÄ]/u' => 'A',
+            '/[ÍÌÎÏ]/u' => 'I',
+            '/[íìîï]/u' => 'i',
+            '/[éèêë]/u' => 'e',
+            '/[ÉÈÊË]/u' => 'E',
             '/[óòôõºö]/u' => 'o',
-            '/[ÓÒÔÕÖ]/u'  => 'O',
-            '/[úùûü]/u'   => 'u',
-            '/[ÚÙÛÜ]/u'   => 'U',
-            '/ç/'         => 'c',
-            '/Ç/'         => 'C',
-            '/ñ/'         => 'n',
-            '/Ñ/'         => 'N',
-            '/–/'         => '-', // UTF-8 hyphen to "normal" hyphen
-            '/[’‘‹›‚]/u'  => ' ', // Literally a single quote
-            '/[“”«»„]/u'  => ' ', // Double quote
-            '/ /'         => ' ', // nonbreaking space (equiv. to 0x160)
+            '/[ÓÒÔÕÖ]/u' => 'O',
+            '/[úùûü]/u' => 'u',
+            '/[ÚÙÛÜ]/u' => 'U',
+            '/ç/' => 'c',
+            '/Ç/' => 'C',
+            '/ñ/' => 'n',
+            '/Ñ/' => 'N',
+            '/–/' => '-', // UTF-8 hyphen to "normal" hyphen
+            '/[’‘‹›‚]/u' => ' ', // Literally a single quote
+            '/[“”«»„]/u' => ' ', // Double quote
+            '/ /' => ' ', // nonbreaking space (equiv. to 0x160)
         ];
 
         $string = preg_replace(array_keys($utf8), array_values($utf8), $text);
 
         return $string ? $string : '';
     }
-    
+
     public static function convertPicture(Model $model, string $name, string $type = 'thumbnail'): string
     {
         $extension = config('bookshelves.cover_extension');
 
-        $format = config('image.covers.' . $type);
+        $format = config('image.covers.'.$type);
         $disk = $model->getTable();
 
         $converted_pictures_directory = config('bookshelves.converted_pictures_directory');
-        $base_path = storage_path("app/public/$converted_pictures_directory/$disk/$type/");
-        $path = $base_path . $name . '.' . $extension;
+        $base_path = storage_path("app/public/{$converted_pictures_directory}/{$disk}/{$type}/");
+        $path = $base_path.$name.'.'.$extension;
 
         if (! File::exists($path)) {
             if (! is_dir($base_path)) {
                 mkdir($base_path, 0777, true);
             }
+
             try {
                 Image::load($model->getFirstMediaPath($disk))
                     ->fit('crop', $format['width'], $format['height'])
-                    ->save($path);
+                    ->save($path)
+                ;
             } catch (\Throwable $th) {
                 //throw $th;
             }

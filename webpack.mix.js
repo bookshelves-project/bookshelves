@@ -19,9 +19,27 @@ mix
     require("tailwindcss"),
   ])
   .js("resources/js/blade/index.js", "public/assets/js/blade")
+  // webreader
+  .js(
+    "resources/js/blade/webreader/index.js",
+    "public/assets/js/blade/webreader"
+  )
+  .js(
+    "resources/js/blade/webreader/themes.js",
+    "public/assets/js/blade/webreader"
+  )
+  .js(
+    "resources/js/blade/webreader/listener/listener.js",
+    "public/assets/js/blade/webreader"
+  )
+  //
   .js("resources/js/blade/markdown/index.js", "public/assets/js/blade/markdown")
   .js("resources/js/blade/set-color-mode.js", "public/assets/js/blade")
   .postCss("resources/css/blade/index.pcss", "public/assets/css/blade", [
+    require("postcss-import"),
+    require("tailwindcss"),
+  ])
+  .postCss("resources/css/blade/webreader.pcss", "public/assets/css/blade", [
     require("postcss-import"),
     require("tailwindcss"),
   ])

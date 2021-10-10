@@ -3,12 +3,6 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Artisan;
-use App\Models\Book;
-use Spatie\Tags\Tag;
-use App\Models\Serie;
-use App\Models\Author;
-use App\Models\Language;
-use App\Models\Publisher;
 use Illuminate\Console\Command;
 
 class GenerateCommand extends Command
@@ -27,21 +21,20 @@ class GenerateCommand extends Command
                             {--b|books : assets for books}
                             {--a|authors : assets for authors}
                             {--s|series : assets for series}
-                            {--t|test : execute tests at the end}
                             {--l|limit= : limit epub files to generate, useful for debug}
-                            {--D|default : use default cover for all (skip covers step)}';
+                            {--D|default : use default cover for all (skip covers step)}
+                            {--C|comments : sample command for comments}
+                            {--S|selection : sample command for selection}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate books and covers database from storage/data/books, set limit option at the end';
+    protected $description = 'Execute bookshelves commands: books, assets, stats and sample.';
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -55,7 +48,7 @@ class GenerateCommand extends Command
     {
         $app = config('app.name');
         $this->newLine();
-        $this->alert("$app: generate");
+        $this->alert("{$app}: generate");
 
         $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/data/books...');
         $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
@@ -73,8 +66,9 @@ class GenerateCommand extends Command
         $limit = intval($limit);
         $local = $this->option('local') ?? false;
         $debug = $this->option('debug') ?? false;
-        $test = $this->option('test') ?? false;
         $default = $this->option('default');
+        $comments = $this->option('comments') ?? false;
+        $selection = $this->option('selection') ?? false;
 
         if ($fresh) {
             $this->warn('- Option --fresh: erase current database, migrate and seed basics also clear all medias.');
@@ -83,7 +77,7 @@ class GenerateCommand extends Command
             $this->warn('- Option --erase: erase all data.');
         }
         if ($limit) {
-            $this->warn("- Option --limit: limit eBooks generated to $limit.");
+            $this->warn("- Option --limit: limit eBooks generated to {$limit}.");
         }
         if ($local) {
             $this->warn('- Option --local: skip HTTP requests.');
@@ -100,11 +94,14 @@ class GenerateCommand extends Command
         if ($series) {
             $this->warn('- Option --series: generate assets for series from Wikipedia.');
         }
-        if ($test) {
-            $this->warn('- Option --test: execute tests at the end.');
-        }
         if ($default) {
-            $this->warn("- Option --default: skip covers step, use default cover.");
+            $this->warn('- Option --default: skip covers step, use default cover.');
+        }
+        if ($comments) {
+            $this->warn('- Option --comments: generate comments and favorites for fake users.');
+        }
+        if ($selection) {
+            $this->warn('- Option --selection: generate selection for home slider.');
         }
         $this->newLine();
 
@@ -113,7 +110,7 @@ class GenerateCommand extends Command
             $this->newLine();
         }
 
-        $isProd = 'production' === config('app.env') ? true : false;
+        $isProd = 'local' !== config('app.env') ? true : false;
         if ($isProd && ! $isForce) {
             if (! $this->confirm('You are in production environement, do you want really continue?')) {
                 return;
@@ -124,25 +121,22 @@ class GenerateCommand extends Command
          * Generate commands
          */
         Artisan::call('bookshelves:books', [
-            '--local'   => $local,
-            '--fresh'   => $fresh,
-            '--limit'   => $limit,
-            '--debug'   => $debug,
+            '--local' => $local,
+            '--fresh' => $fresh,
+            '--limit' => $limit,
+            '--debug' => $debug,
             '--default' => $default,
         ], $this->getOutput());
         Artisan::call('bookshelves:assets', [
-            '--books'   => $books,
+            '--books' => $books,
             '--authors' => $authors,
-            '--series'  => $series,
-            '--local'   => $local,
-            '--fresh'   => $fresh,
+            '--series' => $series,
+            '--local' => $local,
+            '--fresh' => $fresh,
             '--default' => $default,
         ], $this->getOutput());
 
-        $this->table(
-            ['Books', 'Series', 'Authors', 'Languages', 'Publishers', 'Tags'],
-            [[Book::count(), Serie::count(), Author::count(), Language::count(), Publisher::count(), Tag::count()]]
-        );
+        Artisan::call('bookshelves:stats', [], $this->getOutput());
         $this->newLine();
 
         if (! $debug) {
@@ -150,22 +144,11 @@ class GenerateCommand extends Command
         }
 
         Artisan::call('bookshelves:sample', [
-            '--admin'     => true,
-            '--selection' => true,
-            '--force'     => $isForce
+            '--admin' => true,
+            '--selection' => $selection,
+            '--comments' => $comments,
+            '--force' => $isForce,
         ], $this->getOutput());
-        
-
-        /*
-         * Tests
-         */
-        if ($test) {
-            $this->alert('Tests');
-            if ($this->confirm('Do you want to run tests?', true)) {
-                $this->line('Run tests...');
-                Artisan::call('bookshelves:test');
-            }
-        }
 
         $this->info('Done!');
     }

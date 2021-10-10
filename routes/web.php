@@ -1,22 +1,22 @@
 <?php
 
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
-use App\Http\Controllers\Opds\OpdsController;
-use App\Http\Controllers\Wiki\WikiController;
-use App\Http\Controllers\NavigationController;
-use App\Http\Controllers\Catalog\BookController;
-use App\Http\Controllers\Catalog\SerieController;
+use App\Http\Controllers\Auth\AuthenticatedSessionControllerOverride;
 use App\Http\Controllers\Catalog\AuthorController;
+use App\Http\Controllers\Catalog\BookController;
 use App\Http\Controllers\Catalog\CatalogController;
+use App\Http\Controllers\Catalog\SerieController;
+use App\Http\Controllers\NavigationController;
+use App\Http\Controllers\Opds\AuthorController as OpdsAuthorController;
+use App\Http\Controllers\Opds\BookController as OpdsBookController;
+use App\Http\Controllers\Opds\OpdsController;
+use App\Http\Controllers\Opds\SerieController as OpdsSerieController;
 use App\Http\Controllers\Roadmap\RoadmapController;
 use App\Http\Controllers\Webreader\WebreaderController;
+use App\Http\Controllers\Wiki\WikiController;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 use Knuckles\Scribe\Http\Controller as ScribeController;
-use App\Http\Controllers\Opds\BookController as OpdsBookController;
-use App\Http\Controllers\Auth\AuthenticatedSessionControllerOverride;
-use App\Http\Controllers\Opds\SerieController as OpdsSerieController;
-use App\Http\Controllers\Opds\AuthorController as OpdsAuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,11 +68,9 @@ Route::prefix('features')->group(function () {
         });
     });
 
-
     Route::prefix('webreader')->group(function () {
         Route::get('/', [WebreaderController::class, 'index'])->name('features.webreader.index');
-        Route::get('/{author:slug}/{book:slug}', [WebreaderController::class, 'cover'])->name('features.webreader.cover');
-        Route::get('/{author:slug}/{book:slug}/{page}', [WebreaderController::class, 'read'])->name('features.webreader.page');
+        Route::get('/{author:slug}/{book:slug}/{page?}', [WebreaderController::class, 'reader'])->name('features.webreader.reader');
     });
 
     Route::prefix('wiki')->group(function () {
@@ -89,18 +87,17 @@ $middleware = config('scribe.laravel.middleware', []);
 
 Route::middleware($middleware)->group(function () use ($prefix) {
     Route::get($prefix, [ScribeController::class, 'webpage'])->name('scribe');
-    Route::get("$prefix.postman", [ScribeController::class, 'postman'])->name('scribe.postman');
-    Route::get("$prefix.openapi", [ScribeController::class, 'openapi'])->name('scribe.openapi');
+    Route::get("{$prefix}.postman", [ScribeController::class, 'postman'])->name('scribe.postman');
+    Route::get("{$prefix}.openapi", [ScribeController::class, 'openapi'])->name('scribe.openapi');
 });
-
 
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
         return Inertia::render('Auth/Login', [
-            'canLogin'       => Route::has('login'),
-            'canRegister'    => Route::has('register'),
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
-            'phpVersion'     => PHP_VERSION,
+            'phpVersion' => PHP_VERSION,
         ]);
     })->name('admin');
     // override fortify

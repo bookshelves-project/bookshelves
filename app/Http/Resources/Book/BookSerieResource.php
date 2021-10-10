@@ -19,16 +19,15 @@ class BookSerieResource extends JsonResource
     public function toArray($request): array
     {
         $resource = BookUltraLightResource::make($this->resource)->toArray($request);
-        $resource = array_merge($resource, [
+
+        return array_merge($resource, [
             'cover' => [
-                'thumbnail'      => $this->resource->cover_thumbnail,
-                'og'             => $this->resource->cover_og,
-                'simple'         => $this->resource->cover_simple,
-                'original'       => $this->resource->cover_original,
-                'color'          => $this->resource->cover_color,
+                'thumbnail' => $this->resource->cover_thumbnail,
+                'og' => $this->resource->cover_og,
+                'simple' => $this->resource->cover_simple,
+                'original' => $this->resource->cover_original,
+                'color' => $this->resource->cover_color,
             ],
         ]);
-
-        return $resource;
     }
 }

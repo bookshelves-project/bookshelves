@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Serie;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Book\BookLightResource;
+use App\Http\Resources\BookOrSerieResource;
+use App\Http\Resources\Serie\SerieLightResource;
+use App\Http\Resources\Serie\SerieResource;
+use App\Http\Resources\Serie\SerieUltraLightResource;
 use App\Models\Author;
 use App\Models\Language;
+use App\Models\Serie;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\BookOrSerieResource;
-use App\Http\Resources\Serie\SerieResource;
-use App\Http\Resources\Book\BookLightResource;
-use App\Http\Resources\Serie\SerieLightResource;
-use App\Http\Resources\Serie\SerieUltraLightResource;
 
 /**
  * @group Serie
@@ -21,45 +21,19 @@ use App\Http\Resources\Serie\SerieUltraLightResource;
 class SerieController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/series",
-     *     tags={"series"},
-     *     summary="List of series",
-     *     description="Series",
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         description="Integer to choose how many books you show in each page",
-     *         required=false,
-     *         example=32,
-     *         @OA\Schema(
-     *           type="integer",
-     *           format="int64"
-     *         ),
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     * 		   @OA\JsonContent(),
-     *     )
-     * )
+     * GET Serie collection.
+     *
+     * <small class="badge badge-blue">WITH PAGINATION</small>
+     *
+     * Get all Series ordered by 'title'.
+     *
+     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam page int The page number, '1' by default. No-example
+     * @queryParam all bool To disable pagination, false by default. No-example
+     * @queryParam lang filters[fr,en] To select specific lang, null by default. No-example
+     *
+     * @responseFile public/assets/responses/series.index.get.json
      */
-
-    /**
-    * GET Serie collection
-    *
-    * <small class="badge badge-blue">WITH PAGINATION</small>
-    *
-    * Get all Series ordered by 'title'.
-    *
-    * @queryParam per-page int Entities per page, '32' by default. No-example
-    * @queryParam page int The page number, '1' by default. No-example
-    * @queryParam all bool To disable pagination, false by default. No-example
-    * @queryParam lang filters[fr,en] To select specific lang, null by default. No-example
-    *
-    * @responseFile public/assets/responses/series.index.get.json
-    */
     public function index(Request $request)
     {
         $lang = $request->get('lang');
@@ -67,7 +41,7 @@ class SerieController extends Controller
         $langParameters = ['fr', 'en'];
         if ($lang && ! in_array($lang, $langParameters)) {
             return response()->json(
-                "Invalid 'lang' query parameter, must be like '" . implode("' or '", $langParameters) . "'",
+                "Invalid 'lang' query parameter, must be like '".implode("' or '", $langParameters)."'",
                 400
             );
         }
@@ -81,7 +55,7 @@ class SerieController extends Controller
             );
         }
         $page = intval($page);
-        
+
         $all = $request->get('all') ? filter_var($request->get('all'), FILTER_VALIDATE_BOOLEAN) : null;
         if ($all) {
             $series = Serie::orderBy('title_sort')->get();
@@ -90,7 +64,7 @@ class SerieController extends Controller
         }
 
         $series = Serie::with(['authors', 'media'])->orderBy('title_sort')->withCount('books');
-        
+
         if (null !== $lang) {
             Language::whereSlug($lang)->firstOrFail();
             $series = $series->whereLanguageSlug($lang);
@@ -102,51 +76,15 @@ class SerieController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *     path="/series/{author}/{series}",
-     *     summary="Show series by author slug and by series slug",
-     *     tags={"series"},
-     *     description="Get details for a single series with list of books, check /series endpoint to get list of slugs",
-     *     operationId="findAuthorByAuthorSlug",
-     *     @OA\Parameter(
-     *         name="author",
-     *         in="path",
-     *         description="Slug of author name like 'lovecraft-howard-phillips' for Howard Phillips Lovecraft",
-     *         required=true,
-     *         example="lovecraft-howard-phillips",
-     *         style="form"
-     *     ),
-     *     @OA\Parameter(
-     *         name="series",
-     *         in="path",
-     *         description="Slug of book name like 'cthulhu-le-mythe-fr' for Cthulhu : Le Mythe",
-     *         required=true,
-     *         example="cthulhu-le-mythe-fr",
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="successful operation",
-     *         @OA\JsonContent(),
-     *     ),
-     *     @OA\Response(
-     *         response="404",
-     *         description="Invalid author-slug value or book-slug value",
-     *         @OA\JsonContent(),
-     *     ),
-     * )
+     * GET Serie resource.
+     *
+     * Get details of Serie model, find by slug of serie and slug of author.
+     *
+     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @urlParam serie_slug string required The slug of serie like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
+     *
+     * @responseFile public/assets/responses/series.show.get.json
      */
-
-    /**
-    * GET Serie resource
-    *
-    * Get details of Serie model, find by slug of serie and slug of author.
-    *
-    * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-    * @urlParam serie_slug string required The slug of serie like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
-    *
-    * @responseFile public/assets/responses/series.show.get.json
-    */
     public function show(string $author, string $serie)
     {
         $author = Author::whereSlug($author)->firstOrFail();
@@ -158,7 +96,7 @@ class SerieController extends Controller
     }
 
     /**
-     * GET Book collection of Serie
+     * GET Book collection of Serie.
      *
      * Books list from one Serie, find by slug.
      *
@@ -193,7 +131,7 @@ class SerieController extends Controller
     }
 
     /**
-     * GET Book collection of Serie (from volume)
+     * GET Book collection of Serie (from volume).
      *
      * Books list from one Serie, find by slug from volume and limited to 10 results.
      *

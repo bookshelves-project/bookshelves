@@ -2,16 +2,15 @@
 
 namespace App\Providers\ParserEngine;
 
-use DateTime;
-use ZipArchive;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use App\Providers\ParserEngine\Models\OpfCreator;
 use App\Providers\ParserEngine\Models\OpfIdentifier;
+use DateTime;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use ZipArchive;
 
 /**
- * Parser engine for eBook
- * @package App\Providers\ParserEngine
+ * Parser engine for eBook.
  */
 class ParserEngine
 {
@@ -42,7 +41,7 @@ class ParserEngine
     }
 
     /**
-     * Transform OPF file to ParserEngine
+     * Transform OPF file to ParserEngine.
      */
     public static function create(string $epubPath, bool $debug = false, bool $print = false): ParserEngine
     {
@@ -52,7 +51,7 @@ class ParserEngine
         $opf->title = $metadata['title'];
         $opf->title_sort = ParserTools::getSortString($metadata['title']);
         $opf->slug = Str::slug($metadata['title']);
-        $opf->slug_lang = Str::slug($metadata['title'] . ' ' . $metadata['language']);
+        $opf->slug_lang = Str::slug($metadata['title'].' '.$metadata['language']);
         $opf->creators = $metadata['creators'];
         $opf->contributor = $metadata['contributors'];
         $opf->description = ParserTools::cleanText($metadata['description'], 'html', 5000);
@@ -64,7 +63,7 @@ class ParserEngine
         $opf->rights = substr($metadata['rights'], 0, 255);
         $opf->serie = $metadata['serie'];
         $opf->serie_slug = Str::slug($metadata['serie']);
-        $opf->serie_slug_lang = Str::slug($metadata['serie'] . ' ' . $metadata['language']);
+        $opf->serie_slug_lang = Str::slug($metadata['serie'].' '.$metadata['language']);
         $opf->serie_sort = ParserTools::getSortString($metadata['serie']);
         $opf->volume = $metadata['volume'];
         $opf->epubPath = $epubPath;
@@ -79,7 +78,7 @@ class ParserEngine
             $opf->cover = $metadata['cover_file'];
             $opf->coverExtension = $metadata['cover_extension'];
         }
-        
+
         return $opf;
     }
 
@@ -98,7 +97,7 @@ class ParserEngine
      * - `serie`: `string`
      * - `volume`: `int`
      * - `cover_file`: `string`
-     * - `cover_extension`: `string`
+     * - `cover_extension`: `string`.
      */
     public static function OpfToArray(string $epubPath, bool $debug = false): array
     {
@@ -110,18 +109,18 @@ class ParserEngine
         $zip->open($epubPath);
 
         // Parse EPUB/ZIP file
-        for ($i = 0; $i < $zip->numFiles; $i++) {
+        for ($i = 0; $i < $zip->numFiles; ++$i) {
             $file = $zip->statIndex($i);
             // Extract .opf file by it extension as string
             if (strpos($file['name'], '.opf')) {
                 $opf = $zip->getFromName($file['name']);
             }
         }
-        
+
         // If debug mode, create OPF file into `debug`
         if ($debug) {
             $epub_filename = pathinfo($epubPath)['basename'];
-            Storage::disk('public')->put("/debug/$epub_filename.opf", $opf);
+            Storage::disk('public')->put("/debug/{$epub_filename}.opf", $opf);
         }
 
         // Transform OPF to Array
@@ -135,14 +134,14 @@ class ParserEngine
         // Now, we can have cover
         $cover = null;
         // Parse EPUB/ZIP file
-        for ($i = 0; $i < $zip->numFiles; $i++) {
+        for ($i = 0; $i < $zip->numFiles; ++$i) {
             $file = $zip->statIndex($i);
             // If cover exist, extract it as string
             if (array_key_exists('cover_file', $metadata) && $metadata['cover_file']) {
                 $cover = $zip->getFromName($metadata['cover_file']);
             }
         }
-        
+
         // create unique name for cover
         // $token = bin2hex(openssl_random_pseudo_bytes(5));
         // $name = $metadata['title'];
@@ -169,21 +168,21 @@ class ParserEngine
         // set $opf to PACKAGE key, first key of OPF
         $opf = $opf['PACKAGE'];
         $cover = null;
-        
+
         // MANIFEST contain an array of all files into EPUB
         $manifest = $opf['MANIFEST']['ITEM'];
         $i = 0;
         foreach ($manifest as $key => $value) {
             // search if images exist
-            if ($value['MEDIA-TYPE'] === 'image/jpeg' || $value['MEDIA-TYPE'] === 'image/png') {
-                $i++;
+            if ('image/jpeg' === $value['MEDIA-TYPE'] || 'image/png' === $value['MEDIA-TYPE']) {
+                ++$i;
                 // Check if cover exist in images
                 if ('cover' === $value['ID']) {
                     $cover = $value;
                 // If not, get first existing image
                 // If EPUB is dirty, it's possible for cover to have another name
                 // If you want to have right cover file, use a tool like Calibre to create new clean EPUB file
-                } elseif ($i === 1) {
+                } elseif (1 === $i) {
                     $cover = $value;
                 }
             }
@@ -194,9 +193,10 @@ class ParserEngine
         // If debug, create JSON file with OPF data
         if ($debug) {
             $title = pathinfo($epubPath)['basename'];
+
             try {
                 $opfToJson = json_encode($opf, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-                Storage::disk('public')->put("/debug/$title.json", $opfToJson);
+                Storage::disk('public')->put("/debug/{$title}.json", $opfToJson);
             } catch (\Throwable $th) {
                 ParserTools::console(__METHOD__, $th);
             }
@@ -210,7 +210,7 @@ class ParserEngine
         try {
             // set to METADATA key
             $meta = $opf['METADATA'];
-            
+
             // get *creators* which will be authors
             // use OpfCreatorParser to get name and role
             // role can be 'aut' for author but it can be 'translator' for example
@@ -264,7 +264,7 @@ class ParserEngine
                 if (is_numeric($key)) {
                     try {
                         array_push($identifiers_data, [
-                            'id'    => $value['OPF:SCHEME'],
+                            'id' => $value['OPF:SCHEME'],
                             'value' => $value['content'],
                         ]);
                     } catch (\Throwable $th) {
@@ -289,6 +289,7 @@ class ParserEngine
 
             // get subjects aka tags
             $subjects_data = [];
+
             try {
                 $subjects_raw = (array) $meta['DC:SUBJECT'] ?? null;
                 foreach ($subjects_raw as $key => $value) {
@@ -330,28 +331,29 @@ class ParserEngine
             }
 
             $metadata = [
-                'title'                  => $meta['DC:TITLE'], // title is too important, crash if not
-                'creators'               => $creators_data,
-                'contributors'           => $contributors_data,
-                'description'            => $meta['DC:DESCRIPTION'] ?? null,
-                'date'                   => new DateTime($date),
-                'identifiers'            => $identifiers_data,
-                'publisher'              => $meta['DC:PUBLISHER'] ?? null,
-                'subjects'               => $subjects_data,
-                'language'               => $meta['DC:LANGUAGE'] ?? 'unknown', // language is important, if not defined use *unknown*
-                'rights'                 => $meta['DC:RIGHTS'] ?? null,
-                'serie'                  => $serie_data,
-                'volume'                 => $volume_data,
-                'cover_file'             => $cover_file ?? null,
-                'cover_extension'        => $cover_extension ?? null,
+                'title' => $meta['DC:TITLE'], // title is too important, crash if not
+                'creators' => $creators_data,
+                'contributors' => $contributors_data,
+                'description' => $meta['DC:DESCRIPTION'] ?? null,
+                'date' => new DateTime($date),
+                'identifiers' => $identifiers_data,
+                'publisher' => $meta['DC:PUBLISHER'] ?? null,
+                'subjects' => $subjects_data,
+                'language' => $meta['DC:LANGUAGE'] ?? 'unknown', // language is important, if not defined use *unknown*
+                'rights' => $meta['DC:RIGHTS'] ?? null,
+                'serie' => $serie_data,
+                'volume' => $volume_data,
+                'cover_file' => $cover_file ?? null,
+                'cover_extension' => $cover_extension ?? null,
             ];
 
             // If debug, create JSON file with OPF data
             if ($debug) {
                 $title = pathinfo($epubPath)['basename'];
+
                 try {
                     $metadata_to_json = json_encode($metadata, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-                    Storage::disk('public')->put("/debug/$title-metadata.json", $metadata_to_json);
+                    Storage::disk('public')->put("/debug/{$title}-metadata.json", $metadata_to_json);
                 } catch (\Throwable $th) {
                     ParserTools::console(__METHOD__, $th);
                 }

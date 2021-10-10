@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use File;
-use ZipArchive;
+use App\Http\Controllers\Controller;
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Models\Author;
-use Illuminate\Support\Str;
+use File;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Support\MediaStream;
+use ZipArchive;
 
 /**
  * @group Download
@@ -20,16 +20,16 @@ use Spatie\MediaLibrary\Support\MediaStream;
 class DownloadController extends Controller
 {
     /**
-    * GET Book EPUB
-    *
-    * <small class="badge badge-green">Content-Type application/epub+zip</small>
-    *
-    * Download Book EPUB, find by slug of book and slug of author.
-    *
-    * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-    * @urlParam book_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
-    * @response 200
-    */
+     * GET Book EPUB.
+     *
+     * <small class="badge badge-green">Content-Type application/epub+zip</small>
+     *
+     * Download Book EPUB, find by slug of book and slug of author.
+     *
+     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @urlParam book_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
+     * @response 200
+     */
     public function book(Request $request, string $author, string $book)
     {
         $book = Book::whereSlug($book)->firstOrFail();
@@ -43,16 +43,16 @@ class DownloadController extends Controller
     }
 
     /**
-    * GET Serie ZIP
-    *
-    * <small class="badge badge-green">Content-Type application/octet-stream</small>
-    *
-    * Download Serie ZIP, find by slug of serie and slug of author.
-    *
-    * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-    * @urlParam serie_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
-    * @response 200
-    */
+     * GET Serie ZIP.
+     *
+     * <small class="badge badge-green">Content-Type application/octet-stream</small>
+     *
+     * Download Serie ZIP, find by slug of serie and slug of author.
+     *
+     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @urlParam serie_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
+     * @response 200
+     */
     public function serie(string $author, string $serie)
     {
         $epubs = [];
@@ -76,21 +76,21 @@ class DownloadController extends Controller
         $token = Str::random(8);
         $token = strtolower($token);
         $author = $serie->meta_author;
-        $dirname = "$author-$serie->slug-$token";
+        $dirname = "{$author}-{$serie->slug}-{$token}";
 
-        return MediaStream::create("$dirname.zip")->addMedia($epubs);
+        return MediaStream::create("{$dirname}.zip")->addMedia($epubs);
     }
 
     /**
-    * GET Author ZIP
-    *
-    * <small class="badge badge-green">Content-Type application/octet-stream</small>
-    *
-    * Download Author ZIP, find by slug of author.
-    *
-    * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-    * @response 200
-    */
+     * GET Author ZIP.
+     *
+     * <small class="badge badge-green">Content-Type application/octet-stream</small>
+     *
+     * Download Author ZIP, find by slug of author.
+     *
+     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+     * @response 200
+     */
     public function author(string $author)
     {
         $epubs = [];
@@ -102,9 +102,9 @@ class DownloadController extends Controller
 
         $token = Str::random(8);
         $token = strtolower($token);
-        $dirname = "$author->slug-$token";
+        $dirname = "{$author->slug}-{$token}";
 
-        return MediaStream::create("$dirname.zip")->addMedia($epubs);
+        return MediaStream::create("{$dirname}.zip")->addMedia($epubs);
     }
 
     /**
@@ -112,14 +112,14 @@ class DownloadController extends Controller
      */
     public function getZip(string $model_name, string $slug)
     {
-        $modelName = '\App\Models' . '\\' . $model_name;
+        $modelName = '\App\Models'.'\\'.$model_name;
         $model = $modelName::with('books')->whereSlug($slug)->firstOrFail();
 
         try {
             $token = Str::random(8);
             $token = strtolower($token);
-            $dirname = "$model->slug-$token";
-            $path = public_path("storage/$dirname");
+            $dirname = "{$model->slug}-{$token}";
+            $path = public_path("storage/{$dirname}");
             if (! File::exists($path)) {
                 File::makeDirectory($path);
             }
@@ -130,14 +130,14 @@ class DownloadController extends Controller
                 array_push($downloadList, $path);
             }
             foreach ($downloadList as $key => $epub) {
-                File::copy(public_path("storage/books/$epub"), public_path("storage/$dirname/$epub"));
+                File::copy(public_path("storage/books/{$epub}"), public_path("storage/{$dirname}/{$epub}"));
             }
 
             $zip = new ZipArchive();
-            $fileName = $dirname . '.zip';
+            $fileName = $dirname.'.zip';
 
-            if (true === $zip->open(public_path('storage/' . $fileName), ZipArchive::CREATE)) {
-                $files = File::files(public_path("storage/$dirname"));
+            if (true === $zip->open(public_path('storage/'.$fileName), ZipArchive::CREATE)) {
+                $files = File::files(public_path("storage/{$dirname}"));
 
                 foreach ($files as $key => $value) {
                     $relativeNameInZipFile = basename($value);
@@ -147,9 +147,9 @@ class DownloadController extends Controller
                 $zip->close();
             }
 
-            File::deleteDirectory(public_path("storage/$dirname"));
+            File::deleteDirectory(public_path("storage/{$dirname}"));
 
-            return public_path("storage/$dirname.zip");
+            return public_path("storage/{$dirname}.zip");
         } catch (\Throwable $th) {
             return response()->json('Unexpected error!');
         }

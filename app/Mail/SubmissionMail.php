@@ -14,8 +14,6 @@ class SubmissionMail extends Mailable
 
     /**
      * Create a new message instance.
-     *
-     * @return void
      */
     public function __construct(
         public Submission $submission,
@@ -31,7 +29,7 @@ class SubmissionMail extends Mailable
         $mail = $this;
 
         $appName = config('app.name');
-        $subject = "[$appName] Contact from " . $this->submission->name;
+        $subject = "[{$appName}] Contact from ".$this->submission->name;
         $from_address = config('mail.from.address');
         $from_name = config('mail.from.name');
         $to_address = config('mail.to.address');
@@ -42,9 +40,10 @@ class SubmissionMail extends Mailable
             ->subject($subject)
             ->markdown('emails.submission')
             ->with([
-                'name'    => $this->submission->name,
-                'email'   => $this->submission->email,
+                'name' => $this->submission->name,
+                'email' => $this->submission->email,
                 'message' => $this->submission->message,
-            ]);
+            ])
+        ;
     }
 }

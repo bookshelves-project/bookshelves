@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
-use Spatie\Tags\HasTags;
-use Illuminate\Support\Str;
-use Laravel\Scout\Searchable;
-use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasAuthors;
-use Spatie\MediaLibrary\HasMedia;
-use App\Models\Traits\HasComments;
-use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasClassName;
+use App\Models\Traits\HasComments;
+use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasFavorites;
+use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\Tags\HasTags;
 
 class Book extends Model implements HasMedia
 {
@@ -52,15 +52,17 @@ class Book extends Model implements HasMedia
 
     protected $with = [
         'language',
+        'authors',
+        'media',
     ];
 
     /**
      * Retrieve the model for a bound value.
      *
      * @param mixed       $value
-     * @param string|null $field
+     * @param null|string $field
      *
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return null|\Illuminate\Database\Eloquent\Model
      */
     public function resolveRouteBinding($value, $field = null)
     {
@@ -68,39 +70,39 @@ class Book extends Model implements HasMedia
     }
 
     /**
-     * Manage EPUB files with spatie/laravel-medialibrary
+     * Manage EPUB files with spatie/laravel-medialibrary.
      */
-    public function getEpubAttribute(): string | null
+    public function getEpubAttribute(): string|null
     {
         return $this->getFirstMediaUrl('epubs');
     }
 
     /**
-     * Define sort name for `/api/books` with serie-volume-book
+     * Define sort name for `/api/books` with serie-volume-book.
      */
     public function getSortNameAttribute(): string
     {
         $serie = null;
         if ($this->serie) {
-            $volume = strlen($this->volume) < 2 ? '0' . $this->volume : $this->volume;
-            $serie = $this->serie?->title_sort . ' ' . $volume;
-            $serie = Str::slug($serie) . '_';
+            $volume = strlen($this->volume) < 2 ? '0'.$this->volume : $this->volume;
+            $serie = $this->serie?->title_sort.' '.$volume;
+            $serie = Str::slug($serie).'_';
         }
         $title = Str::slug($this->title_sort);
 
-        return "$serie$title";
+        return "{$serie}{$title}";
     }
 
     public function toSearchableArray()
     {
         return [
-            'id'                 => $this->id,
-            'title'              => $this->title,
-            'date'               => $this->date,
-            'author'             => $this->authors_names,
+            'id' => $this->id,
+            'title' => $this->title,
+            'date' => $this->date,
+            'author' => $this->authors_names,
             // 'description'      => $this->description,
-            'created_at'       => $this->created_at,
-            'updated_at'       => $this->updated_at
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 

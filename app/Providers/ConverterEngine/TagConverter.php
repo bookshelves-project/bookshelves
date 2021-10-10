@@ -3,24 +3,23 @@
 namespace App\Providers\ConverterEngine;
 
 use App\Models\Book;
-use Spatie\Tags\Tag;
-use Illuminate\Support\Collection;
 use App\Providers\ParserEngine\ParserEngine;
+use Illuminate\Support\Collection;
+use Spatie\Tags\Tag;
 
 class TagConverter
 {
     /**
-    * Generate Tag[] for Book from ParserEngine.
-    */
+     * Generate Tag[] for Book from ParserEngine.
+     */
     public static function create(ParserEngine $parser, Book $book): Collection
     {
         foreach ($parser->subjects as $key => $subject) {
             self::tagRaw($subject, $book);
         }
         $book->refresh();
-        $tags = $book->tags;
 
-        return $tags;
+        return $book->tags;
     }
 
     /**
@@ -28,11 +27,11 @@ class TagConverter
      */
     public static function tagRaw(string $tag, Book $book): Book
     {
-        $main_genres = config('bookshelves.genres');
+        $main_genres = config('bookshelves.tags.genres_list');
         $tag = str_replace(' and ', ' & ', $tag);
         $tag = str_replace('-', ' ', $tag);
-        $forbidden_tags = config('bookshelves.forbidden_tags');
-        $converted_tags = config('bookshelves.converted_tags');
+        $forbidden_tags = config('bookshelves.tags.forbidden');
+        $converted_tags = config('bookshelves.tags.converted');
 
         foreach ($converted_tags as $key => $converted_tag) {
             if ($tag === $key) {

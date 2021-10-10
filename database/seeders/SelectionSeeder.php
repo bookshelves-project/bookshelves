@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Book;
-use App\Models\User;
-use App\Models\Serie;
 use App\Models\Author;
+use App\Models\Book;
+use App\Models\Serie;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,8 +13,6 @@ class SelectionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {

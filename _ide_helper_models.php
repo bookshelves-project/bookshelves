@@ -27,7 +27,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Commentable[] $comments
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
@@ -73,9 +73,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTagsOfAnyType($tags)
  */
-    class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia
-    {
-    }
+	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -102,7 +100,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
  * @property-read int|null $authors_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Commentable[] $comments
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
@@ -160,14 +158,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTagsOfAnyType($tags)
  */
-    class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia
-    {
-    }
+	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
 /**
- * App\Models\Comment
+ * App\Models\Commentable
  *
  * @property int $id
  * @property string|null $text
@@ -185,22 +181,20 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
  * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\CommentFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment query()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCommentableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCommentableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereRating($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereText($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
+ * @method static \Database\Factories\CommentableFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Commentable newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Commentable newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Commentable query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereCommentableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereCommentableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereUserId($value)
  */
-    class Comment extends \Eloquent
-    {
-    }
+	class Commentable extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -222,9 +216,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable whereUserId($value)
  */
-    class Favoritable extends \Eloquent
-    {
-    }
+	class Favoritable extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -232,27 +224,45 @@ namespace App\Models{
  * App\Models\GoogleBook
  *
  * @property int $id
+ * @property string|null $date
+ * @property string|null $description
+ * @property mixed|null $industry_identifiers
+ * @property int|null $page_count
+ * @property mixed|null $categories
+ * @property string|null $maturity_rating
+ * @property string|null $language
  * @property string|null $preview_link
+ * @property string|null $publisher
+ * @property int|null $retail_price_amount
+ * @property int|null $retail_price_currency_code
  * @property string|null $buy_link
- * @property int|null $retail_price
- * @property string|null $retail_price_currency
- * @property string|null $created_at
- * @property string|null $updated_at
+ * @property string|null $isbn
+ * @property string|null $isbn13
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Book|null $book
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook query()
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereBuyLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereCategories($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereIndustryIdentifiers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereIsbn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereIsbn13($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereMaturityRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePageCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePreviewLink($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereRetailPrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereRetailPriceCurrency($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePublisher($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereRetailPriceAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereRetailPriceCurrencyCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereUpdatedAt($value)
  */
-    class GoogleBook extends \Eloquent
-    {
-    }
+	class GoogleBook extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -276,9 +286,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Identifier whereIsbn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Identifier whereIsbn13($value)
  */
-    class Identifier extends \Eloquent
-    {
-    }
+	class Identifier extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -297,9 +305,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereSlug($value)
  */
-    class Language extends \Eloquent
-    {
-    }
+	class Language extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -319,9 +325,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereSlug($value)
  */
-    class Publisher extends \Eloquent
-    {
-    }
+	class Publisher extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -336,9 +340,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
  */
-    class Role extends \Eloquent
-    {
-    }
+	class Role extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -360,9 +362,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereUserId($value)
  */
-    class Selectionable extends \Eloquent
-    {
-    }
+	class Selectionable extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -382,7 +382,7 @@ namespace App\Models{
  * @property-read int|null $authors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Commentable[] $comments
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
@@ -428,9 +428,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAnyTagsOfAnyType($tags)
  */
-    class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia
-    {
-    }
+	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -453,9 +451,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Submission whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Submission whereUpdatedAt($value)
  */
-    class Submission extends \Eloquent
-    {
-    }
+	class Submission extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -486,9 +482,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag withType(?string $type = null)
  */
-    class TagExtend extends \Eloquent
-    {
-    }
+	class TagExtend extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -506,14 +500,16 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property int|null $current_team_id
  * @property string|null $about
+ * @property \App\Enums\GenderEnum $gender
  * @property bool $use_gravatar
  * @property bool $display_favorites
  * @property bool $display_comments
+ * @property bool $display_gender
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Commentable[] $comments
  * @property-read int|null $comments_count
  * @property-read string $avatar
  * @property-read string|null $avatar_thumbnail
@@ -538,8 +534,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCurrentTeamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayComments($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayFavorites($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
@@ -550,7 +548,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUseGravatar($value)
  */
-    class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia
-    {
-    }
+	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
+
