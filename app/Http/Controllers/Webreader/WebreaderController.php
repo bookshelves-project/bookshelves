@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Webreader;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Book\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Providers\CommonMarkProvider;
@@ -35,6 +36,9 @@ class WebreaderController extends Controller
         $title = $book->title;
         $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';
         $title .= ' by '.$book->authors_names;
+
+        $book = BookResource::make($book);
+        $book = json_decode($book->toJson());
 
         return view('pages.features.webreader.reader', compact('epub_path', 'epub_download', 'book', 'title'));
     }

@@ -24,7 +24,7 @@
     <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
     <x-layout.sidebar-epub :title="$title" />
     <div
-        class="fixed transform -translate-x-1/2 top-0 left-1/2 flex items-center bg-gray-200 bg-opacity-75 z-50 text-white">
+        class="fixed transform -translate-x-1/2 top-1 left-1/2 flex items-center bg-gray-200 bg-opacity-75 z-50 text-white rounded-md">
         <x-webreader.navigation-epub id="firstPage" icon="arrow-double-left" />
         <x-webreader.navigation-epub id="prevPage" icon="arrow-left" />
         <x-webreader.navigation-epub id="sidebar-header-button" icon="menu" />
@@ -35,9 +35,13 @@
         <x-webreader.navigation-epub id="nextPage" icon="arrow-right" />
         <x-webreader.navigation-epub id="lastPage" icon="arrow-double-right" />
     </div>
-    <div class="fixed top-0 right-0 bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-300 bg-opacity-40">
+    <div class="fixed z-20 top-0 right-0 bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-300 bg-opacity-40">
         <x-switch-color-mode />
     </div>
+    <button id="prevPageSide" class="side-button left-0">
+    </button>
+    <button id="nextPageSide" class="side-button right-0">
+    </button>
     @yield('content')
     @yield('scripts')
     <script src="{{ mix('assets/js/blade/index.js') }}"></script>

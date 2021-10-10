@@ -9,7 +9,6 @@ use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Models\Author;
-use App\Utils\BookshelvesTools;
 use Illuminate\Http\Request;
 
 /**
@@ -50,9 +49,6 @@ class AuthorController extends Controller
         }
 
         $authors = Author::with('media')->orderBy('lastname')->withCount('books')->get();
-
-        // $authors = BookshelvesTools::chunkByAlpha($authors, 'lastname');
-        // dd($authors);
 
         return AuthorLightResource::collection($authors->paginate($page));
     }

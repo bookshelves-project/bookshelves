@@ -51,6 +51,12 @@ class WikiController extends Controller
             ],
             [
                 'route' => 'features.wiki.index',
+                'parameters' => ['page' => 'search'],
+                'title' => 'Search',
+                'external' => false,
+            ],
+            [
+                'route' => 'features.wiki.index',
                 'parameters' => ['page' => 'packages'],
                 'title' => 'Packages',
                 'external' => false,

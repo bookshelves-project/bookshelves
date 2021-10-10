@@ -280,4 +280,10 @@ ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-authors public/storage/d
 ln -s /mnt/e/WorkInProgress/ebooks/environment/pictures-series public/storage/data/pictures-series
 
 cmd /c mklink /J "C:\workspace\projets\bookshelves-back\public\storage\data\books\books-pirates" "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\environment\books-pirates"
+
+New-Item -ItemType Junction -Path "C:\workspace\projets\bookshelves-back\public\storage\data\books\books-pirates" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\environment\books-pirates"
+
+New-Item -ItemType Junction -Path "C:\workspace\projets\bookshelves-back\public\storage\data\pictures-authors\pictures-authors" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\environment\pictures-authors"
+
+New-Item -ItemType Junction -Path "C:\workspace\projets\bookshelves-back\public\storage\data\pictures-series\pictures-series" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\environment\pictures-series"
 ```

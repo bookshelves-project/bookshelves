@@ -84,6 +84,11 @@ class NavigationController extends Controller
             'bookshelves.langs',
             'bookshelves.tags.genres_list',
             'bookshelves.tags.forbidden',
+            'scout.driver',
+            'scout.queue',
+            'scout.meilisearch',
+            'telescope.enabled',
+            'clockwork.enable',
         ];
         $tableConfig = json_decode(json_encode($tableConfig));
 

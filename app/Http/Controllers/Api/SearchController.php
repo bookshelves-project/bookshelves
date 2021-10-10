@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Book\BookLightestResource;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
 use App\Models\Serie;
 use App\Utils\BookshelvesTools;
+use App\Utils\QueryExporter;
+use App\Utils\SearchFilter;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\Tags\Tag;
 
 /**
@@ -28,15 +33,46 @@ class SearchController extends Controller
      */
     public function index(Request $request)
     {
-        // - with pagination
-        $searchTermRaw = $request->input('q');
-        if ($searchTermRaw) {
-            if (config('scout.driver' === 'collection')) {
-                $collection = BookshelvesTools::searchGlobal($searchTermRaw);
+        // $query = QueryBuilder::for(Book::class)
+        //     ->allowedFilters([
+        //         // 'serie.title',
+        //         // http://localhost:8000/api/search?filter[q]=ewilan
+        //         // AllowedFilter::custom('q', new SearchFilter(['title'])),
+        //         // http://localhost:8000/api/users?filter[title]=ewilan
+        //         AllowedFilter::partial('title'),
+        //         AllowedFilter::partial('serie.title'),
+        //         // AllowedFilter::scope('serie_title', 'whereSerieTitleIs'),
+        //         // AllowedFilter::partial('first_name'),
+        //         // AllowedFilter::partial('last_name'),
+        //         // AllowedFilter::exact('id'),
+        //         // AllowedFilter::exact('role'),
+        //         // AllowedFilter::exact('active'),
+        //         // AllowedFilter::exact('regional_service_slug'),
+        //         // AllowedFilter::exact('role'),
+        //     ])
+        //     // http://localhost:8000/api/users?sort=title
+        //     ->allowedSorts(['id', 'title'])
+        //     ->paginate(32)
+        //     // ->limit(30)
+        // ;
+
+        // $exporter = new QueryExporter($query);
+        // $resource = $exporter->resource(BookLightestResource::class);
+
+        // return (new QueryExporter($query))
+        //     ->resource(BookResource::class)
+        // ;
+
+        // return $resource->get();
+
+        $q = $request->input('q');
+        if ($q) {
+            if ('collection' === config('scout.driver')) {
+                $collection = BookshelvesTools::searchGlobal($q);
             } else {
-                $books = Book::search($searchTermRaw)->get();
-                $authors = Author::search($searchTermRaw)->get();
-                $series = Serie::search($searchTermRaw)->get();
+                $books = Book::search($q)->get();
+                $authors = Author::search($q)->get();
+                $series = Serie::search($q)->get();
 
                 $authors = EntityResource::collection($authors);
                 $series = EntityResource::collection($series);
@@ -47,15 +83,13 @@ class SearchController extends Controller
                 $collection = $collection->merge($series);
                 $collection = $collection->merge($books);
             }
-            // $collection->splice(50);
-            // dd($collection->count());
 
             return response()->json([
                 'data' => $collection,
             ]);
         }
 
-        return response()->json(['error' => 'Need to have terms query parameter'], 401);
+        return response()->json(['error' => 'Need to have terms `q` parameter'], 401);
     }
 
     /**
