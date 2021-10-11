@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Providers\ConverterEngine\ConverterEngine;
-use App\Providers\ParserEngine\ParserEngine;
-use App\Providers\ParserEngine\ParserList;
+use App\Services\ConverterEngine\ConverterEngine;
+use App\Services\ParserEngine\ParserEngine;
+use App\Services\ParserEngine\ParserList;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Tags\Tag;

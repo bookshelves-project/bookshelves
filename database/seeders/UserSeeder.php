@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Enums\RoleEnum;
 use App\Models\Role;
 use App\Models\User;
-use App\Providers\ImageProvider;
+use App\Services\ImageService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
             ;
 
             $image = $user->getFirstMediaPath('avatar');
-            $color = ImageProvider::simple_color_thief($image);
+            $color = ImageService::simple_color_thief($image);
             $media = $user->getFirstMedia('avatar');
             $media->setCustomProperty('color', $color);
             $media->save();

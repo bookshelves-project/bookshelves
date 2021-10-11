@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\ParserEngine;
+namespace App\Services\ParserEngine;
 
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;

@@ -27,7 +27,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Commentable[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
@@ -100,7 +100,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
  * @property-read int|null $authors_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Commentable[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
@@ -148,6 +148,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePublisherId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereRights($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieTitleIs($title)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
@@ -163,16 +164,16 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Commentable
+ * App\Models\Comment
  *
  * @property int $id
  * @property string|null $text
  * @property int|null $rating
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
  * @property int|null $commentable_id
  * @property string|null $commentable_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
  * @property-read int|null $authors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -181,20 +182,20 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
  * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\CommentableFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Commentable newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Commentable newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Commentable query()
- * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereCommentableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereCommentableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereRating($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereText($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Commentable whereUserId($value)
+ * @method static \Database\Factories\CommentFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCommentableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCommentableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
  */
-	class Commentable extends \Eloquent {}
+	class Comment extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -382,7 +383,7 @@ namespace App\Models{
  * @property-read int|null $authors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Commentable[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
@@ -509,7 +510,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Commentable[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read string $avatar
  * @property-read string|null $avatar_thumbnail

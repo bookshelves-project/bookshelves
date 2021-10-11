@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Comment\CommentResource;
 use App\Models\Book;
 use App\Models\Comment;
-use App\Providers\ParserEngine\ParserTools;
+use App\Services\ParserEngine\ParserTools;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

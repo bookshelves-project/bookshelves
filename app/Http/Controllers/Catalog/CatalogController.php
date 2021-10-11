@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Catalog;
 
 use App\Http\Controllers\Controller;
-use App\Providers\CommonMarkProvider;
+use App\Services\CommonMarkService;
 use App\Utils\BookshelvesTools;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
@@ -15,7 +15,7 @@ class CatalogController extends Controller
 {
     public function index(Request $request)
     {
-        $markdown = CommonMarkProvider::generate('catalog/content/index.md');
+        $markdown = CommonMarkService::generate('catalog/content/index.md');
         $content = $markdown->content;
 
         $agent = new Agent();

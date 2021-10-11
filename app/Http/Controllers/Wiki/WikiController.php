@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Wiki;
 
 use App\Http\Controllers\Controller;
-use App\Providers\CommonMarkProvider;
+use App\Services\CommonMarkService;
 use Illuminate\Http\Request;
 
 /**
@@ -13,7 +13,7 @@ class WikiController extends Controller
 {
     public static function getContent(string $path, string $page)
     {
-        $markdown = CommonMarkProvider::generate($path);
+        $markdown = CommonMarkService::generate($path);
         $content = $markdown->content;
         $date = $markdown->date;
 

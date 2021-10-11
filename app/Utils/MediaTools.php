@@ -2,7 +2,7 @@
 
 namespace App\Utils;
 
-use App\Providers\ImageProvider;
+use App\Services\ImageService;
 use Illuminate\Database\Eloquent\Model;
 
 class MediaTools
@@ -41,7 +41,7 @@ class MediaTools
         }
         $image = $this->model->getFirstMediaPath($collection);
 
-        $color = ImageProvider::simple_color_thief($image);
+        $color = ImageService::simple_color_thief($image);
         $media = $this->model->getFirstMedia($collection);
         $media->setCustomProperty('color', $color);
         $media->save();

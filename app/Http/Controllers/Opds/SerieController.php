@@ -6,7 +6,7 @@ use App\Enums\EntitiesEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Serie;
-use App\Providers\OpdsProvider;
+use App\Services\OpdsService;
 use Illuminate\Http\Request;
 use Route;
 
@@ -20,13 +20,13 @@ class SerieController extends Controller
         $entities = Serie::with('books', 'authors', 'media')->orderBy('title_sort')->get();
 
         $current_route = route(Route::currentRouteName(), ['version' => $version]);
-        $opdsProvider = new OpdsProvider(
+        $opdsService = new OpdsService(
             version: $version,
             entity: EntitiesEnum::SERIE(),
             route: $current_route,
             data: $entities
         );
-        $result = $opdsProvider->template();
+        $result = $opdsService->template();
 
         return response($result)->withHeaders([
             'Content-Type' => 'text/xml',
@@ -44,13 +44,13 @@ class SerieController extends Controller
             'author' => $author_slug,
             'serie' => $serie_slug,
         ]);
-        $opdsProvider = new OpdsProvider(
+        $opdsService = new OpdsService(
             version: $version,
             entity: EntitiesEnum::BOOK(),
             route: $current_route,
             data: $books
         );
-        $result = $opdsProvider->template();
+        $result = $opdsService->template();
 
         return response($result)->withHeaders([
             'Content-Type' => 'text/xml',

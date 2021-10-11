@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Services;
 
 use App\Enums\EntitiesEnum;
 use App\Models\Book;
@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\ArrayToXml\ArrayToXml;
 
-class OpdsProvider
+class OpdsService
 {
     public function __construct(
         public string $version,

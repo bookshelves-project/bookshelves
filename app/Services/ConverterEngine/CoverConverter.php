@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Providers\ConverterEngine;
+namespace App\Services\ConverterEngine;
 
 use App\Models\Book;
-use App\Providers\ParserEngine\ParserEngine;
+use App\Services\ParserEngine\ParserEngine;
 use App\Utils\BookshelvesTools;
 use App\Utils\MediaTools;
 

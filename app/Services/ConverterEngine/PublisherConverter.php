@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Providers\ConverterEngine;
+namespace App\Services\ConverterEngine;
 
 use App\Models\Book;
 use App\Models\Publisher;
-use App\Providers\ParserEngine\ParserEngine;
+use App\Services\ParserEngine\ParserEngine;
 use Illuminate\Support\Str;
 
 class PublisherConverter

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers;
+namespace App\Services;
 
-class ImageProvider
+class ImageService
 {
     /**
      * PHP Simple Color Thief

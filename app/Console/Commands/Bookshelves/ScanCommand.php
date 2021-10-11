@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Providers\ParserEngine\ParserList;
+use App\Services\ParserEngine\ParserList;
 use Illuminate\Console\Command;
 
 class ScanCommand extends Command

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Providers\ConverterEngine;
+namespace App\Services\ConverterEngine;
 
 use App\Models\Book;
 use App\Models\Identifier;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
-use App\Providers\ParserEngine\ParserEngine;
+use App\Services\ParserEngine\ParserEngine;
 use Illuminate\Support\Collection;
 
 class ConverterEngine

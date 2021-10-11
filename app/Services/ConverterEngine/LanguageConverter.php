@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Providers\ConverterEngine;
+namespace App\Services\ConverterEngine;
 
 use App\Models\Language;
-use App\Providers\ParserEngine\ParserEngine;
+use App\Services\ParserEngine\ParserEngine;
 
 class LanguageConverter
 {

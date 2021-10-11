@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Opds;
 use App\Enums\EntitiesEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
-use App\Providers\OpdsProvider;
+use App\Services\OpdsService;
 use Route;
 
 /**
@@ -18,13 +18,13 @@ class AuthorController extends Controller
         $entities = Author::with('books', 'media')->orderBy('lastname')->get();
 
         $current_route = route(Route::currentRouteName(), ['version' => $version]);
-        $opdsProvider = new OpdsProvider(
+        $opdsService = new OpdsService(
             version: $version,
             entity: EntitiesEnum::AUTHOR(),
             route: $current_route,
             data: $entities
         );
-        $result = $opdsProvider->template();
+        $result = $opdsService->template();
 
         return response($result)->withHeaders([
             'Content-Type' => 'text/xml',
@@ -40,13 +40,13 @@ class AuthorController extends Controller
             'version' => $version,
             'author' => $author_slug,
         ]);
-        $opdsProvider = new OpdsProvider(
+        $opdsService = new OpdsService(
             version: $version,
             entity: EntitiesEnum::BOOK(),
             route: $current_route,
             data: $books
         );
-        $result = $opdsProvider->template("{$author->lastname} {$author->firstname}");
+        $result = $opdsService->template("{$author->lastname} {$author->firstname}");
 
         return response($result)->withHeaders([
             'Content-Type' => 'text/xml',

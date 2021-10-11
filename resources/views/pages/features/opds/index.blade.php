@@ -14,4 +14,8 @@
             @endforeach
         </ul>
     </x-content>
+
+    <x-button>
+        Lastest feed
+    </x-button>
 @endsection

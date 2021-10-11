@@ -263,4 +263,4 @@ TODO
 
 TODO
 
-- WikipediaProvider
+- WikipediaService

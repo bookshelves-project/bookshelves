@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Author;
 use App\Models\Book;
-use App\Providers\CommonMarkProvider;
+use App\Services\CommonMarkService;
 
 /**
  * @hideFromAPIDocumentation
@@ -16,11 +16,14 @@ class WebreaderController extends Controller
     public function index()
     {
         $random_book = Book::inRandomOrder()->first();
-        $cover = $random_book->getCoverThumbnailAttribute();
-        $route = route('features.webreader.reader', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
-
-        $markdown = CommonMarkProvider::generate('webreader/content/index.md');
+        $cover = null;
+        $route = null;
+        $markdown = CommonMarkService::generate('webreader/content/index.md');
         $content = $markdown->content;
+        if ($random_book) {
+            $cover = $random_book->getCoverThumbnailAttribute();
+            $route = route('features.webreader.reader', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
+        }
 
         return view('pages.features.webreader.index', compact('random_book', 'cover', 'route', 'content'));
     }

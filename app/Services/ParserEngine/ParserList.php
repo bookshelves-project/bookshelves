@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\ParserEngine;
+namespace App\Services\ParserEngine;
 
 class ParserList
 {

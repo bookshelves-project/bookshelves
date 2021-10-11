@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Providers\ConverterEngine;
+namespace App\Services\ConverterEngine;
 
 use App\Models\Author;
 use App\Models\Book;
-use App\Providers\ParserEngine\Models\OpfCreator;
-use App\Providers\ParserEngine\ParserEngine;
-use App\Providers\WikipediaProvider;
+use App\Services\ParserEngine\Models\OpfCreator;
+use App\Services\ParserEngine\ParserEngine;
+use App\Services\WikipediaService;
 use App\Utils\BookshelvesTools;
 use App\Utils\MediaTools;
 use File;
@@ -121,7 +121,7 @@ class AuthorConverter
     //         $name = str_replace(' ', '%20', $name);
 
     //         if (! $local) {
-    //             $wiki = WikipediaProvider::create($author->name);
+    //             $wiki = WikipediaService::create($author->name);
     //             $author = self::setLocalDescription($author);
     //             $author = self::setLocalNotes($author);
     //             if (! $author->description) {
@@ -190,14 +190,14 @@ class AuthorConverter
     //     return $author;
     // }
 
-    // public static function setWikipediaPicture(Author $author, WikipediaProvider $wikipediaProvider, bool $debug = false): Author
+    // public static function setWikipediaPicture(Author $author, WikipediaService $wikipediaService, bool $debug = false): Author
     // {
     //     try {
-    //         $picture = WikipediaProvider::getPictureFile($wikipediaProvider);
+    //         $picture = WikipediaService::getPictureFile($wikipediaService);
     //         self::setPicture($author, $picture);
     //     } catch (\Throwable $th) {
     //         if ($debug) {
-    //             echo "\nNo wikipedia picture for $wikipediaProvider->query\n";
+    //             echo "\nNo wikipedia picture for $wikipediaService->query\n";
     //         }
     //     }
 
@@ -280,7 +280,7 @@ class AuthorConverter
         return $author;
     }
 
-    public static function setWikiDescription(Author $author, WikipediaProvider $wiki): Author
+    public static function setWikiDescription(Author $author, WikipediaService $wiki): Author
     {
         $author->description = BookshelvesTools::stringLimit($wiki->extract, 1000);
         $author->link = $wiki->page_url;
@@ -293,7 +293,7 @@ class AuthorConverter
      * Set wiki picture if local not exist
      * Otherwise, set local picture.
      */
-    public static function setWikiPicture(Author $author, WikipediaProvider $wiki): Author
+    public static function setWikiPicture(Author $author, WikipediaService $wiki): Author
     {
         $disk = self::DISK;
         $cover = self::getLocalPicture($author);

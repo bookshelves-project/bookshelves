@@ -5,10 +5,10 @@ namespace App\Console\Commands\Bookshelves;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Providers\ConverterEngine\AuthorConverter;
-use App\Providers\ConverterEngine\SerieConverter;
-use App\Providers\GoogleBookProvider;
-use App\Providers\WikipediaProvider;
+use App\Services\ConverterEngine\AuthorConverter;
+use App\Services\ConverterEngine\SerieConverter;
+use App\Services\GoogleBookService;
+use App\Services\WikipediaService;
 use App\Utils\HttpTools;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
@@ -132,7 +132,7 @@ class AssetsCommand extends Command
 
             foreach ($chunk as $key => $list) {
                 $this->info('Fetching API data for chunk '.$key + 1);
-                $providers = GoogleBookProvider::createAsync($list);
+                $providers = GoogleBookService::createAsync($list);
                 $bar = $this->output->createProgressBar(count($list));
                 $bar->start();
                 foreach ($providers as $bookID => $provider) {
@@ -179,7 +179,7 @@ class AssetsCommand extends Command
 
         $this->info('HTTP requests with async...');
         $this->info('Progress bar is not available with async');
-        $providers = WikipediaProvider::make($list, 'name');
+        $providers = WikipediaService::make($list, 'name');
         $this->newLine();
 
         $this->info('Set async data');
@@ -237,7 +237,7 @@ class AssetsCommand extends Command
     {
         $this->info('HTTP requests with async...');
         $this->info('Progress bar is not available with async');
-        $providers = WikipediaProvider::make($list, 'title');
+        $providers = WikipediaService::make($list, 'title');
         $this->newLine();
 
         $this->info('Set async data');

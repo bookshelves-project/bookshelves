@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Roadmap;
 
 use App\Http\Controllers\Controller;
-use App\Providers\CommonMarkProvider;
+use App\Services\CommonMarkService;
 
 class RoadmapController extends Controller
 {
     public function index()
     {
-        $markdown = CommonMarkProvider::generate('roadmap/content/index.md');
+        $markdown = CommonMarkService::generate('roadmap/content/index.md');
         $content = $markdown->content;
         $date = $markdown->date;
 

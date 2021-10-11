@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Providers\ConverterEngine;
+namespace App\Services\ConverterEngine;
 
 use App\Models\Book;
 use App\Models\Serie;
-use App\Providers\ParserEngine\ParserEngine;
-use App\Providers\WikipediaProvider;
+use App\Services\ParserEngine\ParserEngine;
+use App\Services\WikipediaService;
 use App\Utils\BookshelvesTools;
 use App\Utils\MediaTools;
 use File;
@@ -76,7 +76,7 @@ class SerieConverter
     /**
      * Generate Serie description from Wikipedia if found.
      */
-    public static function setWikiDescription(Serie $serie, WikipediaProvider $wiki): Serie
+    public static function setWikiDescription(Serie $serie, WikipediaService $wiki): Serie
     {
         $serie->description = BookshelvesTools::stringLimit($wiki->extract, 1000);
         $serie->link = $wiki->page_url;

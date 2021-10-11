@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Services;
 
 use App\Utils\BookshelvesTools;
 use App\Utils\HttpTools;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Http;
  * Use Wikipedia to get some data about authors and series.
  * Doc in french: https://korben.info/comment-utiliser-lapi-de-recherche-de-wikipedia.html.
  */
-class WikipediaProvider
+class WikipediaService
 {
     public function __construct(
         public ?string $model_name = null,
@@ -33,18 +33,18 @@ class WikipediaProvider
      * - First request is search to get a list of pages
      * - Second request is first result of pages.
      *
-     * @return WikipediaProvider
+     * @return WikipediaService
      */
     public static function create(string $query, string $lang = 'en')
     {
         $search = self::getSearchUrl($query, $lang);
         $response = Http::get($search);
-        $provider = self::getSearchProvider($response);
+        $provider = self::getSearchService($response);
 
         $data = self::getDataUrl($lang, $provider->page_id);
         $response = Http::get($data);
 
-        return self::getDataProvider($response, $provider);
+        return self::getDataService($response, $provider);
     }
 
     /**
@@ -53,19 +53,19 @@ class WikipediaProvider
      *
      * @param string $attribute which used to search
      *
-     * @return WikipediaProvider[]
+     * @return WikipediaService[]
      */
     public static function make(Collection $list, string $attribute): array
     {
-        $providers = WikipediaProvider::createSearchAsync($list, $attribute);
+        $providers = WikipediaService::createSearchAsync($list, $attribute);
 
-        return WikipediaProvider::createDataAsync($providers);
+        return WikipediaService::createDataAsync($providers);
     }
 
     /**
      * Async Wikipedia API calls.
      *
-     * @return WikipediaProvider[]
+     * @return WikipediaService[]
      */
     public static function createSearchAsync(Collection $list, string $attribute): array
     {
@@ -80,7 +80,7 @@ class WikipediaProvider
 
         $providers = [];
         foreach ($responses as $ID => $response) {
-            $provider = self::getSearchProvider($response, $ID, $model_name);
+            $provider = self::getSearchService($response, $ID, $model_name);
             $providers[$ID] = $provider;
         }
 
@@ -97,7 +97,7 @@ class WikipediaProvider
     /**
      * Get results from query URL.
      */
-    public static function getSearchProvider(Response $response, ?int $id = 0, ?string $model_name = null): WikipediaProvider
+    public static function getSearchService(Response $response, ?int $id = 0, ?string $model_name = null): WikipediaService
     {
         if ($model_name) {
             $model = $model_name::find($id);
@@ -106,7 +106,7 @@ class WikipediaProvider
         parse_str($uri->getQuery(), $params);
 
         $url = HttpTools::getQueryFromResponse($response);
-        $provider = new WikipediaProvider(
+        $provider = new WikipediaService(
             lang: $model->language_slug ? $model->language_slug : 'en',
             model_name: $model_name,
             search_url: $url,
@@ -145,9 +145,9 @@ class WikipediaProvider
     /**
      * Get Data from page.
      *
-     * @param WikipediaProvider[] $providers
+     * @param WikipediaService[] $providers
      *
-     * @return WikipediaProvider[]
+     * @return WikipediaService[]
      */
     public static function createDataAsync(array $providers): array
     {
@@ -164,7 +164,7 @@ class WikipediaProvider
         $providers_data = [];
         foreach ($responses as $ID => $response) {
             $current = $providers->firstWhere('model_id', $ID);
-            $provider = self::getDataProvider($response, $current);
+            $provider = self::getDataService($response, $current);
             array_push($providers_data, $provider);
         }
 
@@ -176,7 +176,7 @@ class WikipediaProvider
         return "http://{$lang}.wikipedia.org/w/api.php?action=query&prop=info&pageids={$pageId}&inprop=url&format=json&prop=info|extracts|pageimages&pithumbsize=512";
     }
 
-    public static function getDataProvider(Response $response, WikipediaProvider $provider): WikipediaProvider
+    public static function getDataService(Response $response, WikipediaService $provider): WikipediaService
     {
         $response = $response->json();
 
@@ -201,7 +201,7 @@ class WikipediaProvider
      */
 
     /**
-     * Get picture from WikipediaProvider picture_url.
+     * Get picture from WikipediaService picture_url.
      *
      * @return null|string
      */

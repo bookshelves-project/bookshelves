@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Services;
 
 use App\Models\Book;
 use App\Models\GoogleBook;
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Http;
  * @method $this create()  get Google Book API data from ISBN or ISBN13
  * @method $this convert() Create GoogleBook
  */
-class GoogleBookProvider
+class GoogleBookService
 {
     public function __construct(
         public string $url,
@@ -41,7 +41,7 @@ class GoogleBookProvider
     /**
      * Async Google Book API calls.
      *
-     * @return GoogleBookProvider[]
+     * @return GoogleBookService[]
      */
     public static function createAsync(Collection $books): array
     {
@@ -68,7 +68,7 @@ class GoogleBookProvider
      * Get all useful data to improve Book, Identifier, Publisher and Tag
      * If data exist, create GoogleBook associate with Book with useful data to purchase eBook
      */
-    public static function create(Book $book): GoogleBookProvider
+    public static function create(Book $book): GoogleBookService
     {
         $url = self::setIsbn($book);
 
@@ -104,10 +104,10 @@ class GoogleBookProvider
         return $url;
     }
 
-    public static function setData(Response $response): GoogleBookProvider
+    public static function setData(Response $response): GoogleBookService
     {
         $url = $response->transferStats->getRequest()->getUri()->getQuery();
-        $provider = new GoogleBookProvider($url);
+        $provider = new GoogleBookService($url);
         $response = $response->json();
 
         if (array_key_exists('items', $response)) {

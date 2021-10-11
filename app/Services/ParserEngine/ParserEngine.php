@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Providers\ParserEngine;
+namespace App\Services\ParserEngine;
 
-use App\Providers\ParserEngine\Models\OpfCreator;
-use App\Providers\ParserEngine\Models\OpfIdentifier;
+use App\Services\ParserEngine\Models\OpfCreator;
+use App\Services\ParserEngine\Models\OpfIdentifier;
 use DateTime;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;

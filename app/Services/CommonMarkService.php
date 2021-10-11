@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Services;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
@@ -22,7 +22,7 @@ use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
 use League\CommonMark\MarkdownConverter;
 
-class CommonMarkProvider
+class CommonMarkService
 {
     public function __construct(
         public string $content,
@@ -241,6 +241,6 @@ class CommonMarkProvider
         $converter = new MarkdownConverter($environment);
         $content = $converter->convertToHtml($markdown);
 
-        return new CommonMarkProvider($content, $date);
+        return new CommonMarkService($content, $date);
     }
 }

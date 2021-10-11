@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\ParserEngine\Models;
+namespace App\Services\ParserEngine\Models;
 
 class OpfIdentifier
 {

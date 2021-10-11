@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Opds;
 
 use App\Enums\EntitiesEnum;
 use App\Http\Controllers\Controller;
-use App\Providers\CommonMarkProvider;
-use App\Providers\OpdsProvider;
+use App\Services\CommonMarkService;
+use App\Services\OpdsService;
 use File;
 use Illuminate\Http\Request;
 use Route;
@@ -17,7 +17,7 @@ class OpdsController extends Controller
 {
     public function index(Request $request)
     {
-        $markdown = CommonMarkProvider::generate('opds/content/index.md');
+        $markdown = CommonMarkService::generate('opds/content/index.md');
         $content = $markdown->content;
 
         $feeds = [
@@ -26,13 +26,14 @@ class OpdsController extends Controller
                 'param' => 'v1.2',
             ],
         ];
+        $latest_feed = $feeds[sizeof($feeds) - 1];
 
-        return view('pages.features.opds.index', compact('content', 'feeds'));
+        return view('pages.features.opds.index', compact('content', 'feeds', 'latest_feed'));
     }
 
     public function feed(Request $request, string $version)
     {
-        $feed = File::get(app_path('Providers/OPDS/feed.json'));
+        $feed = File::get(app_path('Services/OPDS/feed.json'));
         $feed = (array) json_decode($feed);
         foreach ($feed as $key => $value) {
             $model_name = 'App\Models\\'.ucfirst($value->model);
@@ -43,13 +44,13 @@ class OpdsController extends Controller
         $feed = collect($feed);
 
         $current_route = route(Route::currentRouteName(), ['version' => $version]);
-        $opdsProvider = new OpdsProvider(
+        $opdsService = new OpdsService(
             version: $version,
             entity: EntitiesEnum::FEED(),
             route: $current_route,
             data: $feed,
         );
-        $result = $opdsProvider->template();
+        $result = $opdsService->template();
 
         return response($result)->withHeaders([
             'Content-Type' => 'text/xml',

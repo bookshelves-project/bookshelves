@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Providers\ConverterEngine\TagConverter;
+use App\Services\ConverterEngine\TagConverter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;

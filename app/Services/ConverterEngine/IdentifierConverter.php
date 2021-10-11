@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Providers\ConverterEngine;
+namespace App\Services\ConverterEngine;
 
 use App\Models\Book;
 use App\Models\Identifier;
-use App\Providers\ParserEngine\Models\OpfIdentifier;
-use App\Providers\ParserEngine\ParserEngine;
+use App\Services\ParserEngine\Models\OpfIdentifier;
+use App\Services\ParserEngine\ParserEngine;
 
 class IdentifierConverter
 {
