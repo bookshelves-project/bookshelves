@@ -8,7 +8,7 @@
         <div class="mx-auto w-full md:max-w-3xl">
 
             <div class="flex h-screen">
-                <div class="h-[94vh] mt-auto w-full">
+                <div class="h-screen mt-auto w-full">
                     <div id="desc" class="dark:text-white mt-6 relative z-20">
                         <div class="flex">
                             <img src="{{ $book->cover->thumbnail }}" alt=""
@@ -33,8 +33,13 @@
                         <div class="italic mt-4">
                             {!! $book->description !!}
                         </div>
-                        <div id="isReady" class="text-center mt-5">
-                            EPUB file is loading...
+                        <div id="isReady" class="text-center mt-5 flex">
+                            <div class="mx-auto flex items-center">
+                                <x-loading />
+                                <span class="ml-2">
+                                    EPUB file ({{ $book->epub->size }}) is loading...
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div id="reader" class="h-full w-full"></div>

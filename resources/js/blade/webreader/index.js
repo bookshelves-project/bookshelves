@@ -1,4 +1,5 @@
 import { Book, Rendition } from "epubjs";
+import { functions } from "lodash";
 import {
   selectListener,
   clickListener,
@@ -13,21 +14,18 @@ var rendition = {};
 var toc = [];
 var progress;
 var isReady = false;
+var navigationOptions = document.getElementById("navigation-options");
 
-let prevPageBtn = document.getElementById("prevPage");
-prevPageBtn.addEventListener("click", prevPage);
-let nextPageBtn = document.getElementById("nextPage");
-nextPageBtn.addEventListener("click", nextPage);
+var disableNavTutoBtn = document.getElementById("disable-nav-tuto");
+disableNavTutoBtn.addEventListener("click", disableNavTuto);
 
-let prevSidePageBtn = document.getElementById("prevPageSide");
-prevSidePageBtn.addEventListener("click", prevPage);
-let nextSidePageBtn = document.getElementById("nextPageSide");
-nextSidePageBtn.addEventListener("click", nextPage);
-
-let firstPageBtn = document.getElementById("firstPage");
-firstPageBtn.addEventListener("click", firstPage);
-let lastPageBtn = document.getElementById("lastPage");
-lastPageBtn.addEventListener("click", lastPage);
+// first webreader usage
+if (localStorage.getItem("nav-tuto") === null) {
+  //
+  // tuto is disable
+} else if (localStorage.getItem("nav-tuto") === "false") {
+  hideNavTuto();
+}
 
 function contentStyle(rendition) {
   let contents = rendition.getContents();
@@ -36,7 +34,19 @@ function contentStyle(rendition) {
   });
 }
 
-async function createEpub() {
+async function initBook() {
+  setupBook();
+  book.ready.then((e) => {
+    loadBook();
+    setReady();
+  });
+}
+
+/**
+ * Get Book from path
+ * Init Book and Rendition
+ */
+async function setupBook() {
   let epubPath = document.getElementById("epub_path");
   const path = epubPath.textContent;
 
@@ -50,7 +60,6 @@ async function createEpub() {
   info.lastOpen = new Date().getTime();
   //   let buble = $refs.bubleMenu;
   book = new Book(info.path);
-
   rendition = new Rendition(book, {
     width: "100%",
     height: "100%",
@@ -69,6 +78,12 @@ async function createEpub() {
     // snap?: boolean | object,
     // defaultDirection?: string,
   });
+}
+
+/**
+ * Load book
+ */
+async function loadBook() {
   // let flipPage = () => {
   //   if (direction === "next") nextPage();
   //   else if (direction === "prev") prevPage();
@@ -98,67 +113,127 @@ async function createEpub() {
   // let applyStyle = contentStyle(rendition);
   // await rendition.hooks.content.register(applyStyle || {});
 
+  let meta = book.package.metadata;
+  let title = meta.title;
+  // let titleTag = document.getElementsByTagName("title");
+  // titleTag.item(0).textContent = `${title} ${titleTag.item(0).textContent}`;
+  book.locations.load(1);
+}
+
+/**
+ * Attach iframe to HTML
+ * Display iframe
+ */
+async function displayBook() {
+  rendition.attachTo(document.getElementById("reader"));
+  let cfi = book.locations.cfiFromPercentage(
+    10 / book.locations.spine.items.length
+  );
+  var params =
+    URLSearchParams &&
+    new URLSearchParams(document.location.search.substring(1));
+  var url =
+    params && params.get("url") && decodeURIComponent(params.get("url"));
+  var currentSectionIndex =
+    params && params.get("loc") ? params.get("loc") : undefined;
+  rendition.display(currentSectionIndex);
+  // rendition.themes.registerRules("dark", dark);
+  // rendition.themes.registerRules("tan", tan);
+  rendition.themes.registerRules("default", defaultStyle);
+  rendition.ready = true;
+  let theme = theme;
+  rendition.themes.select(theme);
+  rendition.start();
+}
+
+/**
+ * Set TOC
+ */
+async function setOptions() {
+  // info.highlights.forEach((cfiRange) => {
+  //   rendition.annotations.highlight(cfiRange);
+  // });
+  toc = book.navigation.toc;
+  // let _flattenedToc = (function flatten(items) {
+  //   return [].concat(
+  //     ...items.map((item) => [item].concat(...flatten(item.children)))
+  //   );
+  // })(toc);
+
+  // _flattenedToc.sort((a, b) => {
+  //   return a.percentage - b.percentage;
+  // });
+  setToc();
+}
+
+/**
+ * Set isReady when Book is loaded
+ */
+async function setReady() {
+  isReady = true;
+
+  let isReadyEl = document.getElementById("isReady");
+  isReadyEl.innerHTML = `<button id="read" type="button" class="button">Read now</button>`;
+
+  let readBtn = document.getElementById("read");
+  readBtn.addEventListener("click", read);
+}
+
+function setToc() {
+  let tocBlock = document.getElementById("toc");
+  toc.forEach((el, key) => {
+    tocBlock.innerHTML += `<li id="${el.id} chapter-${key}" data-chapter="${el.href}" class="toc-item cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white group flex links-center px-2 py-2 text-sm font-medium rounded-md my-1 justify-between">${el.label}</li>`;
+  });
+
+  let tocItem = document.getElementsByClassName("toc-item");
+  for (let index in tocItem) {
+    if (index <= tocItem.length) {
+      tocItem[index].addEventListener("click", setChapter);
+    }
+  }
+}
+
+function setChapter() {
+  let chapter = this.dataset.chapter;
+  rendition.display(chapter);
+}
+
+function read() {
+  let isReadyEl = document.getElementById("isReady");
+  isReadyEl.innerHTML = "EPUB is ready";
+  let descPart = document.getElementById("desc");
+  descPart.classList.add("hidden");
+
+  let bookNav = document.getElementById("book-nav");
+  bookNav.classList.remove("hidden");
+
   book.ready
-    .then((e) => {
-      let meta = book.package.metadata;
-      let title = meta.title;
-      // let titleTag = document.getElementsByTagName("title");
-      // titleTag.item(0).textContent = `${title} ${titleTag.item(0).textContent}`;
-      book.locations.load(1);
+    .then(() => {
+      displayBook();
     })
     .then(() => {
-      rendition.attachTo(document.getElementById("reader"));
-      let cfi = book.locations.cfiFromPercentage(
-        10 / book.locations.spine.items.length
-      );
-      var params =
-        URLSearchParams &&
-        new URLSearchParams(document.location.search.substring(1));
-      var url =
-        params && params.get("url") && decodeURIComponent(params.get("url"));
-      var currentSectionIndex =
-        params && params.get("loc") ? params.get("loc") : undefined;
-      rendition.display(currentSectionIndex);
-      // rendition.themes.registerRules("dark", dark);
-      // rendition.themes.registerRules("tan", tan);
-      rendition.themes.registerRules("default", defaultStyle);
-      rendition.ready = true;
-      let theme = theme;
-      rendition.themes.select(theme);
-      rendition.start();
-    })
-    .then(() => {
-      // info.highlights.forEach((cfiRange) => {
-      //   rendition.annotations.highlight(cfiRange);
-      // });
-    })
-    .then(() => {
-      toc = book.navigation.toc;
-      // let _flattenedToc = (function flatten(items) {
-      //   return [].concat(
-      //     ...items.map((item) => [item].concat(...flatten(item.children)))
-      //   );
-      // })(toc);
-
-      // _flattenedToc.sort((a, b) => {
-      //   return a.percentage - b.percentage;
-      // });
-      setToc();
-
-      isReady = true;
-
-      setTimeout(() => {
-        let isReadyEl = document.getElementById("isReady");
-        isReadyEl.innerHTML = "EPUB is ready";
-        let descPart = document.getElementById("desc");
-        descPart.classList.add("hidden");
-      }, 500);
-      // isReadyEl.innerHTML += `<button id="read" type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-semibold rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 mt-2">Read now</button>`;
-
-      // let readBtn = document.getElementById("read");
-      // readBtn.addEventListener("click", read);
+      setOptions();
     });
 }
+
+initBook();
+
+let prevPageBtn = document.getElementById("prevPage");
+prevPageBtn.addEventListener("click", prevPage);
+let nextPageBtn = document.getElementById("nextPage");
+nextPageBtn.addEventListener("click", nextPage);
+
+let prevSidePageBtn = document.getElementById("leftBtn");
+prevSidePageBtn.addEventListener("click", prevPage);
+let centerPageBtn = document.getElementById("centerBtn");
+centerPageBtn.addEventListener("click", toggleNavigationOptions);
+let nextSidePageBtn = document.getElementById("rightBtn");
+nextSidePageBtn.addEventListener("click", nextPage);
+
+let firstPageBtn = document.getElementById("firstPage");
+firstPageBtn.addEventListener("click", firstPage);
+let lastPageBtn = document.getElementById("lastPage");
+lastPageBtn.addEventListener("click", lastPage);
 
 function prevPage() {
   try {
@@ -186,23 +261,24 @@ function lastPage() {
   } catch (error) {}
 }
 
-function setToc() {
-  let tocBlock = document.getElementById("toc");
-  toc.forEach((el, key) => {
-    tocBlock.innerHTML += `<li id="${el.id} chapter-${key}" data-chapter="${el.href}" class="toc-item cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white group flex links-center px-2 py-2 text-sm font-medium rounded-md my-1 justify-between">${el.label}</li>`;
-  });
-
-  let tocItem = document.getElementsByClassName("toc-item");
-  for (let index in tocItem) {
-    if (index <= tocItem.length) {
-      tocItem[index].addEventListener("click", setChapter);
-    }
+function hideNavTuto() {
+  let tutoEl = document.getElementsByClassName("book-nav-tuto");
+  while (tutoEl.length > 0) {
+    tutoEl[0].parentNode.removeChild(tutoEl[0]);
   }
+
+  let navBook = document.getElementsByClassName("nav-tuto");
+  Object.keys(navBook).forEach(function (key) {
+    navBook[key].classList.add("side-button");
+    navBook[key].classList.remove("nav-tuto-color");
+  });
 }
 
-function setChapter() {
-  let chapter = this.dataset.chapter;
-  rendition.display(chapter);
+function disableNavTuto() {
+  localStorage.setItem("nav-tuto", false);
+  hideNavTuto();
 }
 
-createEpub();
+function toggleNavigationOptions() {
+  navigationOptions.classList.toggle("hidden");
+}

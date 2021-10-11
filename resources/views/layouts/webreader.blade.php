@@ -23,8 +23,8 @@
     @endphp
     <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
     <x-layout.sidebar-epub :title="$title" />
-    <div
-        class="fixed transform -translate-x-1/2 top-1 left-1/2 flex items-center bg-gray-200 bg-opacity-75 z-50 text-white rounded-md">
+    <div id="navigation-options"
+        class="fixed transform -translate-x-1/2 top-1 left-1/2 flex items-center bg-gray-200 bg-opacity-75 z-50 text-white rounded-md hidden">
         <x-webreader.navigation-epub id="firstPage" icon="arrow-double-left" />
         <x-webreader.navigation-epub id="prevPage" icon="arrow-left" />
         <x-webreader.navigation-epub id="sidebar-header-button" icon="menu" />
@@ -38,10 +38,44 @@
     <div class="fixed z-20 top-0 right-0 bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-300 bg-opacity-40">
         <x-switch-color-mode />
     </div>
-    <button id="prevPageSide" class="side-button left-0">
+    <div id="book-nav" class="hidden">
+        <div class="fixed z-30 top-20 left-1/2 -translate-x-1/2 transform book-nav-tuto">
+            <div class="text-3xl font-quicksand text-center">Welcome on Webreader.</div>
+            <p class="mt-3">
+                This is tutorial to use this tool, you can click on left to get previous page and right to next page, if
+                you click on center, you can have option menu on top.
+            </p>
+            <div class="flex">
+                <button id="disable-nav-tuto" class="button">
+                    I understand how to read
+                </button>
+            </div>
+        </div>
+        <div class="fixed z-20 grid grid-cols-3 w-full h-full">
+            <button id="leftBtn" class="nav-tuto nav-tuto-color">
+                <div class="book-nav-tuto">
+                    Click on me to get previous page
+                </div>
+            </button>
+            <button id="centerBtn" class="nav-tuto nav-tuto-color">
+                <div class="book-nav-tuto">
+                    Click on me to get options
+                </div>
+            </button>
+            <button id="rightBtn" class="nav-tuto nav-tuto-color">
+                <div class="book-nav-tuto">
+                    Click on me to get next page
+                </div>
+            </button>
+        </div>
+    </div>
+    {{-- <button 
+        class="fixed z-10 top-0 bottom-0 right-1/2 -translate-x-1/2 transform w-1/2 lg:w-1/3 hover:bg-gray-50 transition-colors duration-75 hover:bg-opacity-10">
     </button>
-    <button id="nextPageSide" class="side-button right-0">
+    <button  class="side-button left-0">
     </button>
+    <button  class="side-button right-0">
+    </button> --}}
     @yield('content')
     @yield('scripts')
     <script src="{{ mix('assets/js/blade/index.js') }}"></script>
