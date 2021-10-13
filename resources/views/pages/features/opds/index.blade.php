@@ -15,7 +15,7 @@
         </ul>
     </x-content>
 
-    <x-button>
+    <x-button :route="$latest_feed">
         Lastest feed
     </x-button>
 @endsection

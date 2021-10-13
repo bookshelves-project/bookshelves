@@ -16,7 +16,7 @@ class OpdsService
         public string $version,
         public EntitiesEnum $entity,
         public string $route,
-        public Collection | Model $data,
+        public Collection|Model $data,
     ) {
     }
 
@@ -38,7 +38,7 @@ class OpdsService
                 array_push($entries, $templateEntry);
             }
         } elseif ($this->data instanceof Model) {
-            $templateEntry = $this->entry($this->data);
+            $templateEntry = $this->entryBook($this->data);
             $entries = $templateEntry;
         }
 

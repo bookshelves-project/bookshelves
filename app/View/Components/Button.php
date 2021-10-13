@@ -9,8 +9,10 @@ class Button extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
-    {
+    public function __construct(
+        public string $route,
+        public bool $external = false
+    ) {
     }
 
     /**
@@ -20,8 +22,6 @@ class Button extends Component
      */
     public function render()
     {
-        $tag = 'a';
-
-        return view('components.button', compact('tag'));
+        return view('components.button');
     }
 }

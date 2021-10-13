@@ -57,7 +57,7 @@ Route::prefix('features')->group(function () {
         Route::prefix('{version}')->group(function () {
             Route::get('/', [OpdsController::class, 'feed'])->name('features.opds.feed');
 
-            Route::get('/books', [OpdsBookController::class, 'index'])->name('features.opds.books');
+            // Route::get('/books', [OpdsBookController::class, 'index'])->name('features.opds.books');
             Route::get('/books/{author}/{book}', [OpdsBookController::class, 'show'])->name('features.opds.books.show');
 
             Route::get('/series', [OpdsSerieController::class, 'index'])->name('features.opds.series');
