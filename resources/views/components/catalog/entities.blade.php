@@ -91,9 +91,10 @@
                                         <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;"
                                             align="left">
 
-                                            <div style="line-height: 140%; text-align: center; word-wrap: break-word;">
-                                                <img src="{{ $item['cover']['simple'] }}"
-                                                    alt="{{ $item['title'] }}">
+                                            <div
+                                                style="line-height: 140%; text-align: center; word-wrap: break-word; width: 200px">
+                                                <img src="{{ $item['cover']['simple'] }}" alt="{{ $item['title'] }}"
+                                                    style="height: 200px; width: 200px; object-fit: cover">
                                                 <h2 style="font-size: 14px; line-height: 140%;">
                                                     {{ $item['title'] }}
                                                 </h2>

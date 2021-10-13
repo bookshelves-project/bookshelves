@@ -92,9 +92,14 @@
                                                 <div>
                                                     {!! $book->summary !!}
                                                 </div>
-                                                <div>
-                                                    <i>Tags</i> : Action &amp; Adventure, Fiction, Historical, Romance
-                                                </div>
+                                                @if (sizeof($book->tags) > 0)
+                                                    <div>
+                                                        <i>Tags</i> :
+                                                        @foreach ($book->tags as $tag)
+                                                            {{ $tag->name }}
+                                                        @endforeach
+                                                    </div>
+                                                @endif
                                                 @if ($book->serie)
                                                     <div><i>Series</i> : {{ $book->serie->title }}, vol.
                                                         {{ $book->volume }}</div>

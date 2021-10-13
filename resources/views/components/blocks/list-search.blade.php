@@ -54,8 +54,8 @@
                                             align="left">
 
                                             <div style="line-height: 140%; text-align: center; word-wrap: break-word;">
-                                                <img src="{{ $item['cover']['simple'] }}"
-                                                    alt="{{ $item['title'] }}">
+                                                <img src="{{ $item['cover']['simple'] }}" alt="{{ $item['title'] }}"
+                                                    width="200">
                                                 <h2 style="font-size: 14px; line-height: 140%;">
                                                     {{ $item['title'] }}
                                                 </h2>
