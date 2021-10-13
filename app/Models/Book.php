@@ -108,6 +108,8 @@ class Book extends Model implements HasMedia
             'title' => $this->title,
             'date' => $this->date,
             'author' => $this->authors_names,
+            'isbn' => $this->identifier->isbn ?? null,
+            'isbn13' => $this->identifier->isbn13 ?? null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
