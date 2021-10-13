@@ -13,6 +13,9 @@ use App\Utils\HttpTools;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
+/**
+ * Extra data for Book, Author, Serie.
+ */
 class AssetsCommand extends Command
 {
     /**
@@ -33,7 +36,7 @@ class AssetsCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Generate assets for Authors and Series with Wikipedia';
+    protected $description = 'Generate assets for Books, Authors, Series from public API.';
 
     /**
      * Create a new command instance.

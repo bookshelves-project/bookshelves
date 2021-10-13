@@ -2,9 +2,16 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Artisan;
+use App\Services\ConverterEngine\ConverterEngine;
+use App\Services\ParserEngine\ParserEngine;
+use App\Services\ParserEngine\ParserList;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
+use Spatie\Tags\Tag;
 
+/**
+ * Main command of Bookshelves to generate Books with relations.
+ */
 class GenerateCommand extends Command
 {
     /**
@@ -13,25 +20,18 @@ class GenerateCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:generate
-                            {--e|erase : erase all data}
-                            {--f|fresh : reset current books and relation, keep users}
-                            {--F|force : skip confirm question for prod}
                             {--L|local : prevent external HTTP requests to public API for additional informations}
-                            {--d|debug : generate metadata files into public/storage/debug for debug}
-                            {--b|books : assets for books}
-                            {--a|authors : assets for authors}
-                            {--s|series : assets for series}
+                            {--f|fresh : reset current books and relation, keep users}
                             {--l|limit= : limit epub files to generate, useful for debug}
-                            {--D|default : use default cover for all (skip covers step)}
-                            {--C|comments : sample command for comments}
-                            {--S|selection : sample command for selection}';
+                            {--d|debug : generate metadata files into public/storage/debug for debug}
+                            {--D|default : use default cover for all (skip covers step)}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Execute bookshelves commands: books, assets, stats and sample.';
+    protected $description = 'Generate Book model with all relationships, generate covers with different dimensions.';
 
     /**
      * Create a new command instance.
@@ -43,113 +43,72 @@ class GenerateCommand extends Command
 
     /**
      * Execute the console command.
+     *
+     * @return bool
      */
     public function handle()
     {
         $app = config('app.name');
-        $this->newLine();
-        $this->alert("{$app}: generate");
-
-        $this->info('This tool will generate EPUB files and cover optimized files from EPUB files in storage/data/books...');
-        $this->info("Original EPUB files will not be deleted but they won't be used after current parsing.");
-        $this->newLine();
-
-        // setup options
-        $isForce = $this->option('force') ?? false;
-        $fresh = $this->option('fresh') ?? false;
-        $books = $this->option('books') ?? false;
-        $authors = $this->option('authors') ?? false;
-        $series = $this->option('series') ?? false;
-        $erase = $this->option('erase') ?? false;
-        $limit = $this->option('limit');
-        $limit = str_replace('=', '', $limit);
+        $limit = str_replace('=', '', $this->option('limit'));
         $limit = intval($limit);
         $local = $this->option('local') ?? false;
+        $fresh = $this->option('fresh') ?? false;
         $debug = $this->option('debug') ?? false;
-        $default = $this->option('default');
-        $comments = $this->option('comments') ?? false;
-        $selection = $this->option('selection') ?? false;
+        $default = $this->option('default') ?? false;
+
+        Artisan::call('bookshelves:clear', [], $this->getOutput());
+        $list = ParserList::getEbooks(limit: $limit);
 
         if ($fresh) {
-            $this->warn('- Option --fresh: erase current database, migrate and seed basics also clear all medias.');
+            Artisan::call('setup:database', [
+                '--books' => $fresh,
+            ], $this->getOutput());
         }
-        if ($erase) {
-            $this->warn('- Option --erase: erase all data.');
-        }
-        if ($limit) {
-            $this->warn("- Option --limit: limit eBooks generated to {$limit}.");
-        }
-        if ($local) {
-            $this->warn('- Option --local: skip HTTP requests.');
-        }
-        if ($debug) {
-            $this->warn('- Option --debug: generate metadata files into public/storage/debug for debug.');
-        }
-        if ($books) {
-            $this->warn('- Option --books: generate assets for authors from GoogleBook.');
-        }
-        if ($authors) {
-            $this->warn('- Option --authors: generate assets for authors from Wikipedia.');
-        }
-        if ($series) {
-            $this->warn('- Option --series: generate assets for series from Wikipedia.');
-        }
-        if ($default) {
-            $this->warn('- Option --default: skip covers step, use default cover.');
-        }
-        if ($comments) {
-            $this->warn('- Option --comments: generate comments and favorites for fake users.');
-        }
-        if ($selection) {
-            $this->warn('- Option --selection: generate selection for home slider.');
-        }
-        $this->newLine();
 
-        if ($erase) {
-            Artisan::call('migrate:fresh --force', [], $this->getOutput());
+        $this->alert("{$app}: books & relations");
+        $this->comment('EPUB files detected: '.sizeof($list));
+        $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie, Identifier');
+        $this->info('- Generate new EPUB file with standard name');
+        $this->newLine();
+        if (! $default) {
+            $format = config('bookshelves.cover_extension');
+            $this->comment('Generate covers for books (--default|-D to skip)');
+            $this->info('- Generate covers with differents dimensions');
+            $this->info("- Main format: {$format} (original from EPUB, thumbnail)");
+            $this->info('- OpenGraph, Simple format: JPG (social, Catalog)');
+            if ('local' === config('app.env')) {
+                $this->info('You are in local, conversions are generate only in production');
+            }
             $this->newLine();
         }
 
-        $isProd = 'local' !== config('app.env') ? true : false;
-        if ($isProd && ! $isForce) {
-            if (! $this->confirm('You are in production environement, do you want really continue?')) {
-                return;
+        $genres = config('bookshelves.tags.genres_list');
+        foreach ($genres as $key => $genre) {
+            Tag::findOrCreate($genre, 'genre');
+        }
+
+        $start = microtime(true);
+
+        $bar = $this->output->createProgressBar(sizeof($list));
+        $bar->start();
+        foreach ($list as $key => $epub) {
+            $parser = ParserEngine::create($epub, $debug);
+            if ($debug) {
+                $this->info($key.' '.$parser->title);
+            }
+            ConverterEngine::create($parser, $local, $default);
+
+            if (! $debug) {
+                $bar->advance();
             }
         }
-
-        /*
-         * Generate commands
-         */
-        Artisan::call('bookshelves:books', [
-            '--local' => $local,
-            '--fresh' => $fresh,
-            '--limit' => $limit,
-            '--debug' => $debug,
-            '--default' => $default,
-        ], $this->getOutput());
-        Artisan::call('bookshelves:assets', [
-            '--books' => $books,
-            '--authors' => $authors,
-            '--series' => $series,
-            '--local' => $local,
-            '--fresh' => $fresh,
-            '--default' => $default,
-        ], $this->getOutput());
-
-        Artisan::call('bookshelves:stats', [], $this->getOutput());
+        $bar->finish();
         $this->newLine();
 
-        if (! $debug) {
-            Artisan::call('bookshelves:clear', [], $this->getOutput());
-        }
+        $this->newLine();
+        $time_elapsed_secs = number_format(microtime(true) - $start, 2);
+        $this->info("Time in seconds: {$time_elapsed_secs}");
 
-        Artisan::call('bookshelves:sample', [
-            '--admin' => true,
-            '--selection' => $selection,
-            '--comments' => $comments,
-            '--force' => $isForce,
-        ], $this->getOutput());
-
-        $this->info('Done!');
+        return true;
     }
 }

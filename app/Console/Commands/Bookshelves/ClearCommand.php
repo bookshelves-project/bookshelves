@@ -52,6 +52,8 @@ class ClearCommand extends Command
         Artisan::call('config:clear', [], $this->getOutput());
         Artisan::call('view:clear', [], $this->getOutput());
         Artisan::call('optimize:clear', [], $this->getOutput());
+        $clear = new ClearFileTools('bootstrap/cache');
+        $clear->clearDir();
 
         $this->newLine();
 
