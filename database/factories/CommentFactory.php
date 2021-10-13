@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\User;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CommentFactory extends Factory
 {
@@ -57,7 +58,7 @@ class CommentFactory extends Factory
         $date = $datetime[0]->format('Y-m-d H:i:s');
 
         return [
-            'text' => implode(' ', $text),
+            'text' => Str::markdown(implode(' ', $text)),
             'rating' => $faker->numberBetween(null, 5),
             'created_at' => new DateTime($date),
         ];

@@ -54,13 +54,13 @@ class CommentResource extends JsonResource
             'id' => $this->resource->id,
             'text' => $this->resource->text,
             'rating' => $this->resource->rating ? $this->resource->rating : null,
-            'user' => [
+            'user' => $this->resource->user ? [
                 'id' => $this->resource->user->id,
                 'name' => $this->resource->user->name,
                 'slug' => $this->resource->user->slug,
                 'avatar' => $this->resource->user->avatar,
                 'color' => $this->resource->user->color,
-            ],
+            ] : null,
             'createdAt' => $this->resource->created_at,
             'updatedAt' => $this->resource->updated_at,
             'title' => $title,
