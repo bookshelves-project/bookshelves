@@ -107,7 +107,7 @@ return [
             ],
             [
                 'route' => false,
-                'href' => env('APP_REPOSITORY', 'https://gitlab.com/ewilan-riviere/bookshelves-back'),
+                'href' => config('app.repository'),
                 'title' => 'Repository',
                 'icon' => 'git-branch',
                 'external' => true,

@@ -33,11 +33,11 @@ class OpdsController extends Controller
 
     public function feed(Request $request, string $version)
     {
-        $feed = File::get(app_path('Services/OPDS/feed.json'));
+        $feed = File::get(app_path('Services/opds-feed.json'));
         $feed = (array) json_decode($feed);
         foreach ($feed as $key => $value) {
             $model_name = 'App\Models\\'.ucfirst($value->model);
-            $value->cover_thumbnail = config('app.url').'/assets/opds/opds/'.$value->key.'.png';
+            $value->cover_thumbnail = "{config('app.url')}/assets/opds/opds/{$value->key}.png";
             $value->route = route($value->route, ['version' => $version]);
             $value->content = $model_name::count().' '.$value->content;
         }
