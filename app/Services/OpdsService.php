@@ -167,6 +167,14 @@ class OpdsService
             ]);
         }
 
+        // $authors_xml = [];
+        // foreach ($book->authors as $key => $author) {
+        //     $authors_xml["__custom:author:{$key}"] = [
+        //         'name' => $author->name,
+        //     ];
+        // }
+        // $data = array_merge($base, $authors_xml);
+
         return [
             'title' => $book->title,
             'updated' => $date,
