@@ -96,7 +96,7 @@ class ParserEngine
      * - `rights`: `string`
      * - `serie`: `string`
      * - `volume`: `int`
-     * - `cover_file`: `string`
+     * - `cover_file`: `base64`
      * - `cover_extension`: `string`.
      */
     public static function OpfToArray(string $epubPath, bool $debug = false): array
@@ -153,7 +153,7 @@ class ParserEngine
         // Storage::disk('public')->put("temp/$cover_name", $cover);
         // $metadata['cover_file'] = public_path("/temp/$cover_name");
 
-        $metadata['cover_file'] = $cover;
+        $metadata['cover_file'] = base64_encode($cover);
 
         $zip->close();
 

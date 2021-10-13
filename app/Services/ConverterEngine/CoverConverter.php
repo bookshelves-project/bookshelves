@@ -15,12 +15,14 @@ class CoverConverter
      */
     public static function create(ParserEngine $parser, Book $book): Book
     {
+        // config('QUEUE_CONNECTION', 'database');
+        // dump(config('queue.default'));
+
         if (! $book->getFirstMedia('books') && ! empty($parser->cover)) {
-            $extension = config('bookshelves.cover_extension');
             $disk = 'books';
 
             try {
-                $media = new MediaTools($book, $book->slug, $disk);
+                $media = new MediaTools(model: $book, name: $book->slug, disk: $disk);
                 $media->setMedia($parser->cover);
                 $media->setColor();
             } catch (\Throwable $th) {

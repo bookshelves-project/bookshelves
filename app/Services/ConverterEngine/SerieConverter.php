@@ -103,7 +103,7 @@ class SerieConverter
         $local_cover = null;
         foreach ($files as $key => $file) {
             if (pathinfo($file)['filename'] === $serie->slug) {
-                $local_cover = file_get_contents($file);
+                $local_cover = base64_encode(file_get_contents($file));
             }
         }
 
@@ -132,7 +132,7 @@ class SerieConverter
                 }
                 $cover_exist = File::exists($book->getMedia('books')->first()?->getPath());
                 if ($cover_exist) {
-                    $cover = File::get($book->getMedia('books')->first()->getPath());
+                    $cover = base64_encode(File::get($book->getMedia('books')->first()->getPath()));
                 }
             }
             if ($cover) {

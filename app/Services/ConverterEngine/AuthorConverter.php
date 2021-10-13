@@ -254,7 +254,7 @@ class AuthorConverter
         $cover = null;
         foreach ($files as $key => $file) {
             if (pathinfo($file)['filename'] === $author->slug) {
-                $cover = file_get_contents($file);
+                $cover = base64_encode(file_get_contents($file));
             }
         }
 

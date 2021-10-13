@@ -202,8 +202,6 @@ class WikipediaService
 
     /**
      * Get picture from WikipediaService picture_url.
-     *
-     * @return null|string
      */
     public function getPictureFile(): string|null
     {
@@ -215,6 +213,6 @@ class WikipediaService
             // BookshelvesTools::console(__METHOD__, $th);
         }
 
-        return $picture;
+        return base64_encode($picture);
     }
 }
