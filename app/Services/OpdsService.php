@@ -16,7 +16,7 @@ class OpdsService
         public string $version,
         public EntitiesEnum $entity,
         public string $route,
-        public Collection|Model $data,
+        public Collection | Model $data,
     ) {
     }
 
