@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use App\Enums\SpatieMediaMethodEnum;
 use App\Services\ImageService;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,8 +14,9 @@ class MediaTools
         public string $disk,
         public ?string $collection = null,
         public ?string $extension = null,
-        public ?string $method = 'addMediaFromString',
+        public ?string $method = null,
     ) {
+        $this->method = $this->method ? $this->method : SpatieMediaMethodEnum::addMediaFromBase64();
     }
 
     public function setMedia(string $data)

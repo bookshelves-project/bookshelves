@@ -86,8 +86,6 @@ class BookshelvesTools
 
     /**
      * Convert bytes to human readable filesize.
-     *
-     * @param int|string $bytes
      */
     public static function humanFilesize(string|int $bytes, ?int $decimals = 2): string
     {
@@ -227,6 +225,20 @@ class BookshelvesTools
         $string = preg_replace(array_keys($utf8), array_values($utf8), $text);
 
         return $string ? $string : '';
+    }
+
+    public static function setEnvironmentValue($envKey, $envValue)
+    {
+        $envFile = app()->environmentFilePath();
+        $str = file_get_contents($envFile);
+
+        $oldValue = strtok($str, "{$envKey}=");
+
+        $str = str_replace("{$envKey}={$oldValue}", "{$envKey}={$envValue}\n", $str);
+
+        $fp = fopen($envFile, 'w');
+        fwrite($fp, $str);
+        fclose($fp);
     }
 
     public static function convertPicture(Model $model, string $name, string $type = 'thumbnail'): string
