@@ -36,7 +36,7 @@ class UserListResource extends JsonResource
             'slug' => $this->resource->slug,
             'email' => $this->resource->email,
             'about' => $this->resource->about,
-            'gender' => $this->resource->gender,
+            'gender' => $this->resource->gender->value,
             'avatar' => $this->resource->avatar_thumbnail,
             'commentsCount' => $this->resource->comments()->count(),
             'favoritesCount' => $this->resource->favorites()->count(),

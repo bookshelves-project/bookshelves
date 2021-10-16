@@ -1,29 +1,42 @@
 <template>
   <Link :href="'/'">
-    <svg
-      class="w-16 h-16"
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M11.395 44.428C4.557 40.198 0 32.632 0 24 0 10.745 10.745 0 24 0a23.891 23.891 0 0113.997 4.502c-.2 17.907-11.097 33.245-26.602 39.926z"
-        fill="#6875F5"
-      />
-      <path
-        d="M14.134 45.885A23.914 23.914 0 0024 48c13.255 0 24-10.745 24-24 0-3.516-.756-6.856-2.115-9.866-4.659 15.143-16.608 27.092-31.75 31.751z"
-        fill="#6875F5"
-      />
-    </svg>
+    <div class="w-20 h-20">
+      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0)">
+          <path
+            d="M7.02935 0L1.03992 7.26708L9.90425 17.7286L15.8138 10.7809L7.02935 0Z"
+            fill="#564fcc"
+          />
+          <path
+            opacity="0.1"
+            d="M7.02935 0L1.03992 7.26708L9.90425 17.7286L15.8138 10.7809L7.02935 0Z"
+            fill="black"
+          />
+          <path
+            d="M1.27951 7.34697C1.41199 7.1085 1.57628 6.88912 1.76785 6.6949L7.2689 1.11799C7.2689 1.11799 9.1855 0.798558 9.58482 1.75686L2.55725 7.50669L1.27951 7.34697Z"
+            fill="#F2F2F2"
+          />
+          <path
+            d="M1 7.2272L9.14555 19.6851C9.14555 19.6851 9.94414 20.2442 10.7427 19.9247L19.0879 14.2947L10.2237 0.878426L2.23781 7.10737L1 7.2272Z"
+            fill="#564fcc"
+          />
+        </g>
+        <defs>
+          <clipPath id="clip0">
+            <rect width="20" height="20" fill="white" />
+          </clipPath>
+        </defs>
+      </svg>
+    </div>
   </Link>
 </template>
 
 <script>
-import { Link } from '@inertiajs/inertia-vue3'
+import { Link } from "@inertiajs/inertia-vue3";
 
 export default {
   components: {
     Link,
   },
-}
+};
 </script>

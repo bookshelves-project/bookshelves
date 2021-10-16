@@ -36,7 +36,7 @@ class UserAdminSeeder extends Seeder
                 'email_verified_at' => new DateTime(),
                 'password' => $userRaw['password'],
                 'about' => 'Super admin of plateform',
-                'gender' => GenderEnum::NONE(),
+                'gender' => GenderEnum::UNKNOWN(),
                 'use_gravatar' => false,
                 'display_comments' => true,
                 'display_favorites' => true,

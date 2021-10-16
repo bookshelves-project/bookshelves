@@ -2,11 +2,10 @@
 
 namespace App\Enums;
 
-use Closure;
 use Spatie\Enum\Laravel\Enum;
 
 /**
- * @method static self NONE()
+ * @method static self UNKNOWN()
  * @method static self WOMAN()
  * @method static self NONBINARY()
  * @method static self GENDERFLUID()
@@ -15,8 +14,15 @@ use Spatie\Enum\Laravel\Enum;
  */
 final class GenderEnum extends Enum
 {
-    protected static function labels(): Closure
+    protected static function labels(): array
     {
-        return fn (string $name) => mb_strtolower($name);
+        return [
+            'UNKNOWN' => 'Unkown',
+            'WOMAN' => 'Woman',
+            'NONBINARY' => 'Non binary',
+            'GENDERFLUID' => 'Genderfluid',
+            'AGENDER' => 'Agender',
+            'MAN' => 'Man',
+        ];
     }
 }

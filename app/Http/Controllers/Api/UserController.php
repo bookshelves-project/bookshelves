@@ -46,7 +46,7 @@ class UserController extends Controller
 
     public function genders()
     {
-        $genders = GenderEnum::toValues();
+        $genders = GenderEnum::toArray();
 
         return [
             'data' => $genders,
