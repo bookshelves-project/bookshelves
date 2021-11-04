@@ -89,6 +89,8 @@ class NavigationController extends Controller
             'scout.meilisearch',
             'telescope.enabled',
             'clockwork.enable',
+            'session.domain',
+            'sanctum.stateful',
         ];
         $tableConfig = json_decode(json_encode($tableConfig));
 
