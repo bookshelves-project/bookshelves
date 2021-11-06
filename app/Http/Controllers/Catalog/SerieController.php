@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Catalog;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Book\BookLightResource;
-use App\Http\Resources\Search\SearchSerieResource;
+use App\Http\Resources\EntityResource;
 use App\Http\Resources\Serie\SerieResource;
 use App\Models\Author;
 use App\Models\Serie;
@@ -35,8 +34,7 @@ class SerieController extends Controller
             return $key === strtoupper($character);
         });
 
-        $series = SearchSerieResource::collection($series);
-        $series = collect($series);
+        $series = EntityResource::collection($series);
 
         return view('pages.features.catalog.series.character', compact('series'));
     }
@@ -48,7 +46,7 @@ class SerieController extends Controller
             return $query->where('author_id', '=', $author->id);
         })->whereSlug($slug)->firstOrFail();
 
-        $books = BookLightResource::collection($serie->books);
+        $books = EntityResource::collection($serie->books);
 
         $serie = SerieResource::make($serie);
         $serie = json_decode($serie->toJson());

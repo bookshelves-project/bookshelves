@@ -2,6 +2,6 @@
 
 @section('content')
     @if (sizeof($authors))
-        <x-catalog.entities :entities="$authors" type="author" />
+        <x-catalog.entities :collection="$authors" type="author" />
     @endif
 @endsection

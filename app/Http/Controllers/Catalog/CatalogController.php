@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Catalog;
 
 use App\Http\Controllers\Controller;
 use App\Services\CommonMarkService;
-use App\Utils\BookshelvesTools;
+use App\Services\SearchEngineService;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
 
@@ -28,23 +28,26 @@ class CatalogController extends Controller
 
     public function search(Request $request)
     {
-        $searchTermRaw = $request->input('q');
-        if ($searchTermRaw) {
-            $collection = BookshelvesTools::searchGlobal($searchTermRaw);
-            $authors = array_filter($collection, function ($item) {
-                return 'author' == $item['meta']['entity'];
-            });
-            $authors = collect($authors);
-            $series = array_filter($collection, function ($item) {
-                return 'serie' == $item['meta']['entity'];
-            });
-            $series = collect($series);
-            $books = array_filter($collection, function ($item) {
-                return 'book' == $item['meta']['entity'];
-            });
-            $books = collect($books);
+        $q = $request->input('q');
+        if ($q) {
+            $engine = SearchEngineService::create($q);
 
-            return view('pages.features.catalog.search', compact('authors', 'series', 'books'));
+            $authors_relevant = $engine->authors_relevant;
+            $series_relevant = $engine->series_relevant;
+            $books_relevant = $engine->books_relevant;
+
+            $authors_other = $engine->authors_other;
+            $series_other = $engine->series_other;
+            $books_other = $engine->books_other;
+
+            return view('pages.features.catalog.search', compact(
+                'authors_relevant',
+                'series_relevant',
+                'books_relevant',
+                'authors_other',
+                'series_other',
+                'books_other'
+            ));
         }
 
         return view('pages.features.catalog.search');

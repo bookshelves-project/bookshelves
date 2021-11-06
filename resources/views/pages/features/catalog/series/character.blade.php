@@ -2,6 +2,6 @@
 
 @section('content')
     @if (sizeof($series))
-        <x-catalog.entities :entities="$series" type="serie" />
+        <x-catalog.entities :collection="$series" type="serie" />
     @endif
 @endsection

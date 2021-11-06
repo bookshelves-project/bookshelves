@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Catalog;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Author\AuthorResource;
-use App\Http\Resources\Book\BookLightResource;
-use App\Http\Resources\Search\SearchAuthorResource;
+use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Utils\BookshelvesTools;
 use Illuminate\Http\Request;
@@ -34,8 +33,7 @@ class AuthorController extends Controller
             return $key === strtoupper($character);
         });
 
-        $authors = SearchAuthorResource::collection($authors);
-        $authors = collect($authors);
+        $authors = EntityResource::collection($authors);
 
         return view('pages.features.catalog.authors.character', compact('authors'));
     }
@@ -44,7 +42,7 @@ class AuthorController extends Controller
     {
         $author = Author::whereSlug($slug)->firstOrFail();
 
-        $books = BookLightResource::collection($author->books);
+        $books = EntityResource::collection($author->books);
         $author = AuthorResource::make($author);
         $author = json_decode($author->toJson());
 
