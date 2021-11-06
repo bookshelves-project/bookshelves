@@ -39,6 +39,7 @@ class User extends Authenticatable implements HasMedia
         'display_gender',
         'about',
         'gender',
+        'pronouns',
     ];
 
     /**
