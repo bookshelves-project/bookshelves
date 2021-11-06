@@ -47,6 +47,7 @@ class ParserTools
     {
         $serie = null;
         if ($serie_title) {
+            // @phpstan-ignore-next-line
             $volume = strlen($volume) < 2 ? '0'.$volume : $volume;
             $serie = $serie_title.' '.$volume;
             $serie = Str::slug(self::getSortString($serie)).'_';
@@ -100,87 +101,5 @@ class ParserTools
         $output->writeln("<fire>Error about {$method}:</>");
         $output->writeln($throwable->getMessage());
         $output->writeln($throwable->getFile());
-        $output->writeln($throwable->getLine());
-    }
-
-    /**
-     * Convert XML to an Array.
-     */
-    public static function XMLtoArray(string $XML): array
-    {
-        $xml_parser = xml_parser_create();
-        xml_parse_into_struct($xml_parser, $XML, $vals);
-        xml_parser_free($xml_parser);
-        // wyznaczamy tablice z powtarzajacymi sie tagami na tym samym poziomie
-        $_tmp = '';
-        foreach ($vals as $xml_elem) {
-            $x_tag = $xml_elem['tag'];
-            $x_level = $xml_elem['level'];
-            $x_type = $xml_elem['type'];
-            if (1 != $x_level && 'close' == $x_type) {
-                if (isset($multi_key[$x_tag][$x_level])) {
-                    $multi_key[$x_tag][$x_level] = 1;
-                } else {
-                    $multi_key[$x_tag][$x_level] = 0;
-                }
-            }
-            if (1 != $x_level && 'complete' == $x_type) {
-                if ($_tmp == $x_tag) {
-                    $multi_key[$x_tag][$x_level] = 1;
-                }
-                $_tmp = $x_tag;
-            }
-        }
-        // jedziemy po tablicy
-        $xml_array = [];
-        foreach ($vals as $xml_elem) {
-            $x_tag = $xml_elem['tag'];
-            $x_level = $xml_elem['level'];
-            $x_type = $xml_elem['type'];
-            if ('open' == $x_type) {
-                $level[$x_level] = $x_tag;
-            }
-            $start_level = 1;
-            $php_stmt = '$xml_array';
-            if ('close' == $x_type && 1 != $x_level) {
-                ++$multi_key[$x_tag][$x_level];
-            }
-            while ($start_level < $x_level) {
-                $php_stmt .= '[$level['.$start_level.']]';
-                if (isset($multi_key[$level[$start_level]][$start_level]) && $multi_key[$level[$start_level]][$start_level]) {
-                    $php_stmt .= '['.($multi_key[$level[$start_level]][$start_level] - 1).']';
-                }
-                ++$start_level;
-            }
-            $add = '';
-            if (isset($multi_key[$x_tag][$x_level]) && $multi_key[$x_tag][$x_level] && ('open' == $x_type || 'complete' == $x_type)) {
-                if (! isset($multi_key2[$x_tag][$x_level])) {
-                    $multi_key2[$x_tag][$x_level] = 0;
-                }
-                ++$multi_key2[$x_tag][$x_level];
-
-                $add = '['.$multi_key2[$x_tag][$x_level].']';
-            }
-            if (isset($xml_elem['value']) && '' != trim($xml_elem['value']) && ! array_key_exists('attributes', $xml_elem)) {
-                if ('open' == $x_type) {
-                    $php_stmt_main = $php_stmt.'[$x_type]'.$add.'[\'content\'] = $xml_elem[\'value\'];';
-                } else {
-                    $php_stmt_main = $php_stmt.'[$x_tag]'.$add.' = $xml_elem[\'value\'];';
-                }
-                eval($php_stmt_main);
-            }
-            if (array_key_exists('attributes', $xml_elem)) {
-                if (isset($xml_elem['value'])) {
-                    $php_stmt_main = $php_stmt.'[$x_tag]'.$add.'[\'content\'] = $xml_elem[\'value\'];';
-                    eval($php_stmt_main);
-                }
-                foreach ($xml_elem['attributes'] as $key => $value) {
-                    $php_stmt_att = $php_stmt.'[$x_tag]'.$add.'[$key] = $value;';
-                    eval($php_stmt_att);
-                }
-            }
-        }
-
-        return $xml_array;
     }
 }

@@ -121,6 +121,7 @@ class SerieConverter
             $disk = self::DISK;
 
             // get picture in $path if exist
+            $cover = null;
             $local_cover = self::getLocalCover($serie);
             if ($local_cover) {
                 $cover = $local_cover;

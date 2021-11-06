@@ -42,7 +42,7 @@ class ParserList
      *
      * @param mixed $dir
      *
-     * @return Generator<mixed, mixed, mixed, void>
+     * @return \Generator<mixed, mixed, mixed, void>
      */
     private static function getDirectoryFiles($dir)
     {
