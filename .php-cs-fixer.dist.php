@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Rules
+ * https://mlocati.github.io/php-cs-fixer-configurator.
+ */
 $rules = [
     '@PhpCsFixer' => true,
     'no_empty_comment' => false,
@@ -14,8 +18,13 @@ $rules = [
     'not_operator_with_successor_space' => true,
     'php_unit_method_casing' => false,
     'single_line_comment_style' => false,
+    'phpdoc_single_line_var_spacing' => true,
     'php_unit_internal_class' => false,
     'php_unit_test_class_requires_covers' => false,
+    'lambda_not_used_import' => false,
+    'return_assignment' => true,
+    'phpdoc_to_comment' => false,
+    'ordered_imports' => true,
 ];
 
 $finder = PhpCsFixer\Finder::create()

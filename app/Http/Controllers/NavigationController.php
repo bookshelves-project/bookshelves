@@ -103,9 +103,4 @@ class NavigationController extends Controller
             'failed' => 'Route not found',
         ], 404);
     }
-
-    public function admin()
-    {
-        return view('pages.admin');
-    }
 }

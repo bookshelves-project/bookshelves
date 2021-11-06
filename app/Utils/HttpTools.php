@@ -45,6 +45,7 @@ class HttpTools
      */
     public static function getQueryFromResponse(Response $response): string
     {
+        // @phpstan-ignore-next-line
         $uri = $response->transferStats->getRequest()->getUri();
         $scheme = $uri->getScheme();
         $host = $uri->getHost();
@@ -64,6 +65,7 @@ class HttpTools
         $urlList = array_filter($urlList, fn ($value) => ! is_null($value) && '' !== $value);
         $urlList = collect($urlList);
         $pool = function (\Illuminate\Http\Client\Pool $pool) use ($urlList) {
+            $arrayPools = [];
             foreach ($urlList as $id => $url) {
                 if ($url) {
                     $arrayPools[] = $pool->as($id)->get($url);

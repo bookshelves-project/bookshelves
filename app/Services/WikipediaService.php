@@ -99,15 +99,17 @@ class WikipediaService
      */
     public static function getSearchService(Response $response, ?int $id = 0, ?string $model_name = null): WikipediaService
     {
+        $model = null;
         if ($model_name) {
             $model = $model_name::find($id);
         }
+        // @phpstan-ignore-next-line
         $uri = $response->transferStats->getRequest()->getUri();
         parse_str($uri->getQuery(), $params);
 
         $url = HttpTools::getQueryFromResponse($response);
         $provider = new WikipediaService(
-            lang: $model->language_slug ? $model->language_slug : 'en',
+            lang: null !== $model ? ($model->language_slug ? $model->language_slug : 'en') : 'en',
             model_name: $model_name,
             search_url: $url,
             search_query: $params['srsearch'],
@@ -116,6 +118,7 @@ class WikipediaService
 
         $pageId = false;
         $results = $response->json();
+        $search = null;
         // try to get writer
         if (array_key_exists('query', $results) && array_key_exists('search', $results['query'])) {
             $search = $results['query']['search'];

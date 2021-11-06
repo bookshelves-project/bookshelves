@@ -48,23 +48,6 @@ class BookshelvesTools
     }
 
     /**
-     * Global search on Book, Serie and Author.
-     */
-    public static function searchGlobalIdentifier(string $searchTermRaw): array
-    {
-        $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
-        $identifier = Identifier::whereLike(['isbn', 'isbn13', 'doi', 'amazon', 'google'], $searchTerm)->with(['authors', 'media'])->first();
-        $book = $identifier->book;
-        $books = collect([$book]);
-
-        $books = EntityResource::collection($books);
-        $collection = collect([]);
-        $collection = $collection->merge($books);
-
-        return $collection->all();
-    }
-
-    /**
      * Chunk a collection by first character.
      */
     public static function chunkByAlpha(Collection $collection, string $attribute)
@@ -107,7 +90,7 @@ class BookshelvesTools
      *
      * @param mixed $dir
      *
-     * @return Generator<mixed, mixed, mixed, void>
+     * @return \Generator<mixed, mixed, mixed, void>
      */
     public static function getDirectoryFiles($dir)
     {
@@ -136,7 +119,6 @@ class BookshelvesTools
         if ($throwable) {
             $output->writeln($throwable->getMessage());
             $output->writeln($throwable->getFile());
-            $output->writeln($throwable->getLine());
         } else {
             $output->writeln($extra_message);
         }
@@ -258,6 +240,7 @@ class BookshelvesTools
             }
 
             try {
+                // @phpstan-ignore-next-line
                 Image::load($model->getFirstMediaPath($disk))
                     ->fit('crop', $format['width'], $format['height'])
                     ->save($path)

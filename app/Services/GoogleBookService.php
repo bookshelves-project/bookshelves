@@ -75,13 +75,13 @@ class GoogleBookService
         if ($url) {
             try {
                 $response = Http::get($url);
-                $provider = self::setData($response, $url);
+                $provider = self::setData($response);
             } catch (\Throwable $th) {
                 BookshelvesTools::console(__METHOD__, $th);
             }
         }
 
-        return $provider;
+        return $provider ?? null;
     }
 
     public static function setIsbn(Book $book): string|false
@@ -106,6 +106,7 @@ class GoogleBookService
 
     public static function setData(Response $response): GoogleBookService
     {
+        // @phpstan-ignore-next-line
         $url = $response->transferStats->getRequest()->getUri()->getQuery();
         $provider = new GoogleBookService($url);
         $response = $response->json();

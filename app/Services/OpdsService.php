@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\EntitiesEnum;
 use App\Models\Book;
+use App\Models\TagExtend;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -16,7 +17,7 @@ class OpdsService
         public string $version,
         public EntitiesEnum $entity,
         public string $route,
-        public Collection | Model $data,
+        public Collection|Model $data,
     ) {
     }
 
@@ -37,7 +38,7 @@ class OpdsService
 
                 array_push($entries, $templateEntry);
             }
-        } elseif ($this->data instanceof Model) {
+        } elseif ($this->data instanceof Book) {
             $templateEntry = $this->entryBook($this->data);
             $entries = $templateEntry;
         }
@@ -158,6 +159,7 @@ class OpdsService
 
         $categories = [];
         $tags = $book->tags;
+        /** @var TagExtend $tag */
         foreach ($tags as $key => $tag) {
             array_push($categories, [
                 '_attributes' => [

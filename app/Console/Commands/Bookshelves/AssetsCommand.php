@@ -134,7 +134,7 @@ class AssetsCommand extends Command
             $this->newLine();
 
             foreach ($chunk as $key => $list) {
-                $this->info('Fetching API data for chunk '.$key + 1);
+                $this->info('Fetching API data for chunk '.($key + 1));
                 $providers = GoogleBookService::createAsync($list);
                 $bar = $this->output->createProgressBar(count($list));
                 $bar->start();

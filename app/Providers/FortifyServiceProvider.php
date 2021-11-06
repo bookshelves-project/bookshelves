@@ -28,6 +28,8 @@ class FortifyServiceProvider extends ServiceProvider
                 if ('/api/logout' !== $request->getRequestUri()) {
                     return redirect('/admin/login');
                 }
+
+                abort(403);
             }
         });
     }

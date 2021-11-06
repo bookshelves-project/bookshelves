@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
@@ -78,6 +79,34 @@ class Book extends Model implements HasMedia
         return $this->getFirstMediaUrl('epubs');
     }
 
+    public function scopeWhereHasSerie(Builder $query, string $series): Builder
+    {
+        $serie = filter_var($series, FILTER_VALIDATE_BOOLEAN);
+
+        return $serie ? $query->whereHas('serie') : $query->whereDoesntHave('serie');
+    }
+
+    public function scopeWhereLanguagesIs(Builder $query, ...$languages)
+    {
+        return $query->whereHas('language', function (Builder $query) use ($languages) {
+            $query->whereIn('slug', $languages, 'and', false);
+        });
+    }
+
+    public function scopePublishedBetween(Builder $query, string $startDate, string $endDate): Builder
+    {
+        return $query
+            ->whereBetween('date', [Carbon::parse($startDate), Carbon::parse($endDate)])
+        ;
+    }
+
+    public function scopeWhereAuthorIsLike(Builder $query, string $author): Builder
+    {
+        return $query->whereHas('authors', function (Builder $query) use ($author) {
+            $query->where('name', 'LIKE', "%{$author}%");
+        });
+    }
+
     /**
      * Define sort name for `/api/books` with serie-volume-book.
      */
@@ -85,8 +114,9 @@ class Book extends Model implements HasMedia
     {
         $serie = null;
         if ($this->serie) {
+            // @phpstan-ignore-next-line
             $volume = strlen($this->volume) < 2 ? '0'.$this->volume : $this->volume;
-            $serie = $this->serie?->title_sort.' '.$volume;
+            $serie = $this->serie->title_sort.' '.$volume;
             $serie = Str::slug($serie).'_';
         }
         $title = Str::slug($this->title_sort);
