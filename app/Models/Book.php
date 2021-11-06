@@ -81,16 +81,13 @@ class Book extends Model implements HasMedia
 
     public function scopeWhereHasSerie(Builder $query, string $series): Builder
     {
-        $serie = filter_var($series, FILTER_VALIDATE_BOOLEAN);
+        if ('any' !== $series) {
+            $serie = filter_var($series, FILTER_VALIDATE_BOOLEAN);
 
-        return $serie ? $query->whereHas('serie') : $query->whereDoesntHave('serie');
-    }
+            return $serie ? $query->whereHas('serie') : $query->whereDoesntHave('serie');
+        }
 
-    public function scopeWhereLanguagesIs(Builder $query, ...$languages)
-    {
-        return $query->whereHas('language', function (Builder $query) use ($languages) {
-            $query->whereIn('slug', $languages, 'and', false);
-        });
+        return $query;
     }
 
     public function scopePublishedBetween(Builder $query, string $startDate, string $endDate): Builder

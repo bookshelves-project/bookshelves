@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Author\AuthorLightResource;
 use App\Http\Resources\Author\AuthorResource;
-use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Models\Author;
+use App\Query\QueryBuilderAddon;
+use App\Query\QueryExporter;
+use App\Query\SearchFilter;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Author
@@ -31,26 +34,25 @@ class AuthorController extends Controller
      */
     public function index(Request $request)
     {
-        $page = $request->get('per-page');
-        $page = $page ? $page : 32;
-        if (! is_numeric($page)) {
-            return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
-                400
-            );
-        }
-        $page = intval($page);
 
-        $all = $request->get('all') ? filter_var($request->get('all'), FILTER_VALIDATE_BOOLEAN) : null;
-        if ($all) {
-            $authors = Author::orderBy('lastname')->get();
+        /** @var QueryBuilder $query */
+        $query = QueryBuilderAddon::for(Author::class, ['media'], ['books'])
+            ->allowedFilters([
+                AllowedFilter::custom('q', new SearchFilter(['name'])),
+                AllowedFilter::partial('firstname'),
+                AllowedFilter::partial('lastname'),
+            ])
+            ->allowedSorts([
+                'id',
+                'firstname',
+                'lastname',
+            ])
+            ->defaultSort('lastname')
+        ;
 
-            return AuthorUltraLightResource::collection($authors);
-        }
+        $query = new QueryExporter($query);
 
-        $authors = Author::with('media')->orderBy('lastname')->withCount('books')->get();
-
-        return AuthorLightResource::collection($authors->paginate($page));
+        return $query->resource(BookLightResource::class)->get();
     }
 
     /**

@@ -42,7 +42,7 @@ trait HasAvatar
     {
         /** @var Media $media */
         $media = $this->getFirstMedia('avatar');
-        $color = $media->getCustomProperty('color');
+        $color = $media?->getCustomProperty('color');
 
         return "#{$color}";
     }

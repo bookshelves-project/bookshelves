@@ -11,6 +11,7 @@ parameters:
 
     ignoreErrors:
         - '#Unsafe usage of new static#'
+        - '#Unsafe usage of nullsafe method call on non-nullable type#'
 
     excludePaths:
         - ./*/*/FileToBeExcluded.php

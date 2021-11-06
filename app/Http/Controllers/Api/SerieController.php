@@ -7,11 +7,14 @@ use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\BookOrSerieResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Serie\SerieResource;
-use App\Http\Resources\Serie\SerieUltraLightResource;
 use App\Models\Author;
-use App\Models\Language;
 use App\Models\Serie;
+use App\Query\QueryBuilderAddon;
+use App\Query\QueryExporter;
+use App\Query\SearchFilter;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Serie
@@ -36,43 +39,25 @@ class SerieController extends Controller
      */
     public function index(Request $request)
     {
-        $lang = $request->get('lang');
-        $lang = $lang ? $lang : null;
-        $langParameters = ['fr', 'en'];
-        if ($lang && ! in_array($lang, $langParameters)) {
-            return response()->json(
-                "Invalid 'lang' query parameter, must be like '".implode("' or '", $langParameters)."'",
-                400
-            );
-        }
 
-        $page = $request->get('per-page');
-        $page = $page ? $page : 32;
-        if (! is_numeric($page)) {
-            return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
-                400
-            );
-        }
-        $page = intval($page);
+        /** @var QueryBuilder $query */
+        $query = QueryBuilderAddon::for(Serie::class, ['authors', 'media'])
+            ->allowedFilters([
+                AllowedFilter::custom('q', new SearchFilter(['title'])),
+                AllowedFilter::partial('title'),
+                AllowedFilter::scope('languages', 'whereLanguagesIs'),
+            ])
+            ->allowedSorts([
+                'id',
+                'title',
+                'created_at',
+            ])
+            ->defaultSort('title_sort')
+        ;
 
-        $all = $request->get('all') ? filter_var($request->get('all'), FILTER_VALIDATE_BOOLEAN) : null;
-        if ($all) {
-            $series = Serie::orderBy('title_sort')->get();
+        $query = new QueryExporter($query);
 
-            return SerieUltraLightResource::collection($series);
-        }
-
-        $series = Serie::with(['authors', 'media'])->orderBy('title_sort')->withCount('books');
-
-        if (null !== $lang) {
-            Language::whereSlug($lang)->firstOrFail();
-            $series = $series->whereLanguageSlug($lang);
-        }
-
-        $series = $series->paginate($page);
-
-        return SerieLightResource::collection($series);
+        return $query->resource(SerieLightResource::class)->get();
     }
 
     /**

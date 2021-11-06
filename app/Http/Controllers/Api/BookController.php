@@ -68,6 +68,7 @@ class BookController extends Controller
                 'title',
                 'title_sort',
                 'date',
+                'created_at',
                 // AllowedSort::custom('author', new AuthorRelationship(), 'name'),
                 // AllowedSort::custom('language', new LanguageRelationship(), 'name'),
             ])
