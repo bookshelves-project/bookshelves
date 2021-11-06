@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App\Query;
 
 use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Facades\Excel;
@@ -37,16 +37,23 @@ class QueryExporter
 
     public function get()
     {
-        if ($perPage = request()->get('perPage')) {
+        $query = $this->query;
+        if ($limit = request()->get('limit')) {
+            $query = $query
+                ->limit($limit)
+            ;
+        }
+
+        if ($perPage = request()->get('per-page')) {
             return $this->resource::collection(
-                $this->query
+                $query
                     ->paginate($perPage)
                     ->appends(request()->query())
             );
         }
 
         return $this->resource::collection(
-            $this->query->get()
+            $query->get()
         );
     }
 
