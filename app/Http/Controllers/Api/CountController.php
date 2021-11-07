@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 /**
@@ -21,39 +22,38 @@ class CountController extends Controller
      */
     public function count(Request $request)
     {
-        $entity = $request->get('entity');
-        $entity = $entity ? $entity : null;
-        $entityParameters = ['book', 'serie', 'author'];
-        if (! $entity && ! in_array($entity, $entityParameters)) {
-            return response()->json(
-                "Invalid 'entity' query parameter, must be like '".implode("' or '", $entityParameters)."'",
-                400
-            );
-        }
+        $entities = $request->get('entities');
+        $languages = $request->get('languages');
 
-        $lang = $request->get('lang');
-        $lang = $lang ? $lang : null;
-        $langParameters = ['fr', 'en'];
-        if ($lang && ! in_array($lang, $langParameters)) {
-            return response()->json(
-                "Invalid 'lang' query parameter, must be like '".implode("' or '", $langParameters)."'",
-                400
-            );
-        }
+        $models_count = [];
+        $count_languages = [];
 
-        $model_name = 'App\Models\\'.ucfirst($entity);
-        $entities_count = 0;
-
-        try {
-            if ($lang) {
-                $entities_count = $model_name::whereLanguageSlug($lang)->get();
-                $entities_count = $entities_count->count();
-            } else {
-                $entities_count = $model_name::count();
+        if ($entities) {
+            $models_raw = explode(',', $entities);
+            $models = [];
+            foreach ($models_raw as $key => $value) {
+                $models[$value] = 'App\Models\\'.ucfirst($value);
             }
-        } catch (\Throwable $th) {
+
+            foreach ($models as $key => $model_name) {
+                $count = $model_name::count();
+                $models_count[$key] = $count;
+            }
         }
 
-        return $entities_count;
+        if ($languages) {
+            $languages_raw = explode(',', $languages);
+            foreach ($languages_raw as $key => $value) {
+                $count = Book::whereLanguageSlug($value)->count();
+                $count_languages[$value] = $count;
+            }
+        }
+
+        return response()->json([
+            'data' => [
+                'entities' => $models_count,
+                'languages' => $count_languages
+            ],
+        ]);
     }
 }

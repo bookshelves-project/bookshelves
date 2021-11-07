@@ -40,7 +40,7 @@ class SerieController extends Controller
     public function index(Request $request)
     {
         /** @var QueryBuilder $query */
-        $query = QueryBuilderAddon::for(Serie::class, ['authors', 'media'])
+        $query = QueryBuilderAddon::for(Serie::class, ['authors', 'media'], ['books'])
             ->allowedFilters([
                 AllowedFilter::custom('q', new SearchFilter(['title'])),
                 AllowedFilter::partial('title'),
