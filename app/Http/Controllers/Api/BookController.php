@@ -62,6 +62,8 @@ class BookController extends Controller
                 AllowedFilter::scope('languages', 'whereLanguagesIs'),
                 AllowedFilter::scope('published', 'publishedBetween'),
                 AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
+                AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
+                AllowedFilter::scope('tags', 'whereTagsIs'),
             ])
             ->allowedSorts([
                 'id',
