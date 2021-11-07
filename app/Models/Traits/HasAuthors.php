@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Models\Author;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
@@ -13,6 +14,13 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  */
 trait HasAuthors
 {
+    public function scopeWhereAuthorIsLike(Builder $query, string $author): Builder
+    {
+        return $query->whereHas('authors', function (Builder $query) use ($author) {
+            $query->where('name', 'LIKE', "%{$author}%");
+        });
+    }
+
     /**
      * Get first Author of entity, used for URL like `...author-slug/entity-slug`.
      */

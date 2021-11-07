@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Author\AuthorLightResource;
 use App\Http\Resources\Author\AuthorResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
@@ -34,7 +35,6 @@ class AuthorController extends Controller
      */
     public function index(Request $request)
     {
-
         /** @var QueryBuilder $query */
         $query = QueryBuilderAddon::for(Author::class, ['media'], ['books'])
             ->allowedFilters([
@@ -46,13 +46,15 @@ class AuthorController extends Controller
                 'id',
                 'firstname',
                 'lastname',
+                'created_at',
             ])
             ->defaultSort('lastname')
         ;
 
-        $query = new QueryExporter($query);
-
-        return $query->resource(BookLightResource::class)->get();
+        return QueryExporter::create($query)
+            ->resource(AuthorLightResource::class)
+            ->get()
+        ;
     }
 
     /**

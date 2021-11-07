@@ -97,13 +97,6 @@ class Book extends Model implements HasMedia
         ;
     }
 
-    public function scopeWhereAuthorIsLike(Builder $query, string $author): Builder
-    {
-        return $query->whereHas('authors', function (Builder $query) use ($author) {
-            $query->where('name', 'LIKE', "%{$author}%");
-        });
-    }
-
     /**
      * Define sort name for `/api/books` with serie-volume-book.
      */

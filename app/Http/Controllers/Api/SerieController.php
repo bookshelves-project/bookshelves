@@ -39,7 +39,6 @@ class SerieController extends Controller
      */
     public function index(Request $request)
     {
-
         /** @var QueryBuilder $query */
         $query = QueryBuilderAddon::for(Serie::class, ['authors', 'media'])
             ->allowedFilters([
@@ -50,14 +49,16 @@ class SerieController extends Controller
             ->allowedSorts([
                 'id',
                 'title',
+                'title_sort',
                 'created_at',
             ])
             ->defaultSort('title_sort')
         ;
 
-        $query = new QueryExporter($query);
-
-        return $query->resource(SerieLightResource::class)->get();
+        return QueryExporter::create($query)
+            ->resource(SerieLightResource::class)
+            ->get()
+        ;
     }
 
     /**

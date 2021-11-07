@@ -28,6 +28,11 @@ class QueryExporter
         $this->query = $query;
     }
 
+    public static function create(Builder|QueryBuilder $query): QueryExporter
+    {
+        return new QueryExporter($query);
+    }
+
     public function resource($resource)
     {
         $this->resource = $resource;

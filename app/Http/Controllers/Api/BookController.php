@@ -76,9 +76,10 @@ class BookController extends Controller
             ->defaultSort('title_sort')
         ;
 
-        $query = new QueryExporter($query);
-
-        return $query->resource(BookLightResource::class)->get();
+        return QueryExporter::create($query)
+            ->resource(BookLightResource::class)
+            ->get()
+        ;
     }
 
     /**
