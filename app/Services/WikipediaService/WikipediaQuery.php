@@ -3,8 +3,9 @@
 namespace App\Services\WikipediaService;
 
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Storage;
 
 class WikipediaQuery
 {
@@ -18,7 +19,8 @@ class WikipediaQuery
         public ?string $page_id_url = null,
         public ?string $page_url = null,
         public ?string $extract = null,
-        public ?string $picture_url = null
+        public ?string $picture_url = null,
+        public ?bool $debug = false,
     ) {
     }
 
@@ -30,6 +32,7 @@ class WikipediaQuery
         $query = new WikipediaQuery();
         $query->model_name = $service->class;
         $query->model_id = $model_id;
+        $query->debug = $service->debug;
         $query->search_query = $search_query;
         $query->language = $language;
 
@@ -79,25 +82,29 @@ class WikipediaQuery
     public function parseQueryResults(Response $response): WikipediaQuery
     {
         $pageId = false;
-        $results = $response->json();
-        $search = null;
-        // try to get writer
-        if (array_key_exists('query', $results) && array_key_exists('search', $results['query'])) {
-            $search = $results['query']['search'];
-            // keep first results
+        $response = $response->json();
+        if ($this->debug) {
+            $this->print($response, 'results');
+        }
+
+        try {
+            $response = json_decode(json_encode($response));
+            $search = $response->query?->search;
             $search = array_slice($search, 0, 5);
-            // search if writer exist
-            foreach ($search as $key => $result) {
-                if (strpos($result['title'], '(writer)')) {
-                    $pageId = $result['pageid'];
+
+            foreach ($search as $result) {
+                if (strpos($result->title, '(writer)')) {
+                    $pageId = $result->pageid;
 
                     break;
                 }
             }
-        }
-        // default method: first result
-        if (! $pageId && array_key_exists(0, $search)) {
-            $pageId = $search[0]['pageid'];
+
+            if (! $pageId && array_key_exists(0, $search)) {
+                $pageId = $search[0]->pageid;
+            }
+        } catch (\Throwable $th) {
+            throw $th;
         }
 
         if ($pageId) {
@@ -114,9 +121,9 @@ class WikipediaQuery
     public function parsePageIdData(Response $response): WikipediaQuery
     {
         $response = $response->json();
-
-        $response_json = json_encode($response, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-        Storage::disk('public')->put("debug/wikipedia/{$this->model_id}.json", $response_json);
+        if ($this->debug) {
+            $this->print($response, 'page-id');
+        }
 
         try {
             $response = json_decode(json_encode($response));
@@ -131,6 +138,22 @@ class WikipediaQuery
         }
 
         return $this;
+    }
+
+    /**
+     * Get picture from WikipediaService picture_url.
+     */
+    public function getPictureFile(): string|null
+    {
+        $picture = null;
+
+        try {
+            $picture = Http::get($this->picture_url)->body();
+        } catch (\Throwable $th) {
+            // BookshelvesTools::console(__METHOD__, $th);
+        }
+
+        return base64_encode($picture);
     }
 
     public static function convertExtract(string|null $text, int $limit): string
@@ -156,5 +179,11 @@ class WikipediaQuery
         }
 
         return $content.'...';
+    }
+
+    public function print(mixed $response, string $directory)
+    {
+        $response_json = json_encode($response, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        Storage::disk('public')->put("debug/wikipedia/{$directory}/{$this->model_id}.json", $response_json);
     }
 }

@@ -3,8 +3,7 @@
 namespace App\Services\WikipediaService;
 
 use App\Services\ConsoleService;
-use App\Services\HttpService\GuzzlePoolDemo;
-use App\Services\HttpService\HttpService;
+use App\Services\HttpService;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -27,6 +26,7 @@ class WikipediaService
         public ?Collection $wikipedia_queries = null,
         // /** @var WikipediaQuery[] */
         public ?Collection $wikipedia_queries_failed = null,
+        public ?bool $debug = false,
     ) {
         $this->models = collect([]);
         $this->wikipedia_queries = collect([]);
@@ -36,31 +36,28 @@ class WikipediaService
     /**
      * Create WikipediaService from Model and create WikipediaQuery for each entity.
      */
-    public static function create(string $class, string $attribute, ?string $language_attribute = 'language_slug'): WikipediaService
+    public static function create(string $class, string $attribute, ?string $language_attribute = 'language_slug', ?bool $debug = false): WikipediaService
     {
         $service = new WikipediaService();
         $service->class = $class;
         $service->models = $class::all();
         $service->query_attribute = $attribute;
         $service->language_attribute = $language_attribute;
+        $service->debug = $debug;
 
-        $pool = new GuzzlePoolDemo();
-        $responses = $pool->create();
-        dump($responses);
+        $service->getWikipediaQueries();
 
-        // $service->getWikipediaQueries();
+        ConsoleService::print('List of query URL available.');
+        ConsoleService::print('Requests from query URL to get page id.', true);
 
-        // ConsoleService::print('List of query URL available.');
-        // ConsoleService::print('Requests from query URL to get page id.', true);
+        $service->search('query_url', 'parseQueryResults');
 
-        // $service->search('query_url', 'parseQueryResults');
+        ConsoleService::print('List of page id URL available.');
+        ConsoleService::print('Requests from page id URL to get extra content.', true);
 
-        // ConsoleService::print('List of page id URL available.');
-        // ConsoleService::print('Requests from page id URL to get extra content.', true);
+        $service->search('page_id_url', 'parsePageIdData');
 
-        // $service->search('page_id_url', 'parsePageIdData');
-
-        // ConsoleService::print('Extra content is available.');
+        ConsoleService::print('Extra content is available.');
 
         return $service;
     }

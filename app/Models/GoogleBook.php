@@ -29,8 +29,10 @@ class GoogleBook extends Model
     /**
      * Add more data to Book from GoogleBook.
      */
-    public function improveBookData(Book $book)
+    public function improveBookData(int $book_id)
     {
+        $book = Book::find($book_id);
+
         $this->book()->save($book);
 
         $this->testAttribute('date');
@@ -51,14 +53,16 @@ class GoogleBook extends Model
         }
         $this->book->save();
 
-        $identifier = Identifier::find($this->book->identifier->id);
-        if (empty($identifier->isbn)) {
-            $identifier->isbn = $this->isbn;
+        $identifier = $this->book->identifier;
+        if ($identifier) {
+            if (empty($identifier->isbn)) {
+                $identifier->isbn = $this->isbn;
+            }
+            if (empty($identifier->isbn13)) {
+                $identifier->isbn13 = $this->isbn13;
+            }
+            $identifier->save();
         }
-        if (empty($identifier->isbn13)) {
-            $identifier->isbn13 = $this->isbn13;
-        }
-        $identifier->save();
 
         $categories = json_decode($this->categories);
         if (is_array($categories)) {

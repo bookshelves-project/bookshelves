@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Services\ParserEngine\Models\OpfCreator;
 use App\Services\ParserEngine\ParserEngine;
 use App\Services\WikipediaService;
+use App\Services\WikipediaService\WikipediaQuery;
 use App\Utils\BookshelvesTools;
 use App\Utils\MediaTools;
 use File;
@@ -280,10 +281,10 @@ class AuthorConverter
         return $author;
     }
 
-    public static function setWikiDescription(Author $author, WikipediaService $wiki): Author
+    public static function setWikiDescription(Author $author, WikipediaQuery $query): Author
     {
-        $author->description = BookshelvesTools::stringLimit($wiki->extract, 1000);
-        $author->link = $wiki->page_url;
+        $author->description = BookshelvesTools::stringLimit($query->extract, 1000);
+        $author->link = $query->page_url;
         $author->save();
 
         return $author;
@@ -293,7 +294,7 @@ class AuthorConverter
      * Set wiki picture if local not exist
      * Otherwise, set local picture.
      */
-    public static function setWikiPicture(Author $author, WikipediaService $wiki): Author
+    public static function setWikiPicture(Author $author, WikipediaQuery $query): Author
     {
         $disk = self::DISK;
         $cover = self::getLocalPicture($author);
@@ -303,7 +304,7 @@ class AuthorConverter
             return $author;
         }
 
-        $picture = $wiki->getPictureFile();
+        $picture = $query->getPictureFile();
 
         if ($picture && 'author-unknown' !== $author->slug) {
             $author->clearMediaCollection($disk);
