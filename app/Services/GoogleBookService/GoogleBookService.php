@@ -10,17 +10,14 @@ class GoogleBookService
 {
     public function __construct(
         public ?string $class = null,
-        // /** @var Model[] */
         public ?Collection $models = null,
-        // /** @var WikipediaQuery[] */
-        public ?Collection $google_book_queries = null,
-        // /** @var WikipediaQuery[] */
-        public ?Collection $google_book_queries_failed = null,
+        public ?Collection $queries = null,
+        public ?Collection $queries_failed = null,
         public ?bool $debug = false,
     ) {
         $this->models = collect([]);
-        $this->google_book_queries = collect([]);
-        $this->google_book_queries_failed = collect([]);
+        $this->queries = collect([]);
+        $this->queries_failed = collect([]);
     }
 
     /**
@@ -50,7 +47,7 @@ class GoogleBookService
         foreach ($this->models as $model) {
             $query = GoogleBookQuery::create($model, $this);
 
-            $this->google_book_queries->add($query);
+            $this->queries->add($query);
         }
 
         return $this;
@@ -64,14 +61,14 @@ class GoogleBookService
         /**
          * Make GET request from $url_attribute of GoogleBookQuery[].
          */
-        $responses = HttpService::getCollection($this->google_book_queries, 'url', 'model_id');
+        $responses = HttpService::getCollection($this->queries, 'url', 'model_id');
 
         $queries = collect([]);
         $failed = collect([]);
         /** Parse Reponse[] with $method */
         foreach ($responses as $id => $response) {
             /** @var null|GoogleBookQuery $query */
-            $query = $this->google_book_queries->first(fn (GoogleBookQuery $query) => $query->model_id === $id);
+            $query = $this->queries->first(fn (GoogleBookQuery $query) => $query->model_id === $id);
             if (null !== $query) {
                 $query = $query->parseResponse($response);
                 $queries->add($query);
@@ -80,8 +77,8 @@ class GoogleBookService
             }
         }
 
-        $this->google_book_queries->replace($queries);
-        $this->google_book_queries_failed->replace($failed);
+        $this->queries->replace($queries);
+        $this->queries_failed->replace($failed);
 
         return $this;
     }

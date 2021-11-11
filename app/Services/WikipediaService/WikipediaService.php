@@ -18,19 +18,16 @@ class WikipediaService
 {
     public function __construct(
         public ?string $class = null,
-        // /** @var Model[] */
         public ?Collection $models = null,
         public ?string $query_attribute = null,
         public ?string $language_attribute = null,
-        // /** @var WikipediaQuery[] */
-        public ?Collection $wikipedia_queries = null,
-        // /** @var WikipediaQuery[] */
-        public ?Collection $wikipedia_queries_failed = null,
+        public ?Collection $queries = null,
+        public ?Collection $queries_failed = null,
         public ?bool $debug = false,
     ) {
         $this->models = collect([]);
-        $this->wikipedia_queries = collect([]);
-        $this->wikipedia_queries_failed = collect([]);
+        $this->queries = collect([]);
+        $this->queries_failed = collect([]);
     }
 
     /**
@@ -85,7 +82,7 @@ class WikipediaService
                     ->getQueryUrl()
                 ;
 
-                $this->wikipedia_queries->add($query);
+                $this->queries->add($query);
             } else {
                 throw new Exception("This model don't have attributes: {$this->query_attribute},id.");
             }
@@ -105,14 +102,14 @@ class WikipediaService
         /**
          * Make GET request from $url_attribute of WikipediaQuery[].
          */
-        $responses = HttpService::getCollection($this->wikipedia_queries, $url_attribute, 'model_id');
+        $responses = HttpService::getCollection($this->queries, $url_attribute, 'model_id');
 
         $queries = collect([]);
         $failed = collect([]);
         /** Parse Reponse[] with $method */
         foreach ($responses as $id => $response) {
             /** @var null|WikipediaQuery $query */
-            $query = $this->wikipedia_queries->first(fn (WikipediaQuery $query) => $query->model_id === $id);
+            $query = $this->queries->first(fn (WikipediaQuery $query) => $query->model_id === $id);
             if (null !== $query) {
                 $query = $query->{$method}($response);
                 $queries->add($query);
@@ -121,8 +118,8 @@ class WikipediaService
             }
         }
 
-        $this->wikipedia_queries->replace($queries);
-        $this->wikipedia_queries_failed->replace($failed);
+        $this->queries->replace($queries);
+        $this->queries_failed->replace($failed);
 
         return $this;
     }

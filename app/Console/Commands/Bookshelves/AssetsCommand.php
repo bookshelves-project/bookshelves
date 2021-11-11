@@ -115,7 +115,6 @@ class AssetsCommand extends Command
 
     private function assets(string $model, string $collection, string $orderBy)
     {
-        $books = $this->option('books') ?? false;
         $model_name = 'App\Models\\'.ucfirst($model);
         $list = $model_name::orderBy($orderBy)->get();
         $this->comment($model.': '.sizeof($list));
@@ -149,10 +148,10 @@ class AssetsCommand extends Command
 
             $service = GoogleBookService::create(Book::class, debug: $debug);
 
-            $bar = $this->output->createProgressBar(count($service->google_book_queries));
+            $bar = $this->output->createProgressBar(count($service->queries));
             $bar->start();
             /** @var GoogleBookQuery $query */
-            foreach ($service->google_book_queries as $query) {
+            foreach ($service->queries as $query) {
                 /** @var Book $model */
                 $model = $query->model_name::find($query->model_id);
                 $query->convert();
@@ -183,10 +182,10 @@ class AssetsCommand extends Command
             $service = WikipediaService::create(Author::class, 'name', debug: $debug);
             $this->newLine();
 
-            $bar = $this->output->createProgressBar(count($service->wikipedia_queries));
+            $bar = $this->output->createProgressBar(count($service->queries));
             $bar->start();
             /** @var WikipediaQuery $query */
-            foreach ($service->wikipedia_queries as $query) {
+            foreach ($service->queries as $query) {
                 /** @var Author $model */
                 $model = $query->model_name::find($query->model_id);
                 if (! $model->description && ! $model->link) {
@@ -229,10 +228,10 @@ class AssetsCommand extends Command
 
             $service = WikipediaService::create(Serie::class, 'title', debug: $debug);
 
-            $bar = $this->output->createProgressBar(count($service->wikipedia_queries));
+            $bar = $this->output->createProgressBar(count($service->queries));
             $bar->start();
             /** @var WikipediaQuery $query */
-            foreach ($service->wikipedia_queries as $query) {
+            foreach ($service->queries as $query) {
                 /** @var Serie $model */
                 $model = $query->model_name::find($query->model_id);
                 if (! $model->description && ! $model->link) {

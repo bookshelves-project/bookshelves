@@ -49,8 +49,7 @@ class HttpService
             $chunk = array_chunk($url_list, $limit, true);
             $chunk_size = sizeof($chunk);
             ConsoleService::print('HttpService will setup async requests...');
-            ConsoleService::print("Pool is limited to {$limit} from .env, {$size} entities will become {$chunk_size} chunks.");
-            ConsoleService::print('Requests...', true);
+            ConsoleService::print("Pool is limited to {$limit} from .env, {$size} requests will become {$chunk_size} chunks.");
 
             /**
              * async query on each chunk.
@@ -58,6 +57,8 @@ class HttpService
              * @var array $limited_url_list
              */
             foreach ($chunk as $limited_url_list) {
+                $size_list = sizeof($limited_url_list);
+                ConsoleService::print("Execute {$size_list} requests...", true);
                 $responses = self::pool($limited_url_list);
                 foreach ($responses as $key => $response) {
                     $responses_list[$key] = $response;

@@ -74,7 +74,6 @@ class GoogleBookQuery
      */
     public function parseResponse(Response $response): GoogleBookQuery
     {
-        dump($this->url);
         $response = $response->json();
         if ($this->debug) {
             $this->print($response, 'gbooks');
@@ -139,39 +138,28 @@ class GoogleBookQuery
     public function convert(): ?GoogleBook
     {
         $book = null;
+        /** @var string[] $data */
         $data = [
-            $this->date,
-            $this->description,
-            $this->industry_identifiers,
-            $this->page_count,
-            $this->categories,
-            $this->maturity_rating,
-            $this->language,
-            $this->preview_link,
-            $this->publisher,
-            $this->retail_price_amount,
-            $this->retail_price_currency_code,
-            $this->buy_link,
-            $this->isbn,
-            $this->isbn13,
+            'date' => $this->date,
+            'description' => $this->description,
+            'industry_identifiers' => $this->industry_identifiers ? json_encode($this->industry_identifiers) : null,
+            'page_count' => $this->page_count,
+            'categories' => $this->categories ? json_encode($this->categories) : null,
+            'maturity_rating' => $this->maturity_rating,
+            'language' => $this->language,
+            'preview_link' => $this->preview_link,
+            'publisher' => $this->publisher,
+            'retail_price_amount' => $this->retail_price_amount,
+            'retail_price_currency_code' => $this->retail_price_currency_code,
+            'buy_link' => $this->buy_link,
+            'isbn' => $this->isbn,
+            'isbn13' => $this->isbn13,
         ];
-        if (! empty($data)) {
-            GoogleBook::create([
-                'date' => $this->date,
-                'description' => $this->description,
-                'industry_identifiers' => $this->industry_identifiers ? json_encode($this->industry_identifiers) : null,
-                'page_count' => $this->page_count,
-                'categories' => $this->categories ? json_encode($this->categories) : null,
-                'maturity_rating' => $this->maturity_rating,
-                'language' => $this->language,
-                'preview_link' => $this->preview_link,
-                'publisher' => $this->publisher,
-                'retail_price_amount' => $this->retail_price_amount,
-                'retail_price_currency_code' => $this->retail_price_currency_code,
-                'buy_link' => $this->buy_link,
-                'isbn' => $this->isbn,
-                'isbn13' => $this->isbn13,
-            ])->improveBookData($this->model_id);
+        $is_null = empty(array_filter($data, fn ($el) => null !== $el));
+        if (! $is_null) {
+            GoogleBook::create($data)
+                ->improveBookData($this->model_id)
+            ;
         }
 
         return $book;
