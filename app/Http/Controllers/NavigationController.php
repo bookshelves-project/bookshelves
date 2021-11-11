@@ -91,6 +91,7 @@ class NavigationController extends Controller
             'clockwork.enable',
             'session.domain',
             'sanctum.stateful',
+            'http.pool_limit',
         ];
         $tableConfig = json_decode(json_encode($tableConfig));
 

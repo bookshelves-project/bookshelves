@@ -8,8 +8,8 @@ use App\Models\Serie;
 use App\Services\ConverterEngine\AuthorConverter;
 use App\Services\ConverterEngine\SerieConverter;
 use App\Services\GoogleBookService;
-use App\Services\WikipediaService;
-use App\Utils\HttpTools;
+use App\Services\WikipediaService\WikipediaQuery;
+use App\Services\WikipediaService\WikipediaService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
@@ -128,9 +128,9 @@ class AssetsCommand extends Command
     {
         $local = $this->option('local') ?? false;
         if (! $local) {
-            $chunk = $list->chunk(HttpTools::LIMIT);
+            $chunk = $list->chunk(config('http.pool_limit'));
 
-            $this->info('HTTP requests with async splitted in '.HttpTools::LIMIT.' entities of '.sizeof($chunk).' chunks.');
+            $this->info('HTTP requests with async splitted in '.config('http.pool_limit').' entities of '.sizeof($chunk).' chunks.');
             $this->newLine();
 
             foreach ($chunk as $key => $list) {
@@ -163,17 +163,27 @@ class AssetsCommand extends Command
             }
         }
 
-        if (! $local) {
-            $this->authorsAsync($list, $collection);
-        } else {
-            $bar = $this->output->createProgressBar(count($list));
-            $bar->start();
-            foreach ($list as $key => $model) {
-                AuthorConverter::setLocalPicture($model);
-                $bar->advance();
-            }
-            $bar->finish();
+        $service = WikipediaService::create(Author::class, 'name');
+        /** @var WikipediaQuery $query */
+        foreach ($service->wikipedia_queries as $query) {
+            /** @var Author $author */
+            $author = $query->model_name::find($query->model_id);
+            $author->description = $query->extract;
+            $author->link = $query->page_url;
+            $author->save();
         }
+
+        // if (! $local) {
+        //     $this->authorsAsync($list, $collection);
+        // } else {
+        //     $bar = $this->output->createProgressBar(count($list));
+        //     $bar->start();
+        //     foreach ($list as $key => $model) {
+        //         AuthorConverter::setLocalPicture($model);
+        //         $bar->advance();
+        //     }
+        //     $bar->finish();
+        // }
     }
 
     private function authorsAsync(Collection $list, string $collection)
@@ -182,25 +192,26 @@ class AssetsCommand extends Command
 
         $this->info('HTTP requests with async...');
         $this->info('Progress bar is not available with async');
-        $providers = WikipediaService::make($list, 'name');
-        $this->newLine();
 
-        $this->info('Set async data');
-        $bar = $this->output->createProgressBar(count($list));
-        $bar->start();
-        foreach ($providers as $key => $provider) {
-            $model = $provider->model_name::find($provider->model_id);
+        // $providers = WikipediaService::make($list, 'name');
+        // $this->newLine();
 
-            /** @var Author $model */
-            if (! $model->description && ! $model->link) {
-                AuthorConverter::setWikiDescription($model, $provider);
-                if (! $default) {
-                    AuthorConverter::setWikiPicture($model, $provider);
-                }
-            }
-            $bar->advance();
-        }
-        $bar->finish();
+        // $this->info('Set async data');
+        // $bar = $this->output->createProgressBar(count($list));
+        // $bar->start();
+        // foreach ($providers as $key => $provider) {
+        //     $model = $provider->model_name::find($provider->model_id);
+
+        //     /** @var Author $model */
+        //     // if (! $model->description && ! $model->link) {
+        //     //     AuthorConverter::setWikiDescription($model, $provider);
+        //     //     if (! $default) {
+        //     //         AuthorConverter::setWikiPicture($model, $provider);
+        //     //     }
+        //     // }
+        //     $bar->advance();
+        // }
+        // $bar->finish();
     }
 
     private function series(Collection $list, string $collection)
@@ -219,7 +230,16 @@ class AssetsCommand extends Command
         }
 
         if (! $local) {
-            $this->seriesAsync($list, $collection);
+            // $this->seriesAsync($list, $collection);
+            $service = WikipediaService::create(Serie::class, 'title');
+            /** @var WikipediaQuery $query */
+            foreach ($service->wikipedia_queries as $query) {
+                /** @var Serie $serie */
+                $serie = $query->model_name::find($query->model_id);
+                $serie->description = $query->extract;
+                $serie->link = $query->page_url;
+                $serie->save();
+            }
         }
 
         $this->newLine(2);
@@ -238,24 +258,24 @@ class AssetsCommand extends Command
 
     private function seriesAsync(Collection $list, string $collection)
     {
-        $this->info('HTTP requests with async...');
-        $this->info('Progress bar is not available with async');
-        $providers = WikipediaService::make($list, 'title');
-        $this->newLine();
+        // $this->info('HTTP requests with async...');
+        // $this->info('Progress bar is not available with async');
+        // $providers = WikipediaService::make($list, 'title');
+        // $this->newLine();
 
-        $this->info('Set async data');
-        $bar = $this->output->createProgressBar(count($list));
-        $bar->start();
-        foreach ($providers as $key => $provider) {
-            $model = $provider->model_name::find($provider->model_id);
+        // $this->info('Set async data');
+        // $bar = $this->output->createProgressBar(count($list));
+        // $bar->start();
+        // foreach ($providers as $key => $provider) {
+        //     $model = $provider->model_name::find($provider->model_id);
 
-            /** @var Serie $model */
-            if (! $model->description && ! $model->link) {
-                SerieConverter::setWikiDescription($model, $provider);
-            }
-            $bar->advance();
-        }
-        $bar->finish();
-        $this->newLine();
+        //     /** @var Serie $model */
+        //     if (! $model->description && ! $model->link) {
+        //         SerieConverter::setWikiDescription($model, $provider);
+        //     }
+        //     $bar->advance();
+        // }
+        // $bar->finish();
+        // $this->newLine();
     }
 }
