@@ -10,6 +10,7 @@ use App\Models\Publisher;
 use App\Query\QueryBuilderAddon;
 use App\Query\QueryExporter;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -33,26 +34,10 @@ class PublisherController extends Controller
      */
     public function index(Request $request)
     {
-        $page = $request->get('per-page') ? $request->get('per-page') : null;
-
-        // $pubs = Publisher::orderBy('name')->get();
-
-        // if ($page) {
-        //     if (! is_numeric($page)) {
-        //         return response()->json(
-        //             "Invalid 'per-page' query parameter, must be an int",
-        //             400
-        //         );
-        //     }
-        //     $page = intval($page);
-        //     $pubs = $pubs->paginate($page);
-        // }
-
-        // return PublisherLightResource::collection($pubs);
-
         /** @var QueryBuilder $query */
         $query = QueryBuilderAddon::for(Publisher::class, withCount: ['books'])
             ->allowedFilters([
+                AllowedFilter::scope('negligible', 'whereIsNegligible'),
             ])
             ->allowedSorts([
                 'id',

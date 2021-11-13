@@ -52,7 +52,7 @@ class CountController extends Controller
         return response()->json([
             'data' => [
                 'entities' => $models_count,
-                'languages' => $count_languages
+                'languages' => $count_languages,
             ],
         ]);
     }

@@ -7,6 +7,9 @@ use App\Models\Book;
 use App\Models\Publisher;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property Publisher $resource
+ */
 class PublisherResource extends JsonResource
 {
     /**
@@ -18,13 +21,10 @@ class PublisherResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var Publisher $publisher */
-        $publisher = $this;
-
-        $books = Book::wherePublisherId([$publisher->id])->get();
+        $books = Book::wherePublisherId([$this->resource->id])->get();
         $books = SearchBookResource::collection($books);
 
-        $resource = PublisherLightResource::make($publisher)->toArray($request);
+        $resource = PublisherLightResource::make($this->resource)->toArray($request);
 
         return array_merge($resource, [
             // 'books' => $books,

@@ -11,6 +11,7 @@ use App\Models\TagExtend;
 use App\Query\QueryBuilderAddon;
 use App\Query\QueryExporter;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\Tags\Tag;
 
@@ -35,10 +36,10 @@ class TagController extends Controller
         $type = $request->get('type') ? $request->get('type') : 'tag';
 
         /** @var QueryBuilder $query */
-        $query = QueryBuilderAddon::for(TagExtend::class, where: [
-            ['type', '=', $type],
-        ], withCount: ['books'])
+        $query = QueryBuilderAddon::for(TagExtend::class, withCount: ['books'])
             ->allowedFilters([
+                AllowedFilter::scope('negligible', 'whereIsNegligible'),
+                AllowedFilter::scope('type', 'whereTypeIs'),
             ])
             ->allowedSorts([
                 'id',
