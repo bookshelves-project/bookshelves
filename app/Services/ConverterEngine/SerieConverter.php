@@ -4,10 +4,10 @@ namespace App\Services\ConverterEngine;
 
 use App\Models\Book;
 use App\Models\Serie;
+use App\Services\MediaService;
 use App\Services\ParserEngine\ParserEngine;
 use App\Services\WikipediaService\WikipediaQuery;
 use App\Utils\BookshelvesTools;
-use App\Utils\MediaTools;
 use File;
 use Storage;
 
@@ -137,7 +137,7 @@ class SerieConverter
                 }
             }
             if ($cover) {
-                $media = new MediaTools($serie, $serie->slug, $disk);
+                $media = new MediaService($serie, $serie->slug, $disk);
                 $media->setMedia($cover);
                 $media->setColor();
             }

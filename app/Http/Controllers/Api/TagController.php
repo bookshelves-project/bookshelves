@@ -8,7 +8,10 @@ use App\Http\Resources\Tag\TagLightResource;
 use App\Http\Resources\Tag\TagResource;
 use App\Models\Book;
 use App\Models\TagExtend;
+use App\Query\QueryBuilderAddon;
+use App\Query\QueryExporter;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\Tags\Tag;
 
 /**
@@ -29,19 +32,25 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-        $type = $request->get('type');
-        $type = $type ? $type : 'tag';
-        $typeParameters = ['tag', 'genre'];
-        if ($type && ! in_array($type, $typeParameters)) {
-            return response()->json(
-                "Invalid 'type' query parameter, must be like '".implode("' or '", $typeParameters)."'",
-                400
-            );
-        }
+        $type = $request->get('type') ? $request->get('type') : 'tag';
 
-        $tags = TagExtend::whereType($type)->withCount('books')->orderBy('slug->en')->get();
+        /** @var QueryBuilder $query */
+        $query = QueryBuilderAddon::for(TagExtend::class, where: [
+            ['type', '=', $type],
+        ], withCount: ['books'])
+            ->allowedFilters([
+            ])
+            ->allowedSorts([
+                'id',
+                'name',
+            ])
+            ->orderBy('slug->en')
+        ;
 
-        return TagLightResource::collection($tags);
+        return QueryExporter::create($query)
+            ->resource(TagLightResource::class)
+            ->get()
+        ;
     }
 
     /**

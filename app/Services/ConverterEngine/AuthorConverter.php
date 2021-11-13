@@ -4,12 +4,12 @@ namespace App\Services\ConverterEngine;
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Services\MediaService;
 use App\Services\ParserEngine\Models\OpfCreator;
 use App\Services\ParserEngine\ParserEngine;
 use App\Services\WikipediaService;
 use App\Services\WikipediaService\WikipediaQuery;
 use App\Utils\BookshelvesTools;
-use App\Utils\MediaTools;
 use File;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -234,7 +234,7 @@ class AuthorConverter
             $path = database_path('seeders/media/authors/no-picture.jpg');
             $cover = File::get($path);
 
-            $media = new MediaTools($author, $author->slug, $disk);
+            $media = new MediaService($author, $author->slug, $disk);
             $media->setMedia($cover);
             $media->setColor();
         }
@@ -273,7 +273,7 @@ class AuthorConverter
 
         if ($cover) {
             $author->clearMediaCollection($disk);
-            $media = new MediaTools($author, $author->slug, $disk);
+            $media = new MediaService($author, $author->slug, $disk);
             $media->setMedia($cover);
             $media->setColor();
         }
@@ -309,7 +309,7 @@ class AuthorConverter
         if ($picture && 'author-unknown' !== $author->slug) {
             $author->clearMediaCollection($disk);
 
-            $media = new MediaTools($author, $author->slug, $disk);
+            $media = new MediaService($author, $author->slug, $disk);
             $media->setMedia($picture);
             $media->setColor();
         }

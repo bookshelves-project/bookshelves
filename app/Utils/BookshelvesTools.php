@@ -223,6 +223,9 @@ class BookshelvesTools
         fclose($fp);
     }
 
+    /**
+     * Deprecated.
+     */
     public static function convertPicture(Model $model, string $name, string $type = 'thumbnail'): string
     {
         $extension = config('bookshelves.cover_extension');

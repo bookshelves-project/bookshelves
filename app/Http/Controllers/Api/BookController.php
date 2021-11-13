@@ -54,7 +54,7 @@ class BookController extends Controller
     public function index(Request $request)
     {
         /** @var QueryBuilder $query */
-        $query = QueryBuilderAddon::for(Book::class, ['serie'])
+        $query = QueryBuilderAddon::for(Book::class, with: ['serie'])
             ->allowedFilters([
                 AllowedFilter::custom('q', new SearchFilter(['title'])),
                 AllowedFilter::partial('title'),

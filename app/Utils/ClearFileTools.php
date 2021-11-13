@@ -15,6 +15,9 @@ class ClearFileTools
     ) {
     }
 
+    /**
+     * Remove all files into selected directory from but keep files into $ignore.
+     */
     public function clearDir()
     {
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();

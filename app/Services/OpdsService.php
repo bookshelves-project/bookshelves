@@ -129,7 +129,7 @@ class OpdsService
                 '_attributes' => [
                     'type' => 'text',
                 ],
-                '_value' => (string) $description,
+                '_value' => (string) "{$title}, {$description}",
             ],
             '__custom:link:1' => [
                 '_attributes' => [

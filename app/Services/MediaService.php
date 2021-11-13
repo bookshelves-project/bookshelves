@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Utils;
+namespace App\Services;
 
 use App\Enums\SpatieMediaMethodEnum;
-use App\Services\ImageService;
 use Illuminate\Database\Eloquent\Model;
 
-class MediaTools
+class MediaService
 {
     public function __construct(
         public Model $model,

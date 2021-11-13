@@ -228,6 +228,7 @@ class AssetsCommand extends Command
 
             $service = WikipediaService::create(Serie::class, 'title', debug: $debug);
 
+            $this->info('Set extra content');
             $bar = $this->output->createProgressBar(count($service->queries));
             $bar->start();
             /** @var WikipediaQuery $query */

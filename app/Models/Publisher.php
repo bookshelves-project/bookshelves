@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Publisher extends Model
 {
@@ -12,6 +13,15 @@ class Publisher extends Model
         'name',
         'slug',
     ];
+
+    protected $appends = [
+        'first_char',
+    ];
+
+    public function getFirstCharAttribute()
+    {
+        return strtoupper(substr(Str::slug($this->name), 0, 1));
+    }
 
     public function getShowLinkAttribute(): string
     {

@@ -7,7 +7,10 @@ use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
 use App\Http\Resources\Publisher\PublisherResource;
 use App\Models\Publisher;
+use App\Query\QueryBuilderAddon;
+use App\Query\QueryExporter;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Publisher
@@ -32,20 +35,36 @@ class PublisherController extends Controller
     {
         $page = $request->get('per-page') ? $request->get('per-page') : null;
 
-        $pubs = Publisher::orderBy('name')->get();
+        // $pubs = Publisher::orderBy('name')->get();
 
-        if ($page) {
-            if (! is_numeric($page)) {
-                return response()->json(
-                    "Invalid 'per-page' query parameter, must be an int",
-                    400
-                );
-            }
-            $page = intval($page);
-            $pubs = $pubs->paginate($page);
-        }
+        // if ($page) {
+        //     if (! is_numeric($page)) {
+        //         return response()->json(
+        //             "Invalid 'per-page' query parameter, must be an int",
+        //             400
+        //         );
+        //     }
+        //     $page = intval($page);
+        //     $pubs = $pubs->paginate($page);
+        // }
 
-        return PublisherLightResource::collection($pubs);
+        // return PublisherLightResource::collection($pubs);
+
+        /** @var QueryBuilder $query */
+        $query = QueryBuilderAddon::for(Publisher::class, withCount: ['books'])
+            ->allowedFilters([
+            ])
+            ->allowedSorts([
+                'id',
+                'name',
+            ])
+            ->defaultSort('name')
+        ;
+
+        return QueryExporter::create($query)
+            ->resource(PublisherLightResource::class)
+            ->get()
+        ;
     }
 
     /**
