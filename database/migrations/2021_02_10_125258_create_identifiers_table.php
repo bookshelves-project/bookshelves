@@ -25,7 +25,7 @@ class CreateIdentifiersTable extends Migration
             $table->foreign('identifier_id')
                 ->references('id')
                 ->on('identifiers')
-                ->onDelete('cascade')
+                ->nullOnDelete()
             ;
         });
     }
