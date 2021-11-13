@@ -4,12 +4,12 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\GoogleBook;
 use App\Models\Serie;
+use App\Models\WikipediaItem;
 use App\Services\ConverterEngine\AuthorConverter;
 use App\Services\ConverterEngine\SerieConverter;
-use App\Services\GoogleBookService\GoogleBookQuery;
 use App\Services\GoogleBookService\GoogleBookService;
-use App\Services\WikipediaService\WikipediaQuery;
 use App\Services\WikipediaService\WikipediaService;
 use App\Utils\ClearFileTools;
 use Illuminate\Console\Command;
@@ -138,6 +138,7 @@ class AssetsCommand extends Command
 
         if (! $local) {
             if ($fresh) {
+                GoogleBook::query()->delete();
                 /** @var Book $model */
                 foreach ($list as $key => $model) {
                     if ($model->googleBook) {
@@ -148,16 +149,19 @@ class AssetsCommand extends Command
 
             $service = GoogleBookService::create(Book::class, debug: $debug);
 
-            $bar = $this->output->createProgressBar(count($service->queries));
-            $bar->start();
-            /** @var GoogleBookQuery $query */
-            foreach ($service->queries as $query) {
-                /** @var Book $model */
-                $model = $query->model_name::find($query->model_id);
-                $query->convert();
-                $bar->advance();
+            if (count($service->queries) > 0) {
+                $bar = $this->output->createProgressBar(count($service->queries));
+                $bar->start();
+                foreach (Book::all() as $book) {
+                    if ($book->googleBook) {
+                        $book->googleBook->improveBookData();
+                    }
+                    $bar->advance();
+                }
+                $bar->finish();
+            } else {
+                $this->warn('All books have already a GoogleBook relationship, execute same command with --fresh option to erase GoogleBook.');
             }
-            $bar->finish();
         }
     }
 
@@ -167,7 +171,8 @@ class AssetsCommand extends Command
         $local = $this->option('local') ?? false;
 
         if ($fresh) {
-            foreach ($list as $key => $model) {
+            WikipediaItem::whereModel(Author::class)->delete();
+            foreach ($list as $model) {
                 $model->clearMediaCollection($collection);
                 $model->description = null;
                 $model->link = null;
@@ -184,15 +189,10 @@ class AssetsCommand extends Command
 
             $bar = $this->output->createProgressBar(count($service->queries));
             $bar->start();
-            /** @var WikipediaQuery $query */
-            foreach ($service->queries as $query) {
-                /** @var Author $model */
-                $model = $query->model_name::find($query->model_id);
-                if (! $model->description && ! $model->link) {
-                    AuthorConverter::setWikiDescription($model, $query);
-                    if (! $default) {
-                        AuthorConverter::setWikiPicture($model, $query);
-                    }
+            foreach (Author::all() as $author) {
+                AuthorConverter::setWikiDescription($author);
+                if (! $default) {
+                    AuthorConverter::setWikiPicture($author);
                 }
                 $bar->advance();
             }
@@ -200,7 +200,7 @@ class AssetsCommand extends Command
         } else {
             $bar = $this->output->createProgressBar(count($list));
             $bar->start();
-            foreach ($list as $key => $model) {
+            foreach ($list as $model) {
                 AuthorConverter::setLocalPicture($model);
                 $bar->advance();
             }
@@ -215,7 +215,8 @@ class AssetsCommand extends Command
         $default = $this->option('default') ?? false;
 
         if ($fresh) {
-            foreach ($list as $key => $model) {
+            WikipediaItem::whereModel(Serie::class)->delete();
+            foreach ($list as $model) {
                 $model->clearMediaCollection($collection);
                 $model->description = null;
                 $model->link = null;
@@ -231,13 +232,8 @@ class AssetsCommand extends Command
             $this->info('Set extra content');
             $bar = $this->output->createProgressBar(count($service->queries));
             $bar->start();
-            /** @var WikipediaQuery $query */
-            foreach ($service->queries as $query) {
-                /** @var Serie $model */
-                $model = $query->model_name::find($query->model_id);
-                if (! $model->description && ! $model->link) {
-                    SerieConverter::setWikiDescription($model, $query);
-                }
+            foreach (Serie::all() as $model) {
+                SerieConverter::setWikiDescription($model);
                 $bar->advance();
             }
             $bar->finish();

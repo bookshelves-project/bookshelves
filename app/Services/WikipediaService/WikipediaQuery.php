@@ -143,14 +143,11 @@ class WikipediaQuery
     /**
      * Get picture from WikipediaService picture_url.
      */
-    public function getPictureFile(): string|null
+    public static function getPictureFile(string|null $picture_url): string|null
     {
         $picture = null;
-
-        try {
-            $picture = Http::get($this->picture_url)->body();
-        } catch (\Throwable $th) {
-            // BookshelvesTools::console(__METHOD__, $th);
+        if ($picture_url) {
+            $picture = Http::get($picture_url)->body();
         }
 
         return base64_encode($picture);

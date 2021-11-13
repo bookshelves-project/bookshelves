@@ -2,6 +2,7 @@
 
 namespace App\Services\GoogleBookService;
 
+use App\Models\GoogleBook;
 use App\Services\HttpService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -31,11 +32,20 @@ class GoogleBookService
     {
         $service = new GoogleBookService();
         $service->class = $class;
-        $service->models = $class::all();
+        $models = $class::all();
+        /**
+         * Keep only books without googleBook relation.
+         */
+        foreach ($models as $model) {
+            if (! $model->googleBook) {
+                $service->models->add($model);
+            }
+        }
         $service->debug = $debug;
 
         $service->getQueries()
             ->search()
+            ->convert()
         ;
 
         return $service;
@@ -79,6 +89,45 @@ class GoogleBookService
 
         $this->queries->replace($queries);
         $this->queries_failed->replace($failed);
+
+        return $this;
+    }
+
+    /**
+     * Create GoogleBook and associate with model.
+     */
+    public function convert(): GoogleBookService
+    {
+        /** @var GoogleBookQuery $query */
+        foreach ($this->queries as $query) {
+            /** @var string[] $data */
+            $data = [
+                'date' => $query->date,
+                'description' => $query->description,
+                'industry_identifiers' => $query->industry_identifiers ? json_encode($query->industry_identifiers) : null,
+                'page_count' => $query->page_count,
+                'categories' => $query->categories ? json_encode($query->categories) : null,
+                'maturity_rating' => $query->maturity_rating,
+                'language' => $query->language,
+                'preview_link' => $query->preview_link,
+                'publisher' => $query->publisher,
+                'retail_price_amount' => $query->retail_price_amount,
+                'retail_price_currency_code' => $query->retail_price_currency_code,
+                'buy_link' => $query->buy_link,
+                'isbn' => $query->isbn,
+                'isbn13' => $query->isbn13,
+            ];
+            // $is_null = empty(array_filter($data, fn ($el) => null !== $el));
+            // if (! $is_null) {
+            //     GoogleBook::create($data)
+            //         ->improveBookData($this->model_id)
+            //     ;
+            // }
+            $item = GoogleBook::create($data);
+            $model = $query->model_name::find($query->model_id);
+            $model->googleBook()->associate($item);
+            $model->save();
+        }
 
         return $this;
     }

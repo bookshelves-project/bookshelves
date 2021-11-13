@@ -2,6 +2,8 @@
 
 namespace App\Services\WikipediaService;
 
+use App\Models\Wikipedia;
+use App\Models\WikipediaItem;
 use App\Services\ConsoleService;
 use App\Services\HttpService;
 use Exception;
@@ -23,21 +25,31 @@ class WikipediaService
         public ?string $language_attribute = null,
         public ?Collection $queries = null,
         public ?Collection $queries_failed = null,
+        public ?Collection $items = null,
         public ?bool $debug = false,
     ) {
         $this->models = collect([]);
         $this->queries = collect([]);
         $this->queries_failed = collect([]);
+        $this->items = collect([]);
     }
 
     /**
-     * Create WikipediaService from Model and create WikipediaQuery for each entity.
+     * Create WikipediaService from Model and create WikipediaQuery for each entity only if hasn't WikipediaItem.
      */
     public static function create(string $class, string $attribute, ?string $language_attribute = 'language_slug', ?bool $debug = false): WikipediaService
     {
         $service = new WikipediaService();
         $service->class = $class;
-        $service->models = $class::all();
+        $models = $class::all();
+        /**
+         * Keep only books without wikipedia relation.
+         */
+        foreach ($models as $model) {
+            if (! $model->wikipedia) {
+                $service->models->add($model);
+            }
+        }
         $service->query_attribute = $attribute;
         $service->language_attribute = $language_attribute;
         $service->debug = $debug;
@@ -54,7 +66,9 @@ class WikipediaService
 
         $service->search('page_id_url', 'parsePageIdData');
 
-        ConsoleService::print('Extra content is available.');
+        ConsoleService::print('Convert into WikipediaItem...');
+
+        $service->convert();
 
         return $service;
     }
@@ -118,8 +132,34 @@ class WikipediaService
             }
         }
 
-        $this->queries->replace($queries);
-        $this->queries_failed->replace($failed);
+        $this->queries = $queries;
+        $this->queries_failed = $failed;
+
+        return $this;
+    }
+
+    /**
+     * Create WikipediaItem and associate with model.
+     */
+    public function convert(): WikipediaService
+    {
+        /** @var WikipediaQuery $query */
+        foreach ($this->queries as $query) {
+            $item = WikipediaItem::create([
+                'model' => $query->model_name,
+                'language' => $query->language,
+                'search_query' => $query->search_query,
+                'query_url' => $query->query_url,
+                'page_id' => $query->page_id,
+                'page_id_url' => $query->page_id_url,
+                'page_url' => $query->page_url,
+                'extract' => $query->extract,
+                'picture_url' => $query->picture_url,
+            ]);
+            $model = $query->model_name::find($query->model_id);
+            $model->wikipedia()->associate($item);
+            $model->save();
+        }
 
         return $this;
     }

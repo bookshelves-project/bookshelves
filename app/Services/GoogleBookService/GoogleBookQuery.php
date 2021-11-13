@@ -2,7 +2,6 @@
 
 namespace App\Services\GoogleBookService;
 
-use App\Models\GoogleBook;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\Response;
@@ -32,6 +31,9 @@ class GoogleBookQuery
     ) {
     }
 
+    /**
+     * Create new GoogleBookQuery from Model and GoogleBookService.
+     */
     public static function create(Model $model, GoogleBookService $service): GoogleBookQuery
     {
         $query = new GoogleBookQuery();
@@ -53,6 +55,9 @@ class GoogleBookQuery
         return $query;
     }
 
+    /**
+     * Build GoogleBook API url from ISBN.
+     */
     public function getGoogleBookUrl(): GoogleBookQuery
     {
         $isbn = $this->isbn13 ? $this->isbn13 : $this->isbn;
@@ -60,8 +65,6 @@ class GoogleBookQuery
         if ($isbn) {
             $url = 'https://www.googleapis.com/books/v1/volumes';
             $url .= "?q=isbn:{$isbn}";
-            $key = 'AIzaSyBZmN1LcbHv2IxsLu_0T3F3tN9Qc_tt6UQ';
-            // $url .= "&key={$key}";
 
             $this->url = $url;
         }
@@ -133,38 +136,8 @@ class GoogleBookQuery
     }
 
     /**
-     * Create GoogleBook.
+     * Print response into JSON format to debug, store it to `public/storage/debug/wikipedia/{$directory}/`.
      */
-    public function convert(): ?GoogleBook
-    {
-        $book = null;
-        /** @var string[] $data */
-        $data = [
-            'date' => $this->date,
-            'description' => $this->description,
-            'industry_identifiers' => $this->industry_identifiers ? json_encode($this->industry_identifiers) : null,
-            'page_count' => $this->page_count,
-            'categories' => $this->categories ? json_encode($this->categories) : null,
-            'maturity_rating' => $this->maturity_rating,
-            'language' => $this->language,
-            'preview_link' => $this->preview_link,
-            'publisher' => $this->publisher,
-            'retail_price_amount' => $this->retail_price_amount,
-            'retail_price_currency_code' => $this->retail_price_currency_code,
-            'buy_link' => $this->buy_link,
-            'isbn' => $this->isbn,
-            'isbn13' => $this->isbn13,
-        ];
-        $is_null = empty(array_filter($data, fn ($el) => null !== $el));
-        if (! $is_null) {
-            GoogleBook::create($data)
-                ->improveBookData($this->model_id)
-            ;
-        }
-
-        return $book;
-    }
-
     public function print(mixed $response, string $directory)
     {
         $response_json = json_encode($response, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);

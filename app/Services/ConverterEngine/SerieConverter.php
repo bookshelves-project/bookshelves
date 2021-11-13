@@ -6,7 +6,6 @@ use App\Models\Book;
 use App\Models\Serie;
 use App\Services\MediaService;
 use App\Services\ParserEngine\ParserEngine;
-use App\Services\WikipediaService\WikipediaQuery;
 use App\Utils\BookshelvesTools;
 use File;
 use Storage;
@@ -76,11 +75,13 @@ class SerieConverter
     /**
      * Generate Serie description from Wikipedia if found.
      */
-    public static function setWikiDescription(Serie $serie, WikipediaQuery $query): Serie
+    public static function setWikiDescription(Serie $serie): Serie
     {
-        $serie->description = BookshelvesTools::stringLimit($query->extract, 1000);
-        $serie->link = $query->page_url;
-        $serie->save();
+        if ($serie->wikipedia && ! $serie->description && ! $serie->link) {
+            $serie->description = BookshelvesTools::stringLimit($serie->wikipedia->extract, 1000);
+            $serie->link = $serie->wikipedia->page_url;
+            $serie->save();
+        }
 
         return $serie;
     }
