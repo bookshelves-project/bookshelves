@@ -141,7 +141,10 @@ Route::prefix('/publishers')->group(function () {
 /*
  * Lang routes
  */
-Route::get('/languages', [LanguageController::class, 'index'])->name('api.languages.index');
+Route::prefix('/languages')->group(function () {
+    Route::get('/', [LanguageController::class, 'index'])->name('api.languages.index');
+    Route::get('/{language:slug}', [LanguageController::class, 'show'])->name('api.languages.show');
+});
 
 /*
  * Comments routes
