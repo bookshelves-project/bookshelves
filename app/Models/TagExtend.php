@@ -2,21 +2,31 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasFirstChar;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Support\Str;
 use Spatie\Tags\Tag;
 
 class TagExtend extends Tag
 {
+    use HasFirstChar;
+
     protected $table = 'tags';
 
     protected $appends = [
         'first_char',
     ];
 
-    public function getFirstCharAttribute()
+    public function scopeWhereTypeIs(Builder $query, string $type)
     {
-        return strtoupper(substr(Str::slug($this->name), 0, 1));
+        return $query->where('type', '=', $type);
+    }
+
+    public function scopeWhereIsNegligible(Builder $query, string $negligible)
+    {
+        $negligible = filter_var($negligible, FILTER_VALIDATE_BOOLEAN);
+
+        return $negligible ? $query : $query->whereHas('books', count: 3);
     }
 
     public function books(): MorphToMany

@@ -29,12 +29,8 @@ class GoogleBook extends Model
     /**
      * Add more data to Book from GoogleBook.
      */
-    public function improveBookData(int $book_id)
+    public function improveBookData()
     {
-        $book = Book::find($book_id);
-
-        $this->book()->save($book);
-
         $this->testAttribute('date');
         $this->testAttribute('description');
         $this->testAttribute('page_count');

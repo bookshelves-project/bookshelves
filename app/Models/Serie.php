@@ -10,6 +10,7 @@ use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
+use App\Models\Traits\HasWikipediaItem;
 use App\Utils\BookshelvesTools;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +32,7 @@ class Serie extends Model implements HasMedia
     use HasLanguage;
     use HasTagsAndGenres;
     use Searchable;
+    use HasWikipediaItem;
 
     protected $fillable = [
         'title',

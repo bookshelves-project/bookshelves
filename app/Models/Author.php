@@ -7,6 +7,7 @@ use App\Models\Traits\HasComments;
 use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasSelections;
+use App\Models\Traits\HasWikipediaItem;
 use App\Utils\BookshelvesTools;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +26,7 @@ class Author extends Model implements HasMedia
     use HasComments;
     use HasSelections;
     use Searchable;
+    use HasWikipediaItem;
 
     protected $fillable = [
         'lastname',
