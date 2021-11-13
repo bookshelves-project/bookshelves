@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.68.1.
+ * Generated for Laravel 8.70.2.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -7275,6 +7275,17 @@
         {            //Method inherited from \Illuminate\Support\NamespacedItemResolver         
                         /** @var \Illuminate\Translation\Translator $instance */
                         $instance->setParsedKey($key, $parsed);
+        }
+                    /**
+         * Flush the cache of parsed keys.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushParsedKeys()
+        {            //Method inherited from \Illuminate\Support\NamespacedItemResolver         
+                        /** @var \Illuminate\Translation\Translator $instance */
+                        $instance->flushParsedKeys();
         }
                     /**
          * Register a custom macro.
@@ -21235,6 +21246,19 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Query\Builder $instance */
                                 return $instance->addBinding($value, $type);
+            }
+             
+                /**
+             * Cast the given binding value.
+             *
+             * @param mixed $value
+             * @return mixed 
+             * @static 
+             */ 
+            public static function castBinding($value)
+            {
+                                /** @var \Illuminate\Database\Query\Builder $instance */
+                                return $instance->castBinding($value);
             }
              
                 /**
