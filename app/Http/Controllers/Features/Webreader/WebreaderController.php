@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Webreader;
+namespace App\Http\Controllers\Features\Webreader;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookResource;

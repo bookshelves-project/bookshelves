@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Catalog;
+namespace App\Http\Controllers\Features\Catalog;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EntityResource;

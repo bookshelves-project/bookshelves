@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Roadmap;
+namespace App\Http\Controllers\Features\Roadmap;
 
 use App\Http\Controllers\Controller;
 use App\Services\CommonMarkService;

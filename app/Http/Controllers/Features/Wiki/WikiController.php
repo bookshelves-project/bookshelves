@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Wiki;
+namespace App\Http\Controllers\Features\Wiki;
 
 use App\Http\Controllers\Controller;
 use App\Services\CommonMarkService;

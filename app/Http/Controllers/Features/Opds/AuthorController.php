@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Opds;
+namespace App\Http\Controllers\Features\Opds;
 
 use App\Enums\EntitiesEnum;
 use App\Http\Controllers\Controller;
