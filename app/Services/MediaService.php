@@ -13,42 +13,54 @@ class MediaService
         public string $disk,
         public ?string $collection = null,
         public ?string $extension = null,
-        public ?string $method = null,
+        public ?SpatieMediaMethodEnum $method = null,
     ) {
-        $this->method = $this->method ? $this->method : SpatieMediaMethodEnum::addMediaFromBase64();
     }
 
-    public function setMedia(string $data)
-    {
-        $extension = $this->extension;
-        if (! $this->extension) {
+    public static function create(
+        Model $model,
+        string $name,
+        string $disk,
+        ?string $collection = null,
+        ?string $extension = null,
+        ?SpatieMediaMethodEnum $method = null
+    ): MediaService {
+        if (! $collection) {
+            $collection = $disk;
+        }
+        if (! $extension) {
             $extension = config('bookshelves.cover_extension');
         }
-        $collection = $this->collection;
-        if (! $this->collection) {
-            $collection = $this->disk;
+        if (! $method) {
+            $method = SpatieMediaMethodEnum::addMediaFromBase64();
         }
-        $method = $this->method;
-        $this->model->{$method}($data)
-            ->setName($this->name)
-            ->setFileName($this->name.'.'.$extension)
-            ->toMediaCollection($collection, $this->disk)
-        ;
-        $this->model->refresh();
+
+        return new MediaService($model, $name, $disk, $collection, $extension, $method);
     }
 
-    public function setColor()
+    public function setMedia(string $data): MediaService
     {
-        if (! $this->collection) {
-            $collection = $this->disk;
-        }
+        $this->model->{$this->method->value}($data)
+            ->setName($this->name)
+            ->setFileName($this->name.'.'.$this->extension)
+            ->toMediaCollection($this->collection, $this->disk)
+        ;
+        $this->model->refresh();
+
+        return $this;
+    }
+
+    public function setColor(): MediaService
+    {
         // @phpstan-ignore-next-line
-        $image = $this->model->getFirstMediaPath($collection);
+        $image = $this->model->getFirstMediaPath($this->collection);
 
         $color = ImageService::simple_color_thief($image);
         // @phpstan-ignore-next-line
-        $media = $this->model->getFirstMedia($collection);
+        $media = $this->model->getFirstMedia($this->collection);
         $media->setCustomProperty('color', $color);
         $media->save();
+
+        return $this;
     }
 }

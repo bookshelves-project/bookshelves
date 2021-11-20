@@ -132,9 +132,10 @@ class AuthorConverter
             $path = database_path('seeders/media/authors/no-picture.jpg');
             $cover = File::get($path);
 
-            $media = new MediaService($author, $author->slug, $disk);
-            $media->setMedia($cover);
-            $media->setColor();
+            MediaService::create($author, $author->slug, $disk)
+                ->setMedia($cover)
+                ->setColor()
+            ;
         }
 
         return $author;
@@ -171,9 +172,10 @@ class AuthorConverter
 
         if ($cover) {
             $author->clearMediaCollection($disk);
-            $media = new MediaService($author, $author->slug, $disk);
-            $media->setMedia($cover);
-            $media->setColor();
+            MediaService::create($author, $author->slug, $disk)
+                ->setMedia($cover)
+                ->setColor()
+            ;
         }
 
         return $author;
@@ -212,10 +214,10 @@ class AuthorConverter
 
             if ($picture && 'author-unknown' !== $author->slug) {
                 $author->clearMediaCollection($disk);
-
-                $media = new MediaService($author, $author->slug, $disk);
-                $media->setMedia($picture);
-                $media->setColor();
+                MediaService::create($author, $author->slug, $disk)
+                    ->setMedia($cover)
+                    ->setColor()
+                ;
             }
         }
 

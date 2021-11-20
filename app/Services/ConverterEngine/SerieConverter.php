@@ -138,9 +138,10 @@ class SerieConverter
                 }
             }
             if ($cover) {
-                $media = new MediaService($serie, $serie->slug, $disk);
-                $media->setMedia($cover);
-                $media->setColor();
+                MediaService::create($serie, $serie->slug, $disk)
+                    ->setMedia($cover)
+                    ->setColor()
+                ;
             }
             $serie->refresh();
 

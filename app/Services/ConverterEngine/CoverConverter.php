@@ -22,9 +22,10 @@ class CoverConverter
             $disk = 'books';
 
             try {
-                $media = new MediaService(model: $book, name: $book->slug, disk: $disk);
-                $media->setMedia($parser->cover);
-                $media->setColor();
+                MediaService::create($book, $book->slug, $disk)
+                    ->setMedia($parser->cover)
+                    ->setColor()
+                ;
             } catch (\Throwable $th) {
                 BookshelvesTools::console(__METHOD__, $th);
             }
