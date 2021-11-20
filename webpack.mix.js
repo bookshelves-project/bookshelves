@@ -14,12 +14,15 @@ const mix = require("laravel-mix");
 mix
   .js("resources/js/app.js", "public/assets/js")
   .vue()
+  .sourceMaps()
   .postCss("resources/css/app.css", "public/assets/css", [
     require("postcss-import"),
     require("tailwindcss"),
   ])
   .js("resources/js/blade/index.js", "public/assets/js/blade")
-  // webreader
+  /**
+   * webreader js
+   */
   .js(
     "resources/js/blade/webreader/index.js",
     "public/assets/js/blade/webreader"
@@ -32,7 +35,9 @@ mix
     "resources/js/blade/webreader/listener/listener.js",
     "public/assets/js/blade/webreader"
   )
-  //
+  /**
+   * blade js
+   */
   .js("resources/js/blade/markdown/index.js", "public/assets/js/blade/markdown")
   .js("resources/js/blade/set-color-mode.js", "public/assets/js/blade")
   .postCss("resources/css/blade/index.pcss", "public/assets/css/blade", [
@@ -43,7 +48,21 @@ mix
     require("postcss-import"),
     require("tailwindcss"),
   ])
-  .webpackConfig(require("./webpack.config"));
+  .webpackConfig({
+    ...require("./webpack.config"),
+    module: {
+      rules: [
+        {
+          test: /\.(postcss)$/,
+          use: [
+            "vue-style-loader",
+            { loader: "css-loader", options: { importLoaders: 1 } },
+            "postcss-loader",
+          ],
+        },
+      ],
+    },
+  });
 
 if (mix.inProduction()) {
   mix.version();

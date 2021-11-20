@@ -39,6 +39,9 @@
     "dependencies": {
         "@headlessui/vue": "^1.4.2",
         "@heroicons/vue": "^1.0.5",
+        "@tiptap/extension-character-count": "^2.0.0-beta.18",
+        "@tiptap/extension-highlight": "^2.0.0-beta.30",
+        "@tiptap/extension-typography": "^2.0.0-beta.19",
         "@tiptap/starter-kit": "^2.0.0-beta.142",
         "@tiptap/vue-3": "^2.0.0-beta.81",
         "epubjs": "^0.3.90",
