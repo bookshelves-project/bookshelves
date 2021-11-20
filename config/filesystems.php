@@ -54,6 +54,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'cms' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/media/cms'),
+            'url' => env('APP_URL').'/storage/media/cms',
+            'visibility' => 'public',
+        ],
+
         'series' => [
             'driver' => 'local',
             'root' => storage_path('app/public/media/series'),

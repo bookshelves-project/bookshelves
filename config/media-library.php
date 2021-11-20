@@ -20,6 +20,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('epubs'),
         ],
+        'cms' => [
+            'driver' => 'local',
+            'root' => storage_path('cms'),
+        ],
         'series' => [
             'driver' => 'local',
             'root' => storage_path('series'),

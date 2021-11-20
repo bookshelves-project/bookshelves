@@ -62,6 +62,7 @@
         "spatie/laravel-query-builder": "^3.6",
         "spatie/laravel-route-attributes": "^1.4",
         "spatie/laravel-tags": "^4.0",
+        "spatie/laravel-translatable": "^5.0",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

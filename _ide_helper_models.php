@@ -171,6 +171,98 @@ namespace App\Models{
 	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
+namespace App\Models\Cms{
+/**
+ * App\Models\Cms\Application
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property array|null $meta_title
+ * @property array|null $meta_description
+ * @property array|null $meta_author
+ * @property string|null $meta_twitter_creator
+ * @property string|null $meta_twitter_site
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $favicon
+ * @property-read string|null $icon
+ * @property-read string|null $logo
+ * @property-read string|null $open_graph
+ * @property-read array $translations
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Application newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Application newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Application query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaAuthor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaTwitterCreator($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaTwitterSite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereUpdatedAt($value)
+ */
+	class Application extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models\Cms{
+/**
+ * App\Models\Cms\HomePage
+ *
+ * @property int $id
+ * @property array|null $hang_title
+ * @property array|null $hang_text
+ * @property array|null $statistics_eyebrow
+ * @property array|null $statistics_title
+ * @property array|null $statistics_text
+ * @property array|null $statistics
+ * @property array|null $logos_title
+ * @property array|null $logos
+ * @property array|null $features_title
+ * @property array|null $features_text
+ * @property array|null $features
+ * @property bool|null $display_statistics
+ * @property bool|null $display_logos
+ * @property bool|null $display_features
+ * @property bool|null $display_latest
+ * @property bool|null $display_selection
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $hang_picture
+ * @property-read array $logos_media
+ * @property-read array $translations
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage query()
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayFeatures($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayLatest($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayLogos($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplaySelection($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayStatistics($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereFeatures($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereFeaturesText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereFeaturesTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereHangText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereHangTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereLogos($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereLogosTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatistics($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatisticsEyebrow($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatisticsText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatisticsTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereUpdatedAt($value)
+ */
+	class HomePage extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
 namespace App\Models{
 /**
  * App\Models\ComicBook
