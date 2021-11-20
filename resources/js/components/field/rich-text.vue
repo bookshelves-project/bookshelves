@@ -30,7 +30,6 @@ import {
   ref,
   computed,
   watch,
-  defineEmit,
   onMounted,
   onBeforeMount,
   onBeforeUnmount,
@@ -75,7 +74,7 @@ const editor = useEditor({
     attributes: {
       spellcheck: "false",
       class:
-        "prose prose-sm sm:prose lg:prose-lg p-4 mx-auto focus:outline-none max-h-screen overflow-auto scrollbar-thin !max-w-full",
+        "prose p-4 mx-auto focus:outline-none max-h-screen overflow-auto scrollbar-thin !max-w-full",
     },
   },
   onUpdate: (val) => {
@@ -90,7 +89,7 @@ const editor = useEditor({
   @apply shadow-sm focus:ring-primary-500 focus:border-primary-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md;
 }
 .editor__actions::v-deep {
-  @apply p-2 sticky top-0 z-10  bg-white;
+  @apply p-2 sticky top-0 z-10 bg-primary-400;
 }
 .ProseMirror::v-deep {
   > * + * {

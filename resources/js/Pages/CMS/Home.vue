@@ -8,7 +8,7 @@
       <div class="mt-6">
         <h2 class="text-lg font-semibold mb-3 text-primary-600">Preview</h2>
         <div class="border border-gray-300 rounded-md p-6">
-          <div v-html="editor"></div>
+          <div v-html="editor" class="prose"></div>
         </div>
       </div>
     </section>

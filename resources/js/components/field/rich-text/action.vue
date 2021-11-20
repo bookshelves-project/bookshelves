@@ -44,6 +44,6 @@ const props = defineProps({
 
 <style lang="postcss" scoped>
 .action-btn :deep(button) {
-  @apply py-1 px-2 m-1 bg-primary-600 rounded-md bg-opacity-60 text-white transition-colors duration-100 hover:bg-primary-500 hover:bg-opacity-60;
+  @apply py-1 px-2 bg-opacity-60 text-white rounded-md transition-colors duration-100 hover:bg-primary-500 hover:bg-opacity-60;
 }
 </style>
