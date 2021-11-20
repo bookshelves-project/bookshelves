@@ -38,14 +38,16 @@ class MediaService
         return new MediaService($model, $name, $disk, $collection, $extension, $method);
     }
 
-    public function setMedia(string $data): MediaService
+    public function setMedia(string|null $data): MediaService
     {
-        $this->model->{$this->method->value}($data)
-            ->setName($this->name)
-            ->setFileName($this->name.'.'.$this->extension)
-            ->toMediaCollection($this->collection, $this->disk)
-        ;
-        $this->model->refresh();
+        if ($data) {
+            $this->model->{$this->method->value}($data)
+                ->setName($this->name)
+                ->setFileName($this->name.'.'.$this->extension)
+                ->toMediaCollection($this->collection, $this->disk)
+            ;
+            $this->model->refresh();
+        }
 
         return $this;
     }
@@ -55,11 +57,13 @@ class MediaService
         // @phpstan-ignore-next-line
         $image = $this->model->getFirstMediaPath($this->collection);
 
-        $color = ImageService::simple_color_thief($image);
-        // @phpstan-ignore-next-line
-        $media = $this->model->getFirstMedia($this->collection);
-        $media->setCustomProperty('color', $color);
-        $media->save();
+        if ($image) {
+            $color = ImageService::simple_color_thief($image);
+            // @phpstan-ignore-next-line
+            $media = $this->model->getFirstMedia($this->collection);
+            $media->setCustomProperty('color', $color);
+            $media->save();
+        }
 
         return $this;
     }

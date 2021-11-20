@@ -15,3 +15,8 @@
 
 - <https://tiptap.dev/installation/vue3>
 - <https://bestofvue.com/repo/heyscrumpy-tiptap-vuejs-rich-text-editing>
+
+## JS & Vue
+
+- <https://www.freecodecamp.org/news/learn-modern-javascript/>
+- <https://stackoverflow.com/questions/63986278/vue-3-v-deep-usage-as-a-combinator-has-been-deprecated-use-v-deepinner-se>
