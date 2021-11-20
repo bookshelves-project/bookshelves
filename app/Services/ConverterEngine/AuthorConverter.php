@@ -215,7 +215,7 @@ class AuthorConverter
             if ($picture && 'author-unknown' !== $author->slug) {
                 $author->clearMediaCollection($disk);
                 MediaService::create($author, $author->slug, $disk)
-                    ->setMedia($cover)
+                    ->setMedia($picture)
                     ->setColor()
                 ;
             }
