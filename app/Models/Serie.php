@@ -79,6 +79,7 @@ class Serie extends Model implements HasMedia
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'picture' => $this->cover_thumbnail,
             'author' => $this->authors_names,
             'description' => $this->description,
             'created_at' => $this->created_at,

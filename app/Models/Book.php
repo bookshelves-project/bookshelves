@@ -126,6 +126,7 @@ class Book extends Model implements HasMedia
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'picture' => $this->cover_thumbnail,
             'date' => $this->date,
             'author' => $this->authors_names,
             'isbn' => $this->identifier->isbn ?? null,

@@ -117,6 +117,7 @@ class Author extends Model implements HasMedia
             'name' => $this->name,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
+            'picture' => $this->cover_thumbnail,
             'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
