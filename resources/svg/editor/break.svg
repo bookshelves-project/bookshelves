@@ -1,6 +1,8 @@
-<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-        d="M18 6V12H7.83L10.41 9.41L9 8L4 13L9 18L10.41 16.59L7.83 14H20V6H18Z"
-        fill="currentColor"
-    ></path>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <g>
+        <path fill="none" d="M0 0h24v24H0z"></path>
+        <path
+            d="M15 18h1.5a2.5 2.5 0 1 0 0-5H3v-2h13.5a4.5 4.5 0 1 1 0 9H15v2l-4-3 4-3v2zM3 4h18v2H3V4zm6 14v2H3v-2h6z"
+        ></path>
+    </g>
 </svg>
