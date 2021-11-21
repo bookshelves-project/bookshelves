@@ -4,6 +4,7 @@ namespace App\Http\Resources\Cms;
 
 use App\Models\Book;
 use App\Models\Cms\HomePage;
+use App\Models\Cms\HomePageStatistic;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -25,9 +26,9 @@ class HomePageResource extends JsonResource
 
         return [
             'hang' => [
-                'title' => $this->resource->hang_title,
-                'text' => $this->resource->hang_text,
-                'picture' => $this->resource->hang_picture,
+                'title' => $this->resource->hero_title,
+                'text' => $this->resource->hero_text,
+                'picture' => $this->resource->hero_picture,
             ],
             'statistics' => $this->resource->display_statistics ? [
                 'eyebrow' => $this->resource->statistics_eyebrow,
@@ -51,26 +52,23 @@ class HomePageResource extends JsonResource
 
     private function setStatistics(): array
     {
-        $statistics = json_decode(json_encode($this->resource->statistics));
+        $statistics = $this->resource->statistics->toArray();
         $locale = config('app.locale');
 
-        foreach ($statistics as $key => $statistic) {
-            $model = 'App\Models\\'.ucfirst($statistic->count);
-            $count = 0;
-
-            if ($statistic->countWhere) {
-                $count = $model::where($statistic->countWhere[0], $statistic->countWhere[1])
-                    ->count()
-                ;
-            } else {
-                $count = $model::count();
-            }
-
-            $statistics[$key]->count = $count;
-            $statistics[$key]->label = $statistic->label->{$locale};
+        $statistics_to_array = [];
+        foreach ($statistics as $stat) {
+            $stat = new HomePageStatistic($stat);
+            $count = $stat->getCount();
+            array_push(
+                $statistics_to_array,
+                [
+                    'label' => $stat->label[$locale],
+                    'count' => $count,
+                ]
+            );
         }
 
-        return $statistics;
+        return $statistics_to_array;
     }
 
     private function setLogos(): array

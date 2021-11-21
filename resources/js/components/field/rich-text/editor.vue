@@ -3,15 +3,11 @@
     <div class="editor relative">
       <div v-if="editor" class="editor__actions">
         <fields-rich-text-action
-          v-for="button in buttons"
-          :key="button.id"
+          v-for="action in buttons"
+          :key="action.id"
           :editor="editor"
-          :action="button.action"
-          :method="button.method"
-          :params="button.params"
-        >
-          {{ button.title }}
-        </fields-rich-text-action>
+          :action="action"
+        />
       </div>
       <hr class="mx-4" />
       <editor-content :editor="editor" class="editor__body" />
@@ -20,10 +16,10 @@
 </template>
 
 <script>
-import { Editor, EditorContent } from '@tiptap/vue-2'
-import StarterKit from '@tiptap/starter-kit'
-import Highlight from '@tiptap/extension-highlight'
-import Typography from '@tiptap/extension-typography'
+import { Editor, EditorContent } from "@tiptap/vue-2";
+import StarterKit from "@tiptap/starter-kit";
+import Highlight from "@tiptap/extension-highlight";
+import Typography from "@tiptap/extension-typography";
 
 export default {
   components: {
@@ -32,7 +28,7 @@ export default {
   props: {
     value: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   data() {
@@ -40,121 +36,121 @@ export default {
       editor: null,
       buttons: [
         {
-          title: 'Bold',
-          action: 'bold',
-          method: 'toggleBold',
+          title: "Bold",
+          action: "bold",
+          method: "toggleBold",
         },
         {
-          title: 'Italic',
-          action: 'italic',
-          method: 'toggleItalic',
+          title: "Italic",
+          action: "italic",
+          method: "toggleItalic",
         },
         {
-          title: 'Strike',
-          action: 'strike',
-          method: 'toggleStrike',
+          title: "Strike",
+          action: "strike",
+          method: "toggleStrike",
         },
         {
-          title: 'Code',
-          action: 'code',
-          method: 'toggleCode',
+          title: "Code",
+          action: "code",
+          method: "toggleCode",
         },
         {
-          title: 'Clear marks',
-          method: 'unsetAllMarks',
+          title: "Clear marks",
+          method: "unsetAllMarks",
         },
         {
-          title: 'Clear nodes',
-          method: 'clearNodes',
+          title: "Clear nodes",
+          method: "clearNodes",
         },
         {
-          title: 'Paragraph',
-          action: 'paragraph',
-          method: 'setParagraph',
+          title: "Paragraph",
+          action: "paragraph",
+          method: "setParagraph",
         },
         {
-          title: 'H1',
-          action: 'heading',
-          method: 'toggleHeading',
+          title: "H1",
+          action: "heading",
+          method: "toggleHeading",
           params: { level: 1 },
         },
         {
-          title: 'H2',
-          action: 'heading',
-          method: 'toggleHeading',
+          title: "H2",
+          action: "heading",
+          method: "toggleHeading",
           params: { level: 2 },
         },
         {
-          title: 'H3',
-          action: 'heading',
-          method: 'toggleHeading',
+          title: "H3",
+          action: "heading",
+          method: "toggleHeading",
           params: { level: 3 },
         },
         {
-          title: 'H4',
-          action: 'heading',
-          method: 'toggleHeading',
+          title: "H4",
+          action: "heading",
+          method: "toggleHeading",
           params: { level: 4 },
         },
         {
-          title: 'H5',
-          action: 'heading',
-          method: 'toggleHeading',
+          title: "H5",
+          action: "heading",
+          method: "toggleHeading",
           params: { level: 5 },
         },
         {
-          title: 'H6',
-          action: 'heading',
-          method: 'toggleHeading',
+          title: "H6",
+          action: "heading",
+          method: "toggleHeading",
           params: { level: 6 },
         },
         {
-          title: 'Bullet list',
-          action: 'bulletList',
-          method: 'toggleBulletList',
+          title: "Bullet list",
+          action: "bulletList",
+          method: "toggleBulletList",
         },
         {
-          title: 'Ordered list',
-          action: 'orderedList',
-          method: 'toggleOrderedList',
+          title: "Ordered list",
+          action: "orderedList",
+          method: "toggleOrderedList",
         },
         {
-          title: 'Code block',
-          action: 'codeBlock',
-          method: 'toggleCodeBlock',
+          title: "Code block",
+          action: "codeBlock",
+          method: "toggleCodeBlock",
         },
         {
-          title: 'Blockquote',
-          action: 'blockquote',
-          method: 'toggleBlockquote',
+          title: "Blockquote",
+          action: "blockquote",
+          method: "toggleBlockquote",
         },
         {
-          title: 'Horizontal rule',
-          method: 'setHorizontalRule',
+          title: "Horizontal rule",
+          method: "setHorizontalRule",
         },
         {
-          title: 'Break',
-          method: 'setHardBreak',
+          title: "Break",
+          method: "setHardBreak",
         },
         {
-          title: 'Undo',
-          method: 'undo',
+          title: "Undo",
+          method: "undo",
         },
         {
-          title: 'Redo',
-          method: 'redo',
+          title: "Redo",
+          method: "redo",
         },
       ],
-    }
+    };
   },
   mounted() {
     this.editor = new Editor({
       extensions: [StarterKit, Highlight, Typography],
       editorProps: {
         attributes: {
-          spellcheck: 'false',
+          spellcheck: "false",
           class:
-            'prose prose-sm sm:prose lg:prose-lg p-4 mx-auto focus:outline-none max-h-screen overflow-auto scrollbar-thin dark:prose-light',
+            "prose prose-sm sm:prose lg:prose-lg p-4 mx-auto focus:outline-none max-h-screen overflow-auto scrollbar-thin dark:prose-light",
         },
       },
       content: `
@@ -187,12 +183,12 @@ export default {
           — Mom
         </blockquote>
       `,
-    })
+    });
   },
   beforeUnmount() {
-    this.editor.destroy()
+    this.editor.destroy();
   },
-}
+};
 </script>
 
 <style lang="postcss" scoped>
@@ -230,7 +226,7 @@ export default {
   pre {
     background: #0d0d0d;
     color: #fff;
-    font-family: 'JetBrainsMono', monospace;
+    font-family: "JetBrainsMono", monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
 

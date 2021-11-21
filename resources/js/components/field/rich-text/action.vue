@@ -1,45 +1,83 @@
 <template>
-  <span class="action-btn">
+  <div v-if="button && !button.space" class="action-btn">
     <button
       type="button"
-      :class="action ? { 'is-active': editor.isActive(action, params) } : ''"
-      @click="editor.chain().focus()[method](params).run()"
+      :class="
+        button.action
+          ? { 'is-active': editor.isActive(button.action, button.params) }
+          : ''
+      "
+      :title="button.title"
+      @click="
+        button.custom
+          ? custom(button.method)
+          : editor.chain().focus()[button.method](button.params).run()
+      "
     >
-      <slot />
+      <svg-vue
+        v-if="button.svg"
+        :icon="`editor/${button.svg}`"
+        class="w-5 h-5 mx-auto"
+      />
+      <!-- <div class="text-center text-xs italic mt-1">
+        {{ button.title }}
+      </div> -->
     </button>
-  </span>
+  </div>
+  <div v-else class="mx-2 my-1 hidden xl:block"></div>
 </template>
 
 <script setup>
-// import { defineProps } from "vue";
+import { getCurrentInstance } from "vue";
 
 const props = defineProps({
   editor: Object,
-  action: String,
-  method: String,
-  params: Object,
+  button: Object,
 });
-// export default {
-//   name: "RichTextAction",
-//   props: {
-//     editor: {
-//       type: Object,
-//       default: () => {},
-//     },
-//     action: {
-//       type: String,
-//       default: "",
-//     },
-//     method: {
-//       type: String,
-//       default: "toggleBold",
-//     },
-//     params: {
-//       type: Object,
-//       default: () => {},
-//     },
-//   },
-// };
+
+const internalInstance = getCurrentInstance();
+
+function custom(type) {
+  this[type]();
+}
+
+function addImage() {
+  const url = window.prompt("URL");
+
+  if (url) {
+    props.editor.chain().focus().setImage({ src: url }).run();
+  }
+}
+
+function setLink() {
+  const previousUrl = props.editor.getAttributes("link").href;
+  const url = window.prompt("URL", previousUrl);
+
+  // cancelled
+  if (url === null) {
+    return;
+  }
+
+  // empty
+  if (url === "") {
+    props.editor.chain().focus().extendMarkRange("link").unsetLink().run();
+
+    return;
+  }
+
+  // update link
+  props.editor
+    .chain()
+    .focus()
+    .extendMarkRange("link")
+    .setLink({ href: url })
+    .run();
+}
+
+function help() {
+  console.log(internalInstance.parent);
+  // console.log(internalInstance.parent.openHelp(true));
+}
 </script>
 
 <style lang="postcss" scoped>

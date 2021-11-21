@@ -1,5 +1,7 @@
 const mix = require("laravel-mix");
 
+require("laravel-mix-svg-vue");
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -15,6 +17,7 @@ mix
   .js("resources/js/app.js", "public/assets/js")
   .vue()
   .sourceMaps()
+  .svgVue()
   .postCss("resources/css/app.css", "public/assets/css", [
     require("postcss-import"),
     require("tailwindcss"),

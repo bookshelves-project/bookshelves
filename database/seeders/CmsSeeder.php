@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\SpatieMediaMethodEnum;
 use App\Models\Cms\Application;
 use App\Models\Cms\HomePage;
+use App\Models\Cms\HomePageStatistic;
 use App\Services\MediaService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
@@ -18,7 +19,7 @@ class CmsSeeder extends Seeder
      */
     public function run()
     {
-        Media::where('collection_name', 'cms_hang')->delete();
+        Media::where('collection_name', 'cms_hero')->delete();
         Media::where('collection_name', 'cms_application_favicon')->delete();
         Media::where('collection_name', 'cms_application_og')->delete();
         Media::where('collection_name', 'cms_application_logo')->delete();
@@ -77,11 +78,11 @@ class CmsSeeder extends Seeder
         HomePage::query()->delete();
 
         $home_page = HomePage::create([
-            'hang_title' => [
+            'hero_title' => [
                 'en' => 'reading in complete tranquility...',
                 'fr' => 'lire en toute tranquilité...',
             ],
-            'hang_text' => [
+            'hero_text' => [
                 'en' => "If you have an eReader and are looking for plenty of eBooks to take everywhere with you, you've come to the right place, hours of reading in perspective.",
                 'fr' => 'Si vous possédez une liseuse et que vous recherchez de nombreux eBooks à emporter partout avec vous, vous êtes au bon endroit, des heures de lecture en perspective.',
             ],
@@ -212,15 +213,15 @@ class CmsSeeder extends Seeder
             'display_selection' => true,
         ]);
 
-        MediaService::create($home_page, 'cms_hang', 'cms', collection: 'cms_hang', extension: 'svg')
-            ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/hang_picture.svg'))))
+        MediaService::create($home_page, 'cms_hero', 'cms', collection: 'cms_hero', extension: 'svg')
+            ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/home-page/hero.svg'))))
             ->setColor()
         ;
 
         /**
          * Create logos.
          */
-        $logos = File::allFiles(database_path('seeders/media/cms/logos'));
+        $logos = File::allFiles(database_path('seeders/media/cms/home-page/logos'));
         foreach ($logos as $logo) {
             $filename = pathinfo($logo->getFilename(), PATHINFO_FILENAME);
             MediaService::create($home_page, Str::slug($filename), 'cms', collection: 'cms_logos', extension: 'webp', method: SpatieMediaMethodEnum::addMediaFromString())
@@ -232,7 +233,7 @@ class CmsSeeder extends Seeder
         /**
          * Create features.
          */
-        $logos = File::allFiles(database_path('seeders/media/cms/features'));
+        $logos = File::allFiles(database_path('seeders/media/cms/home-page/features'));
         foreach ($logos as $logo) {
             $filename = pathinfo($logo->getFilename(), PATHINFO_FILENAME);
             MediaService::create($home_page, Str::slug($filename), 'cms', collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString())
@@ -245,46 +246,46 @@ class CmsSeeder extends Seeder
     private function homePageStatistics(): array
     {
         return [
-            [
-                'count' => 'book',
-                'countWhere' => null,
+            new HomePageStatistic([
+                'model' => 'App\Models\Book',
+                'modelWhere' => null,
                 'label' => [
                     'en' => 'eBooks available',
                     'fr' => 'eBooks disponibles',
                 ],
-            ],
-            [
-                'count' => 'author',
-                'countWhere' => null,
+            ]),
+            new HomePageStatistic([
+                'model' => 'App\Models\Author',
+                'modelWhere' => null,
                 'label' => [
                     'en' => 'authors',
                     'fr' => 'auteur·ices',
                 ],
-            ],
-            [
-                'count' => 'serie',
-                'countWhere' => null,
+            ]),
+            new HomePageStatistic([
+                'model' => 'App\Models\Serie',
+                'modelWhere' => null,
                 'label' => [
                     'en' => 'series',
                     'fr' => 'séries',
                 ],
-            ],
-            [
-                'count' => 'book',
-                'countWhere' => ['language_slug', 'fr'],
+            ]),
+            new HomePageStatistic([
+                'model' => 'App\Models\Book',
+                'modelWhere' => ['language_slug', 'fr'],
                 'label' => [
                     'en' => 'eBooks available in french',
                     'fr' => 'eBooks disponibles en français',
                 ],
-            ],
-            [
-                'count' => 'book',
-                'countWhere' => ['language_slug', 'fr'],
+            ]),
+            new HomePageStatistic([
+                'model' => 'App\Models\Book',
+                'modelWhere' => ['language_slug', 'en'],
                 'label' => [
                     'en' => 'eBooks available in english',
                     'fr' => 'eBooks disponibles en anglais',
                 ],
-            ],
+            ]),
         ];
     }
 }

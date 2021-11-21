@@ -13,8 +13,8 @@ class CreateCmsHomePageTable extends Migration
     {
         Schema::create('cms_home_page', function (Blueprint $table) {
             $table->id();
-            $table->json('hang_title')->nullable();
-            $table->json('hang_text')->nullable();
+            $table->json('hero_title')->nullable();
+            $table->json('hero_text')->nullable();
             $table->json('statistics_eyebrow')->nullable();
             $table->json('statistics_title')->nullable();
             $table->json('statistics_text')->nullable();

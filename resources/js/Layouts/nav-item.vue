@@ -99,15 +99,24 @@
 
 <script setup>
 import { Link } from "@inertiajs/inertia-vue3";
-
+import { ref, onMounted } from "vue";
 import { ChevronRightIcon, ArrowSmRightIcon } from "@heroicons/vue/outline";
 
 const props = defineProps({
   item: Object,
 });
 
-const open = false;
+let open = ref(false);
 
-const emit = defineEmits(["change", "delete"]);
-// setup code
+onMounted(() => {
+  if (props.item.disclosure) {
+    let current = false;
+    props.item.disclosure.forEach((el) => {
+      current = route().current(el.href);
+    });
+    if (current) {
+      open.value = true;
+    }
+  }
+});
 </script>

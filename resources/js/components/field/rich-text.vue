@@ -1,21 +1,49 @@
 <template>
   <div v-if="editor" class="editor relative">
     <div class="editor__actions">
-      <action
-        v-for="button in buttons"
-        :key="button.id"
-        :editor="editor"
-        :action="button.action"
-        :method="button.method"
-        :params="button.params"
-      >
-        {{ button.title }}
-      </action>
+      <div class="editor__actions__list">
+        <action
+          v-for="button in buttons"
+          :key="button.id"
+          :editor="editor"
+          :button="button"
+        />
+      </div>
     </div>
     <hr class="mx-4" />
     <editor-content :editor="editor" class="editor__body" />
-    <div class="character-count" v-if="editor">
-      {{ editor.getCharacterCount() }}/{{ limit }} characters
+    <div class="py-3 px-3 border-t border-gray-300 flex justify-between">
+      <div>
+        Powered by
+        <a
+          href="https://tiptap.dev/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="
+            border-b border-primary-600
+            text-primary-600
+            font-semibold
+            hover:bg-primary-600 hover:bg-opacity-30
+          "
+        >
+          Tiptap</a
+        >, you can use
+        <a
+          href="https://www.markdownguide.org/cheat-sheet/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="
+            border-b border-primary-600
+            text-primary-600
+            font-semibold
+            hover:bg-primary-600 hover:bg-opacity-30
+          "
+          >Markdown</a
+        >.
+      </div>
+      <div class="character-count" v-if="editor">
+        {{ editor.getCharacterCount() }}/{{ limit }} characters
+      </div>
     </div>
   </div>
 </template>
@@ -26,6 +54,14 @@ import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
 import CharacterCount from "@tiptap/extension-character-count";
+import TextAlign from "@tiptap/extension-text-align";
+import Link from "@tiptap/extension-link";
+import Underline from "@tiptap/extension-underline";
+import Image from "@tiptap/extension-image";
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import lowlight from "lowlight";
 import {
   ref,
   computed,
@@ -69,6 +105,20 @@ const editor = useEditor({
     CharacterCount.configure({
       limit: limit,
     }),
+    TextAlign.configure({
+      types: ["paragraph"],
+      alignments: ["left", "right"],
+    }),
+    Link,
+    Underline,
+    Image,
+    // CodeBlockLowlight.configure({
+    //   lowlight,
+    // }),
+    TaskList,
+    TaskItem.configure({
+      nested: true,
+    }),
   ],
   editorProps: {
     attributes: {
@@ -84,12 +134,23 @@ const editor = useEditor({
 </script>
 
 <style lang="postcss" scoped>
+.editor :deep(li[data-checked] div) {
+  @apply inline;
+}
+.editor :deep(li p) {
+  @apply inline my-0 ml-2 !important;
+}
 /* Basic editor styles */
 .editor::v-deep {
   @apply shadow-sm focus:ring-primary-500 focus:border-primary-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md;
 }
-.editor__actions::v-deep {
-  @apply p-2 sticky top-0 z-10 bg-primary-400;
+
+.editor :deep(.editor__actions) {
+  @apply p-2 sticky top-0 z-10 bg-primary-400 rounded-t-md;
+}
+.editor :deep(.editor__actions__list) {
+  /* @apply grid grid-cols-3 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12; */
+  @apply flex items-center flex-wrap;
 }
 .ProseMirror::v-deep {
   > * + * {

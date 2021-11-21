@@ -18,10 +18,12 @@ trait HasAvatar
     {
         $avatar = config('image.user.avatar');
 
-        $this->addMediaConversion('avatar')
-            ->crop(Manipulations::CROP_TOP, $avatar['width'], $avatar['height'])
-            ->format(config('bookshelves.cover_extension'))
-        ;
+        if ('local' !== config('app.env')) {
+            $this->addMediaConversion('avatar')
+                ->crop(Manipulations::CROP_TOP, $avatar['width'], $avatar['height'])
+                ->format(config('bookshelves.cover_extension'))
+            ;
+        }
     }
 
     public function getAvatarAttribute(): string

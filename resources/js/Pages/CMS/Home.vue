@@ -1,5 +1,5 @@
 <template>
-  <LayoutDefault title="CMS: Home">
+  <LayoutDefault>
     <section class="m-6 max-w-6xl mx-auto px-6">
       <div>
         <h2 class="text-lg font-semibold mb-3 text-primary-600">Editor</h2>
@@ -32,6 +32,10 @@ const editor = ref(`
           <li>
             … or two list items.
           </li>
+        </ul>
+        <ul data-type="taskList">
+          <li data-type="taskItem" data-checked="true">A list item</li>
+          <li data-type="taskItem" data-checked="false">And another one</li>
         </ul>
         <p>
           Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:

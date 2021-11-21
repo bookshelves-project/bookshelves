@@ -219,7 +219,7 @@ namespace App\Models\Cms{
  * @property array|null $statistics_eyebrow
  * @property array|null $statistics_title
  * @property array|null $statistics_text
- * @property array|null $statistics
+ * @property \Illuminate\Support\Collection $statistics
  * @property array|null $logos_title
  * @property array|null $logos
  * @property array|null $features_title
@@ -261,6 +261,19 @@ namespace App\Models\Cms{
  * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereUpdatedAt($value)
  */
 	class HomePage extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models\Cms{
+/**
+ * App\Models\Cms\HomePageStatistic
+ *
+ * @property-read mixed $count
+ * @property-read array $translations
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePageStatistic newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePageStatistic newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePageStatistic query()
+ */
+	class HomePageStatistic extends \Eloquent {}
 }
 
 namespace App\Models{
