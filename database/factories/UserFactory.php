@@ -25,6 +25,18 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $gender = $this->faker->randomElements(GenderEnum::toValues())[0];
+        $pronouns_options = ['she', 'he', 'they'];
+        $pronouns = 'they';
+        if ('WOMAN' === $gender) {
+            $pronouns = 'she';
+        } elseif ('MAN' === $gender) {
+            $pronouns = 'he';
+        } else {
+            $pronouns = $this->faker->randomElements($pronouns_options, $this->faker->numberBetween(1, 2));
+            $pronouns = implode(', ', $pronouns);
+        }
+
         return [
             'name' => "{$this->faker->firstName} {$this->faker->lastName}",
             'email' => $this->faker->unique()->safeEmail(),
@@ -36,7 +48,8 @@ class UserFactory extends Factory
             'display_favorites' => $this->faker->boolean(),
             'display_comments' => $this->faker->boolean(),
             'display_gender' => $this->faker->boolean(),
-            'gender' => $this->faker->randomElements(GenderEnum::toArray())[0],
+            'gender' => $gender,
+            'pronouns' => $pronouns,
         ];
     }
 

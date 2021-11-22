@@ -21,7 +21,7 @@ class CreateLanguagesTable extends Migration
             $table->foreign('language_slug')
                 ->references('slug')
                 ->on('languages')
-                ->onDelete('cascade')
+                ->nullOnDelete()
             ;
         });
 
@@ -30,7 +30,7 @@ class CreateLanguagesTable extends Migration
             $table->foreign('language_slug')
                 ->references('slug')
                 ->on('languages')
-                ->onDelete('cascade')
+                ->nullOnDelete()
             ;
         });
     }

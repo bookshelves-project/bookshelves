@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\Api\CmsController;
 use App\Http\Controllers\Api\CommandController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CountController;
@@ -42,6 +43,14 @@ use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
 */
 
 Route::get('/', [ApiController::class, 'index'])->name('api.index');
+
+/*
+ * Books routes
+ */
+Route::prefix('/cms')->group(function () {
+    Route::get('/application', [CmsController::class, 'application'])->name('api.cms.application');
+    Route::get('/home-page', [CmsController::class, 'home'])->name('api.cms.home-page');
+});
 
 /*
  * Books routes
@@ -141,7 +150,10 @@ Route::prefix('/publishers')->group(function () {
 /*
  * Lang routes
  */
-Route::get('/languages', [LanguageController::class, 'index'])->name('api.languages.index');
+Route::prefix('/languages')->group(function () {
+    Route::get('/', [LanguageController::class, 'index'])->name('api.languages.index');
+    Route::get('/{language:slug}', [LanguageController::class, 'show'])->name('api.languages.show');
+});
 
 /*
  * Comments routes

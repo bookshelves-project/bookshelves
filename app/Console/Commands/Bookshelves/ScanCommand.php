@@ -32,8 +32,6 @@ class ScanCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return array|false
      */
     public function handle(): false|array
     {

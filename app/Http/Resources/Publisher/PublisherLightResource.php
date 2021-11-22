@@ -5,6 +5,9 @@ namespace App\Http\Resources\Publisher;
 use App\Models\Publisher;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property Publisher $resource
+ */
 class PublisherLightResource extends JsonResource
 {
     /**
@@ -16,18 +19,16 @@ class PublisherLightResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var Publisher $publisher */
-        $publisher = $this;
-
         return [
-            'name' => $publisher->name,
-            'count' => $publisher->books()->count(),
+            'name' => $this->resource->name,
+            'count' => $this->resource->books_count,
+            'first_char' => $this->resource->first_char,
             'meta' => [
-                'slug' => $publisher->slug,
+                'slug' => $this->resource->slug,
                 'books' => route('api.publishers.show.books', [
                     'publisher' => $this->resource->slug,
                 ]),
-                'show' => $publisher->show_link,
+                'show' => $this->resource->show_link,
             ],
         ];
     }

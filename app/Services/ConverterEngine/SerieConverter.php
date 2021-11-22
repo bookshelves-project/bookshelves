@@ -4,10 +4,9 @@ namespace App\Services\ConverterEngine;
 
 use App\Models\Book;
 use App\Models\Serie;
+use App\Services\MediaService;
 use App\Services\ParserEngine\ParserEngine;
-use App\Services\WikipediaService;
 use App\Utils\BookshelvesTools;
-use App\Utils\MediaTools;
 use File;
 use Storage;
 
@@ -76,11 +75,13 @@ class SerieConverter
     /**
      * Generate Serie description from Wikipedia if found.
      */
-    public static function setWikiDescription(Serie $serie, WikipediaService $wiki): Serie
+    public static function setWikiDescription(Serie $serie): Serie
     {
-        $serie->description = BookshelvesTools::stringLimit($wiki->extract, 1000);
-        $serie->link = $wiki->page_url;
-        $serie->save();
+        if ($serie->wikipedia && ! $serie->description && ! $serie->link) {
+            $serie->description = BookshelvesTools::stringLimit($serie->wikipedia->extract, 1000);
+            $serie->link = $serie->wikipedia->page_url;
+            $serie->save();
+        }
 
         return $serie;
     }
@@ -121,6 +122,7 @@ class SerieConverter
             $disk = self::DISK;
 
             // get picture in $path if exist
+            $cover = null;
             $local_cover = self::getLocalCover($serie);
             if ($local_cover) {
                 $cover = $local_cover;
@@ -136,9 +138,10 @@ class SerieConverter
                 }
             }
             if ($cover) {
-                $media = new MediaTools($serie, $serie->slug, $disk);
-                $media->setMedia($cover);
-                $media->setColor();
+                MediaService::create($serie, $serie->slug, $disk)
+                    ->setMedia($cover)
+                    ->setColor()
+                ;
             }
             $serie->refresh();
 

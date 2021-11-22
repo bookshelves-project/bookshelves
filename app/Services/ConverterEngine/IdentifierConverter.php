@@ -11,7 +11,9 @@ class IdentifierConverter
 {
     public static function create(ParserEngine $parser, Book $book): ?Identifier
     {
+        $identifier = null;
         $identifiers = [];
+
         /** @var OpfIdentifier $value */
         foreach ($parser->identifiers as $key => $value) {
             if ('isbn' === $value->name) {
@@ -30,9 +32,11 @@ class IdentifierConverter
                 $identifiers['google'] = $value->value;
             }
         }
-        $identifier = Identifier::firstOrCreate($identifiers);
-        $book->identifier()->associate($identifier);
-        $book->save();
+        if (! empty($identifiers)) {
+            $identifier = Identifier::firstOrCreate($identifiers);
+            $book->identifier()->associate($identifier);
+            $book->save();
+        }
 
         return $identifier;
     }

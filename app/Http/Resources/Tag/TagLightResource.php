@@ -58,6 +58,7 @@ class TagLightResource extends JsonResource
             'name' => $this->resource->name,
             'type' => $this->resource->type,
             'count' => $count,
+            'first_char' => $this->resource->first_char,
             // 'size' => $size,
             'meta' => [
                 'slug' => $this->resource->slug,

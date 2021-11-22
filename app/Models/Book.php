@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
@@ -78,6 +79,24 @@ class Book extends Model implements HasMedia
         return $this->getFirstMediaUrl('epubs');
     }
 
+    public function scopeWhereHasSerie(Builder $query, string $has_serie): Builder
+    {
+        if ('any' !== $has_serie) {
+            $has_serie = filter_var($has_serie, FILTER_VALIDATE_BOOLEAN);
+
+            return $has_serie ? $query->whereHas('serie') : $query->whereDoesntHave('serie');
+        }
+
+        return $query;
+    }
+
+    public function scopePublishedBetween(Builder $query, string $startDate, string $endDate): Builder
+    {
+        return $query
+            ->whereBetween('date', [Carbon::parse($startDate), Carbon::parse($endDate)])
+        ;
+    }
+
     /**
      * Define sort name for `/api/books` with serie-volume-book.
      */
@@ -85,8 +104,9 @@ class Book extends Model implements HasMedia
     {
         $serie = null;
         if ($this->serie) {
+            // @phpstan-ignore-next-line
             $volume = strlen($this->volume) < 2 ? '0'.$this->volume : $this->volume;
-            $serie = $this->serie?->title_sort.' '.$volume;
+            $serie = $this->serie->title_sort.' '.$volume;
             $serie = Str::slug($serie).'_';
         }
         $title = Str::slug($this->title_sort);
@@ -106,6 +126,7 @@ class Book extends Model implements HasMedia
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'picture' => $this->cover_thumbnail,
             'date' => $this->date,
             'author' => $this->authors_names,
             'isbn' => $this->identifier->isbn ?? null,

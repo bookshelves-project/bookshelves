@@ -4,11 +4,11 @@ namespace App\Services\ConverterEngine;
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Services\MediaService;
 use App\Services\ParserEngine\Models\OpfCreator;
 use App\Services\ParserEngine\ParserEngine;
-use App\Services\WikipediaService;
+use App\Services\WikipediaService\WikipediaQuery;
 use App\Utils\BookshelvesTools;
-use App\Utils\MediaTools;
 use File;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -104,107 +104,6 @@ class AuthorConverter
     }
 
     /**
-     * Generate Author image & description.
-     *
-     * Generate description:
-     * - from Wikipedia if found.
-     *
-     * Generate image:
-     * - from `public/storage/data/pictures-authors` if JPG file with author slug name exists
-     * - from Wikipedia if found, managed by `spatie/laravel-medialibrary`
-     * - if not use default image `database/seeders/media/authors/no-picture.jpg`
-     */
-    // public static function descriptionAndPicture(Author $author, bool $local, bool $default = false): Author | false
-    // {
-    //     if ($author) {
-    //         $name = $author->name;
-    //         $name = str_replace(' ', '%20', $name);
-
-    //         if (! $local) {
-    //             $wiki = WikipediaService::create($author->name);
-    //             $author = self::setLocalDescription($author);
-    //             $author = self::setLocalNotes($author);
-    //             if (! $author->description) {
-    //                 $author = self::setWikipediaDescription($author, $wiki);
-    //             }
-    //             if (! $default) {
-    //                 $author = self::setWikipediaPicture($author, $wiki);
-    //             }
-    //         } else {
-    //             $author = self::setLocalDescription($author);
-    //             if ($author && ! $default) {
-    //                 self::setPicture($author);
-    //             }
-    //         }
-
-    //         if ($author) {
-    //             $author = $author->refresh();
-    //         } else {
-    //             $author = false;
-    //         }
-
-    //         return $author;
-    //     }
-
-    //     return false;
-    // }
-
-    // public static function setLocalDescription(Author $author): Author
-    // {
-    //     if (File::exists(public_path('storage/data/authors.json'))) {
-    //         $json = Storage::disk('public')->get('raw/authors.json');
-    //         $json = json_decode($json);
-    //         foreach ($json as $key => $value) {
-    //             if ($key === $author->slug) {
-    //                 $author->description = $value->description ?? null;
-    //                 $author->link = $value->link ?? null;
-    //                 $author->save();
-
-    //                 return $author;
-    //             }
-    //         }
-
-    //         return $author;
-    //     }
-
-    //     return $author;
-    // }
-
-    // public static function setLocalNotes(Author $author): Author
-    // {
-    //     if (File::exists(public_path('storage/data/authors-notes.json'))) {
-    //         $json = Storage::disk('public')->get('raw/authors.json');
-    //         $json = json_decode($json);
-    //         foreach ($json as $key => $value) {
-    //             if ($key === $author->slug) {
-    //                 $author->note = $value->note ?? null;
-    //                 $author->save();
-
-    //                 return $author;
-    //             }
-    //         }
-
-    //         return $author;
-    //     }
-
-    //     return $author;
-    // }
-
-    // public static function setWikipediaPicture(Author $author, WikipediaService $wikipediaService, bool $debug = false): Author
-    // {
-    //     try {
-    //         $picture = WikipediaService::getPictureFile($wikipediaService);
-    //         self::setPicture($author, $picture);
-    //     } catch (\Throwable $th) {
-    //         if ($debug) {
-    //             echo "\nNo wikipedia picture for $wikipediaService->query\n";
-    //         }
-    //     }
-
-    //     return $author;
-    // }
-
-    /**
      * Generate Author tags from Books relationship tags.
      */
     public static function tags(Author $author): Author
@@ -233,9 +132,10 @@ class AuthorConverter
             $path = database_path('seeders/media/authors/no-picture.jpg');
             $cover = File::get($path);
 
-            $media = new MediaTools($author, $author->slug, $disk);
-            $media->setMedia($cover);
-            $media->setColor();
+            MediaService::create($author, $author->slug, $disk)
+                ->setMedia($cover)
+                ->setColor()
+            ;
         }
 
         return $author;
@@ -272,19 +172,22 @@ class AuthorConverter
 
         if ($cover) {
             $author->clearMediaCollection($disk);
-            $media = new MediaTools($author, $author->slug, $disk);
-            $media->setMedia($cover);
-            $media->setColor();
+            MediaService::create($author, $author->slug, $disk)
+                ->setMedia($cover)
+                ->setColor()
+            ;
         }
 
         return $author;
     }
 
-    public static function setWikiDescription(Author $author, WikipediaService $wiki): Author
+    public static function setWikiDescription(Author $author): Author
     {
-        $author->description = BookshelvesTools::stringLimit($wiki->extract, 1000);
-        $author->link = $wiki->page_url;
-        $author->save();
+        if ($author->wikipedia && ! $author->description && ! $author->link) {
+            $author->description = BookshelvesTools::stringLimit($author->wikipedia->extract, 1000);
+            $author->link = $author->wikipedia->page_url;
+            $author->save();
+        }
 
         return $author;
     }
@@ -293,24 +196,29 @@ class AuthorConverter
      * Set wiki picture if local not exist
      * Otherwise, set local picture.
      */
-    public static function setWikiPicture(Author $author, WikipediaService $wiki): Author
+    public static function setWikiPicture(Author $author): Author
     {
-        $disk = self::DISK;
-        $cover = self::getLocalPicture($author);
-        if ($cover) {
-            self::setLocalPicture($author);
+        if ($author->getMedia('authors')->isEmpty()) {
+            $disk = self::DISK;
+            $cover = self::getLocalPicture($author);
+            if ($cover) {
+                self::setLocalPicture($author);
 
-            return $author;
-        }
+                return $author;
+            }
 
-        $picture = $wiki->getPictureFile();
+            $picture = null;
+            if ($author->wikipedia) {
+                $picture = WikipediaQuery::getPictureFile($author->wikipedia->picture_url);
+            }
 
-        if ($picture && 'author-unknown' !== $author->slug) {
-            $author->clearMediaCollection($disk);
-
-            $media = new MediaTools($author, $author->slug, $disk);
-            $media->setMedia($picture);
-            $media->setColor();
+            if ($picture && 'author-unknown' !== $author->slug) {
+                $author->clearMediaCollection($disk);
+                MediaService::create($author, $author->slug, $disk)
+                    ->setMedia($picture)
+                    ->setColor()
+                ;
+            }
         }
 
         return $author;

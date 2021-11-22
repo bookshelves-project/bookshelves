@@ -22,8 +22,6 @@ class GoogleBookResource extends JsonResource
         return [
             'preview_link' => $googleBook->preview_link,
             'buy_link' => $googleBook->buy_link,
-            'retail_price' => $googleBook->retail_price,
-            'retail_price_currency' => $googleBook->retail_price_currency,
             'created_at' => $googleBook->created_at,
         ];
     }

@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Author\AuthorLightResource;
 use App\Http\Resources\Author\AuthorResource;
-use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Models\Author;
+use App\Query\QueryBuilderAddon;
+use App\Query\QueryExporter;
+use App\Query\SearchFilter;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Author
@@ -31,26 +35,26 @@ class AuthorController extends Controller
      */
     public function index(Request $request)
     {
-        $page = $request->get('per-page');
-        $page = $page ? $page : 32;
-        if (! is_numeric($page)) {
-            return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
-                400
-            );
-        }
-        $page = intval($page);
+        /** @var QueryBuilder $query */
+        $query = QueryBuilderAddon::for(Author::class, with: ['media'], withCount: ['books'])
+            ->allowedFilters([
+                AllowedFilter::custom('q', new SearchFilter(['name'])),
+                AllowedFilter::partial('firstname'),
+                AllowedFilter::partial('lastname'),
+            ])
+            ->allowedSorts([
+                'id',
+                'firstname',
+                'lastname',
+                'created_at',
+            ])
+            ->defaultSort('lastname')
+        ;
 
-        $all = $request->get('all') ? filter_var($request->get('all'), FILTER_VALIDATE_BOOLEAN) : null;
-        if ($all) {
-            $authors = Author::orderBy('lastname')->get();
-
-            return AuthorUltraLightResource::collection($authors);
-        }
-
-        $authors = Author::with('media')->orderBy('lastname')->withCount('books')->get();
-
-        return AuthorLightResource::collection($authors->paginate($page));
+        return QueryExporter::create($query)
+            ->resource(AuthorLightResource::class)
+            ->get()
+        ;
     }
 
     /**

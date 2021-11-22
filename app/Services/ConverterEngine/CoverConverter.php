@@ -3,9 +3,9 @@
 namespace App\Services\ConverterEngine;
 
 use App\Models\Book;
+use App\Services\MediaService;
 use App\Services\ParserEngine\ParserEngine;
 use App\Utils\BookshelvesTools;
-use App\Utils\MediaTools;
 
 class CoverConverter
 {
@@ -22,9 +22,10 @@ class CoverConverter
             $disk = 'books';
 
             try {
-                $media = new MediaTools(model: $book, name: $book->slug, disk: $disk);
-                $media->setMedia($parser->cover);
-                $media->setColor();
+                MediaService::create($book, $book->slug, $disk)
+                    ->setMedia($parser->cover)
+                    ->setColor()
+                ;
             } catch (\Throwable $th) {
                 BookshelvesTools::console(__METHOD__, $th);
             }

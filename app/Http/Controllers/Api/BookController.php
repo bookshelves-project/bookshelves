@@ -3,19 +3,25 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Book\BookLightestResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\BookOrSerieResource;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Language;
 use App\Models\Selectionable;
 use App\Models\Serie;
+use App\Query\QueryBuilderAddon;
+use App\Query\QueryExporter;
+use App\Query\SearchFilter;
+use App\Query\Sort\AuthorRelationship;
+use App\Query\Sort\LanguageRelationship;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Book
@@ -39,54 +45,43 @@ class BookController extends Controller
      * @responseField title string Book's title.
      *
      * @responseFile public/assets/responses/books.index.get.json
+     *
+     * Examples
+     * - http://localhost:8000/api/books?per-page=32&filter[has_serie]=true&filter[languages]=fr,en&filter[published]=2018-06-07,2021-11-01
+     * - http://localhost:8000/api/books?per-page=32&filter[has_serie]=true&filter[title]=monde
+     * - http://localhost:8000/api/books?per-page=32&filter[author_like]=bottero
      */
     public function index(Request $request)
     {
-        $lang = $request->get('lang');
-        $lang = $lang ? $lang : null;
-        $langParameters = ['fr', 'en'];
-        if ($lang && ! in_array($lang, $langParameters)) {
-            return response()->json(
-                "Invalid 'lang' query parameter, must be like '".implode("' or '", $langParameters)."'",
-                400
-            );
-        }
+        /** @var QueryBuilder $query */
+        $query = QueryBuilderAddon::for(Book::class, with: ['serie'])
+            ->allowedFilters([
+                AllowedFilter::custom('q', new SearchFilter(['title'])),
+                AllowedFilter::partial('title'),
+                AllowedFilter::scope('has_serie', 'whereHasSerie'),
+                AllowedFilter::scope('languages', 'whereLanguagesIs'),
+                AllowedFilter::scope('published', 'publishedBetween'),
+                AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
+                AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
+                AllowedFilter::scope('tags', 'whereTagsIs'),
+            ])
+            ->allowedSorts([
+                'id',
+                'title',
+                'title_sort',
+                'date',
+                'created_at',
+                // AllowedSort::custom('author', new AuthorRelationship(), 'name'),
+                // AllowedSort::custom('language', new LanguageRelationship(), 'name'),
+            ])
+            // ->allowedIncludes('serie', 'authors', 'media', 'serie.authors')
+            ->defaultSort('title_sort')
+        ;
 
-        $page = $request->get('per-page') ? $request->get('per-page') : 32;
-        if (! is_numeric($page)) {
-            return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
-                400
-            );
-        }
-        $page = intval($page);
-
-        $serie = $request->get('serie') ? filter_var($request->get('serie'), FILTER_VALIDATE_BOOLEAN) : null;
-
-        $books = Book::with(['serie', 'authors', 'media', 'serie.authors'])->orderBy('title_sort');
-
-        // If lang
-        if (null !== $lang) {
-            Language::whereSlug($lang)->firstOrFail();
-            $books = $books->whereLanguageSlug($lang);
-        }
-        // If serie
-        if (null !== $serie) {
-            if ($serie) {
-                $books->has('serie');
-            } else {
-                $books->doesntHave('serie');
-            }
-        }
-
-        $all = $request->get('all') ? filter_var($request->get('all'), FILTER_VALIDATE_BOOLEAN) : null;
-        if ($all) {
-            $books = Book::orderBy('title_sort')->get();
-
-            return BookLightestResource::collection($books);
-        }
-
-        return BookLightResource::collection($books->paginate($page));
+        return QueryExporter::create($query)
+            ->resource(BookLightResource::class)
+            ->get()
+        ;
     }
 
     /**
@@ -100,19 +95,19 @@ class BookController extends Controller
      */
     public function show(Request $request, Author $author, Book $book)
     {
-        if (! $book) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'No book with this author and this title.',
-                'data' => [
-                    'route' => $request->route()->uri,
-                    'params' => [
-                        'author' => $author->slug,
-                        'book' => $book->slug,
-                    ],
-                ],
-            ], 404);
-        }
+        // if (! $book) {
+        //     return response()->json([
+        //         'status' => 'failed',
+        //         'message' => 'No book with this author and this title.',
+        //         'data' => [
+        //             'route' => $request->route()->uri,
+        //             'params' => [
+        //                 'author' => $author->slug,
+        //                 'book' => $book->slug,
+        //             ],
+        //         ],
+        //     ], 404);
+        // }
 
         return BookResource::make($book);
     }

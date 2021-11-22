@@ -1,18 +1,20 @@
 <?php
 
+use App\Http\Controllers\Admin\CmsController;
+use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Auth\AuthenticatedSessionControllerOverride;
-use App\Http\Controllers\Catalog\AuthorController;
-use App\Http\Controllers\Catalog\BookController;
-use App\Http\Controllers\Catalog\CatalogController;
-use App\Http\Controllers\Catalog\SerieController;
+use App\Http\Controllers\Features\Catalog\AuthorController;
+use App\Http\Controllers\Features\Catalog\BookController;
+use App\Http\Controllers\Features\Catalog\CatalogController;
+use App\Http\Controllers\Features\Catalog\SerieController;
+use App\Http\Controllers\Features\Opds\AuthorController as OpdsAuthorController;
+use App\Http\Controllers\Features\Opds\BookController as OpdsBookController;
+use App\Http\Controllers\Features\Opds\OpdsController;
+use App\Http\Controllers\Features\Opds\SerieController as OpdsSerieController;
+use App\Http\Controllers\Features\Roadmap\RoadmapController;
+use App\Http\Controllers\Features\Webreader\WebreaderController;
+use App\Http\Controllers\Features\Wiki\WikiController;
 use App\Http\Controllers\NavigationController;
-use App\Http\Controllers\Opds\AuthorController as OpdsAuthorController;
-use App\Http\Controllers\Opds\BookController as OpdsBookController;
-use App\Http\Controllers\Opds\OpdsController;
-use App\Http\Controllers\Opds\SerieController as OpdsSerieController;
-use App\Http\Controllers\Roadmap\RoadmapController;
-use App\Http\Controllers\Webreader\WebreaderController;
-use App\Http\Controllers\Wiki\WikiController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -104,7 +106,10 @@ Route::prefix('admin')->group(function () {
     // Route::post('/login', [AuthenticatedSessionControllerOverride::class, 'store'])->name('admin.auth.login');
     // Route::post('/logout', [AuthenticatedSessionControllerOverride::class, 'destroy'])->name('admin.auth.logout');
     //
-    Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/dashboard', [IndexController::class, 'index'])->name('admin.dashboard');
+        Route::prefix('cms')->group(function () {
+            Route::get('/home', [CmsController::class, 'home'])->name('admin.cms.home');
+        });
+    });
 });

@@ -3,18 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Book\BookLightestResource;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
 use App\Models\Serie;
-use App\Utils\BookshelvesTools;
-use App\Utils\QueryExporter;
-use App\Utils\SearchFilter;
+use App\Services\SearchEngineService;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Collection;
 use Spatie\Tags\Tag;
 
 /**
@@ -33,63 +29,34 @@ class SearchController extends Controller
      */
     public function index(Request $request)
     {
-        // $query = QueryBuilder::for(Book::class)
-        //     ->allowedFilters([
-        //         // 'serie.title',
-        //         // http://localhost:8000/api/search?filter[q]=ewilan
-        //         // AllowedFilter::custom('q', new SearchFilter(['title'])),
-        //         // http://localhost:8000/api/users?filter[title]=ewilan
-        //         AllowedFilter::partial('title'),
-        //         AllowedFilter::partial('serie.title'),
-        //         // AllowedFilter::scope('serie_title', 'whereSerieTitleIs'),
-        //         // AllowedFilter::partial('first_name'),
-        //         // AllowedFilter::partial('last_name'),
-        //         // AllowedFilter::exact('id'),
-        //         // AllowedFilter::exact('role'),
-        //         // AllowedFilter::exact('active'),
-        //         // AllowedFilter::exact('regional_service_slug'),
-        //         // AllowedFilter::exact('role'),
-        //     ])
-        //     // http://localhost:8000/api/users?sort=title
-        //     ->allowedSorts(['id', 'title'])
-        //     ->paginate(32)
-        //     // ->limit(30)
-        // ;
-
-        // $exporter = new QueryExporter($query);
-        // $resource = $exporter->resource(BookLightestResource::class);
-
-        // return (new QueryExporter($query))
-        //     ->resource(BookResource::class)
-        // ;
-
-        // return $resource->get();
-
         $q = $request->input('q');
+        $types = $request->input('types');
+        if ($types) {
+            $types = explode(',', $types);
+        }
+
         if ($q) {
-            if ('collection' === config('scout.driver')) {
-                $collection = BookshelvesTools::searchGlobal($q);
-            } else {
-                $books = Book::search($q)->get();
-                $authors = Author::search($q)->get();
-                $series = Serie::search($q)->get();
-
-                $authors = EntityResource::collection($authors);
-                $series = EntityResource::collection($series);
-                $books = EntityResource::collection($books);
-
-                $collection = collect([]);
-                $collection = $collection->merge($authors);
-                $collection = $collection->merge($series);
-                $collection = $collection->merge($books);
-            }
+            $engine = SearchEngineService::create($q, $types);
 
             return response()->json([
-                'data' => $collection,
+                'data' => [
+                    'count' => $engine->results_count,
+                    'type' => $engine->search_type,
+                    'relevant' => [
+                        'authors' => $engine->authors_relevant,
+                        'series' => $engine->series_relevant,
+                        'books' => $engine->books_relevant,
+                    ],
+                    'other' => [
+                        'authors' => $engine->authors_other,
+                        'series' => $engine->series_other,
+                        'books' => $engine->books_other,
+                    ],
+                ],
             ]);
         }
 
-        return response()->json(['error' => 'Need to have terms `q` parameter'], 401);
+        // return response()->json(['error' => 'Need to have terms `q` parameter'], 401);
     }
 
     /**

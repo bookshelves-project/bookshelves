@@ -46,14 +46,14 @@ class ConverterEngine
         $book = Book::whereSlug($parser->slug_lang)->first();
         if (! $book) {
             $book = BookConverter::create($parser);
-            $authors = AuthorConverter::generate($parser, $book);
-            $tags = TagConverter::create($parser, $book);
-            $publisher = PublisherConverter::create($parser, $book);
+            AuthorConverter::generate($parser, $book);
+            TagConverter::create($parser, $book);
+            PublisherConverter::create($parser, $book);
             $language = LanguageConverter::create($parser);
-            $serie = SerieConverter::create($parser, $book);
+            SerieConverter::create($parser, $book);
             $book->refresh();
             $book->language()->associate($language->slug);
-            $identifier = IdentifierConverter::create($parser, $book);
+            IdentifierConverter::create($parser, $book);
             $book->save();
 
             if (! $default) {

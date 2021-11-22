@@ -98,7 +98,7 @@
     </div>
     @isset($books)
         <div class="mt-8">
-            <x-catalog.entities type="book" :entities="collect($books)" />
+            <x-catalog.entities type="book" :collection="$books" />
         </div>
     @endisset
 

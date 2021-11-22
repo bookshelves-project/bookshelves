@@ -23,6 +23,7 @@ namespace App\Models{
  * @property string|null $description
  * @property string|null $link
  * @property string|null $note
+ * @property int|null $wikipedia_item_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -53,6 +54,7 @@ namespace App\Models{
  * @property-read int|null $series_count
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
+ * @property-read \App\Models\WikipediaItem|null $wikipedia
  * @method static \Database\Factories\AuthorFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
@@ -68,6 +70,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereWikipediaItemId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
@@ -134,15 +137,19 @@ namespace App\Models{
  * @method static \Database\Factories\BookFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Book publishedBetween(string $startDate, string $endDate)
  * @method static \Illuminate\Database\Eloquent\Builder|Book query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereAuthorIsLike(string $author)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereContributor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereHasSerie(string $has_serie)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifierId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguageSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguagesIs($languages)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereMaturityRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePageCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePublisherId($value)
@@ -150,6 +157,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieTitleIs($title)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsAllIs($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsIs($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
@@ -160,6 +169,141 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTagsOfAnyType($tags)
  */
 	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models\Cms{
+/**
+ * App\Models\Cms\Application
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property array|null $meta_title
+ * @property array|null $meta_description
+ * @property array|null $meta_author
+ * @property string|null $meta_twitter_creator
+ * @property string|null $meta_twitter_site
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $favicon
+ * @property-read string|null $icon
+ * @property-read string|null $logo
+ * @property-read string|null $open_graph
+ * @property-read array $translations
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Application newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Application newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Application query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaAuthor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaTwitterCreator($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaTwitterSite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereUpdatedAt($value)
+ */
+	class Application extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models\Cms{
+/**
+ * App\Models\Cms\HomePage
+ *
+ * @property int $id
+ * @property array|null $hang_title
+ * @property array|null $hang_text
+ * @property array|null $statistics_eyebrow
+ * @property array|null $statistics_title
+ * @property array|null $statistics_text
+ * @property \Illuminate\Support\Collection $statistics
+ * @property array|null $logos_title
+ * @property array|null $logos
+ * @property array|null $features_title
+ * @property array|null $features_text
+ * @property array|null $features
+ * @property bool|null $display_statistics
+ * @property bool|null $display_logos
+ * @property bool|null $display_features
+ * @property bool|null $display_latest
+ * @property bool|null $display_selection
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $hang_picture
+ * @property-read array $logos_media
+ * @property-read array $translations
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage query()
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayFeatures($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayLatest($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayLogos($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplaySelection($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayStatistics($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereFeatures($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereFeaturesText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereFeaturesTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereHangText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereHangTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereLogos($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereLogosTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatistics($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatisticsEyebrow($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatisticsText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatisticsTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereUpdatedAt($value)
+ */
+	class HomePage extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models\Cms{
+/**
+ * App\Models\Cms\HomePageStatistic
+ *
+ * @property-read mixed $count
+ * @property-read array $translations
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePageStatistic newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePageStatistic newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|HomePageStatistic query()
+ */
+	class HomePageStatistic extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ComicBook
+ *
+ * @property int $id
+ * @property string $title
+ * @property string|null $title_sort
+ * @property string|null $slug
+ * @property string|null $description
+ * @property string|null $date
+ * @property string|null $rights
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\ComicBookFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereRights($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereTitleSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereUpdatedAt($value)
+ */
+	class ComicBook extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -298,6 +442,7 @@ namespace App\Models{
  * @property string|null $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
+ * @property-read mixed $first_char
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
  * @method static \Illuminate\Database\Eloquent\Builder|Language newModelQuery()
@@ -318,11 +463,13 @@ namespace App\Models{
  * @property string|null $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
+ * @property-read mixed $first_char
  * @property-read string $show_link
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher query()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereIsNegligible(string $negligible)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereSlug($value)
  */
@@ -377,6 +524,7 @@ namespace App\Models{
  * @property string|null $language_slug
  * @property string|null $description
  * @property string|null $link
+ * @property int|null $wikipedia_item_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
@@ -411,19 +559,25 @@ namespace App\Models{
  * @property-read int|null $selections_count
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
+ * @property-read \App\Models\WikipediaItem|null $wikipedia
  * @method static \Database\Factories\SerieFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereAuthorIsLike(string $author)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguageSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguagesIs($languages)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsAllIs($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsIs($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitleSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereWikipediaItemId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
@@ -468,6 +622,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
+ * @property-read mixed $first_char
  * @property-read array $translations
  * @method static \Illuminate\Database\Eloquent\Builder|Tag containing(string $name, $locale = null)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newModelQuery()
@@ -476,10 +631,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend query()
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereIsNegligible(string $negligible)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereOrderColumn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereTypeIs(string $type)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag withType(?string $type = null)
  */
@@ -502,6 +659,7 @@ namespace App\Models{
  * @property int|null $current_team_id
  * @property string|null $about
  * @property \App\Enums\GenderEnum $gender
+ * @property string|null $pronouns
  * @property bool $use_gravatar
  * @property bool $display_favorites
  * @property bool $display_comments
@@ -542,6 +700,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePronouns($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorRecoveryCodes($value)
@@ -550,5 +709,42 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUseGravatar($value)
  */
 	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\WikipediaItem
+ *
+ * @property int $id
+ * @property string|null $model
+ * @property string|null $language
+ * @property string $search_query
+ * @property string|null $query_url
+ * @property string|null $page_id
+ * @property string|null $page_id_url
+ * @property string|null $page_url
+ * @property string|null $extract
+ * @property string|null $picture_url
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Author|null $author
+ * @property-read \App\Models\Serie|null $serie
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereExtract($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereModel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem wherePageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem wherePageIdUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem wherePageUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem wherePictureUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereQueryUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereSearchQuery($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereUpdatedAt($value)
+ */
+	class WikipediaItem extends \Eloquent {}
 }
 

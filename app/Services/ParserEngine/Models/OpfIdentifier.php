@@ -15,10 +15,11 @@ class OpfIdentifier
      *
      * @param array $data [id, value]
      */
-    public static function create(array $data): OpfIdentifier
+    public static function create(array $data): OpfIdentifier|null
     {
         $name = strtolower($data['id']);
         $value = $data['value'];
+        $identifier = null;
 
         if ('isbn' === $name) {
             $isbn_type = self::findIsbn($value);

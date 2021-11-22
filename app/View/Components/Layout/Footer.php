@@ -25,7 +25,7 @@ class Footer extends Component
         $currentYear = date('Y');
         $beginYear = 2020;
         $date = "{$beginYear} - {$currentYear}";
-        if ($beginYear === $currentYear) {
+        if ($beginYear == $currentYear) {
             $date = $beginYear;
         }
 

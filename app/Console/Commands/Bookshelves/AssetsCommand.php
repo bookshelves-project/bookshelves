@@ -4,12 +4,14 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\GoogleBook;
 use App\Models\Serie;
+use App\Models\WikipediaItem;
 use App\Services\ConverterEngine\AuthorConverter;
 use App\Services\ConverterEngine\SerieConverter;
-use App\Services\GoogleBookService;
-use App\Services\WikipediaService;
-use App\Utils\HttpTools;
+use App\Services\GoogleBookService\GoogleBookService;
+use App\Services\WikipediaService\WikipediaService;
+use App\Utils\ClearFileTools;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
@@ -29,6 +31,7 @@ class AssetsCommand extends Command
                             {--s|series : assets for series}
                             {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--f|fresh : refresh authors medias, `description` & `link`}
+                            {--d|debug : print log for debug}
                             {--D|default : use default cover for all (skip covers step)}';
 
     /**
@@ -58,6 +61,10 @@ class AssetsCommand extends Command
         $books = $this->option('books') ?? false;
         $local = $this->option('local') ?? false;
         $default = $this->option('default') ?? false;
+        $debug = $this->option('debug') ?? false;
+
+        $tool = new ClearFileTools(storage_path('app/public/debug/wikipedia'));
+        $tool->clearDir();
 
         $app = config('app.name');
         $this->newLine();
@@ -108,7 +115,6 @@ class AssetsCommand extends Command
 
     private function assets(string $model, string $collection, string $orderBy)
     {
-        $books = $this->option('books') ?? false;
         $model_name = 'App\Models\\'.ucfirst($model);
         $list = $model_name::orderBy($orderBy)->get();
         $this->comment($model.': '.sizeof($list));
@@ -127,24 +133,34 @@ class AssetsCommand extends Command
     private function books(Collection $list, string $collection)
     {
         $local = $this->option('local') ?? false;
+        $fresh = $this->option('fresh') ?? false;
+        $debug = $this->option('debug') ?? false;
+
         if (! $local) {
-            $chunk = $list->chunk(HttpTools::LIMIT);
+            if ($fresh) {
+                GoogleBook::query()->delete();
+                /** @var Book $model */
+                foreach ($list as $key => $model) {
+                    if ($model->googleBook) {
+                        $model->googleBook->delete();
+                    }
+                }
+            }
 
-            $this->info('HTTP requests with async splitted in '.HttpTools::LIMIT.' entities of '.sizeof($chunk).' chunks.');
-            $this->newLine();
+            $service = GoogleBookService::create(Book::class, debug: $debug);
 
-            foreach ($chunk as $key => $list) {
-                $this->info('Fetching API data for chunk '.$key + 1);
-                $providers = GoogleBookService::createAsync($list);
-                $bar = $this->output->createProgressBar(count($list));
+            if (count($service->queries) > 0) {
+                $bar = $this->output->createProgressBar(count($service->queries));
                 $bar->start();
-                foreach ($providers as $bookID => $provider) {
-                    $book = Book::find($bookID);
-                    $provider->convert()->improveBookData($book);
+                foreach (Book::all() as $book) {
+                    if ($book->googleBook) {
+                        $book->googleBook->improveBookData();
+                    }
                     $bar->advance();
                 }
                 $bar->finish();
-                $this->newLine();
+            } else {
+                $this->warn('All books have already a GoogleBook relationship, execute same command with --fresh option to erase GoogleBook.');
             }
         }
     }
@@ -155,7 +171,8 @@ class AssetsCommand extends Command
         $local = $this->option('local') ?? false;
 
         if ($fresh) {
-            foreach ($list as $key => $model) {
+            WikipediaItem::whereModel(Author::class)->delete();
+            foreach ($list as $model) {
                 $model->clearMediaCollection($collection);
                 $model->description = null;
                 $model->link = null;
@@ -164,43 +181,31 @@ class AssetsCommand extends Command
         }
 
         if (! $local) {
-            $this->authorsAsync($list, $collection);
+            $default = $this->option('default') ?? false;
+            $debug = $this->option('debug') ?? false;
+
+            $service = WikipediaService::create(Author::class, 'name', debug: $debug);
+            $this->newLine();
+
+            $bar = $this->output->createProgressBar(count($service->queries));
+            $bar->start();
+            foreach (Author::all() as $author) {
+                AuthorConverter::setWikiDescription($author);
+                if (! $default) {
+                    AuthorConverter::setWikiPicture($author);
+                }
+                $bar->advance();
+            }
+            $bar->finish();
         } else {
             $bar = $this->output->createProgressBar(count($list));
             $bar->start();
-            foreach ($list as $key => $model) {
+            foreach ($list as $model) {
                 AuthorConverter::setLocalPicture($model);
                 $bar->advance();
             }
             $bar->finish();
         }
-    }
-
-    private function authorsAsync(Collection $list, string $collection)
-    {
-        $default = $this->option('default') ?? false;
-
-        $this->info('HTTP requests with async...');
-        $this->info('Progress bar is not available with async');
-        $providers = WikipediaService::make($list, 'name');
-        $this->newLine();
-
-        $this->info('Set async data');
-        $bar = $this->output->createProgressBar(count($list));
-        $bar->start();
-        foreach ($providers as $key => $provider) {
-            $model = $provider->model_name::find($provider->model_id);
-
-            /** @var Author $model */
-            if (! $model->description && ! $model->link) {
-                AuthorConverter::setWikiDescription($model, $provider);
-                if (! $default) {
-                    AuthorConverter::setWikiPicture($model, $provider);
-                }
-            }
-            $bar->advance();
-        }
-        $bar->finish();
     }
 
     private function series(Collection $list, string $collection)
@@ -210,7 +215,8 @@ class AssetsCommand extends Command
         $default = $this->option('default') ?? false;
 
         if ($fresh) {
-            foreach ($list as $key => $model) {
+            WikipediaItem::whereModel(Serie::class)->delete();
+            foreach ($list as $model) {
                 $model->clearMediaCollection($collection);
                 $model->description = null;
                 $model->link = null;
@@ -219,7 +225,18 @@ class AssetsCommand extends Command
         }
 
         if (! $local) {
-            $this->seriesAsync($list, $collection);
+            $debug = $this->option('debug') ?? false;
+
+            $service = WikipediaService::create(Serie::class, 'title', debug: $debug);
+
+            $this->info('Set extra content');
+            $bar = $this->output->createProgressBar(count($service->queries));
+            $bar->start();
+            foreach (Serie::all() as $model) {
+                SerieConverter::setWikiDescription($model);
+                $bar->advance();
+            }
+            $bar->finish();
         }
 
         $this->newLine(2);
@@ -234,28 +251,5 @@ class AssetsCommand extends Command
             $bar->advance();
         }
         $bar->finish();
-    }
-
-    private function seriesAsync(Collection $list, string $collection)
-    {
-        $this->info('HTTP requests with async...');
-        $this->info('Progress bar is not available with async');
-        $providers = WikipediaService::make($list, 'title');
-        $this->newLine();
-
-        $this->info('Set async data');
-        $bar = $this->output->createProgressBar(count($list));
-        $bar->start();
-        foreach ($providers as $key => $provider) {
-            $model = $provider->model_name::find($provider->model_id);
-
-            /** @var Serie $model */
-            if (! $model->description && ! $model->link) {
-                SerieConverter::setWikiDescription($model, $provider);
-            }
-            $bar->advance();
-        }
-        $bar->finish();
-        $this->newLine();
     }
 }

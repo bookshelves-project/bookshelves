@@ -82,14 +82,9 @@ trait HasCovers
     {
         /** @var Media $media */
         $media = $this->getFirstMedia($this->getClassName(true));
+        $color = $media?->getCustomProperty('color');
 
-        if ($media) {
-            $color = $media->getCustomProperty('color');
-
-            return "#{$color}";
-        }
-
-        return '#ffffff';
+        return "#{$color}" ?? '#ffffff';
     }
 
     private function getCover(string $collection = '', string $extension = '')
