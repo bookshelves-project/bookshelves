@@ -66,6 +66,11 @@ class GenerateCommand extends Command
         }
 
         $this->alert("{$app}: books & relations");
+        if (! $list) {
+            $this->alert('No EPUB detected!');
+
+            return false;
+        }
         $this->comment('EPUB files detected: '.sizeof($list));
         $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie, Identifier');
         $this->info('- Generate new EPUB file with standard name');
