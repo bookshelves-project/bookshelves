@@ -25,7 +25,7 @@ class HomePageResource extends JsonResource
         app()->setLocale($lang);
 
         return [
-            'hang' => [
+            'hero' => [
                 'title' => $this->resource->hero_title,
                 'text' => $this->resource->hero_text,
                 'picture' => $this->resource->hero_picture,
