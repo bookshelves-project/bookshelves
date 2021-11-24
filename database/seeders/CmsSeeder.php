@@ -35,6 +35,7 @@ class CmsSeeder extends Seeder
 
         $application = Application::create([
             'name' => 'Bookshelves',
+            'title_template' => '%s · Bookshelves',
             'slug' => 'bookshelves',
             'meta_title' => [
                 'en' => 'Bookshelves, reading in complete tranquility...',

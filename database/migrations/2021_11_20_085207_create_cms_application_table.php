@@ -14,6 +14,7 @@ class CreateCmsApplicationTable extends Migration
         Schema::create('cms_application', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('title_template');
             $table->string('slug');
             $table->json('meta_title')->nullable();
             $table->json('meta_description')->nullable();

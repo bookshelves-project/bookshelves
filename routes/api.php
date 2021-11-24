@@ -45,10 +45,10 @@ use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
 Route::get('/', [ApiController::class, 'index'])->name('api.index');
 
 /*
- * Books routes
+ * CMS routes
  */
+Route::get('/application', [CmsController::class, 'application'])->name('api.cms.application');
 Route::prefix('/cms')->group(function () {
-    Route::get('/application', [CmsController::class, 'application'])->name('api.cms.application');
     Route::get('/home-page', [CmsController::class, 'home'])->name('api.cms.home-page');
 });
 

@@ -21,6 +21,7 @@ class Application extends Model implements HasMedia
     protected $table = 'cms_application';
     protected $fillable = [
         'name',
+        'title_template',
         'slug',
         'meta_title',
         'meta_description',

@@ -24,6 +24,7 @@ class ApplicationResource extends JsonResource
 
         return [
             'name' => $this->resource->name,
+            'title_template' => $this->resource->title_template,
             'slug' => $this->resource->slug,
             'favicon' => $this->resource->favicon,
             'icon' => $this->resource->icon,
