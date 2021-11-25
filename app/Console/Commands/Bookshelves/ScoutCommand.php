@@ -54,10 +54,9 @@ class ScoutCommand extends Command
                 Artisan::call('scout:flush "'.$path.$key.'"', [], $this->getOutput());
                 Artisan::call('scout:delete-index "'.$value.'"', [], $this->getOutput());
             }
-        } else {
-            foreach ($models as $key => $value) {
-                Artisan::call('scout:import "'.$path.$key.'"', [], $this->getOutput());
-            }
+        }
+        foreach ($models as $key => $value) {
+            Artisan::call('scout:import "'.$path.$key.'"', [], $this->getOutput());
         }
         // $this->clear();
 

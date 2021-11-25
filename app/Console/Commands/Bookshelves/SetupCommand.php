@@ -73,6 +73,7 @@ class SetupCommand extends Command
             '--local' => $local,
             '--fresh' => $fresh,
         ], $this->getOutput());
+        Artisan::call('bookshelves:cms', [], $this->getOutput());
 
         Artisan::call('bookshelves:stats', [], $this->getOutput());
         $this->newLine();
