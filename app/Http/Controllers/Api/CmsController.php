@@ -3,24 +3,24 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Cms\ApplicationResource;
-use App\Http\Resources\Cms\HomePageResource;
-use App\Models\Cms\Application;
-use App\Models\Cms\HomePage;
+use App\Http\Resources\Cms\CmsApplicationResource;
+use App\Http\Resources\Cms\CmsHomePageResource;
+use App\Models\Cms\CmsApplication;
+use App\Models\Cms\CmsHomePage;
 
 class CmsController extends Controller
 {
     public function application()
     {
-        return ApplicationResource::make(
-            Application::first()
+        return CmsApplicationResource::make(
+            CmsApplication::first()
         );
     }
 
     public function home()
     {
-        return HomePageResource::make(
-            HomePage::first()
+        return CmsHomePageResource::make(
+            CmsHomePage::first()
         );
     }
 }

@@ -3,12 +3,11 @@
 namespace App\Models\Cms;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
 
-class HomePage extends Model implements HasMedia
+class CmsHomePage extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasTranslations;
@@ -23,19 +22,15 @@ class HomePage extends Model implements HasMedia
         'features_title',
         'features_text',
     ];
-    protected $table = 'cms_home_page';
     protected $fillable = [
         'hero_title',
         'hero_text',
         'statistics_eyebrow',
         'statistics_title',
         'statistics_text',
-        'statistics',
         'logos_title',
-        'logos',
         'features_title',
         'features_text',
-        'features',
         'display_statistics',
         'display_logos',
         'display_features',
@@ -44,9 +39,6 @@ class HomePage extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'statistics' => 'array',
-        'logos' => 'array',
-        'features' => 'array',
         'display_statistics' => 'boolean',
         'display_logos' => 'boolean',
         'display_features' => 'boolean',
@@ -54,30 +46,29 @@ class HomePage extends Model implements HasMedia
         'display_selection' => 'boolean',
     ];
 
+    protected $with = [
+        'statistics',
+        'logos',
+        'features',
+    ];
+
     public function getHeroPictureAttribute(): string|null
     {
         return $this->getFirstMediaUrl('cms_hero');
     }
 
-    public function getLogosMediaAttribute(): array
+    public function statistics()
     {
-        $media = $this->getMedia('cms_logos');
-        $gallery = [];
-        foreach ($media as $picture) {
-            array_push($gallery, $picture->getFullUrl());
-        }
-
-        return $gallery;
+        return $this->hasMany(CmsHomePageStatistic::class, 'cms_home_page_id');
     }
 
-    public function getStatisticsAttribute($value): Collection
+    public function logos()
     {
-        $statistics = collect([]);
-        foreach (json_decode($value) as $key => $statistic) {
-            $statistic = new HomePageStatistic((array) $statistic);
-            $statistics->add($statistic);
-        }
+        return $this->hasMany(CmsHomePageLogo::class, 'cms_home_page_id');
+    }
 
-        return $statistics;
+    public function features()
+    {
+        return $this->hasMany(CmsHomePageFeature::class, 'cms_home_page_id');
     }
 }

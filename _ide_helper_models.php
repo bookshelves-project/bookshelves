@@ -173,10 +173,11 @@ namespace App\Models{
 
 namespace App\Models\Cms{
 /**
- * App\Models\Cms\Application
+ * App\Models\Cms\CmsApplication
  *
  * @property int $id
  * @property string $name
+ * @property string $title_template
  * @property string $slug
  * @property array|null $meta_title
  * @property array|null $meta_description
@@ -192,39 +193,37 @@ namespace App\Models\Cms{
  * @property-read array $translations
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
- * @method static \Illuminate\Database\Eloquent\Builder|Application newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Application newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Application query()
- * @method static \Illuminate\Database\Eloquent\Builder|Application whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Application whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaAuthor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaTwitterCreator($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Application whereMetaTwitterSite($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Application whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Application whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Application whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication whereMetaAuthor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication whereMetaDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication whereMetaTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication whereMetaTwitterCreator($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication whereMetaTwitterSite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication whereTitleTemplate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication whereUpdatedAt($value)
  */
-	class Application extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class CmsApplication extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models\Cms{
 /**
- * App\Models\Cms\HomePage
+ * App\Models\Cms\CmsHomePage
  *
  * @property int $id
- * @property array|null $hang_title
- * @property array|null $hang_text
+ * @property array|null $hero_title
+ * @property array|null $hero_text
  * @property array|null $statistics_eyebrow
  * @property array|null $statistics_title
  * @property array|null $statistics_text
- * @property \Illuminate\Support\Collection $statistics
  * @property array|null $logos_title
- * @property array|null $logos
  * @property array|null $features_title
  * @property array|null $features_text
- * @property array|null $features
  * @property bool|null $display_statistics
  * @property bool|null $display_logos
  * @property bool|null $display_features
@@ -232,48 +231,164 @@ namespace App\Models\Cms{
  * @property bool|null $display_selection
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read string|null $hang_picture
- * @property-read array $logos_media
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Cms\CmsHomePageFeature[] $features
+ * @property-read int|null $features_count
+ * @property-read string|null $hero_picture
  * @property-read array $translations
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Cms\CmsHomePageLogo[] $logos
+ * @property-read int|null $logos_count
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage query()
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayFeatures($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayLatest($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayLogos($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplaySelection($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereDisplayStatistics($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereFeatures($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereFeaturesText($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereFeaturesTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereHangText($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereHangTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereLogos($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereLogosTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatistics($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatisticsEyebrow($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatisticsText($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereStatisticsTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|HomePage whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Cms\CmsHomePageStatistic[] $statistics
+ * @property-read int|null $statistics_count
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereDisplayFeatures($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereDisplayLatest($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereDisplayLogos($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereDisplaySelection($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereDisplayStatistics($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereFeaturesText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereFeaturesTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereHeroText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereHeroTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereLogosTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereStatisticsEyebrow($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereStatisticsText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereStatisticsTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePage whereUpdatedAt($value)
  */
-	class HomePage extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class CmsHomePage extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models\Cms{
 /**
- * App\Models\Cms\HomePageStatistic
+ * App\Models\Cms\CmsHomePageFeature
  *
- * @property-read mixed $count
+ * @property int $id
+ * @property array|null $title
+ * @property string|null $slug
+ * @property string|null $link
+ * @property array|null $text
+ * @property int|null $cms_home_page_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $picture
  * @property-read array $translations
- * @method static \Illuminate\Database\Eloquent\Builder|HomePageStatistic newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|HomePageStatistic newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|HomePageStatistic query()
+ * @property-read \App\Models\Cms\CmsHomePage|null $homePage
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature whereCmsHomePageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature whereUpdatedAt($value)
  */
-	class HomePageStatistic extends \Eloquent {}
+	class CmsHomePageFeature extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models\Cms{
+/**
+ * App\Models\Cms\CmsHomePageHighlight
+ *
+ * @property int $id
+ * @property array|null $title
+ * @property string|null $slug
+ * @property array|null $text
+ * @property array|null $cta_text
+ * @property string|null $cta_link
+ * @property array|null $quote_text
+ * @property array|null $quote_author
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $picture
+ * @property-read array $translations
+ * @property-read \App\Models\Cms\CmsHomePage $homePage
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight whereCtaLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight whereCtaText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight whereQuoteAuthor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight whereQuoteText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight whereUpdatedAt($value)
+ */
+	class CmsHomePageHighlight extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models\Cms{
+/**
+ * App\Models\Cms\CmsHomePageLogo
+ *
+ * @property int $id
+ * @property string|null $label
+ * @property string|null $slug
+ * @property string|null $link
+ * @property int|null $cms_home_page_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $picture
+ * @property-read \App\Models\Cms\CmsHomePage|null $homePage
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo whereCmsHomePageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo whereUpdatedAt($value)
+ */
+	class CmsHomePageLogo extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models\Cms{
+/**
+ * App\Models\Cms\CmsHomePageStatistic
+ *
+ * @property int $id
+ * @property array|null $label
+ * @property string|null $link
+ * @property string|null $model
+ * @property array|null $modelWhere
+ * @property int|null $cms_home_page_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read int $count
+ * @property-read array $translations
+ * @property-read \App\Models\Cms\CmsHomePage|null $homePage
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic whereCmsHomePageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic whereModel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic whereModelWhere($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic whereUpdatedAt($value)
+ */
+	class CmsHomePageStatistic extends \Eloquent {}
 }
 
 namespace App\Models{

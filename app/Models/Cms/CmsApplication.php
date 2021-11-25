@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
 
-class Application extends Model implements HasMedia
+class CmsApplication extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasTranslations;
@@ -18,7 +18,6 @@ class Application extends Model implements HasMedia
         'meta_author',
     ];
 
-    protected $table = 'cms_application';
     protected $fillable = [
         'name',
         'title_template',

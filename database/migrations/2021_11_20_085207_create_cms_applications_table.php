@@ -4,14 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCmsApplicationTable extends Migration
+class CreateCmsApplicationsTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::create('cms_application', function (Blueprint $table) {
+        Schema::create('cms_applications', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('title_template');

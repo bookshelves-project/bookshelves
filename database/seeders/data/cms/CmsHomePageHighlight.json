@@ -1,0 +1,74 @@
+[
+    {
+        "title": {
+            "en": "Find the book that fits you!",
+            "fr": ""
+        },
+        "slug": "books",
+        "text": {
+            "en": "A selection of more than a hundred works, find the one that will strike a chord with your soul. And come back for ten more. Search by title, author or series then download all the books of an author or series if you wish!",
+            "fr": ""
+        },
+        "cta_text": {
+            "en": "Discover all books",
+            "fr": ""
+        },
+        "cta_link": "",
+        "quote_text": {
+            "en": "Maybe it's not quite legal but it's cool!",
+            "fr": ""
+        },
+        "quote_author": {
+            "en": "An enthusiastic reader",
+            "fr": ""
+        }
+    },
+    {
+        "title": {
+            "en": "Want to know your eReader?",
+            "fr": ""
+        },
+        "slug": "guides",
+        "text": {
+            "en": "Detailed guides are there to explain how to best manage your eReader but also to get to know the eBooks better in order to modify them if you wish.",
+            "fr": ""
+        },
+        "cta_text": {
+            "en": "Discover guides",
+            "fr": ""
+        },
+        "cta_link": "",
+        "quote_text": {
+            "en": "The world of eReaders is so vast!",
+            "fr": ""
+        },
+        "quote_author": {
+            "en": "A novice user",
+            "fr": ""
+        }
+    },
+    {
+        "title": {
+            "en": "Features, read as you wish",
+            "fr": ""
+        },
+        "slug": "features",
+        "text": {
+            "en": "Features offer a lot of extra options to find and read eBooks. You can download directly eBooks from your eReader with Catalog or you can use OPDS (Open Publication Distribution System) feed to get all eBooks on your favorite application. And if you want to read eBook directly in your browser with Webreader.",
+            "fr": ""
+        },
+        "cta_text": {
+            "en": "Discover Features",
+            "fr": ""
+        },
+        "cta_link": "",
+        "quote_text": {
+            "en": "I am only interested in OPDS feeds adapted to my eReader with Koreader OS.",
+            "fr": ""
+        },
+        "quote_author": {
+            "en": "A very experimented reader",
+            "fr": ""
+        }
+    }
+]

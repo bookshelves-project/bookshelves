@@ -3,9 +3,12 @@
 namespace Database\Seeders;
 
 use App\Enums\SpatieMediaMethodEnum;
-use App\Models\Cms\Application;
-use App\Models\Cms\HomePage;
-use App\Models\Cms\HomePageStatistic;
+use App\Models\Cms\CmsApplication;
+use App\Models\Cms\CmsHomePage;
+use App\Models\Cms\CmsHomePageFeature;
+use App\Models\Cms\CmsHomePageLogo;
+use App\Models\Cms\CmsHomePageStatistic;
+use App\Services\FileService;
 use App\Services\MediaService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
@@ -31,9 +34,9 @@ class CmsSeeder extends Seeder
 
     private function setApplication()
     {
-        Application::query()->delete();
+        CmsApplication::query()->delete();
 
-        $application = Application::create([
+        $application = CmsApplication::create([
             'name' => 'Bookshelves',
             'title_template' => '%s · Bookshelves',
             'slug' => 'bookshelves',
@@ -76,9 +79,9 @@ class CmsSeeder extends Seeder
 
     private function setHomePage()
     {
-        HomePage::query()->delete();
+        CmsHomePage::query()->delete();
 
-        $home_page = HomePage::create([
+        $home_page = CmsHomePage::create([
             'hero_title' => [
                 'en' => 'reading in complete tranquility...',
                 'fr' => 'lire en toute tranquilité...',
@@ -99,37 +102,9 @@ class CmsSeeder extends Seeder
                 'en' => "More and more eBooks for more and more reading, each day brings its own novelties (or almost). Don't hesitate to come back from time to time to discover the new books.",
                 'fr' => "Toujours plus d'eBooks pour toujours plus de lecture, chaque jour apporte son lot de nouveautés (ou presque). nouveautés (ou presque). N'hésitez pas à revenir de temps en temps pour découvrir les nouveaux livres. temps pour découvrir les nouveaux livres.",
             ],
-            'statistics' => $this->homePageStatistics(),
             'logos_title' => [
                 'en' => 'Special thanks to these softwares or websites because they help our work.',
                 'fr' => 'Un grand merci à ces logiciels ou sites web car ils nous aident dans notre travail.',
-            ],
-            'logos' => [
-                [
-                    'label' => 'Calibre',
-                    'slug' => 'calibre',
-                    'link' => 'https://calibre-ebook.com',
-                ],
-                [
-                    'label' => 'Pandoc',
-                    'slug' => 'pandoc',
-                    'link' => 'https://pandoc.org',
-                ],
-                [
-                    'label' => 'Team AlexandriZ',
-                    'slug' => 'team-alexandriz',
-                    'link' => 'https://twitter.com/teamalexandriz',
-                ],
-                [
-                    'label' => 'Lulu',
-                    'slug' => 'lulu',
-                    'link' => 'https://www.lulu.com',
-                ],
-                [
-                    'label' => 'OPDS',
-                    'slug' => 'opds',
-                    'link' => 'https://opds.io',
-                ],
             ],
             'features_title' => [
                 'en' => 'How to use Bookshelves',
@@ -138,74 +113,6 @@ class CmsSeeder extends Seeder
             'features_text' => [
                 'en' => 'Let Bookshelves guide you through hundreds of eBooks and let yourself be tempted by vast universes directly accessible by your eReader.',
                 'fr' => "Laissez Bookshelves vous guider à travers des centaines d'eBooks et laissez-vous tenter par de vastes univers directement accessibles par votre liseuse.",
-            ],
-            'features' => [
-                [
-                    'title' => [
-                        'en' => 'EPUB files',
-                        'fr' => 'Fichiers EPUB',
-                    ],
-                    'text' => [
-                        'en' => 'EPUB files format to be lightest as possible, a free DRM format that can be shared and edited at will, you can edit any eBook with Calibre',
-                        'fr' => "Le format des fichiers EPUB pour être le plus léger possible, un format DRM gratuit qui peut être partagé et édité à volonté, vous pouvez éditer n'importe quel eBook avec Calibre.",
-                    ],
-                    'icon' => 'epub',
-                ],
-                [
-                    'title' => [
-                        'en' => 'Regardless of eReader',
-                        'fr' => 'Pour toutes les liseuses',
-                    ],
-                    'text' => [
-                        'en' => 'Kobo, Bookeen, Vivlio or even Kindle (with Calibre), you can use eBooks in EPUB format on many eReaders.',
-                        'fr' => 'Kobo, Bookeen, Vivlio ou même Kindle (avec Calibre), vous pouvez utiliser les eBooks au format EPUB sur de nombreuses liseuses.',
-                    ],
-                    'icon' => 'ereader',
-                ],
-                [
-                    'title' => [
-                        'en' => 'Download & read',
-                        'fr' => 'Télécharger & lire',
-                    ],
-                    'text' => [
-                        'en' => 'Download an eBook and/or a serie of eBook add them to your eReader and start reading!',
-                        'fr' => "Téléchargez un eBook et/ou une série d'eBooks, ajoutez-les à votre liseuse et commencez à lire !",
-                    ],
-                    'icon' => 'download',
-                ],
-                [
-                    'title' => [
-                        'en' => 'Metadata',
-                        'fr' => 'Metadata',
-                    ],
-                    'text' => [
-                        'en' => 'All these informations that allows you to sort and find your books by author or series are integrated into each eBook.',
-                        'fr' => 'Toutes ces informations qui vous permettent de trier et de retrouver vos livres par auteur ou par série sont intégrées dans chaque eBook.',
-                    ],
-                    'icon' => 'metadata',
-                ],
-                [
-                    'title' => [
-                        'en' => 'Multi languages',
-                        'fr' => 'Multilingue',
-                    ],
-                    'text' => [
-                        'en' => 'eBooks in several languages according to your preferences in order to reach a maximum number of readers.',
-                        'fr' => 'Des livres électroniques en plusieurs langues, selon vos préférences, afin de toucher un maximum de lecteurs.',
-                    ],
-                    'icon' => 'languages',
-                ],
-                [
-                    'title' => [
-                        'en' => 'Features: OPDS & Catalog',
-                        'fr' => 'Features: OPDS & Catalog',
-                    ],
-                    'text' => [
-                        'en' => 'Features offer you extra options: you can use OPDS feed, download eBooks from your eReader with Catalog or read an eBook in your browser with Webreader.',
-                        'fr' => 'Des eBooks en plusieurs langues, selon vos préférences, afin de toucher un maximum de lecteurs.',
-                    ],
-                    'icon' => 'feed',
-                ],
             ],
             'display_statistics' => true,
             'display_logos' => true,
@@ -219,74 +126,58 @@ class CmsSeeder extends Seeder
             ->setColor()
         ;
 
-        /**
-         * Create logos.
-         */
-        $logos = File::allFiles(database_path('seeders/media/cms/home-page/logos'));
-        foreach ($logos as $logo) {
-            $filename = pathinfo($logo->getFilename(), PATHINFO_FILENAME);
-            MediaService::create($home_page, Str::slug($filename), 'cms', collection: 'cms_logos', extension: 'webp', method: SpatieMediaMethodEnum::addMediaFromString())
-                ->setMedia(file_get_contents($logo->getPathname()))
-                ->setColor()
-            ;
-        }
+        $this->setHomePageStatistics();
+        $this->setHomePageLogos();
+        $this->setHomePageFeatures();
+    }
 
-        /**
-         * Create features.
-         */
-        $logos = File::allFiles(database_path('seeders/media/cms/home-page/features'));
-        foreach ($logos as $logo) {
-            $filename = pathinfo($logo->getFilename(), PATHINFO_FILENAME);
-            MediaService::create($home_page, Str::slug($filename), 'cms', collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString())
-                ->setMedia(file_get_contents($logo->getPathname()))
+    private function setHomePageStatistics()
+    {
+        $data = FileService::jsonToArray(database_path('seeders/data/cms/CmsHomePageStatistic.json'));
+
+        $homePage = CmsHomePage::first();
+        foreach ($data as $raw) {
+            $model = CmsHomePageStatistic::create($raw);
+            $model->homePage()->associate($homePage);
+            $model->save();
+        }
+    }
+
+    private function setHomePageLogos()
+    {
+        $data = FileService::jsonToArray(database_path('seeders/data/cms/CmsHomePageLogo.json'));
+        $homePage = CmsHomePage::first();
+        foreach ($data as $raw) {
+            $model = CmsHomePageLogo::create($raw);
+            $model->homePage()->associate($homePage);
+            $model->save();
+
+            $logo = File::get(database_path("seeders/media/cms/home-page/logos/{$raw['slug']}.webp"));
+            MediaService::create($model, Str::slug($raw['slug']), 'cms', collection: 'cms_logos', extension: 'webp', method: SpatieMediaMethodEnum::addMediaFromString())
+                ->setMedia($logo)
                 ->setColor()
             ;
         }
     }
 
-    private function homePageStatistics(): array
+    private function setHomePageFeatures()
     {
-        return [
-            new HomePageStatistic([
-                'model' => 'App\Models\Book',
-                'modelWhere' => null,
-                'label' => [
-                    'en' => 'eBooks available',
-                    'fr' => 'eBooks disponibles',
-                ],
-            ]),
-            new HomePageStatistic([
-                'model' => 'App\Models\Author',
-                'modelWhere' => null,
-                'label' => [
-                    'en' => 'authors',
-                    'fr' => 'auteur·ices',
-                ],
-            ]),
-            new HomePageStatistic([
-                'model' => 'App\Models\Serie',
-                'modelWhere' => null,
-                'label' => [
-                    'en' => 'series',
-                    'fr' => 'séries',
-                ],
-            ]),
-            new HomePageStatistic([
-                'model' => 'App\Models\Book',
-                'modelWhere' => ['language_slug', 'fr'],
-                'label' => [
-                    'en' => 'eBooks available in french',
-                    'fr' => 'eBooks disponibles en français',
-                ],
-            ]),
-            new HomePageStatistic([
-                'model' => 'App\Models\Book',
-                'modelWhere' => ['language_slug', 'en'],
-                'label' => [
-                    'en' => 'eBooks available in english',
-                    'fr' => 'eBooks disponibles en anglais',
-                ],
-            ]),
-        ];
+        $data = FileService::jsonToArray(database_path('seeders/data/cms/CmsHomePageFeature.json'));
+
+        $homePage = CmsHomePage::first();
+        foreach ($data as $raw) {
+            $model = CmsHomePageFeature::create([
+                'title' => $raw['title'],
+                'text' => $raw['text'],
+            ]);
+            $model->homePage()->associate($homePage);
+            $model->save();
+
+            $logo = File::get(database_path("seeders/media/cms/home-page/features/{$raw['icon']}.svg"));
+            MediaService::create($model, Str::slug($raw['icon']), 'cms', collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString())
+                ->setMedia($logo)
+                ->setColor()
+            ;
+        }
     }
 }

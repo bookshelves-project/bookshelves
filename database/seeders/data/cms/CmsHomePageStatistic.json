@@ -1,0 +1,47 @@
+[
+    {
+        "model": "App\\Models\\Book",
+        "modelWhere": null,
+        "label": {
+            "en": "eBooks available",
+            "fr": "eBooks disponibles"
+        },
+        "link": ""
+    },
+    {
+        "model": "App\\Models\\Author",
+        "modelWhere": null,
+        "label": {
+            "en": "authors",
+            "fr": "auteur·ices"
+        },
+        "link": ""
+    },
+    {
+        "model": "App\\Models\\Serie",
+        "modelWhere": null,
+        "label": {
+            "en": "series",
+            "fr": "séries"
+        },
+        "link": ""
+    },
+    {
+        "model": "App\\Models\\Book",
+        "modelWhere": ["language_slug", "fr"],
+        "label": {
+            "en": "eBooks available in french",
+            "fr": "eBooks disponibles en français"
+        },
+        "link": ""
+    },
+    {
+        "model": "App\\Models\\Book",
+        "modelWhere": ["language_slug", "en"],
+        "label": {
+            "en": "eBooks available in english",
+            "fr": "eBooks disponibles en anglais"
+        },
+        "link": ""
+    }
+]
