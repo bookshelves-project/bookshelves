@@ -49,7 +49,7 @@ class QueryExporter
             ;
         }
 
-        if ($perPage = request()->get('per-page')) {
+        if ($perPage = request()->get('perPage')) {
             return $this->resource::collection(
                 $query
                     ->paginate($perPage)
