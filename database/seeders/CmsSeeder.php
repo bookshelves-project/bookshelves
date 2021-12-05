@@ -173,8 +173,8 @@ class CmsSeeder extends Seeder
             $model->homePage()->associate($homePage);
             $model->save();
 
-            $logo = File::get(database_path("seeders/media/cms/home-page/features/{$raw['icon']}.svg"));
-            MediaService::create($model, Str::slug($raw['icon']), 'cms', collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString())
+            $logo = File::get(database_path("seeders/media/cms/home-page/features/{$raw['slug']}.svg"));
+            MediaService::create($model, Str::slug($raw['slug']), 'cms', collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString())
                 ->setMedia($logo)
                 ->setColor()
             ;
