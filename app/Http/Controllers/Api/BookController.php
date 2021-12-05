@@ -37,7 +37,7 @@ class BookController extends Controller
      *
      * Get all Books ordered by 'title' & Series' 'title'.
      *
-     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      * @queryParam all bool To disable pagination, false by default. No-example
      * @queryParam lang filters[fr,en] To select specific lang, null by default. No-example
@@ -47,9 +47,9 @@ class BookController extends Controller
      * @responseFile public/assets/responses/books.index.get.json
      *
      * Examples
-     * - http://localhost:8000/api/books?per-page=32&filter[has_serie]=true&filter[languages]=fr,en&filter[published]=2018-06-07,2021-11-01
-     * - http://localhost:8000/api/books?per-page=32&filter[has_serie]=true&filter[title]=monde
-     * - http://localhost:8000/api/books?per-page=32&filter[author_like]=bottero
+     * - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[languages]=fr,en&filter[published]=2018-06-07,2021-11-01
+     * - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[title]=monde
+     * - http://localhost:8000/api/books?perPage=32&filter[author_like]=bottero
      */
     public function index(Request $request)
     {
@@ -151,7 +151,7 @@ class BookController extends Controller
      * Get all Books ordered by date 'created_at'.
      *
      * @queryParam limit int To limit of entities, '10' by default. No-example
-     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      * @responseFile public/assets/responses/books.latest.get.json
      */
@@ -167,10 +167,10 @@ class BookController extends Controller
         }
         $limit = intval($limit);
 
-        $page = $request->get('per-page') ? $request->get('per-page') : 32;
+        $page = $request->get('perPage') ? $request->get('perPage') : 32;
         if (! is_numeric($page)) {
             return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
+                "Invalid 'perPage' query parameter, must be an int",
                 400
             );
         }
@@ -211,7 +211,7 @@ class BookController extends Controller
      * @urlParam book_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
      *
      * @queryParam limit int To limit of entities. No-example
-     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      *
      * @responseFile public/assets/responses/books.related.get.json
@@ -228,10 +228,10 @@ class BookController extends Controller
         }
         $limit = intval($limit);
 
-        $page = $request->get('per-page') ? $request->get('per-page') : 32;
+        $page = $request->get('perPage') ? $request->get('perPage') : 32;
         if (! is_numeric($page)) {
             return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
+                "Invalid 'perPage' query parameter, must be an int",
                 400
             );
         }

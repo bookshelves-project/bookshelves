@@ -19,10 +19,10 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $page = $request->get('per-page') ? $request->get('per-page') : 32;
+        $page = $request->get('perPage') ? $request->get('perPage') : 32;
         if (! is_numeric($page)) {
             return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
+                "Invalid 'perPage' query parameter, must be an int",
                 400
             );
         }

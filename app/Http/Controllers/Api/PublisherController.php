@@ -27,7 +27,7 @@ class PublisherController extends Controller
      *
      * Get all Publishers ordered by 'name'.
      *
-     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      *
      * @responseFile public/assets/responses/publishers.index.get.json
@@ -77,17 +77,17 @@ class PublisherController extends Controller
      *
      * @urlParam publisher_slug string required The slug of author like 'bragelonne'. Example: bragelonne
      *
-     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      *
      * @responseFile public/assets/responses/publishers.books.get.json
      */
     public function books(Request $request, string $publisher_slug)
     {
-        $page = $request->get('per-page') ? $request->get('per-page') : 32;
+        $page = $request->get('perPage') ? $request->get('perPage') : 32;
         if (! is_numeric($page)) {
             return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
+                "Invalid 'perPage' query parameter, must be an int",
                 400
             );
         }

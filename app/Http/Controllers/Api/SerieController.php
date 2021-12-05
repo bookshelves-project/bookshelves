@@ -30,7 +30,7 @@ class SerieController extends Controller
      *
      * Get all Series ordered by 'title'.
      *
-     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      * @queryParam all bool To disable pagination, false by default. No-example
      * @queryParam lang filters[fr,en] To select specific lang, null by default. No-example
@@ -86,7 +86,7 @@ class SerieController extends Controller
      *
      * Books list from one Serie, find by slug.
      *
-     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
      * @urlParam serie_slug string required The slug of serie like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
@@ -95,11 +95,11 @@ class SerieController extends Controller
      */
     public function books(Request $request, string $author_slug, string $serie_slug)
     {
-        $page = $request->get('per-page');
+        $page = $request->get('perPage');
         $page = $page ? $page : 32;
         if (! is_numeric($page)) {
             return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
+                "Invalid 'perPage' query parameter, must be an int",
                 400
             );
         }

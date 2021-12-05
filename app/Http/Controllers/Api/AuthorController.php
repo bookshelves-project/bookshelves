@@ -29,7 +29,7 @@ class AuthorController extends Controller
      *
      * You can get all Authors with alphabetic order on lastname with pagination.
      *
-     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      * @responseFile public/assets/responses/authors.index.get.json
      */
@@ -79,7 +79,7 @@ class AuthorController extends Controller
      *
      * Books list from one author, find by slug.
      *
-     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
      *
@@ -87,11 +87,11 @@ class AuthorController extends Controller
      */
     public function books(Request $request, string $author)
     {
-        $page = $request->get('per-page');
+        $page = $request->get('perPage');
         $page = $page ? $page : 32;
         if (! is_numeric($page)) {
             return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
+                "Invalid 'perPage' query parameter, must be an int",
                 400
             );
         }
@@ -115,18 +115,18 @@ class AuthorController extends Controller
      *
      * Series list from one author, find by slug.
      *
-     * @queryParam per-page int Entities per page, '32' by default. No-example
+     * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
      * @responseFile public/assets/responses/authors.series.get.json
      */
     public function series(Request $request, string $author)
     {
-        $page = $request->get('per-page');
+        $page = $request->get('perPage');
         $page = $page ? $page : 32;
         if (! is_numeric($page)) {
             return response()->json(
-                "Invalid 'per-page' query parameter, must be an int",
+                "Invalid 'perPage' query parameter, must be an int",
                 400
             );
         }
