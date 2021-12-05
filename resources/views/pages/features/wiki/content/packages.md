@@ -43,7 +43,7 @@ class AuthorController extends Controller
    *
    * You can get all Authors with alphabetic order on lastname with pagination.
    *
-   * @queryParam per-page int Entities per page, '32' by default. No-example
+   * @queryParam perPage int Entities per page, '32' by default. No-example
    * @queryParam page int The page number, '1' by default. No-example
    * @responseFile public/assets/responses/authors.index.get.json
    */
