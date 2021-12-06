@@ -79,7 +79,7 @@ class Book extends Model implements HasMedia
         return $this->getFirstMediaUrl('epubs');
     }
 
-    public function scopeWhereHasSerie(Builder $query, string $has_serie): Builder
+    public function scopeWhereAllowSerie(Builder $query, string $has_serie): Builder
     {
         $has_serie = filter_var($has_serie, FILTER_VALIDATE_BOOLEAN);
         // if ('any' !== $has_serie) {
