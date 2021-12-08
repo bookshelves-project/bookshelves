@@ -22,12 +22,19 @@ class CmsSeeder extends Seeder
      */
     public function run()
     {
-        Media::where('collection_name', 'cms_hero')->delete();
-        Media::where('collection_name', 'cms_application_favicon')->delete();
-        Media::where('collection_name', 'cms_application_og')->delete();
-        Media::where('collection_name', 'cms_application_logo')->delete();
-        Media::where('collection_name', 'cms_application_icon')->delete();
-        Media::where('collection_name', 'cms_logos')->delete();
+        $collections = [
+            'cms_hero',
+            'cms_application_favicon',
+            'cms_application_og',
+            'cms_application_logo',
+            'cms_application_icon',
+            'cms_logos',
+            'cms_features',
+        ];
+        foreach ($collections as $collection) {
+            Media::where('collection_name', $collection)->delete();
+        }
+
         $this->setApplication();
         $this->setHomePage();
     }
@@ -36,41 +43,37 @@ class CmsSeeder extends Seeder
     {
         CmsApplication::query()->delete();
 
-        $application = CmsApplication::create([
-            'name' => 'Bookshelves',
-            'title_template' => '%s · Bookshelves',
-            'slug' => 'bookshelves',
-            'meta_title' => [
-                'en' => 'Bookshelves, reading in complete tranquility...',
-                'fr' => 'Bookshelves, lisez en toute tranquillité...',
-            ],
-            'meta_description' => [
-                'en' => 'For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you.',
-                'fr' => "Pour les personnes disposant d'une liseuse, téléchargez des eBooks et lisez en toute tranquillité, votre bibliothèque numérique qui vous accompagne partout.",
-            ],
-            'meta_author' => [
-                'en' => 'Bookshelves Team',
-                'fr' => "L'équipe Bookshelves",
-            ],
-            'meta_twitter_creator' => '@ewilanriviere',
-            'meta_twitter_site' => '@bookshelves_ink',
-        ]);
+        $data = FileService::jsonToArray(database_path('seeders/data/cms/CmsApplication.json'));
 
+        $application = CmsApplication::create($data);
+
+        /**
+         * Set favicon.
+         */
         MediaService::create($application, "{$application->slug}-favicon", 'cms', collection: 'cms_application_favicon', extension: 'svg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/favicon.svg'))))
             ->setColor()
         ;
 
+        /**
+         * Set icon.
+         */
         MediaService::create($application, "{$application->slug}-icon", 'cms', collection: 'cms_application_icon', extension: 'svg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/icon.svg'))))
             ->setColor()
         ;
 
+        /**
+         * Set logo.
+         */
         MediaService::create($application, "{$application->slug}-logo", 'cms', collection: 'cms_application_logo', extension: 'png')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/icon.png'))))
             ->setColor()
         ;
 
+        /**
+         * Set OpenGraph.
+         */
         MediaService::create($application, "{$application->slug}-og", 'cms', collection: 'cms_application_og', extension: 'jpg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/open_graph.jpg'))))
             ->setColor()
@@ -81,45 +84,9 @@ class CmsSeeder extends Seeder
     {
         CmsHomePage::query()->delete();
 
-        $home_page = CmsHomePage::create([
-            'hero_title' => [
-                'en' => 'reading in complete tranquility...',
-                'fr' => 'lire en toute tranquilité...',
-            ],
-            'hero_text' => [
-                'en' => "If you have an eReader and are looking for plenty of eBooks to take everywhere with you, you've come to the right place, hours of reading in perspective.",
-                'fr' => 'Si vous possédez une liseuse et que vous recherchez de nombreux eBooks à emporter partout avec vous, vous êtes au bon endroit, des heures de lecture en perspective.',
-            ],
-            'statistics_eyebrow' => [
-                'en' => 'A quick tour of eBooks count',
-                'fr' => "Un rapide tour d'horizon du nombre d'eBooks",
-            ],
-            'statistics_title' => [
-                'en' => 'Lots of ebooks for ever more insatiable readers',
-                'fr' => 'De nombreux ebooks pour des lecteur·ice·s toujours plus insatiables',
-            ],
-            'statistics_text' => [
-                'en' => "More and more eBooks for more and more reading, each day brings its own novelties (or almost). Don't hesitate to come back from time to time to discover the new books.",
-                'fr' => "Toujours plus d'eBooks pour toujours plus de lecture, chaque jour apporte son lot de nouveautés (ou presque). nouveautés (ou presque). N'hésitez pas à revenir de temps en temps pour découvrir les nouveaux livres. temps pour découvrir les nouveaux livres.",
-            ],
-            'logos_title' => [
-                'en' => 'Special thanks to these softwares or websites because they help our work.',
-                'fr' => 'Un grand merci à ces logiciels ou sites web car ils nous aident dans notre travail.',
-            ],
-            'features_title' => [
-                'en' => 'How to use Bookshelves',
-                'fr' => 'Comment utiliser Bookshelves',
-            ],
-            'features_text' => [
-                'en' => 'Let Bookshelves guide you through hundreds of eBooks and let yourself be tempted by vast universes directly accessible by your eReader.',
-                'fr' => "Laissez Bookshelves vous guider à travers des centaines d'eBooks et laissez-vous tenter par de vastes univers directement accessibles par votre liseuse.",
-            ],
-            'display_statistics' => true,
-            'display_logos' => true,
-            'display_features' => true,
-            'display_latest' => true,
-            'display_selection' => true,
-        ]);
+        $data = FileService::jsonToArray(database_path('seeders/data/cms/CmsHomePage.json'));
+
+        $home_page = CmsHomePage::create($data);
 
         MediaService::create($home_page, 'cms_hero', 'cms', collection: 'cms_hero', extension: 'svg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/home-page/hero.svg'))))
