@@ -15,6 +15,72 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 
+/**
+ * App\Models\User.
+ *
+ * @property int                                                                                                                           $id
+ * @property string                                                                                                                        $name
+ * @property string                                                                                                                        $slug
+ * @property string                                                                                                                        $email
+ * @property null|\Illuminate\Support\Carbon                                                                                               $email_verified_at
+ * @property string                                                                                                                        $password
+ * @property null|string                                                                                                                   $two_factor_secret
+ * @property null|string                                                                                                                   $two_factor_recovery_codes
+ * @property null|string                                                                                                                   $remember_token
+ * @property null|int                                                                                                                      $current_team_id
+ * @property null|string                                                                                                                   $about
+ * @property GenderEnum                                                                                                                    $gender
+ * @property null|string                                                                                                                   $pronouns
+ * @property bool                                                                                                                          $use_gravatar
+ * @property bool                                                                                                                          $display_favorites
+ * @property bool                                                                                                                          $display_comments
+ * @property bool                                                                                                                          $display_gender
+ * @property null|\Illuminate\Support\Carbon                                                                                               $created_at
+ * @property null|\Illuminate\Support\Carbon                                                                                               $updated_at
+ * @property \App\Models\Book[]|\Illuminate\Database\Eloquent\Collection                                                                   $books
+ * @property null|int                                                                                                                      $books_count
+ * @property \App\Models\Comment[]|\Illuminate\Database\Eloquent\Collection                                                                $comments
+ * @property null|int                                                                                                                      $comments_count
+ * @property string                                                                                                                        $avatar
+ * @property null|string                                                                                                                   $avatar_thumbnail
+ * @property null|string                                                                                                                   $color
+ * @property string                                                                                                                        $show_link
+ * @property string                                                                                                                        $show_link_comments
+ * @property string                                                                                                                        $show_link_favorites
+ * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property null|int                                                                                                                      $media_count
+ * @property \Illuminate\Notifications\DatabaseNotification[]|\Illuminate\Notifications\DatabaseNotificationCollection                     $notifications
+ * @property null|int                                                                                                                      $notifications_count
+ * @property \App\Models\Role[]|\Illuminate\Database\Eloquent\Collection                                                                   $roles
+ * @property null|int                                                                                                                      $roles_count
+ * @property \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[]                                               $tokens
+ * @property null|int                                                                                                                      $tokens_count
+ *
+ * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAbout($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCurrentTeamId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayComments($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayFavorites($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayGender($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereGender($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePronouns($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorRecoveryCodes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUseGravatar($value)
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;

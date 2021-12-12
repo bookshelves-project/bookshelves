@@ -16,6 +16,73 @@ use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\Tags\HasTags;
 
+/**
+ * App\Models\Author.
+ *
+ * @property int                                                                                                                           $id
+ * @property null|string                                                                                                                   $slug
+ * @property null|string                                                                                                                   $lastname
+ * @property null|string                                                                                                                   $firstname
+ * @property null|string                                                                                                                   $name
+ * @property null|string                                                                                                                   $role
+ * @property null|string                                                                                                                   $description
+ * @property null|string                                                                                                                   $link
+ * @property null|string                                                                                                                   $note
+ * @property null|int                                                                                                                      $wikipedia_item_id
+ * @property null|\Illuminate\Support\Carbon                                                                                               $created_at
+ * @property null|\Illuminate\Support\Carbon                                                                                               $updated_at
+ * @property \App\Models\Book[]|\Illuminate\Database\Eloquent\Collection                                                                   $books
+ * @property null|int                                                                                                                      $books_count
+ * @property \App\Models\Comment[]|\Illuminate\Database\Eloquent\Collection                                                                $comments
+ * @property null|int                                                                                                                      $comments_count
+ * @property \App\Models\User[]|\Illuminate\Database\Eloquent\Collection                                                                   $favorites
+ * @property null|int                                                                                                                      $favorites_count
+ * @property string                                                                                                                        $content_opds
+ * @property null|string                                                                                                                   $cover_color
+ * @property null|string                                                                                                                   $cover_og
+ * @property null|string                                                                                                                   $cover_original
+ * @property null|string                                                                                                                   $cover_simple
+ * @property null|string                                                                                                                   $cover_thumbnail
+ * @property string                                                                                                                        $download_link
+ * @property string                                                                                                                        $first_char
+ * @property bool                                                                                                                          $is_favorite
+ * @property string                                                                                                                        $show_books_link
+ * @property string                                                                                                                        $show_link
+ * @property string                                                                                                                        $show_link_opds
+ * @property string                                                                                                                        $show_series_link
+ * @property string                                                                                                                        $size
+ * @property \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property null|int                                                                                                                      $media_count
+ * @property \App\Models\User[]|\Illuminate\Database\Eloquent\Collection                                                                   $selections
+ * @property null|int                                                                                                                      $selections_count
+ * @property \App\Models\Serie[]|\Illuminate\Database\Eloquent\Collection                                                                  $series
+ * @property null|int                                                                                                                      $series_count
+ * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[]                                                                   $tags
+ * @property null|int                                                                                                                      $tags_count
+ * @property null|\App\Models\WikipediaItem                                                                                                $wikipedia
+ *
+ * @method static \Database\Factories\AuthorFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Author query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereWikipediaItemId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTags(array|\ArrayAccess|\Spatie\Tags\Tag $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTags(array|\ArrayAccess|\Spatie\Tags\Tag $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTagsOfAnyType($tags)
+ * @mixin \Eloquent
+ */
 class Author extends Model implements HasMedia
 {
     use HasFactory;

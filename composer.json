@@ -118,7 +118,7 @@
         ],
         "helper": [
             "php artisan ide-helper:generate",
-            "php artisan ide-helper:models --nowrite",
+            "php artisan ide-helper:models --write",
             "php artisan ide-helper:eloquent",
             "vendor/bin/php-cs-fixer fix",
             "php vendor/bin/phpstan analyse"
