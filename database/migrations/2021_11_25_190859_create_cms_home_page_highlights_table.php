@@ -17,9 +17,15 @@ class CreateCmsHomePageHighlightsTable extends Migration
             $table->string('slug')->nullable();
             $table->json('text')->nullable();
             $table->json('cta_text')->nullable();
-            $table->string('cta_link')->nullable();
+            $table->json('cta_link')->nullable();
             $table->json('quote_text')->nullable();
             $table->json('quote_author')->nullable();
+            $table->foreignId('cms_home_page_id')->index()->nullable();
+            $table->foreign('cms_home_page_id')
+                ->references('id')
+                ->on('cms_home_pages')
+                ->nullOnDelete()
+            ;
             $table->timestamps();
         });
     }

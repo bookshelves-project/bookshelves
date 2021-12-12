@@ -43,8 +43,11 @@ class CmsHomePageResource extends JsonResource
                 'text' => $this->resource->features_text,
                 'list' => $this->setFeatures(),
             ] : false,
-            'display_latest' => $this->resource->display_latest,
-            'display_selection' => $this->resource->display_selection,
+            'highlights' => $this->resource->display_highlights
+                ? $this->setHighlights()
+                : false,
+            'displayLatest' => $this->resource->display_latest,
+            'displaySelection' => $this->resource->display_selection,
         ];
     }
 
@@ -85,6 +88,25 @@ class CmsHomePageResource extends JsonResource
                 'title' => $model->title,
                 'text' => $model->text,
                 'link' => $model->link,
+                'picture' => $model->picture,
+            ]);
+        }
+
+        return $data;
+    }
+
+    private function setHighlights(): array
+    {
+        $data = [];
+        foreach ($this->resource->highlights as $model) {
+            array_push($data, [
+                'title' => $model->title,
+                'text' => $model->text,
+                'ctaText' => $model->cta_text,
+                'ctaLink' => $model->cta_link,
+                'quoteText' => $model->quote_text,
+                'quoteAuthor' => $model->quote_author,
+                'icon' => $model->icon,
                 'picture' => $model->picture,
             ]);
         }

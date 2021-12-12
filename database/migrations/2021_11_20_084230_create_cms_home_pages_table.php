@@ -26,6 +26,7 @@ class CreateCmsHomePagesTable extends Migration
             $table->boolean('display_features')->nullable();
             $table->boolean('display_latest')->nullable();
             $table->boolean('display_selection')->nullable();
+            $table->boolean('display_highlights')->nullable();
             $table->timestamps();
         });
     }

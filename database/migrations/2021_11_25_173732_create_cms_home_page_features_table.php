@@ -15,7 +15,7 @@ class CreateCmsHomePageFeaturesTable extends Migration
             $table->id();
             $table->json('title')->nullable();
             $table->string('slug')->nullable();
-            $table->string('link')->nullable();
+            $table->json('link')->nullable();
             $table->json('text')->nullable();
             $table->foreignId('cms_home_page_id')->index()->nullable();
             $table->foreign('cms_home_page_id')

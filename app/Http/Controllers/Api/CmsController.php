@@ -10,6 +10,16 @@ use App\Models\Cms\CmsHomePage;
 
 class CmsController extends Controller
 {
+    public function index()
+    {
+        return response()->json([
+            'data' => [
+                'application' => route('api.cms.application'),
+                'home_page' => route('api.cms.home-page'),
+            ],
+        ]);
+    }
+
     public function application()
     {
         return CmsApplicationResource::make(

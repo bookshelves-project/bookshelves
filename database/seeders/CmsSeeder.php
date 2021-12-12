@@ -6,10 +6,12 @@ use App\Enums\SpatieMediaMethodEnum;
 use App\Models\Cms\CmsApplication;
 use App\Models\Cms\CmsHomePage;
 use App\Models\Cms\CmsHomePageFeature;
+use App\Models\Cms\CmsHomePageHighlight;
 use App\Models\Cms\CmsHomePageLogo;
 use App\Models\Cms\CmsHomePageStatistic;
 use App\Services\FileService;
 use App\Services\MediaService;
+use App\Services\SvgService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -86,6 +88,10 @@ class CmsSeeder extends Seeder
     private function setHomePage()
     {
         CmsHomePage::query()->delete();
+        CmsHomePageLogo::query()->delete();
+        CmsHomePageFeature::query()->delete();
+        CmsHomePageStatistic::query()->delete();
+        CmsHomePageHighlight::query()->delete();
 
         $home_page = CmsHomePage::create($this->getData('CmsHomePage'));
 
@@ -97,6 +103,7 @@ class CmsSeeder extends Seeder
         $this->setHomePageStatistics();
         $this->setHomePageLogos();
         $this->setHomePageFeatures();
+        $this->setHomePageHighlight();
     }
 
     private function setHomePageStatistics()
@@ -129,16 +136,35 @@ class CmsSeeder extends Seeder
     {
         $homePage = CmsHomePage::first();
         foreach ($this->getData('CmsHomePageFeature') as $raw) {
-            $model = CmsHomePageFeature::create([
-                'title' => $raw['title'],
-                'text' => $raw['text'],
-            ]);
+            $model = CmsHomePageFeature::create($raw);
             $model->homePage()->associate($homePage);
             $model->save();
 
-            $logo = File::get(database_path("seeders/media/cms/home-page/features/{$raw['slug']}.svg"));
+            $logo = SvgService::setColor(database_path("seeders/media/cms/home-page/features/{$raw['slug']}.svg"), $raw['slug'], '#ffffff');
             MediaService::create($model, Str::slug($raw['slug']), 'cms', collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString())
                 ->setMedia($logo)
+                ->setColor()
+            ;
+        }
+    }
+
+    private function setHomePageHighlight()
+    {
+        $homePage = CmsHomePage::first();
+        foreach ($this->getData('CmsHomePageHighlight') as $raw) {
+            $model = CmsHomePageHighlight::create($raw);
+            $model->homePage()->associate($homePage);
+            $model->save();
+
+            $icon = SvgService::setColor(database_path("seeders/media/cms/home-page/highlight/icon-{$raw['slug']}.svg"), 'icon-'.$raw['slug'], '#564fcc');
+            MediaService::create($model, Str::slug($raw['slug']), 'cms', collection: 'cms_highlights_icons', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString())
+                ->setMedia($icon)
+                ->setColor()
+            ;
+
+            $picture = File::get(database_path("seeders/media/cms/home-page/highlight/{$raw['slug']}.svg"));
+            MediaService::create($model, Str::slug($raw['slug']), 'cms', collection: 'cms_highlights', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString())
+                ->setMedia($picture)
                 ->setColor()
             ;
         }

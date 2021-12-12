@@ -35,5 +35,6 @@
   "display_logos": true,
   "display_features": true,
   "display_latest": true,
-  "display_selection": true
+  "display_selection": true,
+  "display_highlights": true
 }
