@@ -169,16 +169,11 @@ class Book extends Model implements HasMedia
         return $this->getFirstMediaUrl('epubs');
     }
 
-    public function scopeWhereAllowSerie(Builder $query, string $has_serie): Builder
+    public function scopeWhereDisallowSerie(Builder $query, string $has_not_serie): Builder
     {
-        $has_serie = filter_var($has_serie, FILTER_VALIDATE_BOOLEAN);
-        // if ('any' !== $has_serie) {
-        //     $has_serie = filter_var($has_serie, FILTER_VALIDATE_BOOLEAN);
+        $has_not_serie = filter_var($has_not_serie, FILTER_VALIDATE_BOOLEAN);
 
-        //     return $has_serie ? $query->whereHas('serie') : $query->whereDoesntHave('serie');
-        // }
-
-        return $has_serie ? $query : $query->whereDoesntHave('serie');
+        return $has_not_serie ? $query->whereDoesntHave('serie') : $query;
     }
 
     public function scopePublishedBetween(Builder $query, string $startDate, string $endDate): Builder

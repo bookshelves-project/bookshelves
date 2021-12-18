@@ -58,7 +58,7 @@ class BookController extends Controller
             ->allowedFilters([
                 AllowedFilter::custom('q', new SearchFilter(['title'])),
                 AllowedFilter::partial('title'),
-                AllowedFilter::scope('allow_serie', 'whereAllowSerie'),
+                AllowedFilter::scope('disallow_serie', 'whereDisallowSerie'),
                 AllowedFilter::scope('languages', 'whereLanguagesIs'),
                 AllowedFilter::scope('published', 'publishedBetween'),
                 AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
