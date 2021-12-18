@@ -20,7 +20,7 @@ class AuthorController extends Controller
         $current_route = route(Route::currentRouteName(), ['version' => $version]);
         $opdsService = new OpdsService(
             version: $version,
-            entity: EntitiesEnum::AUTHOR(),
+            entity: EntitiesEnum::author(),
             route: $current_route,
             data: $entities
         );
@@ -42,7 +42,7 @@ class AuthorController extends Controller
         ]);
         $opdsService = new OpdsService(
             version: $version,
-            entity: EntitiesEnum::BOOK(),
+            entity: EntitiesEnum::book(),
             route: $current_route,
             data: $books
         );

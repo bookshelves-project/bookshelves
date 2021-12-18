@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CommandController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CountController;
 use App\Http\Controllers\Api\DownloadController;
+use App\Http\Controllers\Api\EnumController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\ProfileController;
@@ -43,6 +44,9 @@ use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
 */
 
 Route::get('/', [ApiController::class, 'index'])->name('api.index');
+Route::get('/app-init', [ApiController::class, 'init'])->name('api.init');
+
+Route::get('/enums', [EnumController::class, 'index'])->name('api.enums.index');
 
 /*
  * CMS routes

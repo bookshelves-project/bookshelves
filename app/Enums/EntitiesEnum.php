@@ -6,10 +6,10 @@ use Closure;
 use Spatie\Enum\Laravel\Enum;
 
 /**
- * @method static self BOOK()
- * @method static self AUTHOR()
- * @method static self SERIE()
- * @method static self FEED()
+ * @method static self book()
+ * @method static self author()
+ * @method static self serie()
+ * @method static self feed()
  */
 final class EntitiesEnum extends Enum
 {

@@ -40,7 +40,7 @@ class UserListResource extends JsonResource
             'avatar' => $this->resource->avatar_thumbnail,
             'commentsCount' => $this->resource->comments()->count(),
             'favoritesCount' => $this->resource->favorites()->count(),
-            'isAdmin' => $this->resource->hasRole(RoleEnum::ADMIN()),
+            'isAdmin' => $this->resource->hasRole(RoleEnum::admin()),
             'displayComments' => $this->resource->display_comments,
             'displayFavorites' => $this->resource->display_favorites,
             'displayGender' => $this->resource->display_gender,

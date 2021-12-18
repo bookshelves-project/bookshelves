@@ -6,11 +6,11 @@ use Closure;
 use Spatie\Enum\Laravel\Enum;
 
 /**
- * @method static self XL()
- * @method static self LG()
- * @method static self MD()
- * @method static self SM()
- * @method static self XS()
+ * @method static self xl()
+ * @method static self lg()
+ * @method static self md()
+ * @method static self sm()
+ * @method static self xs()
  */
 final class CountSizeEnum extends Enum
 {

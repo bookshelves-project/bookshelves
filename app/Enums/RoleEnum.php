@@ -6,9 +6,9 @@ use Closure;
 use Spatie\Enum\Laravel\Enum;
 
 /**
- * @method static self ADMIN()
- * @method static self PUBLISHER()
- * @method static self USER()
+ * @method static self admin()
+ * @method static self publisher()
+ * @method static self user()
  */
 final class RoleEnum extends Enum
 {

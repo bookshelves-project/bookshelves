@@ -30,7 +30,7 @@ class OpdsService
         $entries = [];
         if ($this->data instanceof Collection) {
             foreach ($this->data as $key => $entry) {
-                if ($this->entity === EntitiesEnum::BOOK()) {
+                if ($this->entity === EntitiesEnum::book()) {
                     $templateEntry = $this->entryBook($entry);
                 } else {
                     $templateEntry = $this->entry($entry);

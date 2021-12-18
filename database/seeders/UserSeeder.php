@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
     {
         Storage::disk('public')->deleteDirectory('media/users');
 
-        $users = User::whereRelation('roles', 'name', '!==', RoleEnum::ADMIN())->pluck('id')->toArray();
+        $users = User::whereRelation('roles', 'name', '!==', RoleEnum::admin())->pluck('id')->toArray();
         User::destroy($users);
         $media = Media::where('collection_name', 'avatar')->pluck('id')->toArray();
         Media::destroy($media);
@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
         $progress->start();
 
         $users->each(function ($user) use ($progress) {
-            $user->roles()->attach(Role::whereName(RoleEnum::USER())->first());
+            $user->roles()->attach(Role::whereName(RoleEnum::user())->first());
 
             $avatar = self::generateAvatar();
             $user->addMediaFromString($avatar)

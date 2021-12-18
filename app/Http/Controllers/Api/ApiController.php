@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Cms\CmsApplicationResource;
+use App\Http\Resources\LanguageResource;
+use App\Models\Cms\CmsApplication;
+use App\Models\Language;
+use App\Services\EnumService;
 use File;
 use Route;
 
@@ -117,5 +122,18 @@ class ApiController extends Controller
             'route' => $isLaravelRoute ? route($route) : $route,
             'description' => $description,
         ];
+    }
+
+    public function init()
+    {
+        return response()->json([
+            'data' => [
+                'enums' => EnumService::list(),
+                'languages' => LanguageResource::collection(Language::all()),
+                'application' => CmsApplicationResource::make(
+                    CmsApplication::first()
+                ),
+            ],
+        ]);
     }
 }

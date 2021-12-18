@@ -30,7 +30,7 @@ class BookController extends Controller
         ]);
         $opdsService = new OpdsService(
             version: $version,
-            entity: EntitiesEnum::BOOK(),
+            entity: EntitiesEnum::book(),
             route: $current_route,
             data: $book
         );

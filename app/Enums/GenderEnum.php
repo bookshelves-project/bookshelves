@@ -5,24 +5,24 @@ namespace App\Enums;
 use Spatie\Enum\Laravel\Enum;
 
 /**
- * @method static self UNKNOWN()
- * @method static self WOMAN()
- * @method static self NONBINARY()
- * @method static self GENDERFLUID()
- * @method static self AGENDER()
- * @method static self MAN()
+ * @method static self unknown()
+ * @method static self woman()
+ * @method static self nonbinary()
+ * @method static self genderfluid()
+ * @method static self agender()
+ * @method static self man()
  */
 final class GenderEnum extends Enum
 {
     protected static function labels(): array
     {
         return [
-            'UNKNOWN' => 'Unkown',
-            'WOMAN' => 'Woman',
-            'NONBINARY' => 'Non binary',
-            'GENDERFLUID' => 'Genderfluid',
-            'AGENDER' => 'Agender',
-            'MAN' => 'Man',
+            'unknown' => 'Unkown',
+            'woman' => 'Woman',
+            'nonbinary' => 'Non binary',
+            'genderfluid' => 'Genderfluid',
+            'agender' => 'Agender',
+            'man' => 'Man',
         ];
     }
 }

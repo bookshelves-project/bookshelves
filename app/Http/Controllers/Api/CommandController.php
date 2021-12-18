@@ -16,7 +16,7 @@ class CommandController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->hasRole(RoleEnum::ADMIN())) {
+        if ($user->hasRole(RoleEnum::admin())) {
             $books = Artisan::call('books:generate -Fs');
 
             return response()->json([

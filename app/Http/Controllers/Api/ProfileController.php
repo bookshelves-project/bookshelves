@@ -86,7 +86,7 @@ class ProfileController extends Controller
 
             return [
                 'data' => $user,
-                'isAdmin' => $user->hasRole(RoleEnum::ADMIN()),
+                'isAdmin' => $user->hasRole(RoleEnum::admin()),
             ];
         }
 

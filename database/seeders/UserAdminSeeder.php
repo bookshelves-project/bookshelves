@@ -36,14 +36,14 @@ class UserAdminSeeder extends Seeder
                 'email_verified_at' => new DateTime(),
                 'password' => $userRaw['password'],
                 'about' => 'Super admin of plateform',
-                'gender' => GenderEnum::UNKNOWN(),
+                'gender' => GenderEnum::unknown(),
                 'use_gravatar' => false,
                 'display_comments' => true,
                 'display_favorites' => true,
                 'display_gender' => true,
             ]);
-            $user->roles()->attach(Role::whereName(RoleEnum::USER())->first());
-            $user->roles()->attach(Role::whereName(RoleEnum::ADMIN())->first());
+            $user->roles()->attach(Role::whereName(RoleEnum::user())->first());
+            $user->roles()->attach(Role::whereName(RoleEnum::admin())->first());
             $user->save();
         }
     }
