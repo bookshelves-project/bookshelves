@@ -38,7 +38,7 @@ class TagController extends Controller
         /** @var QueryBuilder $query */
         $query = QueryBuilderAddon::for(TagExtend::class, withCount: ['books'])
             ->allowedFilters([
-                AllowedFilter::scope('negligible', 'whereIsNegligible'),
+                AllowedFilter::scope('show_negligible', 'whereShowNegligible')->default(false),
                 AllowedFilter::scope('type', 'whereTypeIs'),
             ])
             ->allowedSorts([

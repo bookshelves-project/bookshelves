@@ -54,11 +54,11 @@ class TagExtend extends Tag
         return $query->where('type', '=', $type);
     }
 
-    public function scopeWhereIsNegligible(Builder $query, string $negligible)
+    public function scopeWhereShowNegligible(Builder $query, string $show_negligible)
     {
-        $negligible = filter_var($negligible, FILTER_VALIDATE_BOOLEAN);
+        $show_negligible = filter_var($show_negligible, FILTER_VALIDATE_BOOLEAN);
 
-        return $negligible ? $query : $query->whereHas('books', count: 3);
+        return $show_negligible ? $query : $query->whereHas('books', count: 3);
     }
 
     public function books(): MorphToMany
