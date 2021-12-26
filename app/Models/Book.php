@@ -171,12 +171,15 @@ class Book extends Model implements HasMedia
 
     public function getEpubPathAttribute(): string|null
     {
+        $full = null;
         $path = $this->getFirstMediaPath('epubs');
-        $path = explode('/storage/app/public', $path);
+        $path = explode('app/public', $path);
         if (array_key_exists(1, $path)) {
             $path = $path[1];
+            $full = config('app.url').'/storage'.$path;
+            $full = str_replace('\\', '/', $full);
         }
-        $full = config('app.url').'/storage'.$path;
+
         return $full;
     }
 
