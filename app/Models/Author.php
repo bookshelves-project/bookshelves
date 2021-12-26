@@ -120,7 +120,7 @@ class Author extends Model implements HasMedia
      */
     public function resolveRouteBinding($value, $field = null)
     {
-        return $this->where('slug', $value)->with('media')->withCount('books')->firstOrFail();
+        return $this->where('slug', $value)->with('media')->withCount('books', 'series')->firstOrFail();
     }
 
     public function getShowLinkAttribute(): string

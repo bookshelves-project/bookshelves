@@ -36,7 +36,7 @@ class AuthorController extends Controller
     public function index(Request $request)
     {
         /** @var QueryBuilder $query */
-        $query = QueryBuilderAddon::for(Author::class, with: ['media'], withCount: ['books'])
+        $query = QueryBuilderAddon::for(Author::class, with: ['media'], withCount: ['books', 'series'])
             ->allowedFilters([
                 AllowedFilter::custom('q', new SearchFilter(['name'])),
                 AllowedFilter::partial('firstname'),

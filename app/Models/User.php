@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\GenderEnum;
 use App\Enums\RoleEnum;
 use App\Models\Traits\HasAvatar;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -153,6 +154,13 @@ class User extends Authenticatable implements HasMedia
         });
 
         parent::boot();
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = config('app.front_url').'/auth/reset-password?token='.$token;
+
+        $this->notify(new ResetPasswordNotification($url));
     }
 
     public function getShowLinkAttribute(): string

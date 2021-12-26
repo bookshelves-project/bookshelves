@@ -30,7 +30,10 @@ class AuthorLightResource extends JsonResource
                 'simple' => $author->cover_simple,
                 'color' => $this->resource->cover_color,
             ],
-            'count' => $author->books_count,
+            'count' => [
+                'books' => $author->books_count,
+                'series' => $author->series_count,
+            ],
         ]);
     }
 }

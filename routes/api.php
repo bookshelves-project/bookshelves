@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CmsController;
@@ -177,10 +178,30 @@ Route::prefix('/favorites')->group(function () {
     Route::get('/by-user/{user:id}', [FavoriteController::class, 'byUser'])->name('api.favorites.by-user');
 });
 
+/**
+ * Auth routes.
+ */
+Route::prefix('/auth')->group(function () {
+    Route::post('/register', [AuthenticationController::class, 'register'])->name('api.auth.register');
+    Route::post('/login', [AuthenticationController::class, 'login'])->name('api.auth.login');
+    // Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('api.auth.login');
+    // Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('api.auth.login.post');
+    Route::post('/forgot-password', [AuthenticationController::class, 'forgotPassword'])->name('api.auth.forgot-password');
+    Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'])->name('api.auth.reset-password');
+});
+
 /*
  * Users features routes
  */
 Route::middleware(['auth:sanctum'])->group(function () {
+    /**
+     * Logout route.
+     */
+    Route::prefix('/auth')->group(function () {
+        Route::post('/logout', [AuthenticationController::class, 'logout'])->name('api.auth.logout');
+        // Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('api.auth.logout');
+    });
+
     /*
      * Favorites routes
      */
@@ -214,19 +235,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('api.auth.login');
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('api.auth.login.post');
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('api.auth.logout');
-
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('api.auth.register');
-Route::post('/register', [RegisteredUserController::class, 'store'])->name('api.auth.register.post');
+// Route::get('/register', [RegisteredUserController::class, 'create'])->name('api.auth.register');
+// Route::post('/register', [RegisteredUserController::class, 'store'])->name('api.auth.register.post');
 
 // Route::prefix('auth')->group(function () {
-//     Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('api.auth.forgot-password');
-//     Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('api.auth.forgot-password.post');
+    // Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('api.auth.forgot-password');
+    // Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('api.auth.forgot-password.post');
 
-//     Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('api.auth.reset-password');
-//     Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('api.auth.reset-password.post');
+    // Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('api.auth.reset-password');
+    // Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('api.auth.reset-password.post');
 //     Route::get('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'create'])->name('api.auth.two-factor-challenge');
 //     Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store'])->name('api.auth.two-factor-challenge.post');
 
