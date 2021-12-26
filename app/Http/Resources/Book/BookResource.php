@@ -53,6 +53,7 @@ class BookResource extends JsonResource
             'epub' => [
                 'name' => $book->getMedia('epubs')->first()->file_name,
                 'size' => BookshelvesTools::humanFilesize($book->getMedia('epubs')->first()->size),
+                'path' => $book->epub_path,
                 'download' => $book->download_link,
             ],
             'webreader' => $book->webreader_link,

@@ -1,6 +1,6 @@
-const mix = require("laravel-mix");
+const mix = require('laravel-mix')
 
-require("laravel-mix-svg-vue");
+require('laravel-mix-svg-vue')
 
 /*
  |--------------------------------------------------------------------------
@@ -14,75 +14,75 @@ require("laravel-mix-svg-vue");
  */
 
 mix
-  .js("resources/js/app.js", "public/assets/js")
+  .js('resources/js/app.js', 'public/assets/js')
   .vue()
   .sourceMaps()
   .svgVue()
-  .postCss("resources/css/app.css", "public/assets/css", [
-    require("postcss-import"),
-    require("tailwindcss"),
+  .postCss('resources/css/app.css', 'public/assets/css', [
+    require('postcss-import'),
+    require('tailwindcss'),
   ])
-  .js("resources/js/blade/index.js", "public/assets/js/blade")
+  .js('resources/js/blade/index.js', 'public/assets/js/blade')
   /**
    * webreader js
    */
   .js(
-    "resources/js/blade/webreader/index.js",
-    "public/assets/js/blade/webreader"
+    'resources/js/blade/webreader/index.js',
+    'public/assets/js/blade/webreader'
   )
   .js(
-    "resources/js/blade/webreader/themes.js",
-    "public/assets/js/blade/webreader"
+    'resources/js/blade/webreader/themes.js',
+    'public/assets/js/blade/webreader'
   )
   .js(
-    "resources/js/blade/webreader/listener/listener.js",
-    "public/assets/js/blade/webreader"
+    'resources/js/blade/webreader/listener/listener.js',
+    'public/assets/js/blade/webreader'
   )
   /**
    * blade js
    */
-  .js("resources/js/blade/markdown/index.js", "public/assets/js/blade/markdown")
-  .js("resources/js/blade/set-color-mode.js", "public/assets/js/blade")
-  .postCss("resources/css/blade/index.pcss", "public/assets/css/blade", [
-    require("postcss-import"),
-    require("tailwindcss"),
+  .js('resources/js/blade/markdown/index.js', 'public/assets/js/blade/markdown')
+  .js('resources/js/blade/set-color-mode.js', 'public/assets/js/blade')
+  .postCss('resources/css/blade/index.pcss', 'public/assets/css/blade', [
+    require('postcss-import'),
+    require('tailwindcss'),
   ])
-  .postCss("resources/css/blade/webreader.pcss", "public/assets/css/blade", [
-    require("postcss-import"),
-    require("tailwindcss"),
+  .postCss('resources/css/blade/webreader.pcss', 'public/assets/css/blade', [
+    require('postcss-import'),
+    require('tailwindcss'),
   ])
   .webpackConfig({
-    ...require("./webpack.config"),
+    ...require('./webpack.config'),
     module: {
       rules: [
         {
           test: /\.(postcss)$/,
           use: [
-            "vue-style-loader",
-            { loader: "css-loader", options: { importLoaders: 1 } },
-            "postcss-loader",
+            'vue-style-loader',
+            { loader: 'css-loader', options: { importLoaders: 1 } },
+            'postcss-loader',
           ],
         },
       ],
     },
-  });
+  })
 
 if (mix.inProduction()) {
-  mix.version();
+  mix.version()
 } else {
-  let withBrowserSync = process.env.BROWSER_SYNC;
+  let withBrowserSync = process.env.BROWSER_SYNC
   if (withBrowserSync) {
-    let appUrl = process.env.APP_URL;
-    appUrl = appUrl.replace(/(^\w+:|^)\/\//, "");
+    let appUrl = process.env.APP_URL
+    appUrl = appUrl.replace(/(^\w+:|^)\/\//, '')
 
     /**
      * Browser sync
      */
     const PATHS = {
-      src: "src",
-      dist: "resources",
+      src: 'src',
+      dist: 'resources',
       proxy: appUrl,
-    };
+    }
 
     mix
       .disableSuccessNotifications()
@@ -92,20 +92,20 @@ if (mix.inProduction()) {
         ui: false,
         injectChanges: true,
         notify: true,
-        host: "localhost",
+        host: 'localhost',
         port: 8001,
         proxy: `${PATHS.proxy}`,
         // files: [`${PATHS.dist}/*.*`],
         files: [
-          "public/css/**/*.css",
-          "public/js/**/*.js",
-          "app/**/*",
-          "routes/**/*",
-          "resources/js/**/*",
-          "resources/css/**/*",
-          "resources/views/**/*",
-          "resources/lang/**/*",
+          'public/css/**/*.css',
+          'public/js/**/*.js',
+          'app/**/*',
+          'routes/**/*',
+          'resources/js/**/*',
+          'resources/css/**/*',
+          'resources/views/**/*',
+          'resources/lang/**/*',
         ],
-      });
+      })
   }
 }

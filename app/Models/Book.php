@@ -169,6 +169,17 @@ class Book extends Model implements HasMedia
         return $this->getFirstMediaUrl('epubs');
     }
 
+    public function getEpubPathAttribute(): string|null
+    {
+        $path = $this->getFirstMediaPath('epubs');
+        $path = explode('/storage/app/public', $path);
+        if (array_key_exists(1, $path)) {
+            $path = $path[1];
+        }
+        $full = config('app.url').'/storage'.$path;
+        return $full;
+    }
+
     public function scopeWhereDisallowSerie(Builder $query, string $has_not_serie): Builder
     {
         $has_not_serie = filter_var($has_not_serie, FILTER_VALIDATE_BOOLEAN);
