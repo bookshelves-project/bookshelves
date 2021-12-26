@@ -66,6 +66,8 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'front_url' => env('APP_FRONT_URL', 'http://localhost:3000'),
+
     /*
     |--------------------------------------------------------------------------
     | App repository
