@@ -21,7 +21,7 @@ class RoleSeeder extends Seeder
         /** @var RoleEnum[] $roles */
         $roles = [
             [
-                'name' => RoleEnum::a(),
+                'name' => RoleEnum::admin(),
             ],
             [
                 'name' => RoleEnum::publisher(),
