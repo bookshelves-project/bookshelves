@@ -14,8 +14,8 @@ use Route;
  */
 class FavoriteController extends Controller
 {
-    // #[Route("/api/favorites/by-user/{user}", methods: ["GET"])]
-    public function byUser(int $userId)
+    // #[Route("/api/favorites/{user}", methods: ["GET"])]
+    public function user(int $userId)
     {
         $favorites = Favoritable::whereUserId($userId)->with([
             'favoritable',

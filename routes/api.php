@@ -123,7 +123,6 @@ Route::post('submission', [SubmissionController::class, 'send'])->name('api.subm
  * Comments routes
  */
 Route::prefix('/comments')->group(function () {
-    Route::get('/by-user/{user:id}', [CommentController::class, 'byUser'])->name('api.comments.by-user');
     Route::get('/{model}/{slug}', [CommentController::class, 'index'])->name('api.comments.index');
 });
 
@@ -171,13 +170,6 @@ Route::prefix('/users')->group(function () {
     Route::get('/favorites/{slug}', [UserController::class, 'favorites'])->name('api.users.favorites');
 });
 
-/*
- * Favorites routes
- */
-Route::prefix('/favorites')->group(function () {
-    Route::get('/by-user/{user:id}', [FavoriteController::class, 'byUser'])->name('api.favorites.by-user');
-});
-
 /**
  * Auth routes.
  */
@@ -206,6 +198,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
      * Favorites routes
      */
     Route::prefix('/favorites')->group(function () {
+        Route::get('/{user:id}', [FavoriteController::class, 'user'])->name('api.favorites.user');
         Route::post('/toggle/{model}/{slug}', [FavoriteController::class, 'toggle'])->name('api.favorites.toggle');
     });
 
@@ -213,6 +206,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
      * Comments routes
      */
     Route::prefix('/comments')->group(function () {
+        Route::get('/{user:id}', [CommentController::class, 'user'])->name('api.comments.user');
         Route::post('/store/{model}/{slug}', [CommentController::class, 'store'])->name('api.comments.store');
         Route::post('/edit/{book:slug}', [CommentController::class, 'edit'])->name('api.comments.edit');
         Route::post('/update/{book:slug}', [CommentController::class, 'update'])->name('api.comments.update');
