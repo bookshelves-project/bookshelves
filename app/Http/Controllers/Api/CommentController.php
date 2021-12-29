@@ -25,7 +25,7 @@ class CommentController extends Controller
         return CommentResource::collection($comments);
     }
 
-    public function byUser(int $user)
+    public function user(int $user)
     {
         $comments = Comment::whereUserId($user)->orderBy('created_at', 'DESC')->get();
 
