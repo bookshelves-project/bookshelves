@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BookController;
@@ -173,6 +174,7 @@ Route::prefix('/users')->group(function () {
 /**
  * Auth routes.
  */
+Route::post('/register', [AuthController::class, 'register'])->name('api.auth.register');
 Route::prefix('/auth')->group(function () {
     // Route::post('/register', [AuthenticationController::class, 'register'])->name('api.auth.register');
     // Route::post('/login', [AuthenticationController::class, 'login'])->name('api.auth.login');
@@ -184,8 +186,6 @@ Route::prefix('/auth')->group(function () {
      */
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('api.auth.login');
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('api.auth.login.post');
-    Route::get('/register', [RegisteredUserController::class, 'create'])->name('api.auth.register');
-    Route::post('/register', [RegisteredUserController::class, 'store'])->name('api.auth.register.post');
 });
 
 /*
