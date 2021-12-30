@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->foreignId('current_team_id')->nullable();
             $table->string('about')->nullable();
             $table->string('gender')->default('unknown');
             $table->string('pronouns')->nullable();

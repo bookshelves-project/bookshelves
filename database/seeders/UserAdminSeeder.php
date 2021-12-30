@@ -4,12 +4,13 @@ namespace Database\Seeders;
 
 use App\Enums\GenderEnum;
 use App\Enums\RoleEnum;
-use App\Models\Role;
 use App\Models\User;
+use App\Services\MediaService;
 use DateTime;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserAdminSeeder extends Seeder
 {
@@ -18,6 +19,7 @@ class UserAdminSeeder extends Seeder
      */
     public function run()
     {
+        // DatabaseSeeder::deleteRoles();
         if (! Role::exists()) {
             Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
         }
@@ -42,8 +44,21 @@ class UserAdminSeeder extends Seeder
                 'display_favorites' => true,
                 'display_gender' => true,
             ]);
-            $user->roles()->attach(Role::whereName(RoleEnum::user())->first());
-            $user->roles()->attach(Role::whereName(RoleEnum::admin())->first());
+            $userRole = Role::where('name', RoleEnum::user())->first();
+            $adminRole = Role::where('name', RoleEnum::admin())->first();
+
+            $user->roles()->attach($userRole);
+            $user->roles()->attach($adminRole);
+
+            MediaService::create($user, $user->slug, 'users', 'avatar')
+                ->setMedia(DatabaseSeeder::generateAvatar())
+                ->setColor()
+            ;
+            MediaService::create($user, "{$user->slug}-banner", 'users', 'banner')
+                ->setMedia(DatabaseSeeder::generateBanner())
+                ->setColor()
+            ;
+
             $user->save();
         }
     }

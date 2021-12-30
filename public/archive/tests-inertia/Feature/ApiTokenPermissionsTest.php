@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ApiTokenPermissionsTest extends TestCase
 {
@@ -18,20 +18,21 @@ class ApiTokenPermissionsTest extends TestCase
             return $this->markTestSkipped('API support is not enabled.');
         }
 
-        if (Features::hasTeamFeatures()) {
-            $this->actingAs($user = User::factory()->withPersonalTeam()->create());
-        } else {
-            $this->actingAs($user = User::factory()->create());
-        }
+        // if (Features::hasTeamFeatures()) {
+        //     $this->actingAs($user = User::factory()->withPersonalTeam()->create());
+        // } else {
+        //     $this->actingAs($user = User::factory()->create());
+        // }
+        $this->actingAs($user = User::factory()->create());
 
         $token = $user->tokens()->create([
-            'name'      => 'Test Token',
-            'token'     => Str::random(40),
+            'name' => 'Test Token',
+            'token' => Str::random(40),
             'abilities' => ['create', 'read'],
         ]);
 
-        $response = $this->put('/user/api-tokens/' . $token->id, [
-            'name'        => $token->name,
+        $response = $this->put('/user/api-tokens/'.$token->id, [
+            'name' => $token->name,
             'permissions' => [
                 'delete',
                 'missing-permission',

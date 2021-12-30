@@ -3,14 +3,13 @@
 namespace Database\Seeders;
 
 use App\Enums\RoleEnum;
-use App\Models\Role;
 use App\Models\User;
-use App\Services\ImageService;
+use App\Services\MediaService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -21,7 +20,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        // DatabaseSeeder::deleteRoles();
+
         Storage::disk('public')->deleteDirectory('media/users');
+        $faker = \Faker\Factory::create();
 
         $users = User::whereRelation('roles', 'name', '!==', RoleEnum::admin())->pluck('id')->toArray();
         User::destroy($users);
@@ -38,33 +40,25 @@ class UserSeeder extends Seeder
         $progress = new ProgressBar($output, count($users));
         $progress->start();
 
-        $users->each(function ($user) use ($progress) {
+        $users->each(function ($user) use ($progress, $faker) {
             $user->roles()->attach(Role::whereName(RoleEnum::user())->first());
 
-            $avatar = self::generateAvatar();
-            $user->addMediaFromString($avatar)
-                ->setName($user->slug)
-                ->setFileName($user->slug.'.'.'webp')
-                ->toMediaCollection('avatar', 'users')
-            ;
-
-            $image = $user->getFirstMediaPath('avatar');
-            $color = ImageService::simple_color_thief($image);
-            $media = $user->getFirstMedia('avatar');
-            $media->setCustomProperty('color', $color);
-            $media->save();
+            if ($faker->boolean(75)) {
+                MediaService::create($user, $user->slug, 'users', 'avatar')
+                    ->setMedia(DatabaseSeeder::generateAvatar())
+                    ->setColor()
+                ;
+            }
+            if ($faker->boolean()) {
+                MediaService::create($user, "{$user->slug}-banner", 'users', 'banner')
+                    ->setMedia(DatabaseSeeder::generateBanner())
+                    ->setColor()
+                ;
+            }
 
             $user->save();
             $progress->advance();
         });
         $progress->finish();
-    }
-
-    public static function generateAvatar()
-    {
-        $index = rand(1, 15);
-        $path = database_path('seeders/media/users/user-'.$index.'.webp');
-
-        return File::get($path);
     }
 }
