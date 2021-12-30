@@ -50,6 +50,10 @@ return [
             'width' => 250,
             'height' => 250,
         ],
+        'banner' => [
+            'width' => 1200,
+            'height' => 450,
+        ],
     ],
 
     /*

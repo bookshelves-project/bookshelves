@@ -22,6 +22,7 @@ class AuthorUltraLightResource extends JsonResource
         return [
             'name' => $author->name,
             'meta' => [
+                'entity' => $this->resource->getClassName(),
                 'slug' => $author->slug,
                 'show' => $author->show_link,
             ],

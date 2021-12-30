@@ -22,6 +22,7 @@ class SerieUltraLightResource extends JsonResource
         return [
             'title' => $serie->title,
             'meta' => [
+                'entity' => $this->resource->getClassName(),
                 'slug' => $serie->slug,
                 'author' => $serie->meta_author,
                 'show' => $serie->show_link,

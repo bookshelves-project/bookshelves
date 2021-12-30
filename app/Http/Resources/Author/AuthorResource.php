@@ -26,6 +26,7 @@ class AuthorResource extends JsonResource
 
         return array_merge($resource, [
             'meta' => [
+                'entity' => $this->resource->getClassName(),
                 'slug' => $author->slug,
                 'show' => $author->show_link,
                 'books' => $author->show_books_link,

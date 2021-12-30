@@ -17,10 +17,15 @@ trait HasAvatar
     public function registerMediaConversions(Media $media = null): void
     {
         $avatar = config('image.user.avatar');
+        $banner = config('image.user.banner');
 
         if ('local' !== config('app.env')) {
             $this->addMediaConversion('avatar')
                 ->crop(Manipulations::CROP_TOP, $avatar['width'], $avatar['height'])
+                ->format(config('bookshelves.cover_extension'))
+            ;
+            $this->addMediaConversion('banner')
+                ->crop(Manipulations::CROP_TOP, $banner['width'], $banner['height'])
                 ->format(config('bookshelves.cover_extension'))
             ;
         }
@@ -47,6 +52,11 @@ trait HasAvatar
         $color = $media?->getCustomProperty('color');
 
         return "#{$color}";
+    }
+
+    public function getBannerAttribute(): string
+    {
+        return $this->getFirstMediaUrl('banner') ?? null;
     }
 
     private function getAvatar(string $collection = '')

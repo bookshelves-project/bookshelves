@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\GenderEnum;
-use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use App\Services\MediaService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -36,13 +37,12 @@ class ProfileController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        // $request->use_gravatar = false;
-        // $use_gravatar = filter_var($request->input('use_gravatar'), FILTER_VALIDATE_BOOLEAN);
         $request->validate([
             'name' => 'required|string|max:256',
             'email' => 'required|email|max:256',
             'about' => 'nullable|string|max:2048',
             'avatar' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
+            'banner' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
             'use_gravatar' => 'required|boolean',
             'display_favorites' => 'required|boolean',
             'display_comments' => 'required|boolean',
@@ -63,34 +63,38 @@ class ProfileController extends Controller
         $user->display_favorites = $request->display_favorites;
         $user->display_gender = $request->display_gender;
         $user->gender = $request->gender;
+
         $user->save();
 
-        if ($request->avatar) {
-            $user->clearMediaCollection('avatar');
+        $this->saveMedia($request, $user, 'avatar', MediaService::create($user, $user->slug, 'users', 'avatar'), config('image.user.avatar'));
+        $this->saveMedia($request, $user, 'banner', MediaService::create($user, "{$user->slug}-banner", 'users', 'banner'), config('image.user.banner'));
 
-            $avatar = $request->file('avatar');
-            $avatar = File::get($avatar);
-
-            $user->addMediaFromString($avatar)
-                ->setName($user->slug)
-                ->setFileName($user->slug.'.'.config('bookshelves.cover_extension'))
-                ->toMediaCollection('avatar', 'users')
-            ;
-            $user = $user->refresh();
-
-            $formatBasic = config('image.thumbnails.avatar');
-            $avatar = Image::load($user->getMedia('avatar')->first()?->getPath())
-                ->crop(Manipulations::CROP_CENTER, $formatBasic['width'], $formatBasic['height'])
-                ->save()
-            ;
-
-            return [
-                'data' => $user,
-                'isAdmin' => $user->hasRole(RoleEnum::admin()),
-            ];
-        }
+        $user = $user->refresh();
 
         return UserResource::make($user);
+    }
+
+    public function saveMedia(Request $request, Model $model, string $field, MediaService $service, mixed $format): void
+    {
+        if ($request->exists($field)) {
+            // @phpstan-ignore-next-line
+            $model->clearMediaCollection($field);
+
+            $media = $request->file($field);
+            $media = base64_encode(File::get($media));
+
+            $service->setMedia($media)
+                ->setColor()
+            ;
+
+            $model->save();
+
+            // @phpstan-ignore-next-line
+            Image::load($model->getMedia($field)->first()?->getPath())
+                ->crop(Manipulations::CROP_CENTER, $format['width'], $format['height'])
+                ->save()
+            ;
+        }
     }
 
     public function deleteAvatar()
@@ -128,18 +132,5 @@ class ProfileController extends Controller
                 'success' => __('The provided password does not match your current password.'),
             ], 402);
         }
-
-        // Validator::make($input, [
-        //     'current_password' => ['required', 'string'],
-        //     'password'         => $this->passwordRules(),
-        // ])->after(function ($validator) use ($user, $input) {
-        //     if (! isset($input['current_password']) || ! Hash::check($input['current_password'], $user->password)) {
-        //         $validator->errors()->add('current_password', __('The provided password does not match your current password.'));
-        //     }
-        // })->validateWithBag('updatePassword');
-
-        // $user->forceFill([
-        //     'password' => Hash::make($input['password']),
-        // ])->save();
     }
 }

@@ -82,6 +82,7 @@ trait HasCovers
     {
         /** @var Media $media */
         $media = $this->getFirstMedia($this->getClassName(true));
+        // @phpstan-ignore-next-line
         $color = $media?->getCustomProperty('color');
 
         return "#{$color}" ?? '#ffffff';
