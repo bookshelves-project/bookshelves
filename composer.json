@@ -46,7 +46,7 @@
         "laravel/fortify": "^1.7",
         "laravel/framework": "^8.12",
         "laravel/jetstream": "^2.3",
-        "laravel/sanctum": "^2.6",
+        "laravel/sanctum": "^2.13",
         "laravel/scout": "^9.2",
         "laravel/telescope": "^4.4",
         "laravel/tinker": "^2.5",

@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use App\Notifications\PasswordUpdatedNotification;
 use Illuminate\Auth\AuthenticationException;
@@ -22,7 +20,7 @@ use Laravel\Fortify\Contracts\SuccessfulPasswordResetLinkRequestResponse;
 use Laravel\Fortify\Fortify;
 use Password;
 
-class AuthenticationController extends Controller
+class AuthController
 {
     /**
      * The guard implementation.
@@ -39,6 +37,20 @@ class AuthenticationController extends Controller
         $this->guard = $guard;
     }
 
+    public function login(Request $request)
+    {
+        if (! Auth::attempt($request->only('email', 'password'))) {
+            throw new AuthenticationException('Email or password is not valid.');
+        }
+
+        $token = Auth::user()->createToken('user-token');
+
+        return response()->json([
+            'message' => 'Successfully logged in',
+            'token' => $token->plainTextToken,
+        ]);
+    }
+
     public function register(Request $request)
     {
         $attr = $request->validate([
@@ -47,28 +59,14 @@ class AuthenticationController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        $user = User::create([
+        User::create([
             'name' => $attr['name'],
             'password' => Hash::make($attr['password']),
             'email' => $attr['email'],
         ]);
 
         return response()->json([
-            'token' => $user->createToken('tokens')->plainTextToken,
-        ]);
-    }
-
-    public function login(LoginRequest $request)
-    {
-        if (! Auth::attempt($request->only('email', 'password'))) {
-            throw new AuthenticationException('Email or password is not valid');
-        }
-
-        $token = Auth::user()->createToken('user-token');
-
-        return response()->json([
-            'message' => 'Successfully logged in',
-            'token' => $token->plainTextToken,
+            'message' => 'User created!',
         ]);
     }
 
@@ -83,7 +81,8 @@ class AuthenticationController extends Controller
 
     public function forgotPassword(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
+        // $validate = $request->validate(['email' => 'required|email|exists:users,email']);
+        $validate = $request->validate(['email' => 'required|email']);
 
         $status = $this->broker()->sendResetLink(
             $request->only(Fortify::email())
@@ -92,13 +91,18 @@ class AuthenticationController extends Controller
         return Password::RESET_LINK_SENT == $status
                 ? app(SuccessfulPasswordResetLinkRequestResponse::class, ['status' => $status])
                 : app(FailedPasswordResetLinkRequestResponse::class, ['status' => $status]);
+
+        // return response()->json([
+        //     'message' => 'User exist (wip).',
+        //     'data' => $validate,
+        // ]);
     }
 
     public function resetPassword(Request $request)
     {
         $request->validate([
             'token' => 'required',
-            Fortify::email() => 'required|email',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 

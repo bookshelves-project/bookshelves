@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\PasswordController;
+use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CmsController;
@@ -21,18 +22,6 @@ use App\Http\Controllers\Api\SubmissionController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
-use Laravel\Fortify\Http\Controllers\ConfirmedPasswordStatusController;
-use Laravel\Fortify\Http\Controllers\NewPasswordController;
-use Laravel\Fortify\Http\Controllers\PasswordController;
-use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
-use Laravel\Fortify\Http\Controllers\ProfileInformationController;
-use Laravel\Fortify\Http\Controllers\RecoveryCodeController;
-use Laravel\Fortify\Http\Controllers\RegisteredUserController;
-use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController;
-use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController;
-use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -174,20 +163,20 @@ Route::prefix('/users')->group(function () {
 /**
  * Auth routes.
  */
-Route::post('/register', [RegisteredUserController::class, 'store'])->name('api.auth.register');
-Route::prefix('/auth')->group(function () {
-    // Route::post('/register', [AuthenticationController::class, 'register'])->name('api.auth.register');
-    // Route::post('/login', [AuthenticationController::class, 'login'])->name('api.auth.login');
-    // Route::post('/forgot-password', [AuthenticationController::class, 'forgotPassword'])->name('api.auth.forgot-password');
-    // Route::post('/reset-password', [AuthenticationController::class, 'resetPassword'])->name('api.auth.reset-password');
+// Route::post('/register', [RegisteredUserController::class, 'store'])->name('api.auth.register');
+Route::post('/login', [LoginController::class, 'authenticate'])->name('api.auth.login');
+Route::post('/register', [RegisterController::class, 'store'])->name('api.auth.store');
+Route::post('/password/forgot', [PasswordController::class, 'forgot'])->name('api.auth.password.forgot');
+Route::post('/password/reset', [PasswordController::class, 'reset'])->name('api.auth.password.reset');
+// Route::prefix('/auth')->group(function () {
+//     // Route::post('/register', [AuthenticationController::class, 'register'])->name('api.auth.register');
+//     // Route::post('/login', [AuthenticationController::class, 'login'])->name('api.auth.login');
 
-    /**
-     * Laravel Sanctum routes.
-     */
-    // Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('api.auth.login');
-    Route::post('/login', [AuthController::class, 'login'])->name('api.auth.login');
-    // Route::post('/register', [AuthController::class, 'register'])->name('api.auth.register');
-});
+//     /**
+//      * Laravel Sanctum routes.
+//      */
+//     // Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('api.auth.login');
+// });
 
 /*
  * Users features routes
@@ -196,10 +185,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     /**
      * Logout route.
      */
-    Route::prefix('/auth')->group(function () {
-        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('api.auth.logout');
-        // Route::post('/logout', [AuthController::class, 'logout'])->name('api.auth.logout');
-    });
+    Route::post('/logout', [LoginController::class, 'logout'])->name('api.auth.logout');
+    // Route::prefix('/auth')->group(function () {
+    //     // Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('api.auth.logout');
+    // });
 
     /*
      * Favorites routes

@@ -93,7 +93,7 @@ class User extends Authenticatable implements HasMedia
 
     public function sendPasswordResetNotification($token)
     {
-        $url = config('app.front_url').'/auth/reset-password?token='.$token;
+        $url = config('app.front_url').'/sign-in/reset-password?token='.$token;
 
         $this->notify(new ResetPasswordNotification($url));
     }
