@@ -45,6 +45,10 @@ class PasswordController extends Controller
         return Password::RESET_LINK_SENT == $status
                 ? app(SuccessfulPasswordResetLinkRequestResponse::class, ['status' => $status])
                 : app(FailedPasswordResetLinkRequestResponse::class, ['status' => $status]);
+
+        // return response()->json([
+        //     'message' => 'Success!',
+        // ]);
     }
 
     public function reset(Request $request)
