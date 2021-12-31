@@ -764,7 +764,6 @@ namespace App\Models{
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property string|null $remember_token
- * @property int|null $current_team_id
  * @property string|null $about
  * @property \App\Enums\GenderEnum $gender
  * @property string|null $pronouns
@@ -803,7 +802,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAbout($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCurrentTeamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayComments($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayFavorites($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayGender($value)
