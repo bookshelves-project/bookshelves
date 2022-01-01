@@ -163,20 +163,12 @@ Route::prefix('/users')->group(function () {
 /**
  * Auth routes.
  */
-// Route::post('/register', [RegisteredUserController::class, 'store'])->name('api.auth.register');
-Route::post('/login', [LoginController::class, 'authenticate'])->name('api.auth.login');
-Route::post('/register', [RegisterController::class, 'store'])->name('api.auth.store');
-Route::post('/password/forgot', [PasswordController::class, 'forgot'])->name('api.auth.password.forgot');
-Route::post('/password/reset', [PasswordController::class, 'reset'])->name('api.auth.password.reset');
-// Route::prefix('/auth')->group(function () {
-//     // Route::post('/register', [AuthenticationController::class, 'register'])->name('api.auth.register');
-//     // Route::post('/login', [AuthenticationController::class, 'login'])->name('api.auth.login');
-
-//     /**
-//      * Laravel Sanctum routes.
-//      */
-//     // Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('api.auth.login');
-// });
+Route::middleware(['guest-api'])->group(function () {
+    Route::post('/login', [LoginController::class, 'authenticate'])->name('api.auth.login');
+    Route::post('/register', [RegisterController::class, 'store'])->name('api.auth.store');
+    Route::post('/password/forgot', [PasswordController::class, 'forgot'])->name('api.auth.password.forgot');
+    Route::post('/password/reset', [PasswordController::class, 'reset'])->name('api.auth.password.reset');
+});
 
 /*
  * Users features routes
@@ -186,9 +178,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
      * Logout route.
      */
     Route::post('/logout', [LoginController::class, 'logout'])->name('api.auth.logout');
-    // Route::prefix('/auth')->group(function () {
-    //     // Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('api.auth.logout');
-    // });
 
     /*
      * Favorites routes

@@ -4,7 +4,8 @@ namespace App\Models;
 
 use App\Enums\GenderEnum;
 use App\Models\Traits\HasAvatar;
-use App\Notifications\ResetPasswordNotification;
+use App\Notifications\PasswordResetNotification;
+use App\Notifications\PasswordUpdatedNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -95,7 +96,12 @@ class User extends Authenticatable implements HasMedia
     {
         $url = config('app.front_url').'/sign-in/reset-password?token='.$token;
 
-        $this->notify(new ResetPasswordNotification($url));
+        $this->notify(new PasswordResetNotification($url));
+    }
+
+    public function sendPasswordUpdatedNotification()
+    {
+        $this->notify(new PasswordUpdatedNotification());
     }
 
     public function getShowLinkAttribute(): string

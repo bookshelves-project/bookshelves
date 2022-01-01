@@ -27,6 +27,7 @@ class ImageController extends Controller
 
         if (! $thumbnail['resolved']) {
             if ($crop) {
+                // @phpstan-ignore-next-line
                 Image::load("{$path}")
                     ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
                     ->save($thumbnail['filepath'])

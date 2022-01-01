@@ -49,6 +49,7 @@ trait HasAvatar
     {
         /** @var Media $media */
         $media = $this->getFirstMedia('avatar');
+        // @phpstan-ignore-next-line
         $color = $media?->getCustomProperty('color');
 
         return "#{$color}";

@@ -3,89 +3,114 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PasswordForgotRequest;
+use App\Http\Requests\PasswordResetRequest;
+use App\Models\PasswordReset;
 use App\Models\User;
-use App\Notifications\PasswordUpdatedNotification;
-use Illuminate\Contracts\Auth\PasswordBroker;
-use Illuminate\Contracts\Auth\StatefulGuard;
-use Illuminate\Http\Request;
-use Laravel\Fortify\Actions\CompletePasswordReset;
-use Laravel\Fortify\Contracts\FailedPasswordResetLinkRequestResponse;
-use Laravel\Fortify\Contracts\FailedPasswordResetResponse;
-use Laravel\Fortify\Contracts\PasswordResetResponse;
-use Laravel\Fortify\Contracts\ResetsUserPasswords;
-use Laravel\Fortify\Contracts\SuccessfulPasswordResetLinkRequestResponse;
-use Laravel\Fortify\Fortify;
-use Password;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class PasswordController extends Controller
 {
     /**
-     * The guard implementation.
-     *
-     * @var \Illuminate\Contracts\Auth\StatefulGuard
+     * Send en email with token to User if email exist, create a PasswordReset item.
      */
-    protected $guard;
-
-    /**
-     * Create a new controller instance.
-     */
-    public function __construct(StatefulGuard $guard)
+    public function forgot(PasswordForgotRequest $request)
     {
-        $this->guard = $guard;
-    }
+        $validated = $request->validated();
 
-    public function forgot(Request $request)
-    {
-        $request->validate(['email' => 'required|email']);
+        $email = $validated['email'];
+        $user = User::whereEmail($email)->first();
 
-        $status = $this->broker()->sendResetLink(
-            $request->only(Fortify::email())
-        );
+        if ($user) {
+            /** @var User $user */
+            $exist = PasswordReset::whereEmail($email)->get();
 
-        return Password::RESET_LINK_SENT == $status
-                ? app(SuccessfulPasswordResetLinkRequestResponse::class, ['status' => $status])
-                : app(FailedPasswordResetLinkRequestResponse::class, ['status' => $status]);
+            /**
+             * Check if PasswordReset exist.
+             */
+            if ($exist->isNotEmpty()) {
+                /** @var PasswordReset $first */
+                $first = $exist->first();
+                $date = $first->created_at;
 
-        // return response()->json([
-        //     'message' => 'Success!',
-        // ]);
-    }
+                $now = Carbon::now();
+                $difference = Carbon::parse($date)->diffInSeconds($now);
 
-    public function reset(Request $request)
-    {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+                /**
+                 * Check date, reject if below 30 seconds.
+                 */
+                if ($difference < 30) {
+                    return response()->json([
+                        'message' => __('passwords.throttled'),
+                    ], 401);
+                }
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
-        $status = $this->broker()->reset(
-            $request->only(Fortify::email(), 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) {
-                app(ResetsUserPasswords::class)->reset($user, $request->all());
-
-                app(CompletePasswordReset::class)($this->guard, $user);
+                /**
+                 * Delete other tokens.
+                 */
+                foreach ($exist as $value) {
+                    $value->delete();
+                }
             }
-        );
 
-        if (Password::PASSWORD_RESET == $status) {
-            $user = User::whereEmail($request->only('email'))->firstOrFail();
-            $user->notify(new PasswordUpdatedNotification());
+            $base = Str::random(50);
+            $token = Hash::make($base);
+            /**
+             * Create new PasswordReset.
+             */
+            PasswordReset::create([
+                'email' => $email,
+                'token' => $token,
+            ]);
+            // Send email with token
+            $user->sendPasswordResetNotification($base);
+
+            return response()->json([
+                'message' => __('passwords.sent'),
+            ]);
         }
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
-        return Password::PASSWORD_RESET == $status
-                    ? app(PasswordResetResponse::class, ['status' => $status])
-                    : app(FailedPasswordResetResponse::class, ['status' => $status]);
+        return response()->json([
+            'message' => __('passwords.throttled'),
+        ], 401);
     }
 
-    protected function broker(): PasswordBroker
+    /**
+     * Update User password if token and email are validate, send an email to User about password update.
+     */
+    public function reset(PasswordResetRequest $request)
     {
-        return Password::broker(config('fortify.passwords'));
+        $validated = $request->validated();
+
+        $passwordReset = PasswordReset::whereEmail($validated['email'])->first();
+
+        /**
+         * Check if PasswordReset is available.
+         * And check token.
+         */
+        if ($passwordReset && Hash::check($validated['token'], $passwordReset->token)) {
+            // Find User
+            $user = User::whereEmail($validated['email'])->firstOrFail();
+            // Update password
+            $user->update([
+                'password' => Hash::make($validated['password']),
+            ]);
+            $user->save();
+
+            // Send notification
+            $user->sendPasswordUpdatedNotification();
+            // Delete current PasswordReset
+            $passwordReset->delete();
+
+            return response()->json([
+                'message' => __('passwords.reset'),
+            ]);
+        }
+
+        return response()->json([
+            'message' => __('passwords.token'),
+        ], 401);
     }
 }

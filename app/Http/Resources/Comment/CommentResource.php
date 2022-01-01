@@ -24,16 +24,19 @@ class CommentResource extends JsonResource
 
         switch ($for) {
             case 'book':
+                // @phpstan-ignore-next-line
                 $title = $entity->title;
 
                 break;
 
             case 'serie':
+                // @phpstan-ignore-next-line
                 $title = $entity->title;
 
                 break;
 
             case 'author':
+                // @phpstan-ignore-next-line
                 $title = $entity->name;
 
                 break;
@@ -48,7 +51,9 @@ class CommentResource extends JsonResource
             'meta' => [
                 'type' => 'comment',
                 'for' => $for,
+                // @phpstan-ignore-next-line
                 'author' => $this->resource->commentable->meta_author,
+                // @phpstan-ignore-next-line
                 'slug' => $this->resource->commentable->slug,
             ],
             'id' => $this->resource->id,
@@ -64,6 +69,7 @@ class CommentResource extends JsonResource
             'createdAt' => $this->resource->created_at,
             'updatedAt' => $this->resource->updated_at,
             'title' => $title,
+            // @phpstan-ignore-next-line
             'cover' => $this->resource->commentable->cover_thumbnail,
         ];
     }

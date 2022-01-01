@@ -25,16 +25,19 @@ class FavoriteResource extends JsonResource
 
         switch ($for) {
             case 'book':
+                // @phpstan-ignore-next-line
                 $title = $entity->title;
 
                 break;
 
             case 'serie':
+                // @phpstan-ignore-next-line
                 $title = $entity->title;
 
                 break;
 
             case 'author':
+                // @phpstan-ignore-next-line
                 $title = $entity->name;
 
                 break;
@@ -49,10 +52,13 @@ class FavoriteResource extends JsonResource
             'meta' => [
                 'type' => 'favorite',
                 'for' => $for,
+                // @phpstan-ignore-next-line
                 'author' => $favoritable->favoritable->meta_author,
+                // @phpstan-ignore-next-line
                 'slug' => $favoritable->favoritable->slug,
             ],
             'title' => $title,
+            // @phpstan-ignore-next-line
             'cover' => $favoritable->favoritable->cover_thumbnail,
             'createdAt' => $favoritable->created_at,
         ];
