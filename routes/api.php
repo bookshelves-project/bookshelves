@@ -163,17 +163,15 @@ Route::prefix('/users')->group(function () {
 /**
  * Auth routes.
  */
-Route::middleware(['guest-api'])->group(function () {
-    Route::post('/login', [LoginController::class, 'authenticate'])->name('api.auth.login');
-    Route::post('/register', [RegisterController::class, 'store'])->name('api.auth.store');
-    Route::post('/password/forgot', [PasswordController::class, 'forgot'])->name('api.auth.password.forgot');
-    Route::post('/password/reset', [PasswordController::class, 'reset'])->name('api.auth.password.reset');
-});
+Route::post('/login', [LoginController::class, 'authenticate'])->name('api.auth.login');
+Route::post('/register', [RegisterController::class, 'store'])->name('api.auth.store');
+Route::post('/password/forgot', [PasswordController::class, 'forgot'])->name('api.auth.password.forgot');
+Route::post('/password/reset', [PasswordController::class, 'reset'])->name('api.auth.password.reset');
 
 /*
  * Users features routes
  */
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:admins'])->group(function () {
     /**
      * Logout route.
      */
