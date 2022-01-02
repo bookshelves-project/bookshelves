@@ -393,14 +393,15 @@
                     >
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
-                    <a
-                      href="#"
+                    <button
                       :class="[
                         active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 text-sm text-gray-700',
+                        'block px-4 py-2 text-sm text-gray-700 w-full text-left',
                       ]"
-                      >Logout</a
+                      @click="logout"
                     >
+                      Logout
+                    </button>
                   </MenuItem>
                 </MenuItems>
               </transition>
@@ -414,8 +415,10 @@
 </template>
 
 <script setup>
-import { Head } from "@inertiajs/inertia-vue3";
-import { ref } from "vue";
+import { Head, Link } from '@inertiajs/inertia-vue3'
+import { Inertia } from '@inertiajs/inertia'
+
+import { ref } from 'vue'
 import {
   Dialog,
   DialogOverlay,
@@ -428,7 +431,7 @@ import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
-} from "@headlessui/vue";
+} from '@headlessui/vue'
 import {
   BellIcon,
   ClockIcon,
@@ -443,7 +446,7 @@ import {
   UserGroupIcon,
   XIcon,
   CollectionIcon,
-} from "@heroicons/vue/outline";
+} from '@heroicons/vue/outline'
 import {
   CashIcon,
   CheckCircleIcon,
@@ -451,71 +454,75 @@ import {
   ChevronRightIcon,
   OfficeBuildingIcon,
   SearchIcon,
-} from "@heroicons/vue/solid";
-import NavItem from "./nav-item.vue";
+} from '@heroicons/vue/solid'
+import NavItem from './nav-item.vue'
 
 const navigation = [
   {
-    name: "Home",
-    href: "admin.dashboard",
+    name: 'Home',
+    href: 'admin.dashboard',
     icon: HomeIcon,
     current: true,
     disclosure: false,
   },
   {
-    name: "CMS",
+    name: 'CMS',
     href: false,
     icon: CollectionIcon,
     current: false,
     disclosure: [
       {
-        name: "Home page",
-        href: "admin.cms.home",
+        name: 'Home page',
+        href: 'admin.cms.home',
       },
     ],
   },
   {
-    name: "Balances",
-    href: "admin.dashboard",
+    name: 'Balances',
+    href: 'admin.dashboard',
     icon: ScaleIcon,
     current: false,
     disclosure: false,
   },
   {
-    name: "Cards",
-    href: "admin.dashboard",
+    name: 'Cards',
+    href: 'admin.dashboard',
     icon: CreditCardIcon,
     current: false,
     disclosure: false,
   },
-];
+]
 const secondaryNavigation = [
-  { name: "Settings", href: "#", icon: CogIcon },
-  { name: "Help", href: "#", icon: QuestionMarkCircleIcon },
-  { name: "Privacy", href: "#", icon: ShieldCheckIcon },
-];
+  { name: 'Settings', href: '#', icon: CogIcon },
+  { name: 'Help', href: '#', icon: QuestionMarkCircleIcon },
+  { name: 'Privacy', href: '#', icon: ShieldCheckIcon },
+]
 const cards = [
-  { name: "Account balance", href: "#", icon: ScaleIcon, amount: "$30,659.45" },
+  { name: 'Account balance', href: '#', icon: ScaleIcon, amount: '$30,659.45' },
   // More items...
-];
+]
 const transactions = [
   {
     id: 1,
-    name: "Payment to Molly Sanders",
-    href: "#",
-    amount: "$20,000",
-    currency: "USD",
-    status: "success",
-    date: "July 11, 2020",
-    datetime: "2020-07-11",
+    name: 'Payment to Molly Sanders',
+    href: '#',
+    amount: '$20,000',
+    currency: 'USD',
+    status: 'success',
+    date: 'July 11, 2020',
+    datetime: '2020-07-11',
   },
   // More transactions...
-];
+]
 const statusStyles = {
-  success: "bg-green-100 text-green-800",
-  processing: "bg-yellow-100 text-yellow-800",
-  failed: "bg-gray-100 text-gray-800",
-};
+  success: 'bg-green-100 text-green-800',
+  processing: 'bg-yellow-100 text-yellow-800',
+  failed: 'bg-gray-100 text-gray-800',
+}
 
-const sidebarOpen = ref(false);
+const sidebarOpen = ref(false)
+
+const logout = () => {
+  Inertia.post(route('logout'))
+}
 </script>

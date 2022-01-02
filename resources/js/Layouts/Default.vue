@@ -1,5 +1,8 @@
 <template>
-  <div>dashboard</div>
+  <div>
+    layout
+    <slot />
+  </div>
 </template>
 
 <script setup lang="ts"></script>

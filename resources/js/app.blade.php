@@ -16,16 +16,6 @@
     {{-- @routes
     @translations
     @vite('admin', 'app.ts', 3200) --}}
-    @production
-        @php
-            $manifest = json_decode(file_get_contents(public_path('dist/manifest.json')), true);
-        @endphp
-        <script type="module" src="/dist/{{ $manifest['resources/js/app.ts']['file'] }}"></script>
-        {{-- <link rel="stylesheet" href="/dist/{{ $manifest['resources/js/app.ts']['css'][0] }}"> --}}
-    @else
-        <script type="module" src="http://localhost:3001/@vite/client"></script>
-        <script type="module" src="http://localhost:3001/resources/js/app.ts"></script>
-    @endproduction
     @vite
 </head>
 
