@@ -171,7 +171,7 @@ Route::post('/password/reset', [PasswordController::class, 'reset'])->name('api.
 /*
  * Users features routes
  */
-Route::middleware(['auth:admins'])->group(function () {
+Route::middleware(['auth:users'])->group(function () {
     /**
      * Logout route.
      */

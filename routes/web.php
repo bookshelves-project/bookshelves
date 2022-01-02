@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CmsController;
-use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Auth\AuthenticatedSessionControllerOverride;
 use App\Http\Controllers\Features\Catalog\AuthorController;
 use App\Http\Controllers\Features\Catalog\BookController;
@@ -31,83 +31,86 @@ use Knuckles\Scribe\Http\Controller as ScribeController;
 |
 */
 
-Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
+Route::get('/', [AdminController::class, 'index'])->name('index');
 
-// Route::get('cache/resolve/{method}/{size}/{path}', [ImageController::class, 'thumbnail'])->where('path', '.*');
+// Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
 
-Route::prefix('features')->group(function () {
-    Route::get('/', [NavigationController::class, 'welcome'])->name('features');
+// // Route::get('cache/resolve/{method}/{size}/{path}', [ImageController::class, 'thumbnail'])->where('path', '.*');
 
-    Route::prefix('catalog')->group(function () {
-        Route::get('/', [CatalogController::class, 'index'])->name('features.catalog.index');
-        Route::get('/search', [CatalogController::class, 'search'])->name('features.catalog.search');
+// Route::prefix('features')->group(function () {
+//     Route::get('/', [NavigationController::class, 'welcome'])->name('features');
 
-        Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('features.catalog.books.show');
+//     Route::prefix('catalog')->group(function () {
+//         Route::get('/', [CatalogController::class, 'index'])->name('features.catalog.index');
+//         Route::get('/search', [CatalogController::class, 'search'])->name('features.catalog.search');
 
-        Route::get('/series', [SerieController::class, 'index'])->name('features.catalog.series');
-        Route::get('/series/{character}', [SerieController::class, 'character'])->name('features.catalog.series.character');
-        Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('features.catalog.series.show');
+//         Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('features.catalog.books.show');
 
-        Route::get('/authors', [AuthorController::class, 'index'])->name('features.catalog.authors');
-        Route::get('/authors/{character}', [AuthorController::class, 'character'])->name('features.catalog.authors.character');
-        Route::get('/authors/{character}/{author}', [AuthorController::class, 'show'])->name('features.catalog.authors.show');
-    });
+//         Route::get('/series', [SerieController::class, 'index'])->name('features.catalog.series');
+//         Route::get('/series/{character}', [SerieController::class, 'character'])->name('features.catalog.series.character');
+//         Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('features.catalog.series.show');
 
-    Route::prefix('opds')->group(function () {
-        Route::get('/', [OpdsController::class, 'index'])->name('features.opds.index');
+//         Route::get('/authors', [AuthorController::class, 'index'])->name('features.catalog.authors');
+//         Route::get('/authors/{character}', [AuthorController::class, 'character'])->name('features.catalog.authors.character');
+//         Route::get('/authors/{character}/{author}', [AuthorController::class, 'show'])->name('features.catalog.authors.show');
+//     });
 
-        Route::prefix('{version}')->group(function () {
-            Route::get('/', [OpdsController::class, 'feed'])->name('features.opds.feed');
+//     Route::prefix('opds')->group(function () {
+//         Route::get('/', [OpdsController::class, 'index'])->name('features.opds.index');
 
-            // Route::get('/books', [OpdsBookController::class, 'index'])->name('features.opds.books');
-            Route::get('/books/{author}/{book}', [OpdsBookController::class, 'show'])->name('features.opds.books.show');
+//         Route::prefix('{version}')->group(function () {
+//             Route::get('/', [OpdsController::class, 'feed'])->name('features.opds.feed');
 
-            Route::get('/series', [OpdsSerieController::class, 'index'])->name('features.opds.series');
-            Route::get('/series/{author}/{serie}', [OpdsSerieController::class, 'show'])->name('features.opds.series.show');
+//             // Route::get('/books', [OpdsBookController::class, 'index'])->name('features.opds.books');
+//             Route::get('/books/{author}/{book}', [OpdsBookController::class, 'show'])->name('features.opds.books.show');
 
-            Route::get('/authors', [OpdsAuthorController::class, 'index'])->name('features.opds.authors');
-            Route::get('/authors/{author}', [OpdsAuthorController::class, 'show'])->name('features.opds.authors.show');
-        });
-    });
+//             Route::get('/series', [OpdsSerieController::class, 'index'])->name('features.opds.series');
+//             Route::get('/series/{author}/{serie}', [OpdsSerieController::class, 'show'])->name('features.opds.series.show');
 
-    Route::prefix('webreader')->group(function () {
-        Route::get('/', [WebreaderController::class, 'index'])->name('features.webreader.index');
-        Route::get('/{author:slug}/{book:slug}/{page?}', [WebreaderController::class, 'reader'])->name('features.webreader.reader');
-    });
+//             Route::get('/authors', [OpdsAuthorController::class, 'index'])->name('features.opds.authors');
+//             Route::get('/authors/{author}', [OpdsAuthorController::class, 'show'])->name('features.opds.authors.show');
+//         });
+//     });
 
-    Route::prefix('wiki')->group(function () {
-        Route::get('/{page?}', [WikiController::class, 'index'])->name('features.wiki.index');
-    });
+//     Route::prefix('webreader')->group(function () {
+//         Route::get('/', [WebreaderController::class, 'index'])->name('features.webreader.index');
+//         Route::get('/{author:slug}/{book:slug}/{page?}', [WebreaderController::class, 'reader'])->name('features.webreader.reader');
+//     });
 
-    Route::prefix('roadmap')->group(function () {
-        Route::get('/', [RoadmapController::class, 'index'])->name('features.roadmap.index');
-    });
-});
+//     Route::prefix('wiki')->group(function () {
+//         Route::get('/{page?}', [WikiController::class, 'index'])->name('features.wiki.index');
+//     });
 
-$prefix = config('scribe.laravel.docs_url', '/docs');
-$middleware = config('scribe.laravel.middleware', []);
+//     Route::prefix('roadmap')->group(function () {
+//         Route::get('/', [RoadmapController::class, 'index'])->name('features.roadmap.index');
+//     });
+// });
 
-Route::middleware($middleware)->group(function () use ($prefix) {
-    Route::get($prefix, [ScribeController::class, 'webpage'])->name('scribe');
-    Route::get("{$prefix}.postman", [ScribeController::class, 'postman'])->name('scribe.postman');
-    Route::get("{$prefix}.openapi", [ScribeController::class, 'openapi'])->name('scribe.openapi');
-});
+// $prefix = config('scribe.laravel.docs_url', '/docs');
+// $middleware = config('scribe.laravel.middleware', []);
+
+// Route::middleware($middleware)->group(function () use ($prefix) {
+//     Route::get($prefix, [ScribeController::class, 'webpage'])->name('scribe');
+//     Route::get("{$prefix}.postman", [ScribeController::class, 'postman'])->name('scribe.postman');
+//     Route::get("{$prefix}.openapi", [ScribeController::class, 'openapi'])->name('scribe.openapi');
+// });
 
 Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return Inertia::render('Auth/Login', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
-    })->name('admin');
-    // override fortify
-    // Route::post('/login', [AuthenticatedSessionControllerOverride::class, 'store'])->name('admin.auth.login');
-    // Route::post('/logout', [AuthenticatedSessionControllerOverride::class, 'destroy'])->name('admin.auth.logout');
-    //
-    Route::middleware(['auth:sanctum'])->group(function () {
-        Route::get('/dashboard', [IndexController::class, 'index'])->name('admin.dashboard');
+    Route::get('/', [AdminController::class, 'login'])->name('admin.login');
+    // Route::get('/', function () {
+    //     return Inertia::render('auth/login', [
+    //         'canLogin' => Route::has('login'),
+    //         'canRegister' => Route::has('register'),
+    //         'laravelVersion' => Application::VERSION,
+    //         'phpVersion' => PHP_VERSION,
+    //     ]);
+    // })->name('admin');
+//     // override fortify
+//     // Route::post('/login', [AuthenticatedSessionControllerOverride::class, 'store'])->name('admin.auth.login');
+//     // Route::post('/logout', [AuthenticatedSessionControllerOverride::class, 'destroy'])->name('admin.auth.logout');
+//     //
+    Route::middleware(['auth:admins'])->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
         Route::prefix('cms')->group(function () {
             Route::get('/home', [CmsController::class, 'home'])->name('admin.cms.home');
         });
