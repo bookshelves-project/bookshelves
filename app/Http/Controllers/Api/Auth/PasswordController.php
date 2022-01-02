@@ -13,6 +13,9 @@ use Illuminate\Support\Str;
 
 class PasswordController extends Controller
 {
+    public const MIN_TIMEOUT = 10;
+    public const MAX_TIMEOUT = 86400;
+
     /**
      * Send en email with token to User if email exist, create a PasswordReset item.
      */
@@ -22,6 +25,12 @@ class PasswordController extends Controller
 
         $email = $validated['email'];
         $user = User::whereEmail($email)->first();
+
+        if (! $user) {
+            return response()->json([
+                'message' => __('passwords.sent'),
+            ]);
+        }
 
         if ($user) {
             /** @var User $user */
@@ -41,7 +50,7 @@ class PasswordController extends Controller
                 /**
                  * Check date, reject if below 30 seconds.
                  */
-                if ($difference < 30) {
+                if ($difference < self::MIN_TIMEOUT) {
                     return response()->json([
                         'message' => __('passwords.throttled'),
                     ], 401);
@@ -66,15 +75,11 @@ class PasswordController extends Controller
             ]);
             // Send email with token
             $user->sendPasswordResetNotification($base);
-
-            return response()->json([
-                'message' => __('passwords.sent'),
-            ]);
         }
 
         return response()->json([
-            'message' => __('passwords.throttled'),
-        ], 401);
+            'message' => __('passwords.sent'),
+        ]);
     }
 
     /**
@@ -90,23 +95,29 @@ class PasswordController extends Controller
          * Check if PasswordReset is available.
          * And check token.
          */
-        if ($passwordReset && Hash::check($validated['token'], $passwordReset->token)) {
-            // Find User
-            $user = User::whereEmail($validated['email'])->firstOrFail();
-            // Update password
-            $user->update([
-                'password' => Hash::make($validated['password']),
-            ]);
-            $user->save();
+        if ($passwordReset) {
+            $date = $passwordReset->created_at;
+            $now = Carbon::now();
+            $difference = Carbon::parse($date)->diffInSeconds($now);
 
-            // Send notification
-            $user->sendPasswordUpdatedNotification();
-            // Delete current PasswordReset
-            $passwordReset->delete();
+            if ($difference < self::MAX_TIMEOUT && Hash::check($validated['token'], $passwordReset->token)) {
+                // Find User
+                $user = User::whereEmail($validated['email'])->firstOrFail();
+                // Update password
+                $user->update([
+                    'password' => Hash::make($validated['password']),
+                ]);
+                $user->save();
 
-            return response()->json([
-                'message' => __('passwords.reset'),
-            ]);
+                // Send notification
+                $user->sendPasswordUpdatedNotification();
+                // Delete current PasswordReset
+                $passwordReset->delete();
+
+                return response()->json([
+                    'message' => __('passwords.reset'),
+                ]);
+            }
         }
 
         return response()->json([

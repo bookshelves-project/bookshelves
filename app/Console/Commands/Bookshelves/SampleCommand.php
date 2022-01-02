@@ -7,7 +7,6 @@ use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Permission\Models\Role;
 
 class SampleCommand extends Command
 {
@@ -17,11 +16,10 @@ class SampleCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:sample
-                            {--r|roles : generate roles}
-                            {--u|users : generate users with roles}
-                            {--c|comments : generate fake comments, favorites sample (users with roles will be generated)}
-                            {--s|selection : generate fake selection sample (user admin with roles will be generated)}
-                            {--a|admin : generate only admin with roles}
+                            {--u|users : generate users}
+                            {--c|comments : generate fake comments, favorites sample (users will be generated)}
+                            {--s|selection : generate fake selection sample (user admin will be generated)}
+                            {--a|admin : generate only admin}
                             {--F|force : skip confirm in prod}';
 
     /**
@@ -49,14 +47,13 @@ class SampleCommand extends Command
         $this->alert("{$app}: sample");
 
         $users = $this->option('users') ?? false;
-        $roles = $this->option('roles') ?? false;
         $comments = $this->option('comments') ?? false;
         $selection = $this->option('selection') ?? false;
         $admin = $this->option('admin') ?? false;
         $force = $this->option('force') ?? false;
 
         if ('local' !== config('app.env') && ! $force) {
-            if ($this->confirm('This command will erase all users/roles/comments/selection/admin, do you really want to erase these data?', true)) {
+            if ($this->confirm('This command will erase all users/comments/selection/admin, do you really want to erase these data?', true)) {
                 $this->info('Confirmed.');
             } else {
                 $this->error('Stop.');
@@ -65,12 +62,12 @@ class SampleCommand extends Command
             }
         }
 
-        $users ? $roles = true : '';
-        if ($admin) {
-            if (! Role::exists()) {
-                $roles = true;
-            }
-        }
+        // $users ? $roles = true : '';
+        // if ($admin) {
+        //     if (! Role::exists()) {
+        //         $roles = true;
+        //     }
+        // }
 
         if ($comments) {
             if (! User::exists()) {
@@ -80,20 +77,20 @@ class SampleCommand extends Command
         }
 
         if ($selection) {
-            $roles = true;
+            // $roles = true;
             $admin = true;
         }
 
-        if ($roles) {
-            $this->comment('Run roles seeders');
-            $this->setRoles();
-            $this->info('Seeders ready!');
-            $this->newLine();
-        }
+        // if ($roles) {
+        //     $this->comment('Run roles seeders');
+        //     $this->setRoles();
+        //     $this->info('Seeders ready!');
+        //     $this->newLine();
+        // }
 
         if ($admin) {
             Storage::deleteDirectory(storage_path('app/public/media/users'));
-            $this->setRoles();
+            $this->clear();
 
             if (! User::exists()) {
                 Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
@@ -130,7 +127,7 @@ class SampleCommand extends Command
         return true;
     }
 
-    public function setRoles()
+    public function clear()
     {
         DB::statement('SET foreign_key_checks=0');
         $users = User::all();
@@ -138,11 +135,11 @@ class SampleCommand extends Command
             $user->media()->delete();
         }
         DB::table('users')->truncate();
-        DB::table('roles')->truncate();
-        DB::table('permissions')->truncate();
-        DB::table('model_has_roles')->truncate();
-        DB::table('model_has_permissions')->truncate();
+        // DB::table('roles')->truncate();
+        // DB::table('permissions')->truncate();
+        // DB::table('model_has_roles')->truncate();
+        // DB::table('model_has_permissions')->truncate();
         DB::statement('SET foreign_key_checks=1');
-        Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
+        // Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
     }
 }

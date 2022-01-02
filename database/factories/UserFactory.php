@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\GenderEnum;
+use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -46,6 +47,7 @@ class UserFactory extends Factory
             'display_favorites' => $this->faker->boolean(),
             'display_comments' => $this->faker->boolean(),
             'display_gender' => $this->faker->boolean(),
+            'role' => RoleEnum::user(),
             'gender' => $gender,
             'pronouns' => $pronouns,
         ];

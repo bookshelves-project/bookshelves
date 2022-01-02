@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\GenderEnum;
+use App\Enums\RoleEnum;
 use App\Models\Traits\HasAvatar;
 use App\Notifications\PasswordResetNotification;
 use App\Notifications\PasswordUpdatedNotification;
@@ -14,7 +15,6 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -23,7 +23,6 @@ class User extends Authenticatable implements HasMedia
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasAvatar;
-    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -41,6 +40,7 @@ class User extends Authenticatable implements HasMedia
         'display_gender',
         'about',
         'gender',
+        'user',
         'pronouns',
     ];
 
@@ -67,6 +67,7 @@ class User extends Authenticatable implements HasMedia
         'display_favorites' => 'boolean',
         'display_comments' => 'boolean',
         'display_gender' => 'boolean',
+        'user' => RoleEnum::class,
         'gender' => GenderEnum::class,
     ];
 
@@ -125,19 +126,19 @@ class User extends Authenticatable implements HasMedia
         ]);
     }
 
-    // public function hasRole(RoleEnum $role_to_verify): bool
-    // {
-    //     $roles = [];
-    //     foreach ($this->roles as $key => $role) {
-    //         array_push($roles, $role->name->value);
-    //     }
+    public function hasRole(RoleEnum $role): bool
+    {
+        // $roles = [];
+        // foreach ($this->roles as $key => $role) {
+        //     array_push($roles, $role->name->value);
+        // }
 
-    //     if (in_array($role_to_verify->value, $roles)) {
-    //         return true;
-    //     }
+        // if (in_array($role_to_verify->value, $roles)) {
+        //     return true;
+        // }
 
-    //     return false;
-    // }
+        return $this->role === $role->value;
+    }
 
     public function favorites()
     {

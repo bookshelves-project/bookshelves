@@ -6,7 +6,6 @@ use App\Enums\RoleEnum;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,10 +26,10 @@ class DatabaseSeeder extends Seeder
     {
         // $role = RoleEnum::admin();
         // $role = Role::where('name', $role)->first();
-        DB::statement('SET foreign_key_checks=0');
-        DB::table('model_has_roles')->truncate();
-        DB::table('model_has_permissions')->truncate();
-        DB::statement('SET foreign_key_checks=1');
+        // DB::statement('SET foreign_key_checks=0');
+        // DB::table('model_has_roles')->truncate();
+        // DB::table('model_has_permissions')->truncate();
+        // DB::statement('SET foreign_key_checks=1');
     }
 
     public static function generateAvatar()

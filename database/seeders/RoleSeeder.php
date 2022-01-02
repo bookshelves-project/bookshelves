@@ -14,26 +14,26 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET foreign_key_checks=0');
-        Role::truncate();
-        DB::statement('SET foreign_key_checks=1');
+        // DB::statement('SET foreign_key_checks=0');
+        // Role::truncate();
+        // DB::statement('SET foreign_key_checks=1');
 
-        /** @var RoleEnum[] $roles */
-        $roles = [
-            [
-                'name' => RoleEnum::admin(),
-            ],
-            [
-                'name' => RoleEnum::publisher(),
-            ],
-            [
-                'name' => RoleEnum::user(),
-            ],
-        ];
+        // /** @var RoleEnum[] $roles */
+        // $roles = [
+        //     [
+        //         'name' => RoleEnum::admin(),
+        //     ],
+        //     [
+        //         'name' => RoleEnum::publisher(),
+        //     ],
+        //     [
+        //         'name' => RoleEnum::user(),
+        //     ],
+        // ];
 
-        /** @var RoleEnum $role */
-        foreach ($roles as $key => $role) {
-            Role::firstOrCreate($role);
-        }
+        // /** @var RoleEnum $role */
+        // foreach ($roles as $key => $role) {
+        //     Role::firstOrCreate($role);
+        // }
     }
 }

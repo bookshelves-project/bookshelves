@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->string('about')->nullable();
             $table->string('gender')->default('unknown');
+            $table->string('role')->default('user');
             $table->string('pronouns')->nullable();
             $table->boolean('use_gravatar')->default(false);
             $table->boolean('display_favorites')->default(false);

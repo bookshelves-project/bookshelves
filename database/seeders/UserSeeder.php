@@ -25,14 +25,14 @@ class UserSeeder extends Seeder
         Storage::disk('public')->deleteDirectory('media/users');
         $faker = \Faker\Factory::create();
 
-        $users = User::whereRelation('roles', 'name', '!==', RoleEnum::admin())->pluck('id')->toArray();
-        User::destroy($users);
+        // $users = User::whereRelation('roles', 'name', '!==', RoleEnum::admin())->pluck('id')->toArray();
+        // User::destroy($users);
         $media = Media::where('collection_name', 'avatar')->pluck('id')->toArray();
         Media::destroy($media);
 
-        if (! Role::exists()) {
-            Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
-        }
+        // if (! Role::exists()) {
+        //     Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
+        // }
 
         $users = User::factory()->count(20)->create();
 
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
         $progress->start();
 
         $users->each(function ($user) use ($progress, $faker) {
-            $user->roles()->attach(Role::whereName(RoleEnum::user())->first());
+            // $user->roles()->attach(Role::whereName(RoleEnum::user())->first());
 
             if ($faker->boolean(75)) {
                 MediaService::create($user, $user->slug, 'users', 'avatar')
