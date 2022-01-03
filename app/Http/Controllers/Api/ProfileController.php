@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\GenderEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProfileDelete;
+use App\Http\Requests\ProfileUpdate;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use App\Services\MediaService;
@@ -11,20 +12,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Spatie\Enum\Laravel\Rules\EnumRule;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
 class ProfileController extends Controller
 {
-    public function auth()
-    {
-        return response()->json('auth');
-    }
-
-    public function sanctum(Request $request)
+    public function sanctum()
     {
         /** @var User $user */
         $user = Auth::user();
@@ -32,39 +25,14 @@ class ProfileController extends Controller
         return UserResource::make($user);
     }
 
-    public function update(Request $request)
+    public function update(ProfileUpdate $request)
     {
         /** @var User $user */
         $user = Auth::user();
+        $validated = $request->validated();
 
-        $request->validate([
-            'name' => 'required|string|max:256',
-            'email' => 'required|email|max:256',
-            'about' => 'nullable|string|max:2048',
-            'avatar' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
-            'banner' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
-            'use_gravatar' => 'required|boolean',
-            'display_favorites' => 'required|boolean',
-            'display_comments' => 'required|boolean',
-            'display_gender' => 'required|boolean',
-            'gender' => new EnumRule(GenderEnum::class),
-        ]);
-
-        if ($user->name !== $request->name) {
-            $slug = $user->slug;
-            $slug = explode('-', $slug)[0];
-            $user->slug = Str::slug($request->name).'-'.$slug;
-        }
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->about = $request->about;
-        $user->use_gravatar = $request->use_gravatar;
-        $user->display_comments = $request->display_comments;
-        $user->display_favorites = $request->display_favorites;
-        $user->display_gender = $request->display_gender;
-        $user->gender = $request->gender;
-
-        $user->save();
+        $user->slugAttributeIsUpdated('name', $request->name, true);
+        $user->update($validated);
 
         $this->saveMedia($request, $user, 'avatar', MediaService::create($user, $user->slug, 'users', 'avatar'), config('image.user.avatar'));
         $this->saveMedia($request, $user, 'banner', MediaService::create($user, "{$user->slug}-banner", 'users', 'banner'), config('image.user.banner'));
@@ -107,30 +75,14 @@ class ProfileController extends Controller
         return UserResource::make($user);
     }
 
-    public function updatePassword(Request $request)
+    public function delete(ProfileDelete $request)
     {
+        $validated = $request->validated();
+
         /** @var User $user */
         $user = Auth::user();
+        $user->delete();
 
-        $request->validate([
-            'current_password' => 'required|string|max:256',
-            'password' => 'required|string|max:256',
-            'password_confirmation' => 'required|string|max:256',
-        ]);
-
-        if (Hash::check($request->current_password, $user->password)) {
-            if ($request->password === $request->password_confirmation) {
-                $user->password = Hash::make($request->password);
-                $user->save();
-            } else {
-                return response()->json([
-                    'success' => __('New password and new password confirmation does not match.'),
-                ], 402);
-            }
-        } else {
-            return response()->json([
-                'success' => __('The provided password does not match your current password.'),
-            ], 402);
-        }
+        return response();
     }
 }

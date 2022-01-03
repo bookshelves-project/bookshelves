@@ -207,9 +207,10 @@ Route::middleware(['auth:users'])->group(function () {
     Route::prefix('/profile')->group(function () {
         Route::get('/', [ProfileController::class, 'sanctum'])->name('api.profile');
         Route::post('/update', [ProfileController::class, 'update'])->name('api.profile.update');
-        Route::post('/update-password', [ProfileController::class, 'updatePassword'])->name('api.profile.update-password');
+        Route::post('/delete', [ProfileController::class, 'delete'])->name('api.profile.delete');
         Route::get('/delete/avatar', [ProfileController::class, 'deleteAvatar'])->name('api.profile.delete.avatar');
     });
+    Route::post('/password/update', [PasswordController::class, 'update'])->name('api.password.update');
 });
 
 // Route::get('/register', [RegisteredUserController::class, 'create'])->name('api.auth.register');

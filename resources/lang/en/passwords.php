@@ -12,6 +12,7 @@ return [
     |
     */
 
+    'updated' => 'Your password has been updated!',
     'reset' => 'Your password has been reset!',
     'sent' => 'If you email exist in our database, we have emailed your password reset link!',
     'throttled' => 'Please wait before retrying.',

@@ -5,13 +5,13 @@ namespace App\Models;
 use App\Enums\GenderEnum;
 use App\Enums\RoleEnum;
 use App\Models\Traits\HasAvatar;
+use App\Models\Traits\HasSlug;
 use App\Notifications\PasswordResetNotification;
 use App\Notifications\PasswordUpdatedNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
@@ -23,6 +23,7 @@ class User extends Authenticatable implements HasMedia
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasAvatar;
+    use HasSlug;
 
     /**
      * The attributes that are mass assignable.
@@ -83,11 +84,8 @@ class User extends Authenticatable implements HasMedia
 
     public static function boot()
     {
-        static::saving(function (User $user) {
-            if (! empty($user->slug)) {
-                return;
-            }
-            $user->slug = Str::slug($user->name, '-').'-'.bin2hex(openssl_random_pseudo_bytes(5));
+        static::creating(function (User $user) {
+            $user->slug = self::generateSlug($user, 'name', true);
         });
 
         parent::boot();

@@ -23,7 +23,6 @@ class UserAdminSeeder extends Seeder
         // if (! Role::exists()) {
         //     Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
         // }
-        dump('admins');
 
         $users = [
             [

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordForgotRequest;
 use App\Http\Requests\PasswordResetRequest;
+use App\Http\Requests\PasswordUpdate;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -122,6 +124,28 @@ class PasswordController extends Controller
 
         return response()->json([
             'message' => __('passwords.token'),
+        ], 401);
+    }
+
+    public function update(PasswordUpdate $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $validated = $request->validated();
+
+        if (Hash::check($request->current_password, $user->password)) {
+            if ($request->password === $request->password_confirmation) {
+                $user->password = Hash::make($request->password);
+                $user->save();
+            }
+
+            return response()->json([
+                'message' => __('passwords.updated'),
+            ]);
+        }
+
+        return response()->json([
+            'message' => __('auth.password'),
         ], 401);
     }
 }
