@@ -1,0 +1,17 @@
+export default {
+  fileTypeNotAllowed: 'Vous devez transférer un fichier de type',
+  tooLarge: 'Fichier trop volumineux, max',
+  tooSmall: 'Fichier trop petit, min',
+  tryAgain: 'veuillez réessayer le transfert',
+  somethingWentWrong: 'Le transfert de ce fichier a échoué',
+  selectOrDrag: 'Sélectionner ou glisser-déposer un fichier',
+  selectOrDragMax: 'Sélectionner ou glisser-déposer au plus {maxItems} {file}',
+  file: { singular: 'fichier', plural: 'fichiers' },
+  anyImage: "tout type d'images",
+  anyVideo: 'tout type de vidéos',
+  goBack: 'Revenir',
+  dropFile: 'Déposer pour transférer',
+  dragHere: 'Glissez le fichier ici',
+  remove: 'Supprimer',
+  download: 'Télécharger',
+}
