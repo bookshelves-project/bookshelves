@@ -12,7 +12,6 @@ return [
      * General.
      */
     'cover_extension' => env('BOOKSHELVES_COVER_FORMAT', 'webp'),
-    'converted_pictures_directory' => 'glide',
     /*
      * Authors.
      */
