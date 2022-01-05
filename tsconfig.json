@@ -5,10 +5,11 @@
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
-    "allowJs": true,
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
     "lib": [
       "esnext",
       "dom"
@@ -16,11 +17,13 @@
     "types": [
       "vite/client"
     ],
-    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./resources/js/*"
+      "@admin/*": [
+        "./resources/admin/*"
       ],
+      "@features/*": [
+        "./resources/features/*"
+      ]
     }
   },
   "include": [
