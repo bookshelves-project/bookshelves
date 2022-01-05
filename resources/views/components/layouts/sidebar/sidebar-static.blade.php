@@ -7,8 +7,8 @@
         </div>
         <nav class="mt-5 flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto" aria-label="Sidebar">
             <div class="px-2 space-y-1">
-                <!-- Current: "bg-cyan-800 text-white", Default: "text-cyan-100 hover:text-white hover:bg-cyan-600" -->
-                <a href="#"
+                <!-- Current: "", Default: "" -->
+                {{-- <a href="#"
                     class="text-cyan-100 hover:text-white hover:bg-cyan-600 group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
                     aria-current="page">
                     @svg('icon-home', 'mr-4 flex-shrink-0 h-6 w-6 text-cyan-200')
@@ -38,15 +38,23 @@
                             Home
                         </a>
                     </div>
-                </div>
+                </div> --}}
+
+                @foreach ($links as $key => $link)
+                    <x-link :object="$link"
+                        class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md {{ url()->current() === route($link->route, property_exists($link, 'parameters') ? (array) $link->parameters : []) ? 'bg-cyan-800 text-white' : 'text-cyan-100 hover:text-white hover:bg-cyan-600' }}"
+                        aria-current="page">
+                        @svg('icon-home', 'mr-4 flex-shrink-0 h-6 w-6 text-cyan-200')
+                        0{{ $key + 1 }}. {{ $link->title }}
+                    </x-link>
+                @endforeach
             </div>
 
-            <div class="mt-auto">
+            {{-- <div class="mt-auto">
                 <a href="#" class="flex w-full group hover:bg-cyan-600 bg-cyan-700 p-4 text-white">
                     @svg('lock-closed', 'mr-4 inline-block h-8 w-8 rounded-full')
                     <div>
                         <p class="text-sm font-medium">
-                            {{-- {{ config('bookshelves.navigation.admin.title') }} --}}
                             Back-office
                         </p>
                         <p
@@ -55,7 +63,7 @@
                         </p>
                     </div>
                 </a>
-            </div>
+            </div> --}}
         </nav>
     </div>
 </div>

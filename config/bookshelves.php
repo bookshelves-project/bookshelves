@@ -75,19 +75,24 @@ return [
         ],
         'footer' => [
             [
-                // 'route' => 'features.wiki.index',
-                'route' => '',
+                'route' => 'features',
                 'href' => false,
-                'title' => 'Documentation',
+                'title' => 'Features',
                 'icon' => 'wiki',
                 'external' => false,
             ],
             [
-                // 'route' => 'features.roadmap.index',
-                'route' => '',
+                'route' => 'admin.login',
                 'href' => false,
-                'title' => 'Roadmap',
-                'icon' => 'map',
+                'title' => 'Admin',
+                'icon' => 'git-branch',
+                'external' => true,
+            ],
+            [
+                'route' => 'features.development.page',
+                'href' => false,
+                'title' => 'Documentation',
+                'icon' => 'wiki',
                 'external' => false,
             ],
             [
@@ -106,45 +111,4 @@ return [
             ],
         ],
     ],
-    // 'navigation' => [
-    //     'admin' => [
-    //         'route' => 'admin',
-    //         'title' => 'Back-office',
-    //         'icon' => 'lock-open',
-    //         'external' => true,
-    //     ],
-    //     'user' => [
-    // [
-    //     'route' => 'features',
-    //     'href' => false,
-    //     'title' => 'Home',
-    //     'icon' => 'home',
-    //     'external' => false,
-    // ],
-    // [
-    //     'route' => 'features.opds.index',
-    //     'href' => false,
-    //     'title' => 'OPDS',
-    //     'icon' => 'feed',
-    //     'external' => false,
-    // ],
-    // [
-    //     'route' => 'features.catalog.index',
-    //     'href' => false,
-    //     'title' => 'Catalog',
-    //     'icon' => 'catalog',
-    //     'external' => false,
-    // ],
-    // [
-    //     'route' => 'features.webreader.index',
-    //     'href' => false,
-    //     'title' => 'Webreader',
-    //     'icon' => 'ereader',
-    //     'external' => false,
-    // ],
-    //     ],
-    //     'dev' => [
-
-    //     ],
-    // ],
 ];

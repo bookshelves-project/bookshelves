@@ -25,7 +25,7 @@
                 <div>
                     · <a href="{{ config('app.repository') }}" target="_blank"
                         rel="noopener noreferrer">{{ config('app.name') }} v{{ $composer->version }}</a>,
-                    <a href="{{ route('license') }}">{{ $composer->license }}
+                    <a href="{{ route('features.license') }}">{{ $composer->license }}
                         license.</a>
                 </div>
             </div>

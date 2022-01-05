@@ -27,7 +27,7 @@ class ApiController extends Controller
                 'catalog' => $this->getRouteData('features.catalog.index', 'UI for eReader browser to get eBooks on it.'),
                 'opds' => $this->getRouteData('features.opds.index', 'OPDS API for application which use it.'),
                 'webreader' => $this->getRouteData('features.webreader.index', 'UI to read directly an eBook into browser.'),
-                'wiki' => $this->getRouteData('features.wiki.index', 'Wiki for setup and usage, useful for developers.'),
+                'wiki' => $this->getRouteData('features.development.page', 'Wiki for setup and usage, useful for developers.'),
                 'roadmap' => $this->getRouteData('features.roadmap.index', 'Features planned and ideas.'),
                 'admin' => $this->getRouteData('admin', 'For admin to manage data.'),
                 'api-doc' => $this->getRouteData(config('app.url').'/docs', 'API documentation to use data on others applications', false),

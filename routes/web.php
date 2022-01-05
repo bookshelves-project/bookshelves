@@ -7,13 +7,13 @@ use App\Http\Controllers\Features\Catalog\AuthorController;
 use App\Http\Controllers\Features\Catalog\BookController;
 use App\Http\Controllers\Features\Catalog\CatalogController;
 use App\Http\Controllers\Features\Catalog\SerieController;
+use App\Http\Controllers\Features\Development\DevelopmentController;
 use App\Http\Controllers\Features\FeaturesController;
 use App\Http\Controllers\Features\Opds\AuthorController as OpdsAuthorController;
 use App\Http\Controllers\Features\Opds\BookController as OpdsBookController;
 use App\Http\Controllers\Features\Opds\OpdsController;
 use App\Http\Controllers\Features\Opds\SerieController as OpdsSerieController;
 use App\Http\Controllers\Features\Webreader\WebreaderController;
-use App\Http\Controllers\Features\Wiki\DevelopmentController;
 use App\Http\Controllers\NavigationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,14 +32,14 @@ use Knuckles\Scribe\Http\Controller as ScribeController;
 */
 
 Route::get('/', FeaturesController::class)->name('index');
-Route::get('/license', [FeaturesController::class, 'license'])->name('license');
 
 // Route::get('/', [NavigationController::class, 'welcome'])->name('welcome');
 
 // // Route::get('cache/resolve/{method}/{size}/{path}', [ImageController::class, 'thumbnail'])->where('path', '.*');
 
 Route::prefix('features')->group(function () {
-//     Route::get('/', [NavigationController::class, 'welcome'])->name('features');
+    Route::get('/', FeaturesController::class)->name('features');
+    Route::get('/license', [FeaturesController::class, 'license'])->name('features.license');
 
     Route::prefix('catalog')->group(function () {
         Route::get('/', [CatalogController::class, 'index'])->name('features.catalog.index');
@@ -79,7 +79,7 @@ Route::prefix('features')->group(function () {
     });
 
     Route::prefix('development')->group(function () {
-        Route::get('/{page?}', [DevelopmentController::class, 'index'])->name('features.development.index');
+        Route::get('/{page?}', [DevelopmentController::class, 'page'])->name('features.development.page');
     });
 });
 

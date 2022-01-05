@@ -12,16 +12,7 @@ import '../css/fonts.css'
 
 import './scripts/gtm'
 
-import slider from './scripts/components/slider'
-import simulator from './scripts/components/simulator'
-import areaSlider from './scripts/components/area-slider'
-import apartmentSlider from './scripts/components/apartment-slider'
-import datepicker from './scripts/components/datepicker'
-import formReservation from './scripts/components/form-reservation'
-import formEstimate from './scripts/components/form-estimate'
-import newsletter from './scripts/components/newsletter'
-import residenceSubnav from './scripts/components/residence-subnav'
-import galleryLightbox from './scripts/components/gallery-lightbox'
+// import slider from './scripts/components/slider'
 
 // Swiper.use([Pagination])
 
@@ -98,15 +89,6 @@ Alpine.data('dropdown', () => ({
 }))
 
 // Déclaration des composants Alpine.
-Alpine.data('slider', slider)
-Alpine.data('simulator', simulator)
-Alpine.data('apartmentSlider', apartmentSlider)
-Alpine.data('areaSlider', areaSlider)
-Alpine.data('datepicker', datepicker)
-Alpine.data('formReservation', formReservation)
-Alpine.data('formEstimate', formEstimate)
-Alpine.data('newsletter', newsletter)
-Alpine.data('residenceSubnav', residenceSubnav)
-Alpine.data('galleryLightbox', galleryLightbox)
+// Alpine.data('slider', slider)
 
 Alpine.start()
