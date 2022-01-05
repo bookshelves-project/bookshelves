@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 /**
  * @hideFromAPIDocumentation
  */
-class WikiController extends Controller
+class DevelopmentController extends Controller
 {
     public static function getContent(string $path, string $page)
     {

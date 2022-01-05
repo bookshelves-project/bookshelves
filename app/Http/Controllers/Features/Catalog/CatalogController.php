@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Features\Catalog;
 use App\Http\Controllers\Controller;
 use App\Services\CommonMarkService;
 use App\Services\SearchEngineService;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
 
@@ -15,12 +16,15 @@ class CatalogController extends Controller
 {
     public function index(Request $request)
     {
-        $markdown = CommonMarkService::generate('catalog/content/index.md');
+        $markdown = CommonMarkService::generate('catalog/index.md');
         $content = $markdown->content;
+
+        SEOTools::setTitle('Catalog');
+        SEOTools::setDescription('Get eBooks from your eReader');
 
         $agent = new Agent();
         if ($agent->isDesktop()) {
-            return view('pages.features.catalog.index', compact('content'));
+            return view('features::pages.catalog.index', compact('content'));
         }
 
         return redirect(route('features.catalog.search'));
@@ -28,28 +32,28 @@ class CatalogController extends Controller
 
     public function search(Request $request)
     {
-        $q = $request->input('q');
-        if ($q) {
-            $engine = SearchEngineService::create($q);
+        // $q = $request->input('q');
+        // if ($q) {
+        //     $engine = SearchEngineService::create($q);
 
-            $authors_relevant = $engine->authors_relevant;
-            $series_relevant = $engine->series_relevant;
-            $books_relevant = $engine->books_relevant;
+        //     $authors_relevant = $engine->authors_relevant;
+        //     $series_relevant = $engine->series_relevant;
+        //     $books_relevant = $engine->books_relevant;
 
-            $authors_other = $engine->authors_other;
-            $series_other = $engine->series_other;
-            $books_other = $engine->books_other;
+        //     $authors_other = $engine->authors_other;
+        //     $series_other = $engine->series_other;
+        //     $books_other = $engine->books_other;
 
-            return view('pages.features.catalog.search', compact(
-                'authors_relevant',
-                'series_relevant',
-                'books_relevant',
-                'authors_other',
-                'series_other',
-                'books_other'
-            ));
-        }
+        //     return view('pages.features.catalog.search', compact(
+        //         'authors_relevant',
+        //         'series_relevant',
+        //         'books_relevant',
+        //         'authors_other',
+        //         'series_other',
+        //         'books_other'
+        //     ));
+        // }
 
-        return view('pages.features.catalog.search');
+        // return view('pages.features.catalog.search');
     }
 }

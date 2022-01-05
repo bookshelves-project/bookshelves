@@ -15,13 +15,13 @@ class BookController extends Controller
 {
     public function show(Request $request, string $author, string $slug)
     {
-        $author = Author::whereSlug($author)->firstOrFail();
-        $book = Book::whereHas('authors', function ($query) use ($author) {
-            return $query->where('author_id', '=', $author->id);
-        })->whereSlug($slug)->firstOrFail();
-        $book = BookResource::make($book);
-        $book = json_decode($book->toJson());
+        // $author = Author::whereSlug($author)->firstOrFail();
+        // $book = Book::whereHas('authors', function ($query) use ($author) {
+        //     return $query->where('author_id', '=', $author->id);
+        // })->whereSlug($slug)->firstOrFail();
+        // $book = BookResource::make($book);
+        // $book = json_decode($book->toJson());
 
-        return view('pages.features.catalog.books._slug', compact('book'));
+        // return view('pages.features.catalog.books._slug', compact('book'));
     }
 }

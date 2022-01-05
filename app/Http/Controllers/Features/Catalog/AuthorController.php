@@ -19,33 +19,33 @@ class AuthorController extends Controller
         $authors = Author::with(['media'])->get();
         $authors = BookshelvesTools::chunkByAlpha($authors, 'lastname');
 
-        return view('pages.features.catalog.authors.index', compact('authors'));
+        // return view('pages.features.catalog.authors.index', compact('authors'));
     }
 
     public function character(Request $request)
     {
-        $character = $request->character;
-        $authors = Author::with(['media'])->get();
+        // $character = $request->character;
+        // $authors = Author::with(['media'])->get();
 
-        $chunks = BookshelvesTools::chunkByAlpha($authors, 'lastname');
-        $current_chunk = [];
-        $authors = $chunks->first(function ($value, $key) use ($character) {
-            return $key === strtoupper($character);
-        });
+        // $chunks = BookshelvesTools::chunkByAlpha($authors, 'lastname');
+        // $current_chunk = [];
+        // $authors = $chunks->first(function ($value, $key) use ($character) {
+        //     return $key === strtoupper($character);
+        // });
 
-        $authors = EntityResource::collection($authors);
+        // $authors = EntityResource::collection($authors);
 
-        return view('pages.features.catalog.authors.character', compact('authors'));
+        // return view('pages.features.catalog.authors.character', compact('authors'));
     }
 
     public function show(Request $request, string $character, string $slug)
     {
-        $author = Author::whereSlug($slug)->firstOrFail();
+        // $author = Author::whereSlug($slug)->firstOrFail();
 
-        $books = EntityResource::collection($author->books);
-        $author = AuthorResource::make($author);
-        $author = json_decode($author->toJson());
+        // $books = EntityResource::collection($author->books);
+        // $author = AuthorResource::make($author);
+        // $author = json_decode($author->toJson());
 
-        return view('pages.features.catalog.authors._slug', compact('author', 'books'));
+        // return view('pages.features.catalog.authors._slug', compact('author', 'books'));
     }
 }

@@ -6,6 +6,7 @@ use App\Enums\EntitiesEnum;
 use App\Http\Controllers\Controller;
 use App\Services\CommonMarkService;
 use App\Services\OpdsService;
+use Artesaos\SEOTools\Facades\SEOTools;
 use File;
 use Illuminate\Http\Request;
 use Route;
@@ -17,7 +18,7 @@ class OpdsController extends Controller
 {
     public function index(Request $request)
     {
-        $markdown = CommonMarkService::generate('opds/content/index.md');
+        $markdown = CommonMarkService::generate('opds/index.md');
         $content = $markdown->content;
 
         $feeds = [
@@ -29,7 +30,9 @@ class OpdsController extends Controller
         $latest_feed = $feeds[sizeof($feeds) - 1];
         $latest_feed = route('features.opds.feed', ['version' => $latest_feed['param']]);
 
-        return view('pages.features.opds.index', compact('content', 'feeds', 'latest_feed'));
+        SEOTools::setTitle('OPDS');
+
+        return view('features::pages.opds.index', compact('content', 'feeds', 'latest_feed'));
     }
 
     public function feed(Request $request, string $version)

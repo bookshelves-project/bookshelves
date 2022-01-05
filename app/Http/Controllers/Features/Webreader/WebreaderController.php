@@ -19,14 +19,14 @@ class WebreaderController extends Controller
         $random_book = Book::inRandomOrder()->first();
         $cover = null;
         $route = null;
-        $markdown = CommonMarkService::generate('webreader/content/index.md');
+        $markdown = CommonMarkService::generate('webreader/index.md');
         $content = $markdown->content;
         if ($random_book) {
             $cover = $random_book->getCoverThumbnailAttribute();
             $route = route('features.webreader.reader', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
         }
 
-        return view('pages.features.webreader.index', compact('random_book', 'cover', 'route', 'content'));
+        return view('features::pages.webreader.index', compact('random_book', 'cover', 'route', 'content'));
     }
 
     public function reader(string $author, string $book, ?string $page = null)

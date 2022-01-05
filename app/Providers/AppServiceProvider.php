@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
+use App\Support\LaravelViteManifest;
 use Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 
@@ -17,6 +21,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('laravel-vite-manifest', fn () => new LaravelViteManifest());
+
+        // $this->app->singleton(JsonSettings::class);
+        // $this->app->singleton(Breadcrumbs::class);
+        // $this->app->singleton(DomitysContext::class);
+        // $this->app->singleton(DataLayer::class);
+
         Inertia::share([
             'app' => [
                 'name' => config('app.name'),
@@ -60,6 +71,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Blade::directive('vite', function ($expression) {
+            return '{!! App\Facades\ViteManifest::embed('.$expression.') !!}';
+        });
+
+        View::addNamespace('features', resource_path('features'));
+        View::addNamespace('admin', resource_path('admin'));
+
+        Config::set('meta.defaults.canonical', request()->url());
+
         /*
          * Paginate a standard Laravel Collection.
          *

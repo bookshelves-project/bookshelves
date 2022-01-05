@@ -100,7 +100,7 @@ class CommonMarkService
     public static function generate(string $path, bool $absolute = false)
     {
         if (! $absolute) {
-            $path = resource_path("views/pages/features/{$path}");
+            $path = resource_path("features/content/{$path}");
         }
         $markdown = File::get($path);
         $date = File::lastModified($path);
@@ -144,7 +144,7 @@ class CommonMarkService
                     'class' => 'table',
                 ],
                 Paragraph::class => [
-                    'class' => ['text-center', 'font-comic-sans'],
+                    'class' => ['word-wraping', 'font-sans'],
                 ],
                 Link::class => [
                     'class' => 'btn btn-link',
@@ -242,6 +242,7 @@ class CommonMarkService
 
         // $converter = new CommonMarkConverter($config, $environment);
         $converter = new MarkdownConverter($environment);
+        $markdown = str_replace('APP_NAME', config('app.name'), $markdown);
         $content = $converter->convertToHtml($markdown);
 
         return new CommonMarkService($content, $date);
