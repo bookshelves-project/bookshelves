@@ -1,0 +1,11 @@
+/* @import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "./fonts.css";
+
+.prose li div {
+    @apply inline;
+}
+.prose li p {
+    @apply inline my-0 ml-2 !important;
+} */
