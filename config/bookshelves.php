@@ -47,24 +47,12 @@ return [
      * Navigation.
      */
     'navigation' => [
-        'admin' => [
-            'route' => 'admin',
-            'title' => 'Back-office',
-            'icon' => 'lock-open',
-            'external' => true,
-        ],
-        'user' => [
-            [
-                'route' => 'features',
-                'href' => false,
-                'title' => 'Home',
-                'icon' => 'home',
-                'external' => false,
-            ],
+        'cards' => [
             [
                 'route' => 'features.opds.index',
                 'href' => false,
                 'title' => 'OPDS',
+                'description' => 'Open Publication Distribution System allow you to connect an application with OPDS feature to current feed. You can have all Ebooks on your own app!',
                 'icon' => 'feed',
                 'external' => false,
             ],
@@ -72,6 +60,7 @@ return [
                 'route' => 'features.catalog.index',
                 'href' => false,
                 'title' => 'Catalog',
+                'description' => 'With a very basic interface to allow an eReader browser to dowload any eBook without computer. Easy download & read when you travel.',
                 'icon' => 'catalog',
                 'external' => false,
             ],
@@ -79,20 +68,23 @@ return [
                 'route' => 'features.webreader.index',
                 'href' => false,
                 'title' => 'Webreader',
+                'description' => 'Read an eBook directly into your browser, works on desktop or smartphone. Useful to discover a new book!',
                 'icon' => 'ereader',
                 'external' => false,
             ],
         ],
-        'dev' => [
+        'footer' => [
             [
-                'route' => 'features.wiki.index',
+                // 'route' => 'features.wiki.index',
+                'route' => '',
                 'href' => false,
-                'title' => 'Wiki',
+                'title' => 'Documentation',
                 'icon' => 'wiki',
                 'external' => false,
             ],
             [
-                'route' => 'features.roadmap.index',
+                // 'route' => 'features.roadmap.index',
+                'route' => '',
                 'href' => false,
                 'title' => 'Roadmap',
                 'icon' => 'map',
@@ -101,7 +93,7 @@ return [
             [
                 'route' => 'scribe',
                 'href' => false,
-                'title' => 'API doc',
+                'title' => 'API documentation',
                 'icon' => 'api',
                 'external' => true,
             ],
@@ -114,4 +106,45 @@ return [
             ],
         ],
     ],
+    // 'navigation' => [
+    //     'admin' => [
+    //         'route' => 'admin',
+    //         'title' => 'Back-office',
+    //         'icon' => 'lock-open',
+    //         'external' => true,
+    //     ],
+    //     'user' => [
+    // [
+    //     'route' => 'features',
+    //     'href' => false,
+    //     'title' => 'Home',
+    //     'icon' => 'home',
+    //     'external' => false,
+    // ],
+    // [
+    //     'route' => 'features.opds.index',
+    //     'href' => false,
+    //     'title' => 'OPDS',
+    //     'icon' => 'feed',
+    //     'external' => false,
+    // ],
+    // [
+    //     'route' => 'features.catalog.index',
+    //     'href' => false,
+    //     'title' => 'Catalog',
+    //     'icon' => 'catalog',
+    //     'external' => false,
+    // ],
+    // [
+    //     'route' => 'features.webreader.index',
+    //     'href' => false,
+    //     'title' => 'Webreader',
+    //     'icon' => 'ereader',
+    //     'external' => false,
+    // ],
+    //     ],
+    //     'dev' => [
+
+    //     ],
+    // ],
 ];
