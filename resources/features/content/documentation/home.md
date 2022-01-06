@@ -1,14 +1,14 @@
-This Wiki is about Bookshelves project, you will find two parts covered here: the back-end part made in Laravel
-which is clearly the most important part in Bookshelves and the front-end part in NuxtJS which retrieves data from
+This Wiki is about APP_NAME project, you will find two parts covered here: the back-end part made in Laravel
+which is clearly the most important part in APP_NAME and the front-end part in NuxtJS which retrieves data from
 the API in order to display it in a nice user interface.
 
-If you are interested in Bookshelves, you can keep only the back-end part and create your own front-end with the
-technology you want. All the logic of Bookshelves is in the backend and it is even possible to not use an external
-frontend and use Bookshelves with the internal backend interface.
+If you are interested in APP_NAME, you can keep only the back-end part and create your own front-end with the
+technology you want. All the logic of APP_NAME is in the backend and it is even possible to not use an external
+frontend and use APP_NAME with the internal backend interface.
 
 ## Concept
 
-The goal of Bookshelves is to create a database from a list of eBooks that are analyzed by the back-end with Laravel (PHP). All the metadata of each eBook are extracted and processed to create each book with its relationships: **authors**, **publisher**, **date of release**, **language**, **identifiers**, **tags**, **description**, **cover** and **serie**.
+The goal of APP_NAME is to create a database from a list of eBooks that are analyzed by the back-end with Laravel (PHP). All the metadata of each eBook are extracted and processed to create each book with its relationships: **authors**, **publisher**, **date of release**, **language**, **identifiers**, **tags**, **description**, **cover** and **serie**.
 
 - The **identifiers** allow ISBN, ISBN13, DOI, Amazon, Google.
 - The **series** and **volume** are also retrieved if they are present according to the system created by **Calibre**, this information not being listed by the EPUB format.
@@ -55,32 +55,32 @@ let's take the language of an English eBook that is mistakenly indicated as Fren
 
 #### Example with Author
 
-an eBook "The Three Musketeers" has a lastname-firstname author name such as "Alexandre Dumas" while another eBook of the same series "Twenty Years After" has a lastname-firstname author name such as "Dumas Alexandre". During the generation, two different authors will be created and thus two different series, so all the eBooks must have the name of each author indicated in the same way, the proposal of Bookshelves is to prefer firstname-lastname. It's important because with this order, Bookshelves can seperate firstname and lastname to order authors. **You can reverse firstname-lastname into config/bookshelves.php**
+an eBook "The Three Musketeers" has a lastname-firstname author name such as "Alexandre Dumas" while another eBook of the same series "Twenty Years After" has a lastname-firstname author name such as "Dumas Alexandre". During the generation, two different authors will be created and thus two different series, so all the eBooks must have the name of each author indicated in the same way, the proposal of APP_NAME is to prefer firstname-lastname. It's important because with this order, APP_NAME can seperate firstname and lastname to order authors. **You can reverse firstname-lastname into config/bookshelves.php**
 
 > - The Three Musketeers from Alexandre Dumas: `/dumas-alexandre/three-musketeers-en` from serie `/dumas-alexandre/d-artagnan-romances-en`
 > - Twenty Years After from Dumas Alexandre: `/alexandre-dumas/twenty-years-after-en` from serie `/alexandre-dumas/d-artagnan-romances-en`
 
-### *What Bookshelves is not*
+### *What APP_NAME is not*
 
-Bookshelves is not like Calibre with dynamic database from EPUB into a specific directory, with Bookshelves you have to parse all EPUB in a directory and, if you add another, you have to parse for new EPUB (fastly than first parse) to generate new eBooks for database. You can use this application like Calibre but it's not same. If you want a Calibre app for web, check these projects:
+APP_NAME is not like Calibre with dynamic database from EPUB into a specific directory, with APP_NAME you have to parse all EPUB in a directory and, if you add another, you have to parse for new EPUB (fastly than first parse) to generate new eBooks for database. You can use this application like Calibre but it's not same. If you want a Calibre app for web, check these projects:
 
 - [**github.com/janeczku/calibre-web**](https://github.com/janeczku/calibre-web)
 - [**github.com/seblucas/cops**](https://github.com/seblucas/cops)
 
 ## Links
 
-🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of Bookshelves  
+🚀 [**bookshelves.ink**](https://bookshelves.ink): demo of APP_NAME  
 
 ### *Features*
 
-🔒 [**bookshelves.ink/admin**](https://bookshelves.ink/admin): admin of Bookshelves usage  
-📔 [**bookshelves.ink/wiki**](https://bookshelves.ink/wiki): wiki for Bookshelves usage  
+🔒 [**bookshelves.ink/admin**](https://bookshelves.ink/admin): admin of APP_NAME usage  
+📔 [**bookshelves.ink/wiki**](https://bookshelves.ink/wiki): wiki for APP_NAME usage  
 👩‍💻 [**bookshelves.ink/docs**](https://bookshelves.ink/docs): API documentation  
 🔖 [**bookshelves.ink/opds**](https://bookshelves.ink/opds): OPDS feed for applications which can read this feed  
 📚 [**bookshelves.ink/catalog**](https://bookshelves.ink/catalog): Catalog, a basic interface for eReader browser to download eBook from eReader  
-📖 [**bookshelves.ink/webreader**](https://bookshelves.ink/webreader): Webreader, to read any Bookshelves eBook into your browser  
+📖 [**bookshelves.ink/webreader**](https://bookshelves.ink/webreader): Webreader, to read any APP_NAME eBook into your browser  
 
 ### *Repository*
 
-📀 [**gitlab.com/ewilan-riviere/bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves  
-🎨 [**gitlab.com/ewilan-riviere/bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  
+📀 [**gitlab.com/ewilan-riviere/bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of APP_NAME  
+🎨 [**gitlab.com/ewilan-riviere/bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of APP_NAME  

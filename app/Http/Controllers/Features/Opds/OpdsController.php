@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Features\Opds;
 
 use App\Enums\EntitiesEnum;
 use App\Http\Controllers\Controller;
-use App\Services\CommonMarkService;
+use App\Services\MarkdownService;
 use App\Services\OpdsService;
 use Artesaos\SEOTools\Facades\SEOTools;
 use File;
@@ -18,8 +18,8 @@ class OpdsController extends Controller
 {
     public function index(Request $request)
     {
-        $markdown = CommonMarkService::generate('opds/index.md');
-        $content = $markdown->content;
+        $service = MarkdownService::generate('opds/index.md');
+        $content = $service->convertToHtml();
 
         $feeds = [
             [

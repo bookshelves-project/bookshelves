@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import baseConfig from '../vite.config'
-import windicss from 'vite-plugin-windicss'
+// import windicss from 'vite-plugin-windicss'
 import path from 'path'
 import svgLoader from 'vite-svg-loader'
 

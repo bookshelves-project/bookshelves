@@ -4,53 +4,17 @@ import 'clockwork-browser/toolbar'
 // import 'virtual:windi.css'
 import './app.css'
 import '../css/fonts.css'
+import '../css/markdown.css'
 
-// import Swiper, { Pagination } from 'swiper'
-// import 'swiper/css/bundle'
-
-// import IMask from 'imask'
-
-import './scripts/gtm'
-
-// import slider from './scripts/components/slider'
-
-// Swiper.use([Pagination])
+import codeblock from './scripts/components/codeblock'
+import toc from './scripts/components/toc'
 
 import Alpine from 'alpinejs'
 
 window.Alpine = Alpine
-// window.Swiper = Swiper
 
 const jsonSettings = document.querySelector('[data-json-settings]')
 window.settings = jsonSettings ? JSON.parse(jsonSettings.textContent!) : {}
-
-Alpine.magic('currency', () => {
-  const formatter = new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  })
-
-  return (amount) => formatter.format(amount)
-})
-
-Alpine.magic('percent', () => {
-  const formatter = new Intl.NumberFormat('fr-FR', {
-    style: 'percent',
-  })
-
-  return (amount) => formatter.format(amount / 100)
-})
-
-// Alpine.directive('mask-phone', (el) => {
-//   IMask(el, {
-//     mask: '{\\0}# 00 00 00 00',
-//     definitions: {
-//       '#': /[1-7|9]/,
-//     },
-//   })
-// })
 
 Alpine.store('sidebar', {
   toggled: false,
@@ -88,7 +52,22 @@ Alpine.data('dropdown', () => ({
   },
 }))
 
-// Déclaration des composants Alpine.
-// Alpine.data('slider', slider)
+Alpine.data('tocStatic', () => ({
+  tocContent: '',
+
+  init() {
+    const html = document.getElementsByClassName('table-of-contents')
+    const toc = html.item(0)
+    toc?.classList.add('hidden')
+    this.tocContent = toc?.innerHTML as string
+  },
+
+  // toggle() {
+  //   this.open = !this.open
+  // },
+}))
+
+Alpine.data('codeblock', codeblock)
+Alpine.data('toc', toc)
 
 Alpine.start()

@@ -17,9 +17,9 @@
         <jet-label for="email" value="Email" />
         <jet-input
           id="email"
+          v-model="form.email"
           type="email"
           class="mt-1 block w-full"
-          v-model="form.email"
           required
           autofocus
         />
@@ -29,9 +29,9 @@
         <jet-label for="password" value="Password" />
         <jet-input
           id="password"
+          v-model="form.password"
           type="password"
           class="mt-1 block w-full"
-          v-model="form.password"
           required
           autocomplete="current-password"
         />
@@ -39,7 +39,7 @@
 
       <div class="block mt-4">
         <label class="flex items-center">
-          <jet-checkbox name="remember" v-model:checked="form.remember" />
+          <jet-checkbox v-model:checked="form.remember" name="remember" />
           <span class="ml-2 text-sm text-gray-600">Remember me</span>
         </label>
       </div>
@@ -66,14 +66,14 @@
 </template>
 
 <script>
-import JetAuthenticationCard from "@/Jetstream/AuthenticationCard.vue";
-import JetAuthenticationCardLogo from "@/Jetstream/AuthenticationCardLogo.vue";
-import JetButton from "@/Jetstream/Button.vue";
-import JetInput from "@/Jetstream/Input.vue";
-import JetCheckbox from "@/Jetstream/Checkbox.vue";
-import JetLabel from "@/Jetstream/Label.vue";
-import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue'
+import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue'
+import JetButton from '@/Jetstream/Button.vue'
+import JetInput from '@/Jetstream/Input.vue'
+import JetCheckbox from '@/Jetstream/Checkbox.vue'
+import JetLabel from '@/Jetstream/Label.vue'
+import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
+import { Head, Link } from '@inertiajs/inertia-vue3'
 
 export default {
   components: {
@@ -96,18 +96,18 @@ export default {
   data() {
     return {
       form: this.$inertia.form({
-        email: "",
-        password: "",
+        email: '',
+        password: '',
         remember: false,
       }),
-    };
+    }
   },
 
   mounted() {
-    if (this.$inertia.page.props.app.env === "local") {
-      this.form.email = this.$inertia.page.props.bookshelves.admin.email;
-      this.form.password = this.$inertia.page.props.bookshelves.admin.password;
-      this.form.remember = true;
+    if (this.$inertia.page.props.app.env === 'local') {
+      this.form.email = this.$inertia.page.props.bookshelves.admin.email
+      this.form.password = this.$inertia.page.props.bookshelves.admin.password
+      this.form.remember = true
     }
   },
 
@@ -116,12 +116,12 @@ export default {
       this.form
         .transform((data) => ({
           ...data,
-          remember: this.form.remember ? "on" : "",
+          remember: this.form.remember ? 'on' : '',
         }))
-        .post(this.route("login"), {
-          onFinish: () => this.form.reset("password"),
-        });
+        .post(this.route('login'), {
+          onFinish: () => this.form.reset('password'),
+        })
     },
   },
-};
+}
 </script>

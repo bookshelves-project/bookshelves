@@ -1,0 +1,16 @@
+{
+  "app.ts": {
+    "file": "assets/app.4725846b.js",
+    "src": "app.ts",
+    "isEntry": true,
+    "imports": [
+      "_vendor.8bafb0ef.js"
+    ],
+    "css": [
+      "assets/app.f0699c7d.css"
+    ]
+  },
+  "_vendor.8bafb0ef.js": {
+    "file": "assets/vendor.8bafb0ef.js"
+  }
+}

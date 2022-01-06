@@ -1,9 +1,13 @@
 <x-layouts.app>
     <div x-data="$store.sidebar" class="min-h-full">
-        <x-layouts.sidebar.sidebar />
-        <x-layouts.sidebar.sidebar-static :links="$links" />
+        <x-layouts.documentation.sidebar />
+        <x-layouts.documentation.sidebar-static :links="$links" />
 
-        <div class="lg:pl-64 flex flex-col flex-1">
+        <x-layouts.documentation.slide-over />
+        <x-layouts.documentation.slide-over-static />
+
+
+        <div class="lg:pl-64 lg:pr-64 flex flex-col flex-1">
             {{-- <x-layouts.sidebar.navigation /> --}}
             <main class="flex-1 pb-8">
                 {{-- <x-layouts.sidebar.header /> --}}

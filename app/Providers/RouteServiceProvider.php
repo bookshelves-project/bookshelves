@@ -47,6 +47,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'))
             ;
+
+            Route::prefix('api/v1')
+                ->middleware(['api', 'auth:sanctum'])
+                ->group(base_path('routes/api-v1.php'))
+            ;
         });
 
         // Route::get('/', FeaturesController::class)->name('home');

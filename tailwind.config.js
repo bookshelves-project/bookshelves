@@ -4,7 +4,7 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
   mode: 'jit',
   content: [
-    './app/**/*.{php}',
+    './app/**/*.php',
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
     './vendor/laravel/jetstream/**/*.blade.php',
     './storage/framework/views/*.php',

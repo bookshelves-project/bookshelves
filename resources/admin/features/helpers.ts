@@ -1,23 +1,7 @@
 import { usePage } from '@inertiajs/inertia-vue3'
 import { __, TranslationOptions } from 'matice'
 import { useTitle as vueUseTitle } from '@vueuse/core'
-import {
-  Model,
-  Page,
-  Post,
-  User,
-  Testimony,
-  Service,
-  PageResidence,
-  ResidenceLot,
-  Animation,
-  Residence,
-  ResidenceProject,
-  PageResidenceProject,
-  FaqCategory,
-  FaqQuestion,
-} from '@admin/types'
-import { PageTemplate } from '@admin/types/page'
+import { Model } from '@admin/types'
 
 export function useTitle(title: string, options?: TranslationOptions): string {
   const subTitle = __(title, options)
@@ -36,21 +20,7 @@ export function useModelToString(
   if (resource) {
     return (
       {
-        users: (model: User) => model.name,
-        posts: (model: Post) => model.title,
-        pages: (model: Page<PageTemplate>) => model.title,
-        blocks: (model: Page<PageTemplate>) => model.title,
-        testimonies: (model: Testimony) => model.title,
-        services: (model: Service) => model.title,
-        'page-residences': (model: PageResidence) => model.residence.name,
-        animations: (model: Animation) => model.title,
-        'residence-lots': (model: ResidenceLot) => model.housing_type,
-        residences: (model: Residence) => model.name,
-        'residence-projects': (model: ResidenceProject) => model.name,
-        'page-residence-projects': (model: PageResidenceProject) =>
-          model.project.name,
-        'faq-categories': (model: FaqCategory) => model.name,
-        'faq-questions': (model: FaqQuestion) => model.title,
+        // users: (model: User) => model.name,
       } as { [key: string]: (model) => string }
     )[resource](model)
   }
