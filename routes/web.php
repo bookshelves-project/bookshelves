@@ -7,7 +7,6 @@ use App\Http\Controllers\Features\Catalog\AuthorController;
 use App\Http\Controllers\Features\Catalog\BookController;
 use App\Http\Controllers\Features\Catalog\CatalogController;
 use App\Http\Controllers\Features\Catalog\SerieController;
-use App\Http\Controllers\Features\Documentation\DocumentationController;
 use App\Http\Controllers\Features\FeaturesController;
 use App\Http\Controllers\Features\Opds\AuthorController as OpdsAuthorController;
 use App\Http\Controllers\Features\Opds\BookController as OpdsBookController;
@@ -76,10 +75,6 @@ Route::prefix('features')->group(function () {
     Route::prefix('webreader')->group(function () {
         Route::get('/', [WebreaderController::class, 'index'])->name('features.webreader.index');
         Route::get('/{author:slug}/{book:slug}/{page?}', [WebreaderController::class, 'reader'])->name('features.webreader.reader');
-    });
-
-    Route::prefix('documentation')->group(function () {
-        Route::get('/{page?}', [DocumentationController::class, 'page'])->name('features.documentation.page');
     });
 });
 

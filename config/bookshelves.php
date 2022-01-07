@@ -88,7 +88,7 @@ return [
                 'external' => true,
             ],
             [
-                'route' => 'features.documentation.page',
+                'route' => false,
                 'href' => false,
                 'title' => 'Documentation',
                 'icon' => 'wiki',

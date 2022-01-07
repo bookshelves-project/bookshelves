@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
-  class="iconify iconify--simple-line-icons" width="28" height="32" preserveAspectRatio="xMidYMid meet"
-  viewBox="0 0 896 1024">
-  <path
-    d="M785 0H147q-22 0-37.5 10t-22 24.5T81 66v127H46q-13 0-22 9.5T15 225q0 8 4 15.5T30.5 252t15.5 4h35v129H49q-8 0-15.5 4T22 400.5T18 416q0 13 9 22t22 9h32v130H48q-6 0-11.5 2.5t-10 6.5t-7 10t-2.5 12q0 13 9.5 22.5T48 640h33v128H48q-4 0-8 1t-7.5 3t-6.5 5t-5 6.5t-3 7.5t-1 8q0 13 9.5 22.5T48 831h33v129q0 35 20.5 49.5T146 1024h639q40 0 68-28t28-68V96q0-40-28-68T785 0zM145 960V831h33q13 0 22.5-9.5T210 799q0-6-2.5-12t-7-10t-10-6.5T178 768h-33V640h33q9 0 16-4.5t11.5-11.5t4.5-16q0-13-9.5-22t-22.5-9h-33V447h34q9 0 16-4t11-11t4-16q0-6-2-12t-6.5-10t-10-6.5T179 385h-34V256h31q13 0 22-9t9-22t-9-22.5t-22-9.5h-31V64h512v896H145zm672-32q0 13-9.5 22.5T785 960h-64V64h64q13 0 22.5 9.5T817 96v832z"
-    fill="currentColor"></path>
-</svg>
