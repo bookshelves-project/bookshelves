@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\BookOrSerieResource;
@@ -24,27 +23,29 @@ use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * @group Book
- *
- * Endpoint to get Books data.
+ * @group Entity: Book
  */
-class BookController extends Controller
+class BookController extends ApiController
 {
     /**
-     * GET Book collection.
+     * GET List books.
      *
      * <small class="badge badge-blue">WITH PAGINATION</small>
      *
-     * Get all Books ordered by 'title' & Series' 'title'.
+     * Get all Books ordered by `title` & `serie_title`.
      *
-     * @queryParam perPage int Entities per page, '32' by default. No-example
-     * @queryParam page int The page number, '1' by default. No-example
-     * @queryParam all bool To disable pagination, false by default. No-example
-     * @queryParam lang filters[fr,en] To select specific lang, null by default. No-example
+     * @queryParam perPage int
+     * Entities per page. Example: 5
      *
-     * @responseField title string Book's title.
+     * @queryParam page int
+     * The page number, `1` by default. Example: 1
      *
-     * @responseFile public/assets/responses/books.index.get.json
+     * @queryParam filter[languages] string
+     * To select specific lang, `null` by default. Example: en,fr
+     *
+     * @responseField data object[] List of books.
+     * @responseField links object Links to get other pages.
+     * @responseField meta object Metadata about pagination.
      *
      * Examples
      * - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[languages]=fr,en&filter[published]=2018-06-07,2021-11-01
@@ -85,30 +86,10 @@ class BookController extends Controller
     }
 
     /**
-     * GET Book resource.
-     *
-     * Get details of Book model, find by slug of book and slug of author.
-     *
-     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     * @urlParam book_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
-     * @responseFile public/assets/responses/books.show.get.json
+     * GET Book details.
      */
     public function show(Request $request, Author $author, Book $book)
     {
-        // if (! $book) {
-        //     return response()->json([
-        //         'status' => 'failed',
-        //         'message' => 'No book with this author and this title.',
-        //         'data' => [
-        //             'route' => $request->route()->uri,
-        //             'params' => [
-        //                 'author' => $author->slug,
-        //                 'book' => $book->slug,
-        //             ],
-        //         ],
-        //     ], 404);
-        // }
-
         return BookResource::make($book);
     }
 
@@ -116,32 +97,6 @@ class BookController extends Controller
     {
         return Book::limit(5)->get();
     }
-
-    /**
-     * @OA\Get(
-     *     path="/books/latest",
-     *     tags={"books"},
-     *     summary="List of latest books",
-     *     description="Get list of latest books",
-     *     @OA\Parameter(
-     *         name="limit",
-     *         in="query",
-     *         description="Integer to choose how many books you show, default 10",
-     *         required=false,
-     *         example=10,
-     *         @OA\Schema(
-     *           type="integer",
-     *           format="int64"
-     *         ),
-     *         style="form"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(),
-     *     )
-     * )
-     */
 
     /**
      * GET Book collection latest entries.
@@ -153,7 +108,6 @@ class BookController extends Controller
      * @queryParam limit int To limit of entities, '10' by default. No-example
      * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
-     * @responseFile public/assets/responses/books.latest.get.json
      */
     public function latest(Request $request)
     {
@@ -185,8 +139,6 @@ class BookController extends Controller
      * GET Book collection of selection.
      *
      * Get all Books selected by team, limited to '10' results by default (no pagination).
-     *
-     * @responseFile public/assets/responses/books.selection.get.json
      */
     public function selection(Request $request): JsonResource
     {
@@ -213,8 +165,6 @@ class BookController extends Controller
      * @queryParam limit int To limit of entities. No-example
      * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
-     *
-     * @responseFile public/assets/responses/books.related.get.json
      */
     public function related(Request $request, string $authorSlug, string $bookSlug)
     {

@@ -75,7 +75,9 @@ return [
     |
     */
 
-    'repository' => env('APP_REPOSITORY', 'https://gitlab.com/bookshelves-project/bookshelves-back'),
+    'repository_url' => env('APP_REPOSITORY_URL', 'https://gitlab.com/bookshelves-project'),
+
+    'documentation_url' => env('APP_DOCUMENTATION_URL', 'https://documentation.bookshelves.ink'),
 
     /*
     |--------------------------------------------------------------------------

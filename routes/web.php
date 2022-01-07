@@ -89,14 +89,14 @@ Route::middleware($middleware)->group(function () use ($prefix) {
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'login'])->name('admin.login');
-    // Route::get('/', function () {
-    //     return Inertia::render('auth/login', [
-    //         'canLogin' => Route::has('login'),
-    //         'canRegister' => Route::has('register'),
-    //         'laravelVersion' => Application::VERSION,
-    //         'phpVersion' => PHP_VERSION,
-    //     ]);
-    // })->name('admin');
+    Route::get('/', function () {
+        return Inertia::render('auth/login', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+        ]);
+    })->name('admin');
 //     // override fortify
 //     // Route::post('/login', [AuthenticatedSessionControllerOverride::class, 'store'])->name('admin.auth.login');
 //     // Route::post('/logout', [AuthenticatedSessionControllerOverride::class, 'destroy'])->name('admin.auth.logout');

@@ -53,8 +53,8 @@ Route::prefix('/cms')->group(function () {
  */
 Route::prefix('/books')->group(function () {
     Route::get('/', [BookController::class, 'index'])->name('api.books.index');
-    Route::get('/{author:slug}/{book:slug}', [BookController::class, 'show'])->name('api.books.show');
-    Route::get('/related/{author:slug}/{book:slug}', [BookController::class, 'related'])->name('api.books.related');
+    Route::get('/{author}/{book}', [BookController::class, 'show'])->name('api.books.show');
+    Route::get('/related/{author}/{book}', [BookController::class, 'related'])->name('api.books.related');
     Route::get('/latest', [BookController::class, 'latest'])->name('api.books.latest');
     Route::get('/selection', [BookController::class, 'selection'])->name('api.books.selection');
 });
@@ -64,9 +64,9 @@ Route::prefix('/books')->group(function () {
  */
 Route::prefix('/series')->group(function () {
     Route::get('/', [SerieController::class, 'index'])->name('api.series.index');
-    Route::get('/{author:slug}/{serie:slug}', [SerieController::class, 'show'])->name('api.series.show');
-    Route::get('/books/{author:slug}/{serie:slug}', [SerieController::class, 'books'])->name('api.series.show.books');
-    Route::get('/books/{volume}/{author:slug}/{serie:slug}', [SerieController::class, 'current'])->name('api.series.current');
+    Route::get('/{author}/{serie}', [SerieController::class, 'show'])->name('api.series.show');
+    Route::get('/books/{author}/{serie}', [SerieController::class, 'books'])->name('api.series.show.books');
+    Route::get('/books/{volume}/{author}/{serie}', [SerieController::class, 'current'])->name('api.series.current');
 });
 
 /*
@@ -74,9 +74,9 @@ Route::prefix('/series')->group(function () {
  */
 Route::prefix('/authors')->group(function () {
     Route::get('/', [AuthorController::class, 'index'])->name('api.authors.index');
-    Route::get('/{author:slug}', [AuthorController::class, 'show'])->name('api.authors.show');
-    Route::get('/books/{author:slug}', [AuthorController::class, 'books'])->name('api.authors.show.books');
-    Route::get('/series/{author:slug}', [AuthorController::class, 'series'])->name('api.authors.show.series');
+    Route::get('/{author}', [AuthorController::class, 'show'])->name('api.authors.show');
+    Route::get('/books/{author}', [AuthorController::class, 'books'])->name('api.authors.show.books');
+    Route::get('/series/{author}', [AuthorController::class, 'series'])->name('api.authors.show.series');
 });
 
 /*
@@ -99,9 +99,9 @@ Route::prefix('/search')->group(function () {
  * Download routes
  */
 Route::prefix('/download')->group(function () {
-    Route::get('/book/{author:slug}/{book:slug}', [DownloadController::class, 'book'])->name('api.download.book');
-    Route::get('/serie/{author:slug}/{serie:slug}', [DownloadController::class, 'serie'])->name('api.download.serie');
-    Route::get('/author/{author:slug}', [DownloadController::class, 'author'])->name('api.download.author');
+    Route::get('/book/{author}/{book}', [DownloadController::class, 'book'])->name('api.download.book');
+    Route::get('/serie/{author}/{serie}', [DownloadController::class, 'serie'])->name('api.download.serie');
+    Route::get('/author/{author}', [DownloadController::class, 'author'])->name('api.download.author');
 });
 
 /*
@@ -138,8 +138,8 @@ Route::prefix('/tags')->group(function () {
  */
 Route::prefix('/publishers')->group(function () {
     Route::get('/', [PublisherController::class, 'index'])->name('api.publishers.index');
-    Route::get('/{publisher:slug}', [PublisherController::class, 'show'])->name('api.publishers.show');
-    Route::get('/books/{publisher:slug}', [PublisherController::class, 'books'])->name('api.publishers.show.books');
+    Route::get('/{publisher}', [PublisherController::class, 'show'])->name('api.publishers.show');
+    Route::get('/books/{publisher}', [PublisherController::class, 'books'])->name('api.publishers.show.books');
 });
 
 /*
@@ -147,7 +147,7 @@ Route::prefix('/publishers')->group(function () {
  */
 Route::prefix('/languages')->group(function () {
     Route::get('/', [LanguageController::class, 'index'])->name('api.languages.index');
-    Route::get('/{language:slug}', [LanguageController::class, 'show'])->name('api.languages.show');
+    Route::get('/{language}', [LanguageController::class, 'show'])->name('api.languages.show');
 });
 
 /*
@@ -168,85 +168,47 @@ Route::post('/register', [RegisterController::class, 'store'])->name('api.auth.s
 Route::post('/password/forgot', [PasswordController::class, 'forgot'])->name('api.auth.password.forgot');
 Route::post('/password/reset', [PasswordController::class, 'reset'])->name('api.auth.password.reset');
 
-/*
- * Users features routes
- */
-Route::middleware(['auth:users'])->group(function () {
-    /**
-     * Logout route.
-     */
-    Route::post('/logout', [LoginController::class, 'logout'])->name('api.auth.logout');
+// /*
+//  * Users features routes
+//  */
+// Route::middleware(['auth:users'])->group(function () {
+//     /**
+//      * Logout route.
+//      */
+//     Route::post('/logout', [LoginController::class, 'logout'])->name('api.auth.logout');
 
-    /*
-     * Favorites routes
-     */
-    Route::prefix('/favorites')->group(function () {
-        Route::get('/{user:id}', [FavoriteController::class, 'user'])->name('api.favorites.user');
-        Route::post('/toggle/{model}/{slug}', [FavoriteController::class, 'toggle'])->name('api.favorites.toggle');
-    });
-
-    /*
-     * Comments routes
-     */
-    Route::prefix('/comments')->group(function () {
-        Route::get('/{user:id}', [CommentController::class, 'user'])->name('api.comments.user');
-        Route::post('/store/{model}/{slug}', [CommentController::class, 'store'])->name('api.comments.store');
-        Route::post('/edit/{book:slug}', [CommentController::class, 'edit'])->name('api.comments.edit');
-        Route::post('/update/{book:slug}', [CommentController::class, 'update'])->name('api.comments.update');
-        Route::post('/destroy/{book:slug}', [CommentController::class, 'destroy'])->name('api.comments.destroy');
-    });
-
-    /*
-     * Commands routes
-     */
-    Route::get('/commands/update-books', [CommandController::class, 'updateBooks'])->name('api.commands.update-books');
-
-    /*
-     * User routes
-     */
-    Route::prefix('/profile')->group(function () {
-        Route::get('/', [ProfileController::class, 'sanctum'])->name('api.profile');
-        Route::post('/update', [ProfileController::class, 'update'])->name('api.profile.update');
-        Route::post('/delete', [ProfileController::class, 'delete'])->name('api.profile.delete');
-        Route::get('/delete/avatar', [ProfileController::class, 'deleteAvatar'])->name('api.profile.delete.avatar');
-    });
-    Route::post('/password/update', [PasswordController::class, 'update'])->name('api.password.update');
-});
-
-// Route::get('/register', [RegisteredUserController::class, 'create'])->name('api.auth.register');
-// Route::post('/register', [RegisteredUserController::class, 'store'])->name('api.auth.register.post');
-
-// Route::prefix('auth')->group(function () {
-    // Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('api.auth.forgot-password');
-    // Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('api.auth.forgot-password.post');
-
-    // Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('api.auth.reset-password');
-    // Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('api.auth.reset-password.post');
-//     Route::get('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'create'])->name('api.auth.two-factor-challenge');
-//     Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store'])->name('api.auth.two-factor-challenge.post');
-
-//     Route::middleware(['auth:sanctum'])->group(function () {
-//         Route::get('/user/confirm-password', [ConfirmablePasswordController::class, 'show'])->name('api.auth.confirm-password');
-//         Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store'])->name('api.auth.confirm-password.post');
-//         Route::get('/user/confirmed-password-status', [ConfirmedPasswordStatusController::class, 'show'])->name('api.auth.confirmed-password-status');
-//         Route::put('/user/password', [PasswordController::class, 'update'])->name('api.auth.password-controller');
-
-//         Route::put('/user/profile-information', [ProfileInformationController::class, 'update'])->name('api.auth.profile-information');
-
-//         Route::post('/user/two-factor-authentication', [TwoFactorAuthenticationController::class, 'store'])->name('api.auth.two-factor-authentication');
-//         Route::delete('/user/two-factor-authentication', [TwoFactorAuthenticationController::class, 'destroy'])->name('api.auth.two-factor-authentication.post');
-
-//         Route::get('/user/two-factor-qr-code', [TwoFactorQrCodeController::class, 'show'])->name('api.auth.two-factor-qr-code');
-//         Route::get('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'index'])->name('api.auth.recovery-code');
-//         Route::post('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'store'])->name('api.auth.recovery-code.post');
+//     /*
+//      * Favorites routes
+//      */
+//     Route::prefix('/favorites')->group(function () {
+//         Route::get('/{user:id}', [FavoriteController::class, 'user'])->name('api.favorites.user');
+//         Route::post('/toggle/{model}/{slug}', [FavoriteController::class, 'toggle'])->name('api.favorites.toggle');
 //     });
-// });
 
-// Route::fallback(function () {
-//     Route::any('{any}', function () {
-//         return response()->json([
-//             'status'    => false,
-//             'message'   => 'Page Not Found.',
-//         ], 404);
-//     })->where('any', '.*');
+//     /*
+//      * Comments routes
+//      */
+//     Route::prefix('/comments')->group(function () {
+//         Route::get('/{user:id}', [CommentController::class, 'user'])->name('api.comments.user');
+//         Route::post('/store/{model}/{slug}', [CommentController::class, 'store'])->name('api.comments.store');
+//         Route::post('/edit/{book:slug}', [CommentController::class, 'edit'])->name('api.comments.edit');
+//         Route::post('/update/{book:slug}', [CommentController::class, 'update'])->name('api.comments.update');
+//         Route::post('/destroy/{book:slug}', [CommentController::class, 'destroy'])->name('api.comments.destroy');
+//     });
+
+//     /*
+//      * Commands routes
+//      */
+//     Route::get('/commands/update-books', [CommandController::class, 'updateBooks'])->name('api.commands.update-books');
+
+//     /*
+//      * User routes
+//      */
+//     Route::prefix('/profile')->group(function () {
+//         Route::get('/', [ProfileController::class, 'sanctum'])->name('api.profile');
+//         Route::post('/update', [ProfileController::class, 'update'])->name('api.profile.update');
+//         Route::post('/delete', [ProfileController::class, 'delete'])->name('api.profile.delete');
+//         Route::get('/delete/avatar', [ProfileController::class, 'deleteAvatar'])->name('api.profile.delete.avatar');
+//     });
+//     Route::post('/password/update', [PasswordController::class, 'update'])->name('api.password.update');
 // });

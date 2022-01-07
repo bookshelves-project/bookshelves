@@ -34,7 +34,7 @@ class MarkdownService
         'APP_NAME' => 'app.name',
         'APP_URL' => 'app.url',
         'APP_FRONT_URL' => 'app.front_url',
-        'APP_REPOSITORY' => 'app.repository',
+        'APP_REPOSITORY_URL' => 'app.repository_url',
     ];
 
     public function __construct(

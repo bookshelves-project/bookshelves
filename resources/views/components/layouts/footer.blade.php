@@ -23,7 +23,7 @@
                     </span>
                 </a>
                 <div>
-                    · <a href="{{ config('app.repository') }}" target="_blank"
+                    · <a href="{{ config('app.repository_url') }}" target="_blank"
                         rel="noopener noreferrer">{{ config('app.name') }} v{{ $composer->version }}</a>,
                     <a href="{{ route('features.license') }}">{{ $composer->license }}
                         license.</a>

@@ -81,7 +81,8 @@ return [
                 'external' => false,
             ],
             [
-                'route' => 'admin.login',
+                // 'route' => 'admin.login',
+                'route' => false,
                 'href' => false,
                 'title' => 'Admin',
                 'icon' => 'git-branch',
@@ -89,10 +90,10 @@ return [
             ],
             [
                 'route' => false,
-                'href' => false,
+                'href' => config('app.documentation_url'),
                 'title' => 'Documentation',
                 'icon' => 'wiki',
-                'external' => false,
+                'external' => true,
             ],
             [
                 'route' => 'scribe',
@@ -103,7 +104,7 @@ return [
             ],
             [
                 'route' => false,
-                'href' => config('app.repository'),
+                'href' => config('app.repository_url'),
                 'title' => 'Repository',
                 'icon' => 'git-branch',
                 'external' => true,

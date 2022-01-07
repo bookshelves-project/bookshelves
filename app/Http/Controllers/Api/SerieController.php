@@ -17,7 +17,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * @group Serie
+ * @group Entity: Serie
  *
  * Endpoint to get Series data.
  */
@@ -61,16 +61,16 @@ class SerieController extends Controller
         ;
     }
 
-    /**
-     * GET Serie resource.
-     *
-     * Get details of Serie model, find by slug of serie and slug of author.
-     *
-     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     * @urlParam serie_slug string required The slug of serie like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
-     *
-     * @responseFile public/assets/responses/series.show.get.json
-     */
+    // /**
+    //  * GET Serie resource.
+    //  *
+    //  * Get details of Serie model, find by slug of serie and slug of author.
+    //  *
+    //  * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
+    //  * @urlParam serie_slug string required The slug of serie like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
+    //  *
+    //  * @responseFile public/assets/responses/series.show.get.json
+    //  */
     public function show(string $author, string $serie)
     {
         $author = Author::whereSlug($author)->firstOrFail();

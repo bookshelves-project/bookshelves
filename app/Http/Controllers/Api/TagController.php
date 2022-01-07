@@ -29,7 +29,7 @@ class TagController extends Controller
      *
      * @responseField name string Tag's name.
      *
-     * @responseFile public/assets/responses/tags.index.get.json
+     * //  * @responseFile public/assets/responses/tags.index.get.json
      */
     public function index(Request $request)
     {
@@ -63,7 +63,7 @@ class TagController extends Controller
      *
      * @responseField name string Tag's name.
      *
-     * @responseFile public/assets/responses/tags.show.get.json
+     * //  * @responseFile public/assets/responses/tags.show.get.json
      */
     public function show(string $tag_slug)
     {
@@ -79,7 +79,7 @@ class TagController extends Controller
      *
      * @urlParam tag string Slug of Tag. Example: 'anticipation'
      *
-     * @responseFile public/assets/responses/tags.books.get.json
+     * //  * @responseFile public/assets/responses/tags.books.get.json
      */
     public function books(string $tag_slug)
     {

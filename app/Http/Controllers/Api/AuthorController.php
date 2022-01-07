@@ -16,7 +16,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * @group Author
+ * @group Entity: Author
  *
  * Endpoint to get Authors data.
  */
@@ -61,9 +61,6 @@ class AuthorController extends Controller
      * GET Author resource.
      *
      * Details for one Author, find by slug.
-     *
-     * @urlParam slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     * @responseFile public/assets/responses/authors.show.get.json
      */
     public function show(Author $author)
     {

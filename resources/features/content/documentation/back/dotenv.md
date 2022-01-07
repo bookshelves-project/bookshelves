@@ -6,7 +6,7 @@
 - `APP_ENV`: `local` or `production` to define app behavior
 - `APP_DEBUG`: to get error message instead of error 500 page
 - `APP_URL`: root app URL
-- `APP_REPOSITORY`: URL of repository
+- `APP_REPOSITORY_URL`: URL of repository
 
 ```yml
 APP_NAME=Bookshelves
@@ -14,7 +14,7 @@ APP_ENV=local
 ## ...
 APP_DEBUG=true
 APP_URL=http://127.0.0.1:8000
-APP_REPOSITORY=https://gitlab.com/bookshelves-project/bookshelves-back
+APP_REPOSITORY_URL=https://gitlab.com/bookshelves-project/bookshelves-back
 ```
 
 ## Database

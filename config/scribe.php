@@ -1,5 +1,8 @@
 <?php
 
+use App\Docs\Strategies\AuthorParameter;
+use App\Docs\Strategies\BookParameter;
+use App\Docs\Strategies\SerieParameter;
 use Knuckles\Scribe\Extracting\Strategies;
 
 return [
@@ -337,6 +340,9 @@ INTRO
             // Strategies\UrlParameters\GetFromLaravelAPI::class,
             Strategies\UrlParameters\GetFromLumenAPI::class,
             Strategies\UrlParameters\GetFromUrlParamTag::class,
+            AuthorParameter::class,
+            BookParameter::class,
+            SerieParameter::class,
         ],
         'queryParameters' => [
             Strategies\QueryParameters\GetFromFormRequest::class,
