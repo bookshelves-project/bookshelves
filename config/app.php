@@ -75,7 +75,7 @@ return [
     |
     */
 
-    'repository' => env('APP_REPOSITORY', 'https://gitlab.com/ewilan-riviere/bookshelves-back'),
+    'repository' => env('APP_REPOSITORY', 'https://gitlab.com/bookshelves-project/bookshelves-back'),
 
     /*
     |--------------------------------------------------------------------------

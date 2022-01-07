@@ -82,5 +82,5 @@ APP_NAME is not like Calibre with dynamic database from EPUB into a specific dir
 
 ### *Repository*
 
-📀 [**gitlab.com/ewilan-riviere/bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of APP_NAME  
-🎨 [**gitlab.com/ewilan-riviere/bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of APP_NAME  
+📀 [**gitlab.com/bookshelves-project/bookshelves-back**](https://gitlab.com/bookshelves-project/bookshelves-back) : back-end of APP_NAME  
+🎨 [**gitlab.com/bookshelves-project/bookshelves-front**](https://gitlab.com/bookshelves-project/bookshelves-front) : front-end of APP_NAME  

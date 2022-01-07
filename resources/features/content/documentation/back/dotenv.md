@@ -14,7 +14,7 @@ APP_ENV=local
 ## ...
 APP_DEBUG=true
 APP_URL=http://127.0.0.1:8000
-APP_REPOSITORY=https://gitlab.com/ewilan-riviere/bookshelves-back
+APP_REPOSITORY=https://gitlab.com/bookshelves-project/bookshelves-back
 ```
 
 ## Database

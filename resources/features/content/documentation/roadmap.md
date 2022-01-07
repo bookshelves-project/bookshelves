@@ -1,4 +1,4 @@
-This is roadmap for development, all planned features will be listed here. You can add an issue here to ask for new feature [**bookshelves-add issue**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/issues).
+This is roadmap for development, all planned features will be listed here. You can add an issue here to ask for new feature [**bookshelves-add issue**](https://gitlab.com/bookshelves-project/bookshelves-back/-/issues).
 
 ## *Ideas*
 

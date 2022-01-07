@@ -9,8 +9,8 @@
 [![laravel](https://img.shields.io/static/v1?label=Laravel&message=v8.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
 [![mysql](https://img.shields.io/static/v1?label=MySQL&message=v8.0&color=4479A1&style=flat-square&logo=mysql&logoColor=ffffff)](https://www.mysql.com)
 
-📀 [**bookshelves-back**](https://gitlab.com/ewilan-riviere/bookshelves-back) : back-end of Bookshelves (current repository)  
-🎨 [**bookshelves-front**](https://gitlab.com/ewilan-riviere/bookshelves-front) : front-end of Bookshelves  
+📀 [**bookshelves-back**](https://gitlab.com/bookshelves-project/bookshelves-back) : back-end of Bookshelves (current repository)  
+🎨 [**bookshelves-front**](https://gitlab.com/bookshelves-project/bookshelves-front) : front-end of Bookshelves  
 
 💻 [**bookshelves.ink**](https://bookshelves.ink): front demo  
 📚 [**bookshelves.ink/features/wiki**](https://bookshelves.ink/features/wiki): wiki  
@@ -59,7 +59,7 @@ php artisan setup
 
 ## **Usage**
 
-To get full documentation, you can read [**Wiki of Bookshelves**](https://bookshelves.ink/wiki), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/ewilan-riviere/bookshelves-back/-/blob/master/resources/views/pages/wiki/content) on repository.
+To get full documentation, you can read [**Wiki of Bookshelves**](https://bookshelves.ink/wiki), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/bookshelves-project/bookshelves-back/-/blob/master/resources/views/pages/wiki/content) on repository.
 
 ## **Tests**
 
