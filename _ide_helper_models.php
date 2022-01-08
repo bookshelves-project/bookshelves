@@ -121,6 +121,7 @@ namespace App\Models{
  * @property-read string|null $meta_author
  * @property-read string $show_link
  * @property-read string $show_link_opds
+ * @property-read string $show_related_link
  * @property-read string $sort_name
  * @property-read mixed $tags_list
  * @property-read string $webreader_link
@@ -566,6 +567,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
  * @property-read mixed $first_char
+ * @property-read string $show_link
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
  * @method static \Illuminate\Database\Eloquent\Builder|Language newModelQuery()
@@ -604,6 +606,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
  * @property-read mixed $first_char
+ * @property-read string $show_books_link
  * @property-read string $show_link
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newQuery()
@@ -748,6 +751,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
  * @property-read mixed $first_char
+ * @property-read string $show_books_link
+ * @property-read string $show_link
  * @property-read array $translations
  * @method static \Illuminate\Database\Eloquent\Builder|Tag containing(string $name, $locale = null)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newModelQuery()

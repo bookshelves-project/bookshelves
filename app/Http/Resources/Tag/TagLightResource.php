@@ -62,12 +62,8 @@ class TagLightResource extends JsonResource
             // 'size' => $size,
             'meta' => [
                 'slug' => $this->resource->slug,
-                'books' => route('api.tags.show.books', [
-                    'tag' => $this->resource->slug,
-                ]),
-                'show' => route('api.tags.show', [
-                    'tag' => $this->resource->slug,
-                ]),
+                'books' => $this->resource->show_books_link,
+                'show' => $this->resource->show_link,
             ],
         ];
     }

@@ -60,6 +60,21 @@ class Book extends Model implements HasMedia
         return $this->getFirstMediaUrl('epubs');
     }
 
+    public function getShowRelatedLinkAttribute(): string
+    {
+        return route('api.v1.books.related', [
+            'author_slug' => $this->meta_author,
+            'book_slug' => $this->slug,
+        ]);
+    }
+
+    // public function getShowLinkAttribute(): string
+    // {
+    //     return route('api.v1.users.show', [
+    //         'slug' => $this->slug,
+    //     ]);
+    // }
+
     public function getEpubPathAttribute(): string|null
     {
         $full = null;

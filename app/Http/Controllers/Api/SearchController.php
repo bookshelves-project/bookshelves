@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
@@ -10,22 +9,17 @@ use App\Models\Language;
 use App\Models\Serie;
 use App\Services\SearchEngineService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Spatie\Tags\Tag;
 
 /**
  * @group Search
  */
-class SearchController extends Controller
+class SearchController extends ApiController
 {
     /**
-     * GET Entities collection.
+     * GET Search.
      *
      * Get Authors/Series/Books entities ordered by entity and lastname / title. Query can be series' title, book's title, author's firstname or lastname.
-     *
-     * @queryParam q string required Query search, null by default. Example: lovecraft
-     *
-     * @responseFile public/assets/responses/search.index.get.json
      */
     public function index(Request $request)
     {
@@ -55,18 +49,10 @@ class SearchController extends Controller
                 ],
             ]);
         }
-
-        // return response()->json(['error' => 'Need to have terms `q` parameter'], 401);
     }
 
     /**
-     * GET Entities collection (advanced).
-     *
-     * Get Authors/Series/Books entities ordered by entity and lastname / title.
-     *
-     * @queryParam q string required Query search, null by default. Example: lovecraft
-     *
-     * @responseFile public/assets/responses/search.index.get.json
+     * @hideFromAPIDocumentation
      */
     public function advanced(Request $request)
     {

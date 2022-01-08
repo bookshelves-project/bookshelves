@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Author\AuthorLightResource;
 use App\Http\Resources\Author\AuthorResource;
 use App\Http\Resources\Book\BookLightResource;
@@ -16,22 +15,28 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * @group Entity: Author
+ * @group Author
  *
  * Endpoint to get Authors data.
  */
-class AuthorController extends Controller
+class AuthorController extends ApiController
 {
     /**
-     * GET Author collection.
+     * GET List authors.
      *
      * <small class="badge badge-blue">WITH PAGINATION</small>
      *
-     * You can get all Authors with alphabetic order on lastname with pagination.
+     * Get all authors ordered by `title` & `serie_title`.
      *
-     * @queryParam perPage int Entities per page, '32' by default. No-example
-     * @queryParam page int The page number, '1' by default. No-example
-     * @responseFile public/assets/responses/authors.index.get.json
+     * @queryParam perPage int
+     * Entities per page. Example: 5
+     *
+     * @queryParam page int
+     * The page number, `1` by default. Example: 1
+     *
+     * @responseField data object[] List of authors.
+     * @responseField links object Links to get other pages.
+     * @responseField meta object Metadata about pagination.
      */
     public function index(Request $request)
     {
@@ -61,28 +66,23 @@ class AuthorController extends Controller
      * GET Author resource.
      *
      * Details for one Author, find by slug.
+     *
+     * @urlParam author string required
      */
     public function show(Author $author)
     {
-        try {
-            return AuthorResource::make($author);
-        } catch (\Throwable $th) {
-            return response()->json(['failed' => 'No result for '.$author], 404);
-        }
+        return AuthorResource::make($author);
     }
 
     /**
-     * GET Book collection of Author.
+     * GET Books list of an author.
      *
-     * Books list from one author, find by slug.
+     * Books list from an author, find by `slug`.
      *
      * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
-     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     *
-     * @responseFile public/assets/responses/authors.books.get.json
      */
-    public function books(Request $request, string $author)
+    public function books(Request $request, Author $author)
     {
         $page = $request->get('perPage');
         $page = $page ? $page : 32;
@@ -96,28 +96,26 @@ class AuthorController extends Controller
 
         $standalone = $request->get('standalone') ? filter_var($request->get('standalone'), FILTER_VALIDATE_BOOLEAN) : false;
 
-        if ($standalone) {
-            $author = Author::whereSlug($author)->with(['books.media', 'books.authors', 'books.serie', 'books.language'])->with(['books' => function ($book) {
-                return $book->whereDoesntHave('serie');
-            }])->firstOrFail();
-        } else {
-            $author = Author::whereSlug($author)->with(['books.media', 'books.authors', 'books.serie', 'books.language'])->firstOrFail();
-        }
+        // if ($standalone) {
+        //     $author = Author::whereSlug($author)->with(['books.media', 'books.authors', 'books.serie', 'books.language'])->with(['books' => function ($book) {
+        //         return $book->whereDoesntHave('serie');
+        //     }])->firstOrFail();
+        // } else {
+        //     $author = Author::whereSlug($author)->with(['books.media', 'books.authors', 'books.serie', 'books.language'])->firstOrFail();
+        // }
 
         return BookLightResource::collection($author->books->paginate($page));
     }
 
     /**
-     * GET Serie collection of Author.
+     * GET Series list of an author.
      *
-     * Series list from one author, find by slug.
+     * Series list from an author, find by `slug`.
      *
      * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
-     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     * @responseFile public/assets/responses/authors.series.get.json
      */
-    public function series(Request $request, string $author)
+    public function series(Request $request, Author $author)
     {
         $page = $request->get('perPage');
         $page = $page ? $page : 32;
@@ -129,9 +127,9 @@ class AuthorController extends Controller
         }
         $page = intval($page);
 
-        $author = Author::whereSlug($author)->with(['series' => function ($query) {
-            $query->withCount('books');
-        }, 'series.media', 'series.authors', 'series.language', 'series.books'])->firstOrFail();
+        // $author = Author::whereSlug($author)->with(['series' => function ($query) {
+        //     $query->withCount('books');
+        // }, 'series.media', 'series.authors', 'series.language', 'series.books'])->firstOrFail();
 
         return SerieLightResource::collection($author->series->paginate($page));
     }

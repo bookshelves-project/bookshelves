@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Features\Catalog;
 
 use App\Http\Controllers\Controller;
-use App\Services\CommonMarkService;
+use App\Services\MarkdownService;
 use App\Services\SearchEngineService;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class CatalogController extends Controller
 {
     public function index(Request $request)
     {
-        $markdown = CommonMarkService::generate('catalog/index.md');
+        $markdown = MarkdownService::generate('catalog/index.md');
         $content = $markdown->content;
 
         SEOTools::setTitle('Catalog');

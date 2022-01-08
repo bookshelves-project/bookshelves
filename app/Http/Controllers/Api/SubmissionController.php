@@ -2,28 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\SubmissionRequest;
 use App\Mail\SubmissionMail;
 use App\Models\Submission;
-use Illuminate\Http\Request;
 use Mail;
 
 /**
- * @hideFromAPIDocumentation
+ * @group Misc
  */
-class SubmissionController extends Controller
+class SubmissionController extends ApiController
 {
-    public function send(Request $request)
+    /**
+     * POST Send submission.
+     */
+    public function send(SubmissionRequest $request)
     {
-        $validate = $this->validate($request, [
-            'name' => 'required|string',
-            'email' => 'required|email:rfc,strict,dns,filter',
-            'honeypot' => 'required|boolean',
-            'message' => 'required|string|min:15',
-        ]);
+        $validated = $request->validated();
 
         // honeypot fake response
-        if ($validate['honeypot']) {
+        if ($validated['honeypot']) {
             return response()->json([
                 'success' => 'Your mail was sended!',
             ], 200);
@@ -31,9 +28,9 @@ class SubmissionController extends Controller
 
         // Create model
         $submission = Submission::create([
-            'name' => $validate['name'],
-            'email' => $validate['email'],
-            'message' => $validate['message'],
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'message' => $validated['message'],
         ]);
 
         $from_address = config('mail.from.address');

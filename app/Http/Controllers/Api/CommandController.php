@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\RoleEnum;
-use App\Http\Controllers\Controller;
 use Artisan;
 use Auth;
 
 /**
  * @hideFromAPIDocumentation
  */
-class CommandController extends Controller
+class CommandController extends ApiController
 {
     public function updateBooks()
     {

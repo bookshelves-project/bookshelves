@@ -3,108 +3,94 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Cms\CmsApplicationResource;
-use App\Http\Resources\LanguageResource;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Cms\CmsApplication;
 use App\Models\Language;
+use App\Models\Publisher;
 use App\Models\Serie;
-use App\Services\EnumService;
-use File;
+use App\Services\RouteService;
 use Illuminate\Support\Facades\Route;
+use Spatie\Tags\Tag;
 
-/**
- * @hideFromAPIDocumentation
- */
 class ApiController extends Controller
 {
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function __construct()
     {
-        Route::bind('author', function (string $author) {
+        Route::bind('author_slug', function (string $author) {
             return Author::whereSlug($author)->firstOrFail();
         });
 
-        Route::bind('book', function (string $book) {
+        Route::bind('book_slug', function (string $book) {
             return Book::whereSlug($book)->firstOrFail();
         });
 
-        Route::bind('serie', function (string $serie) {
+        Route::bind('serie_slug', function (string $serie) {
             return Serie::whereSlug($serie)->firstOrFail();
         });
 
-        // Route::bind('post', function ($slug) {
-        //     return Post::whereSlug($slug)->firstOrFail();
-        // });
+        Route::bind('tag_slug', function (string $tag) {
+            return Tag::where('slug->en', $tag)->firstOrFail();
+        });
 
-        // Route::bind('tag', function ($slug) {
-        //     return Tag::whereSlug($slug)->firstOrFail();
-        // });
+        Route::bind('publisher_slug', function (string $publisher) {
+            return Publisher::whereSlug($publisher)->firstOrFail();
+        });
 
-        // Route::bind('offer', function ($slug) {
-        //     return Offer::whereSlug($slug)->firstOrFail();
-        // });
-
-        // Route::bind('service', function ($slug) {
-        //     return Service::whereSlug($slug)->firstOrFail();
-        // });
-
-        // Route::bind('sector', function ($slug) {
-        //     return Sector::whereSlug($slug)->firstOrFail();
-        // });
-
-        // Route::bind('indice', function ($slug) {
-        //     return Indice::whereSlug($slug)->firstOrFail();
-        // });
-
-        // Route::bind('jobOffer', function ($reference) {
-        //     return JobOffer::whereReference($reference)->firstOrFail();
-        // });
-
-        // Route::bind('page', function ($slug) {
-        //     return Page::whereSlug($slug)->firstOrFail();
-        // });
+        Route::bind('language_slug', function (string $language) {
+            return Language::whereSlug($language)->firstOrFail();
+        });
     }
 
-//     public function index()
-//     {
-//         $composerJson = File::get(base_path('composer.json'));
-//         $composerJson = json_decode($composerJson);
+    /**
+     * @hideFromAPIDocumentation
+     */
+    public function apiHome()
+    {
+        return response()->json([
+            'name' => config('app.name').' API',
+            'versions' => [
+                'v1' => route('api.v1.v1'),
+            ],
+        ]);
+    }
 
-//         return response()->json([
-//             'name' => config('app.name').' API',
-//             'version' => $composerJson->version,
-//             'routes' => [
-//                 'catalog' => $this->getRouteData('features.catalog.index', 'UI for eReader browser to get eBooks on it.'),
-//                 'opds' => $this->getRouteData('features.opds.index', 'OPDS API for application which use it.'),
-//                 'webreader' => $this->getRouteData('features.webreader.index', 'UI to read directly an eBook into browser.'),
-//                 // 'wiki' => $this->getRouteData('features.documentation.page', 'Wiki for setup and usage, useful for developers.'),
-//                 // 'roadmap' => $this->getRouteData('features.roadmap.index', 'Features planned and ideas.'),
-//                 'admin' => $this->getRouteData('admin', 'For admin to manage data.'),
-//                 'api-doc' => $this->getRouteData(config('app.url').'/docs', 'API documentation to use data on others applications', false),
-//                 'repository' => $this->getRouteData(config('app.repository_url'), 'Repository of this application', false),
-//             ],
-//         ], 200);
-//     }
+    /**
+     * @hideFromAPIDocumentation
+     */
+    public function apiV1()
+    {
+        $list = RouteService::getList('api/v1');
 
-//     public function getRouteData(string $route, string $description, $isLaravelRoute = true)
-//     {
-//         return [
-//             'route' => $isLaravelRoute ? route($route) : $route,
-//             'description' => $description,
-//         ];
-//     }
+        return response()->json([
+            'name' => config('app.name').' API',
+            'version' => 'v1',
+            'routes' => [
+                'application' => $this->getRouteData(config('app.front_url'), 'Main application', false),
+                'catalog' => $this->getRouteData('features.catalog.index', 'UI for eReader browser to get eBooks on it'),
+                'opds' => $this->getRouteData('features.opds.index', 'OPDS API for application which use it'),
+                'webreader' => $this->getRouteData('features.webreader.index', 'UI to read directly an eBook into browser'),
+                'admin' => $this->getRouteData('admin', 'For admin to manage data.'),
+                'documentation' => $this->getRouteData(config('app.documentation_url'), 'Documentation for developers', false),
+                'api-doc' => $this->getRouteData(route('scribe'), 'API documentation to use data on others applications', false),
+                'repository' => $this->getRouteData(config('app.repository_url'), 'Repository of this application', false),
+            ],
+            'api' => $list,
+        ], 200);
+    }
 
-//     public function init()
-//     {
-//         return response()->json([
-//             'data' => [
-//                 'enums' => EnumService::list(),
-//                 'languages' => LanguageResource::collection(Language::all()),
-//                 'application' => CmsApplicationResource::make(
-//                     CmsApplication::first()
-//                 ),
-//             ],
-//         ]);
-//     }
+    /**
+     * @hideFromAPIDocumentation
+     *
+     * @param mixed $isLaravelRoute
+     */
+    private function getRouteData(string $route, string $description, $isLaravelRoute = true)
+    {
+        return [
+            'route' => $isLaravelRoute ? route($route) : $route,
+            'description' => $description,
+        ];
+    }
 }

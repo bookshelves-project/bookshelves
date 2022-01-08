@@ -6,9 +6,9 @@ use Tests\TestCase;
 
 class RecheableTest extends TestCase
 {
-    protected $books = 'api.books.index';
-    protected $authors = 'api.authors.index';
-    protected $series = 'api.series.index';
+    protected $books = 'api.v1.books.index';
+    protected $authors = 'api.v1.authors.index';
+    protected $series = 'api.v1.series.index';
 
     /**
      * Define all entities to test
@@ -79,7 +79,7 @@ class RecheableTest extends TestCase
             $randomElement = array_rand($json->data, 1);
             $showLink = $json->data[$randomElement]->meta->show;
             $response = $this->get($showLink);
-    
+
             $response->assertStatus(200);
         }
     }
@@ -90,7 +90,7 @@ class RecheableTest extends TestCase
     public function testCount()
     {
         foreach ($this->getRoutes() as $key => $route) {
-            $response = $this->get(route('api.count', ['entity' => $key]));
+            $response = $this->get(route('api.v1.count', ['entity' => $key]));
 
             $response->assertStatus(200);
         }

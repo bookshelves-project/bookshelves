@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
 use App\Http\Resources\Publisher\PublisherResource;
@@ -18,7 +17,7 @@ use Spatie\QueryBuilder\QueryBuilder;
  *
  * Endpoint to get Publishers data.
  */
-class PublisherController extends Controller
+class PublisherController extends ApiController
 {
     /**
      * GET Publisher collection.
@@ -29,8 +28,6 @@ class PublisherController extends Controller
      *
      * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
-     *
-     * @responseFile public/assets/responses/publishers.index.get.json
      */
     public function index(Request $request)
     {
@@ -56,16 +53,10 @@ class PublisherController extends Controller
      * GET Publisher resource.
      *
      * Details for one Publisher, find by slug.
-     *
-     * @urlParam slug string required The slug of author like 'bragelonne'. Example: bragelonne
-     *
-     * @responseFile public/assets/responses/publishers.show.get.json
      */
-    public function show(string $publisher_slug)
+    public function show(Publisher $publisher)
     {
-        $pub = Publisher::whereSlug($publisher_slug)->firstOrFail();
-
-        return PublisherResource::make($pub);
+        return PublisherResource::make($publisher);
     }
 
     /**
@@ -75,14 +66,10 @@ class PublisherController extends Controller
      *
      * Get all Books of selected Publisher ordered by Books' 'title'.
      *
-     * @urlParam publisher_slug string required The slug of author like 'bragelonne'. Example: bragelonne
-     *
      * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
-     *
-     * @responseFile public/assets/responses/publishers.books.get.json
      */
-    public function books(Request $request, string $publisher_slug)
+    public function books(Request $request, Publisher $publisher)
     {
         $page = $request->get('perPage') ? $request->get('perPage') : 32;
         if (! is_numeric($page)) {
@@ -93,8 +80,8 @@ class PublisherController extends Controller
         }
         $page = intval($page);
 
-        $pub = Publisher::whereSlug($publisher_slug)->firstOrFail();
-        $books = $pub->books->paginate($page);
+        // $pub = Publisher::whereSlug($publisher_slug)->firstOrFail();
+        $books = $publisher->books->paginate($page);
 
         return BookLightResource::collection($books);
     }

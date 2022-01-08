@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileDelete;
 use App\Http\Requests\ProfileUpdate;
 use App\Http\Resources\User\UserResource;
@@ -15,8 +14,16 @@ use Illuminate\Support\Facades\File;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
-class ProfileController extends Controller
+/**
+ * @group Account
+ */
+class ProfileController extends ApiController
 {
+    /**
+     * GET Current user.
+     *
+     * @authenticated
+     */
     public function sanctum()
     {
         /** @var User $user */
@@ -25,6 +32,11 @@ class ProfileController extends Controller
         return UserResource::make($user);
     }
 
+    /**
+     * POST Update current user.
+     *
+     * @authenticated
+     */
     public function update(ProfileUpdate $request)
     {
         /** @var User $user */
@@ -42,7 +54,38 @@ class ProfileController extends Controller
         return UserResource::make($user);
     }
 
-    public function saveMedia(Request $request, Model $model, string $field, MediaService $service, mixed $format): void
+    /**
+     * GET Delete avatar for current user.
+     *
+     * @authenticated
+     */
+    public function deleteAvatar()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->clearMediaCollection('avatar');
+
+        return UserResource::make($user);
+    }
+
+    /**
+     * POST Delete current user.
+     *
+     * @authenticated
+     */
+    public function delete(ProfileDelete $request)
+    {
+        $validated = $request->validated();
+
+        /** @var User $user */
+        $user = Auth::user();
+        $user->delete();
+
+        return response();
+    }
+
+    private function saveMedia(Request $request, Model $model, string $field, MediaService $service, mixed $format): void
     {
         if ($request->exists($field)) {
             // @phpstan-ignore-next-line
@@ -63,26 +106,5 @@ class ProfileController extends Controller
                 ->save()
             ;
         }
-    }
-
-    public function deleteAvatar()
-    {
-        /** @var User $user */
-        $user = Auth::user();
-
-        $user->clearMediaCollection('avatar');
-
-        return UserResource::make($user);
-    }
-
-    public function delete(ProfileDelete $request)
-    {
-        $validated = $request->validated();
-
-        /** @var User $user */
-        $user = Auth::user();
-        $user->delete();
-
-        return response();
     }
 }

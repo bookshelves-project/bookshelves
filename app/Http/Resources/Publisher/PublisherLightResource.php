@@ -25,9 +25,7 @@ class PublisherLightResource extends JsonResource
             'first_char' => $this->resource->first_char,
             'meta' => [
                 'slug' => $this->resource->slug,
-                'books' => route('api.publishers.show.books', [
-                    'publisher' => $this->resource->slug,
-                ]),
+                'books' => $this->resource->show_books_link,
                 'show' => $this->resource->show_link,
             ],
         ];

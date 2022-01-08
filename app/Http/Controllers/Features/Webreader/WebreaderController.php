@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Author;
 use App\Models\Book;
-use App\Services\CommonMarkService;
+use App\Services\MarkdownService;
 use Inertia\Inertia;
 
 /**
@@ -19,7 +19,7 @@ class WebreaderController extends Controller
         $random_book = Book::inRandomOrder()->first();
         $cover = null;
         $route = null;
-        $markdown = CommonMarkService::generate('webreader/index.md');
+        $markdown = MarkdownService::generate('webreader/index.md');
         $content = $markdown->content;
         if ($random_book) {
             $cover = $random_book->getCoverThumbnailAttribute();

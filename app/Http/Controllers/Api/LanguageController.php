@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\LanguageResource;
 use App\Models\Language;
 use App\Query\QueryBuilderAddon;
@@ -14,12 +13,10 @@ use Spatie\QueryBuilder\QueryBuilder;
  *
  * Endpoint to get Languages data.
  */
-class LanguageController extends Controller
+class LanguageController extends ApiController
 {
     /**
-     * GET Language collection.
-     *
-     * Get all languages available.
+     * GET Languages list.
      */
     public function index()
     {
@@ -40,6 +37,9 @@ class LanguageController extends Controller
         ;
     }
 
+    /**
+     * GET Language details.
+     */
     public function show(Language $language)
     {
         return LanguageResource::make($language);

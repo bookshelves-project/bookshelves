@@ -43,31 +43,18 @@ class Author extends Model implements HasMedia
         'media',
     ];
 
-    /**
-     * Retrieve the model for a bound value.
-     *
-     * @param mixed       $value
-     * @param null|string $field
-     *
-     * @return null|\Illuminate\Database\Eloquent\Model
-     */
-    public function resolveRouteBinding($value, $field = null)
-    {
-        return $this->where('slug', $value)->with('media')->withCount('books', 'series')->firstOrFail();
-    }
-
     public function getShowLinkAttribute(): string
     {
-        return route('api.authors.show', [
-            'author' => $this->slug,
+        return route('api.v1.authors.show', [
+            'author_slug' => $this->slug,
         ]);
     }
 
     public function getShowLinkOpdsAttribute(): string
     {
         return route('features.opds.authors.show', [
-            'version' => 'v1.2',
-            'author' => $this->slug,
+            'version_slug' => 'v1.2',
+            'author_slug' => $this->slug,
         ]);
     }
 
@@ -78,22 +65,22 @@ class Author extends Model implements HasMedia
 
     public function getShowBooksLinkAttribute(): string
     {
-        return route('api.authors.show.books', [
-            'author' => $this->slug,
+        return route('api.v1.authors.show.books', [
+            'author_slug' => $this->slug,
         ]);
     }
 
     public function getShowSeriesLinkAttribute(): string
     {
-        return route('api.authors.show.series', [
-            'author' => $this->slug,
+        return route('api.v1.authors.show.series', [
+            'author_slug' => $this->slug,
         ]);
     }
 
     public function getDownloadLinkAttribute(): string
     {
-        return route('api.download.author', [
-            'author' => $this->slug,
+        return route('api.v1.download.author', [
+            'author_slug' => $this->slug,
         ]);
     }
 

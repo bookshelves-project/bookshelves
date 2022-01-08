@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\GenderEnum;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Comment\CommentResource;
 use App\Http\Resources\FavoriteResource;
 use App\Http\Resources\User\UserListResource;
@@ -13,10 +12,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
- * @hideFromAPIDocumentation
+ * @group User
  */
-class UserController extends Controller
+class UserController extends ApiController
 {
+    /**
+     * GET Users list.
+     */
     public function index(Request $request)
     {
         $page = $request->get('perPage') ? $request->get('perPage') : 32;
@@ -37,6 +39,9 @@ class UserController extends Controller
         return UserListResource::collection($users);
     }
 
+    /**
+     * GET User details.
+     */
     public function show(Request $request, string $user_slug)
     {
         $user = User::where('slug', $user_slug)->firstOrFail();
@@ -44,6 +49,9 @@ class UserController extends Controller
         return UserResource::make($user);
     }
 
+    /**
+     * GET Genders.
+     */
     public function genders()
     {
         $genders = GenderEnum::toArray();
@@ -53,6 +61,9 @@ class UserController extends Controller
         ];
     }
 
+    /**
+     * GET User comments.
+     */
     public function comments(Request $request, string $user_slug)
     {
         $user = User::whereSlug($user_slug)->firstOrFail();
@@ -61,6 +72,9 @@ class UserController extends Controller
         return CommentResource::collection($comments);
     }
 
+    /**
+     * GET User favorites.
+     */
     public function favorites(Request $request, string $user_slug)
     {
         $user = User::where('slug', $user_slug)->firstOrFail();

@@ -23,7 +23,7 @@ use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * @group Entity: Book
+ * @group Book
  */
 class BookController extends ApiController
 {
@@ -41,19 +41,22 @@ class BookController extends ApiController
      * The page number, `1` by default. Example: 1
      *
      * @queryParam filter[languages] string
-     * To select specific lang, `null` by default. Example: en,fr
+     * Filter by language, `meta.slug` from languages' list, `null` by default. Example: en,fr
+     *
+     * @queryParam sort string
+     * Sorting `title_sort` by default, available: `title`, `title_sort`, `date`, `created_at`, you can use `-` before parameter to reverse like `-title_sort`. Example: title_sort
      *
      * @responseField data object[] List of books.
      * @responseField links object Links to get other pages.
      * @responseField meta object Metadata about pagination.
-     *
-     * Examples
-     * - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[languages]=fr,en&filter[published]=2018-06-07,2021-11-01
-     * - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[title]=monde
-     * - http://localhost:8000/api/books?perPage=32&filter[author_like]=bottero
      */
     public function index(Request $request)
     {
+        // Examples
+        // - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[languages]=fr,en&filter[published]=2018-06-07,2021-11-01
+        // - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[title]=monde
+        // - http://localhost:8000/api/books?perPage=32&filter[author_like]=bottero
+
         /** @var QueryBuilder $query */
         $query = QueryBuilderAddon::for(Book::class, with: ['serie'])
             ->allowedFilters([
@@ -88,7 +91,7 @@ class BookController extends ApiController
     /**
      * GET Book details.
      */
-    public function show(Request $request, Author $author, Book $book)
+    public function show(Author $author, Book $book)
     {
         return BookResource::make($book);
     }
@@ -159,14 +162,11 @@ class BookController extends ApiController
      *
      * Get all Series/Books related to selected Book from Tag/Genre.
      *
-     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     * @urlParam book_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
-     *
      * @queryParam limit int To limit of entities. No-example
      * @queryParam perPage int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      */
-    public function related(Request $request, string $authorSlug, string $bookSlug)
+    public function related(Request $request, Author $author, Book $book)
     {
         $limit = $request->get('limit');
         $limit = $limit ? $limit : 0;
@@ -188,10 +188,10 @@ class BookController extends ApiController
         $page = intval($page);
 
         // get book
-        $author = Author::whereSlug($authorSlug)->first();
-        $book = Book::whereHas('authors', function ($query) use ($author) {
-            return $query->where('author_id', '=', $author->id);
-        })->whereSlug($bookSlug)->firstOrFail();
+        // $author = Author::whereSlug($authorSlug)->first();
+        // $book = Book::whereHas('authors', function ($query) use ($author) {
+        //     return $query->where('author_id', '=', $author_slug->id);
+        // })->whereSlug($bookSlug)->firstOrFail();
         // get book tags
         $tags = $book->tags;
 

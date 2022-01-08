@@ -10,3 +10,7 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+use App\Http\Controllers\Api\ApiController;
+
+Route::get('/', [ApiController::class, 'apiHome'])->name('api.v1.index');

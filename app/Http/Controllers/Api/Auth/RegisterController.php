@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class RegisterController extends Controller
+/**
+ * @group Authentication
+ */
+class RegisterController extends AuthController
 {
+    /**
+     * POST Register.
+     */
     public function store(Request $request)
     {
         $validate = $request->validate([

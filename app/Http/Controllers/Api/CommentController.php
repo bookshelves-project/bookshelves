@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Comment\CommentResource;
 use App\Models\Book;
 use App\Models\Comment;
@@ -12,10 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 /**
- * @hideFromAPIDocumentation
+ * @group Comment
  */
-class CommentController extends Controller
+class CommentController extends ApiController
 {
+    /**
+     * GET Comments for entity.
+     */
     public function index(string $model, string $slug)
     {
         $model_name = 'App\Models\\'.ucfirst($model);
@@ -25,6 +27,11 @@ class CommentController extends Controller
         return CommentResource::collection($comments);
     }
 
+    /**
+     * GET Comments by user.
+     *
+     * @authenticated
+     */
     public function user(int $user)
     {
         $comments = Comment::whereUserId($user)->orderBy('created_at', 'DESC')->get();
@@ -32,6 +39,11 @@ class CommentController extends Controller
         return CommentResource::collection($comments);
     }
 
+    /**
+     * POST Store new comment.
+     *
+     * @authenticated
+     */
     public function store(Request $request, string $model, string $slug)
     {
         $model_name = 'App\Models\\'.ucfirst($model);
@@ -60,6 +72,11 @@ class CommentController extends Controller
         ], 200);
     }
 
+    /**
+     * POST Edit comment.
+     *
+     * @authenticated
+     */
     public function edit(string $book)
     {
         $book = Book::whereSlug($book)->first();
@@ -73,6 +90,11 @@ class CommentController extends Controller
         return response()->json($comment);
     }
 
+    /**
+     * POST Update comment.
+     *
+     * @authenticated
+     */
     public function update(Request $request, string $book)
     {
         $book = Book::whereSlug($book)->first();
@@ -91,6 +113,11 @@ class CommentController extends Controller
         return response()->json($comment);
     }
 
+    /**
+     * POST Destroy comment.
+     *
+     * @authenticated
+     */
     public function destroy(int $id)
     {
         Comment::destroy($id);

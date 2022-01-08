@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
 /**
- * @group Count
- *
- * Endpoint to get count of entities.
+ * @group Misc
  */
-class CountController extends Controller
+class CountController extends ApiController
 {
     /**
      * GET Count.
      *
      * Get count of entities for a selected collection. Available for Book, Serie and Author.
      *
-     * @queryParam entity required filters[book,serie,author] To get count for an entity. Example: book
+     * @queryParam entities required `key` of enums.models' list. Example: author,book,serie
+     * @queryParam languages required `slug` of languages' list `meta.slug`. Example: fr,en
      */
     public function count(Request $request)
     {
+        // http://localhost:8000/api/v1/count?entities=book,author,serie&languages=fr,en
+
         $entities = $request->get('entities');
         $languages = $request->get('languages');
 

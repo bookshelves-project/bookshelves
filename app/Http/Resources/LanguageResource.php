@@ -25,6 +25,7 @@ class LanguageResource extends JsonResource
             'count' => $this->resource->books_count,
             'meta' => [
                 'slug' => $this->resource->slug,
+                'show' => $this->resource->show_link,
             ],
         ];
     }

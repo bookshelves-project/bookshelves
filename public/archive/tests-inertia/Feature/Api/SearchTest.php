@@ -31,21 +31,21 @@ class SearchTest extends TestCase
 
     public function testRandomSearchSerieTitle()
     {
-        $response = $this->search(route('api.series.index', ['limit' => 'all']), 'title');
+        $response = $this->search(route('api.v1.series.index', ['limit' => 'all']), 'title');
 
         $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testRandomSearchBookTitle()
     {
-        $response = $this->search(route('api.books.index', ['limit' => 'all']), 'title');
+        $response = $this->search(route('api.v1.books.index', ['limit' => 'all']), 'title');
 
         $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testRandomSearchAuthorTitle()
     {
-        $response = $this->search(route('api.authors.index', ['limit' => 'all']), 'name');
+        $response = $this->search(route('api.v1.authors.index', ['limit' => 'all']), 'name');
 
         $this->assertEquals(200, $response->getStatusCode());
     }

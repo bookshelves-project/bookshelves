@@ -51,14 +51,10 @@ trait HasAuthors
 
     public function getShowLinkAttribute(): string
     {
-        if ($this->meta_author && $this->slug) {
-            return route('api.'.$this->getClassName(true).'.show', [
-                'author' => $this->meta_author,
-                $this->getClassName() => $this->slug,
-            ]);
-        }
-
-        return '';
+        return route('api.v1.'.$this->getClassName(true).'.show', [
+            'author_slug' => $this->meta_author,
+            "{$this->getClassName()}_slug" => $this->slug,
+        ]);
     }
 
     public function getShowLinkOpdsAttribute(): string
@@ -72,9 +68,9 @@ trait HasAuthors
 
     public function getDownloadLinkAttribute(): string
     {
-        return route('api.download.'.$this->getClassName(), [
-            'author' => $this->meta_author,
-            $this->getClassName() => $this->slug,
+        return route('api.v1.download.'.$this->getClassName(), [
+            'author_slug' => $this->meta_author,
+            "{$this->getClassName()}_slug" => $this->slug,
         ]);
     }
 

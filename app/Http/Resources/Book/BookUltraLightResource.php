@@ -27,6 +27,7 @@ class BookUltraLightResource extends JsonResource
                 'slug' => $this->resource->slug,
                 'author' => $this->resource->meta_author,
                 'show' => $this->resource->show_link,
+                'related' => $this->resource->show_related_link,
             ],
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
             'summary' => BookshelvesTools::stringLimit($this->resource->description, 140),

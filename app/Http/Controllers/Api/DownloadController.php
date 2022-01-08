@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
 use File;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Support\MediaStream;
 use ZipArchive;
@@ -17,7 +15,7 @@ use ZipArchive;
  *
  * Endpoint to download EPUB/ZIP.
  */
-class DownloadController extends Controller
+class DownloadController extends ApiController
 {
     /**
      * GET Book EPUB.
@@ -26,18 +24,16 @@ class DownloadController extends Controller
      *
      * Download Book EPUB, find by slug of book and slug of author.
      *
-     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     * @urlParam book_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
-     * @response 200
+     * @header Content-Type application/epub+zip
      */
-    public function book(Request $request, string $author, string $book)
+    public function book(Author $author, Book $book)
     {
-        $book = Book::whereSlug($book)->firstOrFail();
-        if ($book->meta_author === $author) {
-            $epub = $book->getMedia('epubs')->first();
-        } else {
-            return response()->json(['Error' => 'Book not found'], 401);
-        }
+        // $book = Book::whereSlug($book)->firstOrFail();
+        // if ($book->meta_author === $author) {
+        $epub = $book->getMedia('epubs')->first();
+        // } else {
+        // return response()->json(['Error' => 'Book not found'], 401);
+        // }
 
         return response()->download($epub->getPath(), $epub->file_name);
     }
@@ -49,15 +45,13 @@ class DownloadController extends Controller
      *
      * Download Serie ZIP, find by slug of serie and slug of author.
      *
-     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     * @urlParam serie_slug string required The slug of book like 'les-montagnes-hallucinees-fr'. Example: les-montagnes-hallucinees-fr
-     * @response 200
+     * @header Content-Type application/octet-stream
      */
-    public function serie(string $author, string $serie)
+    public function serie(Author $author, Serie $serie)
     {
         $epubs = [];
-        $author = Author::whereSlug($author)->firstOrFail();
-        $serie = Serie::with('books')->whereSlug($serie)->firstOrFail();
+        // $author = Author::whereSlug($author)->firstOrFail();
+        // $serie = Serie::with('books')->whereSlug($serie)->firstOrFail();
         $authorFound = false;
         foreach ($serie->authors as $key => $authorList) {
             if ($author->slug === $authorList->slug) {
@@ -88,13 +82,12 @@ class DownloadController extends Controller
      *
      * Download Author ZIP, find by slug of author.
      *
-     * @urlParam author_slug string required The slug of author like 'lovecraft-howard-phillips'. Example: lovecraft-howard-phillips
-     * @response 200
+     * @header Content-Type application/octet-stream
      */
-    public function author(string $author)
+    public function author(Author $author)
     {
         $epubs = [];
-        $author = Author::with('books')->whereSlug($author)->firstOrFail();
+        // $author = Author::with('books')->whereSlug($author)->firstOrFail();
         foreach ($author->books as $key => $book) {
             $epub = $book->getMedia('epubs')->first();
             array_push($epubs, $epub);

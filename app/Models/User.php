@@ -105,21 +105,21 @@ class User extends Authenticatable implements HasMedia
 
     public function getShowLinkAttribute(): string
     {
-        return route('api.users.show', [
+        return route('api.v1.users.show', [
             'slug' => $this->slug,
         ]);
     }
 
     public function getShowLinkCommentsAttribute(): string
     {
-        return route('api.users.comments', [
+        return route('api.v1.users.comments', [
             'slug' => $this->slug,
         ]);
     }
 
     public function getShowLinkFavoritesAttribute(): string
     {
-        return route('api.users.favorites', [
+        return route('api.v1.users.favorites', [
             'slug' => $this->slug,
         ]);
     }

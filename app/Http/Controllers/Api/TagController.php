@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\EntityResource;
 use App\Http\Resources\Tag\TagLightResource;
 use App\Http\Resources\Tag\TagResource;
@@ -18,7 +17,7 @@ use Spatie\Tags\Tag;
 /**
  * @group Tag
  */
-class TagController extends Controller
+class TagController extends ApiController
 {
     /**
      * GET Tag collection.
@@ -28,8 +27,6 @@ class TagController extends Controller
      * @queryParam type filters[tag,genre] Type of Tag, 'tag' by default. No-example
      *
      * @responseField name string Tag's name.
-     *
-     * //  * @responseFile public/assets/responses/tags.index.get.json
      */
     public function index(Request $request)
     {
@@ -62,12 +59,10 @@ class TagController extends Controller
      * @queryParam type filters[tag,genre] Type of Tag, 'tag' by default. No-example
      *
      * @responseField name string Tag's name.
-     *
-     * //  * @responseFile public/assets/responses/tags.show.get.json
      */
-    public function show(string $tag_slug)
+    public function show(Tag $tag)
     {
-        $tag = Tag::where('slug->en', $tag_slug)->first();
+        // $tag = Tag::where('slug->en', $tag_slug)->first();
 
         return TagResource::make($tag);
     }
@@ -76,14 +71,10 @@ class TagController extends Controller
      * GET Book collection of Tag.
      *
      * Get all Books of selected Tag.
-     *
-     * @urlParam tag string Slug of Tag. Example: 'anticipation'
-     *
-     * //  * @responseFile public/assets/responses/tags.books.get.json
      */
-    public function books(string $tag_slug)
+    public function books(Tag $tag)
     {
-        $tag = Tag::where('slug->en', $tag_slug)->first();
+        // $tag = Tag::where('slug->en', $tag_slug)->first();
         $books_standalone = Book::withAllTags([$tag])->with(['serie', 'authors', 'media'])->orderBy('title_sort')->doesntHave('serie')->get();
 
         $books_series = Book::withAllTags([$tag])->with(['serie', 'authors', 'media', 'serie.media', 'serie.authors'])->has('serie')->orderBy('title_sort')->get();

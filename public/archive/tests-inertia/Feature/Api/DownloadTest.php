@@ -31,7 +31,7 @@ class DownloadTest extends TestCase
 
     public function testCanDownloadRandomEpub()
     {
-        $response = $this->download(route('api.books.index'), 'epub');
+        $response = $this->download(route('api.v1.books.index'), 'epub');
 
         $contentType = $response->headers->get('Content-Type');
         $this->assertEquals($contentType, 'application/epub+zip');
@@ -39,7 +39,7 @@ class DownloadTest extends TestCase
 
     public function testCanDownloadRandomSerieZip()
     {
-        $response = $this->download(route('api.series.index'), 'zip');
+        $response = $this->download(route('api.v1.series.index'), 'zip');
 
         $contentType = $response->headers->get('Content-Type');
         $this->assertEquals($contentType, 'application/octet-stream');
@@ -51,7 +51,7 @@ class DownloadTest extends TestCase
 
     public function testCanDownloadRandomAuthorZip()
     {
-        $response = $this->download(route('api.authors.index', ['limit' => 'all']), 'zip');
+        $response = $this->download(route('api.v1.authors.index', ['limit' => 'all']), 'zip');
 
         $contentType = $response->headers->get('Content-Type');
         $this->assertEquals($contentType, 'application/octet-stream');
@@ -63,7 +63,7 @@ class DownloadTest extends TestCase
 
     public function testCanDownloadAllEpub()
     {
-        $response = $this->get(route('api.books.index', ['limit' => 'all']));
+        $response = $this->get(route('api.v1.books.index', ['limit' => 'all']));
         $responseContent = json_decode($response->content());
         $numberOfPages = $responseContent->data;
 

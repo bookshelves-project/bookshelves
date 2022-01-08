@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordForgotRequest;
 use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\PasswordUpdate;
@@ -13,12 +12,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class PasswordController extends Controller
+/**
+ * @group Authentication
+ */
+class PasswordController extends AuthController
 {
     public const MIN_TIMEOUT = 10;
     public const MAX_TIMEOUT = 86400;
 
     /**
+     * POST Password forgot.
+     *
      * Send en email with token to User if email exist, create a PasswordReset item.
      */
     public function forgot(PasswordForgotRequest $request)
@@ -85,6 +89,8 @@ class PasswordController extends Controller
     }
 
     /**
+     * POST Password reset.
+     *
      * Update User password if token and email are validate, send an email to User about password update.
      */
     public function reset(PasswordResetRequest $request)
@@ -127,6 +133,11 @@ class PasswordController extends Controller
         ], 401);
     }
 
+    /**
+     * POST Password update.
+     *
+     * @authenticated
+     */
     public function update(PasswordUpdate $request)
     {
         /** @var User $user */

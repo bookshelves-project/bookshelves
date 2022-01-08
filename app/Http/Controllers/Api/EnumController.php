@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Services\EnumService;
 
-class EnumController extends Controller
+/**
+ * @group Misc
+ */
+class EnumController extends ApiController
 {
+    /**
+     * GET Enums.
+     */
     public function index()
     {
         return response()->json([

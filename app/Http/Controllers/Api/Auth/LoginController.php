@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+/**
+ * @group Authentication
+ */
+class LoginController extends AuthController
 {
+    /**
+     * POST Login.
+     */
     public function authenticate(LoginRequest $request)
     {
         if (! Auth::attempt($request->only('email', 'password'))) {
@@ -24,6 +29,11 @@ class LoginController extends Controller
         ]);
     }
 
+    /**
+     * POST Logout.
+     *
+     * @authenticated
+     */
     public function logout(Request $request)
     {
         $request->session()->invalidate();

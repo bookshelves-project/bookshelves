@@ -7,7 +7,7 @@ use App\Models\Book;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
-use App\Services\CommonMarkService;
+use App\Services\MarkdownService;
 use Spatie\Tags\Tag;
 
 /**
@@ -17,7 +17,7 @@ class NavigationController extends Controller
 {
     public function welcome()
     {
-        $markdown = CommonMarkService::generate('welcome/content/index.md');
+        $markdown = MarkdownService::generate('welcome/content/index.md');
         $content = $markdown->content;
         $date = $markdown->date;
 
