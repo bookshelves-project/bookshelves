@@ -28,11 +28,7 @@ class AuthorController extends ApiController
      *
      * Get all authors ordered by `title` & `serie_title`.
      *
-     * @queryParam perPage int
-     * Entities per page. Example: 5
-     *
-     * @queryParam page int
-     * The page number, `1` by default. Example: 1
+     * @usesPagination
      *
      * @responseField data object[] List of authors.
      * @responseField links object Links to get other pages.
@@ -79,8 +75,7 @@ class AuthorController extends ApiController
      *
      * Books list from an author, find by `slug`.
      *
-     * @queryParam perPage int Entities per page, '32' by default. No-example
-     * @queryParam page int The page number, '1' by default. No-example
+     * @usesPagination
      */
     public function books(Request $request, Author $author)
     {
@@ -112,8 +107,7 @@ class AuthorController extends ApiController
      *
      * Series list from an author, find by `slug`.
      *
-     * @queryParam perPage int Entities per page, '32' by default. No-example
-     * @queryParam page int The page number, '1' by default. No-example
+     * @usesPagination
      */
     public function series(Request $request, Author $author)
     {

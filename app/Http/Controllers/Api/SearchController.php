@@ -19,7 +19,7 @@ class SearchController extends ApiController
     /**
      * GET Search.
      *
-     * Get Authors/Series/Books entities ordered by entity and lastname / title. Query can be series' title, book's title, author's firstname or lastname.
+     * Search full-text into authors, books & series.
      */
     public function index(Request $request)
     {

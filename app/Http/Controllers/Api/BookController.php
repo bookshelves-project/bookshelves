@@ -34,11 +34,7 @@ class BookController extends ApiController
      *
      * Get all Books ordered by `title` & `serie_title`.
      *
-     * @queryParam perPage int
-     * Entities per page. Example: 5
-     *
-     * @queryParam page int
-     * The page number, `1` by default. Example: 1
+     * @usesPagination
      *
      * @queryParam filter[languages] string
      * Filter by language, `meta.slug` from languages' list, `null` by default. Example: en,fr
@@ -108,9 +104,9 @@ class BookController extends ApiController
      *
      * Get all Books ordered by date 'created_at'.
      *
+     * @usesPagination
+     *
      * @queryParam limit int To limit of entities, '10' by default. No-example
-     * @queryParam perPage int Entities per page, '32' by default. No-example
-     * @queryParam page int The page number, '1' by default. No-example
      */
     public function latest(Request $request)
     {
@@ -162,9 +158,9 @@ class BookController extends ApiController
      *
      * Get all Series/Books related to selected Book from Tag/Genre.
      *
+     * @usesPagination
+     *
      * @queryParam limit int To limit of entities. No-example
-     * @queryParam perPage int Entities per page, '32' by default. No-example
-     * @queryParam page int The page number, '1' by default. No-example
      */
     public function related(Request $request, Author $author, Book $book)
     {

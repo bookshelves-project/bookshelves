@@ -1,7 +1,9 @@
 <?php
 
+use App\Docs\Strategies\BookshelvesMetadata;
 use App\Docs\Strategies\BookshelvesParameter;
 use App\Docs\Strategies\BookshelvesQuery;
+use App\Docs\Strategies\UsePaginationQuery;
 use Knuckles\Scribe\Extracting\Strategies;
 
 return [
@@ -94,7 +96,7 @@ return [
                      * API calls will be made only for routes in this group matching these HTTP methods (GET, POST, etc).
                      * List the methods here or use '*' to mean all methods. Leave empty to disable API calls.
                      */
-                    'methods' => ['GET'],
+                    'methods' => ['*'],
 
                     /*
                      * Laravel config variables which should be set for the API call.
@@ -334,6 +336,7 @@ INTRO
     'strategies' => [
         'metadata' => [
             Strategies\Metadata\GetFromDocBlocks::class,
+            BookshelvesMetadata::class,
         ],
         'urlParameters' => [
             // Strategies\UrlParameters\GetFromLaravelAPI::class,
@@ -346,6 +349,7 @@ INTRO
             Strategies\QueryParameters\GetFromInlineValidator::class,
             Strategies\QueryParameters\GetFromQueryParamTag::class,
             BookshelvesQuery::class,
+            UsePaginationQuery::class,
         ],
         'headers' => [
             Strategies\Headers\GetFromRouteRules::class,

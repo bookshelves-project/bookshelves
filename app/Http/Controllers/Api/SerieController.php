@@ -29,11 +29,7 @@ class SerieController extends ApiController
      *
      * Get all series ordered by `title` & `serie_title`.
      *
-     * @queryParam perPage int
-     * Entities per page. Example: 5
-     *
-     * @queryParam page int
-     * The page number, `1` by default. Example: 1
+     * @usesPagination
      *
      * @queryParam filter[languages] string
      * To select specific lang, `null` by default. Example: en,fr
@@ -86,8 +82,7 @@ class SerieController extends ApiController
      *
      * Books list from one Serie, find by slug.
      *
-     * @queryParam perPage int Entities per page, '32' by default. No-example
-     * @queryParam page int The page number, '1' by default. No-example
+     * @usesPagination
      */
     public function books(Request $request, Author $author, Serie $serie)
     {
