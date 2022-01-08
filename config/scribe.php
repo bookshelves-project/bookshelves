@@ -1,8 +1,7 @@
 <?php
 
-use App\Docs\Strategies\AuthorParameter;
-use App\Docs\Strategies\BookParameter;
-use App\Docs\Strategies\SerieParameter;
+use App\Docs\Strategies\BookshelvesParameter;
+use App\Docs\Strategies\BookshelvesQuery;
 use Knuckles\Scribe\Extracting\Strategies;
 
 return [
@@ -41,7 +40,7 @@ return [
                 'prefixes' => ['api/*'],
 
                 /*
-                 * Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.
+                 * Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.v1.*'.
                  */
                 'domains' => ['*'],
 
@@ -196,7 +195,7 @@ return [
         /*
          * Fetch a CSRF token before each request, and add it as an X-XSRF-TOKEN header. Needed if you're using Laravel Sanctum.
          */
-        'use_csrf' => false,
+        'use_csrf' => true,
         /*
          * The URL to fetch the CSRF token from (if `use_csrf` is true).
          */
@@ -210,7 +209,7 @@ return [
         /*
          * Set this to true if any endpoints in your API use authentication.
          */
-        'enabled' => false,
+        'enabled' => true,
 
         /*
          * Set this to true if your API should be authenticated by default. If so, you must also set `enabled` (above) to true.
@@ -227,7 +226,7 @@ return [
         /*
          * The name of the auth parameter (eg token, key, apiKey) or header (eg Authorization, Api-Key).
          */
-        'name' => 'key',
+        'name' => 'token',
 
         /*
          * The value of the parameter to be used by Scribe to authenticate response calls.
@@ -338,16 +337,15 @@ INTRO
         ],
         'urlParameters' => [
             // Strategies\UrlParameters\GetFromLaravelAPI::class,
-            Strategies\UrlParameters\GetFromLumenAPI::class,
-            Strategies\UrlParameters\GetFromUrlParamTag::class,
-            AuthorParameter::class,
-            BookParameter::class,
-            SerieParameter::class,
+            // Strategies\UrlParameters\GetFromLumenAPI::class,
+            // Strategies\UrlParameters\GetFromUrlParamTag::class,
+            BookshelvesParameter::class,
         ],
         'queryParameters' => [
             Strategies\QueryParameters\GetFromFormRequest::class,
             Strategies\QueryParameters\GetFromInlineValidator::class,
             Strategies\QueryParameters\GetFromQueryParamTag::class,
+            BookshelvesQuery::class,
         ],
         'headers' => [
             Strategies\Headers\GetFromRouteRules::class,
