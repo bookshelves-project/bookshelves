@@ -1,12 +1,6 @@
 <template>
   <div
-    class="
-      h-full
-      bg-white
-      p-6
-      overflow-y-auto
-      scrollbar-thin scrollbar-thumb-primary-900 scrollbar-track-gray-100
-    "
+    class="h-full bg-white p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-primary-900 scrollbar-track-gray-100"
   >
     <header class="flex items-center mb-8">
       <h2 class="font-semibold text-gray-800 leading-tight w-3/4">
