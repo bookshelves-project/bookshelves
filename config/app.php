@@ -56,6 +56,19 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'front_url' => env('APP_FRONT_URL', 'http://localhost:3000'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | App repository
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'repository_url' => env('APP_REPOSITORY_URL', 'https://gitlab.com/bookshelves-project'),
+
+    'documentation_url' => env('APP_DOCUMENTATION_URL', 'https://documentation.bookshelves.ink'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

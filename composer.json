@@ -1,12 +1,39 @@
 {
-    "name": "laravel/laravel",
+    "name": "bookshelves/back",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
+    "description": "Back of Bookshelves application.",
+    "license": "BSD 2-Clause",
+    "version": "1.0.0",
+    "homepage": "https://gitlab.com/bookshelves-project/bookshelves-back",
+    "authors": [
+        {
+            "name": "ewilan-riviere",
+            "email": "ewilan.riviere@gmail.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Mopi",
+            "email": "mopi@gdotslashplay.it",
+            "role": "Tester, ideas"
+        },
+        {
+            "name": "adr1enbe4udou1n",
+            "email": "adrien.beaudouin@outlook.com",
+            "role": "Creator of rad stack"
+        }
     ],
-    "license": "MIT",
+    "keywords": [
+        "api",
+        "epubs",
+        "books",
+        "ebooks"
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://gitlab.com/bookshelves-project/bookshelves-back"
+        }
+    ],
     "require": {
         "php": "^8.0",
         "barryvdh/laravel-elfinder": "^0.4.7",
@@ -55,7 +82,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -78,11 +108,21 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta"
         ],
+        "helper": [
+            "php artisan ide-helper:generate",
+            "php artisan ide-helper:models --nowrite --reset",
+            "php artisan ide-helper:eloquent"
+        ],
+        "doc": [
+            "php artisan route:clear",
+            "php artisan scribe:generate --force"
+        ],
         "format": [
             "php-cs-fixer fix --ansi"
         ],
         "analyse": [
-            "phpstan analyse --ansi"
+            "phpstan analyse --ansi",
+            "php artisan larastan"
         ],
         "test": [
             "@php artisan test --coverage --min=90"
@@ -94,13 +134,19 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpro/grumphp-shim": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
