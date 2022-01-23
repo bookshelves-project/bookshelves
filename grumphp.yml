@@ -1,6 +1,6 @@
 grumphp:
   fixer:
-    enabled: true
+    enabled: false
     fix_by_default: true
   tasks:
     eslint:

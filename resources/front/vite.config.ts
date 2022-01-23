@@ -31,7 +31,7 @@ export default defineConfig({
     windicss({
       config: '../../windi.config.ts',
       scan: {
-        dirs: ['.'],
+        dirs: ['.', '../views'],
         fileExtensions: ['blade.php', 'vue', 'ts'],
       },
     }),

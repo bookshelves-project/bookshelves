@@ -6,17 +6,16 @@ import scrollbarPlugin from '@windicss/plugin-scrollbar'
 import svgToDataUri from 'mini-svg-data-uri'
 
 const primary = {
-  DEFAULT: '#6574CD',
-  '50': '#FFFFFF',
-  '100': '#FFFFFF',
-  '200': '#D9DCF3',
-  '300': '#B2BAE6',
-  '400': '#8B97DA',
-  '500': '#6574CD',
-  '600': '#3F51C1',
-  '700': '#32419A',
-  '800': '#263173',
-  '900': '#19214D',
+  DEFAULT: '#564fcc',
+  100: '#e2e0ff',
+  200: '#c4c1ff',
+  300: '#a7a1ff',
+  400: '#8982ff',
+  500: '#6c63ff',
+  600: '#564fcc',
+  700: '#413b99',
+  800: '#2b2866',
+  900: '#161433',
 }
 
 export default defineConfig({
@@ -25,6 +24,17 @@ export default defineConfig({
       sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
     },
     extend: {
+      container: {
+        center: true,
+      },
+      screens: {
+        sm: '360px',
+        md: '600px',
+        lg: '900px',
+        xl: '1300px',
+        '2xl': '1536px',
+        '3xl': '1920px',
+      },
       colors: {
         primary,
       },
@@ -33,6 +43,10 @@ export default defineConfig({
       },
       textColor: {
         primary,
+      },
+      fontFamily: {
+        quicksand: ['Quicksand'],
+        handlee: ['Handlee, cursive'],
       },
       backgroundImage: () => ({
         'multiselect-caret': `url("${svgToDataUri(

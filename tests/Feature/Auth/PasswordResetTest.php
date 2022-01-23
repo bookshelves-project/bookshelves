@@ -59,8 +59,8 @@ test('password can be reset with valid token', function () {
         $response = post('/reset-password', [
             'token' => $notification->token,
             'email' => $user->email,
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'Password@2022',
+            'password_confirmation' => 'Password@2022',
         ]);
 
         $response->assertSessionHasNoErrors();

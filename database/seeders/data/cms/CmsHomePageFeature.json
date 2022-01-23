@@ -1,0 +1,74 @@
+[
+    {
+        "title": {
+            "en": "EPUB files",
+            "fr": "Fichiers EPUB"
+        },
+        "slug": "epub",
+        "link": "",
+        "text": {
+            "en": "EPUB files format to be lightest as possible, a free DRM format that can be shared and edited at will, you can edit any eBook with Calibre.",
+            "fr": "Le format des fichiers EPUB pour être le plus léger possible, un format DRM gratuit qui peut être partagé et édité à volonté, vous pouvez éditer n'importe quel eBook avec Calibre."
+        }
+    },
+    {
+        "title": {
+            "en": "Regardless of eReader",
+            "fr": "Pour toutes les liseuses"
+        },
+        "slug": "ereader",
+        "link": "",
+        "text": {
+            "en": "Kobo, Bookeen, Vivlio or even Kindle (with Calibre), you can use eBooks in EPUB format on many eReaders.",
+            "fr": "Kobo, Bookeen, Vivlio ou même Kindle (avec Calibre), vous pouvez utiliser les eBooks au format EPUB sur de nombreuses liseuses."
+        }
+    },
+    {
+        "title": {
+            "en": "Download & read",
+            "fr": "Télécharger & lire"
+        },
+        "slug": "download",
+        "link": "",
+        "text": {
+            "en": "Download an eBook and/or a serie of eBook add them to your eReader and start reading!",
+            "fr": "Téléchargez un eBook et/ou une série d'eBooks, ajoutez-les à votre liseuse et commencez à lire !"
+        }
+    },
+    {
+        "title": {
+            "en": "Metadata",
+            "fr": "Metadata"
+        },
+        "slug": "metadata",
+        "link": "",
+        "text": {
+            "en": "All these informations that allows you to sort and find your books by author or series are integrated into each eBook.",
+            "fr": "Toutes ces informations qui vous permettent de trier et de retrouver vos livres par auteur ou par série sont intégrées dans chaque eBook."
+        }
+    },
+    {
+        "title": {
+            "en": "Multi languages",
+            "fr": "Multilingue"
+        },
+        "slug": "languages",
+        "link": "",
+        "text": {
+            "en": "eBooks in several languages according to your preferences in order to reach a maximum number of readers.",
+            "fr": "Des livres électroniques en plusieurs langues, selon vos préférences, afin de toucher un maximum de lecteurs."
+        }
+    },
+    {
+        "title": {
+            "en": "Features: OPDS & Catalog",
+            "fr": "Features: OPDS & Catalog"
+        },
+        "slug": "feed",
+        "link": "",
+        "text": {
+            "en": "Features offer you extra options: you can use OPDS feed, download eBooks from your eReader with Catalog or read an eBook in your browser with Webreader.",
+            "fr": "Des eBooks en plusieurs langues, selon vos préférences, afin de toucher un maximum de lecteurs."
+        }
+    }
+]

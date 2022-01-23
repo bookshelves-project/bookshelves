@@ -3,61 +3,23 @@
 namespace App\Models;
 
 use App\Enums\RoleEnum;
+use App\Models\Traits\HasAvatar;
 use App\Models\Traits\HasImpersonate;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\DatabaseNotification;
-use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Spatie\MediaLibrary\HasMedia;
 
-/**
- * App\Models\User.
- *
- * @property int                                                         $id
- * @property string                                                      $name
- * @property string                                                      $email
- * @property null|Carbon                                                 $email_verified_at
- * @property string                                                      $password
- * @property null|string                                                 $two_factor_secret
- * @property null|string                                                 $two_factor_recovery_codes
- * @property bool                                                        $active
- * @property null|RoleEnum                                               $role
- * @property null|Carbon                                                 $last_login_at
- * @property null|string                                                 $remember_token
- * @property null|Carbon                                                 $created_at
- * @property null|Carbon                                                 $updated_at
- * @property DatabaseNotification[]|DatabaseNotificationCollection       $notifications
- * @property null|int                                                    $notifications_count
- * @property \App\Models\Post[]|\Illuminate\Database\Eloquent\Collection $posts
- * @property null|int                                                    $posts_count
- *
- * @method static \Database\Factories\UserFactory factory(...$parameters)
- * @method static Builder|User newModelQuery()
- * @method static Builder|User newQuery()
- * @method static Builder|User query()
- * @method static Builder|User whereActive($value)
- * @method static Builder|User whereCreatedAt($value)
- * @method static Builder|User whereEmail($value)
- * @method static Builder|User whereEmailVerifiedAt($value)
- * @method static Builder|User whereId($value)
- * @method static Builder|User whereLastLoginAt($value)
- * @method static Builder|User whereName($value)
- * @method static Builder|User wherePassword($value)
- * @method static Builder|User whereRememberToken($value)
- * @method static Builder|User whereRole($value)
- * @method static Builder|User whereTwoFactorRecoveryCodes($value)
- * @method static Builder|User whereTwoFactorSecret($value)
- * @method static Builder|User whereUpdatedAt($value)
- * @mixin \Eloquent
- */
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use HasFactory;
     use Notifiable;
     use HasImpersonate;
+    use HasAvatar;
+    use HasSlug;
 
     /**
      * The attributes that are mass assignable.
@@ -70,6 +32,14 @@ class User extends Authenticatable
         'password',
         'active',
         'role',
+        'slug',
+        'use_gravatar',
+        'display_favorites',
+        'display_comments',
+        'display_gender',
+        'about',
+        'gender',
+        'pronouns',
     ];
 
     /**
@@ -94,6 +64,15 @@ class User extends Authenticatable
         'last_login_at' => 'datetime',
     ];
 
+    public static function boot()
+    {
+        static::creating(function (User $user) {
+            $user->slug = self::generateSlug($user, 'name', true);
+        });
+
+        parent::boot();
+    }
+
     public function setPasswordAttribute($password)
     {
         if ($password) {
@@ -113,5 +92,60 @@ class User extends Authenticatable
         }
 
         return $this->role->equals(RoleEnum::super_admin());
+    }
+
+    public function getShowLinkAttribute(): string
+    {
+        return route('api.v1.users.show', [
+            'slug' => $this->slug,
+        ]);
+    }
+
+    public function getShowLinkCommentsAttribute(): string
+    {
+        return route('api.v1.users.comments', [
+            'slug' => $this->slug,
+        ]);
+    }
+
+    public function getShowLinkFavoritesAttribute(): string
+    {
+        return route('api.v1.users.favorites', [
+            'slug' => $this->slug,
+        ]);
+    }
+
+    public function hasRole(RoleEnum $role): bool
+    {
+        // $roles = [];
+        // foreach ($this->roles as $key => $role) {
+        //     array_push($roles, $role->name->value);
+        // }
+
+        // if (in_array($role_to_verify->value, $roles)) {
+        //     return true;
+        // }
+
+        return $this->role == $role->value;
+    }
+
+    public function favorites()
+    {
+        return Favoritable::where('user_id', $this->id)->orderBy('created_at')->get();
+    }
+
+    // public function roles(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Role::class);
+    // }
+
+    public function books(): MorphToMany
+    {
+        return $this->morphedByMany(Book::class, 'favoritable');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

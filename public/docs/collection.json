@@ -1,0 +1,21 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8000"
+        }
+    ],
+    "info": {
+        "name": "Bookshelves API Documentation",
+        "_postman_id": "19a59590-7f90-445b-bf3d-63bbfd917c1a",
+        "description": "The API documentation for Bookshelves to use endpoints with another app.",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [],
+    "auth": {
+        "type": "bearer"
+    }
+}

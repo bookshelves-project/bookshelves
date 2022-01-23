@@ -48,7 +48,7 @@ return [
     'navigation' => [
         'cards' => [
             [
-                'route' => 'features.opds.index',
+                'route' => 'front.opds.index',
                 'href' => false,
                 'title' => 'OPDS',
                 'description' => 'Open Publication Distribution System allow you to connect an application with OPDS feature to current feed. You can have all Ebooks on your own app!',
@@ -56,7 +56,7 @@ return [
                 'external' => false,
             ],
             [
-                'route' => 'features.catalog.index',
+                'route' => 'front.catalog.index',
                 'href' => false,
                 'title' => 'Catalog',
                 'description' => 'With a very basic interface to allow an eReader browser to dowload any eBook without computer. Easy download & read when you travel.',
@@ -64,7 +64,7 @@ return [
                 'external' => false,
             ],
             [
-                'route' => 'features.webreader.index',
+                'route' => 'front.webreader.index',
                 'href' => false,
                 'title' => 'Webreader',
                 'description' => 'Read an eBook directly into your browser, works on desktop or smartphone. Useful to discover a new book!',
@@ -74,7 +74,7 @@ return [
         ],
         'footer' => [
             [
-                'route' => 'features',
+                'route' => 'home',
                 'href' => false,
                 'title' => 'Features',
                 'icon' => 'wiki',

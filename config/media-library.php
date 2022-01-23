@@ -8,6 +8,29 @@ return [
      */
     'disk_name' => env('MEDIA_DISK', 'media'),
 
+    'disks' => [
+        'authors' => [
+            'driver' => 'local',
+            'root' => storage_path('authors'),
+        ],
+        'books' => [
+            'driver' => 'local',
+            'root' => storage_path('books'),
+        ],
+        'epubs' => [
+            'driver' => 'local',
+            'root' => storage_path('epubs'),
+        ],
+        'cms' => [
+            'driver' => 'local',
+            'root' => storage_path('cms'),
+        ],
+        'series' => [
+            'driver' => 'local',
+            'root' => storage_path('series'),
+        ],
+    ],
+
     /*
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
@@ -35,7 +58,7 @@ return [
      *
      * This model is only used in Media Library Pro (https://medialibrary.pro)
      */
-    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+    'temporary_upload_model' => false,
 
     /*
      * When enabled, Media Library Pro will only process temporary uploads there were uploaded

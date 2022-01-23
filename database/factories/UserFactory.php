@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\GenderEnum;
 use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,14 +24,32 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $gender = $this->faker->randomElements(GenderEnum::toValues())[0];
+        $pronouns_options = ['she', 'he', 'they'];
+        $pronouns = 'they';
+        if ('WOMAN' === $gender) {
+            $pronouns = 'she';
+        } elseif ('MAN' === $gender) {
+            $pronouns = 'he';
+        } else {
+            $pronouns = $this->faker->randomElements($pronouns_options, $this->faker->numberBetween(1, 2));
+            $pronouns = implode(', ', $pronouns);
+        }
+
         return [
-            'name' => $this->faker->name(),
+            'name' => "{$this->faker->firstName} {$this->faker->lastName}",
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => 'password',
-            'active' => true,
-            'role' => RoleEnum::user(),
             'remember_token' => Str::random(10),
+            'about' => $this->faker->text,
+            'use_gravatar' => false,
+            'display_favorites' => $this->faker->boolean(),
+            'display_comments' => $this->faker->boolean(),
+            'display_gender' => $this->faker->boolean(),
+            'role' => RoleEnum::user(),
+            'gender' => $gender,
+            'pronouns' => $pronouns,
         ];
     }
 

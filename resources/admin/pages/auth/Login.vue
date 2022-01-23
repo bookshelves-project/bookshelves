@@ -23,7 +23,7 @@
           type="email"
           required
           autofocus
-          model-value="admin@example.com"
+          model-value="superadmin@example.com"
         />
       </div>
 
@@ -49,18 +49,22 @@
         <checkbox-input source="remember" name="remember" />
       </div>
 
-      <div class="flex items-center justify-end mt-4">
-        <inertia-link
-          v-if="canRegister"
-          :href="route('admin.register')"
-          class="underline text-sm text-gray-600 hover:text-gray-900 ml-auto"
-        >
-          {{ $t('Not registered yet?') }}
-        </inertia-link>
+      <div class="flex items-center justify-between mt-6">
+        <a href="/" class="text-sm italic underline">Back to website</a>
 
-        <base-button type="submit" class="ml-4" :loading="processing">
-          {{ $t('Log in') }}
-        </base-button>
+        <div class="flex items-center justify-end">
+          <!-- <inertia-link
+            v-if="canRegister"
+            :href="route('admin.register')"
+            class="underline text-sm text-gray-600 hover:text-gray-900 ml-auto"
+          >
+            {{ $t('Not registered yet?') }}
+          </inertia-link> -->
+
+          <base-button type="submit" class="ml-4" :loading="processing">
+            {{ $t('Log in') }}
+          </base-button>
+        </div>
       </div>
     </base-form>
   </auth-layout>

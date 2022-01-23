@@ -24,6 +24,46 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::prefix('features')->group(function () {
+        Route::get('/license', [HomeController::class, 'license'])->name('front.license');
+
+        Route::prefix('catalog')->group(function () {
+            Route::get('/', [CatalogController::class, 'index'])->name('front.catalog.index');
+            Route::get('/search', [CatalogController::class, 'search'])->name('front.catalog.search');
+
+            Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('front.catalog.books.show');
+
+            Route::get('/series', [SerieController::class, 'index'])->name('front.catalog.series');
+            Route::get('/series/{character}', [SerieController::class, 'character'])->name('front.catalog.series.character');
+            Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('front.catalog.series.show');
+
+            Route::get('/authors', [AuthorController::class, 'index'])->name('front.catalog.authors');
+            Route::get('/authors/{character}', [AuthorController::class, 'character'])->name('front.catalog.authors.character');
+            Route::get('/authors/{character}/{author}', [AuthorController::class, 'show'])->name('front.catalog.authors.show');
+        });
+
+        Route::prefix('opds')->group(function () {
+            Route::get('/', [OpdsController::class, 'index'])->name('front.opds.index');
+
+            Route::prefix('{version}')->group(function () {
+                Route::get('/', [OpdsController::class, 'feed'])->name('front.opds.feed');
+
+                // Route::get('/books', [OpdsBookController::class, 'index'])->name('front.opds.books');
+                Route::get('/books/{author}/{book}', [OpdsBookController::class, 'show'])->name('front.opds.books.show');
+
+                Route::get('/series', [OpdsSerieController::class, 'index'])->name('front.opds.series');
+                Route::get('/series/{author}/{serie}', [OpdsSerieController::class, 'show'])->name('front.opds.series.show');
+
+                Route::get('/authors', [OpdsAuthorController::class, 'index'])->name('front.opds.authors');
+                Route::get('/authors/{author}', [OpdsAuthorController::class, 'show'])->name('front.opds.authors.show');
+            });
+        });
+
+        Route::prefix('webreader')->group(function () {
+            Route::get('/', [WebreaderController::class, 'index'])->name('front.webreader.index');
+            Route::get('/{author:slug}/{book:slug}/{page?}', [WebreaderController::class, 'reader'])->name('front.webreader.reader');
+        });
+    });
 });
 
 Route::prefix('admin')->middleware(['web'])->group(function () {
@@ -83,56 +123,14 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
 
 // // // Route::get('cache/resolve/{method}/{size}/{path}', [ImageController::class, 'thumbnail'])->where('path', '.*');
 
-// Route::prefix('features')->group(function () {
-//     Route::get('/', FeaturesController::class)->name('features');
-//     Route::get('/license', [FeaturesController::class, 'license'])->name('features.license');
+$prefix = config('scribe.laravel.docs_url', '/docs');
+$middleware = config('scribe.laravel.middleware', []);
 
-//     Route::prefix('catalog')->group(function () {
-//         Route::get('/', [CatalogController::class, 'index'])->name('features.catalog.index');
-//         Route::get('/search', [CatalogController::class, 'search'])->name('features.catalog.search');
-
-//         Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('features.catalog.books.show');
-
-//         Route::get('/series', [SerieController::class, 'index'])->name('features.catalog.series');
-//         Route::get('/series/{character}', [SerieController::class, 'character'])->name('features.catalog.series.character');
-//         Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('features.catalog.series.show');
-
-//         Route::get('/authors', [AuthorController::class, 'index'])->name('features.catalog.authors');
-//         Route::get('/authors/{character}', [AuthorController::class, 'character'])->name('features.catalog.authors.character');
-//         Route::get('/authors/{character}/{author}', [AuthorController::class, 'show'])->name('features.catalog.authors.show');
-//     });
-
-//     Route::prefix('opds')->group(function () {
-//         Route::get('/', [OpdsController::class, 'index'])->name('features.opds.index');
-
-//         Route::prefix('{version}')->group(function () {
-//             Route::get('/', [OpdsController::class, 'feed'])->name('features.opds.feed');
-
-//             // Route::get('/books', [OpdsBookController::class, 'index'])->name('features.opds.books');
-//             Route::get('/books/{author}/{book}', [OpdsBookController::class, 'show'])->name('features.opds.books.show');
-
-//             Route::get('/series', [OpdsSerieController::class, 'index'])->name('features.opds.series');
-//             Route::get('/series/{author}/{serie}', [OpdsSerieController::class, 'show'])->name('features.opds.series.show');
-
-//             Route::get('/authors', [OpdsAuthorController::class, 'index'])->name('features.opds.authors');
-//             Route::get('/authors/{author}', [OpdsAuthorController::class, 'show'])->name('features.opds.authors.show');
-//         });
-//     });
-
-//     Route::prefix('webreader')->group(function () {
-//         Route::get('/', [WebreaderController::class, 'index'])->name('features.webreader.index');
-//         Route::get('/{author:slug}/{book:slug}/{page?}', [WebreaderController::class, 'reader'])->name('features.webreader.reader');
-//     });
-// });
-
-// $prefix = config('scribe.laravel.docs_url', '/docs');
-// $middleware = config('scribe.laravel.middleware', []);
-
-// Route::middleware($middleware)->group(function () use ($prefix) {
-//     Route::get($prefix, [ScribeController::class, 'webpage'])->name('scribe');
-//     Route::get("{$prefix}.postman", [ScribeController::class, 'postman'])->name('scribe.postman');
-//     Route::get("{$prefix}.openapi", [ScribeController::class, 'openapi'])->name('scribe.openapi');
-// });
+Route::middleware($middleware)->group(function () use ($prefix) {
+    Route::get($prefix, [ScribeController::class, 'webpage'])->name('scribe');
+    Route::get("{$prefix}.postman", [ScribeController::class, 'postman'])->name('scribe.postman');
+    Route::get("{$prefix}.openapi", [ScribeController::class, 'openapi'])->name('scribe.openapi');
+});
 
 // Route::prefix('admin')->group(function () {
 //     Route::get('/', [AuthController::class, 'index'])->name('admin');

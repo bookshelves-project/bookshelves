@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: 'Bookshelves API Documentation'
+  description: 'The API documentation for Bookshelves to use endpoints with another app.'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+paths: []
+tags: []
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: ''
+security:
+  -
+    default: []
