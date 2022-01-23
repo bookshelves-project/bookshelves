@@ -28,7 +28,7 @@ class OpdsController extends Controller
             ],
         ];
         $latest_feed = $feeds[sizeof($feeds) - 1];
-        $latest_feed = route('features.opds.feed', ['version' => $latest_feed['param']]);
+        $latest_feed = route('front.opds.feed', ['version' => $latest_feed['param']]);
 
         SEOTools::setTitle('OPDS');
 

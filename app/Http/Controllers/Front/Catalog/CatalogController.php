@@ -27,7 +27,7 @@ class CatalogController extends Controller
             return view('front::pages.catalog.index', compact('content'));
         }
 
-        return redirect(route('features.catalog.search'));
+        return redirect(route('front.catalog.search'));
     }
 
     public function search(Request $request)

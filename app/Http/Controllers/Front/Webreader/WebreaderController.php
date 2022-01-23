@@ -23,7 +23,7 @@ class WebreaderController extends Controller
         $content = $service->convertToHtml();
         if ($random_book) {
             $cover = $random_book->getCoverThumbnailAttribute();
-            $route = route('features.webreader.reader', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
+            $route = route('front.webreader.reader', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
         }
 
         return view('front::pages.webreader.index', compact('random_book', 'cover', 'route', 'content'));

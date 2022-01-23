@@ -7,6 +7,7 @@
 
     {!! SEO::generate() !!}
 
+    <title>{{ config('app.name') }}</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -14,8 +15,7 @@
 
     @livewireStyles
 
-    {{-- {!! JsonSettings::generate() !!} --}}
-    @vite('features', 'app.ts', 3100)
+    @vite('front', 'app.ts', 3100)
     {{-- @production
         @php
             $manifest = json_decode(file_get_contents(public_path('dist/features/manifest.json')), true);

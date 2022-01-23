@@ -1,13 +1,13 @@
 <x-layouts.main :route="route('index')">
     <x-content :content="$content">
         <div class="mx-auto w-max mt-6">
-            <x-button :route="route('features.catalog.search')">
+            <x-button :route="route('front.catalog.search')">
                 Access to Catalog
             </x-button>
         </div>
         <div class="mt-3">
             To access to Catalog from your eReader, just put this address to your web browser*:
-            <pre>{{ route('features.catalog.index') }}</pre>
+            <pre>{{ route('front.catalog.index') }}</pre>
             <div class="mt-3">
                 <small>
                     *: Works only on phone, tablet or eReader.
