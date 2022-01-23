@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['web'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::prefix('features')->group(function () {
-        Route::get('/', [HomeController::class, 'index'])->name('home');
+        // Route::get('/', [HomeController::class, 'index'])->name('front.home');
         Route::get('/license', [HomeController::class, 'license'])->name('front.license');
 
         Route::prefix('catalog')->group(function () {

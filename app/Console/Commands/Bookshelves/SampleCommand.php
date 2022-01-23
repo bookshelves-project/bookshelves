@@ -20,6 +20,7 @@ class SampleCommand extends Command
                             {--c|comments : generate fake comments, favorites sample (users will be generated)}
                             {--s|selection : generate fake selection sample (user admin will be generated)}
                             {--a|admin : generate only admin}
+                            {--p|posts : generate posts}
                             {--F|force : skip confirm in prod}';
 
     /**
@@ -51,6 +52,7 @@ class SampleCommand extends Command
         $selection = $this->option('selection') ?? false;
         $admin = $this->option('admin') ?? false;
         $force = $this->option('force') ?? false;
+        $posts = $this->option('posts') ?? false;
 
         if ('local' !== config('app.env') && ! $force) {
             if ($this->confirm('This command will erase all users/comments/selection/admin, do you really want to erase these data?', true)) {
@@ -120,6 +122,13 @@ class SampleCommand extends Command
         if ($selection) {
             $this->comment('Run selection seeders');
             Artisan::call('db:seed', ['--class' => 'SelectionSeeder', '--force' => true]);
+            $this->info('Seeders ready!');
+            $this->newLine();
+        }
+
+        if ($posts) {
+            $this->comment('Run posts seeders');
+            Artisan::call('db:seed', ['--class' => 'PostSeeder', '--force' => true]);
             $this->info('Seeders ready!');
             $this->newLine();
         }

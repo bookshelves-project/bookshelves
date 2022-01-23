@@ -35,34 +35,30 @@ class UserSeeder extends Seeder
         // }
 
         $users = User::factory()->count(20)->create();
-        foreach ($users as $user) {
-            $user->role = RoleEnum::admin();
+
+        $output = new ConsoleOutput();
+        $progress = new ProgressBar($output, count($users));
+        $progress->start();
+
+        $users->each(function ($user) use ($progress, $faker) {
+            // $user->roles()->attach(Role::whereName(RoleEnum::user())->first());
+
+            if ($faker->boolean(75)) {
+                MediaService::create($user, $user->slug, 'users', 'avatar')
+                    ->setMedia(DatabaseSeeder::generateAvatar())
+                    ->setColor()
+                ;
+            }
+            if ($faker->boolean()) {
+                MediaService::create($user, "{$user->slug}-banner", 'users', 'banner')
+                    ->setMedia(DatabaseSeeder::generateBanner())
+                    ->setColor()
+                ;
+            }
+
             $user->save();
-        }
-
-        // $output = new ConsoleOutput();
-        // $progress = new ProgressBar($output, count($users));
-        // $progress->start();
-
-        // $users->each(function ($user) use ($progress, $faker) {
-        //     // $user->roles()->attach(Role::whereName(RoleEnum::user())->first());
-
-        //     if ($faker->boolean(75)) {
-        //         MediaService::create($user, $user->slug, 'users', 'avatar')
-        //             ->setMedia(DatabaseSeeder::generateAvatar())
-        //             ->setColor()
-        //         ;
-        //     }
-        //     if ($faker->boolean()) {
-        //         MediaService::create($user, "{$user->slug}-banner", 'users', 'banner')
-        //             ->setMedia(DatabaseSeeder::generateBanner())
-        //             ->setColor()
-        //         ;
-        //     }
-
-        //     $user->save();
-        //     $progress->advance();
-        // });
-        // $progress->finish();
+            $progress->advance();
+        });
+        $progress->finish();
     }
 }
