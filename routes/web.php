@@ -8,7 +8,14 @@ use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\Front\Catalog\AuthorController as CatalogAuthorController;
+use App\Http\Controllers\Front\Catalog\BookController as CatalogBookController;
+use App\Http\Controllers\Front\Catalog\SerieController as CatalogSerieController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\Opds\AuthorController as OpdsAuthorController;
+use App\Http\Controllers\Front\Opds\BookController as OpdsBookController;
+use App\Http\Controllers\Front\Opds\OpdsController;
+use App\Http\Controllers\Front\Opds\SerieController as OpdsSerieController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,21 +32,22 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['web'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::prefix('features')->group(function () {
+        Route::get('/', [HomeController::class, 'index'])->name('home');
         Route::get('/license', [HomeController::class, 'license'])->name('front.license');
 
         Route::prefix('catalog')->group(function () {
             Route::get('/', [CatalogController::class, 'index'])->name('front.catalog.index');
             Route::get('/search', [CatalogController::class, 'search'])->name('front.catalog.search');
 
-            Route::get('/books/{author}/{book}', [BookController::class, 'show'])->name('front.catalog.books.show');
+            Route::get('/books/{author}/{book}', [CatalogBookController::class, 'show'])->name('front.catalog.books.show');
 
-            Route::get('/series', [SerieController::class, 'index'])->name('front.catalog.series');
-            Route::get('/series/{character}', [SerieController::class, 'character'])->name('front.catalog.series.character');
-            Route::get('/series/{author}/{serie}', [SerieController::class, 'show'])->name('front.catalog.series.show');
+            Route::get('/series', [CatalogSerieController::class, 'index'])->name('front.catalog.series');
+            Route::get('/series/{character}', [CatalogSerieController::class, 'character'])->name('front.catalog.series.character');
+            Route::get('/series/{author}/{serie}', [CatalogSerieController::class, 'show'])->name('front.catalog.series.show');
 
-            Route::get('/authors', [AuthorController::class, 'index'])->name('front.catalog.authors');
-            Route::get('/authors/{character}', [AuthorController::class, 'character'])->name('front.catalog.authors.character');
-            Route::get('/authors/{character}/{author}', [AuthorController::class, 'show'])->name('front.catalog.authors.show');
+            Route::get('/authors', [CatalogAuthorController::class, 'index'])->name('front.catalog.authors');
+            Route::get('/authors/{character}', [CatalogAuthorController::class, 'character'])->name('front.catalog.authors.character');
+            Route::get('/authors/{character}/{author}', [CatalogAuthorController::class, 'show'])->name('front.catalog.authors.show');
         });
 
         Route::prefix('opds')->group(function () {

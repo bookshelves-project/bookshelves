@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Bookshelves API Documentation",
-        "_postman_id": "19a59590-7f90-445b-bf3d-63bbfd917c1a",
+        "_postman_id": "86ecea51-7311-4ba5-9d38-80298a1e8efb",
         "description": "The API documentation for Bookshelves to use endpoints with another app.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },

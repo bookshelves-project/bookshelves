@@ -7,7 +7,7 @@
                         class="text-base text-gray-400 hover:text-gray-300">
                         {{ $route['title'] }}
                     </a> --}}
-                    <x-link :array="$route" title />
+                    <x-link :array="$route" class="text-base text-gray-400 hover:text-gray-300" title />
                 </div>
             @endforeach
         </nav>
