@@ -58,7 +58,7 @@
         "vite": "^2.6.5",
         "vite-plugin-windicss": "^1.6.3",
         "vue": "^3.2.28",
-        "vue-tsc": "^0.28.2",
+        "vue-tsc": "^0.28.10",
         "vuedraggable": "^2.24.3",
         "windicss": "^3.4.3",
         "ziggy-js": "^1.4.2"
