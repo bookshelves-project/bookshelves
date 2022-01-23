@@ -140,7 +140,7 @@ class CmsSeeder extends Seeder
             $model->homePage()->associate($homePage);
             $model->save();
 
-            $logo = SvgService::setColor(database_path("seeders/media/cms/home-page/features/{$raw['slug']}.svg"), $raw['slug'], '#ffffff');
+            $logo = SvgService::setColor(database_path("seeders/media/cms/home-page/front/{$raw['slug']}.svg"), $raw['slug'], '#ffffff');
             MediaService::create($model, Str::slug($raw['slug']), 'cms', collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString())
                 ->setMedia($logo)
                 ->setColor()

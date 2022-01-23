@@ -10,12 +10,14 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\Front\Catalog\AuthorController as CatalogAuthorController;
 use App\Http\Controllers\Front\Catalog\BookController as CatalogBookController;
+use App\Http\Controllers\Front\Catalog\CatalogController;
 use App\Http\Controllers\Front\Catalog\SerieController as CatalogSerieController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\Opds\AuthorController as OpdsAuthorController;
 use App\Http\Controllers\Front\Opds\BookController as OpdsBookController;
 use App\Http\Controllers\Front\Opds\OpdsController;
 use App\Http\Controllers\Front\Opds\SerieController as OpdsSerieController;
+use App\Http\Controllers\Front\Webreader\WebreaderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +34,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['web'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::prefix('features')->group(function () {
-        // Route::get('/', [HomeController::class, 'index'])->name('front.home');
+        Route::get('/', [HomeController::class, 'index'])->name('front.home');
         Route::get('/license', [HomeController::class, 'license'])->name('front.license');
 
         Route::prefix('catalog')->group(function () {

@@ -18,10 +18,10 @@
     @vite('front', 'app.ts', 3100)
     {{-- @production
         @php
-            $manifest = json_decode(file_get_contents(public_path('dist/features/manifest.json')), true);
+            $manifest = json_decode(file_get_contents(public_path('dist/front/manifest.json')), true);
         @endphp
-        <script type="module" src="/dist/features/{{ $manifest['app.ts']['file'] }}"></script>
-        <link rel="stylesheet" href="/dist/features/{{ $manifest['app.ts']['css'][0] }}">
+        <script type="module" src="/dist/front/{{ $manifest['app.ts']['file'] }}"></script>
+        <link rel="stylesheet" href="/dist/front/{{ $manifest['app.ts']['css'][0] }}">
     @else
         @vite('features', 'app.ts', 3100)
     @endproduction --}}

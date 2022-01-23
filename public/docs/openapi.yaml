@@ -5413,7 +5413,7 @@ paths:
                       size: '774.47 Ko'
                       path: 'http://localhost:8000/storage/media/epubs/242/auel-jean-m-enfants-de-la-terre-05-refuges-de-pierre-fr.epub'
                       download: 'http://localhost:8000/api/v1/download/book/auel-jean-m/les-refuges-de-pierre-fr'
-                    webreader: 'http://localhost:8000/features/webreader/auel-jean-m/les-refuges-de-pierre-fr'
+                    webreader: 'http://localhost:8000/front/webreader/auel-jean-m/les-refuges-de-pierre-fr'
                     googleBook: null
                     isFavorite: false
                     comments: []
@@ -5492,7 +5492,7 @@ paths:
                         size: '774.47 Ko'
                         path: 'http://localhost:8000/storage/media/epubs/242/auel-jean-m-enfants-de-la-terre-05-refuges-de-pierre-fr.epub'
                         download: 'http://localhost:8000/api/v1/download/book/auel-jean-m/les-refuges-de-pierre-fr'
-                      webreader: 'http://localhost:8000/features/webreader/auel-jean-m/les-refuges-de-pierre-fr'
+                      webreader: 'http://localhost:8000/front/webreader/auel-jean-m/les-refuges-de-pierre-fr'
                       googleBook: null
                       isFavorite: false
                       comments: []

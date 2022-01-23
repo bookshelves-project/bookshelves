@@ -1,4 +1,4 @@
-<x-layouts.main :route="route('index')">
+<x-layouts.main :route="route('front.home')">
     <x-content :content="$content">
         @isset($route)
             <div class="mx-auto w-max mt-6">

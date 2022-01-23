@@ -46,7 +46,7 @@ class MarkdownService
     public static function generate(string $path, bool $absolute = false): MarkdownService
     {
         if (! $absolute) {
-            $path = resource_path("features/content/{$path}");
+            $path = resource_path("front/content/{$path}");
         }
         $markdown = File::get($path);
         $date = File::lastModified($path);
