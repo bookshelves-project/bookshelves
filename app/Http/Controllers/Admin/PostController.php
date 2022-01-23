@@ -10,17 +10,9 @@ use App\Http\Resources\Admin\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Spatie\RouteAttributes\Attributes\Delete;
-use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Patch;
-use Spatie\RouteAttributes\Attributes\Post as HttpPost;
-use Spatie\RouteAttributes\Attributes\Prefix;
-use Spatie\RouteAttributes\Attributes\Put;
 
-#[Prefix('posts')]
 class PostController extends Controller
 {
-    #[Get('/', name: 'posts')]
     public function index()
     {
         return app(PostQuery::class)->make()
@@ -28,13 +20,11 @@ class PostController extends Controller
         ;
     }
 
-    #[Get('create', name: 'posts.create')]
     public function create()
     {
         return Inertia::render('posts/Create');
     }
 
-    #[Get('{post}/edit', name: 'posts.edit')]
     public function edit(Post $post)
     {
         return Inertia::render('posts/Edit', [
@@ -42,7 +32,6 @@ class PostController extends Controller
         ]);
     }
 
-    #[HttpPost('/', name: 'posts.store')]
     public function store(PostStoreRequest $request)
     {
         $post = Post::create($request->all());
@@ -58,7 +47,6 @@ class PostController extends Controller
         return redirect()->route('admin.posts')->with('flash.success', __('Post created.'));
     }
 
-    #[Put('{post}', name: 'posts.update')]
     public function update(Post $post, PostUpdateRequest $request)
     {
         $post->update($request->all());
@@ -78,7 +66,6 @@ class PostController extends Controller
         return redirect()->route('admin.posts')->with('flash.success', __('Post updated.'));
     }
 
-    #[Patch('{post}/toggle', name: 'posts.toggle')]
     public function toggle(Post $post, Request $request)
     {
         $request->validate([
@@ -91,7 +78,6 @@ class PostController extends Controller
         return redirect()->route('admin.posts')->with('flash.success', __('Post updated.'));
     }
 
-    #[Delete('{post}', name: 'posts.destroy')]
     public function destroy(Post $post)
     {
         $post->delete();
@@ -99,7 +85,6 @@ class PostController extends Controller
         return redirect()->route('admin.posts')->with('flash.success', __('Post deleted.'));
     }
 
-    #[Delete('/', name: 'posts.bulk.destroy')]
     public function bulkDestroy(Request $request)
     {
         $count = Post::query()->findMany($request->input('ids'))

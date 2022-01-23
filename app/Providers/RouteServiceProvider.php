@@ -5,8 +5,11 @@ namespace App\Providers;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\DestroyUserController;
 use App\Http\Controllers\ImageController;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
@@ -15,7 +18,6 @@ use Laravel\Fortify\Http\Controllers\PasswordController;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\ProfileInformationController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
-use Spatie\RouteAttributes\RouteRegistrar;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -42,6 +44,26 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->configureRateLimiting();
+
+        $this->routes(function () {
+            Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'))
+            ;
+
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'))
+            ;
+
+            // Route::prefix('api/v1')
+            //     ->middleware(['api'])
+            //     ->group(base_path('routes/api-v1.php'))
+            // ;
+        });
+
         // Auth specific actions routes...
         Route::group(['middleware' => ['web']], function () {
             Route::post('/login', [AuthenticatedSessionController::class, 'store'])
@@ -90,34 +112,44 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         // Front dedicated routes...
-        (new RouteRegistrar(app(Router::class)))
-            ->useRootNamespace(app()->getNamespace())
-            ->useMiddleware(['web'])
-            ->registerDirectory(app_path('Http/Controllers/Front'))
-        ;
+        // (new RouteRegistrar(app(Router::class)))
+        //     ->useRootNamespace(app()->getNamespace())
+        //     ->useMiddleware(['web'])
+        //     ->registerDirectory(app_path('Http/Controllers/Front'))
+        // ;
 
         // Admin dedicated routes...
-        Route::prefix('admin')
-            ->name('admin.')
-            ->group(
-                function () {
-                    // Admin guest auth routes...
-                    (new RouteRegistrar(app(Router::class)))
-                        ->useRootNamespace(app()->getNamespace())
-                        ->useMiddleware(['web'])
-                        ->registerClass(AdminAuthController::class)
-                    ;
+        // Route::prefix('admin')
+        //     ->name('admin.')
+        //     ->group(
+        //         function () {
+        //             // Admin guest auth routes...
+        //             (new RouteRegistrar(app(Router::class)))
+        //                 ->useRootNamespace(app()->getNamespace())
+        //                 ->useMiddleware(['web'])
+        //                 ->registerClass(AdminAuthController::class)
+        //             ;
 
-                    // Admin authenticated routes...
-                    (new RouteRegistrar(app(Router::class)))
-                        ->useRootNamespace(app()->getNamespace())
-                        ->useMiddleware(['web', 'auth:sanctum', 'can:access-admin'])
-                        ->registerDirectory(app_path('Http/Controllers/Admin'))
-                    ;
-                }
-            )
-        ;
+        //             // Admin authenticated routes...
+        //             (new RouteRegistrar(app(Router::class)))
+        //                 ->useRootNamespace(app()->getNamespace())
+        //                 ->useMiddleware(['web', 'auth:sanctum', 'can:access-admin'])
+        //                 ->registerDirectory(app_path('Http/Controllers/Admin'))
+        //             ;
+        //         }
+        //     )
+        // ;
 
         Route::get('glide/{path}', [ImageController::class, 'glide'])->where('path', '.+');
+    }
+
+    /**
+     * Configure the rate limiters for the application.
+     */
+    protected function configureRateLimiting()
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(5000)->by(optional($request->user())->id ?: $request->ip());
+        });
     }
 }

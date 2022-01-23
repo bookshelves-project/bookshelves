@@ -7,11 +7,9 @@ use App\Http\Resources\Admin\PostResource;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
-use Spatie\RouteAttributes\Attributes\Get;
 
 class SearchController extends Controller
 {
-    #[Get('search/{query?}', name: 'search')]
     public function index(string $query = '')
     {
         Inertia::share(['query' => $query]);
