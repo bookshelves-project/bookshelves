@@ -132,8 +132,7 @@
             "php-cs-fixer fix --ansi"
         ],
         "analyse": [
-            "phpstan analyse --ansi",
-            "php artisan larastan"
+            "phpstan analyse --ansi"
         ],
         "test": [
             "@php artisan test"
