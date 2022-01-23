@@ -1,0 +1,16 @@
+grumphp:
+  fixer:
+    enabled: true
+    fix_by_default: true
+  tasks:
+    eslint:
+      bin: node_modules/.bin/eslint
+      triggered_by: [js, ts, vue]
+      whitelist_patterns:
+        - /^resources\/admin\/(.*)/
+        - /^resources\/front\/(.*)/
+    pest: ~
+    phpcsfixer:
+      config: .php-cs-fixer.dist.php
+    phpstan:
+      use_grumphp_paths: false

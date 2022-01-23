@@ -1,0 +1,37 @@
+# A pipeline is composed of independent jobs that run scripts, grouped into stages.
+# Stages run in sequential order, but jobs within stages run in parallel.
+#
+# For more information, see: https://docs.gitlab.com/ee/ci/
+
+stages:
+  - deploy
+
+variables:
+  NODE_VERSION: '16.13.0'
+  PHP_VERSION: '8.0'
+
+deploy-job:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $SSH_IP >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - ssh $SSH_USER@$SSH_IP "
+      cd /home/ewilan/www/$CI_PROJECT_NAME &&
+      git pull &&
+      composer install &&
+      php$PHP_VERSION artisan bookshelves:clear &&
+      php$PHP_VERSION artisan optimize:clear &&
+      php$PHP_VERSION artisan scribe:generate &&
+      php$PHP_VERSION artisan bookshelves:scout -f &&
+      /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/npm i &&
+      /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/npm run prod &&
+      discord-queerotronic.sh '$CI_PROJECT_TITLE'"
+  only:
+    - master

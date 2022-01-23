@@ -161,7 +161,5 @@ return [
         'year' => 'année',
         'role' => 'rôle',
         'category_id' => 'catégorie',
-        'gender' => 'civilité',
-        'prospect_status' => 'status du prospect',
     ],
 ];

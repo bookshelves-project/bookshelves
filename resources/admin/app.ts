@@ -1,7 +1,7 @@
 import 'clockwork-browser/metrics'
 import 'clockwork-browser/toolbar'
 
-// import 'virtual:windi.css'
+import 'virtual:windi.css'
 import './app.css'
 
 import { createApp, h } from 'vue'
@@ -13,7 +13,6 @@ import Translations from './plugins/translations'
 import GlobalComponents from './plugins/global-components'
 import DateFns from './plugins/date-fns'
 import HeroIcons from './plugins/hero-icons'
-import IconComponents from './plugins/icon-components'
 
 createInertiaApp({
   resolve: (name) => {
@@ -29,7 +28,6 @@ createInertiaApp({
       .use(GlobalComponents)
       .use(DateFns)
       .use(HeroIcons)
-      .use(IconComponents)
       .component('InertiaLink', Link)
       .mount(el)
   },

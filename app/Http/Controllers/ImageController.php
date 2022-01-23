@@ -2,43 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use Spatie\Image\Exceptions\InvalidManipulation;
-use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use League\Glide\Responses\SymfonyResponseFactory;
+use League\Glide\ServerFactory;
+use League\Glide\Signatures\SignatureException;
+use League\Glide\Signatures\SignatureFactory;
 
 class ImageController extends Controller
 {
-    /**
-     * @param bool $crop = true
-     *
-     * @throws InvalidManipulation
-     */
-    public static function thumbnail(string $size, string $path, bool $crop = true): mixed
+    public function glide(string $path, Request $request)
     {
-        $dimensions = config("image.thumbnails.{$size}");
-
-        if (! $dimensions) {
-            return response()->json(['error' => 'Dimensions not found'], 401);
-        }
-
-        $thumbnail = get_thumbnail($path, $size);
-
-        $thumbnail['filepath'] = str_replace('.jpeg', '.jpg', $thumbnail['filepath']);
-
-        if (! $thumbnail['resolved']) {
-            if ($crop) {
-                // @phpstan-ignore-next-line
-                Image::load("{$path}")
-                    ->fit(Manipulations::FIT_MAX, $dimensions['width'], $dimensions['height'])
-                    ->save($thumbnail['filepath'])
+        if ($key = config('glide.key')) {
+            try {
+                SignatureFactory::create($key)
+                    ->validateRequest($request->path(), $request->only([
+                        'ts', 'w', 'h', 'fit', 's',
+                    ]))
                 ;
-            } else {
-                Image::load("{$path}")
-                    ->save($thumbnail['filepath'])
-                ;
+            } catch (SignatureException $e) {
+                abort(403);
             }
         }
 
-        return response()->file($thumbnail['filepath']);
+        $server = ServerFactory::create([
+            'response' => new SymfonyResponseFactory(),
+            'source' => Storage::disk('public')->getDriver(),
+            'cache' => storage_path('glide'),
+            'driver' => config('glide.driver'),
+        ]);
+
+        if (! $server->sourceFileExists($path)) {
+            abort(404);
+        }
+
+        return $server->getImageResponse($path, $request->query());
     }
 }

@@ -5,6 +5,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Log Channel
@@ -40,12 +41,6 @@ return [
             'ignore_exceptions' => false,
         ],
 
-        'epubparser' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/epubparser.log'),
-            'level' => env('LOG_LEVEL', 'critical'),
-        ],
-
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
@@ -79,6 +74,7 @@ return [
 
         'stderr' => [
             'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'debug'),
             'handler' => StreamHandler::class,
             'formatter' => env('LOG_STDERR_FORMATTER'),
             'with' => [
@@ -105,4 +101,5 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
     ],
+
 ];

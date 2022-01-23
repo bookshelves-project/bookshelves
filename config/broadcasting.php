@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Str;
-
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Broadcaster
@@ -12,7 +11,7 @@ return [
     | framework when an event needs to be broadcast. You may set this to
     | any of the connections defined in the "connections" array below.
     |
-    | Supported: "pusher", "redis", "log", "null"
+    | Supported: "pusher", "ably", "redis", "log", "null"
     |
     */
 
@@ -30,6 +29,7 @@ return [
     */
 
     'connections' => [
+
         'pusher' => [
             'driver' => 'pusher',
             'key' => env('PUSHER_APP_KEY'),
@@ -58,18 +58,7 @@ return [
         'null' => [
             'driver' => 'null',
         ],
+
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Cache Key Prefix
-    |--------------------------------------------------------------------------
-    |
-    | When utilizing a RAM based store such as APC or Memcached, there might
-    | be other applications utilizing the same cache. So, we'll specify a
-    | value to get prefixed to all our keys so we can avoid collisions.
-    |
-    */
-
-    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache'),
 ];

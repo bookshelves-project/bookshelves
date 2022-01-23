@@ -13,6 +13,3 @@ trim_trailing_whitespace = false
 
 [*.{js,ts,vue,yml,yaml}]
 indent_size = 2
-
-[*.{php}]
-indent_size = 4

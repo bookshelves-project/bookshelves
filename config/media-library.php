@@ -1,34 +1,12 @@
 <?php
 
 return [
+
     /*
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
      */
-    'disk_name' => env('MEDIA_DISK', 'public'),
-
-    'disks' => [
-        'authors' => [
-            'driver' => 'local',
-            'root' => storage_path('authors'),
-        ],
-        'books' => [
-            'driver' => 'local',
-            'root' => storage_path('books'),
-        ],
-        'epubs' => [
-            'driver' => 'local',
-            'root' => storage_path('epubs'),
-        ],
-        'cms' => [
-            'driver' => 'local',
-            'root' => storage_path('cms'),
-        ],
-        'series' => [
-            'driver' => 'local',
-            'root' => storage_path('series'),
-        ],
-    ],
+    'disk_name' => env('MEDIA_DISK', 'media'),
 
     /*
      * The maximum file size of an item in bytes.
@@ -50,7 +28,7 @@ return [
     /*
      * The fully qualified class name of the media model.
      */
-    'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
+    'media_model' => App\Models\Media::class,
 
     /*
      * The fully qualified class name of the model used for temporary uploads.
@@ -64,7 +42,7 @@ return [
      * in the same session. You can opt to disable this for stateless usage of
      * the pro components.
      */
-    'enable_temporary_uploads_session_affinity' => true,
+    'enable_temporary_uploads_session_affinity' => false,
 
     /*
      * When enabled, Media Library pro will generate thumbnails for uploaded file.

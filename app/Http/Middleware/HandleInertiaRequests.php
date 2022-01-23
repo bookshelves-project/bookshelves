@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\PostStatusEnum;
+use App\Enums\RoleEnum;
+use App\Http\Resources\Admin\AuthResource;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -38,7 +41,25 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request)
     {
         return array_merge(parent::share($request), [
-            //
+            'appName' => config('app.name'),
+            'flash' => function () use ($request) {
+                return $request->session()->get('flash', []);
+            },
+            'auth' => function () use ($request) {
+                if (! $request->user()) {
+                    return;
+                }
+
+                return AuthResource::make($request->user());
+            },
+            'enums' => function () {
+                return collect([
+                    'roles' => RoleEnum::class,
+                    'post_statuses' => PostStatusEnum::class,
+                ])
+                    ->mapWithKeys(fn ($enum, $key) => [$key => $enum::toArray()])
+                ;
+            },
         ]);
     }
 }

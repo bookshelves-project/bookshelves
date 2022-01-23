@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PostStatusEnum;
 use App\Enums\RoleEnum;
 
 return [
@@ -13,6 +14,11 @@ return [
             'super_admin' => 'Super admin',
             'admin' => 'Admin',
             'user' => 'User',
+        ],
+        PostStatusEnum::class => [
+            'draft' => 'Draft',
+            'scheduled' => 'Scheduled',
+            'published' => 'Published',
         ],
     ],
 ];

@@ -2,7 +2,6 @@ watch:
   directories:
     - app
     - config
-    - resources
     - tests
   fileMask: '*.php'
 notifications:

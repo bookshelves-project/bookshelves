@@ -1,26 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind variants;
-
-/* @import '../css/fonts.css';
-
-@import '@spatie/media-library-pro-styles/src/styles.css';
-@import './assets/multiselect.css';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,300&display=swap');
 
 html {
     font-size: 14px;
 }
 
 h1 {
-    @apply font-heading text-xl text-gray-800 leading-tight;
+    @apply font-semibold text-xl text-gray-800 leading-tight;
 }
 
 textarea,
 input[type='text'],
 input[type='email'],
 input[type='password'],
-input[type='number'],
 select {
     @apply border-gray-300 rounded shadow-sm px-3 py-2;
 
@@ -31,10 +22,6 @@ select {
     &:focus {
         @apply ring ring-opacity-50 border-primary-300 ring-primary-200;
     }
-}
-
-textarea {
-    @apply min-h-32;
 }
 
 select {
@@ -52,19 +39,3 @@ input[type='checkbox'] {
         @apply bg-primary-500;
     }
 }
-
-fieldset {
-    @apply border border-gray-300 p-3;
-}
-
-legend {
-    @apply bg-black text-white px-3 py-1 text-xs font-semibold;
-}
-
-body {
-    --color-orange: #fc7753;
-    --color-blue: #0d3082;
-    --color-yellow: #fed481;
-    --color-primary: var(--color-orange);
-    --color-secondary: var(--color-yellow);
-} */

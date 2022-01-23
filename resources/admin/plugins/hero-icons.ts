@@ -40,31 +40,12 @@ import {
   SearchIcon,
   TagIcon,
   NewspaperIcon,
-  VideoCameraIcon,
-  DocumentIcon,
-  DocumentTextIcon,
-  ViewGridIcon,
-  BriefcaseIcon,
-  OfficeBuildingIcon,
-  CakeIcon,
-  ClipboardListIcon,
-  UploadIcon,
 } from '@heroicons/vue/outline'
 
 import {
   ChartBarIcon as ChartBarIconSolid,
   UsersIcon as UsersIconSolid,
   NewspaperIcon as NewspaperIconSolid,
-  VideoCameraIcon as VideoCameraIconSolid,
-  DocumentIcon as DocumentIconSolid,
-  DocumentTextIcon as DocumentTextIconSolid,
-  ViewGridIcon as ViewGridIconSolid,
-  BriefcaseIcon as BriefcaseIconSolid,
-  OfficeBuildingIcon as OfficeBuildingIconSolid,
-  CakeIcon as CakeIconSolid,
-  ClipboardListIcon as ClipboardListIconSolid,
-  UploadIcon as UploadIconSolid,
-  TagIcon as TagIconSolid,
 } from '@heroicons/vue/solid'
 
 import { App } from 'vue'
@@ -74,10 +55,6 @@ export default {
     app.component('ChartBarIconSolid', ChartBarIconSolid)
     app.component('UsersIconSolid', UsersIconSolid)
     app.component('NewspaperIconSolid', NewspaperIconSolid)
-    app.component('VideoCameraIconSolid', VideoCameraIconSolid)
-    app.component('DocumentIconSolid', DocumentIconSolid)
-    app.component('DocumentTextIconSolid', DocumentTextIconSolid)
-    app.component('ViewGridIconSolid', ViewGridIconSolid)
     app.component('MenuIcon', MenuIcon)
     app.component('ChartBarIcon', ChartBarIcon)
     app.component('ExclamationIcon', ExclamationIcon)
@@ -118,21 +95,6 @@ export default {
     app.component('FilterIcon', FilterIcon)
     app.component('SearchIcon', SearchIcon)
     app.component('TagIcon', TagIcon)
-    app.component('TagIconSolid', TagIconSolid)
     app.component('NewspaperIcon', NewspaperIcon)
-    app.component('VideoCameraIcon', VideoCameraIcon)
-    app.component('DocumentIcon', DocumentIcon)
-    app.component('DocumentTextIcon', DocumentTextIcon)
-    app.component('ViewGridIcon', ViewGridIcon)
-    app.component('BriefcaseIcon', BriefcaseIcon)
-    app.component('BriefcaseIconSolid', BriefcaseIconSolid)
-    app.component('OfficeBuildingIcon', OfficeBuildingIcon)
-    app.component('OfficeBuildingIconSolid', OfficeBuildingIconSolid)
-    app.component('CakeIcon', CakeIcon)
-    app.component('CakeIconSolid', CakeIconSolid)
-    app.component('ClipboardListIcon', ClipboardListIcon)
-    app.component('ClipboardListIconSolid', ClipboardListIconSolid)
-    app.component('UploadIcon', UploadIcon)
-    app.component('UploadIconSolid', UploadIconSolid)
   },
 }

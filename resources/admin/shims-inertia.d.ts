@@ -9,12 +9,11 @@ declare module '@inertiajs/inertia' {
     flash: { [key: string]: string }
     errors: Errors & ErrorBag
     enums: EnumTypes
-    tinyMceApiKey: string
   }
 }
 
 declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
+  export interface ComponentCustomProperties {
     $page: Page<PageProps>
   }
 }

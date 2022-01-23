@@ -19,7 +19,7 @@ export default (entry: string): UserConfigExport => {
       emptyOutDir: true,
       manifest: true,
       rollupOptions: {
-        input: 'app.ts',
+        input: '/app.ts',
       },
     },
   }

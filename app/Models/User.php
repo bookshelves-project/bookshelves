@@ -2,28 +2,62 @@
 
 namespace App\Models;
 
-use App\Enums\GenderEnum;
 use App\Enums\RoleEnum;
-use App\Models\Traits\HasAvatar;
-use App\Models\Traits\HasSlug;
-use App\Notifications\PasswordResetNotification;
-use App\Notifications\PasswordUpdatedNotification;
+use App\Models\Traits\HasImpersonate;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
 
-class User extends Authenticatable implements HasMedia
+/**
+ * App\Models\User.
+ *
+ * @property int                                                         $id
+ * @property string                                                      $name
+ * @property string                                                      $email
+ * @property null|Carbon                                                 $email_verified_at
+ * @property string                                                      $password
+ * @property null|string                                                 $two_factor_secret
+ * @property null|string                                                 $two_factor_recovery_codes
+ * @property bool                                                        $active
+ * @property null|RoleEnum                                               $role
+ * @property null|Carbon                                                 $last_login_at
+ * @property null|string                                                 $remember_token
+ * @property null|Carbon                                                 $created_at
+ * @property null|Carbon                                                 $updated_at
+ * @property DatabaseNotification[]|DatabaseNotificationCollection       $notifications
+ * @property null|int                                                    $notifications_count
+ * @property \App\Models\Post[]|\Illuminate\Database\Eloquent\Collection $posts
+ * @property null|int                                                    $posts_count
+ *
+ * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static Builder|User query()
+ * @method static Builder|User whereActive($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereEmailVerifiedAt($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereLastLoginAt($value)
+ * @method static Builder|User whereName($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereRole($value)
+ * @method static Builder|User whereTwoFactorRecoveryCodes($value)
+ * @method static Builder|User whereTwoFactorSecret($value)
+ * @method static Builder|User whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+class User extends Authenticatable
 {
-    use HasApiTokens;
     use HasFactory;
     use Notifiable;
-    use TwoFactorAuthenticatable;
-    use HasAvatar;
-    use HasSlug;
+    use HasImpersonate;
 
     /**
      * The attributes that are mass assignable.
@@ -34,15 +68,8 @@ class User extends Authenticatable implements HasMedia
         'name',
         'email',
         'password',
-        'slug',
-        'use_gravatar',
-        'display_favorites',
-        'display_comments',
-        'display_gender',
-        'about',
-        'gender',
-        'user',
-        'pronouns',
+        'active',
+        'role',
     ];
 
     /**
@@ -53,8 +80,6 @@ class User extends Authenticatable implements HasMedia
     protected $hidden = [
         'password',
         'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
     ];
 
     /**
@@ -64,97 +89,29 @@ class User extends Authenticatable implements HasMedia
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'use_gravatar' => 'boolean',
-        'display_favorites' => 'boolean',
-        'display_comments' => 'boolean',
-        'display_gender' => 'boolean',
-        'user' => RoleEnum::class,
-        'gender' => GenderEnum::class,
+        'active' => 'boolean',
+        'role' => RoleEnum::class,
+        'last_login_at' => 'datetime',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'avatar',
-        'banner',
-    ];
-
-    public static function boot()
+    public function setPasswordAttribute($password)
     {
-        static::creating(function (User $user) {
-            $user->slug = self::generateSlug($user, 'name', true);
-        });
-
-        parent::boot();
+        if ($password) {
+            $this->attributes['password'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
+        }
     }
 
-    public function sendPasswordResetNotification($token)
+    public function hasAdminAccess()
     {
-        $url = config('app.front_url').'/sign-in/reset-password?token='.$token;
-
-        $this->notify(new PasswordResetNotification($url));
+        return $this->role->equals(RoleEnum::super_admin(), RoleEnum::admin());
     }
 
-    public function sendPasswordUpdatedNotification()
+    public function canUpdate(User $user)
     {
-        $this->notify(new PasswordUpdatedNotification());
-    }
+        if ($this->role->equals(RoleEnum::admin())) {
+            return ! $user->role->equals(RoleEnum::super_admin());
+        }
 
-    public function getShowLinkAttribute(): string
-    {
-        return route('api.v1.users.show', [
-            'slug' => $this->slug,
-        ]);
-    }
-
-    public function getShowLinkCommentsAttribute(): string
-    {
-        return route('api.v1.users.comments', [
-            'slug' => $this->slug,
-        ]);
-    }
-
-    public function getShowLinkFavoritesAttribute(): string
-    {
-        return route('api.v1.users.favorites', [
-            'slug' => $this->slug,
-        ]);
-    }
-
-    public function hasRole(RoleEnum $role): bool
-    {
-        // $roles = [];
-        // foreach ($this->roles as $key => $role) {
-        //     array_push($roles, $role->name->value);
-        // }
-
-        // if (in_array($role_to_verify->value, $roles)) {
-        //     return true;
-        // }
-
-        return $this->role === $role->value;
-    }
-
-    public function favorites()
-    {
-        return Favoritable::where('user_id', $this->id)->orderBy('created_at')->get();
-    }
-
-    // public function roles(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Role::class);
-    // }
-
-    public function books(): MorphToMany
-    {
-        return $this->morphedByMany(Book::class, 'favoritable');
-    }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
+        return $this->role->equals(RoleEnum::super_admin());
     }
 }

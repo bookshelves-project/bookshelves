@@ -2,9 +2,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import baseConfig from '../vite.config'
-// import windicss from 'vite-plugin-windicss'
-import path from 'path'
-import svgLoader from 'vite-svg-loader'
+import windicss from 'vite-plugin-windicss'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,10 +11,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@admin': __dirname,
-      '@spatie': path.resolve(
-        __dirname,
-        '../../vendor/spatie/laravel-medialibrary-pro/resources/js'
-      ),
     },
   },
   plugins: [
@@ -25,14 +19,13 @@ export default defineConfig({
       dirs: ['base', 'components', 'layouts'],
       dts: true,
     }),
-    // windicss({
-    //   config: '../../windi.config.ts',
-    //   scan: {
-    //     dirs: ['.'],
-    //     fileExtensions: ['blade.php', 'vue', 'ts'],
-    //   },
-    // }),
-    svgLoader(),
+    windicss({
+      config: '../../windi.config.ts',
+      scan: {
+        dirs: ['.'],
+        fileExtensions: ['blade.php', 'vue', 'ts'],
+      },
+    }),
   ],
   optimizeDeps: {
     entries: ['admin/app.ts'],

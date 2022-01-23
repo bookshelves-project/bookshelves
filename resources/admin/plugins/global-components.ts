@@ -14,8 +14,6 @@ import BooleanFilter from '@admin/base/filters/BooleanFilter.vue'
 import ReferenceFilter from '@admin/base/filters/ReferenceFilter.vue'
 import DateFilter from '@admin/base/filters/DateFilter.vue'
 
-import Template01Form from '@admin/components/forms/templates/Template01Form.vue'
-import Template02Form from '@admin/components/forms/templates/Template02Form.vue'
 import draggable from 'vuedraggable'
 
 import { App } from 'vue'
@@ -38,8 +36,6 @@ export default {
     app.component('ReferenceFilter', ReferenceFilter)
     app.component('DateFilter', DateFilter)
 
-    app.component('Template01Form', Template01Form)
-    app.component('Template02Form', Template02Form)
     app.component('Draggable', draggable)
   },
 }

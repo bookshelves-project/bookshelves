@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -42,17 +43,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | SVG resources
-    |--------------------------------------------------------------------------
-    |
-    | For your SVG files.
-    |
-    */
-
-    'svg' => env('SVG_PATH', 'resources/svg'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
@@ -65,19 +55,6 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL', null),
-
-    'front_url' => env('APP_FRONT_URL', 'http://localhost:3000'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | App repository
-    |--------------------------------------------------------------------------
-    |
-    */
-
-    'repository_url' => env('APP_REPOSITORY_URL', 'https://gitlab.com/bookshelves-project'),
-
-    'documentation_url' => env('APP_DOCUMENTATION_URL', 'https://documentation.bookshelves.ink'),
 
     /*
     |--------------------------------------------------------------------------
@@ -103,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('APP_LOCALE', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -129,7 +106,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => env('APP_LOCALE', 'en_US'),
 
     /*
     |--------------------------------------------------------------------------
@@ -158,6 +135,7 @@ return [
     */
 
     'providers' => [
+
         /*
          * Laravel Framework Service Providers...
          */
@@ -196,8 +174,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
+
     ],
 
     /*
@@ -212,6 +190,7 @@ return [
     */
 
     'aliases' => [
+
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -223,6 +202,7 @@ return [
         'Config' => Illuminate\Support\Facades\Config::class,
         'Cookie' => Illuminate\Support\Facades\Cookie::class,
         'Crypt' => Illuminate\Support\Facades\Crypt::class,
+        'Date' => Illuminate\Support\Facades\Date::class,
         'DB' => Illuminate\Support\Facades\DB::class,
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
         'Event' => Illuminate\Support\Facades\Event::class,
@@ -248,5 +228,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
     ],
+
+    'read_only' => env('APP_READ_ONLY', false),
 ];

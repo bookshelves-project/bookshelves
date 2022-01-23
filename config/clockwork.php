@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |------------------------------------------------------------------------------------------------------------------
     | Enable Clockwork
@@ -24,6 +25,7 @@ return [
     */
 
     'features' => [
+
         // Cache usage stats and cache queries including results
         'cache' => [
             'enabled' => env('CLOCKWORK_CACHE_ENABLED', true),
@@ -52,7 +54,7 @@ return [
             'slow_only' => env('CLOCKWORK_DATABASE_SLOW_ONLY', false),
 
             // Detect and report duplicate (N+1) queries
-            'detect_duplicate_queries' => env('CLOCKWORK_DATABASE_DETECT_DUPLICATE_QUERIES', false),
+            'detect_duplicate_queries' => env('CLOCKWORK_DATABASE_DETECT_DUPLICATE_QUERIES', true),
         ],
 
         // Dispatched events
@@ -108,6 +110,7 @@ return [
             // not support collecting view data)
             'use_twig_profiler' => env('CLOCKWORK_VIEWS_USE_TWIG_PROFILER', false),
         ],
+
     ],
 
     /*
@@ -133,7 +136,7 @@ return [
     |
     */
 
-    'toolbar' => env('CLOCKWORK_TOOLBAR', true),
+    'toolbar' => env('CLOCKWORK_TOOLBAR', false),
 
     /*
     |------------------------------------------------------------------------------------------------------------------
@@ -341,6 +344,7 @@ return [
         'skip_classes' => [
             // App\CustomLog::class
         ],
+
     ],
 
     /*
@@ -402,4 +406,5 @@ return [
     */
 
     'server_timing' => env('CLOCKWORK_SERVER_TIMING', 10),
+
 ];

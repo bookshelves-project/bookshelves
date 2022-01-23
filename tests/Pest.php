@@ -39,7 +39,9 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function filterAsQuery(array $filter)
 {
-    // ..
+    return http_build_query(collect($filter)->mapWithKeys(function ($value, $key) {
+        return ["filter[{$key}]" => $value];
+    })->all());
 }

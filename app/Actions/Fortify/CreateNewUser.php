@@ -2,11 +2,11 @@
 
 namespace App\Actions\Fortify;
 
+use App\Enums\RoleEnum;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Laravel\Jetstream\Jetstream;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -19,17 +19,16 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
+        abort_if(! config('auth.registration'), 404);
+
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
-            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
 
-        return User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
+        return User::create(Arr::only($input, ['name', 'email', 'password']) + [
+            'role' => User::count() ? RoleEnum::user()->value : RoleEnum::super_admin()->value,
         ]);
     }
 }
