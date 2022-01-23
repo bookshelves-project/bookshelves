@@ -1,11 +1,11 @@
-import { defineConfig, Plugin } from 'vite'
+import { defineConfig, PluginOption } from 'vite'
 import baseConfig from '../vite.config'
 import windicss from 'vite-plugin-windicss'
 
 /**
  * Enable full reload for blade file
  */
-const laravel = (): Plugin => ({
+const laravel = (): PluginOption => ({
   name: 'vite:laravel',
   handleHotUpdate({ file, server }) {
     if (file.endsWith('.blade.php')) {
