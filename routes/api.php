@@ -12,5 +12,6 @@
 */
 
 use App\Http\Controllers\Api\ApiController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ApiController::class, 'apiHome'])->name('api.v1.index');

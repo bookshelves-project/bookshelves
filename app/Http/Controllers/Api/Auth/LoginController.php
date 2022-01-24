@@ -15,12 +15,12 @@ class LoginController extends AuthController
     /**
      * POST Login.
      */
-    public function session(LoginRequest $request)
+    public function loginSession(LoginRequest $request)
     {
         AuthService::loginSession($request);
     }
 
-    public function token(LoginTokenRequest $request)
+    public function loginToken(LoginTokenRequest $request)
     {
         AuthService::loginToken($request);
     }

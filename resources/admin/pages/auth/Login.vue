@@ -46,7 +46,7 @@
       </div>
 
       <div class="mt-4">
-        <checkbox-input source="remember" name="remember" />
+        <checkbox-input source="remember" name="remember" :model-value="true" />
       </div>
 
       <div class="flex items-center justify-between mt-6">

@@ -38,7 +38,10 @@ class AuthService
             ]);
         }
 
-        return $user->createToken($request->device_name)->plainTextToken;
+        /** @var User $user */
+        $token = $user->createToken($request->device_name);
+
+        return $token->plainTextToken;
     }
 
     public static function logoutSession(Request $request)
@@ -52,6 +55,7 @@ class AuthService
 
     public static function logoutToken(Request $request)
     {
+        /** @var User $user */
         $user = Auth::user();
         $user->tokens()->delete();
 

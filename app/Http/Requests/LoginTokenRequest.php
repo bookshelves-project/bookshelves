@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
-class LoginTokenRequest extends LoginRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class LoginTokenRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,6 +24,9 @@ class LoginTokenRequest extends LoginRequest
     public function rules()
     {
         return [
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+            'remember' => 'nullable|boolean',
             'device_name' => 'required|string',
         ];
     }
