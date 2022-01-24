@@ -3,55 +3,59 @@
 namespace App\Services\Auth;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\LoginTokenRequest;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthService
 {
-    public static function login(LoginRequest $request)
+    public static function loginSession(LoginRequest $request)
     {
-        $response = [
-            'message' => 'Email or password is not valid.',
-        ];
-        $status = 401;
+        $credentials = $request->only('email', 'password');
 
-        $email = $request->email;
-        $password = $request->password;
-        $remember = $request->remember;
-
-        if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
-            // $token = Auth::user()->token;
-            // $response = [
-            //     'message' => 'Successfully logged in',
-            //     'token' => $token->plainTextToken,
-            // ];
-            $status = 200;
+        if (! auth()->attempt($credentials, $request->remember)) {
+            throw ValidationException::withMessages([
+                'email' => 'Invalid credentials',
+            ]);
         }
 
-        return response()->json([
-            'message' => $request,
-        ], 401);
+        $request->session()->regenerate();
+
+        return response()->json(null, 201);
     }
 
-    public static function logout(Request $request)
+    public static function loginToken(LoginTokenRequest $request)
     {
-        $user = Auth::user();
-        $user->remember_token = null;
-        $user->save();
+        $user = User::where('email', $request->email)->first();
 
-        // Auth::user()->tokens()->delete();
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
 
-        // Auth::guard('front')->logout();
-        // auth('front')->logout();
+        return $user->createToken($request->device_name)->plainTextToken;
+    }
 
+    public static function logoutSession(Request $request)
+    {
+        auth()->guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return response()->json([
-            'message' => 'Tokens Revoked',
-        ]);
+        return response()->json(null, 200);
+    }
+
+    public static function logoutToken(Request $request)
+    {
+        $user = Auth::user();
+        $user->tokens()->delete();
+
+        return response()->json(null, 200);
     }
 
     public static function register(Request $request)
@@ -63,14 +67,12 @@ class AuthService
 
         $name = $validate['email'];
         $name = explode('@', $name);
-        User::create([
+        $user = User::create([
             'name' => $name[0],
             'password' => Hash::make($validate['password']),
             'email' => $validate['email'],
         ]);
 
-        return response()->json([
-            'message' => 'User created!',
-        ]);
+        return UserResource::make($user);
     }
 }

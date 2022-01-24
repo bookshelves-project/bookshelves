@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\LoginTokenRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
 
@@ -14,9 +15,14 @@ class LoginController extends AuthController
     /**
      * POST Login.
      */
-    public function authenticate(LoginRequest $request)
+    public function session(LoginRequest $request)
     {
-        // AuthService::login($request);
+        AuthService::loginSession($request);
+    }
+
+    public function token(LoginTokenRequest $request)
+    {
+        AuthService::loginToken($request);
     }
 
     /**
@@ -24,8 +30,13 @@ class LoginController extends AuthController
      *
      * @authenticated
      */
-    public function logout(Request $request)
+    public function logoutSession(Request $request)
     {
-        AuthService::logout($request);
+        AuthService::logoutSession($request);
+    }
+
+    public function logoutToken(Request $request)
+    {
+        AuthService::logoutToken($request);
     }
 }

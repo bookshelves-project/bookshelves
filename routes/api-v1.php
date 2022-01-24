@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\PasswordController;
 use App\Http\Controllers\Api\Auth\RegisterController;
@@ -173,7 +174,7 @@ Route::prefix('users')->group(function () {
 /*
  * Users features routes
  */
-Route::middleware(['auth:front'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     /**
      * Logout route.
      */
@@ -215,3 +216,10 @@ Route::middleware(['auth:front'])->group(function () {
     });
     Route::post('/password/update', [PasswordController::class, 'update'])->name('api.v1.password.update');
 });
+
+Route::post('/login', [LoginController::class, 'loginSession'])->name('api.login');
+Route::post('/login/token', [LoginController::class, 'loginToken'])->name('api.login.token');
+Route::post('/logout', [LoginController::class, 'logoutSession'])->name('api.logout');
+Route::post('/logout/token', [LoginController::class, 'logoutToken'])->name('api.logout.token');
+Route::post('/register', [RegisterController::class, 'store'])->name('api.register');
+Route::get('/user', [AuthController::class, 'user'])->middleware(['auth:sanctum'])->name('api.user');

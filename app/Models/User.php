@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 
 class User extends Authenticatable implements HasMedia
@@ -18,6 +19,7 @@ class User extends Authenticatable implements HasMedia
     use HasFactory;
     use Notifiable;
     use HasImpersonate;
+    use HasApiTokens;
     use HasAvatar;
     use HasSlug;
 
