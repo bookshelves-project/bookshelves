@@ -2,6 +2,7 @@
 
 namespace App\Services\Auth;
 
+use App\Enums\RoleEnum;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\LoginTokenRequest;
 use App\Http\Resources\User\UserResource;
@@ -13,11 +14,11 @@ use Illuminate\Validation\ValidationException;
 
 class AuthService
 {
-    public static function loginSession(LoginRequest $request)
+    public static function authenticate(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
-        if (! auth()->attempt($credentials, $request->remember)) {
+        if (! auth('user')->attempt($credentials, $request->remember)) {
             throw ValidationException::withMessages([
                 'email' => 'Invalid credentials',
             ]);
@@ -28,7 +29,7 @@ class AuthService
         return response()->json(null, 201);
     }
 
-    public static function loginToken(LoginTokenRequest $request)
+    public static function token(LoginTokenRequest $request)
     {
         $user = User::where('email', $request->email)->first();
 
@@ -38,26 +39,21 @@ class AuthService
             ]);
         }
 
-        /** @var User $user */
-        $token = $user->createToken($request->device_name);
-
-        return $token->plainTextToken;
+        return response()->json([
+            /** @var User $user */
+            'token' => $user->createToken($request->device_name)->plainTextToken,
+        ]);
     }
 
-    public static function logoutSession(Request $request)
-    {
-        auth()->guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return response()->json(null, 200);
-    }
-
-    public static function logoutToken(Request $request)
+    public static function logout(Request $request)
     {
         /** @var User $user */
         $user = Auth::user();
         $user->tokens()->delete();
+
+        // auth('user')->guard('user')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return response()->json(null, 200);
     }
@@ -75,6 +71,7 @@ class AuthService
             'name' => $name[0],
             'password' => Hash::make($validate['password']),
             'email' => $validate['email'],
+            'role' => RoleEnum::user(),
         ]);
 
         return UserResource::make($user);

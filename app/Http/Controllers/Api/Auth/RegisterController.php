@@ -15,6 +15,6 @@ class RegisterController extends AuthController
      */
     public function store(Request $request)
     {
-        AuthService::register($request);
+        return AuthService::register($request);
     }
 }

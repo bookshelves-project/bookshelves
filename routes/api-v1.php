@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\PasswordController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\Auth\TokenController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CmsController;
@@ -217,9 +218,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/password/update', [PasswordController::class, 'update'])->name('api.v1.password.update');
 });
 
-Route::post('/login', [LoginController::class, 'loginSession'])->name('api.login');
-Route::post('/login/token', [LoginController::class, 'loginToken'])->name('api.login.token');
-Route::post('/logout', [LoginController::class, 'logoutSession'])->name('api.logout');
-Route::post('/logout/token', [LoginController::class, 'logoutToken'])->name('api.logout.token');
-Route::post('/register', [RegisterController::class, 'store'])->name('api.register');
-Route::get('/user', [AuthController::class, 'user'])->middleware(['auth:sanctum'])->name('api.user');
+Route::middleware(['api'])->group(function () {
+    Route::post('/login', [LoginController::class, 'authenticate'])->name('api.login');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('api.logout');
+    Route::post('/login/token', [TokenController::class, 'authenticate'])->name('api.login.token');
+    Route::post('/logout/token', [TokenController::class, 'logout'])->name('api.logout.token');
+
+    Route::post('/register', [RegisterController::class, 'store'])->name('api.register');
+
+    Route::middleware(['auth:user'])->group(function () {
+        Route::get('/user', [AuthController::class, 'user'])->name('api.user');
+    });
+});
