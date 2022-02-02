@@ -58,6 +58,14 @@ class ParserTools
     }
 
     /**
+     * Remove HTML from string.
+     */
+    public static function htmlToText(?string $html, ?string $allow = '<br>'): string
+    {
+        return trim(strip_tags($html, $allow));
+    }
+
+    /**
      * Clean HTML input.
      */
     public static function cleanText(string|null $text, string $type = 'html', int $limit = null): string|null
@@ -67,7 +75,7 @@ class ParserTools
                 $text = iconv('UTF-8', 'UTF-8//IGNORE', $text);
 
                 if ('html' === $type) {
-                    $text = filter_var($text, FILTER_SANITIZE_STRING);
+                    $text = filter_var($text, FILTER_UNSAFE_RAW);
                 } elseif ('markdown' === $type) {
                     $text = Str::markdown($text);
                 }

@@ -59,7 +59,7 @@ class ParserEngine
         $opf->slug_lang = Str::slug($metadata['title'].' '.$metadata['language']);
         $opf->creators = $metadata['creators'];
         $opf->contributor = $metadata['contributors'];
-        $opf->description = ParserTools::cleanText($metadata['description'], 'html', 5000);
+        $opf->description = ParserTools::htmlToText($metadata['description']);
         $opf->date = $metadata['date'];
         $opf->identifiers = $metadata['identifiers'];
         $opf->publisher = $metadata['publisher'];
