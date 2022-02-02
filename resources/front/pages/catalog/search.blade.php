@@ -1,4 +1,38 @@
-@extends('layouts.catalog', ['title' => 'Catalog'])
+<x-catalog.layout>
+
+<x-slot name="header">
+    <x-catalog.header>
+        Laravel
+    </x-catalog.header>
+</x-slot>
+
+<x-catalog.panel>
+panel
+</x-catalog.panel>
+
+<x-catalog.table>
+    table
+</x-catalog.table>
+
+<x-catalog.button url="">
+    Search
+</x-catalog.button>
+
+<x-slot name="subcopy">
+    <x-catalog.subcopy>
+    subcopy
+    </x-catalog.subcopy>
+</x-slot>
+
+<x-slot name="footer">
+    <x-catalog.footer>
+    © {{ date('Y') }} {{ config('app.name') }}. @lang('All rights reserved.')
+    </x-catalog.footer>
+</x-slot>
+
+</x-catalog.layout>
+
+{{-- @extends('layouts.catalog', ['title' => 'Catalog'])
 
 @section('content')
     @isset($authors_relevant)
@@ -45,4 +79,4 @@
             </div>
         @endisset
     @endisset
-@endsection
+@endsection --}}
