@@ -1,14 +1,15 @@
 @component('mail::message')
-# A new contact from {{ config('app.name') }}
+# New contact
 
-<div class="baseline"></div>
+A new message is available!
 
-**Name** : {{ $name }}<br />
-**Email**&nbsp;: <a href="mailto:{{ $email }}">{{ $email }}</a><br />
+@isset($submission)
+**Name** : {{ $submission->name }}<br />
+**Email**&nbsp;: <a href="mailto:{{ $submission->email }}">{{ $submission->email }}</a><br />
 **Message**&nbsp;:<br />
-{{ $message }}
+{{ $submission->message }}
+@endisset
 
-{{-- Salutation --}}
 @lang('Regards'),<br>
 *{{ config('app.name') }} Team*
 @endcomponent
