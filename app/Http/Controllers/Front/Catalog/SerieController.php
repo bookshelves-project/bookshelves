@@ -20,37 +20,37 @@ class SerieController extends Controller
         $series = Serie::with(['authors', 'media'])->get();
         $series = BookshelvesTools::chunkByAlpha($series, 'title');
 
-        // return view('pages.features.catalog.series.index', compact('series'));
+        return view('front.pages.catalog.series.index', compact('series'));
     }
 
     public function character(Request $request)
     {
-        // $character = $request->character;
-        // $series = Serie::with(['authors', 'media'])->get();
+        $character = $request->character;
+        $series = Serie::with(['authors', 'media'])->get();
 
-        // $chunks = BookshelvesTools::chunkByAlpha($series, 'title');
-        // $current_chunk = [];
-        // $series = $chunks->first(function ($value, $key) use ($character) {
-        //     return $key === strtoupper($character);
-        // });
+        $chunks = BookshelvesTools::chunkByAlpha($series, 'title');
+        $current_chunk = [];
+        $series = $chunks->first(function ($value, $key) use ($character) {
+            return $key === strtoupper($character);
+        });
 
-        // $series = EntityResource::collection($series);
+        $series = EntityResource::collection($series);
 
-        // return view('pages.features.catalog.series.character', compact('series'));
+        return view('front.pages.catalog.series.character', compact('series', 'character'));
     }
 
     public function show(Request $request, string $author, string $slug)
     {
-        // $author = Author::whereSlug($author)->firstOrFail();
-        // $serie = Serie::whereHas('authors', function ($query) use ($author) {
-        //     return $query->where('author_id', '=', $author->id);
-        // })->whereSlug($slug)->firstOrFail();
+        $author = Author::whereSlug($author)->firstOrFail();
+        $serie = Serie::whereHas('authors', function ($query) use ($author) {
+            return $query->where('author_id', '=', $author->id);
+        })->whereSlug($slug)->firstOrFail();
 
-        // $books = EntityResource::collection($serie->books);
+        $books = EntityResource::collection($serie->books);
 
-        // $serie = SerieResource::make($serie);
-        // $serie = json_decode($serie->toJson());
+        $serie = SerieResource::make($serie);
+        $serie = json_decode($serie->toJson());
 
-        // return view('pages.features.catalog.series._slug', compact('serie', 'books'));
+        return view('front.pages.catalog.series._slug', compact('serie', 'books'));
     }
 }

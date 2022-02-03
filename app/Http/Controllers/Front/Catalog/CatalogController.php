@@ -36,21 +36,22 @@ class CatalogController extends Controller
         if ($q) {
             $engine = SearchEngineService::create($q);
 
-            $authors_relevant = $engine->authors_relevant;
-            $series_relevant = $engine->series_relevant;
-            $books_relevant = $engine->books_relevant;
-
-            $authors_other = $engine->authors_other;
-            $series_other = $engine->series_other;
-            $books_other = $engine->books_other;
+            $results = [
+                'relevant' => [
+                    'authors' => $engine->authors_relevant,
+                    'series' => $engine->series_relevant,
+                    'books' => $engine->books_relevant,
+                ],
+                'other' => [
+                    'authors' => $engine->authors_other,
+                    'series' => $engine->series_other,
+                    'books' => $engine->books_other,
+                ],
+            ];
 
             return view('front.pages.catalog.search', compact(
-                'authors_relevant',
-                'series_relevant',
-                'books_relevant',
-                'authors_other',
-                'series_other',
-                'books_other'
+                'q',
+                'results',
             ));
         }
 

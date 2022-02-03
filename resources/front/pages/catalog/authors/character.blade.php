@@ -1,7 +1,13 @@
-@extends('layouts.catalog', ['title' => 'Authors'])
+<x-catalog.layout>
 
-@section('content')
+<x-catalog.panel>
+    Authors begin by {{ ucfirst($character) }}. Select the author than you want.
+</x-catalog.panel>
+
+<x-catalog.table>
     @if (sizeof($authors))
         <x-catalog.entities :collection="$authors" type="author" />
     @endif
-@endsection
+</x-catalog.table>
+
+</x-catalog.layout>
