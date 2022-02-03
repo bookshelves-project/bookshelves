@@ -61,7 +61,6 @@ class SetupCommand extends Command
          * Generate commands
          */
         Artisan::call('bookshelves:generate', [
-            '--local' => $local,
             '--fresh' => $fresh,
             '--limit' => $limit,
             '--debug' => $debug,

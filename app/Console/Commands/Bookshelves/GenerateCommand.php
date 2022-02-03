@@ -20,7 +20,6 @@ class GenerateCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:generate
-                            {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--f|fresh : reset current books and relation, keep users}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
@@ -51,7 +50,6 @@ class GenerateCommand extends Command
         $app = config('app.name');
         $limit = str_replace('=', '', $this->option('limit'));
         $limit = intval($limit);
-        $local = $this->option('local') ?? false;
         $fresh = $this->option('fresh') ?? false;
         $debug = $this->option('debug') ?? false;
         $default = $this->option('default') ?? false;
@@ -101,7 +99,7 @@ class GenerateCommand extends Command
             if ($debug) {
                 $this->info($key.' '.$parser->title);
             }
-            ConverterEngine::create($parser, $local, $default);
+            ConverterEngine::create($parser, $default);
 
             if (! $debug) {
                 $bar->advance();

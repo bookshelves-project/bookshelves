@@ -70,7 +70,7 @@ class GoogleBook extends Model
 
     public function testAttribute($attribute)
     {
-        if (empty($this->book->attribute)) {
+        if (empty($this->book->{$attribute})) {
             $this->book->{$attribute} = $this->{$attribute};
         }
     }

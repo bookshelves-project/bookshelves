@@ -41,7 +41,7 @@ class ConverterEngine
         }
     }
 
-    public static function create(ParserEngine $parser, bool $local, bool $default): void
+    public static function create(ParserEngine $parser, bool $default): void
     {
         $book = Book::whereSlug($parser->slug_lang)->first();
         if (! $book) {
