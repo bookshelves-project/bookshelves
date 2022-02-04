@@ -1,4 +1,4 @@
-<div class="dark">
+<div {{ $attributes->merge(['class' => 'dark']) }}>
     @if ($date)
         <div class="text-sm italic">
             Last update: {{ $date }}

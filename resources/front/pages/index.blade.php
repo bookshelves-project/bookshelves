@@ -1,6 +1,6 @@
 <x-layouts.main>
     <div class="space-y-12">
-        <div class="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
+        <div class="space-y-5 sm:space-y-4 xl:max-w-none">
             <p class="text-xl text-gray-300">
                 Features offer a lot of extra options to find and read eBooks. You can download directly eBooks from
                 your eReader with Catalog or you can use OPDS (Open Publication Distribution System) feed to get all
@@ -18,5 +18,10 @@
                 <x-layouts.navigation.card :card="$card" />
             @endforeach
         </ul>
+        @if (config('app.debug'))
+            <x-button :route="route('front.configuration')">
+                Access to configuration (debug only)
+            </x-button>
+        @endif
     </div>
 </x-layouts.main>

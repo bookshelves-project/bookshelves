@@ -35,6 +35,7 @@ class MarkdownService
         'APP_URL' => 'app.url',
         'APP_FRONT_URL' => 'app.front_url',
         'APP_REPOSITORY_URL' => 'app.repository_url',
+        'APP_DOCUMENTATION_URL' => 'app.documentation_url',
     ];
 
     public function __construct(
@@ -70,7 +71,7 @@ class MarkdownService
     {
         $markdownConverter = new MarkdownConverter(environment: $this->getConfig());
 
-        return $markdownConverter->convertToHtml($this->content);
+        return $markdownConverter->convert($this->content);
     }
 
     public function getConfig(): Environment
@@ -162,15 +163,15 @@ class MarkdownService
                 'single_quote_opener' => '‘',
                 'single_quote_closer' => '’',
             ],
-            'table_of_contents' => [
-                'html_class' => 'table-of-contents',
-                'position' => 'top',
-                'style' => 'bullet',
-                'min_heading_level' => 1,
-                'max_heading_level' => 6,
-                'normalize' => 'relative',
-                'placeholder' => null,
-            ],
+            // 'table_of_contents' => [
+            //     'html_class' => 'table-of-contents',
+            //     'position' => 'top',
+            //     'style' => 'bullet',
+            //     'min_heading_level' => 1,
+            //     'max_heading_level' => 6,
+            //     'normalize' => 'relative',
+            //     'placeholder' => null,
+            // ],
         ];
 
         return (new Environment($config))
@@ -188,7 +189,7 @@ class MarkdownService
             ->addExtension(new MentionExtension())
             ->addExtension(new SmartPunctExtension())
             // ->addExtension(new StrikethroughExtension())
-            ->addExtension(new TableOfContentsExtension())
+            // ->addExtension(new TableOfContentsExtension())
             ->addExtension(new TableExtension())
             ->addExtension(new TaskListExtension())
         ;

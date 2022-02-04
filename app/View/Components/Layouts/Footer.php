@@ -2,7 +2,6 @@
 
 namespace App\View\Components\Layouts;
 
-use Illuminate\Foundation\Application;
 use Illuminate\View\Component;
 
 class Footer extends Component
@@ -29,10 +28,8 @@ class Footer extends Component
             $date = $begin_year;
         }
 
-        $laravel_v = Application::VERSION;
-        $php_v = PHP_VERSION;
         $composer = json_decode(file_get_contents(base_path('composer.json')));
 
-        return view('components.layouts.footer', compact('laravel_v', 'php_v', 'composer', 'date'));
+        return view('components.layouts.footer', compact('composer', 'date'));
     }
 }

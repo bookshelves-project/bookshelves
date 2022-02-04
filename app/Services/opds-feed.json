@@ -5,7 +5,7 @@
         "title": "Authors",
         "content": "Authors availables",
         "cover_thumbnail": "",
-        "route": "features.opds.authors"
+        "route": "front.opds.authors"
     },
     {
         "key": "series",
@@ -13,6 +13,6 @@
         "title": "Series",
         "content": "Series availables",
         "cover_thumbnail": "",
-        "route": "features.opds.series"
+        "route": "front.opds.series"
     }
 ]

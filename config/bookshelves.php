@@ -74,7 +74,7 @@ return [
         ],
         'footer' => [
             [
-                'route' => 'home',
+                'route' => 'front.home',
                 'href' => false,
                 'title' => 'Features',
                 'icon' => 'wiki',

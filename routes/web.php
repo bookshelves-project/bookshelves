@@ -36,6 +36,7 @@ Route::middleware(['web'])->group(function () {
     Route::prefix('features')->group(function () {
         Route::get('/', [HomeController::class, 'index'])->name('front.home');
         Route::get('/license', [HomeController::class, 'license'])->name('front.license');
+        Route::get('/configuration', [HomeController::class, 'configuration'])->name('front.configuration')->middleware('debug.only');
 
         Route::prefix('catalog')->group(function () {
             Route::get('/', [CatalogController::class, 'index'])->name('front.catalog.index');

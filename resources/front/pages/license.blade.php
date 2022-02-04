@@ -1,5 +1,3 @@
 <x-layouts.main>
-    <div class="prose prose-invert max-w-3xl mx-auto w-max">
-        {!! $license !!}
-    </div>
+    <x-content :content="$license" />
 </x-layouts.main>

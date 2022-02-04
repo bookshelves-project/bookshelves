@@ -29,11 +29,6 @@
                         license.</a>
                 </div>
             </div>
-            <div class="w-max mx-auto mt-3">
-                <a href="https://www.php.net/" target="_blank" rel="noopener noreferrer">PHP v{{ $php_v }}</a>,
-                <a href="https://laravel.com/" target="_blank" rel="noopener noreferrer">Laravel
-                    v{{ $laravel_v }}</a>
-            </div>
         </div>
     </div>
 </footer>
