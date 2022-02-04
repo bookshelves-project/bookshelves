@@ -23,7 +23,7 @@
                                             <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Cabin',sans-serif;"
                                                 align="left">
                                                 <div align="center">
-                                                    <button
+                                                    <button type="submit"
                                                         class="button button-{{ $color ?? 'primary' }}">Search</button>
                                                 </div>
                                             </td>

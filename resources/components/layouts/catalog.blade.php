@@ -8,6 +8,11 @@
     <meta name="color-scheme" content="light">
     <meta name="supported-color-schemes" content="light">
     <link rel="stylesheet" href="{{ asset('assets/css/catalog.css') }}">
+    <title>{{ config('app.name') }} Catalog</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <style>
         @media only screen and (max-width: 600px) {
             .inner-body {

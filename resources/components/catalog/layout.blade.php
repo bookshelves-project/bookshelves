@@ -1,4 +1,4 @@
-<x-catalog.main>
+<x-layouts.catalog>
     <x-slot name="header">
         <x-catalog.header>
             Laravel
@@ -9,7 +9,7 @@
     {{ $slot ?? '' }}
     <x-slot name="subcopy">
         <x-catalog.subcopy>
-            Catalog allow you to download directly eBooks on your eReader with Internet browser. You can <a
+            Catalog allows you to download eBooks directly from your eReader if it has a web browser. You can <a
                 href="{{ route('front.home') }}">back
                 to other
                 features</a>.
@@ -21,4 +21,4 @@
             {{ config('app.name') }} Catalog.
         </x-catalog.footer>
     </x-slot>
-</x-catalog.main>
+</x-layouts.catalog>

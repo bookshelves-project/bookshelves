@@ -7,12 +7,14 @@
         <div class="divide-y divide-gray-400 space-y-4">
             @isset($route)
                 <div class="flex justify-between items-center">
-                    <a href="{{ $route }}" class="flex items-center space-x-1">
-                        @svg('icon-arrow-sm-right', 'w-6 h-6 rotate-180')
-                        <span class="mb-1">{{ config('app.name') }} Features</span>
+                    <a href="{{ $route }}"
+                        class="flex items-center space-x-1 text-gray-100 hover:border-gray-100 border-b-2 border-transparent transition-colors duration-75">
+                        @svg('icon-arrow-sm-right', 'w-6 h-6 transform rotate-180')
+                        <span>{{ config('app.name') }} Features</span>
                     </a>
-                    <a href="{{ config('app.front_url') }}" class="flex items-center space-x-1">
-                        <span class="mb-1">Main application</span>
+                    <a href="{{ config('app.front_url') }}"
+                        class="flex items-center space-x-1 text-gray-100 hover:border-gray-100 border-b-2 border-transparent transition-colors duration-75">
+                        <span>Main application</span>
                         @svg('icon-arrow-sm-right', 'w-6 h-6')
                     </a>
                 </div>
