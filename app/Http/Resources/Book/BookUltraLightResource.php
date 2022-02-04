@@ -32,7 +32,7 @@ class BookUltraLightResource extends JsonResource
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
             'summary' => BookshelvesTools::stringLimit($this->resource->description, 140),
             'language' => $this->resource->language?->slug,
-            'publishDate' => $this->resource->date,
+            'releasedOn' => $this->resource->released_on,
             'cover' => [
                 'thumbnail' => $this->resource->cover_thumbnail,
                 'simple' => $this->resource->cover_simple,

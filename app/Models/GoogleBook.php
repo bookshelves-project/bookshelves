@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class GoogleBook extends Model
 {
     protected $fillable = [
-        'date',
+        'published_date',
         'description',
         'industry_identifiers',
         'page_count',
@@ -31,7 +31,7 @@ class GoogleBook extends Model
      */
     public function improveBookData()
     {
-        $this->testAttribute('date');
+        $this->testAttribute('released_on');
         $this->testAttribute('description');
         $this->testAttribute('page_count');
         $this->testAttribute('maturity_rating');

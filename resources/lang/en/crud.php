@@ -27,4 +27,17 @@ return [
             'tags' => 'Tags',
         ],
     ],
+    'books' => [
+        'name' => 'Book|Books',
+        'attributes' => [
+            'title' => 'Title',
+            'slug' => 'Slug',
+            'volume' => 'Volume',
+            'authors' => 'Authors',
+            'serie' => 'Series',
+            'disabled' => 'Disabled',
+            'released_on' => 'Released on',
+            'cover' => 'Cover',
+        ],
+    ],
 ];

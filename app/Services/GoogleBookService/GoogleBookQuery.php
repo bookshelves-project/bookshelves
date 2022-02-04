@@ -13,7 +13,7 @@ class GoogleBookQuery
         public ?string $url = null,
         public ?string $model_name = null,
         public ?int $model_id = 0,
-        public ?DateTime $date = null,
+        public ?DateTime $published_date = null,
         public ?string $description = null,
         public ?array $industry_identifiers = null,
         public ?int $page_count = null,
@@ -91,7 +91,7 @@ class GoogleBookQuery
                 if (property_exists($item, 'volumeInfo')) {
                     $volumeInfo = $item->volumeInfo ?? null;
                     if ($volumeInfo) {
-                        $this->date = new DateTime($volumeInfo->publishedDate) ?? null;
+                        $this->published_date = new DateTime($volumeInfo->publishedDate) ?? null;
                         $this->publisher = $volumeInfo->publisher ?? null;
                         $this->description = $volumeInfo->description ?? null;
                         $this->industry_identifiers = $volumeInfo->industryIdentifiers ?? null;

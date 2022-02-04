@@ -27,7 +27,7 @@ class ParserEngine
         public ?array $creators = [],
         public ?array $contributor = [],
         public ?string $description = null,
-        public ?DateTime $date = null,
+        public ?DateTime $released_on = null,
         public ?array $identifiers = null,
         public ?string $publisher = null,
         /** @var OpfIdentifier[] $subjects */
@@ -60,7 +60,7 @@ class ParserEngine
         $opf->creators = $metadata['creators'];
         $opf->contributor = $metadata['contributors'];
         $opf->description = ParserTools::htmlToText($metadata['description']);
-        $opf->date = $metadata['date'];
+        $opf->released_on = $metadata['released_on'];
         $opf->identifiers = $metadata['identifiers'];
         $opf->publisher = $metadata['publisher'];
         $opf->subjects = $metadata['subjects'];
@@ -94,7 +94,7 @@ class ParserEngine
      * - `creators`: `OpfCreator[]`
      * - `contributors`: `string[]`
      * - `description`: `string`
-     * - `date`: `DateTime`
+     * - `released_on`: `DateTime`
      * - `identifiers`: `OpfIdentifier[]`
      * - `publisher`: `string`
      * - `subjects`: `string[]`
@@ -178,7 +178,7 @@ class ParserEngine
             $creators = [];
             $contributors = [];
             $description = null;
-            $date = '';
+            $released_on = '';
             $identifiers = [];
             $publisher = null;
             $subjects = [];
@@ -247,7 +247,7 @@ class ParserEngine
              * - contributor
              * - description
              * - publisher
-             * - date
+             * - released_on
              * - identifiers
              * - subjects (tags)
              * - language
@@ -329,7 +329,7 @@ class ParserEngine
                  * Get date.
                  */
                 if ('dc:date' === $value->tagName) {
-                    $date = $value->textContent ? $value->textContent : '';
+                    $released_on = $value->textContent ? $value->textContent : '';
                 }
 
                 /*
@@ -385,7 +385,7 @@ class ParserEngine
             'creators' => $creators,
             'contributors' => $contributors,
             'description' => $description,
-            'date' => new DateTime($date),
+            'released_on' => new DateTime($released_on),
             'identifiers' => $identifiers,
             'publisher' => $publisher,
             'subjects' => $subjects,

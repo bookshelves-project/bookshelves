@@ -21,7 +21,7 @@ class BookConverter
             'title_sort' => $parser->title_serie_sort,
             'contributor' => implode(' ', $parser->contributor),
             'description' => $parser->description,
-            'date' => $parser->date,
+            'released_on' => $parser->released_on,
             'rights' => $parser->rights,
             'volume' => $parser->volume,
         ]);

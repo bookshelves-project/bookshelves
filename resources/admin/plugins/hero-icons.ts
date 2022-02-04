@@ -46,6 +46,7 @@ import {
   ChartBarIcon as ChartBarIconSolid,
   UsersIcon as UsersIconSolid,
   NewspaperIcon as NewspaperIconSolid,
+  BookOpenIcon as BookIconSolid,
 } from '@heroicons/vue/solid'
 
 import { App } from 'vue'
@@ -55,6 +56,7 @@ export default {
     app.component('ChartBarIconSolid', ChartBarIconSolid)
     app.component('UsersIconSolid', UsersIconSolid)
     app.component('NewspaperIconSolid', NewspaperIconSolid)
+    app.component('BookIconSolid', BookIconSolid)
     app.component('MenuIcon', MenuIcon)
     app.component('ChartBarIcon', ChartBarIcon)
     app.component('ExclamationIcon', ExclamationIcon)

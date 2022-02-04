@@ -102,7 +102,7 @@ class GoogleBookService
         foreach ($this->queries as $query) {
             /** @var string[] $data */
             $data = [
-                'date' => $query->date,
+                'released_on' => $query->published_date,
                 'description' => $query->description,
                 'industry_identifiers' => $query->industry_identifiers ? json_encode($query->industry_identifiers) : null,
                 'page_count' => $query->page_count,

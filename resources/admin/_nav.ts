@@ -26,6 +26,13 @@ const mainNav: (NavLink | NavTitle)[] = [
     icon: 'newspaper',
     text: __('Posts'),
   },
+  {
+    href: route('admin.books'),
+    active: () =>
+      route().current('admin.books') || route().current('admin.books.*'),
+    icon: 'book',
+    text: __('Books'),
+  },
   { title: __('Access Managment') },
   {
     href: route('admin.users'),

@@ -11,14 +11,7 @@
     </inertia-link>
     <h3
       v-if="isTitle(link)"
-      class="
-        text-primary-300 text-xs
-        uppercase
-        font-bold
-        pt-4
-        pb-2
-        border-primary-300 border-b-1
-      "
+      class="text-primary-300 text-xs uppercase font-bold pt-4 pb-2 border-primary-300 border-b-1"
     >
       {{ link.title }}
     </h3>
@@ -29,7 +22,7 @@
   import { mainNav, isTitle, isLink } from '@admin/_nav'
 </script>
 
-<style lang="postcss" scoped>
+<style lang="css" scoped>
   a {
     @apply text-primary-300 group-hover:text-white;
 

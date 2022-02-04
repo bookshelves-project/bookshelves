@@ -2,25 +2,25 @@
   <div class="flex gap-4">
     <template v-for="(media, i) in value" :key="i">
       <a
-        v-if="canPreview && media.original_url"
-        :href="media.original_url"
+        v-if="canPreview && media[original]"
+        :href="media[original]"
         target="_blank"
         @click.stop
       >
         <img
-          v-if="media.preview_url"
-          :src="media.preview_url"
+          v-if="media[preview]"
+          :src="media[preview]"
           :width="width"
           :height="height"
-          class="max-w-max"
+          :class="`max-w-max object-cover h-32 w-32`"
           :alt="media.name"
         />
         <span v-else>{{ media.name }}</span>
       </a>
       <span v-else>
         <img
-          v-if="media.preview_url"
-          :src="media.preview_url"
+          v-if="media[preview]"
+          :src="media[preview]"
           :width="width"
           :height="height"
           class="max-w-max"
@@ -44,6 +44,14 @@
             [uuid: string]: Media
           }>,
       required: true,
+    },
+    preview: {
+      type: String,
+      default: 'preview_url',
+    },
+    original: {
+      type: String,
+      default: 'original_url',
     },
     width: {
       type: Number,

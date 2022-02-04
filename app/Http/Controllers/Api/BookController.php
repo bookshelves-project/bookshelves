@@ -70,7 +70,7 @@ class BookController extends ApiController
                 'id',
                 'title',
                 'title_sort',
-                'date',
+                'released_on',
                 'created_at',
                 // AllowedSort::custom('author', new AuthorRelationship(), 'name'),
                 // AllowedSort::custom('language', new LanguageRelationship(), 'name'),

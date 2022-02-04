@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
@@ -106,6 +107,17 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
 
     Route::prefix('post-categories')->group(function () {
         Route::get('/', [PostCategoryController::class, 'index'])->name('admin.post-categories');
+    });
+
+    Route::prefix('books')->group(function () {
+        Route::get('/', [BookController::class, 'index'])->name('admin.books');
+        Route::get('create', [BookController::class, 'create'])->name('admin.books.create');
+        Route::get('{book}/edit', [BookController::class, 'edit'])->name('admin.books.edit');
+        Route::post('/', [BookController::class, 'store'])->name('admin.books.store');
+        Route::put('{book}', [BookController::class, 'update'])->name('admin.books.update');
+        Route::patch('{book}/toggle', [BookController::class, 'toggle'])->name('admin.books.toggle');
+        Route::delete('{book}', [BookController::class, 'destroy'])->name('admin.books.destroy');
+        Route::delete('/', [BookController::class, 'bulkDestroy'])->name('admin.books.bulk.destroy');
     });
 
     Route::prefix('posts')->group(function () {

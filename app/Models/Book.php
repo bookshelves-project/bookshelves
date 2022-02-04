@@ -40,16 +40,21 @@ class Book extends Model implements HasMedia
         'slug',
         'contributor',
         'description',
-        'date',
+        'released_on',
         'rights',
         'volume',
         'page_count',
         'maturity_rating',
+        'disabled',
     ];
     protected $with = [
         'language',
         'authors',
         'media',
+    ];
+    protected $casts = [
+        'released_on' => 'datetime',
+        'disabled' => 'boolean',
     ];
 
     /**
@@ -99,7 +104,7 @@ class Book extends Model implements HasMedia
     public function scopePublishedBetween(Builder $query, string $startDate, string $endDate): Builder
     {
         return $query
-            ->whereBetween('date', [Carbon::parse($startDate), Carbon::parse($endDate)])
+            ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)])
         ;
     }
 
@@ -133,7 +138,7 @@ class Book extends Model implements HasMedia
             'id' => $this->id,
             'title' => $this->title,
             'picture' => $this->cover_thumbnail,
-            'date' => $this->date,
+            'released_on' => $this->released_on,
             'author' => $this->authors_names,
             'isbn' => $this->identifier->isbn ?? null,
             'isbn13' => $this->identifier->isbn13 ?? null,

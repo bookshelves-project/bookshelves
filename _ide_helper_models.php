@@ -89,7 +89,7 @@ namespace App\Models{
  * @property string|null $slug
  * @property string|null $contributor
  * @property string|null $description
- * @property string|null $date
+ * @property \Illuminate\Support\Carbon|null $released_on
  * @property string|null $rights
  * @property int|null $serie_id
  * @property int|null $volume
@@ -99,6 +99,7 @@ namespace App\Models{
  * @property int|null $google_book_id
  * @property int|null $page_count
  * @property string|null $maturity_rating
+ * @property bool $disabled
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
@@ -144,8 +145,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereAuthorIsLike(string $author)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereContributor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisallowSerie(string $has_not_serie)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
@@ -155,6 +156,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereMaturityRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePageCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePublisherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereReleasedOn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereRights($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieTitleIs($title)

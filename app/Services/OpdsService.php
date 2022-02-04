@@ -221,8 +221,8 @@ class OpdsService
                 'name' => $book->authors[0]->name,
                 'uri' => $book->authors[0]->show_link_opds,
             ],
-            'dcterms:issued' => $book->date,
-            'published' => $book->date,
+            'dcterms:issued' => $book->released_on,
+            'published' => $book->released_on,
             'volume' => $book->volume,
             'dcterms:language' => $book->language->name,
         ];

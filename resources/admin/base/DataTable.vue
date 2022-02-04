@@ -13,16 +13,7 @@
           @input="onFilter"
         />
         <search-icon
-          class="
-            h-5
-            w-5
-            absolute
-            top-1/2
-            right-4
-            transform
-            -translate-y-1/2
-            opacity-50
-          "
+          class="h-5 w-5 absolute top-1/2 right-4 transform -translate-y-1/2 opacity-50"
         />
       </div>
     </div>
@@ -45,14 +36,7 @@
     </div>
   </div>
   <div
-    class="
-      bg-white
-      rounded-md
-      shadow
-      overflow-x-auto
-      relative
-      scrollbar-thin scrollbar-thumb-primary-900 scrollbar-track-gray-100
-    "
+    class="bg-white rounded-md shadow overflow-x-auto relative scrollbar-thin scrollbar-thumb-primary-900 scrollbar-track-gray-100"
   >
     <table
       class="w-full whitespace-nowrap"
@@ -169,13 +153,7 @@
     </table>
     <span
       v-if="form.processing"
-      class="
-        absolute
-        top-1/2
-        left-1/2
-        transform
-        -translate-x-1/2 -translate-y-1/2
-      "
+      class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     >
       <spinner class="h-24 w-24 text-primary" />
     </span>

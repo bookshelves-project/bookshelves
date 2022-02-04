@@ -13,7 +13,7 @@ class CreateGoogleBooksTable extends Migration
     {
         Schema::create('google_books', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('date')->nullable();
+            $table->dateTime('published_date')->nullable();
             $table->text('description')->nullable();
             $table->json('industry_identifiers')->nullable();
             $table->integer('page_count')->nullable();
