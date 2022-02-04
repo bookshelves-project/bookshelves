@@ -4,13 +4,16 @@ namespace App\View\Components\Configuration;
 
 use Illuminate\View\Component;
 
-class Entities extends Component
+class Table extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public array $table
+        public string $title = 'Title',
+        public string $label = 'Label',
+        public string $value = 'Value',
+        public ?array $table = [],
     ) {
     }
 
@@ -21,6 +24,6 @@ class Entities extends Component
      */
     public function render()
     {
-        return view('components.configuration.entities');
+        return view('components.configuration.table');
     }
 }
