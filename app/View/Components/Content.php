@@ -12,6 +12,7 @@ class Content extends Component
     public function __construct(
         public string $content,
         public ?string $date = '',
+        public ?bool $full = false,
     ) {
     }
 

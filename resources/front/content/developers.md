@@ -1,9 +1,3 @@
-## For users
-
-- [**OPDS**](/features/opds): retrieve a Open Publication Distribution System's feed for your applications
-- [**Catalog**](/features/catalog): access all eBooks from the web browser of your eReader, Catalog offers a simplified interface that can be used through this light browser (your eReader must be connected to the Internet and have a web browser)
-- [**Webreader**](/features/webreader): read directly the eBook of your choice in your web browser
-
 ## For developers
 
 - [**Wiki**](APP_DOCUMENTATION_URL): learn how to use this application to launch your own
