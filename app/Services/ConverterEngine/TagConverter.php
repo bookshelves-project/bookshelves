@@ -2,6 +2,7 @@
 
 namespace App\Services\ConverterEngine;
 
+use App\Enums\TagTypeEnum;
 use App\Models\Book;
 use App\Services\ParserEngine\ParserEngine;
 use Illuminate\Support\Collection;
@@ -43,9 +44,9 @@ class TagConverter
             $tag = strtolower($tag);
             $tag = ucfirst($tag);
             if (in_array($tag, $main_genres)) {
-                $tag = Tag::findOrCreate($tag, 'genre');
+                $tag = Tag::findOrCreate($tag, TagTypeEnum::genre());
             } else {
-                $tag = Tag::findOrCreate($tag, 'tag');
+                $tag = Tag::findOrCreate($tag, TagTypeEnum::tag());
             }
 
             $book->attachTag($tag);

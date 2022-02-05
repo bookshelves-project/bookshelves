@@ -60,7 +60,7 @@ class ParserEngine
         $opf->creators = $metadata['creators'];
         $opf->contributor = $metadata['contributors'];
         $opf->description = ParserTools::htmlToText($metadata['description']);
-        $opf->released_on = $metadata['released_on'];
+        $opf->released_on = $metadata['released_on'] ?? null;
         $opf->identifiers = $metadata['identifiers'];
         $opf->publisher = $metadata['publisher'];
         $opf->subjects = $metadata['subjects'];

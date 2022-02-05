@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\BookTypeEnum;
 use App\Enums\PostStatusEnum;
 use App\Enums\RoleEnum;
+use App\Enums\TagTypeEnum;
 use App\Http\Resources\Admin\AuthResource;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -56,6 +58,8 @@ class HandleInertiaRequests extends Middleware
                 return collect([
                     'roles' => RoleEnum::class,
                     'post_statuses' => PostStatusEnum::class,
+                    'tag_types' => TagTypeEnum::class,
+                    'book_types' => BookTypeEnum::class,
                 ])
                     ->mapWithKeys(fn ($enum, $key) => [$key => $enum::toArray()])
                 ;

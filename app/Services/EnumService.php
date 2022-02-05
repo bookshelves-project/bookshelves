@@ -2,17 +2,20 @@
 
 namespace App\Services;
 
+use App\Enums\BookTypeEnum;
 use App\Enums\GenderEnum;
+use App\Enums\TagTypeEnum;
 
 class EnumService
 {
     public static function list(): array
     {
         $genders = GenderEnum::toArray();
+        $tagTypes = TagTypeEnum::toArray();
+        $bookTypes = BookTypeEnum::toArray();
         $models = [
             'author' => 'Author',
             'book' => 'Book',
-            'comicbook' => 'ComicBook',
             'language' => 'Language',
             'publisher' => 'Publisher',
             'serie' => 'Serie',
@@ -21,6 +24,8 @@ class EnumService
 
         return [
             'genders' => $genders,
+            'tagTypes' => $tagTypes,
+            'bookTypes' => $bookTypes,
             'models' => $models,
         ];
     }

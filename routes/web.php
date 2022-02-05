@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SearchController;
@@ -127,6 +128,7 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
     Route::prefix('series')->group(function () {
         Route::get('/', [SerieController::class, 'index'])->name('admin.series');
         Route::get('create', [SerieController::class, 'create'])->name('admin.series.create');
+        Route::get('{serie}', [SerieController::class, 'create'])->name('admin.series.show');
         Route::get('{serie}/edit', [SerieController::class, 'edit'])->name('admin.series.edit');
         Route::post('/', [SerieController::class, 'store'])->name('admin.series.store');
         Route::put('{serie}', [SerieController::class, 'update'])->name('admin.series.update');
@@ -138,6 +140,7 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
     Route::prefix('authors')->group(function () {
         Route::get('/', [AuthorController::class, 'index'])->name('admin.authors');
         Route::get('create', [AuthorController::class, 'create'])->name('admin.authors.create');
+        Route::get('{author}', [SerieController::class, 'create'])->name('admin.authors.show');
         Route::get('{author}/edit', [AuthorController::class, 'edit'])->name('admin.authors.edit');
         Route::post('/', [AuthorController::class, 'store'])->name('admin.authors.store');
         Route::put('{author}', [AuthorController::class, 'update'])->name('admin.authors.update');
@@ -157,6 +160,30 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
         Route::delete('/', [PostController::class, 'bulkDestroy'])->name('admin.posts.bulk.destroy');
     });
 
+    Route::prefix('tags')->group(function () {
+        Route::get('/', [TagController::class, 'index'])->name('admin.tags');
+        Route::get('/fetch', [TagController::class, 'fetch'])->name('admin.tags.fetch');
+        Route::get('create', [TagController::class, 'create'])->name('admin.tags.create');
+        Route::get('{tag}/edit', [TagController::class, 'edit'])->name('admin.tags.edit');
+        Route::post('/', [TagController::class, 'store'])->name('admin.tags.store');
+        Route::put('{tag}', [TagController::class, 'update'])->name('admin.tags.update');
+        Route::patch('{tag}/toggle', [TagController::class, 'toggle'])->name('admin.tags.toggle');
+        Route::delete('{tag}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
+        Route::delete('/', [TagController::class, 'bulkDestroy'])->name('admin.tags.bulk.destroy');
+    });
+
+    Route::prefix('languages')->group(function () {
+        Route::get('/', [LanguageController::class, 'index'])->name('admin.languages');
+        Route::get('create', [LanguageController::class, 'create'])->name('admin.languages.create');
+        Route::get('{language}/edit', [LanguageController::class, 'edit'])->name('admin.languages.edit');
+        Route::post('/', [LanguageController::class, 'store'])->name('admin.languages.store');
+        Route::put('{language}', [LanguageController::class, 'update'])->name('admin.languages.update');
+        Route::patch('{language}/toggle', [LanguageController::class, 'toggle'])->name('admin.languages.toggle');
+        Route::delete('{language}', [LanguageController::class, 'destroy'])->name('admin.languages.destroy');
+        Route::delete('/', [LanguageController::class, 'bulkDestroy'])->name('admin.languages.bulk.destroy');
+        Route::get('/fetch', [LanguageController::class, 'fetch'])->name('admin.languages.fetch');
+    });
+
     Route::prefix('submissions')->group(function () {
         Route::get('/', [SubmissionController::class, 'index'])->name('admin.submissions');
         Route::get('{submission}', [SubmissionController::class, 'show'])->name('admin.submissions.show');
@@ -165,10 +192,6 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
     });
 
     Route::get('search/{query?}', [SearchController::class, 'index'])->name('admin.search');
-
-    Route::prefix('tags')->group(function () {
-        Route::get('/', [TagController::class, 'index'])->name('admin.tags');
-    });
 
     Route::post('/upload', [UploadController::class, 'upload'])->name('admin.upload');
 });

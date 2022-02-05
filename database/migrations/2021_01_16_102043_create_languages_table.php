@@ -13,6 +13,7 @@ class CreateLanguagesTable extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             $table->string('slug')->unique()->index()->nullable();
+            $table->unsignedInteger('order_column')->nullable();
             $table->string('name')->nullable();
         });
 

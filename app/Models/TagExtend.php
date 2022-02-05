@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TagTypeEnum;
 use App\Models\Traits\HasFirstChar;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -15,6 +16,10 @@ class TagExtend extends Tag
     use HasFirstChar;
 
     protected $table = 'tags';
+
+    protected $casts = [
+        'type' => TagTypeEnum::class.':nullable',
+    ];
 
     protected $appends = [
         'first_char',
@@ -50,6 +55,20 @@ class TagExtend extends Tag
     {
         return $this->morphToMany(
             related: Book::class,
+            name: 'taggable',
+            table: 'taggables',
+            foreignPivotKey: 'tag_id',
+            relatedPivotKey: 'taggable_id',
+            parentKey: 'id',
+            relatedKey: 'id',
+            inverse: true
+        );
+    }
+
+    public function series(): MorphToMany
+    {
+        return $this->morphToMany(
+            related: Serie::class,
             name: 'taggable',
             table: 'taggables',
             foreignPivotKey: 'tag_id',

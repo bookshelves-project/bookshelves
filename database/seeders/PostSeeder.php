@@ -16,7 +16,7 @@ class PostSeeder extends Seeder
     public function run()
     {
         $users = User::all();
-        $tags = Tag::factory(30)->create();
+        $tags = Tag::all();
 
         PostCategory::factory(10)
             ->has(Post::factory(30))

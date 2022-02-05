@@ -5,13 +5,16 @@ namespace App\Models;
 use App\Models\Traits\HasFirstChar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
 /**
  * @property null|int $books_count
  */
-class Language extends Model
+class Language extends Model implements Sortable
 {
     use HasFirstChar;
+    use SortableTrait;
 
     public $incrementing = false;
     public $timestamps = false;
@@ -23,6 +26,9 @@ class Language extends Model
         'name',
     ];
 
+    protected $hidden = [
+        'order_column',
+    ];
     protected $withCount = [
         'books',
     ];

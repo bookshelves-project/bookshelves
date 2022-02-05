@@ -85,6 +85,7 @@ class SetupCommand extends Command
             '--admin' => true,
             '--selection' => $fresh,
             '--comments' => $social,
+            '--posts' => $social,
             '--force' => true,
         ], $this->getOutput());
 

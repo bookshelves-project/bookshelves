@@ -115,7 +115,7 @@ test('admin can get ordered tags json', function () {
     $category = Tag::query()->first();
     $category->swapOrderWithModel(Tag::query()->skip(1)->first());
 
-    $response = get('/admin/tags');
+    $response = get('/admin/tags/fetch');
 
     $response->assertStatus(200);
     $response->assertJson([

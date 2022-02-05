@@ -24,6 +24,7 @@ class CreateBooksTable extends Migration
             $table->integer('page_count')->nullable();
             $table->string('maturity_rating')->nullable();
             $table->boolean('disabled')->default(0);
+            $table->string('type')->default('novel');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Services\ConverterEngine;
 
+use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use App\Services\ParserEngine\ParserEngine;
 use App\Utils\BookshelvesTools;
@@ -21,9 +22,10 @@ class BookConverter
             'title_sort' => $parser->title_serie_sort,
             'contributor' => implode(' ', $parser->contributor),
             'description' => $parser->description,
-            'released_on' => $parser->released_on,
+            'released_on' => $parser->released_on ?? null,
             'rights' => $parser->rights,
             'volume' => $parser->volume,
+            'type' => BookTypeEnum::novel(),
         ]);
     }
 

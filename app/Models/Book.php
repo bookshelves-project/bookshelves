@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BookTypeEnum;
 use App\Models\Traits\HasAuthors;
 use App\Models\Traits\HasClassName;
 use App\Models\Traits\HasComments;
@@ -46,6 +47,7 @@ class Book extends Model implements HasMedia
         'page_count',
         'maturity_rating',
         'disabled',
+        'type',
     ];
     protected $with = [
         'language',
@@ -55,6 +57,7 @@ class Book extends Model implements HasMedia
     protected $casts = [
         'released_on' => 'datetime',
         'disabled' => 'boolean',
+        'type' => BookTypeEnum::class,
     ];
 
     /**
