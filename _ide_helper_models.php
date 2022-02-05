@@ -100,6 +100,7 @@ namespace App\Models{
  * @property int|null $page_count
  * @property string|null $maturity_rating
  * @property bool $disabled
+ * @property \App\Enums\BookTypeEnum $type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
@@ -165,6 +166,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereVolume($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
@@ -404,36 +406,6 @@ namespace App\Models\Cms{
 
 namespace App\Models{
 /**
- * App\Models\ComicBook
- *
- * @property int $id
- * @property string $title
- * @property string|null $title_sort
- * @property string|null $slug
- * @property string|null $description
- * @property string|null $date
- * @property string|null $rights
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Database\Factories\ComicBookFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook query()
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereRights($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereTitleSort($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ComicBook whereUpdatedAt($value)
- */
-	class ComicBook extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\Comment
  *
  * @property int $id
@@ -495,7 +467,7 @@ namespace App\Models{
  * App\Models\GoogleBook
  *
  * @property int $id
- * @property string|null $date
+ * @property string|null $published_date
  * @property string|null $description
  * @property mixed|null $industry_identifiers
  * @property int|null $page_count
@@ -518,7 +490,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereBuyLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereCategories($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereIndustryIdentifiers($value)
@@ -528,6 +499,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereMaturityRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePageCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePreviewLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePublishedDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePublisher($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereRetailPriceAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereRetailPriceCurrencyCode($value)
@@ -565,6 +537,7 @@ namespace App\Models{
  * App\Models\Language
  *
  * @property string|null $slug
+ * @property int|null $order_column
  * @property string|null $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
@@ -574,11 +547,13 @@ namespace App\Models{
  * @property-read int|null $series_count
  * @method static \Illuminate\Database\Eloquent\Builder|Language newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Language newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Language ordered(string $direction = 'asc')
  * @method static \Illuminate\Database\Eloquent\Builder|Language query()
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Language whereOrderColumn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereSlug($value)
  */
-	class Language extends \Eloquent {}
+	class Language extends \Eloquent implements \Spatie\EloquentSortable\Sortable {}
 }
 
 namespace App\Models{
@@ -635,6 +610,44 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereUuid($value)
  */
 	class Media extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Page
+ *
+ * @property int $id
+ * @property string $title
+ * @property string $status
+ * @property string|null $summary
+ * @property string|null $body
+ * @property string|null $published_at
+ * @property int $pin
+ * @property int $promote
+ * @property string $slug
+ * @property string|null $meta_title
+ * @property string|null $meta_description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\PageFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page wherePin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page wherePromote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereSummary($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
+ */
+	class Page extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -868,7 +881,7 @@ namespace App\Models{
  * @property int $id
  * @property array $name
  * @property array $slug
- * @property string|null $type
+ * @property \App\Enums\TagTypeEnum|null $type
  * @property int|null $order_column
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -878,6 +891,8 @@ namespace App\Models{
  * @property-read string $show_books_link
  * @property-read string $show_link
  * @property-read array $translations
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
+ * @property-read int|null $series_count
  * @method static \Illuminate\Database\Eloquent\Builder|Tag containing(string $name, $locale = null)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newQuery()

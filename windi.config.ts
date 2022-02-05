@@ -94,6 +94,9 @@ export default defineConfig({
           '-ms-hyphens': 'auto',
           hyphens: 'auto',
         },
+        '.word-wrap-break': {
+          'word-wrap': 'break-word',
+        },
       }
       addUtilities(newUtilities)
     }),
