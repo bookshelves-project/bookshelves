@@ -1,22 +1,15 @@
 import { __ } from 'matice'
 import route from 'ziggy-js'
 import {
-  ClockIcon,
   CogIcon,
-  CreditCardIcon,
-  DocumentReportIcon,
   HomeIcon,
-  QuestionMarkCircleIcon,
-  ScaleIcon,
-  ShieldCheckIcon,
-  UserGroupIcon,
   NewspaperIcon,
   BookOpenIcon,
   UsersIcon,
-  UserCircleIcon,
   UserIcon,
   CollectionIcon,
   MailIcon,
+  TagIcon,
 } from '@heroicons/vue/outline'
 import { RenderFunction } from 'vue'
 
@@ -66,6 +59,13 @@ const mainNav: (NavLink | NavTitle)[] = [
     icon: NewspaperIcon,
     text: __('Posts'),
   },
+  {
+    href: route('admin.tags'),
+    active: () =>
+      route().current('admin.tags') || route().current('admin.tags.*'),
+    icon: TagIcon,
+    text: __('Tags'),
+  },
   { title: __('Access Managment') },
   {
     href: route('admin.users'),
@@ -74,6 +74,7 @@ const mainNav: (NavLink | NavTitle)[] = [
     icon: UsersIcon,
     text: __('Users'),
   },
+  { title: __('Misc') },
   {
     href: route('admin.submissions'),
     active: () =>

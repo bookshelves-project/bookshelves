@@ -33,10 +33,3 @@
     title: String,
   })
 </script>
-
-<style lang="css">
-  body {
-    overflow-y: scroll;
-  }
-</style>
-Pro

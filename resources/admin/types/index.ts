@@ -8,6 +8,8 @@ import { Book } from './book'
 import { Serie } from './serie'
 import { Author } from './author'
 import { Submission } from './submission'
+
+import { Tag } from './tag'
 import { Media } from './media'
 import { ChartModel } from './chart-model'
 
@@ -22,6 +24,7 @@ export {
   Serie,
   Author,
   Submission,
+  Tag,
   Media,
   ChartModel,
 }

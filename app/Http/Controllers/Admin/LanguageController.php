@@ -3,27 +3,39 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Queries\TagQuery;
+use App\Http\Queries\LanguageQuery;
+use App\Http\Resources\Admin\LanguageResource;
 use App\Http\Resources\Admin\TagResource;
+use App\Models\Language;
 use App\Models\TagExtend;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\Tags\Tag;
 
-class TagController extends Controller
+class LanguageController extends Controller
 {
+    // public function index(Request $request)
+    // {
+    //     return TagResource::collection(
+    //         Tag::query()
+    //             ->where('name', 'like', "%{$request->input('filter.q')}%")
+    //             ->ordered()->get()
+    //     );
+    // }
+
     public function index()
     {
-        return app(TagQuery::class)->make()
-            ->paginateOrExport(fn ($data) => Inertia::render('tags/Index', $data))
+        return app(LanguageQuery::class)->make()
+            ->paginateOrExport(fn ($data) => Inertia::render('languages/Index', $data))
         ;
     }
 
     public function fetch(Request $request)
     {
-        return TagResource::collection(
-            TagExtend::query()
+        return LanguageResource::collection(
+            Language::query()
                 ->where('name', 'like', "%{$request->input('filter.q')}%")
-                ->ordered()->get()
+                ->ordered()->withCount('books')->get()
         );
     }
 

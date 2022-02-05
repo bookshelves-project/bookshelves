@@ -65,7 +65,6 @@ declare module 'vue' {
     ReferenceField: typeof import('./base/fields/ReferenceField.vue')['default']
     ReferenceFilter: typeof import('./base/filters/ReferenceFilter.vue')['default']
     ReferenceInput: typeof import('./base/inputs/ReferenceInput.vue')['default']
-    ReferenceMultipleField: typeof import('./base/fields/ReferenceMultipleField.vue')['default']
     ResponsiveNavLink: typeof import('./base/ResponsiveNavLink.vue')['default']
     RichSelectInput: typeof import('./base/inputs/RichSelectInput.vue')['default']
     SectionBorder: typeof import('./base/SectionBorder.vue')['default']

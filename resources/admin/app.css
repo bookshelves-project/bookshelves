@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,300&display=swap');
 
 html {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 h1 {
-    @apply font-semibold text-xl text-gray-800 leading-tight;
+  @apply font-semibold text-xl text-gray-800 leading-tight;
 }
 
 textarea,
@@ -13,29 +13,29 @@ input[type='text'],
 input[type='email'],
 input[type='password'],
 select {
-    @apply border-gray-300 rounded shadow-sm px-3 py-2;
+  @apply px-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm;
 
-    &.form-invalid {
-        @apply border-red-500 focus: border-red-300 focus:ring-red-200;
-    }
+  &.form-invalid {
+    @apply border-red-500 focus: border-red-300 focus:ring-red-200;
+  }
 
-    &:focus {
-        @apply ring ring-opacity-50 border-primary-300 ring-primary-200;
-    }
+  &:focus {
+    @apply ring ring-opacity-50 border-primary-300 ring-primary-200;
+  }
 }
 
 select {
-    @apply pr-8;
+  @apply pr-8;
 }
 
 input[type='checkbox'] {
-    @apply rounded border-gray-300 text-primary-600 shadow-sm;
+  @apply rounded border-gray-300 text-primary-600 shadow-sm;
 
-    &:focus {
-        @apply border-primary-300 ring ring-primary-200 ring-opacity-50;
-    }
+  &:focus {
+    @apply border-primary-300 ring ring-primary-200 ring-opacity-50;
+  }
 
-    &:checked {
-        @apply bg-primary-500;
-    }
+  &:checked {
+    @apply bg-primary-500;
+  }
 }

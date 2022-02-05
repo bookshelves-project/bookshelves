@@ -17,28 +17,30 @@ class BookQuery extends BaseQuery
     {
         $this->query = QueryBuilder::for(Book::class)
             ->allowedFilters([
-                AllowedFilter::custom('q', new GlobalSearchFilter(['title'])),
+                AllowedFilter::custom('q', new GlobalSearchFilter(['title', 'serie'])),
+                AllowedFilter::exact('id'),
                 AllowedFilter::partial('title'),
-                AllowedFilter::partial('serie'),
+                AllowedFilter::callback('serie', function (Builder $query, $value) {
+                    return $query->whereHas('serie', function (Builder $query) use ($value) {
+                        $query->where('title', 'like', "%{$value}%");
+                    });
+                }),
                 AllowedFilter::partial('volume'),
-                AllowedFilter::partial('authors'),
+                AllowedFilter::callback('authors', function (Builder $query, $value) {
+                    return $query->whereHas('authors', function (Builder $query) use ($value) {
+                        $query->where('name', 'like', "%{$value}%");
+                    });
+                }),
                 AllowedFilter::exact('disabled'),
-                AllowedFilter::exact('language'),
                 AllowedFilter::exact('released_on'),
-                // AllowedFilter::exact('id'),
-                // AllowedFilter::exact('category', 'category_id'),
-                // AllowedFilter::exact('status'),
-                // AllowedFilter::exact('pin'),
-                // AllowedFilter::exact('promote'),
-                // AllowedFilter::scope('published_at', 'publishedBetween'),
-                // AllowedFilter::callback('user', function (Builder $query, $value) {
-                //     return $query->whereHas('user', function (Builder $query) use ($value) {
-                //         $query->where('name', 'like', "%{$value}%");
-                //     });
-                // }),
+                AllowedFilter::exact('type'),
+                AllowedFilter::callback('language', function (Builder $query, $value) {
+                    return $query->whereHas('language', function (Builder $query) use ($value) {
+                        $query->where('name', 'like', "%{$value}%");
+                    });
+                }),
             ])
-            ->allowedSorts(['id', 'title', 'serie', 'authors', 'volume', 'released_on', 'created_at', 'updated_at'])
-            // ->with('category', 'media', 'tags', 'user')
+            ->allowedSorts(['id', 'title', 'type', 'serie', 'authors', 'volume', 'released_on', 'created_at', 'updated_at'])
             ->with('serie', 'media', 'authors', 'language')
             ->withCount('tags')
             ->orderByDesc('id')

@@ -6,6 +6,7 @@ use App\Exports\SerieExport;
 use App\Http\Resources\Admin\SerieResource;
 use App\Models\Serie;
 use App\Support\GlobalSearchFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,7 +20,11 @@ class SerieQuery extends BaseQuery
                 AllowedFilter::custom('q', new GlobalSearchFilter(['title'])),
                 AllowedFilter::partial('title'),
                 AllowedFilter::partial('authors'),
-                AllowedFilter::partial('language'),
+                AllowedFilter::callback('language', function (Builder $query, $value) {
+                    return $query->whereHas('language', function (Builder $query) use ($value) {
+                        $query->where('name', 'like', "%{$value}%");
+                    });
+                }),
             ])
             ->allowedSorts(['id', 'title', 'authors', 'books_count', 'created_at', 'updated_at', 'language'])
             ->with('books', 'media', 'authors', 'language')

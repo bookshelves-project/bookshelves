@@ -68,17 +68,23 @@
     },
     {
       field: 'title',
+      type: 'text',
+      props: {
+        truncate: 50,
+      },
       sortable: true,
       searchable: true,
     },
     {
       field: 'authors',
-      type: 'reference-multiple',
+      type: 'reference',
       props: {
         text: 'name',
         resource: 'authors',
+        link: 'show',
       },
       sortable: true,
+      filterType: 'text',
       searchable: true,
     },
     {
@@ -87,9 +93,11 @@
       props: {
         text: 'title',
         resource: 'series',
+        link: 'show',
       },
-      sortable: true,
       searchable: true,
+      filterType: 'text',
+      sortable: true,
     },
     {
       field: 'volume',
@@ -97,15 +105,14 @@
       centered: true,
       sortable: true,
     },
-
-    // {
-    //   field: 'status',
-    //   type: 'select',
-    //   props: {
-    //     choices: 'post_statuses',
-    //   },
-    //   searchable: true,
-    // },
+    {
+      field: 'type',
+      type: 'select',
+      props: {
+        choices: 'book_types',
+      },
+      searchable: true,
+    },
     // {
     //   field: 'category',
     //   type: 'reference',
@@ -127,6 +134,16 @@
     //   searchable: true,
     // },
     {
+      field: 'language',
+      type: 'reference',
+      props: {
+        text: 'name',
+        resource: 'languages.fetch',
+      },
+      sortable: true,
+      searchable: true,
+    },
+    {
       field: 'disabled',
       type: 'switch',
       searchable: true,
@@ -136,16 +153,7 @@
       centered: true,
       sortable: true,
     },
-    {
-      field: 'language',
-      type: 'reference',
-      props: {
-        text: 'name',
-        resource: 'languages',
-      },
-      sortable: true,
-      searchable: true,
-    },
+
     // {
     //   field: 'user',
     //   type: 'reference',

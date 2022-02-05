@@ -117,7 +117,7 @@
                     )}-filter`"
                     v-model="form.filter[column.field]"
                     v-bind="column.props"
-                    class="max-w-48 h-8"
+                    class="max-w-48 h-10"
                     @input="onFilter"
                   />
                 </template>

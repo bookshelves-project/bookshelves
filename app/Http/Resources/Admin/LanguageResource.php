@@ -2,13 +2,13 @@
 
 namespace App\Http\Resources\Admin;
 
-use App\Models\TagExtend;
+use App\Models\Language;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property TagExtend $resource
+ * @property Language $resource
  */
-class TagResource extends JsonResource
+class LanguageResource extends JsonResource
 {
     public static $wrap;
 
@@ -22,8 +22,6 @@ class TagResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->resource->name,
-            'type' => $this->resource->type,
         ] + $this->resource->toArray();
     }
 }

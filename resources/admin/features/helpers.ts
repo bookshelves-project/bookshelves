@@ -1,8 +1,16 @@
 import { usePage } from '@inertiajs/inertia-vue3'
 import { __, TranslationOptions } from 'matice'
 import { useTitle as vueUseTitle } from '@vueuse/core'
-import { Author, Model, Post, Serie, Submission, User } from '@admin/types'
-import { Book } from '@admin/types/book'
+import {
+  Author,
+  Book,
+  Model,
+  Post,
+  Serie,
+  Submission,
+  Tag,
+  User,
+} from '@admin/types'
 
 export function useTitle(title: string, options?: TranslationOptions): string {
   const subTitle = __(title, options)
@@ -27,6 +35,7 @@ export function useModelToString(
         series: (model: Serie) => model.title,
         authors: (model: Author) => model.name,
         submissions: (model: Submission) => model.name,
+        tags: (model: Tag) => model.name,
       } as { [key: string]: (model) => string }
     )[resource](model)
   }

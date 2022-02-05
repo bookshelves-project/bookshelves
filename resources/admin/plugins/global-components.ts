@@ -5,7 +5,6 @@ import SwitchField from '@admin/base/fields/SwitchField.vue'
 import DateField from '@admin/base/fields/DateField.vue'
 import SelectField from '@admin/base/fields/SelectField.vue'
 import ReferenceField from '@admin/base/fields/ReferenceField.vue'
-import ReferenceMultipleField from '@admin/base/fields/ReferenceMultipleField.vue'
 import ImageField from '@admin/base/fields/ImageField.vue'
 import FileField from '@admin/base/fields/FileField.vue'
 
@@ -28,7 +27,6 @@ export default {
     app.component('SelectField', SelectField)
     app.component('DateField', DateField)
     app.component('ReferenceField', ReferenceField)
-    app.component('ReferenceMultipleField', ReferenceMultipleField)
     app.component('ImageField', ImageField)
     app.component('FileField', FileField)
 

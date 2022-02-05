@@ -1,12 +1,12 @@
 <template>
-  <list-context v-slot="{ title }" resource="series">
+  <list-context v-slot="{ title }" resource="tags">
     <app-layout :title="title">
       <template #header-actions>
         <create-button />
       </template>
 
       <data-table
-        :source="series"
+        :source="tags"
         :columns="columns"
         :sort="sort"
         :filter="filter"
@@ -35,13 +35,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { PaginatedData, Serie } from '@admin/types'
+  import { PaginatedData, Tag } from '@admin/types'
   import { Column } from '@admin/types/data-table'
   import { PropType } from 'vue'
 
   defineProps({
-    series: {
-      type: Object as PropType<PaginatedData<Serie>>,
+    tags: {
+      type: Object as PropType<PaginatedData<Tag>>,
       required: true,
     },
     sort: String,
@@ -58,49 +58,33 @@
       sortable: true,
     },
     {
-      field: 'cover',
-      type: 'image',
-      props: {
-        preview: 'url',
-        original: 'url',
-        canPreview: true,
-      },
-    },
-    {
-      field: 'title',
+      field: 'name',
       sortable: true,
       searchable: true,
     },
     {
-      field: 'authors',
-      type: 'reference',
+      field: 'first_char',
+      sortable: true,
+    },
+    {
+      field: 'type',
+      type: 'select',
       props: {
-        text: 'name',
-        resource: 'authors',
+        choices: 'tag_types',
       },
+      sortable: true,
+      searchable: true,
     },
     {
       field: 'books_count',
-      centered: true,
       sortable: true,
     },
     {
-      field: 'tags_count',
-      centered: true,
+      field: 'series_count',
       sortable: true,
     },
     {
-      field: 'language',
-      type: 'reference',
-      props: {
-        text: 'name',
-        resource: 'languages.fetch',
-      },
-      sortable: true,
-      searchable: true,
-    },
-    {
-      field: 'updated_at',
+      field: 'created_at',
       type: 'date',
       sortable: true,
       centered: true,

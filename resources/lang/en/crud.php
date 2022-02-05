@@ -40,6 +40,7 @@ return [
             'cover' => 'Cover',
             'tags_count' => 'Tags',
             'language' => 'Language',
+            'type' => 'Type',
         ],
     ],
     'series' => [
@@ -69,6 +70,16 @@ return [
             'name' => 'Name',
             'email' => 'Email',
             'message' => 'Message',
+        ],
+    ],
+    'tags' => [
+        'name' => 'Tag|Tags',
+        'attributes' => [
+            'name' => 'Name',
+            'first_char' => 'First char',
+            'type' => 'Type',
+            'books_count' => 'Books',
+            'series_count' => 'Series',
         ],
     ],
 ];
