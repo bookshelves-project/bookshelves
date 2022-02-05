@@ -19,7 +19,7 @@
           <delete-bulk-button :selected="selected" />
         </template>
         <template #field:row-action>
-          <div class="flex gap-2 ml-auto">
+          <div class="flex gap-2 mx-auto">
             <show-external-button
               hide-label
               path="path"
@@ -49,9 +49,11 @@
   })
 
   const columns: (string | Column)[] = [
+    'row-action',
     {
       field: 'id',
       width: 40,
+      centered: true,
       numeric: true,
       sortable: true,
     },
@@ -156,6 +158,5 @@
       sortable: true,
       centered: true,
     },
-    'row-action',
   ]
 </script>

@@ -175,9 +175,9 @@
       }
     }
 
-    &:not([disabled]) {
+    /* &:not([disabled]) {
       @apply hover:bg-white focus:border-gray-500 focus:text-gray-500;
-    }
+    } */
 
     &.active {
       @apply bg-gray-200 text-black;

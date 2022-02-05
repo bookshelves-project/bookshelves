@@ -3,7 +3,7 @@
     v-if="item"
     type="button"
     icon="trash"
-    variant="danger"
+    variant="invisible"
     :hide-label="hideLabel"
     @click="confirm"
   >

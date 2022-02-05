@@ -73,6 +73,12 @@ const mainNav: (NavLink | NavTitle)[] = [
     icon: UsersIcon,
     text: __('Users'),
   },
+  {
+    href: route('admin.settings'),
+    active: () => route().current('admin.settings'),
+    icon: CogIcon,
+    text: __('Settings'),
+  },
 ]
 
 const isTitle = (a: NavTitle | NavLink): a is NavTitle => {

@@ -1,7 +1,9 @@
 <template>
   <div class="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
     <!-- Sidebar component, swap this element with another sidebar if you like -->
-    <div class="flex flex-col flex-grow bg-cyan-700 pt-5 pb-4 overflow-y-auto">
+    <div
+      class="flex flex-col flex-grow bg-primary-700 pt-5 pb-4 overflow-y-auto"
+    >
       <inertia-link
         :href="route('admin.dashboard')"
         class="flex items-center flex-shrink-0 px-4"
@@ -9,7 +11,7 @@
         <app-logo />
       </inertia-link>
       <nav
-        class="mt-5 flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto"
+        class="mt-5 flex-1 flex flex-col divide-y divide-primary-800 overflow-y-auto"
         aria-label="Sidebar"
       >
         <div class="px-2 space-y-1">
@@ -19,22 +21,22 @@
               :href="item.href"
               :class="
                 item.active()
-                  ? 'bg-cyan-800 text-white'
-                  : 'text-cyan-100 hover:text-white hover:bg-cyan-600'
+                  ? 'bg-primary-800 text-white'
+                  : 'text-primary-100 hover:text-white hover:bg-primary-600'
               "
               class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
               :aria-current="item.active() ? 'page' : undefined"
             >
               <component
                 :is="item.icon"
-                class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
+                class="mr-4 flex-shrink-0 h-6 w-6 text-primary-200"
                 aria-hidden="true"
               />
               {{ item.text }}
             </inertia-link>
             <h3
               v-if="isTitle(item)"
-              class="text-cyan-200 text-xs uppercase font-bold pt-4 pb-2 border-cyan-200 border-b-1"
+              class="text-primary-200 text-xs uppercase font-bold pt-4 pb-2 border-primary-200 border-b-1 mb-2"
             >
               {{ item.title }}
             </h3>
@@ -48,7 +50,7 @@
             >
               <component
                 :is="link.icon"
-                class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
+                class="mr-4 flex-shrink-0 h-6 w-6 text-primary-200"
                 aria-hidden="true"
               />
               {{ link.text }}
@@ -66,15 +68,15 @@
             :href="item.href"
             :class="[
               item.current
-                ? 'bg-cyan-800 text-white'
-                : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
+                ? 'bg-primary-800 text-white'
+                : 'text-primary-100 hover:text-white hover:bg-primary-600',
               'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md',
             ]"
             :aria-current="item.current ? 'page' : undefined"
           >
             <component
               :is="item.icon"
-              class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
+              class="mr-4 flex-shrink-0 h-6 w-6 text-primary-200"
               aria-hidden="true"
             />
             {{ item.name }}
@@ -86,11 +88,11 @@
               v-for="item in store.secondaryNavigation"
               :key="item.name"
               :href="item.href"
-              class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md text-cyan-100 hover:text-white hover:bg-cyan-600"
+              class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md text-primary-100 hover:text-white hover:bg-primary-600"
             >
               <component
                 :is="item.icon"
-                class="mr-4 h-6 w-6 text-cyan-200"
+                class="mr-4 h-6 w-6 text-primary-200"
                 aria-hidden="true"
               />
               {{ item.name }}

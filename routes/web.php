@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\SerieController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\UserController;
@@ -92,6 +93,7 @@ Route::prefix('admin')->middleware(['web'])->group(function () {
 Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'redirect']);
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('settings', [SettingController::class, 'index'])->name('admin.settings');
 
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('admin.users');

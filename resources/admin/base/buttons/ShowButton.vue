@@ -3,7 +3,7 @@
     v-if="item"
     icon="eye"
     :href="route(`admin.${resource}.show`, { id: item.id })"
-    variant="success"
+    variant="invisible"
     :hide-label="hideLabel"
     :only="only"
   >

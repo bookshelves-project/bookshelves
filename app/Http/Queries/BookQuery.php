@@ -22,6 +22,8 @@ class BookQuery extends BaseQuery
                 AllowedFilter::partial('serie'),
                 AllowedFilter::partial('volume'),
                 AllowedFilter::partial('authors'),
+                AllowedFilter::exact('disabled'),
+                AllowedFilter::exact('released_on'),
                 // AllowedFilter::exact('id'),
                 // AllowedFilter::exact('category', 'category_id'),
                 // AllowedFilter::exact('status'),
@@ -34,7 +36,7 @@ class BookQuery extends BaseQuery
                 //     });
                 // }),
             ])
-            ->allowedSorts(['id', 'title', 'serie', 'authors', 'volume', 'created_at', 'updated_at'])
+            ->allowedSorts(['id', 'title', 'serie', 'authors', 'volume', 'released_on', 'created_at', 'updated_at'])
             // ->with('category', 'media', 'tags', 'user')
             ->with('serie', 'media', 'authors', 'language')
             ->orderByDesc('id')

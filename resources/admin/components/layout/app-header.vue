@@ -2,7 +2,7 @@
   <div class="relative z-10 flex-shrink-0 flex h-16 bg-white">
     <button
       type="button"
-      class="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
+      class="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 lg:hidden"
       @click="sidebarOpen"
     >
       <span class="sr-only">Open sidebar</span>
@@ -37,7 +37,7 @@
         <Menu as="div" class="ml-3 relative">
           <div>
             <MenuButton
-              class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50"
+              class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50"
             >
               <!-- <img
                   class="h-8 w-8 rounded-full"

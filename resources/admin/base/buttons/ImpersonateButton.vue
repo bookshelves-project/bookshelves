@@ -1,8 +1,7 @@
 <template>
   <base-button
-    type="button"
     icon="lock-closed"
-    variant="warning"
+    variant="invisible"
     :loading="form.processing"
     :hide-label="hideLabel"
     @click="submit"

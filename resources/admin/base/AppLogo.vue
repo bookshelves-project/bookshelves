@@ -1,8 +1,8 @@
 <template>
   <div
-    class="flex items-center space-x-2 text-white hover:bg-cyan-600 transition-colors duration-75 p-2 rounded-md"
+    class="flex items-center space-x-2 text-white hover:bg-primary-600 transition-colors duration-75 p-2 rounded-md"
   >
-    <div class="h-10 w-10 text-cyan-500">
+    <div class="h-10 w-10 text-primary-500">
       <svg
         viewBox="0 0 20 20"
         fill="currentColor"

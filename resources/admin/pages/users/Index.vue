@@ -19,7 +19,7 @@
           <delete-bulk-button :selected="selected" />
         </template>
         <template #field:row-action="{ row }">
-          <div class="flex gap-2 ml-auto">
+          <div class="flex gap-2 mx-auto">
             <show-button hide-label :only="['action', 'user']" />
             <edit-button
               v-if="canBeUpdated(row)"
@@ -61,13 +61,14 @@
   })
 
   const columns: (string | Column)[] = [
+    'row-action',
     {
       field: 'id',
       width: 40,
+      centered: true,
       numeric: true,
       sortable: true,
     },
-    'row-action',
     {
       field: 'name',
       sortable: true,

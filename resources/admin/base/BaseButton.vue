@@ -28,7 +28,7 @@
       <component
         :is="`${icon}-icon`"
         v-else-if="icon"
-        class="w-4 h-4"
+        class="w-5 h-5"
         :class="{
           '-ml-1 mr-2': hasLabel,
           '-ml-2 -mr-2': !hasLabel,
@@ -72,7 +72,15 @@
       type: String,
       default: 'primary',
       validator: (v: string) =>
-        ['primary', 'success', 'danger', 'warning', 'info', 'dark'].includes(v),
+        [
+          'primary',
+          'success',
+          'danger',
+          'warning',
+          'info',
+          'dark',
+          'invisible',
+        ].includes(v),
     },
     only: Array,
   })
@@ -105,6 +113,10 @@
       }
       &.btn-info {
         @apply bg-blue-500 hover:bg-blue-600 focus:border-blue-700 focus:ring-blue-200 active:bg-blue-600 text-white;
+      }
+
+      &.btn-invisible {
+        @apply hover:bg-primary-200 focus:border-primary-300 focus:ring-primary-200 active:bg-primary-300 text-gray-800 shadow-sm;
       }
     }
 

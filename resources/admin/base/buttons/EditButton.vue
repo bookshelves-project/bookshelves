@@ -2,7 +2,7 @@
   <base-button
     v-if="item"
     icon="pencil"
-    variant="info"
+    variant="invisible"
     :href="route(`admin.${resource}.edit`, { id: item.id })"
     :hide-label="hideLabel"
     :only="only"

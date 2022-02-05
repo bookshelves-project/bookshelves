@@ -5,7 +5,7 @@
     icon="eye"
     :href="getPath"
     target="_blank"
-    variant="success"
+    variant="invisible"
     :hide-label="hideLabel"
   >
     {{ $t('Show') }}

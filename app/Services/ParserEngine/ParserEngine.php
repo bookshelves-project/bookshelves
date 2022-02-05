@@ -385,7 +385,7 @@ class ParserEngine
             'creators' => $creators,
             'contributors' => $contributors,
             'description' => $description,
-            'released_on' => new DateTime($released_on),
+            'released_on' => $released_on ? new DateTime($released_on) : null,
             'identifiers' => $identifiers,
             'publisher' => $publisher,
             'subjects' => $subjects,

@@ -11,13 +11,8 @@ use App\Models\Serie;
 use App\Models\TagExtend;
 use Inertia\Inertia;
 
-class DashboardController extends Controller
+class SettingController extends Controller
 {
-    public function redirect()
-    {
-        return redirect()->route('admin.dashboard');
-    }
-
     public function index()
     {
         $data = [
@@ -50,6 +45,6 @@ class DashboardController extends Controller
             'books' => Book::all(),
         ];
 
-        return Inertia::render('Dashboard', $data);
+        return Inertia::render('Settings', $data);
     }
 }

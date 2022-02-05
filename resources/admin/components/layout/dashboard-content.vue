@@ -36,7 +36,7 @@
             <div class="text-sm">
               <a
                 :href="card.href"
-                class="font-medium text-cyan-700 hover:text-cyan-900"
+                class="font-medium text-primary-700 hover:text-primary-900"
               >
                 View all
               </a>
