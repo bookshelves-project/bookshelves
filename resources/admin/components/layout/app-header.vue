@@ -101,16 +101,14 @@
 </template>
 <script setup lang="ts">
   import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-  import { BellIcon, MenuAlt1Icon } from '@heroicons/vue/outline'
+  import { MenuAlt1Icon } from '@heroicons/vue/outline'
   import { ChevronDownIcon, SearchIcon } from '@heroicons/vue/solid'
   import { useIndexStore } from '@admin/stores'
   import route from 'ziggy-js'
-  import { NavLink, isLink, mainNav } from '@admin/_nav'
   import { onMounted, Ref, ref, watch } from 'vue'
   import { Inertia } from '@inertiajs/inertia'
   import { usePage } from '@inertiajs/inertia-vue3'
 
-  const showingNavigationDropdown = ref(false)
   const globalSearch = ref(usePage().props.value.query)
   const globalSearchInput: Ref<HTMLInputElement | null> = ref(null)
 
@@ -140,7 +138,6 @@
     }
   })
 
-  const nav = mainNav.filter((l) => isLink(l)) as NavLink[]
   const sidebarOpen = () => {
     let store = useIndexStore()
     store.toggleSidebar()

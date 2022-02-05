@@ -16,6 +16,7 @@ import {
   UserCircleIcon,
   UserIcon,
   CollectionIcon,
+  MailIcon,
 } from '@heroicons/vue/outline'
 import { RenderFunction } from 'vue'
 
@@ -72,6 +73,14 @@ const mainNav: (NavLink | NavTitle)[] = [
       route().current('admin.users') || route().current('admin.users.*'),
     icon: UsersIcon,
     text: __('Users'),
+  },
+  {
+    href: route('admin.submissions'),
+    active: () =>
+      route().current('admin.submissions') ||
+      route().current('admin.submissions.*'),
+    icon: MailIcon,
+    text: __('Submissions'),
   },
   {
     href: route('admin.settings'),

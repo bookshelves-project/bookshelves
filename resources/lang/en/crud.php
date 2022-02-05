@@ -38,6 +38,37 @@ return [
             'disabled' => 'Disabled',
             'released_on' => 'Released on',
             'cover' => 'Cover',
+            'tags_count' => 'Tags',
+            'language' => 'Language',
+        ],
+    ],
+    'series' => [
+        'name' => 'Series|Series',
+        'attributes' => [
+            'title' => 'Title',
+            'authors' => 'Authors',
+            'books_count' => 'Books',
+            'tags_count' => 'Tags',
+            'language' => 'Language',
+        ],
+    ],
+    'authors' => [
+        'name' => 'Author|Authors',
+        'attributes' => [
+            'firstname' => 'Firstname',
+            'lastname' => 'Lastname',
+            'name' => 'Name',
+            'description' => 'Description',
+            'books_count' => 'Books',
+            'series_count' => 'Series',
+        ],
+    ],
+    'submissions' => [
+        'name' => 'Submission|Submissions',
+        'attributes' => [
+            'name' => 'Name',
+            'email' => 'Email',
+            'message' => 'Message',
         ],
     ],
 ];

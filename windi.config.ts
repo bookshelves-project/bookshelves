@@ -4,6 +4,7 @@ import formsPlugin from 'windicss/plugin/forms'
 import typographyPlugin from 'windicss/plugin/typography'
 import scrollbarPlugin from '@windicss/plugin-scrollbar'
 import svgToDataUri from 'mini-svg-data-uri'
+import plugin from 'windicss/plugin'
 
 const primary = {
   DEFAULT: '#564fcc',
@@ -79,7 +80,23 @@ export default defineConfig({
       },
     },
   },
+  shortcuts: {
+    'debug-screens':
+      'before:bottom-0 before:left-0 before:fixed before:z-[2147483647] before:px-1 before:text-sm before:bg-black before:text-white before:shadow-xl @sm:before:content-["screen:sm"] @md:before:content-["screen:md"] @lg:before:content-["screen:lg"] @xl:before:content-["screen:xl"] @2xl:before:content-["screen:2xl"] <sm:before:content-["screen:none"]',
+  },
   plugins: [
+    plugin(({ addUtilities }) => {
+      const newUtilities = {
+        '.word-wraping': {
+          'text-align': 'justify',
+          '-webkit-hyphens': 'auto',
+          '-moz-hyphens': 'auto',
+          '-ms-hyphens': 'auto',
+          hyphens: 'auto',
+        },
+      }
+      addUtilities(newUtilities)
+    }),
     formsPlugin,
     typographyPlugin({
       dark: true,

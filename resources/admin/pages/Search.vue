@@ -38,13 +38,32 @@
           </div>
         </div>
       </inertia-link>
+      <inertia-link
+        v-for="post in books.data"
+        :key="post.id"
+        class="flex w-[calc(30%)] overflow-hidden rounded"
+        :href="route('admin.posts.edit', { id: post.id })"
+      >
+        <div class="flex-auto p-6 bg-white">
+          <div class="flex flex-wrap">
+            <h1 class="flex-auto text-xl font-semibold">
+              {{ post.title }}
+            </h1>
+            <div
+              class="w-full flex-none text-sm font-medium text-gray-500 mt-2"
+            >
+              {{ post.summary }}
+            </div>
+          </div>
+        </div>
+      </inertia-link>
     </div>
   </app-layout>
 </template>
 
 <script lang="ts" setup>
   import { useTitle } from '@admin/features/helpers'
-  import { PaginatedData, Post } from '@admin/types'
+  import { Book, PaginatedData, Post } from '@admin/types'
   import { computed, PropType } from 'vue'
 
   const props = defineProps({
@@ -54,6 +73,10 @@
     },
     posts: {
       type: Object as PropType<PaginatedData<Post>>,
+      required: true,
+    },
+    books: {
+      type: Object as PropType<PaginatedData<Book>>,
       required: true,
     },
   })

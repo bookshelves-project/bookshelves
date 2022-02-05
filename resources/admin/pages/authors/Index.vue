@@ -1,12 +1,12 @@
 <template>
-  <list-context v-slot="{ title }" resource="books">
+  <list-context v-slot="{ title }" resource="authors">
     <app-layout :title="title">
       <template #header-actions>
         <create-button />
       </template>
 
       <data-table
-        :source="books"
+        :source="authors"
         :columns="columns"
         :sort="sort"
         :filter="filter"
@@ -40,7 +40,7 @@
   import { PropType } from 'vue'
 
   defineProps({
-    books: {
+    authors: {
       type: Object as PropType<PaginatedData<Book>>,
       required: true,
     },
@@ -82,8 +82,16 @@
       props: {
         truncate: 50,
       },
+    },
+    {
+      field: 'books_count',
+      centered: true,
       sortable: true,
-      searchable: true,
+    },
+    {
+      field: 'series_count',
+      centered: true,
+      sortable: true,
     },
     {
       field: 'updated_at',

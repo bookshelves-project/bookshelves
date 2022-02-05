@@ -93,9 +93,9 @@
     },
     {
       field: 'volume',
-      width: 20,
+      width: 10,
+      centered: true,
       sortable: true,
-      searchable: true,
     },
 
     // {
@@ -129,6 +129,21 @@
     {
       field: 'disabled',
       type: 'switch',
+      searchable: true,
+    },
+    {
+      field: 'tags_count',
+      centered: true,
+      sortable: true,
+    },
+    {
+      field: 'language',
+      type: 'reference',
+      props: {
+        text: 'name',
+        resource: 'languages',
+      },
+      sortable: true,
       searchable: true,
     },
     // {

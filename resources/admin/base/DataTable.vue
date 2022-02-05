@@ -88,9 +88,39 @@
                     }"
                   />
                 </div>
-                <span v-else class="italic">
+                <div
+                  v-else-if="column.field === 'row-action'"
+                  class="text-center"
+                >
+                  Actions
+                </div>
+                <span v-else>
                   {{ column.label || $ta(column.field) }}
                 </span>
+              </th>
+            </tr>
+            <tr v-if="hasFilter" class="text-left">
+              <th v-if="!!$slots['bulk-actions']"></th>
+              <th
+                v-for="column in getColumns"
+                :key="column.field"
+                class="px-6 py-2 border-t"
+                :class="{
+                  'text-right': column.numeric,
+                  'text-center': column.centered,
+                }"
+              >
+                <template v-if="column.searchable">
+                  <component
+                    :is="`${getFilterFromType(
+                      column.filterType || column.type || 'text'
+                    )}-filter`"
+                    v-model="form.filter[column.field]"
+                    v-bind="column.props"
+                    class="max-w-48 h-8"
+                    @input="onFilter"
+                  />
+                </template>
               </th>
             </tr>
           </thead>

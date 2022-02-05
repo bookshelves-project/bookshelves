@@ -1,12 +1,8 @@
 <template>
-  <list-context v-slot="{ title }" resource="series">
+  <list-context v-slot="{ title }" resource="submissions">
     <app-layout :title="title">
-      <template #header-actions>
-        <create-button />
-      </template>
-
       <data-table
-        :source="series"
+        :source="submissions"
         :columns="columns"
         :sort="sort"
         :filter="filter"
@@ -25,7 +21,6 @@
               path="path"
               :query="{ preview: true }"
             />
-            <edit-button hide-label />
             <delete-button hide-label />
           </div>
         </template>
@@ -35,13 +30,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { PaginatedData, Serie } from '@admin/types'
+  import { PaginatedData, Submission } from '@admin/types'
   import { Column } from '@admin/types/data-table'
   import { PropType } from 'vue'
 
   defineProps({
-    series: {
-      type: Object as PropType<PaginatedData<Serie>>,
+    submissions: {
+      type: Object as PropType<PaginatedData<Submission>>,
       required: true,
     },
     sort: String,
@@ -58,51 +53,20 @@
       sortable: true,
     },
     {
-      field: 'cover',
-      type: 'image',
-      props: {
-        preview: 'url',
-        original: 'url',
-        canPreview: true,
-      },
-    },
-    {
-      field: 'title',
+      field: 'name',
       sortable: true,
       searchable: true,
     },
     {
-      field: 'authors',
-      type: 'reference-multiple',
-      props: {
-        text: 'name',
-        resource: 'authors',
-      },
-      // sortable: true,
-      // searchable: true,
-    },
-    {
-      field: 'books_count',
-      centered: true,
-      sortable: true,
-    },
-    {
-      field: 'tags_count',
-      centered: true,
-      sortable: true,
-    },
-    {
-      field: 'language',
-      type: 'reference',
-      props: {
-        text: 'name',
-        resource: 'languages',
-      },
+      field: 'email',
       sortable: true,
       searchable: true,
     },
     {
-      field: 'updated_at',
+      field: 'message',
+    },
+    {
+      field: 'created_at',
       type: 'date',
       sortable: true,
       centered: true,

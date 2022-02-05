@@ -10,10 +10,9 @@
   import { DoughnutChart, useDoughnutChart } from 'vue-chart-3'
   import { Chart, ChartData, ChartOptions, registerables } from 'chart.js'
   import { useTitle } from '@admin/features/helpers'
-  import { Book, ChartModel } from '@admin/types'
+  import { ChartModel } from '@admin/types'
 
   const props = defineProps<{
-    books?: Book[]
     chart: ChartModel
   }>()
 
