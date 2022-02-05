@@ -13,6 +13,7 @@ import Translations from './plugins/translations'
 import GlobalComponents from './plugins/global-components'
 import DateFns from './plugins/date-fns'
 import HeroIcons from './plugins/hero-icons'
+import { createPinia } from 'pinia'
 
 createInertiaApp({
   resolve: (name) => {
@@ -28,6 +29,7 @@ createInertiaApp({
       .use(GlobalComponents)
       .use(DateFns)
       .use(HeroIcons)
+      .use(createPinia())
       .component('InertiaLink', Link)
       .mount(el)
   },

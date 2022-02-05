@@ -1,34 +1,37 @@
 <template>
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
+  <div
+    class="flex items-center space-x-2 text-white hover:bg-cyan-600 transition-colors duration-75 p-2 rounded-md"
   >
-    <g clip-path="url(#clip0)">
-      <path
-        d="M7.02935 0L1.03992 7.26708L9.90425 17.7286L15.8138 10.7809L7.02935 0Z"
-        fill="#564fcc"
-      />
-      <path
-        opacity="0.1"
-        d="M7.02935 0L1.03992 7.26708L9.90425 17.7286L15.8138 10.7809L7.02935 0Z"
-        fill="black"
-      />
-      <path
-        d="M1.27951 7.34697C1.41199 7.1085 1.57628 6.88912 1.76785 6.6949L7.2689 1.11799C7.2689 1.11799 9.1855 0.798558 9.58482 1.75686L2.55725 7.50669L1.27951 7.34697Z"
-        fill="#F2F2F2"
-      />
-      <path
-        d="M1 7.2272L9.14555 19.6851C9.14555 19.6851 9.94414 20.2442 10.7427 19.9247L19.0879 14.2947L10.2237 0.878426L2.23781 7.10737L1 7.2272Z"
-        fill="#564fcc"
-      />
-    </g>
-    <defs>
-      <clipPath id="clip0">
-        <rect width="20" height="20" fill="white" />
-      </clipPath>
-    </defs>
-  </svg>
+    <div class="h-10 w-10 text-cyan-500">
+      <svg
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g clip-path="url(#clip0)">
+          <path
+            d="M7.02935 0L1.03992 7.26708L9.90425 17.7286L15.8138 10.7809L7.02935 0Z"
+          />
+          <path
+            opacity="0.1"
+            d="M7.02935 0L1.03992 7.26708L9.90425 17.7286L15.8138 10.7809L7.02935 0Z"
+            fill="black"
+          />
+          <path
+            d="M1.27951 7.34697C1.41199 7.1085 1.57628 6.88912 1.76785 6.6949L7.2689 1.11799C7.2689 1.11799 9.1855 0.798558 9.58482 1.75686L2.55725 7.50669L1.27951 7.34697Z"
+            fill="#F2F2F2"
+          />
+          <path
+            d="M1 7.2272L9.14555 19.6851C9.14555 19.6851 9.94414 20.2442 10.7427 19.9247L19.0879 14.2947L10.2237 0.878426L2.23781 7.10737L1 7.2272Z"
+          />
+        </g>
+        <defs>
+          <clipPath id="clip0">
+            <rect width="20" height="20" fill="white" />
+          </clipPath>
+        </defs>
+      </svg>
+    </div>
+    <div class="font-handlee text-3xl">Bookshelves</div>
+  </div>
 </template>

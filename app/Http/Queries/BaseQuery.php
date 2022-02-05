@@ -14,7 +14,7 @@ abstract class BaseQuery
     protected Builder|QueryBuilder $query;
     protected $export;
     protected string $resource;
-    protected int $perPage = 50;
+    protected int $perPage = 15;
 
     public function paginate()
     {

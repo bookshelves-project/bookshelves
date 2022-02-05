@@ -65,91 +65,10 @@
       },
     },
     {
-      field: 'title',
+      field: 'name',
       sortable: true,
       searchable: true,
     },
-    {
-      field: 'authors',
-      type: 'reference-multiple',
-      props: {
-        text: 'name',
-        resource: 'authors',
-      },
-      sortable: true,
-      searchable: true,
-    },
-    {
-      field: 'serie',
-      type: 'reference',
-      props: {
-        text: 'title',
-        resource: 'series',
-      },
-      sortable: true,
-      searchable: true,
-    },
-    {
-      field: 'volume',
-      width: 20,
-      sortable: true,
-      searchable: true,
-    },
-
-    // {
-    //   field: 'status',
-    //   type: 'select',
-    //   props: {
-    //     choices: 'post_statuses',
-    //   },
-    //   searchable: true,
-    // },
-    // {
-    //   field: 'category',
-    //   type: 'reference',
-    //   props: {
-    //     text: 'name',
-    //     resource: 'post-categories',
-    //   },
-    //   searchable: true,
-    // },
-    // {
-    //   field: 'summary',
-    //   type: 'text',
-    //   props: { truncate: 60 },
-    //   searchable: true,
-    // },
-    // {
-    //   field: 'pin',
-    //   type: 'switch',
-    //   searchable: true,
-    // },
-    {
-      field: 'disabled',
-      type: 'switch',
-      searchable: true,
-    },
-    // {
-    //   field: 'user',
-    //   type: 'reference',
-    //   props: { text: 'name', resource: 'users', link: 'show' },
-    //   searchable: true,
-    //   filterType: 'text',
-    // },
-    {
-      field: 'released_on',
-      type: 'date',
-      props: { format: 'dd/MM/yyyy' },
-      sortable: true,
-      centered: true,
-      searchable: true,
-    },
-    // {
-    //   field: 'created_at',
-    //   type: 'date',
-    //   sortable: true,
-    //   centered: true,
-    // },
     {
       field: 'updated_at',
       type: 'date',

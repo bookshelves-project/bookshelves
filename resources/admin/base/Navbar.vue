@@ -7,7 +7,7 @@
           <!-- Logo -->
           <div class="flex-shrink-0 flex items-center sm:hidden">
             <inertia-link :href="route('admin.dashboard')">
-              <app-logo class="w-12 h-12" primary="#BBB" secondary="#FFF" />
+              <app-logo class="w-12 h-12" />
             </inertia-link>
           </div>
 
@@ -22,16 +22,7 @@
                 :placeholder="$t('admin.actions.search')"
               />
               <search-icon
-                class="
-                  h-5
-                  w-5
-                  absolute
-                  top-1/2
-                  right-4
-                  transform
-                  -translate-y-1/2
-                  opacity-50
-                "
+                class="h-5 w-5 absolute top-1/2 right-4 transform -translate-y-1/2 opacity-50"
               />
             </div>
           </div>
@@ -48,19 +39,7 @@
                 <span class="inline-flex rounded-md">
                   <button
                     type="button"
-                    class="
-                      inline-flex
-                      items-center
-                      px-3
-                      py-2
-                      border border-transparent
-                      text-sm
-                      leading-4
-                      font-medium
-                      rounded-md
-                      focus:outline-none
-                      transition
-                    "
+                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none transition"
                   >
                     {{ $page.props.auth.name }}
 
@@ -103,18 +82,7 @@
         <!-- Hamburger -->
         <div class="-mr-2 flex items-center sm:hidden">
           <button
-            class="
-              inline-flex
-              items-center
-              justify-center
-              p-2
-              rounded-md
-              text-white
-              sm:text-gray-400
-              hover:text-gray-500 hover:bg-gray-100
-              focus:outline-none focus:bg-gray-100 focus:text-gray-500
-              transition
-            "
+            class="inline-flex items-center justify-center p-2 rounded-md text-white sm:text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition"
             @click="showingNavigationDropdown = !showingNavigationDropdown"
           >
             <x-icon v-if="showingNavigationDropdown" class="h-6 w-6" />

@@ -3,22 +3,7 @@
     <component
       v-bind="$attrs"
       :is="href ? tag : 'button'"
-      class="
-        inline-flex
-        justify-center
-        items-center
-        px-4
-        py-2
-        border border-transparent
-        rounded-l
-        text-xs
-        uppercase
-        font-semibold
-        tracking-widest
-        focus:outline-none focus:ring
-        disabled:opacity-25
-        transition
-      "
+      class="inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-l text-xs uppercase font-semibold tracking-widest focus:outline-none focus:ring disabled:opacity-25 transition"
       :class="[
         `btn-${variant}`,
         {
@@ -99,7 +84,7 @@
   })
 </script>
 
-<style lang="postcss" scoped>
+<style lang="css" scoped>
   a,
   button {
     &:not(.btn-outlined) {
@@ -127,7 +112,7 @@
       @apply bg-white shadow-sm focus:border-blue-300 focus:ring-blue-200;
 
       &.btn-primary {
-        @apply border-primary-500 text-primary-500 hover:text-primary-500 active:text-primary-800 active:bg-primary-50;
+        @apply border-primary-500 text-primary-500 hover:text-primary-500 active:text-primary-800 active:bg-primary-100;
       }
 
       &.btn-dark {

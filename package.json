@@ -62,5 +62,8 @@
         "vuedraggable": "^2.24.3",
         "windicss": "^3.4.3",
         "ziggy-js": "^1.4.2"
+    },
+    "dependencies": {
+        "pinia": "^2.0.11"
     }
 }

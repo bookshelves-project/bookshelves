@@ -18,8 +18,8 @@ return [
         'remember' => 'Remember',
         'current_password' => 'Current password',
         'password_confirmation' => 'Password confirmation',
-        'created_at' => 'Create at',
-        'updated_at' => 'Update at',
+        'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
     ],
     'actions' => [
         'list' => 'List',

@@ -1,13 +1,8 @@
 <template>
   <list-context v-slot="{ title }" resource="posts">
-    <app-layout>
-      <template #header>
-        <page-header>
-          <h1>{{ title }}</h1>
-          <template #actions>
-            <create-button />
-          </template>
-        </page-header>
+    <app-layout :title="title">
+      <template #header-actions>
+        <create-button />
       </template>
 
       <data-table

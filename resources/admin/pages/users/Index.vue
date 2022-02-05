@@ -1,13 +1,8 @@
 <template>
   <list-context v-slot="{ title }" resource="users">
-    <app-layout>
-      <template #header>
-        <page-header>
-          <h1>{{ title }}</h1>
-          <template #actions>
-            <create-button :only="['action']" />
-          </template>
-        </page-header>
+    <app-layout :title="title">
+      <template #header-actions>
+        <create-button :only="['action']" />
       </template>
 
       <data-table
@@ -72,6 +67,7 @@
       numeric: true,
       sortable: true,
     },
+    'row-action',
     {
       field: 'name',
       sortable: true,
@@ -112,7 +108,6 @@
       sortable: true,
       centered: true,
     },
-    'row-action',
   ]
 
   const canBeUpdated = (item) => {

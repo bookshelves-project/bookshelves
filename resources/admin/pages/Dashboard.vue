@@ -1,8 +1,6 @@
 <template>
-  <app-layout>
-    <template #header>
-      <h1>{{ title }}</h1>
-    </template>
+  <app-layout :title="title">
+    <dashboard-content />
   </app-layout>
 </template>
 

@@ -159,12 +159,12 @@
   }
 </script>
 
-<style lang="postcss" scoped>
+<style lang="css" scoped>
   .link {
-    @apply mr-1 mb-1 px-4 py-3 text-sm leading-4 border border-primary-300 rounded;
+    @apply mr-1 mb-1 relative inline-flex items-center px-4 py-2  text-sm font-medium rounded-md text-gray-700  hover:bg-gray-300 transition-colors duration-75;
 
     svg {
-      @apply h-4 w-4;
+      @apply h-3 w-3;
     }
 
     &[disabled] {
@@ -176,11 +176,11 @@
     }
 
     &:not([disabled]) {
-      @apply hover:bg-white focus:border-primary-500 focus:text-primary-500;
+      @apply hover:bg-white focus:border-gray-500 focus:text-gray-500;
     }
 
     &.active {
-      @apply bg-primary text-white;
+      @apply bg-gray-200 text-black;
     }
   }
 </style>

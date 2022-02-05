@@ -31,7 +31,17 @@
   </show-context>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
+  import { ref } from 'vue'
+  import {
+    Dialog,
+    DialogOverlay,
+    TransitionChild,
+    TransitionRoot,
+  } from '@headlessui/vue'
+  import { HeartIcon, XIcon } from '@heroicons/vue/outline'
+  import { PencilIcon, PlusSmIcon } from '@heroicons/vue/solid'
+
   import { User } from '@admin/types'
   import { PropType } from 'vue'
 
@@ -41,4 +51,5 @@
       required: true,
     },
   })
+  const open = ref(false)
 </script>

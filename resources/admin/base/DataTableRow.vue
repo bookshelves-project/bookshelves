@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr class="bg-white">
     <td v-if="canSelect" class="px-4 py-4 border-t text-center">
       <input
         :checked="modelValue"
@@ -12,7 +12,7 @@
     <td
       v-for="column in columns"
       :key="column.field"
-      class="border-t px-6 py-4"
+      class="px-6 py-4 whitespace-nowrap text-gray-900"
     >
       <div
         class="flex items-center"
@@ -33,7 +33,7 @@
             :value="getValue(column)"
             v-bind="column.props"
           />
-          <span v-else>
+          <span v-else class="group inline-flex space-x-2 truncate">
             {{ getValue(column) }}
           </span>
         </slot>

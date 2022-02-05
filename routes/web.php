@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SearchController;
+use App\Http\Controllers\Admin\SerieController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\UserController;
@@ -118,6 +120,28 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
         Route::patch('{book}/toggle', [BookController::class, 'toggle'])->name('admin.books.toggle');
         Route::delete('{book}', [BookController::class, 'destroy'])->name('admin.books.destroy');
         Route::delete('/', [BookController::class, 'bulkDestroy'])->name('admin.books.bulk.destroy');
+    });
+
+    Route::prefix('series')->group(function () {
+        Route::get('/', [SerieController::class, 'index'])->name('admin.series');
+        Route::get('create', [SerieController::class, 'create'])->name('admin.series.create');
+        Route::get('{serie}/edit', [SerieController::class, 'edit'])->name('admin.series.edit');
+        Route::post('/', [SerieController::class, 'store'])->name('admin.series.store');
+        Route::put('{serie}', [SerieController::class, 'update'])->name('admin.series.update');
+        Route::patch('{serie}/toggle', [SerieController::class, 'toggle'])->name('admin.series.toggle');
+        Route::delete('{serie}', [SerieController::class, 'destroy'])->name('admin.series.destroy');
+        Route::delete('/', [SerieController::class, 'bulkDestroy'])->name('admin.books.series.destroy');
+    });
+
+    Route::prefix('authors')->group(function () {
+        Route::get('/', [AuthorController::class, 'index'])->name('admin.authors');
+        Route::get('create', [AuthorController::class, 'create'])->name('admin.authors.create');
+        Route::get('{author}/edit', [AuthorController::class, 'edit'])->name('admin.authors.edit');
+        Route::post('/', [AuthorController::class, 'store'])->name('admin.authors.store');
+        Route::put('{author}', [AuthorController::class, 'update'])->name('admin.authors.update');
+        Route::patch('{author}/toggle', [AuthorController::class, 'toggle'])->name('admin.authors.toggle');
+        Route::delete('{author}', [AuthorController::class, 'destroy'])->name('admin.authors.destroy');
+        Route::delete('/', [AuthorController::class, 'bulkDestroy'])->name('admin.books.authors.destroy');
     });
 
     Route::prefix('posts')->group(function () {
