@@ -30,6 +30,7 @@ class BookResource extends JsonResource
 
         return [
             'cover' => MediaResource::collection($this->resource->getMedia('books')),
+            'genre' => $this->resource->genres_list,
         ] + $this->resource->toArray();
     }
 }

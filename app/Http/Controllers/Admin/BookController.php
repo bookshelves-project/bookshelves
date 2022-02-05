@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Queries\BookQuery;
 use App\Http\Requests\Admin\PostStoreRequest;
 use App\Http\Requests\Admin\PostUpdateRequest;
-use App\Http\Resources\Admin\PostResource;
+use App\Http\Resources\Admin\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -28,7 +28,7 @@ class BookController extends Controller
     public function edit(Book $book)
     {
         return Inertia::render('books/Edit', [
-            'book' => PostResource::make($book->load('category', 'media', 'tags', 'user')),
+            'book' => BookResource::make($book->load('serie', 'authors', 'media', 'tags')),
         ]);
     }
 

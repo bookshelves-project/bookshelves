@@ -47,7 +47,6 @@ class DashboardController extends Controller
                     '#2b2866',
                 ],
             ],
-            'books' => Book::all(),
         ];
 
         return Inertia::render('Dashboard', $data);

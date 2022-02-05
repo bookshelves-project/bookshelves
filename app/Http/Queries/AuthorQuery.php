@@ -2,11 +2,10 @@
 
 namespace App\Http\Queries;
 
-use App\Exports\BookExport;
+use App\Exports\AuthorExport;
 use App\Http\Resources\Admin\AuthorResource;
 use App\Models\Author;
 use App\Support\GlobalSearchFilter;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -17,30 +16,17 @@ class AuthorQuery extends BaseQuery
     {
         $this->query = QueryBuilder::for(Author::class)
             ->allowedFilters([
-                AllowedFilter::custom('q', new GlobalSearchFilter(['title'])),
-                AllowedFilter::partial('title'),
-                AllowedFilter::partial('serie'),
-                AllowedFilter::partial('volume'),
-                AllowedFilter::partial('authors'),
-                // AllowedFilter::exact('id'),
-                // AllowedFilter::exact('category', 'category_id'),
-                // AllowedFilter::exact('status'),
-                // AllowedFilter::exact('pin'),
-                // AllowedFilter::exact('promote'),
-                // AllowedFilter::scope('published_at', 'publishedBetween'),
-                // AllowedFilter::callback('user', function (Builder $query, $value) {
-                //     return $query->whereHas('user', function (Builder $query) use ($value) {
-                //         $query->where('name', 'like', "%{$value}%");
-                //     });
-                // }),
+                AllowedFilter::custom('q', new GlobalSearchFilter(['firstname', 'lastname', 'name'])),
+                AllowedFilter::partial('firstname'),
+                AllowedFilter::partial('lastname'),
             ])
-            ->allowedSorts(['id', 'title', 'serie', 'authors', 'volume', 'created_at', 'updated_at'])
-            // ->with('category', 'media', 'tags', 'user')
+            ->allowedSorts(['id', 'firstname', 'lastname', 'name', 'books_count', 'series_count', 'created_at', 'updated_at'])
             ->with('series', 'books', 'media')
+            ->withCount('series', 'books')
             ->orderByDesc('id')
         ;
 
-        $this->export = new BookExport($this->query);
+        $this->export = new AuthorExport($this->query);
         $this->resource = 'authors';
 
         return $this;
@@ -56,7 +42,7 @@ class AuthorQuery extends BaseQuery
         return [
             'sort' => request()->get('sort', '-id'),
             'filter' => request()->get('filter'),
-            'books' => fn () => $this->collection(),
+            'authors' => fn () => $this->collection(),
         ];
     }
 }

@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Queries\SerieQuery;
 use App\Http\Requests\Admin\PostStoreRequest;
 use App\Http\Requests\Admin\PostUpdateRequest;
-use App\Http\Resources\Admin\PostResource;
+use App\Http\Resources\Admin\SerieResource;
 use App\Models\Book;
+use App\Models\Serie;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,29 +23,29 @@ class SerieController extends Controller
 
     public function create()
     {
-        return Inertia::render('books/Create');
+        return Inertia::render('series/Create');
     }
 
-    public function edit(Book $book)
+    public function edit(Serie $serie)
     {
-        return Inertia::render('books/Edit', [
-            'book' => PostResource::make($book->load('category', 'media', 'tags', 'user')),
+        return Inertia::render('series/Edit', [
+            'serie' => SerieResource::make($serie->load('media', 'books', 'tags', 'authors')),
         ]);
     }
 
     public function store(PostStoreRequest $request)
     {
-        $book = Book::create($request->all());
+        $serie = Serie::create($request->all());
 
-        $book->syncTags($request->tags);
+        $serie->syncTags($request->tags);
 
-        if ($request->featured_image_file) {
-            $book->addMediaFromRequest('featured_image_file')
-                ->toMediaCollection('featured-image')
-            ;
-        }
+        // if ($request->featured_image_file) {
+        //     $serie->addMediaFromRequest('featured_image_file')
+        //         ->toMediaCollection('featured-image')
+        //     ;
+        // }
 
-        return redirect()->route('admin.books')->with('flash.success', __('Book created.'));
+        return redirect()->route('admin.series')->with('flash.success', __('Serie created.'));
     }
 
     public function update(Book $book, PostUpdateRequest $request)

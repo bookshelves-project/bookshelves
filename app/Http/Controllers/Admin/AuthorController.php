@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Queries\AuthorQuery;
 use App\Http\Requests\Admin\PostStoreRequest;
 use App\Http\Requests\Admin\PostUpdateRequest;
-use App\Http\Resources\Admin\PostResource;
+use App\Http\Resources\Admin\AuthorResource;
+use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,29 +23,27 @@ class AuthorController extends Controller
 
     public function create()
     {
-        return Inertia::render('books/Create');
+        return Inertia::render('authors/Create');
     }
 
-    public function edit(Book $book)
+    public function edit(Author $author)
     {
-        return Inertia::render('books/Edit', [
-            'book' => PostResource::make($book->load('category', 'media', 'tags', 'user')),
+        return Inertia::render('authors/Edit', [
+            'author' => AuthorResource::make($author->load('books', 'media')),
         ]);
     }
 
     public function store(PostStoreRequest $request)
     {
-        $book = Book::create($request->all());
+        $author = Author::create($request->all());
 
-        $book->syncTags($request->tags);
+        // if ($request->featured_image_file) {
+        //     $book->addMediaFromRequest('featured_image_file')
+        //         ->toMediaCollection('featured-image')
+        //     ;
+        // }
 
-        if ($request->featured_image_file) {
-            $book->addMediaFromRequest('featured_image_file')
-                ->toMediaCollection('featured-image')
-            ;
-        }
-
-        return redirect()->route('admin.books')->with('flash.success', __('Book created.'));
+        return redirect()->route('admin.authors')->with('flash.success', __('Author created.'));
     }
 
     public function update(Book $book, PostUpdateRequest $request)

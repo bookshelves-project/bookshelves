@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\SerieController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SubmissionController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\UserController;
@@ -40,7 +41,6 @@ Route::middleware(['web'])->group(function () {
     Route::prefix('features')->group(function () {
         Route::get('/', [HomeController::class, 'index'])->name('front.home');
         Route::get('/license', [HomeController::class, 'license'])->name('front.license');
-        Route::get('/configuration', [HomeController::class, 'configuration'])->name('front.configuration')->middleware('debug.only');
 
         Route::prefix('catalog')->group(function () {
             Route::get('/', [CatalogController::class, 'index'])->name('front.catalog.index');
@@ -155,6 +155,13 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
         Route::patch('{post}/toggle', [PostController::class, 'toggle'])->name('admin.posts.toggle');
         Route::delete('{post}', [PostController::class, 'destroy'])->name('admin.posts.destroy');
         Route::delete('/', [PostController::class, 'bulkDestroy'])->name('admin.posts.bulk.destroy');
+    });
+
+    Route::prefix('submissions')->group(function () {
+        Route::get('/', [SubmissionController::class, 'index'])->name('admin.submissions');
+        Route::get('{submission}', [SubmissionController::class, 'show'])->name('admin.submissions.show');
+        Route::delete('{submission}', [SubmissionController::class, 'destroy'])->name('admin.submissions.destroy');
+        Route::delete('/', [SubmissionController::class, 'bulkDestroy'])->name('admin.submissions.bulk.destroy');
     });
 
     Route::get('search/{query?}', [SearchController::class, 'index'])->name('admin.search');

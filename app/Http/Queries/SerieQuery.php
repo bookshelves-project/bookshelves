@@ -6,7 +6,6 @@ use App\Exports\SerieExport;
 use App\Http\Resources\Admin\SerieResource;
 use App\Models\Serie;
 use App\Support\GlobalSearchFilter;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,24 +18,12 @@ class SerieQuery extends BaseQuery
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['title'])),
                 AllowedFilter::partial('title'),
-                AllowedFilter::partial('serie'),
-                AllowedFilter::partial('volume'),
                 AllowedFilter::partial('authors'),
-                // AllowedFilter::exact('id'),
-                // AllowedFilter::exact('category', 'category_id'),
-                // AllowedFilter::exact('status'),
-                // AllowedFilter::exact('pin'),
-                // AllowedFilter::exact('promote'),
-                // AllowedFilter::scope('published_at', 'publishedBetween'),
-                // AllowedFilter::callback('user', function (Builder $query, $value) {
-                //     return $query->whereHas('user', function (Builder $query) use ($value) {
-                //         $query->where('name', 'like', "%{$value}%");
-                //     });
-                // }),
+                AllowedFilter::partial('language'),
             ])
-            ->allowedSorts(['id', 'title', 'serie', 'authors', 'volume', 'created_at', 'updated_at'])
-            // ->with('category', 'media', 'tags', 'user')
+            ->allowedSorts(['id', 'title', 'authors', 'books_count', 'created_at', 'updated_at', 'language'])
             ->with('books', 'media', 'authors', 'language')
+            ->withCount('books', 'tags')
             ->orderByDesc('id')
         ;
 
@@ -56,7 +43,7 @@ class SerieQuery extends BaseQuery
         return [
             'sort' => request()->get('sort', '-id'),
             'filter' => request()->get('filter'),
-            'books' => fn () => $this->collection(),
+            'series' => fn () => $this->collection(),
         ];
     }
 }

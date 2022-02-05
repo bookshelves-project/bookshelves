@@ -23,6 +23,7 @@ class BookQuery extends BaseQuery
                 AllowedFilter::partial('volume'),
                 AllowedFilter::partial('authors'),
                 AllowedFilter::exact('disabled'),
+                AllowedFilter::exact('language'),
                 AllowedFilter::exact('released_on'),
                 // AllowedFilter::exact('id'),
                 // AllowedFilter::exact('category', 'category_id'),
@@ -39,6 +40,7 @@ class BookQuery extends BaseQuery
             ->allowedSorts(['id', 'title', 'serie', 'authors', 'volume', 'released_on', 'created_at', 'updated_at'])
             // ->with('category', 'media', 'tags', 'user')
             ->with('serie', 'media', 'authors', 'language')
+            ->withCount('tags')
             ->orderByDesc('id')
         ;
 
