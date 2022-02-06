@@ -5,8 +5,8 @@
     <div
       class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden rounded-lg"
     >
-      <a href="/" class="block mb-8">
-        <app-logo class="w-16 h-16 mx-auto" />
+      <a href="/" class="block mb-8 mt-2">
+        <app-logo :size="12" color="text-primary-600" />
       </a>
       <slot />
     </div>

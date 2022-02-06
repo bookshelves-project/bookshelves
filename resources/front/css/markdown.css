@@ -1,0 +1,7 @@
+pre {
+  position: relative;
+  scrollbar-width: thin;
+}
+.copy-code-button {
+  @apply absolute top-1/2 right-2 transform -translate-y-1/2 z-30 bg-gray-700 bg-opacity-50 hover:bg-gray-600 transition-colors duration-100 p-2 rounded-md rounded-tr-md text-sm text-gray-100;
+}

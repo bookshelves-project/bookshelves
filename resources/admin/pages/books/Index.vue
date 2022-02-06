@@ -153,6 +153,18 @@
       centered: true,
       sortable: true,
     },
+    {
+      field: 'publisher',
+      type: 'reference',
+      props: {
+        text: 'name',
+        resource: 'publishers',
+        // link: 'show',
+      },
+      sortable: true,
+      filterType: 'text',
+      searchable: true,
+    },
 
     // {
     //   field: 'user',

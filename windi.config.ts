@@ -97,6 +97,9 @@ export default defineConfig({
         '.word-wrap-break': {
           'word-wrap': 'break-word',
         },
+        '.max-content': {
+          width: 'max-content',
+        },
       }
       addUtilities(newUtilities)
     }),

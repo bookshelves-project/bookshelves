@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import baseConfig from '../vite.config'
 import windicss from 'vite-plugin-windicss'
+import svgLoader from 'vite-svg-loader'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -26,6 +27,7 @@ export default defineConfig({
         fileExtensions: ['blade.php', 'vue', 'ts'],
       },
     }),
+    svgLoader(),
   ],
   optimizeDeps: {
     entries: ['admin/app.ts'],

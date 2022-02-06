@@ -39,9 +39,14 @@ class BookQuery extends BaseQuery
                         $query->where('name', 'like', "%{$value}%");
                     });
                 }),
+                AllowedFilter::callback('publisher', function (Builder $query, $value) {
+                    return $query->whereHas('publisher', function (Builder $query) use ($value) {
+                        $query->where('name', 'like', "%{$value}%");
+                    });
+                }),
             ])
-            ->allowedSorts(['id', 'title', 'type', 'serie', 'authors', 'volume', 'released_on', 'created_at', 'updated_at'])
-            ->with('serie', 'media', 'authors', 'language')
+            ->allowedSorts(['id', 'title', 'type', 'serie', 'authors', 'volume', 'publisher',  'released_on', 'created_at', 'updated_at'])
+            ->with('serie', 'media', 'authors', 'language', 'publisher')
             ->withCount('tags')
             ->orderByDesc('id')
         ;

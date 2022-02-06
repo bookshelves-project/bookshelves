@@ -57,6 +57,7 @@
         "unplugin-vue-components": "^0.17.14",
         "vite": "^2.7.13",
         "vite-plugin-windicss": "^1.6.3",
+        "vite-svg-loader": "^3.1.2",
         "vue": "^3.2.28",
         "vue-tsc": "^0.28.10",
         "vuedraggable": "^2.24.3",

@@ -41,6 +41,7 @@ return [
             'tags_count' => 'Tags',
             'language' => 'Language',
             'type' => 'Type',
+            'publisher' => 'Publisher',
         ],
     ],
     'series' => [

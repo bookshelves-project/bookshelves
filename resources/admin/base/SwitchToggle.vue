@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
   import { onMounted, ref, watch } from 'vue'
-  import { Switch } from '@headlessui/vue'
+  import { SwitchGroup, Switch, SwitchLabel } from '@headlessui/vue'
 
   const enabled = ref(false)
 

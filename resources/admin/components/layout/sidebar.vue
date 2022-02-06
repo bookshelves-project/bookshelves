@@ -48,13 +48,15 @@
               </button>
             </div>
           </TransitionChild>
-          <div class="flex-shrink-0 flex items-center px-4">
-            <inertia-link
-              :href="route('admin.dashboard')"
-              class="flex items-center flex-shrink-0 px-4"
-            >
-              <app-logo />
-            </inertia-link>
+          <div class="flex-shrink-0">
+            <div class="px-2">
+              <inertia-link
+                :href="route('admin.dashboard')"
+                class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:bg-primary-800 transition-colors duration-75"
+              >
+                <app-logo class="!m-0" color="text-primary-600" full reverse />
+              </inertia-link>
+            </div>
           </div>
           <nav
             class="mt-5 flex-shrink-0 h-full divide-y divide-primary-800 overflow-y-auto"
