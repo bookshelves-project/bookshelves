@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { pageProps, pageSetup } from '@admin/mixins/pages'
+  import { pageProps, pageSetup } from '@admin/composables/pages'
 
   const props = defineProps(pageProps)
 

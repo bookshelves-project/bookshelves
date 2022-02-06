@@ -12,7 +12,7 @@
           :src="media[preview]"
           :width="width"
           :height="height"
-          class="max-w-max object-cover h-32 w-32 rounded-md"
+          class="max-w-max object-cover h-20 w-20 rounded-md"
           :alt="media.name"
         />
         <span v-else>{{ media.name }}</span>

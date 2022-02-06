@@ -1,49 +1,50 @@
 <template>
-  <SwitchGroup as="div" class="flex items-center">
-    <Switch
-      v-model="enabled"
-      :class="[
-        enabled ? 'bg-indigo-600' : 'bg-gray-200',
-        'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500',
-      ]"
-    >
-      <span
-        aria-hidden="true"
-        :class="[
-          enabled ? 'translate-x-5' : 'translate-x-0',
-          'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
-        ]"
+  <label class="flex items-center cursor-pointer">
+    <!-- toggle -->
+    <div class="relative">
+      <!-- input -->
+      <input
+        v-bind="$attrs"
+        type="checkbox"
+        class="sr-only"
+        :checked="modelValue"
+        @change="change"
       />
-    </Switch>
-    <SwitchLabel as="span" class="ml-3">
-      <span class="text-sm font-medium text-gray-900">{{ label }}</span>
-    </SwitchLabel>
-  </SwitchGroup>
+      <!-- line -->
+      <div class="bg-toggle block bg-gray-400 w-10 h-6 rounded-full"></div>
+      <!-- dot -->
+      <div
+        class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform"
+      ></div>
+    </div>
+    <!-- label -->
+    <div v-if="label" class="ml-2 text-gray-700 text-sm font-medium">
+      {{ label }}
+    </div>
+  </label>
 </template>
 
-<script setup lang="ts">
-  import { onMounted, ref, watch } from 'vue'
-  import { SwitchGroup, Switch, SwitchLabel } from '@headlessui/vue'
+<script lang="ts" setup>
+  import {} from 'vue'
 
-  const enabled = ref(false)
-
-  const props = defineProps({
+  defineProps({
     modelValue: Boolean,
     label: String,
   })
 
   const emit = defineEmits(['update:modelValue'])
 
-  watch(
-    () => enabled.value,
-    (newVal) => {
-      emit('update:modelValue', newVal)
-    }
-  )
-
-  onMounted(() => {
-    if (props.modelValue) {
-      enabled.value = props.modelValue
-    }
-  })
+  const change = (e: Event) => {
+    emit('update:modelValue', (e.target as HTMLInputElement).checked)
+  }
 </script>
+
+<style lang="postcss" scoped>
+  input:checked ~ .dot {
+    @apply translate-x-4;
+  }
+
+  input:checked ~ .bg-toggle {
+    @apply bg-primary-500;
+  }
+</style>

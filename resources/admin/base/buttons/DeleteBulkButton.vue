@@ -55,6 +55,10 @@
   const props = defineProps({
     hideLabel: Boolean,
     selected: Array,
+    parameter: {
+      type: String,
+      default: 'id',
+    },
   })
 
   const resource = inject<string>('resource')

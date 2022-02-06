@@ -4,8 +4,10 @@ import { useTitle as vueUseTitle } from '@vueuse/core'
 import {
   Author,
   Book,
+  Language,
   Model,
   Post,
+  Publisher,
   Serie,
   Submission,
   Tag,
@@ -36,6 +38,8 @@ export function useModelToString(
         authors: (model: Author) => model.name,
         submissions: (model: Submission) => model.name,
         tags: (model: Tag) => model.name,
+        languages: (model: Language) => model.name,
+        publishers: (model: Publisher) => model.name,
       } as { [key: string]: (model) => string }
     )[resource](model)
   }

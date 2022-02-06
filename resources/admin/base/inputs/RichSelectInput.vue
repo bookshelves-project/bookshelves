@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { inputProps, inputSetup } from '@admin/mixins/input'
+  import { inputProps, inputSetup } from '@admin/composables/input'
   import { computed } from 'vue'
   import Multiselect from '@vueform/multiselect'
   import route from 'ziggy-js'

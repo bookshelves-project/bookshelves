@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
   import { computed, PropType } from 'vue'
-  import { inputProps, inputSetup } from '@admin/mixins/input'
+  import { inputProps, inputSetup } from '@admin/composables/input'
   import { Options } from 'flatpickr/dist/types/options'
 
   const props = defineProps({

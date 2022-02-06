@@ -15,7 +15,7 @@
   import Editor from '@tinymce/tinymce-vue'
 
   import { computed } from 'vue'
-  import { inputProps, inputSetup } from '@admin/mixins/input'
+  import { inputProps, inputSetup } from '@admin/composables/input'
   import { getLocale, __ } from 'matice'
   import route from 'ziggy-js'
   import axios from 'axios'

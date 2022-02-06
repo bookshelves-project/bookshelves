@@ -14,7 +14,7 @@
   <dialog-modal
     v-if="item"
     method="delete"
-    :url="route(`admin.${resource}.destroy`, { id: item.id })"
+    :url="route(`admin.${resource}.destroy`, { id: item[parameter] })"
     :options="{
       preserveScroll: true,
       onSuccess: () => closeModal(),
@@ -55,6 +55,10 @@
 
   defineProps({
     hideLabel: Boolean,
+    parameter: {
+      type: String,
+      default: 'id',
+    },
   })
 
   const resource = inject<string>('resource')

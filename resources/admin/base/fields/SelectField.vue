@@ -1,8 +1,8 @@
 <template>
   <span
     v-if="label"
-    class="inline-block px-2 py-1 text-white text-sm rounded"
-    :class="variant || 'bg-primary-500'"
+    class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full text-gray-800"
+    :class="variant || 'bg-primary-100'"
     >{{ label }}</span
   >
 </template>

@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { inputProps, inputSetup } from '@admin/mixins/input'
+  import { inputProps, inputSetup } from '@admin/composables/input'
   import set from 'lodash/set'
   import isEmpty from 'lodash/isEmpty'
   import { computed } from 'vue'

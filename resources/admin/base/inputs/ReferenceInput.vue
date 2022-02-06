@@ -3,8 +3,8 @@
 </template>
 
 <script lang="ts" setup>
-  import { inputProps, inputSetup } from '@admin/mixins/input'
-  import { referenceSetup } from '@admin/mixins/reference'
+  import { inputProps, inputSetup } from '@admin/composables/input'
+  import { referenceSetup } from '@admin/composables/reference'
   import {} from 'vue'
 
   const props = defineProps({

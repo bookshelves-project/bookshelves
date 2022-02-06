@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { choicesProps, choicesSetup } from '@admin/mixins/choices'
+  import { choicesProps, choicesSetup } from '@admin/composables/choices'
 
   const props = defineProps({
     ...choicesProps,

@@ -5,7 +5,10 @@
 </template>
 
 <script lang="ts" setup>
-  import { pageWithItemProps, pageWithItemSetup } from '@admin/mixins/pages'
+  import {
+    pageWithItemProps,
+    pageWithItemSetup,
+  } from '@admin/composables/pages'
 
   const props = defineProps(pageWithItemProps)
 

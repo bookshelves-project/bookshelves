@@ -2,7 +2,7 @@
   <base-button
     v-if="item"
     icon="eye"
-    :href="route(`admin.${resource}.show`, { id: item.id })"
+    :href="route(`admin.${resource}.show`, { id: item[parameter] })"
     variant="invisible"
     :hide-label="hideLabel"
     :only="only"
@@ -18,6 +18,10 @@
   defineProps({
     only: Array,
     hideLabel: Boolean,
+    parameter: {
+      type: String,
+      default: 'id',
+    },
   })
 
   const resource = inject<string>('resource')

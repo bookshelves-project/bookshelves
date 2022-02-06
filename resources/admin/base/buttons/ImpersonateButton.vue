@@ -18,6 +18,10 @@
 
   defineProps({
     hideLabel: Boolean,
+    key: {
+      type: String,
+      default: 'id',
+    },
   })
 
   const resource = inject<string>('resource')

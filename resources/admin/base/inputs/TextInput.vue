@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
   import { Ref, ref } from 'vue'
-  import { inputProps, inputSetup } from '@admin/mixins/input'
+  import { inputProps, inputSetup } from '@admin/composables/input'
 
   const props = defineProps({
     ...inputProps,

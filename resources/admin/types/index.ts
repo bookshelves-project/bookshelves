@@ -7,6 +7,8 @@ import { Post } from './post'
 import { Book } from './book'
 import { Serie } from './serie'
 import { Author } from './author'
+import { Language } from './language'
+import { Publisher } from './publisher'
 import { Submission } from './submission'
 
 import { Tag } from './tag'
@@ -23,6 +25,8 @@ export {
   Book,
   Serie,
   Author,
+  Language,
+  Publisher,
   Submission,
   Tag,
   Media,

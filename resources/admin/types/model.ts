@@ -1,3 +1,4 @@
 export abstract class Model {
-  constructor(public id: number) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(public id: number | string) { }
 }

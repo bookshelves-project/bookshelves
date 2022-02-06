@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { referenceSetup } from '@admin/mixins/reference'
+  import { referenceSetup } from '@admin/composables/reference'
   import {} from 'vue'
 
   const props = defineProps({

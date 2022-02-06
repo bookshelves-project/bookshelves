@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { getOptionsFromChoices, Option } from '@admin/mixins/choices'
+  import { getOptionsFromChoices, Option } from '@admin/composables/choices'
   import { computed } from 'vue'
 
   const props = defineProps({

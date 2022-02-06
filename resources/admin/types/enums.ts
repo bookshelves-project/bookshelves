@@ -3,22 +3,23 @@ export interface EnumTypes {
   post_statuses: { [key: string]: string }
   tag_types: { [key: string]: string }
   book_types: { [key: string]: string }
+  chart_colors: { [key: string]: string }
 }
 
 export const enumVariants = {
   post_statuses: {
-    draft: 'bg-red-500',
-    scheduled: 'bg-yellow-500',
-    published: 'bg-green-500',
+    draft: 'bg-red-100',
+    scheduled: 'bg-yellow-100',
+    published: 'bg-green-100',
   },
   tag_types: {
-    tag: 'bg-gray-600',
-    genre: 'bg-primary-500',
+    tag: 'bg-gray-100',
+    genre: 'bg-primary-100',
   },
   book_types: {
-    handbook: 'bg-gray-600',
-    essay: 'bg-blue-600',
-    comic: 'bg-green-600',
-    novel: 'bg-primary-600',
+    handbook: 'bg-gray-100',
+    essay: 'bg-blue-100',
+    comic: 'bg-green-100',
+    novel: 'bg-primary-100',
   },
 }
