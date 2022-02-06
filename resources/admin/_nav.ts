@@ -10,6 +10,9 @@ import {
   CollectionIcon,
   MailIcon,
   TagIcon,
+  BeakerIcon,
+  TranslateIcon,
+  PrinterIcon,
 } from '@heroicons/vue/outline'
 import { RenderFunction } from 'vue'
 
@@ -21,6 +24,7 @@ interface NavLink {
   active: () => boolean
   icon: RenderFunction
   text: string
+  external?: boolean
 }
 
 const mainNav: (NavLink | NavTitle)[] = [
@@ -66,6 +70,22 @@ const mainNav: (NavLink | NavTitle)[] = [
     icon: TagIcon,
     text: __('Tags'),
   },
+  {
+    href: route('admin.languages'),
+    active: () =>
+      route().current('admin.languages') ||
+      route().current('admin.languages.*'),
+    icon: TranslateIcon,
+    text: __('Languages'),
+  },
+  {
+    href: route('admin.publishers'),
+    active: () =>
+      route().current('admin.publishers') ||
+      route().current('admin.publishers.*'),
+    icon: PrinterIcon,
+    text: __('Publishers'),
+  },
   { title: __('Access Managment') },
   {
     href: route('admin.users'),
@@ -88,6 +108,13 @@ const mainNav: (NavLink | NavTitle)[] = [
     active: () => route().current('admin.settings'),
     icon: CogIcon,
     text: __('Settings'),
+  },
+  {
+    href: route('front.home'),
+    active: () => route().current('front.home'),
+    icon: BeakerIcon,
+    text: __('Back to Features'),
+    external: true,
   },
 ]
 

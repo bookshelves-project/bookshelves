@@ -11,8 +11,6 @@ return [
     'posts' => [
         'name' => 'Post|Posts',
         'attributes' => [
-            'title' => 'Title',
-            'slug' => 'Slug',
             'category' => 'Category',
             'status' => 'Status',
             'summary' => 'Summary',
@@ -30,8 +28,6 @@ return [
     'books' => [
         'name' => 'Book|Books',
         'attributes' => [
-            'title' => 'Title',
-            'slug' => 'Slug',
             'volume' => 'Volume',
             'authors' => 'Authors',
             'serie' => 'Series',
@@ -47,10 +43,7 @@ return [
     'series' => [
         'name' => 'Series|Series',
         'attributes' => [
-            'title' => 'Title',
             'authors' => 'Authors',
-            'books_count' => 'Books',
-            'tags_count' => 'Tags',
             'language' => 'Language',
         ],
     ],
@@ -59,28 +52,30 @@ return [
         'attributes' => [
             'firstname' => 'Firstname',
             'lastname' => 'Lastname',
-            'name' => 'Name',
             'description' => 'Description',
-            'books_count' => 'Books',
-            'series_count' => 'Series',
         ],
     ],
     'submissions' => [
         'name' => 'Submission|Submissions',
         'attributes' => [
-            'name' => 'Name',
-            'email' => 'Email',
             'message' => 'Message',
         ],
     ],
     'tags' => [
         'name' => 'Tag|Tags',
         'attributes' => [
-            'name' => 'Name',
             'first_char' => 'First char',
             'type' => 'Type',
-            'books_count' => 'Books',
-            'series_count' => 'Series',
+        ],
+    ],
+    'languages' => [
+        'name' => 'Language|Languages',
+        'attributes' => [
+        ],
+    ],
+    'publishers' => [
+        'name' => 'Publisher|Publishers',
+        'attributes' => [
         ],
     ],
 ];

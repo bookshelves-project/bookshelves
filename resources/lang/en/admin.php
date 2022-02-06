@@ -11,7 +11,9 @@ return [
     ],
     'attributes' => [
         'id' => 'ID',
+        'slug' => 'Slug',
         'name' => 'Name',
+        'title' => 'Title',
         'email' => 'Email',
         'password' => 'Password',
         'active' => 'Active',
@@ -20,6 +22,9 @@ return [
         'password_confirmation' => 'Password confirmation',
         'created_at' => 'Created at',
         'updated_at' => 'Updated at',
+        'books_count' => 'Books',
+        'series_count' => 'Series',
+        'tags_count' => 'Tags',
     ],
     'actions' => [
         'list' => 'List',

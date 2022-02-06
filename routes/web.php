@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\PublisherController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\SerieController;
 use App\Http\Controllers\Admin\SettingController;
@@ -132,7 +133,6 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
         Route::get('{serie}/edit', [SerieController::class, 'edit'])->name('admin.series.edit');
         Route::post('/', [SerieController::class, 'store'])->name('admin.series.store');
         Route::put('{serie}', [SerieController::class, 'update'])->name('admin.series.update');
-        Route::patch('{serie}/toggle', [SerieController::class, 'toggle'])->name('admin.series.toggle');
         Route::delete('{serie}', [SerieController::class, 'destroy'])->name('admin.series.destroy');
         Route::delete('/', [SerieController::class, 'bulkDestroy'])->name('admin.books.series.destroy');
     });
@@ -144,7 +144,6 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
         Route::get('{author}/edit', [AuthorController::class, 'edit'])->name('admin.authors.edit');
         Route::post('/', [AuthorController::class, 'store'])->name('admin.authors.store');
         Route::put('{author}', [AuthorController::class, 'update'])->name('admin.authors.update');
-        Route::patch('{author}/toggle', [AuthorController::class, 'toggle'])->name('admin.authors.toggle');
         Route::delete('{author}', [AuthorController::class, 'destroy'])->name('admin.authors.destroy');
         Route::delete('/', [AuthorController::class, 'bulkDestroy'])->name('admin.books.authors.destroy');
     });
@@ -167,7 +166,6 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
         Route::get('{tag}/edit', [TagController::class, 'edit'])->name('admin.tags.edit');
         Route::post('/', [TagController::class, 'store'])->name('admin.tags.store');
         Route::put('{tag}', [TagController::class, 'update'])->name('admin.tags.update');
-        Route::patch('{tag}/toggle', [TagController::class, 'toggle'])->name('admin.tags.toggle');
         Route::delete('{tag}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
         Route::delete('/', [TagController::class, 'bulkDestroy'])->name('admin.tags.bulk.destroy');
     });
@@ -178,10 +176,20 @@ Route::prefix('admin')->middleware(['web', 'auth:sanctum', 'can:access-admin'])-
         Route::get('{language}/edit', [LanguageController::class, 'edit'])->name('admin.languages.edit');
         Route::post('/', [LanguageController::class, 'store'])->name('admin.languages.store');
         Route::put('{language}', [LanguageController::class, 'update'])->name('admin.languages.update');
-        Route::patch('{language}/toggle', [LanguageController::class, 'toggle'])->name('admin.languages.toggle');
         Route::delete('{language}', [LanguageController::class, 'destroy'])->name('admin.languages.destroy');
         Route::delete('/', [LanguageController::class, 'bulkDestroy'])->name('admin.languages.bulk.destroy');
         Route::get('/fetch', [LanguageController::class, 'fetch'])->name('admin.languages.fetch');
+    });
+
+    Route::prefix('publishers')->group(function () {
+        Route::get('/', [PublisherController::class, 'index'])->name('admin.publishers');
+        Route::get('create', [PublisherController::class, 'create'])->name('admin.publishers.create');
+        Route::get('{publisher}/edit', [PublisherController::class, 'edit'])->name('admin.publishers.edit');
+        Route::post('/', [PublisherController::class, 'store'])->name('admin.publishers.store');
+        Route::put('{publisher}', [PublisherController::class, 'update'])->name('admin.publishers.update');
+        Route::delete('{publisher}', [PublisherController::class, 'destroy'])->name('admin.publishers.destroy');
+        Route::delete('/', [PublisherController::class, 'bulkDestroy'])->name('admin.publishers.bulk.destroy');
+        Route::get('/fetch', [PublisherController::class, 'fetch'])->name('admin.publishers.fetch');
     });
 
     Route::prefix('submissions')->group(function () {
