@@ -11,7 +11,9 @@ return [
     ],
     'attributes' => [
         'id' => 'ID',
+        'slug' => 'Permalien',
         'name' => 'Nom',
+        'title' => 'Titre',
         'email' => 'Email',
         'password' => 'Mot de passe',
         'active' => 'Actif',
@@ -20,6 +22,11 @@ return [
         'password_confirmation' => 'Confirmation du mot de passe',
         'created_at' => 'Créé le',
         'updated_at' => 'Mis à jour le',
+        'books_count' => 'Books',
+        'series_count' => 'Series',
+        'tags_count' => 'Tags',
+        'authors' => 'Authors',
+        'language' => 'Languages',
     ],
     'actions' => [
         'list' => 'Liste',

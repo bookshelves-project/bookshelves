@@ -29,13 +29,11 @@ return [
         'name' => 'Book|Books',
         'attributes' => [
             'volume' => 'Volume',
-            'authors' => 'Authors',
             'serie' => 'Series',
             'disabled' => 'Disabled',
             'released_on' => 'Released on',
             'cover' => 'Cover',
             'tags_count' => 'Tags',
-            'language' => 'Language',
             'type' => 'Type',
             'publisher' => 'Publisher',
         ],
@@ -43,8 +41,6 @@ return [
     'series' => [
         'name' => 'Series|Series',
         'attributes' => [
-            'authors' => 'Authors',
-            'language' => 'Language',
         ],
     ],
     'authors' => [

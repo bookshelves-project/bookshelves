@@ -25,6 +25,8 @@ return [
         'books_count' => 'Books',
         'series_count' => 'Series',
         'tags_count' => 'Tags',
+        'authors' => 'Authors',
+        'language' => 'Languages',
     ],
     'actions' => [
         'list' => 'List',
