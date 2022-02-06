@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Post as HttpPost;
+use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;
 use Spatie\RouteAttributes\Attributes\Put;
 
@@ -33,15 +33,23 @@ class StubController extends Controller
         return Inertia::render('stubs/Create');
     }
 
+    #[Get('{stub}', name: 'stubs.show')]
+    public function show(Stub $stubVar)
+    {
+        return Inertia::render('stubs/Edit', [
+            'stub' => StubResource::make($stubVar), // $stubVar->load('relation')
+        ]);
+    }
+
     #[Get('{stub}/edit', name: 'stubs.edit')]
     public function edit(Stub $stubVar)
     {
         return Inertia::render('stubs/Edit', [
-            'stub' => StubResource::make($stubVar->load('')),
+            'stub' => StubResource::make($stubVar), // $stubVar->load('relation')
         ]);
     }
 
-    #[HttpPost('/', name: 'stubs.store')]
+    #[Post('/', name: 'stubs.store')]
     public function store(StubStoreRequest $request)
     {
         $stubVar = Stub::create($request->all());
