@@ -27,6 +27,7 @@ class PublisherConverter
             }
 
             $book->publisher()->associate($publisher);
+            $book->save();
         }
         $book->refresh();
 
