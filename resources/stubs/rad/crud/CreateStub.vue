@@ -1,0 +1,23 @@
+<template>
+  <create-context v-slot="{ title }" resource="stubs">
+    <app-layout>
+      <template #header>
+        <page-header>
+          <h1>{{ title }}</h1>
+          <template #actions>
+            <list-button />
+          </template>
+        </page-header>
+      </template>
+
+      <stub-form :method="method" :url="url" />
+    </app-layout>
+  </create-context>
+</template>
+
+<script lang="ts" setup>
+  import route from 'ziggy-js'
+
+  const method = 'stub'
+  const url = route('admin.stubs.store')
+</script>
