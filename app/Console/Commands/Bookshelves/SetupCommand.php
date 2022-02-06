@@ -57,6 +57,11 @@ class SetupCommand extends Command
             $this->newLine();
         }
 
+        Artisan::call('bookshelves:sample', [
+            '--admin' => true,
+            '--force' => true,
+        ], $this->getOutput());
+
         /*
          * Generate commands
          */
@@ -82,7 +87,6 @@ class SetupCommand extends Command
         }
 
         Artisan::call('bookshelves:sample', [
-            '--admin' => true,
             '--selection' => $fresh,
             '--comments' => $social,
             '--posts' => $social,

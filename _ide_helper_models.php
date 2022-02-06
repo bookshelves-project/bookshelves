@@ -537,23 +537,21 @@ namespace App\Models{
  * App\Models\Language
  *
  * @property string|null $slug
- * @property int|null $order_column
  * @property string|null $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
  * @property-read mixed $first_char
+ * @property-read string $id
  * @property-read string $show_link
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
  * @method static \Illuminate\Database\Eloquent\Builder|Language newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Language newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Language ordered(string $direction = 'asc')
  * @method static \Illuminate\Database\Eloquent\Builder|Language query()
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Language whereOrderColumn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Language whereSlug($value)
  */
-	class Language extends \Eloquent implements \Spatie\EloquentSortable\Sortable {}
+	class Language extends \Eloquent {}
 }
 
 namespace App\Models{

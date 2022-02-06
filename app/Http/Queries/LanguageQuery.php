@@ -17,13 +17,13 @@ class LanguageQuery extends BaseQuery
         $this->query = QueryBuilder::for(Language::class)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['name',  'slug'])),
+                AllowedFilter::partial('id'),
                 AllowedFilter::partial('name'),
                 AllowedFilter::partial('slug'),
             ])
             ->allowedSorts(['id', 'name', 'slug', 'created_at', 'updated_at'])
-            ->with('books', 'series')
             ->withCount('books', 'series')
-            ->orderByDesc('id')
+            ->orderByDesc('slug')
         ;
 
         $this->export = new LanguageExport($this->query);
@@ -40,7 +40,7 @@ class LanguageQuery extends BaseQuery
     public function get(): array
     {
         return [
-            'sort' => request()->get('sort', '-id'),
+            'sort' => request()->get('sort', 'slug'),
             'filter' => request()->get('filter'),
             'languages' => fn () => $this->collection(),
         ];

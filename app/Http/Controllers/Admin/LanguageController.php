@@ -35,7 +35,7 @@ class LanguageController extends Controller
         return LanguageResource::collection(
             Language::query()
                 ->where('name', 'like', "%{$request->input('filter.q')}%")
-                ->ordered()->withCount('books')->get()
+                ->withCount('books')->get()
         );
     }
 
@@ -98,20 +98,20 @@ class LanguageController extends Controller
     //     );
     // }
 
-    public function destroy(TagExtend $tag)
+    public function destroy(Language $language)
     {
-        $tag->delete();
+        $language->delete();
 
-        return redirect()->route('admin.tags')->with('flash.success', __('Tag deleted.'));
+        return redirect()->route('admin.languages')->with('flash.success', __('Language deleted.'));
     }
 
     public function bulkDestroy(Request $request)
     {
-        $count = TagExtend::query()->findMany($request->input('ids'))
-            ->each(fn (TagExtend $tag) => $tag->delete())
+        $count = Language::query()->findMany($request->input('ids'))
+            ->each(fn (Language $language) => $language->delete())
             ->count()
         ;
 
-        return redirect()->route('admin.tags')->with('flash.success', __(':count tags deleted.', ['count' => $count]));
+        return redirect()->route('admin.languages')->with('flash.success', __(':count languages deleted.', ['count' => $count]));
     }
 }

@@ -27,7 +27,7 @@ class SerieConverter
                     'title_sort' => $parser->serie_sort,
                     'slug' => $parser->serie_slug_lang,
                 ]);
-                $serie->language()->associate($parser->language);
+                $serie->language()->associate($book->language);
                 $serie->save();
             }
 

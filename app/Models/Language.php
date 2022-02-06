@@ -5,16 +5,14 @@ namespace App\Models;
 use App\Models\Traits\HasFirstChar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\EloquentSortable\Sortable;
-use Spatie\EloquentSortable\SortableTrait;
 
 /**
  * @property null|int $books_count
+ * @property null|int $series_count
  */
-class Language extends Model implements Sortable
+class Language extends Model
 {
     use HasFirstChar;
-    use SortableTrait;
 
     public $incrementing = false;
     public $timestamps = false;
@@ -26,14 +24,13 @@ class Language extends Model implements Sortable
         'name',
     ];
 
-    protected $hidden = [
-        'order_column',
-    ];
     protected $withCount = [
         'books',
+        'series',
     ];
     protected $appends = [
         'first_char',
+        'id',
     ];
 
     public function getShowLinkAttribute(): string
@@ -41,6 +38,11 @@ class Language extends Model implements Sortable
         return route('api.v1.languages.show', [
             'language_slug' => $this->slug,
         ]);
+    }
+
+    public function getIdAttribute(): string
+    {
+        return $this->slug;
     }
 
     public function books(): HasMany

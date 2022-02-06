@@ -38,14 +38,6 @@ class DashboardController extends Controller
                     Publisher::count(),
                     Language::count(),
                 ],
-                'colors' => [
-                    '#a7a1ff',
-                    '#8982ff',
-                    '#6c63ff',
-                    '#564fcc',
-                    '#413b99',
-                    '#2b2866',
-                ],
             ],
         ];
 

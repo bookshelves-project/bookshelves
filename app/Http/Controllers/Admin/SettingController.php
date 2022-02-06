@@ -37,16 +37,31 @@ class SettingController extends Controller
             'http.async_allow',
         ];
         $configuration = [];
-        $configuration['php_version'] = PHP_VERSION;
-        $configuration['laravel_version'] = Application::VERSION;
+        array_push($configuration, [
+            'key' => 'php_version',
+            'value' => PHP_VERSION,
+        ]);
+        array_push($configuration, [
+            'key' => 'laravel_version',
+            'value' => Application::VERSION,
+        ]);
         foreach ($configuration_keys as $key) {
             $value = config($key);
             if (is_bool($value)) {
-                $configuration[$key] = $value ? 'true' : 'false';
+                array_push($configuration, [
+                    'key' => $key,
+                    'value' => $value ? 'true' : 'false',
+                ]);
             } elseif (! is_array($value)) {
-                $configuration[$key] = strval($value);
+                array_push($configuration, [
+                    'key' => $key,
+                    'value' => strval($value),
+                ]);
             } else {
-                $configuration[$key] = implode(', ', $value);
+                array_push($configuration, [
+                    'key' => $key,
+                    'value' => implode(', ', $value),
+                ]);
             }
         }
 

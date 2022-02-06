@@ -50,9 +50,9 @@ class ConverterEngine
             TagConverter::create($parser, $book);
             PublisherConverter::create($parser, $book);
             $language = LanguageConverter::create($parser);
+            $book->language()->associate($language);
             SerieConverter::create($parser, $book);
             $book->refresh();
-            $book->language()->associate($language->slug);
             IdentifierConverter::create($parser, $book);
             $book->save();
 

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Enums\BookTypeEnum;
+use App\Enums\ChartColorEnum;
 use App\Enums\PostStatusEnum;
 use App\Enums\RoleEnum;
 use App\Enums\TagTypeEnum;
@@ -60,6 +61,7 @@ class HandleInertiaRequests extends Middleware
                     'post_statuses' => PostStatusEnum::class,
                     'tag_types' => TagTypeEnum::class,
                     'book_types' => BookTypeEnum::class,
+                    'chart_colors' => ChartColorEnum::class,
                 ])
                     ->mapWithKeys(fn ($enum, $key) => [$key => $enum::toArray()])
                 ;

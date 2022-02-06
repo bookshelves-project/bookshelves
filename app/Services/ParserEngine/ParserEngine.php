@@ -329,7 +329,9 @@ class ParserEngine
                  * Get date.
                  */
                 if ('dc:date' === $value->tagName) {
-                    $released_on = $value->textContent ? $value->textContent : '';
+                    $released_on = $value->textContent
+                        && ! str_contains($value->textContent, '0101')
+                        ? $value->textContent : null;
                 }
 
                 /*
