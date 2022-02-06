@@ -16,11 +16,11 @@ class StubQuery extends BaseQuery
     {
         $this->query = QueryBuilder::for(Stub::class)
             ->allowedFilters([
-                AllowedFilter::custom('q', new GlobalSearchFilter(['name'])),
+                AllowedFilter::custom('q', new GlobalSearchFilter(['stubAttr'])),
                 AllowedFilter::exact('id'),
-                AllowedFilter::partial('name'),
+                AllowedFilter::partial('stubAttr'),
             ])
-            ->allowedSorts(['id', 'name', 'created_at', 'updated_at'])
+            ->allowedSorts(['id', 'stubAttr', 'created_at', 'updated_at'])
             ->orderByDesc('id')
         ;
 

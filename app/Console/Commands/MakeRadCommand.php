@@ -14,6 +14,7 @@ class MakeRadCommand extends Command
      */
     protected $signature = 'make:rad
                             {model : The name of the model}
+                            {--a|attribute= : optional attribute instead of `name`}
                             {--f|force : overwrite existing files}';
 
     /**
@@ -28,8 +29,13 @@ class MakeRadCommand extends Command
      */
     public function __construct(
         public ?string $model = null,
+        public ?string $model_pascal = null,
         public ?string $model_lower = null,
+        public ?string $model_human = null,
+        public ?string $model_snake = null,
+        public ?string $model_concat = null,
         public ?bool $force = false,
+        public ?string $attribute = 'name',
     ) {
         parent::__construct();
     }
@@ -43,6 +49,7 @@ class MakeRadCommand extends Command
         $model = ucfirst($model);
         $force = $this->option('force') ?? false;
         $this->force = $force;
+        $this->attribute = $this->option('attribute') ? str_replace('=', '', $this->option('attribute')) : 'name';
 
         $this->alert("RAD Stack: Generate {$model} CRUD");
 
@@ -56,19 +63,24 @@ class MakeRadCommand extends Command
         }
         $this->model = $model;
         $this->model_lower = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $model));
+        $this->model_pascal = lcfirst($model);
+        $this->model_human = preg_replace('/([a-z])([A-Z])/', '$1 $2', $model);
+        $this->model_snake = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $model));
+        $this->model_concat = strtolower(preg_replace('/([a-z])([A-Z])/', '$1$2', $model));
 
         $this->generateFromStub("{$this->model}Controller", app_path('Http/Controllers/Admin'), 'php');
         $this->generateFromStub("{$this->model}Query", app_path('Http/Queries'), 'php');
         $this->generateFromStub("{$this->model}Export", app_path('Exports'), 'php');
         $this->generateFromStub("{$this->model}Resource", app_path('Http/Resources/Admin'), 'php');
 
-        $crud_path = resource_path('admin/pages')."/{$this->model_lower}s";
+        $crud_path = resource_path('admin/pages')."/{$this->model_concat}s";
 
         $this->generateFromStub('Index', $crud_path, 'vue', 'crud/', true);
         $this->generateFromStub('Create', $crud_path, 'vue', 'crud/', true);
         $this->generateFromStub('Edit', $crud_path, 'vue', 'crud/', true);
         $this->generateFromStub("{$this->model}Form", resource_path('admin/components/forms'), 'vue', 'crud/');
         $this->generateTypeFromStub();
+        $this->addInHelpers();
         $this->generateAttributes();
         $this->generateAttributes('fr');
         $this->addToNavigation();
@@ -117,7 +129,7 @@ class MakeRadCommand extends Command
          */
         $destination_path = resource_path("admin/types/{$this->model_lower}.ts");
 
-        if (! File::exists($destination_path) || $this->force) {
+        if (! File::exists($destination_path)) {
             $stub_path = resource_path('stubs/rad/crud/type-stub.ts');
             $stub = File::get($stub_path);
 
@@ -134,7 +146,7 @@ class MakeRadCommand extends Command
         $new_import = "import { {$this->model} } from './{$this->model_lower}'\n";
         $types_path = resource_path('admin/types/index.ts');
 
-        if (! $this->find($types_path, $new_import) || $this->force) {
+        if (! $this->find($types_path, $new_import)) {
             $file_part = $this->find($types_path, 'export');
             $file_part['begin'] = array_merge([$new_import], $file_part['begin']); // add import at the top of file
             $last = array_pop($file_part['end']); // remove `}` to add export
@@ -158,18 +170,61 @@ class MakeRadCommand extends Command
     }
 
     /**
+     * Add new model to `helpers.ts`.
+     */
+    protected function addInHelpers(): bool
+    {
+        $success = false;
+        $destination_path = resource_path('admin/features/helpers.ts');
+
+        if (! File::exists($destination_path) || $this->force) {
+            $file_part = $this->find($destination_path, "{$this->model_concat}s: (model: {$this->model})");
+            if (! $file_part) {
+                /**
+                 * Add import.
+                 */
+                $is_exist = $this->find($destination_path, "  {$this->model},");
+                if (! $is_exist) {
+                    $file_part = $this->find($destination_path, "} from '@admin/types'");
+                    array_push($file_part['begin'], "  {$this->model},\n");
+                    $file_content = $this->mergeFind($file_part);
+                    $this->rewriteFile($destination_path, $file_content);
+                }
+
+                /**
+                 * Add helper.
+                 */
+                $file_part = $this->find($destination_path, '} as { [key: string]: (model) => string }');
+                array_push($file_part['begin'], "        {$this->model_concat}s: (model: {$this->model}) => model.name,\n");
+                $file_content = $this->mergeFind($file_part);
+                $this->rewriteFile($destination_path, $file_content);
+
+                $success = true;
+            }
+        }
+
+        if ($success) {
+            $this->info('Type generated.');
+        } else {
+            $this->error('Type exist!');
+        }
+
+        return $success;
+    }
+
+    /**
      * Add attributes to `resources/lang/{$lang}/crud.php` if not exist.
      */
     protected function generateAttributes(string $lang = 'en'): bool
     {
         $path = resource_path("lang/{$lang}/crud.php");
 
-        $entry = "'{$this->model_lower}s' => [";
+        $entry = "'{$this->model_concat}s' => [";
         $is_exist = $this->find($path, $entry);
         if (! $is_exist || $this->force) {
             $stubs = [
                 "    {$entry}\n",
-                "        'name' => '{$this->model}|{$this->model}s',\n",
+                "        'name' => '{$this->model_human}|{$this->model_human}s',\n",
                 "        'attributes' => [\n",
                 "        ],\n",
                 "    ],\n",
@@ -199,16 +254,15 @@ class MakeRadCommand extends Command
         $file_part = $this->find($path, 'mainNav');
 
         if ($file_part) {
-            $is_exist = $this->find($path, "route('admin.{$this->model_lower}s')");
-            if (! $is_exist || $this->force) {
-                $name = ucfirst($this->model);
+            $is_exist = $this->find($path, "route('admin.{$this->model_concat}s')");
+            if (! $is_exist) {
                 $nav = [
                     "  {\n",
-                    "    href: route('admin.{$this->model_lower}s'),\n",
+                    "    href: route('admin.{$this->model_concat}s'),\n",
                     "    active: () =>\n",
-                    "      route().current('admin.{$this->model_lower}s') || route().current('admin.{$this->model_lower}s.*'),\n",
+                    "      route().current('admin.{$this->model_concat}s') || route().current('admin.{$this->model_concat}s.*'),\n",
                     "    icon: HomeIcon,\n",
-                    "    text: __('{$name}'),\n",
+                    "    text: __('{$this->model_human}s'),\n",
                     "  },\n",
                 ];
                 $end = array_shift($file_part['end']);
@@ -235,10 +289,12 @@ class MakeRadCommand extends Command
     protected function replaceAll(string $stub): string
     {
         $stub = $this->replace('/Stub/', $this->model, $stub);
-        $stub = $this->replace('/stubVar/', lcfirst($this->model), $stub);
-        $stub = $this->replace('/stubsVar/', lcfirst($this->model), $stub);
+        $stub = $this->replace('/stubAttr/', $this->attribute, $stub);
+        $stub = $this->replace('/stubPascal/', $this->model_concat, $stub);
+        $stub = $this->replace('/stubsPascal/', $this->model_concat.'s', $stub);
+        $stub = $this->replace('/stubs/', "{$this->model_concat}s", $stub);
 
-        return $this->replace('/stub/', $this->model_lower, $stub);
+        return $this->replace('/stub/', $this->model_concat, $stub);
     }
 
     protected function replace(string $pattern, string $replace, string $file): string

@@ -27,7 +27,7 @@ class StubExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 
     public function headings(): array
     {
-        return collect(['name', 'created_at', 'updated_at'])
+        return collect(['stubAttr', 'created_at', 'updated_at'])
             ->map(
                 fn ($field) => Lang::has("crud.stubs.attributes.{$field}")
                     ? __("crud.stubs.attributes.{$field}")
@@ -41,7 +41,7 @@ class StubExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
     public function map($row): array
     {
         return [
-            $row->name,
+            $row->stubAttr,
             $row->created_at,
             $row->updated_at,
         ];

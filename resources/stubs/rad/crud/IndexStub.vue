@@ -6,7 +6,7 @@
       </template>
 
       <data-table
-        :source="stubsVar"
+        :source="stubsPascal"
         :columns="columns"
         :sort="sort"
         :filter="filter"
@@ -40,7 +40,7 @@
   import { PropType } from 'vue'
 
   defineProps({
-    stubsVar: {
+    stubsPascal: {
       type: Object as PropType<PaginatedData<Stub>>,
       required: true,
     },
@@ -58,7 +58,7 @@
       sortable: true,
     },
     {
-      field: 'name',
+      field: 'stubAttr',
       sortable: true,
       searchable: true,
     },

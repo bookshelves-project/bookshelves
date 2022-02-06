@@ -34,41 +34,41 @@ class StubController extends Controller
     }
 
     #[Get('{stub}', name: 'stubs.show')]
-    public function show(Stub $stubVar)
+    public function show(Stub $stubPascal)
     {
         return Inertia::render('stubs/Edit', [
-            'stub' => StubResource::make($stubVar), // $stubVar->load('relation')
+            'stub' => StubResource::make($stubPascal), // $stubPascal->load('relation')
         ]);
     }
 
     #[Get('{stub}/edit', name: 'stubs.edit')]
-    public function edit(Stub $stubVar)
+    public function edit(Stub $stubPascal)
     {
         return Inertia::render('stubs/Edit', [
-            'stub' => StubResource::make($stubVar), // $stubVar->load('relation')
+            'stub' => StubResource::make($stubPascal), // $stubPascal->load('relation')
         ]);
     }
 
     #[Post('/', name: 'stubs.store')]
     public function store(StubStoreRequest $request)
     {
-        $stubVar = Stub::create($request->all());
+        $stubPascal = Stub::create($request->all());
 
         return redirect()->route('admin.stubs')->with('flash.success', __('Stub created.'));
     }
 
     #[Put('{stub}', name: 'stubs.update')]
-    public function update(Stub $stubVar, StubUpdateRequest $request)
+    public function update(Stub $stubPascal, StubUpdateRequest $request)
     {
-        $stubVar->update($request->all());
+        $stubPascal->update($request->all());
 
         return redirect()->route('admin.stubs')->with('flash.success', __('Stub updated.'));
     }
 
     #[Delete('{stub}', name: 'stubs.destroy')]
-    public function destroy(Stub $stubVar)
+    public function destroy(Stub $stubPascal)
     {
-        $stubVar->delete();
+        $stubPascal->delete();
 
         return redirect()->route('admin.stubs')->with('flash.success', __('Stub deleted.'));
     }
@@ -77,7 +77,7 @@ class StubController extends Controller
     public function bulkDestroy(Request $request)
     {
         $count = Stub::query()->findMany($request->input('ids'))
-            ->each(fn (Stub $stubVar) => $stubVar->delete())
+            ->each(fn (Stub $stubPascal) => $stubPascal->delete())
             ->count()
         ;
 

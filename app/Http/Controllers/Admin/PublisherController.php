@@ -33,7 +33,7 @@ class PublisherController extends Controller
     public function edit(Publisher $publisher)
     {
         return Inertia::render('publishers/Edit', [
-            'publisher' => PublisherResource::make($publisher), // $stubVar->load('relation')
+            'publisher' => PublisherResource::make($publisher), // $stubPascal->load('relation')
         ]);
     }
 

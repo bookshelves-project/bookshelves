@@ -2,10 +2,10 @@
 import { Model } from './model'
 
 export class Stub extends Model {
-  constructor(public id: number, public name: string) {
+  constructor(public id: number, public stubAttr: string) {
     super(id)
   }
   toString() {
-    return this.name
+    return this.stubAttr
   }
 }
