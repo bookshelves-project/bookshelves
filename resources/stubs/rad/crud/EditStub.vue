@@ -1,5 +1,5 @@
 <template>
-  <edit-context v-slot="{ title }" resource="stubs" :item="stub">
+  <edit-context v-slot="{ title }" resource="stubs" :item="stubVar">
     <app-layout>
       <template #header>
         <page-header>
@@ -22,12 +22,12 @@
   import route from 'ziggy-js'
 
   const props = defineProps({
-    stub: {
+    stubVar: {
       type: Object as PropType<Stub>,
       required: true,
     },
   })
 
   const method = 'put'
-  const url = route('admin.stubs.update', { id: props.stub.id })
+  const url = route('admin.stubs.update', { id: props.stubVar.id })
 </script>

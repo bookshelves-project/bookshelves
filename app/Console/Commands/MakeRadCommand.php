@@ -13,7 +13,8 @@ class MakeRadCommand extends Command
      * @var string
      */
     protected $signature = 'make:rad
-                            {model : The name of the model}';
+                            {model : The name of the model}
+                            {--f|force : overwrite existing files}';
 
     /**
      * The console command description.
@@ -28,6 +29,7 @@ class MakeRadCommand extends Command
     public function __construct(
         public ?string $model = null,
         public ?string $model_lower = null,
+        public ?bool $force = false,
     ) {
         parent::__construct();
     }
@@ -39,6 +41,8 @@ class MakeRadCommand extends Command
     {
         $model = $this->argument('model');
         $model = ucfirst($model);
+        $force = $this->option('force') ?? false;
+        $this->force = $force;
 
         $this->alert("RAD Stack: Generate {$model} CRUD");
 
@@ -77,7 +81,7 @@ class MakeRadCommand extends Command
     {
         $destination = "{$destination_path}/{$name}.{$extension}";
         $type = str_replace($this->model, '', $name);
-        if (! File::exists($destination)) {
+        if (! File::exists($destination) || $this->force) {
             if ($createDir) {
                 try {
                     File::makeDirectory($destination_path);
@@ -113,7 +117,7 @@ class MakeRadCommand extends Command
          */
         $destination_path = resource_path("admin/types/{$this->model_lower}.ts");
 
-        if (! File::exists($destination_path)) {
+        if (! File::exists($destination_path) || $this->force) {
             $stub_path = resource_path('stubs/rad/crud/type-stub.ts');
             $stub = File::get($stub_path);
 
@@ -130,7 +134,7 @@ class MakeRadCommand extends Command
         $new_import = "import { {$this->model} } from './{$this->model_lower}'\n";
         $types_path = resource_path('admin/types/index.ts');
 
-        if (! $this->find($types_path, $new_import)) {
+        if (! $this->find($types_path, $new_import) || $this->force) {
             $file_part = $this->find($types_path, 'export');
             $file_part['begin'] = array_merge([$new_import], $file_part['begin']); // add import at the top of file
             $last = array_pop($file_part['end']); // remove `}` to add export
@@ -162,27 +166,28 @@ class MakeRadCommand extends Command
 
         $entry = "'{$this->model_lower}s' => [";
         $is_exist = $this->find($path, $entry);
-        if ($is_exist) {
-            $this->error('Attributes exist!');
+        if (! $is_exist || $this->force) {
+            $stubs = [
+                "    {$entry}\n",
+                "        'name' => '{$this->model}|{$this->model}s',\n",
+                "        'attributes' => [\n",
+                "        ],\n",
+                "    ],\n",
+            ];
+            $file_content = $this->getFileContent($path);
+            $last = array_pop($file_content); // remove `];` at the end
+            array_push($file_content, ...$stubs); // insert new entity
+            array_push($file_content, $last); // add `];` at the end
+            $this->rewriteFile($path, $file_content);
 
-            return false;
+            $this->info('Attributes generated.');
+
+            return true;
         }
-        $stubs = [
-            "    {$entry}\n",
-            "        'name' => '{$this->model}|{$this->model}s',\n",
-            "        'attributes' => [\n",
-            "        ],\n",
-            "    ],\n",
-        ];
-        $file_content = $this->getFileContent($path);
-        $last = array_pop($file_content); // remove `];` at the end
-        array_push($file_content, ...$stubs); // insert new entity
-        array_push($file_content, $last); // add `];` at the end
-        $this->rewriteFile($path, $file_content);
 
-        $this->info('Attributes generated.');
+        $this->error('Attributes exist!');
 
-        return true;
+        return false;
     }
 
     /**
@@ -195,7 +200,7 @@ class MakeRadCommand extends Command
 
         if ($file_part) {
             $is_exist = $this->find($path, "route('admin.{$this->model_lower}s')");
-            if (! $is_exist) {
+            if (! $is_exist || $this->force) {
                 $name = ucfirst($this->model);
                 $nav = [
                     "  {\n",
@@ -230,6 +235,8 @@ class MakeRadCommand extends Command
     protected function replaceAll(string $stub): string
     {
         $stub = $this->replace('/Stub/', $this->model, $stub);
+        $stub = $this->replace('/stubVar/', lcfirst($this->model), $stub);
+        $stub = $this->replace('/stubsVar/', lcfirst($this->model), $stub);
 
         return $this->replace('/stub/', $this->model_lower, $stub);
     }

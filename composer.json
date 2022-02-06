@@ -66,6 +66,7 @@
         "spatie/laravel-image-optimizer": "^1.7",
         "spatie/laravel-medialibrary": "^9.6",
         "spatie/laravel-query-builder": "^3.4",
+        "spatie/laravel-route-attributes": "^1.9",
         "spatie/laravel-sluggable": "^3.1",
         "spatie/laravel-tags": "^4.0",
         "spatie/laravel-translatable": "^5.0",

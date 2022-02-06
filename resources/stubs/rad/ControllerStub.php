@@ -34,33 +34,33 @@ class StubController extends Controller
     }
 
     #[Get('{stub}/edit', name: 'stubs.edit')]
-    public function edit(Stub $stub)
+    public function edit(Stub $stubVar)
     {
         return Inertia::render('stubs/Edit', [
-            'stub' => StubResource::make($stub->load('')),
+            'stub' => StubResource::make($stubVar->load('')),
         ]);
     }
 
     #[HttpPost('/', name: 'stubs.store')]
     public function store(StubStoreRequest $request)
     {
-        $stub = Stub::create($request->all());
+        $stubVar = Stub::create($request->all());
 
         return redirect()->route('admin.stubs')->with('flash.success', __('Stub created.'));
     }
 
     #[Put('{stub}', name: 'stubs.update')]
-    public function update(Stub $stub, StubUpdateRequest $request)
+    public function update(Stub $stubVar, StubUpdateRequest $request)
     {
-        $stub->update($request->all());
+        $stubVar->update($request->all());
 
         return redirect()->route('admin.stubs')->with('flash.success', __('Stub updated.'));
     }
 
     #[Delete('{stub}', name: 'stubs.destroy')]
-    public function destroy(Stub $stub)
+    public function destroy(Stub $stubVar)
     {
-        $stub->delete();
+        $stubVar->delete();
 
         return redirect()->route('admin.stubs')->with('flash.success', __('Stub deleted.'));
     }
@@ -69,7 +69,7 @@ class StubController extends Controller
     public function bulkDestroy(Request $request)
     {
         $count = Stub::query()->findMany($request->input('ids'))
-            ->each(fn (Stub $stub) => $stub->delete())
+            ->each(fn (Stub $stubVar) => $stubVar->delete())
             ->count()
         ;
 
