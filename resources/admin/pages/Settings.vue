@@ -1,17 +1,23 @@
 <template>
   <app-layout :title="title">
-    <!-- <dashboard-content /> -->
-    <ul>
-      <li v-for="(item, index) in configuration" :key="index" class="my-2">
-        <code>{{ index }}</code
-        >:
-        <span
-          v-if="item"
-          class="py-0.5 px-1 rounded-md bg-gray-500 text-white shadow-sm"
-          >{{ item }}</span
-        >
-      </li>
-    </ul>
+    <div class="max-w-sm">
+      <div class="flow-root mt-6">
+        <ul role="list" class="-my-5 divide-y divide-gray-200">
+          <li v-for="(item, index) in configuration" :key="index" class="py-4">
+            <div class="flex items-center space-x-4">
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900">
+                  {{ item.key }}
+                </p>
+                <p class="text-sm text-gray-500">
+                  {{ item.value }}
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </app-layout>
 </template>
 
@@ -20,7 +26,7 @@
 
   const title = useTitle('Settings')
 
-  const props = defineProps<{
-    configuration: any[]
+  defineProps<{
+    configuration: any
   }>()
 </script>

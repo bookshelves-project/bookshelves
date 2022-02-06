@@ -1,12 +1,12 @@
 <template>
-  <list-context v-slot="{ title }" resource="authors">
+  <list-context v-slot="{ title }" resource="languages">
     <app-layout :title="title">
       <template #header-actions>
         <create-button />
       </template>
 
       <data-table
-        :source="authors"
+        :source="languages"
         :columns="columns"
         :sort="sort"
         :filter="filter"
@@ -35,13 +35,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { Author, PaginatedData } from '@admin/types'
+  import { Language, PaginatedData } from '@admin/types'
   import { Column } from '@admin/types/data-table'
   import { PropType } from 'vue'
 
   defineProps({
-    authors: {
-      type: Object as PropType<PaginatedData<Author>>,
+    languages: {
+      type: Object as PropType<PaginatedData<Language>>,
       required: true,
     },
     sort: String,
@@ -58,30 +58,9 @@
       sortable: true,
     },
     {
-      field: 'cover',
-      type: 'image',
-      props: {
-        preview: 'url',
-        original: 'url',
-        canPreview: true,
-      },
-    },
-    {
-      field: 'firstname',
+      field: 'name',
       sortable: true,
       searchable: true,
-    },
-    {
-      field: 'lastname',
-      sortable: true,
-      searchable: true,
-    },
-    {
-      field: 'description',
-      type: 'text',
-      props: {
-        truncate: 50,
-      },
     },
     {
       field: 'books_count',
@@ -92,12 +71,6 @@
       field: 'series_count',
       centered: true,
       sortable: true,
-    },
-    {
-      field: 'updated_at',
-      type: 'date',
-      sortable: true,
-      centered: true,
     },
   ]
 </script>

@@ -58,6 +58,7 @@ declare module 'vue' {
     ListContext: typeof import('./base/cruds/ListContext.vue')['default']
     Modal: typeof import('./base/Modal.vue')['default']
     Navbar: typeof import('./base/Navbar.vue')['default']
+    Navigation: typeof import('./components/layout/navigation.vue')['default']
     PageHeader: typeof import('./base/PageHeader.vue')['default']
     Pagination: typeof import('./base/Pagination.vue')['default']
     PostForm: typeof import('./components/forms/PostForm.vue')['default']
