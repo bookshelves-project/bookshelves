@@ -75,9 +75,9 @@ class MakeRadCommand extends Command
      */
     protected function generateFromStub(string $name, string $destination_path, string $extension, ?string $stub_path = null, ?bool $createDir = false): bool
     {
-        $destination_path = "{$destination_path}/{$name}.{$extension}";
+        $destination = "{$destination_path}/{$name}.{$extension}";
         $type = str_replace($this->model, '', $name);
-        if (! File::exists($destination_path)) {
+        if (! File::exists($destination)) {
             if ($createDir) {
                 try {
                     File::makeDirectory($destination_path);
@@ -89,7 +89,7 @@ class MakeRadCommand extends Command
 
             $stub = $this->replaceAll($stub);
 
-            File::put($destination_path, $stub);
+            File::put($destination, $stub);
 
             $this->info("{$type} generated.");
 
@@ -121,10 +121,7 @@ class MakeRadCommand extends Command
 
             File::put($destination_path, $stub);
 
-            $this->info('Type generated.');
             $success = true;
-        } else {
-            $this->error('Type exist!');
         }
 
         /**
@@ -144,11 +141,14 @@ class MakeRadCommand extends Command
 
             $this->rewriteFile($types_path, $file_content);
 
-            $this->info('Type generated.');
             $success = true;
         }
 
-        $this->error('Import exist!');
+        if ($success) {
+            $this->info('Type generated.');
+        } else {
+            $this->error('Type exist!');
+        }
 
         return $success;
     }
@@ -194,7 +194,7 @@ class MakeRadCommand extends Command
         $file_part = $this->find($path, 'mainNav');
 
         if ($file_part) {
-            $is_exist = $this->find($path, "route('admin.{$this->model_lower}')");
+            $is_exist = $this->find($path, "route('admin.{$this->model_lower}s')");
             if (! $is_exist) {
                 $name = ucfirst($this->model);
                 $nav = [
