@@ -4,16 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Queries\AuthorQuery;
-use App\Http\Requests\Admin\PostStoreRequest;
-use App\Http\Requests\Admin\PostUpdateRequest;
 use App\Http\Resources\Admin\AuthorResource;
 use App\Models\Author;
-use App\Models\Book;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Request;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\RouteAttributes\Attributes\Prefix;
+use Spatie\RouteAttributes\Attributes\Put;
 
+#[Prefix('authors')]
 class AuthorController extends Controller
 {
+    #[Get('/', name: 'authors')]
     public function index()
     {
         return app(AuthorQuery::class)->make()
@@ -21,76 +25,60 @@ class AuthorController extends Controller
         ;
     }
 
+    #[Get('create', name: 'authors.create')]
     public function create()
     {
         return Inertia::render('authors/Create');
     }
 
-    public function edit(Author $author)
+    #[Get('{author}', name: 'authors.show')]
+    public function show(Author $author)
     {
         return Inertia::render('authors/Edit', [
-            'author' => AuthorResource::make($author->load('books', 'media')),
+            'author' => AuthorResource::make($author->load('books', 'series')),
         ]);
     }
 
-    public function store(PostStoreRequest $request)
+    #[Get('{author}/edit', name: 'authors.edit')]
+    public function edit(Author $author)
+    {
+        return Inertia::render('authors/Edit', [
+            'author' => AuthorResource::make($author->load('books', 'series')),
+        ]);
+    }
+
+    #[Post('/', name: 'authors.store')]
+    public function store(Request $request)
     {
         $author = Author::create($request->all());
-
-        // if ($request->featured_image_file) {
-        //     $book->addMediaFromRequest('featured_image_file')
-        //         ->toMediaCollection('featured-image')
-        //     ;
-        // }
 
         return redirect()->route('admin.authors')->with('flash.success', __('Author created.'));
     }
 
-    public function update(Book $book, PostUpdateRequest $request)
+    #[Put('{author}', name: 'authors.update')]
+    public function update(Author $author, Request $request)
     {
-        $book->update($request->all());
+        $author->update($request->all());
 
-        $book->syncTags($request->tags);
-
-        if ($request->featured_image_delete) {
-            $book->clearMediaCollection('featured-image');
-        }
-
-        if ($request->featured_image_file) {
-            $book->addMediaFromRequest('featured_image_file')
-                ->toMediaCollection('featured-image')
-            ;
-        }
-
-        return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
+        return redirect()->route('admin.authors')->with('flash.success', __('Author updated.'));
     }
 
-    public function toggle(Book $book, Request $request)
+    #[Delete('{author}', name: 'authors.destroy')]
+    public function destroy(Author $author)
     {
-        $request->validate([
-            'pin' => 'sometimes|boolean',
-            'promote' => 'sometimes|boolean',
-        ]);
+        $author->delete();
 
-        $book->update($request->only('pin', 'promote'));
-
-        return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
+        return redirect()->route('admin.authors')->with('flash.success', __('Author deleted.'));
     }
 
-    public function destroy(Book $book)
-    {
-        $book->delete();
-
-        return redirect()->route('admin.books')->with('flash.success', __('Book deleted.'));
-    }
-
+    #[Delete('/', name: 'authors.bulk.destroy')]
     public function bulkDestroy(Request $request)
     {
-        $count = Book::query()->findMany($request->input('ids'))
-            ->each(fn (Book $book) => $book->delete())
+        $count = Author::query()->findMany($request->input('ids'))
+            ->each(fn (Author $author) => $author->delete())
             ->count()
         ;
 
-        return redirect()->route('admin.books')->with('flash.success', __(':count books deleted.', ['count' => $count]));
+        return redirect()->route('admin.authors')->with('flash.success', __(':count authors deleted.', ['count' => $count]));
     }
 }

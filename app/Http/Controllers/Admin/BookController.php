@@ -10,9 +10,17 @@ use App\Http\Resources\Admin\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Patch;
+use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\RouteAttributes\Attributes\Prefix;
+use Spatie\RouteAttributes\Attributes\Put;
 
+#[Prefix('books')]
 class BookController extends Controller
 {
+    #[Get('/', name: 'books')]
     public function index()
     {
         return app(BookQuery::class)->make()
@@ -20,11 +28,13 @@ class BookController extends Controller
         ;
     }
 
+    #[Get('create', name: 'books.create')]
     public function create()
     {
         return Inertia::render('books/Create');
     }
 
+    #[Get('{book}/edit', name: 'books.edit')]
     public function edit(Book $book)
     {
         return Inertia::render('books/Edit', [
@@ -32,6 +42,7 @@ class BookController extends Controller
         ]);
     }
 
+    #[Post('/', name: 'books.store')]
     public function store(PostStoreRequest $request)
     {
         $book = Book::create($request->all());
@@ -47,6 +58,7 @@ class BookController extends Controller
         return redirect()->route('admin.books')->with('flash.success', __('Book created.'));
     }
 
+    #[Put('{book}', name: 'books.update')]
     public function update(Book $book, PostUpdateRequest $request)
     {
         $book->update($request->all());
@@ -66,6 +78,7 @@ class BookController extends Controller
         return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
     }
 
+    #[Patch('{book}/toggle', name: 'books.toggle')]
     public function toggle(Book $book, Request $request)
     {
         $request->validate([
@@ -77,6 +90,7 @@ class BookController extends Controller
         return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
     }
 
+    #[Delete('{book}', name: 'books.destroy')]
     public function destroy(Book $book)
     {
         $book->delete();
@@ -84,6 +98,7 @@ class BookController extends Controller
         return redirect()->route('admin.books')->with('flash.success', __('Book deleted.'));
     }
 
+    #[Delete('/', name: 'books.bulk.destroy')]
     public function bulkDestroy(Request $request)
     {
         $count = Book::query()->findMany($request->input('ids'))

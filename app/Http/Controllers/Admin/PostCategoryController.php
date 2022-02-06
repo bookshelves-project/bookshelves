@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\PostResource;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
+use Spatie\RouteAttributes\Attributes\Get;
 
 class PostCategoryController extends Controller
 {
+    #[Get('post-categories', name: 'post-categories')]
     public function index(Request $request)
     {
         return PostResource::collection(

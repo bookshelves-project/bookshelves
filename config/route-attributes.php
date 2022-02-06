@@ -11,7 +11,7 @@ return [
      * will automatically be registered.
      */
     'directories' => [
-        app_path('Http/Controllers'),
+        app_path('Http/Controllers/Admin'),
     ],
 
     /**

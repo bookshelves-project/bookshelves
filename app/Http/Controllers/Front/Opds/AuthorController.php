@@ -7,12 +7,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Services\OpdsService;
 use Route;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
  * @hideFromAPIDocumentation
  */
+#[Prefix('opds/{version}/authors')]
 class AuthorController extends Controller
 {
+    #[Get('/', name: 'front.opds.authors')]
     public function index(string $version)
     {
         $entities = Author::with('books', 'media')->orderBy('lastname')->get();
@@ -31,6 +35,7 @@ class AuthorController extends Controller
         ]);
     }
 
+    #[Get('/{author}', name: 'front.opds.authors.show')]
     public function show(string $version, string $author_slug)
     {
         $author = Author::with('books.authors', 'books.tags', 'books.media', 'books.serie', 'books.language')->whereSlug($author_slug)->firstOrFail();

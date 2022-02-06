@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Application;
 use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Get;
 
 class SettingController extends Controller
 {
+    #[Get('settings', name: 'settings')]
     public function index()
     {
         $configuration_keys = [

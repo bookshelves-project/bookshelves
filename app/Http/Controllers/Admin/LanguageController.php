@@ -5,24 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Queries\LanguageQuery;
 use App\Http\Resources\Admin\LanguageResource;
-use App\Http\Resources\Admin\TagResource;
 use App\Models\Language;
-use App\Models\TagExtend;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Spatie\Tags\Tag;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
+#[Prefix('languages')]
 class LanguageController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     return TagResource::collection(
-    //         Tag::query()
-    //             ->where('name', 'like', "%{$request->input('filter.q')}%")
-    //             ->ordered()->get()
-    //     );
-    // }
-
+    #[Get('/', name: 'languages')]
     public function index()
     {
         return app(LanguageQuery::class)->make()
@@ -30,74 +23,21 @@ class LanguageController extends Controller
         ;
     }
 
-    public function fetch(Request $request)
+    #[Get('create', name: 'languages.create')]
+    public function create()
     {
-        return LanguageResource::collection(
-            Language::query()
-                ->where('name', 'like', "%{$request->input('filter.q')}%")
-                ->withCount('books')->get()
-        );
+        return Inertia::render('languages/Create');
     }
 
-    // public function create()
-    // {
-    //     return Inertia::render('series/Create');
-    // }
+    #[Get('{language}/edit', name: 'languages.edit')]
+    public function edit(Language $language)
+    {
+        return Inertia::render('languages/Edit', [
+            'language' => LanguageResource::make($language), // $stubVar->load('relation')
+        ]);
+    }
 
-    // public function edit(Serie $serie)
-    // {
-    //     return Inertia::render('series/Edit', [
-    //         'serie' => SerieResource::make($serie->load('media', 'books', 'tags', 'authors')),
-    //     ]);
-    // }
-
-    // public function store(PostStoreRequest $request)
-    // {
-    //     $serie = Serie::create($request->all());
-
-    //     return redirect()->route('admin.series')->with('flash.success', __('Serie created.'));
-    // }
-
-    // public function update(Book $book, PostUpdateRequest $request)
-    // {
-    //     $book->update($request->all());
-
-    //     $book->syncTags($request->tags);
-
-    //     if ($request->featured_image_delete) {
-    //         $book->clearMediaCollection('featured-image');
-    //     }
-
-    //     if ($request->featured_image_file) {
-    //         $book->addMediaFromRequest('featured_image_file')
-    //             ->toMediaCollection('featured-image')
-    //         ;
-    //     }
-
-    //     return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
-    // }
-
-    // public function toggle(Book $book, Request $request)
-    // {
-    //     $request->validate([
-    //         'pin' => 'sometimes|boolean',
-    //         'promote' => 'sometimes|boolean',
-    //     ]);
-
-    //     $book->update($request->only('pin', 'promote'));
-
-    //     return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
-    // }
-
-    // public function types(Request $request)
-    // {
-    //     return TagResource::collection(
-    //         TagExtend::query()
-    //             ->where('name', 'like', "%{$request->input('filter.q')}%")
-    //             ->ordered()->withCount('posts')->get()
-    //     );
-    // }
-
+    #[Delete('{language}', name: 'languages.destroy')]
     public function destroy(Language $language)
     {
         $language->delete();
@@ -105,6 +45,7 @@ class LanguageController extends Controller
         return redirect()->route('admin.languages')->with('flash.success', __('Language deleted.'));
     }
 
+    #[Delete('/', name: 'languages.bulk.destroy')]
     public function bulkDestroy(Request $request)
     {
         $count = Language::query()->findMany($request->input('ids'))
@@ -113,5 +54,15 @@ class LanguageController extends Controller
         ;
 
         return redirect()->route('admin.languages')->with('flash.success', __(':count languages deleted.', ['count' => $count]));
+    }
+
+    #[Get('/fetch', name: 'languages.fetch')]
+    public function fetch(Request $request)
+    {
+        return LanguageResource::collection(
+            Language::query()
+                ->where('name', 'like', "%{$request->input('filter.q')}%")
+                ->withCount('books')->get()
+        );
     }
 }

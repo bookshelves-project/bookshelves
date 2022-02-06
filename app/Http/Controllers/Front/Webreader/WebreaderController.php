@@ -9,12 +9,16 @@ use App\Models\Book;
 use App\Services\MarkdownService;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
  * @hideFromAPIDocumentation
  */
+#[Prefix('webreader')]
 class WebreaderController extends Controller
 {
+    #[Get('/', name: 'front.webreader')]
     public function index()
     {
         SEOTools::setTitle('Webreader');
@@ -32,6 +36,7 @@ class WebreaderController extends Controller
         return view('front::pages.webreader.index', compact('random_book', 'cover', 'route', 'content'));
     }
 
+    #[Get('/{author}/{book}/{page?}', name: 'front.webreader.reader')]
     public function reader(string $author, string $book, ?string $page = null)
     {
         // $author = Author::whereSlug($author)->firstOrFail();

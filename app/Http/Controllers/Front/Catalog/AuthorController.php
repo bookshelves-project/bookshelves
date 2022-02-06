@@ -8,12 +8,16 @@ use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Utils\BookshelvesTools;
 use Illuminate\Http\Request;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
  * @hideFromAPIDocumentation
  */
+#[Prefix('catalog/authors')]
 class AuthorController extends Controller
 {
+    #[Get('/', name: 'front.catalog.authors')]
     public function index(Request $request)
     {
         $authors = Author::with(['media'])->get();
@@ -22,6 +26,7 @@ class AuthorController extends Controller
         return view('front.pages.catalog.authors.index', compact('authors'));
     }
 
+    #[Get('/{character}', name: 'front.catalog.authors.character')]
     public function character(Request $request)
     {
         $character = $request->character;
@@ -38,6 +43,7 @@ class AuthorController extends Controller
         return view('front.pages.catalog.authors.character', compact('authors', 'character'));
     }
 
+    #[Get('/{character}/{author}', name: 'front.catalog.authors.show')]
     public function show(Request $request, string $character, string $slug)
     {
         $author = Author::whereSlug($slug)->firstOrFail();

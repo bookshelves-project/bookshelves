@@ -12,9 +12,17 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Patch;
+use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\RouteAttributes\Attributes\Prefix;
+use Spatie\RouteAttributes\Attributes\Put;
 
+#[Prefix('users')]
 class UserController extends Controller
 {
+    #[Get('/', name: 'users')]
     public function index()
     {
         return app(UserQuery::class)->make()
@@ -22,6 +30,7 @@ class UserController extends Controller
         ;
     }
 
+    #[Get('create', name: 'users.create')]
     public function create()
     {
         return Inertia::render('users/Index', [
@@ -29,6 +38,7 @@ class UserController extends Controller
         ] + app(UserQuery::class)->make()->get());
     }
 
+    #[Get('{user}', name: 'users.show')]
     public function show(User $user)
     {
         return Inertia::render('users/Index', [
@@ -37,6 +47,7 @@ class UserController extends Controller
         ] + app(UserQuery::class)->make()->get());
     }
 
+    #[Get('{user}/edit', name: 'users.edit')]
     public function edit(User $user)
     {
         return Inertia::render('users/Index', [
@@ -45,6 +56,7 @@ class UserController extends Controller
         ] + app(UserQuery::class)->make()->get());
     }
 
+    #[Post('/', name: 'users.store')]
     public function store(UserStoreRequest $request)
     {
         User::create($request->all());
@@ -52,6 +64,7 @@ class UserController extends Controller
         return redirect()->route('admin.users')->with('flash.success', __('User created.'));
     }
 
+    #[Put('{user}', name: 'users.update', middleware: 'can:modify-user,user')]
     public function update(User $user, UserUpdateRequest $request)
     {
         $user->update($request->all());
@@ -59,6 +72,7 @@ class UserController extends Controller
         return redirect()->route('admin.users')->with('flash.success', __('User updated.'));
     }
 
+    #[Patch('{user}/toggle', name: 'users.toggle', middleware: 'can:modify-user,user')]
     public function toggle(User $user, Request $request)
     {
         $request->validate([
@@ -70,6 +84,7 @@ class UserController extends Controller
         return redirect()->route('admin.users')->with('flash.success', __('User updated.'));
     }
 
+    #[Delete('{user}', name: 'users.destroy', middleware: 'can:modify-user,user')]
     public function destroy(User $user)
     {
         $user->delete();
@@ -77,6 +92,7 @@ class UserController extends Controller
         return redirect()->route('admin.users')->with('flash.success', __('User deleted.'));
     }
 
+    #[Delete('/', name: 'users.bulk.destroy')]
     public function bulkDestroy(Request $request)
     {
         $count = User::query()->findMany($request->input('ids'))
@@ -88,6 +104,7 @@ class UserController extends Controller
         return redirect()->route('admin.users')->with('flash.success', __(':count users deleted.', ['count' => $count]));
     }
 
+    #[Post('{user}/impersonate', name: 'users.impersonate')]
     public function impersonate(User $user)
     {
         abort_unless(Auth::user()->canImpersonate($user), 403);
@@ -104,6 +121,7 @@ class UserController extends Controller
         return app(LoginResponse::class)->setUser($user);
     }
 
+    #[Post('stop-impersonate', name: 'users.stop-impersonate')]
     public function stopImpersonate()
     {
         Auth::user()->stopImpersonating();

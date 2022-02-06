@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Queries\PublisherQuery;
 use App\Http\Resources\Admin\PublisherResource;
 use App\Models\Publisher;
-use App\Models\TagExtend;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
+#[Prefix('publishers')]
 class PublisherController extends Controller
 {
+    #[Get('/', name: 'publishers')]
     public function index()
     {
         return app(PublisherQuery::class)->make()
@@ -19,74 +23,21 @@ class PublisherController extends Controller
         ;
     }
 
-    public function fetch(Request $request)
+    #[Get('create', name: 'publishers.create')]
+    public function create()
     {
-        return PublisherResource::collection(
-            Publisher::query()
-                ->where('name', 'like', "%{$request->input('filter.q')}%")
-                ->withCount('books')->get()
-        );
+        return Inertia::render('publishers/Create');
     }
 
-    // public function create()
-    // {
-    //     return Inertia::render('series/Create');
-    // }
+    #[Get('{publisher}/edit', name: 'publishers.edit')]
+    public function edit(Publisher $publisher)
+    {
+        return Inertia::render('publishers/Edit', [
+            'publisher' => PublisherResource::make($publisher), // $stubVar->load('relation')
+        ]);
+    }
 
-    // public function edit(Serie $serie)
-    // {
-    //     return Inertia::render('series/Edit', [
-    //         'serie' => SerieResource::make($serie->load('media', 'books', 'tags', 'authors')),
-    //     ]);
-    // }
-
-    // public function store(PostStoreRequest $request)
-    // {
-    //     $serie = Serie::create($request->all());
-
-    //     return redirect()->route('admin.series')->with('flash.success', __('Serie created.'));
-    // }
-
-    // public function update(Book $book, PostUpdateRequest $request)
-    // {
-    //     $book->update($request->all());
-
-    //     $book->syncTags($request->tags);
-
-    //     if ($request->featured_image_delete) {
-    //         $book->clearMediaCollection('featured-image');
-    //     }
-
-    //     if ($request->featured_image_file) {
-    //         $book->addMediaFromRequest('featured_image_file')
-    //             ->toMediaCollection('featured-image')
-    //         ;
-    //     }
-
-    //     return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
-    // }
-
-    // public function toggle(Book $book, Request $request)
-    // {
-    //     $request->validate([
-    //         'pin' => 'sometimes|boolean',
-    //         'promote' => 'sometimes|boolean',
-    //     ]);
-
-    //     $book->update($request->only('pin', 'promote'));
-
-    //     return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
-    // }
-
-    // public function types(Request $request)
-    // {
-    //     return TagResource::collection(
-    //         TagExtend::query()
-    //             ->where('name', 'like', "%{$request->input('filter.q')}%")
-    //             ->ordered()->withCount('posts')->get()
-    //     );
-    // }
-
+    #[Delete('{publisher}', name: 'publishers.destroy')]
     public function destroy(Publisher $publisher)
     {
         $publisher->delete();
@@ -94,6 +45,7 @@ class PublisherController extends Controller
         return redirect()->route('admin.publishers')->with('flash.success', __('Publisher deleted.'));
     }
 
+    #[Delete('/', name: 'publishers.bulk.destroy')]
     public function bulkDestroy(Request $request)
     {
         $count = Publisher::query()->findMany($request->input('ids'))
@@ -102,5 +54,15 @@ class PublisherController extends Controller
         ;
 
         return redirect()->route('admin.publishers')->with('flash.success', __(':count publishers deleted.', ['count' => $count]));
+    }
+
+    #[Get('fetch', name: 'publishers.fetch')]
+    public function fetch(Request $request)
+    {
+        return PublisherResource::collection(
+            Publisher::query()
+                ->where('name', 'like', "%{$request->input('filter.q')}%")
+                ->withCount('books')->get()
+        );
     }
 }

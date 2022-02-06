@@ -18,6 +18,7 @@ use Laravel\Fortify\Http\Controllers\PasswordController;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\ProfileInformationController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+use Spatie\RouteAttributes\RouteRegistrar;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -112,33 +113,33 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         // Front dedicated routes...
-        // (new RouteRegistrar(app(Router::class)))
-        //     ->useRootNamespace(app()->getNamespace())
-        //     ->useMiddleware(['web'])
-        //     ->registerDirectory(app_path('Http/Controllers/Front'))
-        // ;
+        (new RouteRegistrar(app(Router::class)))
+            ->useRootNamespace(app()->getNamespace())
+            ->useMiddleware(['web'])
+            ->registerDirectory(app_path('Http/Controllers/Front'))
+        ;
 
         // Admin dedicated routes...
-        // Route::prefix('admin')
-        //     ->name('admin.')
-        //     ->group(
-        //         function () {
-        //             // Admin guest auth routes...
-        //             (new RouteRegistrar(app(Router::class)))
-        //                 ->useRootNamespace(app()->getNamespace())
-        //                 ->useMiddleware(['web'])
-        //                 ->registerClass(AdminAuthController::class)
-        //             ;
+        Route::prefix('admin')
+            ->name('admin.')
+            ->group(
+                function () {
+                    // Admin guest auth routes...
+                    (new RouteRegistrar(app(Router::class)))
+                        ->useRootNamespace(app()->getNamespace())
+                        ->useMiddleware(['web'])
+                        ->registerClass(AdminAuthController::class)
+                    ;
 
-        //             // Admin authenticated routes...
-        //             (new RouteRegistrar(app(Router::class)))
-        //                 ->useRootNamespace(app()->getNamespace())
-        //                 ->useMiddleware(['web', 'auth:sanctum', 'can:access-admin'])
-        //                 ->registerDirectory(app_path('Http/Controllers/Admin'))
-        //             ;
-        //         }
-        //     )
-        // ;
+                    // Admin authenticated routes...
+                    (new RouteRegistrar(app(Router::class)))
+                        ->useRootNamespace(app()->getNamespace())
+                        ->useMiddleware(['web', 'auth:sanctum', 'can:access-admin'])
+                        ->registerDirectory(app_path('Http/Controllers/Admin'))
+                    ;
+                }
+            )
+        ;
 
         Route::get('glide/{path}', [ImageController::class, 'glide'])->where('path', '.+');
     }

@@ -8,9 +8,14 @@ use App\Http\Resources\Admin\TagResource;
 use App\Models\TagExtend;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
+#[Prefix('tags')]
 class TagController extends Controller
 {
+    #[Get('/', name: 'tags')]
     public function index()
     {
         return app(TagQuery::class)->make()
@@ -18,74 +23,21 @@ class TagController extends Controller
         ;
     }
 
-    public function fetch(Request $request)
+    #[Get('create', name: 'tags.create')]
+    public function create()
     {
-        return TagResource::collection(
-            TagExtend::query()
-                ->where('name', 'like', "%{$request->input('filter.q')}%")
-                ->ordered()->get()
-        );
+        return Inertia::render('tags/Create');
     }
 
-    // public function create()
-    // {
-    //     return Inertia::render('series/Create');
-    // }
+    #[Get('{tag}/edit', name: 'tags.edit')]
+    public function edit(TagExtend $tag)
+    {
+        return Inertia::render('stubs/Edit', [
+            'tag' => TagResource::make($tag), // $stubVar->load('relation')
+        ]);
+    }
 
-    // public function edit(Serie $serie)
-    // {
-    //     return Inertia::render('series/Edit', [
-    //         'serie' => SerieResource::make($serie->load('media', 'books', 'tags', 'authors')),
-    //     ]);
-    // }
-
-    // public function store(PostStoreRequest $request)
-    // {
-    //     $serie = Serie::create($request->all());
-
-    //     return redirect()->route('admin.series')->with('flash.success', __('Serie created.'));
-    // }
-
-    // public function update(Book $book, PostUpdateRequest $request)
-    // {
-    //     $book->update($request->all());
-
-    //     $book->syncTags($request->tags);
-
-    //     if ($request->featured_image_delete) {
-    //         $book->clearMediaCollection('featured-image');
-    //     }
-
-    //     if ($request->featured_image_file) {
-    //         $book->addMediaFromRequest('featured_image_file')
-    //             ->toMediaCollection('featured-image')
-    //         ;
-    //     }
-
-    //     return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
-    // }
-
-    // public function toggle(Book $book, Request $request)
-    // {
-    //     $request->validate([
-    //         'pin' => 'sometimes|boolean',
-    //         'promote' => 'sometimes|boolean',
-    //     ]);
-
-    //     $book->update($request->only('pin', 'promote'));
-
-    //     return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
-    // }
-
-    // public function types(Request $request)
-    // {
-    //     return TagResource::collection(
-    //         TagExtend::query()
-    //             ->where('name', 'like', "%{$request->input('filter.q')}%")
-    //             ->ordered()->withCount('posts')->get()
-    //     );
-    // }
-
+    #[Delete('{tag}', name: 'tags.destroy')]
     public function destroy(TagExtend $tag)
     {
         $tag->delete();
@@ -93,6 +45,7 @@ class TagController extends Controller
         return redirect()->route('admin.tags')->with('flash.success', __('Tag deleted.'));
     }
 
+    #[Delete('/', name: 'tags.bulk.destroy')]
     public function bulkDestroy(Request $request)
     {
         $count = TagExtend::query()->findMany($request->input('ids'))
@@ -101,5 +54,15 @@ class TagController extends Controller
         ;
 
         return redirect()->route('admin.tags')->with('flash.success', __(':count tags deleted.', ['count' => $count]));
+    }
+
+    #[Get('fetch', name: 'tags.fetch')]
+    public function fetch(Request $request)
+    {
+        return TagResource::collection(
+            TagExtend::query()
+                ->where('name', 'like', "%{$request->input('filter.q')}%")
+                ->ordered()->get()
+        );
     }
 }

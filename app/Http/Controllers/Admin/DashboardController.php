@@ -10,14 +10,17 @@ use App\Models\Publisher;
 use App\Models\Serie;
 use App\Models\TagExtend;
 use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Get;
 
 class DashboardController extends Controller
 {
+    #[Get('/')]
     public function redirect()
     {
         return redirect()->route('admin.dashboard');
     }
 
+    #[Get('dashboard', name: 'dashboard')]
     public function index()
     {
         $data = [

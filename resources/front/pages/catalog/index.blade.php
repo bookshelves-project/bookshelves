@@ -7,7 +7,7 @@
         </div>
         <div class="mt-3">
             To access to Catalog from your eReader, just put this address to your web browser*:
-            <pre>{{ route('front.catalog.index') }}</pre>
+            <pre>{{ route('front.catalog') }}</pre>
             <div class="mt-3">
                 <small>
                     *: Works only on phone, tablet or eReader.

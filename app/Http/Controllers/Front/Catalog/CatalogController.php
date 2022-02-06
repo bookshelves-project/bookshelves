@@ -8,12 +8,16 @@ use App\Services\SearchEngineService;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
  * @hideFromAPIDocumentation
  */
+#[Prefix('catalog')]
 class CatalogController extends Controller
 {
+    #[Get('/', name: 'front.catalog')]
     public function index(Request $request)
     {
         $service = MarkdownService::generate('catalog/index.md');
@@ -30,6 +34,7 @@ class CatalogController extends Controller
         return redirect(route('front.catalog.search'));
     }
 
+    #[Get('/search', name: 'front.catalog.search')]
     public function search(Request $request)
     {
         $q = $request->input('q');

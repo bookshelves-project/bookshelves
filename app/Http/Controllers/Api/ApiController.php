@@ -69,7 +69,7 @@ class ApiController extends Controller
             'version' => 'v1',
             'routes' => [
                 'application' => $this->getRouteData(config('app.front_url'), 'Main application', false),
-                'catalog' => $this->getRouteData('front.catalog.index', 'UI for eReader browser to get eBooks on it'),
+                'catalog' => $this->getRouteData('front.catalog', 'UI for eReader browser to get eBooks on it'),
                 'opds' => $this->getRouteData('front.opds.index', 'OPDS API for application which use it'),
                 'webreader' => $this->getRouteData('front.webreader.index', 'UI to read directly an eBook into browser'),
                 'admin' => $this->getRouteData('admin', 'For admin to manage data.'),

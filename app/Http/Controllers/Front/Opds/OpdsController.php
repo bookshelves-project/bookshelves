@@ -10,12 +10,16 @@ use Artesaos\SEOTools\Facades\SEOTools;
 use File;
 use Illuminate\Http\Request;
 use Route;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
  * @hideFromAPIDocumentation
  */
+#[Prefix('opds')]
 class OpdsController extends Controller
 {
+    #[Get('/', name: 'front.opds')]
     public function index(Request $request)
     {
         $service = MarkdownService::generate('opds/index.md');
@@ -35,6 +39,7 @@ class OpdsController extends Controller
         return view('front::pages.opds.index', compact('content', 'feeds', 'latest_feed'));
     }
 
+    #[Get('/{version}', name: 'front.opds.feed')]
     public function feed(Request $request, string $version)
     {
         $feed = File::get(app_path('Services/opds-feed.json'));

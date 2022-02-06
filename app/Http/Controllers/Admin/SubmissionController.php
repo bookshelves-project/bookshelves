@@ -8,9 +8,13 @@ use App\Http\Resources\Admin\SubmisionResource;
 use App\Models\Submission;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
+#[Prefix('submissions')]
 class SubmissionController extends Controller
 {
+    #[Get('/', name: 'submissions')]
     public function index()
     {
         return app(SubmissionQuery::class)->make()
@@ -18,6 +22,7 @@ class SubmissionController extends Controller
         ;
     }
 
+    #[Get('submissions', name: 'submissions.create')]
     public function show(Submission $submission)
     {
         return Inertia::render('submissions/Index', [
@@ -26,6 +31,7 @@ class SubmissionController extends Controller
         ] + app(SubmissionQuery::class)->make()->get());
     }
 
+    #[Get('submissions', name: 'submissions.create')]
     public function destroy(Submission $submission)
     {
         $submission->delete();
@@ -33,6 +39,7 @@ class SubmissionController extends Controller
         return redirect()->route('admin.submissions')->with('flash.success', __('Submission deleted.'));
     }
 
+    #[Get('submissions', name: 'submissions.create')]
     public function bulkDestroy(Request $request)
     {
         $count = Submission::query()->findMany($request->input('ids'))
