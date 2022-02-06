@@ -51,7 +51,7 @@ class MakeRadCommand extends Command
             exit;
         }
         $this->model = $model;
-        $this->model_lower = strtolower($model);
+        $this->model_lower = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $model));
 
         $this->generateFromStub("{$this->model}Controller", app_path('Http/Controllers/Admin'), 'php');
         $this->generateFromStub("{$this->model}Query", app_path('Http/Queries'), 'php');
