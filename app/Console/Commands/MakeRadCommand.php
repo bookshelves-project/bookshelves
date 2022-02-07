@@ -73,7 +73,10 @@ class MakeRadCommand extends Command
         $this->generateFromStub("{$this->model}Export", app_path('Exports'), 'php');
         $this->generateFromStub("{$this->model}Resource", app_path('Http/Resources/Admin'), 'php');
 
-        $crud_path = resource_path('admin/pages')."/{$this->model_concat}s";
+        $this->generateFromStub("{$this->model}StoreRequest", app_path('Http/Requests/Admin'), 'php');
+        $this->generateFromStub("{$this->model}UpdateRequest", app_path('Http/Requests/Admin'), 'php');
+
+        $crud_path = resource_path('admin/pages')."/{$this->model_kebab}s";
 
         $this->generateFromStub('Index', $crud_path, 'vue', 'crud/', true);
         $this->generateFromStub('Create', $crud_path, 'vue', 'crud/', true);
@@ -103,7 +106,7 @@ class MakeRadCommand extends Command
                 } catch (\Throwable $th) {
                 }
             }
-            $stub_path = resource_path("stubs/rad/{$stub_path}{$type}Stub.{$extension}");
+            $stub_path = resource_path("stubs/rad/{$stub_path}Stub{$type}.{$extension}");
             $stub = File::get($stub_path);
 
             $stub = $this->replaceAll($stub);
@@ -133,7 +136,7 @@ class MakeRadCommand extends Command
         $destination_path = resource_path("admin/types/{$this->model_kebab}.ts");
 
         if (! File::exists($destination_path)) {
-            $stub_path = resource_path('stubs/rad/crud/type-stub.ts');
+            $stub_path = resource_path('stubs/rad/crud/stub-type.ts');
             $stub = File::get($stub_path);
 
             $stub = $this->replaceAll($stub);
@@ -181,7 +184,7 @@ class MakeRadCommand extends Command
         $destination_path = resource_path('admin/features/helpers.ts');
 
         if (! File::exists($destination_path) || $this->force) {
-            $file_part = $this->find($destination_path, "{$this->model_concat}s: (model: {$this->model})");
+            $file_part = $this->find($destination_path, "{$this->model_pascal}s: (model: {$this->model})");
             if (! $file_part) {
                 /**
                  * Add import.
@@ -198,7 +201,7 @@ class MakeRadCommand extends Command
                  * Add helper.
                  */
                 $file_part = $this->find($destination_path, '} as { [key: string]: (model) => string }');
-                array_push($file_part['begin'], "        {$this->model_concat}s: (model: {$this->model}) => model.name,\n");
+                array_push($file_part['begin'], "        {$this->model_pascal}s: (model: {$this->model}) => model.{$this->attribute},\n");
                 $file_content = $this->mergeFind($file_part);
                 $this->rewriteFile($destination_path, $file_content);
 
@@ -222,7 +225,7 @@ class MakeRadCommand extends Command
     {
         $path = resource_path("lang/{$lang}/crud.php");
 
-        $entry = "'{$this->model_concat}s' => [";
+        $entry = "'{$this->model_kebab}s' => [";
         $is_exist = $this->find($path, $entry);
         if (! $is_exist) {
             $stubs = [
@@ -257,13 +260,13 @@ class MakeRadCommand extends Command
         $file_part = $this->find($path, 'mainNav');
 
         if ($file_part) {
-            $is_exist = $this->find($path, "route('admin.{$this->model_concat}s')");
+            $is_exist = $this->find($path, "route('admin.{$this->model_kebab}s')");
             if (! $is_exist) {
                 $nav = [
                     "  {\n",
-                    "    href: route('admin.{$this->model_concat}s'),\n",
+                    "    href: route('admin.{$this->model_kebab}s'),\n",
                     "    active: () =>\n",
-                    "      route().current('admin.{$this->model_concat}s') || route().current('admin.{$this->model_concat}s.*'),\n",
+                    "      route().current('admin.{$this->model_kebab}s') || route().current('admin.{$this->model_kebab}s.*'),\n",
                     "    icon: HomeIcon,\n",
                     "    text: __('{$this->model_human}s'),\n",
                     "  },\n",
@@ -294,6 +297,9 @@ class MakeRadCommand extends Command
         $stub = $this->replace('/Stub/', $this->model, $stub);
         $stub = $this->replace('/stubAttr/', $this->attribute, $stub);
         $stub = $this->replace('/stubKebab/', $this->model_kebab, $stub);
+        $stub = $this->replace('/stubsKebab/', "{$this->model_kebab}s", $stub);
+        $stub = $this->replace('/stubPascal/', $this->model_pascal, $stub);
+        $stub = $this->replace('/stubsPascal/', "{$this->model_pascal}s", $stub);
         $stub = $this->replace('/stubConcat/', $this->model_concat, $stub);
         $stub = $this->replace('/stubsConcat/', $this->model_concat.'s', $stub);
         $stub = $this->replace('/stubs/', "{$this->model_concat}s", $stub);

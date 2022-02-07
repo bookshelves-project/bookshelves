@@ -25,7 +25,7 @@ class StubQuery extends BaseQuery
         ;
 
         $this->export = new StubExport($this->query);
-        $this->resource = 'stubs';
+        $this->resource = 'stubsKebab';
 
         return $this;
     }
@@ -40,7 +40,7 @@ class StubQuery extends BaseQuery
         return [
             'sort' => request()->get('sort', '-id'),
             'filter' => request()->get('filter'),
-            'stubs' => fn () => $this->collection(),
+            'stubsKebab' => fn () => $this->collection(),
         ];
     }
 }

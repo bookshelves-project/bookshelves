@@ -1,12 +1,12 @@
 <template>
-  <list-context v-slot="{ title }" resource="stubs">
+  <list-context v-slot="{ title }" resource="stubsKebab">
     <app-layout :title="title">
       <template #header-actions>
         <create-button />
       </template>
 
       <data-table
-        :source="stubsConcat"
+        :source="stubsPascal"
         :columns="columns"
         :sort="sort"
         :filter="filter"
@@ -20,11 +20,7 @@
         </template>
         <template #field:row-action>
           <div class="flex gap-2 mx-auto">
-            <show-external-button
-              hide-label
-              path="path"
-              :query="{ preview: true }"
-            />
+            <show-button hide-label />
             <edit-button hide-label />
             <delete-button hide-label />
           </div>
@@ -40,7 +36,7 @@
   import { PropType } from 'vue'
 
   defineProps({
-    stubsConcat: {
+    stubsPascal: {
       type: Object as PropType<PaginatedData<Stub>>,
       required: true,
     },

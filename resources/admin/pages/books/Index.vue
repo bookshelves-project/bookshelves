@@ -20,11 +20,7 @@
         </template>
         <template #field:row-action>
           <div class="flex gap-2 mx-auto">
-            <show-external-button
-              hide-label
-              path="path"
-              :query="{ preview: true }"
-            />
+            <show-button hide-label />
             <edit-button hide-label />
             <delete-button hide-label />
           </div>

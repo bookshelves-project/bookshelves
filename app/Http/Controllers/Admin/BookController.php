@@ -34,6 +34,14 @@ class BookController extends Controller
         return Inertia::render('books/Create');
     }
 
+    #[Get('{book}', name: 'books.show')]
+    public function show(Book $book)
+    {
+        return Inertia::render('books/Edit', [
+            'book' => BookResource::make($book->load('serie', 'authors', 'media', 'tags')),
+        ]);
+    }
+
     #[Get('{book}/edit', name: 'books.edit')]
     public function edit(Book $book)
     {

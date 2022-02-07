@@ -29,8 +29,8 @@ class StubExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
     {
         return collect(['stubAttr', 'created_at', 'updated_at'])
             ->map(
-                fn ($field) => Lang::has("crud.stubs.attributes.{$field}")
-                    ? __("crud.stubs.attributes.{$field}")
+                fn ($field) => Lang::has("crud.stubsKebab.attributes.{$field}")
+                    ? __("crud.stubsKebab.attributes.{$field}")
                     : __("admin.attributes.{$field}")
             )->toArray();
     }

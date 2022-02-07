@@ -1,5 +1,5 @@
 <template>
-  <create-context v-slot="{ title }" resource="stubs">
+  <create-context v-slot="{ title }" resource="stubsKebab">
     <app-layout>
       <template #header>
         <page-header>
@@ -19,5 +19,5 @@
   import route from 'ziggy-js'
 
   const method = 'post'
-  const url = route('admin.stubs.store')
+  const url = route('admin.stubsKebab.store')
 </script>

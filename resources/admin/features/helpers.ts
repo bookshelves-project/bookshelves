@@ -41,6 +41,14 @@ export function useModelToString(
         languages: (model: Language) => model.name,
         publishers: (model: Publisher) => model.name,
       } as { [key: string]: (model) => string }
-    )[resource](model)
+    )[toCamelCase(resource)](model)
   }
+}
+
+const clearAndUpper = (resource: string) => {
+  return resource.replace(/-/, '').toUpperCase()
+}
+
+const toCamelCase = (resource: string) => {
+  return resource.replace(/-\w/g, clearAndUpper)
 }
