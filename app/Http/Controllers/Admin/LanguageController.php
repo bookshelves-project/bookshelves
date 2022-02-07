@@ -33,7 +33,7 @@ class LanguageController extends Controller
     public function edit(Language $language)
     {
         return Inertia::render('languages/Edit', [
-            'language' => LanguageResource::make($language), // $stubPascal->load('relation')
+            'language' => LanguageResource::make($language), // $stubConcat->load('relation')
         ]);
     }
 

@@ -30,7 +30,7 @@ class MakeRadCommand extends Command
     public function __construct(
         public ?string $model = null,
         public ?string $model_pascal = null,
-        public ?string $model_lower = null,
+        public ?string $model_kebab = null,
         public ?string $model_human = null,
         public ?string $model_snake = null,
         public ?string $model_concat = null,
@@ -62,7 +62,7 @@ class MakeRadCommand extends Command
             exit;
         }
         $this->model = $model;
-        $this->model_lower = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $model));
+        $this->model_kebab = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $model));
         $this->model_pascal = lcfirst($model);
         $this->model_human = preg_replace('/([a-z])([A-Z])/', '$1 $2', $model);
         $this->model_snake = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $model));
@@ -84,6 +84,9 @@ class MakeRadCommand extends Command
         $this->generateAttributes();
         $this->generateAttributes('fr');
         $this->addToNavigation();
+        $this->newLine();
+
+        $this->info("{$this->model} created!");
     }
 
     /**
@@ -107,12 +110,12 @@ class MakeRadCommand extends Command
 
             File::put($destination, $stub);
 
-            $this->info("{$type} generated.");
+            $this->info("{$name}.{$extension} generated.");
 
             return true;
         }
 
-        $this->error("{$type} exist!");
+        $this->error("{$name}.{$extension} exist!");
 
         return false;
     }
@@ -127,7 +130,7 @@ class MakeRadCommand extends Command
         /**
          * Create new type file.
          */
-        $destination_path = resource_path("admin/types/{$this->model_lower}.ts");
+        $destination_path = resource_path("admin/types/{$this->model_kebab}.ts");
 
         if (! File::exists($destination_path)) {
             $stub_path = resource_path('stubs/rad/crud/type-stub.ts');
@@ -143,7 +146,7 @@ class MakeRadCommand extends Command
         /**
          * Add new type to `index.ts`.
          */
-        $new_import = "import { {$this->model} } from './{$this->model_lower}'\n";
+        $new_import = "import { {$this->model} } from './{$this->model_kebab}'\n";
         $types_path = resource_path('admin/types/index.ts');
 
         if (! $this->find($types_path, $new_import)) {
@@ -161,9 +164,9 @@ class MakeRadCommand extends Command
         }
 
         if ($success) {
-            $this->info('Type generated.');
+            $this->info("{$this->model_kebab}.ts generated.");
         } else {
-            $this->error('Type exist!');
+            $this->error("{$this->model_kebab}.ts exist!");
         }
 
         return $success;
@@ -204,9 +207,9 @@ class MakeRadCommand extends Command
         }
 
         if ($success) {
-            $this->info('Type generated.');
+            $this->info('helpers.ts updated.');
         } else {
-            $this->error('Type exist!');
+            $this->error('helpers.ts import already exist!');
         }
 
         return $success;
@@ -221,7 +224,7 @@ class MakeRadCommand extends Command
 
         $entry = "'{$this->model_concat}s' => [";
         $is_exist = $this->find($path, $entry);
-        if (! $is_exist || $this->force) {
+        if (! $is_exist) {
             $stubs = [
                 "    {$entry}\n",
                 "        'name' => '{$this->model_human}|{$this->model_human}s',\n",
@@ -235,12 +238,12 @@ class MakeRadCommand extends Command
             array_push($file_content, $last); // add `];` at the end
             $this->rewriteFile($path, $file_content);
 
-            $this->info('Attributes generated.');
+            $this->info("{$lang}/crud.php attributes generated.");
 
             return true;
         }
 
-        $this->error('Attributes exist!');
+        $this->error("{$lang}/crud.php attributes exist!");
 
         return false;
     }
@@ -290,8 +293,9 @@ class MakeRadCommand extends Command
     {
         $stub = $this->replace('/Stub/', $this->model, $stub);
         $stub = $this->replace('/stubAttr/', $this->attribute, $stub);
-        $stub = $this->replace('/stubPascal/', $this->model_concat, $stub);
-        $stub = $this->replace('/stubsPascal/', $this->model_concat.'s', $stub);
+        $stub = $this->replace('/stubKebab/', $this->model_kebab, $stub);
+        $stub = $this->replace('/stubConcat/', $this->model_concat, $stub);
+        $stub = $this->replace('/stubsConcat/', $this->model_concat.'s', $stub);
         $stub = $this->replace('/stubs/', "{$this->model_concat}s", $stub);
 
         return $this->replace('/stub/', $this->model_concat, $stub);

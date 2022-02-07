@@ -65,25 +65,14 @@
             <switch-input source="promote" />
           </div>
           <div class="flex">
-            <dropdown class="ml-auto" wrapper-classes="w-72 right">
-              <template #trigger>
-                <base-button
-                  type="button"
-                  variant="success"
-                  :loading="processing"
-                  split
-                  @click="submit(true)"
-                >
-                  {{ $t('Publish') }}
-                </base-button>
-              </template>
-
-              <template #content>
-                <dropdown-link type="button" @click.prevent="submit(false)">
-                  {{ $t('Save as draft') }}
-                </dropdown-link>
-              </template>
-            </dropdown>
+            <base-button
+              type="button"
+              variant="success"
+              :loading="processing"
+              @click="submit()"
+            >
+              {{ $t('Save') }}
+            </base-button>
           </div>
         </div>
         <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md mt-6">
@@ -145,9 +134,9 @@
 
   const form: Ref<HTMLElement | null | any> = ref(null)
 
-  const submit = (publish: boolean) => {
+  const submit = () => {
     if (form.value) {
-      form.value.submit({ publish })
+      form.value.submit()
     }
   }
 </script>

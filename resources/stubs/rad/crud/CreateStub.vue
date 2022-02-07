@@ -10,7 +10,7 @@
         </page-header>
       </template>
 
-      <stub-form :method="method" :url="url" />
+      <stubKebab-form :method="method" :url="url" />
     </app-layout>
   </create-context>
 </template>
@@ -18,6 +18,6 @@
 <script lang="ts" setup>
   import route from 'ziggy-js'
 
-  const method = 'stub'
+  const method = 'post'
   const url = route('admin.stubs.store')
 </script>

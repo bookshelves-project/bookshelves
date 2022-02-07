@@ -33,7 +33,7 @@ class TagController extends Controller
     public function edit(TagExtend $tag)
     {
         return Inertia::render('stubs/Edit', [
-            'tag' => TagResource::make($tag), // $stubPascal->load('relation')
+            'tag' => TagResource::make($tag), // $stubConcat->load('relation')
         ]);
     }
 

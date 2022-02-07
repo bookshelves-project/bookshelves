@@ -1,5 +1,5 @@
 <template>
-  <edit-context v-slot="{ title }" resource="books" :item="book">
+  <edit-context v-slot="{ title }" resource="series" :item="serie">
     <app-layout>
       <template #header>
         <page-header>
@@ -11,23 +11,23 @@
         </page-header>
       </template>
 
-      <book-form :method="method" :url="url" />
+      <serie-form :method="method" :url="url" />
     </app-layout>
   </edit-context>
 </template>
 
 <script lang="ts" setup>
-  import { Book } from '@admin/types'
+  import { Serie } from '@admin/types'
   import { PropType } from 'vue'
   import route from 'ziggy-js'
 
   const props = defineProps({
-    book: {
-      type: Object as PropType<Book>,
+    serie: {
+      type: Object as PropType<Serie>,
       required: true,
     },
   })
 
   const method = 'put'
-  const url = route('admin.books.update', { id: props.book.id })
+  const url = route('admin.series.update', { id: props.serie.id })
 </script>

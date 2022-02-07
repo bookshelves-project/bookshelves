@@ -70,11 +70,6 @@
         rel="noopener noreferrer"
         class="link link-hover"
       >
-        <component
-          :is="CodeIcon"
-          class="mr-4 flex-shrink-0 h-6 w-6 text-primary-200"
-          aria-hidden="true"
-        />
         Powered by Laravel RAD Stack
       </a>
     </div>
@@ -84,10 +79,6 @@
 <script setup lang="ts">
   import route from 'ziggy-js'
   import { mainNav, isTitle, isLink } from '@admin/_nav'
-  import { useIndexStore } from '@admin/stores'
-  import { CodeIcon } from '@heroicons/vue/outline'
-
-  const store = useIndexStore()
 </script>
 
 <style lang="css" scoped>

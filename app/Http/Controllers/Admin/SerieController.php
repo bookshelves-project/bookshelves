@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;
+use Spatie\RouteAttributes\Attributes\Put;
 
 #[Prefix('series')]
 class SerieController extends Controller
@@ -37,12 +39,28 @@ class SerieController extends Controller
         ;
     }
 
+    #[Post('/', name: 'series.store')]
+    public function store(Request $request)
+    {
+        $serie = Serie::create($request->all());
+
+        return redirect()->route('admin.series')->with('flash.success', __('Series created.'));
+    }
+
     #[Get('{serie}/edit', name: 'series.edit')]
     public function edit(Serie $serie)
     {
         return Inertia::render('series/Edit', [
             'serie' => SerieResource::make($serie->load('authors', 'books', 'media')),
         ]);
+    }
+
+    #[Put('{serie}', name: 'series.update')]
+    public function update(Serie $serie, Request $request)
+    {
+        $serie->update($request->all());
+
+        return redirect()->route('admin.series')->with('flash.success', __('Series updated.'));
     }
 
     #[Delete('{serie}', name: 'series.destroy')]

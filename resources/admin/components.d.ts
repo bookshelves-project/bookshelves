@@ -73,6 +73,7 @@ declare module 'vue' {
     SelectField: typeof import('./base/fields/SelectField.vue')['default']
     SelectFilter: typeof import('./base/filters/SelectFilter.vue')['default']
     SelectInput: typeof import('./base/inputs/SelectInput.vue')['default']
+    SerieForm: typeof import('./components/forms/SerieForm.vue')['default']
     ShowButton: typeof import('./base/buttons/ShowButton.vue')['default']
     ShowContext: typeof import('./base/cruds/ShowContext.vue')['default']
     ShowExternalButton: typeof import('./base/buttons/ShowExternalButton.vue')['default']

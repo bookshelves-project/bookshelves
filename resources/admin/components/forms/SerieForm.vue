@@ -3,7 +3,7 @@
     <div class="flex flex-col xl:flex-row gap-6">
       <div class="xl:w-3/4 px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md">
         <div>
-          <text-input source="stubAttr" type="text" />
+          <text-input source="title" type="text" />
         </div>
       </div>
 

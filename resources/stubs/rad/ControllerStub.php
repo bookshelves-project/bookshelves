@@ -34,41 +34,41 @@ class StubController extends Controller
     }
 
     #[Get('{stub}', name: 'stubs.show')]
-    public function show(Stub $stubPascal)
+    public function show(Stub $stubConcat)
     {
         return Inertia::render('stubs/Edit', [
-            'stub' => StubResource::make($stubPascal), // $stubPascal->load('relation')
+            'stub' => StubResource::make($stubConcat), // $stubConcat->load('relation')
         ]);
     }
 
     #[Get('{stub}/edit', name: 'stubs.edit')]
-    public function edit(Stub $stubPascal)
+    public function edit(Stub $stubConcat)
     {
         return Inertia::render('stubs/Edit', [
-            'stub' => StubResource::make($stubPascal), // $stubPascal->load('relation')
+            'stub' => StubResource::make($stubConcat), // $stubConcat->load('relation')
         ]);
     }
 
     #[Post('/', name: 'stubs.store')]
     public function store(StubStoreRequest $request)
     {
-        $stubPascal = Stub::create($request->all());
+        $stubConcat = Stub::create($request->all());
 
         return redirect()->route('admin.stubs')->with('flash.success', __('Stub created.'));
     }
 
     #[Put('{stub}', name: 'stubs.update')]
-    public function update(Stub $stubPascal, StubUpdateRequest $request)
+    public function update(Stub $stubConcat, StubUpdateRequest $request)
     {
-        $stubPascal->update($request->all());
+        $stubConcat->update($request->all());
 
         return redirect()->route('admin.stubs')->with('flash.success', __('Stub updated.'));
     }
 
     #[Delete('{stub}', name: 'stubs.destroy')]
-    public function destroy(Stub $stubPascal)
+    public function destroy(Stub $stubConcat)
     {
-        $stubPascal->delete();
+        $stubConcat->delete();
 
         return redirect()->route('admin.stubs')->with('flash.success', __('Stub deleted.'));
     }
@@ -77,7 +77,7 @@ class StubController extends Controller
     public function bulkDestroy(Request $request)
     {
         $count = Stub::query()->findMany($request->input('ids'))
-            ->each(fn (Stub $stubPascal) => $stubPascal->delete())
+            ->each(fn (Stub $stubConcat) => $stubConcat->delete())
             ->count()
         ;
 

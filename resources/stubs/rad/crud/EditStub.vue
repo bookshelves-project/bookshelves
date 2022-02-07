@@ -1,5 +1,5 @@
 <template>
-  <edit-context v-slot="{ title }" resource="stubs" :item="stubPascal">
+  <edit-context v-slot="{ title }" resource="stubs" :item="stubConcat">
     <app-layout>
       <template #header>
         <page-header>
@@ -11,7 +11,7 @@
         </page-header>
       </template>
 
-      <stub-form :method="method" :url="url" />
+      <stubKebab-form :method="method" :url="url" />
     </app-layout>
   </edit-context>
 </template>
@@ -22,12 +22,12 @@
   import route from 'ziggy-js'
 
   const props = defineProps({
-    stubPascal: {
+    stubConcat: {
       type: Object as PropType<Stub>,
       required: true,
     },
   })
 
   const method = 'put'
-  const url = route('admin.stubs.update', { id: props.stubPascal.id })
+  const url = route('admin.stubs.update', { id: props.stubConcat.id })
 </script>

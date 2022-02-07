@@ -6,7 +6,7 @@
       </template>
 
       <data-table
-        :source="stubsPascal"
+        :source="stubsConcat"
         :columns="columns"
         :sort="sort"
         :filter="filter"
@@ -40,7 +40,7 @@
   import { PropType } from 'vue'
 
   defineProps({
-    stubsPascal: {
+    stubsConcat: {
       type: Object as PropType<PaginatedData<Stub>>,
       required: true,
     },
