@@ -39,7 +39,7 @@
   }
 </script>
 
-<style lang="postcss" scoped>
+<style lang="css" scoped>
   input:checked ~ .dot {
     @apply translate-x-4;
   }

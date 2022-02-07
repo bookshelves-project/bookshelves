@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Rad;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class MakeRadCommand extends Command
+class RadGenerateCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:rad
+    protected $signature = 'rad:generate
                             {model : The name of the model}
                             {--a|attribute= : optional attribute instead of `name`}
                             {--f|force : overwrite existing files}';
@@ -96,7 +96,7 @@ class MakeRadCommand extends Command
         $this->info("{$this->model} created!");
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             $this->model,
@@ -285,7 +285,7 @@ class MakeRadCommand extends Command
                     "    href: route('admin.{$this->model_kebab}s'),\n",
                     "    active: () =>\n",
                     "      route().current('admin.{$this->model_kebab}s') || route().current('admin.{$this->model_kebab}s.*'),\n",
-                    "    icon: HomeIcon,\n",
+                    "    icon: null,\n",
                     "    text: __('{$this->model_human}s'),\n",
                     "  },\n",
                 ];

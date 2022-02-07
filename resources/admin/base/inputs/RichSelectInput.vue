@@ -139,6 +139,8 @@
   const asyncSearch = computed(() => {
     return async (query: string) => {
       if (query) {
+        console.log(`${route(`admin.${props.resource}`)}?filter[q]=${query}`)
+
         const { data } = await axios.get<{ data: any }>(
           `${route(`admin.${props.resource}`)}?filter[q]=${query}`
         )
