@@ -109,26 +109,6 @@
       },
       searchable: true,
     },
-    // {
-    //   field: 'category',
-    //   type: 'reference',
-    //   props: {
-    //     text: 'name',
-    //     resource: 'post-categories',
-    //   },
-    //   searchable: true,
-    // },
-    // {
-    //   field: 'summary',
-    //   type: 'text',
-    //   props: { truncate: 60 },
-    //   searchable: true,
-    // },
-    // {
-    //   field: 'pin',
-    //   type: 'switch',
-    //   searchable: true,
-    // },
     {
       field: 'language',
       type: 'reference',
@@ -161,14 +141,6 @@
       filterType: 'text',
       searchable: true,
     },
-
-    // {
-    //   field: 'user',
-    //   type: 'reference',
-    //   props: { text: 'name', resource: 'users', link: 'show' },
-    //   searchable: true,
-    //   filterType: 'text',
-    // },
     {
       field: 'released_on',
       type: 'date',
@@ -177,12 +149,6 @@
       centered: true,
       searchable: true,
     },
-    // {
-    //   field: 'created_at',
-    //   type: 'date',
-    //   sortable: true,
-    //   centered: true,
-    // },
     {
       field: 'updated_at',
       type: 'date',

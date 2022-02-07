@@ -1,5 +1,5 @@
 <template>
-  <create-context v-slot="{ title }" resource="books">
+  <create-context v-slot="{ title }" resource="authors">
     <app-layout>
       <template #header>
         <page-header>
@@ -10,7 +10,7 @@
         </page-header>
       </template>
 
-      <book-form :method="method" :url="url" />
+      <author-form :method="method" :url="url" />
     </app-layout>
   </create-context>
 </template>
@@ -18,6 +18,6 @@
 <script lang="ts" setup>
   import route from 'ziggy-js'
 
-  const method = 'book'
-  const url = route('admin.books.store')
+  const method = 'post'
+  const url = route('admin.authors.store')
 </script>

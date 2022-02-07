@@ -31,6 +31,7 @@
         >
           <component
             :is="item.icon"
+            v-if="item.icon"
             class="mr-4 flex-shrink-0 h-6 w-6 text-primary-200"
             aria-hidden="true"
           />

@@ -21,7 +21,7 @@ interface NavTitle {
 interface NavLink {
   href: string
   active: () => boolean
-  icon: RenderFunction
+  icon?: RenderFunction
   text: string
   external?: boolean
 }

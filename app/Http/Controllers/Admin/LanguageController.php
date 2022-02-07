@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Queries\LanguageQuery;
+use App\Http\Requests\Admin\LanguageStoreRequest;
+use App\Http\Requests\Admin\LanguageUpdateRequest;
 use App\Http\Resources\Admin\LanguageResource;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;
+use Spatie\RouteAttributes\Attributes\Put;
 
 #[Prefix('languages')]
 class LanguageController extends Controller
@@ -29,12 +33,28 @@ class LanguageController extends Controller
         return Inertia::render('languages/Create');
     }
 
+    #[Post('/', name: 'languages.store')]
+    public function store(LanguageStoreRequest $request)
+    {
+        $language = Language::create($request->all());
+
+        return redirect()->route('admin.languages')->with('flash.success', __('Language created.'));
+    }
+
     #[Get('{language}/edit', name: 'languages.edit')]
     public function edit(Language $language)
     {
         return Inertia::render('languages/Edit', [
             'language' => LanguageResource::make($language), // $stubConcat->load('relation')
         ]);
+    }
+
+    #[Put('{language}', name: 'languages.update')]
+    public function update(Language $language, LanguageUpdateRequest $request)
+    {
+        $language->update($request->all());
+
+        return redirect()->route('admin.languages')->with('flash.success', __('Language updated.'));
     }
 
     #[Delete('{language}', name: 'languages.destroy')]

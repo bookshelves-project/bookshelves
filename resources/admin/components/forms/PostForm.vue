@@ -105,8 +105,8 @@
           </div>
           <div class="mt-4">
             <rich-select-input
-              source="tags"
-              resource="tags"
+              source="tags.fetch"
+              resource="tags.fetch"
               multiple
               taggable
               searchable

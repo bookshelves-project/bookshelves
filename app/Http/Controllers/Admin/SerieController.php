@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Queries\SerieQuery;
+use App\Http\Requests\Admin\SerieStoreRequest;
+use App\Http\Requests\Admin\SerieUpdateRequest;
 use App\Http\Resources\Admin\SerieResource;
 use App\Models\Serie;
 use Illuminate\Http\Request;
@@ -40,7 +42,7 @@ class SerieController extends Controller
     }
 
     #[Post('/', name: 'series.store')]
-    public function store(Request $request)
+    public function store(SerieStoreRequest $request)
     {
         $serie = Serie::create($request->all());
 
@@ -56,7 +58,7 @@ class SerieController extends Controller
     }
 
     #[Put('{serie}', name: 'series.update')]
-    public function update(Serie $serie, Request $request)
+    public function update(Serie $serie, SerieUpdateRequest $request)
     {
         $serie->update($request->all());
 

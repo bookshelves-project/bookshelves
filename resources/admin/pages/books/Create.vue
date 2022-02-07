@@ -18,6 +18,6 @@
 <script lang="ts" setup>
   import route from 'ziggy-js'
 
-  const method = 'book'
+  const method = 'post'
   const url = route('admin.books.store')
 </script>

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Queries\BookQuery;
-use App\Http\Requests\Admin\PostStoreRequest;
-use App\Http\Requests\Admin\PostUpdateRequest;
+use App\Http\Requests\Admin\BookStoreRequest;
+use App\Http\Requests\Admin\BookUpdateRequest;
 use App\Http\Resources\Admin\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -51,37 +51,17 @@ class BookController extends Controller
     }
 
     #[Post('/', name: 'books.store')]
-    public function store(PostStoreRequest $request)
+    public function store(BookStoreRequest $request)
     {
         $book = Book::create($request->all());
-
-        $book->syncTags($request->tags);
-
-        if ($request->featured_image_file) {
-            $book->addMediaFromRequest('featured_image_file')
-                ->toMediaCollection('featured-image')
-            ;
-        }
 
         return redirect()->route('admin.books')->with('flash.success', __('Book created.'));
     }
 
     #[Put('{book}', name: 'books.update')]
-    public function update(Book $book, PostUpdateRequest $request)
+    public function update(Book $book, BookUpdateRequest $request)
     {
         $book->update($request->all());
-
-        $book->syncTags($request->tags);
-
-        if ($request->featured_image_delete) {
-            $book->clearMediaCollection('featured-image');
-        }
-
-        if ($request->featured_image_file) {
-            $book->addMediaFromRequest('featured_image_file')
-                ->toMediaCollection('featured-image')
-            ;
-        }
 
         return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
     }

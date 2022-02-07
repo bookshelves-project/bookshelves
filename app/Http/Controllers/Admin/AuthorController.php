@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Queries\AuthorQuery;
+use App\Http\Requests\Admin\AuthorStoreRequest;
+use App\Http\Requests\Admin\AuthorUpdateRequest;
 use App\Http\Resources\Admin\AuthorResource;
 use App\Models\Author;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Request;
 use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
@@ -48,7 +50,7 @@ class AuthorController extends Controller
     }
 
     #[Post('/', name: 'authors.store')]
-    public function store(Request $request)
+    public function store(AuthorStoreRequest $request)
     {
         $author = Author::create($request->all());
 
@@ -56,7 +58,7 @@ class AuthorController extends Controller
     }
 
     #[Put('{author}', name: 'authors.update')]
-    public function update(Author $author, Request $request)
+    public function update(Author $author, AuthorUpdateRequest $request)
     {
         $author->update($request->all());
 

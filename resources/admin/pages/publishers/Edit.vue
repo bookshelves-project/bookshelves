@@ -1,5 +1,5 @@
 <template>
-  <edit-context v-slot="{ title }" resource="books" :item="book">
+  <edit-context v-slot="{ title }" resource="publishers" :item="publisher">
     <app-layout>
       <template #header>
         <page-header>
@@ -11,23 +11,23 @@
         </page-header>
       </template>
 
-      <book-form :method="method" :url="url" />
+      <publisher-form :method="method" :url="url" />
     </app-layout>
   </edit-context>
 </template>
 
 <script lang="ts" setup>
-  import { Book } from '@admin/types'
+  import { Publisher } from '@admin/types'
   import { PropType } from 'vue'
   import route from 'ziggy-js'
 
   const props = defineProps({
-    book: {
-      type: Object as PropType<Book>,
+    publisher: {
+      type: Object as PropType<Publisher>,
       required: true,
     },
   })
 
   const method = 'put'
-  const url = route('admin.books.update', { id: props.book.id })
+  const url = route('admin.publishers.update', { id: props.publisher.id })
 </script>
