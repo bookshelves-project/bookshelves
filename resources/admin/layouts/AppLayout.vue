@@ -24,6 +24,7 @@
         </app-content>
       </div>
       <slot name="aside"></slot>
+      <app-footer />
     </div>
   </div>
 </template>

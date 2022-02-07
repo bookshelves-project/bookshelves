@@ -22,7 +22,7 @@ class MakeRadCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Create all files for to add new Model to RAD stack';
 
     /**
      * Create a new command instance.
@@ -51,22 +51,26 @@ class MakeRadCommand extends Command
         $this->force = $force;
         $this->attribute = $this->option('attribute') ? str_replace('=', '', $this->option('attribute')) : 'name';
 
-        $this->alert("RAD Stack: Generate {$model} CRUD");
-
         try {
             $class_name = 'App\Models\\'.$model;
             $class = new $class_name();
+            $class_namespace = get_class($class);
+            $right_class_name = str_replace('App\Models\\', '', $class_namespace);
         } catch (\Throwable $th) {
             $this->error("{$model} not found in path {$class_name}");
 
             exit;
         }
-        $this->model = $model;
-        $this->model_kebab = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $model));
-        $this->model_pascal = lcfirst($model);
-        $this->model_human = preg_replace('/([a-z])([A-Z])/', '$1 $2', $model);
-        $this->model_snake = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $model));
-        $this->model_concat = strtolower(preg_replace('/([a-z])([A-Z])/', '$1$2', $model));
+
+        $this->model = $right_class_name;
+        $this->model_kebab = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $this->model));
+        $this->model_pascal = lcfirst($this->model);
+        $this->model_human = preg_replace('/([a-z])([A-Z])/', '$1 $2', $this->model);
+        $this->model_snake = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $this->model));
+        $this->model_concat = strtolower(preg_replace('/([a-z])([A-Z])/', '$1$2', $this->model));
+        dump($this->toArray());
+
+        $this->alert("RAD Stack: Generate {$this->model} CRUD");
 
         $this->generateFromStub("{$this->model}Controller", app_path('Http/Controllers/Admin'), 'php');
         $this->generateFromStub("{$this->model}Query", app_path('Http/Queries'), 'php');
@@ -90,6 +94,20 @@ class MakeRadCommand extends Command
         $this->newLine();
 
         $this->info("{$this->model} created!");
+    }
+
+    public function toArray()
+    {
+        return [
+            $this->model,
+            $this->model_pascal,
+            $this->model_kebab,
+            $this->model_human,
+            $this->model_snake,
+            $this->model_concat,
+            $this->force,
+            $this->attribute,
+        ];
     }
 
     /**

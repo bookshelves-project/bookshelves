@@ -64,14 +64,19 @@
   </nav>
   <div class="mt-5 divide-primary-800" aria-label="Sidebar">
     <div class="px-2 space-y-1">
-      <a
-        href="https://github.com/adr1enbe4udou1n/laravel-rad-stack"
+      <inertia-link
+        :href="route('front.home')"
         target="_blank"
         rel="noopener noreferrer"
         class="link link-hover"
       >
-        Powered by Laravel RAD Stack
-      </a>
+        <component
+          :is="BeakerIcon"
+          class="mr-4 flex-shrink-0 h-6 w-6 text-primary-200"
+          aria-hidden="true"
+        />
+        Back to Features
+      </inertia-link>
     </div>
   </div>
 </template>
@@ -79,6 +84,7 @@
 <script setup lang="ts">
   import route from 'ziggy-js'
   import { mainNav, isTitle, isLink } from '@admin/_nav'
+  import { BeakerIcon } from '@heroicons/vue/outline'
 </script>
 
 <style lang="css" scoped>

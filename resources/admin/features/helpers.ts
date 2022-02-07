@@ -20,6 +20,10 @@ export function useTitle(title: string, options?: TranslationOptions): string {
   return subTitle
 }
 
+export function getAppName(): string {
+  return usePage().props.value.appName
+}
+
 export function useUniqueId(): string {
   return Math.random().toString(36).substr(2, 9)
 }

@@ -10,7 +10,6 @@ import {
   CollectionIcon,
   MailIcon,
   TagIcon,
-  BeakerIcon,
   TranslateIcon,
   PrinterIcon,
 } from '@heroicons/vue/outline'
@@ -108,13 +107,6 @@ const mainNav: (NavLink | NavTitle)[] = [
     active: () => route().current('admin.settings'),
     icon: CogIcon,
     text: __('Settings'),
-  },
-  {
-    href: route('front.home'),
-    active: () => route().current('front.home'),
-    icon: BeakerIcon,
-    text: __('Back to Features'),
-    external: true,
   },
 ]
 
