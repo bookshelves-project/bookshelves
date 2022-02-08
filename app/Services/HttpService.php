@@ -69,7 +69,7 @@ class HttpService
             }
         } else {
             foreach ($url_list as $id => $url) {
-                $responses_list[$id] = Http::get($url);
+                $responses_list[$id] = Http::timeout(120)->get($url);
             }
         }
 

@@ -147,7 +147,7 @@ class WikipediaQuery
     {
         $picture = null;
         if ($picture_url) {
-            $picture = Http::get($picture_url)->body();
+            $picture = Http::timeout(120)->get($picture_url)->body();
         }
 
         return base64_encode($picture);

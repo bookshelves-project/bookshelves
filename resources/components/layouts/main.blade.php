@@ -1,8 +1,8 @@
 <x-layouts.app>
     <div class="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-12">
         <x-title>
-            {{ config('app.name') }}
-            Features{{ request()->route()->getName() !== 'front.home'? ': ' . SEO::getTitle(true): '' }}
+            {{ config('app.name') }} Features
+            {{-- {{ request()->route()->getName() !== 'front.home'? ': ' . SEO::getTitle(true): '' }} --}}
         </x-title>
         <div class="divide-y divide-gray-400 space-y-4">
             @isset($route)
