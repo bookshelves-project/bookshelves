@@ -100,7 +100,7 @@ namespace App\Models{
  * @property int|null $page_count
  * @property string|null $maturity_rating
  * @property bool $disabled
- * @property \App\Enums\BookTypeEnum $type
+ * @property \Spatie\Enum\Enum|null $type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
@@ -656,7 +656,7 @@ namespace App\Models{
  * @property int|null $user_id
  * @property int|null $category_id
  * @property string $title
- * @property \App\Enums\PostStatusEnum $status
+ * @property \Spatie\Enum\Enum|null $status
  * @property string|null $summary
  * @property string|null $body
  * @property \Illuminate\Support\Carbon|null $published_at
@@ -879,7 +879,7 @@ namespace App\Models{
  * @property int $id
  * @property array $name
  * @property array $slug
- * @property \App\Enums\TagTypeEnum|null $type
+ * @property \Spatie\Enum\Enum|null|null $type
  * @property int|null $order_column
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -927,7 +927,7 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property string|null $about
  * @property string $gender
- * @property \App\Enums\RoleEnum $role
+ * @property \Spatie\Enum\Enum|null $role
  * @property string|null $pronouns
  * @property int $use_gravatar
  * @property int $display_favorites
