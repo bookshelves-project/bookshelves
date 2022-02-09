@@ -3,17 +3,27 @@
 namespace App\Http\Queries;
 
 use App\Exports\LanguageExport;
+use App\Http\Queries\Addon\QueryOption;
 use App\Http\Resources\Admin\PublisherResource;
 use App\Models\Publisher;
 use App\Support\GlobalSearchFilter;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PublisherQuery extends BaseQuery
 {
-    public function make(): self
+    public function make(?QueryOption $option = null): self
     {
+        if (! $option) {
+            $option = new QueryOption();
+            $option->resource = PublisherResource::class;
+            $option->with = [];
+        }
+
+        $this->option = $option;
+
         $this->query = QueryBuilder::for(Publisher::class)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['name',  'slug'])),
@@ -22,8 +32,9 @@ class PublisherQuery extends BaseQuery
                 AllowedFilter::partial('slug'),
             ])
             ->allowedSorts(['id', 'name', 'slug', 'books_count', 'created_at', 'updated_at'])
+            ->with($option->with)
             ->withCount('books')
-            ->orderByDesc('id')
+            ->orderByDesc($this->option->orderBy)
         ;
 
         $this->export = new LanguageExport($this->query);
@@ -34,13 +45,16 @@ class PublisherQuery extends BaseQuery
 
     public function collection(): AnonymousResourceCollection
     {
-        return PublisherResource::collection($this->paginate());
+        /** @var JsonResource $resource */
+        $resource = $this->option->resource;
+
+        return $resource::collection($this->paginate());
     }
 
     public function get(): array
     {
         return [
-            'sort' => request()->get('sort', '-id'),
+            'sort' => request()->get('sort', $this->option->defaultSort),
             'filter' => request()->get('filter'),
             'publishers' => fn () => $this->collection(),
         ];

@@ -3,18 +3,28 @@
 namespace App\Http\Queries;
 
 use App\Exports\PostExport;
+use App\Http\Queries\Addon\QueryOption;
 use App\Http\Resources\Admin\PostResource;
 use App\Models\Post;
 use App\Support\GlobalSearchFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PostQuery extends BaseQuery
 {
-    public function make(): self
+    public function make(?QueryOption $option = null): self
     {
+        if (! $option) {
+            $option = new QueryOption();
+            $option->resource = PostResource::class;
+            $option->with = ['category', 'media', 'tags', 'user'];
+        }
+
+        $this->option = $option;
+
         $this->query = QueryBuilder::for(Post::class)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['title', 'summary', 'body'])),
@@ -34,8 +44,8 @@ class PostQuery extends BaseQuery
                 }),
             ])
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'updated_at'])
-            ->with('category', 'media', 'tags', 'user')
-            ->orderByDesc('id')
+            ->with($option->with)
+            ->orderByDesc($this->option->orderBy)
         ;
 
         $this->export = new PostExport($this->query);
@@ -46,13 +56,16 @@ class PostQuery extends BaseQuery
 
     public function collection(): AnonymousResourceCollection
     {
-        return PostResource::collection($this->paginate());
+        /** @var JsonResource $resource */
+        $resource = $this->option->resource;
+
+        return $resource::collection($this->paginate());
     }
 
     public function get(): array
     {
         return [
-            'sort' => request()->get('sort', '-id'),
+            'sort' => request()->get('sort', $this->option->defaultSort),
             'filter' => request()->get('filter'),
             'posts' => fn () => $this->collection(),
         ];

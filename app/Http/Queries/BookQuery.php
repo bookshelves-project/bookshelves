@@ -54,6 +54,12 @@ class BookQuery extends BaseQuery
                         $query->where('name', 'like', "%{$value}%");
                     });
                 }),
+                AllowedFilter::scope('disallow_serie', 'whereDisallowSerie'),
+                AllowedFilter::scope('languages', 'whereLanguagesIs'),
+                AllowedFilter::scope('published', 'publishedBetween'),
+                AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
+                AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
+                AllowedFilter::scope('tags', 'whereTagsIs'),
             ])
             ->allowedSorts(['id', 'title', 'title_sort', 'type', 'serie', 'authors', 'volume', 'publisher',  'released_on', 'created_at', 'updated_at'])
             ->with($option->with)

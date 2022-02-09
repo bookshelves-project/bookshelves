@@ -3,17 +3,27 @@
 namespace App\Http\Queries;
 
 use App\Exports\SubmissionExport;
+use App\Http\Queries\Addon\QueryOption;
 use App\Http\Resources\Admin\SubmisionResource;
 use App\Models\Submission;
 use App\Support\GlobalSearchFilter;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class SubmissionQuery extends BaseQuery
 {
-    public function make(): self
+    public function make(?QueryOption $option = null): self
     {
+        if (! $option) {
+            $option = new QueryOption();
+            $option->resource = SubmisionResource::class;
+            $option->with = [];
+        }
+
+        $this->option = $option;
+
         $this->query = QueryBuilder::for(Submission::class)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['name', 'email'])),
@@ -21,6 +31,8 @@ class SubmissionQuery extends BaseQuery
                 AllowedFilter::partial('email'),
             ])
             ->allowedSorts(['id', 'name', 'email', 'created_at', 'updated_at'])
+            ->with($option->with)
+            ->orderByDesc($this->option->orderBy)
         ;
 
         $this->export = new SubmissionExport($this->query);
@@ -31,13 +43,16 @@ class SubmissionQuery extends BaseQuery
 
     public function collection(): AnonymousResourceCollection
     {
-        return SubmisionResource::collection($this->paginate());
+        /** @var JsonResource $resource */
+        $resource = $this->option->resource;
+
+        return $resource::collection($this->paginate());
     }
 
     public function get(): array
     {
         return [
-            'sort' => request()->get('sort', 'id'),
+            'sort' => request()->get('sort', $this->option->defaultSort),
             'filter' => request()->get('filter'),
             'submissions' => fn () => $this->collection(),
         ];

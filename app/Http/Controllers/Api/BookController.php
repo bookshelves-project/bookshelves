@@ -13,16 +13,9 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Selectionable;
 use App\Models\Serie;
-use App\Query\QueryExporter;
-use App\Query\SearchFilter;
-use App\Query\Sort\AuthorRelationship;
-use App\Query\Sort\LanguageRelationship;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\AllowedSort;
-use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Book
@@ -54,41 +47,6 @@ class BookController extends ApiController
         // - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[languages]=fr,en&filter[published]=2018-06-07,2021-11-01
         // - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[title]=monde
         // - http://localhost:8000/api/books?perPage=32&filter[author_like]=bottero
-
-        // /** @var QueryBuilder $query */
-        // $query = QueryBuilderAddon::for(Book::class)
-        //     ->allowedFilters([
-        //         AllowedFilter::custom('q', new SearchFilter(['title'])),
-        //         AllowedFilter::partial('title'),
-        //         AllowedFilter::scope('disallow_serie', 'whereDisallowSerie'),
-        //         AllowedFilter::scope('languages', 'whereLanguagesIs'),
-        //         AllowedFilter::scope('published', 'publishedBetween'),
-        //         AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
-        //         AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
-        //         AllowedFilter::scope('tags', 'whereTagsIs'),
-        //     ])
-        //     ->allowedSorts([
-        //         'id',
-        //         'title',
-        //         'title_sort',
-        //         'released_on',
-        //         'created_at',
-        //         // AllowedSort::custom('author', new AuthorRelationship(), 'name'),
-        //         // AllowedSort::custom('language', new LanguageRelationship(), 'name'),
-        //     ])
-        //     // ->allowedIncludes('serie', 'authors', 'media', 'serie.authors')
-        //     ->defaultSort('title_sort')
-        // ;
-
-        // return QueryExporter::create($query)
-        //     ->resource(BookLightResource::class)
-        //     ->get()
-        // ;
-
-        // return app(BookQuery::class)
-        //     ->make(export: false, sortBy: 'title_sort', sortAsc: true)
-        //     ->collection()
-        // ;
 
         $option = QueryOption::create(32, false, 'title_sort', true, BookLightResource::class);
 

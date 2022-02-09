@@ -3,18 +3,28 @@
 namespace App\Http\Queries;
 
 use App\Exports\SerieExport;
+use App\Http\Queries\Addon\QueryOption;
 use App\Http\Resources\Admin\SerieResource;
 use App\Models\Serie;
 use App\Support\GlobalSearchFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class SerieQuery extends BaseQuery
 {
-    public function make(): self
+    public function make(?QueryOption $option = null): self
     {
+        if (! $option) {
+            $option = new QueryOption();
+            $option->resource = SerieResource::class;
+            $option->with = ['books', 'media', 'authors', 'language'];
+        }
+
+        $this->option = $option;
+
         $this->query = QueryBuilder::for(Serie::class)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['title'])),
@@ -27,9 +37,9 @@ class SerieQuery extends BaseQuery
                 }),
             ])
             ->allowedSorts(['id', 'title', 'authors', 'books_count', 'created_at', 'updated_at', 'language'])
-            ->with('books', 'media', 'authors', 'language')
+            ->with($option->with)
             ->withCount('books', 'tags')
-            ->orderByDesc('id')
+            ->orderByDesc($this->option->orderBy)
         ;
 
         $this->export = new SerieExport($this->query);
@@ -40,13 +50,16 @@ class SerieQuery extends BaseQuery
 
     public function collection(): AnonymousResourceCollection
     {
-        return SerieResource::collection($this->paginate());
+        /** @var JsonResource $resource */
+        $resource = $this->option->resource;
+
+        return $resource::collection($this->paginate());
     }
 
     public function get(): array
     {
         return [
-            'sort' => request()->get('sort', '-id'),
+            'sort' => request()->get('sort', $this->option->defaultSort),
             'filter' => request()->get('filter'),
             'series' => fn () => $this->collection(),
         ];
