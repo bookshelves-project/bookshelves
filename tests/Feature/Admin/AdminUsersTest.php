@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use Maatwebsite\Excel\Facades\Excel;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
@@ -25,16 +25,16 @@ beforeEach(function () {
 });
 
 test('admin can list users', function () {
+    User::factory(29)->create();
     User::factory()->create([
         'name' => 'The first user name',
         'email' => 'The first email user',
     ]);
-    User::factory(29)->create();
 
     $response = get('/admin/users');
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('users/Index')
             ->where('action', 'list')
             ->where('users.data.0.name', 'The first user name')
@@ -56,7 +56,7 @@ test('admin can sort users', function (string $sort, $expected) {
     $attribute = Str::of($sort)->trim('-');
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('users/Index')
             ->where('action', 'list')
             ->where("users.data.0.{$attribute}", $expected)
@@ -81,7 +81,7 @@ test('admin can filter users', function (array $filter, int $total) {
     $response = get("/admin/users?{$query}");
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('users/Index')
             ->where('action', 'list')
             ->where('users.meta.total', $total)
@@ -117,7 +117,7 @@ test('admin can render user create page', function () {
     $response = get('/admin/users/create');
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('users/Index')
             ->where('action', 'create')
     );
@@ -130,7 +130,7 @@ test('admin can render user show page', function () {
     $response = get("/admin/users/{$user->id}");
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('users/Index')
             ->where('action', 'show')
             ->where('user.id', $user->id)
@@ -146,7 +146,7 @@ test('admin can render user edit page', function () {
     $response = get("/admin/users/{$user->id}/edit");
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('users/Index')
             ->where('action', 'edit')
             ->where('user.id', $user->id)

@@ -6,11 +6,11 @@ use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\Comment\CommentResource;
 use App\Http\Resources\GoogleBookResource;
 use App\Http\Resources\IdentifierResource;
+use App\Http\Resources\MediaResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Tag\TagLightResource;
 use App\Models\Book;
-use App\Utils\BookshelvesTools;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -26,40 +26,30 @@ class BookResource extends JsonResource
      */
     public function toArray($request): array
     {
-        // $this->resource->title;
+        $resource = (array) BookLightResource::make($this->resource)->toArray($request);
 
-        /** @var Book $book */
-        $book = $this;
-
-        $resource = BookLightResource::make($book)->toArray($request);
-
-        return array_merge($resource, [
-            'serie' => SerieLightResource::make($book->serie),
-            'authors' => AuthorUltraLightResource::collection($book->authors),
+        return $resource + [
+            'serie' => SerieLightResource::make($this->resource->serie),
+            'authors' => AuthorUltraLightResource::collection($this->resource->authors),
             'cover' => [
-                'thumbnail' => $book->cover_thumbnail,
-                'og' => $book->cover_og,
-                'simple' => $book->cover_simple,
-                'original' => $book->cover_original,
+                'thumbnail' => $this->resource->cover_thumbnail,
+                'og' => $this->resource->cover_og,
+                'simple' => $this->resource->cover_simple,
+                'original' => $this->resource->cover_original,
                 'color' => $this->resource->cover_color,
             ],
-            'description' => $book->description,
-            'identifier' => IdentifierResource::make($book->identifier),
-            'pageCount' => $book->page_count,
-            'maturityRating' => $book->maturity_rating,
+            'description' => $this->resource->description,
+            'identifier' => IdentifierResource::make($this->resource->identifier),
+            'pageCount' => $this->resource->page_count,
+            'maturityRating' => $this->resource->maturity_rating,
             'publisher' => PublisherLightResource::make($this->resource->publisher),
-            'tags' => TagLightResource::collection($book->tags_list),
-            'genres' => TagLightResource::collection($book->genres_list),
-            'epub' => [
-                'name' => $book->getMedia('epubs')->first()->file_name,
-                'size' => BookshelvesTools::humanFilesize($book->getMedia('epubs')->first()->size),
-                'path' => $book->epub_path,
-                'download' => $book->download_link,
-            ],
-            'webreader' => $book->webreader_link,
-            'googleBook' => GoogleBookResource::make($book->googleBook),
-            'isFavorite' => $book->is_favorite,
-            'comments' => CommentResource::collection($book->comments),
-        ]);
+            'tags' => TagLightResource::collection($this->resource->tags_list),
+            'genres' => TagLightResource::collection($this->resource->genres_list),
+            'epub' => MediaResource::make($this->resource->epub),
+            'webreader' => $this->resource->webreader_link,
+            'googleBook' => GoogleBookResource::make($this->resource->googleBook),
+            'isFavorite' => $this->resource->is_favorite,
+            'comments' => CommentResource::collection($this->resource->comments),
+        ];
     }
 }

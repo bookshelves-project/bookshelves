@@ -3,7 +3,7 @@
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
@@ -25,7 +25,7 @@ test('admin can search posts', function (string $query) {
     $response = get("/admin/search/{$query}");
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('Search')
             ->where('posts.data.0.title', $query)
     );

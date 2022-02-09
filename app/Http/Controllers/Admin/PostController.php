@@ -47,7 +47,9 @@ class PostController extends Controller
     {
         $post = Post::create($request->all());
 
-        $post->syncTags($request->tags);
+        if ($request->tags) {
+            $post->syncTags($request->tags);
+        }
 
         if ($request->featured_image_file) {
             $post->addMediaFromRequest('featured_image_file')

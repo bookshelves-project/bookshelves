@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use function Pest\Laravel\get;
 use function Pest\Laravel\put;
 
@@ -16,7 +16,7 @@ test('admin can show his profile', function () {
     $response = get('/admin/user/profile');
 
     $response->assertInertia(
-        fn (Assert $page) => $page->component('profile/Show')
+        fn (AssertableInertia $page) => $page->component('profile/Show')
     );
 });
 

@@ -6,7 +6,7 @@ use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use function Pest\Laravel\assertAuthenticated;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\get;
@@ -17,7 +17,7 @@ uses(RefreshDatabase::class);
 test('registration screen can be rendered', function () {
     $response = get('/admin/register');
 
-    $response->assertInertia(fn (Assert $page) => $page->component('auth/Register'));
+    $response->assertInertia(fn (AssertableInertia $page) => $page->component('auth/Register'));
 });
 
 test('first new user can register as super admin', function () {

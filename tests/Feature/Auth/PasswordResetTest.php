@@ -7,7 +7,7 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
@@ -17,7 +17,7 @@ test('reset password link screen can be rendered', function () {
     $response = get('/admin/forgot-password');
 
     $response->assertInertia(
-        fn (Assert $page) => $page->component('auth/ForgotPassword')
+        fn (AssertableInertia $page) => $page->component('auth/ForgotPassword')
     );
 });
 
@@ -39,7 +39,7 @@ test('reset password screen can be rendered', function () {
         $response = get($url);
 
         $response->assertInertia(
-            fn (Assert $page) => $page->component('auth/ResetPassword')
+            fn (AssertableInertia $page) => $page->component('auth/ResetPassword')
         );
 
         return true;

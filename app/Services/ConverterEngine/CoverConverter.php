@@ -15,10 +15,7 @@ class CoverConverter
      */
     public static function create(ParserEngine $parser, Book $book): Book
     {
-        // config('QUEUE_CONNECTION', 'database');
-        // dump(config('queue.default'));
-
-        if (! $book->getFirstMedia('books') && ! empty($parser->cover)) {
+        if (! empty($parser->cover)) {
             $disk = 'books';
 
             try {

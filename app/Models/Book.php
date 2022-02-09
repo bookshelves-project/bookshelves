@@ -54,18 +54,27 @@ class Book extends Model implements HasMedia
         'authors',
         'media',
     ];
+    protected $appends = [
+        'epub',
+    ];
     protected $casts = [
         'released_on' => 'datetime',
         'disabled' => 'boolean',
         'type' => BookTypeEnum::class,
     ];
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('epubs');
+    }
+
     /**
      * Manage EPUB files with spatie/laravel-medialibrary.
      */
-    public function getEpubAttribute(): string|null
+    public function getEpubAttribute(): ?MediaExtended
     {
-        return $this->getFirstMediaUrl('epubs');
+        // @phpstan-ignore-next-line
+        return $this->getMedia('epubs')->first() ?? null;
     }
 
     public function getShowRelatedLinkAttribute(): string
@@ -82,20 +91,6 @@ class Book extends Model implements HasMedia
     //         'slug' => $this->slug,
     //     ]);
     // }
-
-    public function getEpubPathAttribute(): string|null
-    {
-        $full = null;
-        $path = $this->getFirstMediaPath('epubs');
-        $path = explode('app/public', $path);
-        if (array_key_exists(1, $path)) {
-            $path = $path[1];
-            $full = config('app.url').'/storage'.$path;
-            $full = str_replace('\\', '/', $full);
-        }
-
-        return $full;
-    }
 
     public function scopeWhereDisallowSerie(Builder $query, string $has_not_serie): Builder
     {

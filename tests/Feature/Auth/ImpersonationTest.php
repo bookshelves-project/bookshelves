@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 use function Pest\Laravel\withSession;
@@ -38,7 +38,7 @@ test('inertia page return impersonated user when impersonate', function () {
     $response = get('/admin/dashboard');
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('Dashboard')
             ->where('auth.id', $user->id)
             ->where('auth.is_impersonating', true)

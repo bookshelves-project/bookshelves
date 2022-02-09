@@ -11,7 +11,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use function Pest\Laravel\artisan;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
@@ -46,7 +46,7 @@ test('admin can list posts', function () {
     $response = get('/admin/posts');
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('posts/Index')
             ->where('posts.data.0.title', 'My post title')
             ->where('posts.data.0.category.name', 'My post category')
@@ -149,7 +149,7 @@ test('admin can sort posts', function (string $sort, $expected) {
     $attribute = Str::of($sort)->trim('-');
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('posts/Index')
             ->where("posts.data.0.{$attribute}", $expected)
             ->where('posts.meta.total', 2)
@@ -188,7 +188,7 @@ test('admin can filter posts', function (array $filter, int $total) {
     $response = get("/admin/posts?{$query}");
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('posts/Index')
             ->where('posts.meta.total', $total)
             ->where('filter', $filter)
@@ -221,7 +221,7 @@ test('admin can render post create page', function () {
     $response = get('/admin/posts/create');
 
     $response->assertInertia(
-        fn (Assert $page) => $page->component('posts/Create')
+        fn (AssertableInertia $page) => $page->component('posts/Create')
     );
 });
 
@@ -238,7 +238,7 @@ test('admin can render post edit page', function () {
     $response = get("/admin/posts/{$post->id}/edit");
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('posts/Edit')
             ->where('post.id', $post->id)
             ->where('post.title', $post->title)

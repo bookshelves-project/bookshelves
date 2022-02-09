@@ -46,7 +46,7 @@ namespace App\Models{
  * @property-read string $show_link_opds
  * @property-read string $show_series_link
  * @property-read string $size
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\Media[] $media
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
  * @property-read int|null $selections_count
@@ -116,8 +116,7 @@ namespace App\Models{
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
  * @property-read string $download_link
- * @property-read string|null $epub
- * @property-read string|null $epub_path
+ * @property-read \App\Models\MediaExtended|null $epub
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $meta_author
@@ -130,7 +129,7 @@ namespace App\Models{
  * @property-read \App\Models\GoogleBook|null $googleBook
  * @property-read \App\Models\Identifier|null $identifier
  * @property-read \App\Models\Language|null $language
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\Media[] $media
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @property-read \App\Models\Publisher|null $publisher
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
@@ -197,7 +196,7 @@ namespace App\Models\Cms{
  * @property-read string|null $logo
  * @property-read string|null $open_graph
  * @property-read array $translations
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\Media[] $media
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication newQuery()
@@ -246,7 +245,7 @@ namespace App\Models\Cms{
  * @property-read int|null $highlights_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Cms\CmsHomePageLogo[] $logos
  * @property-read int|null $logos_count
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\Media[] $media
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Cms\CmsHomePageStatistic[] $statistics
  * @property-read int|null $statistics_count
@@ -289,7 +288,7 @@ namespace App\Models\Cms{
  * @property-read string|null $picture
  * @property-read array $translations
  * @property-read \App\Models\Cms\CmsHomePage|null $homePage
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\Media[] $media
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageFeature newQuery()
@@ -325,7 +324,7 @@ namespace App\Models\Cms{
  * @property-read string|null $picture
  * @property-read array $translations
  * @property-read \App\Models\Cms\CmsHomePage|null $homePage
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\Media[] $media
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageHighlight newQuery()
@@ -358,7 +357,7 @@ namespace App\Models\Cms{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string|null $picture
  * @property-read \App\Models\Cms\CmsHomePage|null $homePage
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\Media[] $media
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageLogo newQuery()
@@ -556,7 +555,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Media
+ * App\Models\MediaExtended
  *
  * @property int $id
  * @property string $model_type
@@ -576,38 +575,40 @@ namespace App\Models{
  * @property int|null $order_column
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $download
  * @property-read string $extension
  * @property-read string $human_readable_size
  * @property-read mixed $original_url
  * @property-read mixed $preview_url
+ * @property-read string|null $size_human
  * @property-read string $type
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $model
  * @method static \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|static[] all($columns = ['*'])
  * @method static \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|static[] get($columns = ['*'])
- * @method static \Illuminate\Database\Eloquent\Builder|Media newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Media newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Media ordered()
- * @method static \Illuminate\Database\Eloquent\Builder|Media query()
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereCollectionName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereConversionsDisk($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereCustomProperties($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereDisk($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereFileName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereGeneratedConversions($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereManipulations($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereMimeType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereModelId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereModelType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereOrderColumn($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereResponsiveImages($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereSize($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended query()
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereCollectionName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereConversionsDisk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereCustomProperties($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereDisk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereFileName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereGeneratedConversions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereManipulations($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereMimeType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereModelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereModelType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereOrderColumn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereResponsiveImages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereUuid($value)
  */
-	class Media extends \Eloquent {}
+	class MediaExtended extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -668,7 +669,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\PostCategory|null $category
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\Media[] $media
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
@@ -816,7 +817,7 @@ namespace App\Models{
  * @property-read mixed $tags_list
  * @property-read string $webreader_link
  * @property-read \App\Models\Language|null $language
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\Media[] $media
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
  * @property-read int|null $selections_count
@@ -946,7 +947,7 @@ namespace App\Models{
  * @property-read string $show_link
  * @property-read string $show_link_comments
  * @property-read string $show_link_favorites
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\Media[] $media
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count

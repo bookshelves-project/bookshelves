@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 
 uses(RefreshDatabase::class);
 
@@ -14,7 +14,7 @@ test('confirm password screen can be rendered for admin', function () {
     $response = $this->actingAs($user)->get('/admin/user/confirm-password');
 
     $response->assertInertia(
-        fn (Assert $page) => $page->component('auth/ConfirmPassword')
+        fn (AssertableInertia $page) => $page->component('auth/ConfirmPassword')
     );
 });
 

@@ -101,7 +101,7 @@ class DownloadController extends ApiController
     }
 
     /**
-     * Old download method.
+     * @deprecated Old download method
      */
     public function getZip(string $model_name, string $slug)
     {

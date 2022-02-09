@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Inertia\Testing\Assert;
+use Inertia\Testing\AssertableInertia;
 use function Pest\Laravel\assertAuthenticated;
 use function Pest\Laravel\assertGuest;
 use function Pest\Laravel\get;
@@ -14,7 +14,7 @@ uses(RefreshDatabase::class);
 test('admin login screen can be rendered', function () {
     $response = get('/admin/login');
 
-    $response->assertInertia(fn (Assert $page) => $page->component('auth/Login'));
+    $response->assertInertia(fn (AssertableInertia $page) => $page->component('auth/Login'));
 });
 
 test('authenticated admin should be redirected to admin when go to login page', function () {
@@ -51,7 +51,7 @@ test('admin can go to dashboard', function () {
     $response = get('/admin/dashboard');
 
     $response->assertInertia(
-        fn (Assert $page) => $page
+        fn (AssertableInertia $page) => $page
             ->component('Dashboard')
             ->where('auth.id', $user->id)
             ->where('auth.is_impersonating', false)
