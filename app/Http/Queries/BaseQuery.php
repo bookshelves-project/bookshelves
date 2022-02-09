@@ -2,7 +2,9 @@
 
 namespace App\Http\Queries;
 
+use App\Http\Queries\Addon\QueryOption;
 use Closure;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Str;
@@ -11,23 +13,24 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 abstract class BaseQuery
 {
+    public QueryOption $option;
     protected Builder|QueryBuilder $query;
     protected $export;
     protected string $resource;
     protected int $perPage = 15;
 
-    public function paginate()
+    public function paginate(): LengthAwarePaginator
     {
-        return $this->query->paginate(min(100, request()->get('perPage', $this->perPage)));
+        return $this->query->paginate(min(100, request()->get('perPage', $this->option->perPage ?? $this->perPage)));
     }
 
     abstract public function collection(): AnonymousResourceCollection;
 
     abstract public function get(): array;
 
-    public function paginateOrExport(Closure $response)
+    public function paginateOrExport(?Closure $response = null)
     {
-        if (request()->wantsJson()) {
+        if (! $response || request()->wantsJson()) {
             return $this->collection();
         }
 

@@ -3,18 +3,21 @@
 namespace App\Http\Queries;
 
 use App\Exports\BookExport;
-use App\Http\Resources\Admin\BookResource;
+use App\Http\Queries\Addon\QueryOption;
 use App\Models\Book;
 use App\Support\GlobalSearchFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class BookQuery extends BaseQuery
 {
-    public function make(): self
+    public function make(?QueryOption $option = null)
     {
+        $this->option = $option;
+
         $this->query = QueryBuilder::for(Book::class)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['title', 'serie'])),
@@ -45,13 +48,16 @@ class BookQuery extends BaseQuery
                     });
                 }),
             ])
-            ->allowedSorts(['id', 'title', 'type', 'serie', 'authors', 'volume', 'publisher',  'released_on', 'created_at', 'updated_at'])
+            ->allowedSorts(['id', 'title', 'title_sort', 'type', 'serie', 'authors', 'volume', 'publisher',  'released_on', 'created_at', 'updated_at'])
             ->with('serie', 'media', 'authors', 'language', 'publisher')
             ->withCount('tags')
-            ->orderByDesc('id')
+            ->defaultSort($option->defaultSort)
+            ->defaultSort('id')
         ;
 
-        $this->export = new BookExport($this->query);
+        if ($this->option->withExport) {
+            $this->export = new BookExport($this->query);
+        }
         $this->resource = 'books';
 
         return $this;
@@ -59,12 +65,16 @@ class BookQuery extends BaseQuery
 
     public function collection(): AnonymousResourceCollection
     {
-        return BookResource::collection($this->paginate());
+        /** @var JsonResource $resource */
+        $resource = $this->option->resource;
+
+        return $resource::collection($this->paginate());
     }
 
     public function get(): array
     {
         return [
+            // 'sort' => request()->get('sort', $this->option->defaultSort),
             'sort' => request()->get('sort', '-id'),
             'filter' => request()->get('filter'),
             'books' => fn () => $this->collection(),

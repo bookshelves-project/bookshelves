@@ -131,12 +131,12 @@ return [
     */
 
     'features' => [
-        // front::registration(),
-        // front::resetPasswords(),
-        // front::emailVerification(),
-        // front::updateProfileInformation(),
-        // front::updatePasswords(),
-        // front::twoFactorAuthentication([
+        // Features::registration(),
+        // Features::resetPasswords(),
+        // Features::emailVerification(),
+        // Features::updateProfileInformation(),
+        // Features::updatePasswords(),
+        // Features::twoFactorAuthentication([
         //     'confirmPassword' => true,
         // ]),
     ],

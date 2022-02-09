@@ -15,8 +15,20 @@
 💻 [**bookshelves.ink**](https://bookshelves.ink): front demo  
 📚 [**documentation.bookshelves.ink**](https://documentation.bookshelves.ink): wiki  
 
+## L9 upgrade
+
+- documentation
+  - <https://laravel-news.com/laravel-9-released>
+- `composer require`
+  - `artesaos/seotools` <https://github.com/artesaos/seotools/pull/172>
+  - `barryvdh/laravel-elfinder`
+- `composer require --dev`
+  - `beyondcode/laravel-dump-server` <https://github.com/beyondcode/laravel-dump-server/pull/82>
+  - `spatie/phpunit-watcher`
+
 **Table of contents**
 
+- [L9 upgrade](#l9-upgrade)
 - [**Setup**](#setup)
   - [*a. Dependencies*](#a-dependencies)
   - [*b. Setup*](#b-setup)

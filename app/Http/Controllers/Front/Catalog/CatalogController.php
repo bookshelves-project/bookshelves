@@ -7,7 +7,6 @@ use App\Services\MarkdownService;
 use App\Services\SearchEngineService;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
-use Jenssegers\Agent\Agent;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -26,10 +25,11 @@ class CatalogController extends Controller
         SEOTools::setTitle('Catalog');
         SEOTools::setDescription('Get eBooks from your eReader');
 
-        $agent = new Agent();
-        if ($agent->isDesktop()) {
-            return view('front::pages.catalog.index', compact('content'));
-        }
+        // TODO fix removed dependency
+        // $agent = new Agent();
+        // if ($agent->isDesktop()) {
+        //     return view('front::pages.catalog.index', compact('content'));
+        // }
 
         return redirect(route('front.catalog.search'));
     }
