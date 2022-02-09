@@ -6,7 +6,6 @@ use App\Enums\EntitiesEnum;
 use App\Http\Controllers\Controller;
 use App\Services\MarkdownService;
 use App\Services\OpdsService;
-use Artesaos\SEOTools\Facades\SEOTools;
 use File;
 use Illuminate\Http\Request;
 use Route;
@@ -34,7 +33,7 @@ class OpdsController extends Controller
         $latest_feed = $feeds[sizeof($feeds) - 1];
         $latest_feed = route('front.opds.feed', ['version' => $latest_feed['param']]);
 
-        SEOTools::setTitle('OPDS');
+        // SEOTools::setTitle('OPDS');
 
         return view('front::pages.opds.index', compact('content', 'feeds', 'latest_feed'));
     }

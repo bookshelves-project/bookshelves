@@ -57,7 +57,7 @@ trait HasAvatar
 
     public function getBannerAttribute(): string
     {
-        return $this->getFirstMediaUrl('banner') ?? null;
+        return $this->getFirstMediaUrl('banner');
     }
 
     private function getAvatar(string $collection = '')

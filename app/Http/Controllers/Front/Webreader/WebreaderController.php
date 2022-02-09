@@ -7,7 +7,6 @@ use App\Http\Resources\Book\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Services\MarkdownService;
-use Artesaos\SEOTools\Facades\SEOTools;
 use Inertia\Inertia;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -21,7 +20,7 @@ class WebreaderController extends Controller
     #[Get('/', name: 'front.webreader')]
     public function index()
     {
-        SEOTools::setTitle('Webreader');
+        // SEOTools::setTitle('Webreader');
 
         $random_book = Book::inRandomOrder()->first();
         $cover = null;

@@ -4,7 +4,6 @@ namespace App\Docs\Strategies;
 
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Serie;
 use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Knuckles\Scribe\Extracting\ParamHelpers;
 use Knuckles\Scribe\Extracting\Strategies\Strategy;
@@ -48,11 +47,8 @@ class BookshelvesQuery extends Strategy
         if ($faker->boolean(25)) {
             $entity = Author::inRandomOrder()->first();
             $entity = $entity->lastname;
-        } elseif ($faker->boolean(25)) {
-            $entity = Book::inRandomOrder()->first();
-            $entity = $entity->title;
         } else {
-            $entity = Serie::inRandomOrder()->first();
+            $entity = Book::inRandomOrder()->first();
             $entity = $entity->title;
         }
         $entity = strtolower($entity);

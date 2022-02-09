@@ -70,7 +70,7 @@ class Serie extends Model implements HasMedia
         $serie = Serie::whereSlug($this->slug)->with('books.media')->first();
         $books = $serie->books;
         foreach ($books as $key => $book) {
-            array_push($size, $book->getMedia('epubs')->first()?->size);
+            array_push($size, $book->epub->size);
         }
         $size = array_sum($size);
 

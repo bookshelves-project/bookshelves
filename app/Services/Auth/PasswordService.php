@@ -30,50 +30,50 @@ class PasswordService
             ]);
         }
 
-        if ($user) {
-            // /** @var User $user */
-            // $exist = PasswordReset::whereEmail($email)->get();
+        // if ($user) {
+        // /** @var User $user */
+        // $exist = PasswordReset::whereEmail($email)->get();
 
-            // /*
-            //  * Check if PasswordReset exist.
-            //  */
-            // if ($exist->isNotEmpty()) {
-            //     /** @var PasswordReset $first */
-            //     $first = $exist->first();
-            //     $date = $first->created_at;
+        // /*
+        //  * Check if PasswordReset exist.
+        //  */
+        // if ($exist->isNotEmpty()) {
+        //     /** @var PasswordReset $first */
+        //     $first = $exist->first();
+        //     $date = $first->created_at;
 
-            //     $now = Carbon::now();
-            //     $difference = Carbon::parse($date)->diffInSeconds($now);
+        //     $now = Carbon::now();
+        //     $difference = Carbon::parse($date)->diffInSeconds($now);
 
-            //     /*
-            //      * Check date, reject if below 30 seconds.
-            //      */
-            //     if ($difference < self::MIN_TIMEOUT) {
-            //         return response()->json([
-            //             'message' => __('passwords.throttled'),
-            //         ], 401);
-            //     }
+        //     /*
+        //      * Check date, reject if below 30 seconds.
+        //      */
+        //     if ($difference < self::MIN_TIMEOUT) {
+        //         return response()->json([
+        //             'message' => __('passwords.throttled'),
+        //         ], 401);
+        //     }
 
-            //     /*
-            //      * Delete other tokens.
-            //      */
-            //     foreach ($exist as $value) {
-            //         $value->delete();
-            //     }
-            // }
+        //     /*
+        //      * Delete other tokens.
+        //      */
+        //     foreach ($exist as $value) {
+        //         $value->delete();
+        //     }
+        // }
 
-            // $base = Str::random(50);
-            // $token = Hash::make($base);
-            // /*
-            //  * Create new PasswordReset.
-            //  */
-            // PasswordReset::create([
-            //     'email' => $email,
-            //     'token' => $token,
-            // ]);
-            // // Send email with token
-            // $user->sendPasswordResetNotification($base);
-        }
+        // $base = Str::random(50);
+        // $token = Hash::make($base);
+        // /*
+        //  * Create new PasswordReset.
+        //  */
+        // PasswordReset::create([
+        //     'email' => $email,
+        //     'token' => $token,
+        // ]);
+        // // Send email with token
+        // $user->sendPasswordResetNotification($base);
+        // }
 
         return response()->json([
             'message' => __('passwords.sent'),

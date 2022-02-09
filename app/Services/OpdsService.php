@@ -31,6 +31,7 @@ class OpdsService
         if ($this->data instanceof Collection) {
             foreach ($this->data as $key => $entry) {
                 if ($this->entity === EntitiesEnum::book()) {
+                    /** @var Book $entry */
                     $templateEntry = $this->entryBook($entry);
                 } else {
                     $templateEntry = $this->entry($entry);
@@ -53,7 +54,7 @@ class OpdsService
         $id .= $title ? ':'.Str::slug($title) : null;
 
         $feed_title = config('app.name').' OPDS';
-        $feed_title .= ': '.ucfirst(strtolower($this->entity->label)) ?? null;
+        $feed_title .= ': '.ucfirst(strtolower($this->entity->label));
         $feed_title .= null !== $title ? ': '.$title : null;
 
         $date = new DateTime();

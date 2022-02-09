@@ -57,65 +57,65 @@ class SearchController extends ApiController
     public function advanced(Request $request)
     {
         // GET ALL PARAMS
-        $onlySerieQuery = filter_var($request->input('only-serie'), FILTER_VALIDATE_BOOLEAN);
-        $authorQuery = $request->author;
-        $langsQuery = $request->languages;
-        $tagsQuery = $request->tags;
-        $query = $request->q;
+        // $onlySerieQuery = filter_var($request->input('only-serie'), FILTER_VALIDATE_BOOLEAN);
+        // $authorQuery = $request->author;
+        // $langsQuery = $request->languages;
+        // $tagsQuery = $request->tags;
+        // $query = $request->q;
 
-        if ($query) {
-            $results = collect();
-            $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $query)->with(['authors', 'media'])->doesntHave('serie');
-            $series = Serie::whereLike(['title', 'authors.name'], $query)->with(['authors', 'media']);
+        // if ($query) {
+        //     $results = collect();
+        //     $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $query)->with(['authors', 'media'])->doesntHave('serie');
+        //     $series = Serie::whereLike(['title', 'authors.name'], $query)->with(['authors', 'media']);
 
-            if (null !== $authorQuery) {
-                $author = Author::whereSlug($authorQuery)->firstOrFail();
-                $books = $books->doesntHave('serie')->whereHas('authors', function ($query) use ($author) {
-                    return $query->where('author_id', '=', $author->id);
-                });
+        //     if (null !== $authorQuery) {
+        //         $author = Author::whereSlug($authorQuery)->firstOrFail();
+        //         $books = $books->doesntHave('serie')->whereHas('authors', function ($query) use ($author) {
+        //             return $query->where('author_id', '=', $author->id);
+        //         });
 
-                $series = $series->whereHas('authors', function ($query) use ($author) {
-                    return $query->where('author_id', '=', $author->id);
-                });
-            }
+        //         $series = $series->whereHas('authors', function ($query) use ($author) {
+        //             return $query->where('author_id', '=', $author->id);
+        //         });
+        //     }
 
-            if (null !== $tagsQuery) {
-                $tagsQuery = explode(',', $tagsQuery);
-                $tags = [];
-                foreach ($tagsQuery as $key => $tagSlug) {
-                    $tag = Tag::where('slug->en', $tagSlug)->firstOrFail();
-                    array_push($tags, $tag);
-                }
+        //     if (null !== $tagsQuery) {
+        //         $tagsQuery = explode(',', $tagsQuery);
+        //         $tags = [];
+        //         foreach ($tagsQuery as $key => $tagSlug) {
+        //             $tag = Tag::where('slug->en', $tagSlug)->firstOrFail();
+        //             array_push($tags, $tag);
+        //         }
 
-                $books = $books->withAllTags($tags);
-                $series = $series->withAllTags($tags);
-            }
+        //         $books = $books->withAllTags($tags);
+        //         $series = $series->withAllTags($tags);
+        //     }
 
-            if (null !== $langsQuery) {
-                $langsQuery = explode(',', $langsQuery);
-                // check if lang exist
-                foreach ($langsQuery as $key => $langSlug) {
-                    Language::whereSlug($langSlug)->firstOrFail();
-                }
+        //     if (null !== $langsQuery) {
+        //         $langsQuery = explode(',', $langsQuery);
+        //         // check if lang exist
+        //         foreach ($langsQuery as $key => $langSlug) {
+        //             Language::whereSlug($langSlug)->firstOrFail();
+        //         }
 
-                $books = $books->whereIn('language_slug', $langsQuery);
-                $series = $series->whereIn('language_slug', $langsQuery);
-            }
+        //         $books = $books->whereIn('language_slug', $langsQuery);
+        //         $series = $series->whereIn('language_slug', $langsQuery);
+        //     }
 
-            $books = $books->get();
-            $series = $series->get();
+        //     $books = $books->get();
+        //     $series = $series->get();
 
-            if ($onlySerieQuery) {
-                $results = $series;
-            } else {
-                $results = $books->merge($series);
-            }
+        //     if ($onlySerieQuery) {
+        //         $results = $series;
+        //     } else {
+        //         $results = $books->merge($series);
+        //     }
 
-            $results = $results->sortBy('title_sort');
+        //     $results = $results->sortBy('title_sort');
 
-            return EntityResource::collection($results);
-        }
+        //     return EntityResource::collection($results);
+        // }
 
-        return response()->json(['error' => 'Need to have terms query parameter'], 401);
+        // return response()->json(['error' => 'Need to have terms query parameter'], 401);
     }
 }

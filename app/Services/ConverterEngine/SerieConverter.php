@@ -132,9 +132,11 @@ class SerieConverter
                 if (! $book) {
                     $book = Book::whereSerieId($serie->id)->first();
                 }
-                $cover_exist = File::exists($book->getMedia('books')->first()?->getPath());
+
+                /** @var Book $book */
+                $cover_exist = File::exists($book->cover_book->getPath());
                 if ($cover_exist) {
-                    $cover = base64_encode(File::get($book->getMedia('books')->first()->getPath()));
+                    $cover = base64_encode(File::get($book->cover_book->getPath()));
                 }
             }
             if ($cover) {

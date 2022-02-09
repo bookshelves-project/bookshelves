@@ -7,10 +7,10 @@ use App\Models\Book;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
+use App\Models\TagExtend;
 use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Knuckles\Scribe\Extracting\ParamHelpers;
 use Knuckles\Scribe\Extracting\Strategies\Strategy;
-use Spatie\Tags\Tag;
 
 class BookshelvesParameter extends Strategy
 {
@@ -125,13 +125,16 @@ class BookshelvesParameter extends Strategy
 
     private function tag(): array
     {
-        $tag = Tag::inRandomOrder()->first();
+        /** @var TagExtend $tag */
+        $tag = TagExtend::inRandomOrder()->limit(1)->first();
+        $slug = json_encode($tag->slug);
+        $slug = json_decode($slug);
 
         return [
             'tag_slug' => [
-                'description' => "`slug` of serie in `meta.slug` tags' list, example: `{$tag->slug}`",
+                'description' => "`slug` of serie in `meta.slug` tags' list, example: `{$slug}`",
                 'required' => true,
-                'example' => $tag->slug,
+                'example' => $slug,
             ],
         ];
     }

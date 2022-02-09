@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources\Admin;
 
-use App\Models\Media;
+use App\Models\MediaExtended;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property Media $resource
+ * @property MediaExtended $resource
  */
 class MediaResource extends JsonResource
 {

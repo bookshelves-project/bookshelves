@@ -233,9 +233,9 @@ class ParserEngine
                 }
             }
 
-            if ($cover) {
-                $cover_file = $cover ?? null;
-                $cover_extension = pathinfo($cover, PATHINFO_EXTENSION) ?? null;
+            if (! empty($cover)) {
+                $cover_file = $cover;
+                $cover_extension = pathinfo($cover, PATHINFO_EXTENSION);
             } else {
                 echo 'NO COVER';
             }

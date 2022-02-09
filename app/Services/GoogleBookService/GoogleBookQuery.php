@@ -91,7 +91,7 @@ class GoogleBookQuery
                 if (property_exists($item, 'volumeInfo')) {
                     $volumeInfo = $item->volumeInfo ?? null;
                     if ($volumeInfo) {
-                        $this->published_date = new DateTime($volumeInfo->publishedDate) ?? null;
+                        $this->published_date = new DateTime($volumeInfo->publishedDate);
                         $this->publisher = $volumeInfo->publisher ?? null;
                         $this->description = $volumeInfo->description ?? null;
                         $this->industry_identifiers = $volumeInfo->industryIdentifiers ?? null;
@@ -109,8 +109,8 @@ class GoogleBookQuery
                         if (property_exists($saleInfo, 'retailPrice')) {
                             $retailPrice = $saleInfo->retailPrice;
                             if ($retailPrice) {
-                                $this->retail_price_amount = intval($retailPrice->amount) ?? null;
-                                $this->retail_price_currency_code = intval($retailPrice->currencyCode) ?? null;
+                                $this->retail_price_amount = intval($retailPrice->amount);
+                                $this->retail_price_currency_code = intval($retailPrice->currencyCode);
                             }
                         }
                         $this->buy_link = $saleInfo->buyLink ?? null;

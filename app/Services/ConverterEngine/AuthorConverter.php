@@ -89,12 +89,12 @@ class AuthorConverter
             }
         }
         foreach ($authors as $key => $author) {
-            if (! $author) {
-                // TODO: log
-                BookshelvesTools::console(__METHOD__, null, 'no author');
+            // if ($author) {
+            //     // TODO: log
+            //     BookshelvesTools::console(__METHOD__, null, 'no author');
 
-                return false;
-            }
+            //     return false;
+            // }
             $book->authors()->save($author);
             AuthorConverter::tags($author);
         }

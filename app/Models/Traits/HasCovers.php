@@ -2,6 +2,7 @@
 
 namespace App\Models\Traits;
 
+use App\Models\MediaExtended;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -13,10 +14,10 @@ trait HasCovers
 {
     use InteractsWithMedia;
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('covers');
-    }
+    // public function registerMediaCollections(): void
+    // {
+    //     $this->addMediaCollection('covers');
+    // }
 
     /** @mixin \Spatie\Cover\Manipulations */
     public function registerMediaConversions(Media $media = null): void
@@ -41,6 +42,15 @@ trait HasCovers
                 ->format('jpg')
             ;
         }
+    }
+
+    /**
+     * Manage EPUB files with spatie/laravel-medialibrary.
+     */
+    public function getCoverBookAttribute(): ?MediaExtended
+    {
+        // @phpstan-ignore-next-line
+        return $this->getMedia('books')->first() ?? null;
     }
 
     /**
@@ -87,15 +97,16 @@ trait HasCovers
     {
         /** @var Media $media */
         $media = $this->getFirstMedia($this->getClassName(true));
-        // @phpstan-ignore-next-line
-        $color = $media?->getCustomProperty('color');
 
-        return "#{$color}" ?? '#ffffff';
+        if ($color = $media->getCustomProperty('color')) {
+            return "#{$color}";
+        }
+
+        return '#ffffff';
     }
 
     private function getCover(string $collection = '', string $extension = '')
     {
-        // return BookshelvesTools::convertPicture($this, $this->meta_author.'_'.$this->slug);
         if (! $extension) {
             $extension = config('bookshelves.cover_extension');
         }

@@ -15,8 +15,6 @@ class LogoutResponse implements LogoutResponseContract
      */
     public function toResponse($request)
     {
-        dd($request);
-
         return redirect()->route('admin.login');
     }
 }

@@ -20,7 +20,7 @@ trait HasSlug
 
         $slug_name = Str::slug($model->{$attribute}, '-');
         $slug = $slug_name.$id;
-        $exist = get_class($model)::whereSlug($slug)->first();
+        $exist = $model::whereSlug($slug)->first();
 
         while ($exist) {
             $id = $with_tag ? self::generateId() : null;

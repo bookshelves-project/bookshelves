@@ -33,6 +33,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
  * @property-read string $content_opds
+ * @property-read \App\Models\MediaExtended|null $cover_book
  * @property-read string|null $cover_color
  * @property-read string|null $cover_og
  * @property-read string|null $cover_original
@@ -110,6 +111,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
  * @property-read string $authors_names
+ * @property-read \App\Models\MediaExtended|null $cover_book
  * @property-read string|null $cover_color
  * @property-read string|null $cover_og
  * @property-read string|null $cover_original
@@ -801,6 +803,7 @@ namespace App\Models{
  * @property-read int|null $favorites_count
  * @property-read string $authors_names
  * @property-read string $content_opds
+ * @property-read \App\Models\MediaExtended|null $cover_book
  * @property-read string|null $cover_color
  * @property-read string|null $cover_og
  * @property-read string|null $cover_original

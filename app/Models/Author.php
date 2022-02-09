@@ -94,7 +94,7 @@ class Author extends Model implements HasMedia
         $author = Author::whereSlug($this->slug)->with('books.media')->first();
         $books = $author->books;
         foreach ($books as $key => $book) {
-            array_push($size, $book->getMedia('epubs')->first()?->size);
+            array_push($size, $book->epub->size);
         }
         $size = array_sum($size);
 

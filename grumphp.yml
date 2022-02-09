@@ -12,5 +12,5 @@ grumphp:
   #   pest: ~
     phpcsfixer:
       config: .php-cs-fixer.dist.php
-  #   phpstan:
-  #     use_grumphp_paths: false
+    phpstan:
+      use_grumphp_paths: false

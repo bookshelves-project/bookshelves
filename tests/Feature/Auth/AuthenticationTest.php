@@ -74,6 +74,7 @@ test('users can authenticate using the login screen', function () {
         'password' => 'password',
     ]);
 
+    dump($response->headers);
     $response->assertHeader('X-Inertia-Location', url('/'));
     assertAuthenticated();
 });

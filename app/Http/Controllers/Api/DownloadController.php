@@ -28,14 +28,7 @@ class DownloadController extends ApiController
      */
     public function book(Author $author, Book $book)
     {
-        // $book = Book::whereSlug($book)->firstOrFail();
-        // if ($book->meta_author === $author) {
-        $epub = $book->getMedia('epubs')->first();
-        // } else {
-        // return response()->json(['Error' => 'Book not found'], 401);
-        // }
-
-        return response()->download($epub->getPath(), $epub->file_name);
+        return response()->download($book->epub->getPath(), $book->epub->file_name);
     }
 
     /**
