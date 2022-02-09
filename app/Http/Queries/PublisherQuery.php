@@ -19,12 +19,13 @@ class PublisherQuery extends BaseQuery
         if (! $option) {
             $option = new QueryOption();
             $option->resource = PublisherResource::class;
-            $option->with = [];
         }
 
         $this->option = $option;
+        $option->with = [] === $option->with ? [] : $this->option->with;
 
         $this->query = QueryBuilder::for(Publisher::class)
+            ->defaultSort($this->option->defaultSort)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['name',  'slug'])),
                 AllowedFilter::partial('id'),
@@ -34,10 +35,11 @@ class PublisherQuery extends BaseQuery
             ->allowedSorts(['id', 'name', 'slug', 'books_count', 'created_at', 'updated_at'])
             ->with($option->with)
             ->withCount('books')
-            ->orderByDesc($this->option->orderBy)
         ;
 
-        $this->export = new LanguageExport($this->query);
+        if ($this->option->withExport) {
+            $this->export = new LanguageExport($this->query);
+        }
         $this->resource = 'languages';
 
         return $this;

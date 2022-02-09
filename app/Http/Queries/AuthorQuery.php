@@ -19,12 +19,13 @@ class AuthorQuery extends BaseQuery
         if (! $option) {
             $option = new QueryOption();
             $option->resource = AuthorResource::class;
-            $option->with = ['series', 'books', 'media'];
         }
 
         $this->option = $option;
+        $option->with = [] === $option->with ? ['series', 'books', 'media'] : $this->option->with;
 
         $this->query = QueryBuilder::for(Author::class)
+            ->defaultSort($this->option->defaultSort)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['firstname', 'lastname', 'name'])),
                 AllowedFilter::partial('firstname'),
@@ -33,7 +34,6 @@ class AuthorQuery extends BaseQuery
             ->allowedSorts(['id', 'firstname', 'lastname', 'name', 'books_count', 'series_count', 'created_at', 'updated_at'])
             ->with($option->with)
             ->withCount('series', 'books')
-            ->orderByDesc($this->option->orderBy)
         ;
 
         if ($this->option->withExport) {

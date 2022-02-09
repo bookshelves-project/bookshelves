@@ -19,10 +19,10 @@ class StubQuery extends BaseQuery
         if (! $option) {
             $option = new QueryOption();
             $option->resource = StubResource::class;
-            $option->with = [];
         }
 
         $this->option = $option;
+        $option->with = [] === $option->with ? [] : $this->option->with;
 
         $this->query = QueryBuilder::for(Stub::class)
             ->allowedFilters([

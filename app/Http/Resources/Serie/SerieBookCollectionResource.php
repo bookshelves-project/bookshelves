@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources\Serie;
 
-use App\Models\Serie;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property \App\Models\Serie $resource
+ */
 class SerieBookCollectionResource extends JsonResource
 {
     /**
@@ -16,15 +18,12 @@ class SerieBookCollectionResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var Serie $serie */
-        $serie = $this;
-
         return [
-            'title' => $serie->title,
+            'title' => $this->resource->title,
             'meta' => [
-                'slug' => $serie->slug,
-                'author' => $serie->meta_author,
-                'show' => $serie->show_link,
+                'slug' => $this->resource->slug,
+                'author' => $this->resource->meta_author,
+                'show' => $this->resource->show_link,
             ],
         ];
     }

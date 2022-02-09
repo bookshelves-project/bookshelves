@@ -19,14 +19,16 @@ class LanguageQuery extends BaseQuery
         if (! $option) {
             $option = new QueryOption();
             $option->resource = LanguageResource::class;
-            $option->orderBy = 'slug';
-            $option->sortAsc = true;
-            $option->with = [];
         }
 
         $this->option = $option;
+        $option->with = [] === $option->with ? [] : $this->option->with;
+        $option->orderBy = 'slug';
+        $option->defaultSort = '-slug';
+        $option->sortAsc = true;
 
         $this->query = QueryBuilder::for(Language::class)
+            ->defaultSort($this->option->defaultSort)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['name',  'slug'])),
                 AllowedFilter::partial('id'),
@@ -36,10 +38,11 @@ class LanguageQuery extends BaseQuery
             ->allowedSorts(['id', 'name', 'slug', 'created_at', 'updated_at'])
             ->with($option->with)
             ->withCount('books', 'series')
-            ->orderByDesc($this->option->orderBy)
         ;
 
-        $this->export = new LanguageExport($this->query);
+        if ($this->option->withExport) {
+            $this->export = new LanguageExport($this->query);
+        }
         $this->resource = 'languages';
 
         return $this;

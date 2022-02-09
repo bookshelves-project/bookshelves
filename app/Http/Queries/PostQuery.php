@@ -20,12 +20,13 @@ class PostQuery extends BaseQuery
         if (! $option) {
             $option = new QueryOption();
             $option->resource = PostResource::class;
-            $option->with = ['category', 'media', 'tags', 'user'];
         }
 
         $this->option = $option;
+        $option->with = [] === $option->with ? ['category', 'media', 'tags', 'user'] : $this->option->with;
 
         $this->query = QueryBuilder::for(Post::class)
+            ->defaultSort($this->option->defaultSort)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['title', 'summary', 'body'])),
                 AllowedFilter::partial('title'),
@@ -45,10 +46,11 @@ class PostQuery extends BaseQuery
             ])
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'updated_at'])
             ->with($option->with)
-            ->orderByDesc($this->option->orderBy)
         ;
 
-        $this->export = new PostExport($this->query);
+        if ($this->option->withExport) {
+            $this->export = new PostExport($this->query);
+        }
         $this->resource = 'posts';
 
         return $this;

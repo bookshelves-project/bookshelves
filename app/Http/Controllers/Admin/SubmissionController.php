@@ -8,6 +8,7 @@ use App\Http\Resources\Admin\SubmisionResource;
 use App\Models\Submission;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -31,7 +32,7 @@ class SubmissionController extends Controller
         ] + app(SubmissionQuery::class)->make()->get());
     }
 
-    #[Get('submissions', name: 'submissions.create')]
+    #[Delete('{submission}', name: 'submissions.destroy')]
     public function destroy(Submission $submission)
     {
         $submission->delete();
@@ -39,7 +40,7 @@ class SubmissionController extends Controller
         return redirect()->route('admin.submissions')->with('flash.success', __('Submission deleted.'));
     }
 
-    #[Get('submissions', name: 'submissions.create')]
+    #[Delete('/', name: 'submissions.bulk.destroy')]
     public function bulkDestroy(Request $request)
     {
         $count = Submission::query()->findMany($request->input('ids'))

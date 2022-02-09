@@ -20,12 +20,13 @@ class BookQuery extends BaseQuery
         if (! $option) {
             $option = new QueryOption();
             $option->resource = BookResource::class;
-            $option->with = ['serie', 'media', 'authors', 'language', 'publisher'];
         }
 
         $this->option = $option;
+        $option->with = [] === $option->with ? ['serie', 'media', 'authors', 'language', 'publisher'] : $this->option->with;
 
         $this->query = QueryBuilder::for(Book::class)
+            ->defaultSort($this->option->defaultSort)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['title', 'serie'])),
                 AllowedFilter::exact('id'),
@@ -64,7 +65,7 @@ class BookQuery extends BaseQuery
             ->allowedSorts(['id', 'title', 'title_sort', 'type', 'serie', 'authors', 'volume', 'publisher',  'released_on', 'created_at', 'updated_at'])
             ->with($option->with)
             ->withCount('tags')
-            ->orderByDesc($this->option->orderBy)
+
         ;
 
         if ($this->option->withExport) {

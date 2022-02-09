@@ -19,12 +19,13 @@ class TagQuery extends BaseQuery
         if (! $option) {
             $option = new QueryOption();
             $option->resource = TagResource::class;
-            $option->with = ['books', 'series'];
         }
 
         $this->option = $option;
+        $option->with = [] === $option->with ? ['books', 'series'] : $this->option->with;
 
         $this->query = QueryBuilder::for(TagExtend::class)
+            ->defaultSort($this->option->defaultSort)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['name',  'slug', 'type'])),
                 AllowedFilter::partial('name'),
@@ -36,10 +37,11 @@ class TagQuery extends BaseQuery
             ->allowedSorts(['id', 'name', 'slug', 'type', 'first_char', 'books_count', 'series_count', 'created_at', 'updated_at'])
             ->with($option->with)
             ->withCount('books', 'series')
-            ->orderByDesc($this->option->orderBy)
         ;
 
-        $this->export = new TagExport($this->query);
+        if ($this->option->withExport) {
+            $this->export = new TagExport($this->query);
+        }
         $this->resource = 'tags';
 
         return $this;

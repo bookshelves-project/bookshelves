@@ -19,10 +19,8 @@ class BookLightResource extends JsonResource
      */
     public function toArray($request)
     {
-        $resource = BookUltraLightResource::make($this->resource)->toArray($request);
-
-        return array_merge($resource, [
+        return BookUltraLightResource::make($this->resource)->toArray($request) + [
             'serie' => SerieBookCollectionResource::make($this->resource->serie),
-        ]);
+        ];
     }
 }

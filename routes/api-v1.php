@@ -110,7 +110,7 @@ Route::prefix('download')->group(function () {
 /*
  * Submissions routes
  */
-Route::post('submission/send', [SubmissionController::class, 'send'])->name('api.v1.submission.send');
+Route::post('send/submission', [SubmissionController::class, 'send'])->name('api.v1.submission.send');
 
 /*
  * Comments routes

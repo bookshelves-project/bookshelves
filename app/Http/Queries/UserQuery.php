@@ -19,12 +19,13 @@ class UserQuery extends BaseQuery
         if (! $option) {
             $option = new QueryOption();
             $option->resource = UserResource::class;
-            $option->with = [];
         }
 
         $this->option = $option;
+        $option->with = [] === $option->with ? [] : $this->option->with;
 
         $this->query = QueryBuilder::for(User::class)
+            ->defaultSort($this->option->defaultSort)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['name', 'email'])),
                 AllowedFilter::partial('name'),
@@ -34,10 +35,11 @@ class UserQuery extends BaseQuery
                 AllowedFilter::exact('active'),
             ])
             ->allowedSorts(['id', 'name', 'last_login_at', 'created_at', 'updated_at'])
-            ->orderByDesc($this->option->orderBy)
         ;
 
-        $this->export = new UserExport($this->query);
+        if ($this->option->withExport) {
+            $this->export = new UserExport($this->query);
+        }
         $this->resource = 'users';
 
         return $this;

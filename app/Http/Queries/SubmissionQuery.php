@@ -19,12 +19,13 @@ class SubmissionQuery extends BaseQuery
         if (! $option) {
             $option = new QueryOption();
             $option->resource = SubmisionResource::class;
-            $option->with = [];
         }
 
         $this->option = $option;
+        $option->with = [] === $option->with ? [] : $this->option->with;
 
         $this->query = QueryBuilder::for(Submission::class)
+            ->defaultSort($this->option->defaultSort)
             ->allowedFilters([
                 AllowedFilter::custom('q', new GlobalSearchFilter(['name', 'email'])),
                 AllowedFilter::partial('name'),
@@ -32,10 +33,11 @@ class SubmissionQuery extends BaseQuery
             ])
             ->allowedSorts(['id', 'name', 'email', 'created_at', 'updated_at'])
             ->with($option->with)
-            ->orderByDesc($this->option->orderBy)
         ;
 
-        $this->export = new SubmissionExport($this->query);
+        if ($this->option->withExport) {
+            $this->export = new SubmissionExport($this->query);
+        }
         $this->resource = 'submissions';
 
         return $this;
