@@ -4,6 +4,7 @@ namespace App\Http\Queries;
 
 use App\Exports\BookExport;
 use App\Http\Queries\Addon\QueryOption;
+use App\Http\Resources\Admin\BookResource;
 use App\Models\Book;
 use App\Support\GlobalSearchFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,6 +17,12 @@ class BookQuery extends BaseQuery
 {
     public function make(?QueryOption $option = null)
     {
+        if (! $option) {
+            $option = new QueryOption();
+            $option->resource = BookResource::class;
+            $option->with = ['serie', 'media', 'authors', 'language', 'publisher'];
+        }
+
         $this->option = $option;
 
         $this->query = QueryBuilder::for(Book::class)
@@ -49,10 +56,9 @@ class BookQuery extends BaseQuery
                 }),
             ])
             ->allowedSorts(['id', 'title', 'title_sort', 'type', 'serie', 'authors', 'volume', 'publisher',  'released_on', 'created_at', 'updated_at'])
-            ->with('serie', 'media', 'authors', 'language', 'publisher')
+            ->with($option->with)
             ->withCount('tags')
-            ->defaultSort($option->defaultSort)
-            ->defaultSort('id')
+            ->orderByDesc($this->option->orderBy)
         ;
 
         if ($this->option->withExport) {
@@ -74,8 +80,7 @@ class BookQuery extends BaseQuery
     public function get(): array
     {
         return [
-            // 'sort' => request()->get('sort', $this->option->defaultSort),
-            'sort' => request()->get('sort', '-id'),
+            'sort' => request()->get('sort', $this->option->defaultSort),
             'filter' => request()->get('filter'),
             'books' => fn () => $this->collection(),
         ];

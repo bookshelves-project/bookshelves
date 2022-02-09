@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use League\Glide\Urls\UrlBuilderFactory;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as ModelsMedia;
 
-class Media extends \Spatie\MediaLibrary\MediaCollections\Models\Media
+class Media extends ModelsMedia
 {
     protected $glide;
 

@@ -5,7 +5,7 @@ namespace App\Http\Queries\Addon;
 class QueryOption
 {
     public string $sortDirection = '';
-    public string $defaultSort = '';
+    public string $defaultSort = '-id';
 
     public function __construct(
         public int $perPage = 15,
@@ -13,6 +13,7 @@ class QueryOption
         public string $orderBy = 'id',
         public bool $sortAsc = false,
         public ?string $resource = '',
+        public array $with = [],
     ) {
     }
 
@@ -21,14 +22,16 @@ class QueryOption
         bool $withExport = true,
         string $orderBy = 'id',
         bool $sortAsc = false,
-        string $resource = null
+        string $resource = null,
+        array $with = [],
     ): QueryOption {
         $query = new QueryOption(
             $perPage,
             $withExport,
             $orderBy,
             $sortAsc,
-            $resource
+            $resource,
+            $with,
         );
         $query->sortDirection = $query->sortAsc ? '' : '-';
         $query->defaultSort = "{$query->sortDirection}{$query->orderBy}";

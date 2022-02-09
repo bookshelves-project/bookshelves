@@ -70,7 +70,7 @@ return [
     /*
      * When enabled, Media Library pro will generate thumbnails for uploaded file.
      */
-    'generate_thumbnails_for_temporary_uploads' => true,
+    'generate_thumbnails_for_temporary_uploads' => false,
 
     /*
      * This is the class that is responsible for naming generated files.
