@@ -86,7 +86,7 @@
               </MenuItem>
               <MenuItem>
                 <button
-                  :class="'block px-4 py-2 text-sm text-gray-700'"
+                  :class="'block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100'"
                   @click="logout"
                 >
                   {{ $t('Log Out') }}
