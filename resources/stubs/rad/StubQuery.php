@@ -32,7 +32,6 @@ class StubQuery extends BaseQuery
             ])
             ->allowedSorts(['id', 'stubAttr', 'created_at', 'updated_at'])
             ->with($option->with)
-            ->withCount()
             ->orderByDesc($this->option->orderBy)
         ;
 

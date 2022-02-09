@@ -68,7 +68,6 @@ class RadGenerateCommand extends Command
         $this->model_human = preg_replace('/([a-z])([A-Z])/', '$1 $2', $this->model);
         $this->model_snake = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $this->model));
         $this->model_concat = strtolower(preg_replace('/([a-z])([A-Z])/', '$1$2', $this->model));
-        dump($this->toArray());
 
         $this->alert("RAD Stack: Generate {$this->model} CRUD");
 
@@ -99,14 +98,14 @@ class RadGenerateCommand extends Command
     public function toArray(): array
     {
         return [
-            $this->model,
-            $this->model_pascal,
-            $this->model_kebab,
-            $this->model_human,
-            $this->model_snake,
-            $this->model_concat,
-            $this->force,
-            $this->attribute,
+            'model' => $this->model,
+            'model_pascal' => $this->model_pascal,
+            'model_kebab' => $this->model_kebab,
+            'model_human' => $this->model_human,
+            'model_snake' => $this->model_snake,
+            'model_concat' => $this->model_concat,
+            'force' => $this->force,
+            'attribute' => $this->attribute,
         ];
     }
 
@@ -201,36 +200,34 @@ class RadGenerateCommand extends Command
         $success = false;
         $destination_path = resource_path('admin/features/helpers.ts');
 
-        if (! File::exists($destination_path) || $this->force) {
-            $file_part = $this->find($destination_path, "{$this->model_pascal}s: (model: {$this->model})");
-            if (! $file_part) {
-                /**
-                 * Add import.
-                 */
-                $is_exist = $this->find($destination_path, "  {$this->model},");
-                if (! $is_exist) {
-                    $file_part = $this->find($destination_path, "} from '@admin/types'");
-                    array_push($file_part['begin'], "  {$this->model},\n");
-                    $file_content = $this->mergeFind($file_part);
-                    $this->rewriteFile($destination_path, $file_content);
-                }
-
-                /**
-                 * Add helper.
-                 */
-                $file_part = $this->find($destination_path, '} as { [key: string]: (model) => string }');
-                array_push($file_part['begin'], "        {$this->model_pascal}s: (model: {$this->model}) => model.{$this->attribute},\n");
+        $file_part = $this->find($destination_path, "{$this->model_pascal}s: (model: {$this->model})");
+        if (! $file_part) {
+            /**
+             * Add import.
+             */
+            $is_exist = $this->find($destination_path, "  {$this->model},");
+            if (! $is_exist) {
+                $file_part = $this->find($destination_path, "} from '@admin/types'");
+                array_push($file_part['begin'], "  {$this->model},\n");
                 $file_content = $this->mergeFind($file_part);
                 $this->rewriteFile($destination_path, $file_content);
-
-                $success = true;
             }
+
+            /**
+             * Add helper.
+             */
+            $file_part = $this->find($destination_path, '} as { [key: string]: (model) => string }');
+            array_push($file_part['begin'], "        {$this->model_pascal}s: (model: {$this->model}) => model.{$this->attribute},\n");
+            $file_content = $this->mergeFind($file_part);
+            $this->rewriteFile($destination_path, $file_content);
+
+            $success = true;
         }
 
         if ($success) {
             $this->info('helpers.ts updated.');
         } else {
-            $this->error('helpers.ts import already exist!');
+            $this->error('helpers.ts error!');
         }
 
         return $success;
@@ -241,7 +238,7 @@ class RadGenerateCommand extends Command
      */
     protected function generateAttributes(string $lang = 'en'): bool
     {
-        $path = resource_path("lang/{$lang}/crud.php");
+        $path = base_path("lang/{$lang}/crud.php");
 
         $entry = "'{$this->model_kebab}s' => [";
         $is_exist = $this->find($path, $entry);
