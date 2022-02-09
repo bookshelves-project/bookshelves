@@ -1,50 +1,75 @@
 <template>
-  <label class="flex items-center cursor-pointer">
-    <!-- toggle -->
-    <div class="relative">
-      <!-- input -->
-      <input
-        v-bind="$attrs"
-        type="checkbox"
-        class="sr-only"
-        :checked="modelValue"
-        @change="change"
-      />
-      <!-- line -->
-      <div class="bg-toggle block bg-gray-400 w-10 h-6 rounded-full"></div>
-      <!-- dot -->
-      <div
-        class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform"
-      ></div>
-    </div>
-    <!-- label -->
-    <div v-if="label" class="ml-2 text-gray-700 text-sm font-medium">
-      {{ label }}
-    </div>
-  </label>
+  <div class="flex items-center justify-between mt-1" :title="label">
+    <span v-if="label" class="flex-grow flex flex-col">
+      <span
+        id="availability-label"
+        class="text-sm font-medium text-gray-900 dark:text-gray-100"
+        >{{ label }}</span
+      >
+    </span>
+    <button
+      type="button"
+      :class="[
+        toggled ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-700',
+        { 'ml-3': label },
+      ]"
+      class="relative inline-flex shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-primary-700 dark:focus:ring-offset-gray-900"
+      role="switch"
+      :aria-checked="toggled"
+      @click="toggle"
+    >
+      <span class="sr-only">{{ label }}</span>
+      <span
+        :class="toggled ? 'translate-x-5' : 'translate-x-0'"
+        class="pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white dark:bg-gray-900 shadow transform ring-0 transition ease-in-out duration-200"
+      >
+        <span
+          :class="
+            toggled
+              ? 'opacity-0 ease-out duration-100'
+              : 'opacity-100 ease-in duration-200'
+          "
+          class="absolute inset-0 h-full w-full flex items-center justify-center transition-opacity"
+          aria-hidden="true"
+        >
+        </span>
+        <span
+          :class="
+            toggled
+              ? 'opacity-100 ease-in duration-200'
+              : 'opacity-0 ease-out duration-100'
+          "
+          class="absolute inset-0 h-full w-full flex items-center justify-center transition-opacity"
+          aria-hidden="true"
+        >
+        </span>
+      </span>
+    </button>
+  </div>
 </template>
 
-<script lang="ts" setup>
-  import {} from 'vue'
+<script setup lang="ts">
+  import { onMounted, ref } from 'vue'
 
-  defineProps({
+  const props = defineProps({
     modelValue: Boolean,
-    label: String,
+    label: {
+      type: String,
+      default: null,
+    },
   })
 
   const emit = defineEmits(['update:modelValue'])
 
-  const change = (e: Event) => {
-    emit('update:modelValue', (e.target as HTMLInputElement).checked)
+  const toggled = ref(false)
+  const toggle = () => {
+    toggled.value = !toggled.value
+    emit('update:modelValue', toggled.value)
   }
+
+  onMounted(() => {
+    if (props.modelValue) {
+      toggled.value = props.modelValue
+    }
+  })
 </script>
-
-<style lang="css" scoped>
-  input:checked ~ .dot {
-    @apply translate-x-4;
-  }
-
-  input:checked ~ .bg-toggle {
-    @apply bg-primary-500;
-  }
-</style>
