@@ -18,7 +18,7 @@ export const referenceSetup = (
 
   const fetchList = async () => {
     const { data } = await axios.get<{ data: any }>(
-      route(`admin.${props.resource}`)
+      route(`admin.${props.resource}.fetch`)
     )
     choices.value = data.data
   }

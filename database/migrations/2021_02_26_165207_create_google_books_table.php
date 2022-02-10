@@ -13,6 +13,8 @@ class CreateGoogleBooksTable extends Migration
     {
         Schema::create('google_books', function (Blueprint $table) {
             $table->id();
+            $table->string('original_isbn')->nullable();
+            $table->string('url')->nullable();
             $table->dateTime('published_date')->nullable();
             $table->text('description')->nullable();
             $table->json('industry_identifiers')->nullable();
@@ -31,7 +33,7 @@ class CreateGoogleBooksTable extends Migration
         });
 
         Schema::table('books', function (Blueprint $table) {
-            $table->foreignId('google_book_id')->index()->nullable()->after('identifier_id');
+            $table->foreignId('google_book_id')->index()->nullable()->after('language_slug');
             $table->foreign('google_book_id')
                 ->references('id')
                 ->on('google_books')

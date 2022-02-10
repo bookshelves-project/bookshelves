@@ -12,6 +12,8 @@ import {
   Submission,
   Tag,
   User,
+  WikipediaItem,
+  GoogleBook,
 } from '@admin/types'
 
 export function useTitle(title: string, options?: TranslationOptions): string {
@@ -44,6 +46,8 @@ export function useModelToString(
         tags: (model: Tag) => model.name,
         languages: (model: Language) => model.name,
         publishers: (model: Publisher) => model.name,
+        wikipediaItems: (model: WikipediaItem) => model.search_query,
+        googleBooks: (model: GoogleBook) => model.original_isbn,
       } as { [key: string]: (model) => string }
     )[toCamelCase(resource)](model)
   }

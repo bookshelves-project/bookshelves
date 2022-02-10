@@ -2,6 +2,7 @@
 
 namespace App\Services\GoogleBookService;
 
+use App\Models\Book;
 use App\Models\GoogleBook;
 use App\Services\HttpService;
 use Illuminate\Database\Eloquent\Model;
@@ -36,9 +37,12 @@ class GoogleBookService
         /*
          * Keep only books without googleBook relation.
          */
+        /** @var Book $model */
         foreach ($models as $model) {
-            if (! $model->googleBook) {
-                $service->models->add($model);
+            if ($model->isbn) {
+                if (! $model->googleBook) {
+                    $service->models->add($model);
+                }
             }
         }
         $service->debug = $debug;
@@ -102,6 +106,8 @@ class GoogleBookService
         foreach ($this->queries as $query) {
             /** @var string[] $data */
             $data = [
+                'original_isbn' => $query->original_isbn,
+                'url' => $query->url,
                 'released_on' => $query->published_date,
                 'description' => $query->description,
                 'industry_identifiers' => $query->industry_identifiers ? json_encode($query->industry_identifiers) : null,

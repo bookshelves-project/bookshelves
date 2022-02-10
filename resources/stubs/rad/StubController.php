@@ -19,6 +19,16 @@ use Spatie\RouteAttributes\Attributes\Put;
 #[Prefix('stubsKebab')]
 class StubController extends Controller
 {
+    #[Get('fetch', name: 'stubsKebab.fetch')]
+    public function fetch(Request $request)
+    {
+        return StubResource::collection(
+            Stub::query()
+                ->where('stubAttr', 'like', "%{$request->input('filter.q')}%")
+                ->get()
+        );
+    }
+
     #[Get('/', name: 'stubsKebab')]
     public function index()
     {

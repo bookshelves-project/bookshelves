@@ -70,7 +70,7 @@ class GenerateCommand extends Command
             return false;
         }
         $this->comment('EPUB files detected: '.sizeof($list));
-        $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie, Identifier');
+        $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie');
         $this->info('- Generate new EPUB file with standard name');
         $this->newLine();
         if (! $default) {

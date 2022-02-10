@@ -6,7 +6,6 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Comment;
 use App\Models\GoogleBook;
-use App\Models\Identifier;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
@@ -136,8 +135,6 @@ class DatabaseCommand extends Command
         Publisher::truncate();
         $this->info('Truncate languages table');
         Language::truncate();
-        $this->info('Truncate identifiers table');
-        Identifier::truncate();
         $this->info('Truncate comments table');
         Comment::truncate();
         $this->info('Truncate google_books table');

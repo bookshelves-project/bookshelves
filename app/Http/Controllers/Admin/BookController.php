@@ -20,6 +20,16 @@ use Spatie\RouteAttributes\Attributes\Put;
 #[Prefix('books')]
 class BookController extends Controller
 {
+    #[Get('fetch', name: 'books.fetch')]
+    public function fetch(Request $request)
+    {
+        return BookResource::collection(
+            Book::query()
+                ->where('title', 'like', "%{$request->input('filter.q')}%")
+                ->get()
+        );
+    }
+
     #[Get('/', name: 'books')]
     public function index()
     {
@@ -46,7 +56,7 @@ class BookController extends Controller
     public function edit(Book $book)
     {
         return Inertia::render('books/Edit', [
-            'book' => BookResource::make($book->load('serie', 'authors', 'media', 'tags')),
+            'book' => BookResource::make($book->load('serie', 'authors', 'media', 'tags', 'language')),
         ]);
     }
 
@@ -63,11 +73,23 @@ class BookController extends Controller
     {
         $book->update($request->all());
 
+        // $book->syncTags($request->tags['fetch']);
+
+        // if ($request->featured_image_delete) {
+        //     $book->clearMediaCollection('featured-image');
+        // }
+
+        // if ($request->featured_image_file) {
+        //     $book->addMediaFromRequest('featured_image_file')
+        //         ->toMediaCollection('featured-image')
+        //     ;
+        // }
+
         return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
     }
 
     #[Patch('{book}/toggle', name: 'books.toggle')]
-    public function toggle(Book $book, Request $request)
+    public function toggle(Book $book, BookUpdateRequest $request)
     {
         $request->validate([
             'disabled' => 'sometimes|boolean',

@@ -22,6 +22,16 @@ use Spatie\RouteAttributes\Attributes\Put;
 #[Prefix('users')]
 class UserController extends Controller
 {
+    #[Get('fetch', name: 'users.fetch')]
+    public function fetch(Request $request)
+    {
+        return UserResource::collection(
+            User::query()
+                ->where('name', 'like', "%{$request->input('filter.q')}%")
+                ->get()
+        );
+    }
+
     #[Get('/', name: 'users')]
     public function index()
     {

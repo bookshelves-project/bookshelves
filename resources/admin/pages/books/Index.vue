@@ -114,8 +114,13 @@
       type: 'reference',
       props: {
         text: 'name',
-        resource: 'languages.fetch',
+        resource: 'languages',
       },
+      sortable: true,
+      searchable: true,
+    },
+    {
+      field: 'isbn',
       sortable: true,
       searchable: true,
     },
@@ -135,7 +140,7 @@
       props: {
         text: 'name',
         resource: 'publishers',
-        // link: 'show',
+        link: 'show',
       },
       sortable: true,
       filterType: 'text',

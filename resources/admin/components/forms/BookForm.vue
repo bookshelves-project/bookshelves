@@ -1,47 +1,145 @@
 <template>
   <base-form ref="form" v-slot="{ processing }" :method="method" :url="url">
-    <!-- <div class="flex flex-col xl:flex-row gap-6">
-      <div class="xl:w-3/4 px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md">
-        <div>
-          <text-input source="title" type="text" />
-        </div>
-      </div>
-
-      <div class="xl:flex-1">
-        <div
-          class="flex flex-col gap-4 px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md"
-        >
-          <base-button
-            type="button"
-            variant="success"
-            :loading="processing"
-            @click="submit()"
-          >
-            {{ $t('Save') }}
-          </base-button>
-        </div>
-      </div>
-    </div> -->
     <div class="form-grid">
       <card-content>
         <div class="form-split">
           <text-input source="title" type="text" />
         </div>
         <div class="form-split">
-          <text-input source="slug_sort" type="text" />
+          <text-input source="volume" type="number" />
+        </div>
+        <div class="form-split">
+          <reference-input
+            source="language_slug"
+            label-key="language"
+            resource="languages"
+            allow-empty
+          />
+        </div>
+        <div class="form-split">
+          <reference-input
+            source="serie_id"
+            label-key="serie"
+            resource="series"
+            option-text="title"
+            allow-empty
+          />
+        </div>
+        <div class="form-split">
+          <reference-input
+            source="publisher_id"
+            label-key="publisher"
+            resource="publishers"
+            allow-empty
+          />
+        </div>
+        <div class="form-split">
+          <rich-select-input
+            source="authors.fetch"
+            resource="authors.fetch"
+            label-key="authors"
+            multiple
+            taggable
+            searchable
+            :min-chars="0"
+            option-value="name"
+            :getter="(book) => book.authors.map((t) => t.name)"
+          />
+        </div>
+        <div class="form-split">
+          <reference-input
+            source="google_book_id"
+            label-key="googleBook"
+            resource="googleBooks"
+            option-text="isbn"
+            option-value="id"
+            allow-empty
+          />
         </div>
         <!-- <div class="form-split">
-          <text-input source="meta_title" type="text" />
-          <div class="mt-5">
-            <text-input source="meta_description" multiline />
-          </div>
+          <reference-input
+            source="publisher_id"
+            label-key="publisher"
+            resource="publishers"
+            allow-empty
+          />
         </div>
-        <div class="form-full">
-          <editor-input source="body" :height="800" />
+        <div class="form-split">
+          <reference-input
+            source="google_book_id"
+            label-key="googleBook"
+            resource="googleBooks"
+            allow-empty
+          />
+        </div>
+        <div class="form-split">
+          <reference-input
+            source="wikipedia_item_id"
+            label-key="wikipediaItem"
+            resource="wikipediaItems"
+            allow-empty
+          />
         </div> -->
+        <div class="form-full">
+          <editor-input source="description" :height="800" />
+        </div>
       </card-content>
       <card-side>
-        <div class="flex form-full">
+        <div class="form-full">
+          <file-input
+            source="cover"
+            file-source="cover_file"
+            delete-source="cover_delete"
+            preview
+            preview-attr="url"
+          />
+        </div>
+        <div class="form-full">
+          <text-input source="slug" type="text" />
+        </div>
+        <div class="form-full">
+          <text-input source="slug_sort" type="text" />
+        </div>
+        <div class="form-full">
+          <select-input source="type" choices="book_types" />
+        </div>
+        <div class="form-full">
+          <date-input source="released_on" :options="{ dateFormat: 'Y-m-d' }" />
+        </div>
+        <div class="form-full">
+          <rich-select-input
+            source="tags.fetch"
+            resource="tags.fetch"
+            label-key="tags"
+            multiple
+            taggable
+            searchable
+            :min-chars="0"
+            option-value="name"
+            :getter="(book) => book.tags.map((t) => t.name)"
+            :hint="
+              $t(`Try
+              to type any tag to find existing tag, if it not present click on
+              it to create it.`)
+            "
+          />
+        </div>
+        <div class="form-full">
+          <text-input source="contributor" type="text" />
+        </div>
+        <div class="form-full">
+          <text-input source="rights" type="text" />
+        </div>
+        <div class="form-full">
+          <text-input source="page_count" type="number" />
+        </div>
+        <div class="form-full">
+          <text-input source="maturity_rating" type="text" />
+        </div>
+        <div class="form-full">
+          <switch-input source="disabled" />
+        </div>
+        <div class="flex form-full mt-auto">
           <base-button
             class="ml-auto"
             type="button"

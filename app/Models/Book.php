@@ -48,6 +48,12 @@ class Book extends Model implements HasMedia
         'maturity_rating',
         'disabled',
         'type',
+        'identifier_isbn',
+        'identifier_isbn13',
+        'identifier_uuid',
+        'identifier_doi',
+        'identifier_amazon',
+        'identifier_google',
     ];
     protected $with = [
         'language',
@@ -123,6 +129,11 @@ class Book extends Model implements HasMedia
         return "{$serie}{$title}";
     }
 
+    public function getIsbnAttribute(): ?string
+    {
+        return $this->identifier_isbn13 ?? $this->identifier_isbn;
+    }
+
     public function scopeWhereSerieTitleIs(Builder $query, $title): Builder
     {
         return $query
@@ -138,8 +149,8 @@ class Book extends Model implements HasMedia
             'picture' => $this->cover_thumbnail,
             'released_on' => $this->released_on,
             'author' => $this->authors_names,
-            'isbn' => $this->identifier->isbn ?? null,
-            'isbn13' => $this->identifier->isbn13 ?? null,
+            'isbn' => $this->identifier_isbn,
+            'isbn13' => $this->identifier_isbn13,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
@@ -153,11 +164,6 @@ class Book extends Model implements HasMedia
     public function serie(): BelongsTo
     {
         return $this->belongsTo(Serie::class);
-    }
-
-    public function identifier(): BelongsTo
-    {
-        return $this->belongsTo(Identifier::class);
     }
 
     public function googleBook(): BelongsTo

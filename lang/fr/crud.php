@@ -77,4 +77,14 @@ return [
         'attributes' => [
         ],
     ],
+    'wikipedia-items' => [
+        'name' => 'Wikipedia Item|Wikipedia Items',
+        'attributes' => [
+        ],
+    ],
+    'google-books' => [
+        'name' => 'Google Book|Google Books',
+        'attributes' => [
+        ],
+    ],
 ];

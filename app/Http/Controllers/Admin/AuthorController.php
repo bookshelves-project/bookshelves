@@ -19,6 +19,16 @@ use Spatie\RouteAttributes\Attributes\Put;
 #[Prefix('authors')]
 class AuthorController extends Controller
 {
+    #[Get('fetch', name: 'authors.fetch')]
+    public function fetch(Request $request)
+    {
+        return AuthorResource::collection(
+            Author::query()
+                ->where('name', 'like', "%{$request->input('filter.q')}%")
+                ->get()
+        );
+    }
+
     #[Get('/', name: 'authors')]
     public function index()
     {

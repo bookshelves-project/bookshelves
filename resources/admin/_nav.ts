@@ -28,6 +28,20 @@ interface NavLink {
 
 const mainNav: (NavLink | NavTitle)[] = [
   {
+    href: route('admin.google-books'),
+    active: () =>
+      route().current('admin.google-books') ||
+      route().current('admin.google-books.*'),
+    text: __('Google Books'),
+  },
+  {
+    href: route('admin.wikipedia-items'),
+    active: () =>
+      route().current('admin.wikipedia-items') ||
+      route().current('admin.wikipedia-items.*'),
+    text: __('Wikipedia Items'),
+  },
+  {
     href: route('admin.dashboard'),
     active: () => route().current('admin.dashboard'),
     icon: HomeIcon,

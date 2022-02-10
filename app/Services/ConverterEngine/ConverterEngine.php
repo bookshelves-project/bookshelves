@@ -3,7 +3,6 @@
 namespace App\Services\ConverterEngine;
 
 use App\Models\Book;
-use App\Models\Identifier;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
@@ -19,7 +18,6 @@ class ConverterEngine
         public ?Publisher $publisher = null,
         public ?Language $language = null,
         public ?Serie $serie = null,
-        public ?Identifier $identifier = null,
     ) {
         if (! $this->authors) {
             $this->authors = collect([]);
@@ -36,9 +34,6 @@ class ConverterEngine
         if (! $this->serie) {
             $this->serie = new Serie();
         }
-        if (! $this->identifier) {
-            $this->identifier = new Identifier();
-        }
     }
 
     public static function create(ParserEngine $parser, bool $default): void
@@ -53,7 +48,7 @@ class ConverterEngine
             $book->language()->associate($language);
             SerieConverter::create($parser, $book);
             $book->refresh();
-            IdentifierConverter::create($parser, $book);
+            BookIdentifierConverter::create($parser, $book);
             $book->save();
 
             if (! $default) {

@@ -27,15 +27,18 @@ class PostFactory extends Factory
     {
         $this->faker->addProvider(new FakerEnumProvider($this->faker));
         $this->faker->addProvider(new FakerHtmlProvider($this->faker));
+        $title = ucfirst($this->faker->words(3, true));
 
         return [
-            'title' => ucfirst($this->faker->words(3, true)),
+            'title' => $title,
             'status' => $this->faker->randomEnum(PostStatusEnum::class),
             'summary' => $this->faker->paragraph(),
             'body' => $this->faker->htmlParagraphs(),
             'published_at' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
             'pin' => $this->faker->boolean(25),
             'promote' => $this->faker->boolean(25),
+            'meta_title' => ucfirst($this->faker->words(3, true)),
+            'meta_description' => $this->faker->paragraph(),
         ];
     }
 

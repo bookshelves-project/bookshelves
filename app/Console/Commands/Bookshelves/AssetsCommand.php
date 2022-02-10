@@ -30,7 +30,7 @@ class AssetsCommand extends Command
                             {--a|authors : assets for authors}
                             {--s|series : assets for series}
                             {--L|local : prevent external HTTP requests to public API for additional informations}
-                            {--f|fresh : refresh authors medias, `description` & `link`}
+                            {--F|fresh : refresh authors medias, `description` & `link`}
                             {--d|debug : print log for debug}
                             {--D|default : use default cover for all (skip covers step)}';
 
@@ -202,6 +202,7 @@ class AssetsCommand extends Command
             $bar = $this->output->createProgressBar(count($list));
             $bar->start();
             foreach ($list as $model) {
+                /** @var Author $model */
                 AuthorConverter::setLocalPicture($model);
                 $bar->advance();
             }
@@ -245,6 +246,7 @@ class AssetsCommand extends Command
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($list as $key => $model) {
+            /** @var Serie $model */
             SerieConverter::setTags($model);
             if (! $default) {
                 SerieConverter::setCover($model);

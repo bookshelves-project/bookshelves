@@ -1,5 +1,13 @@
 <template>
-  <span>{{ getText }}</span>
+  <a
+    v-if="link"
+    :href="getText"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="underline relative z-10 hover:bg-gray-200 rounded-md px-2 py-1"
+    >{{ getText }}</a
+  >
+  <span v-else>{{ getText }}</span>
 </template>
 
 <script lang="ts" setup>
@@ -12,6 +20,7 @@
       required: true,
     },
     truncate: Number,
+    link: Boolean,
   })
 
   const getText = computed(() => {

@@ -19,6 +19,16 @@ use Spatie\RouteAttributes\Attributes\Put;
 #[Prefix('publishers')]
 class PublisherController extends Controller
 {
+    #[Get('fetch', name: 'publishers.fetch')]
+    public function fetch(Request $request)
+    {
+        return PublisherResource::collection(
+            Publisher::query()
+                ->where('name', 'like', "%{$request->input('filter.q')}%")
+                ->get()
+        );
+    }
+
     #[Get('/', name: 'publishers')]
     public function index()
     {
@@ -82,15 +92,5 @@ class PublisherController extends Controller
         ;
 
         return redirect()->route('admin.publishers')->with('flash.success', __(':count publishers deleted.', ['count' => $count]));
-    }
-
-    #[Get('fetch', name: 'publishers.fetch')]
-    public function fetch(Request $request)
-    {
-        return PublisherResource::collection(
-            Publisher::query()
-                ->where('name', 'like', "%{$request->input('filter.q')}%")
-                ->withCount('books')->get()
-        );
     }
 }

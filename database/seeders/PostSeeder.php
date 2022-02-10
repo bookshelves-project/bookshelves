@@ -20,7 +20,6 @@ class PostSeeder extends Seeder
 
         PostCategory::factory(10)
             ->has(Post::factory(30))
-            ->withMeta()
             ->create()
         ;
 

@@ -5,7 +5,6 @@ namespace App\Http\Resources\Book;
 use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\Comment\CommentResource;
 use App\Http\Resources\GoogleBookResource;
-use App\Http\Resources\IdentifierResource;
 use App\Http\Resources\MediaResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
@@ -39,7 +38,7 @@ class BookResource extends JsonResource
                 'color' => $this->resource->cover_color,
             ],
             'description' => $this->resource->description,
-            'identifier' => IdentifierResource::make($this->resource->identifier),
+            'identifier' => BookIdentifierResource::make($this->resource),
             'pageCount' => $this->resource->page_count,
             'maturityRating' => $this->resource->maturity_rating,
             'publisher' => PublisherLightResource::make($this->resource->publisher),

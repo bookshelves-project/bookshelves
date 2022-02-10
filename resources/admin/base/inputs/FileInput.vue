@@ -1,7 +1,11 @@
 <template>
   <div class="flex items-center space-x-6">
     <div class="shrink-0">
-      <image-field v-if="preview && hasFile" :value="getInitialValue" />
+      <image-field
+        v-if="preview && hasFile"
+        :value="getInitialValue"
+        :preview="previewAttr"
+      />
     </div>
     <div>
       <label :for="id" class="block" :value="getLabel">
@@ -42,6 +46,10 @@
     delete: Boolean,
     multiple: Boolean,
     preview: Boolean,
+    previewAttr: {
+      type: String,
+      default: 'preview_url',
+    },
   })
 
   const emit = defineEmits(['update:modelValue'])

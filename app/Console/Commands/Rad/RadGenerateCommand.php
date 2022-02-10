@@ -282,7 +282,6 @@ class RadGenerateCommand extends Command
                     "    href: route('admin.{$this->model_kebab}s'),\n",
                     "    active: () =>\n",
                     "      route().current('admin.{$this->model_kebab}s') || route().current('admin.{$this->model_kebab}s.*'),\n",
-                    "    icon: null,\n",
                     "    text: __('{$this->model_human}s'),\n",
                     "  },\n",
                 ];

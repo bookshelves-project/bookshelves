@@ -2,6 +2,7 @@
 
 namespace App\Services\GoogleBookService;
 
+use App\Models\Book;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\Response;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class GoogleBookQuery
 {
     public function __construct(
+        public ?string $original_isbn = null,
         public ?string $url = null,
         public ?string $model_name = null,
         public ?int $model_id = 0,
@@ -41,12 +43,10 @@ class GoogleBookQuery
         $query->model_id = $model->id;
         $query->model_name = $service->class;
 
-        // @phpstan-ignore-next-line
-        if ($model->identifier) {
-            $identifier = $model->identifier;
-
-            $query->isbn = $identifier->isbn ?? null;
-            $query->isbn13 = $identifier->isbn13 ?? null;
+        /** @var Book $model */
+        if ($model->isbn) {
+            $query->isbn = $model->identifier_isbn ?? null;
+            $query->isbn13 = $model->identifier_isbn13 ?? null;
             $query->debug = $service->debug;
 
             $query->getGoogleBookUrl();
@@ -67,6 +67,7 @@ class GoogleBookQuery
             $url .= "?q=isbn:{$isbn}";
 
             $this->url = $url;
+            $this->original_isbn = $isbn;
         }
 
         return $this;

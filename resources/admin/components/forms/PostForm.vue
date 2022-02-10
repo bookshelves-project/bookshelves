@@ -80,6 +80,7 @@
           <rich-select-input
             source="tags.fetch"
             resource="tags.fetch"
+            label-key="tags"
             multiple
             taggable
             searchable

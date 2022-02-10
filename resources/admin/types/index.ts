@@ -1,3 +1,5 @@
+import { GoogleBook } from './google-book'
+import { WikipediaItem } from './wikipedia-item'
 import { PaginatedData } from './paginated-data'
 import { EnumTypes } from './enums'
 import { Model } from './model'
@@ -31,4 +33,6 @@ export {
   Tag,
   Media,
   ChartModel,
+  WikipediaItem,
+  GoogleBook,
 }

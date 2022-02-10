@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 class GoogleBook extends Model
 {
     protected $fillable = [
+        'url',
+        'original_isbn',
         'published_date',
         'description',
         'industry_identifiers',
@@ -49,16 +51,13 @@ class GoogleBook extends Model
         }
         $this->book->save();
 
-        $identifier = $this->book->identifier;
-        if ($identifier) {
-            if (empty($identifier->isbn)) {
-                $identifier->isbn = $this->isbn;
-            }
-            if (empty($identifier->isbn13)) {
-                $identifier->isbn13 = $this->isbn13;
-            }
-            $identifier->save();
+        if (empty($this->book->identifier_isbn)) {
+            $this->book->identifier_isbn = $this->isbn;
         }
+        if (empty($this->book->identifier_isbn13)) {
+            $this->book->identifier_isbn13 = $this->isbn13;
+        }
+        $this->book->save();
 
         $categories = json_decode($this->categories);
         if (is_array($categories)) {

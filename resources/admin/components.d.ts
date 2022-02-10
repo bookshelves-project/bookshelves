@@ -55,6 +55,7 @@ declare module 'vue' {
     FlashMessages: typeof import('./base/FlashMessages.vue')['default']
     FlatpickrInputWrapper: typeof import('./base/FlatpickrInputWrapper.vue')['default']
     FormSection: typeof import('./base/FormSection.vue')['default']
+    GoogleBookForm: typeof import('./components/forms/GoogleBookForm.vue')['default']
     ImageField: typeof import('./base/fields/ImageField.vue')['default']
     ImpersonateButton: typeof import('./base/buttons/ImpersonateButton.vue')['default']
     InputError: typeof import('./base/InputError.vue')['default']
@@ -101,6 +102,7 @@ declare module 'vue' {
     UpdateProfileInformationForm: typeof import('./components/profile/UpdateProfileInformationForm.vue')['default']
     UserForm: typeof import('./components/forms/UserForm.vue')['default']
     ValidationErrors: typeof import('./base/ValidationErrors.vue')['default']
+    WikipediaItemForm: typeof import('./components/forms/WikipediaItemForm.vue')['default']
   }
 }
 

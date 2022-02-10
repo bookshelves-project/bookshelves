@@ -28,9 +28,9 @@ class ParserEngine
         public ?array $contributor = [],
         public ?string $description = null,
         public ?DateTime $released_on = null,
+        /** @var OpfIdentifier[] $identifiers */
         public ?array $identifiers = null,
         public ?string $publisher = null,
-        /** @var OpfIdentifier[] $subjects */
         public ?array $subjects = [],
         public ?string $language = null,
         public ?string $rights = null,
@@ -309,6 +309,26 @@ class ParserEngine
                     ];
                     $identifier = OpfIdentifier::create($identifier_raw);
                     array_push($identifiers, $identifier);
+                }
+
+                /**
+                 * Get UUID.
+                 */
+                if ('dc:identifier' === $value->tagName) {
+                    if ('opf:scheme' === $value->getAttribute('uuid')) {
+                        $uuid = $value->getAttribute('content');
+                        array_push($identifiers, OpfIdentifier::create([
+                            'name' => 'uuid',
+                            'value' => $uuid,
+                        ]));
+                    }
+                    if ('opf:scheme' === $value->getAttribute('calibre')) {
+                        $calibre = $value->getAttribute('content');
+                        array_push($identifiers, OpfIdentifier::create([
+                            'name' => 'calibre',
+                            'value' => $calibre,
+                        ]));
+                    }
                 }
 
                 /*

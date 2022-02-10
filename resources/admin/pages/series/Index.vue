@@ -98,7 +98,7 @@
       type: 'reference',
       props: {
         text: 'name',
-        resource: 'languages.fetch',
+        resource: 'languages',
       },
       sortable: true,
       searchable: true,

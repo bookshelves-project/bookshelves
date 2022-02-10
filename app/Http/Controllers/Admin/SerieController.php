@@ -19,6 +19,16 @@ use Spatie\RouteAttributes\Attributes\Put;
 #[Prefix('series')]
 class SerieController extends Controller
 {
+    #[Get('fetch', name: 'series.fetch')]
+    public function fetch(Request $request)
+    {
+        return SerieResource::collection(
+            Serie::query()
+                ->where('title', 'like', "%{$request->input('filter.q')}%")
+                ->get()
+        );
+    }
+
     #[Get('/', name: 'series')]
     public function index()
     {

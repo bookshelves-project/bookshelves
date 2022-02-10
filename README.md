@@ -23,6 +23,7 @@
   - `artesaos/seotools` <https://github.com/artesaos/seotools/pull/172>
   - `barryvdh/laravel-elfinder`
 - `composer require --dev`
+  - `barryvdh/laravel-ide-helper`
   - `beyondcode/laravel-dump-server` <https://github.com/beyondcode/laravel-dump-server/pull/82>
   - `spatie/phpunit-watcher`
 

@@ -5,7 +5,6 @@ namespace App\Utils;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Identifier;
 use App\Models\Serie;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -25,24 +24,15 @@ class BookshelvesTools
         $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
         $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->with('media')->get();
         $series = Serie::whereLike(['title', 'authors.name'], $searchTerm)->with(['authors', 'media'])->get();
-        $books = Book::whereLike(['title', 'authors.name', 'serie.title'], $searchTerm)->with(['authors', 'media'])->doesntHave('serie')->orderBy('serie_id')->orderBy('volume')->get();
-        $identifier = Identifier::whereLike(['isbn', 'isbn13', 'doi', 'amazon', 'google'], $searchTerm)->first();
-        if ($identifier) {
-            $book = $identifier->book;
-            $books = collect([$book]);
+        $books = Book::whereLike(['title', 'authors.name', 'serie.title', 'identifier_isbn', 'identifier_isbn13'], $searchTerm)->with(['authors', 'media'])->doesntHave('serie')->orderBy('serie_id')->orderBy('volume')->get();
 
-            $books = EntityResource::collection($books);
-            $collection = collect([]);
-            $collection = $collection->merge($books);
-        } else {
-            $authors = EntityResource::collection($authors);
-            $series = EntityResource::collection($series);
-            $books = EntityResource::collection($books);
-            $collection = collect([]);
-            $collection = $collection->merge($authors);
-            $collection = $collection->merge($series);
-            $collection = $collection->merge($books);
-        }
+        $authors = EntityResource::collection($authors);
+        $series = EntityResource::collection($series);
+        $books = EntityResource::collection($books);
+        $collection = collect([]);
+        $collection = $collection->merge($authors);
+        $collection = $collection->merge($series);
+        $collection = $collection->merge($books);
 
         return $collection->all();
     }

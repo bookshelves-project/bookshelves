@@ -19,6 +19,16 @@ use Spatie\RouteAttributes\Attributes\Put;
 #[Prefix('languages')]
 class LanguageController extends Controller
 {
+    #[Get('fetch', name: 'languages.fetch')]
+    public function fetch(Request $request)
+    {
+        return LanguageResource::collection(
+            Language::query()
+                ->where('name', 'like', "%{$request->input('filter.q')}%")
+                ->get()
+        );
+    }
+
     #[Get('/', name: 'languages')]
     public function index()
     {
@@ -74,15 +84,5 @@ class LanguageController extends Controller
         ;
 
         return redirect()->route('admin.languages')->with('flash.success', __(':count languages deleted.', ['count' => $count]));
-    }
-
-    #[Get('/fetch', name: 'languages.fetch')]
-    public function fetch(Request $request)
-    {
-        return LanguageResource::collection(
-            Language::query()
-                ->where('name', 'like', "%{$request->input('filter.q')}%")
-                ->withCount('books')->get()
-        );
     }
 }
