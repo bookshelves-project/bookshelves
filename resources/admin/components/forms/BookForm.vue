@@ -9,6 +9,12 @@
           <text-input source="volume" type="number" />
         </div>
         <div class="form-split">
+          <text-input source="identifier_isbn" type="text" />
+        </div>
+        <div class="form-split">
+          <text-input source="identifier_isbn13" type="text" />
+        </div>
+        <div class="form-split">
           <reference-input
             source="language_slug"
             label-key="language"
@@ -46,42 +52,24 @@
             :getter="(book) => book.authors.map((t) => t.name)"
           />
         </div>
+        <div class="form-full">
+          <editor-input source="description" :height="800" />
+        </div>
         <div class="form-split">
           <reference-input
             source="google_book_id"
             label-key="googleBook"
-            resource="googleBooks"
-            option-text="isbn"
+            resource="google-books"
+            option-text="original_isbn"
             option-value="id"
             allow-empty
           />
         </div>
-        <!-- <div class="form-split">
-          <reference-input
-            source="publisher_id"
-            label-key="publisher"
-            resource="publishers"
-            allow-empty
-          />
+        <div class="form-split">
+          <text-input source="contributor" type="text" />
         </div>
         <div class="form-split">
-          <reference-input
-            source="google_book_id"
-            label-key="googleBook"
-            resource="googleBooks"
-            allow-empty
-          />
-        </div>
-        <div class="form-split">
-          <reference-input
-            source="wikipedia_item_id"
-            label-key="wikipediaItem"
-            resource="wikipediaItems"
-            allow-empty
-          />
-        </div> -->
-        <div class="form-full">
-          <editor-input source="description" :height="800" />
+          <text-input source="rights" type="text" />
         </div>
       </card-content>
       <card-side>
@@ -123,12 +111,6 @@
               it to create it.`)
             "
           />
-        </div>
-        <div class="form-full">
-          <text-input source="contributor" type="text" />
-        </div>
-        <div class="form-full">
-          <text-input source="rights" type="text" />
         </div>
         <div class="form-full">
           <text-input source="page_count" type="number" />

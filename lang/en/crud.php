@@ -47,6 +47,7 @@ return [
             'identifier' => 'Identifier',
             'googleBook' => 'Google Book',
             'wikipediaItem' => 'Wikipedia Item',
+            'isbn' => 'ISBN',
             'identifier_isbn' => 'Identifier ISBN',
             'identifier_isbn13' => 'Identifier ISBN13',
             'identifier_uuid' => 'Identifier UUID',

@@ -62,6 +62,7 @@ class Book extends Model implements HasMedia
     ];
     protected $appends = [
         'epub',
+        'isbn',
     ];
     protected $casts = [
         'released_on' => 'datetime',
@@ -139,6 +140,14 @@ class Book extends Model implements HasMedia
         return $query
             ->whereRelation('serie', 'title', '=', $title)
         ;
+    }
+
+    public function scopeWhereIsbnIs(Builder $query, $isbn): Builder
+    {
+        $query->where('identifier_isbn13', 'LIKE', "%{$isbn}%");
+        $query->orWhere('identifier_isbn', 'LIKE', "%{$isbn}%");
+
+        return $query;
     }
 
     public function toSearchableArray()

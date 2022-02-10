@@ -23,7 +23,7 @@ class BookQuery extends BaseQuery
         }
 
         $this->option = $option;
-        $option->with = [] === $option->with ? ['serie', 'media', 'authors', 'language', 'publisher'] : $this->option->with;
+        $option->with = [] === $option->with ? ['serie', 'media', 'authors', 'language', 'publisher', 'tags', 'googleBook'] : $this->option->with;
 
         $this->query = QueryBuilder::for(Book::class)
             ->defaultSort($this->option->defaultSort)
@@ -61,8 +61,9 @@ class BookQuery extends BaseQuery
                 AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
                 AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
                 AllowedFilter::scope('tags', 'whereTagsIs'),
+                AllowedFilter::scope('isbn', 'whereIsbnIs'),
             ])
-            ->allowedSorts(['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'publisher',  'released_on', 'created_at', 'updated_at'])
+            ->allowedSorts(['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'isbn', 'publisher',  'released_on', 'created_at', 'updated_at'])
             ->with($option->with)
             ->withCount('tags')
         ;

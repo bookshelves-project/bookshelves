@@ -87,7 +87,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $title
- * @property string|null $title_sort
+ * @property string|null $slug_sort
  * @property string|null $slug
  * @property string|null $contributor
  * @property string|null $description
@@ -97,12 +97,17 @@ namespace App\Models{
  * @property int|null $volume
  * @property int|null $publisher_id
  * @property string|null $language_slug
- * @property int|null $identifier_id
  * @property int|null $google_book_id
  * @property int|null $page_count
  * @property string|null $maturity_rating
  * @property bool $disabled
  * @property \Spatie\Enum\Enum|null $type
+ * @property string|null $identifier_isbn
+ * @property string|null $identifier_isbn13
+ * @property string|null $identifier_uuid
+ * @property string|null $identifier_doi
+ * @property string|null $identifier_amazon
+ * @property string|null $identifier_google
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
@@ -122,6 +127,7 @@ namespace App\Models{
  * @property-read \App\Models\MediaExtended|null $epub
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
+ * @property-read string|null $isbn
  * @property-read string|null $meta_author
  * @property-read string $show_link
  * @property-read string $show_link_opds
@@ -130,7 +136,6 @@ namespace App\Models{
  * @property-read mixed $tags_list
  * @property-read string $webreader_link
  * @property-read \App\Models\GoogleBook|null $googleBook
- * @property-read \App\Models\Identifier|null $identifier
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
@@ -153,7 +158,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisallowSerie(string $has_not_serie)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifierId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifierAmazon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifierDoi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifierGoogle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifierIsbn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifierIsbn13($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifierUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbnIs($isbn)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguageSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguagesIs(...$languages)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereMaturityRating($value)
@@ -164,10 +175,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieTitleIs($title)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlugSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsAllIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitleSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereVolume($value)
@@ -469,6 +480,8 @@ namespace App\Models{
  * App\Models\GoogleBook
  *
  * @property int $id
+ * @property string|null $original_isbn
+ * @property string|null $url
  * @property string|null $published_date
  * @property string|null $description
  * @property mixed|null $industry_identifiers
@@ -499,6 +512,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereIsbn13($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereLanguage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereMaturityRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereOriginalIsbn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePageCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePreviewLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePublishedDate($value)
@@ -506,32 +520,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereRetailPriceAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereRetailPriceCurrencyCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereUrl($value)
  */
 	class GoogleBook extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Identifier
- *
- * @property int $id
- * @property string|null $isbn
- * @property string|null $isbn13
- * @property string|null $doi
- * @property string|null $amazon
- * @property string|null $google
- * @property-read \App\Models\Book|null $book
- * @method static \Illuminate\Database\Eloquent\Builder|Identifier newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Identifier newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Identifier query()
- * @method static \Illuminate\Database\Eloquent\Builder|Identifier whereAmazon($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Identifier whereDoi($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Identifier whereGoogle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Identifier whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Identifier whereIsbn($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Identifier whereIsbn13($value)
- */
-	class Identifier extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -786,7 +777,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string|null $title
- * @property string|null $title_sort
+ * @property string|null $slug_sort
  * @property string|null $slug
  * @property string|null $language_slug
  * @property string|null $description
@@ -841,10 +832,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguagesIs(...$languages)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereSlugSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsAllIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitleSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereWikipediaItemId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
