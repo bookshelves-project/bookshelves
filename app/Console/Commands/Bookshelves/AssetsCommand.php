@@ -76,7 +76,7 @@ class AssetsCommand extends Command
             }
             $this->newLine();
 
-            $this->assets('Book', 'books', 'title_sort');
+            $this->assets('Book', 'books', 'slug_sort');
         }
         if ($authors) {
             $this->comment('Authors (REMOVE --authors|-a to skip)');
@@ -107,7 +107,7 @@ class AssetsCommand extends Command
             $this->info('  - Default description can be in `public/storage/data/series.json`');
             $this->newLine();
 
-            $this->assets('Serie', 'series', 'title_sort');
+            $this->assets('Serie', 'series', 'slug_sort');
         }
 
         return 0;

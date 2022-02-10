@@ -45,7 +45,7 @@ class AuthorController extends Controller
     public function edit(Author $author)
     {
         return Inertia::render('authors/Edit', [
-            'author' => AuthorResource::make($author->load('books', 'series')),
+            'author' => AuthorResource::make($author->load('books', 'series', 'wikipediaItem')),
         ]);
     }
 

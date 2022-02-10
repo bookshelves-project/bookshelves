@@ -28,6 +28,7 @@ return [
     'books' => [
         'name' => 'Book|Books',
         'attributes' => [
+            'slug_sort' => 'Slug for sort',
             'volume' => 'Volume',
             'serie' => 'Series',
             'disabled' => 'Disabled',

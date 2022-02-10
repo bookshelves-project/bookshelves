@@ -62,7 +62,7 @@ class BookQuery extends BaseQuery
                 AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
                 AllowedFilter::scope('tags', 'whereTagsIs'),
             ])
-            ->allowedSorts(['id', 'title', 'title_sort', 'type', 'serie', 'authors', 'volume', 'publisher',  'released_on', 'created_at', 'updated_at'])
+            ->allowedSorts(['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'publisher',  'released_on', 'created_at', 'updated_at'])
             ->with($option->with)
             ->withCount('tags')
         ;

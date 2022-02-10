@@ -9,12 +9,14 @@ use App\Http\Requests\Admin\TagUpdateRequest;
 use App\Http\Resources\Admin\TagResource;
 use App\Models\TagExtend;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;
 use Spatie\RouteAttributes\Attributes\Put;
+use Spatie\Tags\Tag;
 
 #[Prefix('tags')]
 class TagController extends Controller
@@ -22,10 +24,15 @@ class TagController extends Controller
     #[Get('fetch', name: 'tags.fetch')]
     public function fetch(Request $request)
     {
+        $query = $request->input('filter.q');
+
+        $tags = Tag::where(DB::raw(
+            "lower(json_unquote(json_extract(name, '$.en')))"
+        ), 'LIKE', '%'.strtolower($query).'%');
+
         return TagResource::collection(
-            TagExtend::query()
-                ->where('name', 'like', "%{$request->input('filter.q')}%")
-                ->ordered()->get()
+            $tags->ordered()
+                ->get()
         );
     }
 

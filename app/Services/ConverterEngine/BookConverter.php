@@ -19,7 +19,7 @@ class BookConverter
         return Book::firstOrCreate([
             'title' => $parser->title,
             'slug' => $parser->slug_lang,
-            'title_sort' => $parser->title_serie_sort,
+            'slug_sort' => $parser->title_serie_sort,
             'contributor' => implode(' ', $parser->contributor),
             'description' => $parser->description,
             'released_on' => $parser->released_on ?? null,
@@ -38,7 +38,7 @@ class BookConverter
         $ebook_extension = pathinfo($epubFilePath)['extension'];
 
         $author = $book->meta_author;
-        $serie = $book->title_sort;
+        $serie = $book->slug_sort;
         $language = $book->language_slug;
         $new_file_name = Str::slug($author.'_'.$serie.'_'.$language);
 

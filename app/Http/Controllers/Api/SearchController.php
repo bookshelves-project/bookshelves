@@ -111,7 +111,7 @@ class SearchController extends ApiController
         //         $results = $books->merge($series);
         //     }
 
-        //     $results = $results->sortBy('title_sort');
+        //     $results = $results->sortBy('slug_sort');
 
         //     return EntityResource::collection($results);
         // }

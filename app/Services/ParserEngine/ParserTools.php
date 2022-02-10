@@ -15,7 +15,7 @@ class ParserTools
     public static function getSortString(string|null $title): string|false
     {
         if ($title) {
-            $title_sort = $title;
+            $slug_sort = $title;
             $articles = [
                 'the ',
                 'les ',
@@ -28,13 +28,13 @@ class ParserTools
                 'une ',
             ];
             foreach ($articles as $key => $value) {
-                $title_sort = preg_replace('/^'.preg_quote($value, '/').'/i', '', $title_sort);
+                $slug_sort = preg_replace('/^'.preg_quote($value, '/').'/i', '', $slug_sort);
             }
             $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
-            $title_sort = $transliterator->transliterate($title_sort);
-            $title_sort = strtolower($title_sort);
+            $slug_sort = $transliterator->transliterate($slug_sort);
+            $slug_sort = strtolower($slug_sort);
 
-            return utf8_encode($title_sort);
+            return utf8_encode($slug_sort);
         }
 
         return false;

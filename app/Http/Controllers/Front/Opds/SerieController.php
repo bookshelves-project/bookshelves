@@ -21,7 +21,7 @@ class SerieController extends Controller
     #[Get('/', name: 'front.opds.series')]
     public function index(Request $request, string $version)
     {
-        $entities = Serie::with('books', 'authors', 'media')->orderBy('title_sort')->get();
+        $entities = Serie::with('books', 'authors', 'media')->orderBy('slug_sort')->get();
 
         $current_route = route(Route::currentRouteName(), ['version' => $version]);
         $opdsService = new OpdsService(

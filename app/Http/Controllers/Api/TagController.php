@@ -76,9 +76,9 @@ class TagController extends ApiController
     public function books(Tag $tag)
     {
         // $tag = Tag::where('slug->en', $tag_slug)->first();
-        $books_standalone = Book::withAllTags([$tag])->with(['serie', 'authors', 'media'])->orderBy('title_sort')->doesntHave('serie')->get();
+        $books_standalone = Book::withAllTags([$tag])->with(['serie', 'authors', 'media'])->orderBy('slug_sort')->doesntHave('serie')->get();
 
-        $books_series = Book::withAllTags([$tag])->with(['serie', 'authors', 'media', 'serie.media', 'serie.authors'])->has('serie')->orderBy('title_sort')->get();
+        $books_series = Book::withAllTags([$tag])->with(['serie', 'authors', 'media', 'serie.media', 'serie.authors'])->has('serie')->orderBy('slug_sort')->get();
         $series = collect();
         $books_series->each(function ($book) use ($series) {
             $series->add($book->serie);
@@ -86,7 +86,7 @@ class TagController extends ApiController
         $series = $series->unique();
 
         $books = $books_standalone->merge($series);
-        $books = $books->sortBy('title_sort');
+        $books = $books->sortBy('slug_sort');
 
         return EntityResource::collection(PaginationHelper::paginate($books, 32));
     }

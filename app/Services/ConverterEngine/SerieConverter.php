@@ -24,7 +24,7 @@ class SerieConverter
             if (! $serie) {
                 $serie = Serie::firstOrCreate([
                     'title' => $parser->serie,
-                    'title_sort' => $parser->serie_sort,
+                    'slug_sort' => $parser->serie_sort,
                     'slug' => $parser->serie_slug_lang,
                 ]);
                 $serie->language()->associate($book->language);

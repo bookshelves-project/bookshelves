@@ -37,7 +37,7 @@ class Book extends Model implements HasMedia
 
     protected $fillable = [
         'title',
-        'title_sort',
+        'slug_sort',
         'slug',
         'contributor',
         'description',
@@ -115,10 +115,10 @@ class Book extends Model implements HasMedia
         if ($this->serie) {
             // @phpstan-ignore-next-line
             $volume = strlen($this->volume) < 2 ? '0'.$this->volume : $this->volume;
-            $serie = $this->serie->title_sort.' '.$volume;
+            $serie = $this->serie->slug_sort.' '.$volume;
             $serie = Str::slug($serie).'_';
         }
-        $title = Str::slug($this->title_sort);
+        $title = Str::slug($this->slug_sort);
 
         return "{$serie}{$title}";
     }

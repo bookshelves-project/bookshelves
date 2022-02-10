@@ -34,11 +34,11 @@ class SerieController extends Controller
     }
 
     #[Get('{serie}', name: 'series.show')]
-    public function show()
+    public function show(Serie $serie)
     {
-        return app(SerieQuery::class)->make()
-            ->paginateOrExport(fn ($data) => Inertia::render('series/Index', $data))
-        ;
+        return Inertia::render('series/Edit', [
+            'serie' => SerieResource::make($serie->load('authors', 'books', 'media')),
+        ]);
     }
 
     #[Post('/', name: 'series.store')]
@@ -53,7 +53,7 @@ class SerieController extends Controller
     public function edit(Serie $serie)
     {
         return Inertia::render('series/Edit', [
-            'serie' => SerieResource::make($serie->load('authors', 'books', 'media')),
+            'serie' => SerieResource::make($serie->load('authors', 'books', 'media', 'wikipediaItem')),
         ]);
     }
 

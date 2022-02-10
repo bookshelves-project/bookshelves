@@ -27,7 +27,7 @@ class BookFactory extends Factory
 
         return [
             'title' => $title,
-            'title_sort' => Str::slug($title),
+            'slug_sort' => Str::slug($title),
             'slug' => Str::slug($title),
             'contributor' => 'Book factory',
             'description' => $faker->paragraph(),

@@ -14,6 +14,7 @@ use App\Models\Traits\HasWikipediaItem;
 use App\Utils\BookshelvesTools;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
@@ -39,7 +40,7 @@ class Serie extends Model implements HasMedia
 
     protected $fillable = [
         'title',
-        'title_sort',
+        'slug_sort',
         'slug',
         'description',
         'link',
@@ -96,5 +97,10 @@ class Serie extends Model implements HasMedia
     public function books(): HasMany
     {
         return $this->hasMany(Book::class)->orderBy('volume');
+    }
+
+    public function wikipediaItem(): BelongsTo
+    {
+        return $this->belongsTo(WikipediaItem::class);
     }
 }

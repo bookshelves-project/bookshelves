@@ -50,10 +50,10 @@ class SerieController extends ApiController
             ->allowedSorts([
                 'id',
                 'title',
-                'title_sort',
+                'slug_sort',
                 'created_at',
             ])
-            ->defaultSort('title_sort')
+            ->defaultSort('slug_sort')
         ;
 
         return QueryExporter::create($query)

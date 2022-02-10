@@ -35,7 +35,7 @@ class BookController extends ApiController
      * Filter by language, `meta.slug` from languages' list, `null` by default. Example: en,fr
      *
      * @queryParam sort string
-     * Sorting `title_sort` by default, available: `title`, `title_sort`, `date`, `created_at`, you can use `-` before parameter to reverse like `-title_sort`. Example: title_sort
+     * Sorting `slug_sort` by default, available: `title`, `slug_sort`, `date`, `created_at`, you can use `-` before parameter to reverse like `-slug_sort`. Example: slug_sort
      *
      * @responseField data object[] List of books.
      * @responseField links object Links to get other pages.
@@ -62,17 +62,17 @@ class BookController extends ApiController
         //     ->allowedSorts([
         //         'id',
         //         'title',
-        //         'title_sort',
+        //         'slug_sort',
         //         'released_on',
         //         'created_at',
         //         AllowedSort::custom('author', new AuthorRelationship(), 'name'),
         //         AllowedSort::custom('language', new LanguageRelationship(), 'name'),
         //     ])
         //     ->allowedIncludes('serie', 'authors', 'media', 'serie.authors')
-        //     ->defaultSort('title_sort')
+        //     ->defaultSort('slug_sort')
         // ;
 
-        $option = QueryOption::create(32, false, 'title_sort', true, BookLightResource::class);
+        $option = QueryOption::create(32, false, 'slug_sort', true, BookLightResource::class);
 
         return app(BookQuery::class)
             ->make($option)
@@ -250,7 +250,7 @@ class BookController extends ApiController
         $related_books = $related_books->merge($series_list);
 
         // sort entities
-        $related_books = $related_books->sortBy('title_sort');
+        $related_books = $related_books->sortBy('slug_sort');
 
         // set limit
         if (0 !== $limit) {

@@ -19,7 +19,7 @@ class ParserEngine
 {
     public function __construct(
         public ?string $title = null,
-        public ?string $title_sort = null,
+        public ?string $slug_sort = null,
         public ?string $title_serie_sort = null,
         public ?string $slug = null,
         public ?string $slug_lang = null,
@@ -54,7 +54,7 @@ class ParserEngine
         $metadata = self::opfToArray($epubPath, $debug);
 
         $opf->title = $metadata['title'];
-        $opf->title_sort = ParserTools::getSortString($metadata['title']);
+        $opf->slug_sort = ParserTools::getSortString($metadata['title']);
         $opf->slug = Str::slug($metadata['title']);
         $opf->slug_lang = Str::slug($metadata['title'].' '.$metadata['language']);
         $opf->creators = $metadata['creators'];

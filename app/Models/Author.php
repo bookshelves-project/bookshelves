@@ -11,6 +11,7 @@ use App\Models\Traits\HasWikipediaItem;
 use App\Utils\BookshelvesTools;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
@@ -133,6 +134,11 @@ class Author extends Model implements HasMedia
      */
     public function series(): MorphToMany
     {
-        return $this->morphedByMany(Serie::class, 'authorable')->orderBy('title_sort');
+        return $this->morphedByMany(Serie::class, 'authorable')->orderBy('slug_sort');
+    }
+
+    public function wikipediaItem(): BelongsTo
+    {
+        return $this->belongsTo(WikipediaItem::class);
     }
 }
