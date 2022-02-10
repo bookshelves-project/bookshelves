@@ -56,6 +56,7 @@ namespace App\Models{
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\WikipediaItem|null $wikipedia
+ * @property-read \App\Models\WikipediaItem|null $wikipediaItem
  * @method static \Database\Factories\AuthorFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
@@ -827,6 +828,7 @@ namespace App\Models{
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\WikipediaItem|null $wikipedia
+ * @property-read \App\Models\WikipediaItem|null $wikipediaItem
  * @method static \Database\Factories\SerieFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()

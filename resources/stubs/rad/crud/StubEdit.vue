@@ -1,6 +1,6 @@
 <template>
   <edit-context v-slot="{ title }" resource="stubsKebab" :item="stubPascal">
-    <app-layout>
+    <app-layout :title="stubPascal.stubAttr">
       <template #header>
         <page-header>
           <h1>{{ title }}</h1>

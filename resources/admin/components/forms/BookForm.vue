@@ -26,10 +26,9 @@
       <card-content>
         <div class="form-split">
           <text-input source="title" type="text" />
+        </div>
+        <div class="form-split">
           <text-input source="slug_sort" type="text" />
-          <div class="mt-5">
-            <text-input source="summary" multiline />
-          </div>
         </div>
         <!-- <div class="form-split">
           <text-input source="meta_title" type="text" />
