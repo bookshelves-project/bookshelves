@@ -19,6 +19,7 @@
 
 - documentation
   - <https://laravel-news.com/laravel-9-released>
+  - <https://github.com/laravel/framework/pull/38538>
 - `composer require`
   - `artesaos/seotools` <https://github.com/artesaos/seotools/pull/172>
   - `barryvdh/laravel-elfinder`
