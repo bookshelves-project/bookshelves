@@ -1,6 +1,6 @@
 <template>
   <auth-layout>
-    <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+    <div v-if="status" class="mb-4 font-medium text-base text-green-600">
       {{ status }}
     </div>
 
@@ -50,13 +50,13 @@
       </div>
 
       <div class="flex items-center justify-between mt-6">
-        <a href="/" class="text-sm italic underline">Back to website</a>
+        <a href="/" class="text-base italic underline">Back to website</a>
 
         <div class="flex items-center justify-end">
           <!-- <inertia-link
             v-if="canRegister"
             :href="route('admin.register')"
-            class="underline text-sm text-gray-600 hover:text-gray-900 ml-auto"
+            class="underline text-base text-gray-600 hover:text-gray-900 ml-auto"
           >
             {{ $t('Not registered yet?') }}
           </inertia-link> -->

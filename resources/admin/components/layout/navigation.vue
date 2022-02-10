@@ -3,7 +3,7 @@
     <div class="px-2">
       <inertia-link
         :href="route('admin.dashboard')"
-        class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:bg-primary-800 transition-colors duration-75"
+        class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md hover:bg-primary-800 transition-colors duration-75"
       >
         <app-logo class="!m-0" color="text-primary-600" full reverse />
       </inertia-link>
@@ -26,7 +26,7 @@
               ? 'bg-primary-800 text-white'
               : 'text-primary-100 hover:text-white hover:bg-primary-600'
           "
-          class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
+          class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md"
           :aria-current="item.active() ? 'page' : undefined"
         >
           <component
@@ -51,7 +51,7 @@
               v-for="item in store.secondaryNavigation"
               :key="item.name"
               :href="item.href"
-              class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md text-primary-100 hover:text-white hover:bg-primary-600"
+              class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-primary-100 hover:text-white hover:bg-primary-600"
             >
               <component
                 :is="item.icon"
@@ -90,7 +90,7 @@
 
 <style lang="css" scoped>
   .link {
-    @apply flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md;
+    @apply flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md;
   }
   .link-hover {
     @apply text-primary-100 hover:text-white hover:bg-primary-600;

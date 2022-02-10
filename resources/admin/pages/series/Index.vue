@@ -77,7 +77,11 @@
       props: {
         text: 'name',
         resource: 'authors',
+        link: 'show',
       },
+      sortable: true,
+      filterType: 'text',
+      searchable: true,
     },
     {
       field: 'books_count',

@@ -31,7 +31,7 @@
               {{ post.title }}
             </h1>
             <div
-              class="w-full flex-none text-sm font-medium text-gray-500 mt-2"
+              class="w-full flex-none text-base font-medium text-gray-500 mt-2"
             >
               {{ post.summary }}
             </div>
@@ -50,7 +50,7 @@
               {{ post.title }}
             </h1>
             <div
-              class="w-full flex-none text-sm font-medium text-gray-500 mt-2"
+              class="w-full flex-none text-base font-medium text-gray-500 mt-2"
             >
               {{ post.summary }}
             </div>

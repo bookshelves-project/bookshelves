@@ -4,7 +4,7 @@
     <label
       v-for="option in getChoices"
       :key="option.value"
-      class="flex items-center text-sm whitespace-nowrap"
+      class="flex items-center text-base whitespace-nowrap"
     >
       <input
         type="radio"

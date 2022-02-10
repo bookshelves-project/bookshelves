@@ -38,7 +38,7 @@
       <div class="flex items-center justify-end mt-4">
         <inertia-link
           :href="route('admin.login')"
-          class="underline text-sm text-gray-600 hover:text-gray-900"
+          class="underline text-base text-gray-600 hover:text-gray-900"
         >
           {{ $t('Already registered?') }}
         </inertia-link>

@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form class="base-form" @submit.prevent="onSubmit">
     <slot :processing="processing" :recently-successful="recentlySuccessful" />
   </form>
 </template>
@@ -101,3 +101,17 @@
 
   defineExpose({ submit })
 </script>
+
+<style lang="css" scoped>
+  .base-form {
+    & :deep(.form-grid) {
+      @apply grid 2xl:grid-cols-3 gap-x-4;
+    }
+    & :deep(.form-split) {
+      @apply col-span-6 xl:col-span-3;
+    }
+    & :deep(.form-full) {
+      @apply col-span-6;
+    }
+  }
+</style>

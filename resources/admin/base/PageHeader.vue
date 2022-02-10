@@ -26,7 +26,7 @@
             >
               <dt class="sr-only">Company</dt>
               <dd
-                class="flex items-center text-sm text-gray-500 font-medium capitalize sm:mr-6"
+                class="flex items-center text-base text-gray-500 font-medium capitalize sm:mr-6"
               >
                 <OfficeBuildingIcon
                   class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
@@ -36,7 +36,7 @@
               </dd>
               <dt class="sr-only">Account status</dt>
               <dd
-                class="mt-3 flex items-center text-sm text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize"
+                class="mt-3 flex items-center text-base text-gray-500 font-medium sm:mr-6 sm:mt-0 capitalize"
               >
                 <CheckCircleIcon
                   class="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400"
@@ -54,13 +54,13 @@
       </div>
       <!-- <button
           type="button"
-          class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
         >
           Add money
         </button>
         <button
           type="button"
-          class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
         >
           Send money
         </button> -->

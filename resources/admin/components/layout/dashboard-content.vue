@@ -20,7 +20,7 @@
               </div>
               <div class="ml-5 w-0 flex-1">
                 <dl>
-                  <dt class="text-sm font-medium text-gray-500 truncate">
+                  <dt class="text-base font-medium text-gray-500 truncate">
                     {{ card.name }}
                   </dt>
                   <dd>
@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="bg-gray-50 px-5 py-3">
-            <div class="text-sm">
+            <div class="text-base">
               <a
                 :href="card.href"
                 class="font-medium text-primary-700 hover:text-primary-900"
@@ -67,7 +67,7 @@
                     class="flex-shrink-0 h-5 w-5 text-gray-400"
                     aria-hidden="true"
                   />
-                  <span class="flex flex-col text-gray-500 text-sm truncate">
+                  <span class="flex flex-col text-gray-500 text-base truncate">
                     <span class="truncate">{{ transaction.name }}</span>
                     <span
                       ><span class="text-gray-900 font-medium">{{
@@ -96,13 +96,13 @@
           <div class="flex-1 flex justify-between">
             <a
               href="#"
-              class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+              class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
             >
               Previous
             </a>
             <a
               href="#"
-              class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+              class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
             >
               Next
             </a>
@@ -148,12 +148,12 @@
                   class="bg-white"
                 >
                   <td
-                    class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                    class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-base text-gray-900"
                   >
                     <div class="flex">
                       <a
                         :href="transaction.href"
-                        class="group inline-flex space-x-2 truncate text-sm"
+                        class="group inline-flex space-x-2 truncate text-base"
                       >
                         <CashIcon
                           class="flex-shrink-0 h-5 w-5 text-gray-400 group-hover:text-gray-500"
@@ -168,7 +168,7 @@
                     </div>
                   </td>
                   <td
-                    class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500"
+                    class="px-6 py-4 text-right whitespace-nowrap text-base text-gray-500"
                   >
                     <span class="text-gray-900 font-medium"
                       >{{ transaction.amount }}
@@ -176,7 +176,7 @@
                     {{ transaction.currency }}
                   </td>
                   <td
-                    class="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block"
+                    class="hidden px-6 py-4 whitespace-nowrap text-base text-gray-500 md:block"
                   >
                     <span
                       :class="[
@@ -188,7 +188,7 @@
                     </span>
                   </td>
                   <td
-                    class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500"
+                    class="px-6 py-4 text-right whitespace-nowrap text-base text-gray-500"
                   >
                     <time :datetime="transaction.datetime">{{
                       transaction.date
@@ -203,7 +203,7 @@
               aria-label="Pagination"
             >
               <div class="hidden sm:block">
-                <p class="text-sm text-gray-700">
+                <p class="text-base text-gray-700">
                   Showing
                   {{ ' ' }}
                   <span class="font-medium">1</span>
@@ -222,13 +222,13 @@
               <div class="flex-1 flex justify-between sm:justify-end">
                 <a
                   href="#"
-                  class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
                 >
                   Previous
                 </a>
                 <a
                   href="#"
-                  class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
                 >
                   Next
                 </a>

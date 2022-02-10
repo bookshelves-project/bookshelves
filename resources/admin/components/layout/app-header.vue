@@ -26,7 +26,7 @@
               v-model="globalSearch"
               name="search-field"
               type="search"
-              class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent sm:text-sm"
+              class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent sm:text-base"
               :placeholder="$t('admin.actions.search')"
             />
           </div>
@@ -37,7 +37,7 @@
         <Menu as="div" class="ml-3 relative">
           <div>
             <MenuButton
-              class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50"
+              class="max-w-xs bg-white rounded-full flex items-center text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50"
             >
               <!-- <img
                   class="h-8 w-8 rounded-full"
@@ -45,7 +45,7 @@
                   alt=""
                 /> -->
               <span
-                class="hidden ml-3 text-gray-700 text-sm font-medium lg:block"
+                class="hidden ml-3 text-gray-700 text-base font-medium lg:block"
                 ><span class="sr-only">Open user menu for </span
                 >{{ $page.props.auth.name }}</span
               >
@@ -71,14 +71,14 @@
                   :href="route('admin.profile.show')"
                   :class="[
                     active ? 'bg-gray-100' : '',
-                    'block px-4 py-2 text-sm text-gray-700',
+                    'block px-4 py-2 text-base text-gray-700',
                   ]"
                   >{{ $t('Profile') }}</inertia-link
                 >
               </MenuItem>
               <MenuItem v-if="$page.props.auth.is_impersonating">
                 <button
-                  :class="'block px-4 py-2 text-sm text-gray-700'"
+                  :class="'block px-4 py-2 text-base text-gray-700'"
                   @click="stopImpersonate"
                 >
                   {{ $t('Stop impersonate') }}
@@ -86,7 +86,7 @@
               </MenuItem>
               <MenuItem>
                 <button
-                  :class="'block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100'"
+                  :class="'block px-4 py-2 text-base text-gray-700 w-full text-left hover:bg-gray-100'"
                   @click="logout"
                 >
                   {{ $t('Log Out') }}

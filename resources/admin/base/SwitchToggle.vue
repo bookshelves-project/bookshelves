@@ -3,7 +3,7 @@
     <span v-if="label" class="flex-grow flex flex-col">
       <span
         id="availability-label"
-        class="text-sm font-medium text-gray-900 dark:text-gray-100"
+        class="text-base font-medium text-gray-900 dark:text-gray-100"
         >{{ label }}</span
       >
     </span>

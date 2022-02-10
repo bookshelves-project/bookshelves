@@ -1,27 +1,27 @@
 <template>
-  <div class="flex">
-    <image-field
-      v-if="preview && hasFile"
-      :value="getInitialValue"
-      class="mr-4"
-    />
+  <div class="flex items-center space-x-6">
+    <div class="shrink-0">
+      <image-field v-if="preview && hasFile" :value="getInitialValue" />
+    </div>
     <div>
-      <input-label :for="id" class="mb-1" :value="getLabel" />
-      <input
-        v-bind="$attrs"
-        :id="id"
-        :name="getName"
-        class="block w-full"
-        :class="{ 'form-invalid': hasError }"
-        type="file"
-        :multiple="multiple"
-        @change="onFileChange"
-      />
-      <input-error :message="getError" class="mt-2" />
-      <input-hint :message="hint" class="mt-2" />
+      <label :for="id" class="block" :value="getLabel">
+        <span class="sr-only">Choose file</span>
+        <input
+          v-bind="$attrs"
+          :id="id"
+          :name="getName"
+          type="file"
+          :class="{ 'form-invalid': hasError }"
+          class="block w-full text-base text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-base file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
+          :multiple="multiple"
+          @change="onFileChange"
+        />
+        <input-error :message="getError" class="mt-2" />
+        <input-hint :message="hint" class="mt-2" />
+      </label>
       <label v-if="hasFile" class="flex items-center mt-2">
         <input type="checkbox" @change="onChange" />
-        <span class="ml-2 text-sm text-gray-600">{{
+        <span class="ml-2 text-base text-gray-600">{{
           $t('admin.actions.delete')
         }}</span>
       </label>

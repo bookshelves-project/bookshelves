@@ -9,7 +9,7 @@
       >
         <button
           :class="[
-            'w-full py-2.5 text-sm rounded-t-md focus:outline-none',
+            'w-full py-2.5 text-base rounded-t-md focus:outline-none',
             selected ? 'bg-white' : 'hover:bg-white/[0.12] hover:text-orange',
           ]"
         >

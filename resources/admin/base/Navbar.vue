@@ -39,7 +39,7 @@
                 <span class="inline-flex rounded-md">
                   <button
                     type="button"
-                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none transition"
+                    class="inline-flex items-center px-3 py-2 border border-transparent text-base leading-4 font-medium rounded-md focus:outline-none transition"
                   >
                     {{ $page.props.auth.name }}
 
@@ -118,7 +118,7 @@
             <div class="font-medium text-base text-gray-800">
               {{ $page.props.auth.name }}
             </div>
-            <div class="font-medium text-sm text-gray-500">
+            <div class="font-medium text-base text-gray-500">
               {{ $page.props.auth.email }}
             </div>
           </div>

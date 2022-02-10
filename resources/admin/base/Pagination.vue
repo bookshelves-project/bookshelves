@@ -161,7 +161,7 @@
 
 <style lang="css" scoped>
   .link {
-    @apply mr-1 mb-1 relative inline-flex items-center px-4 py-2  text-sm font-medium rounded-md text-gray-700  hover:bg-gray-300 transition-colors duration-75;
+    @apply mr-1 mb-1 relative inline-flex items-center px-4 py-2  text-base font-medium rounded-md text-gray-700  hover:bg-gray-300 transition-colors duration-75;
 
     svg {
       @apply h-3 w-3;

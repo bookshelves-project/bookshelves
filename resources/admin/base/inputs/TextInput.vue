@@ -7,7 +7,8 @@
     ref="input"
     v-model="formValue"
     :name="getName"
-    class="block w-full"
+    rows="4"
+    class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm border-gray-300 rounded-md"
     :class="{ 'form-invalid': hasError }"
   />
   <input
@@ -17,7 +18,7 @@
     ref="input"
     v-model="formValue"
     :name="getName"
-    class="block w-full"
+    class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm border-gray-300 rounded-md"
     :class="{ 'form-invalid': hasError }"
   />
   <input-error :message="getError" class="mt-2" />

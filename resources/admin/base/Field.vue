@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label class="font-medium text-sm text-gray-700">{{ $ta(source) }}</label>
+    <label class="font-medium text-base text-gray-700">{{ $ta(source) }}</label>
     <div>
       <template v-if="value !== null && value !== undefined">
         <component

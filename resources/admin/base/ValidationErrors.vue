@@ -1,6 +1,6 @@
 <template>
   <div v-if="hasErrors" class="bg-red-500 rounded-md p-3">
-    <ul class="text-sm text-white">
+    <ul class="text-base text-white">
       <li v-for="(error, key) in errors" :key="key">{{ error }}</li>
     </ul>
   </div>

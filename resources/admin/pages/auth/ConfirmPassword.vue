@@ -1,6 +1,6 @@
 <template>
   <auth-layout>
-    <div class="mb-4 text-sm text-gray-600">
+    <div class="mb-4 text-base text-gray-600">
       {{
         $t(
           'This is a secure area of the application. Please confirm your password before continuing.'

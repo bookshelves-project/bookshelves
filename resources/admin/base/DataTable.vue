@@ -147,7 +147,7 @@
             </data-table-row>
             <tr v-if="source.data.length === 0">
               <td
-                class="border-t px-6 py-4 text-center italic text-sm"
+                class="border-t px-6 py-4 text-center italic text-base"
                 :colspan="
                   !!$slots['bulk-actions']
                     ? getColumns.length + 1

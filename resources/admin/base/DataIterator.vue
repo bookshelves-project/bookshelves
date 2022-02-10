@@ -6,19 +6,19 @@
     <div class="flex flex-row justify-center sm:justify-start items-center">
       <select
         :value="source.meta.per_page"
-        class="mr-2 text-sm text-gray-700"
+        class="mr-2 text-base text-gray-700"
         @input="onPerPageChange"
       >
         <option v-for="(count, i) in perPageOptions" :key="i" :value="count">
           {{ count }}
         </option>
       </select>
-      <label class="text-sm text-gray-700">{{
+      <label class="text-base text-gray-700">{{
         $t('admin.data-table.rows_per_page_text')
       }}</label>
     </div>
     <div v-if="source.meta.total" class="flex flex-row items-center ml-auto">
-      <span class="hidden sm:inline-block text-sm text-gray-700">{{
+      <span class="hidden sm:inline-block text-base text-gray-700">{{
         $t('admin.data-table.page_text', {
           args: {
             start: source.meta.from,

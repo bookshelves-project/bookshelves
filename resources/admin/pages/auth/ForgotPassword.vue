@@ -1,6 +1,6 @@
 <template>
   <auth-layout>
-    <div class="mb-4 text-sm text-gray-600">
+    <div class="mb-4 text-base text-gray-600">
       {{
         $t(
           'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.'
@@ -8,7 +8,7 @@
       }}
     </div>
 
-    <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+    <div v-if="status" class="mb-4 font-medium text-base text-green-600">
       {{ status }}
     </div>
 

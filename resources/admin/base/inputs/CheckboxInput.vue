@@ -6,7 +6,7 @@
       :name="getName"
       type="checkbox"
     />
-    <span class="ml-2 text-sm text-gray-600">{{ getLabel }}</span>
+    <span class="ml-2 text-base text-gray-600">{{ getLabel }}</span>
   </label>
   <input-error :message="getError" class="mt-2" />
   <input-hint :message="hint" class="mt-2" />

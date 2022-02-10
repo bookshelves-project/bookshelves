@@ -48,7 +48,7 @@
             leave-from-class="transform scale-100 opacity-100"
             leave-to-class="transform scale-95 opacity-0"
           >
-            <DisclosurePanel class="px-6 py-4 text-sm text-gray-500">
+            <DisclosurePanel class="px-6 py-4 text-base text-gray-500">
               <slot :item="element" :index="index" />
               <slot :name="`panel-${index}`" :item="element" :open="open" />
             </DisclosurePanel>

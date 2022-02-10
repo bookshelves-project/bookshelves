@@ -5,7 +5,7 @@
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <div v-show="on" class="text-sm text-green-500">
+      <div v-show="on" class="text-base text-green-500">
         <slot />
       </div>
     </transition>

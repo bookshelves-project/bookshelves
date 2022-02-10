@@ -1,6 +1,6 @@
 <template>
   <base-form ref="form" v-slot="{ processing }" :method="method" :url="url">
-    <div class="flex flex-col xl:flex-row gap-6">
+    <!-- <div class="flex flex-col xl:flex-row gap-6">
       <div class="xl:w-3/4 px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md">
         <div>
           <text-input source="title" type="text" />
@@ -11,7 +11,6 @@
         <div
           class="flex flex-col gap-4 px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md"
         >
-          <!-- option 1  -->
           <base-button
             type="button"
             variant="success"
@@ -21,13 +20,40 @@
             {{ $t('Save') }}
           </base-button>
         </div>
-        <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md mt-6">
-          <!-- option 2  -->
-        </div>
-        <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md mt-6">
-          <!-- option 3  -->
-        </div>
       </div>
+    </div> -->
+    <div class="form-grid">
+      <card-content>
+        <div class="form-split">
+          <text-input source="title" type="text" />
+          <text-input source="slug_sort" type="text" />
+          <div class="mt-5">
+            <text-input source="summary" multiline />
+          </div>
+        </div>
+        <!-- <div class="form-split">
+          <text-input source="meta_title" type="text" />
+          <div class="mt-5">
+            <text-input source="meta_description" multiline />
+          </div>
+        </div>
+        <div class="form-full">
+          <editor-input source="body" :height="800" />
+        </div> -->
+      </card-content>
+      <card-side>
+        <div class="flex form-full">
+          <base-button
+            class="ml-auto"
+            type="button"
+            variant="success"
+            :loading="processing"
+            @click="submit()"
+          >
+            {{ $t('Save') }}
+          </base-button>
+        </div>
+      </card-side>
     </div>
   </base-form>
 </template>
