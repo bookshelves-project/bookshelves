@@ -9,6 +9,8 @@ declare module '@inertiajs/inertia' {
     flash: { [key: string]: string }
     errors: Errors & ErrorBag
     enums: EnumTypes
+    repositoryUrl: string
+    documentationUrl: string
   }
 }
 

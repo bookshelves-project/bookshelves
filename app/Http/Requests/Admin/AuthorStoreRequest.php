@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\AuthorRoleEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Spatie\Enum\Laravel\Rules\EnumRule;
 
 class AuthorStoreRequest extends FormRequest
 {
@@ -24,7 +26,20 @@ class AuthorStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required'],
+            'firstname' => ['required'],
+            'lastname' => ['required'],
+            'name' => ['nullable'],
+            'role' => new EnumRule(AuthorRoleEnum::class),
+            'description' => ['nullable'],
+            'link' => ['nullable'],
+            'note' => ['nullable'],
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'name' => "{$this->firstname} {$this->lastname}",
+        ]);
     }
 }

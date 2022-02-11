@@ -1,18 +1,42 @@
 <template>
   <base-form ref="form" v-slot="{ processing }" :method="method" :url="url">
-    <div class="flex flex-col xl:flex-row gap-6">
-      <div class="xl:w-3/4 px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md">
-        <div>
-          <text-input source="name" type="text" />
+    <div class="form-grid">
+      <card-content>
+        <div class="form-split">
+          <text-input source="lastname" type="text" />
         </div>
-      </div>
-
-      <div class="xl:flex-1">
-        <div
-          class="flex flex-col gap-4 px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md"
-        >
-          <!-- option 1  -->
+        <div class="form-split">
+          <text-input source="firstname" type="text" />
+        </div>
+        <div class="form-split">
+          <select-input source="role" choices="author_roles" />
+        </div>
+        <div class="form-split">
+          <text-input source="link" type="text" />
+        </div>
+        <div class="form-full">
+          <text-input source="note" multiline />
+        </div>
+        <div class="form-full">
+          <editor-input source="description" :height="800" />
+        </div>
+      </card-content>
+      <card-side>
+        <div class="form-full">
+          <file-input
+            source="cover"
+            file-source="cover_file"
+            delete-source="cover_delete"
+            preview
+            preview-attr="url"
+          />
+        </div>
+        <div class="form-full">
+          <text-input source="slug" type="text" />
+        </div>
+        <div class="flex form-full mt-auto">
           <base-button
+            class="ml-auto"
             type="button"
             variant="success"
             :loading="processing"
@@ -21,13 +45,7 @@
             {{ $t('Save') }}
           </base-button>
         </div>
-        <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md mt-6">
-          <!-- option 2  -->
-        </div>
-        <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-md mt-6">
-          <!-- option 3  -->
-        </div>
-      </div>
+      </card-side>
     </div>
   </base-form>
 </template>

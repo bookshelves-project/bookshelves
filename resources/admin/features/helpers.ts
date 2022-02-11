@@ -15,11 +15,16 @@ import {
   WikipediaItem,
   GoogleBook,
 } from '@admin/types'
+import { PageProps } from '@inertiajs/inertia'
 
 export function useTitle(title: string, options?: TranslationOptions): string {
   const subTitle = __(title, options)
   vueUseTitle(`${subTitle} - ${usePage().props.value.appName}`)
   return subTitle
+}
+
+export function getProps(): PageProps {
+  return usePage().props.value
 }
 
 export function getAppName(): string {

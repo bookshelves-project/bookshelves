@@ -3,6 +3,7 @@ export interface EnumTypes {
   post_statuses: { [key: string]: string }
   tag_types: { [key: string]: string }
   book_types: { [key: string]: string }
+  author_roles: { [key: string]: string }
   chart_colors: { [key: string]: string }
 }
 
@@ -21,5 +22,8 @@ export const enumVariants = {
     essay: 'bg-blue-100',
     comic: 'bg-green-100',
     novel: 'bg-primary-100',
+  },
+  author_roles: {
+    aut: 'bg-primary-100',
   },
 }

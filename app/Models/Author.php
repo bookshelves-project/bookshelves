@@ -57,7 +57,7 @@ class Author extends Model implements HasMedia
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom('name')
+            ->generateSlugsFrom(['lastname', 'firstname'])
             ->saveSlugsTo('slug')
         ;
     }

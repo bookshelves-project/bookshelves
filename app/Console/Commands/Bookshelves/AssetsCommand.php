@@ -208,6 +208,16 @@ class AssetsCommand extends Command
             }
             $bar->finish();
         }
+
+        $this->info('Add placeholder if not picture');
+        $bar = $this->output->createProgressBar(count($list));
+        $bar->start();
+        foreach ($list as $model) {
+            /** @var Author $model */
+            AuthorConverter::setPicturePlaceholder($model);
+            $bar->advance();
+        }
+        $bar->finish();
     }
 
     private function series(Collection $list, string $collection)

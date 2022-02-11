@@ -60,7 +60,7 @@ return [
         'attributes' => [
             'firstname' => 'Firstname',
             'lastname' => 'Lastname',
-            'description' => 'Description',
+            'note' => 'Note',
         ],
     ],
     'submissions' => [

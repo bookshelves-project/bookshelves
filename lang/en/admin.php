@@ -33,6 +33,7 @@ return [
         'cover' => 'Cover',
         'description' => 'Description',
         'language' => 'Language',
+        'role' => 'Role',
     ],
     'actions' => [
         'list' => 'List',

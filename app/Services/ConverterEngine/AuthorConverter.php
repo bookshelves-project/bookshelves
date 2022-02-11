@@ -145,14 +145,15 @@ class AuthorConverter
      * Get local picture from `public/storage/data/pictures-authors`
      * Only JPG file with author slug as name.
      */
-    public static function getLocalPicture(Author $author): string|null
+    public static function getLocalPicture(Author $author): ?string
     {
         $disk = self::DISK;
         $path = public_path("storage/data/pictures-{$disk}");
+        $cover = null;
+
         $files = BookshelvesTools::getDirectoryFiles($path);
 
-        $cover = null;
-        foreach ($files as $key => $file) {
+        foreach ($files as $file) {
             if (pathinfo($file)['filename'] === $author->slug) {
                 $cover = base64_encode(file_get_contents($file));
             }
@@ -219,6 +220,21 @@ class AuthorConverter
                     ->setColor()
                 ;
             }
+        }
+
+        return $author;
+    }
+
+    public static function setPicturePlaceholder(Author $author): Author
+    {
+        if ($author->getMedia('authors')->isEmpty()) {
+            $placeholder = public_path('assets/images/no-author.jpg');
+            $disk = self::DISK;
+            $author->clearMediaCollection($disk);
+            MediaService::create($author, $author->slug, $disk)
+                ->setMedia(base64_encode(File::get($placeholder)))
+                ->setColor()
+            ;
         }
 
         return $author;
