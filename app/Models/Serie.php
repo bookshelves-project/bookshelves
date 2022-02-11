@@ -11,11 +11,13 @@ use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
 use App\Models\Traits\HasWikipediaItem;
+use App\Services\ParserEngine\ParserTools;
 use App\Utils\BookshelvesTools;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\Tags\HasTags;
@@ -102,5 +104,12 @@ class Serie extends Model implements HasMedia
     public function wikipediaItem(): BelongsTo
     {
         return $this->belongsTo(WikipediaItem::class);
+    }
+
+    public function updateSlug()
+    {
+        $this->slug = Str::slug("{$this->title} {$this->language_slug}");
+        $this->slug_sort = ParserTools::getSortString($this->title);
+        $this->save();
     }
 }

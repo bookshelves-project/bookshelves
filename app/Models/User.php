@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Enums\RoleEnum;
 use App\Models\Traits\HasAvatar;
 use App\Models\Traits\HasImpersonate;
-use App\Models\Traits\HasSlug;
+use App\Models\Traits\HasUserSlug;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -21,7 +21,7 @@ class User extends Authenticatable implements HasMedia
     use HasImpersonate;
     use HasApiTokens;
     use HasAvatar;
-    use HasSlug;
+    use HasUserSlug;
 
     protected $fillable = [
         'name',

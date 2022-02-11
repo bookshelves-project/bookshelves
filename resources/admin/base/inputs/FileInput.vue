@@ -1,4 +1,5 @@
 <template>
+  <input-label :for="id" class="mb-1" :value="getLabel" />
   <div class="flex items-center space-x-6">
     <div class="shrink-0">
       <image-field

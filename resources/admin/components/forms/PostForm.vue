@@ -78,8 +78,8 @@
         </div>
         <div class="form-full">
           <rich-select-input
-            source="tags.fetch"
-            resource="tags.fetch"
+            source="tags"
+            resource="tags"
             label-key="tags"
             multiple
             taggable

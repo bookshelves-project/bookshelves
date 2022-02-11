@@ -64,26 +64,29 @@ class BookController extends Controller
     public function store(BookStoreRequest $request)
     {
         $book = Book::create($request->all());
+        $book->updateSlug();
 
         return redirect()->route('admin.books')->with('flash.success', __('Book created.'));
     }
 
     #[Put('{book}', name: 'books.update')]
-    public function update(Book $book, BookUpdateRequest $request)
+    public function update(Book $book, Request $request)
     {
         $book->update($request->all());
+        $book->updateSlug();
 
-        // $book->syncTags($request->tags['fetch']);
+        $book->syncTagsList($request->tags);
+        $book->syncAuthors($request->authors);
 
-        // if ($request->featured_image_delete) {
-        //     $book->clearMediaCollection('featured-image');
-        // }
+        if ($request->cover_delete) {
+            $book->clearMediaCollection('books');
+        }
 
-        // if ($request->featured_image_file) {
-        //     $book->addMediaFromRequest('featured_image_file')
-        //         ->toMediaCollection('featured-image')
-        //     ;
-        // }
+        if ($request->cover_file) {
+            $book->addMediaFromRequest('cover_file')
+                ->toMediaCollection('books')
+            ;
+        }
 
         return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
     }

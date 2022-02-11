@@ -23,6 +23,7 @@ class BookResource extends JsonResource
     {
         return [
             'cover' => MediaResource::collection($this->resource->getMedia('books')),
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
         ] + $this->resource->toArray();
     }
 }

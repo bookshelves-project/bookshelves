@@ -41,8 +41,8 @@
         </div>
         <div class="form-split">
           <rich-select-input
-            source="authors.fetch"
-            resource="authors.fetch"
+            source="authors"
+            resource="authors"
             label-key="authors"
             multiple
             taggable
@@ -54,16 +54,6 @@
         </div>
         <div class="form-full">
           <editor-input source="description" :height="800" />
-        </div>
-        <div class="form-split">
-          <reference-input
-            source="google_book_id"
-            label-key="googleBook"
-            resource="google-books"
-            option-text="original_isbn"
-            option-value="id"
-            allow-empty
-          />
         </div>
         <div class="form-split">
           <text-input source="contributor" type="text" />
@@ -96,8 +86,8 @@
         </div>
         <div class="form-full">
           <rich-select-input
-            source="tags.fetch"
-            resource="tags.fetch"
+            source="tags"
+            resource="tags"
             label-key="tags"
             multiple
             taggable

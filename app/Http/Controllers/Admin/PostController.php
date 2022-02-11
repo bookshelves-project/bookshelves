@@ -75,7 +75,7 @@ class PostController extends Controller
     {
         $post->update($request->all());
 
-        $post->syncTags($request->tags['fetch']);
+        $post->syncTags($request->tags);
 
         if ($request->featured_image_delete) {
             $post->clearMediaCollection('featured-image');

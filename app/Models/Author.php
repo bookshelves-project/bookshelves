@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
 
 /**
@@ -32,6 +34,7 @@ class Author extends Model implements HasMedia
     use HasSelections;
     use Searchable;
     use HasWikipediaItem;
+    use HasSlug;
 
     protected $fillable = [
         'lastname',
@@ -47,6 +50,17 @@ class Author extends Model implements HasMedia
     protected $with = [
         'media',
     ];
+
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug')
+        ;
+    }
 
     public function getShowLinkAttribute(): string
     {

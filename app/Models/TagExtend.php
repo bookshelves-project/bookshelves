@@ -39,6 +39,11 @@ class TagExtend extends Tag
         ]);
     }
 
+    public function scopeWhereNameEnIs(Builder $query, string $name)
+    {
+        return $query->where('name->en', '=', $name);
+    }
+
     public function scopeWhereTypeIs(Builder $query, string $type)
     {
         return $query->where('type', '=', $type);

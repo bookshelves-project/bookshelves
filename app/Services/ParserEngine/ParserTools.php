@@ -34,7 +34,7 @@ class ParserTools
             $slug_sort = $transliterator->transliterate($slug_sort);
             $slug_sort = strtolower($slug_sort);
 
-            return utf8_encode($slug_sort);
+            return Str::slug(utf8_encode($slug_sort));
         }
 
         return false;

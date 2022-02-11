@@ -11,6 +11,7 @@ use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
+use App\Services\ParserEngine\ParserTools;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -50,10 +51,10 @@ class Book extends Model implements HasMedia
         'type',
         'identifier_isbn',
         'identifier_isbn13',
-        'identifier_uuid',
-        'identifier_doi',
-        'identifier_amazon',
-        'identifier_google',
+        'identifiers',
+        'language_slug',
+        'serie_id',
+        'publisher_id',
     ];
     protected $with = [
         'language',
@@ -68,6 +69,7 @@ class Book extends Model implements HasMedia
         'released_on' => 'datetime',
         'disabled' => 'boolean',
         'type' => BookTypeEnum::class,
+        'identifiers' => 'array',
     ];
 
     public function registerMediaCollections(): void
@@ -178,5 +180,14 @@ class Book extends Model implements HasMedia
     public function googleBook(): BelongsTo
     {
         return $this->belongsTo(GoogleBook::class);
+    }
+
+    public function updateSlug()
+    {
+        $serie_title = $this->serie ? $this->serie->title : '';
+
+        $this->slug = Str::slug("{$this->title} {$this->language_slug}");
+        $this->slug_sort = ParserTools::sortTitleWithSerie($this->title, $this->volume, $serie_title);
+        $this->save();
     }
 }

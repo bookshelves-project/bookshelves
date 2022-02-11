@@ -23,7 +23,7 @@ class SerieQuery extends BaseQuery
         }
 
         $this->option = $option;
-        $option->with = [] === $option->with ? ['books', 'media', 'authors', 'language'] : $this->option->with;
+        $option->with = [] === $option->with ? ['books', 'media', 'authors', 'language', 'tags'] : $this->option->with;
 
         $this->query = QueryBuilder::for(Serie::class)
             ->defaultSort($this->option->defaultSort)
@@ -36,8 +36,9 @@ class SerieQuery extends BaseQuery
                         $query->where('name', 'like', "%{$value}%");
                     });
                 }),
+                AllowedFilter::scope('language', 'whereLanguagesIs'),
             ])
-            ->allowedSorts(['id', 'title', 'authors', 'books_count', 'created_at', 'updated_at', 'language'])
+            ->allowedSorts(['id', 'title', 'authors', 'books_count', 'language', 'created_at', 'updated_at', 'language'])
             ->with($option->with)
             ->withCount('books', 'tags')
         ;

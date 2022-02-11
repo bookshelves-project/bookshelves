@@ -1,6 +1,6 @@
 <template>
   <edit-context v-slot="{ title }" resource="series" :item="serie">
-    <app-layout>
+    <app-layout :title="serie.title">
       <template #header>
         <page-header>
           <h1>{{ title }}</h1>

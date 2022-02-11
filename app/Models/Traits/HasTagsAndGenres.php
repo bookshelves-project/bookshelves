@@ -2,6 +2,8 @@
 
 namespace App\Models\Traits;
 
+use App\Models\TagExtend;
+use ArrayAccess;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Tags\Tag;
@@ -47,5 +49,23 @@ trait HasTagsAndGenres
     public function getGenresListAttribute()
     {
         return $this->tags()->whereType('genre')->get();
+    }
+
+    public function syncTagsList(array|ArrayAccess $tags): static
+    {
+        $tags_list = collect();
+        foreach ($tags as $name) {
+            $tag = TagExtend::whereNameEnIs($name)->first();
+            if (! $tag) {
+                $tag = TagExtend::create([
+                    'name' => $name,
+                ]);
+            }
+            $tags_list->add($tag);
+        }
+
+        $this->tags()->sync($tags_list->pluck('id')->toArray());
+
+        return $this;
     }
 }

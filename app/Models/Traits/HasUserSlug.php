@@ -5,7 +5,7 @@ namespace App\Models\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-trait HasSlug
+trait HasUserSlug
 {
     /**
      * Generate a slug for Model.

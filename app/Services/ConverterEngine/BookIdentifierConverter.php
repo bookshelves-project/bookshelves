@@ -29,6 +29,7 @@ class BookIdentifierConverter
                     $book->{"identifier_{$value}"} = $identifiers[$value];
                 }
             }
+            $book->identifiers = $parser->identifiers;
             $book->save();
         }
         $book->save();

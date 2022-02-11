@@ -23,6 +23,7 @@ class SerieResource extends JsonResource
     {
         return [
             'cover' => MediaResource::collection($this->resource->getMedia('series')),
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
         ] + $this->resource->toArray();
     }
 }

@@ -3,6 +3,9 @@
 namespace App\Http\Requests\Admin;
 
 use App\Enums\BookTypeEnum;
+use App\Models\Language;
+use App\Models\Publisher;
+use App\Models\Serie;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -29,33 +32,25 @@ class BookStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'title' => ['required'],
-            // 'slug' => ['nullable'],
-            // 'status' => new EnumRule(PostStatusEnum::class),
-            // 'category_id' => ['required', Rule::exists(PostCategory::class, 'id')],
-            // 'user_id' => ['required', Rule::exists(User::class, 'id')],
-            // 'summary' => ['nullable'],
-            // 'body' => ['nullable'],
-            // 'published_at' => ['nullable', 'date'],
-            // 'pin' => ['boolean'],
-            // 'promote' => ['boolean'],
-            // 'meta_title' => ['nullable'],
-            // 'meta_description' => ['nullable'],
-            // 'tags' => ['array'],
-            // 'featured_image_file' => ['nullable', 'image'],
-            // 'featured_image_delete' => ['boolean'],
-            'title' => ['required'],
+            'title' => ['nullable'],
             'slug_sort' => ['nullable'],
             'slug' => ['nullable'],
             'contributor' => ['nullable'],
             'description' => ['nullable'],
-            'released_on' => ['required', 'date'],
+            'released_on' => ['nullable', 'date'],
             'rights' => ['nullable'],
             'volume' => ['nullable', 'integer'],
             'page_count' => ['nullable', 'integer'],
             'maturity_rating' => ['nullable'],
             'disabled' => ['boolean'],
             'type' => new EnumRule(BookTypeEnum::class),
+            'tags' => ['array'],
+            'cover_file' => ['nullable', 'image'],
+            'cover_delete' => ['boolean'],
+            'publisher_id' => ['nullable', Rule::exists(Publisher::class, 'id')],
+            'serie_id' => ['nullable', Rule::exists(Serie::class, 'id')],
+            'language_slug' => ['nullable', Rule::exists(Language::class, 'slug')],
+            'authors' => ['array'],
         ];
     }
 
@@ -67,30 +62,35 @@ class BookStoreRequest extends FormRequest
         //     ]);
         // }
 
+        if (! $this->authors) {
+            $this->merge([
+                'authors' => [],
+            ]);
+        }
         if (! $this->tags) {
             $this->merge([
                 'tags' => [],
             ]);
         }
 
-        $status = BookTypeEnum::novel();
+        $type = BookTypeEnum::novel();
         // $publishedAt = $this->published_at;
 
         // if ($this->publish) {
         //     if ($publishedAt) {
-        //         $status = Carbon::parse($publishedAt) > Carbon::now()
+        //         $type = Carbon::parse($publishedAt) > Carbon::now()
         //             ? PostStatusEnum::scheduled()
         //             : PostStatusEnum::published();
         //     }
 
         //     if (! $publishedAt) {
         //         $publishedAt = Carbon::now()->setSecond(0);
-        //         $status = PostStatusEnum::published();
+        //         $type = PostStatusEnum::published();
         //     }
         // }
 
         // $this->merge([
-        //     'status' => $status,
+        //     'type' => $type,
         //     'published_at' => $publishedAt,
         // ]);
     }

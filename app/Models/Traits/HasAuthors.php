@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Models\Author;
+use ArrayAccess;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -84,5 +85,23 @@ trait HasAuthors
         }
 
         return '';
+    }
+
+    public function syncAuthors(array|ArrayAccess $authors): static
+    {
+        $authors_list = collect();
+        foreach ($authors as $name) {
+            $author = Author::whereName($name)->first();
+            if (! $author) {
+                $author = Author::create([
+                    'name' => $name,
+                ]);
+            }
+            $authors_list->add($author);
+        }
+
+        $this->authors()->sync($authors_list->pluck('id')->toArray());
+
+        return $this;
     }
 }

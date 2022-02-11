@@ -56,7 +56,7 @@ class BookQuery extends BaseQuery
                     });
                 }),
                 AllowedFilter::scope('disallow_serie', 'whereDisallowSerie'),
-                AllowedFilter::scope('languages', 'whereLanguagesIs'),
+                AllowedFilter::scope('language', 'whereLanguagesIs'),
                 AllowedFilter::scope('published', 'publishedBetween'),
                 AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
                 AllowedFilter::scope('tags_all', 'whereTagsAllIs'),

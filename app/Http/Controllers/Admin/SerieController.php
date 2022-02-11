@@ -47,7 +47,7 @@ class SerieController extends Controller
     public function show(Serie $serie)
     {
         return Inertia::render('series/Edit', [
-            'serie' => SerieResource::make($serie->load('authors', 'books', 'media')),
+            'serie' => SerieResource::make($serie->load('authors', 'books', 'media', 'tags')),
         ]);
     }
 
@@ -55,6 +55,7 @@ class SerieController extends Controller
     public function store(SerieStoreRequest $request)
     {
         $serie = Serie::create($request->all());
+        $serie->updateSlug();
 
         return redirect()->route('admin.series')->with('flash.success', __('Series created.'));
     }
@@ -63,7 +64,7 @@ class SerieController extends Controller
     public function edit(Serie $serie)
     {
         return Inertia::render('series/Edit', [
-            'serie' => SerieResource::make($serie->load('authors', 'books', 'media', 'wikipediaItem')),
+            'serie' => SerieResource::make($serie->load('authors', 'books', 'media', 'wikipediaItem', 'tags')),
         ]);
     }
 
@@ -71,6 +72,7 @@ class SerieController extends Controller
     public function update(Serie $serie, SerieUpdateRequest $request)
     {
         $serie->update($request->all());
+        $serie->updateSlug();
 
         return redirect()->route('admin.series')->with('flash.success', __('Series updated.'));
     }

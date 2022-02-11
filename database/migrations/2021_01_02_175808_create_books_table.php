@@ -27,10 +27,7 @@ class CreateBooksTable extends Migration
             $table->string('type')->default('novel');
             $table->string('identifier_isbn')->nullable();
             $table->string('identifier_isbn13')->nullable();
-            $table->string('identifier_uuid')->nullable();
-            $table->string('identifier_doi')->nullable();
-            $table->string('identifier_amazon')->nullable();
-            $table->string('identifier_google')->nullable();
+            $table->json('identifiers')->nullable();
             $table->timestamps();
         });
     }

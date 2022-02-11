@@ -6,6 +6,8 @@ use App\Models\Traits\HasFirstChar;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 /**
  * @property null|int $books_count
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Publisher extends Model
 {
     use HasFirstChar;
+    use HasSlug;
 
     public $timestamps = false;
     protected $fillable = [
@@ -23,6 +26,17 @@ class Publisher extends Model
     protected $appends = [
         'first_char',
     ];
+
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug')
+        ;
+    }
 
     public function scopeWhereIsNegligible(Builder $query, string $negligible)
     {

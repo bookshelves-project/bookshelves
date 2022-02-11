@@ -12,6 +12,7 @@ return [
     'attributes' => [
         'id' => 'ID',
         'slug' => 'Slug',
+        'slug_sort' => 'Slug for sort',
         'name' => 'Name',
         'title' => 'Title',
         'email' => 'Email',
@@ -27,6 +28,11 @@ return [
         'tags_count' => 'Tags',
         'authors' => 'Authors',
         'language' => 'Languages',
+        'tags' => 'Tags',
+        'link' => 'Link',
+        'cover' => 'Cover',
+        'description' => 'Description',
+        'language' => 'Language',
     ],
     'actions' => [
         'list' => 'List',
