@@ -20,6 +20,7 @@ class BookIdentifierResource extends JsonResource
     {
         return [
             'isbn' => $this->resource->isbn,
+            'isbn10' => $this->resource->isbn10,
             'isbn13' => $this->resource->isbn13,
         ];
     }

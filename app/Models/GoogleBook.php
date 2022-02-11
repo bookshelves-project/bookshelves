@@ -24,7 +24,7 @@ class GoogleBook extends Model
         'retail_price_amount',
         'retail_price_currency_code',
         'buy_link',
-        'isbn',
+        'isbn10',
         'isbn13',
     ];
 
@@ -51,8 +51,8 @@ class GoogleBook extends Model
         }
         $this->book->save();
 
-        if (empty($this->book->isbn)) {
-            $this->book->isbn = $this->isbn;
+        if (empty($this->book->isbn10)) {
+            $this->book->isbn10 = $this->isbn10;
         }
         if (empty($this->book->isbn13)) {
             $this->book->isbn13 = $this->isbn13;

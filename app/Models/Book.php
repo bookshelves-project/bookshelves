@@ -49,7 +49,7 @@ class Book extends Model implements HasMedia
         'maturity_rating',
         'disabled',
         'type',
-        'isbn',
+        'isbn10',
         'isbn13',
         'identifiers',
         'language_slug',
@@ -134,7 +134,7 @@ class Book extends Model implements HasMedia
 
     public function getIsbnAttribute(): ?string
     {
-        return $this->isbn13 ?? $this->isbn;
+        return $this->isbn13 ?? $this->isbn10;
     }
 
     public function scopeWhereSerieTitleIs(Builder $query, $title): Builder
@@ -147,7 +147,7 @@ class Book extends Model implements HasMedia
     public function scopeWhereIsbnIs(Builder $query, $isbn): Builder
     {
         $query->where('isbn13', 'LIKE', "%{$isbn}%");
-        $query->orWhere('isbn', 'LIKE', "%{$isbn}%");
+        $query->orWhere('isbn10', 'LIKE', "%{$isbn}%");
 
         return $query;
     }
@@ -160,7 +160,7 @@ class Book extends Model implements HasMedia
             'picture' => $this->cover_thumbnail,
             'released_on' => $this->released_on,
             'author' => $this->authors_names,
-            'isbn' => $this->isbn,
+            'isbn10' => $this->isbn10,
             'isbn13' => $this->isbn13,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

@@ -27,7 +27,7 @@ class GoogleBookQuery
         public ?int $retail_price_amount = null,
         public ?int $retail_price_currency_code = null,
         public ?string $buy_link = null,
-        public ?string $isbn = null,
+        public ?string $isbn10 = null,
         public ?string $isbn13 = null,
         public ?bool $debug = false,
     ) {
@@ -45,7 +45,7 @@ class GoogleBookQuery
 
         /** @var Book $model */
         if ($model->isbn) {
-            $query->isbn = $model->isbn ?? null;
+            $query->isbn10 = $model->isbn10 ?? null;
             $query->isbn13 = $model->isbn13 ?? null;
             $query->debug = $service->debug;
 
@@ -60,7 +60,7 @@ class GoogleBookQuery
      */
     public function getGoogleBookUrl(): GoogleBookQuery
     {
-        $isbn = $this->isbn13 ? $this->isbn13 : $this->isbn;
+        $isbn = $this->isbn13 ? $this->isbn13 : $this->isbn10;
 
         if ($isbn) {
             $url = 'https://www.googleapis.com/books/v1/volumes';
@@ -124,7 +124,7 @@ class GoogleBookQuery
                             $this->isbn13 = $new_identifier->identifier ?? null;
                         }
                         if ('ISBN_10' === $new_identifier->type) {
-                            $this->isbn = $new_identifier->identifier ?? null;
+                            $this->isbn10 = $new_identifier->identifier ?? null;
                         }
                     }
                 }

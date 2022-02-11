@@ -25,7 +25,7 @@ class OpfIdentifier
             $isbn_type = self::findIsbn($value);
             if (1 === $isbn_type) {
                 $identifier = new OpfIdentifier(
-                    name: 'isbn',
+                    name: 'isbn10',
                     value: $value
                 );
             }

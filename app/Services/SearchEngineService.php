@@ -112,7 +112,7 @@ class SearchEngineService
             $series = Serie::whereLike(['title', 'authors.name'], $this->q)->with(['authors', 'media'])->get();
         }
         if (in_array('authors', $this->types)) {
-            $books = Book::whereLike(['title', 'authors.name', 'serie.title', 'isbn', 'isbn13'], $this->q)
+            $books = Book::whereLike(['title', 'authors.name', 'serie.title', 'isbn10', 'isbn13'], $this->q)
                 ->with(['authors', 'media'])
                 ->doesntHave('serie')
                 ->orderBy('serie_id')

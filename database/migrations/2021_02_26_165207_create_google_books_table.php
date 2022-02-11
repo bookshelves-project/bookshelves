@@ -27,7 +27,7 @@ class CreateGoogleBooksTable extends Migration
             $table->integer('retail_price_amount')->nullable();
             $table->integer('retail_price_currency_code')->nullable();
             $table->string('buy_link')->nullable();
-            $table->string('isbn')->nullable();
+            $table->string('isbn10')->nullable();
             $table->string('isbn13')->nullable();
             $table->timestamps();
         });

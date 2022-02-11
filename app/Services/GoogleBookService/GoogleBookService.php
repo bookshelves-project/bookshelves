@@ -120,7 +120,7 @@ class GoogleBookService
                 'retail_price_amount' => $query->retail_price_amount,
                 'retail_price_currency_code' => $query->retail_price_currency_code,
                 'buy_link' => $query->buy_link,
-                'isbn' => $query->isbn,
+                'isbn10' => $query->isbn10,
                 'isbn13' => $query->isbn13,
             ];
             // $is_null = empty(array_filter($data, fn ($el) => null !== $el));
