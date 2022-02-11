@@ -25,8 +25,8 @@ class CreateBooksTable extends Migration
             $table->string('maturity_rating')->nullable();
             $table->boolean('disabled')->default(0);
             $table->string('type')->default('novel');
-            $table->string('identifier_isbn')->nullable();
-            $table->string('identifier_isbn13')->nullable();
+            $table->string('isbn')->nullable();
+            $table->string('isbn13')->nullable();
             $table->json('identifiers')->nullable();
             $table->timestamps();
         });

@@ -21,7 +21,7 @@
   - <https://laravel-news.com/laravel-9-released>
   - <https://github.com/laravel/framework/pull/38538>
 - `composer require`
-  - `artesaos/seotools` <https://github.com/artesaos/seotools/pull/172>
+  - `artesaos/seotools` <https://github.com/artesaos/seotools/pull/267>
   - `barryvdh/laravel-elfinder`
 - `composer require --dev`
   - `barryvdh/laravel-ide-helper`

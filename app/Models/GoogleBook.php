@@ -51,11 +51,11 @@ class GoogleBook extends Model
         }
         $this->book->save();
 
-        if (empty($this->book->identifier_isbn)) {
-            $this->book->identifier_isbn = $this->isbn;
+        if (empty($this->book->isbn)) {
+            $this->book->isbn = $this->isbn;
         }
-        if (empty($this->book->identifier_isbn13)) {
-            $this->book->identifier_isbn13 = $this->isbn13;
+        if (empty($this->book->isbn13)) {
+            $this->book->isbn13 = $this->isbn13;
         }
         $this->book->save();
 

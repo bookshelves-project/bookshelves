@@ -45,8 +45,8 @@ class GoogleBookQuery
 
         /** @var Book $model */
         if ($model->isbn) {
-            $query->isbn = $model->identifier_isbn ?? null;
-            $query->isbn13 = $model->identifier_isbn13 ?? null;
+            $query->isbn = $model->isbn ?? null;
+            $query->isbn13 = $model->isbn13 ?? null;
             $query->debug = $service->debug;
 
             $query->getGoogleBookUrl();

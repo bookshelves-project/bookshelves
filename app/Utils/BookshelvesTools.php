@@ -24,7 +24,7 @@ class BookshelvesTools
         $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
         $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->with('media')->get();
         $series = Serie::whereLike(['title', 'authors.name'], $searchTerm)->with(['authors', 'media'])->get();
-        $books = Book::whereLike(['title', 'authors.name', 'serie.title', 'identifier_isbn', 'identifier_isbn13'], $searchTerm)->with(['authors', 'media'])->doesntHave('serie')->orderBy('serie_id')->orderBy('volume')->get();
+        $books = Book::whereLike(['title', 'authors.name', 'serie.title', 'isbn', 'isbn13'], $searchTerm)->with(['authors', 'media'])->doesntHave('serie')->orderBy('serie_id')->orderBy('volume')->get();
 
         $authors = EntityResource::collection($authors);
         $series = EntityResource::collection($series);

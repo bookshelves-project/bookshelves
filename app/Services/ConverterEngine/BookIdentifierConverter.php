@@ -17,8 +17,7 @@ class BookIdentifierConverter
         /** @var OpfIdentifier $value */
         foreach ($parser->identifiers as $key => $value) {
             $fillables = (new Book())->getFillable();
-            $fillables = array_filter($fillables, fn ($value) => str_contains($value, 'identifier'));
-            $fillables = array_map(fn ($value) => str_replace('identifier_', '', $value), $fillables);
+            $fillables = array_filter($fillables, fn ($value) => str_contains($value, 'isbn'));
             if (in_array($value->name, $fillables)) {
                 $identifiers[$value->name] = $value->value;
             }
@@ -26,11 +25,10 @@ class BookIdentifierConverter
         if (! empty($identifiers)) {
             foreach ($fillables as $key => $value) {
                 if (array_key_exists($value, $identifiers)) {
-                    $book->{"identifier_{$value}"} = $identifiers[$value];
+                    $book->{$value} = $identifiers[$value];
                 }
             }
             $book->identifiers = $parser->identifiers;
-            $book->save();
         }
         $book->save();
 

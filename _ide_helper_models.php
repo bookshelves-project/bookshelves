@@ -102,8 +102,8 @@ namespace App\Models{
  * @property string|null $maturity_rating
  * @property bool $disabled
  * @property \Spatie\Enum\Enum|null $type
- * @property string|null $identifier_isbn
- * @property string|null $identifier_isbn13
+ * @property string|null $isbn
+ * @property string|null $isbn13
  * @property array|null $identifiers
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -124,7 +124,6 @@ namespace App\Models{
  * @property-read \App\Models\MediaExtended|null $epub
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
- * @property-read string|null $isbn
  * @property-read string|null $meta_author
  * @property-read string $show_link
  * @property-read string $show_link_opds
@@ -155,9 +154,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisallowSerie(string $has_not_serie)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifierIsbn($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifierIsbn13($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifiers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn13($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbnIs($isbn)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguageSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguagesIs(...$languages)

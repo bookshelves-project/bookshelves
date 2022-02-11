@@ -19,11 +19,8 @@ class BookIdentifierResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'isbn' => $this->resource->identifier_isbn,
-            'isbn13' => $this->resource->identifier_isbn13,
-            // 'doi' => $this->resource->identifier_doi,
-            // 'amazon' => $this->resource->identifier_amazon,
-            // 'google' => $this->resource->identifier_google,
+            'isbn' => $this->resource->isbn,
+            'isbn13' => $this->resource->isbn13,
         ];
     }
 }

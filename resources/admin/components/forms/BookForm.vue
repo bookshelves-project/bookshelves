@@ -9,10 +9,10 @@
           <text-input source="volume" type="number" />
         </div>
         <div class="form-split">
-          <text-input source="identifier_isbn" type="text" />
+          <text-input source="isbn" type="text" />
         </div>
         <div class="form-split">
-          <text-input source="identifier_isbn13" type="text" />
+          <text-input source="isbn13" type="text" />
         </div>
         <div class="form-split">
           <reference-input
