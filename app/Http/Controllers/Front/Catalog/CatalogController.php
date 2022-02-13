@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Front\Catalog;
 use App\Http\Controllers\Controller;
 use App\Services\MarkdownService;
 use App\Services\SearchEngineService;
+use Artesaos\SEOTools\Facades\SEOTools;
+use Detection\MobileDetect;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -18,17 +20,16 @@ class CatalogController extends Controller
     #[Get('/', name: 'front.catalog')]
     public function index(Request $request)
     {
+        SEOTools::setTitle('Catalog');
+        SEOTools::setDescription('Get eBooks from your eReader');
+
         $service = MarkdownService::generate('catalog/index.md');
         $content = $service->convertToHtml();
 
-        // SEOTools::setTitle('Catalog');
-        // SEOTools::setDescription('Get eBooks from your eReader');
-
-        // TODO fix removed dependency
-        // $agent = new Agent();
-        // if ($agent->isDesktop()) {
-        //     return view('front::pages.catalog.index', compact('content'));
-        // }
+        $mobile = new MobileDetect();
+        if (! $mobile->isMobile()) {
+            return view('front::pages.catalog.index', compact('content'));
+        }
 
         return redirect(route('front.catalog.search'));
     }

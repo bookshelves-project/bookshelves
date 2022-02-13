@@ -108,7 +108,7 @@
       @apply grid xl:grid-cols-3 gap-x-4;
     }
     & :deep(.form-split) {
-      @apply col-span-6 xl:col-span-3;
+      @apply col-span-6 md:col-span-3;
     }
     & :deep(.form-full) {
       @apply col-span-6;

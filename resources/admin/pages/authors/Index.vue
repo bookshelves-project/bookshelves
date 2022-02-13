@@ -77,13 +77,6 @@
       searchable: true,
     },
     {
-      field: 'description',
-      type: 'text',
-      props: {
-        truncate: 50,
-      },
-    },
-    {
       field: 'books_count',
       centered: true,
       sortable: true,

@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Process\Process;
 
 class SetupCommand extends Command
 {
@@ -71,15 +70,9 @@ class SetupCommand extends Command
         $this->call('storage:link');
 
         $this->info('Node.js dependencies installation...');
-        $process = new Process(['yarn', '--colors=always']);
-        $process->setTimeout(0);
-        $process->start();
-        $iterator = $process->getIterator($process::ITER_SKIP_ERR | $process::ITER_KEEP_OUTPUT);
-        foreach ($iterator as $data) {
-            echo $data;
-        }
+        exec('pnpm i');
         $this->info('Laravel mix, wait a minute...');
-        exec('yarn prod');
+        exec('pnpm prod');
 
         $this->info('Cleaning...');
         if ($prod) {

@@ -84,6 +84,14 @@
       searchable: true,
     },
     {
+      field: 'type',
+      type: 'select',
+      props: {
+        choices: 'book_types',
+      },
+      searchable: true,
+    },
+    {
       field: 'serie',
       type: 'reference',
       props: {
@@ -100,14 +108,6 @@
       width: 10,
       centered: true,
       sortable: true,
-    },
-    {
-      field: 'type',
-      type: 'select',
-      props: {
-        choices: 'book_types',
-      },
-      searchable: true,
     },
     {
       field: 'language',

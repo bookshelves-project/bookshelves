@@ -36,6 +36,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "artesaos/seotools": "^0.22.0",
         "fluentdom/fluentdom": "^8.0",
         "fruitcake/laravel-cors": "^2.0.5",
         "genl/matice": "^1.1",
@@ -54,6 +55,7 @@
         "livewire/livewire": "^2.10",
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^0.21.0",
+        "mobiledetect/mobiledetectlib": "^2.8",
         "oscarotero/inline-svg": "^2.0",
         "spatie/array-to-xml": "^3.1",
         "spatie/eloquent-sortable": "^4.0",

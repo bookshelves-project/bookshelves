@@ -6,14 +6,12 @@
 [![pnpm](https://img.shields.io/static/v1?label=pnpm&message=v6.2&color=F69220&style=flat-square&logo=pnpm)](https://pnpm.io)
 [![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=v16.13&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
 
-[![laravel](https://img.shields.io/static/v1?label=Laravel&message=v8.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
+[![laravel](https://img.shields.io/static/v1?label=Laravel&message=v9.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
 [![mysql](https://img.shields.io/static/v1?label=MySQL&message=v8.0&color=4479A1&style=flat-square&logo=mysql&logoColor=ffffff)](https://www.mysql.com)
 
-📀 [**bookshelves-back**](https://gitlab.com/bookshelves-project/bookshelves-back) : back-end of Bookshelves (current repository)  
-🎨 [**bookshelves-front**](https://gitlab.com/bookshelves-project/bookshelves-front) : front-end of Bookshelves  
-
-💻 [**bookshelves.ink**](https://bookshelves.ink): front demo  
-📚 [**documentation.bookshelves.ink**](https://documentation.bookshelves.ink): wiki  
+📀 [**bookshelves-project**](https://gitlab.com/bookshelves-project) : Bookshelves repository  
+💻 [**bookshelves.ink**](https://bookshelves.ink): demo  
+📚 [**documentation.bookshelves.ink**](https://documentation.bookshelves.ink): documentation  
 
 ## L9 upgrade
 
