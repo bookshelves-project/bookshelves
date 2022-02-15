@@ -48,34 +48,16 @@ class BookController extends ApiController
         // - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[title]=monde
         // - http://localhost:8000/api/books?perPage=32&filter[author_like]=bottero
 
-        // $query = QueryBuilderAddon::for(Book::class, with: ['serie'])
-        //     ->allowedFilters([
-        //         AllowedFilter::custom('q', new SearchFilter(['title'])),
-        //         AllowedFilter::partial('title'),
-        //         AllowedFilter::scope('disallow_serie', 'whereDisallowSerie'),
-        //         AllowedFilter::scope('languages', 'whereLanguagesIs'),
-        //         AllowedFilter::scope('published', 'publishedBetween'),
-        //         AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
-        //         AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
-        //         AllowedFilter::scope('tags', 'whereTagsIs'),
-        //     ])
-        //     ->allowedSorts([
-        //         'id',
-        //         'title',
-        //         'slug_sort',
-        //         'released_on',
-        //         'created_at',
-        //         AllowedSort::custom('author', new AuthorRelationship(), 'name'),
-        //         AllowedSort::custom('language', new LanguageRelationship(), 'name'),
-        //     ])
-        //     ->allowedIncludes('serie', 'authors', 'media', 'serie.authors')
-        //     ->defaultSort('slug_sort')
-        // ;
-
-        $option = QueryOption::create(32, false, 'slug_sort', true, BookLightResource::class);
+        $paginate = $request->parseBoolean('paginate', true);
 
         return app(BookQuery::class)
-            ->make($option)
+            ->make(QueryOption::create(
+                resource: BookLightResource::class,
+                orderBy: 'slug_sort',
+                withExport: false,
+                sortAsc: true,
+                withPagination: $paginate,
+            ))
             ->paginateOrExport()
         ;
     }

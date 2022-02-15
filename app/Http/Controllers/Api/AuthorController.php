@@ -9,11 +9,7 @@ use App\Http\Resources\Author\AuthorResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Models\Author;
-use App\Query\QueryExporter;
-use App\Query\SearchFilter;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Author
@@ -37,33 +33,16 @@ class AuthorController extends ApiController
      */
     public function index(Request $request)
     {
-        // /** @var QueryBuilder $query */
-        // $query = QueryBuilder::for(Author::class)
-        //     ->defaultSort('lastname')
-        //     ->allowedFilters([
-        //         AllowedFilter::custom('q', new SearchFilter(['name'])),
-        //         AllowedFilter::partial('firstname'),
-        //         AllowedFilter::partial('lastname'),
-        //     ])
-        //     ->allowedSorts([
-        //         'id',
-        //         'firstname',
-        //         'lastname',
-        //         'created_at',
-        //     ])
-        //     ->with('books', 'series')
-        //     ->withCount('media')
-        // ;
-
-        // return QueryExporter::create($query)
-        //     ->resource(AuthorLightResource::class)
-        //     ->get()
-        // ;
-
-        $option = QueryOption::create(32, false, 'lastname', true, AuthorLightResource::class);
+        $paginate = $request->parseBoolean('paginate', true);
 
         return app(AuthorQuery::class)
-            ->make($option)
+            ->make(QueryOption::create(
+                resource: AuthorLightResource::class,
+                orderBy: 'lastname',
+                withExport: false,
+                sortAsc: true,
+                withPagination: $paginate
+            ))
             ->paginateOrExport()
         ;
     }

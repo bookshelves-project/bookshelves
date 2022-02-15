@@ -18,8 +18,7 @@ class SerieQuery extends BaseQuery
     public function make(?QueryOption $option = null): self
     {
         if (! $option) {
-            $option = new QueryOption();
-            $option->resource = SerieResource::class;
+            $option = new QueryOption(resource: SerieResource::class);
         }
 
         $this->option = $option;

@@ -17,8 +17,7 @@ class LanguageQuery extends BaseQuery
     public function make(?QueryOption $option = null): self
     {
         if (! $option) {
-            $option = new QueryOption();
-            $option->resource = LanguageResource::class;
+            $option = new QueryOption(resource: LanguageResource::class);
         }
 
         $this->option = $option;

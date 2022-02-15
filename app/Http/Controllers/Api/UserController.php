@@ -19,22 +19,11 @@ class UserController extends ApiController
     /**
      * GET Users list.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $page = $request->get('perPage') ? $request->get('perPage') : 32;
-        if (! is_numeric($page)) {
-            return response()->json(
-                "Invalid 'perPage' query parameter, must be an int",
-                400
-            );
-        }
-        $page = intval($page);
-        $users = User::orderBy('name')->with('comments');
-        if ($page) {
-            $users = $users->paginate($page);
-        } else {
-            $users = $users->get();
-        }
+        $users = User::orderBy('name')
+            ->with('comments')
+        ;
 
         return UserListResource::collection($users);
     }

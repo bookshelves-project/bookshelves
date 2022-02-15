@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Queries\Addon\QueryOption;
+use App\Http\Queries\PublisherQuery;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
 use App\Http\Resources\Publisher\PublisherResource;
 use App\Models\Publisher;
-use App\Query\QueryBuilderAddon;
-use App\Query\QueryExporter;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Publisher
@@ -31,21 +29,17 @@ class PublisherController extends ApiController
      */
     public function index(Request $request)
     {
-        /** @var QueryBuilder $query */
-        $query = QueryBuilderAddon::for(Publisher::class, withCount: ['books'])
-            ->allowedFilters([
-                AllowedFilter::scope('negligible', 'whereIsNegligible'),
-            ])
-            ->allowedSorts([
-                'id',
-                'name',
-            ])
-            ->defaultSort('name')
-        ;
+        $paginate = $request->parseBoolean('paginate');
 
-        return QueryExporter::create($query)
-            ->resource(PublisherLightResource::class)
-            ->get()
+        return app(PublisherQuery::class)
+            ->make(QueryOption::create(
+                resource: PublisherLightResource::class,
+                orderBy: 'name',
+                withExport: false,
+                sortAsc: true,
+                withPagination: $paginate
+            ))
+            ->paginateOrExport()
         ;
     }
 

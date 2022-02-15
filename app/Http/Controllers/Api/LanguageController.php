@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Queries\Addon\QueryOption;
+use App\Http\Queries\LanguageQuery;
 use App\Http\Resources\LanguageResource;
 use App\Models\Language;
-use App\Query\QueryBuilderAddon;
-use App\Query\QueryExporter;
-use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Http\Request;
 
 /**
  * @group Language
@@ -18,22 +18,19 @@ class LanguageController extends ApiController
     /**
      * GET Languages list.
      */
-    public function index()
+    public function index(Request $request)
     {
-        /** @var QueryBuilder $query */
-        $query = QueryBuilderAddon::for(Language::class, withCount: ['books'])
-            ->allowedFilters([
-            ])
-            ->allowedSorts([
-                'id',
-                'name',
-            ])
-            ->defaultSort('name')
-        ;
+        $paginate = $request->parseBoolean('paginate');
 
-        return QueryExporter::create($query)
-            ->resource(LanguageResource::class)
-            ->get()
+        return app(LanguageQuery::class)
+            ->make(QueryOption::create(
+                resource: LanguageResource::class,
+                orderBy: 'name',
+                withExport: false,
+                sortAsc: true,
+                withPagination: $paginate
+            ))
+            ->paginateOrExport()
         ;
     }
 

@@ -8,30 +8,33 @@ class QueryOption
     public string $defaultSort = '-id';
 
     public function __construct(
-        public int $perPage = 15,
+        public ?string $resource,
+        public array $with = [],
         public bool $withExport = true,
         public string $orderBy = 'id',
         public bool $sortAsc = false,
-        public ?string $resource = '',
-        public array $with = [],
+        public bool $withPagination = true,
+        public int $perPage = 32,
     ) {
     }
 
     public static function create(
-        int $perPage = 15,
-        bool $withExport = true,
+        string $resource,
         string $orderBy = 'id',
-        bool $sortAsc = false,
-        string $resource = null,
         array $with = [],
+        bool $withExport = true,
+        bool $sortAsc = false,
+        bool $withPagination = true,
+        int $perPage = 32,
     ): QueryOption {
         $query = new QueryOption(
-            $perPage,
-            $withExport,
-            $orderBy,
-            $sortAsc,
-            $resource,
-            $with,
+            resource: $resource,
+            perPage: $perPage,
+            withExport: $withExport,
+            withPagination: $withPagination,
+            orderBy: $orderBy,
+            sortAsc: $sortAsc,
+            with: $with
         );
         $query->sortDirection = $query->sortAsc ? '' : '-';
         $query->defaultSort = "{$query->sortDirection}{$query->orderBy}";

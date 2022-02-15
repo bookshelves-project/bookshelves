@@ -17,8 +17,7 @@ class WikipediaItemQuery extends BaseQuery
     public function make(?QueryOption $option = null): self
     {
         if (! $option) {
-            $option = new QueryOption();
-            $option->resource = WikipediaItemResource::class;
+            $option = new QueryOption(resource: WikipediaItemResource::class);
         }
 
         $this->option = $option;

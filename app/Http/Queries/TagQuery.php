@@ -17,8 +17,7 @@ class TagQuery extends BaseQuery
     public function make(?QueryOption $option = null): self
     {
         if (! $option) {
-            $option = new QueryOption();
-            $option->resource = TagResource::class;
+            $option = new QueryOption(resource: TagResource::class);
         }
 
         $this->option = $option;
@@ -33,6 +32,8 @@ class TagQuery extends BaseQuery
                 AllowedFilter::partial('books_count'),
                 AllowedFilter::partial('series_count'),
                 AllowedFilter::partial('first_char'),
+                AllowedFilter::scope('show_negligible', 'whereShowNegligible')->default(false),
+                AllowedFilter::scope('type', 'whereTypeIs'),
             ])
             ->allowedSorts(['id', 'name', 'slug', 'type', 'first_char', 'books_count', 'series_count', 'created_at', 'updated_at'])
             ->with($option->with)
@@ -51,8 +52,9 @@ class TagQuery extends BaseQuery
     {
         /** @var JsonResource $resource */
         $resource = $this->option->resource;
+        $response = $this->option->withPagination ? $this->paginate() : $this->query->get();
 
-        return $resource::collection($this->paginate());
+        return $resource::collection($response);
     }
 
     public function get(): array

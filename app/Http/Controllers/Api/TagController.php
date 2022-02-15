@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Helpers\PaginationHelper;
+use App\Http\Queries\Addon\QueryOption;
+use App\Http\Queries\TagQuery;
 use App\Http\Resources\EntityResource;
 use App\Http\Resources\Tag\TagLightResource;
 use App\Http\Resources\Tag\TagResource;
 use App\Models\Book;
-use App\Models\TagExtend;
-use App\Query\QueryBuilderAddon;
-use App\Query\QueryExporter;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\Tags\Tag;
 
 /**
@@ -31,24 +28,17 @@ class TagController extends ApiController
      */
     public function index(Request $request)
     {
-        $type = $request->get('type') ? $request->get('type') : 'tag';
+        $paginate = $request->parseBoolean('paginate');
 
-        /** @var QueryBuilder $query */
-        $query = QueryBuilderAddon::for(TagExtend::class, withCount: ['books'])
-            ->allowedFilters([
-                AllowedFilter::scope('show_negligible', 'whereShowNegligible')->default(false),
-                AllowedFilter::scope('type', 'whereTypeIs'),
-            ])
-            ->allowedSorts([
-                'id',
-                'name',
-            ])
-            ->orderBy('slug->en')
-        ;
-
-        return QueryExporter::create($query)
-            ->resource(TagLightResource::class)
-            ->get()
+        return app(TagQuery::class)
+            ->make(QueryOption::create(
+                resource: TagLightResource::class,
+                orderBy: 'slug->en',
+                withExport: false,
+                sortAsc: true,
+                withPagination: $paginate,
+            ))
+            ->paginateOrExport()
         ;
     }
 

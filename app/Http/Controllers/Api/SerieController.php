@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Queries\Addon\QueryOption;
+use App\Http\Queries\SerieQuery;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\BookOrSerieResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Serie\SerieResource;
 use App\Models\Author;
 use App\Models\Serie;
-use App\Query\QueryBuilderAddon;
-use App\Query\QueryExporter;
-use App\Query\SearchFilter;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @group Serie
@@ -40,25 +37,17 @@ class SerieController extends ApiController
      */
     public function index(Request $request)
     {
-        /** @var QueryBuilder $query */
-        $query = QueryBuilderAddon::for(Serie::class, with: ['authors', 'media'], withCount: ['books'])
-            ->allowedFilters([
-                AllowedFilter::custom('q', new SearchFilter(['title'])),
-                AllowedFilter::partial('title'),
-                AllowedFilter::scope('languages', 'whereLanguagesIs'),
-            ])
-            ->allowedSorts([
-                'id',
-                'title',
-                'slug_sort',
-                'created_at',
-            ])
-            ->defaultSort('slug_sort')
-        ;
+        $paginate = $request->parseBoolean('paginate');
 
-        return QueryExporter::create($query)
-            ->resource(SerieLightResource::class)
-            ->get()
+        return app(SerieQuery::class)
+            ->make(QueryOption::create(
+                resource: SerieLightResource::class,
+                orderBy: 'slug_sort',
+                withExport: false,
+                sortAsc: true,
+                withPagination: $paginate
+            ))
+            ->paginateOrExport()
         ;
     }
 

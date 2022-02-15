@@ -68,12 +68,12 @@ class AppServiceProvider extends ServiceProvider
             return [];
         });
 
-        Request::macro('parseBoolean', function (string $key): bool {
+        Request::macro('parseBoolean', function (string $key, bool $default = false): bool {
             if ($value = request()->get($key)) {
                 return filter_var($value, FILTER_VALIDATE_BOOLEAN);
             }
 
-            return false;
+            return $default;
         });
 
         /*

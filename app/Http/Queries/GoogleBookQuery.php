@@ -17,8 +17,7 @@ class GoogleBookQuery extends BaseQuery
     public function make(?QueryOption $option = null): self
     {
         if (! $option) {
-            $option = new QueryOption();
-            $option->resource = GoogleBookResource::class;
+            $option = new QueryOption(resource: GoogleBookResource::class);
         }
 
         $this->option = $option;

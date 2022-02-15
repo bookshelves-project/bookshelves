@@ -17,8 +17,7 @@ class PublisherQuery extends BaseQuery
     public function make(?QueryOption $option = null): self
     {
         if (! $option) {
-            $option = new QueryOption();
-            $option->resource = PublisherResource::class;
+            $option = new QueryOption(resource: PublisherResource::class);
         }
 
         $this->option = $option;
@@ -31,6 +30,7 @@ class PublisherQuery extends BaseQuery
                 AllowedFilter::partial('id'),
                 AllowedFilter::partial('name'),
                 AllowedFilter::partial('slug'),
+                AllowedFilter::scope('negligible', 'whereIsNegligible'),
             ])
             ->allowedSorts(['id', 'name', 'slug', 'books_count', 'created_at', 'updated_at'])
             ->with($option->with)

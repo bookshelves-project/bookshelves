@@ -18,8 +18,7 @@ class PostQuery extends BaseQuery
     public function make(?QueryOption $option = null): self
     {
         if (! $option) {
-            $option = new QueryOption();
-            $option->resource = PostResource::class;
+            $option = new QueryOption(resource: PostResource::class);
         }
 
         $this->option = $option;

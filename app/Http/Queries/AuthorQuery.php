@@ -17,8 +17,7 @@ class AuthorQuery extends BaseQuery
     public function make(?QueryOption $option = null): self
     {
         if (! $option) {
-            $option = new QueryOption();
-            $option->resource = AuthorResource::class;
+            $option = new QueryOption(resource: AuthorResource::class);
         }
 
         $this->option = $option;

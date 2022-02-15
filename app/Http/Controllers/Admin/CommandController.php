@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\RoleEnum;
+use App\Http\Controllers\Controller;
 use Artisan;
 use Auth;
 
 /**
  * @hideFromAPIDocumentation
  */
-class CommandController extends ApiController
+class CommandController extends Controller
 {
     public function updateBooks()
     {

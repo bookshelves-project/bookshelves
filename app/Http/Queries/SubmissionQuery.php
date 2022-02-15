@@ -17,8 +17,7 @@ class SubmissionQuery extends BaseQuery
     public function make(?QueryOption $option = null): self
     {
         if (! $option) {
-            $option = new QueryOption();
-            $option->resource = SubmisionResource::class;
+            $option = new QueryOption(resource: SubmisionResource::class);
         }
 
         $this->option = $option;

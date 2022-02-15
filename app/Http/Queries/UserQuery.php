@@ -17,8 +17,7 @@ class UserQuery extends BaseQuery
     public function make(?QueryOption $option = null): self
     {
         if (! $option) {
-            $option = new QueryOption();
-            $option->resource = UserResource::class;
+            $option = new QueryOption(resource: UserResource::class);
         }
 
         $this->option = $option;
