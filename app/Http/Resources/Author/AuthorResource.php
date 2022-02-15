@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources\Author;
 
-use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Comment\CommentResource;
-use App\Http\Resources\Serie\SerieLightResource;
 use App\Models\Author;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -36,8 +34,6 @@ class AuthorResource extends JsonResource
             'link' => $author->link,
             'size' => $author->size,
             'download' => $author->download_link,
-            // 'series' => SerieLightResource::collection($author->series),
-            // 'books' => BookLightResource::collection($author->books),
             'isFavorite' => $author->is_favorite,
             'comments' => CommentResource::collection($author->comments),
         ]);

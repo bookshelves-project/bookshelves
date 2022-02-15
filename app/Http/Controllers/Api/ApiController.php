@@ -20,7 +20,7 @@ class ApiController extends Controller
     public function __construct()
     {
         Route::bind('author_slug', function (string $author) {
-            return Author::whereSlug($author)->firstOrFail();
+            return Author::whereSlug($author)->withCount('books', 'series')->firstOrFail();
         });
 
         Route::bind('book_slug', function (string $book) {
