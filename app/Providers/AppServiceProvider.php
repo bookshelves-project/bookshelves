@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Support\LaravelViteManifest;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -59,6 +60,22 @@ class AppServiceProvider extends ServiceProvider
         View::addNamespace('front', resource_path('front'));
         View::addNamespace('admin', resource_path('admin'));
 
+        Request::macro('parseArray', function ($key): array {
+            if ($value = request()->get($key)) {
+                return is_array($value) ? $value : explode(',', $value);
+            }
+
+            return [];
+        });
+
+        Request::macro('parseBoolean', function (string $key): bool {
+            if ($value = request()->get($key)) {
+                return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            }
+
+            return false;
+        });
+
         /*
          * Paginate a standard Laravel Collection.
          *
@@ -71,16 +88,16 @@ class AppServiceProvider extends ServiceProvider
         // Collection::macro('paginate', function ($perPage, $total = null, $page = null, $pageName = 'page') {
         //     $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
 
-        //     // return new LengthAwarePaginator(
-        //     //     $this->forPage($page, $perPage),
-        //     //     $total ?: $this->count(),
-        //     //     $perPage,
-        //     //     $page,
-        //     //     [
-        //     //         'path' => LengthAwarePaginator::resolveCurrentPath(),
-        //     //         'pageName' => $pageName,
-        //     //     ]
-        //     // );
+        //     return new LengthAwarePaginator(
+        //         $this->forPage($page, $perPage),
+        //         $total ?: $this->count(),
+        //         $perPage,
+        //         $page,
+        //         [
+        //             'path' => LengthAwarePaginator::resolveCurrentPath(),
+        //             'pageName' => $pageName,
+        //         ]
+        //     );
         // });
     }
 }

@@ -140,7 +140,15 @@ class Author extends Model implements HasMedia
      */
     public function books(): MorphToMany
     {
-        return $this->morphedByMany(Book::class, 'authorable')->orderBy('serie_id')->orderBy('volume');
+        return $this->morphedByMany(Book::class, 'authorable')->orderBy('slug_sort')->orderBy('volume');
+    }
+
+    /**
+     * Get books without series that are assigned this author.
+     */
+    public function booksStandalone(): MorphToMany
+    {
+        return $this->morphedByMany(Book::class, 'authorable')->whereDoesntHave('serie')->orderBy('slug_sort')->orderBy('volume');
     }
 
     /**
@@ -148,7 +156,7 @@ class Author extends Model implements HasMedia
      */
     public function series(): MorphToMany
     {
-        return $this->morphedByMany(Serie::class, 'authorable')->orderBy('slug_sort');
+        return $this->morphedByMany(Serie::class, 'authorable')->orderBy('slug_sort')->withCount('books');
     }
 
     public function wikipediaItem(): BelongsTo
