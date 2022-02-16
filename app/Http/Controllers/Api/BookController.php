@@ -88,26 +88,10 @@ class BookController extends ApiController
      */
     public function latest(Request $request)
     {
-        $limit = $request->get('limit');
-        $limit = $limit ? $limit : 10;
-        if (! is_numeric($limit)) {
-            return response()->json(
-                "Invalid 'limit' query parameter, must be an int",
-                400
-            );
-        }
-        $limit = intval($limit);
-
-        $page = $request->get('perPage') ? $request->get('perPage') : 32;
-        if (! is_numeric($page)) {
-            return response()->json(
-                "Invalid 'perPage' query parameter, must be an int",
-                400
-            );
-        }
-        $page = intval($page);
-
-        $books = Book::orderByDesc('created_at')->limit($limit)->paginate($page);
+        $books = Book::orderByDesc('updated_at')
+            ->limit(10)
+            ->get()
+        ;
 
         return EntityResource::collection($books);
     }
@@ -119,12 +103,12 @@ class BookController extends ApiController
      */
     public function selection(Request $request): JsonResource
     {
-        $limit = $request->get('limit');
-        $limit = $limit ? $limit : 10;
-
         $request->relation = 'selectionable';
 
-        $selection = Selectionable::orderBy('updated_at')->limit($limit)->get();
+        $selection = Selectionable::orderBy('updated_at')
+            ->limit(10)
+            ->get()
+        ;
 
         return EntityResource::collection($selection);
     }
