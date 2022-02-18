@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\Tags\HasTags;
 
 /**
  * @property null|int $books_count
@@ -28,7 +27,6 @@ use Spatie\Tags\HasTags;
 class Serie extends Model implements HasMedia
 {
     use HasFactory;
-    use HasTags;
     use HasClassName;
     use HasCovers;
     use HasAuthors;

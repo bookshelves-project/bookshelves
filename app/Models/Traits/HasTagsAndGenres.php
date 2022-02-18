@@ -5,7 +5,9 @@ namespace App\Models\Traits;
 use App\Models\TagExtend;
 use ArrayAccess;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\DB;
+use Spatie\Tags\HasTags;
 use Spatie\Tags\Tag;
 
 /**
@@ -13,6 +15,8 @@ use Spatie\Tags\Tag;
  */
 trait HasTagsAndGenres
 {
+    use HasTags;
+
     public function scopeWhereTagsAllIs(Builder $query, ...$tags)
     {
         $tags_ids = [];
@@ -49,6 +53,14 @@ trait HasTagsAndGenres
     public function getGenresListAttribute()
     {
         return $this->tags()->whereType('genre')->get();
+    }
+
+    public function tags(): MorphToMany
+    {
+        return $this
+            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
+            ->orderBy('order_column')
+        ;
     }
 
     public function syncTagsList(array|ArrayAccess $tags): static

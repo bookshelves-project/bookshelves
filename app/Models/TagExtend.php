@@ -21,6 +21,11 @@ class TagExtend extends Tag
         'type' => TagTypeEnum::class.':nullable',
     ];
 
+    // protected $withCount = [
+    //     'books',
+    //     'series',
+    // ];
+
     protected $appends = [
         'first_char',
     ];

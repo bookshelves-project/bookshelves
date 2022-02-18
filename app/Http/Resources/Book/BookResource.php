@@ -27,7 +27,7 @@ class BookResource extends JsonResource
     {
         $resource = (array) BookLightResource::make($this->resource)->toArray($request);
 
-        return $resource + [
+        return array_merge($resource, [
             'serie' => SerieLightResource::make($this->resource->serie),
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
             'cover' => [
@@ -49,6 +49,6 @@ class BookResource extends JsonResource
             'googleBook' => GoogleBookResource::make($this->resource->googleBook),
             'isFavorite' => $this->resource->is_favorite,
             'comments' => CommentResource::collection($this->resource->comments),
-        ];
+        ]);
     }
 }

@@ -20,12 +20,10 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\Tags\HasTags;
 
 class Book extends Model implements HasMedia
 {
     use HasFactory;
-    use HasTags;
     use HasClassName;
     use HasCovers;
     use HasAuthors;
