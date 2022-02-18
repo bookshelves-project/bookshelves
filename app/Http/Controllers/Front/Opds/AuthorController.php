@@ -13,7 +13,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('opds/{version}/authors')]
+#[Prefix('features/opds/{version}/authors')]
 class AuthorController extends Controller
 {
     #[Get('/', name: 'front.opds.authors')]

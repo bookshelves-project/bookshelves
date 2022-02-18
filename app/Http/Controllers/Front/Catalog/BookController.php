@@ -13,7 +13,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('catalog/books')]
+#[Prefix('features/catalog/books')]
 class BookController extends Controller
 {
     #[Get('/{author}/{book}', name: 'front.catalog.books.show')]

@@ -15,7 +15,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('opds/{version}/series')]
+#[Prefix('features/opds/{version}/series')]
 class SerieController extends Controller
 {
     #[Get('/', name: 'front.opds.series')]

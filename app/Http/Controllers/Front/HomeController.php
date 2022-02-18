@@ -12,6 +12,12 @@ class HomeController extends Controller
     #[Get('/', name: 'home')]
     public function index()
     {
+        return redirect()->route('front.home');
+    }
+
+    #[Get('/features', name: 'front.home')]
+    public function home()
+    {
         $service = MarkdownService::generate('welcome.md');
         $welcome = $service->convertToHtml();
 
@@ -19,12 +25,6 @@ class HomeController extends Controller
         $developers = $service->convertToHtml();
 
         return view('front::pages.index', compact('welcome', 'developers'));
-    }
-
-    #[Get('/features', name: 'front.home')]
-    public function home()
-    {
-        return redirect()->route('home');
     }
 
     #[Get('/features/license', name: 'front.license')]

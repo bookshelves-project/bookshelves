@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\Auth\TokenController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CmsController;
-use App\Http\Controllers\Api\CommandController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CountController;
 use App\Http\Controllers\Api\DownloadController;
@@ -200,11 +199,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/update/{book:slug}', [CommentController::class, 'update'])->name('api.v1.comments.update');
         Route::post('/destroy/{book:slug}', [CommentController::class, 'destroy'])->name('api.v1.comments.destroy');
     });
-
-    /*
-     * Commands routes
-     */
-    Route::get('/commands/update-books', [CommandController::class, 'updateBooks'])->name('api.v1.commands.update-books');
 
     /*
      * User routes

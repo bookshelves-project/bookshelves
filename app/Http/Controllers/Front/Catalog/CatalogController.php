@@ -14,7 +14,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('catalog')]
+#[Prefix('features/catalog')]
 class CatalogController extends Controller
 {
     #[Get('/', name: 'front.catalog')]
