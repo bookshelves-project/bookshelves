@@ -58,11 +58,6 @@ class SerieController extends ApiController
      */
     public function show(Author $author, Serie $serie)
     {
-        // $author = Author::whereSlug($author)->firstOrFail();
-        // $serie = Serie::whereHas('authors', function ($query) use ($author) {
-        //     return $query->where('author_id', '=', $author->id);
-        // })->whereSlug($serie)->withCount('books')->first();
-
         return SerieResource::make($serie);
     }
 

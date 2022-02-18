@@ -20,7 +20,10 @@ class ApiController extends Controller
     public function __construct()
     {
         Route::bind('author_slug', function (string $author) {
-            return Author::whereSlug($author)->withCount('books', 'series')->firstOrFail();
+            return Author::whereSlug($author)
+                ->withCount('books', 'series')
+                ->firstOrFail()
+            ;
         });
 
         Route::bind('book_slug', function (string $book) {
@@ -28,7 +31,10 @@ class ApiController extends Controller
         });
 
         Route::bind('serie_slug', function (string $serie) {
-            return Serie::whereSlug($serie)->firstOrFail();
+            return Serie::whereSlug($serie)
+                ->withCount('books')
+                ->firstOrFail()
+            ;
         });
 
         Route::bind('tag_slug', function (string $tag) {

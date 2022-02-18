@@ -21,6 +21,8 @@ class SerieLightResource extends JsonResource
     {
         $resource = SerieUltraLightResource::make($this->resource)->toArray($request);
 
+        // dd($this->resource->books_count);
+
         return array_merge($resource, [
             'language' => $this->resource->language?->slug,
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
