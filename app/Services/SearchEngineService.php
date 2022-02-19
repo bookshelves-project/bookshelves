@@ -108,10 +108,10 @@ class SearchEngineService
         if (in_array('authors', $this->types)) {
             $authors = Author::whereLike(['name', 'firstname', 'lastname'], $this->q)->with('media')->get();
         }
-        if (in_array('authors', $this->types)) {
+        if (in_array('series', $this->types)) {
             $series = Serie::whereLike(['title', 'authors.name'], $this->q)->with(['authors', 'media'])->get();
         }
-        if (in_array('authors', $this->types)) {
+        if (in_array('books', $this->types)) {
             $books = Book::whereLike(['title', 'authors.name', 'serie.title', 'isbn10', 'isbn13'], $this->q)
                 ->with(['authors', 'media'])
                 ->doesntHave('serie')
