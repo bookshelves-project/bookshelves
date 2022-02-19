@@ -50,7 +50,7 @@
     hideFooter: Boolean,
     perPageOptions: {
       type: Array as PropType<number[]>,
-      default: () => [5, 10, 15, 30, 50, 100],
+      default: () => [5, 10, 15, 32, 50, 100],
     },
   })
 

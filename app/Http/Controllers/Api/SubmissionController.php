@@ -26,13 +26,14 @@ class SubmissionController extends ApiController
                 'message' => $validated['message'],
             ]);
 
-            Notification::route('mail', [config('mail.to.name') => config('mail.to.address')])
+            Notification::route('mail', [config('mail.to.address') => config('mail.to.name')])
                 ->notify(new SubmissionNotification($submission))
             ;
         }
 
         return response()->json([
             'success' => 'Your mail was sended!',
+            'honeypot' => $validated['honeypot'],
         ], 200);
     }
 }

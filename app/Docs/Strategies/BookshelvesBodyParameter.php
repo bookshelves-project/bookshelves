@@ -2,13 +2,11 @@
 
 namespace App\Docs\Strategies;
 
-use App\Models\Author;
-use App\Models\Book;
 use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Knuckles\Scribe\Extracting\ParamHelpers;
 use Knuckles\Scribe\Extracting\Strategies\Strategy;
 
-class BookshelvesQuery extends Strategy
+class BookshelvesBodyParameter extends Strategy
 {
     use ParamHelpers;
 
@@ -30,7 +28,7 @@ class BookshelvesQuery extends Strategy
     private function routes()
     {
         $routes = [
-            'search.index' => 'search',
+            'submission.send' => 'submission',
         ];
 
         foreach ($routes as $name => $method) {
@@ -40,25 +38,15 @@ class BookshelvesQuery extends Strategy
         }
     }
 
-    private function search(): array
+    private function submission(): array
     {
-        $faker = \Faker\Factory::create();
-        $entity = '';
-        if ($faker->boolean(25)) {
-            $entity = Author::inRandomOrder()->first();
-            $entity = $entity->lastname;
-        } else {
-            $entity = Book::inRandomOrder()->first();
-            $entity = $entity->title;
-        }
-        $entity = strtolower($entity);
+        // dump('submission');
 
         return [
-            'q' => [
-                'description' => "`slug` of serie in `meta.slug` languages' list, example: `{$entity}`",
-                'required' => true,
-                'example' => $entity,
-            ],
+            // 'name' => 'Name',
+            // 'email' => 'user@email.com',
+            // 'honeypot' => false,
+            // 'message' => 'Hello! This is a message for you!',
         ];
     }
 }

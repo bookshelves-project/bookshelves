@@ -30,4 +30,26 @@ class SubmissionRequest extends FormRequest
             'message' => 'required|string|min:15',
         ];
     }
+
+    public function bodyParameters()
+    {
+        return [
+            'name' => [
+                'description' => "User's name",
+                'example' => 'Name',
+            ],
+            'email' => [
+                'description' => "User's email",
+                'example' => 'user@email.com',
+            ],
+            'honeypot' => [
+                'description' => 'Honeypot: must be false to send notification',
+                'example' => 1,
+            ],
+            'message' => [
+                'description' => "User's message",
+                'example' => 'Hello! This is a message for you!',
+            ],
+        ];
+    }
 }

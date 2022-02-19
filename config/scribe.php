@@ -1,5 +1,6 @@
 <?php
 
+use App\Docs\Strategies\BookshelvesBodyParameter;
 use App\Docs\Strategies\BookshelvesMetadata;
 use App\Docs\Strategies\BookshelvesParameter;
 use App\Docs\Strategies\BookshelvesQuery;
@@ -359,6 +360,7 @@ INTRO
             Strategies\BodyParameters\GetFromFormRequest::class,
             Strategies\BodyParameters\GetFromInlineValidator::class,
             Strategies\BodyParameters\GetFromBodyParamTag::class,
+            BookshelvesBodyParameter::class,
         ],
         'responses' => [
             Strategies\Responses\UseTransformerTags::class,

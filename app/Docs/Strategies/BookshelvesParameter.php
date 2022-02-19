@@ -34,27 +34,28 @@ class BookshelvesParameter extends Strategy
     private function routes()
     {
         $routes = [
-            'authors.show' => $this->author(),
-            'authors.show.books' => $this->author(),
-            'authors.show.series' => $this->author(),
-            'books.show' => $this->book(),
-            'books.related' => $this->book(),
-            'download.book' => $this->book(),
-            'download.serie' => $this->serie(),
-            'download.author' => $this->author(),
-            'languages.show' => $this->language(),
-            'publishers.show' => $this->publisher(),
-            'publishers.show.books' => $this->publisher(),
-            'series.show' => $this->serie(),
-            'series.show.books' => $this->serie(),
-            'series.current' => $this->serieVolume(),
-            'tags.show' => $this->tag(),
-            'tags.show.books' => $this->tag(),
+            'authors.show' => 'author',
+            'authors.show.books' => 'author',
+            'authors.show.series' => 'author',
+            'books.show' => 'book',
+            'books.related' => 'book',
+            'download.book' => 'book',
+            'download.serie' => 'serie',
+            'download.author' => 'author',
+            'languages.show' => 'language',
+            'publishers.show' => 'publisher',
+            'publishers.show.books' => 'publisher',
+            'series.show' => 'serie',
+            'series.show.books' => 'serie',
+            'series.current' => 'serieVolume',
+            'tags.show' => 'tag',
+            'tags.show.books' => 'tag',
+            'submission.send' => 'submission',
         ];
 
         foreach ($routes as $name => $method) {
             if ("api.v1.{$name}" === $this->routeName) {
-                $this->urlParams = $method;
+                $this->urlParams = $this->{$method}();
             }
         }
     }
@@ -163,5 +164,10 @@ class BookshelvesParameter extends Strategy
                 'example' => $language->slug,
             ],
         ];
+    }
+
+    private function submission()
+    {
+        // return [];
     }
 }
