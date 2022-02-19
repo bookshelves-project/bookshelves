@@ -32,7 +32,7 @@ class SubmissionController extends ApiController
         }
 
         return response()->json([
-            'success' => 'Your mail was sended!',
+            'message' => 'Your mail was sended!',
             'honeypot' => $validated['honeypot'],
         ], 200);
     }
