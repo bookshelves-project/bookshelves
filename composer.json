@@ -38,14 +38,14 @@
         "php": "^8.0.2",
         "artesaos/seotools": "^0.22.0",
         "fluentdom/fluentdom": "^8.0",
-        "fruitcake/laravel-cors": "^2.0.5",
+        "fruitcake/laravel-cors": "^2.1",
         "genl/matice": "^1.1",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.4",
         "http-interop/http-factory-guzzle": "^1.2",
         "inertiajs/inertia-laravel": "^0.5.4",
         "itsgoingd/clockwork": "^5.1",
         "laravel/fortify": "^1.10",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^9.1",
         "laravel/sanctum": "^2.14",
         "laravel/scout": "^9.4",
         "laravel/tinker": "^2.7",
@@ -61,13 +61,13 @@
         "spatie/eloquent-sortable": "^4.0",
         "spatie/laravel-enum": "^3.0",
         "spatie/laravel-image-optimizer": "^1.7",
-        "spatie/laravel-medialibrary": "^10.0.4",
+        "spatie/laravel-medialibrary": "^10.0",
         "spatie/laravel-query-builder": "^5.0",
         "spatie/laravel-route-attributes": "^1.9",
         "spatie/laravel-sluggable": "^3.3",
         "spatie/laravel-tags": "^4.3",
         "spatie/laravel-translatable": "^5.2",
-        "tightenco/ziggy": "1.0"
+        "tightenco/ziggy": "^1.4"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
@@ -76,7 +76,6 @@
         "friendsofphp/php-cs-fixer": "^3.6",
         "knuckleswtf/scribe": "^3.23",
         "laravel/sail": "^1.0.1",
-        "laravel/telescope": "^4.7",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "nunomaduro/larastan": "^2.0",
@@ -147,9 +146,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-                "laravel/telescope"
-            ]
+            "dont-discover": []
         }
     },
     "config": {
@@ -157,7 +154,6 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "phpstan/extension-installer": true,
             "pestphp/pest-plugin": true,
             "phpro/grumphp-shim": true
         }

@@ -1,9 +1,2 @@
 *
 !.gitignore
-
-!cache/
-!data/
-!debug/
-!media/
-!temp/
-!webreader/
