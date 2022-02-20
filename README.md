@@ -24,15 +24,6 @@
   - `barryvdh/laravel-ide-helper` <https://github.com/barryvdh/laravel-ide-helper>
   - `spatie/phpunit-watcher` <https://github.com/spatie/phpunit-watcher>
 
-**Table of contents**
-
-- [L9 upgrade](#l9-upgrade)
-- [**Setup**](#setup)
-  - [*a. Dependencies*](#a-dependencies)
-  - [*b. Setup*](#b-setup)
-- [**Usage**](#usage)
-- [**Tests**](#tests)
-
 ## **Setup**
 
 ### *a. Dependencies*
@@ -69,7 +60,7 @@ php artisan setup
 
 ## **Usage**
 
-To get full documentation, you can read [**Wiki of Bookshelves**](https://bookshelves.ink/wiki), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/bookshelves-project/bookshelves-back/-/blob/master/resources/views/pages/wiki/content) on repository.
+To get full documentation, you can read [**Wiki of Bookshelves**](https://documentation.bookshelves.ink), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/bookshelves-project/bookshelves-doc) on repository.
 
 ## **Tests**
 
