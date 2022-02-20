@@ -48,24 +48,19 @@ class TagController extends ApiController
      * Get Tag details.
      *
      * @queryParam type filters[tag,genre] Type of Tag, 'tag' by default. No-example
-     *
-     * @responseField name string Tag's name.
      */
     public function show(Tag $tag)
     {
-        // $tag = Tag::where('slug->en', $tag_slug)->first();
-
         return TagResource::make($tag);
     }
 
     /**
-     * GET Book collection of Tag.
+     * GET Book & Series collection of Tag.
      *
-     * Get all Books of selected Tag.
+     * Get all Books and Series of selected Tag.
      */
     public function books(Tag $tag)
     {
-        // $tag = Tag::where('slug->en', $tag_slug)->first();
         $books_standalone = Book::withAllTags([$tag])->with(['serie', 'authors', 'media'])->orderBy('slug_sort')->doesntHave('serie')->get();
 
         $books_series = Book::withAllTags([$tag])->with(['serie', 'authors', 'media', 'serie.media', 'serie.authors'])->has('serie')->orderBy('slug_sort')->get();

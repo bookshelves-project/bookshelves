@@ -11,6 +11,11 @@ use Route;
 /**
  * @group Favorite
  */
+/**
+ * @group Account
+ *
+ * Endpoint to get Authors data.
+ */
 class FavoriteController extends ApiController
 {
     // #[Route("/api/favorites/{user}", methods: ["GET"])]
@@ -21,6 +26,7 @@ class FavoriteController extends ApiController
      */
     public function user(int $userId)
     {
+        // TODO review
         $favorites = Favoritable::whereUserId($userId)->with([
             'favoritable',
         ])->orderBy('created_at', 'DESC')->get();
@@ -36,6 +42,7 @@ class FavoriteController extends ApiController
      */
     public function toggle(string $model, string $slug)
     {
+        // TODO review
         if (Auth::check()) {
             $model_name = 'App\Models\\'.ucfirst($model);
             $entity = $model_name::whereSlug($slug)->first();
@@ -49,9 +56,10 @@ class FavoriteController extends ApiController
             } else {
                 $entity->favorites($user)->detach();
             }
-            $userFavorites = $user->books;
 
-            return response()->json($userFavorites);
+            return response()->json([
+                'data' => $user->favorites,
+            ]);
         }
 
         return response()->json(['error' => 'User not found'], 401);

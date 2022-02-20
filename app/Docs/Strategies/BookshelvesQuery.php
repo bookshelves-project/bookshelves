@@ -3,7 +3,6 @@
 namespace App\Docs\Strategies;
 
 use App\Models\Author;
-use App\Models\Book;
 use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Knuckles\Scribe\Extracting\ParamHelpers;
 use Knuckles\Scribe\Extracting\Strategies\Strategy;
@@ -42,16 +41,8 @@ class BookshelvesQuery extends Strategy
 
     private function search(): array
     {
-        $faker = \Faker\Factory::create();
-        $entity = '';
-        if ($faker->boolean(25)) {
-            $entity = Author::inRandomOrder()->first();
-            $entity = $entity->lastname;
-        } else {
-            $entity = Book::inRandomOrder()->first();
-            $entity = $entity->title;
-        }
-        $entity = strtolower($entity);
+        $entity = Author::inRandomOrder()->firstOrFail();
+        $entity = strtolower($entity->lastname);
 
         return [
             'q' => [

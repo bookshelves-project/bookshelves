@@ -38,7 +38,8 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 Route::get('/', [ApiController::class, 'apiV1'])->name('api.v1');
 
-Route::get('/enums', [EnumController::class, 'index'])->name('api.v1.enums.index');
+Route::get('enums', [EnumController::class, 'index'])->name('api.v1.enums.index');
+Route::post('send/submission', [SubmissionController::class, 'send'])->name('api.v1.submission.send');
 
 /*
  * CMS routes
@@ -91,9 +92,6 @@ Route::get('/count', [CountController::class, 'count'])->name('api.v1.count');
  */
 Route::prefix('search')->group(function () {
     Route::get('/', [SearchController::class, 'index'])->name('api.v1.search.index');
-    // Route::get('/books', [SearchController::class, 'books'])->name('api.v1.search.books');
-    // Route::get('/authors', [SearchController::class, 'authors'])->name('api.v1.search.authors');
-    // Route::get('/series', [SearchController::class, 'series'])->name('api.v1.search.series');
     // Route::get('/advanced', [SearchController::class, 'advanced'])->name('api.v1.search.advanced');
 });
 
@@ -107,23 +105,10 @@ Route::prefix('download')->group(function () {
 });
 
 /*
- * Submissions routes
- */
-Route::post('send/submission', [SubmissionController::class, 'send'])->name('api.v1.submission.send');
-
-/*
  * Comments routes
  */
 Route::prefix('comments')->group(function () {
     Route::get('/{model}/{slug}', [CommentController::class, 'index'])->name('api.v1.comments.index');
-});
-
-/*
- * Users routes
- */
-Route::prefix('users')->group(function () {
-    Route::get('/', [UserController::class, 'users'])->name('api.v1.users');
-    Route::get('/genders', [UserController::class, 'genders'])->name('api.v1.genders');
 });
 
 /*
@@ -153,13 +138,13 @@ Route::prefix('languages')->group(function () {
 });
 
 /*
- * Comments routes
+ * Users routes
  */
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('api.v1.users.index');
-    Route::get('/{slug}', [UserController::class, 'show'])->name('api.v1.users.show');
-    Route::get('/comments/{slug}', [UserController::class, 'comments'])->name('api.v1.users.comments');
-    Route::get('/favorites/{slug}', [UserController::class, 'favorites'])->name('api.v1.users.favorites');
+    Route::get('/{user_slug}', [UserController::class, 'show'])->name('api.v1.users.show');
+    Route::get('/comments/{user_slug}', [UserController::class, 'comments'])->name('api.v1.users.comments');
+    Route::get('/favorites/{user_slug}', [UserController::class, 'favorites'])->name('api.v1.users.favorites');
 });
 
 /**

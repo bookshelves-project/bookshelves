@@ -91,6 +91,7 @@ class SetupCommand extends Command
             '--comments' => $social,
             '--posts' => $social,
             '--force' => true,
+            '--users' => $social,
         ], $this->getOutput());
 
         Artisan::call('bookshelves:scout', [], $this->getOutput());

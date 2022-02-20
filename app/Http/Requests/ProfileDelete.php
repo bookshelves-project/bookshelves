@@ -28,4 +28,18 @@ class ProfileDelete extends FormRequest
             'confirm' => 'required|boolean',
         ];
     }
+
+    public function bodyParameters()
+    {
+        return [
+            'current_password' => [
+                'description' => '',
+                'example' => 'et-aliquip',
+            ],
+            'confirm' => [
+                'description' => '',
+                'example' => true,
+            ],
+        ];
+    }
 }

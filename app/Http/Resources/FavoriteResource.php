@@ -19,11 +19,8 @@ class FavoriteResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var Favoritable $favoritable */
-        $favoritable = $this;
-
-        $for = strtolower(str_replace('App\\Models\\', '', $favoritable->favoritable_type));
-        $entity = $favoritable->favoritable;
+        $for = strtolower(str_replace('App\\Models\\', '', $this->resource->favoritable_type));
+        $entity = $this->resource->favoritable;
         $title = null;
 
         switch ($for) {
@@ -50,20 +47,21 @@ class FavoriteResource extends JsonResource
 
                 break;
         }
+        // dump($this->resource->favoritable);
 
         return [
             'meta' => [
                 'type' => 'favorite',
                 'for' => $for,
                 // @phpstan-ignore-next-line
-                'author' => $favoritable->favoritable->meta_author,
+                'author' => $this->resource->favoritable->meta_author,
                 // @phpstan-ignore-next-line
-                'slug' => $favoritable->favoritable->slug,
+                'slug' => $this->resource->favoritable->slug,
             ],
             'title' => $title,
             // @phpstan-ignore-next-line
-            'cover' => $favoritable->favoritable->cover_thumbnail,
-            'createdAt' => $favoritable->created_at,
+            'cover' => $this->resource->favoritable->cover_thumbnail,
+            'createdAt' => $this->resource->created_at,
         ];
     }
 }

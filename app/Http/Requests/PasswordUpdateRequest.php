@@ -28,4 +28,18 @@ class PasswordUpdateRequest extends FormRequest
             'password' => 'required|string|max:256|confirmed',
         ];
     }
+
+    public function bodyParameters()
+    {
+        return [
+            'current_password' => [
+                'description' => '',
+                'example' => 'sunt-commodo-ipsum-aliqua',
+            ],
+            'password' => [
+                'description' => '',
+                'example' => 'ea-occaecat-culpa-ut-pariatur',
+            ],
+        ];
+    }
 }

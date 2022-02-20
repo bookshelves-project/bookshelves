@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\GenderEnum;
 use App\Http\Resources\Comment\CommentResource;
 use App\Http\Resources\FavoriteResource;
 use App\Http\Resources\User\UserListResource;
 use App\Http\Resources\User\UserResource;
-use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -23,6 +21,7 @@ class UserController extends ApiController
     {
         $users = User::orderBy('name')
             ->with('comments')
+            ->get()
         ;
 
         return UserListResource::collection($users);
@@ -31,44 +30,24 @@ class UserController extends ApiController
     /**
      * GET User details.
      */
-    public function show(Request $request, string $user_slug)
+    public function show(Request $request, User $user)
     {
-        $user = User::where('slug', $user_slug)->firstOrFail();
-
         return UserResource::make($user);
-    }
-
-    /**
-     * GET Genders.
-     */
-    public function genders()
-    {
-        $genders = GenderEnum::toArray();
-
-        return [
-            'data' => $genders,
-        ];
     }
 
     /**
      * GET User comments.
      */
-    public function comments(Request $request, string $user_slug)
+    public function comments(Request $request, User $user)
     {
-        $user = User::whereSlug($user_slug)->firstOrFail();
-        $comments = Comment::whereUserId($user->id)->get();
-
-        return CommentResource::collection($comments);
+        return CommentResource::collection($user->comments);
     }
 
     /**
      * GET User favorites.
      */
-    public function favorites(Request $request, string $user_slug)
+    public function favorites(Request $request, User $user)
     {
-        $user = User::where('slug', $user_slug)->firstOrFail();
-        $favorites = $user->favorites();
-
-        return FavoriteResource::collection($favorites);
+        return FavoriteResource::collection($user->favorites);
     }
 }

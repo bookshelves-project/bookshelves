@@ -935,10 +935,10 @@ namespace App\Models{
  * @property int $display_gender
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
- * @property-read int|null $books_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Favoritable[] $favorites
+ * @property-read int|null $favorites_count
  * @property-read string $avatar
  * @property-read string|null $avatar_thumbnail
  * @property-read string $banner

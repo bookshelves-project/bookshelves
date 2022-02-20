@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
+use App\Models\User;
 use App\Services\RouteService;
 use Illuminate\Support\Facades\Route;
 use Spatie\Tags\Tag;
@@ -42,11 +43,18 @@ class ApiController extends Controller
         });
 
         Route::bind('publisher_slug', function (string $publisher) {
-            return Publisher::whereSlug($publisher)->firstOrFail();
+            return Publisher::whereSlug($publisher)
+                ->withCount('books')
+                ->firstOrFail()
+            ;
         });
 
         Route::bind('language_slug', function (string $language) {
             return Language::whereSlug($language)->firstOrFail();
+        });
+
+        Route::bind('user_slug', function (string $user) {
+            return User::whereSlug($user)->firstOrFail();
         });
     }
 

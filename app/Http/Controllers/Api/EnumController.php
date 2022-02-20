@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Services\EnumService;
 
 /**
- * @group Misc
+ * @group CMS
  */
 class EnumController extends ApiController
 {

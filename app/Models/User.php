@@ -7,13 +7,16 @@ use App\Models\Traits\HasAvatar;
 use App\Models\Traits\HasImpersonate;
 use App\Models\Traits\HasUserSlug;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 
+/**
+ * @property \App\Models\Favoritable[]|\Illuminate\Database\Eloquent\Collection $favorites
+ */
 class User extends Authenticatable implements HasMedia
 {
     use HasFactory;
@@ -84,21 +87,21 @@ class User extends Authenticatable implements HasMedia
     public function getShowLinkAttribute(): string
     {
         return route('api.v1.users.show', [
-            'slug' => $this->slug,
+            'user_slug' => $this->slug,
         ]);
     }
 
     public function getShowLinkCommentsAttribute(): string
     {
         return route('api.v1.users.comments', [
-            'slug' => $this->slug,
+            'user_slug' => $this->slug,
         ]);
     }
 
     public function getShowLinkFavoritesAttribute(): string
     {
         return route('api.v1.users.favorites', [
-            'slug' => $this->slug,
+            'user_slug' => $this->slug,
         ]);
     }
 
@@ -118,7 +121,9 @@ class User extends Authenticatable implements HasMedia
 
     public function favorites()
     {
-        return Favoritable::where('user_id', $this->id)->orderBy('created_at')->get();
+        return $this->hasMany(Favoritable::class)
+            ->orderBy('created_at')
+        ;
     }
 
     // public function roles(): BelongsToMany
@@ -126,12 +131,7 @@ class User extends Authenticatable implements HasMedia
     //     return $this->belongsToMany(Role::class);
     // }
 
-    public function books(): MorphToMany
-    {
-        return $this->morphedByMany(Book::class, 'favoritable');
-    }
-
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }

@@ -6,7 +6,7 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 
 /**
- * @group Misc
+ * @group Endpoints
  */
 class CountController extends ApiController
 {

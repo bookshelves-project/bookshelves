@@ -8,6 +8,7 @@ use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
 use App\Models\TagExtend;
+use App\Models\User;
 use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Knuckles\Scribe\Extracting\ParamHelpers;
 use Knuckles\Scribe\Extracting\Strategies\Strategy;
@@ -50,7 +51,9 @@ class BookshelvesParameter extends Strategy
             'series.current' => 'serieVolume',
             'tags.show' => 'tag',
             'tags.show.books' => 'tag',
-            'submission.send' => 'submission',
+            'users.show' => 'user',
+            'users.comments' => 'user',
+            'users.favorites' => 'user',
         ];
 
         foreach ($routes as $name => $method) {
@@ -166,8 +169,16 @@ class BookshelvesParameter extends Strategy
         ];
     }
 
-    private function submission()
+    private function user(): array
     {
-        // return [];
+        $user = User::inRandomOrder()->first();
+
+        return [
+            'user_slug' => [
+                'description' => "`slug` of user in `meta.slug` users' list, example: `{$user->slug}`",
+                'required' => true,
+                'example' => $user->slug,
+            ],
+        ];
     }
 }

@@ -8,12 +8,14 @@ use App\Notifications\SubmissionNotification;
 use Illuminate\Support\Facades\Notification;
 
 /**
- * @group Misc
+ * @group Endpoints
  */
 class SubmissionController extends ApiController
 {
     /**
      * POST Send submission.
+     *
+     * If `honbeypot` is `true`, submission will be not sended.
      */
     public function send(SubmissionRequest $request)
     {
