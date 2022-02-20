@@ -7,6 +7,7 @@ use App\Docs\Strategies\UsePaginationQuery;
 use Knuckles\Scribe\Extracting\Strategies;
 
 return [
+
     'theme' => 'default',
 
     /*
@@ -22,7 +23,7 @@ return [
     /*
      * The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
      */
-    'base_url' => config('app.url'),
+    'base_url' => null,
 
     /*
      * Tell Scribe what routes to generate documentation for.
@@ -42,7 +43,7 @@ return [
                 'prefixes' => ['api/*'],
 
                 /*
-                 * Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.v1.*'.
+                 * Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.
                  */
                 'domains' => ['*'],
 
@@ -66,12 +67,6 @@ return [
              */
             'exclude' => [
                 // '/health', 'admin.*'
-                'api/login',
-                'api/logout',
-                'api/register',
-                'api/user/confirmed-password-status',
-                'api/user/confirm-password',
-                'api/sanctum/csrf-cookie',
             ],
 
             /*
@@ -96,7 +91,7 @@ return [
                      * API calls will be made only for routes in this group matching these HTTP methods (GET, POST, etc).
                      * List the methods here or use '*' to mean all methods. Leave empty to disable API calls.
                      */
-                    'methods' => ['*'],
+                    'methods' => ['GET'],
 
                     /*
                      * Laravel config variables which should be set for the API call.
@@ -183,22 +178,24 @@ return [
     ],
 
     'try_it_out' => [
-        /*
+        /**
          * Add a Try It Out button to your endpoints so consumers can test endpoints right from their browser.
          * Don't forget to enable CORS headers for your endpoints.
          */
         'enabled' => true,
 
-        /*
+        /**
          * The base URL for the API tester to use (for example, you can set this to your staging URL).
          * Leave as null to use the current app URL (config(app.url)).
          */
         'base_url' => null,
-        /*
+
+        /**
          * Fetch a CSRF token before each request, and add it as an X-XSRF-TOKEN header. Needed if you're using Laravel Sanctum.
          */
         'use_csrf' => true,
-        /*
+
+        /**
          * The URL to fetch the CSRF token from (if `use_csrf` is true).
          */
         'csrf_url' => '/sanctum/csrf-cookie',
@@ -211,7 +208,7 @@ return [
         /*
          * Set this to true if any endpoints in your API use authentication.
          */
-        'enabled' => true,
+        'enabled' => false,
 
         /*
          * Set this to true if your API should be authenticated by default. If so, you must also set `enabled` (above) to true.
@@ -228,7 +225,7 @@ return [
         /*
          * The name of the auth parameter (eg token, key, apiKey) or header (eg Authorization, Api-Key).
          */
-        'name' => 'token',
+        'name' => 'key',
 
         /*
          * The value of the parameter to be used by Scribe to authenticate response calls.
@@ -310,7 +307,7 @@ INTRO
     /*
      * Endpoints which don't have a @group will be placed in this default group.
      */
-    'default_group' => 'Misc',
+    'default_group' => 'Endpoints',
 
     /*
      * Custom logo path. This will be used as the value of the src attribute for the <img> tag,
@@ -329,7 +326,7 @@ INTRO
      */
     'faker_seed' => null,
 
-    /*
+    /**
      * The strategies Scribe will use to extract information about your routes at each stage.
      * If you create or install a custom strategy, add it here.
      */
@@ -362,9 +359,9 @@ INTRO
         ],
         'responses' => [
             Strategies\Responses\UseTransformerTags::class,
+            Strategies\Responses\UseApiResourceTags::class,
             Strategies\Responses\UseResponseTag::class,
             Strategies\Responses\UseResponseFileTag::class,
-            Strategies\Responses\UseApiResourceTags::class,
             Strategies\Responses\ResponseCalls::class,
         ],
         'responseFields' => [
@@ -385,7 +382,7 @@ INTRO
      */
     'routeMatcher' => \Knuckles\Scribe\Matching\RouteMatcher::class,
 
-    /*
+    /**
      * For response calls, API resource responses and transformer responses,
      * Scribe will try to start database transactions, so no changes are persisted to your database.
      * Tell Scribe which connections should be transacted here.

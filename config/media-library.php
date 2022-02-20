@@ -35,7 +35,7 @@ return [
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
      */
-    'max_file_size' => 1024 * 1024 * 10,
+    'max_file_size' => 1024 * 1024 * 10, // 10MB
 
     /*
      * This queue will be used to generate derived and responsive images.
@@ -59,19 +59,19 @@ return [
      *
      * This model is only used in Media Library Pro (https://medialibrary.pro)
      */
-    'temporary_upload_model' => false,
+    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
 
     /*
      * When enabled, Media Library Pro will only process temporary uploads there were uploaded
      * in the same session. You can opt to disable this for stateless usage of
      * the pro components.
      */
-    'enable_temporary_uploads_session_affinity' => false,
+    'enable_temporary_uploads_session_affinity' => true,
 
     /*
      * When enabled, Media Library pro will generate thumbnails for uploaded file.
      */
-    'generate_thumbnails_for_temporary_uploads' => false,
+    'generate_thumbnails_for_temporary_uploads' => true,
 
     /*
      * This is the class that is responsible for naming generated files.
@@ -109,6 +109,7 @@ return [
     'image_optimizers' => [
         Spatie\ImageOptimizer\Optimizers\Jpegoptim::class => [
             '-m85', // set maximum quality to 85%
+            '--force', // ensure that progressive generation is always done also if a little bigger
             '--strip-all', // this strips out all text information such as comments and EXIF data
             '--all-progressive', // this will make sure the resulting image is a progressive one
         ],
@@ -150,7 +151,7 @@ return [
      * The path where to store temporary files while performing image conversions.
      * If set to null, storage_path('media-library/temp') will be used.
      */
-    'temporary_directory_path' => false,
+    'temporary_directory_path' => null,
 
     /*
      * The engine that should perform the image conversions.
@@ -236,4 +237,10 @@ return [
      * More info: https://css-tricks.com/native-lazy-loading/
      */
     'default_loading_attribute_value' => null,
+
+    /*
+     * You can specify a prefix for that is used for storing all media.
+     * If you set this to `/my-subdir`, all your media will be stored in a `/my-subdir` directory.
+     */
+    'prefix' => env('MEDIA_PREFIX', ''),
 ];

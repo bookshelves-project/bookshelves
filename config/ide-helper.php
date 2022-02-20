@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Filename & Format
@@ -11,6 +12,17 @@ return [
     */
 
     'filename' => '_ide_helper.php',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Models filename
+    |--------------------------------------------------------------------------
+    |
+    | The default filename for the models helper file
+    |
+    */
+
+    'models_filename' => '_ide_helper_models.php',
 
     /*
     |--------------------------------------------------------------------------
@@ -140,6 +152,22 @@ return [
     */
 
     'ignored_models' => [
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Models hooks
+    |--------------------------------------------------------------------------
+    |
+    | Define which hook classes you want to run for models to add custom information
+    |
+    | Hooks should implement Barryvdh\LaravelIdeHelper\Contracts\ModelHookInterface.
+    |
+    */
+
+    'model_hooks' => [
+        // App\Support\IdeHelper\MyModelHook::class
     ],
 
     /*
@@ -169,6 +197,7 @@ return [
     */
 
     'interfaces' => [
+
     ],
 
     /*
@@ -188,7 +217,7 @@ return [
     | The value of the array is an array of type mappings. Key is the name of the custom type,
     | (for example, "jsonb" from Postgres 9.4) and the value is the name of the corresponding Doctrine2 type (in
     | our case it is 'json_array'. Doctrine types are listed here:
-    | http://doctrine-dbal.readthedocs.org/en/latest/reference/types.html
+    | https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/types.html#types
     |
     | So to support jsonb in your models when working with Postgres, just add the following entry to the array below:
     |
@@ -198,6 +227,7 @@ return [
     |
     */
     'custom_db_types' => [
+
     ],
 
     /*
@@ -285,4 +315,5 @@ return [
     'post_migrate' => [
         // 'ide-helper:models --nowrite',
     ],
+
 ];

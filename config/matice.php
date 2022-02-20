@@ -9,7 +9,7 @@ return [
      *
      * The path(directory) where matice finds the translations to work with.
      */
-    'lang_directory' => base_path('lang'),
+    'lang_directory' => lang_path(),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,7 +30,7 @@ return [
     | The place where to generate translations file.
     |
     */
-    'generate_translations_path' => resource_path('assets/js/matice_translations.js'),
+    'generate_translations_path' => resource_path('assets/matice_translations.js'),
 
     /*
     |--------------------------------------------------------------------------
