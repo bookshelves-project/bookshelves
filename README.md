@@ -19,12 +19,10 @@
   - <https://laravel-news.com/laravel-9-released>
   - <https://github.com/laravel/framework/pull/38538>
 - `composer require`
-  - `artesaos/seotools` <https://github.com/artesaos/seotools/pull/267>
-  - `barryvdh/laravel-elfinder`
+  - `barryvdh/laravel-elfinder` <https://github.com/barryvdh/laravel-elfinder>
 - `composer require --dev`
-  - `barryvdh/laravel-ide-helper`
-  - `beyondcode/laravel-dump-server` <https://github.com/beyondcode/laravel-dump-server/pull/82>
-  - `spatie/phpunit-watcher`
+  - `barryvdh/laravel-ide-helper` <https://github.com/barryvdh/laravel-ide-helper>
+  - `spatie/phpunit-watcher` <https://github.com/spatie/phpunit-watcher>
 
 **Table of contents**
 

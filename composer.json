@@ -35,7 +35,7 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.0.2",
         "artesaos/seotools": "^0.22.0",
         "fluentdom/fluentdom": "^8.0",
         "fruitcake/laravel-cors": "^2.0.5",
@@ -54,7 +54,7 @@
         "league/html-to-markdown": "^5.0",
         "livewire/livewire": "^2.10",
         "maatwebsite/excel": "^3.1",
-        "meilisearch/meilisearch-php": "^0.21.0",
+        "meilisearch/meilisearch-php": "^0.22.0",
         "mobiledetect/mobiledetectlib": "^2.8",
         "oscarotero/inline-svg": "^2.0",
         "spatie/array-to-xml": "^3.1",
@@ -71,6 +71,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
+        "beyondcode/laravel-dump-server": "^1.8",
         "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^3.6",
         "knuckleswtf/scribe": "^3.23",
@@ -129,6 +130,9 @@
         ],
         "analyse": [
             "phpstan analyse --ansi"
+        ],
+        "serve": [
+            "php artisan serve"
         ],
         "test": [
             "@php artisan test"

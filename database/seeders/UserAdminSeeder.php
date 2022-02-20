@@ -25,11 +25,11 @@ class UserAdminSeeder extends Seeder
         // }
 
         User::factory()->superAdmin()->create([
-            'name' => 'superadmin',
+            'name' => 'Super Admin',
             'email' => 'superadmin@example.com',
         ]);
         User::factory()->admin()->create([
-            'name' => 'admin',
+            'name' => 'Admin',
             'email' => 'admin@example.com',
         ]);
 

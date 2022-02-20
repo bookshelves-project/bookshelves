@@ -1,7 +1,7 @@
 <template>
   <app-layout :title="title">
     <dashboard-content />
-    <DoughnutChart v-bind="doughnutChartProps" />
+    <doughnut-chart :chart-data="chartData" />
   </app-layout>
 </template>
 
@@ -22,7 +22,7 @@
 
   let colors = useEnums().getChartColors()
 
-  const testData = computed<ChartData<'doughnut'>>(() => ({
+  const chartData = computed<ChartData<'doughnut'>>(() => ({
     labels: props.chart?.labels,
     datasets: [
       {
@@ -45,7 +45,7 @@
   }))
 
   const { doughnutChartProps } = useDoughnutChart({
-    chartData: testData,
+    chartData,
     options,
   })
 </script>
