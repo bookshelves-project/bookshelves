@@ -5,6 +5,9 @@ namespace App\Http\Resources;
 use App\Models\GoogleBook;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property GoogleBook $resource
+ */
 class GoogleBookResource extends JsonResource
 {
     /**

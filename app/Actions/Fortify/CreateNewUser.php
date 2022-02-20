@@ -2,9 +2,8 @@
 
 namespace App\Actions\Fortify;
 
-use App\Enums\RoleEnum;
 use App\Models\User;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
@@ -27,8 +26,10 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create(Arr::only($input, ['name', 'email', 'password']) + [
-            'role' => User::count() ? RoleEnum::user()->value : RoleEnum::super_admin()->value,
+        return User::create([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'password' => Hash::make($input['password']),
         ]);
     }
 }

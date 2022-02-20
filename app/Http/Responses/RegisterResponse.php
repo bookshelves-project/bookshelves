@@ -19,7 +19,7 @@ class RegisterResponse implements RegisterResponseContract
     public function toResponse($request)
     {
         if (Auth::user()->role->equals(RoleEnum::user())) {
-            return Inertia::location(route('home'));
+            return Inertia::location(route('front.home'));
         }
 
         return redirect()->intended(route('admin.dashboard'));

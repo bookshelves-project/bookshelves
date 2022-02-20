@@ -5,6 +5,9 @@ namespace App\Http\Resources;
 use App\Models\Favoritable;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property Favoritable $resource
+ */
 class FavoriteResource extends JsonResource
 {
     /**
