@@ -3,14 +3,14 @@ grumphp:
     enabled: false
     fix_by_default: true
   tasks:
-    # eslint:
-    #   bin: node_modules/.bin/eslint
-    #   triggered_by: [js, ts, vue]
-    #   whitelist_patterns:
-    #     - /^resources\/admin\/(.*)/
-    #     - /^resources\/front\/(.*)/
-  #   pest: ~
+    eslint:
+      bin: node_modules/.bin/eslint
+      triggered_by: [js, ts, vue]
+      whitelist_patterns:
+        - /^resources\/admin\/(.*)/
+        - /^resources\/front\/(.*)/
+    pest: ~
     phpcsfixer:
       config: .php-cs-fixer.dist.php
-    # phpstan:
-    #   use_grumphp_paths: false
+    phpstan:
+      use_grumphp_paths: false

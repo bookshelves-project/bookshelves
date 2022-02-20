@@ -23,8 +23,8 @@ class AuthorFactory extends Factory
     public function definition()
     {
         $faker = \Faker\Factory::create();
-        $firstname = $faker->firstName;
-        $lastname = $faker->lastName;
+        $firstname = $faker->firstName();
+        $lastname = $faker->lastName();
         $name = $firstname.' '.$lastname;
 
         return [

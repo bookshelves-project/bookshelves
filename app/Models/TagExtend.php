@@ -3,16 +3,18 @@
 namespace App\Models;
 
 use App\Enums\TagTypeEnum;
+use App\Models\TagExtend as ModelsTagExtend;
 use App\Models\Traits\HasFirstChar;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Spatie\Tags\Tag;
+use Spatie\Tags\HasTags;
 
 /**
  * @property null|int $books_count
  */
-class TagExtend extends Tag
+class TagExtend extends \Spatie\Tags\Tag
 {
+    use HasTags;
     use HasFirstChar;
 
     protected $table = 'tags';
@@ -29,6 +31,11 @@ class TagExtend extends Tag
     protected $appends = [
         'first_char',
     ];
+
+    public static function getTagClassName(): string
+    {
+        return ModelsTagExtend::class;
+    }
 
     public function getShowLinkAttribute(): string
     {
@@ -63,6 +70,7 @@ class TagExtend extends Tag
 
     public function books(): MorphToMany
     {
+        // return $this->morphToMany(Book::class, 'taggable');
         return $this->morphToMany(
             related: Book::class,
             name: 'taggable',
@@ -77,6 +85,7 @@ class TagExtend extends Tag
 
     public function series(): MorphToMany
     {
+        // return $this->morphToMany(Serie::class, 'taggable');
         return $this->morphToMany(
             related: Serie::class,
             name: 'taggable',

@@ -6,5 +6,5 @@ use function Pest\Laravel\get;
 uses(RefreshDatabase::class);
 
 test('guest can see homepage', function () {
-    get('/')->assertSee('Admin');
+    get('/features')->assertSee('Admin');
 });

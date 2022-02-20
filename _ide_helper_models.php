@@ -55,7 +55,7 @@ namespace App\Models{
  * @property-read int|null $selections_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\TagExtend[] $tags
+ * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\WikipediaItem|null $wikipedia
  * @property-read \App\Models\WikipediaItem|null $wikipediaItem
@@ -142,7 +142,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
  * @property-read int|null $selections_count
  * @property-read \App\Models\Serie|null $serie
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\TagExtend[] $tags
+ * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
  * @method static \Database\Factories\BookFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
@@ -661,7 +661,7 @@ namespace App\Models{
  * @property-read \App\Models\PostCategory|null $category
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\TagExtend[] $tags
+ * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|Post draft()
@@ -812,7 +812,7 @@ namespace App\Models{
  * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
  * @property-read int|null $selections_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\TagExtend[] $tags
+ * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\WikipediaItem|null $wikipedia
  * @property-read \App\Models\WikipediaItem|null $wikipediaItem
@@ -884,6 +884,8 @@ namespace App\Models{
  * @property-read array $translations
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
+ * @property \Illuminate\Database\Eloquent\Collection|TagExtend[] $tags
+ * @property-read int|null $tags_count
  * @method static \Illuminate\Database\Eloquent\Builder|Tag containing(string $name, $locale = null)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newQuery()
@@ -899,6 +901,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereTypeIs(string $type)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend withAllTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend withAnyTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag withType(?string $type = null)
  */
 	class TagExtend extends \Eloquent {}

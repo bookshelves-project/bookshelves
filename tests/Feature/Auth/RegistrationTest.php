@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Config;
 use Inertia\Testing\AssertableInertia;
 use function Pest\Laravel\assertAuthenticated;
 use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertGuest;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
@@ -21,43 +22,41 @@ test('registration screen can be rendered', function () {
 });
 
 test('first new user can register as super admin', function () {
-    //     $response = post('/register', [
-    //         'name' => 'User',
-    //         'email' => 'test@example.com',
-    //         'password' => 'password',
-    //         'password_confirmation' => 'password',
-    //     ]);
+    $response = post('/register', [
+        'name' => 'User',
+        'email' => 'test@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+        'role' => 'super_admin',
+    ]);
 
-    //     $response->assertRedirect('/admin/dashboard');
-    //     assertAuthenticated();
-    //     assertDatabaseHas('users', [
-    //         'name' => 'User',
-    //         'email' => 'test@example.com',
-    //         'role' => RoleEnum::super_admin(),
-    //     ]);
-    // 'test disabled'
-    expect(true)->toBeTrue();
+    $response->assertRedirect('/');
+    assertGuest();
+    // assertDatabaseHas('users', [
+    //     'name' => 'User',
+    //     'email' => 'test@example.com',
+    //     'role' => RoleEnum::super_admin(),
+    // ]);
 });
 
 test('new users can register with user role', function () {
-    //     User::factory()->create();
+    User::factory()->create();
 
-    //     $response = post('/register', [
-    //         'name' => 'User',
-    //         'email' => 'test@example.com',
-    //         'password' => 'password',
-    //         'password_confirmation' => 'password',
-    //     ]);
+    $response = post('/register', [
+        'name' => 'User',
+        'email' => 'test@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ]);
 
-    //     $response->assertHeader('X-Inertia-Location', url('/'));
-    //     assertAuthenticated();
-    //     assertDatabaseHas('users', [
-    //         'name' => 'User',
-    //         'email' => 'test@example.com',
-    //         'role' => RoleEnum::user(),
-    //     ]);
-    // 'test disabled'
-    expect(true)->toBeTrue();
+    // $response->assertHeader('X-Inertia-Location', url('/'));
+    $response->assertRedirect('/');
+    assertGuest();
+    // assertDatabaseHas('users', [
+    //     'name' => 'User',
+    //     'email' => 'test@example.com',
+    //     'role' => RoleEnum::user(),
+    // ]);
 });
 
 test('new users can register with strong password if debug disabled', function () {

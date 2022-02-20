@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\GenderEnum;
 use App\Enums\RoleEnum;
 use App\Models\User;
+use Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -37,12 +38,12 @@ class UserFactory extends Factory
         }
 
         return [
-            'name' => "{$this->faker->firstName} {$this->faker->lastName}",
+            'name' => "{$this->faker->firstName()} {$this->faker->lastName()}",
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => 'password',
+            'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
-            'about' => $this->faker->text,
+            'about' => $this->faker->text(),
             'use_gravatar' => false,
             'display_favorites' => $this->faker->boolean(),
             'display_comments' => $this->faker->boolean(),

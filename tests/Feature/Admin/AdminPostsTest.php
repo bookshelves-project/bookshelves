@@ -86,7 +86,7 @@ test('admin can get ordered post categories json', function () {
     $category = PostCategory::query()->first();
     $category->swapOrderWithModel(PostCategory::query()->skip(1)->first());
 
-    $response = get('/admin/post-categories');
+    $response = get('/admin/post-categories/fetch');
 
     $response->assertStatus(200);
     $response->assertJson([

@@ -25,7 +25,8 @@ test('admin can impersonate user', function () {
 
     $response = post("/admin/users/{$user->id}/impersonate");
 
-    $response->assertHeader('X-Inertia-Location', url('/'));
+    // $response->assertHeader('X-Inertia-Location', url('/'));
+    $response->assertRedirect('/features');
     $response->assertSessionHas('impersonate', $user->id);
 });
 

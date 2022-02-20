@@ -10,7 +10,7 @@ class DestroyUserController extends Controller
     public function destroy(Request $request, StatefulGuard $auth)
     {
         $request->validate([
-            'password' => 'required|string|password',
+            'password' => 'required|string|current_password',
         ]);
 
         $request->user()->fresh()->delete();

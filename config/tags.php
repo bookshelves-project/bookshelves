@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\TagExtend;
-
 return [
 
     /*
@@ -13,6 +11,6 @@ return [
     /*
      * The fully qualified class name of the tag model.
      */
-    // 'tag_model' => Spatie\Tags\Tag::class,
-    'tag_model' => TagExtend::class,
+    'tag_model' => Spatie\Tags\Tag::class,
+    // 'tag_model' => App\Models\TagExtend::class,
 ];
