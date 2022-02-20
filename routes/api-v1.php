@@ -11,7 +11,6 @@ use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CmsController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CountController;
-use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\EnumController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LanguageController;
@@ -40,6 +39,8 @@ Route::get('/', [ApiController::class, 'apiV1'])->name('api.v1');
 
 Route::get('enums', [EnumController::class, 'index'])->name('api.v1.enums.index');
 Route::post('send/submission', [SubmissionController::class, 'send'])->name('api.v1.submission.send');
+Route::get('count', [CountController::class, 'count'])->name('api.v1.count');
+Route::get('search', [SearchController::class, 'index'])->name('api.v1.search.index');
 
 /*
  * CMS routes
@@ -59,6 +60,7 @@ Route::prefix('authors')->group(function () {
     Route::get('/{author_slug}', [AuthorController::class, 'show'])->name('api.v1.authors.show');
     Route::get('/books/{author_slug}', [AuthorController::class, 'books'])->name('api.v1.authors.show.books');
     Route::get('/series/{author_slug}', [AuthorController::class, 'series'])->name('api.v1.authors.show.series');
+    Route::get('/download/{author_slug}', [AuthorController::class, 'download'])->name('api.v1.authors.download');
 });
 
 /*
@@ -70,6 +72,7 @@ Route::prefix('books')->group(function () {
     Route::get('/related/{author_slug}/{book_slug}', [BookController::class, 'related'])->name('api.v1.books.related');
     Route::get('/latest', [BookController::class, 'latest'])->name('api.v1.books.latest');
     Route::get('/selection', [BookController::class, 'selection'])->name('api.v1.books.selection');
+    Route::get('/download/{author_slug}/{book_slug}', [BookController::class, 'download'])->name('api.v1.books.download');
 });
 
 /*
@@ -80,28 +83,7 @@ Route::prefix('series')->group(function () {
     Route::get('/{author_slug}/{serie_slug}', [SerieController::class, 'show'])->name('api.v1.series.show');
     Route::get('/books/{author_slug}/{serie_slug}', [SerieController::class, 'books'])->name('api.v1.series.show.books');
     Route::get('/books/{volume}/{author_slug}/{serie_slug}', [SerieController::class, 'current'])->name('api.v1.series.current');
-});
-
-/*
- * Count routes
- */
-Route::get('/count', [CountController::class, 'count'])->name('api.v1.count');
-
-/*
- * Search routes
- */
-Route::prefix('search')->group(function () {
-    Route::get('/', [SearchController::class, 'index'])->name('api.v1.search.index');
-    // Route::get('/advanced', [SearchController::class, 'advanced'])->name('api.v1.search.advanced');
-});
-
-/*
- * Download routes
- */
-Route::prefix('download')->group(function () {
-    Route::get('/book/{author_slug}/{book_slug}', [DownloadController::class, 'book'])->name('api.v1.download.book');
-    Route::get('/serie/{author_slug}/{serie_slug}', [DownloadController::class, 'serie'])->name('api.v1.download.serie');
-    Route::get('/author/{author_slug}', [DownloadController::class, 'author'])->name('api.v1.download.author');
+    Route::get('/download/{author_slug}/{serie_slug}', [SerieController::class, 'download'])->name('api.v1.series.download');
 });
 
 /*

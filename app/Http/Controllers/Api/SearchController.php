@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Spatie\Tags\Tag;
 
 /**
- * @group Search
+ * @group Endpoints
  */
 class SearchController extends ApiController
 {

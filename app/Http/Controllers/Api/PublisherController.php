@@ -11,7 +11,7 @@ use App\Models\Publisher;
 use Illuminate\Http\Request;
 
 /**
- * @group Publisher
+ * @group Relation: Publisher
  *
  * Endpoint to get Publishers data.
  */

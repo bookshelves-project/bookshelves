@@ -7,7 +7,7 @@ use App\Http\Resources\User\UserResource;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * @group Authentication
+ * @group User: Authentication
  */
 class AuthController extends ApiController
 {

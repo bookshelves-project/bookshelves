@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\HasFirstChar;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Sluggable\HasSlug;
@@ -16,6 +17,7 @@ class Publisher extends Model
 {
     use HasFirstChar;
     use HasSlug;
+    use HasFactory;
 
     public $timestamps = false;
     protected $fillable = [

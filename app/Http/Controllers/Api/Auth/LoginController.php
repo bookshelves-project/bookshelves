@@ -7,7 +7,7 @@ use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
 
 /**
- * @group Authentication
+ * @group User: Authentication
  */
 class LoginController extends AuthController
 {

@@ -98,7 +98,7 @@ class Author extends Model implements HasMedia
 
     public function getDownloadLinkAttribute(): string
     {
-        return route('api.v1.download.author', [
+        return route('api.v1.authors.download', [
             'author_slug' => $this->slug,
         ]);
     }

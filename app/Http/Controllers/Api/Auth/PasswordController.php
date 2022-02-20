@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Services\Auth\PasswordService;
 
 /**
- * @group Authentication
+ * @group User: Authentication
  */
 class PasswordController extends AuthController
 {

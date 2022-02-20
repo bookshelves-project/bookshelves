@@ -15,7 +15,7 @@ class SubmissionController extends ApiController
     /**
      * POST Send submission.
      *
-     * If `honbeypot` is `true`, submission will be not sended.
+     * If `honeypot` is `true`, submission will be not sended.
      */
     public function send(SubmissionRequest $request)
     {

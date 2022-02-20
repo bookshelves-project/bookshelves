@@ -9,7 +9,7 @@ use App\Models\Language;
 use Illuminate\Http\Request;
 
 /**
- * @group Language
+ * @group Relation: Language
  *
  * Endpoint to get Languages data.
  */

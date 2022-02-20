@@ -2,97 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Author;
-use App\Models\Book;
-use App\Models\Serie;
 use File;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Support\MediaStream;
 use ZipArchive;
 
 /**
- * @group Download
+ * @hideFromAPIDocumentation
  *
  * Endpoint to download EPUB/ZIP.
  */
 class DownloadController extends ApiController
 {
-    /**
-     * GET Book EPUB.
-     *
-     * <small class="badge badge-green">Content-Type application/epub+zip</small>
-     *
-     * Download Book EPUB, find by slug of book and slug of author.
-     *
-     * @header Content-Type application/epub+zip
-     */
-    public function book(Author $author, Book $book)
-    {
-        return response()->download($book->epub->getPath(), $book->epub->file_name);
-    }
-
-    /**
-     * GET Serie ZIP.
-     *
-     * <small class="badge badge-green">Content-Type application/octet-stream</small>
-     *
-     * Download Serie ZIP, find by slug of serie and slug of author.
-     *
-     * @header Content-Type application/octet-stream
-     */
-    public function serie(Author $author, Serie $serie)
-    {
-        $epubs = [];
-        // $author = Author::whereSlug($author)->firstOrFail();
-        // $serie = Serie::with('books')->whereSlug($serie)->firstOrFail();
-        $authorFound = false;
-        foreach ($serie->authors as $key => $authorList) {
-            if ($author->slug === $authorList->slug) {
-                $authorFound = true;
-            }
-        }
-        if (! $authorFound) {
-            return response(['error' => 'Not found'], 404);
-        }
-
-        foreach ($serie->books as $key => $book) {
-            $epub = $book->getMedia('epubs')->first();
-            array_push($epubs, $epub);
-        }
-
-        $token = Str::random(8);
-        $token = strtolower($token);
-        $author = $serie->meta_author;
-        $dirname = "{$author}-{$serie->slug}-{$token}";
-
-        return MediaStream::create("{$dirname}.zip")->addMedia($epubs);
-    }
-
-    /**
-     * GET Author ZIP.
-     *
-     * <small class="badge badge-green">Content-Type application/octet-stream</small>
-     *
-     * Download Author ZIP, find by slug of author.
-     *
-     * @header Content-Type application/octet-stream
-     */
-    public function author(Author $author)
-    {
-        $epubs = [];
-        // $author = Author::with('books')->whereSlug($author)->firstOrFail();
-        foreach ($author->books as $key => $book) {
-            $epub = $book->getMedia('epubs')->first();
-            array_push($epubs, $epub);
-        }
-
-        $token = Str::random(8);
-        $token = strtolower($token);
-        $dirname = "{$author->slug}-{$token}";
-
-        return MediaStream::create("{$dirname}.zip")->addMedia($epubs);
-    }
-
     /**
      * @deprecated Old download method
      */

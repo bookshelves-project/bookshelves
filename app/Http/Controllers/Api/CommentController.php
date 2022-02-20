@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 /**
- * @group Comment
+ * @group User: Comment
  */
 class CommentController extends ApiController
 {

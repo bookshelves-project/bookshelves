@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Spatie\Tags\Tag;
 
 /**
- * @group Tag
+ * @group Relation: Tag
  */
 class TagController extends ApiController
 {

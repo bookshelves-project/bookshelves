@@ -98,7 +98,8 @@ trait HasCovers
         /** @var Media $media */
         $media = $this->getFirstMedia($this->getClassName(true));
 
-        if ($color = $media->getCustomProperty('color')) {
+        // @phpstan-ignore-next-line
+        if ($color = $media?->getCustomProperty('color')) {
             return "#{$color}";
         }
 

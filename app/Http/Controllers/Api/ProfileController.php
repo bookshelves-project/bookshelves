@@ -15,7 +15,7 @@ use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
 /**
- * @group Account
+ * @group User: Account
  */
 class ProfileController extends ApiController
 {

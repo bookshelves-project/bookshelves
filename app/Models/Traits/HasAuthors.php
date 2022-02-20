@@ -69,7 +69,7 @@ trait HasAuthors
 
     public function getDownloadLinkAttribute(): string
     {
-        return route('api.v1.download.'.$this->getClassName(), [
+        return route("api.v1.{$this->getClassName()}s.download", [
             'author_slug' => $this->meta_author,
             "{$this->getClassName()}_slug" => $this->slug,
         ]);

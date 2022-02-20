@@ -18,7 +18,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 
 /**
- * @group Book
+ * @group Entity: Book
  */
 class BookController extends ApiController
 {
@@ -224,5 +224,19 @@ class BookController extends ApiController
         }
 
         return $related_books;
+    }
+
+    /**
+     * GET Download EPUB.
+     *
+     * <small class="badge badge-green">Content-Type application/epub+zip</small>
+     *
+     * Download Book EPUB, find by slug of book and slug of author.
+     *
+     * @header Content-Type application/epub+zip
+     */
+    public function download(Author $author, Book $book)
+    {
+        return response()->download($book->epub->getPath(), $book->epub->file_name);
     }
 }

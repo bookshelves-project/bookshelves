@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\AuthorRoleEnum;
 use App\Models\Author;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -25,13 +26,17 @@ class AuthorFactory extends Factory
         $faker = \Faker\Factory::create();
         $firstname = $faker->firstName();
         $lastname = $faker->lastName();
-        $name = $firstname.' '.$lastname;
+        $name = $lastname.' '.$firstname;
 
         return [
             'lastname' => $lastname,
             'firstname' => $firstname,
             'name' => $name,
             'slug' => Str::slug($name),
+            'role' => AuthorRoleEnum::aut(),
+            'description' => $faker->paragraph(),
+            'link' => $faker->url(),
+            'note' => $faker->paragraph(),
         ];
     }
 }

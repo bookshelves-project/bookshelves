@@ -29,6 +29,8 @@ class SerieFactory extends Factory
             'title' => $title,
             'slug_sort' => Str::slug($title),
             'slug' => Str::slug($title),
+            'description' => $faker->paragraph(),
+            'link' => $faker->url(),
         ];
     }
 }

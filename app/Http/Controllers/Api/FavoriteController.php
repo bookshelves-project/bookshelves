@@ -9,10 +9,7 @@ use Auth;
 use Route;
 
 /**
- * @group Favorite
- */
-/**
- * @group Account
+ * @group User: Account
  *
  * Endpoint to get Authors data.
  */

@@ -10,9 +10,11 @@ use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Spatie\MediaLibrary\Support\MediaStream;
 
 /**
- * @group Author
+ * @group Entity: Author
  *
  * Endpoint to get Authors data.
  */
@@ -87,5 +89,28 @@ class AuthorController extends ApiController
     public function series(Request $request, Author $author)
     {
         return SerieLightResource::collection($author->series()->paginate(32));
+    }
+
+    /**
+     * GET Download ZIP.
+     *
+     * <small class="badge badge-green">Content-Type application/octet-stream</small>
+     *
+     * Download Author ZIP, find by slug of author.
+     *
+     * @header Content-Type application/octet-stream
+     */
+    public function download(Author $author)
+    {
+        $epubs = [];
+        foreach ($author->books as $key => $book) {
+            $epub = $book->getMedia('epubs')->first();
+            array_push($epubs, $epub);
+        }
+
+        $token = Str::slug(Str::random(8));
+        $dirname = "{$author->slug}-{$token}";
+
+        return MediaStream::create("{$dirname}.zip")->addMedia($epubs);
     }
 }
