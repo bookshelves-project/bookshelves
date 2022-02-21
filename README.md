@@ -1,7 +1,7 @@
 # Bookshelves · Back <!-- omit in toc -->
 
 [![composer](https://img.shields.io/static/v1?label=Composer&message=v2.0&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)
-[![php](https://img.shields.io/static/v1?label=PHP&message=v8.0&color=777bb4&style=flat-square&logo=php&logoColor=ffffff)](https://www.php.net)
+[![php](https://img.shields.io/static/v1?label=PHP&message=v8.1&color=777bb4&style=flat-square&logo=php&logoColor=ffffff)](https://www.php.net)
 
 [![pnpm](https://img.shields.io/static/v1?label=pnpm&message=v6.2&color=F69220&style=flat-square&logo=pnpm)](https://pnpm.io)
 [![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=v16.13&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
@@ -28,10 +28,10 @@
 
 ### *a. Dependencies*
 
-Extensions for PHP, here for `php8.0`
+Extensions for PHP, here for `php8.1`
 
 ```bash
-sudo apt-get install -y php8.0-xml php8.0-gd
+sudo apt-get install -y php8.1-xml php8.1-gd
 ```
 
 For spatie image optimize tools

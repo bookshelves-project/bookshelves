@@ -4,9 +4,9 @@ namespace App\Http\Queries;
 
 use App\Exports\BookExport;
 use App\Http\Queries\Addon\QueryOption;
+use App\Http\Queries\Filter\GlobalSearchFilter;
 use App\Http\Resources\Admin\BookResource;
 use App\Models\Book;
-use App\Support\GlobalSearchFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;

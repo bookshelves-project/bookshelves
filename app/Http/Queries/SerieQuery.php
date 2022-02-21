@@ -4,9 +4,9 @@ namespace App\Http\Queries;
 
 use App\Exports\SerieExport;
 use App\Http\Queries\Addon\QueryOption;
+use App\Http\Queries\Filter\GlobalSearchFilter;
 use App\Http\Resources\Admin\SerieResource;
 use App\Models\Serie;
-use App\Support\GlobalSearchFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
