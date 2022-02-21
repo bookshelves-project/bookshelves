@@ -39,7 +39,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\Impersonate::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
-            \App\Http\Middleware\ReadOnly::class,
+            \App\Http\Middleware\IsReadOnly::class,
         ],
 
         'api' => [

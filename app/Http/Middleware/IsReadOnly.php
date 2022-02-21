@@ -6,7 +6,7 @@ use App\Enums\RoleEnum;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class ReadOnly
+class IsReadOnly
 {
     private $except = [
         '*/login',

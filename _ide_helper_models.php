@@ -534,6 +534,7 @@ namespace App\Models{
  * @property-read string $show_link
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
+ * @method static \Database\Factories\LanguageFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Language newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Language newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Language query()
@@ -734,6 +735,7 @@ namespace App\Models{
  * @property-read mixed $first_char
  * @property-read string $show_books_link
  * @property-read string $show_link
+ * @method static \Database\Factories\PublisherFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher query()

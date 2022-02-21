@@ -1,0 +1,12 @@
+{
+    "app.ts": {
+        "file": "assets/app.01234567.js",
+        "src": "app.ts",
+        "isEntry": true,
+        "imports": ["_vendor.01234567.js"],
+        "css": ["assets/app.01234567.css"]
+    },
+    "_vendor.01234567.js": {
+        "file": "assets/vendor.01234567.js"
+    }
+}

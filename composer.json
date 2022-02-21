@@ -79,6 +79,7 @@
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "nunomaduro/larastan": "^2.0",
+        "pestphp/pest": "^1.21",
         "pestphp/pest-plugin-laravel": "^1.2",
         "phpro/grumphp-shim": "^1.8",
         "phpunit/phpunit": "^9.5.10",
@@ -131,6 +132,7 @@
             "phpstan analyse --ansi"
         ],
         "serve": [
+            "Composer\\Config::disableProcessTimeout",
             "php artisan serve"
         ],
         "test": [
@@ -142,6 +144,10 @@
         "test:watch": [
             "Composer\\Config::disableProcessTimeout",
             "phpunit-watcher watch"
+        ],
+        "test:filter:watch": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpunit-watcher watch --filter"
         ]
     },
     "extra": {
