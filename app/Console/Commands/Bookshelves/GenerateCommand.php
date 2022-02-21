@@ -4,6 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
+use App\Enums\BookFormatEnum;
 use App\Services\FileParserService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -95,10 +96,8 @@ class GenerateCommand extends Command
         $bar = $this->output->createProgressBar(sizeof($list));
         $bar->start();
         foreach ($list as $key => $epub) {
-            $parser = ParserEngine::create($epub, $debug);
-            if ($debug) {
-                $this->info($key.' '.$parser->title);
-            }
+            $format = BookFormatEnum::epub();
+            $parser = ParserEngine::create($epub, $format, $debug);
             ConverterEngine::create($parser, $default);
 
             if (! $debug) {

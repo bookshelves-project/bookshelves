@@ -5,6 +5,8 @@ namespace App\Engines;
 use App\Engines\ParserEngine\BookCreator;
 use App\Engines\ParserEngine\BookIdentifier;
 use App\Engines\ParserEngine\OpfParser;
+use App\Enums\BookFormatEnum;
+use App\Services\ConsoleService;
 use DateTime;
 use Illuminate\Support\Str;
 use Transliterator;
@@ -38,17 +40,22 @@ class ParserEngine
         public ?int $volume = 0,
         public ?string $cover = null,
         public ?string $cover_extension = null,
-        public ?string $epub_path = null,
+        public ?string $file_path = null,
+        public ?BookFormatEnum $format = null,
     ) {
     }
 
     /**
      * Transform OPF file to ParserEngine.
      */
-    public static function create(string $epub_path, bool $debug = false, bool $print = false): ParserEngine
+    public static function create(string $file_path, BookFormatEnum $format, bool $debug = false): ParserEngine
     {
         $engine = new ParserEngine();
-        $parser = OpfParser::create($epub_path, $debug);
+        $parser = match ($format) {
+            BookFormatEnum::epub() => OpfParser::create($file_path, $debug),
+            default => OpfParser::create($file_path, $debug),
+        };
+        $engine->format = $format;
 
         $engine->title = $parser->title;
         $engine->slug_sort = self::generateSortTitle($parser->title);
@@ -68,7 +75,7 @@ class ParserEngine
         $engine->serie_slug_lang = Str::slug($parser->serie.' '.$parser->language);
         $engine->serie_sort = self::generateSortTitle($parser->serie);
         $engine->volume = $parser->volume;
-        $engine->epub_path = $epub_path;
+        $engine->file_path = $file_path;
 
         $engine->title_serie_sort = self::generateSortSerie(
             $engine->title,
@@ -76,9 +83,11 @@ class ParserEngine
             $engine->serie,
         );
 
-        if (! $print) {
-            $engine->cover = $parser->cover_file;
-            $engine->cover_extension = $parser->cover_extension;
+        $engine->cover = $parser->cover_file;
+        $engine->cover_extension = $parser->cover_extension;
+
+        if ($debug) {
+            ConsoleService::print("{$parser->title}");
         }
 
         return $engine;

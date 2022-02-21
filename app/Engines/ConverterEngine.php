@@ -10,6 +10,7 @@ use App\Engines\ConverterEngine\LanguageConverter;
 use App\Engines\ConverterEngine\PublisherConverter;
 use App\Engines\ConverterEngine\SerieConverter;
 use App\Engines\ConverterEngine\TagConverter;
+use App\Enums\BookFormatEnum;
 use App\Models\Book;
 use App\Models\Language;
 use App\Models\Publisher;
@@ -59,7 +60,10 @@ class ConverterEngine
                 $book = CoverConverter::create($parser, $book);
             }
 
-            BookConverter::epub($book, $parser->epub_path);
+            match ($parser->format) {
+                BookFormatEnum::epub() => BookConverter::epub($book, $parser->file_path),
+                default => BookConverter::epub($book, $parser->file_path),
+            };
             $book->save();
 
             // $engine = new ConverterEngine(

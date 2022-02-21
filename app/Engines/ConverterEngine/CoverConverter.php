@@ -24,7 +24,7 @@ class CoverConverter
                     ->setColor()
                 ;
             } catch (\Throwable $th) {
-                ConsoleService::print(__METHOD__, $th);
+                ConsoleService::print(__METHOD__, $th, true);
             }
         }
 
