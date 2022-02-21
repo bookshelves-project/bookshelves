@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\FileService;
+use App\Services\ConverterService;
 use App\Services\RouteService;
 use Illuminate\Console\Command;
 
@@ -38,7 +38,7 @@ class RoutesListCommand extends Command
     public function handle()
     {
         $list = RouteService::getList();
-        FileService::saveAsJson($list, 'routes');
+        ConverterService::saveAsJson($list, 'routes');
 
         return 0;
     }

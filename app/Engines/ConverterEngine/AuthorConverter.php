@@ -6,7 +6,7 @@ use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\BookCreator;
 use App\Models\Author;
 use App\Models\Book;
-use App\Services\FileParserService;
+use App\Services\DirectoryParserService;
 use App\Services\MediaService;
 use App\Services\WikipediaService\WikipediaQuery;
 use File;
@@ -26,10 +26,8 @@ class AuthorConverter
 
     /**
      * Convert BookCreator to AuthorConverter from config order.
-     *
-     * @return AuthorConverter
      */
-    public static function create(BookCreator $creator)
+    public static function create(BookCreator $creator): AuthorConverter
     {
         $orderClassic = config('bookshelves.authors.order_natural');
 
@@ -52,7 +50,7 @@ class AuthorConverter
     /**
      * Generate Author[] for Book from ParserEngine.
      */
-    public static function generate(ParserEngine $parser, Book $book): Collection|false
+    public static function generate(ParserEngine $parser, Book $book): Collection
     {
         $authors = [];
         if (empty($parser->creators)) {
@@ -145,7 +143,7 @@ class AuthorConverter
         $path = public_path("storage/data/pictures-{$disk}");
         $cover = null;
 
-        $files = FileParserService::getDirectoryFiles($path);
+        $files = DirectoryParserService::getDirectoryFiles($path);
 
         foreach ($files as $file) {
             if (pathinfo($file)['filename'] === $author->slug) {

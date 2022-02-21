@@ -37,7 +37,6 @@
     "require": {
         "php": "^8.0.2",
         "artesaos/seotools": "^0.22.0",
-        "fluentdom/fluentdom": "^8.0",
         "fruitcake/laravel-cors": "^2.1",
         "genl/matice": "^1.1",
         "guzzlehttp/guzzle": "^7.4",

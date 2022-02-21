@@ -7,7 +7,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
-class ClearFileService
+class DirectoryClearService
 {
     public function __construct(
         public string $path,

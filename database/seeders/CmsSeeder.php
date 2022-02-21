@@ -9,7 +9,7 @@ use App\Models\Cms\CmsHomePageFeature;
 use App\Models\Cms\CmsHomePageHighlight;
 use App\Models\Cms\CmsHomePageLogo;
 use App\Models\Cms\CmsHomePageStatistic;
-use App\Services\FileService;
+use App\Services\ConverterService;
 use App\Services\MediaService;
 use App\Services\SvgService;
 use Illuminate\Database\Seeder;
@@ -43,7 +43,7 @@ class CmsSeeder extends Seeder
 
     private function getData(string $name)
     {
-        return FileService::jsonToArray(database_path("seeders/data/cms/{$name}.json"));
+        return ConverterService::jsonToArray(database_path("seeders/data/cms/{$name}.json"));
     }
 
     private function setApplication()

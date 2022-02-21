@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class FileParserService
+class DirectoryParserService
 {
     /**
      * Get all $ext files from $path.

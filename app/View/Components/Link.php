@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Services\FileService;
+use App\Services\ConverterService;
 use Illuminate\View\Component;
 
 class Link extends Component
@@ -24,7 +24,7 @@ class Link extends Component
      */
     public function render()
     {
-        $link = FileService::arrayToObject([
+        $link = ConverterService::arrayToObject([
             'route' => '',
             'href' => false,
             'title' => 'Default',
@@ -33,7 +33,7 @@ class Link extends Component
             'external' => false,
         ]);
         if (! empty($this->array)) {
-            $link = FileService::arrayToObject($this->array);
+            $link = ConverterService::arrayToObject($this->array);
         } elseif (! empty($this->object)) {
             $link = $this->object;
         }

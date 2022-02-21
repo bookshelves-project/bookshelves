@@ -5,7 +5,7 @@ namespace App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Services\FileParserService;
+use App\Services\DirectoryParserService;
 use App\Services\MediaService;
 use File;
 use Illuminate\Support\Str;
@@ -100,7 +100,7 @@ class SerieConverter
         // Check if JPG file with series' slug name exist
         // To know slug name, check into database when serie was created
         $path = public_path("storage/data/pictures-{$disk}");
-        $files = FileParserService::getDirectoryFiles($path);
+        $files = DirectoryParserService::getDirectoryFiles($path);
 
         $local_cover = null;
         foreach ($files as $key => $file) {

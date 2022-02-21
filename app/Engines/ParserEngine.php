@@ -144,6 +144,9 @@ class ParserEngine
         return "{$serie}{$title}";
     }
 
+    /**
+     * Strip HTML tags.
+     */
     public static function htmlToText(?string $html, ?string $allow = '<br>'): string
     {
         return trim(strip_tags($html, $allow));

@@ -2,7 +2,7 @@
 
 namespace App\View\Components\Layouts\Navigation;
 
-use App\Services\FileService;
+use App\Services\ConverterService;
 use Illuminate\View\Component;
 
 class Card extends Component
@@ -22,7 +22,7 @@ class Card extends Component
      */
     public function render()
     {
-        $route = FileService::arrayToObject($this->card);
+        $route = ConverterService::arrayToObject($this->card);
 
         return view('components.layouts.navigation.card', compact('route'));
     }

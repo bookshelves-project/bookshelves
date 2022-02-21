@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
-class FileService
+class ConverterService
 {
     public static function saveAsJson(mixed $data, string $name): void
     {

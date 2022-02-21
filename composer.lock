@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d5e623c33b9b608692f0ddba8e43f04",
+    "content-hash": "9ef1156663fcffa77e3bcb6de5b35f16",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -725,71 +725,6 @@
                 "source": "https://github.com/ezyang/htmlpurifier/tree/v4.14.0"
             },
             "time": "2021-12-25T01:21:49+00:00"
-        },
-        {
-            "name": "fluentdom/fluentdom",
-            "version": "8.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ThomasWeinert/FluentDOM.git",
-                "reference": "22ee56352bb5fd0bc41ccf7906780aabc2bccf33"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/FluentDOM/zipball/22ee56352bb5fd0bc41ccf7906780aabc2bccf33",
-                "reference": "22ee56352bb5fd0bc41ccf7906780aabc2bccf33",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-libxml": "*",
-                "php": "~7.2 || ~8.0"
-            },
-            "require-dev": {
-                "ext-simplexml": "*",
-                "ext-xmlreader": "*",
-                "ext-xmlwriter": "*"
-            },
-            "suggest": {
-                "ext-json": "JSON support, needed for several loaders/serializers",
-                "ext-xmlreader": "XMLReader, XML pull parser, read large XMLs",
-                "ext-xmlwriter": "XMLWriter, Write large XMLs",
-                "fluentdom/css-selector": "Allows to use css selectors."
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/FluentDOM.php"
-                ],
-                "psr-4": {
-                    "FluentDOM\\": "src/FluentDOM"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "FluentDOM Contributors",
-                    "homepage": "https://github.com/FluentDOM/FluentDOM/contributors"
-                }
-            ],
-            "description": "A fluent api for the php dom extension.",
-            "homepage": "http://fluentdom.org",
-            "keywords": [
-                "XMLReader",
-                "XMLWriter",
-                "Xpath",
-                "dom",
-                "jquery",
-                "xml"
-            ],
-            "support": {
-                "issues": "https://github.com/ThomasWeinert/FluentDOM/issues",
-                "source": "https://github.com/ThomasWeinert/FluentDOM/tree/8.0.0"
-            },
-            "time": "2021-04-18T18:12:11+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",
@@ -2446,16 +2381,16 @@
         },
         {
             "name": "league/glide",
-            "version": "2.2.1",
+            "version": "2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/glide.git",
-                "reference": "c01576e7ab4b398ad3d52a5cda9b8c9d4a406fde"
+                "reference": "bff5b0fe2fd26b2fde2d6958715fde313887d79d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/glide/zipball/c01576e7ab4b398ad3d52a5cda9b8c9d4a406fde",
-                "reference": "c01576e7ab4b398ad3d52a5cda9b8c9d4a406fde",
+                "url": "https://api.github.com/repos/thephpleague/glide/zipball/bff5b0fe2fd26b2fde2d6958715fde313887d79d",
+                "reference": "bff5b0fe2fd26b2fde2d6958715fde313887d79d",
                 "shasum": ""
             },
             "require": {
@@ -2470,11 +2405,6 @@
                 "phpunit/phpunit": "^8.5|^9.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "League\\Glide\\": "src/"
@@ -2510,9 +2440,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/glide/issues",
-                "source": "https://github.com/thephpleague/glide/tree/2.2.1"
+                "source": "https://github.com/thephpleague/glide/tree/2.2.2"
             },
-            "time": "2022-01-14T14:41:08+00:00"
+            "time": "2022-02-21T07:40:55+00:00"
         },
         {
             "name": "league/glide-symfony",
@@ -3877,16 +3807,16 @@
         },
         {
             "name": "php-http/httplug",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/httplug.git",
-                "reference": "191a0a1b41ed026b717421931f8d3bd2514ffbf9"
+                "reference": "f640739f80dfa1152533976e3c112477f69274eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/httplug/zipball/191a0a1b41ed026b717421931f8d3bd2514ffbf9",
-                "reference": "191a0a1b41ed026b717421931f8d3bd2514ffbf9",
+                "url": "https://api.github.com/repos/php-http/httplug/zipball/f640739f80dfa1152533976e3c112477f69274eb",
+                "reference": "f640739f80dfa1152533976e3c112477f69274eb",
                 "shasum": ""
             },
             "require": {
@@ -3933,9 +3863,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/httplug/issues",
-                "source": "https://github.com/php-http/httplug/tree/master"
+                "source": "https://github.com/php-http/httplug/tree/2.3.0"
             },
-            "time": "2020-07-13T15:43:23+00:00"
+            "time": "2022-02-21T09:52:22+00:00"
         },
         {
             "name": "php-http/message",
@@ -9876,16 +9806,16 @@
         },
         {
             "name": "knuckleswtf/scribe",
-            "version": "3.23.0",
+            "version": "3.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knuckleswtf/scribe.git",
-                "reference": "7a3d9feec5f0c1cdd68564e6237fffac2b36bba0"
+                "reference": "c5609a0e6d93e678b1049695b921698cb9ece0f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/7a3d9feec5f0c1cdd68564e6237fffac2b36bba0",
-                "reference": "7a3d9feec5f0c1cdd68564e6237fffac2b36bba0",
+                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/c5609a0e6d93e678b1049695b921698cb9ece0f2",
+                "reference": "c5609a0e6d93e678b1049695b921698cb9ece0f2",
                 "shasum": ""
             },
             "require": {
@@ -9960,7 +9890,7 @@
             ],
             "support": {
                 "issues": "https://github.com/knuckleswtf/scribe/issues",
-                "source": "https://github.com/knuckleswtf/scribe/tree/3.23.0"
+                "source": "https://github.com/knuckleswtf/scribe/tree/3.24.0"
             },
             "funding": [
                 {
@@ -9968,7 +9898,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-01-31T09:09:39+00:00"
+            "time": "2022-02-21T12:25:39+00:00"
         },
         {
             "name": "laravel/sail",

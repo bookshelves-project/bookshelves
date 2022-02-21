@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Services\ClearFileService;
+use App\Services\DirectoryClearService;
 use Artisan;
 use Illuminate\Console\Command;
 
@@ -39,9 +39,9 @@ class ClearCommand extends Command
     {
         $app = config('app.name');
         $this->alert("{$app}: clear");
-        $debug = new ClearFileService(storage_path('app/public/debug'));
-        $cache = new ClearFileService(storage_path('app/public/cache'));
-        $temp = new ClearFileService(storage_path('app/public/temp'));
+        $debug = new DirectoryClearService(storage_path('app/public/debug'));
+        $cache = new DirectoryClearService(storage_path('app/public/cache'));
+        $temp = new DirectoryClearService(storage_path('app/public/temp'));
 
         $debug->clearDir();
         $cache->clearDir();
@@ -52,7 +52,7 @@ class ClearCommand extends Command
         Artisan::call('config:clear', [], $this->getOutput());
         Artisan::call('view:clear', [], $this->getOutput());
         Artisan::call('optimize:clear', [], $this->getOutput());
-        $clear = new ClearFileService('bootstrap/cache');
+        $clear = new DirectoryClearService('bootstrap/cache');
         $clear->clearDir();
 
         $this->newLine();

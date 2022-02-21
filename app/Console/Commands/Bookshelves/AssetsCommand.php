@@ -9,7 +9,7 @@ use App\Models\Book;
 use App\Models\GoogleBook;
 use App\Models\Serie;
 use App\Models\WikipediaItem;
-use App\Services\ClearFileService;
+use App\Services\DirectoryClearService;
 use App\Services\GoogleBookService\GoogleBookService;
 use App\Services\WikipediaService\WikipediaService;
 use Illuminate\Console\Command;
@@ -63,7 +63,7 @@ class AssetsCommand extends Command
         $default = $this->option('default') ?? false;
         $debug = $this->option('debug') ?? false;
 
-        $tool = new ClearFileService(storage_path('app/public/debug/wikipedia'));
+        $tool = new DirectoryClearService(storage_path('app/public/debug/wikipedia'));
         $tool->clearDir();
 
         $app = config('app.name');
