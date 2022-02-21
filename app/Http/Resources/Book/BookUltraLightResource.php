@@ -4,8 +4,8 @@ namespace App\Http\Resources\Book;
 
 use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Models\Book;
-use App\Utils\BookshelvesTools;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 /**
  * @property \App\Models\Book $resource
@@ -30,7 +30,7 @@ class BookUltraLightResource extends JsonResource
                 'related' => $this->resource->show_related_link,
             ],
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
-            'summary' => BookshelvesTools::stringLimit($this->resource->description, 140),
+            'summary' => Str::limit($this->resource->description, 140),
             'language' => $this->resource->language?->slug,
             'releasedOn' => $this->resource->released_on,
             'cover' => [

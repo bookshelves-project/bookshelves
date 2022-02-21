@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Engines\ParserEngine;
 use App\Enums\BookTypeEnum;
 use App\Models\Traits\HasAuthors;
 use App\Models\Traits\HasClassName;
@@ -11,7 +12,6 @@ use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
-use App\Services\ParserEngine\ParserTools;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -55,10 +55,10 @@ class Book extends Model implements HasMedia
         'publisher_id',
     ];
     protected $with = [
-        'language',
-        'authors',
-        'serie',
-        'media',
+        // 'language',
+        // 'authors',
+        // 'serie',
+        // 'media',
     ];
     protected $appends = [
         'epub',
@@ -186,7 +186,7 @@ class Book extends Model implements HasMedia
         $serie_title = $this->serie ? $this->serie->title : '';
 
         $this->slug = Str::slug("{$this->title} {$this->language_slug}");
-        $this->slug_sort = ParserTools::sortTitleWithSerie($this->title, $this->volume, $serie_title);
+        $this->slug_sort = ParserEngine::generateSortSerie($this->title, $this->volume, $serie_title);
         $this->save();
     }
 }

@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Services\ConverterEngine;
+namespace App\Engines\ConverterEngine;
 
+use App\Engines\ParserEngine;
 use App\Models\Book;
 use App\Models\Serie;
+use App\Services\FileParserService;
 use App\Services\MediaService;
-use App\Services\ParserEngine\ParserEngine;
-use App\Utils\BookshelvesTools;
 use File;
+use Illuminate\Support\Str;
 use Storage;
 
 class SerieConverter
@@ -78,7 +79,7 @@ class SerieConverter
     public static function setWikiDescription(Serie $serie): Serie
     {
         if ($serie->wikipedia && ! $serie->description && ! $serie->link) {
-            $serie->description = BookshelvesTools::stringLimit($serie->wikipedia->extract, 1000);
+            $serie->description = Str::limit($serie->wikipedia->extract, 1000);
             $serie->link = $serie->wikipedia->page_url;
             $serie->save();
         }
@@ -99,7 +100,7 @@ class SerieConverter
         // Check if JPG file with series' slug name exist
         // To know slug name, check into database when serie was created
         $path = public_path("storage/data/pictures-{$disk}");
-        $files = BookshelvesTools::getDirectoryFiles($path);
+        $files = FileParserService::getDirectoryFiles($path);
 
         $local_cover = null;
         foreach ($files as $key => $file) {

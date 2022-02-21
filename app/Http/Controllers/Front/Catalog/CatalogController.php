@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Front\Catalog;
 
+use App\Engines\SearchEngine;
 use App\Http\Controllers\Controller;
 use App\Services\MarkdownService;
-use App\Services\SearchEngineService;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Detection\MobileDetect;
 use Illuminate\Http\Request;
@@ -39,7 +39,7 @@ class CatalogController extends Controller
     {
         $q = $request->input('q');
         if ($q) {
-            $engine = SearchEngineService::create($q);
+            $engine = SearchEngine::create($q);
 
             $results = [
                 'relevant' => [

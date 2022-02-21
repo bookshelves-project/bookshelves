@@ -61,7 +61,7 @@ class HttpService
             foreach ($chunk as $chunk_key => $limited_url_list) {
                 $size_list = sizeof($limited_url_list);
                 $current_chunk = $chunk_key + 1;
-                ConsoleService::print("Execute {$size_list} requests from chunk {$current_chunk}...", true);
+                ConsoleService::print("Execute {$size_list} requests from chunk {$current_chunk}...");
                 $responses = self::pool($limited_url_list);
                 foreach ($responses as $key => $response) {
                     $responses_list[$key] = $response;

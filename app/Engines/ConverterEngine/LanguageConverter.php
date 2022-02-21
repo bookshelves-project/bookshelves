@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Services\ConverterEngine;
+namespace App\Engines\ConverterEngine;
 
+use App\Engines\ParserEngine;
+use App\Models\Book;
 use App\Models\Language;
-use App\Services\ParserEngine\ParserEngine;
 
 class LanguageConverter
 {
     /**
      * Set Language from ParserEngine.
      */
-    public static function create(ParserEngine $parser): Language
+    public static function create(ParserEngine $parser, Book $book): Language
     {
         $meta_name = $parser->language;
 
@@ -25,10 +26,13 @@ class LanguageConverter
         } else {
             $name = ucfirst($meta_name);
         }
-
-        return Language::firstOrCreate([
+        $language = Language::firstOrCreate([
             'name' => $name,
             'slug' => $meta_name,
         ]);
+
+        $book->language()->associate($language);
+
+        return $language;
     }
 }

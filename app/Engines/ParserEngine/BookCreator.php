@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\ParserEngine\Models;
+namespace App\Engines\ParserEngine;
 
-class OpfCreator
+class BookCreator
 {
     public function __construct(
         public ?string $name = null,

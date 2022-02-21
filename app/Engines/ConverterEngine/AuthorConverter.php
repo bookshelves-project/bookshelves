@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Services\ConverterEngine;
+namespace App\Engines\ConverterEngine;
 
+use App\Engines\ParserEngine;
+use App\Engines\ParserEngine\BookCreator;
 use App\Models\Author;
 use App\Models\Book;
+use App\Services\FileParserService;
 use App\Services\MediaService;
-use App\Services\ParserEngine\Models\OpfCreator;
-use App\Services\ParserEngine\ParserEngine;
 use App\Services\WikipediaService\WikipediaQuery;
-use App\Utils\BookshelvesTools;
 use File;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Storage;
 
 class AuthorConverter
 {
@@ -26,11 +25,11 @@ class AuthorConverter
     }
 
     /**
-     * Convert OpfCreator to AuthorConverter from config order.
+     * Convert BookCreator to AuthorConverter from config order.
      *
      * @return AuthorConverter
      */
-    public static function create(OpfCreator $creator)
+    public static function create(BookCreator $creator)
     {
         $orderClassic = config('bookshelves.authors.order_natural');
 
@@ -57,7 +56,7 @@ class AuthorConverter
     {
         $authors = [];
         if (empty($parser->creators)) {
-            $creator = new OpfCreator(
+            $creator = new BookCreator(
                 name: 'Unknown Author',
                 role: 'aut'
             );
@@ -89,12 +88,7 @@ class AuthorConverter
             }
         }
         foreach ($authors as $key => $author) {
-            // if ($author) {
-            //     // TODO: log
-            //     BookshelvesTools::console(__METHOD__, null, 'no author');
-
-            //     return false;
-            // }
+            // TODO: log
             $book->authors()->save($author);
             AuthorConverter::tags($author);
         }
@@ -151,7 +145,7 @@ class AuthorConverter
         $path = public_path("storage/data/pictures-{$disk}");
         $cover = null;
 
-        $files = BookshelvesTools::getDirectoryFiles($path);
+        $files = FileParserService::getDirectoryFiles($path);
 
         foreach ($files as $file) {
             if (pathinfo($file)['filename'] === $author->slug) {
@@ -185,7 +179,7 @@ class AuthorConverter
     public static function setWikiDescription(Author $author): Author
     {
         if ($author->wikipedia && ! $author->description && ! $author->link) {
-            $author->description = BookshelvesTools::stringLimit($author->wikipedia->extract, 1000);
+            $author->description = Str::limit($author->wikipedia->extract, 1000);
             $author->link = $author->wikipedia->page_url;
             $author->save();
         }
@@ -243,7 +237,7 @@ class AuthorConverter
     /**
      * Create Author if not exist.
      */
-    private static function convert(AuthorConverter $converter, OpfCreator $creator): Author
+    private static function convert(AuthorConverter $converter, BookCreator $creator): Author
     {
         return Author::firstOrCreate([
             'lastname' => $converter->lastname,

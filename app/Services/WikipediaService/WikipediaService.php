@@ -57,12 +57,12 @@ class WikipediaService
         $service->getWikipediaQueries();
 
         ConsoleService::print('List of query URL available.');
-        ConsoleService::print('Requests from query URL to get page id.', true);
+        ConsoleService::print('Requests from query URL to get page id.');
 
         $service->search('query_url', 'parseQueryResults');
 
         ConsoleService::print('List of page id URL available.');
-        ConsoleService::print('Requests from page id URL to get extra content.', true);
+        ConsoleService::print('Requests from page id URL to get extra content.');
 
         $service->search('page_id_url', 'parsePageIdData');
 

@@ -2,16 +2,16 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Engines\ConverterEngine\AuthorConverter;
+use App\Engines\ConverterEngine\SerieConverter;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\GoogleBook;
 use App\Models\Serie;
 use App\Models\WikipediaItem;
-use App\Services\ConverterEngine\AuthorConverter;
-use App\Services\ConverterEngine\SerieConverter;
+use App\Services\ClearFileService;
 use App\Services\GoogleBookService\GoogleBookService;
 use App\Services\WikipediaService\WikipediaService;
-use App\Utils\ClearFileTools;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
@@ -63,7 +63,7 @@ class AssetsCommand extends Command
         $default = $this->option('default') ?? false;
         $debug = $this->option('debug') ?? false;
 
-        $tool = new ClearFileTools(storage_path('app/public/debug/wikipedia'));
+        $tool = new ClearFileService(storage_path('app/public/debug/wikipedia'));
         $tool->clearDir();
 
         $app = config('app.name');

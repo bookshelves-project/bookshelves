@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Engines\ParserEngine;
 use App\Models\Traits\HasAuthors;
 use App\Models\Traits\HasClassName;
 use App\Models\Traits\HasComments;
@@ -11,7 +12,6 @@ use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
 use App\Models\Traits\HasWikipediaItem;
-use App\Services\ParserEngine\ParserTools;
 use App\Utils\BookshelvesTools;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -107,7 +107,7 @@ class Serie extends Model implements HasMedia
     public function updateSlug()
     {
         $this->slug = Str::slug("{$this->title} {$this->language_slug}");
-        $this->slug_sort = ParserTools::getSortString($this->title);
+        $this->slug_sort = ParserEngine::generateSortTitle($this->title);
         $this->save();
     }
 }

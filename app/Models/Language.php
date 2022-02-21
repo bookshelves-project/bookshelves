@@ -27,8 +27,8 @@ class Language extends Model
     ];
 
     protected $withCount = [
-        'books',
-        'series',
+        // 'books',
+        // 'series',
     ];
     protected $appends = [
         'first_char',

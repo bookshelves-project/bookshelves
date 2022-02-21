@@ -5,9 +5,10 @@ namespace App\Utils;
 use File;
 
 /**
+ * @deprecated
  * $clean = ManageStorage::generateStorageFiles();
  * $clean = $clean ? 'OK' : 'Error';
- * dump("generateStorageFiles: $clean");.
+ * dump("generateStorageFiles: $clean");
  */
 class ManageStorage
 {

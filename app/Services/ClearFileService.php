@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Utils;
+namespace App\Services;
 
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
-class ClearFileTools
+class ClearFileService
 {
     public function __construct(
         public string $path,

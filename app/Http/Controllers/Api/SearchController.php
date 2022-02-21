@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Engines\SearchEngine;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
 use App\Models\Serie;
-use App\Services\SearchEngineService;
 use Illuminate\Http\Request;
 use Spatie\Tags\Tag;
 
@@ -30,7 +30,7 @@ class SearchController extends ApiController
         }
 
         if ($q) {
-            $engine = SearchEngineService::create($q, $types);
+            $engine = SearchEngine::create($q, $types);
 
             return response()->json([
                 'data' => [

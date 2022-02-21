@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services\ConverterEngine;
+namespace App\Engines\ConverterEngine;
 
+use App\Engines\ParserEngine;
 use App\Enums\BookTypeEnum;
 use App\Models\Book;
-use App\Services\ParserEngine\ParserEngine;
-use App\Utils\BookshelvesTools;
+use App\Services\ConsoleService;
 use File;
 use Str;
 
@@ -53,7 +53,7 @@ class BookConverter
                 ;
                 $result = true;
             } catch (\Throwable $th) {
-                BookshelvesTools::console(__METHOD__, $th);
+                ConsoleService::print(__METHOD__, $th);
             }
         }
 

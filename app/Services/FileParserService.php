@@ -1,26 +1,24 @@
 <?php
 
-namespace App\Services\ParserEngine;
+namespace App\Services;
 
-class ParserList
+class FileParserService
 {
     /**
-     * Get all EPUB files from `storage/data/books`.
+     * Get all $ext files from $path.
      *
-     * - return `array` of *absolute paths* of eBooks
-     * - return `false` if `raw/books` not exist
+     * - return `array` of *absolute paths* of files
+     * - return `false` if not exist
      */
-    public static function getEbooks(int $limit = null, string $path = 'public/storage/data/books'): array|false
+    public static function getFilesList(int $limit = null, string $path = 'public/storage/data/books', string $ext = 'epub'): array|false
     {
         try {
-            // Get all files in raw/books/
-            // $files = Storage::disk('public')->allFiles('raw/books');
-            $epubsFiles = [];
+            $files = [];
             // TODO custom dir
             foreach (self::getDirectoryFiles($path) as $file) {
-                if (array_key_exists('extension', pathinfo($file)) && 'epub' === pathinfo($file)['extension']) {
+                if (array_key_exists('extension', pathinfo($file)) && $ext === pathinfo($file)['extension']) {
                     $file = str_replace('public/storage/', '', $file);
-                    array_push($epubsFiles, $file);
+                    array_push($files, $file);
                 }
             }
         } catch (\Throwable $th) {
@@ -31,10 +29,10 @@ class ParserList
         }
 
         if ($limit) {
-            return array_slice($epubsFiles, 0, $limit);
+            return array_slice($files, 0, $limit);
         }
 
-        return $epubsFiles;
+        return $files;
     }
 
     /**
@@ -44,7 +42,7 @@ class ParserList
      *
      * @return \Generator<mixed, mixed, mixed, void>
      */
-    private static function getDirectoryFiles($dir)
+    public static function getDirectoryFiles($dir)
     {
         $files = scandir($dir);
         foreach ($files as $key => $value) {

@@ -35,6 +35,7 @@ class SerieQuery extends BaseQuery
                         $query->where('name', 'like', "%{$value}%");
                     });
                 }),
+                AllowedFilter::scope('languages', 'whereLanguagesIs'),
                 AllowedFilter::scope('language', 'whereLanguagesIs'),
             ])
             ->allowedSorts(['id', 'title', 'authors', 'books_count', 'language', 'created_at', 'updated_at', 'language'])

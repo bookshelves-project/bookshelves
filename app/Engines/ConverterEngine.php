@@ -1,12 +1,19 @@
 <?php
 
-namespace App\Services\ConverterEngine;
+namespace App\Engines;
 
+use App\Engines\ConverterEngine\AuthorConverter;
+use App\Engines\ConverterEngine\BookConverter;
+use App\Engines\ConverterEngine\BookIdentifierConverter;
+use App\Engines\ConverterEngine\CoverConverter;
+use App\Engines\ConverterEngine\LanguageConverter;
+use App\Engines\ConverterEngine\PublisherConverter;
+use App\Engines\ConverterEngine\SerieConverter;
+use App\Engines\ConverterEngine\TagConverter;
 use App\Models\Book;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
-use App\Services\ParserEngine\ParserEngine;
 use Illuminate\Support\Collection;
 
 class ConverterEngine
@@ -44,18 +51,16 @@ class ConverterEngine
             AuthorConverter::generate($parser, $book);
             TagConverter::create($parser, $book);
             PublisherConverter::create($parser, $book);
-            $language = LanguageConverter::create($parser);
-            $book->language()->associate($language);
+            LanguageConverter::create($parser, $book);
             SerieConverter::create($parser, $book);
-            $book->refresh();
             BookIdentifierConverter::create($parser, $book);
-            $book->save();
 
             if (! $default) {
                 $book = CoverConverter::create($parser, $book);
             }
 
-            BookConverter::epub($book, $parser->epubPath);
+            BookConverter::epub($book, $parser->epub_path);
+            $book->save();
 
             // $engine = new ConverterEngine(
             //     book: $book,

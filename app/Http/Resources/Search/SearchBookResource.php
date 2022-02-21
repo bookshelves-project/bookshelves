@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Search;
 
-use App\Utils\BookshelvesTools;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 /**
  * @property \App\Models\Book $resource
@@ -37,7 +37,7 @@ class SearchBookResource extends JsonResource
                 'simple' => $this->resource->cover_simple,
                 'color' => $this->resource->cover_color,
             ],
-            'text' => BookshelvesTools::stringLimit($this->resource->description, 140),
+            'text' => Str::limit($this->resource->description, 140),
         ];
     }
 }

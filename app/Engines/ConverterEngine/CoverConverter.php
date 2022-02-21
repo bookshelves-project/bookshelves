@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services\ConverterEngine;
+namespace App\Engines\ConverterEngine;
 
+use App\Engines\ParserEngine;
 use App\Models\Book;
+use App\Services\ConsoleService;
 use App\Services\MediaService;
-use App\Services\ParserEngine\ParserEngine;
-use App\Utils\BookshelvesTools;
 
 class CoverConverter
 {
@@ -24,7 +24,7 @@ class CoverConverter
                     ->setColor()
                 ;
             } catch (\Throwable $th) {
-                BookshelvesTools::console(__METHOD__, $th);
+                ConsoleService::print(__METHOD__, $th);
             }
         }
 

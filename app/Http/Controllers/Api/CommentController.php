@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\Comment\CommentResource;
 use App\Models\Book;
 use App\Models\Comment;
-use App\Services\ParserEngine\ParserTools;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -58,7 +57,6 @@ class CommentController extends ApiController
         }
 
         $comment_text = $request->text;
-        // $comment_text = ParserTools::cleanText($comment_text, 'markdown', 1800);
         $comment = Comment::create([
             'text' => $comment_text,
             'rating' => $request->rating,

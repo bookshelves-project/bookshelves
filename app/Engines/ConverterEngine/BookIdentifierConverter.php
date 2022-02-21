@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\ConverterEngine;
+namespace App\Engines\ConverterEngine;
 
+use App\Engines\ParserEngine;
+use App\Engines\ParserEngine\BookIdentifier;
 use App\Models\Book;
-use App\Services\ParserEngine\Models\OpfIdentifier;
-use App\Services\ParserEngine\ParserEngine;
 
 class BookIdentifierConverter
 {
@@ -14,7 +14,7 @@ class BookIdentifierConverter
         $identifiers = [];
         $fillables = [];
 
-        /** @var OpfIdentifier $value */
+        /** @var BookIdentifier $value */
         foreach ($parser->identifiers as $key => $value) {
             $fillables = (new Book())->getFillable();
             $fillables = array_filter($fillables, fn ($value) => str_contains($value, 'isbn'));

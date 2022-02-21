@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Services\ConverterEngine\ConverterEngine;
-use App\Services\ParserEngine\ParserEngine;
-use App\Services\ParserEngine\ParserList;
+use App\Engines\ConverterEngine;
+use App\Engines\ParserEngine;
+use App\Services\FileParserService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Tags\Tag;
@@ -55,7 +55,7 @@ class GenerateCommand extends Command
         $default = $this->option('default') ?? false;
 
         Artisan::call('bookshelves:clear', [], $this->getOutput());
-        $list = ParserList::getEbooks(limit: $limit);
+        $list = FileParserService::getFilesList(limit: $limit);
 
         if ($fresh) {
             Artisan::call('setup:database', [

@@ -49,6 +49,7 @@ class BookQuery extends BaseQuery
                         $query->where('name', 'like', "%{$value}%");
                     });
                 }),
+                AllowedFilter::scope('languages', 'whereLanguagesIs'),
                 AllowedFilter::callback('publisher', function (Builder $query, $value) {
                     return $query->whereHas('publisher', function (Builder $query) use ($value) {
                         $query->where('name', 'like', "%{$value}%");

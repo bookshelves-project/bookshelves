@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\ParserEngine\Models;
+namespace App\Engines\ParserEngine;
 
-class OpfIdentifier
+class BookIdentifier
 {
     public function __construct(
         public ?string $name = null,
@@ -15,7 +15,7 @@ class OpfIdentifier
      *
      * @param array $data [id, value]
      */
-    public static function create(array $data): OpfIdentifier|null
+    public static function create(array $data): BookIdentifier|null
     {
         $name = strtolower($data['id']);
         $value = $data['value'];
@@ -24,19 +24,19 @@ class OpfIdentifier
         if ('isbn' === $name) {
             $isbn_type = self::findIsbn($value);
             if (1 === $isbn_type) {
-                $identifier = new OpfIdentifier(
+                $identifier = new BookIdentifier(
                     name: 'isbn10',
                     value: $value
                 );
             }
             if (2 === $isbn_type) {
-                $identifier = new OpfIdentifier(
+                $identifier = new BookIdentifier(
                     name: 'isbn13',
                     value: $value
                 );
             }
         } else {
-            $identifier = new OpfIdentifier(
+            $identifier = new BookIdentifier(
                 name: $name,
                 value: $value
             );

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Engines;
 
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
  * Search Engine with laravel/scout
  * - https://laravel.com/docs/8.x/scout.
  */
-class SearchEngineService
+class SearchEngine
 {
     public function __construct(
         public int $top_limit = 3,
@@ -38,14 +38,14 @@ class SearchEngineService
     }
 
     /**
-     * Create an instance of SearchEngineService from query.
+     * Create an instance of SearchEngine from query.
      */
-    public static function create(string $q, array|null $types = []): SearchEngineService
+    public static function create(string $q, array|null $types = []): SearchEngine
     {
         if (empty($types)) {
             $types = ['books', 'series', 'authors'];
         }
-        $engine = new SearchEngineService(q: $q, types: $types);
+        $engine = new SearchEngine(q: $q, types: $types);
 
         return $engine->searchEngine();
     }
@@ -53,7 +53,7 @@ class SearchEngineService
     /**
      * Find search engine from laravel/scout and execute search.
      */
-    public function searchEngine(): SearchEngineService
+    public function searchEngine(): SearchEngine
     {
         $authors = collect([]);
         $series = collect([]);

@@ -2,41 +2,11 @@
 
 namespace App\Utils;
 
-use App\Http\Resources\EntityResource;
-use App\Models\Author;
-use App\Models\Book;
-use App\Models\Serie;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Spatie\Image\Image;
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use Throwable;
 
 class BookshelvesTools
 {
-    /**
-     * Global search on Book, Serie and Author.
-     */
-    public static function searchGlobal(string $searchTermRaw): array
-    {
-        $searchTerm = mb_convert_encoding($searchTermRaw, 'UTF-8', 'UTF-8');
-        $authors = Author::whereLike(['name', 'firstname', 'lastname'], $searchTerm)->with('media')->get();
-        $series = Serie::whereLike(['title', 'authors.name'], $searchTerm)->with(['authors', 'media'])->get();
-        $books = Book::whereLike(['title', 'authors.name', 'serie.title', 'isbn10', 'isbn13'], $searchTerm)->with(['authors', 'media'])->doesntHave('serie')->orderBy('serie_id')->orderBy('volume')->get();
-
-        $authors = EntityResource::collection($authors);
-        $series = EntityResource::collection($series);
-        $books = EntityResource::collection($books);
-        $collection = collect([]);
-        $collection = $collection->merge($authors);
-        $collection = $collection->merge($series);
-        $collection = $collection->merge($books);
-
-        return $collection->all();
-    }
-
     /**
      * Chunk a collection by first character.
      */
@@ -73,45 +43,6 @@ class BookshelvesTools
         $factor = floor((strlen($bytes) - 1) / 3);
 
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).' '.@$sz[$factor];
-    }
-
-    /**
-     * Parse directory (recursive).
-     *
-     * @param mixed $dir
-     *
-     * @return \Generator<mixed, mixed, mixed, void>
-     */
-    public static function getDirectoryFiles($dir)
-    {
-        $files = scandir($dir);
-        foreach ($files as $key => $value) {
-            $path = realpath($dir.DIRECTORY_SEPARATOR.$value);
-            if (! is_dir($path)) {
-                yield $path;
-            } elseif ('.' != $value && '..' != $value) {
-                yield from self::getDirectoryFiles($path);
-                yield $path;
-            }
-        }
-    }
-
-    /**
-     * Print in console.
-     */
-    public static function console(string $method, ?Throwable $throwable, ?string $extra_message = null)
-    {
-        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $outputStyle = new OutputFormatterStyle('red', '', ['bold']);
-        $output->getFormatter()->setStyle('fire', $outputStyle);
-
-        $output->writeln("<fire>Error about {$method}:</>");
-        if ($throwable) {
-            $output->writeln($throwable->getMessage());
-            $output->writeln($throwable->getFile());
-        } else {
-            $output->writeln($extra_message);
-        }
     }
 
     /**
@@ -197,52 +128,5 @@ class BookshelvesTools
         $string = preg_replace(array_keys($utf8), array_values($utf8), $text);
 
         return $string ? $string : '';
-    }
-
-    public static function setEnvironmentValue($envKey, $envValue)
-    {
-        $envFile = app()->environmentFilePath();
-        $str = file_get_contents($envFile);
-
-        $oldValue = strtok($str, "{$envKey}=");
-
-        $str = str_replace("{$envKey}={$oldValue}", "{$envKey}={$envValue}\n", $str);
-
-        $fp = fopen($envFile, 'w');
-        fwrite($fp, $str);
-        fclose($fp);
-    }
-
-    /**
-     * Deprecated.
-     */
-    public static function convertPicture(Model $model, string $name, string $type = 'thumbnail'): string
-    {
-        $extension = config('bookshelves.cover_extension');
-
-        $format = config('image.covers.'.$type);
-        $disk = $model->getTable();
-
-        $converted_pictures_directory = config('bookshelves.converted_pictures_directory');
-        $base_path = storage_path("app/public/{$converted_pictures_directory}/{$disk}/{$type}/");
-        $path = $base_path.$name.'.'.$extension;
-
-        if (! File::exists($path)) {
-            if (! is_dir($base_path)) {
-                mkdir($base_path, 0777, true);
-            }
-
-            try {
-                // @phpstan-ignore-next-line
-                Image::load($model->getFirstMediaPath($disk))
-                    ->fit('crop', $format['width'], $format['height'])
-                    ->save($path)
-                ;
-            } catch (\Throwable $th) {
-                //throw $th;
-            }
-        }
-
-        return getUrlStorage($path);
     }
 }

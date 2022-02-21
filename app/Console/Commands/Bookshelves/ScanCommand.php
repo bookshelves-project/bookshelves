@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Services\ParserEngine\ParserList;
+use App\Services\FileParserService;
 use Illuminate\Console\Command;
 
 class ScanCommand extends Command
@@ -45,7 +45,7 @@ class ScanCommand extends Command
         $this->alert("{$app}: scan all EPUB files");
         $this->warn('Scan public/storage/data/books directory');
 
-        $epubFiles = ParserList::getEbooks(limit: $limit);
+        $epubFiles = FileParserService::getFilesList(limit: $limit);
 
         if ($verbose) {
             foreach ($epubFiles as $key => $file) {
