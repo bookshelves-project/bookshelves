@@ -1,4 +1,4 @@
-<x-layouts.main :route="route('front.home')">
+<x-main :route="route('front.home')">
     <x-content :content="$content">
         <div class="mx-auto w-max mt-6">
             <x-button :route="route('front.catalog.search')">
@@ -15,4 +15,4 @@
             </div>
         </div>
     </x-content>
-</x-layouts.main>
+</x-main>

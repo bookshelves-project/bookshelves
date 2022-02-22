@@ -3,9 +3,9 @@
 namespace App\Enums;
 
 /**
- * @method static self handbook()
- * @method static self essay()
  * @method static self comic()
+ * @method static self essay()
+ * @method static self handbook()
  * @method static self novel()
  */
 final class BookTypeEnum extends Enum

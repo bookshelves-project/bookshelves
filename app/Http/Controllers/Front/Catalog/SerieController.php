@@ -48,9 +48,10 @@ class SerieController extends Controller
     public function show(Request $request, string $author, string $slug)
     {
         $author = Author::whereSlug($author)->firstOrFail();
-        $serie = Serie::whereHas('authors', function ($query) use ($author) {
-            return $query->where('author_id', '=', $author->id);
-        })->whereSlug($slug)->firstOrFail();
+        $serie = Serie::whereRelation('authors', fn ($query) => $query->where('author_id', '=', $author->id))
+            ->whereSlug($slug)
+            ->firstOrFail()
+        ;
 
         $books = EntityResource::collection($serie->books);
 

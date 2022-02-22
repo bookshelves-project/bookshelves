@@ -58,6 +58,7 @@ class BookQuery extends BaseQuery
                 AllowedFilter::scope('disallow_serie', 'whereDisallowSerie'),
                 AllowedFilter::scope('language', 'whereLanguagesIs'),
                 AllowedFilter::scope('published', 'publishedBetween'),
+                AllowedFilter::scope('is_disabled', 'whereIsDisabled'),
                 AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
                 AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
                 AllowedFilter::scope('tags', 'whereTagsIs'),

@@ -36,8 +36,8 @@ class Book extends Model implements HasMedia
 
     protected $fillable = [
         'title',
-        'slug_sort',
         'slug',
+        'slug_sort',
         'contributor',
         'description',
         'released_on',
@@ -55,10 +55,10 @@ class Book extends Model implements HasMedia
         'publisher_id',
     ];
     protected $with = [
-        // 'language',
-        // 'authors',
-        // 'serie',
-        // 'media',
+        'language',
+        'authors',
+        'serie',
+        'media',
     ];
     protected $appends = [
         'epub',
@@ -69,6 +69,8 @@ class Book extends Model implements HasMedia
         'disabled' => 'boolean',
         'type' => BookTypeEnum::class,
         'identifiers' => 'array',
+        'volume' => 'integer',
+        'page_count' => 'integer',
     ];
 
     public function registerMediaCollections(): void
@@ -149,6 +151,11 @@ class Book extends Model implements HasMedia
         $query->orWhere('isbn10', 'LIKE', "%{$isbn}%");
 
         return $query;
+    }
+
+    public function scopeWhereIsDisabled(Builder $query, $is_disabled): Builder
+    {
+        return $query->where('is_disabled', '=', $is_disabled);
     }
 
     public function toSearchableArray()
