@@ -11,7 +11,7 @@
 
 📀 [**bookshelves-project**](https://gitlab.com/bookshelves-project) : Bookshelves repository  
 💻 [**bookshelves.ink**](https://bookshelves.ink): demo  
-📚 [**documentation.bookshelves.ink**](https://documentation.bookshelves.ink): documentation  
+📚 [**documentation.bookshelves.ink**](https://bookshelves-documentation.netlify.app): documentation  
 
 ## L9 upgrade
 
@@ -60,7 +60,7 @@ php artisan setup
 
 ## **Usage**
 
-To get full documentation, you can read [**Wiki of Bookshelves**](https://documentation.bookshelves.ink), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/bookshelves-project/bookshelves-doc) on repository.
+To get full documentation, you can read [**Wiki of Bookshelves**](https://bookshelves-documentation.netlify.app), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/bookshelves-project/bookshelves-doc) on repository.
 
 ## **Tests**
 

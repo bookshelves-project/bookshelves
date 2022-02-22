@@ -69,7 +69,7 @@ return [
 
     'repository_url' => env('APP_REPOSITORY_URL', 'https://gitlab.com/bookshelves-project'),
 
-    'documentation_url' => env('APP_DOCUMENTATION_URL', 'https://documentation.bookshelves.ink'),
+    'documentation_url' => env('APP_DOCUMENTATION_URL', 'https://bookshelves-documentation.netlify.app'),
 
     /*
     |--------------------------------------------------------------------------
