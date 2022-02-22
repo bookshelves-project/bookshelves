@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Query;
+namespace App\Http\Queries\Filter;
 
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\Filters\Filter;
 
-class SearchFilter implements Filter
+class GlobalSearchFilter implements Filter
 {
     private $fields;
 

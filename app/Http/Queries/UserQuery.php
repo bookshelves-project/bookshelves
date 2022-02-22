@@ -4,9 +4,9 @@ namespace App\Http\Queries;
 
 use App\Exports\UserExport;
 use App\Http\Queries\Addon\QueryOption;
+use App\Http\Queries\Filter\GlobalSearchFilter;
 use App\Http\Resources\Admin\UserResource;
 use App\Models\User;
-use App\Support\GlobalSearchFilter;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\QueryBuilder\AllowedFilter;
