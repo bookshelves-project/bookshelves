@@ -105,13 +105,14 @@ class Author extends Model implements HasMedia
 
     public function getSizeAttribute(): string
     {
-        $size = [];
-        $author = Author::whereSlug($this->slug)->with('books.media')->first();
-        $books = $author->books;
-        foreach ($books as $key => $book) {
-            array_push($size, $book->epub->size);
+        $author = Author::whereSlug($this->slug)
+            ->with('books.media')
+            ->first()
+        ;
+        $size = 0;
+        foreach ($author->books as $book) {
+            $size += $book->epub->size;
         }
-        $size = array_sum($size);
 
         return BookshelvesTools::humanFilesize($size);
     }
@@ -140,15 +141,35 @@ class Author extends Model implements HasMedia
      */
     public function books(): MorphToMany
     {
-        return $this->morphedByMany(Book::class, 'authorable')->orderBy('slug_sort')->orderBy('volume');
+        return $this->morphedByMany(Book::class, 'authorable')
+            ->orderBy('slug_sort')
+            ->orderBy('volume')
+        ;
+    }
+
+    /**
+     * Get all available books that are assigned this author.
+     */
+    public function booksAvailable(): MorphToMany
+    {
+        return $this->morphedByMany(Book::class, 'authorable')
+            ->where('disabled', false)
+            ->orderBy('slug_sort')
+            ->orderBy('volume')
+        ;
     }
 
     /**
      * Get books without series that are assigned this author.
      */
-    public function booksStandalone(): MorphToMany
+    public function booksAvailableStandalone(): MorphToMany
     {
-        return $this->morphedByMany(Book::class, 'authorable')->whereDoesntHave('serie')->orderBy('slug_sort')->orderBy('volume');
+        return $this->morphedByMany(Book::class, 'authorable')
+            ->where('disabled', false)
+            ->whereDoesntHave('serie')
+            ->orderBy('slug_sort')
+            ->orderBy('volume')
+        ;
     }
 
     /**
@@ -156,7 +177,10 @@ class Author extends Model implements HasMedia
      */
     public function series(): MorphToMany
     {
-        return $this->morphedByMany(Serie::class, 'authorable')->orderBy('slug_sort')->withCount('books');
+        return $this->morphedByMany(Serie::class, 'authorable')
+            ->orderBy('slug_sort')
+            ->withCount('books')
+        ;
     }
 
     public function wikipediaItem(): BelongsTo

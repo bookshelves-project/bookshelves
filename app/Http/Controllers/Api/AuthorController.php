@@ -53,8 +53,6 @@ class AuthorController extends ApiController
      * GET Author resource.
      *
      * Details for one Author, find by slug.
-     *
-     * @urlParam author string required
      */
     public function show(Author $author)
     {
@@ -71,9 +69,9 @@ class AuthorController extends ApiController
     public function books(Request $request, Author $author)
     {
         if ($request->parseBoolean('standalone')) {
-            $books = $author->booksStandalone();
+            $books = $author->booksAvailableStandalone();
         } else {
-            $books = $author->books();
+            $books = $author->booksAvailable();
         }
 
         return BookLightResource::collection($books->paginate(32));

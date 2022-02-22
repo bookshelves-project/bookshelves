@@ -240,7 +240,7 @@ class AuthorConverter
         return Author::firstOrCreate([
             'lastname' => $converter->lastname,
             'firstname' => $converter->firstname,
-            'name' => "{$converter->firstname} {$converter->lastname}",
+            'name' => "{$converter->lastname} {$converter->firstname}",
             'slug' => Str::slug("{$converter->lastname} {$converter->firstname}", '-'),
             'role' => $creator->role,
         ]);

@@ -72,25 +72,10 @@ class SerieController extends ApiController
      */
     public function books(Request $request, Author $author, Serie $serie)
     {
-        $page = $request->get('perPage');
-        $page = $page ? $page : 32;
-        if (! is_numeric($page)) {
-            return response()->json(
-                "Invalid 'perPage' query parameter, must be an int",
-                400
-            );
-        }
-        $page = intval($page);
-
-        // Author::whereSlug($author_slug)->firstOrFail();
-        // $serie = Serie::whereSlug($serie_slug)->with(['books', 'books.media', 'books.authors', 'books.serie', 'books.language'])->firstOrFail();
-        // if ($author_slug === $serie->meta_author) {
-        $books = $serie->books()->paginate($page);
-
-        return BookLightResource::collection($books);
-        // }
-
-        // return abort(404);
+        return BookLightResource::collection(
+            $serie->booksAvailable()
+                ->paginate(32)
+        );
     }
 
     /**
@@ -100,25 +85,13 @@ class SerieController extends ApiController
      */
     public function current(Request $request, string $volume, Author $author, Serie $serie)
     {
-        $limit = $request->get('limit') ? filter_var($request->get('limit'), FILTER_VALIDATE_BOOLEAN) : null;
-        $volume = intval($volume);
-
-        // $author = Author::whereSlug($author)->firstOrFail();
-        // $serie = Serie::whereHas('authors', function ($query) use ($author) {
-        //     return $query->where('author_id', '=', $author->id);
-        // })->whereSlug($serie)->first();
-
-        $books = $serie->books;
-        $books = $books->filter(function ($book) use ($volume) {
-            return $book->volume > $volume;
-        });
-        $books = $books->splice(0, 10);
-        if ($books->count() < 1) {
+        if ($serie->books->count() < 1) {
             $books = $serie->books;
-            $books = $books->splice(0, 10);
+        } else {
+            $books = $serie->books->filter(fn ($book) => $book->volume > intval($volume));
         }
 
-        return BookOrSerieResource::collection($books);
+        return BookOrSerieResource::collection($books->splice(0, 10));
     }
 
     /**

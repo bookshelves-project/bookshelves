@@ -48,7 +48,7 @@ class AuthorController extends Controller
     {
         $author = Author::whereSlug($slug)->firstOrFail();
 
-        $books = EntityResource::collection($author->books);
+        $books = EntityResource::collection($author->books->where('disabled', false));
         $author = AuthorResource::make($author);
         $author = json_decode($author->toJson());
 

@@ -53,7 +53,7 @@ class SerieController extends Controller
             ->firstOrFail()
         ;
 
-        $books = EntityResource::collection($serie->books);
+        $books = EntityResource::collection($serie->books->where('disabled', false));
 
         $serie = SerieResource::make($serie);
         $serie = json_decode($serie->toJson());

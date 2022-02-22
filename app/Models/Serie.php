@@ -67,13 +67,14 @@ class Serie extends Model implements HasMedia
 
     public function getSizeAttribute(): string
     {
-        $size = [];
-        $serie = Serie::whereSlug($this->slug)->with('books.media')->first();
-        $books = $serie->books;
-        foreach ($books as $key => $book) {
-            array_push($size, $book->epub->size);
+        $serie = Serie::whereSlug($this->slug)
+            ->with('books.media')
+            ->first()
+        ;
+        $size = 0;
+        foreach ($serie->books as $book) {
+            $size += $book->epub->size;
         }
-        $size = array_sum($size);
 
         return BookshelvesTools::humanFilesize($size);
     }
@@ -97,6 +98,17 @@ class Serie extends Model implements HasMedia
     public function books(): HasMany
     {
         return $this->hasMany(Book::class)->orderBy('volume');
+    }
+
+    /**
+     * Get available Books into Serie, by volume order.
+     */
+    public function booksAvailable(): HasMany
+    {
+        return $this->hasMany(Book::class)
+            ->where('disabled', false)
+            ->orderBy('volume')
+        ;
     }
 
     public function wikipediaItem(): BelongsTo

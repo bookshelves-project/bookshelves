@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources\Author;
 
-use App\Models\Author;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property \App\Models\Author $resource
+ */
 class AuthorUltraLightResource extends JsonResource
 {
     /**
@@ -16,15 +18,12 @@ class AuthorUltraLightResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var Author $author */
-        $author = $this;
-
         return [
-            'name' => $author->name,
+            'name' => $this->resource->name,
             'meta' => [
                 'entity' => $this->resource->getClassName(),
-                'slug' => $author->slug,
-                'show' => $author->show_link,
+                'slug' => $this->resource->slug,
+                'show' => $this->resource->show_link,
             ],
         ];
     }
