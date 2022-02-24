@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Query\Sort;
+namespace App\Http\Queries\Sort;
 
 use App\Models\Language;
 use Illuminate\Database\Eloquent\Builder;

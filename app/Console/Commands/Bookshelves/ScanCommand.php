@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Engines\ParserEngine;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
@@ -19,7 +20,8 @@ class ScanCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:scan
-                            {--l|limit= : limit epub files to generate, useful for debug}';
+                            {--l|limit= : limit files to generate, useful for debug}
+                            {--n|new : display new eBooks}';
 
     /**
      * The console command description.
@@ -41,9 +43,8 @@ class ScanCommand extends Command
      */
     public function handle(): false|array
     {
-        $limit = $this->option('limit');
-        $limit = str_replace('=', '', $limit);
-        $limit = intval($limit);
+        $limit = intval(str_replace('=', '', $this->option('limit')));
+        $new = $this->option('new');
 
         $verbose = $this->option('verbose');
 
@@ -51,19 +52,22 @@ class ScanCommand extends Command
         $this->alert("{$app}: scan all EPUB files");
         $this->warn('Scan public/storage/data/books directory');
 
-        $epubFiles = DirectoryParserService::getFilesList(limit: $limit);
+        $files = DirectoryParserService::getFilesList(limit: $limit);
 
         if ($verbose) {
-            foreach ($epubFiles as $key => $file) {
+            foreach ($files as $key => $file) {
                 echo $key.' '.pathinfo($file)['filename']."\n";
+                if ($new) {
+                    $parser = ParserEngine::create($file);
+                }
             }
         }
 
         if ($limit) {
-            return array_slice($epubFiles, 0, $limit);
+            return array_slice($files, 0, $limit);
         }
 
-        $this->warn(sizeof(($epubFiles)).' EPUB files found');
+        $this->warn(sizeof(($files)).' EPUB files found');
         $this->newLine();
 
         $this->table(
@@ -71,6 +75,6 @@ class ScanCommand extends Command
             [[Book::count(), Serie::count(), Author::count(), Language::count(), Publisher::count(), TagExtend::count()]]
         );
 
-        return $epubFiles;
+        return $files;
     }
 }

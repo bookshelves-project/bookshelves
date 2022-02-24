@@ -2,5 +2,5 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "windicss.includeLanguages": {
     "blade.php": "html",
-  }
+  },
 }

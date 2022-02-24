@@ -57,6 +57,13 @@ class ParserEngine
     {
         $extension = pathinfo($file_path)['extension'];
         $file_name = pathinfo($file_path)['basename'];
+        $formats = BookFormatEnum::toLabels();
+
+        if (! in_array($extension, $formats)) {
+            ConsoleService::print("{$file_path} ParserEngine error.");
+
+            return false;
+        }
 
         $parser = new ParserEngine();
         $parser->file_name = $file_name;
@@ -89,6 +96,8 @@ class ParserEngine
             }
         } else {
             ConsoleService::print("{$file_path} ParserEngine error.");
+
+            return false;
         }
 
         return $parser;

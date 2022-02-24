@@ -268,13 +268,11 @@ class OpfModule
         return $this;
     }
 
-    private function extractCreator(array|object $creator): BookCreator
+    private function extractCreator(array $creator): BookCreator
     {
-        $creator = json_decode(json_encode($creator, JSON_FORCE_OBJECT));
-
         return new BookCreator(
-            name: $creator->{'@content'},
-            role: $creator->{'@attributes'}?->{'role'}
+            name: $creator['@content'],
+            role: $creator['@attributes']['role']
         );
     }
 }
