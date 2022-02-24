@@ -4,10 +4,11 @@ namespace App\Engines;
 
 use App\Engines\ParserEngine\BookCreator;
 use App\Engines\ParserEngine\BookIdentifier;
-use App\Engines\ParserEngine\OpfParser;
+use App\Engines\ParserEngine\Modules\OpfModule;
 use App\Enums\BookFormatEnum;
 use App\Services\ConsoleService;
 use DateTime;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Transliterator;
 
@@ -21,12 +22,13 @@ class ParserEngine
         public ?string $slug_sort = null,
         public ?string $title_serie_sort = null,
         public ?string $slug = null,
-        public ?string $slug_lang = null,
+        public ?string $title_slug_lang = null,
         /** @var BookCreator[] $creators */
         public ?array $creators = [],
         public ?array $contributor = [],
         public ?string $description = null,
         public ?DateTime $released_on = null,
+        public ?string $date = null,
         /** @var BookIdentifier[] $identifiers */
         public ?array $identifiers = null,
         public ?string $publisher = null,
@@ -38,59 +40,58 @@ class ParserEngine
         public ?string $serie_slug_lang = null,
         public ?string $serie_sort = null,
         public ?int $volume = 0,
-        public ?string $cover = null,
-        public ?string $cover_extension = null,
+        public ?string $file_name = null,
         public ?string $file_path = null,
         public ?BookFormatEnum $format = null,
+        public ?string $cover_name = null,
+        public ?string $cover_extension = null,
+        public ?string $cover_file = null,
+        public ?bool $debug = false,
     ) {
     }
 
     /**
      * Transform OPF file to ParserEngine.
      */
-    public static function create(string $file_path, BookFormatEnum $format, bool $debug = false): ParserEngine
+    public static function create(string $file_path, bool $debug = false): ParserEngine|false
     {
-        $engine = new ParserEngine();
-        $parser = match ($format) {
-            BookFormatEnum::epub() => OpfParser::create($file_path, $debug),
-            default => OpfParser::create($file_path, $debug),
+        $extension = pathinfo($file_path)['extension'];
+        $file_name = pathinfo($file_path)['basename'];
+
+        $parser = new ParserEngine();
+        $parser->file_name = $file_name;
+        $parser->file_path = $file_path;
+        $parser->format = BookFormatEnum::from($extension);
+        $parser->debug = $debug;
+
+        $parser = match ($parser->format) {
+            BookFormatEnum::epub() => OpfModule::create($parser),
+            default => false,
         };
-        $engine->format = $format;
 
-        $engine->title = $parser->title;
-        $engine->slug_sort = self::generateSortTitle($parser->title);
-        $engine->slug = Str::slug($parser->title);
-        $engine->slug_lang = Str::slug($parser->title.' '.$parser->language);
-        $engine->creators = $parser->creators;
-        $engine->contributor = $parser->contributor;
-        $engine->description = self::htmlToText($parser->description);
-        $engine->released_on = $parser->released_on ?? null;
-        $engine->identifiers = $parser->identifiers;
-        $engine->publisher = $parser->publisher;
-        $engine->subjects = $parser->subjects;
-        $engine->language = $parser->language;
-        $engine->rights = substr($parser->rights, 0, 255);
-        $engine->serie = $parser->serie;
-        $engine->serie_slug = Str::slug($parser->serie);
-        $engine->serie_slug_lang = Str::slug($parser->serie.' '.$parser->language);
-        $engine->serie_sort = self::generateSortTitle($parser->serie);
-        $engine->volume = $parser->volume;
-        $engine->file_path = $file_path;
+        if ($parser) {
+            $parser->slug_sort = ParserEngine::generateSortTitle($parser->title);
+            $parser->slug = Str::slug($parser->title);
+            $parser->title_slug_lang = Str::slug($parser->title.' '.$parser->language);
+            $parser->serie_slug = Str::slug($parser->serie);
+            $parser->serie_slug_lang = Str::slug($parser->serie.' '.$parser->language);
+            $parser->serie_sort = ParserEngine::generateSortTitle($parser->serie);
+            $parser->title_serie_sort = ParserEngine::generateSortSerie($parser->title, $parser->volume, $parser->serie);
+            $parser->description = ParserEngine::htmlToText($parser->description);
+            $parser->released_on = ! str_contains($parser->date, '0101') ? new DateTime($parser->date) : null;
 
-        $engine->title_serie_sort = self::generateSortSerie(
-            $engine->title,
-            $engine->volume,
-            $engine->serie,
-        );
-
-        $engine->cover = $parser->cover_file;
-        $engine->cover_extension = $parser->cover_extension;
-
-        if ($debug) {
-            ConsoleService::print("{$parser->title}");
+            if ($parser->debug) {
+                ConsoleService::print("{$parser->title}");
+                $parser_print = clone $parser;
+                $parser_print->cover_file = $parser_print->cover_file
+                    ? 'available (removed into this JSON)' : $parser_print->cover_file;
+                ParserEngine::printFile($parser_print, "{$parser->file_name}-parser.json");
+            }
+        } else {
+            ConsoleService::print("{$file_path} ParserEngine error.");
         }
 
-        return $engine;
+        return $parser;
     }
 
     /**
@@ -147,8 +148,23 @@ class ParserEngine
     /**
      * Strip HTML tags.
      */
-    public static function htmlToText(?string $html, ?string $allow = '<br>'): string
+    public static function htmlToText(?string $html, ?string $allow = '<br>'): ?string
     {
-        return trim(strip_tags($html, $allow));
+        return $html ? trim(strip_tags($html, $allow)) : null;
+    }
+
+    public static function printFile(mixed $file, string $name, bool $raw = false): bool
+    {
+        try {
+            $file = $raw
+                ? $file
+                : json_encode($file, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+
+            return Storage::disk('public')->put("/debug/{$name}", $file);
+        } catch (\Throwable $th) {
+            ConsoleService::print(__METHOD__, $th);
+        }
+
+        return false;
     }
 }

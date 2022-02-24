@@ -2,6 +2,12 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Models\Author;
+use App\Models\Book;
+use App\Models\Language;
+use App\Models\Publisher;
+use App\Models\Serie;
+use App\Models\TagExtend;
 use App\Services\DirectoryParserService;
 use Illuminate\Console\Command;
 
@@ -59,6 +65,11 @@ class ScanCommand extends Command
 
         $this->warn(sizeof(($epubFiles)).' EPUB files found');
         $this->newLine();
+
+        $this->table(
+            ['Books', 'Series', 'Authors', 'Languages', 'Publishers', 'Tags'],
+            [[Book::count(), Serie::count(), Author::count(), Language::count(), Publisher::count(), TagExtend::count()]]
+        );
 
         return $epubFiles;
     }

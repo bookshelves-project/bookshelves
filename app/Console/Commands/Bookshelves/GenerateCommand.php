@@ -4,7 +4,6 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
-use App\Enums\BookFormatEnum;
 use App\Services\DirectoryParserService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -59,7 +58,7 @@ class GenerateCommand extends Command
         $list = DirectoryParserService::getFilesList(limit: $limit);
 
         if ($fresh) {
-            Artisan::call('setup:database', [
+            Artisan::call('database', [
                 '--books' => $fresh,
             ], $this->getOutput());
         }
@@ -87,7 +86,7 @@ class GenerateCommand extends Command
         }
 
         $genres = config('bookshelves.tags.genres_list');
-        foreach ($genres as $key => $genre) {
+        foreach ($genres as $genre) {
             Tag::findOrCreate($genre, 'genre');
         }
 
@@ -95,10 +94,11 @@ class GenerateCommand extends Command
 
         $bar = $this->output->createProgressBar(sizeof($list));
         $bar->start();
-        foreach ($list as $key => $epub) {
-            $format = BookFormatEnum::epub();
-            $parser = ParserEngine::create($epub, $format, $debug);
-            ConverterEngine::convert($parser, $default);
+        foreach ($list as $file) {
+            $parser = ParserEngine::create($file, $debug);
+            if ($parser) {
+                ConverterEngine::convert($parser, $default);
+            }
 
             if (! $debug) {
                 $bar->advance();

@@ -18,7 +18,7 @@ class BookConverter
     {
         return Book::firstOrCreate([
             'title' => $parser->title,
-            'slug' => $parser->slug_lang,
+            'slug' => $parser->title_slug_lang,
             'slug_sort' => $parser->title_serie_sort,
             'contributor' => implode(' ', $parser->contributor),
             'description' => $parser->description,

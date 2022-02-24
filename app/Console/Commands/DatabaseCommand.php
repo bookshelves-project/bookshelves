@@ -22,7 +22,7 @@ class DatabaseCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'setup:database
+    protected $signature = 'database
                             {--b|books : reset current books and relation, keep users}';
 
     /**

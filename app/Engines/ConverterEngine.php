@@ -21,7 +21,7 @@ class ConverterEngine
      */
     public static function convert(ParserEngine $parser, bool $default): Book|false
     {
-        $book = Book::whereSlug($parser->slug_lang)->first();
+        $book = Book::whereSlug($parser->title_slug_lang)->first();
         if (! $book) {
             $book = BookConverter::create($parser);
             AuthorConverter::generate($parser, $book);
@@ -37,7 +37,7 @@ class ConverterEngine
 
             match ($parser->format) {
                 BookFormatEnum::epub() => BookConverter::epub($book, $parser->file_path),
-                default => BookConverter::epub($book, $parser->file_path),
+                default => false,
             };
             $book->save();
 

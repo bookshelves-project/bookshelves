@@ -82,7 +82,7 @@ class SetupCommand extends Command
         }
         Artisan::call('config:cache', [], $this->getOutput());
 
-        Artisan::call('setup:database', [], $this->getOutput());
+        Artisan::call('database', [], $this->getOutput());
 
         Artisan::call('scribe:generate', [], $this->getOutput());
 
