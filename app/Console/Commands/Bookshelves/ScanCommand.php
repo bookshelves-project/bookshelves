@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\ParserEngine;
+use App\Engines\ParserEngine\FilesParser;
 use App\Models\Book;
 use App\Services\DirectoryParserService;
 use Illuminate\Console\Command;
@@ -38,11 +39,11 @@ class ScanCommand extends Command
     {
         $app = config('app.name');
         $this->alert("{$app}: scan all EPUB files");
-        $this->warn('Scan public/storage/data/books directory');
+        $this->warn('Scan storage data books directory');
 
         $verbose = $this->option('verbose');
 
-        $files = DirectoryParserService::getFilesList();
+        $files = FilesParser::getFilesList();
 
         $new_files = [];
         if (! $verbose) {
@@ -58,7 +59,7 @@ class ScanCommand extends Command
             if (! $verbose) {
                 $bar->advance();
             } else {
-                $this->info($key.' '.pathinfo($file)['filename']);
+                $this->info($key.' '.pathinfo($file->path)['filename']);
             }
         }
         if (! $verbose) {

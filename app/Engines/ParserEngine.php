@@ -4,8 +4,10 @@ namespace App\Engines;
 
 use App\Engines\ParserEngine\BookCreator;
 use App\Engines\ParserEngine\BookIdentifier;
+use App\Engines\ParserEngine\FilesParser;
 use App\Engines\ParserEngine\Modules\OpfModule;
 use App\Enums\BookFormatEnum;
+use App\Enums\BookTypeEnum;
 use App\Services\ConsoleService;
 use DateTime;
 use Illuminate\Support\Facades\Storage;
@@ -43,6 +45,7 @@ class ParserEngine
         public ?string $file_name = null,
         public ?string $file_path = null,
         public ?BookFormatEnum $format = null,
+        public ?BookTypeEnum $type = null,
         public ?string $cover_name = null,
         public ?string $cover_extension = null,
         public ?string $cover_file = null,
@@ -53,22 +56,23 @@ class ParserEngine
     /**
      * Transform OPF file to ParserEngine.
      */
-    public static function create(string $file_path, bool $debug = false): ParserEngine|false
+    public static function create(FilesParser $file, bool $debug = false): ParserEngine|false
     {
-        $extension = pathinfo($file_path)['extension'];
-        $file_name = pathinfo($file_path)['basename'];
+        $extension = pathinfo($file->path)['extension'];
+        $file_name = pathinfo($file->path)['basename'];
         $formats = BookFormatEnum::toArray();
 
         if (! array_key_exists($extension, $formats)) {
-            ConsoleService::print("{$file_path} ParserEngine error: extension is not recognized");
+            ConsoleService::print("{$file->path} ParserEngine error: extension is not recognized");
 
             return false;
         }
 
         $parser = new ParserEngine();
         $parser->file_name = $file_name;
-        $parser->file_path = $file_path;
+        $parser->file_path = $file->path;
         $parser->format = BookFormatEnum::from($extension);
+        $parser->type = $file->type;
         $parser->debug = $debug;
 
         $parser = match ($parser->format) {
@@ -95,7 +99,7 @@ class ParserEngine
                 ParserEngine::printFile($parser_print, "{$parser->file_name}-parser.json");
             }
         } else {
-            ConsoleService::print("{$file_path} ParserEngine error: format not recognized");
+            ConsoleService::print("{$file->path} ParserEngine error: format not recognized");
 
             return false;
         }

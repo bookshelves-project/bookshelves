@@ -25,7 +25,7 @@ class BookConverter
             'released_on' => $parser->released_on ?? null,
             'rights' => $parser->rights,
             'volume' => $parser->volume,
-            'type' => BookTypeEnum::novel,
+            'type' => $parser->type,
         ]);
     }
 

@@ -5,37 +5,6 @@ namespace App\Services;
 class DirectoryParserService
 {
     /**
-     * Get all $ext files from $path.
-     *
-     * - return `array` of *absolute paths* of files
-     * - return `false` if not exist
-     */
-    public static function getFilesList(int $limit = null, string $path = 'public/storage/data/books', string $ext = 'epub'): array|false
-    {
-        try {
-            $files = [];
-            // TODO custom dir
-            foreach (self::getDirectoryFiles($path) as $file) {
-                if (array_key_exists('extension', pathinfo($file)) && $ext === pathinfo($file)['extension']) {
-                    $file = str_replace('public/storage/', '', $file);
-                    array_push($files, $file);
-                }
-            }
-        } catch (\Throwable $th) {
-            echo "storage/data/books not found\n";
-            echo $th;
-
-            return false;
-        }
-
-        if ($limit) {
-            return array_slice($files, 0, $limit);
-        }
-
-        return $files;
-    }
-
-    /**
      * Parse directory (recursive).
      *
      * @param mixed $dir
