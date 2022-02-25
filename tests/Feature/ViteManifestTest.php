@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Support\Str;
-use function Pest\testDirectory;
 use App\Support\LaravelViteManifest;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use function Pest\testDirectory;
 
 beforeEach(function () {
     File::makeDirectory(public_path('dist/test'), 0755, true);

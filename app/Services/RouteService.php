@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\Route as RoutingRoute;
+use Illuminate\Support\Facades\Route;
 
 class RouteService
 {

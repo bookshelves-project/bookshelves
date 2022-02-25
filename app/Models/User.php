@@ -4,15 +4,15 @@ namespace App\Models;
 
 use App\Enums\RoleEnum;
 use App\Models\Traits\HasAvatar;
+use App\Models\Traits\HasImpersonate;
+use App\Models\Traits\HasUserSlug;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
-use App\Models\Traits\HasUserSlug;
-use Illuminate\Support\Facades\Hash;
-use App\Models\Traits\HasImpersonate;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @property \App\Models\Favoritable[]|\Illuminate\Database\Eloquent\Collection $favorites

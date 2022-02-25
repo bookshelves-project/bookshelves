@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Front\Catalog;
 
+use App\Engines\SearchEngine;
+use App\Http\Controllers\Controller;
+use App\Services\MarkdownService;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Detection\MobileDetect;
 use Illuminate\Http\Request;
-use App\Engines\SearchEngine;
-use App\Services\MarkdownService;
-use App\Http\Controllers\Controller;
-use Artesaos\SEOTools\Facades\SEOTools;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 

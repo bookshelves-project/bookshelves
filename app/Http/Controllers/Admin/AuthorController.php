@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Inertia\Inertia;
-use App\Models\Author;
-use Illuminate\Http\Request;
-use App\Http\Queries\AuthorQuery;
 use App\Http\Controllers\Controller;
-use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Put;
-use Spatie\RouteAttributes\Attributes\Post;
-use App\Http\Resources\Admin\AuthorResource;
-use Spatie\RouteAttributes\Attributes\Delete;
-use Spatie\RouteAttributes\Attributes\Prefix;
+use App\Http\Queries\AuthorQuery;
 use App\Http\Requests\Admin\AuthorStoreRequest;
 use App\Http\Requests\Admin\AuthorUpdateRequest;
+use App\Http\Resources\Admin\AuthorResource;
+use App\Models\Author;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\RouteAttributes\Attributes\Prefix;
+use Spatie\RouteAttributes\Attributes\Put;
 
 #[Prefix('authors')]
 class AuthorController extends Controller

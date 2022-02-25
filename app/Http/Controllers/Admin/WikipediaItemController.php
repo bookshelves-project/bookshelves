@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
-use App\Models\WikipediaItem;
 use App\Http\Controllers\Controller;
 use App\Http\Queries\WikipediaItemQuery;
-use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Put;
-use Spatie\RouteAttributes\Attributes\Post;
-use Spatie\RouteAttributes\Attributes\Delete;
-use Spatie\RouteAttributes\Attributes\Prefix;
-use App\Http\Resources\Admin\WikipediaItemResource;
 use App\Http\Requests\Admin\WikipediaItemStoreRequest;
 use App\Http\Requests\Admin\WikipediaItemUpdateRequest;
+use App\Http\Resources\Admin\WikipediaItemResource;
+use App\Models\WikipediaItem;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\RouteAttributes\Attributes\Prefix;
+use Spatie\RouteAttributes\Attributes\Put;
 
 #[Prefix('wikipedia-items')]
 class WikipediaItemController extends Controller

@@ -1,13 +1,13 @@
 <?php
 
 use App\Models\User;
-use function Pest\Laravel\get;
-use function Pest\Laravel\post;
-use function Pest\Laravel\getJson;
-use function Pest\Laravel\assertGuest;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 use function Pest\Laravel\assertAuthenticated;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Laravel\assertGuest;
+use function Pest\Laravel\get;
+use function Pest\Laravel\getJson;
+use function Pest\Laravel\post;
 
 uses(RefreshDatabase::class);
 

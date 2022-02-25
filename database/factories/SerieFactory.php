@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Serie;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class SerieFactory extends Factory
 {

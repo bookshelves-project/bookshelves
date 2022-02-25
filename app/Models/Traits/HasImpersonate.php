@@ -2,8 +2,8 @@
 
 namespace App\Models\Traits;
 
-use App\Models\User;
 use App\Enums\RoleEnum;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 
 /**

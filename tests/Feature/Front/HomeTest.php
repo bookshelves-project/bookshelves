@@ -1,7 +1,7 @@
 <?php
 
-use function Pest\Laravel\get;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 

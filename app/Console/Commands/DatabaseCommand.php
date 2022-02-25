@@ -2,18 +2,18 @@
 
 namespace App\Console\Commands;
 
-use Artisan;
-use App\Models\Book;
-use Spatie\Tags\Tag;
-use App\Models\Serie;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Comment;
+use App\Models\GoogleBook;
 use App\Models\Language;
 use App\Models\Publisher;
-use App\Models\GoogleBook;
+use App\Models\Serie;
+use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Tags\Tag;
 
 class DatabaseCommand extends Command
 {

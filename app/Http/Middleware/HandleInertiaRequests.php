@@ -2,15 +2,15 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\RoleEnum;
-use Inertia\Middleware;
-use App\Enums\TagTypeEnum;
-use App\Enums\BookTypeEnum;
-use Illuminate\Http\Request;
 use App\Enums\AuthorRoleEnum;
+use App\Enums\BookTypeEnum;
 use App\Enums\ChartColorEnum;
 use App\Enums\PostStatusEnum;
+use App\Enums\RoleEnum;
+use App\Enums\TagTypeEnum;
 use App\Http\Resources\Admin\AuthResource;
+use Illuminate\Http\Request;
+use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {

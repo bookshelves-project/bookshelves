@@ -3,10 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Post;
-use App\Models\User;
-use Spatie\Tags\Tag;
 use App\Models\PostCategory;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Tags\Tag;
 
 class PostSeeder extends Seeder
 {

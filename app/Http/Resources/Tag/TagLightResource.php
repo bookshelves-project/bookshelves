@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Tag;
 
+use App\Enums\CountSizeEnum;
 use App\Models\Book;
 use App\Models\TagExtend;
-use App\Enums\CountSizeEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**

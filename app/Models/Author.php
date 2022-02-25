@@ -2,22 +2,22 @@
 
 namespace App\Models;
 
-use Spatie\Tags\HasTags;
-use Laravel\Scout\Searchable;
-use Spatie\Sluggable\HasSlug;
-use App\Utils\BookshelvesTools;
-use App\Models\Traits\HasCovers;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\Sluggable\SlugOptions;
-use App\Models\Traits\HasComments;
 use App\Models\Traits\HasClassName;
+use App\Models\Traits\HasComments;
+use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasWikipediaItem;
+use App\Utils\BookshelvesTools;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Laravel\Scout\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
+use Spatie\Tags\HasTags;
 
 /**
  * @property null|int $books_count

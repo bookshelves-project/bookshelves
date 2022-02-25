@@ -2,10 +2,10 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Collection;
 use Illuminate\Container\Container;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 
 class PaginationHelper
 {

@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Inertia\Inertia;
-use App\Models\Publisher;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Queries\PublisherQuery;
-use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Put;
-use Spatie\RouteAttributes\Attributes\Post;
-use Spatie\RouteAttributes\Attributes\Delete;
-use Spatie\RouteAttributes\Attributes\Prefix;
-use App\Http\Resources\Admin\PublisherResource;
 use App\Http\Requests\Admin\PublisherStoreRequest;
 use App\Http\Requests\Admin\PublisherUpdateRequest;
+use App\Http\Resources\Admin\PublisherResource;
+use App\Models\Publisher;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\RouteAttributes\Attributes\Prefix;
+use Spatie\RouteAttributes\Attributes\Put;
 
 #[Prefix('publishers')]
 class PublisherController extends Controller

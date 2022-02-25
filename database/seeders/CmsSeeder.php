@@ -2,19 +2,19 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Str;
-use App\Services\SvgService;
-use App\Services\MediaService;
-use App\Models\Cms\CmsHomePage;
-use Illuminate\Database\Seeder;
-use App\Models\Cms\CmsApplication;
-use App\Services\ConverterService;
-use App\Models\Cms\CmsHomePageLogo;
 use App\Enums\SpatieMediaMethodEnum;
-use Illuminate\Support\Facades\File;
+use App\Models\Cms\CmsApplication;
+use App\Models\Cms\CmsHomePage;
 use App\Models\Cms\CmsHomePageFeature;
 use App\Models\Cms\CmsHomePageHighlight;
+use App\Models\Cms\CmsHomePageLogo;
 use App\Models\Cms\CmsHomePageStatistic;
+use App\Services\ConverterService;
+use App\Services\MediaService;
+use App\Services\SvgService;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class CmsSeeder extends Seeder

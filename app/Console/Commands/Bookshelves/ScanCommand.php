@@ -2,15 +2,15 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Models\Book;
-use App\Models\Serie;
+use App\Engines\ParserEngine;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Language;
 use App\Models\Publisher;
+use App\Models\Serie;
 use App\Models\TagExtend;
-use App\Engines\ParserEngine;
-use Illuminate\Console\Command;
 use App\Services\DirectoryParserService;
+use Illuminate\Console\Command;
 
 class ScanCommand extends Command
 {

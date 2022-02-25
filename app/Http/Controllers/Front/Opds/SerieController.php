@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Front\Opds;
 
-use Route;
-use App\Models\Serie;
-use App\Models\Author;
 use App\Enums\EntityEnum;
-use Illuminate\Http\Request;
-use App\Services\OpdsService;
 use App\Http\Controllers\Controller;
+use App\Models\Author;
+use App\Models\Serie;
+use App\Services\OpdsService;
+use Illuminate\Http\Request;
+use Route;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 

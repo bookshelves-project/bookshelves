@@ -2,12 +2,12 @@
 
 namespace App\Engines;
 
+use App\Http\Resources\EntityResource;
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Models\Author;
-use Illuminate\Support\Collection;
-use App\Http\Resources\EntityResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Collection;
 
 /**
  * Search Engine with laravel/scout

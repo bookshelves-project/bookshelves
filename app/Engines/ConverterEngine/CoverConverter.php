@@ -2,10 +2,10 @@
 
 namespace App\Engines\ConverterEngine;
 
-use App\Models\Book;
 use App\Engines\ParserEngine;
-use App\Services\MediaService;
+use App\Models\Book;
 use App\Services\ConsoleService;
+use App\Services\MediaService;
 
 class CoverConverter
 {

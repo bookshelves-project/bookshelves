@@ -2,8 +2,8 @@
 
 namespace App\View\Components\Catalog;
 
-use Illuminate\View\Component;
 use Illuminate\Support\Collection;
+use Illuminate\View\Component;
 
 class Characters extends Component
 {

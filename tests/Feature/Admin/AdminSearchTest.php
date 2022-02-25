@@ -2,9 +2,9 @@
 
 use App\Models\Post;
 use App\Models\User;
-use function Pest\Laravel\get;
-use Inertia\Testing\AssertableInertia;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia;
+use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 

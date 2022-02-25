@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Inertia\Inertia;
-use App\Models\Serie;
-use Illuminate\Http\Request;
-use App\Http\Queries\SerieQuery;
 use App\Http\Controllers\Controller;
-use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Put;
-use App\Http\Resources\Admin\SerieResource;
-use Spatie\RouteAttributes\Attributes\Post;
-use Spatie\RouteAttributes\Attributes\Delete;
-use Spatie\RouteAttributes\Attributes\Prefix;
+use App\Http\Queries\SerieQuery;
 use App\Http\Requests\Admin\SerieStoreRequest;
 use App\Http\Requests\Admin\SerieUpdateRequest;
+use App\Http\Resources\Admin\SerieResource;
+use App\Models\Serie;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\RouteAttributes\Attributes\Prefix;
+use Spatie\RouteAttributes\Attributes\Put;
 
 #[Prefix('series')]
 class SerieController extends Controller

@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use File;
 use Artisan;
+use File;
 use Illuminate\Console\Command;
 
 class SampleBooksCommand extends Command

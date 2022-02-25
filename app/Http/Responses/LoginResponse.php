@@ -2,10 +2,10 @@
 
 namespace App\Http\Responses;
 
-use App\Models\User;
-use Inertia\Inertia;
 use App\Enums\RoleEnum;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 
 class LoginResponse implements LoginResponseContract

@@ -2,12 +2,12 @@
 
 namespace App\Engines\ParserEngine\Modules;
 
-use ZipArchive;
 use App\Engines\ParserEngine;
-use App\Services\ConsoleService;
-use App\Engines\ParserEngine\XmlParser;
 use App\Engines\ParserEngine\BookCreator;
 use App\Engines\ParserEngine\BookIdentifier;
+use App\Engines\ParserEngine\XmlParser;
+use App\Services\ConsoleService;
+use ZipArchive;
 
 class OpfModule
 {

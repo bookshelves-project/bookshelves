@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Enums\RoleEnum;
+use App\Models\User;
 use App\Services\MediaService;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UserSeeder extends Seeder
 {

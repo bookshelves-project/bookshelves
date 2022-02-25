@@ -2,14 +2,14 @@
 
 namespace App\Services\Auth;
 
-use App\Models\User;
 use App\Enums\RoleEnum;
-use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoginTokenRequest;
 use App\Http\Resources\User\UserResource;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthService

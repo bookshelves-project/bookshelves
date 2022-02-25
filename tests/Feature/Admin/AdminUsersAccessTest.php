@@ -1,9 +1,9 @@
 <?php
 
 use App\Models\User;
-use function Pest\Laravel\put;
-use function Pest\Laravel\delete;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Laravel\delete;
+use function Pest\Laravel\put;
 
 uses(RefreshDatabase::class);
 

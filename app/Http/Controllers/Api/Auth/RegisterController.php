@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use Illuminate\Http\Request;
 use App\Services\Auth\AuthService;
+use Illuminate\Http\Request;
 
 /**
  * @group User: Authentication

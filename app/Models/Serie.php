@@ -2,24 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
 use App\Engines\ParserEngine;
-use Laravel\Scout\Searchable;
-use App\Utils\BookshelvesTools;
-use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasAuthors;
-use Spatie\MediaLibrary\HasMedia;
-use App\Models\Traits\HasComments;
-use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasClassName;
+use App\Models\Traits\HasComments;
+use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasFavorites;
+use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
 use App\Models\Traits\HasWikipediaItem;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Utils\BookshelvesTools;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
+use Spatie\MediaLibrary\HasMedia;
 
 /**
  * @property null|int $books_count

@@ -1,10 +1,10 @@
 <?php
 
-use App\Docs\Strategies\BookshelvesQuery;
-use Knuckles\Scribe\Extracting\Strategies;
-use App\Docs\Strategies\UsePaginationQuery;
 use App\Docs\Strategies\BookshelvesMetadata;
 use App\Docs\Strategies\BookshelvesParameter;
+use App\Docs\Strategies\BookshelvesQuery;
+use App\Docs\Strategies\UsePaginationQuery;
+use Knuckles\Scribe\Extracting\Strategies;
 
 return [
 

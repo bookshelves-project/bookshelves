@@ -2,8 +2,8 @@
 
 namespace App\View\Components\Layouts\Navigation;
 
-use Illuminate\View\Component;
 use App\Services\ConverterService;
+use Illuminate\View\Component;
 
 class Card extends Component
 {

@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Spatie\Tags\Tag;
-use App\Engines\ParserEngine;
-use Illuminate\Console\Command;
 use App\Engines\ConverterEngine;
-use Illuminate\Support\Facades\Artisan;
+use App\Engines\ParserEngine;
 use App\Services\DirectoryParserService;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
+use Spatie\Tags\Tag;
 
 /**
  * Main command of Bookshelves to generate Books with relations.

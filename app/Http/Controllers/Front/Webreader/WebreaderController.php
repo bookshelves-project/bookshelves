@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Front\Webreader;
 
-use App\Models\Book;
-use Inertia\Inertia;
-use App\Models\Author;
-use App\Services\MarkdownService;
 use App\Http\Controllers\Controller;
-use Artesaos\SEOTools\Facades\SEOTools;
 use App\Http\Resources\Book\BookResource;
+use App\Models\Author;
+use App\Models\Book;
+use App\Services\MarkdownService;
+use Artesaos\SEOTools\Facades\SEOTools;
+use Inertia\Inertia;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 

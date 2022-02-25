@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Book;
-use Spatie\Tags\Tag;
-use Illuminate\Http\Request;
-use App\Http\Queries\TagQuery;
 use App\Helpers\PaginationHelper;
-use App\Http\Resources\EntityResource;
 use App\Http\Queries\Addon\QueryOption;
-use App\Http\Resources\Tag\TagResource;
+use App\Http\Queries\TagQuery;
+use App\Http\Resources\EntityResource;
 use App\Http\Resources\Tag\TagLightResource;
+use App\Http\Resources\Tag\TagResource;
+use App\Models\Book;
+use Illuminate\Http\Request;
+use Spatie\Tags\Tag;
 
 /**
  * @group Relation: Tag

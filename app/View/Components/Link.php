@@ -2,8 +2,8 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
 use App\Services\ConverterService;
+use Illuminate\View\Component;
 
 class Link extends Component
 {

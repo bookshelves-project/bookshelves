@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
+use App\Enums\BookFormatEnum;
+use App\Enums\BookTypeEnum;
 use App\Enums\GenderEnum;
 use App\Enums\TagTypeEnum;
-use App\Enums\BookTypeEnum;
-use App\Enums\BookFormatEnum;
 
 class EnumService
 {

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Front\Opds;
 
-use File;
-use Route;
 use App\Enums\EntityEnum;
-use Illuminate\Http\Request;
-use App\Services\OpdsService;
-use App\Services\MarkdownService;
 use App\Http\Controllers\Controller;
+use App\Services\MarkdownService;
+use App\Services\OpdsService;
 use Artesaos\SEOTools\Facades\SEOTools;
+use File;
+use Illuminate\Http\Request;
+use Route;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 

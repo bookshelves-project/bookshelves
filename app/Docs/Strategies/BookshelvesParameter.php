@@ -2,16 +2,16 @@
 
 namespace App\Docs\Strategies;
 
-use App\Models\Book;
-use App\Models\User;
-use App\Models\Serie;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Language;
 use App\Models\Publisher;
+use App\Models\Serie;
 use App\Models\TagExtend;
+use App\Models\User;
+use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Knuckles\Scribe\Extracting\ParamHelpers;
 use Knuckles\Scribe\Extracting\Strategies\Strategy;
-use Knuckles\Camel\Extraction\ExtractedEndpointData;
 
 class BookshelvesParameter extends Strategy
 {

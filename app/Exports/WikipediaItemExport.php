@@ -3,13 +3,13 @@
 namespace App\Exports;
 
 use App\Models\WikipediaItem;
-use Illuminate\Support\Facades\Lang;
-use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Lang;
 use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class WikipediaItemExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 {

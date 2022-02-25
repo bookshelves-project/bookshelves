@@ -2,15 +2,15 @@
 
 namespace App\Http\Queries;
 
-use App\Models\User;
 use App\Exports\UserExport;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Queries\Addon\QueryOption;
-use App\Http\Resources\Admin\UserResource;
 use App\Http\Queries\Filter\GlobalSearchFilter;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Admin\UserResource;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserQuery extends BaseQuery
 {

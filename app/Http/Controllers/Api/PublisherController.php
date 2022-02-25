@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Queries\Addon\QueryOption;
+use App\Http\Queries\PublisherQuery;
+use App\Http\Resources\Book\BookLightResource;
+use App\Http\Resources\Publisher\PublisherLightResource;
+use App\Http\Resources\Publisher\PublisherResource;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
-use App\Http\Queries\PublisherQuery;
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Resources\Book\BookLightResource;
-use App\Http\Resources\Publisher\PublisherResource;
-use App\Http\Resources\Publisher\PublisherLightResource;
 
 /**
  * @group Relation: Publisher

@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Post;
 use App\Enums\PostStatusEnum;
-use Illuminate\Support\Carbon;
+use App\Models\Post;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 
 class PublishScheduledPosts extends Command
 {

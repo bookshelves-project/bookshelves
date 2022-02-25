@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Admin;
 
 use App\Enums\RoleEnum;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Spatie\Enum\Laravel\Rules\EnumRule;
-use Illuminate\Foundation\Http\FormRequest;
 
 class UserStoreRequest extends FormRequest
 {

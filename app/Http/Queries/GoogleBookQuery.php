@@ -2,15 +2,15 @@
 
 namespace App\Http\Queries;
 
-use App\Models\GoogleBook;
 use App\Exports\GoogleBookExport;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Queries\Addon\QueryOption;
 use App\Http\Queries\Filter\GlobalSearchFilter;
 use App\Http\Resources\Admin\GoogleBookResource;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\GoogleBook;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class GoogleBookQuery extends BaseQuery
 {

@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\Publisher;
 
+use App\Http\Resources\Search\SearchBookResource;
 use App\Models\Book;
 use App\Models\Publisher;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Search\SearchBookResource;
 
 /**
  * @property Publisher $resource

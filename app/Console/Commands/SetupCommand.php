@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use File;
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Question\Question;
 
 class SetupCommand extends Command

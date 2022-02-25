@@ -2,15 +2,15 @@
 
 namespace App\Http\Queries;
 
-use App\Models\Stub;
 use App\Exports\StubExport;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Queries\Addon\QueryOption;
-use App\Http\Resources\Admin\StubResource;
 use App\Http\Queries\Filter\GlobalSearchFilter;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Admin\StubResource;
+use App\Models\Stub;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class StubQuery extends BaseQuery
 {

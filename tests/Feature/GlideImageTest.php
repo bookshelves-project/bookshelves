@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Post;
 use App\Models\Media;
-use function Pest\Laravel\get;
+use App\Models\Post;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 

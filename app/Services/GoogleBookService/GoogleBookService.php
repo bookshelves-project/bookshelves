@@ -5,8 +5,8 @@ namespace App\Services\GoogleBookService;
 use App\Models\Book;
 use App\Models\GoogleBook;
 use App\Services\HttpService;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class GoogleBookService
 {

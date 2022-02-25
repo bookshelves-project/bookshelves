@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Artisan;
 use App\Models\User;
+use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;

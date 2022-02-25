@@ -2,15 +2,15 @@
 
 namespace App\Http\Queries;
 
-use App\Models\TagExtend;
 use App\Exports\TagExport;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Queries\Addon\QueryOption;
-use App\Http\Resources\Admin\TagResource;
 use App\Http\Queries\Filter\GlobalSearchFilter;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Admin\TagResource;
+use App\Models\TagExtend;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TagQuery extends BaseQuery
 {

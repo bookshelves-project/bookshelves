@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Services\MarkdownService;
 use App\Http\Controllers\Controller;
+use App\Services\MarkdownService;
 use Illuminate\Support\Facades\File;
 use Spatie\RouteAttributes\Attributes\Get;
 

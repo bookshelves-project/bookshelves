@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use DateTime;
-use App\Models\User;
 use App\Models\Comment;
-use Illuminate\Support\Str;
+use App\Models\User;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CommentFactory extends Factory
 {

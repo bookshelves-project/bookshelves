@@ -2,8 +2,8 @@
 
 namespace App\Models\Traits;
 
-use Auth;
 use App\Models\User;
+use Auth;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**

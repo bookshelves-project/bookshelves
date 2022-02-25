@@ -2,10 +2,10 @@
 
 namespace App\Services\GoogleBookService;
 
-use DateTime;
 use App\Models\Book;
-use Illuminate\Http\Client\Response;
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Storage;
 
 class GoogleBookQuery

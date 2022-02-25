@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Enums\RoleEnum;
+use Closure;
 use Illuminate\Support\Facades\Auth;
 
 class IsReadOnly

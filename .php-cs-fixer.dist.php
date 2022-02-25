@@ -24,9 +24,11 @@ $rules = [
     'return_assignment' => true,
     'phpdoc_to_comment' => false,
     'ordered_imports' => [
-        'sort_algorithm' => 'length',
+        'imports_order' => [
+            'class', 'function', 'const',
+        ],
+        'sort_algorithm' => 'alpha',
     ],
-    // 'blank_line_before_statement' => false,
 ];
 
 $finder = PhpCsFixer\Finder::create()

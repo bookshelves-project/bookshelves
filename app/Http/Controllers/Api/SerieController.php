@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Serie;
-use App\Models\Author;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Http\Queries\SerieQuery;
 use App\Http\Queries\Addon\QueryOption;
-use App\Http\Resources\BookOrSerieResource;
-use App\Http\Resources\Serie\SerieResource;
-use Spatie\MediaLibrary\Support\MediaStream;
+use App\Http\Queries\SerieQuery;
 use App\Http\Resources\Book\BookLightResource;
+use App\Http\Resources\BookOrSerieResource;
 use App\Http\Resources\Serie\SerieLightResource;
+use App\Http\Resources\Serie\SerieResource;
+use App\Models\Author;
+use App\Models\Serie;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Spatie\MediaLibrary\Support\MediaStream;
 
 /**
  * @group Entity: Serie

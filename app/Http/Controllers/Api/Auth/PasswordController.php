@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Models\User;
-use App\Models\PasswordReset;
-use App\Services\Auth\PasswordService;
-use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\PasswordForgotRequest;
+use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\PasswordUpdateRequest;
+use App\Models\PasswordReset;
+use App\Models\User;
+use App\Services\Auth\PasswordService;
 
 /**
  * @group User: Authentication

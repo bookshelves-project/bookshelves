@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Post;
 use App\Enums\PostStatusEnum;
-use Illuminate\Support\Carbon;
 use App\Faker\FakerHtmlProvider;
-use Spatie\Enum\Faker\FakerEnumProvider;
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
+use Spatie\Enum\Faker\FakerEnumProvider;
 
 class PostFactory extends Factory
 {

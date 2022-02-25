@@ -2,8 +2,8 @@
 
 namespace App\View\Components\Catalog;
 
-use Illuminate\View\Component;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\View\Component;
 
 class Entities extends Component
 {

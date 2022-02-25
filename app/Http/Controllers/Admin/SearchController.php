@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Book;
-use App\Models\Post;
-use Inertia\Inertia;
-use App\Models\Serie;
-use App\Models\Author;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Builder;
+use App\Http\Resources\Admin\AuthorResource;
 use App\Http\Resources\Admin\BookResource;
 use App\Http\Resources\Admin\PostResource;
-use Spatie\RouteAttributes\Attributes\Get;
 use App\Http\Resources\Admin\SerieResource;
-use App\Http\Resources\Admin\AuthorResource;
+use App\Models\Author;
+use App\Models\Book;
+use App\Models\Post;
+use App\Models\Serie;
+use Illuminate\Database\Eloquent\Builder;
+use Inertia\Inertia;
+use Spatie\RouteAttributes\Attributes\Get;
 
 class SearchController extends Controller
 {

@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Book;
-use App\Models\Serie;
-use App\Models\Author;
-use Illuminate\Http\Request;
-use App\Models\Selectionable;
-use App\Http\Queries\BookQuery;
 use App\Helpers\PaginationHelper;
-use Illuminate\Support\Collection;
-use App\Http\Resources\EntityResource;
 use App\Http\Queries\Addon\QueryOption;
+use App\Http\Queries\BookQuery;
+use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\BookOrSerieResource;
-use App\Http\Resources\Book\BookLightResource;
+use App\Http\Resources\EntityResource;
+use App\Models\Author;
+use App\Models\Book;
+use App\Models\Selectionable;
+use App\Models\Serie;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
 
 /**
  * @group Entity: Book
