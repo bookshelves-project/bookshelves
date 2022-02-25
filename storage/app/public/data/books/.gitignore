@@ -1,6 +1,7 @@
-*
 !.gitignore
-!comic
-!essay
-!handbook
-!novel
+
+!comic/
+!essay/
+!handbook/
+!novel/
+!README.md
