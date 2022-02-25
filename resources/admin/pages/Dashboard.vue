@@ -1,7 +1,10 @@
 <template>
   <app-layout :title="title">
     <dashboard-content />
-    <doughnut-chart :chart-data="chartData" />
+    <div class="grid xl:grid-cols-2">
+      <doughnut-chart :chart-data="entities" />
+      <doughnut-chart :chart-data="users" />
+    </div>
   </app-layout>
 </template>
 
@@ -14,7 +17,8 @@
   import { useEnums } from '@admin/composables/useEnums'
 
   const props = defineProps<{
-    chart: ChartModel
+    chartEntities: ChartModel
+    chartUsers: ChartModel
   }>()
 
   const title = useTitle('Dashboard')
@@ -22,30 +26,44 @@
 
   let colors = useEnums().getChartColors()
 
-  const chartData = computed<ChartData<'doughnut'>>(() => ({
-    labels: props.chart?.labels,
+  const entities = computed<ChartData<'doughnut'>>(() => ({
+    labels: props.chartEntities?.labels,
     datasets: [
       {
-        data: props.chart?.values,
+        data: props.chartEntities?.values,
         backgroundColor: Object.values(colors),
       },
     ],
   }))
 
-  const options = computed<ChartOptions<'doughnut'>>(() => ({
-    plugins: {
-      legend: {
-        position: 'bottom',
+  const users = computed<ChartData<'doughnut'>>(() => ({
+    labels: props.chartUsers?.labels,
+    datasets: [
+      {
+        data: props.chartUsers?.values,
+        backgroundColor: Object.values(colors),
       },
-      title: {
-        display: true,
-        text: 'Entities',
-      },
-    },
+    ],
   }))
 
-  const { doughnutChartProps } = useDoughnutChart({
-    chartData,
-    options,
-  })
+  // const options = computed<ChartOptions<'doughnut'>>(() => ({
+  //   plugins: {
+  //     legend: {
+  //       position: 'bottom',
+  //     },
+  //     title: {
+  //       display: true,
+  //       text: 'Entities',
+  //     },
+  //   },
+  // }))
+
+  // useDoughnutChart({
+  //   entities,
+  //   options,
+  // })
+  // useDoughnutChart({
+  //   users,
+  //   options,
+  // })
 </script>
