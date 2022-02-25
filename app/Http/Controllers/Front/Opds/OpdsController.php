@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Front\Opds;
 
-use App\Enums\EntitiesEnum;
-use App\Http\Controllers\Controller;
-use App\Services\MarkdownService;
-use App\Services\OpdsService;
-use Artesaos\SEOTools\Facades\SEOTools;
 use File;
-use Illuminate\Http\Request;
 use Route;
+use App\Enums\EntityEnum;
+use Illuminate\Http\Request;
+use App\Services\OpdsService;
+use App\Services\MarkdownService;
+use App\Http\Controllers\Controller;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -55,7 +55,7 @@ class OpdsController extends Controller
         $current_route = route(Route::currentRouteName(), ['version' => $version]);
         $opdsService = new OpdsService(
             version: $version,
-            entity: EntitiesEnum::feed(),
+            entity: EntityEnum::feed(),
             route: $current_route,
             data: $feed,
         );

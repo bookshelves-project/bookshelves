@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Front\Catalog;
 
+use App\Models\Serie;
+use App\Models\Author;
+use Illuminate\Http\Request;
+use App\Utils\BookshelvesTools;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EntityResource;
-use App\Http\Resources\Serie\SerieResource;
-use App\Models\Author;
-use App\Models\Serie;
-use App\Utils\BookshelvesTools;
-use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
+use App\Http\Resources\Serie\SerieResource;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**

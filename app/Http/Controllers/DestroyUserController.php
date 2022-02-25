@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\StatefulGuard;
 
 class DestroyUserController extends Controller
 {

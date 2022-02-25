@@ -1,12 +1,12 @@
 <?php
 
-use App\Enums\RoleEnum;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Enums\RoleEnum;
+use function Pest\Laravel\post;
+use function Pest\Laravel\assertGuest;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
-use function Pest\Laravel\assertGuest;
-use function Pest\Laravel\post;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 

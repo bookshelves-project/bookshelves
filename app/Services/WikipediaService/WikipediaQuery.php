@@ -2,10 +2,10 @@
 
 namespace App\Services\WikipediaService;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class WikipediaQuery
 {

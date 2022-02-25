@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use League\Glide\Urls\UrlBuilderFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
 class MediaExtended extends BaseMedia

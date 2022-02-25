@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Queries\LanguageQuery;
-use App\Http\Requests\Admin\LanguageStoreRequest;
-use App\Http\Requests\Admin\LanguageUpdateRequest;
-use App\Http\Resources\Admin\LanguageResource;
+use Inertia\Inertia;
 use App\Models\Language;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Spatie\RouteAttributes\Attributes\Delete;
+use App\Http\Queries\LanguageQuery;
+use App\Http\Controllers\Controller;
 use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Post;
-use Spatie\RouteAttributes\Attributes\Prefix;
 use Spatie\RouteAttributes\Attributes\Put;
+use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Prefix;
+use App\Http\Resources\Admin\LanguageResource;
+use App\Http\Requests\Admin\LanguageStoreRequest;
+use App\Http\Requests\Admin\LanguageUpdateRequest;
 
 #[Prefix('languages')]
 class LanguageController extends Controller

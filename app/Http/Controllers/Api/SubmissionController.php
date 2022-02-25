@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\SubmissionRequest;
 use App\Models\Submission;
-use App\Notifications\SubmissionNotification;
+use App\Http\Requests\SubmissionRequest;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\SubmissionNotification;
 
 /**
  * @group Endpoints

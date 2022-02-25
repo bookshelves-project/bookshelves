@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\FavoriteResource;
-use App\Models\Favoritable;
-use App\Models\User;
 use Auth;
 use Route;
+use App\Models\User;
+use App\Models\Favoritable;
+use App\Http\Resources\FavoriteResource;
 
 /**
  * @group User: Account

@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Serie;
 
-use App\Http\Resources\Author\AuthorUltraLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Author\AuthorUltraLightResource;
 
 /**
  * @property \App\Models\Serie $resource

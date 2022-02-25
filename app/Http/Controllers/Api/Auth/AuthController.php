@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Api\ApiController;
-use App\Http\Resources\User\UserResource;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\User\UserResource;
+use App\Http\Controllers\Api\ApiController;
 
 /**
  * @group User: Authentication

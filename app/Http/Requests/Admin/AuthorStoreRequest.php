@@ -3,8 +3,8 @@
 namespace App\Http\Requests\Admin;
 
 use App\Enums\AuthorRoleEnum;
-use Illuminate\Foundation\Http\FormRequest;
 use Spatie\Enum\Laravel\Rules\EnumRule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class AuthorStoreRequest extends FormRequest
 {

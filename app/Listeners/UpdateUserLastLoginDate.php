@@ -3,8 +3,8 @@
 namespace App\Listeners;
 
 use App\Models\User;
-use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Carbon;
+use Illuminate\Auth\Events\Login;
 
 class UpdateUserLastLoginDate
 {

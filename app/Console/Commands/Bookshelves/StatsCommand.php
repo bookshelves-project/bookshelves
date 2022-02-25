@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Models\Author;
 use App\Models\Book;
+use Spatie\Tags\Tag;
+use App\Models\Serie;
+use App\Models\Author;
 use App\Models\Language;
 use App\Models\Publisher;
-use App\Models\Serie;
 use Illuminate\Console\Command;
-use Spatie\Tags\Tag;
 
 class StatsCommand extends Command
 {

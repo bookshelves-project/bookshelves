@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Book;
+use Spatie\Tags\Tag;
+use App\Models\Serie;
+use App\Models\Author;
+use App\Models\Language;
+use Illuminate\Http\Request;
 use App\Engines\SearchEngine;
 use App\Http\Resources\EntityResource;
-use App\Models\Author;
-use App\Models\Book;
-use App\Models\Language;
-use App\Models\Serie;
-use Illuminate\Http\Request;
-use Spatie\Tags\Tag;
 
 /**
  * @group Endpoints

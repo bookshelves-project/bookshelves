@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\LanguageQuery;
-use App\Http\Resources\LanguageResource;
 use App\Models\Language;
 use Illuminate\Http\Request;
+use App\Http\Queries\LanguageQuery;
+use App\Http\Queries\Addon\QueryOption;
+use App\Http\Resources\LanguageResource;
 
 /**
  * @group Relation: Language

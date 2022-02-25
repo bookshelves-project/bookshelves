@@ -3,9 +3,9 @@
 namespace App\Docs\Strategies;
 
 use App\Models\Author;
-use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Knuckles\Scribe\Extracting\ParamHelpers;
 use Knuckles\Scribe\Extracting\Strategies\Strategy;
+use Knuckles\Camel\Extraction\ExtractedEndpointData;
 
 class BookshelvesQuery extends Strategy
 {

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Auth;
+use Artisan;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
-use Artisan;
-use Auth;
 
 /**
  * @hideFromAPIDocumentation

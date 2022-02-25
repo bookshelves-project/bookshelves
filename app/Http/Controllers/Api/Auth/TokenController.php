@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Requests\LoginTokenRequest;
-use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
+use App\Services\Auth\AuthService;
+use App\Http\Requests\LoginTokenRequest;
 
 /**
  * @group User: Authentication

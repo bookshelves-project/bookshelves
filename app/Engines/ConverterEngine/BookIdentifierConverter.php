@@ -2,9 +2,9 @@
 
 namespace App\Engines\ConverterEngine;
 
+use App\Models\Book;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\BookIdentifier;
-use App\Models\Book;
 
 class BookIdentifierConverter
 {

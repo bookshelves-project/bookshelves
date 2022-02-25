@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Front\Catalog;
 
+use App\Models\Book;
+use App\Models\Author;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookResource;
-use App\Models\Author;
-use App\Models\Book;
-use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 

@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use Spatie\Tags\HasTags;
 use App\Enums\TagTypeEnum;
-use App\Models\TagExtend as ModelsTagExtend;
 use App\Models\Traits\HasFirstChar;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\TagExtend as ModelsTagExtend;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Spatie\Tags\HasTags;
 
 /**
  * @property null|int $books_count

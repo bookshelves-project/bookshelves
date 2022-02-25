@@ -2,15 +2,15 @@
 
 namespace App\Engines;
 
+use DateTime;
+use Transliterator;
+use Illuminate\Support\Str;
+use App\Enums\BookFormatEnum;
+use App\Services\ConsoleService;
+use Illuminate\Support\Facades\Storage;
 use App\Engines\ParserEngine\BookCreator;
 use App\Engines\ParserEngine\BookIdentifier;
 use App\Engines\ParserEngine\Modules\OpfModule;
-use App\Enums\BookFormatEnum;
-use App\Services\ConsoleService;
-use DateTime;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Transliterator;
 
 /**
  * Parser engine for eBook.
@@ -57,10 +57,10 @@ class ParserEngine
     {
         $extension = pathinfo($file_path)['extension'];
         $file_name = pathinfo($file_path)['basename'];
-        $formats = BookFormatEnum::toLabels();
+        $formats = BookFormatEnum::toArray();
 
         if (! in_array($extension, $formats)) {
-            ConsoleService::print("{$file_path} ParserEngine error.");
+            ConsoleService::print("{$file_path} ParserEngine error: extension is not recognized");
 
             return false;
         }
@@ -72,7 +72,7 @@ class ParserEngine
         $parser->debug = $debug;
 
         $parser = match ($parser->format) {
-            BookFormatEnum::epub() => OpfModule::create($parser),
+            BookFormatEnum::epub => OpfModule::create($parser),
             default => false,
         };
 
@@ -95,7 +95,7 @@ class ParserEngine
                 ParserEngine::printFile($parser_print, "{$parser->file_name}-parser.json");
             }
         } else {
-            ConsoleService::print("{$file_path} ParserEngine error.");
+            ConsoleService::print("{$file_path} ParserEngine error: format not recognized");
 
             return false;
         }

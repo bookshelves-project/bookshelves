@@ -2,18 +2,18 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Engines\ConverterEngine\AuthorConverter;
-use App\Engines\ConverterEngine\SerieConverter;
-use App\Models\Author;
 use App\Models\Book;
-use App\Models\GoogleBook;
 use App\Models\Serie;
+use App\Models\Author;
+use App\Models\GoogleBook;
 use App\Models\WikipediaItem;
-use App\Services\DirectoryClearService;
-use App\Services\GoogleBookService\GoogleBookService;
-use App\Services\WikipediaService\WikipediaService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use App\Services\DirectoryClearService;
+use App\Engines\ConverterEngine\SerieConverter;
+use App\Engines\ConverterEngine\AuthorConverter;
+use App\Services\WikipediaService\WikipediaService;
+use App\Services\GoogleBookService\GoogleBookService;
 
 /**
  * Extra data for Book, Author, Serie.

@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Engines\ConverterEngine\TagConverter;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
+use App\Engines\ConverterEngine\TagConverter;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class GoogleBook extends Model
 {

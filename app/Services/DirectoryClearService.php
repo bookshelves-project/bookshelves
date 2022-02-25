@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use FilesystemIterator;
-use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class DirectoryClearService

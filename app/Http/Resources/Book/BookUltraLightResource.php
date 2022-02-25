@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\Book;
 
-use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Models\Book;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
+use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Author\AuthorUltraLightResource;
 
 /**
  * @property \App\Models\Book $resource

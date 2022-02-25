@@ -2,14 +2,14 @@
 
 namespace App\Engines\ConverterEngine;
 
-use App\Engines\ParserEngine;
+use File;
+use Storage;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Services\DirectoryParserService;
-use App\Services\MediaService;
-use File;
 use Illuminate\Support\Str;
-use Storage;
+use App\Engines\ParserEngine;
+use App\Services\MediaService;
+use App\Services\DirectoryParserService;
 
 class SerieConverter
 {

@@ -11,7 +11,7 @@
 
 📀 [**bookshelves-project**](https://gitlab.com/bookshelves-project) : Bookshelves repository  
 💻 [**bookshelves.ink**](https://bookshelves.ink): demo  
-📚 [**documentation.bookshelves.ink**](https://bookshelves-documentation.netlify.app): documentation  
+📚 [**documentation.bookshelves.ink**](https://bookshelves-documentation.netlify.app): documentation, if this link not work, you can check doc on [this repository](https://gitlab.com/bookshelves-project/bookshelves-doc)  
 
 ## L9 upgrade
 

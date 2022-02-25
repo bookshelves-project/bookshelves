@@ -2,16 +2,16 @@
 
 namespace App\Http\Queries;
 
-use App\Exports\BookExport;
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\Filter\GlobalSearchFilter;
-use App\Http\Resources\Admin\BookResource;
 use App\Models\Book;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Spatie\QueryBuilder\AllowedFilter;
+use App\Exports\BookExport;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Http\Queries\Addon\QueryOption;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Resources\Admin\BookResource;
+use App\Http\Queries\Filter\GlobalSearchFilter;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class BookQuery extends BaseQuery
 {

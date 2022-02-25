@@ -2,20 +2,20 @@
 
 namespace App\Services;
 
-use App\Enums\EntitiesEnum;
+use DateTime;
 use App\Models\Book;
 use App\Models\TagExtend;
-use DateTime;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+use App\Enums\EntityEnum;
 use Illuminate\Support\Str;
 use Spatie\ArrayToXml\ArrayToXml;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class OpdsService
 {
     public function __construct(
         public string $version,
-        public EntitiesEnum $entity,
+        public EntityEnum $entity,
         public string $route,
         public Collection|Model $data,
     ) {
@@ -30,7 +30,7 @@ class OpdsService
         $entries = [];
         if ($this->data instanceof Collection) {
             foreach ($this->data as $key => $entry) {
-                if ($this->entity === EntitiesEnum::book()) {
+                if ($this->entity === EntityEnum::book()) {
                     /** @var Book $entry */
                     $templateEntry = $this->entryBook($entry);
                 } else {

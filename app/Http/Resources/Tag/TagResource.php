@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Tag;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\Tags\Tag;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property Tag $resource

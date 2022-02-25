@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Application;
-use Inertia\Inertia;
 use Spatie\RouteAttributes\Attributes\Get;
 
 class SettingController extends Controller

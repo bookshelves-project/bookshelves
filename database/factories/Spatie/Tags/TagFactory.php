@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Spatie\Tags;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Tags\Tag;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TagFactory extends Factory
 {

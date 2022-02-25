@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use Spatie\Enum\Laravel\Enum;
+
 /**
  * @method static self color_e2e0ff()
  * @method static self color_c4c1ff()

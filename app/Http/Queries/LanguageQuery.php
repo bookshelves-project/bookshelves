@@ -2,15 +2,15 @@
 
 namespace App\Http\Queries;
 
-use App\Exports\LanguageExport;
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\Filter\GlobalSearchFilter;
-use App\Http\Resources\Admin\LanguageResource;
 use App\Models\Language;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Spatie\QueryBuilder\AllowedFilter;
+use App\Exports\LanguageExport;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Http\Queries\Addon\QueryOption;
+use App\Http\Resources\Admin\LanguageResource;
+use App\Http\Queries\Filter\GlobalSearchFilter;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class LanguageQuery extends BaseQuery
 {

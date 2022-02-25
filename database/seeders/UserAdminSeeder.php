@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Enums\GenderEnum;
-use App\Enums\RoleEnum;
-use App\Models\User;
-use App\Services\MediaService;
 use DateTime;
+use App\Models\User;
+use App\Enums\RoleEnum;
+use App\Enums\GenderEnum;
+use App\Services\MediaService;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Artisan;
 
 class UserAdminSeeder extends Seeder
 {

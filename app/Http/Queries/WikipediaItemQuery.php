@@ -2,15 +2,15 @@
 
 namespace App\Http\Queries;
 
+use App\Models\WikipediaItem;
 use App\Exports\WikipediaItemExport;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Queries\Addon\QueryOption;
 use App\Http\Queries\Filter\GlobalSearchFilter;
-use App\Http\Resources\Admin\WikipediaItemResource;
-use App\Models\WikipediaItem;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Resources\Admin\WikipediaItemResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class WikipediaItemQuery extends BaseQuery
 {

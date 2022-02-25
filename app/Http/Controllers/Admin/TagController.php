@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Queries\TagQuery;
-use App\Http\Requests\Admin\TagStoreRequest;
-use App\Http\Requests\Admin\TagUpdateRequest;
-use App\Http\Resources\Admin\TagResource;
+use Inertia\Inertia;
+use Spatie\Tags\Tag;
 use App\Models\TagExtend;
 use Illuminate\Http\Request;
+use App\Http\Queries\TagQuery;
 use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
-use Spatie\RouteAttributes\Attributes\Delete;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Admin\TagResource;
 use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Post;
-use Spatie\RouteAttributes\Attributes\Prefix;
 use Spatie\RouteAttributes\Attributes\Put;
-use Spatie\Tags\Tag;
+use Spatie\RouteAttributes\Attributes\Post;
+use App\Http\Requests\Admin\TagStoreRequest;
+use App\Http\Requests\Admin\TagUpdateRequest;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('tags')]
 class TagController extends Controller

@@ -2,15 +2,15 @@
 
 namespace App\Services\Auth;
 
-use App\Http\Requests\PasswordForgotRequest;
-use App\Http\Requests\PasswordResetRequest;
-use App\Http\Requests\PasswordUpdateRequest;
-use App\Models\PasswordReset;
 use App\Models\User;
+use Illuminate\Support\Str;
+use App\Models\PasswordReset;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use App\Http\Requests\PasswordResetRequest;
+use App\Http\Requests\PasswordForgotRequest;
+use App\Http\Requests\PasswordUpdateRequest;
 
 class PasswordService
 {

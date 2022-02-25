@@ -2,13 +2,13 @@
 
 namespace App\Services\WikipediaService;
 
+use Exception;
 use App\Models\Wikipedia;
 use App\Models\WikipediaItem;
-use App\Services\ConsoleService;
 use App\Services\HttpService;
-use Exception;
-use Illuminate\Database\Eloquent\Model;
+use App\Services\ConsoleService;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Use Wikipedia to get some data about authors and series.

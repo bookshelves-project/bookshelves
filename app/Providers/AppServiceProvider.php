@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use App\Support\LaravelViteManifest;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Blade;
+use Illuminate\Http\Request;
+use App\Support\LaravelViteManifest;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Builder;
 
 class AppServiceProvider extends ServiceProvider
 {

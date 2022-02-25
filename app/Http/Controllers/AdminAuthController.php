@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 
 class AdminAuthController extends Controller

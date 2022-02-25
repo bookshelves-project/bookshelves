@@ -2,16 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\Enums\RoleEnum;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Config;
-use Inertia\Testing\AssertableInertia;
-use function Pest\Laravel\assertAuthenticated;
-use function Pest\Laravel\assertDatabaseHas;
-use function Pest\Laravel\assertGuest;
+use App\Enums\RoleEnum;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
+use function Pest\Laravel\assertGuest;
+use Illuminate\Support\Facades\Config;
+use Inertia\Testing\AssertableInertia;
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertAuthenticated;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 

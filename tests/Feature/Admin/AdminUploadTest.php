@@ -1,10 +1,10 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Laravel\post;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use function Pest\Laravel\post;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 

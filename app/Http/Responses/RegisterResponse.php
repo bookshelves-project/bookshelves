@@ -2,9 +2,9 @@
 
 namespace App\Http\Responses;
 
+use Inertia\Inertia;
 use App\Enums\RoleEnum;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 
 class RegisterResponse implements RegisterResponseContract

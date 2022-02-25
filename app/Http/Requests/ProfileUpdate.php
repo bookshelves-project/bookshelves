@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Enums\GenderEnum;
-use Illuminate\Foundation\Http\FormRequest;
 use Spatie\Enum\Laravel\Rules\EnumRule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ProfileUpdate extends FormRequest
 {

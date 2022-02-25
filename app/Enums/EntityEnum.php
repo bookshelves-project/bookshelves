@@ -11,7 +11,7 @@ use Spatie\Enum\Laravel\Enum;
  * @method static self serie()
  * @method static self feed()
  */
-final class EntitiesEnum extends Enum
+final class EntityEnum extends Enum
 {
     protected static function values(): Closure
     {

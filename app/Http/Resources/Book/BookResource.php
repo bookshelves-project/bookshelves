@@ -2,15 +2,15 @@
 
 namespace App\Http\Resources\Book;
 
-use App\Http\Resources\Author\AuthorUltraLightResource;
-use App\Http\Resources\Comment\CommentResource;
-use App\Http\Resources\GoogleBookResource;
-use App\Http\Resources\MediaResource;
-use App\Http\Resources\Publisher\PublisherLightResource;
-use App\Http\Resources\Serie\SerieLightResource;
-use App\Http\Resources\Tag\TagLightResource;
 use App\Models\Book;
+use App\Http\Resources\MediaResource;
+use App\Http\Resources\GoogleBookResource;
+use App\Http\Resources\Tag\TagLightResource;
+use App\Http\Resources\Comment\CommentResource;
+use App\Http\Resources\Serie\SerieLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Author\AuthorUltraLightResource;
+use App\Http\Resources\Publisher\PublisherLightResource;
 
 /**
  * @property \App\Models\Book $resource

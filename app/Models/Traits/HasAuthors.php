@@ -2,8 +2,8 @@
 
 namespace App\Models\Traits;
 
-use App\Models\Author;
 use ArrayAccess;
+use App\Models\Author;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 

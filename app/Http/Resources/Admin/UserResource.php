@@ -3,8 +3,8 @@
 namespace App\Http\Resources\Admin;
 
 use App\Models\User;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property User $resource

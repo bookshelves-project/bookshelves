@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
+use Spatie\Image\Image;
+use Illuminate\Http\Request;
+use App\Services\MediaService;
+use Spatie\Image\Manipulations;
 use App\Http\Requests\ProfileDelete;
 use App\Http\Requests\ProfileUpdate;
-use App\Http\Resources\User\UserResource;
-use App\Models\User;
-use App\Services\MediaService;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
+use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\User\UserResource;
 
 /**
  * @group User: Account

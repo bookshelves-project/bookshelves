@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Queries\SubmissionQuery;
-use App\Http\Resources\Admin\SubmisionResource;
+use Inertia\Inertia;
 use App\Models\Submission;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Spatie\RouteAttributes\Attributes\Delete;
+use App\Http\Controllers\Controller;
+use App\Http\Queries\SubmissionQuery;
 use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Prefix;
+use App\Http\Resources\Admin\SubmisionResource;
 
 #[Prefix('submissions')]
 class SubmissionController extends Controller

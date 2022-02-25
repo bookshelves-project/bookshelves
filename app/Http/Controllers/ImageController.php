@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use League\Glide\Responses\SymfonyResponseFactory;
 use League\Glide\ServerFactory;
-use League\Glide\Signatures\SignatureException;
+use Illuminate\Support\Facades\Storage;
 use League\Glide\Signatures\SignatureFactory;
+use League\Glide\Signatures\SignatureException;
+use League\Glide\Responses\SymfonyResponseFactory;
 
 class ImageController extends Controller
 {

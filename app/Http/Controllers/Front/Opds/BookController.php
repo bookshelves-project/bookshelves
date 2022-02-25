@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Front\Opds;
 
-use App\Enums\EntitiesEnum;
-use App\Http\Controllers\Controller;
-use App\Models\Author;
-use App\Models\Book;
-use App\Services\OpdsService;
-use Illuminate\Http\Request;
 use Route;
+use App\Models\Book;
+use App\Models\Author;
+use App\Enums\EntityEnum;
+use Illuminate\Http\Request;
+use App\Services\OpdsService;
+use App\Http\Controllers\Controller;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -34,7 +34,7 @@ class BookController extends Controller
         ]);
         $opdsService = new OpdsService(
             version: $version,
-            entity: EntitiesEnum::book(),
+            entity: EntityEnum::book(),
             route: $current_route,
             data: $book
         );

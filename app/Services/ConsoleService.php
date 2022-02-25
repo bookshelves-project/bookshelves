@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use Throwable;
 use Illuminate\Console\Concerns\InteractsWithIO;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use Throwable;
 
 class ConsoleService
 {

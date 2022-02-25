@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use File;
-use Illuminate\Support\Str;
 use ZipArchive;
+use Illuminate\Support\Str;
 
 /**
  * @hideFromAPIDocumentation

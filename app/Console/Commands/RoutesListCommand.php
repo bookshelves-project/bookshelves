@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Services\ConverterService;
 use App\Services\RouteService;
 use Illuminate\Console\Command;
+use App\Services\ConverterService;
 
 class RoutesListCommand extends Command
 {

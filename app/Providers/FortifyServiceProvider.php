@@ -2,26 +2,26 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Http\Request;
+use Laravel\Fortify\Fortify;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Responses\LoginResponse;
 use App\Actions\Fortify\CreateNewUser;
+use App\Http\Responses\LogoutResponse;
+use Illuminate\Support\ServiceProvider;
+use App\Http\Responses\RegisterResponse;
+use Illuminate\Cache\RateLimiting\Limit;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
-use App\Actions\Fortify\UpdateUserProfileInformation;
-use App\Http\Responses\LoginResponse;
-use App\Http\Responses\LogoutResponse;
-use App\Http\Responses\PasswordResetResponse;
-use App\Http\Responses\RegisterResponse;
-use App\Models\User;
-use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\ServiceProvider;
+use App\Http\Responses\PasswordResetResponse;
+use Illuminate\Auth\Notifications\ResetPassword;
+use App\Actions\Fortify\UpdateUserProfileInformation;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
-use Laravel\Fortify\Contracts\PasswordResetResponse as PasswordResetResponseContract;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
-use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Contracts\PasswordResetResponse as PasswordResetResponseContract;
 
 class FortifyServiceProvider extends ServiceProvider
 {

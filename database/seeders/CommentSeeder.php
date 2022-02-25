@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Author;
-use App\Models\Book;
-use App\Models\Comment;
-use App\Models\Serie;
-use App\Models\User;
 use DB;
+use App\Models\Book;
+use App\Models\User;
+use App\Models\Serie;
+use App\Models\Author;
+use App\Models\Comment;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 

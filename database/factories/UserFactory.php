@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Enums\GenderEnum;
-use App\Enums\RoleEnum;
-use App\Models\User;
 use Hash;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
+use App\Enums\RoleEnum;
+use App\Enums\GenderEnum;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UserFactory extends Factory
 {

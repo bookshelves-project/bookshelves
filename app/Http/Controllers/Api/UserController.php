@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Comment\CommentResource;
-use App\Http\Resources\FavoriteResource;
-use App\Http\Resources\User\UserListResource;
-use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\FavoriteResource;
+use App\Http\Resources\User\UserResource;
+use App\Http\Resources\User\UserListResource;
+use App\Http\Resources\Comment\CommentResource;
 
 /**
  * @group User

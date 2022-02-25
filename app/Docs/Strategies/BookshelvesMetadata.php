@@ -2,11 +2,11 @@
 
 namespace App\Docs\Strategies;
 
-use Knuckles\Camel\Extraction\ExtractedEndpointData;
+use Mpociot\Reflection\DocBlock;
 use Knuckles\Scribe\Extracting\ParamHelpers;
 use Knuckles\Scribe\Extracting\RouteDocBlocker;
 use Knuckles\Scribe\Extracting\Strategies\Strategy;
-use Mpociot\Reflection\DocBlock;
+use Knuckles\Camel\Extraction\ExtractedEndpointData;
 
 class BookshelvesMetadata extends Strategy
 {

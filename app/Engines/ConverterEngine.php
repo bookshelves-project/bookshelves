@@ -2,16 +2,16 @@
 
 namespace App\Engines;
 
-use App\Engines\ConverterEngine\AuthorConverter;
+use App\Models\Book;
+use App\Enums\BookFormatEnum;
+use App\Engines\ConverterEngine\TagConverter;
 use App\Engines\ConverterEngine\BookConverter;
-use App\Engines\ConverterEngine\BookIdentifierConverter;
 use App\Engines\ConverterEngine\CoverConverter;
+use App\Engines\ConverterEngine\SerieConverter;
+use App\Engines\ConverterEngine\AuthorConverter;
 use App\Engines\ConverterEngine\LanguageConverter;
 use App\Engines\ConverterEngine\PublisherConverter;
-use App\Engines\ConverterEngine\SerieConverter;
-use App\Engines\ConverterEngine\TagConverter;
-use App\Enums\BookFormatEnum;
-use App\Models\Book;
+use App\Engines\ConverterEngine\BookIdentifierConverter;
 
 class ConverterEngine
 {
@@ -36,7 +36,7 @@ class ConverterEngine
             }
 
             match ($parser->format) {
-                BookFormatEnum::epub() => BookConverter::epub($book, $parser->file_path),
+                BookFormatEnum::epub => BookConverter::epub($book, $parser->file_path),
                 default => false,
             };
             $book->save();

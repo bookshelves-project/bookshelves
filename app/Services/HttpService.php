@@ -2,18 +2,18 @@
 
 namespace App\Services;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Handler\CurlFactory;
-use GuzzleHttp\Handler\CurlMultiHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Pool;
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Artisan;
+use GuzzleHttp\Handler\CurlFactory;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Artisan;
+use GuzzleHttp\Handler\CurlMultiHandler;
+use GuzzleHttp\Exception\RequestException;
 
 class HttpService
 {

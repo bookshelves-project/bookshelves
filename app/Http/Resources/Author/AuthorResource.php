@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Author;
 
-use App\Http\Resources\Comment\CommentResource;
 use App\Models\Author;
+use App\Http\Resources\Comment\CommentResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthorResource extends JsonResource

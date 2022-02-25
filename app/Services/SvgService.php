@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use File;
-use Illuminate\Http\Request;
 use InlineSvg\Collection;
+use Illuminate\Http\Request;
 use InlineSvg\Transformers\Cleaner;
 
 class SvgService

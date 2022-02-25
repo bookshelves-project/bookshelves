@@ -2,8 +2,8 @@
 
 namespace App\Utils;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class BookshelvesTools
 {

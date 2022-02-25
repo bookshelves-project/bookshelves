@@ -3,6 +3,7 @@
 namespace App\Enums;
 
 use Closure;
+use Spatie\Enum\Laravel\Enum;
 
 /**
  * @method static self super_admin()

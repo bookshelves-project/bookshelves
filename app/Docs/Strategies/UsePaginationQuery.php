@@ -2,10 +2,10 @@
 
 namespace App\Docs\Strategies;
 
-use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Knuckles\Scribe\Extracting\ParamHelpers;
 use Knuckles\Scribe\Extracting\RouteDocBlocker;
 use Knuckles\Scribe\Extracting\Strategies\Strategy;
+use Knuckles\Camel\Extraction\ExtractedEndpointData;
 
 class UsePaginationQuery extends Strategy
 {

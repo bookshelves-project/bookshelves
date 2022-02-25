@@ -2,10 +2,14 @@
 
 namespace App\Enums;
 
-class Enum extends \Spatie\Enum\Laravel\Enum
+interface Enum
 {
-    protected static function labels(): array
-    {
-        return collect(__('enum::validation.enums.'.static::class))->toArray();
-    }
+    public function labels(): array;
 }
+// class Enum
+// {
+//     protected static function labels(): array
+//     {
+//         return collect(__('enum::validation.enums.'.static::class))->toArray();
+//     }
+// }

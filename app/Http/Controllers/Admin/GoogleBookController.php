@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Queries\GoogleBookQuery;
-use App\Http\Requests\Admin\GoogleBookStoreRequest;
-use App\Http\Requests\Admin\GoogleBookUpdateRequest;
-use App\Http\Resources\Admin\GoogleBookResource;
+use Inertia\Inertia;
 use App\Models\GoogleBook;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Spatie\RouteAttributes\Attributes\Delete;
+use App\Http\Controllers\Controller;
+use App\Http\Queries\GoogleBookQuery;
 use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Post;
-use Spatie\RouteAttributes\Attributes\Prefix;
 use Spatie\RouteAttributes\Attributes\Put;
+use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\RouteAttributes\Attributes\Delete;
+use Spatie\RouteAttributes\Attributes\Prefix;
+use App\Http\Resources\Admin\GoogleBookResource;
+use App\Http\Requests\Admin\GoogleBookStoreRequest;
+use App\Http\Requests\Admin\GoogleBookUpdateRequest;
 
 #[Prefix('google-books')]
 class GoogleBookController extends Controller

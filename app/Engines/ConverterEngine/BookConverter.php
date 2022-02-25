@@ -2,12 +2,12 @@
 
 namespace App\Engines\ConverterEngine;
 
-use App\Engines\ParserEngine;
-use App\Enums\BookTypeEnum;
-use App\Models\Book;
-use App\Services\ConsoleService;
-use File;
 use Str;
+use File;
+use App\Models\Book;
+use App\Enums\BookTypeEnum;
+use App\Engines\ParserEngine;
+use App\Services\ConsoleService;
 
 class BookConverter
 {

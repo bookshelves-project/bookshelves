@@ -2,21 +2,45 @@
 
 namespace App\Enums;
 
-use Spatie\Enum\Laravel\Enum;
+use App\Enums\Traits\EnumMethods;
+
+// /**
+//  *
+//  *
+//  * @method static self epub()
+//  * @method static self cbz()
+//  * @method static self pdf()
+//  */
+// final class BookFormatEnum extends Enum
+// {
+//     protected static function labels(): array
+//     {
+//         return [
+//             'epub' => 'epub',
+//             'cbz' => 'cbz',
+//             'pdf' => 'pdf',
+//         ];
+//     }
+// }
 
 /**
- * @method static self epub()
- * @method static self cbz()
- * @method static self pdf()
+ * Check `ParserEngine::class`, `ConverterEngine::class` if you want to add new format.
  */
-final class BookFormatEnum extends Enum
+enum BookFormatEnum: string
 {
-    protected static function labels(): array
+    use EnumMethods;
+
+    case epub = 'epub';
+    case cbz = 'cbz';
+    case pdf = 'pdf';
+
+    public function color(): string
     {
-        return [
-            'epub' => 'epub',
-            'cbz' => 'cbz',
-            'pdf' => 'pdf',
-        ];
+        return match ($this) {
+            BookFormatEnum::epub => 'grey',
+            BookFormatEnum::cbz => 'green',
+            BookFormatEnum::pdf => 'red',
+        };
     }
+
 }

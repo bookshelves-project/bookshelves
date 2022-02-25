@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Comment\CommentResource;
+use Auth;
 use App\Models\Book;
 use App\Models\Comment;
-use Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Resources\Comment\CommentResource;
 
 /**
  * @group User: Comment

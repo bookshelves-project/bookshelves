@@ -2,23 +2,23 @@
 
 namespace App\Providers;
 
-use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\DestroyUserController;
-use App\Http\Controllers\ImageController;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
-use Laravel\Fortify\Http\Controllers\NewPasswordController;
+use Illuminate\Cache\RateLimiting\Limit;
+use App\Http\Controllers\ImageController;
+use Spatie\RouteAttributes\RouteRegistrar;
+use Illuminate\Support\Facades\RateLimiter;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\DestroyUserController;
 use Laravel\Fortify\Http\Controllers\PasswordController;
+use Laravel\Fortify\Http\Controllers\NewPasswordController;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\ProfileInformationController;
-use Laravel\Fortify\Http\Controllers\RegisteredUserController;
-use Spatie\RouteAttributes\RouteRegistrar;
+use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {

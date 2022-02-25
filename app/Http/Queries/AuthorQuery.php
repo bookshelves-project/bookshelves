@@ -2,15 +2,15 @@
 
 namespace App\Http\Queries;
 
-use App\Exports\AuthorExport;
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\Filter\GlobalSearchFilter;
-use App\Http\Resources\Admin\AuthorResource;
 use App\Models\Author;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Spatie\QueryBuilder\AllowedFilter;
+use App\Exports\AuthorExport;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Http\Queries\Addon\QueryOption;
+use App\Http\Resources\Admin\AuthorResource;
+use App\Http\Queries\Filter\GlobalSearchFilter;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class AuthorQuery extends BaseQuery
 {

@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Enums\BookTypeEnum;
-use App\Models\Author;
 use App\Models\Book;
+use App\Models\Serie;
+use App\Models\Author;
 use App\Models\Language;
 use App\Models\Publisher;
-use App\Models\Serie;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Enums\BookTypeEnum;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BookFactory extends Factory
 {

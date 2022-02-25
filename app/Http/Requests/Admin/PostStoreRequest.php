@@ -2,14 +2,14 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Enums\PostStatusEnum;
-use App\Models\PostCategory;
 use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\PostCategory;
+use App\Enums\PostStatusEnum;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Enum\Laravel\Rules\EnumRule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class PostStoreRequest extends FormRequest
 {

@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Services\DirectoryClearService;
 use Artisan;
 use Illuminate\Console\Command;
+use App\Services\DirectoryClearService;
 
 class ClearCommand extends Command
 {

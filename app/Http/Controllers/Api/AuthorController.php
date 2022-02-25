@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Queries\Addon\QueryOption;
+use App\Models\Author;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Http\Queries\AuthorQuery;
-use App\Http\Resources\Author\AuthorLightResource;
+use App\Http\Queries\Addon\QueryOption;
+use Spatie\MediaLibrary\Support\MediaStream;
 use App\Http\Resources\Author\AuthorResource;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
-use App\Models\Author;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Support\MediaStream;
+use App\Http\Resources\Author\AuthorLightResource;
 
 /**
  * @group Entity: Author

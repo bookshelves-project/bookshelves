@@ -2,13 +2,13 @@
 
 namespace App\Models\Traits;
 
-use App\Models\TagExtend;
 use ArrayAccess;
+use Spatie\Tags\Tag;
+use Spatie\Tags\HasTags;
+use App\Models\TagExtend;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Support\Facades\DB;
-use Spatie\Tags\HasTags;
-use Spatie\Tags\Tag;
 
 /**
  * Manage tags and genres with `spatie/laravel-tags`.
