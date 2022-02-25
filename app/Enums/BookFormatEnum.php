@@ -12,8 +12,6 @@ enum BookFormatEnum: string
     use EnumMethods;
 
     case epub = 'epub';
-
     case cbz = 'cbz';
-
     case pdf = 'pdf';
 }

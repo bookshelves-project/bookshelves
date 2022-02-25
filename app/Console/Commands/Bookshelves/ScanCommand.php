@@ -3,12 +3,7 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\ParserEngine;
-use App\Models\Author;
 use App\Models\Book;
-use App\Models\Language;
-use App\Models\Publisher;
-use App\Models\Serie;
-use App\Models\TagExtend;
 use App\Services\DirectoryParserService;
 use Illuminate\Console\Command;
 
@@ -19,9 +14,7 @@ class ScanCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'bookshelves:scan
-                            {--l|limit= : limit files to generate, useful for debug}
-                            {--n|new : display new eBooks}';
+    protected $signature = 'bookshelves:scan';
 
     /**
      * The console command description.
@@ -43,36 +36,55 @@ class ScanCommand extends Command
      */
     public function handle(): false|array
     {
-        $limit = intval(str_replace('=', '', $this->option('limit')));
-        $new = $this->option('new');
-
-        $verbose = $this->option('verbose');
-
         $app = config('app.name');
         $this->alert("{$app}: scan all EPUB files");
         $this->warn('Scan public/storage/data/books directory');
 
-        $files = DirectoryParserService::getFilesList(limit: $limit);
+        $verbose = $this->option('verbose');
 
-        if ($verbose) {
-            foreach ($files as $key => $file) {
-                echo $key.' '.pathinfo($file)['filename']."\n";
-                if ($new) {
-                    $parser = ParserEngine::create($file);
-                }
+        $files = DirectoryParserService::getFilesList();
+
+        $new_files = [];
+        if (! $verbose) {
+            $bar = $this->output->createProgressBar(sizeof($files));
+            $bar->start();
+        }
+        foreach ($files as $key => $file) {
+            $parser = ParserEngine::create($file);
+            $book = Book::whereSlug($parser->title_slug_lang)->first();
+            if (! $book) {
+                array_push($new_files, $parser);
+            }
+            if (! $verbose) {
+                $bar->advance();
+            } else {
+                $this->info($key.' '.pathinfo($file)['filename']);
+            }
+        }
+        if (! $verbose) {
+            $bar->finish();
+            $this->newLine();
+        }
+
+        if (sizeof($new_files) > 0) {
+            $this->newLine();
+            $this->info('New files detected');
+            $this->newLine();
+            foreach ($new_files as $parser) {
+                $this->info("- {$parser->title} from {$parser->file_name}");
             }
         }
 
-        if ($limit) {
-            return array_slice($files, 0, $limit);
+        $this->newLine();
+        $this->warn(sizeof(($files)).' files found');
+        if (sizeof($new_files) > 0) {
+            $this->warn(sizeof(($new_files)).' new files found, to add it to collection, you can use `bookshelves:generate`');
         }
-
-        $this->warn(sizeof(($files)).' EPUB files found');
         $this->newLine();
 
         $this->table(
-            ['Books', 'Series', 'Authors', 'Languages', 'Publishers', 'Tags'],
-            [[Book::count(), Serie::count(), Author::count(), Language::count(), Publisher::count(), TagExtend::count()]]
+            ['New books', 'Books'],
+            [[sizeof($new_files), Book::count()]]
         );
 
         return $files;

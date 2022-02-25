@@ -9,8 +9,6 @@ enum SpatieMediaMethodEnum: string
     use EnumMethods;
 
     case addMediaFromString = 'addMediaFromString';
-
     case addMediaFromBase64 = 'addMediaFromBase64';
-
     case addMediaFromDisk = 'addMediaFromDisk';
 }

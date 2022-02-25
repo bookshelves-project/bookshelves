@@ -9,6 +9,5 @@ enum TagTypeEnum: string
     use EnumMethods;
 
     case tag = 'tag';
-
     case genre = 'genre';
 }

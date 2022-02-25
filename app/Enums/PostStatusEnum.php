@@ -9,8 +9,6 @@ enum PostStatusEnum: string
     use EnumMethods;
 
     case draft = 'draft';
-
     case scheduled = 'scheduled';
-
     case published = 'published';
 }
