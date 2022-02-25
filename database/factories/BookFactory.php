@@ -27,27 +27,26 @@ class BookFactory extends Factory
      */
     public function definition()
     {
-        $faker = \Faker\Factory::create();
-        $title = ucfirst($faker->words($faker->numberBetween(2, 5), true));
+        $title = $this->faker->words($this->faker->numberBetween(2, 5), true);
 
         return [
-            'title' => $title,
+            'title' => ucfirst($title),
             'slug_sort' => Str::slug($title),
             'slug' => Str::slug($title),
             'contributor' => 'contributor',
-            'description' => $faker->paragraph(),
-            'released_on' => $faker->dateTime(),
-            'rights' => $faker->words(5, true),
-            'volume' => $faker->numberBetween(0, 8),
-            'page_count' => $faker->randomDigit(),
+            'description' => $this->faker->paragraph(),
+            'released_on' => $this->faker->dateTime(),
+            'rights' => $this->faker->words(5, true),
+            'volume' => $this->faker->numberBetween(0, 8),
+            'page_count' => $this->faker->randomDigit(),
             'maturity_rating' => null,
             'disabled' => false,
-            'type' => BookTypeEnum::novel,
-            'isbn10' => $faker->isbn10(),
-            'isbn13' => $faker->isbn13(),
+            'type' => $this->faker->randomElement(BookTypeEnum::toValues()),
+            'isbn10' => $this->faker->isbn10(),
+            'isbn13' => $this->faker->isbn13(),
             'identifiers' => [
-                'isbn10' => $faker->isbn10(),
-                'isbn13' => $faker->isbn13(),
+                'isbn10' => $this->faker->isbn10(),
+                'isbn13' => $this->faker->isbn13(),
             ],
         ];
     }

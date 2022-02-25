@@ -4,7 +4,7 @@ namespace App\Engines;
 
 use App\Engines\ParserEngine\BookCreator;
 use App\Engines\ParserEngine\BookIdentifier;
-use App\Engines\ParserEngine\FilesParser;
+use App\Engines\ParserEngine\FilesTypeParser;
 use App\Engines\ParserEngine\Modules\OpfModule;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
@@ -56,7 +56,7 @@ class ParserEngine
     /**
      * Transform OPF file to ParserEngine.
      */
-    public static function create(FilesParser $file, bool $debug = false): ParserEngine|false
+    public static function create(FilesTypeParser $file, bool $debug = false): ParserEngine|false
     {
         $extension = pathinfo($file->path)['extension'];
         $file_name = pathinfo($file->path)['basename'];

@@ -143,7 +143,7 @@ class AuthorConverter
         $path = public_path("storage/data/pictures-{$disk}");
         $cover = null;
 
-        $files = DirectoryParserService::getDirectoryFiles($path);
+        $files = DirectoryParserService::parseDirectoryFiles($path);
 
         foreach ($files as $file) {
             if (pathinfo($file)['filename'] === $author->slug) {

@@ -6,7 +6,7 @@ use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Services\DirectoryParserService;
 
-class FilesParser
+class FilesTypeParser
 {
     public function __construct(
         public ?BookTypeEnum $type,
@@ -15,11 +15,11 @@ class FilesParser
     }
 
     /**
-     * Get all files.
+     * Get all files from `storage/data/books`.
      *
-     * @return false|FilesParser[]
+     * @return false|FilesTypeParser[]
      */
-    public static function getFilesList(int $limit = null)
+    public static function parseDataFiles(int $limit = null)
     {
         $book_types = BookTypeEnum::toArray();
         $ext = 'epub';
@@ -28,11 +28,11 @@ class FilesParser
         foreach ($book_types as $type => $path) {
             $path = storage_path("app/public/data/books/{$type}");
 
-            foreach (DirectoryParserService::getDirectoryFiles($path) as $file_path) {
+            foreach (DirectoryParserService::parseDirectoryFiles($path) as $file_path) {
                 if (array_key_exists('extension', pathinfo($file_path))) {
                     $ext = pathinfo($file_path)['extension'];
                     if (array_key_exists($ext, BookFormatEnum::toArray())) {
-                        array_push($files, new FilesParser(BookTypeEnum::from($type), $file_path));
+                        array_push($files, new FilesTypeParser(BookTypeEnum::from($type), $file_path));
                     }
                 }
             }

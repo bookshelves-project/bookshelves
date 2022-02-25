@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\ParserEngine;
-use App\Engines\ParserEngine\FilesParser;
+use App\Engines\ParserEngine\FilesTypeParser;
 use App\Models\Book;
 use App\Services\DirectoryParserService;
 use Illuminate\Console\Command;
@@ -43,7 +43,7 @@ class ScanCommand extends Command
 
         $verbose = $this->option('verbose');
 
-        $files = FilesParser::getFilesList();
+        $files = FilesTypeParser::parseDataFiles();
 
         $new_files = [];
         if (! $verbose) {

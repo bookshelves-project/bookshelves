@@ -11,7 +11,7 @@ class DirectoryParserService
      *
      * @return \Generator<mixed, mixed, mixed, void>
      */
-    public static function getDirectoryFiles($dir)
+    public static function parseDirectoryFiles($dir)
     {
         $files = scandir($dir);
         foreach ($files as $key => $value) {
@@ -19,7 +19,7 @@ class DirectoryParserService
             if (! is_dir($path)) {
                 yield $path;
             } elseif ('.' != $value && '..' != $value) {
-                yield from self::getDirectoryFiles($path);
+                yield from self::parseDirectoryFiles($path);
                 yield $path;
             }
         }

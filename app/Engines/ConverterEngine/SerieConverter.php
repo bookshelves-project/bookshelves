@@ -100,7 +100,7 @@ class SerieConverter
         // Check if JPG file with series' slug name exist
         // To know slug name, check into database when serie was created
         $path = public_path("storage/data/pictures-{$disk}");
-        $files = DirectoryParserService::getDirectoryFiles($path);
+        $files = DirectoryParserService::parseDirectoryFiles($path);
 
         $local_cover = null;
         foreach ($files as $key => $file) {
