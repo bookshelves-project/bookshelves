@@ -2,20 +2,19 @@
 
 namespace App\Enums;
 
-use Closure;
-use Spatie\Enum\Laravel\Enum;
+use App\Enums\Traits\EnumMethods;
 
-/**
- * @method static self xl()
- * @method static self lg()
- * @method static self md()
- * @method static self sm()
- * @method static self xs()
- */
-final class CountSizeEnum extends Enum
+enum CountSizeEnum: string
 {
-    protected static function values(): Closure
-    {
-        return fn (string $name) => mb_strtolower($name);
-    }
+    use EnumMethods;
+
+    case xl = 'xl';
+
+    case lg = 'lg';
+
+    case md = 'md';
+
+    case sm = 'sm';
+
+    case xs = 'xs';
 }

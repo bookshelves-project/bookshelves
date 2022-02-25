@@ -58,7 +58,6 @@
         "oscarotero/inline-svg": "^2.0",
         "spatie/array-to-xml": "^3.1",
         "spatie/eloquent-sortable": "^4.0",
-        "spatie/laravel-enum": "^3.0",
         "spatie/laravel-image-optimizer": "^1.7",
         "spatie/laravel-medialibrary": "^10.0",
         "spatie/laravel-query-builder": "^5.0",

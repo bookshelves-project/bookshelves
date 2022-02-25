@@ -42,7 +42,7 @@ class PublishScheduledPosts extends Command
             ->scheduled()
             ->where('published_at', '<', Carbon::now())
             ->each(function (Post $post) {
-                $post->update(['status' => PostStatusEnum::published()]);
+                $post->update(['status' => PostStatusEnum::published]);
             })
         ;
 

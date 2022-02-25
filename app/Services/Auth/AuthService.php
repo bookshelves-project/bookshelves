@@ -40,7 +40,7 @@ class AuthService
         }
 
         return response()->json([
-            /** @var User $user */
+            // @var User $user
             'token' => $user->createToken($request->device_name)->plainTextToken,
         ]);
     }
@@ -71,7 +71,7 @@ class AuthService
             'name' => $name[0],
             'password' => Hash::make($validate['password']),
             'email' => $validate['email'],
-            'role' => RoleEnum::user(),
+            'role' => RoleEnum::user->name,
         ]);
 
         return UserResource::make($user);

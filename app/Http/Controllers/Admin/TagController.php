@@ -39,7 +39,7 @@ class TagController extends Controller
     #[Get('/', name: 'tags')]
     public function index()
     {
-        return app(TagQuery::class)->make()
+        return app(TagQuery::class)->make(null)
             ->paginateOrExport(fn ($data) => Inertia::render('tags/Index', $data))
         ;
     }

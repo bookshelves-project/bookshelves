@@ -35,7 +35,7 @@ class UserController extends Controller
     #[Get('/', name: 'users')]
     public function index()
     {
-        return app(UserQuery::class)->make()
+        return app(UserQuery::class)->make(null)
             ->paginateOrExport(fn ($data) => Inertia::render('users/Index', ['action' => 'list'] + $data))
         ;
     }
@@ -45,7 +45,7 @@ class UserController extends Controller
     {
         return Inertia::render('users/Index', [
             'action' => 'create',
-        ] + app(UserQuery::class)->make()->get());
+        ] + app(UserQuery::class)->make(null)->get());
     }
 
     #[Get('{user}', name: 'users.show')]
@@ -54,7 +54,7 @@ class UserController extends Controller
         return Inertia::render('users/Index', [
             'action' => 'show',
             'user' => UserResource::make($user),
-        ] + app(UserQuery::class)->make()->get());
+        ] + app(UserQuery::class)->make(null)->get());
     }
 
     #[Get('{user}/edit', name: 'users.edit')]
@@ -63,7 +63,7 @@ class UserController extends Controller
         return Inertia::render('users/Index', [
             'action' => 'edit',
             'user' => UserResource::make($user),
-        ] + app(UserQuery::class)->make()->get());
+        ] + app(UserQuery::class)->make(null)->get());
     }
 
     #[Post('/', name: 'users.store')]

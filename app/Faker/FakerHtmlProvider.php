@@ -17,9 +17,7 @@ class FakerHtmlProvider extends Base
     {
         $html = '';
 
-        /*
-         *  Generate many paragraphs
-         */
+        // Generate many paragraphs
         for ($k = 0; $k < $this->generator->numberBetween($min, $max); ++$k) {
             $paragraph = $this->generator->paragraph($sentences);
             $html .= "<p>{$paragraph}</p>";

@@ -5,7 +5,8 @@
  * https://mlocati.github.io/php-cs-fixer-configurator.
  */
 $rules = [
-    '@PSR2' => true,
+    // '@PSR2' => true,
+    '@PhpCsFixer' => true,
     'no_empty_comment' => false,
     'no_extra_blank_lines' => [
         'tokens' => [
@@ -29,6 +30,9 @@ $rules = [
         ],
         'sort_algorithm' => 'alpha',
     ],
+    'array_indentation' => true,
+    'array_syntax' => true,
+    'blank_line_after_opening_tag' => true,
 ];
 
 $finder = PhpCsFixer\Finder::create()

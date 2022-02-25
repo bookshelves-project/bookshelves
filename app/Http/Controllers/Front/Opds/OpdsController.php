@@ -55,7 +55,7 @@ class OpdsController extends Controller
         $current_route = route(Route::currentRouteName(), ['version' => $version]);
         $opdsService = new OpdsService(
             version: $version,
-            entity: EntityEnum::feed(),
+            entity: EntityEnum::feed,
             route: $current_route,
             data: $feed,
         );

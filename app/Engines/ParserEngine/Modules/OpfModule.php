@@ -241,9 +241,7 @@ class OpfModule
                 $href = $attributes['href'] ?? null;
 
                 if ($type && $id && $href && 'image/jpeg' === $type || 'image/png' === $type) {
-                    /*
-                     * Check if cover exist in images.
-                     */
+                    // Check if cover exist in images.
                     if ('cover' === $id) {
                         $cover = $href;
                     } elseif (! $cover) {

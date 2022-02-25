@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
 
     public static function deleteRoles()
     {
-        // $role = RoleEnum::admin();
+        // $role = RoleEnum::admin;
         // $role = Role::where('name', $role)->first();
         // DB::statement('SET foreign_key_checks=0');
         // DB::table('model_has_roles')->truncate();

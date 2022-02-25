@@ -2,19 +2,37 @@
 
 namespace App\Enums;
 
+use App\Enums\Traits\EnumMethods;
 use Closure;
-use Spatie\Enum\Laravel\Enum;
 
-/**
- * @method static self super_admin()
- * @method static self admin()
- * @method static self publisher()
- * @method static self user()
- */
-final class RoleEnum extends Enum
+enum RoleEnum: string
 {
+    use EnumMethods;
+
+    case super_admin = 'super_admin';
+
+    case admin = 'admin';
+
+    case publisher = 'publisher';
+
+    case user = 'user';
+
     protected static function values(): Closure
     {
         return fn (string $name) => mb_strtolower($name);
+    }
+
+    public function equals(...$others): bool
+    {
+        foreach ($others as $other) {
+            if (
+                get_class($this) === get_class($other)
+                && $this->value === $other->value
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

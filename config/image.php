@@ -17,9 +17,7 @@ return [
     'driver' => env('IMAGE_DRIVER', 'gd'),
     'format' => 'webp',
 
-    /*
-     * For Book, Serie, Author.
-     */
+    // For Book, Serie, Author.
     'covers' => [
         // Custom sizes
         // 1.6:1 aspect ratio cover
@@ -42,9 +40,7 @@ return [
         ],
     ],
 
-    /*
-     * For User.
-     */
+    // For User.
     'user' => [
         'avatar' => [
             'width' => 250,
@@ -56,9 +52,7 @@ return [
         ],
     ],
 
-    /*
-     * For other formats.
-     */
+    // For other formats.
     'thumbnails' => [
         // Classic
         'admin_preview' => [

@@ -33,7 +33,7 @@ class LoginResponse implements LoginResponseContract
      */
     public function toResponse($request)
     {
-        if ($this->user->role->equals(RoleEnum::user())) {
+        if ($this->user->role->equals(RoleEnum::user)) {
             return Inertia::location(route('front.home'));
         }
 

@@ -19,9 +19,6 @@ class TagResource extends JsonResource
      */
     public function toArray($request)
     {
-        $resource = TagLightResource::make($this->resource)->toArray($request);
-
-        return array_merge($resource, [
-        ]);
+        return TagLightResource::make($this->resource)->toArray($request);
     }
 }

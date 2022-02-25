@@ -7,7 +7,7 @@ Vous avez reçu une demande de contact.
 
 Identité de la personne :
 <ul>
-    <li><strong>Civilité</strong> : {{ App\Enums\GenderEnum::from($gender)->label }}</li>
+    <li><strong>Civilité</strong> : {{ App\Enums\GenderEnum::from($gender)->name }}</li>
     <li><strong>Identité</strong> : {{ $first_name }} {{ $last_name }}</li>
     <li><strong>Téléphone</strong> : {{ $phone }}</li>
     <li><strong>Email</strong> : {{ $email }}</li>

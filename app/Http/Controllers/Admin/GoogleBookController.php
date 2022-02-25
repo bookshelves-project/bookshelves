@@ -32,7 +32,7 @@ class GoogleBookController extends Controller
     #[Get('/', name: 'google-books')]
     public function index()
     {
-        return app(GoogleBookQuery::class)->make()
+        return app(GoogleBookQuery::class)->make(null)
             ->paginateOrExport(fn ($data) => Inertia::render('google-books/Index', $data))
         ;
     }

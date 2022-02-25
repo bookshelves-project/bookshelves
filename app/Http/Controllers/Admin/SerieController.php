@@ -32,7 +32,7 @@ class SerieController extends Controller
     #[Get('/', name: 'series')]
     public function index()
     {
-        return app(SerieQuery::class)->make()
+        return app(SerieQuery::class)->make(null)
             ->paginateOrExport(fn ($data) => Inertia::render('series/Index', $data))
         ;
     }

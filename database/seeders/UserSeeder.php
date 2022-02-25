@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
         Storage::disk('public')->deleteDirectory('media/users');
         $faker = \Faker\Factory::create();
 
-        // $users = User::whereRelation('roles', 'name', '!==', RoleEnum::admin())->pluck('id')->toArray();
+        // $users = User::whereRelation('roles', 'name', '!==', RoleEnum::admin)->pluck('id')->toArray();
         // User::destroy($users);
         $media = Media::where('collection_name', 'avatar')->pluck('id')->toArray();
         Media::destroy($media);

@@ -33,7 +33,7 @@ class AuthorFactory extends Factory
             'firstname' => $firstname,
             'name' => $name,
             'slug' => Str::slug($name),
-            'role' => AuthorRoleEnum::aut(),
+            'role' => AuthorRoleEnum::aut,
             'description' => $faker->paragraph(),
             'link' => $faker->url(),
             'note' => $faker->paragraph(),

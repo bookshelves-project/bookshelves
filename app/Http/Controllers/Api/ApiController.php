@@ -61,12 +61,12 @@ class ApiController extends Controller
     /**
      * @hideFromAPIDocumentation
      */
-    public function apiHome()
+    public function home()
     {
         return response()->json([
             'name' => config('app.name').' API',
             'versions' => [
-                'v1' => route('api.v1.v1'),
+                'v1' => route('api.v1'),
             ],
         ]);
     }
@@ -74,7 +74,7 @@ class ApiController extends Controller
     /**
      * @hideFromAPIDocumentation
      */
-    public function apiV1()
+    public function v1()
     {
         $list = RouteService::getList('api/v1');
 
@@ -84,9 +84,9 @@ class ApiController extends Controller
             'routes' => [
                 'application' => $this->getRouteData(config('app.front_url'), 'Main application', false),
                 'catalog' => $this->getRouteData('front.catalog', 'UI for eReader browser to get eBooks on it'),
-                'opds' => $this->getRouteData('front.opds.index', 'OPDS API for application which use it'),
-                'webreader' => $this->getRouteData('front.webreader.index', 'UI to read directly an eBook into browser'),
-                'admin' => $this->getRouteData('admin', 'For admin to manage data.'),
+                'opds' => $this->getRouteData('front.opds', 'OPDS API for application which use it'),
+                'webreader' => $this->getRouteData('front.webreader', 'UI to read directly an eBook into browser'),
+                'admin' => $this->getRouteData('admin.dashboard', 'For admin to manage data.'),
                 'documentation' => $this->getRouteData(config('app.documentation_url'), 'Documentation for developers', false),
                 'api-doc' => $this->getRouteData(route('scribe'), 'API documentation to use data on others applications', false),
                 'repository' => $this->getRouteData(config('app.repository_url'), 'Repository of this application', false),

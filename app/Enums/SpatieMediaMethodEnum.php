@@ -2,13 +2,15 @@
 
 namespace App\Enums;
 
-use Spatie\Enum\Laravel\Enum;
+use App\Enums\Traits\EnumMethods;
 
-/**
- * @method static self addMediaFromString()
- * @method static self addMediaFromBase64()
- * @method static self addMediaFromDisk()
- */
-final class SpatieMediaMethodEnum extends Enum
+enum SpatieMediaMethodEnum: string
 {
+    use EnumMethods;
+
+    case addMediaFromString = 'addMediaFromString';
+
+    case addMediaFromBase64 = 'addMediaFromBase64';
+
+    case addMediaFromDisk = 'addMediaFromDisk';
 }

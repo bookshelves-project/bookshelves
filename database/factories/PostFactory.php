@@ -7,7 +7,6 @@ use App\Faker\FakerHtmlProvider;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
-use Spatie\Enum\Faker\FakerEnumProvider;
 
 class PostFactory extends Factory
 {
@@ -25,13 +24,12 @@ class PostFactory extends Factory
      */
     public function definition()
     {
-        $this->faker->addProvider(new FakerEnumProvider($this->faker));
         $this->faker->addProvider(new FakerHtmlProvider($this->faker));
         $title = ucfirst($this->faker->words(3, true));
 
         return [
             'title' => $title,
-            'status' => $this->faker->randomEnum(PostStatusEnum::class),
+            'status' => $this->faker->randomElement(PostStatusEnum::toValues()),
             'summary' => $this->faker->paragraph(),
             'body' => $this->faker->htmlParagraphs(),
             'published_at' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
@@ -49,7 +47,7 @@ class PostFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => PostStatusEnum::draft(),
+                'status' => PostStatusEnum::draft,
             ];
         });
     }
@@ -61,7 +59,7 @@ class PostFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => PostStatusEnum::scheduled(),
+                'status' => PostStatusEnum::scheduled,
                 'published_at' => Carbon::today()->addWeek(),
             ];
         });
@@ -74,7 +72,7 @@ class PostFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => PostStatusEnum::published(),
+                'status' => PostStatusEnum::published,
                 'published_at' => Carbon::today()->subWeek(),
             ];
         });

@@ -21,7 +21,7 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->actingAs(User::factory()->superAdmin()->create());
-    User::addGlobalScope('admin', fn (Builder $builder) => $builder->where('role', '!=', RoleEnum::super_admin()));
+    User::addGlobalScope('admin', fn (Builder $builder) => $builder->where('role', '!=', RoleEnum::super_admin));
 });
 
 test('admin can list users', function () {
@@ -73,7 +73,7 @@ test('admin can filter users', function (array $filter, int $total) {
         collect(range(1, 9))->map(fn ($i) => [
             'name' => "user {$i}",
             'email' => "user-{$i}@example.com",
-            'role' => RoleEnum::user(),
+            'role' => RoleEnum::user->name,
         ])->toArray()
     );
 
@@ -161,7 +161,7 @@ test('admin can store user', function () {
         'email' => 'user@example.com',
         'password' => 'password',
         'active' => true,
-        'role' => RoleEnum::user(),
+        'role' => RoleEnum::user->name,
     ]);
 
     $response
@@ -174,7 +174,7 @@ test('admin can store user', function () {
         'name' => 'example',
         'email' => 'user@example.com',
         'active' => true,
-        'role' => RoleEnum::user(),
+        'role' => RoleEnum::user->name,
     ]);
 });
 
@@ -197,7 +197,7 @@ test('admin can update user', function () {
         'email' => 'user@example.com',
         'password' => 'password',
         'active' => true,
-        'role' => RoleEnum::user(),
+        'role' => RoleEnum::user->name,
     ]);
 
     $response
@@ -210,7 +210,7 @@ test('admin can update user', function () {
         'name' => 'example',
         'email' => 'user@example.com',
         'active' => true,
-        'role' => RoleEnum::user(),
+        'role' => RoleEnum::user->name,
     ]);
 });
 

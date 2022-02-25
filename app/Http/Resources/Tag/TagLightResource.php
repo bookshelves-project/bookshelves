@@ -29,27 +29,27 @@ class TagLightResource extends JsonResource
 
         // switch ($percentage) {
         //     case $percentage <= 5:
-        //         $size = CountSizeEnum::xs();
+        //         $size = CountSizeEnum::xs;
         //         break;
 
         //     case $percentage <= 10:
-        //         $size = CountSizeEnum::sm();
+        //         $size = CountSizeEnum::sm;
         //         break;
 
         //     case $percentage <= 20:
-        //         $size = CountSizeEnum::md();
+        //         $size = CountSizeEnum::md;
         //         break;
 
         //     case $percentage <= 30:
-        //         $size = CountSizeEnum::lg();
+        //         $size = CountSizeEnum::lg;
         //         break;
 
         //     case $percentage <= 50:
-        //         $size = CountSizeEnum::xl();
+        //         $size = CountSizeEnum::xl;
         //         break;
 
         //     default:
-        //         $size = CountSizeEnum::xs();
+        //         $size = CountSizeEnum::xs;
         //         break;
         // }
         $type = $this->resource->type;

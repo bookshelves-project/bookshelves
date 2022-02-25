@@ -13,7 +13,6 @@ return [
      * should run for the given image.
      */
     'optimizers' => [
-
         Jpegoptim::class => [
             '-m85', // set maximum quality to 85%
             '--strip-all',  // this strips out all text information such as comments and EXIF data
@@ -53,9 +52,7 @@ return [
     */
     'binary_path' => '',
 
-    /*
-     * The maximum time in seconds each optimizer is allowed to run separately.
-     */
+    // The maximum time in seconds each optimizer is allowed to run separately.
     'timeout' => 60,
 
     /*

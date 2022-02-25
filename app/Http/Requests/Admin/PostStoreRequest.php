@@ -9,7 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use Spatie\Enum\Laravel\Rules\EnumRule;
+use Illuminate\Validation\Rules\Enum;
 
 class PostStoreRequest extends FormRequest
 {
@@ -33,7 +33,7 @@ class PostStoreRequest extends FormRequest
         return [
             'title' => ['required'],
             'slug' => ['nullable'],
-            'status' => new EnumRule(PostStatusEnum::class),
+            'status' => [new Enum(PostStatusEnum::class)],
             'category_id' => ['required', Rule::exists(PostCategory::class, 'id')],
             'user_id' => ['required', Rule::exists(User::class, 'id')],
             'summary' => ['nullable'],
@@ -63,19 +63,19 @@ class PostStoreRequest extends FormRequest
             ]);
         }
 
-        $status = PostStatusEnum::draft();
+        $status = PostStatusEnum::draft->name;
         $publishedAt = $this->published_at;
 
         if ($this->publish) {
             if ($publishedAt) {
                 $status = Carbon::parse($publishedAt) > Carbon::now()
-                    ? PostStatusEnum::scheduled()
-                    : PostStatusEnum::published();
+                    ? PostStatusEnum::scheduled->name
+                    : PostStatusEnum::published->name;
             }
 
             if (! $publishedAt) {
                 $publishedAt = Carbon::now()->setSecond(0);
-                $status = PostStatusEnum::published();
+                $status = PostStatusEnum::published->name;
             }
         }
 

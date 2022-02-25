@@ -2,17 +2,11 @@
 
 namespace App\Enums;
 
-use Spatie\Enum\Laravel\Enum;
+use App\Enums\Traits\EnumMethods;
 
-/**
- * @method static self aut()
- */
-final class AuthorRoleEnum extends Enum
+enum AuthorRoleEnum: string
 {
-    protected static function labels(): array
-    {
-        return [
-            'aut' => 'Author',
-        ];
-    }
+    use EnumMethods;
+
+    case aut = 'aut';
 }

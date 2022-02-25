@@ -28,8 +28,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $booksStandalone
- * @property-read int|null $books_standalone_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $booksAvailable
+ * @property-read int|null $books_available_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $booksAvailableStandalone
+ * @property-read int|null $books_available_standalone_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
@@ -103,7 +105,7 @@ namespace App\Models{
  * @property int|null $page_count
  * @property string|null $maturity_rating
  * @property bool $disabled
- * @property \Spatie\Enum\Enum|null $type
+ * @property string $type
  * @property string|null $isbn10
  * @property string|null $isbn13
  * @property array|null $identifiers
@@ -158,6 +160,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifiers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsDisabled($is_disabled)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn10($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn13($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbnIs($isbn)
@@ -648,7 +651,7 @@ namespace App\Models{
  * @property int|null $user_id
  * @property int|null $category_id
  * @property string $title
- * @property \Spatie\Enum\Enum|null $status
+ * @property \App\Enums\PostStatusEnum $status
  * @property string|null $summary
  * @property string|null $body
  * @property \Illuminate\Support\Carbon|null $published_at
@@ -787,6 +790,8 @@ namespace App\Models{
  * @property-read int|null $authors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $booksAvailable
+ * @property-read int|null $books_available_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
@@ -874,7 +879,7 @@ namespace App\Models{
  * @property int $id
  * @property array $name
  * @property array $slug
- * @property \Spatie\Enum\Enum|null|null $type
+ * @property \App\Enums\TagTypeEnum|null $type
  * @property int|null $order_column
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -929,7 +934,7 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property string|null $about
  * @property string $gender
- * @property \Spatie\Enum\Enum|null $role
+ * @property \App\Enums\RoleEnum $role
  * @property string|null $pronouns
  * @property int $use_gravatar
  * @property int $display_favorites

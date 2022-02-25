@@ -2,19 +2,13 @@
 
 namespace App\Enums;
 
-use Spatie\Enum\Laravel\Enum;
+use App\Enums\Traits\EnumMethods;
 
-/**
- * @method static self tag()
- * @method static self genre()
- */
-final class TagTypeEnum extends Enum
+enum TagTypeEnum: string
 {
-    protected static function labels(): array
-    {
-        return [
-            'tag' => 'Tag',
-            'genre' => 'Genre',
-        ];
-    }
+    use EnumMethods;
+
+    case tag = 'tag';
+
+    case genre = 'genre';
 }

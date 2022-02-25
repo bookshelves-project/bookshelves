@@ -32,7 +32,7 @@ class MediaService
             $extension = config('bookshelves.cover_extension');
         }
         if (! $method) {
-            $method = SpatieMediaMethodEnum::addMediaFromBase64();
+            $method = SpatieMediaMethodEnum::addMediaFromBase64;
         }
 
         return new MediaService($model, $name, $disk, $collection, $extension, $method);

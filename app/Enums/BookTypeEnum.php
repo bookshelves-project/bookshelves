@@ -2,23 +2,17 @@
 
 namespace App\Enums;
 
-use Spatie\Enum\Laravel\Enum;
+use App\Enums\Traits\EnumMethods;
 
-/**
- * @method static self comic()
- * @method static self essay()
- * @method static self handbook()
- * @method static self novel()
- */
-final class BookTypeEnum extends Enum
+enum BookTypeEnum: string
 {
-    protected static function labels(): array
-    {
-        return [
-            'handbook' => 'Handbook',
-            'essay' => 'Essay',
-            'comic' => 'Comic',
-            'novel' => 'Novel',
-        ];
-    }
+    use EnumMethods;
+
+    case handbook = 'handbook';
+
+    case essay = 'essay';
+
+    case comic = 'comic';
+
+    case novel = 'novel';
 }

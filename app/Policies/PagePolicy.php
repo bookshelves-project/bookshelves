@@ -10,7 +10,7 @@ class PagePolicy
 {
     use HandlesAuthorization;
 
-    /**
+    /*
      * Determine whether the user can view any models.
      *
      * @return bool|\Illuminate\Auth\Access\Response
@@ -19,7 +19,7 @@ class PagePolicy
     // {
     // }
 
-    /**
+    /*
      * Determine whether the user can view the model.
      *
      * @return bool|\Illuminate\Auth\Access\Response
@@ -28,7 +28,7 @@ class PagePolicy
     // {
     // }
 
-    /**
+    /*
      * Determine whether the user can create models.
      *
      * @return bool|\Illuminate\Auth\Access\Response
@@ -37,7 +37,7 @@ class PagePolicy
     // {
     // }
 
-    /**
+    /*
      * Determine whether the user can update the model.
      *
      * @return bool|\Illuminate\Auth\Access\Response
@@ -46,7 +46,7 @@ class PagePolicy
     // {
     // }
 
-    /**
+    /*
      * Determine whether the user can delete the model.
      *
      * @return bool|\Illuminate\Auth\Access\Response
@@ -55,7 +55,7 @@ class PagePolicy
     // {
     // }
 
-    /**
+    /*
      * Determine whether the user can restore the model.
      *
      * @return bool|\Illuminate\Auth\Access\Response
@@ -64,7 +64,7 @@ class PagePolicy
     // {
     // }
 
-    /**
+    /*
      * Determine whether the user can permanently delete the model.
      *
      * @return bool|\Illuminate\Auth\Access\Response

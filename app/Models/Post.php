@@ -84,17 +84,17 @@ class Post extends Model implements HasMedia
 
     public function scopeDraft(Builder $query)
     {
-        return $query->whereStatus(PostStatusEnum::draft());
+        return $query->whereStatus(PostStatusEnum::draft);
     }
 
     public function scopeScheduled(Builder $query)
     {
-        return $query->whereStatus(PostStatusEnum::scheduled());
+        return $query->whereStatus(PostStatusEnum::scheduled);
     }
 
     public function scopePublished(Builder $query)
     {
-        return $query->whereStatus(PostStatusEnum::published());
+        return $query->whereStatus(PostStatusEnum::published);
     }
 
     public function scopePublishedBetween(Builder $query, $startDate, $endDate)

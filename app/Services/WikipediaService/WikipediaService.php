@@ -42,9 +42,7 @@ class WikipediaService
         $service = new WikipediaService();
         $service->class = $class;
         $models = $class::all();
-        /*
-         * Keep only books without wikipedia relation.
-         */
+        // Keep only books without wikipedia relation.
         foreach ($models as $model) {
             if (! $model->wikipedia) {
                 $service->models->add($model);
@@ -80,9 +78,7 @@ class WikipediaService
     {
         /** @var Model $model */
         foreach ($this->models as $model) {
-            /*
-             * It's necessary to have a query attribute to search on Wikipedia and an ID to refer to model.
-             */
+            // It's necessary to have a query attribute to search on Wikipedia and an ID to refer to model.
             if (array_key_exists($this->query_attribute, $model->getAttributes()) && array_key_exists('id', $model->getAttributes())) {
                 /**
                  * If language attribute is unknown, set it to english.
@@ -120,7 +116,7 @@ class WikipediaService
 
         $queries = collect([]);
         $failed = collect([]);
-        /* Parse Reponse[] with $method */
+        // Parse Reponse[] with $method
         foreach ($responses as $id => $response) {
             /** @var null|WikipediaQuery $query */
             $query = $this->queries->first(fn (WikipediaQuery $query) => $query->model_id === $id);

@@ -169,14 +169,14 @@ test('admin can filter posts', function (array $filter, int $total) {
                 'title' => 'My post title 1',
                 'summary' => 'My post summary',
                 'body' => '<p>My post body</p>',
-                'status' => PostStatusEnum::draft(),
+                'status' => PostStatusEnum::draft->name,
                 'published_at' => Carbon::make('2020-01-01'),
                 'pin' => true,
                 'promote' => true,
             ],
             [
                 'title' => 'My post title 2',
-                'status' => PostStatusEnum::published(),
+                'status' => PostStatusEnum::published->name,
                 'published_at' => Carbon::make('2021-01-01'),
                 'pin' => false,
                 'promote' => false,
@@ -342,9 +342,14 @@ test('admin can update post', function (array $initial, array $data, array $expe
         ->create($initial)
     ;
 
-    $response = put("/admin/posts/{$post->id}", $data + [
-        'category_id' => $post->category->id,
-    ]);
+    $response = put(
+        route('admin.posts.update', [
+            'post' => $post->id,
+        ]),
+        $data + [
+            'category_id' => $post->category->id,
+        ]
+    );
 
     $response
         ->assertStatus(302)
@@ -450,9 +455,14 @@ test('admin cannot update post with invalid data', function (array $data, array 
         ->create()
     ;
 
-    $response = put("/admin/posts/{$post->id}", $data + [
-        'category_id' => $post->category->id,
-    ]);
+    $response = put(
+        route('admin.posts.update', [
+            'post' => $post->id,
+        ]),
+        $data + [
+            'category_id' => $post->category->id,
+        ]
+    );
 
     $response
         ->assertStatus(302)

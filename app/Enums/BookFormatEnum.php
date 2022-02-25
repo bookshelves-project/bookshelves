@@ -12,16 +12,8 @@ enum BookFormatEnum: string
     use EnumMethods;
 
     case epub = 'epub';
+
     case cbz = 'cbz';
+
     case pdf = 'pdf';
-
-    public function color(): string
-    {
-        return match ($this) {
-            BookFormatEnum::epub => 'grey',
-            BookFormatEnum::cbz => 'green',
-            BookFormatEnum::pdf => 'red',
-        };
-    }
-
 }

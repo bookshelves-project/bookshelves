@@ -62,9 +62,7 @@ class SetupCommand extends Command
             '--force' => true,
         ], $this->getOutput());
 
-        /*
-         * Generate commands
-         */
+        // Generate commands
         Artisan::call('bookshelves:generate', [
             '--fresh' => $fresh,
             '--limit' => $limit,

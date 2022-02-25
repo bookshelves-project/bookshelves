@@ -26,7 +26,7 @@ class SerieController extends Controller
         $current_route = route(Route::currentRouteName(), ['version' => $version]);
         $opdsService = new OpdsService(
             version: $version,
-            entity: EntityEnum::serie(),
+            entity: EntityEnum::serie,
             route: $current_route,
             data: $entities
         );
@@ -51,7 +51,7 @@ class SerieController extends Controller
         ]);
         $opdsService = new OpdsService(
             version: $version,
-            entity: EntityEnum::book(),
+            entity: EntityEnum::book,
             route: $current_route,
             data: $books
         );

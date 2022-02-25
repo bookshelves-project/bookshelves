@@ -2,24 +2,34 @@
 
 namespace App\Enums\Traits;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Lang;
+use ReflectionClass;
 
 trait EnumMethods
 {
-    public static function labels(): array
+    public static function toValues()
     {
-        $class = str_replace('App\Enums\\', '', static::class);
-        $class = str_replace('Enum', '', $class);
-        $class = Str::snake($class);
+        $array = [];
 
-        return collect(__("enum.enums.{$class}"))->toArray();
+        foreach (static::cases() as $definition) {
+            $array[$definition->name] = $definition->value;
+        }
+
+        return $array;
     }
 
-    public static function toArray(): array
+    public static function toArray()
     {
-        return array_map(
-            fn ($value) => $value->value,
-            static::cases(),
-        );
+        $array = [];
+        $class = new ReflectionClass(static::class);
+        $class = $class->getShortName();
+
+        foreach (static::cases() as $definition) {
+            $array[$definition->name] = Lang::has("enum.enums.{$class}.{$definition->value}")
+                ? __("enum.enums.{$class}.{$definition->value}")
+                : $definition->value;
+        }
+
+        return $array;
     }
 }

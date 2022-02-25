@@ -43,7 +43,7 @@ class PostExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
         return [
             $row->title,
             $row->category?->name,
-            $row->status->label,
+            $row->status->name,
             $row->summary,
             $row->pin,
             $row->promote,

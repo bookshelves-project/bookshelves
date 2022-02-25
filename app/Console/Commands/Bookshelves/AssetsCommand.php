@@ -202,7 +202,7 @@ class AssetsCommand extends Command
             $bar = $this->output->createProgressBar(count($list));
             $bar->start();
             foreach ($list as $model) {
-                /** @var Author $model */
+                // @var Author $model
                 AuthorConverter::setLocalPicture($model);
                 $bar->advance();
             }
@@ -213,7 +213,7 @@ class AssetsCommand extends Command
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($list as $model) {
-            /** @var Author $model */
+            // @var Author $model
             AuthorConverter::setPicturePlaceholder($model);
             $bar->advance();
         }
@@ -256,7 +256,7 @@ class AssetsCommand extends Command
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($list as $key => $model) {
-            /** @var Serie $model */
+            // @var Serie $model
             SerieConverter::setTags($model);
             if (! $default) {
                 SerieConverter::setCover($model);

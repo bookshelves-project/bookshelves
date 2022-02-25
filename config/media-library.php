@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
@@ -43,14 +42,10 @@ return [
      */
     'queue_name' => '',
 
-    /*
-     * By default all conversions will be performed on a queue.
-     */
+    // By default all conversions will be performed on a queue.
     'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', true),
 
-    /*
-     * The fully qualified class name of the media model.
-     */
+    // The fully qualified class name of the media model.
     // 'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
     'media_model' => App\Models\MediaExtended::class,
 
@@ -68,19 +63,13 @@ return [
      */
     'enable_temporary_uploads_session_affinity' => true,
 
-    /*
-     * When enabled, Media Library pro will generate thumbnails for uploaded file.
-     */
+    // When enabled, Media Library pro will generate thumbnails for uploaded file.
     'generate_thumbnails_for_temporary_uploads' => true,
 
-    /*
-     * This is the class that is responsible for naming generated files.
-     */
+    // This is the class that is responsible for naming generated files.
     'file_namer' => Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class,
 
-    /*
-     * The class that contains the strategy for determining a media file's path.
-     */
+    // The class that contains the strategy for determining a media file's path.
     'path_generator' => Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class,
 
     /*
@@ -136,9 +125,7 @@ return [
         ],
     ],
 
-    /*
-     * These generators will be used to create an image of media files.
-     */
+    // These generators will be used to create an image of media files.
     'image_generators' => [
         Spatie\MediaLibrary\Conversions\ImageGenerators\Image::class,
         Spatie\MediaLibrary\Conversions\ImageGenerators\Webp::class,

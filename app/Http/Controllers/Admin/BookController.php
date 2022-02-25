@@ -33,7 +33,7 @@ class BookController extends Controller
     #[Get('/', name: 'books')]
     public function index()
     {
-        return app(BookQuery::class)->make()
+        return app(BookQuery::class)->make(null)
             ->paginateOrExport(fn ($data) => Inertia::render('books/Index', $data))
         ;
     }

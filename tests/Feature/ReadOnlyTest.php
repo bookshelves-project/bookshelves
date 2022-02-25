@@ -22,7 +22,7 @@ test('admin cannot create new user when read only active', function () {
         'email' => 'user@example.com',
         'password' => 'password',
         'active' => true,
-        'role' => RoleEnum::user(),
+        'role' => RoleEnum::user->name,
     ]);
 
     $response->assertRedirect()->assertSessionHasErrors();
@@ -49,7 +49,7 @@ test('super admin can create new user when read only active', function () {
         'email' => 'user@example.com',
         'password' => 'password',
         'active' => true,
-        'role' => RoleEnum::user(),
+        'role' => RoleEnum::user->name,
     ]);
 
     $response->assertSessionMissing('flash.error');

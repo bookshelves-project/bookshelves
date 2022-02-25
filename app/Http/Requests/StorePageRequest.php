@@ -24,7 +24,6 @@ class StorePageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
         ];
     }
 }

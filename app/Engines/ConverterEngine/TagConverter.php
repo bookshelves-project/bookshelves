@@ -44,9 +44,9 @@ class TagConverter
             $tag = strtolower($tag);
             $tag = ucfirst($tag);
             if (in_array($tag, $main_genres)) {
-                $tag = Tag::findOrCreate($tag, TagTypeEnum::genre());
+                $tag = Tag::findOrCreate($tag, TagTypeEnum::genre->value);
             } else {
-                $tag = Tag::findOrCreate($tag, TagTypeEnum::tag());
+                $tag = Tag::findOrCreate($tag, TagTypeEnum::tag->value);
             }
 
             $book->attachTag($tag);

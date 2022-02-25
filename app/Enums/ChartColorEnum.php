@@ -2,33 +2,27 @@
 
 namespace App\Enums;
 
-use Spatie\Enum\Laravel\Enum;
+use App\Enums\Traits\EnumMethods;
 
-/**
- * @method static self color_e2e0ff()
- * @method static self color_c4c1ff()
- * @method static self color_a7a1ff()
- * @method static self color_8982ff()
- * @method static self color_6c63ff()
- * @method static self color_564fcc()
- * @method static self color_413b99()
- * @method static self color_2b2866()
- * @method static self color_161433()
- */
-final class ChartColorEnum extends Enum
+enum ChartColorEnum: string
 {
-    protected static function labels(): array
-    {
-        return [
-            'color_e2e0ff' => '#e2e0ff',
-            'color_c4c1ff' => '#c4c1ff',
-            'color_a7a1ff' => '#a7a1ff',
-            'color_8982ff' => '#8982ff',
-            'color_6c63ff' => '#6c63ff',
-            'color_564fcc' => '#564fcc',
-            'color_413b99' => '#413b99',
-            'color_2b2866' => '#2b2866',
-            'color_161433' => '#161433',
-        ];
-    }
+    use EnumMethods;
+
+    case color_e2e0ff = '#e2e0ff';
+
+    case color_c4c1ff = '#c4c1ff';
+
+    case color_a7a1ff = '#a7a1ff';
+
+    case color_8982ff = '#8982ff';
+
+    case color_6c63ff = '#6c63ff';
+
+    case color_564fcc = '#564fcc';
+
+    case color_413b99 = '#413b99';
+
+    case color_2b2866 = '#2b2866';
+
+    case color_161433 = '#161433';
 }

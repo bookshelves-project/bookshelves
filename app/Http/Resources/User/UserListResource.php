@@ -41,7 +41,7 @@ class UserListResource extends JsonResource
             'use_gravatar' => $this->resource->use_gravatar,
             'comments_count' => $this->resource->comments()->count(),
             'favorites_count' => $this->resource->favorites()->count(),
-            'is_admin' => $this->resource->hasRole(RoleEnum::admin()),
+            'is_admin' => $this->resource->hasRole(RoleEnum::admin),
             'display_comments' => $this->resource->display_comments,
             'display_favorites' => $this->resource->display_favorites,
             'display_gender' => $this->resource->display_gender,

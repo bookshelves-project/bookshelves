@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia;
+use Spatie\Tags\Tag;
 use function Pest\Laravel\artisan;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
@@ -23,7 +24,6 @@ use function Pest\Laravel\patch;
 use function Pest\Laravel\post;
 use function Pest\Laravel\put;
 use function PHPUnit\Framework\assertCount;
-use Spatie\Tags\Tag;
 
 uses(RefreshDatabase::class);
 
@@ -169,14 +169,14 @@ test('admin can filter posts', function (array $filter, int $total) {
                 'title' => 'My post title 1',
                 'summary' => 'My post summary',
                 'body' => '<p>My post body</p>',
-                'status' => PostStatusEnum::draft(),
+                'status' => PostStatusEnum::draft->name,
                 'published_at' => Carbon::make('2020-01-01'),
                 'pin' => true,
                 'promote' => true,
             ],
             [
                 'title' => 'My post title 2',
-                'status' => PostStatusEnum::published(),
+                'status' => PostStatusEnum::published->name,
                 'published_at' => Carbon::make('2021-01-01'),
                 'pin' => false,
                 'promote' => false,

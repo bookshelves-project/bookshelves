@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\GenderEnum;
 use Illuminate\Foundation\Http\FormRequest;
-use Spatie\Enum\Laravel\Rules\EnumRule;
+use Illuminate\Validation\Rules\Enum;
 
 class ProfileUpdate extends FormRequest
 {
@@ -35,7 +35,7 @@ class ProfileUpdate extends FormRequest
             'display_favorites' => 'required|boolean',
             'display_comments' => 'required|boolean',
             'display_gender' => 'required|boolean',
-            'gender' => new EnumRule(GenderEnum::class),
+            'gender' => [new Enum(GenderEnum::class)],
         ];
     }
 

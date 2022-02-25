@@ -44,7 +44,7 @@ class UserExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
             $row->name,
             $row->email,
             $row->active ? __('Active') : __('Inactive'),
-            $row->role->label ?? null,
+            $row->role->name ?? null,
             $row->last_login_at,
             $row->created_at,
             $row->updated_at,

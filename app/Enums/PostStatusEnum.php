@@ -2,13 +2,15 @@
 
 namespace App\Enums;
 
-use Spatie\Enum\Laravel\Enum;
+use App\Enums\Traits\EnumMethods;
 
-/**
- * @method static self draft()
- * @method static self scheduled()
- * @method static self published()
- */
-final class PostStatusEnum extends Enum
+enum PostStatusEnum: string
 {
+    use EnumMethods;
+
+    case draft = 'draft';
+
+    case scheduled = 'scheduled';
+
+    case published = 'published';
 }

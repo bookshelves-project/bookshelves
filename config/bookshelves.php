@@ -1,20 +1,14 @@
 <?php
 
 return [
-    /*
-     * Authentication.
-     */
+    // Authentication.
     'admin' => [
         'email' => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),
         'password' => env('BOOKSHELVES_ADMIN_PASSWORD', 'password'),
     ],
-    /*
-     * General.
-     */
+    // General.
     'cover_extension' => env('BOOKSHELVES_COVER_FORMAT', 'webp'),
-    /*
-     * Authors.
-     */
+    // Authors.
     'authors' => [
         // Depends of your order of sort for authors
         // true: `Victor Hugo` will be `firstname`: "Victor", `lastname`: "Hugo"
@@ -42,9 +36,7 @@ return [
             'Action & Adventure' => 'Action & adventures',
         ],
     ],
-    /*
-     * Navigation.
-     */
+    // Navigation.
     'navigation' => [
         'cards' => [
             [

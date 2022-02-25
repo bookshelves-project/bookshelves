@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.1.0.
+ * Generated for Laravel 9.2.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -7112,7 +7112,7 @@
      * @method static \Illuminate\Http\Client\PendingRequest contentType(string $contentType)
      * @method static \Illuminate\Http\Client\PendingRequest dd()
      * @method static \Illuminate\Http\Client\PendingRequest dump()
-     * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleep = 0, ?callable $when = null)
+     * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleep = 0, ?callable $when = null, bool $throw = true)
      * @method static \Illuminate\Http\Client\PendingRequest sink(string|resource $to)
      * @method static \Illuminate\Http\Client\PendingRequest stub(callable $callback)
      * @method static \Illuminate\Http\Client\PendingRequest timeout(int $seconds)
@@ -9031,7 +9031,7 @@
                         return $instance->pushRaw($payload, $queue, $options);
         }
                     /**
-         * Push a new job onto the queue after a delay.
+         * Push a new job onto the queue after (n) seconds.
          *
          * @param \DateTimeInterface|\DateInterval|int $delay
          * @param string $job
@@ -9060,7 +9060,7 @@
                         return $instance->pushOn($queue, $job, $data);
         }
                     /**
-         * Push a new job onto the queue after a delay.
+         * Push a new job onto a specific queue after (n) seconds.
          *
          * @param string $queue
          * @param \DateTimeInterface|\DateInterval|int $delay
@@ -11676,18 +11676,6 @@
                     /**
          * 
          *
-         * @see \Spatie\Enum\Laravel\Http\EnumRequest::transformEnums()
-         * @param array $transformations
-         * @return void 
-         * @static 
-         */ 
-        public static function transformEnums($transformations)
-        {
-                        \Illuminate\Http\Request::transformEnums($transformations);
-        }
-                    /**
-         * 
-         *
          * @see \App\Providers\AppServiceProvider::boot()
          * @param mixed $key
          * @return array 
@@ -12356,7 +12344,7 @@
          *
          * @param \Illuminate\Routing\Route $route
          * @return \Illuminate\Routing\Route 
-         * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+         * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
          * @throws \Illuminate\Routing\Exceptions\BackedEnumCaseNotFoundException
          * @static 
          */ 
@@ -12370,7 +12358,7 @@
          *
          * @param \Illuminate\Routing\Route $route
          * @return void 
-         * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+         * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
          * @throws \Illuminate\Routing\Exceptions\BackedEnumCaseNotFoundException
          * @static 
          */ 
@@ -12883,18 +12871,6 @@
         public static function inertia($uri, $component, $props = [])
         {
                         return \Illuminate\Routing\Router::inertia($uri, $component, $props);
-        }
-                    /**
-         * 
-         *
-         * @see \Spatie\Enum\Laravel\EnumServiceProvider::registerRouteBindingMacro()
-         * @param string $key
-         * @param string $class
-         * @static 
-         */ 
-        public static function enum($key, $class)
-        {
-                        return \Illuminate\Routing\Router::enum($key, $class);
         }
          
     }
@@ -18819,18 +18795,6 @@
                     /**
          * 
          *
-         * @see \Spatie\Enum\Laravel\Http\EnumRequest::transformEnums()
-         * @param array $transformations
-         * @return void 
-         * @static 
-         */ 
-        public static function transformEnums($transformations)
-        {
-                        \Illuminate\Http\Request::transformEnums($transformations);
-        }
-                    /**
-         * 
-         *
          * @see \App\Providers\AppServiceProvider::boot()
          * @param mixed $key
          * @return array 
@@ -18877,18 +18841,6 @@
         public static function inertia($uri, $component, $props = [])
         {
                         return \Illuminate\Routing\Router::inertia($uri, $component, $props);
-        }
-                    /**
-         * 
-         *
-         * @see \Spatie\Enum\Laravel\EnumServiceProvider::registerRouteBindingMacro()
-         * @param string $key
-         * @param string $class
-         * @static 
-         */ 
-        public static function enum($key, $class)
-        {
-                        return \Illuminate\Routing\Router::enum($key, $class);
         }
          
     }
@@ -19327,7 +19279,7 @@ namespace  {
              * @param mixed $id
              * @param array $columns
              * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static|static[] 
-             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
              * @static 
              */ 
             public static function findOrFail($id, $columns = [])
@@ -19397,7 +19349,7 @@ namespace  {
              *
              * @param array $columns
              * @return \Illuminate\Database\Eloquent\Model|static 
-             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
              * @static 
              */ 
             public static function firstOrFail($columns = [])
@@ -19425,7 +19377,7 @@ namespace  {
              *
              * @param array|string $columns
              * @return \Illuminate\Database\Eloquent\Model 
-             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
              * @throws \Illuminate\Database\MultipleRecordsFoundException
              * @static 
              */ 
@@ -19453,7 +19405,7 @@ namespace  {
              *
              * @param string|\Illuminate\Database\Query\Expression $column
              * @return mixed 
-             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
              * @static 
              */ 
             public static function valueOrFail($column)
@@ -20021,10 +19973,11 @@ namespace  {
                 /**
              * Apply the callback if the given "value" is (or resolves to) truthy.
              *
+             * @template TWhenParameter
              * @template TWhenReturnType
-             * @param bool $value
-             * @param \Illuminate\Database\Eloquent\(callable($this):  TWhenReturnType)|null  $callback
-             * @param \Illuminate\Database\Eloquent\(callable($this):  TWhenReturnType)|null  $default
+             * @param \Illuminate\Database\Eloquent\(callable($this):  TWhenParameter)|TWhenParameter  $value
+             * @param \Illuminate\Database\Eloquent\(callable($this,  TWhenParameter): TWhenReturnType)|null  $callback
+             * @param \Illuminate\Database\Eloquent\(callable($this,  TWhenParameter): TWhenReturnType)|null  $default
              * @return $this|\Illuminate\Database\Eloquent\TWhenReturnType 
              * @static 
              */ 
@@ -20037,10 +19990,11 @@ namespace  {
                 /**
              * Apply the callback if the given "value" is (or resolves to) falsy.
              *
+             * @template TUnlessParameter
              * @template TUnlessReturnType
-             * @param bool $value
-             * @param \Illuminate\Database\Eloquent\(callable($this):  TUnlessReturnType)  $callback
-             * @param \Illuminate\Database\Eloquent\(callable($this):  TUnlessReturnType)|null  $default
+             * @param \Illuminate\Database\Eloquent\(callable($this):  TUnlessParameter)|TUnlessParameter  $value
+             * @param \Illuminate\Database\Eloquent\(callable($this,  TUnlessParameter): TUnlessReturnType)|null  $callback
+             * @param \Illuminate\Database\Eloquent\(callable($this,  TUnlessParameter): TUnlessReturnType)|null  $default
              * @return $this|\Illuminate\Database\Eloquent\TUnlessReturnType 
              * @static 
              */ 

@@ -33,7 +33,7 @@ class PostController extends Controller
     #[Get('/', name: 'posts')]
     public function index()
     {
-        return app(PostQuery::class)->make()
+        return app(PostQuery::class)->make(null)
             ->paginateOrExport(fn ($data) => Inertia::render('posts/Index', $data))
         ;
     }

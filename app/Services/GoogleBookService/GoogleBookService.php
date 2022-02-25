@@ -34,9 +34,7 @@ class GoogleBookService
         $service = new GoogleBookService();
         $service->class = $class;
         $models = $class::all();
-        /*
-         * Keep only books without googleBook relation.
-         */
+        // Keep only books without googleBook relation.
         /** @var Book $model */
         foreach ($models as $model) {
             if ($model->isbn) {
@@ -79,7 +77,7 @@ class GoogleBookService
 
         $queries = collect([]);
         $failed = collect([]);
-        /* Parse Reponse[] with $method */
+        // Parse Reponse[] with $method
         foreach ($responses as $id => $response) {
             /** @var null|GoogleBookQuery $query */
             $query = $this->queries->first(fn (GoogleBookQuery $query) => $query->model_id === $id);

@@ -6,7 +6,7 @@ use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Spatie\Enum\Laravel\Rules\EnumRule;
+use Illuminate\Validation\Rules\Enum;
 
 class UserUpdateRequest extends FormRequest
 {
@@ -34,7 +34,7 @@ class UserUpdateRequest extends FormRequest
             'name' => ['required', 'max:50'],
             'email' => ['required', 'max:50', 'email', Rule::unique('users')->ignore($user->id)],
             'active' => ['boolean'],
-            'role' => ['required', new EnumRule(RoleEnum::class)],
+            'role' => ['required', new Enum(RoleEnum::class)],
         ];
     }
 }

@@ -21,7 +21,6 @@ trait PasswordValidationRules
         ;
 
         return ['required', 'string', $password, 'confirmed'];
-
         // return ['required', 'string', new Password(), 'confirmed'];
     }
 }

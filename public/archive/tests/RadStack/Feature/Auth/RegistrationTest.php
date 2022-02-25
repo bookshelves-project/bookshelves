@@ -35,7 +35,7 @@ test('first new user can register as super admin', function () {
     // assertDatabaseHas('users', [
     //     'name' => 'User',
     //     'email' => 'test@example.com',
-    //     'role' => RoleEnum::super_admin(),
+    //     'role' => RoleEnum::super_admin,
     // ]);
 });
 
@@ -55,7 +55,7 @@ test('new users can register with user role', function () {
     // assertDatabaseHas('users', [
     //     'name' => 'User',
     //     'email' => 'test@example.com',
-    //     'role' => RoleEnum::user(),
+    //     'role' => RoleEnum::user->name,
     // ]);
 });
 

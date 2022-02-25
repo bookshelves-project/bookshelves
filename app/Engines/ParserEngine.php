@@ -59,7 +59,7 @@ class ParserEngine
         $file_name = pathinfo($file_path)['basename'];
         $formats = BookFormatEnum::toArray();
 
-        if (! in_array($extension, $formats)) {
+        if (! array_key_exists($extension, $formats)) {
             ConsoleService::print("{$file_path} ParserEngine error: extension is not recognized");
 
             return false;

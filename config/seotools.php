@@ -5,9 +5,7 @@
 
 return [
     'meta' => [
-        /*
-         * The default configurations to be used by the meta generator.
-         */
+        // The default configurations to be used by the meta generator.
         'defaults' => [
             'title' => env('META_TITLE', 'Bookshelves Features'), // set false to total remove
             'titleBefore' => false, // Put defaults.title before page title, like 'It's Over 9000! - Dashboard'
@@ -17,9 +15,7 @@ return [
             'canonical' => null, // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
             'robots' => env('META_ROBOTS', 'all'), // Set to 'all', 'none' or any combination of index/noindex and follow/nofollow
         ],
-        /*
-         * Webmaster tags are always added.
-         */
+        // Webmaster tags are always added.
         'webmaster_tags' => [
             'google' => null,
             'bing' => null,
@@ -32,9 +28,7 @@ return [
         'add_notranslate_class' => false,
     ],
     'opengraph' => [
-        /*
-         * The default configurations to be used by the opengraph generator.
-         */
+        // The default configurations to be used by the opengraph generator.
         'defaults' => [
             'title' => env('META_OG_TITLE', 'Bookshelves'), // set false to total remove
             'description' => env('META_OG_DESCRIPTION', 'To read eBooks.'), // set false to total remove
@@ -45,9 +39,7 @@ return [
         ],
     ],
     'twitter' => [
-        /*
-         * The default values to be used by the twitter cards generator.
-         */
+        // The default values to be used by the twitter cards generator.
         'defaults' => [
             'card' => 'summary_large_image',
             'creator' => env('META_TWITTER_CREATOR', '@ewilanriviere'),
@@ -56,9 +48,7 @@ return [
         ],
     ],
     'json-ld' => [
-        /*
-         * The default configurations to be used by the json-ld generator.
-         */
+        // The default configurations to be used by the json-ld generator.
         'defaults' => [
             'title' => env('META_TITLE', false), // set false to total remove
             'description' => env('META_DESCRIPTION', 'To read eBooks.'), // set false to total remove

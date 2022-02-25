@@ -24,7 +24,6 @@ class UpdatePageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
         ];
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |------------------------------------------------------------------------------------------------------------------
     | Enable Clockwork
@@ -25,7 +24,6 @@ return [
     */
 
     'features' => [
-
         // Cache usage stats and cache queries including results
         'cache' => [
             'enabled' => env('CLOCKWORK_CACHE_ENABLED', true),
@@ -116,7 +114,6 @@ return [
             // not support collecting view data)
             'use_twig_profiler' => env('CLOCKWORK_VIEWS_USE_TWIG_PROFILER', false),
         ],
-
     ],
 
     /*
@@ -350,7 +347,6 @@ return [
         'skip_classes' => [
             // App\CustomLog::class
         ],
-
     ],
 
     /*
@@ -412,5 +408,4 @@ return [
     */
 
     'server_timing' => env('CLOCKWORK_SERVER_TIMING', 10),
-
 ];

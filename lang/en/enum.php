@@ -1,8 +1,5 @@
 <?php
 
-use App\Enums\RoleEnum;
-use App\Enums\PostStatusEnum;
-
 return [
     'enum' => 'The :attribute field is not a valid :enum.',
     'enum_index' => 'The :attribute field is not a valid index of :enum.',
@@ -10,20 +7,41 @@ return [
     'enum_value' => 'The :attribute field is not a valid value of :enum.',
 
     'enums' => [
-        // RoleEnum::class => [
-        //     'super_admin' => 'Super admin',
-        //     'admin' => 'Admin',
-        //     'user' => 'User',
-        // ],
-        // PostStatusEnum::class => [
-        //     'draft' => 'Draft',
-        //     'scheduled' => 'Scheduled',
-        //     'published' => 'Published',
-        // ],
-        'book_format' => [
+        'AuthorRoleEnum' => [
+            'aut' => 'Author',
+        ],
+        'BookFormatEnum' => [
             'epub' => 'EPUB',
             'cbz' => 'CBZ',
             'pdf' => 'PDF',
+        ],
+        'BookTypeEnum' => [
+            'handbook' => 'Handbook',
+            'essay' => 'Essay',
+            'comic' => 'Comic',
+            'novel' => 'Novel',
+        ],
+        'GenderEnum' => [
+            'unknown' => 'Unknown',
+            'woman' => 'Woman',
+            'nonbinary' => 'Non binary',
+            'genderfluid' => 'Genderfluid',
+            'agender' => 'Agender',
+            'man' => 'Man',
+        ],
+        'PostStatusEnum' => [
+            'draft' => 'Draft',
+            'scheduled' => 'Scheduled',
+            'published' => 'Published',
+        ],
+        'RoleEnum' => [
+            'super_admin' => 'Super admin',
+            'admin' => 'Admin',
+            'user' => 'User',
+        ],
+        'TagTypeEnum' => [
+            'tag' => 'Tag',
+            'genre' => 'Genre',
         ],
     ],
 ];

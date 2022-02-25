@@ -32,7 +32,7 @@ class LanguageController extends Controller
     #[Get('/', name: 'languages')]
     public function index()
     {
-        return app(LanguageQuery::class)->make()
+        return app(LanguageQuery::class)->make(null)
             ->paginateOrExport(fn ($data) => Inertia::render('languages/Index', $data))
         ;
     }

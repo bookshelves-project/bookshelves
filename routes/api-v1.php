@@ -35,7 +35,7 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 |
 */
 
-Route::get('/', [ApiController::class, 'apiV1'])->name('api.v1');
+Route::get('/', [ApiController::class, 'v1'])->name('api.v1');
 
 Route::get('enums', [EnumController::class, 'index'])->name('api.v1.enums.index');
 Route::post('send/submission', [SubmissionController::class, 'send'])->name('api.v1.submission.send');

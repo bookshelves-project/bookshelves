@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', [ApiController::class, 'apiHome'])->name('api.v1.index');
+Route::get('/', [ApiController::class, 'home'])->name('api.v1.index');

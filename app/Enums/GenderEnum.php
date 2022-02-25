@@ -2,27 +2,21 @@
 
 namespace App\Enums;
 
-use Spatie\Enum\Laravel\Enum;
+use App\Enums\Traits\EnumMethods;
 
-/**
- * @method static self unknown()
- * @method static self woman()
- * @method static self nonbinary()
- * @method static self genderfluid()
- * @method static self agender()
- * @method static self man()
- */
-final class GenderEnum extends Enum
+enum GenderEnum: string
 {
-    protected static function labels(): array
-    {
-        return [
-            'unknown' => 'Unkown',
-            'woman' => 'Woman',
-            'nonbinary' => 'Non binary',
-            'genderfluid' => 'Genderfluid',
-            'agender' => 'Agender',
-            'man' => 'Man',
-        ];
-    }
+    use EnumMethods;
+
+    case unknown = 'unknown';
+
+    case woman = 'woman';
+
+    case nonbinary = 'nonbinary';
+
+    case genderfluid = 'genderfluid';
+
+    case agender = 'agender';
+
+    case man = 'man';
 }

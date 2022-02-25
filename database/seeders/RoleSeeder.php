@@ -21,13 +21,13 @@ class RoleSeeder extends Seeder
         // /** @var RoleEnum[] $roles */
         // $roles = [
         //     [
-        //         'name' => RoleEnum::admin(),
+        //         'name' => RoleEnum::admin,
         //     ],
         //     [
-        //         'name' => RoleEnum::publisher(),
+        //         'name' => RoleEnum::publisher,
         //     ],
         //     [
-        //         'name' => RoleEnum::user(),
+        //         'name' => RoleEnum::user,
         //     ],
         // ];
 

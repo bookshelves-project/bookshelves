@@ -11,6 +11,5 @@ class PageSeeder extends Seeder
      */
     public function run()
     {
-        //
     }
 }

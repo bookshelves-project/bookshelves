@@ -72,16 +72,16 @@ class User extends Authenticatable implements HasMedia
 
     public function hasAdminAccess()
     {
-        return $this->role->equals(RoleEnum::super_admin(), RoleEnum::admin());
+        return $this->role->equals(RoleEnum::super_admin, RoleEnum::admin);
     }
 
     public function canUpdate(User $user)
     {
-        if ($this->role->equals(RoleEnum::admin())) {
-            return ! $user->role->equals(RoleEnum::super_admin());
+        if ($this->role->equals(RoleEnum::admin)) {
+            return ! $user->role->equals(RoleEnum::super_admin);
         }
 
-        return $this->role->equals(RoleEnum::super_admin());
+        return $this->role->equals(RoleEnum::super_admin);
     }
 
     public function getShowLinkAttribute(): string

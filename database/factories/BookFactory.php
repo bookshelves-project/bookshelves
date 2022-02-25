@@ -42,7 +42,7 @@ class BookFactory extends Factory
             'page_count' => $faker->randomDigit(),
             'maturity_rating' => null,
             'disabled' => false,
-            'type' => BookTypeEnum::novel(),
+            'type' => BookTypeEnum::novel,
             'isbn10' => $faker->isbn10(),
             'isbn13' => $faker->isbn13(),
             'identifiers' => [

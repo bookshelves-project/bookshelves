@@ -25,7 +25,7 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $gender = $this->faker->randomElements(GenderEnum::toValues())[0];
+        $gender = $this->faker->randomElements(GenderEnum::toArray())[0];
         $pronouns_options = ['she', 'he', 'they'];
         $pronouns = 'they';
         if ('WOMAN' === $gender) {
@@ -48,7 +48,7 @@ class UserFactory extends Factory
             'display_favorites' => $this->faker->boolean(),
             'display_comments' => $this->faker->boolean(),
             'display_gender' => $this->faker->boolean(),
-            'role' => RoleEnum::user(),
+            'role' => RoleEnum::user->name,
             'gender' => $gender,
             'pronouns' => $pronouns,
         ];
@@ -91,7 +91,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role' => RoleEnum::super_admin(),
+                'role' => RoleEnum::super_admin->name,
             ];
         });
     }
@@ -105,7 +105,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role' => RoleEnum::admin(),
+                'role' => RoleEnum::admin->name,
             ];
         });
     }

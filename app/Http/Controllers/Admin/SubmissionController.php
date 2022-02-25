@@ -18,7 +18,7 @@ class SubmissionController extends Controller
     #[Get('/', name: 'submissions')]
     public function index()
     {
-        return app(SubmissionQuery::class)->make()
+        return app(SubmissionQuery::class)->make(null)
             ->paginateOrExport(fn ($data) => Inertia::render('submissions/Index', $data))
         ;
     }
@@ -29,7 +29,7 @@ class SubmissionController extends Controller
         return Inertia::render('submissions/Index', [
             'action' => 'show',
             'submission' => SubmisionResource::make($submission),
-        ] + app(SubmissionQuery::class)->make()->get());
+        ] + app(SubmissionQuery::class)->make(null)->get());
     }
 
     #[Delete('{submission}', name: 'submissions.destroy')]

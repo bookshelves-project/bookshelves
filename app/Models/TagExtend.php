@@ -20,7 +20,7 @@ class TagExtend extends \Spatie\Tags\Tag
     protected $table = 'tags';
 
     protected $casts = [
-        'type' => TagTypeEnum::class.':nullable',
+        'type' => TagTypeEnum::class,
     ];
 
     // protected $withCount = [

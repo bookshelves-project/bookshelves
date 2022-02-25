@@ -30,7 +30,7 @@ class OpdsService
         $entries = [];
         if ($this->data instanceof Collection) {
             foreach ($this->data as $key => $entry) {
-                if ($this->entity === EntityEnum::book()) {
+                if (EntityEnum::book === $this->entity) {
                     /** @var Book $entry */
                     $templateEntry = $this->entryBook($entry);
                 } else {
@@ -50,11 +50,11 @@ class OpdsService
     public function template(string $title = null)
     {
         $id = Str::slug(config('app.name'));
-        $id .= ':'.Str::slug($this->entity->label);
+        $id .= ':'.Str::slug($this->entity->value);
         $id .= $title ? ':'.Str::slug($title) : null;
 
         $feed_title = config('app.name').' OPDS';
-        $feed_title .= ': '.ucfirst(strtolower($this->entity->label));
+        $feed_title .= ': '.ucfirst(strtolower($this->entity->value));
         $feed_title .= null !== $title ? ': '.$title : null;
 
         $date = new DateTime();
@@ -125,7 +125,7 @@ class OpdsService
         return [
             'title' => $title,
             'updated' => $date,
-            'id' => $app.':'.Str::slug($this->entity->label).':'.Str::slug($title),
+            'id' => $app.':'.Str::slug($this->entity->value).':'.Str::slug($title),
             'content' => [
                 '_attributes' => [
                     'type' => 'text',

@@ -10,7 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use Spatie\Enum\Laravel\Rules\EnumRule;
+use Illuminate\Validation\Rules\Enum;
 
 class BookStoreRequest extends FormRequest
 {
@@ -43,7 +43,7 @@ class BookStoreRequest extends FormRequest
             'page_count' => ['nullable', 'integer'],
             'maturity_rating' => ['nullable'],
             'disabled' => ['boolean'],
-            'type' => new EnumRule(BookTypeEnum::class),
+            'type' => [new Enum(BookTypeEnum::class)],
             'tags' => ['array'],
             'cover_file' => ['nullable', 'image'],
             'cover_delete' => ['boolean'],
@@ -73,19 +73,19 @@ class BookStoreRequest extends FormRequest
             ]);
         }
 
-        $type = BookTypeEnum::novel();
+        $type = BookTypeEnum::novel;
         // $publishedAt = $this->published_at;
 
         // if ($this->publish) {
         //     if ($publishedAt) {
         //         $type = Carbon::parse($publishedAt) > Carbon::now()
-        //             ? PostStatusEnum::scheduled()
-        //             : PostStatusEnum::published();
+        //             ? PostStatusEnum::scheduled
+        //             : PostStatusEnum::published;
         //     }
 
         //     if (! $publishedAt) {
         //         $publishedAt = Carbon::now()->setSecond(0);
-        //         $type = PostStatusEnum::published();
+        //         $type = PostStatusEnum::published;
         //     }
         // }
 

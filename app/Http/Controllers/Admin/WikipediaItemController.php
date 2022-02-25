@@ -32,7 +32,7 @@ class WikipediaItemController extends Controller
     #[Get('/', name: 'wikipedia-items')]
     public function index()
     {
-        return app(WikipediaItemQuery::class)->make()
+        return app(WikipediaItemQuery::class)->make(null)
             ->paginateOrExport(fn ($data) => Inertia::render('wikipedia-items/Index', $data))
         ;
     }
