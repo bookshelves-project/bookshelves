@@ -36,7 +36,7 @@ class SerieResource extends JsonResource
             'tags' => TagLightResource::collection($this->resource->tags_list),
             'genres' => TagLightResource::collection($this->resource->genres_list),
             'download' => $this->resource->download_link,
-            'size' => $this->resource->size,
+            'sizes' => $this->resource->sizes,
             // 'books'      => BookSerieResource::collection($this->resource->books),
             'isFavorite' => $this->resource->is_favorite,
             'comments' => CommentResource::collection($this->resource->comments),

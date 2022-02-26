@@ -97,9 +97,7 @@ class GenerateCommand extends Command
         $bar->start();
         foreach ($list as $file) {
             $parser = ParserEngine::create($file, $debug);
-            if ($parser) {
-                ConverterEngine::convert($parser, $default);
-            }
+            ConverterEngine::convert($parser, $default);
 
             if (! $debug) {
                 $bar->advance();

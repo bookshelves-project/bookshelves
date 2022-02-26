@@ -50,7 +50,7 @@ trait HasCovers
     public function getCoverBookAttribute(): ?MediaExtended
     {
         // @phpstan-ignore-next-line
-        return $this->getMedia('books')->first() ?? null;
+        return $this->getMedia('covers')->first() ?? null;
     }
 
     /**
@@ -116,7 +116,7 @@ trait HasCovers
         $cover = null;
 
         try {
-            $cover = $this->getFirstMediaUrl($class_name, $collection);
+            $cover = $this->getFirstMediaUrl('covers', $collection);
         } catch (\Throwable $th) {
         }
 

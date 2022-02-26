@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Engines\ParserEngine;
 use App\Models\Traits\HasAuthors;
+use App\Models\Traits\HasBooksCollection;
 use App\Models\Traits\HasClassName;
 use App\Models\Traits\HasComments;
 use App\Models\Traits\HasCovers;
@@ -37,6 +38,7 @@ class Serie extends Model implements HasMedia
     use HasTagsAndGenres;
     use Searchable;
     use HasWikipediaItem;
+    use HasBooksCollection;
 
     protected $fillable = [
         'title',
@@ -65,18 +67,14 @@ class Serie extends Model implements HasMedia
         ]);
     }
 
-    public function getSizeAttribute(): string
+    public function getSizesAttribute(): object
     {
         $serie = Serie::whereSlug($this->slug)
             ->with('books.media')
             ->first()
         ;
-        $size = 0;
-        foreach ($serie->books as $book) {
-            $size += $book->epub->size;
-        }
 
-        return BookshelvesTools::humanFilesize($size);
+        return $this->getSizesList($serie);
     }
 
     public function toSearchableArray()

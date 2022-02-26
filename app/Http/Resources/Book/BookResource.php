@@ -44,7 +44,7 @@ class BookResource extends JsonResource
             'publisher' => PublisherLightResource::make($this->resource->publisher),
             'tags' => TagLightResource::collection($this->resource->tags_list),
             'genres' => TagLightResource::collection($this->resource->genres_list),
-            'epub' => MediaResource::make($this->resource->epub),
+            'files' => MediaResource::collection($this->resource->files),
             'webreader' => $this->resource->webreader_link,
             'googleBook' => GoogleBookResource::make($this->resource->googleBook),
             'isFavorite' => $this->resource->is_favorite,

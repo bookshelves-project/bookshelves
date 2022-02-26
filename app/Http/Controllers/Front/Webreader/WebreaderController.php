@@ -41,7 +41,7 @@ class WebreaderController extends Controller
     {
         // $author = Author::whereSlug($author)->firstOrFail();
         // $book = Book::whereRelation('authors', 'name', '=', $author->name)->whereSlug($book)->firstOrFail();
-        // $epub = $book->getFirstMediaUrl('epubs');
+        // $epub = $book->getFirstMediaUrl('epub');
         // $epub_download = $epub;
         // $epub_path = str_replace(config('app.url'), '', $epub);
 

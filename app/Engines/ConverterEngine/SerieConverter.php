@@ -13,7 +13,7 @@ use Storage;
 
 class SerieConverter
 {
-    public const DISK = 'series';
+    public const DISK = 'covers';
 
     /**
      * Generate Serie for Book from ParserEngine.
@@ -99,12 +99,12 @@ class SerieConverter
         // Add special cover if exist from `public/storage/data/pictures-series/`
         // Check if JPG file with series' slug name exist
         // To know slug name, check into database when serie was created
-        $path = public_path("storage/data/pictures-{$disk}");
+        $path = storage_path('app/public/data/pictures-series');
         $files = DirectoryParserService::parseDirectoryFiles($path);
 
         $local_cover = null;
         foreach ($files as $key => $file) {
-            if (pathinfo($file)['filename'] === $serie->slug) {
+            if (pathinfo($file, PATHINFO_FILENAME) === $serie->slug) {
                 $local_cover = base64_encode(file_get_contents($file));
             }
         }
@@ -119,7 +119,7 @@ class SerieConverter
      */
     public static function setCover(Serie $serie): Serie
     {
-        if ($serie->getMedia('series')->isEmpty()) {
+        if ($serie->getMedia('covers')->isEmpty()) {
             $disk = self::DISK;
 
             // get picture in $path if exist
@@ -135,7 +135,7 @@ class SerieConverter
                 }
 
                 /** @var Book $book */
-                $cover_exist = File::exists($book->cover_book->getPath());
+                $cover_exist = File::exists($book->cover_book?->getPath());
                 if ($cover_exist) {
                     $cover = base64_encode(File::get($book->cover_book->getPath()));
                 }

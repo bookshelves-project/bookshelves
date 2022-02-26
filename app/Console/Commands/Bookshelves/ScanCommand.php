@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\FilesTypeParser;
 use App\Models\Book;
@@ -52,14 +53,14 @@ class ScanCommand extends Command
         }
         foreach ($files as $key => $file) {
             $parser = ParserEngine::create($file);
-            $book = Book::whereSlug($parser->title_slug_lang)->first();
-            if (! $book) {
+            $is_exist = ConverterEngine::bookIfExist($parser);
+            if (! $is_exist) {
                 array_push($new_files, $parser);
             }
             if (! $verbose) {
                 $bar->advance();
             } else {
-                $this->info($key.' '.pathinfo($file->path)['filename']);
+                $this->info($key.' '.pathinfo($file->path, PATHINFO_FILENAME));
             }
         }
         if (! $verbose) {
@@ -72,7 +73,9 @@ class ScanCommand extends Command
             $this->info('New files detected');
             $this->newLine();
             foreach ($new_files as $parser) {
-                $this->info("- {$parser->title} from {$parser->file_name}");
+                if ($parser instanceof ParserEngine) {
+                    $this->info("- {$parser->title} from {$parser->file_name}");
+                }
             }
         }
 
@@ -80,6 +83,9 @@ class ScanCommand extends Command
         $this->warn(sizeof(($files)).' files found');
         if (sizeof($new_files) > 0) {
             $this->warn(sizeof(($new_files)).' new files found, to add it to collection, you can use `bookshelves:generate`');
+        }
+        if (0 === sizeof(($new_files)) && sizeof(($files)) !== Book::count()) {
+            $this->warn('Some duplicates detected!');
         }
         $this->newLine();
 

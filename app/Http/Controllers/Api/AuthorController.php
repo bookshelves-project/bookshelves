@@ -102,7 +102,7 @@ class AuthorController extends ApiController
     {
         $epubs = [];
         foreach ($author->books as $key => $book) {
-            $epub = $book->getMedia('epubs')->first();
+            $epub = $book->getMedia('epub')->first();
             array_push($epubs, $epub);
         }
 

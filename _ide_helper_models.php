@@ -50,7 +50,7 @@ namespace App\Models{
  * @property-read string $show_link
  * @property-read string $show_link_opds
  * @property-read string $show_series_link
- * @property-read string $size
+ * @property-read object $sizes
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
@@ -125,7 +125,7 @@ namespace App\Models{
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
  * @property-read string $download_link
- * @property-read \App\Models\MediaExtended|null $epub
+ * @property-read \App\Models\MediaExtended[] $files
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $isbn

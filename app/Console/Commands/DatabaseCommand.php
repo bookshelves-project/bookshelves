@@ -90,7 +90,7 @@ class DatabaseCommand extends Command
             $authors = Author::all();
             $books->each(function ($query) {
                 $query->clearMediaCollection('books');
-                $query->clearMediaCollection('epubs');
+                $query->clearMediaCollection('epub');
             });
             $series->each(function ($query) {
                 $query->clearMediaCollection('series');

@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 
 class AuthorConverter
 {
-    public const DISK = 'authors';
+    public const DISK = 'covers';
 
     public function __construct(
         public ?string $firstname,
@@ -140,13 +140,13 @@ class AuthorConverter
     public static function getLocalPicture(Author $author): ?string
     {
         $disk = self::DISK;
-        $path = public_path("storage/data/pictures-{$disk}");
+        $path = storage_path('app/public/data/pictures-authors');
         $cover = null;
 
         $files = DirectoryParserService::parseDirectoryFiles($path);
 
         foreach ($files as $file) {
-            if (pathinfo($file)['filename'] === $author->slug) {
+            if (pathinfo($file, PATHINFO_FILENAME) === $author->slug) {
                 $cover = base64_encode(file_get_contents($file));
             }
         }
@@ -191,7 +191,7 @@ class AuthorConverter
      */
     public static function setWikiPicture(Author $author): Author
     {
-        if ($author->getMedia('authors')->isEmpty()) {
+        if ($author->getMedia('covers')->isEmpty()) {
             $disk = self::DISK;
             $cover = self::getLocalPicture($author);
             if ($cover) {
@@ -219,7 +219,7 @@ class AuthorConverter
 
     public static function setPicturePlaceholder(Author $author): Author
     {
-        if ($author->getMedia('authors')->isEmpty()) {
+        if ($author->getMedia('covers')->isEmpty()) {
             $placeholder = public_path('assets/images/no-author.jpg');
             $disk = self::DISK;
             $author->clearMediaCollection($disk);

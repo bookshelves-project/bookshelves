@@ -16,7 +16,7 @@ class CoverConverter
     public static function create(ParserEngine $parser, Book $book): Book
     {
         if (! empty($parser->cover_file)) {
-            $disk = 'books';
+            $disk = 'covers';
 
             try {
                 MediaService::create($book, $book->slug, $disk)

@@ -12,11 +12,11 @@ class MediaResource extends JsonResource
 {
     public function toArray($request)
     {
-        return [
+        return null !== $this->resource ? [
             'name' => $this->resource->file_name,
             'size' => $this->resource->size_human,
             'download' => $this->resource->download,
             'type' => $this->resource->extension,
-        ];
+        ] : null;
     }
 }

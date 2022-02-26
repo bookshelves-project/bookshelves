@@ -2,6 +2,7 @@
 
 namespace App\Services\WikipediaService;
 
+use App\Services\WikipediaService;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -94,6 +95,11 @@ class WikipediaQuery
 
             foreach ($search as $result) {
                 if (strpos($result->title, '(writer)')) {
+                    $pageId = $result->pageid;
+
+                    break;
+                }
+                if (strpos($result->title, '(author)')) {
                     $pageId = $result->pageid;
 
                     break;

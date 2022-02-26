@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Engines\ParserEngine;
+use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Models\Traits\HasAuthors;
 use App\Models\Traits\HasClassName;
@@ -75,16 +76,26 @@ class Book extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('epubs');
+        $this->addMediaCollection('epub');
     }
 
     /**
-     * Manage EPUB files with spatie/laravel-medialibrary.
+     * Manage files with spatie/laravel-medialibrary.
+     *
+     * @return MediaExtended[]
      */
-    public function getEpubAttribute(): ?MediaExtended
+    public function getFilesAttribute()
     {
+        $files = [];
+        foreach (BookFormatEnum::toValues() as $format) {
+            $media = $this->getMedia($format)
+                ->first(null, MediaExtended::class)
+            ;
+            $files[$format] = is_string($media) ? null : $media;
+        }
+
         // @phpstan-ignore-next-line
-        return $this->getMedia('epubs')->first() ?? null;
+        return $files;
     }
 
     public function getShowRelatedLinkAttribute(): string

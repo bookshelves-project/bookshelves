@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\BookFormatEnum;
 use App\Helpers\PaginationHelper;
 use App\Http\Queries\Addon\QueryOption;
 use App\Http\Queries\BookQuery;
@@ -237,6 +238,9 @@ class BookController extends ApiController
      */
     public function download(Author $author, Book $book)
     {
-        return response()->download($book->epub->getPath(), $book->epub->file_name);
+        $format = BookFormatEnum::epub->name;
+        $media = $book->files[$format];
+
+        return response()->download($media->getPath(), $media->file_name);
     }
 }

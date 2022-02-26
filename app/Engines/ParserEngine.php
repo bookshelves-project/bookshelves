@@ -5,7 +5,9 @@ namespace App\Engines;
 use App\Engines\ParserEngine\BookCreator;
 use App\Engines\ParserEngine\BookIdentifier;
 use App\Engines\ParserEngine\FilesTypeParser;
+use App\Engines\ParserEngine\Modules\CbzModule;
 use App\Engines\ParserEngine\Modules\OpfModule;
+use App\Engines\ParserEngine\Modules\PdfModule;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Services\ConsoleService;
@@ -56,16 +58,16 @@ class ParserEngine
     /**
      * Transform OPF file to ParserEngine.
      */
-    public static function create(FilesTypeParser $file, bool $debug = false): ParserEngine|false
+    public static function create(FilesTypeParser $file, bool $debug = false): ?ParserEngine
     {
-        $extension = pathinfo($file->path)['extension'];
-        $file_name = pathinfo($file->path)['basename'];
+        $extension = pathinfo($file->path, PATHINFO_EXTENSION);
+        $file_name = pathinfo($file->path, PATHINFO_BASENAME);
         $formats = BookFormatEnum::toArray();
 
         if (! array_key_exists($extension, $formats)) {
             ConsoleService::print("{$file->path} ParserEngine error: extension is not recognized");
 
-            return false;
+            return null;
         }
 
         $parser = new ParserEngine();
@@ -76,8 +78,10 @@ class ParserEngine
         $parser->debug = $debug;
 
         $parser = match ($parser->format) {
+            BookFormatEnum::cbz => CbzModule::create($parser),
             BookFormatEnum::epub => OpfModule::create($parser),
-            default => false,
+            BookFormatEnum::pdf => PdfModule::create($parser),
+            default => null,
         };
 
         if ($parser) {
@@ -101,7 +105,7 @@ class ParserEngine
         } else {
             ConsoleService::print("{$file->path} ParserEngine error: format not recognized");
 
-            return false;
+            return null;
         }
 
         return $parser;

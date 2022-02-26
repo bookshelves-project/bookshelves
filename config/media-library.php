@@ -7,28 +7,28 @@ return [
      */
     'disk_name' => env('MEDIA_DISK', 'media'),
 
-    'disks' => [
-        'authors' => [
-            'driver' => 'local',
-            'root' => storage_path('authors'),
-        ],
-        'books' => [
-            'driver' => 'local',
-            'root' => storage_path('books'),
-        ],
-        'epubs' => [
-            'driver' => 'local',
-            'root' => storage_path('epubs'),
-        ],
-        'cms' => [
-            'driver' => 'local',
-            'root' => storage_path('cms'),
-        ],
-        'series' => [
-            'driver' => 'local',
-            'root' => storage_path('series'),
-        ],
-    ],
+    // 'disks' => [
+    // 'covers' => [
+    //     'driver' => 'local',
+    //     'root' => storage_path('covers'),
+    // ],
+    // 'books' => [
+    //     'driver' => 'local',
+    //     'root' => storage_path('books'),
+    // ],
+    // 'epub' => [
+    //     'driver' => 'local',
+    //     'root' => storage_path('epub'),
+    // ],
+    // 'cms' => [
+    //     'driver' => 'local',
+    //     'root' => storage_path('cms'),
+    // ],
+    // 'series' => [
+    //     'driver' => 'local',
+    //     'root' => storage_path('series'),
+    // ],
+    // ],
 
     /*
      * The maximum file size of an item in bytes.

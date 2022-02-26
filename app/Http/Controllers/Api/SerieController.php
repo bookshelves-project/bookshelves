@@ -107,7 +107,7 @@ class SerieController extends ApiController
     {
         $epubs = [];
         foreach ($serie->books as $book) {
-            $epub = $book->getMedia('epubs')->first();
+            $epub = $book->getMedia('epub')->first();
             array_push($epubs, $epub);
         }
 

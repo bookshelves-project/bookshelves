@@ -10,8 +10,8 @@ use App\Models\GoogleBook;
 use App\Models\Serie;
 use App\Models\WikipediaItem;
 use App\Services\DirectoryClearService;
-use App\Services\GoogleBookService\GoogleBookService;
-use App\Services\WikipediaService\WikipediaService;
+use App\Services\GoogleBookService;
+use App\Services\WikipediaService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
@@ -202,7 +202,7 @@ class AssetsCommand extends Command
             $bar = $this->output->createProgressBar(count($list));
             $bar->start();
             foreach ($list as $model) {
-                // @var Author $model
+                /** @var Author $model */
                 AuthorConverter::setLocalPicture($model);
                 $bar->advance();
             }
@@ -213,7 +213,7 @@ class AssetsCommand extends Command
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($list as $model) {
-            // @var Author $model
+            /** @var Author $model */
             AuthorConverter::setPicturePlaceholder($model);
             $bar->advance();
         }
@@ -256,7 +256,7 @@ class AssetsCommand extends Command
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($list as $key => $model) {
-            // @var Serie $model
+            /** @var Serie $model */
             SerieConverter::setTags($model);
             if (! $default) {
                 SerieConverter::setCover($model);

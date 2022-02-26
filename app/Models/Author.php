@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\BookFormatEnum;
+use App\Models\Traits\HasBooksCollection;
 use App\Models\Traits\HasClassName;
 use App\Models\Traits\HasComments;
 use App\Models\Traits\HasCovers;
@@ -35,6 +37,7 @@ class Author extends Model implements HasMedia
     use Searchable;
     use HasWikipediaItem;
     use HasSlug;
+    use HasBooksCollection;
 
     protected $fillable = [
         'lastname',
@@ -103,18 +106,14 @@ class Author extends Model implements HasMedia
         ]);
     }
 
-    public function getSizeAttribute(): string
+    public function getSizesAttribute(): object
     {
         $author = Author::whereSlug($this->slug)
             ->with('books.media')
             ->first()
         ;
-        $size = 0;
-        foreach ($author->books as $book) {
-            $size += $book->epub->size;
-        }
 
-        return BookshelvesTools::humanFilesize($size);
+        return $this->getSizesList($author);
     }
 
     public function toSearchableArray()

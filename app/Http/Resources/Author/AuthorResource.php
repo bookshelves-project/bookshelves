@@ -32,7 +32,7 @@ class AuthorResource extends JsonResource
             ],
             'description' => $author->description,
             'link' => $author->link,
-            'size' => $author->size,
+            'sizes' => $author->sizes,
             'download' => $author->download_link,
             'isFavorite' => $author->is_favorite,
             'comments' => CommentResource::collection($author->comments),
