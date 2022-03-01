@@ -99,28 +99,28 @@ class OpfModule
 
     private function version2(): static
     {
-        $this->extractCover();
+        $this->getCover();
 
         if ($this->opf['metadata']) {
             foreach ($this->opf['metadata'] as $node_key => $node) {
-                $this->extractRaw($node_key, $node, 'dc:title', 'title');
-                $this->extractRaw($node_key, $node, 'dc:description', 'description');
-                $this->extractRaw($node_key, $node, 'dc:date', 'date');
-                $this->extractRaw($node_key, $node, 'dc:publisher', 'publisher');
-                $this->extractRaw($node_key, $node, 'dc:language', 'language');
-                $this->extractRaw($node_key, $node, 'dc:rights', 'rights');
-                $this->extractSubjects($node_key, $node, 'dc:subject');
-                $this->extractCreators($node_key, $node, 'dc:creator');
-                $this->extractContributor($node_key, $node, 'dc:contributor');
-                $this->extractIdentifiers($node_key, $node, 'dc:identifier');
-                $this->extractCalibreMeta($node_key, $node, 'meta');
+                $this->getRaw($node_key, $node, 'dc:title', 'title');
+                $this->getRaw($node_key, $node, 'dc:description', 'description');
+                $this->getRaw($node_key, $node, 'dc:date', 'date');
+                $this->getRaw($node_key, $node, 'dc:publisher', 'publisher');
+                $this->getRaw($node_key, $node, 'dc:language', 'language');
+                $this->getRaw($node_key, $node, 'dc:rights', 'rights');
+                $this->getSubjects($node_key, $node, 'dc:subject');
+                $this->getCreators($node_key, $node, 'dc:creator');
+                $this->getContributor($node_key, $node, 'dc:contributor');
+                $this->getIdentifiers($node_key, $node, 'dc:identifier');
+                $this->getCalibreMeta($node_key, $node, 'meta');
             }
         }
 
         return $this;
     }
 
-    private function extractRaw(string $node_key, mixed $node, string $extract_key, string $attribute): static
+    private function getRaw(string $node_key, mixed $node, string $extract_key, string $attribute): static
     {
         if ($node_key === $extract_key) {
             $this->engine->{$attribute} = $node;
@@ -132,7 +132,7 @@ class OpfModule
     /**
      * Get serie and volume.
      */
-    private function extractCalibreMeta(string $node_key, mixed $node, string $extract_key): ParserEngine
+    private function getCalibreMeta(string $node_key, mixed $node, string $extract_key): ParserEngine
     {
         if ($node_key === $extract_key) {
             foreach ($node as $value) {
@@ -151,7 +151,7 @@ class OpfModule
     /**
      * Get identifiers like ISBN.
      */
-    private function extractIdentifiers(string $node_key, mixed $node, string $extract_key): static
+    private function getIdentifiers(string $node_key, mixed $node, string $extract_key): static
     {
         if ($node_key === $extract_key) {
             $this->engine->identifiers = [];
@@ -172,7 +172,7 @@ class OpfModule
     /**
      * Get contributor.
      */
-    private function extractContributor(string $node_key, mixed $node, string $extract_key): static
+    private function getContributor(string $node_key, mixed $node, string $extract_key): static
     {
         if ($node_key === $extract_key) {
             array_push($this->engine->contributor, $node['@content']);
@@ -186,7 +186,7 @@ class OpfModule
      * - use BookCreator to get name and role
      * - role can be 'aut' for author but it can be 'translator' for example.
      */
-    private function extractCreators(string $node_key, mixed $node, string $extract_key): static
+    private function getCreators(string $node_key, mixed $node, string $extract_key): static
     {
         if ($node_key === $extract_key) {
             $creators = [];
@@ -204,7 +204,7 @@ class OpfModule
         return $this;
     }
 
-    private function extractSubjects(string $node_key, mixed $node, string $extract_key): static
+    private function getSubjects(string $node_key, mixed $node, string $extract_key): static
     {
         if ($node_key === $extract_key) {
             $subjects = [];
@@ -228,7 +228,7 @@ class OpfModule
      * - define cover path into EPUB/ZIP file
      * - define extension of cover.
      */
-    private function extractCover(): static
+    private function getCover(): static
     {
         if ($this->opf['manifest'] && $items = $this->opf['manifest']['item']) {
             $cover = null;
