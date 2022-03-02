@@ -3,7 +3,7 @@
 namespace App\Engines\ConverterEngine;
 
 use App\Engines\ParserEngine;
-use App\Engines\ParserEngine\BookCreator;
+use App\Engines\ParserEngine\Models\BookCreator;
 use App\Models\Author;
 use App\Models\Book;
 use App\Services\DirectoryParserService;

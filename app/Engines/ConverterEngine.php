@@ -11,7 +11,7 @@ use App\Engines\ConverterEngine\PublisherConverter;
 use App\Engines\ConverterEngine\SerieConverter;
 use App\Engines\ConverterEngine\TagConverter;
 use App\Engines\ConverterEngine\TypeConverter;
-use App\Engines\ParserEngine\BookCreator;
+use App\Engines\ParserEngine\Models\BookCreator;
 use App\Enums\BookFormatEnum;
 use App\Models\Book;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -77,6 +77,7 @@ class ConverterEngine
                     }
                     return $builder->whereIn('name', $authors_name);
                 })
+                ->whereType($parser->type)
                 ->first()
             ;
 

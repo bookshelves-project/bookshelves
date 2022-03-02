@@ -4,8 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
-use App\Engines\ParserEngine\FilesTypeParser;
-use App\Services\DirectoryParserService;
+use App\Engines\ParserEngine\Parsers\FilesTypeParser;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Tags\Tag;

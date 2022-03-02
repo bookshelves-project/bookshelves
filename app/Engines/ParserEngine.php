@@ -2,12 +2,12 @@
 
 namespace App\Engines;
 
-use App\Engines\ParserEngine\BookCreator;
-use App\Engines\ParserEngine\BookIdentifier;
-use App\Engines\ParserEngine\FilesTypeParser;
+use App\Engines\ParserEngine\Models\BookCreator;
+use App\Engines\ParserEngine\Models\BookIdentifier;
 use App\Engines\ParserEngine\Modules\CbzModule;
 use App\Engines\ParserEngine\Modules\OpfModule;
 use App\Engines\ParserEngine\Modules\PdfModule;
+use App\Engines\ParserEngine\Parsers\FilesTypeParser;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Services\ConsoleService;

@@ -25,4 +25,13 @@ class ConsoleService
             $output->writeln("{$message}{$space}");
         }
     }
+
+    public static function error(string $message, ?Throwable $th = null): void
+    {
+        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $outputStyle = new OutputFormatterStyle('red', '', ['bold']);
+        $output->getFormatter()->setStyle('fire', $outputStyle);
+
+        $output->writeln("<fire>Error about {$message}</>\n");
+    }
 }

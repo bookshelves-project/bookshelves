@@ -20,6 +20,7 @@ return [
             'essay' => 'Essay',
             'comic' => 'Comic',
             'novel' => 'Novel',
+            'audio' => 'Audio',
         ],
         'GenderEnum' => [
             'unknown' => 'Unknown',

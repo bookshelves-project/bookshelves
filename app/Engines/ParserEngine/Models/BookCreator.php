@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Engines\ParserEngine;
+namespace App\Engines\ParserEngine\Models;
 
 class BookCreator
 {

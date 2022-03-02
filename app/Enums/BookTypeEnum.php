@@ -12,4 +12,5 @@ enum BookTypeEnum: string
     case essay = 'essay';
     case comic = 'comic';
     case novel = 'novel';
+    case audio = 'audio';
 }

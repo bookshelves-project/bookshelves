@@ -3,106 +3,62 @@
 namespace App\Engines\ParserEngine\Modules;
 
 use App\Engines\ParserEngine;
-use App\Engines\ParserEngine\BookCreator;
-use App\Engines\ParserEngine\BookIdentifier;
-use App\Engines\ParserEngine\XmlParser;
+use App\Engines\ParserEngine\Models\BookCreator;
+use App\Engines\ParserEngine\Models\BookIdentifier;
+use App\Engines\ParserEngine\Parsers\XmlInterface;
+use App\Engines\ParserEngine\Parsers\XmlParser;
 use App\Services\ConsoleService;
-use ZipArchive;
 
-class OpfModule
+class OpfModule implements XmlInterface
 {
     public function __construct(
-        public ?array $opf = null,
+        public ?array $xml_data = null,
         public ?float $version = null,
         public ?ParserEngine $engine = null,
     ) {
     }
 
-    /**
-     * Parse OPF file as PHP XML file.
-     */
-    public static function create(ParserEngine $parser): ParserEngine|false
+    public static function create(ParserEngine $engine): ParserEngine|false
     {
-        // Find and open EPUB as ZIP file
-        $zip = new ZipArchive();
-        $zip->open($parser->file_path);
+        $xml = new XmlParser($engine, OpfModule::class, 'opf');
+        $xml = $xml->openZip();
 
-        // Parse EPUB/ZIP file
-        for ($i = 0; $i < $zip->numFiles; ++$i) {
-            $file = $zip->statIndex($i);
-            // Extract .opf file by it extension as string
-            if (strpos($file['name'], '.opf')) {
-                $opf = $zip->getFromName($file['name']);
-            }
-        }
-        if (! isset($opf)) {
-            ConsoleService::print("OpfModule: can't get OPF");
-
-            return false;
-        }
-
-        // If debug mode, create OPF file into `debug`
-        if ($parser->debug) {
-            ParserEngine::printFile($opf, "{$parser->file_name}.opf", true);
-        }
-
-        // Transform OPF to Array
-        try {
-            $parser = OpfModule::parse($opf, $parser);
-        } catch (\Throwable $th) {
-            ConsoleService::print(__METHOD__, $th);
-        }
-
-        // Parse EPUB/ZIP file
-        for ($i = 0; $i < $zip->numFiles; ++$i) {
-            $file = $zip->statIndex($i);
-            // If cover exist, extract it as string
-            if ($parser->cover_name) {
-                $cover = $zip->getFromName($parser->cover_name);
-                $parser->cover_file = base64_encode($cover);
-            }
-        }
-
-        $zip->close();
-
-        return $parser;
+        return $xml->engine;
     }
 
-    public static function parse(string $opf_file, ParserEngine $parser): ParserEngine
+    public static function parse(XmlParser $xml): ParserEngine
     {
-        $xml = new XmlParser($opf_file);
         $module = new OpfModule();
 
-        $module->opf = $xml->xml_to_array();
+        $module->xml_data = $xml->xml_data;
         $module->version = 2.0;
 
-        if ($module->opf['@attributes'] && $version = $module->opf['@attributes']['version']) {
+        if ($module->xml_data['@attributes'] && $version = $module->xml_data['@attributes']['version']) {
             $module->version = floatval($version);
         }
-        $module->engine = $parser;
+        $module->engine = $xml->engine;
 
         $is_supported = match ($module->version) {
             2.0 => $module->version2(),
             default => false,
         };
 
-        // If debug, create JSON file with OPF data
-        if ($parser->debug) {
-            ParserEngine::printFile($module->opf, "{$parser->file_name}-metadata.json");
+        if ($xml->engine->debug) {
+            ParserEngine::printFile($module->xml_data, "{$xml->engine->file_name}-metadata.json");
         }
         if (! $is_supported) {
             ConsoleService::print("OpfModule {$module->version} not supported");
         }
 
-        return $parser;
+        return $module->engine;
     }
 
     private function version2(): static
     {
         $this->getCover();
 
-        if ($this->opf['metadata']) {
-            foreach ($this->opf['metadata'] as $node_key => $node) {
+        if ($this->xml_data['metadata']) {
+            foreach ($this->xml_data['metadata'] as $node_key => $node) {
                 $this->getRaw($node_key, $node, 'dc:title', 'title');
                 $this->getRaw($node_key, $node, 'dc:description', 'description');
                 $this->getRaw($node_key, $node, 'dc:date', 'date');
@@ -230,7 +186,7 @@ class OpfModule
      */
     private function getCover(): static
     {
-        if ($this->opf['manifest'] && $items = $this->opf['manifest']['item']) {
+        if ($this->xml_data['manifest'] && $items = $this->xml_data['manifest']['item']) {
             $cover = null;
 
             foreach ($items as $node) {

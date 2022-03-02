@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Engines\ParserEngine;
+namespace App\Engines\ParserEngine\Parsers;
 
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
