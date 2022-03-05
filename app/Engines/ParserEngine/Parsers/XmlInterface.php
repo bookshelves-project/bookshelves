@@ -12,9 +12,7 @@ interface XmlInterface
      * Example from `OpfModule::class`
      * ```php
      * $xml = new XmlParser($parser, OpfModule::class, 'opf');
-     * $xml = $xml->openZip();
-     *
-     * return $xml->engine;
+     * return $xml->openZip();
      * ```
      */
     public static function create(ParserEngine $engine): ParserEngine|false;

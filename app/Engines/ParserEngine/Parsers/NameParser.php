@@ -12,7 +12,8 @@ class NameParser
     /**
      * Parse file name to generate Book.
      *
-     * Example: `novel.La_Longue_Guerre.Terry_Pratchett&Stephen_Baxter.La_Longue_Terre.2.fr.2017-02-09.Pocket.9782266266284` like `BookTypeEnum.Original_Title.Author&Other_Author.Serie_Title.Volume.Language.Date.Publisher.Identifier`
+     * Example: `novel.La_Longue_Guerre.Terry_Pratchett&Stephen_Baxter.La_Longue_Terre.2.fr.2017-02-09.Pocket.9782266266284`
+     * like `BookTypeEnum.Original_Title.Author&Other_Author.Serie_Title.Volume.Language.Date.Publisher.Identifier`
      */
     public static function parse(ParserEngine $parser): ParserEngine
     {
@@ -22,18 +23,16 @@ class NameParser
         if (is_array($parsing)) {
             $data = [];
             foreach ($parsing as $value) {
-                $data['type'] = self::parseName($parsing, 0) ?? BookTypeEnum::novel->value;
-                $data['title'] = self::parseName($parsing, 1);
-                $data['creators'] = self::parseName($parsing, 2);
-                $data['serie'] = self::parseName($parsing, 3);
-                $data['volume'] = self::parseName($parsing, 4);
-                $data['language'] = self::parseName($parsing, 5);
-                $data['date'] = self::parseName($parsing, 6);
-                $data['publisher'] = self::parseName($parsing, 7);
-                $data['identifiers'] = self::parseName($parsing, 8);
+                $data['title'] = self::parseName($parsing, 0);
+                $data['creators'] = self::parseName($parsing, 1);
+                $data['serie'] = self::parseName($parsing, 2);
+                $data['volume'] = self::parseName($parsing, 3);
+                $data['language'] = self::parseName($parsing, 4);
+                $data['date'] = self::parseName($parsing, 5);
+                $data['publisher'] = self::parseName($parsing, 6);
+                $data['identifiers'] = self::parseName($parsing, 7);
             }
 
-            $parser->type = BookTypeEnum::from($data['type']);
             $parser->title = self::transformToString($data['title']);
             $parser->creators = self::extractCreators($data['creators']);
             $parser->serie = self::transformToString($data['serie']);

@@ -70,37 +70,37 @@ class ParserEngine
             return null;
         }
 
-        $parser = new ParserEngine();
-        $parser->file_name = $file_name;
-        $parser->file_path = $file->path;
-        $parser->format = BookFormatEnum::from($extension);
-        $parser->type = $file->type;
-        $parser->debug = $debug;
+        $engine = new ParserEngine();
+        $engine->file_name = $file_name;
+        $engine->file_path = $file->path;
+        $engine->format = BookFormatEnum::from($extension);
+        $engine->type = $file->type;
+        $engine->debug = $debug;
 
-        $parser = match ($parser->format) {
-            BookFormatEnum::cbz => CbzModule::create($parser),
-            BookFormatEnum::epub => OpfModule::create($parser),
-            BookFormatEnum::pdf => PdfModule::create($parser),
-            default => null,
+        $engine = match ($engine->format) {
+            BookFormatEnum::cbz => CbzModule::create($engine),
+            BookFormatEnum::epub => OpfModule::create($engine),
+            BookFormatEnum::pdf => PdfModule::create($engine),
+            default => false,
         };
 
-        if ($parser) {
-            $parser->slug_sort = ParserEngine::generateSortTitle($parser->title);
-            $parser->slug = Str::slug($parser->title);
-            $parser->title_slug_lang = Str::slug($parser->title.' '.$parser->language);
-            $parser->serie_slug = Str::slug($parser->serie);
-            $parser->serie_slug_lang = Str::slug($parser->serie.' '.$parser->language);
-            $parser->serie_sort = ParserEngine::generateSortTitle($parser->serie);
-            $parser->title_serie_sort = ParserEngine::generateSortSerie($parser->title, $parser->volume, $parser->serie);
-            $parser->description = ParserEngine::htmlToText($parser->description);
-            $parser->released_on = ! str_contains($parser->date, '0101') ? new DateTime($parser->date) : null;
+        if ($engine) {
+            $engine->slug_sort = ParserEngine::generateSortTitle($engine->title);
+            $engine->slug = Str::slug($engine->title);
+            $engine->title_slug_lang = Str::slug($engine->title.' '.$engine->language);
+            $engine->serie_slug = Str::slug($engine->serie);
+            $engine->serie_slug_lang = Str::slug($engine->serie.' '.$engine->language);
+            $engine->serie_sort = ParserEngine::generateSortTitle($engine->serie);
+            $engine->title_serie_sort = ParserEngine::generateSortSerie($engine->title, $engine->volume, $engine->serie);
+            $engine->description = ParserEngine::htmlToText($engine->description);
+            $engine->released_on = ! str_contains($engine->date, '0101') ? new DateTime($engine->date) : null;
 
-            if ($parser->debug) {
-                ConsoleService::print("{$parser->title}");
-                $parser_print = clone $parser;
-                $parser_print->cover_file = $parser_print->cover_file
-                    ? 'available (removed into this JSON)' : $parser_print->cover_file;
-                ParserEngine::printFile($parser_print, "{$parser->file_name}-parser.json");
+            if ($engine->debug) {
+                ConsoleService::print("{$engine->title}");
+                $engine_print = clone $engine;
+                $engine_print->cover_file = $engine_print->cover_file
+                    ? 'available (removed into this JSON)' : $engine_print->cover_file;
+                ParserEngine::printFile($engine_print, "{$engine->file_name}-parser.json");
             }
         } else {
             ConsoleService::print("{$file->path} ParserEngine error: format not recognized");
@@ -108,7 +108,7 @@ class ParserEngine
             return null;
         }
 
-        return $parser;
+        return $engine;
     }
 
     /**
