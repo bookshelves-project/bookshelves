@@ -22,7 +22,7 @@ class WikipediaService
     public function __construct(
         public ?string $class = null,
         public ?Collection $models = null,
-        public ?string $query_attribute = null,
+        public mixed $query_attribute = null,
         public ?string $language_attribute = null,
         public ?Collection $queries = null,
         public ?Collection $queries_failed = null,
@@ -38,7 +38,7 @@ class WikipediaService
     /**
      * Create WikipediaService from Model and create WikipediaQuery for each entity only if hasn't WikipediaItem.
      */
-    public static function create(string $class, string $attribute, ?string $language_attribute = 'language_slug', ?bool $debug = false): WikipediaService
+    public static function create(string $class, string|array $attribute, ?string $language_attribute = 'language_slug', ?bool $debug = false): WikipediaService
     {
         $service = new WikipediaService();
         $service->class = $class;
@@ -79,14 +79,32 @@ class WikipediaService
     {
         /** @var Model $model */
         foreach ($this->models as $model) {
+            $exist = true;
+            if (is_array($this->query_attribute)) {
+                foreach ($this->query_attribute as $attribute) {
+                    if (! array_key_exists($attribute, $model->getAttributes())) {
+                        $exist = false;
+                    }
+                }
+            } else {
+                $exist = array_key_exists($this->query_attribute, $model->getAttributes());
+            }
             // It's necessary to have a query attribute to search on Wikipedia and an ID to refer to model.
-            if (array_key_exists($this->query_attribute, $model->getAttributes()) && array_key_exists('id', $model->getAttributes())) {
+            if ($exist && array_key_exists('id', $model->getAttributes())) {
                 /**
                  * If language attribute is unknown, set it to english.
                  */
                 $lang = array_key_exists($this->language_attribute, $model->getAttributes()) ? $model->{$this->language_attribute} : 'en';
 
-                $query = $model->{$this->query_attribute};
+                $query = null;
+                if (is_array($this->query_attribute)) {
+                    foreach ($this->query_attribute as $attr) {
+                        $query .= $model->{$attr}.' ';
+                    }
+                } else {
+                    $query = $model->{$this->query_attribute};
+                }
+                $query = trim($query);
 
                 // @phpstan-ignore-next-line
                 $query = WikipediaQuery::create($query, $model->id, $lang, $this)

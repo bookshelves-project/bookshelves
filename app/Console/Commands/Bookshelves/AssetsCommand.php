@@ -30,7 +30,7 @@ class AssetsCommand extends Command
                             {--a|authors : assets for authors}
                             {--s|series : assets for series}
                             {--L|local : prevent external HTTP requests to public API for additional informations}
-                            {--F|fresh : refresh authors medias, `description` & `link`}
+                            {--f|fresh : refresh authors medias, `description` & `link`}
                             {--d|debug : print log for debug}
                             {--D|default : use default cover for all (skip covers step)}';
 
@@ -61,7 +61,6 @@ class AssetsCommand extends Command
         $books = $this->option('books') ?? false;
         $local = $this->option('local') ?? false;
         $default = $this->option('default') ?? false;
-        $debug = $this->option('debug') ?? false;
 
         $tool = new DirectoryClearService(storage_path('app/public/debug/wikipedia'));
         $tool->clearDir();
@@ -173,8 +172,9 @@ class AssetsCommand extends Command
 
         if ($fresh) {
             WikipediaItem::whereModel(Author::class)->delete();
+            /** @var Author $model */
             foreach ($list as $model) {
-                $model->clearMediaCollection($collection);
+                $model->clearMediaCollection('covers');
                 $model->description = null;
                 $model->link = null;
                 $model->save();
@@ -185,7 +185,7 @@ class AssetsCommand extends Command
             $default = $this->option('default') ?? false;
             $debug = $this->option('debug') ?? false;
 
-            $service = WikipediaService::create(Author::class, 'name', debug: $debug);
+            $service = WikipediaService::create(Author::class, ['firstname', 'lastname'], debug: $debug);
             $this->newLine();
 
             $bar = $this->output->createProgressBar(count($service->queries));

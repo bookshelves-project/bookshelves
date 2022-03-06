@@ -45,12 +45,14 @@ class WikipediaQuery
      */
     public function getQueryUrl(): WikipediaQuery
     {
-        $query = str_replace(' ', '%20', $this->search_query);
+        $query = str_replace(' ', '%20', "{$this->search_query}");
 
+        // generator search images: https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=Jul%20Maroh&gsrprop=snippet&prop=imageinfo&iiprop=url&rawcontinue&gsrnamespace=6&format=json
+        // generator search: https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=Baxter%20Stephen&prop=info|extracts|pageimages&format=json
         $url = "https://{$this->language}.wikipedia.org/w/api.php?";
         $url .= 'action=query';
         $url .= '&list=search';
-        $url .= "&srsearch={$query}";
+        $url .= "&srsearch=intitle:{$query}";
         $url .= '&format=json';
 
         $this->query_url = $url;
@@ -93,17 +95,29 @@ class WikipediaQuery
             $search = $response->query?->search;
             $search = array_slice($search, 0, 5);
 
-            foreach ($search as $result) {
-                if (strpos($result->title, '(writer)')) {
+            // $search_list = explode(' ', $this->search_query);
+
+            foreach ($search as $key => $result) {
+                if (0 === $key) {
                     $pageId = $result->pageid;
 
                     break;
                 }
-                if (strpos($result->title, '(author)')) {
-                    $pageId = $result->pageid;
+                // if (0 < count(array_intersect(array_map('strtolower', explode(' ', $result->title)), $search_list))) {
+                //     $pageId = $result->pageid;
 
-                    break;
-                }
+                //     break;
+                // }
+                // if (str_contains($result->title, '(writer)')) {
+                //     $pageId = $result->pageid;
+
+                //     break;
+                // }
+                // if (str_contains($result->title, '(author)')) {
+                //     $pageId = $result->pageid;
+
+                //     break;
+                // }
             }
 
             if (! $pageId && array_key_exists(0, $search)) {
