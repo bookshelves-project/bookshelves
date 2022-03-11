@@ -83,7 +83,7 @@ class SerieController extends ApiController
      *
      * Books list from one Serie, find by slug from volume and limited to 10 results.
      */
-    public function current(Request $request, string $volume, Author $author, Serie $serie)
+    public function current(Request $request, int $volume, Author $author, Serie $serie)
     {
         if ($serie->books->count() < 1) {
             $books = $serie->books;
