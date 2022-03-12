@@ -85,6 +85,9 @@ class ParserEngine
         };
 
         if ($engine) {
+            $engine->title = Str::limit($engine->title, 250);
+            $engine->rights = Str::limit($engine->rights, 250);
+
             $engine->slug_sort = ParserEngine::generateSortTitle($engine->title);
             $engine->slug = Str::slug($engine->title);
             $engine->title_slug_lang = Str::slug($engine->title.' '.$engine->language);

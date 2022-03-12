@@ -811,7 +811,7 @@ namespace App\Models{
  * @property-read string $show_books_link
  * @property-read string $show_link
  * @property-read string $show_link_opds
- * @property-read string $size
+ * @property-read object $sizes
  * @property-read mixed $tags_list
  * @property-read string $webreader_link
  * @property-read \App\Models\Language|null $language

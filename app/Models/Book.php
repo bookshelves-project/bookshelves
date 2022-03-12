@@ -62,7 +62,6 @@ class Book extends Model implements HasMedia
         'media',
     ];
     protected $appends = [
-        'epub',
         'isbn',
     ];
     protected $casts = [
