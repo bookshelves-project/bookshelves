@@ -61,7 +61,7 @@ class Serie extends Model implements HasMedia
 
     public function getShowBooksLinkAttribute(): string
     {
-        return route('api.v1.series.show.books', [
+        return route('api.series.show.books', [
             'author_slug' => $this->meta_author,
             'serie_slug' => $this->slug,
         ]);

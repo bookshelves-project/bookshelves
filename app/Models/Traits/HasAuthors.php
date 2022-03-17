@@ -52,7 +52,7 @@ trait HasAuthors
 
     public function getShowLinkAttribute(): string
     {
-        return route('api.v1.'.$this->getClassName(true).'.show', [
+        return route('api.'.$this->getClassName(true).'.show', [
             'author_slug' => $this->meta_author,
             "{$this->getClassName()}_slug" => $this->slug,
         ]);
@@ -69,7 +69,7 @@ trait HasAuthors
 
     public function getDownloadLinkAttribute(): string
     {
-        return route("api.v1.{$this->getClassName()}s.download", [
+        return route("api.{$this->getClassName()}s.download", [
             'author_slug' => $this->meta_author,
             "{$this->getClassName()}_slug" => $this->slug,
         ]);

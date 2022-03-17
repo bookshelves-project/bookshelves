@@ -33,7 +33,7 @@ class BookshelvesQuery extends Strategy
         ];
 
         foreach ($routes as $name => $method) {
-            if ("api.v1.{$name}" === $this->routeName) {
+            if ("api.{$name}" === $this->routeName) {
                 $this->urlParams = $this->{$method}();
             }
         }

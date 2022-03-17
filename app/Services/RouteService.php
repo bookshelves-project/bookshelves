@@ -13,15 +13,15 @@ class RouteService
         $routes = $routes->getRoutes();
 
         // $accepted_routes = [
-        //     'api.v1.books.index',
-        //     'api.v1.books.show',
-        //     'api.v1.books.related',
-        //     'api.v1.authors.index',
-        //     'api.v1.authors.show',
-        //     'api.v1.authors.show.books',
-        //     'api.v1.series.index',
-        //     'api.v1.series.show',
-        //     'api.v1.series.show.books',
+        //     'api.books.index',
+        //     'api.books.show',
+        //     'api.books.related',
+        //     'api.authors.index',
+        //     'api.authors.show',
+        //     'api.authors.show.books',
+        //     'api.series.index',
+        //     'api.series.show',
+        //     'api.series.show.books',
         // ];
         // $selected_routes = [];
         // foreach ($routeCollection as $key => $route) {
@@ -44,7 +44,7 @@ class RouteService
         //                     $param = str_replace('}', '', $param);
         //                     $routeParam = null;
         //                     try {
-        //                         $routeParam = route('api.v1.'.$param.'s.index');
+        //                         $routeParam = route('api.'.$param.'s.index');
         //                     } catch (\Throwable $th) {
         //                         //throw $th;
         //                     }

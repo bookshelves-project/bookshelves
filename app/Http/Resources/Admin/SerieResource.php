@@ -22,7 +22,7 @@ class SerieResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'cover' => MediaResource::collection($this->resource->getMedia('series')),
+            'cover' => MediaResource::collection($this->resource->getMedia('covers')),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
         ] + $this->resource->toArray();
     }

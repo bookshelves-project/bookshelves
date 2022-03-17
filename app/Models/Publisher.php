@@ -49,14 +49,14 @@ class Publisher extends Model
 
     public function getShowLinkAttribute(): string
     {
-        return route('api.v1.publishers.show', [
+        return route('api.publishers.show', [
             'publisher_slug' => $this->slug,
         ]);
     }
 
     public function getShowBooksLinkAttribute(): string
     {
-        return route('api.v1.publishers.show.books', [
+        return route('api.publishers.show.books', [
             'publisher_slug' => $this->slug,
         ]);
     }

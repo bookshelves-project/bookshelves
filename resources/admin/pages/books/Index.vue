@@ -5,7 +5,7 @@
         <create-button />
       </template>
 
-      <data-table
+      <data-table-new
         :source="books"
         :columns="columns"
         :sort="sort"
@@ -25,7 +25,7 @@
             <delete-button hide-label />
           </div>
         </template>
-      </data-table>
+      </data-table-new>
     </app-layout>
   </list-context>
 </template>

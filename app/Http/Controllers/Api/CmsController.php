@@ -22,8 +22,8 @@ class CmsController extends ApiController
     {
         return response()->json([
             'data' => [
-                'application' => route('api.v1.cms.application'),
-                'home_page' => route('api.v1.cms.home-page'),
+                'application' => route('api.cms.application'),
+                'home_page' => route('api.cms.home-page'),
             ],
         ]);
     }

@@ -67,7 +67,7 @@ class Author extends Model implements HasMedia
 
     public function getShowLinkAttribute(): string
     {
-        return route('api.v1.authors.show', [
+        return route('api.authors.show', [
             'author_slug' => $this->slug,
         ]);
     }
@@ -87,21 +87,21 @@ class Author extends Model implements HasMedia
 
     public function getShowBooksLinkAttribute(): string
     {
-        return route('api.v1.authors.show.books', [
+        return route('api.authors.show.books', [
             'author_slug' => $this->slug,
         ]);
     }
 
     public function getShowSeriesLinkAttribute(): string
     {
-        return route('api.v1.authors.show.series', [
+        return route('api.authors.show.series', [
             'author_slug' => $this->slug,
         ]);
     }
 
     public function getDownloadLinkAttribute(): string
     {
-        return route('api.v1.authors.download', [
+        return route('api.authors.download', [
             'author_slug' => $this->slug,
         ]);
     }

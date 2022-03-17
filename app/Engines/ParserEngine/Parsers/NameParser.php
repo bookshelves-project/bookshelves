@@ -12,8 +12,8 @@ class NameParser
     /**
      * Parse file name to generate Book.
      *
-     * Example: `novel.La_Longue_Guerre.Terry_Pratchett&Stephen_Baxter.La_Longue_Terre.2.fr.2017-02-09.Pocket.9782266266284`
-     * like `BookTypeEnum.Original_Title.Author&Other_Author.Serie_Title.Volume.Language.Date.Publisher.Identifier`
+     * Example: `La_Longue_Guerre.Terry_Pratchett&Stephen_Baxter.La_Longue_Terre.2.fr.2017-02-09.Pocket.9782266266284`
+     * like `Original_Title.Author_Name&Other_Author_Name.Serie_Title.Volume.Language.Date.Publisher.Identifier`
      */
     public static function parse(ParserEngine $parser): ParserEngine
     {
@@ -22,24 +22,28 @@ class NameParser
 
         if (is_array($parsing)) {
             $data = [];
-            foreach ($parsing as $value) {
-                $data['title'] = self::parseName($parsing, 0);
-                $data['creators'] = self::parseName($parsing, 1);
-                $data['serie'] = self::parseName($parsing, 2);
-                $data['volume'] = self::parseName($parsing, 3);
-                $data['language'] = self::parseName($parsing, 4);
-                $data['date'] = self::parseName($parsing, 5);
-                $data['publisher'] = self::parseName($parsing, 6);
-                $data['identifiers'] = self::parseName($parsing, 7);
+
+            $list = [
+                'title',
+                'creators',
+                'serie',
+                'volume',
+                'language',
+                'date',
+                'publisher',
+                'identifiers',
+            ];
+            foreach ($list as $key => $value) {
+                $data[$value] = self::parseName($parsing, $key);
             }
 
             $parser->title = self::transformToString($data['title']);
             $parser->creators = self::extractCreators($data['creators']);
             $parser->serie = self::transformToString($data['serie']);
             $parser->volume = intval($data['volume']);
-            $parser->language = $data['language'];
-            $parser->date = $data['date'];
-            $parser->publisher = $data['publisher'];
+            $parser->language = self::nullValueCheck($data['language']);
+            $parser->date = self::nullValueCheck($data['date']);
+            $parser->publisher = self::nullValueCheck($data['publisher']);
             $parser->identifiers = self::extractIdentifiers($data['identifiers']);
         }
 
@@ -48,12 +52,12 @@ class NameParser
 
     private static function parseName(array $parsing, int $key): ?string
     {
-        return array_key_exists($key, $parsing) ? $parsing[$key] : null;
+        return array_key_exists($key, $parsing) ? self::nullValueCheck($parsing[$key]) : null;
     }
 
-    private static function transformToString(string $attribute): string
+    private static function transformToString(?string $attribute): string
     {
-        return str_replace('_', ' ', $attribute);
+        return self::nullValueCheck(str_replace('_', ' ', $attribute));
     }
 
     private static function extractCreators(string $creators): array
@@ -78,5 +82,10 @@ class NameParser
         }
 
         return $list;
+    }
+
+    private static function nullValueCheck($value)
+    {
+        return 'null' === $value ? null : $value;
     }
 }

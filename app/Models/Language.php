@@ -37,7 +37,7 @@ class Language extends Model
 
     public function getShowLinkAttribute(): string
     {
-        return route('api.v1.languages.show', [
+        return route('api.languages.show', [
             'language_slug' => $this->slug,
         ]);
     }

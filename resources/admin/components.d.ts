@@ -31,6 +31,7 @@ declare module 'vue' {
     DashboardContent: typeof import('./components/layout/dashboard-content.vue')['default']
     DataIterator: typeof import('./base/DataIterator.vue')['default']
     DataTable: typeof import('./base/DataTable.vue')['default']
+    DataTableNew: typeof import('./base/DataTableNew.vue')['default']
     DataTableRow: typeof import('./base/DataTableRow.vue')['default']
     DateField: typeof import('./base/fields/DateField.vue')['default']
     DateFilter: typeof import('./base/filters/DateFilter.vue')['default']

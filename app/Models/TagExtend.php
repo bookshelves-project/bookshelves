@@ -39,14 +39,14 @@ class TagExtend extends \Spatie\Tags\Tag
 
     public function getShowLinkAttribute(): string
     {
-        return route('api.v1.tags.show', [
+        return route('api.tags.show', [
             'tag_slug' => $this->slug,
         ]);
     }
 
     public function getShowBooksLinkAttribute(): string
     {
-        return route('api.v1.tags.show.books', [
+        return route('api.tags.show.books', [
             'tag_slug' => $this->slug,
         ]);
     }

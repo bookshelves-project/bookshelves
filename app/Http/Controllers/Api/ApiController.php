@@ -63,19 +63,6 @@ class ApiController extends Controller
      */
     public function home()
     {
-        return response()->json([
-            'name' => config('app.name').' API',
-            'versions' => [
-                'v1' => route('api.v1'),
-            ],
-        ]);
-    }
-
-    /**
-     * @hideFromAPIDocumentation
-     */
-    public function v1()
-    {
         $list = RouteService::getList('api/v1');
 
         return response()->json([

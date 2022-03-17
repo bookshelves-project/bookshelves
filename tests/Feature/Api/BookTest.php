@@ -12,7 +12,7 @@ uses(RefreshDatabase::class);
 //         ->create()
 //     ;
 
-//     $response = $this->get(route('api.v1.books.index'));
+//     $response = $this->get(route('api.books.index'));
 
 //     $response->assertStatus(200);
 // });
@@ -24,7 +24,7 @@ uses(RefreshDatabase::class);
 //     ;
 
 //     $book = Book::first();
-//     $response = $this->get(route('api.v1.books.show', [
+//     $response = $this->get(route('api.books.show', [
 //         'author_slug' => $book->meta_author,
 //         'book_slug' => $book->slug,
 //     ]));

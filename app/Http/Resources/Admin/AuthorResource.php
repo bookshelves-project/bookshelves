@@ -22,7 +22,7 @@ class AuthorResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'cover' => MediaResource::collection($this->resource->getMedia('authors')),
+            'cover' => MediaResource::collection($this->resource->getMedia('covers')),
         ] + $this->resource->toArray();
     }
 }

@@ -8,6 +8,7 @@ import plugin from 'windicss/plugin'
 
 const primary = {
   DEFAULT: '#564fcc',
+  50: '#e2e0ff',
   100: '#e2e0ff',
   200: '#c4c1ff',
   300: '#a7a1ff',
