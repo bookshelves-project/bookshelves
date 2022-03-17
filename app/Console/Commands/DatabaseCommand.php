@@ -100,7 +100,7 @@ class DatabaseCommand extends Command
             });
             $isSuccess = true;
         } catch (\Throwable $th) {
-            //throw $th;
+            // throw $th;
         }
         Storage::disk('public')->deleteDirectory('media');
 

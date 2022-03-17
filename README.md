@@ -1,28 +1,18 @@
-# Bookshelves · Back <!-- omit in toc -->
+# **Bookshelves · Back** <!-- omit in toc -->
 
-[![composer](https://img.shields.io/static/v1?label=Composer&message=v2.0&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)
+[![composer](https://img.shields.io/static/v1?label=Composer&message=v2&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)
 [![php](https://img.shields.io/static/v1?label=PHP&message=v8.1&color=777bb4&style=flat-square&logo=php&logoColor=ffffff)](https://www.php.net)
+[![laravel](https://img.shields.io/static/v1?label=Laravel&message=v9.2&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
 
-[![pnpm](https://img.shields.io/static/v1?label=pnpm&message=v6.2&color=F69220&style=flat-square&logo=pnpm)](https://pnpm.io)
-[![nodejs](https://img.shields.io/static/v1?label=NodeJS&message=v16.13&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
+[![pnpm](https://img.shields.io/static/v1?label=pnpm&message=v6&color=F69220&style=flat-square&logo=pnpm&logoColor=ffffff)](https://pnpm.io)
+[![nodejs](https://img.shields.io/static/v1?label=Node.js&message=v16&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
+[![vuejs](https://img.shields.io/static/v1?label=Vue.js&message=v3.2&color=4FC08D&style=flat-square&logo=vue.js&logoColor=ffffff)](https://vuejs.org)
 
-[![laravel](https://img.shields.io/static/v1?label=Laravel&message=v9.0&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
-[![mysql](https://img.shields.io/static/v1?label=MySQL&message=v8.0&color=4479A1&style=flat-square&logo=mysql&logoColor=ffffff)](https://www.mysql.com)
+[![mysql](https://img.shields.io/static/v1?label=MySQL&message=v8&color=4479A1&style=flat-square&logo=mysql&logoColor=ffffff)](https://www.mysql.com)
 
-📀 [**bookshelves-project**](https://gitlab.com/bookshelves-project) : Bookshelves repository  
+📀 [**bookshelves-project**](https://gitlab.com/bookshelves-project): Bookshelves project  
 💻 [**bookshelves.ink**](https://bookshelves.ink): demo  
-📚 [**documentation.bookshelves.ink**](https://bookshelves-documentation.netlify.app): documentation, if this link not work, you can check doc on [this repository](https://gitlab.com/bookshelves-project/bookshelves-doc)  
-
-## L9 upgrade
-
-- documentation
-  - <https://laravel-news.com/laravel-9-released>
-  - <https://github.com/laravel/framework/pull/38538>
-- `composer require`
-  - `barryvdh/laravel-elfinder` <https://github.com/barryvdh/laravel-elfinder>
-- `composer require --dev`
-  - `barryvdh/laravel-ide-helper` <https://github.com/barryvdh/laravel-ide-helper>
-  - `spatie/phpunit-watcher` <https://github.com/spatie/phpunit-watcher>
+📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation, if this link not work, you can check doc on [this repository](https://gitlab.com/bookshelves-project/bookshelves-doc)  
 
 ## **Setup**
 

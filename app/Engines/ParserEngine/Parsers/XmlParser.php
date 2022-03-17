@@ -128,8 +128,8 @@ class XmlParser
                         $output = (string) $v;
                     }
                 }
-                if ($node->attributes->length && ! is_array($output)) { //Has attributes but isn't an array
-                $output = ['@content' => $output]; //Change output into an array.
+                if ($node->attributes->length && ! is_array($output)) { // Has attributes but isn't an array
+                $output = ['@content' => $output]; // Change output into an array.
                 }
                 if (is_array($output)) {
                     if ($node->attributes->length) {

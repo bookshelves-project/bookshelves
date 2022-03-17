@@ -16,3 +16,5 @@ yarn-error.log
 .env.testing
 /.scribe
 .DS_Store
+/.phpstan
+/public/packages

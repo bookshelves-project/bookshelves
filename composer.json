@@ -4,7 +4,7 @@
     "description": "Back of Bookshelves application.",
     "license": "BSD 2-Clause",
     "version": "1.0.0",
-    "homepage": "https://gitlab.com/bookshelves-project/bookshelves-back",
+    "homepage": "https://gitlab.com/bookshelves-project",
     "authors": [
         {
             "name": "ewilan-riviere",
@@ -27,12 +27,6 @@
         "epubs",
         "books",
         "ebooks"
-    ],
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://gitlab.com/bookshelves-project/bookshelves-back"
-        }
     ],
     "require": {
         "php": "^8.0.2",
@@ -76,7 +70,7 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
-        "nunomaduro/larastan": "^2.0",
+        "nunomaduro/larastan": "^2.1.2",
         "pestphp/pest": "^1.21",
         "pestphp/pest-plugin-laravel": "^1.2",
         "phpro/grumphp-shim": "^1.8",

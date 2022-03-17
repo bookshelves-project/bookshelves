@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Upload dir
@@ -9,7 +10,7 @@ return [
     | The dir where to store the images (relative from public)
     |
     */
-    'dir' => [],
+    'dir' => ['storage'],
 
     /*
     |--------------------------------------------------------------------------
@@ -43,7 +44,7 @@ return [
 
     'route' => [
         'prefix' => 'elfinder',
-        'middleware' => ['web', 'auth'], //Set to null to disable middleware filter
+        'middleware' => ['web', 'auth'], // Set to null to disable middleware filter
     ],
 
     /*
@@ -90,6 +91,6 @@ return [
     | See https://github.com/Studio-42/elFinder/wiki/Connector-configuration-options-2.1#root-options
     |
     */
-    'root_options' => [
-    ],
+    'root_options' => [],
+
 ];
