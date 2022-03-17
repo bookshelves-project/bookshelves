@@ -56,6 +56,8 @@ class SetupCommand extends Command
             $this->cleaningDev();
         }
 
+        Artisan::call('elfinder:publish', [], $this->getOutput());
+
         if ($this->confirm('Do you want setup this app in production?', false)) {
             $prod = true;
 
