@@ -22,6 +22,11 @@ class MediaExtended extends BaseMedia
         return $this->humanFilesize($this->size);
     }
 
+    public function getFullExtensionAttribute(): string|null
+    {
+        return $this->getTypeFromExtension();
+    }
+
     public function getDownloadAttribute(): string|null
     {
         return $this->getUrl();

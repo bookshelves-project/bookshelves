@@ -26,7 +26,7 @@ class MediaResource extends JsonResource
             'url' => $this->resource->getFullUrl(),
             'preview_url' => $this->resource->glide(['w' => 300, 'h' => 300, 'fit' => 'crop'])->getUrl(),
             'original_url' => $this->resource->getUrl(),
-            'extension' => $this->resource->extension,
+            'extension' => $this->resource->full_extension,
         ];
     }
 }

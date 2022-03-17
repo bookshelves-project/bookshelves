@@ -570,6 +570,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string|null $download
+ * @property-read string|null $full_extension
  * @property-read string|null $size_human
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $model
  * @method static \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|static[] all($columns = ['*'])
