@@ -3,7 +3,7 @@
     <div class="px-2">
       <inertia-link
         :href="route('admin.dashboard')"
-        class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md hover:bg-primary-800 transition-colors duration-75"
+        class="group flex items-center px-2 py-2 text-base leading-6 font-medium"
       >
         <app-logo class="!m-0" color="text-primary-600" full reverse />
       </inertia-link>
@@ -65,19 +65,14 @@
   </nav>
   <div class="mt-5 divide-primary-800" aria-label="Sidebar">
     <div class="px-2 space-y-1">
-      <inertia-link
-        :href="route('front.home')"
+      <a
+        href="/"
         target="_blank"
         rel="noopener noreferrer"
         class="link link-hover"
       >
-        <component
-          :is="BeakerIcon"
-          class="mr-4 flex-shrink-0 h-6 w-6 text-primary-200"
-          aria-hidden="true"
-        />
-        Back to Features
-      </inertia-link>
+        Back to website
+      </a>
     </div>
   </div>
 </template>

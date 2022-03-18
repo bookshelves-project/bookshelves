@@ -20,7 +20,7 @@
         </template>
         <template #field:row-action>
           <div class="flex gap-2 mx-auto">
-            <show-button hide-label />
+            <!-- <show-button hide-label /> -->
             <edit-button hide-label />
             <delete-button hide-label />
           </div>
