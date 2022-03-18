@@ -11,8 +11,7 @@
         <x-catalog.subcopy>
             Catalog allows you to download eBooks directly from your eReader if it has a web browser. You can <a
                 href="{{ route('front.home') }}">back
-                to other
-                features</a>.
+                to {{ config('app.name') }}</a>.
         </x-catalog.subcopy>
     </x-slot>
 

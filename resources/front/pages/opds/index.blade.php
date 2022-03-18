@@ -1,4 +1,4 @@
-<x-layouts.main :route="route('front.home')">
+<x-layouts.main>
     <div class="text-white">
         <x-content :content="$content">
             <ul>

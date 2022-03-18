@@ -15,7 +15,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('features/opds/{version}/books')]
+#[Prefix('opds/{version}/books')]
 class BookController extends Controller
 {
     #[Get('/{author}/{book]', name: 'front.opds.books.show')]

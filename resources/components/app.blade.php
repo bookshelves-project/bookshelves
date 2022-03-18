@@ -30,10 +30,6 @@
 <body class="antialiased bg-gray-900 min-h-screen {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     <div class="flex flex-col min-h-screen m-0">
         {{ $slot }}
-
-        <div class="mt-auto">
-            <x-layouts.footer class="mt-auto" />
-        </div>
     </div>
 
     @livewireScripts

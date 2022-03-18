@@ -77,7 +77,7 @@ test('users can authenticate using the login screen', function () {
     // $response->assertHeader('X-Inertia-Location', url('/'));
     // assertAuthenticated();
 
-    $response->assertRedirect('/features');
+    $response->assertRedirect('/');
     assertAuthenticated();
 });
 

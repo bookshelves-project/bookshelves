@@ -15,7 +15,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('features/webreader')]
+#[Prefix('webreader')]
 class WebreaderController extends Controller
 {
     #[Get('/', name: 'front.webreader')]

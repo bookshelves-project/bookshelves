@@ -97,6 +97,25 @@ class Book extends Model implements HasMedia
         return $files;
     }
 
+    /**
+     * Manage files with spatie/laravel-medialibrary.
+     *
+     * @return MediaExtended[]
+     */
+    public function getFilesType(BookFormatEnum $format)
+    {
+        $files = [];
+        foreach (BookFormatEnum::toValues() as $format) {
+            $media = $this->getMedia($format)
+                ->first(null, MediaExtended::class)
+            ;
+            $files[$format] = is_string($media) ? null : $media;
+        }
+
+        // @phpstan-ignore-next-line
+        return $files;
+    }
+
     public function getShowRelatedLinkAttribute(): string
     {
         return route('api.books.related', [

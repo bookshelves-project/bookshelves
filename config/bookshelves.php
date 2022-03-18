@@ -38,7 +38,7 @@ return [
     ],
     // Navigation.
     'navigation' => [
-        'cards' => [
+        'features' => [
             [
                 'route' => 'front.opds',
                 'href' => false,
@@ -66,13 +66,6 @@ return [
         ],
         'footer' => [
             [
-                'route' => 'front.home',
-                'href' => false,
-                'title' => 'Features',
-                'icon' => 'wiki',
-                'external' => false,
-            ],
-            [
                 'route' => 'admin.login',
                 'href' => false,
                 'title' => 'Admin',
@@ -96,7 +89,7 @@ return [
             [
                 'route' => false,
                 'href' => config('app.repository_url'),
-                'title' => 'Repository',
+                'title' => 'Bookshelves project',
                 'icon' => 'git-branch',
                 'external' => true,
             ],
