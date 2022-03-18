@@ -1,9 +1,9 @@
 <footer>
     <div class="max-w-7xl mx-auto pt-12 pb-6 px-4 overflow-hidden sm:px-6 lg:px-8">
-        <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
+        {{-- <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
             @foreach (config('bookshelves.navigation.footer') as $route)
                 <div class="px-5 py-2">
-                    <x-link :array="$route" class="text-base text-gray-400 hover:text-gray-300" title />
+                    <x-link :array="$route" class="text-base text-gray-400 hover:text-gray-300" title external />
                 </div>
             @endforeach
         </nav>
@@ -23,6 +23,6 @@
                         license.</a>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </footer>

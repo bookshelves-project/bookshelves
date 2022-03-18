@@ -1,4 +1,4 @@
-<x-layouts.main :route="route('front.home')">
+<x-layouts.main>
     <x-content :content="$content">
         <div class="mx-auto w-max mt-6">
             <x-button :route="route('front.catalog.search')">

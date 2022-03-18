@@ -30,8 +30,10 @@
     {!! $book->summary !!}
 </x-catalog.table>
 
-<x-catalog.button url="{{ $book->epub->download }}">
-    Download ({{ $book->epub->size }})
+@isset($book->files?->epub)
+<x-catalog.button url="{{ $book->files->epub->download }}">
+    Download ({{ $book->files->epub->size }})
 </x-catalog.button>
+@endisset
 
 </x-catalog.layout>

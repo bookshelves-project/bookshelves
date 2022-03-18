@@ -13,7 +13,8 @@ class Link extends Component
     public function __construct(
         public ?array $array = [],
         public ?object $object = null,
-        public ?bool $title = false
+        public ?bool $title = false,
+        public ?bool $external = false,
     ) {
     }
 
