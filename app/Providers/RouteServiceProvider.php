@@ -105,6 +105,12 @@ class RouteServiceProvider extends ServiceProvider
             ->registerDirectory(app_path('Http/Controllers/Front'))
         ;
 
+        (new RouteRegistrar(app(Router::class)))
+            ->useRootNamespace(app()->getNamespace())
+            ->useMiddleware(['web'])
+            ->registerDirectory(app_path('Http/Controllers/Webreader'))
+        ;
+
         // Admin dedicated routes...
         Route::prefix('admin')
             ->name('admin.')

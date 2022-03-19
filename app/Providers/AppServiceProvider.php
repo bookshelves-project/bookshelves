@@ -57,6 +57,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::addNamespace('front', resource_path('front'));
         View::addNamespace('admin', resource_path('admin'));
+        View::addNamespace('webreader', resource_path('webreader'));
 
         Request::macro('parseArray', function ($key): array {
             if ($value = request()->get($key)) {

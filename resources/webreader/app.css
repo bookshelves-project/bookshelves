@@ -1,0 +1,8 @@
+@font-face {
+  font-family: Handlee;
+  src: url('assets/fonts/Handlee-Regular.ttf');
+}
+
+main {
+  grid-template-rows: 1fr auto;
+}
