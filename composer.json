@@ -31,7 +31,7 @@
     "require": {
         "php": "^8.0.2",
         "artesaos/seotools": "^0.22.0",
-        "fruitcake/laravel-cors": "^2.1",
+        "fruitcake/laravel-cors": "^3.0",
         "genl/matice": "^1.1",
         "guzzlehttp/guzzle": "^7.4",
         "http-interop/http-factory-guzzle": "^1.2",
@@ -47,7 +47,7 @@
         "league/html-to-markdown": "^5.0",
         "livewire/livewire": "^2.10",
         "maatwebsite/excel": "^3.1",
-        "meilisearch/meilisearch-php": "^0.22.0",
+        "meilisearch/meilisearch-php": "^0.23.1",
         "mobiledetect/mobiledetectlib": "^2.8",
         "oscarotero/inline-svg": "^2.0",
         "spatie/array-to-xml": "^3.1",
@@ -58,7 +58,7 @@
         "spatie/laravel-route-attributes": "^1.9",
         "spatie/laravel-sluggable": "^3.3",
         "spatie/laravel-tags": "^4.3",
-        "spatie/laravel-translatable": "^5.2",
+        "spatie/laravel-translatable": "^6.0.0",
         "tightenco/ziggy": "^1.4"
     },
     "require-dev": {
@@ -114,7 +114,8 @@
             "@php artisan ide-helper:eloquent"
         ],
         "doc": [
-            "@php artisan route:clear",
+            "@php artisan view:clear",
+            "@php artisan optimize:clear",
             "@php artisan scribe:generate --force"
         ],
         "format": [
