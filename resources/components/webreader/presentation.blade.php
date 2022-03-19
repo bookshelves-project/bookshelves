@@ -22,20 +22,6 @@
         <div x-ref="readButton" class="hidden">
             <x-button button id="read">Read</x-button>
         </div>
-        <div x-data="{ open: false }">
-            <button x-on:click="open = ! open">Toggle Dropdown</button>
-
-            <div x-show="open" x-transition>
-                Dropdown Contents...
-            </div>
-        </div>
-        <div x-data="dropdown">
-            <button @click="toggle">Toggle Content</button>
-
-            <div x-show="open" x-transition>
-                Content...
-            </div>
-        </div>
     @endif
     <div class="italic mt-4 word-wraping">
         {!! $book->description !!}

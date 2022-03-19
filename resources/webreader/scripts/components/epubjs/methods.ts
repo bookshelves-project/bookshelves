@@ -1,5 +1,4 @@
 import { Book, Rendition } from 'epubjs'
-import { functions } from 'lodash'
 import {
   selectListener,
   clickListener,
@@ -7,90 +6,59 @@ import {
   wheelListener,
   keyListener,
 } from './listener'
-import { dark, tan, defaultStyle } from './theme'
-import Alpine from 'alpinejs'
+import { EpubThemes, dark, tan, defaultStyle } from './theme'
 
 interface AlpineRefs {
-  epubPath: HTMLElement
-  loadingMessage: HTMLElement
-  readButton: HTMLElement
-  presentation: HTMLElement
-  reader: HTMLElement
+  epubPath?: HTMLElement
+  loadingMessage?: HTMLElement
+  readButton?: HTMLElement
+  presentation?: HTMLElement
+  reader?: HTMLElement
+  pageFirstBtn?: HTMLElement
+  pagePrevBtn?: HTMLElement
+  sidebarBtn?: HTMLElement
+  pageNextBtn?: HTMLElement
+  pageLastBtn?: HTMLElement
+  pageLeftBtn?: HTMLElement
+  pageCenterBtn?: HTMLElement
+  pageRightBtn?: HTMLElement
+  navigationOnScreen?: HTMLElement
+  navigationOnScreenDisableTutoBtn?: HTMLElement
+  navigationOnScreenInterface?: HTMLElement
 }
 
-let book: Book = {}
-let rendition: Rendition = {}
+let book: Book
+let rendition: Rendition
 let toc = []
 let progress
-let isReady = false
-let refsAlpine: AlpineRefs = null
+const isReady = false
+let refsAlpine: AlpineRefs
 
-const contentStyle = (rendition) => {
-  let contents = rendition.getContents()
-  return contents.forEach((content) => {
-    content.addStylesheetRules({})
-  })
-}
-
-const initBook = async (refs) => {
-  // let navigationOptions = document.getElementById('navigation-options')
-  // let disableNavTutoBtn = document.getElementById('disable-nav-tuto')
-  // disableNavTutoBtn.addEventListener('click', disableNavTuto)
-
-  // // first webreader usage
-  // if (localStorage.getItem('nav-tuto') === null) {
-  //   //
-  //   // tuto is disable
-  // } else if (localStorage.getItem('nav-tuto') === 'false') {
-  //   hideNavTuto()
-  // }
-  hideNavTuto()
-
-  console.log('initBook')
+const epubjsInit = async (refs) => {
   refsAlpine = refs
 
-  setupBook()
-  book.ready.then((e) => {
-    loadBook()
-    setReady()
-  })
-
-  let prevPageBtn = document.getElementById('prevPage')
-  prevPageBtn.addEventListener('click', prevPage)
-  let nextPageBtn = document.getElementById('nextPage')
-  nextPageBtn.addEventListener('click', nextPage)
-
-  let prevSidePageBtn = document.getElementById('leftBtn')
-  prevSidePageBtn.addEventListener('click', prevPage)
-  let centerPageBtn = document.getElementById('centerBtn')
-  centerPageBtn.addEventListener('click', toggleNavigationOptions)
-  let nextSidePageBtn = document.getElementById('rightBtn')
-  nextSidePageBtn.addEventListener('click', nextPage)
-
-  let firstPageBtn = document.getElementById('firstPage')
-  firstPageBtn.addEventListener('click', firstPage)
-  let lastPageBtn = document.getElementById('lastPage')
-  lastPageBtn.addEventListener('click', lastPage)
+  setup()
 }
 
 /**
  * Get Book from path
  * Init Book and Rendition
  */
-const setupBook = () => {
-  let epubPath = refsAlpine.epubPath
-  const path = epubPath.textContent
+const setup = async () => {
+  const epubPath = refsAlpine.epubPath
+  const path = epubPath?.textContent
 
-  let info = {
+  const info = {
     toc: {},
-    lastOpen: null,
+    lastOpen: 0,
     path,
     highlights: [],
   }
   //   let toc = info.toc;
   info.lastOpen = new Date().getTime()
   //   let buble = $refs.bubleMenu;
-  book = new Book(info.path)
+
+  book = new Book(info.path!)
   rendition = new Rendition(book, {
     width: '100%',
     height: '100%',
@@ -109,12 +77,15 @@ const setupBook = () => {
     // snap?: boolean | object,
     // defaultDirection?: string,
   })
+
+  await book.ready
+  load()
 }
 
 /**
  * Load book
  */
-const loadBook = async () => {
+const load = () => {
   // let flipPage = () => {
   //   if (direction === "next") nextPage();
   //   else if (direction === "prev") prevPage();
@@ -143,37 +114,47 @@ const loadBook = async () => {
   // });
   // let applyStyle = contentStyle(rendition);
   // await rendition.hooks.content.register(applyStyle || {});
-
-  let meta = book.package.metadata
-  let title = meta.title
+  // const meta = book.package.metadata
+  // const title = meta.title
   // let titleTag = document.getElementsByTagName("title");
   // titleTag.item(0).textContent = `${title} ${titleTag.item(0).textContent}`;
-  book.locations.load(1)
+  // book.locations.load(1)
+
+  refsAlpine.loadingMessage?.remove()
+
+  refsAlpine.readButton?.classList.remove('hidden')
+  refsAlpine.readButton?.addEventListener('click', read)
 }
 
 /**
- * Attach iframe to HTML
- * Display iframe
+ * Attach iframe to HTML, set themes, display iframe
  */
 const displayBook = async () => {
-  rendition.attachTo(refsAlpine.reader)
-  let cfi = book.locations.cfiFromPercentage(
-    10 / book.locations.spine.items.length
-  )
-  let params =
-    URLSearchParams &&
-    new URLSearchParams(document.location.search.substring(1))
-  let url = params && params.get('url') && decodeURIComponent(params.get('url'))
-  let currentSectionIndex =
-    params && params.get('loc') ? params.get('loc') : undefined
-  rendition.display(currentSectionIndex)
-  // rendition.themes.registerRules("dark", dark);
-  // rendition.themes.registerRules("tan", tan);
-  rendition.themes.registerRules('default', defaultStyle)
-  rendition.ready = true
-  // let theme = theme
-  // rendition.themes.select(theme)
-  rendition.start()
+  if (refsAlpine.reader) {
+    rendition.attachTo(refsAlpine.reader)
+    // const cfi = book.locations.cfiFromPercentage(
+    //   10 / book.locations.spine.items.length
+    // )
+
+    // const params =
+    //   URLSearchParams &&
+    //   new URLSearchParams(document.location.search.substring(1))
+    // const url =
+    //   params && params.get('url') && decodeURIComponent(params.get('url'))
+    // const currentSectionIndex =
+    //   params && params.get('loc') ? params.get('loc') : undefined
+    // rendition.display(currentSectionIndex)
+    rendition.display(0)
+
+    rendition.themes.registerRules('dark', dark)
+    rendition.themes.registerRules('tan', tan)
+    rendition.themes.registerRules('default', defaultStyle)
+
+    const theme: EpubThemes = 'defaultStyle'
+    rendition.themes.select(theme)
+
+    rendition.start()
+  }
 }
 
 /**
@@ -196,26 +177,14 @@ const setOptions = async () => {
   setToc()
 }
 
-/**
- * Set isReady when Book is loaded
- */
-const setReady = async () => {
-  isReady = true
-
-  refsAlpine.loadingMessage.remove()
-
-  refsAlpine.readButton.classList.remove('hidden')
-  refsAlpine.readButton.addEventListener('click', read)
-}
-
 function setToc() {
-  let tocBlock = document.getElementById('toc')
+  const tocBlock = document.getElementById('toc')
   toc.forEach((el, key) => {
     tocBlock.innerHTML += `<li id="${el.id} chapter-${key}" data-chapter="${el.href}" class="toc-item cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white group flex links-center px-2 py-2 text-sm font-medium rounded-md my-1 justify-between">${el.label}</li>`
   })
 
-  let tocItem = document.getElementsByClassName('toc-item')
-  for (let index in tocItem) {
+  const tocItem = document.getElementsByClassName('toc-item')
+  for (const index in tocItem) {
     if (index <= tocItem.length) {
       tocItem[index].addEventListener('click', setChapter)
     }
@@ -223,16 +192,34 @@ function setToc() {
 }
 
 const setChapter = () => {
-  let chapter = this.dataset.chapter
+  const chapter = this.dataset.chapter
   rendition.display(chapter)
 }
 
 const read = () => {
-  refsAlpine.presentation.classList.add('hidden')
-  refsAlpine.reader.classList.remove('hidden')
+  refsAlpine.presentation?.classList.add('hidden')
+  refsAlpine.reader?.classList.remove('hidden')
 
-  let bookNav = document.getElementById('book-nav')
-  bookNav.classList.remove('hidden')
+  refsAlpine.navigationOnScreen?.classList.remove('hidden')
+
+  toggleTutorial()
+
+  refsAlpine.pageFirstBtn?.addEventListener('click', firstPage)
+  refsAlpine.pagePrevBtn?.addEventListener('click', prevPage)
+  refsAlpine.pageNextBtn?.addEventListener('click', nextPage)
+  refsAlpine.pageLastBtn?.addEventListener('click', lastPage)
+
+  refsAlpine.pageLeftBtn?.addEventListener('click', prevPage)
+  refsAlpine.pageRightBtn?.addEventListener('click', nextPage)
+
+  refsAlpine.navigationOnScreenDisableTutoBtn?.addEventListener(
+    'click',
+    () => {
+      localStorage.setItem('bookshelves-webreader-tutorial', 'false')
+      toggleTutorial()
+    },
+    false
+  )
 
   book.ready
     .then(() => {
@@ -244,69 +231,58 @@ const read = () => {
 }
 
 const prevPage = () => {
-  try {
-    rendition.prev()
-    console.clear()
-  } catch (error) {}
+  rendition.prev()
+  console.clear()
 }
 const nextPage = () => {
-  try {
-    rendition.next()
-    console.clear()
-  } catch (error) {}
+  rendition.next()
+  console.clear()
 }
 
 const firstPage = () => {
-  try {
-    rendition.display(0)
-    console.clear()
-  } catch (error) {}
+  rendition.display(0)
+  console.clear()
 }
 const lastPage = () => {
-  try {
-    rendition.display(book.spine.length - 1)
-    console.clear()
-  } catch (error) {}
+  // @ts-ignore
+  rendition.display(book.spine.spineItems.length - 1)
+  console.clear()
 }
 
-const hideNavTuto = () => {
-  let tutoEl = document.getElementsByClassName('book-nav-tuto')
-  while (tutoEl.length > 0) {
-    tutoEl[0].parentNode.removeChild(tutoEl[0])
+/**
+ * Toggle visual tutorial for user
+ */
+const toggleTutorial = () => {
+  const tutoTextList = document.getElementsByClassName('on-screen-tuto')
+  const storage = localStorage.getItem('bookshelves-webreader-tutorial')
+
+  /**
+   * Enable tuto
+   */
+  if (storage === null || storage === 'true') {
+    refsAlpine.navigationOnScreenInterface?.classList.add(
+      'on-screen-tuto-color'
+    )
+    Object.keys(tutoTextList).forEach(function (key) {
+      const element: HTMLElement = tutoTextList[key]
+      element.classList.remove('hidden')
+    })
+
+    localStorage.setItem('bookshelves-webreader-tutorial', 'true')
+  } else if (storage === 'false') {
+    /**
+     * Disable tuto
+     */
+    refsAlpine.navigationOnScreenInterface?.classList.remove(
+      'on-screen-tuto-color'
+    )
+    Object.keys(tutoTextList).forEach(function (key) {
+      const element: HTMLElement = tutoTextList[key]
+      element.classList.add('hidden')
+    })
+
+    localStorage.setItem('bookshelves-webreader-tutorial', 'false')
   }
-
-  let navBook = document.getElementsByClassName('nav-tuto')
-  Object.keys(navBook).forEach(function (key) {
-    navBook[key].classList.add('side-button')
-    navBook[key].classList.remove('nav-tuto-color')
-  })
 }
 
-const disableNavTuto = () => {
-  localStorage.setItem('nav-tuto', false)
-  hideNavTuto()
-}
-
-const toggleNavigationOptions = () => {
-  navigationOptions.classList.toggle('hidden')
-}
-
-export {
-  contentStyle,
-  initBook,
-  setupBook,
-  path,
-  loadBook,
-  displayBook,
-  setOptions,
-  setReady,
-  setChapter,
-  read,
-  prevPage,
-  nextPage,
-  firstPage,
-  lastPage,
-  hideNavTuto,
-  disableNavTuto,
-  toggleNavigationOptions,
-}
+export { epubjsInit }

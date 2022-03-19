@@ -1,12 +1,10 @@
-<div id="navigation-options"
+<div x-show="$store.navigation.on"
     class="fixed transform -translate-x-1/2 top-1 left-1/2 flex items-center bg-gray-200 bg-opacity-75 z-50 text-white rounded-md">
-    <x-webreader.button id="firstPage" icon="chevron-double-left" />
-    <x-webreader.button id="prevPage" icon="arrow-left" />
-    <x-webreader.button id="sidebar-header-button" icon="menu" />
-    <x-webreader.button :link="$home" id="sidebar-header-button" icon="home" />
-    <a href="{{ $download }}" download>
-        <x-webreader.button id="download" icon="download" />
-    </a>
-    <x-webreader.button id="nextPage" icon="arrow-right" />
-    <x-webreader.button id="lastPage" icon="chevron-double-right" />
+    <x-webreader.button id="pageFirstBtn" icon="chevron-double-left" />
+    <x-webreader.button id="pagePrevBtn" icon="chevron-left" />
+    <x-webreader.button id="sidebarBtn" icon="menu" />
+    <x-webreader.button :link="$home" icon="home" />
+    <x-webreader.button :link="$download" icon="download" />
+    <x-webreader.button id="pageNextBtn" icon="chevron-right" />
+    <x-webreader.button id="pageLastBtn" icon="chevron-double-right" />
 </div>

@@ -4,7 +4,7 @@ namespace App\View\Components\Webreader;
 
 use Illuminate\View\Component;
 
-class Tutorial extends Component
+class NavigationOnScreen extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class Tutorial extends Component
      */
     public function render()
     {
-        return view('components.webreader.tutorial');
+        return view('components.webreader.navigation-on-screen');
     }
 }

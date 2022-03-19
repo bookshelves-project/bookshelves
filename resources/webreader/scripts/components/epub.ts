@@ -1,8 +1,8 @@
-import { initBook } from './epubjs/methods'
+import { epubjsInit } from './epubjs/methods'
 
 const epubjs = () => ({
-  initBook() {
-    return initBook(this.$refs)
+  epubjsInit() {
+    return epubjsInit(this.$refs)
   },
 })
 

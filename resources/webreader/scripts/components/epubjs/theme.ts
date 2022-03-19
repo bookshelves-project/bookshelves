@@ -1,3 +1,5 @@
+type EpubThemes = 'dark' | 'light' | 'tan' | 'defaultStyle'
+
 const dark = {
   body: {
     background: `#444 !important`,
@@ -71,4 +73,4 @@ const defaultStyle = {
   },
 }
 
-export { dark, light, tan, defaultStyle }
+export { EpubThemes, dark, light, tan, defaultStyle }
