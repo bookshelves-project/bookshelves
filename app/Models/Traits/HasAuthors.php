@@ -78,7 +78,7 @@ trait HasAuthors
     public function getWebreaderLinkAttribute(): string
     {
         if ($this->meta_author && $this->slug) {
-            return route('front.webreader.reader', [
+            return route('webreader.reader', [
                 'author' => $this->meta_author,
                 $this->getClassName() => $this->slug,
             ]);

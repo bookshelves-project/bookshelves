@@ -18,7 +18,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('opds/{version}/books')]
 class BookController extends Controller
 {
-    #[Get('/{author}/{book]', name: 'front.opds.books.show')]
+    #[Get('/{author}/{book}', name: 'front.opds.books.show')]
     public function show(Request $request, string $version, string $author_slug, string $book_slug)
     {
         $author = Author::whereSlug($author_slug)->firstOrFail();

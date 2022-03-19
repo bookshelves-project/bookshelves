@@ -81,7 +81,7 @@ class Book extends Model implements HasMedia
     /**
      * Manage files with spatie/laravel-medialibrary.
      *
-     * @return MediaExtended[]
+     * @return MediaExtended[]|null[]
      */
     public function getFilesAttribute()
     {
@@ -121,6 +121,15 @@ class Book extends Model implements HasMedia
         return route('api.books.related', [
             'author_slug' => $this->meta_author,
             'book_slug' => $this->slug,
+        ]);
+    }
+
+    public function getShowOpdsLinkAttribute(): string
+    {
+        return route('front.opds.books.show', [
+            'version' => 'v1.2',
+            'author' => $this->meta_author,
+            'book' => $this->slug,
         ]);
     }
 

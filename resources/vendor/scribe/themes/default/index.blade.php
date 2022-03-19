@@ -57,7 +57,7 @@ use Knuckles\Scribe\Tools\WritingUtils as u;
 
 <body data-languages="{{ json_encode($metadata['example_languages'] ?? []) }}">
 
-    @include("scribe::themes.default.sidebar")
+    @include('scribe::themes.default.sidebar')
 
     <div class="page-wrapper">
         <div class="dark-box"></div>
@@ -66,7 +66,7 @@ use Knuckles\Scribe\Tools\WritingUtils as u;
 
             {!! $auth !!}
 
-            @include("scribe::themes.default.groups")
+            @include('scribe::themes.default.groups')
 
             {!! $append !!}
         </div>

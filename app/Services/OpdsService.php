@@ -120,7 +120,7 @@ class OpdsService
 
         $title = $entry->title ?? "{$entry->lastname} {$entry->firstname}";
         $description = $entry->content_opds ?? $entry->content;
-        $route = $entry->show_link_opds ?? $entry->route;
+        $route = $entry->show_opds_link ?? $entry->route;
 
         return [
             'title' => $title,
@@ -191,7 +191,7 @@ class OpdsService
             ],
             '__custom:link:1' => [
                 '_attributes' => [
-                    'href' => $book->show_link_opds,
+                    'href' => $book->show_opds_link,
                     'type' => 'application/atom+xml;profile=opds-catalog;kind=navigation',
                 ],
             ],
@@ -220,7 +220,7 @@ class OpdsService
             'category' => $categories,
             'author' => [
                 'name' => $book->authors[0]->name,
-                'uri' => $book->authors[0]->show_link_opds,
+                'uri' => $book->authors[0]->show_opds_link,
             ],
             'dcterms:issued' => $book->released_on,
             'published' => $book->released_on,

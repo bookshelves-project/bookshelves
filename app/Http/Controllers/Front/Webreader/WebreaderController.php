@@ -30,30 +30,9 @@ class WebreaderController extends Controller
         $content = $service->convertToHtml();
         if ($random_book) {
             $cover = $random_book->getCoverThumbnailAttribute();
-            $route = route('front.webreader.reader', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
+            $route = route('webreader.reader', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
         }
 
         return view('front::pages.webreader.index', compact('random_book', 'cover', 'route', 'content'));
-    }
-
-    #[Get('/{author}/{book}/{page?}', name: 'front.webreader.reader')]
-    public function reader(string $author, string $book, ?string $page = null)
-    {
-        // $author = Author::whereSlug($author)->firstOrFail();
-        // $book = Book::whereRelation('authors', 'name', '=', $author->name)->whereSlug($book)->firstOrFail();
-        // $epub = $book->getFirstMediaUrl('epub');
-        // $epub_download = $epub;
-        // $epub_path = str_replace(config('app.url'), '', $epub);
-
-        // $title = $book->title;
-        // $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';
-        // $title .= ' by '.$book->authors_names;
-
-        // $book = BookResource::make($book);
-        // $book = json_decode($book->toJson());
-
-        // return view('pages.features.webreader.reader', compact('epub_path', 'epub_download', 'book', 'title'));
-
-        return Inertia::render('Reader');
     }
 }

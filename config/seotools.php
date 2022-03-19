@@ -7,7 +7,7 @@ return [
     'meta' => [
         // The default configurations to be used by the meta generator.
         'defaults' => [
-            'title' => env('META_TITLE', 'Bookshelves Features'), // set false to total remove
+            'title' => env('META_TITLE', 'Bookshelves'), // set false to total remove
             'titleBefore' => false, // Put defaults.title before page title, like 'It's Over 9000! - Dashboard'
             'description' => env('META_DESCRIPTION', 'To read eBooks.'), // set false to total remove
             'separator' => ' - ',

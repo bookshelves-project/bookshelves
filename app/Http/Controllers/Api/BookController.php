@@ -236,10 +236,17 @@ class BookController extends ApiController
      *
      * @header Content-Type application/epub+zip
      */
-    public function download(Author $author, Book $book)
+    public function download(Author $author, Book $book, string $format = 'epub')
     {
-        $format = BookFormatEnum::epub->name;
+        $format = BookFormatEnum::tryFrom($format)->name;
         $media = $book->files[$format];
+        if (null === $media) {
+            foreach ($book->files as $value) {
+                if (null !== $value) {
+                    $media = $value;
+                }
+            }
+        }
 
         return response()->download($media->getPath(), $media->file_name);
     }

@@ -16,7 +16,7 @@ use Knuckles\Scribe\Http\Controller as ScribeController;
 
 // Route::get('cache/resolve/{method}/{size}/{path}', [ImageController::class, 'thumbnail'])->where('path', '.*');
 
-$prefix = config('scribe.laravel.docs_url', '/docs');
+$prefix = config('scribe.laravel.docs_url', '/newdoc');
 $middleware = config('scribe.laravel.middleware', []);
 
 Route::middleware($middleware)->group(function () use ($prefix) {

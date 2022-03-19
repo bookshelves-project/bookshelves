@@ -48,7 +48,7 @@ namespace App\Models{
  * @property-read bool $is_favorite
  * @property-read string $show_books_link
  * @property-read string $show_link
- * @property-read string $show_link_opds
+ * @property-read string $show_opds_link
  * @property-read string $show_series_link
  * @property-read object $sizes
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
@@ -125,13 +125,14 @@ namespace App\Models{
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
  * @property-read string $download_link
- * @property-read \App\Models\MediaExtended[] $files
+ * @property-read \App\Models\MediaExtended[]|null[] $files
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $isbn
  * @property-read string|null $meta_author
  * @property-read string $show_link
  * @property-read string $show_link_opds
+ * @property-read string $show_opds_link
  * @property-read string $show_related_link
  * @property-read string $sort_name
  * @property-read mixed $tags_list
@@ -208,7 +209,6 @@ namespace App\Models\Cms{
  * @property-read string|null $icon
  * @property-read string|null $logo
  * @property-read string|null $open_graph
- * @property-read array $translations
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|CmsApplication newModelQuery()
@@ -253,7 +253,6 @@ namespace App\Models\Cms{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Cms\CmsHomePageFeature[] $features
  * @property-read int|null $features_count
  * @property-read string|null $hero_picture
- * @property-read array $translations
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Cms\CmsHomePageHighlight[] $highlights
  * @property-read int|null $highlights_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Cms\CmsHomePageLogo[] $logos
@@ -299,7 +298,6 @@ namespace App\Models\Cms{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string|null $picture
- * @property-read array $translations
  * @property-read \App\Models\Cms\CmsHomePage|null $homePage
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
@@ -335,7 +333,6 @@ namespace App\Models\Cms{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string|null $icon
  * @property-read string|null $picture
- * @property-read array $translations
  * @property-read \App\Models\Cms\CmsHomePage|null $homePage
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
@@ -399,7 +396,6 @@ namespace App\Models\Cms{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read int $count
- * @property-read array $translations
  * @property-read \App\Models\Cms\CmsHomePage|null $homePage
  * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic newQuery()
@@ -884,7 +880,6 @@ namespace App\Models{
  * @property-read mixed $first_char
  * @property-read string $show_books_link
  * @property-read string $show_link
- * @property-read array $translations
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
  * @property \Illuminate\Database\Eloquent\Collection|TagExtend[] $tags

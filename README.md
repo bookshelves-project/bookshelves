@@ -50,7 +50,7 @@ php artisan setup
 
 ## **Usage**
 
-To get full documentation, you can read [**Wiki of Bookshelves**](https://bookshelves-documentation.netlify.app), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/bookshelves-project/bookshelves-doc) on repository.
+To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/bookshelves-project/bookshelves-doc) on repository.
 
 ## **Tests**
 
