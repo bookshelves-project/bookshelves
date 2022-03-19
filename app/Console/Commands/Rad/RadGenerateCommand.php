@@ -123,7 +123,7 @@ class RadGenerateCommand extends Command
                 } catch (\Throwable $th) {
                 }
             }
-            $stub_path = resource_path("stubs/rad/{$stub_path}Stub{$type}.{$extension}");
+            $stub_path = resource_path("views/stubs/rad/{$stub_path}Stub{$type}.{$extension}");
             $stub = File::get($stub_path);
 
             $stub = $this->replaceAll($stub);
@@ -153,7 +153,7 @@ class RadGenerateCommand extends Command
         $destination_path = resource_path("admin/types/{$this->model_kebab}.ts");
 
         if (! File::exists($destination_path)) {
-            $stub_path = resource_path('stubs/rad/crud/stub-type.ts');
+            $stub_path = resource_path('views/stubs/rad/crud/stub-type.ts');
             $stub = File::get($stub_path);
 
             $stub = $this->replaceAll($stub);

@@ -29,7 +29,7 @@ return [
     | The place where to generate translations file.
     |
     */
-    'generate_translations_path' => resource_path('assets/matice_translations.js'),
+    'generate_translations_path' => resource_path('views/matice_translations.js'),
 
     /*
     |--------------------------------------------------------------------------
