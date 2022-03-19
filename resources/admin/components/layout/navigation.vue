@@ -3,7 +3,7 @@
     <div class="px-2">
       <inertia-link
         :href="route('admin.dashboard')"
-        class="group flex items-center px-2 py-2 text-base leading-6 font-medium"
+        class="group flex items-center px-2 py-2 text-base leading-6"
       >
         <app-logo class="!m-0" color="text-primary-600" full reverse />
       </inertia-link>

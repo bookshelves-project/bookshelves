@@ -10,8 +10,9 @@
           :href="item.href"
           class="text-gray-400 hover:text-gray-500"
         >
-          <span class="sr-only">{{ item.name }}</span>
-          <component :is="item.icon" class="h-6 w-6" aria-hidden="true" />
+          <!-- <span class="sr-only">{{ item.name }}</span>
+          <component :is="item.icon" class="h-6 w-6" aria-hidden="true" /> -->
+          {{ item.name }}
         </a>
       </div>
       <div class="mt-8 md:mt-0 md:order-1">
@@ -38,22 +39,11 @@
   import Git from '@admin/svg/git.svg'
   import Api from '@admin/svg/api.svg'
   import Wiki from '@admin/svg/wiki.svg'
-  import Beaker from '@admin/svg/beaker.svg'
 
   const title = getAppName()
   const props = getProps()
 
   const navigation = [
-    {
-      name: 'Features',
-      href: route('front.home'),
-      icon: Beaker,
-    },
-    {
-      name: 'Git',
-      href: props.repositoryUrl,
-      icon: Git,
-    },
     {
       name: 'Documentation',
       href: props.documentationUrl,
@@ -63,6 +53,11 @@
       name: 'API Documentation',
       href: route('scribe'),
       icon: Api,
+    },
+    {
+      name: 'Git',
+      href: props.repositoryUrl,
+      icon: Git,
     },
   ]
 </script>
