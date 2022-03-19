@@ -1,4 +1,4 @@
-<x-app>
+<x-layouts.app>
     <div class="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-12">
         <x-title class="text-center">
             {{ config('app.name') }}
@@ -14,4 +14,4 @@
     <div class="mt-auto">
         <x-layouts.footer class="mt-auto" />
     </div>
-</x-app>
+</x-layouts.app>

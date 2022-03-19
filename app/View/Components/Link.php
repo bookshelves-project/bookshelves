@@ -11,9 +11,13 @@ class Link extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public ?array $array = [],
-        public ?object $object = null,
-        public ?bool $title = false,
+        public ?array $data = [],
+        public ?string $route = null,
+        public ?array $routeParam = [],
+        public ?string $href = null,
+        public ?string $title = null,
+        public ?string $description = null,
+        public ?string $icon = null,
         public ?bool $external = false,
     ) {
     }
@@ -25,20 +29,16 @@ class Link extends Component
      */
     public function render()
     {
-        $link = ConverterService::arrayToObject([
-            'route' => '',
-            'href' => false,
-            'title' => 'Default',
-            'description' => '',
-            'icon' => null,
-            'external' => false,
-        ]);
-        if (! empty($this->array)) {
-            $link = ConverterService::arrayToObject($this->array);
-        } elseif (! empty($this->object)) {
-            $link = $this->object;
+        if (! empty($this->data)) {
+            $this->route = array_key_exists('route', $this->data) ? $this->data['route'] : null;
+            $this->routeParam = array_key_exists('routeParam', $this->data) ? $this->data['routeParam'] : [];
+            $this->href = array_key_exists('href', $this->data) ? $this->data['href'] : null;
+            $this->title = array_key_exists('title', $this->data) ? $this->data['title'] : null;
+            $this->description = array_key_exists('description', $this->data) ? $this->data['description'] : null;
+            $this->external = array_key_exists('external', $this->data) ? $this->data['external'] : false;
+            $this->icon = array_key_exists('icon', $this->data) ? $this->data['icon'] : null;
         }
 
-        return view('components.link', compact('link'));
+        return view('components.link');
     }
 }

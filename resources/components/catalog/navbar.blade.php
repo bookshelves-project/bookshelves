@@ -16,9 +16,9 @@ cellspacing="0" width="100%" border="0">
 align="left">
 
 <div class="menu" style="text-align:center">
-<a href="{{ url()->previous() }}" target="_self"
+<a href="{{ route('front.catalog.search') }}" target="_self"
   style="padding:5px 30px;display:inline;color:#0068A5;font-family:arial,helvetica,sans-serif;font-size:20px;text-decoration:none">
-  Back one page
+  Home
 </a>
 @foreach ($navigation as $key => $item)
 <a href="{{ route($item['route']) }}" target="_self"

@@ -1,28 +1,22 @@
-<footer>
+<footer {{ $attributes }}>
     <div class="max-w-7xl mx-auto pt-12 pb-6 px-4 overflow-hidden sm:px-6 lg:px-8">
-        {{-- <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
-            @foreach (config('bookshelves.navigation.footer') as $route)
-                <div class="px-5 py-2">
-                    <x-link :array="$route" class="text-base text-gray-400 hover:text-gray-300" title external />
-                </div>
-            @endforeach
-        </nav>
-        <div class="mt-6 text-base text-gray-400 mx-auto w-max">
-            <div class="flex items-center space-x-2">
+        <div class="mt-6 text-sm text-gray-400 mx-auto w-max">
+            <div class="lg:flex lg:items-center space-y-2 lg:space-y-0">
                 <a href="https://creativecommons.org/" target="_blank" rel="noopener noreferrer"
-                    class="flex items-center">
-                    <x-icons.cc class="w-6 h-6" />
-                    <span class="ml-2">
+                    class="flex items-center hover:text-gray-300 transition-colors duration-75 text-center">
+                    <x-icons.cc class="w-5 h-5" />
+                    <span class="ml-1">
                         {{ $date }}
                     </span>
                 </a>
-                <div>
-                    · <a href="{{ config('app.repository_url') }}" target="_blank"
-                        rel="noopener noreferrer">{{ config('app.name') }} v{{ $composer->version }}</a>,
-                    <a href="{{ route('front.license') }}">{{ $composer->license }}
-                        license.</a>
-                </div>
+                <span class="mx-1 hidden lg:flex">·</span>
+                <a href="{{ config('app.repository_url') }}" target="_blank" rel="noopener noreferrer"
+                    class="hover:text-gray-300 transition-colors duration-75 block text-center">{{ config('app.name') }}
+                    v{{ $composer->version }}</a><span class="hidden lg:flex">,</span>
+                <a href="{{ config('app.documentation_url') }}/development/license"
+                    class="hover:text-gray-300 transition-colors duration-75 block lg:ml-1 text-center">{{ $composer->license }}
+                    license</a><span class="hidden lg:flex">.</span>
             </div>
-        </div> --}}
+        </div>
     </div>
 </footer>
