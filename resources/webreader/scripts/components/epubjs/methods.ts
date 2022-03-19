@@ -1,11 +1,11 @@
 import { Book, Rendition } from 'epubjs'
-import {
-  selectListener,
-  clickListener,
-  swipListener,
-  wheelListener,
-  keyListener,
-} from './listener'
+// import {
+//   selectListener,
+//   clickListener,
+//   swipListener,
+//   wheelListener,
+//   keyListener,
+// } from './listener'
 import { EpubThemes, dark, tan, defaultStyle } from './theme'
 
 interface AlpineRefs {
@@ -30,8 +30,8 @@ interface AlpineRefs {
 let book: Book
 let rendition: Rendition
 let toc = []
-let progress
-const isReady = false
+// let progress
+// const isReady = false
 let refsAlpine: AlpineRefs
 
 const epubjsInit = async (refs) => {
@@ -164,6 +164,7 @@ const setOptions = async () => {
   // info.highlights.forEach((cfiRange) => {
   //   rendition.annotations.highlight(cfiRange);
   // });
+  // @ts-ignore
   toc = book.navigation.toc
   // let _flattenedToc = (function flatten(items) {
   //   return [].concat(
@@ -180,11 +181,13 @@ const setOptions = async () => {
 function setToc() {
   const tocBlock = document.getElementById('toc')
   toc.forEach((el, key) => {
+    // @ts-ignore
     tocBlock.innerHTML += `<li id="${el.id} chapter-${key}" data-chapter="${el.href}" class="toc-item cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white group flex links-center px-2 py-2 text-sm font-medium rounded-md my-1 justify-between">${el.label}</li>`
   })
 
   const tocItem = document.getElementsByClassName('toc-item')
   for (const index in tocItem) {
+    // @ts-ignore
     if (index <= tocItem.length) {
       tocItem[index].addEventListener('click', setChapter)
     }
@@ -192,6 +195,7 @@ function setToc() {
 }
 
 const setChapter = () => {
+  // @ts-ignore
   const chapter = this.dataset.chapter
   rendition.display(chapter)
 }

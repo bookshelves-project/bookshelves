@@ -88,7 +88,7 @@ const selectListener = (document, rendition, fn) => {
     const SelectionReact = range.getBoundingClientRect()
     const viewRect = rendition.manager.container.getBoundingClientRect()
 
-    let react = {
+    const react = {
       left: `${
         viewRect.x + SelectionReact.x - (rendition.manager.scrollLeft || 0)
       }px`,
@@ -205,7 +205,7 @@ const wheelListener = (el, fn) => {
     isScrolling = setTimeout(() => {
       if (Math.abs(dist) >= threshold) {
         // If wheel scrolled down it indicates left
-        let direction = Math.sign(dist) > 0 ? 'next' : 'prev'
+        const direction = Math.sign(dist) > 0 ? 'next' : 'prev'
         fn(direction)
         dist = 0
       }
@@ -215,10 +215,4 @@ const wheelListener = (el, fn) => {
   })
 }
 
-export {
-  selectListener,
-  clickListener,
-  swipListener,
-  wheelListener,
-  keyListener,
-}
+export { selectListener, swipListener, wheelListener, keyListener }

@@ -10,11 +10,21 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "noImplicitAny": false,
-        "lib": ["esnext", "dom"],
-        "types": ["vite/client", "@types/jest"],
+        "lib": [
+            "esnext",
+            "dom"
+        ],
+        "types": [
+            "vite/client",
+            "@types/jest"
+        ],
         "paths": {
-            "@admin/*": ["./resources/admin/*"],
-            "@front/*": ["./resources/front/*"]
+            "@admin/*": [
+                "./resources/admin/*"
+            ],
+            "@front/*": [
+                "./resources/front/*"
+            ]
         }
     },
     "include": [
@@ -22,5 +32,8 @@
         "resources/**/*.d.ts",
         "resources/**/*.tsx",
         "resources/**/*.vue"
+    ],
+    "exclude": [
+        "resources/views/stubs"
     ]
 }

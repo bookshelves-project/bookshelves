@@ -216,6 +216,7 @@
       return
     }
     selectAll.value = true
+    // @ts-ignore
     selected.value = props.source.data.map((model) => model.id)
   }
 

@@ -242,6 +242,7 @@
       return
     }
     selectAll.value = true
+    // @ts-ignore
     selected.value = props.source.data.map((model) => model.id)
   }
 
@@ -311,7 +312,7 @@
     doQuery()
   }
 
-  const onRowClick = (id: number) => {
+  const onRowClick = (id: number | string) => {
     if (props.rowClick && resource) {
       Inertia.get(route(`admin.${resource}.${props.rowClick}`, { id }))
     }
