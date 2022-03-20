@@ -24,7 +24,7 @@ class BookConverter
             'description' => $parser->description,
             'released_on' => $parser->released_on ?? null,
             'rights' => $parser->rights,
-            'volume' => $parser->volume,
+            'volume' => $parser->volume > 0 ? $parser->volume : null,
             'type' => $parser->type,
         ]);
     }
