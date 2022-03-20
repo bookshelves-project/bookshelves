@@ -13,6 +13,25 @@ use Spatie\ArrayToXml\ArrayToXml;
 
 class OpdsService
 {
+    public const FEED = [
+        [
+            'key' => 'authors',
+            'model' => 'Author',
+            'title' => 'Authors',
+            'content' => 'Authors availables',
+            'cover_thumbnail' => '',
+            'route' => 'front.opds.authors',
+        ],
+        [
+            'key' => 'series',
+            'model' => 'Serie',
+            'title' => 'Series',
+            'content' => 'Series availables',
+            'cover_thumbnail' => '',
+            'route' => 'front.opds.series',
+        ],
+    ];
+
     public function __construct(
         public string $version,
         public EntityEnum $entity,

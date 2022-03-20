@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front\Opds;
 
 use App\Enums\EntityEnum;
 use App\Http\Controllers\Controller;
+use App\Services\ConverterService;
 use App\Services\MarkdownService;
 use App\Services\OpdsService;
 use Artesaos\SEOTools\Facades\SEOTools;
@@ -42,8 +43,7 @@ class OpdsController extends Controller
     #[Get('/{version}', name: 'front.opds.feed')]
     public function feed(Request $request, string $version)
     {
-        $feed = File::get(app_path('Services/opds-feed.json'));
-        $feed = (array) json_decode($feed);
+        $feed = ConverterService::arrayToObject(OpdsService::FEED);
         foreach ($feed as $key => $value) {
             $model_name = 'App\Models\\'.ucfirst($value->model);
             $value->cover_thumbnail = config('app.url')."/assets/images/opds/{$value->key}.png";

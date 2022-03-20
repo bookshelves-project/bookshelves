@@ -1,20 +1,11 @@
-<x-layouts.webreader>
-    <div x-data="epubjs()" x-init="epubjsInit()">
-        <div x-ref="epubPath" class="hidden">{{ $epub_path }}</div>
-        <x-webreader.color-mode />
-        <x-webreader.sidebar :title="$title" />
-        <x-webreader.navigation :download="$download_link" :home="$home" />
-        <x-webreader.navigation-on-screen />
-
-        <div class="flex">
-            <div class="mx-auto w-full md:max-w-3xl">
-                <div class="flex h-screen">
-                    <div class="h-screen mt-auto w-full">
-                        <x-webreader.presentation :book="$book" />
-                        <x-webreader.reader />
-                    </div>
-                </div>
+<x-layouts.main :route="route('front.home')">
+    <x-content :content="$content">
+        @isset($route)
+            <div class="mx-auto w-max mt-6">
+                <x-button :route="$route">
+                    Try random book now
+                </x-button>
             </div>
-        </div>
-    </div>
-</x-layouts.webreader>
+        @endisset
+    </x-content>
+</x-layouts.main>
