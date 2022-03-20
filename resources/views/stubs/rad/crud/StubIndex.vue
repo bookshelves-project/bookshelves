@@ -52,11 +52,13 @@
       centered: true,
       numeric: true,
       sortable: true,
+      main: true,
     },
     {
       field: 'stubAttr',
       sortable: true,
       searchable: true,
+      main: true,
     },
   ]
 </script>

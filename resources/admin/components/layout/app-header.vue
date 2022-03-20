@@ -1,8 +1,8 @@
 <template>
-  <div class="relative z-10 flex-shrink-0 flex h-16 bg-white">
+  <div class="relative z-10 flex-shrink-0 flex h-16">
     <button
       type="button"
-      class="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 lg:hidden"
+      class="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 lg:hidden dark:border-gray-600 dark:text-gray-800"
       @click="sidebarOpen"
     >
       <span class="sr-only">Open sidebar</span>
@@ -26,18 +26,19 @@
               v-model="globalSearch"
               name="search-field"
               type="search"
-              class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent sm:text-base"
+              class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent sm:text-base dark:bg-gray-900 dark:text-white"
               :placeholder="$t('admin.actions.search')"
             />
           </div>
         </form>
       </div>
       <div class="ml-4 flex items-center md:ml-6">
+        <color-mode />
         <!-- Profile dropdown -->
         <Menu as="div" class="ml-3 relative">
           <div>
             <MenuButton
-              class="max-w-xs bg-white rounded-full flex items-center text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50"
+              class="max-w-xs rounded-full flex items-center text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 lg:p-2 lg:rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               <!-- <img
                   class="h-8 w-8 rounded-full"
@@ -64,13 +65,13 @@
             leave-to-class="transform opacity-0 scale-95"
           >
             <MenuItems
-              class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
               <MenuItem v-slot="{ active }">
                 <inertia-link
                   :href="route('admin.profile.show')"
                   :class="[
-                    active ? 'bg-gray-100' : '',
+                    active ? 'bg-gray-100 dark:bg-gray-800' : '',
                     'block px-4 py-2 text-base text-gray-700',
                   ]"
                   >{{ $t('Profile') }}</inertia-link
@@ -86,7 +87,7 @@
               </MenuItem>
               <MenuItem>
                 <button
-                  :class="'block px-4 py-2 text-base text-gray-700 w-full text-left hover:bg-gray-100'"
+                  :class="'block px-4 py-2 text-base text-gray-700 w-full text-left hover:bg-gray-100 dark:hover:dark:bg-gray-800'"
                   @click="logout"
                 >
                   {{ $t('Log Out') }}

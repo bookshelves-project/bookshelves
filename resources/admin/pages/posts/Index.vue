@@ -56,6 +56,7 @@
       centered: true,
       numeric: true,
       sortable: true,
+      main: true,
     },
     {
       field: 'featured_image',
@@ -68,6 +69,7 @@
       field: 'title',
       sortable: true,
       searchable: true,
+      main: true,
     },
     {
       field: 'status',
@@ -76,6 +78,7 @@
         choices: 'post_statuses',
       },
       searchable: true,
+      main: true,
     },
     {
       field: 'category',

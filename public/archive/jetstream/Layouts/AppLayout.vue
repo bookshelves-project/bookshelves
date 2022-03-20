@@ -5,7 +5,7 @@
     <jet-banner />
 
     <div class="min-h-screen bg-gray-100">
-      <nav class="bg-white border-b border-gray-100">
+      <nav class="border-b border-gray-100">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex justify-between h-16">
@@ -40,7 +40,7 @@
                     <span class="inline-flex rounded-md">
                       <button
                         type="button"
-                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition"
+                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition"
                       >
                         {{ $page.props.user.current_team.name }}
 
@@ -143,7 +143,7 @@
                     <span v-else class="inline-flex rounded-md">
                       <button
                         type="button"
-                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition"
+                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition"
                       >
                         {{ $page.props.user.name }}
 
@@ -359,7 +359,7 @@
       </nav>
 
       <!-- Page Heading -->
-      <header v-if="$slots.header" class="bg-white shadow">
+      <header v-if="$slots.header" class="shadow">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <slot name="header"></slot>
         </div>

@@ -16,7 +16,7 @@
                 alt=""
               /> -->
             <h1
-              class="ml-3 text-2xl font-semibold leading-7 text-gray-900 sm:leading-9 sm:truncate"
+              class="ml-3 text-2xl font-semibold leading-7 text-gray-900 dark:text-gray-100 sm:leading-9 sm:truncate"
             >
               {{ $attrs.title }}
             </h1>

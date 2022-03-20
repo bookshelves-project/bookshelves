@@ -20,11 +20,6 @@
         </template>
         <template #field:row-action>
           <div class="flex gap-2 mx-auto">
-            <show-external-button
-              hide-label
-              path="path"
-              :query="{ preview: true }"
-            />
             <edit-button hide-label />
             <delete-button hide-label />
           </div>
@@ -56,11 +51,13 @@
       centered: true,
       numeric: true,
       sortable: true,
+      main: true,
     },
     {
       field: 'name',
       sortable: true,
       searchable: true,
+      main: true,
     },
     {
       field: 'books_count',

@@ -95,11 +95,6 @@
             :min-chars="0"
             option-value="name"
             :getter="(book) => book.tags.map((t) => t.name)"
-            :hint="
-              $t(`Try
-              to type any tag to find existing tag, if it not present click on
-              it to create it.`)
-            "
           />
         </div>
         <div class="form-full">

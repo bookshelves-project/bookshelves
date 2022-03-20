@@ -17,7 +17,7 @@
         :item="item"
       >
         <div
-          class="px-4 py-5 bg-white sm:p-6 shadow"
+          class="px-4 py-5 sm:p-6 shadow"
           :class="
             hasActions ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md'
           "
@@ -29,18 +29,7 @@
 
         <div
           v-if="hasActions"
-          class="
-            flex
-            items-center
-            justify-end
-            px-4
-            py-3
-            bg-gray-50
-            text-right
-            sm:px-6
-            shadow
-            sm:rounded-bl-md sm:rounded-br-md
-          "
+          class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md"
         >
           <slot
             name="actions"

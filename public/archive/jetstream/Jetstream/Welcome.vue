@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+    <div class="p-6 sm:px-20 border-b border-gray-200">
       <div>
         <jet-application-logo class="block h-12 w-auto" />
       </div>
@@ -48,11 +48,11 @@
 
           <a href="https://laravel.com/docs">
             <div
-              class="mt-3 flex items-center text-sm font-semibold text-indigo-700"
+              class="mt-3 flex items-center text-sm font-semibold text-primary-700"
             >
               <div>Explore the documentation</div>
 
-              <div class="ml-1 text-indigo-500">
+              <div class="ml-1 text-primary-500">
                 <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                   <path
                     fill-rule="evenodd"
@@ -96,11 +96,11 @@
 
           <a href="https://laracasts.com">
             <div
-              class="mt-3 flex items-center text-sm font-semibold text-indigo-700"
+              class="mt-3 flex items-center text-sm font-semibold text-primary-700"
             >
               <div>Start watching Laracasts</div>
 
-              <div class="ml-1 text-indigo-500">
+              <div class="ml-1 text-primary-500">
                 <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                   <path
                     fill-rule="evenodd"

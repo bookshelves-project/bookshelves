@@ -21,7 +21,7 @@
       <span class="sr-only">{{ label }}</span>
       <span
         :class="toggled ? 'translate-x-5' : 'translate-x-0'"
-        class="pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white dark:bg-gray-900 shadow transform ring-0 transition ease-in-out duration-200"
+        class="pointer-events-none relative inline-block h-5 w-5 rounded-full dark:bg-gray-900 shadow transform ring-0 transition ease-in-out duration-200"
       >
         <span
           :class="

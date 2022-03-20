@@ -5,7 +5,7 @@
         <create-button />
       </template>
 
-      <data-table-new
+      <data-table
         :source="books"
         :columns="columns"
         :sort="sort"
@@ -25,7 +25,7 @@
             <delete-button hide-label />
           </div>
         </template>
-      </data-table-new>
+      </data-table>
     </app-layout>
   </list-context>
 </template>
@@ -52,6 +52,7 @@
       centered: true,
       numeric: true,
       sortable: true,
+      main: true,
     },
     {
       field: 'cover',
@@ -61,6 +62,7 @@
         original: 'url',
         canPreview: true,
       },
+      main: true,
     },
     {
       field: 'title',
@@ -70,6 +72,7 @@
       },
       sortable: true,
       searchable: true,
+      main: true,
     },
     {
       field: 'authors',
@@ -151,14 +154,12 @@
       type: 'date',
       props: { format: 'dd/MM/yyyy' },
       sortable: true,
-      centered: true,
       searchable: true,
     },
     {
       field: 'updated_at',
       type: 'date',
       sortable: true,
-      centered: true,
     },
   ]
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-white sm:border-b sm:border-gray-100">
+  <nav class="sm:border-b sm:border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="px-4 sm:px-6 lg:px-8 bg-primary sm:bg-transparent">
       <div class="flex justify-between h-16">

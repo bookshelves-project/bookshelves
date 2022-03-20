@@ -10,4 +10,5 @@ export interface Column {
   type?: string
   props?: any
   filterType?: string
+  main?: boolean
 }

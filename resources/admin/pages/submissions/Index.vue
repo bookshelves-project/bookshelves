@@ -51,11 +51,13 @@
       centered: true,
       numeric: true,
       sortable: true,
+      main: true,
     },
     {
       field: 'name',
       sortable: true,
       searchable: true,
+      main: true,
     },
     {
       field: 'email',

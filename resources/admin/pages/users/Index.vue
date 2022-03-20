@@ -68,11 +68,22 @@
       centered: true,
       numeric: true,
       sortable: true,
+      main: true,
+    },
+    {
+      field: 'avatar',
+      type: 'image',
+      props: {
+        preview: 'url',
+        original: 'url',
+        canPreview: true,
+      },
     },
     {
       field: 'name',
       sortable: true,
       searchable: true,
+      main: true,
     },
     {
       field: 'email',
@@ -83,12 +94,14 @@
       field: 'active',
       type: 'switch',
       searchable: true,
+      main: true,
     },
     {
       field: 'role',
       type: 'select',
       props: { choices: 'roles' },
       searchable: true,
+      main: true,
     },
     {
       field: 'last_login_at',

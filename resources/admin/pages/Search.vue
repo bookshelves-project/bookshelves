@@ -25,7 +25,7 @@
             class="absolute inset-0 w-full h-full object-cover"
           />
         </div>
-        <div class="flex-auto p-6 bg-white">
+        <div class="flex-auto p-6">
           <div class="flex flex-wrap">
             <h1 class="flex-auto text-xl font-semibold">
               {{ post.title }}
@@ -44,7 +44,7 @@
         class="flex w-[calc(30%)] overflow-hidden rounded"
         :href="route('admin.posts.edit', { id: post.id })"
       >
-        <div class="flex-auto p-6 bg-white">
+        <div class="flex-auto p-6">
           <div class="flex flex-wrap">
             <h1 class="flex-auto text-xl font-semibold">
               {{ post.title }}

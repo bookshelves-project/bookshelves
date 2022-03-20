@@ -7,7 +7,7 @@
         <div
           v-for="card in cards"
           :key="card.name"
-          class="bg-white overflow-hidden shadow rounded-lg"
+          class="overflow-hidden shadow rounded-lg"
         >
           <div class="p-5">
             <div class="flex items-center">
@@ -59,7 +59,7 @@
           <li v-for="transaction in transactions" :key="transaction.id">
             <a
               :href="transaction.href"
-              class="block px-4 py-4 bg-white hover:bg-gray-50"
+              class="block px-4 py-4 hover:bg-gray-50"
             >
               <span class="flex items-center space-x-4">
                 <span class="flex-1 flex space-x-2 truncate">
@@ -90,19 +90,19 @@
         </ul>
 
         <nav
-          class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200"
+          class="px-4 py-3 flex items-center justify-between border-t border-gray-200"
           aria-label="Pagination"
         >
           <div class="flex-1 flex justify-between">
             <a
               href="#"
-              class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+              class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 hover:text-gray-500"
             >
               Previous
             </a>
             <a
               href="#"
-              class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+              class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 hover:text-gray-500"
             >
               Next
             </a>
@@ -141,11 +141,11 @@
                   </th>
                 </tr>
               </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
+              <tbody class="divide-y divide-gray-200">
                 <tr
                   v-for="transaction in transactions"
                   :key="transaction.id"
-                  class="bg-white"
+                  class=""
                 >
                   <td
                     class="max-w-0 w-full px-6 py-4 whitespace-nowrap text-base text-gray-900"
@@ -199,7 +199,7 @@
             </table>
             <!-- Pagination -->
             <nav
-              class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
+              class="px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
               aria-label="Pagination"
             >
               <div class="hidden sm:block">
@@ -222,13 +222,13 @@
               <div class="flex-1 flex justify-between sm:justify-end">
                 <a
                   href="#"
-                  class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 hover:bg-gray-50"
                 >
                   Previous
                 </a>
                 <a
                   href="#"
-                  class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 hover:bg-gray-50"
                 >
                   Next
                 </a>

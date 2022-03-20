@@ -5,7 +5,7 @@
     :id="id"
     v-model="formValue"
     :name="getName"
-    class="block w-full scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300"
+    class="block w-full scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 dark:scrollbar-track-gray-800 dark:scrollbar-thumb-gray-700 dark:bg-gray-800 dark:border-gray-700"
     :class="{ 'form-invalid': hasError }"
     :multiple="multiple"
   >

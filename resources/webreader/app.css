@@ -1,5 +1,5 @@
 .on-screen-btn {
-  @apply hover:bg-white hover:bg-opacity-50 transition-colors duration-75;
+  /* @apply hover:bg-white hover:bg-opacity-30 transition-colors duration-75; */
 }
 .on-screen-tuto-color {
   @apply bg-white bg-opacity-80;

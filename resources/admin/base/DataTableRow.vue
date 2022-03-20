@@ -1,10 +1,16 @@
 <template>
-  <tr class="bg-white">
-    <td v-if="canSelect" class="px-4 py-4 border-t text-center">
+  <tr :class="{ 'bg-gray-100 dark:bg-gray-800': modelValue }">
+    <td v-if="canSelect" class="relative w-12 px-6 sm:w-16 sm:px-8">
+      <!-- Selected row marker, only show when row is selected. -->
+      <div
+        v-if="modelValue"
+        class="absolute inset-y-0 left-0 w-0.5 bg-primary-600 dark:bg-primary-500"
+      ></div>
+
       <input
-        :checked="modelValue"
-        class="w-6 h-6"
         type="checkbox"
+        class="absolute left-4 top-1/2 -mt-2 h-5 w-5 rounded border-gray-300 dark:border-gray-700 text-primary-600 focus:ring-primary-500 sm:left-6"
+        :checked="modelValue"
         @change="change"
         @click.stop
       />
@@ -12,7 +18,10 @@
     <td
       v-for="column in columns"
       :key="column.field"
-      class="px-6 py-4 whitespace-nowrap text-gray-900"
+      :class="{
+        'hidden lg:table-cell': !column.main && column.field !== 'row-action',
+      }"
+      class="whitespace-nowrap px-3 py-4 text-base text-gray-800 dark:text-gray-200"
     >
       <div
         class="flex items-center"
