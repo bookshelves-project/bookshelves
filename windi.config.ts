@@ -21,6 +21,7 @@ const primary = {
 }
 
 export default defineConfig({
+  darkMode: 'class',
   theme: {
     fontFamily: {
       sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
