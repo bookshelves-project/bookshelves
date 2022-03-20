@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 class LanguageController extends ApiController
 {
     /**
-     * GET Languages list.
+     * GET Language[].
      */
     public function index(Request $request)
     {
@@ -35,7 +35,7 @@ class LanguageController extends ApiController
     }
 
     /**
-     * GET Language details.
+     * GET Language.
      */
     public function show(Language $language)
     {

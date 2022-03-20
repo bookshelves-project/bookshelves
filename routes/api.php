@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CmsController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CountController;
+use App\Http\Controllers\Api\EntityController;
 use App\Http\Controllers\Api\EnumController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LanguageController;
@@ -41,18 +42,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/', [ApiController::class, 'home'])->name('api.index');
+Route::post('submission/send', [SubmissionController::class, 'send'])->name('api.submissions.send');
 
-Route::get('enums', [EnumController::class, 'index'])->name('api.enums.index');
-Route::post('send/submission', [SubmissionController::class, 'send'])->name('api.submission.send');
-Route::get('count', [CountController::class, 'count'])->name('api.count');
-Route::get('search', [SearchController::class, 'index'])->name('api.search.index');
+/*
+ * Entities routes
+ */
+Route::prefix('entities')->group(function () {
+    Route::get('/enums', [EntityController::class, 'enums'])->name('api.entities.enums');
+    Route::get('/count', [EntityController::class, 'count'])->name('api.entities.count');
+    Route::get('/search', [EntityController::class, 'search'])->name('api.entities.search');
+    Route::get('/latest', [EntityController::class, 'latest'])->name('api.entities.latest');
+    Route::get('/selection', [EntityController::class, 'selection'])->name('api.entities.selection');
+});
 
 /*
  * CMS routes
  */
 Route::prefix('cms')->group(function () {
     Route::get('/', [CmsController::class, 'index'])->name('api.cms.index');
-    Route::get('/initialization', [CmsController::class, 'initialization'])->name('api.cms.initialization');
     Route::get('/application', [CmsController::class, 'application'])->name('api.cms.application');
     Route::get('/home-page', [CmsController::class, 'home'])->name('api.cms.home-page');
 });
@@ -74,10 +81,8 @@ Route::prefix('authors')->group(function () {
 Route::prefix('books')->group(function () {
     Route::get('/', [BookController::class, 'index'])->name('api.books.index');
     Route::get('/{author_slug}/{book_slug}', [BookController::class, 'show'])->name('api.books.show');
-    Route::get('/related/{author_slug}/{book_slug}', [BookController::class, 'related'])->name('api.books.related');
-    Route::get('/latest', [BookController::class, 'latest'])->name('api.books.latest');
-    Route::get('/selection', [BookController::class, 'selection'])->name('api.books.selection');
     Route::get('/download/{author_slug}/{book_slug}/{format?}', [BookController::class, 'download'])->name('api.books.download');
+    Route::get('/related/{author_slug}/{book_slug}', [BookController::class, 'related'])->name('api.books.related');
 });
 
 /*

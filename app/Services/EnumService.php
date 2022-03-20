@@ -2,19 +2,31 @@
 
 namespace App\Services;
 
+use App\Enums\AuthorRoleEnum;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
+use App\Enums\ChartColorEnum;
+use App\Enums\CountSizeEnum;
+use App\Enums\EntityEnum;
 use App\Enums\GenderEnum;
+use App\Enums\PostStatusEnum;
+use App\Enums\RoleEnum;
 use App\Enums\TagTypeEnum;
 
 class EnumService
 {
     public static function list(): array
     {
+        $author_roles = AuthorRoleEnum::toArray();
+        $book_formats = BookFormatEnum::toArray();
+        $book_types = BookTypeEnum::toArray();
+        $count_sizes = CountSizeEnum::toArray();
+        $entities = EntityEnum::toArray();
         $genders = GenderEnum::toArray();
-        $tagTypes = TagTypeEnum::toArray();
-        $bookTypes = BookTypeEnum::toArray();
-        $bookFormats = BookFormatEnum::toArray();
+        $post_status = PostStatusEnum::toArray();
+        $roles = RoleEnum::toArray();
+        $tag_types = TagTypeEnum::toArray();
+
         $models = [
             'author' => 'Author',
             'book' => 'Book',
@@ -25,10 +37,15 @@ class EnumService
         ];
 
         return [
+            'authorRoles' => $author_roles,
+            'bookFormats' => $book_formats,
+            'bookTypes' => $book_types,
+            'countSizes' => $count_sizes,
+            'entities' => $entities,
             'genders' => $genders,
-            'tagTypes' => $tagTypes,
-            'bookTypes' => $bookTypes,
-            'bookFormats' => $bookFormats,
+            'postStatus' => $post_status,
+            'roles' => $roles,
+            'tagTypes' => $tag_types,
             'models' => $models,
         ];
     }

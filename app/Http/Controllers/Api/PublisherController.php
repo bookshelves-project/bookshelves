@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 class PublisherController extends ApiController
 {
     /**
-     * GET Publisher collection.
+     * GET Publisher[].
      *
      * <small class="badge badge-blue">WITH PAGINATION</small>
      *
@@ -44,7 +44,7 @@ class PublisherController extends ApiController
     }
 
     /**
-     * GET Publisher resource.
+     * GET Publisher.
      *
      * Details for one Publisher, find by slug.
      */
@@ -54,7 +54,7 @@ class PublisherController extends ApiController
     }
 
     /**
-     * GET Books collection of Publisher.
+     * GET Book[] belongs to Publisher.
      *
      * <small class="badge badge-blue">WITH PAGINATION</small>
      *

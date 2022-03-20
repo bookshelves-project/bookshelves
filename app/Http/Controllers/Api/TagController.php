@@ -18,7 +18,7 @@ use Spatie\Tags\Tag;
 class TagController extends ApiController
 {
     /**
-     * GET Tag collection.
+     * GET Tag[].
      *
      * Get all Tags ordered by 'name'.
      *
@@ -43,7 +43,7 @@ class TagController extends ApiController
     }
 
     /**
-     * GET Tag resrouce.
+     * GET Tag.
      *
      * Get Tag details.
      *
@@ -55,7 +55,7 @@ class TagController extends ApiController
     }
 
     /**
-     * GET Book & Series collection of Tag.
+     * GET Entity[] belongs to Tag.
      *
      * Get all Books and Series of selected Tag.
      */

@@ -10,12 +10,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
- * @group User
+ * @group User: Profile
  */
 class UserController extends ApiController
 {
     /**
-     * GET Users list.
+     * GET User[].
      */
     public function index()
     {
@@ -28,7 +28,7 @@ class UserController extends ApiController
     }
 
     /**
-     * GET User details.
+     * GET User.
      */
     public function show(Request $request, User $user)
     {
@@ -36,7 +36,7 @@ class UserController extends ApiController
     }
 
     /**
-     * GET User comments.
+     * GET Comment[] belongs to User.
      */
     public function comments(Request $request, User $user)
     {
@@ -44,7 +44,7 @@ class UserController extends ApiController
     }
 
     /**
-     * GET User favorites.
+     * GET Favorite[] belongs to User.
      */
     public function favorites(Request $request, User $user)
     {

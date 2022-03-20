@@ -29,7 +29,7 @@ class BookshelvesQuery extends Strategy
     private function routes()
     {
         $routes = [
-            'search.index' => 'search',
+            'entities.search' => 'search',
         ];
 
         foreach ($routes as $name => $method) {

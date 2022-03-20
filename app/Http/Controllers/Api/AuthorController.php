@@ -21,7 +21,7 @@ use Spatie\MediaLibrary\Support\MediaStream;
 class AuthorController extends ApiController
 {
     /**
-     * GET List authors.
+     * GET Author[].
      *
      * <small class="badge badge-blue">WITH PAGINATION</small>
      *
@@ -50,7 +50,7 @@ class AuthorController extends ApiController
     }
 
     /**
-     * GET Author resource.
+     * GET Author.
      *
      * Details for one Author, find by slug.
      */
@@ -60,7 +60,7 @@ class AuthorController extends ApiController
     }
 
     /**
-     * GET Books list of an author.
+     * GET Book[] belongs to Author.
      *
      * Books list from an author, find by `slug`.
      *
@@ -78,7 +78,7 @@ class AuthorController extends ApiController
     }
 
     /**
-     * GET Series list of an author.
+     * GET Serie[] belongs to Author.
      *
      * Series list from an author, find by `slug`.
      *
@@ -90,11 +90,11 @@ class AuthorController extends ApiController
     }
 
     /**
-     * GET Download ZIP.
+     * GET Download.
      *
      * <small class="badge badge-green">Content-Type application/octet-stream</small>
      *
-     * Download Author ZIP, find by slug of author.
+     * Download Book[] ZIP, find by slug of author.
      *
      * @header Content-Type application/octet-stream
      */

@@ -16,14 +16,19 @@ use App\Services\EnumService;
 class CmsController extends ApiController
 {
     /**
-     * GET Application & Home page.
+     * GET Base.
+     *
+     * Useful for CMS at front-end init with `enums`, `languages` and `application`.
      */
     public function index()
     {
         return response()->json([
             'data' => [
-                'application' => route('api.cms.application'),
-                'home_page' => route('api.cms.home-page'),
+                'enums' => EnumService::list(),
+                'languages' => LanguageResource::collection(Language::all()),
+                'application' => CmsApplicationResource::make(
+                    CmsApplication::first()
+                ),
             ],
         ]);
     }
@@ -46,23 +51,5 @@ class CmsController extends ApiController
         return CmsHomePageResource::make(
             CmsHomePage::first()
         );
-    }
-
-    /**
-     * GET Initialization.
-     *
-     * Useful for CMS at front-end init with `enums`, `languages` and `application`.
-     */
-    public function initialization()
-    {
-        return response()->json([
-            'data' => [
-                'enums' => EnumService::list(),
-                'languages' => LanguageResource::collection(Language::all()),
-                'application' => CmsApplicationResource::make(
-                    CmsApplication::first()
-                ),
-            ],
-        ]);
     }
 }

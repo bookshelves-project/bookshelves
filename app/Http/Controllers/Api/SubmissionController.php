@@ -8,7 +8,7 @@ use App\Notifications\SubmissionNotification;
 use Illuminate\Support\Facades\Notification;
 
 /**
- * @group Endpoints
+ * @group Submission
  */
 class SubmissionController extends ApiController
 {

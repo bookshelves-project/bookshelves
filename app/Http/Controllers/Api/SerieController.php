@@ -22,7 +22,7 @@ use Spatie\MediaLibrary\Support\MediaStream;
 class SerieController extends ApiController
 {
     /**
-     * GET List series.
+     * GET Serie[].
      *
      * <small class="badge badge-blue">WITH PAGINATION</small>
      *
@@ -54,7 +54,7 @@ class SerieController extends ApiController
     }
 
     /**
-     * GET Serie resource.
+     * GET Serie.
      *
      * Get details of Serie model, find by slug of serie and slug of author.
      */
@@ -64,7 +64,7 @@ class SerieController extends ApiController
     }
 
     /**
-     * GET Book collection of Serie.
+     * GET Book[] belongs to Serie.
      *
      * Books list from one Serie, find by slug.
      *
@@ -79,7 +79,7 @@ class SerieController extends ApiController
     }
 
     /**
-     * GET Book collection of Serie (from volume).
+     * GET Book[] belongs to Serie (from volume).
      *
      * Books list from one Serie, find by slug from volume and limited to 10 results.
      */
@@ -95,7 +95,7 @@ class SerieController extends ApiController
     }
 
     /**
-     * GET Download ZIP.
+     * GET Download.
      *
      * <small class="badge badge-green">Content-Type application/octet-stream</small>
      *
