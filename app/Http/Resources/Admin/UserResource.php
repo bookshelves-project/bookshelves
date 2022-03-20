@@ -25,6 +25,7 @@ class UserResource extends JsonResource
         return [
             'can_be_updated' => Auth::user()->canUpdate($this->resource),
             'can_be_impersonated' => Auth::user()->canImpersonate($this->resource),
+            'avatar' => MediaResource::collection($this->resource->getMedia('avatar')),
         ] + $this->resource->toArray();
     }
 }

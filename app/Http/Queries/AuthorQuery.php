@@ -29,8 +29,9 @@ class AuthorQuery extends BaseQuery
                 AllowedFilter::custom('q', new GlobalSearchFilter(['firstname', 'lastname', 'name'])),
                 AllowedFilter::partial('firstname'),
                 AllowedFilter::partial('lastname'),
+                AllowedFilter::exact('role'),
             ])
-            ->allowedSorts(['id', 'firstname', 'lastname', 'name', 'books_count', 'series_count', 'created_at', 'updated_at'])
+            ->allowedSorts(['id', 'firstname', 'lastname', 'name', 'role', 'books_count', 'series_count', 'created_at', 'updated_at'])
             ->with($option->with)
             ->withCount('series', 'books')
         ;
