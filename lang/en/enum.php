@@ -40,6 +40,13 @@ return [
             'admin' => 'Admin',
             'user' => 'User',
         ],
+        'SubmissionReasonEnum' => [
+            'idea' => 'Idea',
+            'issue' => 'Issue',
+            'book_problem' => 'Book: problem',
+            'book_adding' => 'Book: to add',
+            'other' => 'Other',
+        ],
         'TagTypeEnum' => [
             'tag' => 'Tag',
             'genre' => 'Genre',

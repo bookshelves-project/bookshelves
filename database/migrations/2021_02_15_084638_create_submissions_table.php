@@ -15,6 +15,7 @@ class CreateSubmissionsTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
+            $table->string('reason')->nullable();
             $table->text('message')->nullable();
             $table->timestamps();
         });

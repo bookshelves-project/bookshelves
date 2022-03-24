@@ -5,6 +5,7 @@ export interface EnumTypes {
   book_types: { [key: string]: string }
   author_roles: { [key: string]: string }
   chart_colors: { [key: string]: string }
+  submissions_reasons: { [key: string]: string }
 }
 
 export const enumVariants = {

@@ -11,6 +11,7 @@ use App\Enums\EntityEnum;
 use App\Enums\GenderEnum;
 use App\Enums\PostStatusEnum;
 use App\Enums\RoleEnum;
+use App\Enums\SubmissionReasonEnum;
 use App\Enums\TagTypeEnum;
 
 class EnumService
@@ -25,6 +26,7 @@ class EnumService
         $genders = GenderEnum::toArray();
         $post_status = PostStatusEnum::toArray();
         $roles = RoleEnum::toArray();
+        $submissions_reasons = SubmissionReasonEnum::toArray();
         $tag_types = TagTypeEnum::toArray();
 
         $models = [
@@ -45,6 +47,7 @@ class EnumService
             'genders' => $genders,
             'postStatus' => $post_status,
             'roles' => $roles,
+            'submissionsReasons' => $submissions_reasons,
             'tagTypes' => $tag_types,
             'models' => $models,
         ];

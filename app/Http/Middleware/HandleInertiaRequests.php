@@ -7,6 +7,7 @@ use App\Enums\BookTypeEnum;
 use App\Enums\ChartColorEnum;
 use App\Enums\PostStatusEnum;
 use App\Enums\RoleEnum;
+use App\Enums\SubmissionReasonEnum;
 use App\Enums\TagTypeEnum;
 use App\Http\Resources\Admin\AuthResource;
 use Illuminate\Http\Request;
@@ -60,6 +61,7 @@ class HandleInertiaRequests extends Middleware
                     'book_types' => BookTypeEnum::class,
                     'author_roles' => AuthorRoleEnum::class,
                     'chart_colors' => ChartColorEnum::class,
+                    'submission_reasons' => SubmissionReasonEnum::class,
                 ])
                     ->mapWithKeys(fn ($enum, $key) => [$key => $enum::toArray()])
                 ;
