@@ -10,7 +10,7 @@
     </div>
   </div>
   <nav
-    class="mt-5 flex-1 flex flex-col divide-y divide-primary-800 overflow-y-auto"
+    class="mt-5 flex-1 flex flex-col divide-y divide-primary-800 dark:divide-primary-900 overflow-y-auto"
     aria-label="Sidebar"
   >
     <div class="px-2 space-y-1">

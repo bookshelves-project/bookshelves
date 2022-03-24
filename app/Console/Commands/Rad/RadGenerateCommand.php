@@ -12,7 +12,7 @@ class RadGenerateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'rad:generate
+    protected $signature = 'make:rad
                             {model : The name of the model}
                             {--a|attribute= : optional attribute instead of `name`}
                             {--f|force : overwrite existing files}';

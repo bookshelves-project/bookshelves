@@ -3,8 +3,10 @@
   src: url('/assets/fonts/Handlee-Regular.ttf');
 }
 
-html {
+html,
+body {
   font-size: 14px;
+  @apply bg-white dark:bg-gray-900;
 }
 
 h1 {

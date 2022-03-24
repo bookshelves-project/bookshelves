@@ -87,4 +87,9 @@ return [
         'attributes' => [
         ],
     ],
+    'pages' => [
+        'name' => 'Page|Pages',
+        'attributes' => [
+        ],
+    ],
 ];

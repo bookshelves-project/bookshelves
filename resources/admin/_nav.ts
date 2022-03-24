@@ -12,8 +12,8 @@ import {
   TagIcon,
   TranslateIcon,
   PrinterIcon,
+  TemplateIcon,
 } from '@heroicons/vue/outline'
-import { RenderFunction } from 'vue'
 
 interface NavTitle {
   title: string
@@ -27,20 +27,6 @@ interface NavLink {
 }
 
 const mainNav: (NavLink | NavTitle)[] = [
-  // {
-  //   href: route('admin.google-books'),
-  //   active: () =>
-  //     route().current('admin.google-books') ||
-  //     route().current('admin.google-books.*'),
-  //   text: __('Google Books'),
-  // },
-  // {
-  //   href: route('admin.wikipedia-items'),
-  //   active: () =>
-  //     route().current('admin.wikipedia-items') ||
-  //     route().current('admin.wikipedia-items.*'),
-  //   text: __('Wikipedia Items'),
-  // },
   {
     href: route('admin.dashboard'),
     active: () => route().current('admin.dashboard'),
@@ -98,6 +84,13 @@ const mainNav: (NavLink | NavTitle)[] = [
       route().current('admin.publishers.*'),
     icon: PrinterIcon,
     text: __('Publishers'),
+  },
+  {
+    href: route('admin.pages'),
+    active: () =>
+      route().current('admin.pages') || route().current('admin.pages.*'),
+    icon: TemplateIcon,
+    text: __('Pages'),
   },
   { title: __('Access Managment') },
   {

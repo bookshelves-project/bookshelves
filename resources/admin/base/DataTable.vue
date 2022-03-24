@@ -9,7 +9,7 @@
           <input
             v-model="form.filter.q"
             type="text"
-            class="w-full"
+            class="w-full dark:bg-gray-700 dark:text-white dark:placeholder-white dark:border-gray-800"
             :placeholder="$t('admin.actions.search')"
             @input="onFilter"
           />
@@ -122,7 +122,7 @@
                       )}-filter`"
                       v-model="form.filter[column.field]"
                       v-bind="column.props"
-                      class="max-w-40 h-8"
+                      class="max-w-40 h-8 dark:bg-gray-700 dark:border-gray-800 dark:text-white"
                       @input="onFilter"
                     />
                   </template>

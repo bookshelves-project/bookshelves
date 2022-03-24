@@ -1,3 +1,4 @@
+import { Page } from './page'
 import { GoogleBook } from './google-book'
 import { WikipediaItem } from './wikipedia-item'
 import { PaginatedData } from './paginated-data'
@@ -35,4 +36,5 @@ export {
   ChartModel,
   WikipediaItem,
   GoogleBook,
+  Page,
 }

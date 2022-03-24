@@ -101,4 +101,9 @@ return [
             'url' => 'url',
         ],
     ],
+    'pages' => [
+        'name' => 'Page|Pages',
+        'attributes' => [
+        ],
+    ],
 ];
