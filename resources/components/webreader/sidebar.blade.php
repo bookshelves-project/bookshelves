@@ -1,11 +1,11 @@
-<div id="sidebar-wrapper" class="fixed inset-0 hidden z-40" role="dialog" aria-modal="true">
-    <div id="sidebar-backdrop"
+<div x-data x-ref="sidebarWrapper" class="fixed inset-0 hidden z-40" role="dialog" aria-modal="true">
+    <div x-ref="sidebarBackdrop"
         class="fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity ease-linear duration-300 opacity-0"
         aria-hidden="true"></div>
-    <div id="sidebar"
+    <div x-ref="sidebar"
         class="relative flex-1 flex flex-col max-w-xs w-full bg-gray-100 dark:bg-gray-800 transition ease-in-out duration-300 transform h-full -translate-x-full"
         data-status="false">
-        <div id="sidebar-close-button" class="absolute top-0 right-0 -mr-12 pt-2 ease-in-out duration-300 opacity-0">
+        <div x-ref="sidebarCloseBtn" class="absolute top-0 right-0 -mr-12 pt-2 ease-in-out duration-300 opacity-0">
             <button type="button"
                 class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                 <span class="sr-only">Close sidebar</span>
@@ -21,7 +21,7 @@
                 {{ $title }}
             </h1>
             <nav class="mt-5 px-2">
-                <ul id="toc" class="list-none"></ul>
+                <ul x-ref="sidebarToc" class="list-none"></ul>
             </nav>
         </div>
     </div>

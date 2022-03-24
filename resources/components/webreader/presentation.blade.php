@@ -1,4 +1,4 @@
-<div x-ref="presentation" class="dark:text-white mt-6 relative z-20">
+<div x-ref="presentation" class="dark:text-white mt-6 relative z-20 pb-6">
     <div class="flex">
         <img src="{{ $book->cover_thumbnail }}" alt="" class="object-cover w-20 h-20 rounded-md mx-auto">
     </div>

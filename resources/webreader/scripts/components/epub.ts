@@ -1,7 +1,7 @@
 import { epubjsInit } from './epubjs/methods'
 
 const epubjs = () => ({
-  epubjsInit() {
+  init() {
     // @ts-ignore
     return epubjsInit(this.$refs)
   },

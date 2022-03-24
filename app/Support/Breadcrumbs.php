@@ -46,7 +46,5 @@ class Breadcrumbs
                 ]
             )->toArray())
         ;
-
-        return view('front::breadcrumbs', ['links' => $this->links]);
     }
 }
