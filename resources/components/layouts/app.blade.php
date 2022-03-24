@@ -16,13 +16,9 @@
 
     @vite('front', 'app.ts', 3100)
     {{-- @production
-        @php
-            $manifest = json_decode(file_get_contents(public_path('dist/front/manifest.json')), true);
-        @endphp
-        <script type="module" src="/dist/front/{{ $manifest['app.ts']['file'] }}"></script>
-        <link rel="stylesheet" href="/dist/front/{{ $manifest['app.ts']['css'][0] }}">
+        @dump('production')
     @else
-        @vite('features', 'app.ts', 3100)
+        @dump('local')
     @endproduction --}}
 </head>
 

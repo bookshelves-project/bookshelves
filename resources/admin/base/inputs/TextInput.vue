@@ -8,7 +8,7 @@
     v-model="formValue"
     :name="getName"
     rows="4"
-    class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md scrollbar-thin"
+    class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md scrollbar-thin dark:text-white"
     :class="{ 'form-invalid': hasError }"
   />
   <input
@@ -18,7 +18,7 @@
     ref="input"
     v-model="formValue"
     :name="getName"
-    class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md"
+    class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md dark:text-white"
     :class="{ 'form-invalid': hasError }"
   />
   <input-error :message="getError" class="mt-2" />
