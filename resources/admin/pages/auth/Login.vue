@@ -38,7 +38,7 @@
         <div class="flex mt-2">
           <inertia-link
             :href="route('admin.password.request')"
-            class="underline text-xs text-gray-600 hover:text-gray-900 ml-auto"
+            class="underline text-xs text-gray-600 hover:text-gray-900 ml-auto dark:text-white"
           >
             {{ $t('Forgot your password?') }}
           </inertia-link>
@@ -50,7 +50,9 @@
       </div>
 
       <div class="flex items-center justify-between mt-6">
-        <a href="/" class="text-base italic underline">Back to website</a>
+        <a href="/" class="text-base italic underline dark:text-white"
+          >Back to website</a
+        >
 
         <div class="flex items-center justify-end">
           <!-- <inertia-link

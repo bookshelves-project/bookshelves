@@ -85,7 +85,7 @@ class BookController extends ApiController
     {
         $page = $this->getPerPages($request);
 
-        if (sizeof($book->tags) >= 1) {
+        if ($book->tags->count() >= 1) {
             $related_books = EntityService::filterRelated($book);
 
             if ($related_books->isNotEmpty()) {
@@ -94,7 +94,7 @@ class BookController extends ApiController
         }
 
         return response()->json(
-            'No tags',
+            'No tags or no books related',
             400
         );
     }
