@@ -105,7 +105,7 @@
 <style lang="css" scoped>
   .base-form {
     & :deep(.form-grid) {
-      @apply grid xl:grid-cols-3 gap-x-4;
+      @apply grid xl:grid-cols-3 gap-x-4 space-y-4 xl:space-y-0;
     }
     & :deep(.form-split) {
       @apply col-span-6 md:col-span-3;

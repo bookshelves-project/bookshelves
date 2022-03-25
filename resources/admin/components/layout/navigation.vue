@@ -1,3 +1,8 @@
+<script setup lang="ts">
+  import route from 'ziggy-js'
+  import { mainNav, isTitle, isLink } from '@admin/_nav'
+</script>
+
 <template>
   <div class="flex-shrink-0">
     <div class="px-2">
@@ -10,7 +15,7 @@
     </div>
   </div>
   <nav
-    class="mt-5 flex-1 flex flex-col divide-y divide-primary-800 dark:divide-primary-900 overflow-y-auto"
+    class="mt-5 flex-1 flex flex-col divide-y divide-primary-800 dark:divide-primary-900"
     aria-label="Sidebar"
   >
     <div class="px-2 space-y-1">
@@ -23,7 +28,7 @@
           :rel="item.external ? 'noopener noreferrer' : ''"
           :class="
             item.active()
-              ? 'bg-primary-800 text-white'
+              ? 'bg-primary-800 dark:bg-primary-700 text-white'
               : 'text-primary-100 hover:text-white hover:bg-primary-600'
           "
           class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md"
@@ -76,12 +81,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-  import route from 'ziggy-js'
-  import { mainNav, isTitle, isLink } from '@admin/_nav'
-  import { BeakerIcon } from '@heroicons/vue/outline'
-</script>
 
 <style lang="css" scoped>
   .link {

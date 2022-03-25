@@ -34,6 +34,12 @@ return [
         'description' => 'Description',
         'language' => 'Language',
         'role' => 'Role',
+        'status' => 'Status',
+        'summary' => 'Summary',
+        'published_at' => 'Published at',
+        'meta_title' => 'Meta title',
+        'meta_description' => 'Meta description',
+        'body' => 'Body',
     ],
     'actions' => [
         'list' => 'List',

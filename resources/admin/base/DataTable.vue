@@ -39,21 +39,21 @@
     <div class="mt-8 flex flex-col">
       <div class="min-w-full py-2 align-middle">
         <div
-          class="relative overflow-auto shadow scrollbar-thin scrollbar-thumb-primary-200 scrollbar-track-gray-100 ring-1 ring-black ring-opacity-5 md:rounded-lg"
+          class="relative overflow-auto shadow scrollbar-thin scrollbar-thumb-primary-200 scrollbar-track-gray-100 dark:scrollbar-thumb-primary-800 dark:scrollbar-track-gray-800 ring-1 ring-black ring-opacity-5 md:rounded-lg"
         >
           <table
             class="min-w-full table-fixed divide-y divide-gray-300 dark:divide-gray-700"
           >
-            <thead>
+            <thead class="dark:border-gray-800">
               <tr>
                 <th
                   v-if="!!$slots['bulk-actions']"
-                  class="px-4 pt-6 pb-4 border-b text-center"
+                  class="px-4 pt-6 pb-4 border-b text-center bg-gray-50 dark:bg-gray-800"
                 >
                   <input
                     :checked="selectAll"
                     type="checkbox"
-                    class="w-5 h-5"
+                    class="w-5 h-5 dark:bg-gray-600"
                     @change="onSelectAll"
                   />
                 </th>
@@ -75,7 +75,7 @@
                   <div
                     v-if="column.sortable"
                     type="button"
-                    class="inline-flex items-center font-semibold hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-75 p-2 rounded-md whitespace-nowrap"
+                    class="inline-flex items-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-75 p-2 rounded-md whitespace-nowrap"
                     :class="{
                       'underline underline-offset-4': column.sortable,
                     }"

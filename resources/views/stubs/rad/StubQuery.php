@@ -17,8 +17,7 @@ class StubQuery extends BaseQuery
     public function make(?QueryOption $option = null): self
     {
         if (! $option) {
-            $option = new QueryOption();
-            $option->resource = StubResource::class;
+            $option = new QueryOption(resource: StubResource::class);
         }
 
         $this->option = $option;

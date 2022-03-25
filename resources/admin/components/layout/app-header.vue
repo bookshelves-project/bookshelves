@@ -46,7 +46,7 @@
                   alt=""
                 /> -->
               <span
-                class="hidden ml-3 text-gray-700 text-base font-medium lg:block"
+                class="hidden ml-3 text-gray-700 dark:text-gray-400 text-base font-medium lg:block"
                 ><span class="sr-only">Open user menu for </span
                 >{{ $page.props.auth.name }}</span
               >
@@ -65,21 +65,21 @@
             leave-to-class="transform opacity-0 scale-95"
           >
             <MenuItems
-              class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 focus:outline-none"
+              class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 focus:outline-none bg-white dark:bg-gray-800"
             >
               <MenuItem v-slot="{ active }">
                 <inertia-link
                   :href="route('admin.profile.show')"
                   :class="[
-                    active ? 'bg-gray-100 dark:bg-gray-800' : '',
-                    'block px-4 py-2 text-base text-gray-700',
+                    active ? 'bg-gray-100 dark:bg-gray-700' : '',
+                    'block px-4 py-2 text-base text-gray-700 dark:text-gray-300',
                   ]"
                   >{{ $t('Profile') }}</inertia-link
                 >
               </MenuItem>
               <MenuItem v-if="$page.props.auth.is_impersonating">
                 <button
-                  :class="'block px-4 py-2 text-base text-gray-700'"
+                  :class="'block px-4 py-2 text-base text-gray-700 dark:text-gray-300'"
                   @click="stopImpersonate"
                 >
                   {{ $t('Stop impersonate') }}
@@ -87,7 +87,7 @@
               </MenuItem>
               <MenuItem>
                 <button
-                  :class="'block px-4 py-2 text-base text-gray-700 w-full text-left hover:bg-gray-100 dark:hover:dark:bg-gray-800'"
+                  :class="'block px-4 py-2 text-base text-gray-700 w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300'"
                   @click="logout"
                 >
                   {{ $t('Log Out') }}

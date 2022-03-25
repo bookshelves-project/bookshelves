@@ -3,7 +3,7 @@
   <flatpickr-input-wrapper
     v-bind="$attrs"
     :id="id"
-    class="block w-full dark:bg-gray-800 dark:border-gray-600"
+    class="block w-full dark:bg-gray-700 dark:border-gray-600"
     :class="{ 'form-invalid': hasError }"
     :options="config"
     :model-value="formValue"

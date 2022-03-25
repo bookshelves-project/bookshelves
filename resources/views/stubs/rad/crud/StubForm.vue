@@ -1,16 +1,15 @@
 <template>
   <base-form ref="form" v-slot="{ processing }" :method="method" :url="url">
-    <div class="flex flex-col xl:flex-row gap-6">
-      <div class="xl:w-3/4 px-4 py-5 sm:p-6 shadow sm:rounded-md">
-        <div>
+    <div class="form-grid">
+      <card-content>
+        <div class="form-split">
           <text-input source="stubAttr" type="text" />
         </div>
-      </div>
-
-      <div class="xl:flex-1">
-        <div class="flex flex-col gap-4 px-4 py-5 sm:p-6 shadow sm:rounded-md">
-          <!-- option 1  -->
+      </card-content>
+      <card-side>
+        <div class="flex form-full mt-auto">
           <base-button
+            class="ml-auto"
             type="button"
             variant="success"
             :loading="processing"
@@ -19,13 +18,7 @@
             {{ $t('Save') }}
           </base-button>
         </div>
-        <div class="px-4 py-5 sm:p-6 shadow sm:rounded-md mt-6">
-          <!-- option 2  -->
-        </div>
-        <div class="px-4 py-5 sm:p-6 shadow sm:rounded-md mt-6">
-          <!-- option 3  -->
-        </div>
-      </div>
+      </card-side>
     </div>
   </base-form>
 </template>

@@ -62,7 +62,7 @@
     }
   }
   .badge-link {
-    @apply block hover:bg-gray-200 p-2 transition-all duration-75 underline underline-offset-2 underline-gray-500;
+    @apply block hover:bg-gray-200 dark:hover:bg-gray-700 p-2 transition-all duration-75 underline underline-offset-2 underline-gray-500;
     & span {
       @apply;
     }

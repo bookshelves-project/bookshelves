@@ -1,60 +1,4 @@
-<template>
-  <div v-if="pages > 1">
-    <div class="flex flex-wrap justify-center -mb-1">
-      <button
-        type="button"
-        class="link"
-        :disabled="currentPage === 1"
-        @click="changePage(1)"
-      >
-        <chevron-double-left-icon />
-      </button>
-      <button
-        type="button"
-        class="link"
-        :disabled="currentPage === 1"
-        @click="changePage(currentPage - 1)"
-      >
-        <chevron-left-icon />
-      </button>
-      <button v-if="showFirstDots" type="button" class="link" disabled>
-        ...
-      </button>
-      <button
-        v-for="(page, i) in links"
-        :key="i"
-        type="button"
-        class="link"
-        :disabled="page === currentPage"
-        :class="{ active: page === currentPage }"
-        @click="changePage(page)"
-      >
-        {{ page }}
-      </button>
-      <button v-if="showLastDots" type="button" class="link" disabled>
-        ...
-      </button>
-      <button
-        type="button"
-        class="link"
-        :disabled="currentPage === pages"
-        @click="changePage(currentPage + 1)"
-      >
-        <chevron-right-icon />
-      </button>
-      <button
-        type="button"
-        class="link"
-        :disabled="currentPage === pages"
-        @click="changePage(pages)"
-      >
-        <chevron-double-right-icon />
-      </button>
-    </div>
-  </div>
-</template>
-
-<script lang="ts" setup>
+<script setup lang="ts">
   import { computed } from 'vue'
 
   const props = defineProps({
@@ -159,9 +103,65 @@
   }
 </script>
 
+<template>
+  <div v-if="pages > 1">
+    <div class="flex flex-wrap justify-center -mb-1">
+      <button
+        type="button"
+        class="link"
+        :disabled="currentPage === 1"
+        @click="changePage(1)"
+      >
+        <chevron-double-left-icon />
+      </button>
+      <button
+        type="button"
+        class="link"
+        :disabled="currentPage === 1"
+        @click="changePage(currentPage - 1)"
+      >
+        <chevron-left-icon />
+      </button>
+      <button v-if="showFirstDots" type="button" class="link" disabled>
+        ...
+      </button>
+      <button
+        v-for="(page, i) in links"
+        :key="i"
+        type="button"
+        class="link"
+        :disabled="page === currentPage"
+        :class="{ active: page === currentPage }"
+        @click="changePage(page)"
+      >
+        {{ page }}
+      </button>
+      <button v-if="showLastDots" type="button" class="link" disabled>
+        ...
+      </button>
+      <button
+        type="button"
+        class="link"
+        :disabled="currentPage === pages"
+        @click="changePage(currentPage + 1)"
+      >
+        <chevron-right-icon />
+      </button>
+      <button
+        type="button"
+        class="link"
+        :disabled="currentPage === pages"
+        @click="changePage(pages)"
+      >
+        <chevron-double-right-icon />
+      </button>
+    </div>
+  </div>
+</template>
+
 <style lang="css" scoped>
   .link {
-    @apply mr-1 mb-1 relative inline-flex items-center px-4 py-2  text-base font-medium rounded-md text-gray-700  hover:bg-gray-300 transition-colors duration-75;
+    @apply mr-1 mb-1 relative inline-flex items-center px-4 py-2  text-base font-medium rounded-md text-gray-700 hover:bg-gray-300 transition-colors duration-75 dark:text-gray-300 dark:hover:bg-gray-600 dark:bg-gray-800;
 
     svg {
       @apply h-3 w-3;
@@ -180,7 +180,7 @@
     } */
 
     &.active {
-      @apply bg-gray-200 text-black;
+      @apply bg-gray-200 text-black dark:bg-gray-700 dark:text-white;
     }
   }
 </style>

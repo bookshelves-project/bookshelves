@@ -33,7 +33,7 @@ const mainNav: (NavLink | NavTitle)[] = [
     icon: HomeIcon,
     text: __('Dashboard'),
   },
-  { title: __('Content Managment') },
+  { title: __('Entities') },
   {
     href: route('admin.books'),
     active: () =>
@@ -54,13 +54,6 @@ const mainNav: (NavLink | NavTitle)[] = [
       route().current('admin.authors') || route().current('admin.authors.*'),
     icon: UserIcon,
     text: __('Authors'),
-  },
-  {
-    href: route('admin.posts'),
-    active: () =>
-      route().current('admin.posts') || route().current('admin.posts.*'),
-    icon: NewspaperIcon,
-    text: __('Posts'),
   },
   {
     href: route('admin.tags'),
@@ -85,6 +78,14 @@ const mainNav: (NavLink | NavTitle)[] = [
     icon: PrinterIcon,
     text: __('Publishers'),
   },
+  { title: __('Posts') },
+  {
+    href: route('admin.posts'),
+    active: () =>
+      route().current('admin.posts') || route().current('admin.posts.*'),
+    icon: NewspaperIcon,
+    text: __('Posts'),
+  },
   {
     href: route('admin.pages'),
     active: () =>
@@ -92,7 +93,7 @@ const mainNav: (NavLink | NavTitle)[] = [
     icon: TemplateIcon,
     text: __('Pages'),
   },
-  { title: __('Access Managment') },
+  { title: __('Settings') },
   {
     href: route('admin.users'),
     active: () =>
@@ -100,7 +101,6 @@ const mainNav: (NavLink | NavTitle)[] = [
     icon: UsersIcon,
     text: __('Users'),
   },
-  { title: __('Misc') },
   {
     href: route('admin.submissions'),
     active: () =>

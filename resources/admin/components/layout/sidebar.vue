@@ -26,7 +26,7 @@
         leave-to="-translate-x-full"
       >
         <div
-          class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-primary-700 dark:bg-purple-800"
+          class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-primary-700 dark:bg-purple-800 overflow-y-auto overflow-y-auto scrollbar-thin scrollbar-thumb-primary-600 scrollbar-track-primary-700"
         >
           <TransitionChild
             as="template"
@@ -37,7 +37,7 @@
             leave-from="opacity-100"
             leave-to="opacity-0"
           >
-            <div class="absolute top-0 right-0 -mr-12 pt-2">
+            <div class="absolute top-0 right-0 lg:-mr-12 pt-2">
               <button
                 type="button"
                 class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"

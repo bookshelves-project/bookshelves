@@ -9,7 +9,7 @@
 
       <input
         type="checkbox"
-        class="absolute left-4 top-1/2 -mt-2 h-5 w-5 rounded border-gray-300 dark:border-gray-700 text-primary-600 focus:ring-primary-500 sm:left-6"
+        class="absolute left-4 top-1/2 -mt-2 h-5 w-5 rounded border-gray-300 dark:border-gray-700 dark:bg-gray-600 text-primary-600 focus:ring-primary-500 sm:left-6"
         :checked="modelValue"
         @change="change"
         @click.stop

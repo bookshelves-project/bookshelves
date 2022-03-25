@@ -116,7 +116,7 @@
       }
 
       &.btn-invisible {
-        @apply hover:bg-primary-200 focus:border-primary-300 focus:ring-primary-200 active:bg-primary-300 text-gray-800 shadow-sm;
+        @apply hover:bg-primary-200 focus:border-primary-300 focus:ring-primary-200 active:bg-primary-300 text-gray-800 shadow-sm dark:text-gray-300 dark:hover:bg-gray-700;
       }
     }
 
