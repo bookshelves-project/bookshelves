@@ -17,17 +17,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { Publisher } from '@admin/types'
-  import { PropType } from 'vue'
-  import route from 'ziggy-js'
+import { Publisher } from '@admin/types'
+import { PropType } from 'vue'
+import route from 'ziggy-js'
 
-  const props = defineProps({
-    publisher: {
-      type: Object as PropType<Publisher>,
-      required: true,
-    },
-  })
+const props = defineProps({
+  publisher: {
+    type: Object as PropType<Publisher>,
+    required: true,
+  },
+})
 
-  const method = 'put'
-  const url = route('admin.publishers.update', { id: props.publisher.id })
+const method = 'put'
+const url = route('admin.publishers.update', { id: props.publisher.id })
 </script>

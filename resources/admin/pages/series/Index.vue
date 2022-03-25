@@ -30,82 +30,82 @@
 </template>
 
 <script lang="ts" setup>
-  import { PaginatedData, Serie } from '@admin/types'
-  import { Column } from '@admin/types/data-table'
-  import { PropType } from 'vue'
+import { PaginatedData, Serie } from '@admin/types'
+import { Column } from '@admin/types/data-table'
+import { PropType } from 'vue'
 
-  defineProps({
-    series: {
-      type: Object as PropType<PaginatedData<Serie>>,
-      required: true,
-    },
-    sort: String,
-    filter: Object,
-  })
+defineProps({
+  series: {
+    type: Object as PropType<PaginatedData<Serie>>,
+    required: true,
+  },
+  sort: String,
+  filter: Object,
+})
 
-  const columns: (string | Column)[] = [
-    'row-action',
-    {
-      field: 'id',
-      width: 40,
-      centered: true,
-      numeric: true,
-      sortable: true,
-      main: true,
+const columns: (string | Column)[] = [
+  'row-action',
+  {
+    field: 'id',
+    width: 40,
+    centered: true,
+    numeric: true,
+    sortable: true,
+    main: true,
+  },
+  {
+    field: 'cover',
+    type: 'image',
+    props: {
+      preview: 'url',
+      original: 'url',
+      canPreview: true,
     },
-    {
-      field: 'cover',
-      type: 'image',
-      props: {
-        preview: 'url',
-        original: 'url',
-        canPreview: true,
-      },
-      main: true,
+    main: true,
+  },
+  {
+    field: 'title',
+    sortable: true,
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'authors',
+    type: 'reference',
+    props: {
+      text: 'name',
+      resource: 'authors',
+      link: 'show',
     },
-    {
-      field: 'title',
-      sortable: true,
-      searchable: true,
-      main: true,
+    sortable: true,
+    filterType: 'text',
+    searchable: true,
+  },
+  {
+    field: 'books_count',
+    centered: true,
+    sortable: true,
+  },
+  {
+    field: 'tags_count',
+    centered: true,
+    sortable: true,
+  },
+  {
+    field: 'language',
+    type: 'reference',
+    props: {
+      text: 'name',
+      resource: 'languages',
     },
-    {
-      field: 'authors',
-      type: 'reference',
-      props: {
-        text: 'name',
-        resource: 'authors',
-        link: 'show',
-      },
-      sortable: true,
-      filterType: 'text',
-      searchable: true,
-    },
-    {
-      field: 'books_count',
-      centered: true,
-      sortable: true,
-    },
-    {
-      field: 'tags_count',
-      centered: true,
-      sortable: true,
-    },
-    {
-      field: 'language',
-      type: 'reference',
-      props: {
-        text: 'name',
-        resource: 'languages',
-      },
-      sortable: true,
-      searchable: true,
-    },
-    {
-      field: 'updated_at',
-      type: 'date',
-      sortable: true,
-      centered: true,
-    },
-  ]
+    sortable: true,
+    searchable: true,
+  },
+  {
+    field: 'updated_at',
+    type: 'date',
+    sortable: true,
+    centered: true,
+  },
+]
 </script>

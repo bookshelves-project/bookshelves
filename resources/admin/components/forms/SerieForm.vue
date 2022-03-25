@@ -79,24 +79,24 @@
 </template>
 
 <script lang="ts" setup>
-  import { Ref, ref } from 'vue'
+import { Ref, ref } from 'vue'
 
-  defineProps({
-    method: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-  })
+defineProps({
+  method: {
+    type: String,
+    required: true,
+  },
+  url: {
+    type: String,
+    required: true,
+  },
+})
 
-  const form: Ref<HTMLElement | null | any> = ref(null)
+const form: Ref<HTMLElement | null | any> = ref(null)
 
-  const submit = () => {
-    if (form.value) {
-      form.value.submit()
-    }
+const submit = () => {
+  if (form.value) {
+    form.value.submit()
   }
+}
 </script>

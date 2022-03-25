@@ -8,38 +8,38 @@
 </template>
 
 <script lang="ts" setup>
-  import { usePage } from '@inertiajs/inertia-vue3'
-  import { computed } from 'vue'
-  import { enumVariants } from '@admin/types/enums'
+import { usePage } from '@inertiajs/inertia-vue3'
+import { computed } from 'vue'
+import { enumVariants } from '@admin/types/enums'
 
-  const props = defineProps({
-    value: {
-      type: String,
-      required: true,
-    },
-    choices: {
-      type: [String, Array],
-      required: true,
-    },
-  })
+const props = defineProps({
+  value: {
+    type: String,
+    required: true,
+  },
+  choices: {
+    type: [String, Array],
+    required: true,
+  },
+})
 
-  const label = computed(() => {
-    let options = props.choices
+const label = computed(() => {
+  let options = props.choices
 
-    if (typeof options === 'string') {
-      options = (usePage().props.value.enums as any)[props.choices as string]
-    }
-    return (options as any)[props.value]
-  })
+  if (typeof options === 'string') {
+    options = (usePage().props.value.enums as any)[props.choices as string]
+  }
+  return (options as any)[props.value]
+})
 
-  const variant = computed(() => {
-    if (typeof props.choices !== 'string') return null
+const variant = computed(() => {
+  if (typeof props.choices !== 'string') return null
 
-    const variant = (enumVariants as any)[props.choices]
+  const variant = (enumVariants as any)[props.choices]
 
-    if (variant) {
-      return variant[props.value]
-    }
-    return null
-  })
+  if (variant) {
+    return variant[props.value]
+  }
+  return null
+})
 </script>

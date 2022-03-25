@@ -16,17 +16,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { PropType } from 'vue'
-  import { Media } from '@admin/types'
+import { PropType } from 'vue'
+import { Media } from '@admin/types'
 
-  defineProps({
-    value: {
-      type: [String, Object] as
-        | PropType<Media[]>
-        | PropType<{
-            [uuid: string]: Media
-          }>,
-      required: true,
-    },
-  })
+defineProps({
+  value: {
+    type: [String, Object] as
+      | PropType<Media[]>
+      | PropType<{
+          [uuid: string]: Media
+        }>,
+    required: true,
+  },
+})
 </script>

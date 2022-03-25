@@ -40,12 +40,12 @@
 </template>
 
 <script lang="ts" setup>
-  import { useTitle } from '@admin/features/helpers'
+import { useTitle } from '@admin/features/helpers'
 
-  defineProps({
-    token: String,
-    email: String,
-  })
+defineProps({
+  token: String,
+  email: String,
+})
 
-  useTitle('Reset Password')
+useTitle('Reset Password')
 </script>

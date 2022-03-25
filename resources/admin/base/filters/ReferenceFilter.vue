@@ -8,25 +8,25 @@
 </template>
 
 <script lang="ts" setup>
-  import { referenceSetup } from '@admin/composables/reference'
-  import {} from 'vue'
+import { referenceSetup } from '@admin/composables/reference'
+import {} from 'vue'
 
-  const props = defineProps({
-    modelValue: String,
-    resource: {
-      type: String,
-      required: true,
-    },
-    optionText: {
-      type: String,
-      default: 'name',
-    },
-    optionValue: {
-      type: String,
-      default: 'id',
-    },
-  })
+const props = defineProps({
+  modelValue: String,
+  resource: {
+    type: String,
+    required: true,
+  },
+  optionText: {
+    type: String,
+    default: 'name',
+  },
+  optionValue: {
+    type: String,
+    default: 'id',
+  },
+})
 
-  const emit = defineEmits(['update:modelValue'])
-  const { value, choices } = referenceSetup(props, emit)
+const emit = defineEmits(['update:modelValue'])
+const { value, choices } = referenceSetup(props, emit)
 </script>

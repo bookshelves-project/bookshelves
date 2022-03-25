@@ -22,22 +22,22 @@
 </template>
 
 <script lang="ts" setup>
-  import { choicesProps, choicesSetup } from '@admin/composables/choices'
+import { choicesProps, choicesSetup } from '@admin/composables/choices'
 
-  const props = defineProps({
-    ...choicesProps,
-    modelValue: String,
-    stacked: Boolean,
-  })
+const props = defineProps({
+  ...choicesProps,
+  modelValue: String,
+  stacked: Boolean,
+})
 
-  const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
-  const { getLabel, formValue, getError, getName, getChoices } = choicesSetup(
-    props,
-    emit
-  )
+const { getLabel, formValue, getError, getName, getChoices } = choicesSetup(
+  props,
+  emit
+)
 
-  const onInput = (e: Event) => {
-    formValue.value = (e.target as HTMLInputElement).value
-  }
+const onInput = (e: Event) => {
+  formValue.value = (e.target as HTMLInputElement).value
+}
 </script>

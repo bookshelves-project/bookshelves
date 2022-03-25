@@ -49,27 +49,27 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
-  const props = defineProps({
-    modelValue: Boolean,
-    label: {
-      type: String,
-      default: null,
-    },
-  })
+const props = defineProps({
+  modelValue: Boolean,
+  label: {
+    type: String,
+    default: null,
+  },
+})
 
-  const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
-  const toggled = ref(false)
-  const toggle = () => {
-    toggled.value = !toggled.value
-    emit('update:modelValue', toggled.value)
+const toggled = ref(false)
+const toggle = () => {
+  toggled.value = !toggled.value
+  emit('update:modelValue', toggled.value)
+}
+
+onMounted(() => {
+  if (props.modelValue) {
+    toggled.value = props.modelValue
   }
-
-  onMounted(() => {
-    if (props.modelValue) {
-      toggled.value = props.modelValue
-    }
-  })
+})
 </script>

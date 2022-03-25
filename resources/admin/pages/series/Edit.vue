@@ -17,17 +17,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { Serie } from '@admin/types'
-  import { PropType } from 'vue'
-  import route from 'ziggy-js'
+import { Serie } from '@admin/types'
+import { PropType } from 'vue'
+import route from 'ziggy-js'
 
-  const props = defineProps({
-    serie: {
-      type: Object as PropType<Serie>,
-      required: true,
-    },
-  })
+const props = defineProps({
+  serie: {
+    type: Object as PropType<Serie>,
+    required: true,
+  },
+})
 
-  const method = 'put'
-  const url = route('admin.series.update', { id: props.serie.id })
+const method = 'put'
+const url = route('admin.series.update', { id: props.serie.id })
 </script>

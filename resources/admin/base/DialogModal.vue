@@ -30,32 +30,32 @@
 </template>
 
 <script lang="ts" setup>
-  import {} from 'vue'
+import {} from 'vue'
 
-  defineProps({
-    method: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-    options: Object,
-    data: Object,
-    show: {
-      type: Boolean,
-      default: false,
-    },
-    maxWidth: {
-      type: String,
-      default: '2xl',
-    },
-    closeable: {
-      type: Boolean,
-      default: true,
-    },
-  })
+defineProps({
+  method: {
+    type: String,
+    required: true,
+  },
+  url: {
+    type: String,
+    required: true,
+  },
+  options: Object,
+  data: Object,
+  show: {
+    type: Boolean,
+    default: false,
+  },
+  maxWidth: {
+    type: String,
+    default: '2xl',
+  },
+  closeable: {
+    type: Boolean,
+    default: true,
+  },
+})
 
-  defineEmits(['close'])
+defineEmits(['close'])
 </script>

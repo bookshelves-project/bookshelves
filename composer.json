@@ -31,6 +31,7 @@
     "require": {
         "php": "^8.0.2",
         "artesaos/seotools": "^0.22.0",
+        "barryvdh/laravel-elfinder": "^0.5.1",
         "fruitcake/laravel-cors": "^3.0",
         "genl/matice": "^1.1",
         "guzzlehttp/guzzle": "^7.4",

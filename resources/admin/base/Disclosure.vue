@@ -68,44 +68,37 @@
 </template>
 
 <script lang="ts" setup>
-  import {
-    Disclosure,
-    DisclosureButton,
-    DisclosurePanel,
-  } from '@headlessui/vue'
-  import { PropType, computed } from 'vue'
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
+import { PropType, computed } from 'vue'
 
-  const props = defineProps({
-    modelValue: Array as PropType<{ [key: string]: string }[]>,
-    label: String,
-    group: String,
-    itemText: String,
-    itemKey: {
-      type: String,
-      default: 'id',
-    },
-    editable: Boolean,
-    newItem: Object,
-  })
+const props = defineProps({
+  modelValue: Array as PropType<{ [key: string]: string }[]>,
+  label: String,
+  group: String,
+  itemText: String,
+  itemKey: {
+    type: String,
+    default: 'id',
+  },
+  editable: Boolean,
+  newItem: Object,
+})
 
-  const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
-  const deletePanel = (index: number) => {
-    emit(
-      'update:modelValue',
-      (props.modelValue || []).filter((v, i) => i !== index)
-    )
-  }
+const deletePanel = (index: number) => {
+  emit(
+    'update:modelValue',
+    (props.modelValue || []).filter((v, i) => i !== index)
+  )
+}
 
-  const addPanel = () => {
-    emit('update:modelValue', [
-      ...(props.modelValue || []),
-      { ...props.newItem },
-    ])
-  }
+const addPanel = () => {
+  emit('update:modelValue', [...(props.modelValue || []), { ...props.newItem }])
+}
 
-  const items = computed({
-    get: () => props.modelValue || [],
-    set: (val) => emit('update:modelValue', val),
-  })
+const items = computed({
+  get: () => props.modelValue || [],
+  set: (val) => emit('update:modelValue', val),
+})
 </script>

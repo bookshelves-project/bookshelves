@@ -17,17 +17,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { Language } from '@admin/types'
-  import { PropType } from 'vue'
-  import route from 'ziggy-js'
+import { Language } from '@admin/types'
+import { PropType } from 'vue'
+import route from 'ziggy-js'
 
-  const props = defineProps({
-    language: {
-      type: Object as PropType<Language>,
-      required: true,
-    },
-  })
+const props = defineProps({
+  language: {
+    type: Object as PropType<Language>,
+    required: true,
+  },
+})
 
-  const method = 'put'
-  const url = route('admin.languages.update', { id: props.language.id })
+const method = 'put'
+const url = route('admin.languages.update', { id: props.language.id })
 </script>

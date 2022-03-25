@@ -40,6 +40,7 @@ return [
         'meta_title' => 'Meta title',
         'meta_description' => 'Meta description',
         'body' => 'Body',
+        'featured_image' => 'Image',
     ],
     'actions' => [
         'list' => 'List',

@@ -34,30 +34,30 @@
 </template>
 
 <script setup lang="ts">
-  import { getAppName, getProps } from '@admin/features/helpers'
-  import route from 'ziggy-js'
-  import Git from '@admin/svg/git.svg'
-  import Api from '@admin/svg/api.svg'
-  import Wiki from '@admin/svg/wiki.svg'
+import { getAppName, getProps } from '@admin/features/helpers'
+import route from 'ziggy-js'
+import Git from '@admin/svg/git.svg'
+import Api from '@admin/svg/api.svg'
+import Wiki from '@admin/svg/wiki.svg'
 
-  const title = getAppName()
-  const props = getProps()
+const title = getAppName()
+const props = getProps()
 
-  const navigation = [
-    {
-      name: 'Documentation',
-      href: props.documentationUrl,
-      icon: Wiki,
-    },
-    {
-      name: 'API Documentation',
-      href: route('scribe'),
-      icon: Api,
-    },
-    {
-      name: 'Git',
-      href: props.repositoryUrl,
-      icon: Git,
-    },
-  ]
+const navigation = [
+  {
+    name: 'Documentation',
+    href: props.documentationUrl,
+    icon: Wiki,
+  },
+  {
+    name: 'API Documentation',
+    href: route('scribe'),
+    icon: Api,
+  },
+  {
+    name: 'Git',
+    href: props.repositoryUrl,
+    icon: Git,
+  },
+]
 </script>

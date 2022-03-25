@@ -13,30 +13,30 @@
 </template>
 
 <script lang="ts" setup>
-  import { Model } from '@admin/types'
-  import trimStart from 'lodash/trimStart'
-  import get from 'lodash/get'
-  import { computed, inject } from 'vue'
-  import qs from 'qs'
+import { Model } from '@admin/types'
+import trimStart from 'lodash/trimStart'
+import get from 'lodash/get'
+import { computed, inject } from 'vue'
+import qs from 'qs'
 
-  const props = defineProps({
-    only: Array,
-    hideLabel: Boolean,
-    path: {
-      type: String,
-      required: true,
-    },
-    query: Object,
-  })
+const props = defineProps({
+  only: Array,
+  hideLabel: Boolean,
+  path: {
+    type: String,
+    required: true,
+  },
+  query: Object,
+})
 
-  const item = inject<Model>('item')
+const item = inject<Model>('item')
 
-  const getPath = computed(() => {
-    let url = `/${trimStart(get(item, props.path), '/')}`
+const getPath = computed(() => {
+  let url = `/${trimStart(get(item, props.path), '/')}`
 
-    if (props.query) {
-      url += `?${qs.stringify(props.query)}`
-    }
-    return url
-  })
+  if (props.query) {
+    url += `?${qs.stringify(props.query)}`
+  }
+  return url
+})
 </script>

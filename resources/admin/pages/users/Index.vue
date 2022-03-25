@@ -45,90 +45,90 @@
 </template>
 
 <script lang="ts" setup>
-  import { PropType } from 'vue'
-  import { PaginatedData, User } from '@admin/types'
-  import { Column } from '@admin/types/data-table'
+import { PropType } from 'vue'
+import { PaginatedData, User } from '@admin/types'
+import { Column } from '@admin/types/data-table'
 
-  defineProps({
-    action: String,
-    users: {
-      type: Object as PropType<PaginatedData<User>>,
-      required: true,
-    },
-    user: Object as PropType<User>,
-    sort: String,
-    filter: Object,
-  })
+defineProps({
+  action: String,
+  users: {
+    type: Object as PropType<PaginatedData<User>>,
+    required: true,
+  },
+  user: Object as PropType<User>,
+  sort: String,
+  filter: Object,
+})
 
-  const columns: (string | Column)[] = [
-    'row-action',
-    {
-      field: 'id',
-      width: 40,
-      centered: true,
-      numeric: true,
-      sortable: true,
-      main: true,
+const columns: (string | Column)[] = [
+  'row-action',
+  {
+    field: 'id',
+    width: 40,
+    centered: true,
+    numeric: true,
+    sortable: true,
+    main: true,
+  },
+  {
+    field: 'avatar',
+    type: 'image',
+    props: {
+      preview: 'url',
+      original: 'url',
+      canPreview: true,
     },
-    {
-      field: 'avatar',
-      type: 'image',
-      props: {
-        preview: 'url',
-        original: 'url',
-        canPreview: true,
-      },
-    },
-    {
-      field: 'name',
-      sortable: true,
-      searchable: true,
-      main: true,
-    },
-    {
-      field: 'email',
-      searchable: true,
-      type: 'email',
-    },
-    {
-      field: 'active',
-      type: 'switch',
-      searchable: true,
-      main: true,
-    },
-    {
-      field: 'role',
-      type: 'select',
-      props: { choices: 'roles' },
-      searchable: true,
-      main: true,
-    },
-    {
-      field: 'last_login_at',
-      type: 'date',
-      props: { format: 'dd/MM/yyyy HH:mm:ss' },
-      sortable: true,
-      centered: true,
-    },
-    {
-      field: 'created_at',
-      type: 'date',
-      sortable: true,
-      centered: true,
-    },
-    {
-      field: 'updated_at',
-      type: 'date',
-      sortable: true,
-      centered: true,
-    },
-  ]
+  },
+  {
+    field: 'name',
+    sortable: true,
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'email',
+    searchable: true,
+    type: 'email',
+  },
+  {
+    field: 'active',
+    type: 'switch',
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'role',
+    type: 'select',
+    props: { choices: 'roles' },
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'last_login_at',
+    type: 'date',
+    props: { format: 'dd/MM/yyyy HH:mm:ss' },
+    sortable: true,
+    centered: true,
+  },
+  {
+    field: 'created_at',
+    type: 'date',
+    sortable: true,
+    centered: true,
+  },
+  {
+    field: 'updated_at',
+    type: 'date',
+    sortable: true,
+    centered: true,
+  },
+]
 
-  const canBeUpdated = (item) => {
-    return (item as User).can_be_updated
-  }
+const canBeUpdated = (item) => {
+  return (item as User).can_be_updated
+}
 
-  const canBeImpersonated = (item) => {
-    return (item as User).can_be_impersonated
-  }
+const canBeImpersonated = (item) => {
+  return (item as User).can_be_impersonated
+}
 </script>

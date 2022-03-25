@@ -22,28 +22,28 @@
 </template>
 
 <script lang="ts" setup>
-  import { choicesProps, choicesSetup } from '@admin/composables/choices'
+import { choicesProps, choicesSetup } from '@admin/composables/choices'
 
-  const props = defineProps({
-    ...choicesProps,
-    modelValue: Array,
-    stacked: Boolean,
-  })
+const props = defineProps({
+  ...choicesProps,
+  modelValue: Array,
+  stacked: Boolean,
+})
 
-  const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
-  const { getLabel, getChoices, getName, formValue, getError } = choicesSetup(
-    props,
-    emit
-  )
+const { getLabel, getChoices, getName, formValue, getError } = choicesSetup(
+  props,
+  emit
+)
 
-  const onInput = (e: Event) => {
-    const { checked, value } = e.target as HTMLInputElement
+const onInput = (e: Event) => {
+  const { checked, value } = e.target as HTMLInputElement
 
-    if (checked) {
-      formValue.value = [...(formValue.value || []), value]
-    }
-
-    formValue.value = formValue.value?.filter((v) => v !== value)
+  if (checked) {
+    formValue.value = [...(formValue.value || []), value]
   }
+
+  formValue.value = formValue.value?.filter((v) => v !== value)
+}
 </script>

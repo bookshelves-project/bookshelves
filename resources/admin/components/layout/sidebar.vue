@@ -59,18 +59,18 @@
 </template>
 
 <script setup lang="ts">
-  import { useIndexStore } from '@admin/stores'
-  import {
-    Dialog,
-    DialogOverlay,
-    TransitionChild,
-    TransitionRoot,
-  } from '@headlessui/vue'
-  import { computed } from 'vue'
+import { useIndexStore } from '@admin/stores'
+import {
+  Dialog,
+  DialogOverlay,
+  TransitionChild,
+  TransitionRoot,
+} from '@headlessui/vue'
+import { computed } from 'vue'
 
-  const store = useIndexStore()
+const store = useIndexStore()
 
-  const sidebarOpen = computed(() => {
-    return store.sidebar
-  })
+const sidebarOpen = computed(() => {
+  return store.sidebar
+})
 </script>

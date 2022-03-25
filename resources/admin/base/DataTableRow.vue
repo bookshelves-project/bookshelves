@@ -52,33 +52,33 @@
 </template>
 
 <script lang="ts" setup>
-  import { PropType, provide } from 'vue'
-  import { Column } from '@admin/types/data-table'
-  import get from 'lodash/get'
+import { PropType, provide } from 'vue'
+import { Column } from '@admin/types/data-table'
+import get from 'lodash/get'
 
-  const props = defineProps({
-    modelValue: Boolean,
-    canSelect: Boolean,
-    columns: Array as PropType<Column[]>,
-    item: {
-      type: Object as PropType<{ [key: string]: any }>,
-      required: true,
-    },
-  })
+const props = defineProps({
+  modelValue: Boolean,
+  canSelect: Boolean,
+  columns: Array as PropType<Column[]>,
+  item: {
+    type: Object as PropType<{ [key: string]: any }>,
+    required: true,
+  },
+})
 
-  const emit = defineEmits(['select'])
+const emit = defineEmits(['select'])
 
-  provide('item', props.item)
+provide('item', props.item)
 
-  const getValue = (c: Column) => {
-    return get(props.item, c.source || c.field)
-  }
+const getValue = (c: Column) => {
+  return get(props.item, c.source || c.field)
+}
 
-  const hasValue = (c: Column) => {
-    return getValue(c) !== undefined && getValue(c) !== null
-  }
+const hasValue = (c: Column) => {
+  return getValue(c) !== undefined && getValue(c) !== null
+}
 
-  const change = (e: Event) => {
-    emit('select', (e.target as HTMLInputElement).checked)
-  }
+const change = (e: Event) => {
+  emit('select', (e.target as HTMLInputElement).checked)
+}
 </script>

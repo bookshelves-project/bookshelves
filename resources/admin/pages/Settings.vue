@@ -22,11 +22,11 @@
 </template>
 
 <script setup lang="ts">
-  import { useTitle } from '@admin/features/helpers'
+import { useTitle } from '@admin/features/helpers'
 
-  const title = useTitle('Settings')
+const title = useTitle('Settings')
 
-  defineProps<{
-    configuration: any
-  }>()
+defineProps<{
+  configuration: any
+}>()
 </script>

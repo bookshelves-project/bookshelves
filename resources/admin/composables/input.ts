@@ -26,8 +26,10 @@ export const inputSetup = (
 
   const getLabel = computed(() => {
     if (!props.label) {
-      return transAttribute(
-        last<string>((props.labelKey || props.source!).split('.')) || ''
+      return (
+        transAttribute(
+          last<string>((props.labelKey || props.source!).split('.')) || ''
+        ) || props.source
       )
     }
     return props.label

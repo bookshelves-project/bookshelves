@@ -11,23 +11,23 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed } from 'vue'
-  import truncate from 'lodash/truncate'
+import { computed } from 'vue'
+import truncate from 'lodash/truncate'
 
-  const props = defineProps({
-    value: {
-      type: String,
-      required: true,
-    },
-    truncate: Number,
-    link: Boolean,
-  })
+const props = defineProps({
+  value: {
+    type: String,
+    required: true,
+  },
+  truncate: Number,
+  link: Boolean,
+})
 
-  const getText = computed(() => {
-    return props.truncate
-      ? truncate(props.value, {
-          length: props.truncate,
-        })
-      : props.value
-  })
+const getText = computed(() => {
+  return props.truncate
+    ? truncate(props.value, {
+        length: props.truncate,
+      })
+    : props.value
+})
 </script>

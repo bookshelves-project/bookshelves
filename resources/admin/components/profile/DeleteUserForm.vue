@@ -76,18 +76,18 @@
 </template>
 
 <script lang="ts" setup>
-  import { Ref, ref } from 'vue'
+import { Ref, ref } from 'vue'
 
-  const password: Ref<HTMLInputElement | null> = ref(null)
-  const confirmingUserDeletion = ref(false)
+const password: Ref<HTMLInputElement | null> = ref(null)
+const confirmingUserDeletion = ref(false)
 
-  const confirmUserDeletion = () => {
-    confirmingUserDeletion.value = true
+const confirmUserDeletion = () => {
+  confirmingUserDeletion.value = true
 
-    setTimeout(() => password.value?.focus(), 250)
-  }
+  setTimeout(() => password.value?.focus(), 250)
+}
 
-  const closeModal = () => {
-    confirmingUserDeletion.value = false
-  }
+const closeModal = () => {
+  confirmingUserDeletion.value = false
+}
 </script>

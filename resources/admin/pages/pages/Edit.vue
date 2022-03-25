@@ -17,17 +17,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { PropType } from 'vue'
-  import { Page } from '@admin/types'
-  import route from 'ziggy-js'
+import { PropType } from 'vue'
+import { Page } from '@admin/types'
+import route from 'ziggy-js'
 
-  const props = defineProps({
-    page: {
-      type: Object as PropType<Page>,
-      required: true,
-    },
-  })
+const props = defineProps({
+  page: {
+    type: Object as PropType<Page>,
+    required: true,
+  },
+})
 
-  const method = 'put'
-  const url = route('admin.pages.update', { id: props.page.id })
+const method = 'post'
+const url = route('admin.pages.update', { id: props.page.id })
 </script>

@@ -67,10 +67,16 @@ class PageController extends Controller
         return redirect()->route('admin.pages')->with('flash.success', __('Page created.'));
     }
 
-    #[Put('{page}', name: 'pages.update')]
+    #[Post('{page}', name: 'pages.update')]
     public function update(Page $page, PageUpdateRequest $request)
     {
         $page->update($request->all());
+
+        if ($request->featured_image_file) {
+            $page->addMediaFromRequest('featured_image_file')
+                ->toMediaCollection('featured-image')
+            ;
+        }
 
         return redirect()->route('admin.pages')->with('flash.success', __('Page updated.'));
     }

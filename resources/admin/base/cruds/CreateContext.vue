@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { pageProps, pageSetup } from '@admin/composables/pages'
+import { pageProps, pageSetup } from '@admin/composables/pages'
 
-  const props = defineProps(pageProps)
+const props = defineProps(pageProps)
 
-  const { getTitle } = pageSetup(props, 'create', 0)
+const { getTitle } = pageSetup(props, 'create', 0)
 </script>

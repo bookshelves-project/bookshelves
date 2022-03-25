@@ -62,28 +62,28 @@
 </template>
 
 <script lang="ts" setup>
-  import { useTitle } from '@admin/features/helpers'
-  import { Book, PaginatedData, Post } from '@admin/types'
-  import { computed, PropType } from 'vue'
+import { useTitle } from '@admin/features/helpers'
+import { Book, PaginatedData, Post } from '@admin/types'
+import { computed, PropType } from 'vue'
 
-  const props = defineProps({
-    query: {
-      type: String,
-      required: true,
-    },
-    posts: {
-      type: Object as PropType<PaginatedData<Post>>,
-      required: true,
-    },
-    books: {
-      type: Object as PropType<PaginatedData<Book>>,
-      required: true,
-    },
-  })
+const props = defineProps({
+  query: {
+    type: String,
+    required: true,
+  },
+  posts: {
+    type: Object as PropType<PaginatedData<Post>>,
+    required: true,
+  },
+  books: {
+    type: Object as PropType<PaginatedData<Book>>,
+    required: true,
+  },
+})
 
-  const title = computed(() => {
-    return useTitle('Search :query', {
-      args: { query: props.query },
-    })
+const title = computed(() => {
+  return useTitle('Search :query', {
+    args: { query: props.query },
   })
+})
 </script>

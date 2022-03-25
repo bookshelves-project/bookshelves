@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { useTitle } from '@admin/features/helpers'
+import { useTitle } from '@admin/features/helpers'
 
-  useTitle('Register')
+useTitle('Register')
 </script>

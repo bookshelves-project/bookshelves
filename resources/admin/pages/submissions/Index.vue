@@ -30,48 +30,48 @@
 </template>
 
 <script lang="ts" setup>
-  import { PaginatedData, Submission } from '@admin/types'
-  import { Column } from '@admin/types/data-table'
-  import { PropType } from 'vue'
+import { PaginatedData, Submission } from '@admin/types'
+import { Column } from '@admin/types/data-table'
+import { PropType } from 'vue'
 
-  defineProps({
-    submissions: {
-      type: Object as PropType<PaginatedData<Submission>>,
-      required: true,
-    },
-    sort: String,
-    filter: Object,
-  })
+defineProps({
+  submissions: {
+    type: Object as PropType<PaginatedData<Submission>>,
+    required: true,
+  },
+  sort: String,
+  filter: Object,
+})
 
-  const columns: (string | Column)[] = [
-    'row-action',
-    {
-      field: 'id',
-      width: 40,
-      centered: true,
-      numeric: true,
-      sortable: true,
-      main: true,
-    },
-    {
-      field: 'name',
-      sortable: true,
-      searchable: true,
-      main: true,
-    },
-    {
-      field: 'email',
-      sortable: true,
-      searchable: true,
-    },
-    {
-      field: 'message',
-    },
-    {
-      field: 'created_at',
-      type: 'date',
-      sortable: true,
-      centered: true,
-    },
-  ]
+const columns: (string | Column)[] = [
+  'row-action',
+  {
+    field: 'id',
+    width: 40,
+    centered: true,
+    numeric: true,
+    sortable: true,
+    main: true,
+  },
+  {
+    field: 'name',
+    sortable: true,
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'email',
+    sortable: true,
+    searchable: true,
+  },
+  {
+    field: 'message',
+  },
+  {
+    field: 'created_at',
+    type: 'date',
+    sortable: true,
+    centered: true,
+  },
+]
 </script>

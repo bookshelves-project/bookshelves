@@ -1,6 +1,6 @@
 <template>
   <create-context v-slot="{ title }" resource="stubsKebab">
-    <app-layout>
+    <app-layout title="Create new stubPascal">
       <template #header>
         <page-header>
           <h1>{{ title }}</h1>

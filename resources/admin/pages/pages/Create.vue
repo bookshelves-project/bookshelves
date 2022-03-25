@@ -1,6 +1,6 @@
 <template>
   <create-context v-slot="{ title }" resource="pages">
-    <app-layout>
+    <app-layout title="Create new Page">
       <template #header>
         <page-header>
           <h1>{{ title }}</h1>
@@ -16,8 +16,8 @@
 </template>
 
 <script lang="ts" setup>
-  import route from 'ziggy-js'
+import route from 'ziggy-js'
 
-  const method = 'post'
-  const url = route('admin.pages.store')
+const method = 'post'
+const url = route('admin.pages.store')
 </script>

@@ -10,12 +10,12 @@
     </button>
     <!-- Search bar -->
     <div class="flex-1 px-4 flex justify-between sm:px-6 lg:px-8">
-      <div class="flex-1 flex">
+      <div class="flex-1 flex my-2">
         <form class="w-full flex md:ml-0" action="#" method="GET">
           <label for="search-field" class="sr-only">Search</label>
           <div class="relative w-full text-gray-400 focus-within:text-gray-600">
             <div
-              class="absolute inset-y-0 left-0 flex items-center pointer-events-none"
+              class="absolute inset-y-0 left-2 flex items-center pointer-events-none"
               aria-hidden="true"
             >
               <SearchIcon class="h-5 w-5" aria-hidden="true" />
@@ -26,7 +26,7 @@
               v-model="globalSearch"
               name="search-field"
               type="search"
-              class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent sm:text-base dark:bg-gray-900 dark:text-white"
+              class="block w-full h-full pl-9 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent sm:text-base dark:bg-gray-900 dark:text-white p-2 rounded-md"
               :placeholder="$t('admin.actions.search')"
             />
           </div>
@@ -101,46 +101,46 @@
   </div>
 </template>
 <script setup lang="ts">
-  import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-  import { MenuAlt1Icon } from '@heroicons/vue/outline'
-  import { ChevronDownIcon, SearchIcon } from '@heroicons/vue/solid'
-  import { useIndexStore } from '@admin/stores'
-  import route from 'ziggy-js'
-  import { onMounted, Ref, ref, watch } from 'vue'
-  import { Inertia } from '@inertiajs/inertia'
-  import { usePage } from '@inertiajs/inertia-vue3'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { MenuAlt1Icon } from '@heroicons/vue/outline'
+import { ChevronDownIcon, SearchIcon } from '@heroicons/vue/solid'
+import { useIndexStore } from '@admin/stores'
+import route from 'ziggy-js'
+import { onMounted, Ref, ref, watch } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
+import { usePage } from '@inertiajs/inertia-vue3'
 
-  const globalSearch = ref(usePage().props.value.query)
-  const globalSearchInput: Ref<HTMLInputElement | null> = ref(null)
+const globalSearch = ref(usePage().props.value.query)
+const globalSearchInput: Ref<HTMLInputElement | null> = ref(null)
 
-  const logout = () => {
-    Inertia.post(route('logout'))
+const logout = () => {
+  Inertia.post(route('logout'))
+}
+
+const stopImpersonate = () => {
+  Inertia.post(route('admin.users.stop-impersonate'))
+}
+
+watch(
+  () => globalSearch.value,
+  (val) =>
+    Inertia.get(
+      route('admin.search', { query: val }),
+      {},
+      {
+        preserveState: true,
+      }
+    )
+)
+
+onMounted(() => {
+  if (route().current('admin.search')) {
+    globalSearchInput.value?.focus()
   }
+})
 
-  const stopImpersonate = () => {
-    Inertia.post(route('admin.users.stop-impersonate'))
-  }
-
-  watch(
-    () => globalSearch.value,
-    (val) =>
-      Inertia.get(
-        route('admin.search', { query: val }),
-        {},
-        {
-          preserveState: true,
-        }
-      )
-  )
-
-  onMounted(() => {
-    if (route().current('admin.search')) {
-      globalSearchInput.value?.focus()
-    }
-  })
-
-  const sidebarOpen = () => {
-    let store = useIndexStore()
-    store.toggleSidebar()
-  }
+const sidebarOpen = () => {
+  let store = useIndexStore()
+  store.toggleSidebar()
+}
 </script>

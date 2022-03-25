@@ -39,13 +39,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { PropType } from 'vue'
-  import { Profile } from '@admin/types'
+import { PropType } from 'vue'
+import { Profile } from '@admin/types'
 
-  defineProps({
-    user: {
-      type: Object as PropType<Profile>,
-      required: true,
-    },
-  })
+defineProps({
+  user: {
+    type: Object as PropType<Profile>,
+    required: true,
+  },
+})
 </script>

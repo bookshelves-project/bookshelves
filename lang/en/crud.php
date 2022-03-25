@@ -14,7 +14,6 @@ return [
             'category' => 'Category',
             'pin' => 'Pin',
             'promote' => 'Promote',
-            'featured_image' => 'Image',
             'user' => 'Author',
             'tags' => 'Tags',
         ],

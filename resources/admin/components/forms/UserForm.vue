@@ -27,14 +27,14 @@
 </template>
 
 <script lang="ts" setup>
-  defineProps({
-    method: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-  })
+defineProps({
+  method: {
+    type: String,
+    required: true,
+  },
+  url: {
+    type: String,
+    required: true,
+  },
+})
 </script>

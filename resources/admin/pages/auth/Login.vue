@@ -73,12 +73,12 @@
 </template>
 
 <script lang="ts" setup>
-  import { useTitle } from '@admin/features/helpers'
+import { useTitle } from '@admin/features/helpers'
 
-  defineProps({
-    canRegister: Boolean,
-    status: String,
-  })
+defineProps({
+  canRegister: Boolean,
+  status: String,
+})
 
-  useTitle('Login')
+useTitle('Login')
 </script>

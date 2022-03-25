@@ -14,11 +14,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { inject } from 'vue'
+import { inject } from 'vue'
 
-  defineProps({
-    hideLabel: Boolean,
-  })
+defineProps({
+  hideLabel: Boolean,
+})
 
-  const resource = inject<string>('resource')
+const resource = inject<string>('resource')
 </script>

@@ -17,7 +17,7 @@
       >
         <div
           v-if="show && message"
-          class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
+          class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden dark:bg-gray-800"
         >
           <div class="p-4">
             <div class="flex items-start">
@@ -33,16 +33,18 @@
                 />
               </div>
               <div class="ml-3 w-0 flex-1 pt-0.5">
-                <p class="text-base font-medium text-gray-900 status">
+                <p
+                  class="text-base font-medium text-gray-900 dark:text-white status"
+                >
                   {{ style }}
                 </p>
-                <p class="mt-1 text-base text-gray-500">
+                <p class="mt-1 text-base text-gray-500 dark:text-gray-400">
                   {{ message }}
                 </p>
               </div>
               <div class="ml-4 flex-shrink-0 flex">
                 <button
-                  class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                  class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-gray-300"
                   @click="show = false"
                 >
                   <span class="sr-only">Close</span>
@@ -58,50 +60,50 @@
 </template>
 
 <script setup lang="ts">
-  import { XIcon } from '@heroicons/vue/solid'
-  import { computed, ref, watch } from 'vue'
-  import { usePage } from '@inertiajs/inertia-vue3'
+import { XIcon } from '@heroicons/vue/solid'
+import { computed, ref, watch } from 'vue'
+import { usePage } from '@inertiajs/inertia-vue3'
 
-  const flash = computed(() => {
-    return usePage().props.value.flash
-  })
+const flash = computed(() => {
+  return usePage().props.value.flash
+})
 
-  const style = computed(() => {
-    return flash.value?.danger
-      ? 'danger'
-      : flash.value?.warning
-      ? 'warning'
-      : 'success'
-  })
+const style = computed(() => {
+  return flash.value?.danger
+    ? 'danger'
+    : flash.value?.warning
+    ? 'warning'
+    : 'success'
+})
 
-  const icon = computed(() => {
-    const v: 'success' | 'warning' | 'danger' = style.value
+const icon = computed(() => {
+  const v: 'success' | 'warning' | 'danger' = style.value
 
-    return {
-      success: 'check-circle',
-      warning: 'exclamation',
-      danger: 'x-circle',
-    }[v]
-  })
+  return {
+    success: 'check-circle',
+    warning: 'exclamation',
+    danger: 'x-circle',
+  }[v]
+})
 
-  const message = computed(() => {
-    return flash.value[style.value]
-  })
+const message = computed(() => {
+  return flash.value[style.value]
+})
 
-  watch(
-    () => usePage().props.value.flash,
-    () => {
-      show.value = true
-      setTimeout(() => {
-        show.value = false
-      }, 2500)
-    }
-  )
-  const show = ref(true)
+watch(
+  () => usePage().props.value.flash,
+  () => {
+    show.value = true
+    setTimeout(() => {
+      show.value = false
+    }, 2500)
+  }
+)
+const show = ref(true)
 </script>
 
 <style lang="css" scoped>
-  .status::first-letter {
-    text-transform: capitalize;
-  }
+.status::first-letter {
+  text-transform: capitalize;
+}
 </style>

@@ -17,17 +17,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { inject } from 'vue'
-  import get from 'lodash/get'
+import { inject } from 'vue'
+import get from 'lodash/get'
 
-  const props = defineProps({
-    source: {
-      type: String,
-      required: true,
-    },
+const props = defineProps({
+  source: {
     type: String,
-  })
+    required: true,
+  },
+  type: String,
+})
 
-  const item = inject<any>('item', null)
-  const value = item ? get(item, props.source) : null
+const item = inject<any>('item', null)
+const value = item ? get(item, props.source) : null
 </script>

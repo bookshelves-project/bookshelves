@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import route from 'ziggy-js'
-  import { mainNav, isTitle, isLink } from '@admin/_nav'
+import route from 'ziggy-js'
+import { mainNav, isTitle, isLink } from '@admin/_nav'
 </script>
 
 <template>
@@ -83,10 +83,10 @@
 </template>
 
 <style lang="css" scoped>
-  .link {
-    @apply flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md;
-  }
-  .link-hover {
-    @apply text-primary-100 hover:text-white hover:bg-primary-600;
-  }
+.link {
+  @apply flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md;
+}
+.link-hover {
+  @apply text-primary-100 hover:text-white hover:bg-primary-600;
+}
 </style>

@@ -11,21 +11,21 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, inject } from 'vue'
-  import route from 'ziggy-js'
-  import qs from 'qs'
+import { computed, inject } from 'vue'
+import route from 'ziggy-js'
+import qs from 'qs'
 
-  defineProps({
-    hideLabel: Boolean,
-  })
+defineProps({
+  hideLabel: Boolean,
+})
 
-  const resource = inject<string>('resource')
-  const filter = inject<{ [key: string]: string }>('filter')
+const resource = inject<string>('resource')
+const filter = inject<{ [key: string]: string }>('filter')
 
-  const exportUrl = computed((): string => {
-    return `${route(`admin.${resource}`)}?${qs.stringify({
-      filter,
-      export: true,
-    })}`
-  })
+const exportUrl = computed((): string => {
+  return `${route(`admin.${resource}`)}?${qs.stringify({
+    filter,
+    export: true,
+  })}`
+})
 </script>

@@ -35,36 +35,36 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed } from 'vue'
+import { computed } from 'vue'
 
-  const props = defineProps({
-    value: {
-      type: [Object, Array],
-      required: true,
-    },
-    text: String,
-    resource: String,
-    link: String,
-  })
+const props = defineProps({
+  value: {
+    type: [Object, Array],
+    required: true,
+  },
+  text: String,
+  resource: String,
+  link: String,
+})
 
-  const isArray = computed(() => {
-    return props.value instanceof Array
-  })
+const isArray = computed(() => {
+  return props.value instanceof Array
+})
 </script>
 
 <style lang="css" scoped>
-  .badge {
-    & a,
-    span {
-      @apply max-w-48 whitespace-pre-wrap rounded-md;
-      word-wrap: break-word;
-      width: max-content;
-    }
+.badge {
+  & a,
+  span {
+    @apply max-w-48 whitespace-pre-wrap rounded-md;
+    word-wrap: break-word;
+    width: max-content;
   }
-  .badge-link {
-    @apply block hover:bg-gray-200 dark:hover:bg-gray-700 p-2 transition-all duration-75 underline underline-offset-2 underline-gray-500;
-    & span {
-      @apply;
-    }
+}
+.badge-link {
+  @apply block hover:bg-gray-200 dark:hover:bg-gray-700 p-2 transition-all duration-75 underline underline-offset-2 underline-gray-500;
+  & span {
+    @apply;
   }
+}
 </style>

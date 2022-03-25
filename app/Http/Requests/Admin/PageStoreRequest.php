@@ -25,6 +25,14 @@ class PageStoreRequest extends FormRequest
     {
         return [
             'title' => ['required'],
+            'slug' => ['nullable'],
+            'summary' => ['nullable'],
+            'body' => ['nullable'],
+            'published_at' => ['nullable', 'date'],
+            'meta_title' => ['nullable'],
+            'meta_description' => ['nullable'],
+            'featured_image_file' => ['nullable', 'image'],
+            'featured_image_delete' => ['boolean'],
         ];
     }
 }

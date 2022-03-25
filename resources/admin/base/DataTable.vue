@@ -178,159 +178,159 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, inject, PropType, provide, Ref, ref, watch } from 'vue'
-  import { Model, PaginatedData } from '@admin/types'
-  import { Column } from '@admin/types/data-table'
-  import route from 'ziggy-js'
-  import { useForm } from '@inertiajs/inertia-vue3'
-  import { Inertia } from '@inertiajs/inertia'
-  import { useDebounceFn } from '@vueuse/shared'
+import { computed, inject, PropType, provide, Ref, ref, watch } from 'vue'
+import { Model, PaginatedData } from '@admin/types'
+import { Column } from '@admin/types/data-table'
+import route from 'ziggy-js'
+import { useForm } from '@inertiajs/inertia-vue3'
+import { Inertia } from '@inertiajs/inertia'
+import { useDebounceFn } from '@vueuse/shared'
 
-  const props = defineProps({
-    source: {
-      type: Object as PropType<PaginatedData<Model>>,
-      required: true,
-    },
-    columns: {
-      type: Array as PropType<(string | Column)[]>,
-      required: true,
-    },
-    filter: Object as PropType<{ [key: string]: string }>,
-    sort: String,
-    rowClick: String,
-    disableSearch: Boolean,
-    hideHeader: Boolean,
-    hideFooter: Boolean,
-    perPageOptions: {
-      type: Array as PropType<number[]>,
-      default: () => [5, 10, 15, 32, 50, 100],
-    },
-  })
+const props = defineProps({
+  source: {
+    type: Object as PropType<PaginatedData<Model>>,
+    required: true,
+  },
+  columns: {
+    type: Array as PropType<(string | Column)[]>,
+    required: true,
+  },
+  filter: Object as PropType<{ [key: string]: string }>,
+  sort: String,
+  rowClick: String,
+  disableSearch: Boolean,
+  hideHeader: Boolean,
+  hideFooter: Boolean,
+  perPageOptions: {
+    type: Array as PropType<number[]>,
+    default: () => [5, 10, 15, 32, 50, 100],
+  },
+})
 
-  const sortBy = ref('id')
-  const sortDesc = ref(false)
-  const selectAll = ref(false)
-  const selected: Ref<string[] | number[]> = ref([])
-  const resource = inject<string>('resource')
+const sortBy = ref('id')
+const sortDesc = ref(false)
+const selectAll = ref(false)
+const selected: Ref<string[] | number[]> = ref([])
+const resource = inject<string>('resource')
 
-  const hasSelectedItems = computed(() => {
-    return selected.value.length > 0
-  })
+const hasSelectedItems = computed(() => {
+  return selected.value.length > 0
+})
 
-  const isItemSelected = (id: string | number) => {
-    return selected.value.includes(id as never)
+const isItemSelected = (id: string | number) => {
+  return selected.value.includes(id as never)
+}
+
+const toggleSelectedItem = (id: string | number) => {
+  if (isItemSelected(id)) {
+    selectAll.value = false
+    return selected.value.splice(selected.value.indexOf(id as never), 1)
   }
+  return selected.value.push(id as never)
+}
 
-  const toggleSelectedItem = (id: string | number) => {
-    if (isItemSelected(id)) {
-      selectAll.value = false
-      return selected.value.splice(selected.value.indexOf(id as never), 1)
-    }
-    return selected.value.push(id as never)
+const onSelectAll = () => {
+  if (selectAll.value) {
+    selectAll.value = false
+    selected.value = []
+    return
   }
+  selectAll.value = true
+  // @ts-ignore
+  selected.value = props.source.data.map((model) => model.id)
+}
 
-  const onSelectAll = () => {
-    if (selectAll.value) {
-      selectAll.value = false
-      selected.value = []
+watch(
+  () => props.sort,
+  (val) => {
+    if (!val) return
+
+    if (val.startsWith('-')) {
+      sortBy.value = val.substring(1)
+      sortDesc.value = true
       return
     }
-    selectAll.value = true
-    // @ts-ignore
-    selected.value = props.source.data.map((model) => model.id)
-  }
+    sortBy.value = val
+    sortDesc.value = false
+  },
+  { immediate: true }
+)
 
-  watch(
-    () => props.sort,
-    (val) => {
-      if (!val) return
+const getColumns = computed((): Column[] =>
+  props.columns.map((c) => (typeof c === 'string' ? { field: c } : c))
+)
 
-      if (val.startsWith('-')) {
-        sortBy.value = val.substring(1)
-        sortDesc.value = true
-        return
-      }
-      sortBy.value = val
-      sortDesc.value = false
-    },
-    { immediate: true }
+const getFilterFromType = (type: string) => {
+  return (
+    {
+      email: 'text',
+      switch: 'boolean',
+    }[type] || type
   )
+}
 
-  const getColumns = computed((): Column[] =>
-    props.columns.map((c) => (typeof c === 'string' ? { field: c } : c))
-  )
-
-  const getFilterFromType = (type: string) => {
-    return (
-      {
-        email: 'text',
-        switch: 'boolean',
-      }[type] || type
+const getDefaultFilter = () => {
+  return getColumns.value
+    .filter((c) => c.searchable)
+    .reduce(
+      (acc, column) => {
+        return { ...acc, [column.field]: '' }
+      },
+      props.disableSearch ? {} : ({ q: '' } as { [key: string]: string })
     )
-  }
+}
 
-  const getDefaultFilter = () => {
-    return getColumns.value
-      .filter((c) => c.searchable)
-      .reduce(
-        (acc, column) => {
-          return { ...acc, [column.field]: '' }
-        },
-        props.disableSearch ? {} : ({ q: '' } as { [key: string]: string })
-      )
-  }
+const form = useForm({
+  page: props.source.meta.current_page,
+  perPage: props.source.meta.per_page,
+  sort: props.sort,
+  filter: {
+    ...getDefaultFilter(),
+    ...props.filter,
+  },
+})
 
-  const form = useForm({
-    page: props.source.meta.current_page,
-    perPage: props.source.meta.per_page,
-    sort: props.sort,
-    filter: {
-      ...getDefaultFilter(),
-      ...props.filter,
-    },
+provide('filter', form.filter)
+
+const doQuery = () => {
+  selectAll.value = false
+
+  form.get(location.pathname, {
+    preserveState: true,
   })
+}
 
-  provide('filter', form.filter)
+const onPageChange = (pager: { page: number; perPage: number }) => {
+  form.page = pager.page
+  form.perPage = pager.perPage
+  doQuery()
+}
 
-  const doQuery = () => {
-    selectAll.value = false
+const onRowClick = (id: number | string) => {
+  if (props.rowClick && resource) {
+    Inertia.get(route(`admin.${resource}.${props.rowClick}`, { id }))
+  }
+}
 
-    form.get(location.pathname, {
-      preserveState: true,
-    })
+const onSort = (column: Column) => {
+  if (!column.sortable) return
+
+  let prefix = ''
+
+  if (column.field === sortBy.value && !sortDesc.value) {
+    prefix = '-'
   }
 
-  const onPageChange = (pager: { page: number; perPage: number }) => {
-    form.page = pager.page
-    form.perPage = pager.perPage
-    doQuery()
-  }
+  form.sort = `${prefix}${column.field}`
+  doQuery()
+}
 
-  const onRowClick = (id: number | string) => {
-    if (props.rowClick && resource) {
-      Inertia.get(route(`admin.${resource}.${props.rowClick}`, { id }))
-    }
-  }
+const onFilter = useDebounceFn(() => {
+  form.page = 1
+  doQuery()
+})
 
-  const onSort = (column: Column) => {
-    if (!column.sortable) return
-
-    let prefix = ''
-
-    if (column.field === sortBy.value && !sortDesc.value) {
-      prefix = '-'
-    }
-
-    form.sort = `${prefix}${column.field}`
-    doQuery()
-  }
-
-  const onFilter = useDebounceFn(() => {
-    form.page = 1
-    doQuery()
-  })
-
-  const hasFilter = computed(() => {
-    return getColumns.value.filter((c) => c.searchable).length
-  })
+const hasFilter = computed(() => {
+  return getColumns.value.filter((c) => c.searchable).length
+})
 </script>

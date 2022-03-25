@@ -13,33 +13,30 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, PropType } from 'vue'
-  import { inputProps, inputSetup } from '@admin/composables/input'
-  import { Options } from 'flatpickr/dist/types/options'
+import { computed, PropType } from 'vue'
+import { inputProps, inputSetup } from '@admin/composables/input'
+import { Options } from 'flatpickr/dist/types/options'
 
-  const props = defineProps({
-    ...inputProps,
-    modelValue: [String, Date],
-    options: Object as PropType<Options>,
-  })
+const props = defineProps({
+  ...inputProps,
+  modelValue: [String, Date],
+  options: Object as PropType<Options>,
+})
 
-  const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
-  const { getLabel, formValue, getError, hasError, id } = inputSetup(
-    props,
-    emit
-  )
+const { getLabel, formValue, getError, hasError, id } = inputSetup(props, emit)
 
-  const config = computed((): Options => {
-    const config: Options = props.options || {
-      enableTime: true,
-      dateFormat: 'Y-m-d H:i',
+const config = computed((): Options => {
+  const config: Options = props.options || {
+    enableTime: true,
+    dateFormat: 'Y-m-d H:i',
+  }
+  if (!config.onChange) {
+    config.onChange = (dates: Date[]) => {
+      formValue.value = dates[0]
     }
-    if (!config.onChange) {
-      config.onChange = (dates: Date[]) => {
-        formValue.value = dates[0]
-      }
-    }
-    return config
-  })
+  }
+  return config
+})
 </script>

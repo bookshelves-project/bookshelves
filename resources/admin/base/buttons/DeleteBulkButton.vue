@@ -49,36 +49,36 @@
 </template>
 
 <script lang="ts" setup>
-  import { transChoice } from 'matice'
-  import { computed, inject, ref } from 'vue'
+import { transChoice } from 'matice'
+import { computed, inject, ref } from 'vue'
 
-  const props = defineProps({
-    hideLabel: Boolean,
-    selected: Array,
-    parameter: {
-      type: String,
-      default: 'id',
-    },
-  })
+const props = defineProps({
+  hideLabel: Boolean,
+  selected: Array,
+  parameter: {
+    type: String,
+    default: 'id',
+  },
+})
 
-  const resource = inject<string>('resource')
-  const confirming = ref(false)
+const resource = inject<string>('resource')
+const confirming = ref(false)
 
-  const confirm = () => {
-    confirming.value = true
+const confirm = () => {
+  confirming.value = true
+}
+
+const closeModal = () => {
+  confirming.value = false
+}
+
+const args = computed(() => {
+  return {
+    resource: transChoice(
+      `crud.${resource}.name`,
+      props.selected?.length || 0
+    ).toLowerCase(),
+    count: props.selected?.length,
   }
-
-  const closeModal = () => {
-    confirming.value = false
-  }
-
-  const args = computed(() => {
-    return {
-      resource: transChoice(
-        `crud.${resource}.name`,
-        props.selected?.length || 0
-      ).toLowerCase(),
-      count: props.selected?.length,
-    }
-  })
+})
 </script>

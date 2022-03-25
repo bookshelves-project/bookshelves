@@ -5,17 +5,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { inputProps, inputSetup } from '@admin/composables/input'
+import { inputProps, inputSetup } from '@admin/composables/input'
 
-  const props = defineProps({
-    ...inputProps,
-    modelValue: {
-      type: Boolean,
-      default: false,
-    },
-  })
+const props = defineProps({
+  ...inputProps,
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
+})
 
-  const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
-  const { getLabel, formValue, getError, getName } = inputSetup(props, emit)
+const { getLabel, formValue, getError, getName } = inputSetup(props, emit)
 </script>

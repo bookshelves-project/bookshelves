@@ -17,17 +17,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { Tag } from '@admin/types'
-  import { PropType } from 'vue'
-  import route from 'ziggy-js'
+import { Tag } from '@admin/types'
+import { PropType } from 'vue'
+import route from 'ziggy-js'
 
-  const props = defineProps({
-    tag: {
-      type: Object as PropType<Tag>,
-      required: true,
-    },
-  })
+const props = defineProps({
+  tag: {
+    type: Object as PropType<Tag>,
+    required: true,
+  },
+})
 
-  const method = 'put'
-  const url = route('admin.tags.update', { id: props.tag.id })
+const method = 'put'
+const url = route('admin.tags.update', { id: props.tag.id })
 </script>

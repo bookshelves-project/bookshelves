@@ -48,33 +48,33 @@
 </template>
 
 <script lang="ts" setup>
-  import { useModelToString } from '@admin/features/helpers'
-  import { Model } from '@admin/types'
-  import { transChoice } from 'matice'
-  import { inject, ref } from 'vue'
+import { useModelToString } from '@admin/features/helpers'
+import { Model } from '@admin/types'
+import { transChoice } from 'matice'
+import { inject, ref } from 'vue'
 
-  defineProps({
-    hideLabel: Boolean,
-    parameter: {
-      type: String,
-      default: 'id',
-    },
-  })
+defineProps({
+  hideLabel: Boolean,
+  parameter: {
+    type: String,
+    default: 'id',
+  },
+})
 
-  const resource = inject<string>('resource')
-  const item = inject<Model>('item')
-  const confirming = ref(false)
+const resource = inject<string>('resource')
+const item = inject<Model>('item')
+const confirming = ref(false)
 
-  const confirm = () => {
-    confirming.value = true
-  }
+const confirm = () => {
+  confirming.value = true
+}
 
-  const closeModal = () => {
-    confirming.value = false
-  }
+const closeModal = () => {
+  confirming.value = false
+}
 
-  const args = {
-    resource: transChoice(`crud.${resource}.name`, 0).toLowerCase(),
-    label: useModelToString(resource, item),
-  }
+const args = {
+  resource: transChoice(`crud.${resource}.name`, 0).toLowerCase(),
+  label: useModelToString(resource, item),
+}
 </script>

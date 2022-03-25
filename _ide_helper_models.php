@@ -603,13 +603,11 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $title
+ * @property string|null $slug
  * @property string $status
  * @property string|null $summary
  * @property string|null $body
  * @property string|null $published_at
- * @property int $pin
- * @property int $promote
- * @property string $slug
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -623,8 +621,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page wherePin($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page wherePromote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page wherePublishedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereStatus($value)
@@ -803,6 +799,7 @@ namespace App\Models{
  * @property-read string $show_books_link
  * @property-read string $show_link
  * @property-read string $show_link_opds
+ * @property-read string $show_opds_link
  * @property-read object $sizes
  * @property-read mixed $tags_list
  * @property-read string $webreader_link
@@ -848,6 +845,7 @@ namespace App\Models{
  * @property int $id
  * @property string|null $name
  * @property string|null $email
+ * @property \App\Enums\SubmissionReasonEnum|null $reason
  * @property string|null $message
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -859,6 +857,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Submission whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Submission whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Submission whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission whereReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Submission whereUpdatedAt($value)
  */
 	class Submission extends \Eloquent {}

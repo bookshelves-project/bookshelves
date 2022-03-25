@@ -22,7 +22,7 @@ class PageResource extends JsonResource
     public function toArray($request)
     {
         return [
-            // 'cover' => MediaResource::collection($this->resource->getMedia('books')),
+            'featured_image' => MediaResource::collection($this->resource->getMedia('featured-image')),
         ] + $this->resource->toArray();
     }
 }

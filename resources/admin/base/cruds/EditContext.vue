@@ -5,12 +5,9 @@
 </template>
 
 <script lang="ts" setup>
-  import {
-    pageWithItemProps,
-    pageWithItemSetup,
-  } from '@admin/composables/pages'
+import { pageWithItemProps, pageWithItemSetup } from '@admin/composables/pages'
 
-  const props = defineProps(pageWithItemProps)
+const props = defineProps(pageWithItemProps)
 
-  const { getTitle } = pageWithItemSetup(props, 'edit', 0)
+const { getTitle } = pageWithItemSetup(props, 'edit', 0)
 </script>

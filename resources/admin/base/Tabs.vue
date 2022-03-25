@@ -31,11 +31,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { PropType } from 'vue'
-  import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+import { PropType } from 'vue'
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 
-  defineProps({
-    items: Array as PropType<{ [key: string]: string }[]>,
-    itemText: String,
-  })
+defineProps({
+  items: Array as PropType<{ [key: string]: string }[]>,
+  itemText: String,
+})
 </script>

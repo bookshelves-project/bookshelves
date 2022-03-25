@@ -30,44 +30,44 @@
 </template>
 
 <script lang="ts" setup>
-  import { Language, PaginatedData } from '@admin/types'
-  import { Column } from '@admin/types/data-table'
-  import { PropType } from 'vue'
+import { Language, PaginatedData } from '@admin/types'
+import { Column } from '@admin/types/data-table'
+import { PropType } from 'vue'
 
-  defineProps({
-    languages: {
-      type: Object as PropType<PaginatedData<Language>>,
-      required: true,
-    },
-    sort: String,
-    filter: Object,
-  })
+defineProps({
+  languages: {
+    type: Object as PropType<PaginatedData<Language>>,
+    required: true,
+  },
+  sort: String,
+  filter: Object,
+})
 
-  const columns: (string | Column)[] = [
-    'row-action',
-    {
-      field: 'id',
-      width: 40,
-      centered: true,
-      numeric: true,
-      sortable: true,
-      main: true,
-    },
-    {
-      field: 'name',
-      sortable: true,
-      searchable: true,
-      main: true,
-    },
-    {
-      field: 'books_count',
-      centered: true,
-      sortable: true,
-    },
-    {
-      field: 'series_count',
-      centered: true,
-      sortable: true,
-    },
-  ]
+const columns: (string | Column)[] = [
+  'row-action',
+  {
+    field: 'id',
+    width: 40,
+    centered: true,
+    numeric: true,
+    sortable: true,
+    main: true,
+  },
+  {
+    field: 'name',
+    sortable: true,
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'books_count',
+    centered: true,
+    sortable: true,
+  },
+  {
+    field: 'series_count',
+    centered: true,
+    sortable: true,
+  },
+]
 </script>

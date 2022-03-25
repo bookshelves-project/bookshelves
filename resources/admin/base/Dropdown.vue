@@ -34,36 +34,36 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
-  defineProps({
-    wrapperClasses: {
-      type: [String, Array],
-      default: () => ['w-48', 'right'],
-    },
-    linkClasses: {
-      type: [String, Array],
-      default: () => ['py-1', 'bg-white'],
-    },
-  })
+defineProps({
+  wrapperClasses: {
+    type: [String, Array],
+    default: () => ['w-48', 'right'],
+  },
+  linkClasses: {
+    type: [String, Array],
+    default: () => ['py-1', 'bg-white'],
+  },
+})
 
-  let open = ref(false)
+let open = ref(false)
 
-  const closeOnEscape = (e: KeyboardEvent) => {
-    if (open.value && e.key === 'Escape') {
-      open.value = false
-    }
+const closeOnEscape = (e: KeyboardEvent) => {
+  if (open.value && e.key === 'Escape') {
+    open.value = false
   }
+}
 
-  onMounted(() => document.addEventListener('keydown', closeOnEscape))
-  onUnmounted(() => document.removeEventListener('keydown', closeOnEscape))
+onMounted(() => document.addEventListener('keydown', closeOnEscape))
+onUnmounted(() => document.removeEventListener('keydown', closeOnEscape))
 </script>
 
 <style lang="postcss" scoped>
-  .left {
-    @apply origin-top-left left-0;
-  }
-  .right {
-    @apply origin-top-right right-0;
-  }
+.left {
+  @apply origin-top-left left-0;
+}
+.right {
+  @apply origin-top-right right-0;
+}
 </style>

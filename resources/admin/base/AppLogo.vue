@@ -14,19 +14,19 @@
 </template>
 
 <script setup lang="ts">
-  import Bookshelves from '@admin/svg/bookshelves.svg'
+import Bookshelves from '@admin/svg/bookshelves.svg'
 
-  interface Props {
-    full?: boolean
-    size?: number
-    color?: string
-    reverse?: boolean
-  }
+interface Props {
+  full?: boolean
+  size?: number
+  color?: string
+  reverse?: boolean
+}
 
-  const props = withDefaults(defineProps<Props>(), {
-    full: false,
-    size: 10,
-    color: 'text-black',
-    reverse: false,
-  })
+withDefaults(defineProps<Props>(), {
+  full: false,
+  size: 10,
+  color: 'text-black',
+  reverse: false,
+})
 </script>

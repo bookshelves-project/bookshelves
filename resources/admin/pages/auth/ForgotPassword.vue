@@ -37,11 +37,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { useTitle } from '@admin/features/helpers'
+import { useTitle } from '@admin/features/helpers'
 
-  defineProps({
-    status: String,
-  })
+defineProps({
+  status: String,
+})
 
-  useTitle('Email Password Reset Link')
+useTitle('Email Password Reset Link')
 </script>

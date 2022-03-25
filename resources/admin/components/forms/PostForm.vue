@@ -123,24 +123,24 @@
 </template>
 
 <script setup lang="ts">
-  import { Ref, ref } from 'vue'
+import { Ref, ref } from 'vue'
 
-  defineProps({
-    method: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-  })
+defineProps({
+  method: {
+    type: String,
+    required: true,
+  },
+  url: {
+    type: String,
+    required: true,
+  },
+})
 
-  const form: Ref<HTMLElement | null | any> = ref(null)
+const form: Ref<HTMLElement | null | any> = ref(null)
 
-  const submit = (publish: boolean) => {
-    if (form.value) {
-      form.value.submit({ publish })
-    }
+const submit = (publish: boolean) => {
+  if (form.value) {
+    form.value.submit({ publish })
   }
+}
 </script>

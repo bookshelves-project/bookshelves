@@ -1,26 +1,12 @@
 <script setup lang="ts">
-  import { useDark, useToggle } from '@vueuse/core'
+import { useDark, useToggle } from '@vueuse/core'
 
-  const isDark = useDark()
-  const toggleDark = useToggle(isDark)
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 
-  // const toggleDark = () => {
-  //   const root = document.documentElement.classList
-  //   if (root.contains('dark')) {
-  //     root.toggle('light')
-  //     root.remove('dark')
-
-  //     localStorage.setItem('color-scheme', 'light')
-  //   } else {
-  //     root.toggle('dark')
-  //     root.remove('light')
-
-  //     localStorage.setItem('color-scheme', 'dark')
-  //   }
-  // }
-  const toggle = () => {
-    toggleDark()
-  }
+const toggle = () => {
+  toggleDark()
+}
 </script>
 
 <template>
@@ -64,16 +50,16 @@
 </template>
 
 <style lang="css" scoped>
-  .icon {
-    @apply rounded-md p-2 text-gray-500 transition-colors duration-75 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700;
-  }
-  .moon {
-    @apply hidden;
-  }
-  .dark .moon {
-    @apply block;
-  }
-  .dark .sun {
-    @apply hidden;
-  }
+.icon {
+  @apply rounded-md p-2 text-gray-500 transition-colors duration-75 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700;
+}
+.moon {
+  @apply hidden;
+}
+.dark .moon {
+  @apply block;
+}
+.dark .sun {
+  @apply hidden;
+}
 </style>

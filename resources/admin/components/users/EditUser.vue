@@ -12,17 +12,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { User } from '@admin/types'
-  import { PropType } from 'vue'
-  import route from 'ziggy-js'
+import { User } from '@admin/types'
+import { PropType } from 'vue'
+import route from 'ziggy-js'
 
-  const props = defineProps({
-    user: {
-      type: Object as PropType<User>,
-      required: true,
-    },
-  })
+const props = defineProps({
+  user: {
+    type: Object as PropType<User>,
+    required: true,
+  },
+})
 
-  const method = 'put'
-  const url = route('admin.users.update', { id: props.user.id })
+const method = 'put'
+const url = route('admin.users.update', { id: props.user.id })
 </script>

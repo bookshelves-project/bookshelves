@@ -45,62 +45,62 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, onMounted, onUnmounted, watch } from 'vue'
+import { computed, onMounted, onUnmounted, watch } from 'vue'
 
-  const props = defineProps({
-    show: {
-      type: Boolean,
-      default: false,
-    },
-    maxWidth: {
-      type: String,
-      default: '2xl',
-    },
-    closeable: {
-      type: Boolean,
-      default: true,
-    },
-  })
+const props = defineProps({
+  show: {
+    type: Boolean,
+    default: false,
+  },
+  maxWidth: {
+    type: String,
+    default: '2xl',
+  },
+  closeable: {
+    type: Boolean,
+    default: true,
+  },
+})
 
-  const emit = defineEmits(['close'])
+const emit = defineEmits(['close'])
 
-  watch(
-    () => props.show,
-    (show) => {
-      if (show) {
-        document.body.style.overflow = 'hidden'
-      } else {
-        document.body.style.overflow = ''
-      }
-    },
-    { immediate: true }
-  )
-
-  const maxWidthClass = computed(() => {
-    return {
-      sm: 'sm:max-w-sm',
-      md: 'sm:max-w-md',
-      lg: 'sm:max-w-lg',
-      xl: 'sm:max-w-xl',
-      '2xl': 'sm:max-w-2xl',
-    }[props.maxWidth]
-  })
-
-  const close = () => {
-    if (props.closeable) {
-      emit('close')
+watch(
+  () => props.show,
+  (show) => {
+    if (show) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
     }
-  }
+  },
+  { immediate: true }
+)
 
-  const closeOnEscape = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && props.show) {
-      close()
-    }
-  }
+const maxWidthClass = computed(() => {
+  return {
+    sm: 'sm:max-w-sm',
+    md: 'sm:max-w-md',
+    lg: 'sm:max-w-lg',
+    xl: 'sm:max-w-xl',
+    '2xl': 'sm:max-w-2xl',
+  }[props.maxWidth]
+})
 
-  onMounted(() => document.addEventListener('keydown', closeOnEscape))
-  onUnmounted(() => {
-    document.removeEventListener('keydown', closeOnEscape)
-    document.body.style.overflow = ''
-  })
+const close = () => {
+  if (props.closeable) {
+    emit('close')
+  }
+}
+
+const closeOnEscape = (e: KeyboardEvent) => {
+  if (e.key === 'Escape' && props.show) {
+    close()
+  }
+}
+
+onMounted(() => document.addEventListener('keydown', closeOnEscape))
+onUnmounted(() => {
+  document.removeEventListener('keydown', closeOnEscape)
+  document.body.style.overflow = ''
+})
 </script>

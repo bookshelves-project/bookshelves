@@ -30,62 +30,62 @@
 </template>
 
 <script lang="ts" setup>
-  import { PaginatedData, Tag } from '@admin/types'
-  import { Column } from '@admin/types/data-table'
-  import { PropType } from 'vue'
+import { PaginatedData, Tag } from '@admin/types'
+import { Column } from '@admin/types/data-table'
+import { PropType } from 'vue'
 
-  defineProps({
-    tags: {
-      type: Object as PropType<PaginatedData<Tag>>,
-      required: true,
-    },
-    sort: String,
-    filter: Object,
-  })
+defineProps({
+  tags: {
+    type: Object as PropType<PaginatedData<Tag>>,
+    required: true,
+  },
+  sort: String,
+  filter: Object,
+})
 
-  const columns: (string | Column)[] = [
-    'row-action',
-    {
-      field: 'id',
-      width: 40,
-      centered: true,
-      numeric: true,
-      sortable: true,
-      main: true,
+const columns: (string | Column)[] = [
+  'row-action',
+  {
+    field: 'id',
+    width: 40,
+    centered: true,
+    numeric: true,
+    sortable: true,
+    main: true,
+  },
+  {
+    field: 'name',
+    sortable: true,
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'first_char',
+    sortable: true,
+  },
+  {
+    field: 'type',
+    type: 'select',
+    props: {
+      choices: 'tag_types',
     },
-    {
-      field: 'name',
-      sortable: true,
-      searchable: true,
-      main: true,
-    },
-    {
-      field: 'first_char',
-      sortable: true,
-    },
-    {
-      field: 'type',
-      type: 'select',
-      props: {
-        choices: 'tag_types',
-      },
-      sortable: true,
-      searchable: true,
-      main: true,
-    },
-    {
-      field: 'books_count',
-      sortable: true,
-    },
-    {
-      field: 'series_count',
-      sortable: true,
-    },
-    {
-      field: 'created_at',
-      type: 'date',
-      sortable: true,
-      centered: true,
-    },
-  ]
+    sortable: true,
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'books_count',
+    sortable: true,
+  },
+  {
+    field: 'series_count',
+    sortable: true,
+  },
+  {
+    field: 'created_at',
+    type: 'date',
+    sortable: true,
+    centered: true,
+  },
+]
 </script>

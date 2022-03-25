@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-  defineProps({
-    on: Boolean,
-  })
+defineProps({
+  on: Boolean,
+})
 </script>

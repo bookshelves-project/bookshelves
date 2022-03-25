@@ -30,74 +30,74 @@
 </template>
 
 <script lang="ts" setup>
-  import { Author, PaginatedData } from '@admin/types'
-  import { Column } from '@admin/types/data-table'
-  import { PropType } from 'vue'
+import { Author, PaginatedData } from '@admin/types'
+import { Column } from '@admin/types/data-table'
+import { PropType } from 'vue'
 
-  defineProps({
-    authors: {
-      type: Object as PropType<PaginatedData<Author>>,
-      required: true,
-    },
-    sort: String,
-    filter: Object,
-  })
+defineProps({
+  authors: {
+    type: Object as PropType<PaginatedData<Author>>,
+    required: true,
+  },
+  sort: String,
+  filter: Object,
+})
 
-  const columns: (string | Column)[] = [
-    'row-action',
-    {
-      field: 'id',
-      width: 40,
-      centered: true,
-      numeric: true,
-      sortable: true,
-      main: true,
+const columns: (string | Column)[] = [
+  'row-action',
+  {
+    field: 'id',
+    width: 40,
+    centered: true,
+    numeric: true,
+    sortable: true,
+    main: true,
+  },
+  {
+    field: 'cover',
+    type: 'image',
+    props: {
+      preview: 'url',
+      original: 'url',
+      canPreview: true,
     },
-    {
-      field: 'cover',
-      type: 'image',
-      props: {
-        preview: 'url',
-        original: 'url',
-        canPreview: true,
-      },
-      main: true,
+    main: true,
+  },
+  {
+    field: 'firstname',
+    sortable: true,
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'lastname',
+    sortable: true,
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'role',
+    type: 'select',
+    props: {
+      choices: 'author_roles',
     },
-    {
-      field: 'firstname',
-      sortable: true,
-      searchable: true,
-      main: true,
-    },
-    {
-      field: 'lastname',
-      sortable: true,
-      searchable: true,
-      main: true,
-    },
-    {
-      field: 'role',
-      type: 'select',
-      props: {
-        choices: 'author_roles',
-      },
-      searchable: true,
-    },
-    {
-      field: 'books_count',
-      centered: true,
-      sortable: true,
-    },
-    {
-      field: 'series_count',
-      centered: true,
-      sortable: true,
-    },
-    {
-      field: 'updated_at',
-      type: 'date',
-      sortable: true,
-      centered: true,
-    },
-  ]
+    searchable: true,
+  },
+  {
+    field: 'books_count',
+    centered: true,
+    sortable: true,
+  },
+  {
+    field: 'series_count',
+    centered: true,
+    sortable: true,
+  },
+  {
+    field: 'updated_at',
+    type: 'date',
+    sortable: true,
+    centered: true,
+  },
+]
 </script>

@@ -13,14 +13,14 @@
 </template>
 
 <script setup lang="ts">
-  import By from '@admin/svg/by.svg'
-  import Cc from '@admin/svg/cc.svg'
-  import Nc from '@admin/svg/nc.svg'
-  import { computed } from 'vue'
+import By from '@admin/svg/by.svg'
+import Cc from '@admin/svg/cc.svg'
+import Nc from '@admin/svg/nc.svg'
+import { computed } from 'vue'
 
-  const year = computed(() => {
-    let begin = 2020
-    let current = new Date().getFullYear()
-    return begin !== current ? `${begin} - ${current}` : current
-  })
+const year = computed(() => {
+  let begin = 2020
+  let current = new Date().getFullYear()
+  return begin !== current ? `${begin} - ${current}` : current
+})
 </script>

@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts" setup>
-  defineProps({
-    href: String,
-    icon: String,
-  })
+defineProps({
+  href: String,
+  icon: String,
+})
 </script>

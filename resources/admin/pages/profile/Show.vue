@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { useTitle } from '@admin/features/helpers'
+import { useTitle } from '@admin/features/helpers'
 
-  const title = useTitle('Profile')
+const title = useTitle('Profile')
 </script>

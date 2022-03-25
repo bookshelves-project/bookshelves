@@ -35,102 +35,102 @@
 </template>
 
 <script lang="ts" setup>
-  import { PaginatedData, Post } from '@admin/types'
-  import { Column } from '@admin/types/data-table'
-  import { PropType } from 'vue'
+import { PaginatedData, Post } from '@admin/types'
+import { Column } from '@admin/types/data-table'
+import { PropType } from 'vue'
 
-  defineProps({
-    posts: {
-      type: Object as PropType<PaginatedData<Post>>,
-      required: true,
-    },
-    sort: String,
-    filter: Object,
-  })
+defineProps({
+  posts: {
+    type: Object as PropType<PaginatedData<Post>>,
+    required: true,
+  },
+  sort: String,
+  filter: Object,
+})
 
-  const columns: (string | Column)[] = [
-    'row-action',
-    {
-      field: 'id',
-      width: 40,
-      centered: true,
-      numeric: true,
-      sortable: true,
-      main: true,
+const columns: (string | Column)[] = [
+  'row-action',
+  {
+    field: 'id',
+    width: 40,
+    centered: true,
+    numeric: true,
+    sortable: true,
+    main: true,
+  },
+  {
+    field: 'featured_image',
+    type: 'image',
+    props: {
+      canPreview: true,
     },
-    {
-      field: 'featured_image',
-      type: 'image',
-      props: {
-        canPreview: true,
-      },
+  },
+  {
+    field: 'title',
+    sortable: true,
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'status',
+    type: 'select',
+    props: {
+      choices: 'post_statuses',
     },
-    {
-      field: 'title',
-      sortable: true,
-      searchable: true,
-      main: true,
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'category',
+    type: 'reference',
+    props: {
+      text: 'name',
+      resource: 'post-categories',
     },
-    {
-      field: 'status',
-      type: 'select',
-      props: {
-        choices: 'post_statuses',
-      },
-      searchable: true,
-      main: true,
-    },
-    {
-      field: 'category',
-      type: 'reference',
-      props: {
-        text: 'name',
-        resource: 'post-categories',
-      },
-      searchable: true,
-    },
-    {
-      field: 'summary',
-      type: 'text',
-      props: { truncate: 60 },
-      searchable: true,
-    },
-    {
-      field: 'pin',
-      type: 'switch',
-      searchable: true,
-    },
-    {
-      field: 'promote',
-      type: 'switch',
-      searchable: true,
-    },
-    {
-      field: 'user',
-      type: 'reference',
-      props: { text: 'name', resource: 'users', link: 'show' },
-      searchable: true,
-      filterType: 'text',
-    },
-    {
-      field: 'published_at',
-      type: 'date',
-      props: { format: 'dd/MM/yyyy HH:mm' },
-      sortable: true,
-      centered: true,
-      searchable: true,
-    },
-    {
-      field: 'created_at',
-      type: 'date',
-      sortable: true,
-      centered: true,
-    },
-    {
-      field: 'updated_at',
-      type: 'date',
-      sortable: true,
-      centered: true,
-    },
-  ]
+    searchable: true,
+  },
+  {
+    field: 'summary',
+    type: 'text',
+    props: { truncate: 60 },
+    searchable: true,
+  },
+  {
+    field: 'pin',
+    type: 'switch',
+    searchable: true,
+  },
+  {
+    field: 'promote',
+    type: 'switch',
+    searchable: true,
+  },
+  {
+    field: 'user',
+    type: 'reference',
+    props: { text: 'name', resource: 'users', link: 'show' },
+    searchable: true,
+    filterType: 'text',
+  },
+  {
+    field: 'published_at',
+    type: 'date',
+    props: { format: 'dd/MM/yyyy HH:mm' },
+    sortable: true,
+    centered: true,
+    searchable: true,
+  },
+  {
+    field: 'created_at',
+    type: 'date',
+    sortable: true,
+    centered: true,
+  },
+  {
+    field: 'updated_at',
+    type: 'date',
+    sortable: true,
+    centered: true,
+  },
+]
 </script>

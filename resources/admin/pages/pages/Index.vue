@@ -31,34 +31,52 @@
 </template>
 
 <script lang="ts" setup>
-  import { PaginatedData, Page } from '@admin/types'
-  import { Column } from '@admin/types/data-table'
-  import { PropType } from 'vue'
+import { PaginatedData, Page } from '@admin/types'
+import { Column } from '@admin/types/data-table'
+import { PropType } from 'vue'
 
-  defineProps({
-    pages: {
-      type: Object as PropType<PaginatedData<Page>>,
-      required: true,
-    },
-    sort: String,
-    filter: Object,
-  })
+defineProps({
+  pages: {
+    type: Object as PropType<PaginatedData<Page>>,
+    required: true,
+  },
+  sort: String,
+  filter: Object,
+})
 
-  const columns: (string | Column)[] = [
-    'row-action',
-    {
-      field: 'id',
-      width: 40,
-      centered: true,
-      numeric: true,
-      sortable: true,
-      main: true,
+const columns: (string | Column)[] = [
+  'row-action',
+  {
+    field: 'id',
+    width: 40,
+    centered: true,
+    numeric: true,
+    sortable: true,
+    main: true,
+  },
+  {
+    field: 'featured_image',
+    type: 'image',
+    props: {
+      canPreview: true,
     },
-    {
-      field: 'title',
-      sortable: true,
-      searchable: true,
-      main: true,
-    },
-  ]
+  },
+  {
+    field: 'title',
+    sortable: true,
+    searchable: true,
+    main: true,
+  },
+  {
+    field: 'summary',
+    searchable: true,
+  },
+  {
+    field: 'published_at',
+    type: 'date',
+    props: { format: 'dd/MM/yyyy' },
+    sortable: true,
+    searchable: true,
+  },
+]
 </script>

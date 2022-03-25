@@ -2,41 +2,23 @@
   <base-form ref="form" v-slot="{ processing }" :method="method" :url="url">
     <div class="form-grid">
       <card-content>
-        <div class="form-split">
-          <text-input source="title" type="text" />
-        </div>
-        <div class="form-split">
-          <text-input source="slug" type="text" />
-        </div>
-        <div class="form-full">
-          <text-input source="summary" type="text" multiline />
-        </div>
-        <div class="form-full">
-          <editor-input source="body" :height="800" />
-        </div>
+        <text-input source="title" type="text" />
+        <text-input source="meta_title" type="text" />
+        <text-input source="summary" type="text" multiline />
+        <text-input source="meta_description" type="text" multiline />
+        <editor-input source="body" :height="800" options="complete" full />
       </card-content>
       <card-side>
-        <div class="form-full">
-          <file-input
-            source="image"
-            file-source="image_file"
-            delete-source="image_delete"
-            preview
-            preview-attr="url"
-          />
-        </div>
-        <div class="form-full">
-          <text-input source="meta_title" type="text" />
-        </div>
-        <div class="form-full">
-          <text-input source="meta_description" type="text" />
-        </div>
-        <div class="form-full">
-          <date-input
-            source="published_at"
-            :options="{ dateFormat: 'Y-m-d' }"
-          />
-        </div>
+        <file-input
+          source="featured_image"
+          file-source="featured_image_file"
+          delete-source="featured_image_delete"
+          preview
+          preview-attr="url"
+          full
+        />
+        <text-input source="slug" type="text" full />
+        <text-input source="published_at" type="date" full />
         <div class="flex form-full mt-auto">
           <base-button
             class="ml-auto"
@@ -54,24 +36,24 @@
 </template>
 
 <script lang="ts" setup>
-  import { Ref, ref } from 'vue'
+import { Ref, ref } from 'vue'
 
-  defineProps({
-    method: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-  })
+defineProps({
+  method: {
+    type: String,
+    required: true,
+  },
+  url: {
+    type: String,
+    required: true,
+  },
+})
 
-  const form: Ref<HTMLElement | null | any> = ref(null)
+const form: Ref<HTMLElement | null | any> = ref(null)
 
-  const submit = () => {
-    if (form.value) {
-      form.value.submit()
-    }
+const submit = () => {
+  if (form.value) {
+    form.value.submit()
   }
+}
 </script>

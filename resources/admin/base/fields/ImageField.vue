@@ -33,34 +33,34 @@
 </template>
 
 <script lang="ts" setup>
-  import { PropType } from 'vue'
-  import { Media } from '@admin/types'
+import { PropType } from 'vue'
+import { Media } from '@admin/types'
 
-  defineProps({
-    value: {
-      type: [String, Object] as
-        | PropType<Media[]>
-        | PropType<{
-            [uuid: string]: Media
-          }>,
-      required: true,
-    },
-    preview: {
-      type: String,
-      default: 'preview_url',
-    },
-    original: {
-      type: String,
-      default: 'original_url',
-    },
-    width: {
-      type: Number,
-      default: 100,
-    },
-    height: {
-      type: Number,
-      default: 100,
-    },
-    canPreview: Boolean,
-  })
+defineProps({
+  value: {
+    type: [String, Object] as
+      | PropType<Media[]>
+      | PropType<{
+          [uuid: string]: Media
+        }>,
+    required: true,
+  },
+  preview: {
+    type: String,
+    default: 'preview_url',
+  },
+  original: {
+    type: String,
+    default: 'original_url',
+  },
+  width: {
+    type: Number,
+    default: 100,
+  },
+  height: {
+    type: Number,
+    default: 100,
+  },
+  canPreview: Boolean,
+})
 </script>

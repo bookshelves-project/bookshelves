@@ -16,8 +16,8 @@
 </template>
 
 <script lang="ts" setup>
-  import route from 'ziggy-js'
+import route from 'ziggy-js'
 
-  const method = 'post'
-  const url = route('admin.languages.store')
+const method = 'post'
+const url = route('admin.languages.store')
 </script>

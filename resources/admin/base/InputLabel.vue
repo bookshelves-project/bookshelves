@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-  defineProps({
-    value: String,
-  })
+defineProps({
+  value: String,
+})
 </script>

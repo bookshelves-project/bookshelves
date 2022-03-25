@@ -43,20 +43,20 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, useSlots } from 'vue'
+import { computed, useSlots } from 'vue'
 
-  defineProps({
-    method: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-    options: Object,
-    item: Object,
-  })
+defineProps({
+  method: {
+    type: String,
+    required: true,
+  },
+  url: {
+    type: String,
+    required: true,
+  },
+  options: Object,
+  item: Object,
+})
 
-  const hasActions = computed(() => !!useSlots().actions)
+const hasActions = computed(() => !!useSlots().actions)
 </script>
