@@ -127,8 +127,9 @@ class SampleCommand extends Command
         }
 
         if ($posts) {
-            $this->comment('Run posts seeders');
+            $this->comment('Run posts & pages seeders');
             Artisan::call('db:seed', ['--class' => 'PostSeeder', '--force' => true]);
+            Artisan::call('db:seed', ['--class' => 'PageSeeder', '--force' => true]);
             $this->info('Seeders ready!');
             $this->newLine();
         }
