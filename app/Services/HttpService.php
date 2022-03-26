@@ -125,7 +125,7 @@ class HttpService
             'fulfilled' => function (\GuzzleHttp\Psr7\Response $response, $index) use ($responses) {
                 $responses[$index] = new \Illuminate\Http\Client\Response($response);
             },
-            'rejected' => function (RequestException $reason, $index) use ($responses) {
+            'rejected' => function (mixed $reason, $index) use ($responses) {
                 $responses[$index] = new \Illuminate\Http\Client\Response($reason->getResponse());
             },
         ]);

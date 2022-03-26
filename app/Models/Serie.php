@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Engines\ParserEngine;
+use App\Enums\BookTypeEnum;
 use App\Models\Traits\HasAuthors;
 use App\Models\Traits\HasBooksCollection;
 use App\Models\Traits\HasClassName;
@@ -44,8 +45,13 @@ class Serie extends Model implements HasMedia
         'title',
         'slug_sort',
         'slug',
+        'type',
         'description',
         'link',
+    ];
+
+    protected $casts = [
+        'type' => BookTypeEnum::class,
     ];
 
     protected $with = [

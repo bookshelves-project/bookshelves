@@ -115,7 +115,7 @@ const columns: (string | Column)[] = [
   {
     field: 'published_at',
     type: 'date',
-    props: { format: 'dd/MM/yyyy HH:mm' },
+    props: { format: 'dd/MM/yyyy' },
     sortable: true,
     centered: true,
     searchable: true,

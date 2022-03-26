@@ -212,7 +212,6 @@ export const useEditorInput = () => {
       link,
       code,
       seperator,
-      h1,
       h2,
       h3,
       paragraph,

@@ -20,9 +20,8 @@ class CbzModule implements XmlInterface
     public static function create(ParserEngine $engine): ParserEngine|false
     {
         $xml = new XmlParser($engine, CbzModule::class);
-        $xml = $xml->openZip(true);
 
-        return $xml->engine;
+        return $xml->openZip(true) ? $xml->engine : false;
     }
 
     public static function parse(XmlParser $xml): ParserEngine

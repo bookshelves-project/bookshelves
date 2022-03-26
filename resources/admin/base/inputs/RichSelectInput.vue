@@ -89,7 +89,6 @@ const translations = computed(() => {
 
 const isNew = (option: any) => {
   let list = option as never
-  console.log(classes.value.tagOnCreate)
 
   if (newTagsList.value.includes(list[props.optionText])) {
     return classes.value.tagOnCreate
@@ -200,14 +199,26 @@ const asyncSearch = computed(() => {
 </script>
 
 <style lang="css" scoped>
+.multiselect {
+  @apply dark:bg-gray-700 border-gray-300 dark:border-gray-600;
+}
 .multiselect :deep(.multiselect-tags-search) {
   position: absolute;
   top: -0.2rem;
   padding: 0;
   height: 2rem;
+  @apply dark:bg-gray-700;
 }
 .multiselect :deep(.multiselect-search) {
+  @apply dark:bg-gray-700;
   padding: 0.4rem 0.8rem;
+}
+
+.multiselect :deep(.multiselect-dropdown) {
+  @apply dark:bg-gray-800 dark:border-gray-600 scrollbar-thin;
+}
+.multiselect :deep(.multiselect-dropdown) .is-pointed {
+  @apply dark:bg-gray-600 dark:text-white;
 }
 </style>
 

@@ -68,7 +68,7 @@ class Book extends Model implements HasMedia
     protected $casts = [
         'released_on' => 'datetime',
         'disabled' => 'boolean',
-        // 'type' => BookTypeEnum::class,
+        'type' => BookTypeEnum::class,
         'identifiers' => 'array',
         'volume' => 'integer',
         'page_count' => 'integer',

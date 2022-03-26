@@ -88,15 +88,18 @@ class DatabaseCommand extends Command
             $books = Book::all();
             $series = Serie::all();
             $authors = Author::all();
-            $books->each(function ($query) {
-                $query->clearMediaCollection('books');
-                $query->clearMediaCollection('epub');
+            $books->each(function ($book) {
+                /** @var Book $book */
+                $book->clearMediaCollection('covers');
+                $book->clearMediaCollection('epub');
             });
-            $series->each(function ($query) {
-                $query->clearMediaCollection('series');
+            $series->each(function ($serie) {
+                /** @var Serie $serie */
+                $serie->clearMediaCollection('covers');
             });
-            $authors->each(function ($query) {
-                $query->clearMediaCollection('authors');
+            $authors->each(function ($author) {
+                /** @var Author $author */
+                $author->clearMediaCollection('covers');
             });
             $isSuccess = true;
         } catch (\Throwable $th) {

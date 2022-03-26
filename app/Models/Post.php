@@ -56,7 +56,11 @@ class Post extends Model implements HasMedia
     {
         $this->addMediaCollection('featured-image')
             ->singleFile()
-            ->acceptsMimeTypes(['image/jpeg', 'image/png'])
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
+        ;
+
+        $this->addMediaCollection('post-images')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
         ;
     }
 

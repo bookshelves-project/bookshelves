@@ -7,29 +7,6 @@ return [
      */
     'disk_name' => env('MEDIA_DISK', 'media'),
 
-    // 'disks' => [
-    // 'covers' => [
-    //     'driver' => 'local',
-    //     'root' => storage_path('covers'),
-    // ],
-    // 'books' => [
-    //     'driver' => 'local',
-    //     'root' => storage_path('books'),
-    // ],
-    // 'epub' => [
-    //     'driver' => 'local',
-    //     'root' => storage_path('epub'),
-    // ],
-    // 'cms' => [
-    //     'driver' => 'local',
-    //     'root' => storage_path('cms'),
-    // ],
-    // 'series' => [
-    //     'driver' => 'local',
-    //     'root' => storage_path('series'),
-    // ],
-    // ],
-
     /*
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.

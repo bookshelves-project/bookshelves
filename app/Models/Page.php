@@ -29,5 +29,9 @@ class Page extends Model implements HasMedia
             ->singleFile()
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
         ;
+
+        $this->addMediaCollection('page-images')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
+        ;
     }
 }
