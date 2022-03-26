@@ -104,7 +104,10 @@
                   </span>
                 </th>
               </tr>
-              <tr v-if="hasFilter" class="text-left hidden lg:table-row">
+              <tr
+                v-if="hasFilter"
+                class="text-left hidden lg:table-row dark:bg-gray-800"
+              >
                 <th v-if="!!$slots['bulk-actions']"></th>
                 <th
                   v-for="column in getColumns"
@@ -135,7 +138,6 @@
                 :key="item.id"
                 :model-value="isItemSelected(item.id)"
                 :can-select="!!$slots['bulk-actions']"
-                class="hover:bg-gray-100 dark:hover:bg-gray-800"
                 :class="{ 'cursor-pointer': rowClick }"
                 :columns="getColumns"
                 :item="item"
