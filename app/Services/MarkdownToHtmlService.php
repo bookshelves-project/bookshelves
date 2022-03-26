@@ -109,8 +109,8 @@ class MarkdownToHtmlService
         $this->html = str_replace('<html><body>', '', $this->html);
         $this->html = str_replace('</body></html>', '', $this->html);
         $this->html = str_replace('<p><img', '<img', $this->html);
-        $this->html = str_replace('></p>', '/>', $this->html);
-        $this->html = $this->minifyOutput($this->html);
+        // $this->html = str_replace('></p>', ' >', $this->html);
+        // $this->html = $this->minifyOutput($this->html);
 
         $model->{$model_body_attr} = $this->html;
         $model->save();
