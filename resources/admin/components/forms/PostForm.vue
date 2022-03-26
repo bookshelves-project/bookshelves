@@ -14,87 +14,65 @@
   >
     <div class="form-grid">
       <card-content>
-        <div class="form-split">
-          <text-input source="title" type="text" />
-          <div class="mt-5">
-            <text-input source="summary" multiline />
-          </div>
-        </div>
-        <div class="form-split">
-          <text-input source="meta_title" type="text" />
-          <div class="mt-5">
-            <text-input source="meta_description" multiline />
-          </div>
-        </div>
-        <div class="form-full">
-          <editor-input source="body" :height="800" />
-        </div>
+        <text-input source="title" type="text" />
+        <text-input source="meta_title" type="text" />
+        <text-input source="summary" multiline />
+        <text-input source="meta_description" multiline />
+        <editor-input source="body" :height="800" full />
       </card-content>
       <card-side>
-        <div class="form-full">
-          <field source="status" type="select" choices="post_statuses" />
-        </div>
-        <div class="form-full">
-          <text-input
-            source="slug"
-            type="text"
-            :hint="$t('Leave empty for auto generate the link.')"
-          />
-        </div>
-        <div class="form-full">
-          <file-input
-            source="featured_image"
-            file-source="featured_image_file"
-            delete-source="featured_image_delete"
-            preview
-          />
-        </div>
-        <div class="form-full">
-          <rich-select-input
-            source="user_id"
-            label-key="user"
-            resource="users"
-            searchable
-            :min-chars="0"
-          />
-        </div>
-        <div class="form-full">
-          <date-input
-            source="published_at"
-            :hint="
-              $t(
-                'If future date, the post will be automatically posted at this date.'
-              )
-            "
-          />
-        </div>
-        <div class="form-full">
-          <reference-input
-            source="category_id"
-            label-key="category"
-            resource="post-categories"
-            allow-empty
-          />
-        </div>
-        <div class="form-full">
-          <rich-select-input
-            source="tags"
-            resource="tags"
-            label-key="tags"
-            multiple
-            taggable
-            searchable
-            :min-chars="0"
-            option-value="name"
-            :getter="(post) => post.tags.map((t) => t.name)"
-          />
-        </div>
-        <div class="form-full">
-          <switch-input source="pin" />
-        </div>
-        <div class="form-full">
-          <switch-input source="promote" />
-        </div>
+        <field source="status" type="select" choices="post_statuses" full />
+        <text-input
+          source="slug"
+          type="text"
+          :hint="$t('Leave empty for auto generate the link.')"
+          full
+        />
+        <file-input
+          source="featured_image"
+          file-source="featured_image_file"
+          delete-source="featured_image_delete"
+          preview
+          full
+        />
+        <rich-select-input
+          source="user_id"
+          label-key="user"
+          resource="users"
+          searchable
+          :min-chars="0"
+          full
+        />
+        <date-input
+          source="published_at"
+          :hint="
+            $t(
+              'If future date, the post will be automatically posted at this date.'
+            )
+          "
+          full
+        />
+        <reference-input
+          source="category_id"
+          label-key="category"
+          resource="post-categories"
+          allow-empty
+          full
+        />
+        <rich-select-input
+          source="tags"
+          resource="tags"
+          label-key="tags"
+          multiple
+          taggable
+          searchable
+          :min-chars="0"
+          option-value="name"
+          :getter="(post) => post.tags.map((t) => t.name)"
+          full
+        />
+        <switch-input source="pin" full />
+        <switch-input source="promote" full />
 
         <div class="flex form-full">
           <dropdown class="ml-auto" wrapper-classes="w-72 right">

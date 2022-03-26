@@ -1,17 +1,3 @@
-<template>
-  <input-label :for="id" class="mb-1" :value="getLabel" />
-  <flatpickr-input-wrapper
-    v-bind="$attrs"
-    :id="id"
-    class="block w-full dark:bg-gray-700 dark:border-gray-600"
-    :class="{ 'form-invalid': hasError }"
-    :options="config"
-    :model-value="formValue"
-  />
-  <input-error :message="getError" class="mt-2" />
-  <input-hint :message="hint" class="mt-2" />
-</template>
-
 <script lang="ts" setup>
 import { computed, PropType } from 'vue'
 import { inputProps, inputSetup } from '@admin/composables/input'
@@ -40,3 +26,19 @@ const config = computed((): Options => {
   return config
 })
 </script>
+
+<template>
+  <base-input>
+    <input-label :for="id" class="mb-1" :value="getLabel" />
+    <flatpickr-input-wrapper
+      v-bind="$attrs"
+      :id="id"
+      class="block w-full dark:bg-gray-700 dark:border-gray-600"
+      :class="{ 'form-invalid': hasError }"
+      :options="config"
+      :model-value="formValue"
+    />
+    <input-error :message="getError" class="mt-2" />
+    <input-hint :message="hint" class="mt-2" />
+  </base-input>
+</template>

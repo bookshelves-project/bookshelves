@@ -1,5 +1,7 @@
 <template>
-  <select-input v-model="formValue" v-bind="props" :choices="choices" />
+  <base-input>
+    <select-input v-model="formValue" v-bind="props" :choices="choices" />
+  </base-input>
 </template>
 
 <script lang="ts" setup>

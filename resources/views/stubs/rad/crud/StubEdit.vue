@@ -1,3 +1,19 @@
+<script lang="ts" setup>
+import { PropType } from 'vue'
+import { Stub } from '@admin/types'
+import route from 'ziggy-js'
+
+const props = defineProps({
+  stubPascal: {
+    type: Object as PropType<Stub>,
+    required: true,
+  },
+})
+
+const method = 'put'
+const url = route('admin.stubsKebab.update', { id: props.stubPascal.id })
+</script>
+
 <template>
   <edit-context v-slot="{ title }" resource="stubsKebab" :item="stubPascal">
     <app-layout :title="stubPascal.stubAttr">
@@ -15,19 +31,3 @@
     </app-layout>
   </edit-context>
 </template>
-
-<script lang="ts" setup>
-  import { PropType } from 'vue'
-  import { Stub } from '@admin/types'
-  import route from 'ziggy-js'
-
-  const props = defineProps({
-    stubPascal: {
-      type: Object as PropType<Stub>,
-      required: true,
-    },
-  })
-
-  const method = 'put'
-  const url = route('admin.stubsKebab.update', { id: props.stubPascal.id })
-</script>
