@@ -43,10 +43,10 @@ const editor = useEditor({
     Link.configure({
       openOnClick: false,
     }),
-    TaskList,
-    TaskItem.configure({
-      nested: true,
-    }),
+    // TaskList,
+    // TaskItem.configure({
+    //   nested: true,
+    // }),
     Placeholder.configure({
       placeholder: 'Write something…',
     }),
@@ -199,7 +199,7 @@ const buttons = props.options === 'basic' ? buttonsBasic() : buttonsComplete()
   }
 }
 
-.editor-text :deep(.prose-lg) ul li {
+/* .editor-text :deep(.prose-lg) ul li {
   @apply !flex;
 }
 .editor-text :deep(.prose-lg) ul label {
@@ -210,5 +210,5 @@ const buttons = props.options === 'basic' ? buttonsBasic() : buttonsComplete()
 }
 .editor-text :deep(.prose-lg) ul p {
   @apply !m-0;
-}
+} */
 </style>

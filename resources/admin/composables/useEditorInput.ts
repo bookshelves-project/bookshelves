@@ -217,7 +217,6 @@ export const useEditorInput = () => {
       paragraph,
       listBullet,
       listOrdered,
-      listTask,
       codeBlock,
       seperator,
       image,
