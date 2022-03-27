@@ -12,8 +12,6 @@ import {
   Submission,
   Tag,
   User,
-  WikipediaItem,
-  GoogleBook,
   Page,
 } from '@admin/types'
 import { PageProps } from '@inertiajs/inertia'
@@ -52,8 +50,6 @@ export function useModelToString(
         tags: (model: Tag) => model.name,
         languages: (model: Language) => model.name,
         publishers: (model: Publisher) => model.name,
-        wikipediaItems: (model: WikipediaItem) => model.search_query,
-        googleBooks: (model: GoogleBook) => model.original_isbn,
         pages: (model: Page) => model.title,
       } as { [key: string]: (model) => string }
     )[toCamelCase(resource)](model)

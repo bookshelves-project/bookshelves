@@ -8,12 +8,12 @@ use Illuminate\Support\Str;
 use function Pest\testDirectory;
 
 beforeEach(function () {
-    File::makeDirectory(public_path('dist/test'), 0755, true);
-    File::copy(testDirectory('manifest.json'), public_path('dist/test/manifest.json'));
+    File::makeDirectory(public_path('assets/dist/test'), 0755, true);
+    File::copy(testDirectory('manifest.json'), public_path('assets/dist/test/manifest.json'));
 });
 
 afterEach(function () {
-    File::deleteDirectory(public_path('dist/test'));
+    File::deleteDirectory(public_path('assets/dist/test'));
 });
 
 test('vite directive should return correct embed call', function () {
@@ -42,7 +42,7 @@ test('vite manifest return dev scripts', function () {
 test('vite manifest return production scripts', function () {
     Config::set('vite.dev_server', false);
 
-    $url = Str::replace('/', '\/', asset('dist/test/assets'));
+    $url = Str::replace('/', '\/', asset('assets/dist/test/assets'));
 
     $scripts = app(LaravelViteManifest::class)->embed('test', 'app.ts', 3100);
 

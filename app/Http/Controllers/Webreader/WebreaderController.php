@@ -19,24 +19,6 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('webreader')]
 class WebreaderController extends Controller
 {
-    #[Get('/', name: 'front.webreader')]
-    public function index()
-    {
-        SEOTools::setTitle('Webreader');
-
-        $random_book = Book::inRandomOrder()->first();
-        $cover = null;
-        $route = null;
-        $service = MarkdownService::generate('webreader/index.md');
-        $content = $service->convertToHtml();
-        if ($random_book) {
-            $cover = $random_book->getCoverThumbnailAttribute();
-            $route = route('webreader.reader', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
-        }
-
-        return view('webreader::pages.index', compact('random_book', 'cover', 'route', 'content'));
-    }
-
     #[Get('/{author}/{book}/{page?}', name: 'webreader.reader')]
     public function reader(string $author, string $book, ?string $page = null)
     {

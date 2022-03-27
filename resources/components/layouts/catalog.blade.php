@@ -14,8 +14,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    {{-- @vite('front', 'app.ts', 3100) --}}
-
     <style>
         @media only screen and (max-width: 600px) {
             .inner-body {

@@ -17,8 +17,6 @@ const sidebar = {
     // const sidebarCloseBtn = refsAlpine.sidebarCloseBtn
     // const sidebar = refsAlpine.sidebar
 
-    console.log(this.$refs)
-
     this.on = !this.on
   },
 }

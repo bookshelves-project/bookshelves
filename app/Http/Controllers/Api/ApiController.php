@@ -63,7 +63,7 @@ class ApiController extends Controller
      */
     public function home()
     {
-        $list = RouteService::getList('api/v1');
+        $list = RouteService::getList();
 
         return response()->json([
             'name' => config('app.name').' API',

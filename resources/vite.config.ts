@@ -15,7 +15,7 @@ export default (entry: string): UserConfigExport => {
     root: `resources/${entry}`,
     publicDir: `${entry}/static`,
     build: {
-      outDir: `../../public/dist/${entry}`,
+      outDir: `../../public/assets/dist/${entry}`,
       emptyOutDir: true,
       manifest: true,
       rollupOptions: {
