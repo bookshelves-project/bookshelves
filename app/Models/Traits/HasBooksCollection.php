@@ -36,6 +36,7 @@ trait HasBooksCollection
                     'name' => $entity->slug,
                     'size' => $size['size'] > 0 ? $this->humanFilesize($size['size']) : null,
                     'download' => $route,
+                    'type' => "{$format} zip",
                     'count' => $size['count'],
                 ];
                 $list[$format] = $download;
