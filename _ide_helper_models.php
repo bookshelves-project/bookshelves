@@ -43,14 +43,13 @@ namespace App\Models{
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
- * @property-read array $download_link
+ * @property-read object $download_link
  * @property-read string $first_char
  * @property-read bool $is_favorite
  * @property-read string $show_books_link
  * @property-read string $show_link
  * @property-read string $show_opds_link
  * @property-read string $show_series_link
- * @property-read object $sizes
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
@@ -797,7 +796,7 @@ namespace App\Models{
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
- * @property-read array $download_link
+ * @property-read object $download_link
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $meta_author
@@ -805,7 +804,6 @@ namespace App\Models{
  * @property-read string $show_link
  * @property-read string $show_link_opds
  * @property-read string $show_opds_link
- * @property-read object $sizes
  * @property-read mixed $tags_list
  * @property-read string $webreader_link
  * @property-read \App\Models\Language|null $language
