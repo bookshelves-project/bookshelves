@@ -14,6 +14,7 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Selectionable;
 use App\Models\Serie;
+use App\Services\DownloadService;
 use App\Services\EntityService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -97,29 +98,5 @@ class BookController extends ApiController
             'No tags or no books related',
             400
         );
-    }
-
-    /**
-     * GET Download.
-     *
-     * <small class="badge badge-green">Content-Type application/epub+zip</small>
-     *
-     * Download Book EPUB, find by slug of book and slug of author.
-     *
-     * @header Content-Type application/epub+zip
-     */
-    public function download(Author $author, Book $book, string $format = 'epub')
-    {
-        $format = BookFormatEnum::tryFrom($format)->name;
-        $media = $book->files[$format];
-        if (null === $media) {
-            foreach ($book->files as $value) {
-                if (null !== $value) {
-                    $media = $value;
-                }
-            }
-        }
-
-        return response()->download($media->getPath(), $media->file_name);
     }
 }

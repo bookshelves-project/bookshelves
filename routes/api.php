@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CmsController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CountController;
+use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\EntityController;
 use App\Http\Controllers\Api\EnumController;
 use App\Http\Controllers\Api\FavoriteController;
@@ -72,7 +73,6 @@ Route::prefix('authors')->group(function () {
     Route::get('/{author_slug}', [AuthorController::class, 'show'])->name('api.authors.show');
     Route::get('/books/{author_slug}', [AuthorController::class, 'books'])->name('api.authors.show.books');
     Route::get('/series/{author_slug}', [AuthorController::class, 'series'])->name('api.authors.show.series');
-    Route::get('/download/{author_slug}/{format?}', [AuthorController::class, 'download'])->name('api.authors.download');
 });
 
 /*
@@ -81,7 +81,6 @@ Route::prefix('authors')->group(function () {
 Route::prefix('books')->group(function () {
     Route::get('/', [BookController::class, 'index'])->name('api.books.index');
     Route::get('/{author_slug}/{book_slug}', [BookController::class, 'show'])->name('api.books.show');
-    Route::get('/download/{author_slug}/{book_slug}/{format?}', [BookController::class, 'download'])->name('api.books.download');
     Route::get('/related/{author_slug}/{book_slug}', [BookController::class, 'related'])->name('api.books.related');
 });
 
@@ -93,7 +92,6 @@ Route::prefix('series')->group(function () {
     Route::get('/{author_slug}/{serie_slug}', [SerieController::class, 'show'])->name('api.series.show');
     Route::get('/books/{author_slug}/{serie_slug}', [SerieController::class, 'books'])->name('api.series.show.books');
     Route::get('/books/{volume}/{author_slug}/{serie_slug}', [SerieController::class, 'current'])->name('api.series.current');
-    Route::get('/download/{author_slug}/{serie_slug}/{format?}', [SerieController::class, 'download'])->name('api.series.download');
 });
 
 /*

@@ -21,9 +21,7 @@ class SerieResource extends JsonResource
      */
     public function toArray($request)
     {
-        $resource = SerieLightResource::make($this->resource)->toArray($request);
-
-        return array_merge($resource, [
+        return array_merge(SerieLightResource::make($this->resource)->toArray($request), [
             'description' => $this->resource->description,
             'link' => $this->resource->link,
             'language' => $this->resource->language?->slug,
@@ -36,8 +34,6 @@ class SerieResource extends JsonResource
             'tags' => TagLightResource::collection($this->resource->tags_list),
             'genres' => TagLightResource::collection($this->resource->genres_list),
             'download' => $this->resource->download_link,
-            'sizes' => $this->resource->sizes,
-            // 'books'      => BookSerieResource::collection($this->resource->books),
             'isFavorite' => $this->resource->is_favorite,
             'comments' => CommentResource::collection($this->resource->comments),
         ]);

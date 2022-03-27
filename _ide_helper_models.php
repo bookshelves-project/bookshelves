@@ -43,7 +43,7 @@ namespace App\Models{
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
- * @property-read string $download_link
+ * @property-read array $download_link
  * @property-read string $first_char
  * @property-read bool $is_favorite
  * @property-read string $show_books_link
@@ -105,7 +105,7 @@ namespace App\Models{
  * @property int|null $page_count
  * @property string|null $maturity_rating
  * @property bool $disabled
- * @property string $type
+ * @property \App\Enums\BookTypeEnum $type
  * @property string|null $isbn10
  * @property string|null $isbn13
  * @property array|null $identifiers
@@ -117,6 +117,7 @@ namespace App\Models{
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
+ * @property-read \App\Models\Author $author
  * @property-read string $authors_names
  * @property-read \App\Models\MediaExtended|null $cover_book
  * @property-read string|null $cover_color
@@ -124,7 +125,7 @@ namespace App\Models{
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
- * @property-read string $download_link
+ * @property-read array $download_link
  * @property-read \App\Models\MediaExtended[]|null[] $files
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
@@ -776,6 +777,7 @@ namespace App\Models{
  * @property int|null $wikipedia_item_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \App\Enums\BookTypeEnum $type
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
  * @property-read int|null $authors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -786,6 +788,7 @@ namespace App\Models{
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
+ * @property-read \App\Models\Author $author
  * @property-read string $authors_names
  * @property-read string $content_opds
  * @property-read \App\Models\MediaExtended|null $cover_book
@@ -794,7 +797,7 @@ namespace App\Models{
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
- * @property-read string $download_link
+ * @property-read array $download_link
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $meta_author

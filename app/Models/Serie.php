@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Engines\ParserEngine;
+use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Models\Traits\HasAuthors;
 use App\Models\Traits\HasBooksCollection;
@@ -82,7 +83,18 @@ class Serie extends Model implements HasMedia
         ]);
     }
 
-    public function getSizesAttribute(): object
+    public function getDownloadLinkFormat(string $format): string
+    {
+        $format = BookFormatEnum::from($format)->value;
+
+        return route('api.download.serie', [
+            'author_slug' => $this->meta_author,
+            'serie_slug' => $this->slug,
+            'format' => $format,
+        ]);
+    }
+
+    public function getDownloadLinkAttribute(): object
     {
         $serie = Serie::whereSlug($this->slug)
             ->with('books.media')

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\BookFormatEnum;
 use App\Enums\EntityEnum;
 use App\Models\Book;
 use App\Models\TagExtend;
@@ -228,14 +229,7 @@ class OpdsService
                     'rel' => 'http://opds-spec.org/image/thumbnail',
                 ],
             ],
-            '__custom:link:4' => [
-                '_attributes' => [
-                    'href' => $book->download_link,
-                    'type' => 'application/epub+zip',
-                    'rel' => 'http://opds-spec.org/acquisition',
-                    'title' => 'EPUB',
-                ],
-            ],
+            ...$this->formats($book),
             'category' => $categories,
             'author' => [
                 'name' => $book->authors[0]->name,
@@ -246,5 +240,28 @@ class OpdsService
             'volume' => $book->volume,
             'dcterms:language' => $book->language->name,
         ];
+    }
+
+    public function formats(Book $book): array
+    {
+        $list = [];
+        $i = 4;
+        foreach (BookFormatEnum::toValues() as $format) {
+            if ($book->files[$format]) {
+                if (null !== $book->download_link[$format]) {
+                    $list['__custom:link:4'] = [
+                        '_attributes' => [
+                            'href' => $book->download_link[$format],
+                            'type' => 'application/epub+zip',
+                            'rel' => 'http://opds-spec.org/acquisition',
+                            'title' => 'EPUB',
+                        ],
+                    ];
+                    ++$i;
+                }
+            }
+        }
+
+        return $list;
     }
 }

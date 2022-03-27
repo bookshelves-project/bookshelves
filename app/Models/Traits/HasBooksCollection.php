@@ -29,10 +29,20 @@ trait HasBooksCollection
 
         $list = [];
         foreach ($sizes as $format => $size) {
-            $list[$format] = $size['size'] ? [
-                'size' => $size['size'] > 0 ? $this->humanFilesize($size['size']) : null,
-                'count' => $size['count'],
-            ] : null;
+            $route = $this->getDownloadLinkFormat($format);
+
+            if ($size['size']) {
+                $download = [
+                    'name' => $entity->slug,
+                    'size' => $size['size'] > 0 ? $this->humanFilesize($size['size']) : null,
+                    'download' => $route,
+                    'count' => $size['count'],
+                ];
+                $list[$format] = $download;
+                $list['main'] = $download;
+            } else {
+                $list[$format] = null;
+            }
         }
 
         return json_decode(json_encode($list, JSON_FORCE_OBJECT));

@@ -134,12 +134,34 @@ class Book extends Model implements HasMedia
         ]);
     }
 
-    // public function getShowLinkAttribute(): string
-    // {
-    //     return route('api.users.show', [
-    //         'slug' => $this->slug,
-    //     ]);
-    // }
+    public function getDownloadLinkAttribute(): array
+    {
+        $list = [];
+        $main = null;
+        foreach (BookFormatEnum::toValues() as $format) {
+            $media = null;
+            if (null !== $this->files[$format]) {
+                $route = route('api.download.book', [
+                    'author_slug' => $this->meta_author,
+                    'book_slug' => $this->slug,
+                    'format' => $format,
+                ]);
+                /** @var MediaExtended $file */
+                $file = $this->files[$format];
+                $media = [
+                    'name' => $file->file_name,
+                    'size' => $file->size_human,
+                    'download' => $route,
+                    'type' => $file->extension,
+                ];
+                $main = $media;
+            }
+            $list[$format] = $media;
+        }
+        $list['main'] = $main;
+
+        return $list;
+    }
 
     public function scopeWhereDisallowSerie(Builder $query, string $has_not_serie): Builder
     {

@@ -6,6 +6,9 @@ use App\Http\Resources\Comment\CommentResource;
 use App\Models\Author;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property \App\Models\Author $resource
+ */
 class AuthorResource extends JsonResource
 {
     /**
@@ -17,25 +20,19 @@ class AuthorResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var Author $author */
-        $author = $this;
-
-        $resource = AuthorLightResource::make($author)->toArray($request);
-
-        return array_merge($resource, [
+        return array_merge(AuthorLightResource::make($this->resource)->toArray($request), [
             'meta' => [
                 'entity' => $this->resource->getClassName(),
-                'slug' => $author->slug,
-                'show' => $author->show_link,
-                'books' => $author->show_books_link,
-                'series' => $author->show_series_link,
+                'slug' => $this->resource->slug,
+                'show' => $this->resource->show_link,
+                'books' => $this->resource->show_books_link,
+                'series' => $this->resource->show_series_link,
             ],
-            'description' => $author->description,
-            'link' => $author->link,
-            'sizes' => $author->sizes,
-            'download' => $author->download_link,
-            'isFavorite' => $author->is_favorite,
-            'comments' => CommentResource::collection($author->comments),
+            'description' => $this->resource->description,
+            'link' => $this->resource->link,
+            'download' => $this->resource->download_link,
+            'isFavorite' => $this->resource->is_favorite,
+            'comments' => CommentResource::collection($this->resource->comments),
         ]);
     }
 }

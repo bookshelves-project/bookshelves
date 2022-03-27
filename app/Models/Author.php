@@ -99,14 +99,17 @@ class Author extends Model implements HasMedia
         ]);
     }
 
-    public function getDownloadLinkAttribute(): string
+    public function getDownloadLinkFormat(string $format): string
     {
-        return route('api.authors.download', [
+        $format = BookFormatEnum::from($format)->value;
+
+        return route('api.download.author', [
             'author_slug' => $this->slug,
+            'format' => $format,
         ]);
     }
 
-    public function getSizesAttribute(): object
+    public function getDownloadLinkAttribute(): object
     {
         $author = Author::whereSlug($this->slug)
             ->with('books.media')

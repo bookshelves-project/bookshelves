@@ -98,7 +98,19 @@ class RouteServiceProvider extends ServiceProvider
             ;
         });
 
-        // Front dedicated routes...
+        Route::prefix('api')
+            ->name('api.')
+            ->group(
+                function () {
+                    (new RouteRegistrar(app(Router::class)))
+                        ->useRootNamespace(app()->getNamespace())
+                        ->useMiddleware(['web'])
+                        ->registerDirectory(app_path('Http/Controllers/Api'))
+                    ;
+                }
+            )
+        ;
+
         (new RouteRegistrar(app(Router::class)))
             ->useRootNamespace(app()->getNamespace())
             ->useMiddleware(['web'])

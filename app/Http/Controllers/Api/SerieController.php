@@ -10,6 +10,7 @@ use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Serie\SerieResource;
 use App\Models\Author;
 use App\Models\Serie;
+use App\Services\DownloadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Support\MediaStream;
@@ -92,28 +93,5 @@ class SerieController extends ApiController
         }
 
         return BookOrSerieResource::collection($books->splice(0, 10));
-    }
-
-    /**
-     * GET Download.
-     *
-     * <small class="badge badge-green">Content-Type application/octet-stream</small>
-     *
-     * Download Serie ZIP, find by slug of serie and slug of author.
-     *
-     * @header Content-Type application/octet-stream
-     */
-    public function download(Author $author, Serie $serie)
-    {
-        $epubs = [];
-        foreach ($serie->books as $book) {
-            $epub = $book->getMedia('epub')->first();
-            array_push($epubs, $epub);
-        }
-
-        $token = Str::slug(Str::random(8));
-        $dirname = "{$serie->meta_author}-{$serie->slug}-{$token}";
-
-        return MediaStream::create("{$dirname}.zip")->addMedia($epubs);
     }
 }

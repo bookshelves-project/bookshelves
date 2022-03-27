@@ -2,6 +2,7 @@
 
 namespace App\Models\Traits;
 
+use App\Enums\BookFormatEnum;
 use App\Models\Author;
 use ArrayAccess;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,6 +31,14 @@ trait HasAuthors
         $author = $this->authors->first();
 
         return $author->slug;
+    }
+
+    /**
+     * Get main Author of entity.
+     */
+    public function getAuthorAttribute(): Author
+    {
+        return $this->authors->first();
     }
 
     /**
@@ -64,14 +73,6 @@ trait HasAuthors
             'version' => 'v1.2',
             'author' => $this->meta_author,
             $this->getClassName() => $this->slug,
-        ]);
-    }
-
-    public function getDownloadLinkAttribute(): string
-    {
-        return route("api.{$this->getClassName()}s.download", [
-            'author_slug' => $this->meta_author,
-            "{$this->getClassName()}_slug" => $this->slug,
         ]);
     }
 

@@ -88,27 +88,4 @@ class AuthorController extends ApiController
     {
         return SerieLightResource::collection($author->series()->paginate(32));
     }
-
-    /**
-     * GET Download.
-     *
-     * <small class="badge badge-green">Content-Type application/octet-stream</small>
-     *
-     * Download Book[] ZIP, find by slug of author.
-     *
-     * @header Content-Type application/octet-stream
-     */
-    public function download(Author $author)
-    {
-        $epubs = [];
-        foreach ($author->books as $key => $book) {
-            $epub = $book->getMedia('epub')->first();
-            array_push($epubs, $epub);
-        }
-
-        $token = Str::slug(Str::random(8));
-        $dirname = "{$author->slug}-{$token}";
-
-        return MediaStream::create("{$dirname}.zip")->addMedia($epubs);
-    }
 }

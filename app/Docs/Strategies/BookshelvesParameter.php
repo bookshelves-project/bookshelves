@@ -2,6 +2,7 @@
 
 namespace App\Docs\Strategies;
 
+use App\Enums\BookFormatEnum;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
@@ -38,20 +39,17 @@ class BookshelvesParameter extends Strategy
             'authors.show' => 'author',
             'authors.show.books' => 'author',
             'authors.show.series' => 'author',
-            'authors.download' => 'author',
             'books.show' => 'book',
             'books.related' => 'book',
-            'books.download' => 'book',
-            'download.book' => 'book',
-            'download.serie' => 'serie',
-            'download.author' => 'author',
             'languages.show' => 'language',
             'publishers.show' => 'publisher',
             'publishers.show.books' => 'publisher',
             'series.show' => 'serie',
             'series.show.books' => 'serie',
             'series.current' => 'serieVolume',
-            'series.download' => 'serie',
+            'download.book' => 'downloadBook',
+            'download.serie' => 'downloadSerie',
+            'download.author' => 'downloadAuthor',
             'tags.show' => 'tag',
             'tags.show.books' => 'tag',
             'users.show' => 'user',
@@ -71,11 +69,7 @@ class BookshelvesParameter extends Strategy
         $author = Author::inRandomOrder()->first();
 
         return [
-            'author_slug' => [
-                'description' => "`slug` of author in `meta.slug` authors' list, example: `{$author->slug}`",
-                'required' => true,
-                'example' => $author->slug,
-            ],
+            ...$this->author_slug($author),
         ];
     }
 
@@ -84,16 +78,8 @@ class BookshelvesParameter extends Strategy
         $book = Book::inRandomOrder()->first();
 
         return [
-            'author_slug' => [
-                'description' => "`slug` of author in `meta.author` books' list, in case of multiple authors, default author is selected so you need to refer to books' list and not authors' list, example: `{$book->meta_author}`",
-                'required' => true,
-                'example' => $book->meta_author,
-            ],
-            'book_slug' => [
-                'description' => "`slug` of book in `meta.slug` books' list, example: `{$book->slug}`",
-                'required' => true,
-                'example' => $book->slug,
-            ],
+            ...$this->author_slug($book->author),
+            ...$this->book_slug($book),
         ];
     }
 
@@ -102,16 +88,8 @@ class BookshelvesParameter extends Strategy
         $serie = Serie::inRandomOrder()->first();
 
         return [
-            'author_slug' => [
-                'description' => "`slug` of author in `meta.author` series' list, in case of multiple authors, default author is selected so you need to refer to series' list and not authors' list, example: `{$serie->meta_author}`",
-                'required' => true,
-                'example' => $serie->meta_author,
-            ],
-            'serie_slug' => [
-                'description' => "`slug` of serie in `meta.slug` series' list, example: `{$serie->slug}`",
-                'required' => true,
-                'example' => $serie->slug,
-            ],
+            ...$this->author_slug($serie->author),
+            ...$this->serie_slug($serie),
         ];
     }
 
@@ -128,6 +106,38 @@ class BookshelvesParameter extends Strategy
         $serie = $this->serie();
 
         return array_merge($volume, $serie);
+    }
+
+    private function downloadBook(): array
+    {
+        $book = Book::inRandomOrder()->first();
+
+        return [
+            ...$this->author_slug($book->author),
+            ...$this->book_slug($book),
+            ...$this->format(),
+        ];
+    }
+
+    private function downloadAuthor(): array
+    {
+        $author = Author::inRandomOrder()->first();
+
+        return [
+            ...$this->author_slug($author),
+            ...$this->format(),
+        ];
+    }
+
+    private function downloadSerie(): array
+    {
+        $serie = Serie::inRandomOrder()->first();
+
+        return [
+            ...$this->author_slug($serie->author),
+            ...$this->serie_slug($serie),
+            ...$this->format(),
+        ];
     }
 
     private function tag(): array
@@ -181,6 +191,50 @@ class BookshelvesParameter extends Strategy
                 'description' => "`slug` of user in `meta.slug` users' list, example: `{$user->slug}`",
                 'required' => true,
                 'example' => $user->slug,
+            ],
+        ];
+    }
+
+    private function author_slug(Author $author)
+    {
+        return [
+            'author_slug' => [
+                'description' => "`slug` of author in `meta.author` books' list, in case of multiple authors, default author is selected so you need to refer to books' list and not authors' list, example: `{$author->slug}`",
+                'required' => true,
+                'example' => $author->slug,
+            ],
+        ];
+    }
+
+    private function book_slug(Book $book)
+    {
+        return [
+            'book_slug' => [
+                'description' => "`slug` of book in `meta.slug` books' list, example: `{$book->slug}`",
+                'required' => true,
+                'example' => $book->slug,
+            ],
+        ];
+    }
+
+    private function serie_slug(Serie $serie)
+    {
+        return [
+            'serie_slug' => [
+                'description' => "`slug` of serie in `meta.slug` series' list, example: `{$serie->slug}`",
+                'required' => true,
+                'example' => $serie->slug,
+            ],
+        ];
+    }
+
+    private function format()
+    {
+        return [
+            'format' => [
+                'description' => 'Format for Book or Book[], if `null` get first format available if format not exist return `404`, to have a format list, check `api.entities.enums`.',
+                'required' => false,
+                'example' => BookFormatEnum::epub->name,
             ],
         ];
     }
