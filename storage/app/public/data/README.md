@@ -16,6 +16,18 @@ New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\
 New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\pictures-series\pictures-series" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\environment\pictures-series"
 ```
 
+## Linux
+
+```bash
+sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/comic public/storage/data/books/comic/linked
+
+sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/essay public/storage/data/books/essay/linked
+
+sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/handbook public/storage/data/books/handbook/linked
+
+sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/novel public/storage/data/books/novel/linked
+```
+
 ## Windows
 
 ```bash

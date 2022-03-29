@@ -13,8 +13,9 @@ use App\Engines\ConverterEngine\TagConverter;
 use App\Engines\ConverterEngine\TypeConverter;
 use App\Engines\ParserEngine\Models\BookCreator;
 use App\Enums\BookFormatEnum;
+use App\Models\Author;
 use App\Models\Book;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class ConverterEngine
 {
@@ -63,20 +64,22 @@ class ConverterEngine
         }
     }
 
-    public static function bookIfExist(?ParserEngine $parser): Book|bool
+    public static function bookIfExist(?ParserEngine $parser): Book|false
     {
         if ($parser) {
+            $authors_name = [];
+            /** @var BookCreator $creator */
+            foreach ($parser->creators as $creator) {
+                $author = AuthorConverter::create($creator);
+                array_push($authors_name, "{$author->firstname} {$author->lastname}");
+                array_push($authors_name, "{$author->lastname} {$author->firstname}");
+            }
+
             $book = Book::whereSlug($parser->title_slug_lang)
-                ->whereRelation('authors', function (Builder $builder) use ($parser) {
-                    $authors_name = [];
-                    /** @var BookCreator $creator */
-                    foreach ($parser->creators as $creator) {
-                        $author = AuthorConverter::create($creator);
-                        array_push($authors_name, "{$author->firstname} {$author->lastname}");
-                        array_push($authors_name, "{$author->lastname} {$author->firstname}");
-                    }
-                    return $builder->whereIn('name', $authors_name);
-                })
+                ->whereHas(
+                    'authors',
+                    fn (Builder $query) => $query->whereIn('name', $authors_name)
+                )
                 ->whereType($parser->type)
                 ->first()
             ;

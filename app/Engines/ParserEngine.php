@@ -90,9 +90,9 @@ class ParserEngine
 
             $engine->slug_sort = ParserEngine::generateSortTitle($engine->title);
             $engine->slug = Str::slug($engine->title);
-            $engine->title_slug_lang = Str::slug($engine->title.' '.$engine->language);
+            $engine->title_slug_lang = self::generateSlug($engine->title, $engine->type->value, $engine->language);
             $engine->serie_slug = Str::slug($engine->serie);
-            $engine->serie_slug_lang = Str::slug($engine->serie.' '.$engine->language);
+            $engine->serie_slug_lang = $engine->serie ? self::generateSlug($engine->serie, $engine->type->value, $engine->language) : null;
             $engine->serie_sort = ParserEngine::generateSortTitle($engine->serie);
             $engine->title_serie_sort = ParserEngine::generateSortSerie($engine->title, $engine->volume, $engine->serie);
             $engine->description = ParserEngine::htmlToText($engine->description);
@@ -112,6 +112,11 @@ class ParserEngine
         }
 
         return $engine;
+    }
+
+    public static function generateSlug(string $title, string $type, string $language): string
+    {
+        return Str::slug($title.' '.$type.' '.$language);
     }
 
     /**

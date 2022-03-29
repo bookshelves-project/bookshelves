@@ -16,6 +16,7 @@ class CreateSeriesTable extends Migration
             $table->string('title')->nullable();
             $table->string('slug_sort')->nullable();
             $table->string('slug')->unique()->index()->nullable();
+            $table->string('type')->default('novel');
             $table->text('description')->nullable();
             $table->string('link')->nullable();
             $table->timestamps();

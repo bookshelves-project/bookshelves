@@ -143,7 +143,7 @@ class Serie extends Model implements HasMedia
 
     public function updateSlug()
     {
-        $this->slug = Str::slug("{$this->title} {$this->language_slug}");
+        $this->slug = ParserEngine::generateSlug($this->title, $this->type->value, $this->language_slug);
         $this->slug_sort = ParserEngine::generateSortTitle($this->title);
         $this->save();
     }

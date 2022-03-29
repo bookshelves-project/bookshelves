@@ -253,7 +253,7 @@ class Book extends Model implements HasMedia
     {
         $serie_title = $this->serie ? $this->serie->title : '';
 
-        $this->slug = Str::slug("{$this->title} {$this->language_slug}");
+        $this->slug = ParserEngine::generateSlug($this->title, $this->type->value, $this->language_slug);
         $this->slug_sort = ParserEngine::generateSortSerie($this->title, $this->volume, $serie_title);
         $this->save();
     }
