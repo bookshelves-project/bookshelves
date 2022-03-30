@@ -54,8 +54,8 @@ class SerieConverter
 
     // public static function setLocalDescription(Serie $serie): ?Serie
     // {
-    //     if (File::exists(public_path('storage/data/series.json'))) {
-    //         $json = Storage::disk('public')->get('raw/series.json');
+    //     if (File::exists(public_path('storage/data/series/series.json'))) {
+    //         $json = Storage::disk('public')->get('raw/series/series.json');
     //         $json = json_decode($json);
     //         foreach ($json as $key => $value) {
     //             if ($key === $serie->slug) {
@@ -88,7 +88,7 @@ class SerieConverter
     }
 
     /**
-     * Generate Serie image from 'public/storage/data/pictures-series' if JPG file with Serie slug exist
+     * Generate Serie image from 'public/storage/data/series' if JPG file with Serie slug exist
      * if not get image from Book with 'book_number' like '1'.
      *
      * Manage by spatie/laravel-medialibrary.
@@ -96,10 +96,10 @@ class SerieConverter
     public static function getLocalCover(Serie $serie): string|null
     {
         $disk = self::DISK;
-        // Add special cover if exist from `public/storage/data/pictures-series/`
+        // Add special cover if exist from `public/storage/data/series/`
         // Check if JPG file with series' slug name exist
         // To know slug name, check into database when serie was created
-        $path = storage_path('app/public/data/pictures-series');
+        $path = storage_path('app/public/data/series');
         $files = DirectoryParserService::parseDirectoryFiles($path);
 
         $local_cover = null;

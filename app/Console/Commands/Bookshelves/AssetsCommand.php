@@ -83,12 +83,12 @@ class AssetsCommand extends Command
                 $this->info('- Picture from Wikipedia (--local|-L to skip)');
             }
             if (! $default) {
-                $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/pictures-authors` (--default|-D to skip)');
+                $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/authors` (--default|-D to skip)');
             }
             if (! $local) {
                 $this->info('- Description from Wikipedia (--local|-L to skip)');
             }
-            $this->info('  - Default description can be in `public/storage/data/authors.json`');
+            $this->info('  - Default description can be in `public/storage/data/authors/authors.json`');
             $this->newLine();
 
             $this->assets('Author', 'authors', 'lastname');
@@ -99,11 +99,11 @@ class AssetsCommand extends Command
             if (! $default) {
                 $this->info('- Picture from first Book of Serie (--default|-D to skip)');
             }
-            $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/pictures-series`');
+            $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/series`');
             if (! $local) {
                 $this->info('- Description from Wikipedia (--local|-L to skip)');
             }
-            $this->info('  - Default description can be in `public/storage/data/series.json`');
+            $this->info('  - Default description can be in `public/storage/data/series/series.json`');
             $this->newLine();
 
             $this->assets('Serie', 'series', 'slug_sort');

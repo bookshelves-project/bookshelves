@@ -1,21 +1,5 @@
 # Link files
 
-```bash
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\storage\app\public\data\books\novel\books-pirates" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\environment\books-pirates"
-```
-
-```bash
-git add storage/app/public/data/books/TYPE/.gitignore -f
-```
-
-```bash
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\books\novel\books-pirates" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\environment\books-pirates"
-
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\pictures-authors\pictures-authors" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\environment\pictures-authors"
-
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\pictures-series\pictures-series" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\environment\pictures-series"
-```
-
 ## Linux
 
 ```bash
@@ -27,9 +11,9 @@ sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/handbook public/
 
 sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/novel public/storage/data/books/novel/linked
 
-sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/pictures-authors public/storage/data/pictures-authors/linked
+sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/pictures-authors public/storage/data/authors/pictures
 
-sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/pictures-series public/storage/data/pictures-series/linked
+sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/pictures-series public/storage/data/series/pictures
 ```
 
 ## Windows
@@ -43,7 +27,7 @@ New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\
 
 New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\books\novel\linked" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\linked\novel"
 
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\pictures-authors\linked" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\linked\pictures-authors"
+New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\authors\pictures" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\linked\pictures-authors"
 
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\pictures-series\linked" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\linked\pictures-series"
+New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\series\pictures" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\linked\pictures-series"
 ```

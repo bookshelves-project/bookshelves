@@ -134,13 +134,13 @@ class AuthorConverter
     }
 
     /**
-     * Get local picture from `public/storage/data/pictures-authors`
+     * Get local picture from `public/storage/data/authors`
      * Only JPG file with author slug as name.
      */
     public static function getLocalPicture(Author $author): ?string
     {
         $disk = self::DISK;
-        $path = storage_path('app/public/data/pictures-authors');
+        $path = storage_path('app/public/data/authors');
         $cover = null;
 
         $files = DirectoryParserService::parseDirectoryFiles($path);
@@ -155,7 +155,7 @@ class AuthorConverter
     }
 
     /**
-     * Set local picture from `public/storage/data/pictures-authors`
+     * Set local picture from `public/storage/data/authors`
      * Only JPG file with author slug as name.
      */
     public static function setLocalPicture(Author $author): Author
