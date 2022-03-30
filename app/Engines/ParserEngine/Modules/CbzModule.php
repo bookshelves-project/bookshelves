@@ -7,6 +7,7 @@ use App\Engines\ParserEngine\Models\BookCreator;
 use App\Engines\ParserEngine\Parsers\XmlInterface;
 use App\Engines\ParserEngine\Parsers\XmlParser;
 use App\Services\ConsoleService;
+use Illuminate\Support\Carbon;
 
 class CbzModule implements XmlInterface
 {
@@ -19,9 +20,10 @@ class CbzModule implements XmlInterface
 
     public static function create(ParserEngine $engine): ParserEngine|false
     {
-        $xml = new XmlParser($engine, CbzModule::class);
+        $parser = new XmlParser($engine, CbzModule::class);
+        $xml = $parser->openZip(true);
 
-        return $xml->openZip(true) ? $xml->engine : false;
+        return $xml->engine;
     }
 
     public static function parse(XmlParser $xml): ParserEngine
@@ -51,36 +53,59 @@ class CbzModule implements XmlInterface
     private function comicInfo(): static
     {
         if ($this->xml_data) {
-            foreach ($this->xml_data as $node_key => $node) {
-                $this->getRaw($node_key, $node, 'Title', 'title');
-                $this->getRaw($node_key, $node, 'Series', 'serie');
-                $this->getRaw($node_key, $node, 'Number', 'volume');
-                $this->getCreators($node_key, $node, 'Writer', 'creators');
-                $this->getRaw($node_key, $node, 'Publisher', 'publisher');
-                $this->getRaw($node_key, $node, 'LanguageISO', 'language');
-            }
+            $this->getRaw('Title', 'title');
+            $this->getRaw('Summary', 'description');
+            $this->getRaw('Series', 'serie');
+            $this->getRaw('Number', 'volume');
+            $this->getRaw('Publisher', 'publisher');
+            $this->getRaw('LanguageISO', 'language');
+            $this->getCreators('Writer', 'creators');
+            $this->getDate();
         }
 
         return $this;
     }
 
-    private function getRaw(string $node_key, mixed $node, string $extract_key, string $attribute): static
+    private function getRaw(string $extract_key, string $attribute): static
     {
-        if ($node_key === $extract_key) {
-            $this->engine->{$attribute} = $node;
+        if (array_key_exists($extract_key, $this->xml_data)) {
+            $this->engine->{$attribute} = $this->xml_data[$extract_key];
         }
 
         return $this;
     }
 
-    private function getCreators(string $node_key, mixed $node, string $extracted_key, string $attribute): static
+    private function getCreators(string $extracted_key, string $attribute): static
     {
-        if ($node_key === $extracted_key) {
-            $creators = explode(',', $node);
+        if (array_key_exists($extracted_key, $this->xml_data)) {
+            $creators = explode(',', $this->xml_data[$extracted_key]);
             foreach ($creators as $creator) {
                 $creator = new BookCreator(trim($creator), 'aut');
                 array_push($this->engine->{$attribute}, $creator);
             }
+        }
+
+        return $this;
+    }
+
+    private function getDate(): static
+    {
+        $year = null;
+        $month = null;
+        $day = null;
+        if (array_key_exists('Year', $this->xml_data)) {
+            $year = $this->xml_data['Year'];
+        }
+        if (array_key_exists('Month', $this->xml_data)) {
+            $month = $this->xml_data['Month'];
+        }
+        if (array_key_exists('Day', $this->xml_data)) {
+            $day = $this->xml_data['Day'];
+        }
+
+        if ($year || $month || $day) {
+            $date = Carbon::createFromDate($year, $month, $day);
+            $this->engine->date = $date->format('Y-m-d');
         }
 
         return $this;

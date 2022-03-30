@@ -16,7 +16,7 @@ class TagConverter
     public static function create(ParserEngine $parser, Book $book): Collection
     {
         foreach ($parser->subjects as $key => $subject) {
-            self::tagRaw($subject, $book);
+            TagConverter::setTag($subject, $book);
         }
         $book->refresh();
 
@@ -26,7 +26,7 @@ class TagConverter
     /**
      * Attach Tag to Book and define type from list of main tags.
      */
-    public static function tagRaw(string $tag, Book $book): Book
+    public static function setTag(string $tag, Book $book): Book
     {
         $main_genres = config('bookshelves.tags.genres_list');
         $tag = str_replace(' and ', ' & ', $tag);

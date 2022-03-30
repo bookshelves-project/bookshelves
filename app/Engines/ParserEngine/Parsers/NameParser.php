@@ -60,28 +60,34 @@ class NameParser
         return self::nullValueCheck(str_replace('_', ' ', $attribute));
     }
 
-    private static function extractCreators(string $creators): array
+    private static function extractCreators(?string $creators): array
     {
         $list = [];
-        $creators = explode('&', $creators);
+        if ($creators) {
+            $creators = explode('&', $creators);
 
-        foreach ($creators as $creator) {
-            array_push($list, new BookCreator(self::transformToString($creator), 'aut'));
+            foreach ($creators as $creator) {
+                array_push($list, new BookCreator(self::transformToString($creator), 'aut'));
+            }
         }
 
         return $list;
     }
 
-    private static function extractIdentifiers(string $identifiers): array
+    private static function extractIdentifiers(?string $identifiers = null): array
     {
-        $list = [];
-        $identifiers = explode('&', $identifiers);
+        if ($identifiers) {
+            $list = [];
+            $identifiers = explode('&', $identifiers);
 
-        foreach ($identifiers as $identifier) {
-            array_push($list, new BookIdentifier('isbn13', self::transformToString($identifier)));
+            foreach ($identifiers as $identifier) {
+                array_push($list, new BookIdentifier('isbn13', self::transformToString($identifier)));
+            }
+
+            return $list;
         }
 
-        return $list;
+        return [];
     }
 
     private static function nullValueCheck($value)

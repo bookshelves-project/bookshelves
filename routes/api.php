@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/', [ApiController::class, 'home'])->name('api.index');
+Route::get('/application', [CmsController::class, 'application'])->name('api.application');
 Route::post('submission/send', [SubmissionController::class, 'send'])->name('api.submissions.send');
 
 /*
@@ -60,8 +61,6 @@ Route::prefix('entities')->group(function () {
  * CMS routes
  */
 Route::prefix('cms')->group(function () {
-    Route::get('/', [CmsController::class, 'index'])->name('api.cms.index');
-    Route::get('/application', [CmsController::class, 'application'])->name('api.cms.application');
     Route::get('/home-page', [CmsController::class, 'home'])->name('api.cms.home-page');
 });
 

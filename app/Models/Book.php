@@ -6,6 +6,7 @@ use App\Engines\ParserEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Models\Traits\HasAuthors;
+use App\Models\Traits\HasBookType;
 use App\Models\Traits\HasClassName;
 use App\Models\Traits\HasComments;
 use App\Models\Traits\HasCovers;
@@ -35,6 +36,7 @@ class Book extends Model implements HasMedia
     use HasSelections;
     use HasLanguage;
     use HasTagsAndGenres;
+    use HasBookType;
     use Searchable;
 
     protected $fillable = [

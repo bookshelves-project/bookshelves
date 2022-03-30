@@ -20,13 +20,14 @@ class SerieConverter
      */
     public static function create(ParserEngine $parser, Book $book): Serie|false
     {
-        if ($parser->serie) {
+        if ($parser->serie && ! $book->serie) {
             $serie = Serie::whereSlug($parser->serie_slug)->first();
             if (! $serie) {
                 $serie = Serie::firstOrCreate([
                     'title' => $parser->serie,
                     'slug_sort' => $parser->serie_sort,
                     'slug' => $parser->serie_slug_lang,
+                    'type' => $parser->type,
                 ]);
                 $serie->language()->associate($book->language);
                 $serie->save();

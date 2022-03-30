@@ -9,10 +9,12 @@ interface XmlInterface
     /**
      * Initialize `XmlParser`.
      *
-     * Example from `OpfModule::class`
+     * Example from `EpubModule::class`
      * ```php
-     * $xml = new XmlParser($parser, OpfModule::class, 'opf');
-     * return $xml->openZip();
+     * $xml = new XmlParser($parser, EpubModule::class, 'opf');
+     * $xml = $xml->openZip();
+     *
+     * return $xml->engine;
      * ```
      */
     public static function create(ParserEngine $engine): ParserEngine|false;

@@ -44,6 +44,7 @@ class BookQuery extends BaseQuery
                 AllowedFilter::exact('disabled'),
                 AllowedFilter::exact('released_on'),
                 AllowedFilter::exact('type'),
+                AllowedFilter::scope('types', 'whereTypesIs'),
                 AllowedFilter::callback('language', function (Builder $query, $value) {
                     return $query->whereHas('language', function (Builder $query) use ($value) {
                         $query->where('name', 'like', "%{$value}%");

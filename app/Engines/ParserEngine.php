@@ -5,7 +5,7 @@ namespace App\Engines;
 use App\Engines\ParserEngine\Models\BookCreator;
 use App\Engines\ParserEngine\Models\BookIdentifier;
 use App\Engines\ParserEngine\Modules\CbzModule;
-use App\Engines\ParserEngine\Modules\OpfModule;
+use App\Engines\ParserEngine\Modules\EpubModule;
 use App\Engines\ParserEngine\Modules\PdfModule;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
 use App\Enums\BookFormatEnum;
@@ -21,20 +21,22 @@ use Transliterator;
  */
 class ParserEngine
 {
+    /** @var BookCreator[] */
+    public ?array $creators = [];
+
+    /** @var BookIdentifier[] */
+    public ?array $identifiers = null;
+
     public function __construct(
         public ?string $title = null,
         public ?string $slug_sort = null,
         public ?string $title_serie_sort = null,
         public ?string $slug = null,
         public ?string $title_slug_lang = null,
-        /** @var BookCreator[] $creators */
-        public ?array $creators = [],
         public ?array $contributor = [],
         public ?string $description = null,
         public ?DateTime $released_on = null,
         public ?string $date = null,
-        /** @var BookIdentifier[] $identifiers */
-        public ?array $identifiers = null,
         public ?string $publisher = null,
         public ?array $subjects = [],
         public ?string $language = null,
@@ -43,7 +45,7 @@ class ParserEngine
         public ?string $serie_slug = null,
         public ?string $serie_slug_lang = null,
         public ?string $serie_sort = null,
-        public ?int $volume = 0,
+        public ?int $volume = null,
         public ?string $file_name = null,
         public ?string $file_path = null,
         public ?BookFormatEnum $format = null,
@@ -79,10 +81,14 @@ class ParserEngine
 
         $engine = match ($engine->format) {
             BookFormatEnum::cbz => CbzModule::create($engine),
-            BookFormatEnum::epub => OpfModule::create($engine),
+            BookFormatEnum::epub => EpubModule::create($engine),
             BookFormatEnum::pdf => PdfModule::create($engine),
             default => false,
         };
+
+        if (null === $engine->language) {
+            $engine->language = 'any';
+        }
 
         if ($engine) {
             $engine->title = Str::limit($engine->title, 250);
@@ -96,7 +102,9 @@ class ParserEngine
             $engine->serie_sort = ParserEngine::generateSortTitle($engine->serie);
             $engine->title_serie_sort = ParserEngine::generateSortSerie($engine->title, $engine->volume, $engine->serie);
             $engine->description = ParserEngine::htmlToText($engine->description);
-            $engine->released_on = ! str_contains($engine->date, '0101') ? new DateTime($engine->date) : null;
+            if ($engine->date && ! str_contains($engine->date, '0101')) {
+                $engine->released_on = new DateTime($engine->date);
+            }
 
             if ($engine->debug) {
                 ConsoleService::print("{$engine->title}");

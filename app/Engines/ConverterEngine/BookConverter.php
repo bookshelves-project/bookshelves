@@ -7,6 +7,7 @@ use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use App\Services\ConsoleService;
 use File;
+use Illuminate\Support\Carbon;
 use Str;
 
 class BookConverter
@@ -24,8 +25,35 @@ class BookConverter
             'description' => $parser->description,
             'released_on' => $parser->released_on ?? null,
             'rights' => $parser->rights,
-            'volume' => $parser->volume > 0 ? $parser->volume : null,
+            'volume' => $parser->serie ? $parser->volume : null,
             'type' => $parser->type,
         ]);
+    }
+
+    public static function check(ParserEngine $parser, Book $book): Book
+    {
+        if (! $book->slug_sort && $parser->serie && ! $book->serie) {
+            $book->slug_sort = $parser->title_serie_sort;
+        }
+        if (! $book->contributor) {
+            $book->contributor = implode(' ', $parser->contributor);
+        }
+        if (! $book->description) {
+            $book->description = $parser->description;
+        }
+        if (! $book->released_on) {
+            $book->released_on = Carbon::parse($parser->released_on);
+        }
+        if (! $book->rights) {
+            $book->rights = $parser->rights;
+        }
+        if (! $book->volume) {
+            $book->volume = $parser->serie ? $parser->volume : null;
+        }
+        if (null === $book->type) {
+            $book->type = $parser->type;
+        }
+
+        return $book;
     }
 }

@@ -10,7 +10,7 @@ class BookIdentifierConverter
 {
     public static function create(ParserEngine $parser, Book $book): ?Book
     {
-        if ($parser->identifiers) {
+        if ($parser->identifiers && ! $book->identifiers) {
             $identifiers = [];
             $fillables = [];
 

@@ -15,7 +15,7 @@ class PublisherConverter
     public static function create(ParserEngine $parser, Book $book): Publisher|false
     {
         $publisher = false;
-        if ($parser->publisher) {
+        if ($parser->publisher && ! $book->publisher) {
             $publisherIfExist = Publisher::whereSlug(Str::slug($parser->publisher))->first();
             if (! $publisherIfExist) {
                 $publisher = Publisher::firstOrCreate([

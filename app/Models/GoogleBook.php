@@ -62,7 +62,7 @@ class GoogleBook extends Model
         $categories = json_decode($this->categories);
         if (is_array($categories)) {
             foreach ($categories as $key => $category) {
-                TagConverter::tagRaw($category, $this->book);
+                TagConverter::setTag($category, $this->book);
             }
         }
     }

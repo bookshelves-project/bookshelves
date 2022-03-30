@@ -85,10 +85,13 @@ class AuthorConverter
                 }
             }
         }
+
         foreach ($authors as $key => $author) {
             // TODO: log
-            $book->authors()->save($author);
-            AuthorConverter::tags($author);
+            if ($book->authors->isEmpty()) {
+                $book->authors()->save($author);
+                AuthorConverter::tags($author);
+            }
         }
         $book->refresh();
 

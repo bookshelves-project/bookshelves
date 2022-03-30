@@ -43,6 +43,7 @@ return [
     'series' => [
         'name' => 'Series|Series',
         'attributes' => [
+            'type' => 'Type',
         ],
     ],
     'authors' => [

@@ -8,9 +8,9 @@ enum BookTypeEnum: string
 {
     use EnumMethods;
 
-    case handbook = 'handbook';
-    case essay = 'essay';
-    case comic = 'comic';
-    case novel = 'novel';
     case audio = 'audio';
+    case comic = 'comic';
+    case essay = 'essay';
+    case handbook = 'handbook';
+    case novel = 'novel';
 }

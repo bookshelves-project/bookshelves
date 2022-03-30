@@ -16,11 +16,11 @@ use App\Services\EnumService;
 class CmsController extends ApiController
 {
     /**
-     * GET Base.
+     * GET Application.
      *
      * Useful for CMS at front-end init with `enums`, `languages` and `application`.
      */
-    public function index()
+    public function application()
     {
         return response()->json([
             'data' => [
@@ -31,16 +31,6 @@ class CmsController extends ApiController
                 ),
             ],
         ]);
-    }
-
-    /**
-     * GET Application.
-     */
-    public function application()
-    {
-        return CmsApplicationResource::make(
-            CmsApplication::first()
-        );
     }
 
     /**

@@ -9,8 +9,10 @@ use App\Engines\ParserEngine\Parsers\XmlInterface;
 use App\Engines\ParserEngine\Parsers\XmlParser;
 use App\Services\ConsoleService;
 
-class OpfModule implements XmlInterface
+class EpubModule implements XmlInterface
 {
+    public array $metadata = [];
+
     public function __construct(
         public ?array $xml_data = null,
         public ?float $version = null,
@@ -20,7 +22,7 @@ class OpfModule implements XmlInterface
 
     public static function create(ParserEngine $engine): ParserEngine|false
     {
-        $xml = new XmlParser($engine, OpfModule::class, 'opf');
+        $xml = new XmlParser($engine, EpubModule::class, 'opf');
         $xml = $xml->openZip();
 
         return $xml->engine;
@@ -28,7 +30,7 @@ class OpfModule implements XmlInterface
 
     public static function parse(XmlParser $xml): ParserEngine
     {
-        $module = new OpfModule();
+        $module = new EpubModule();
 
         $module->xml_data = $xml->xml_data;
         $module->version = 2.0;
@@ -47,7 +49,7 @@ class OpfModule implements XmlInterface
             ParserEngine::printFile($module->xml_data, "{$xml->engine->file_name}-metadata.json");
         }
         if (! $is_supported) {
-            ConsoleService::print("OpfModule {$module->version} not supported");
+            ConsoleService::print("EpubModule {$module->version} not supported");
         }
 
         return $module->engine;
@@ -58,28 +60,28 @@ class OpfModule implements XmlInterface
         $this->getCover();
 
         if ($this->xml_data['metadata']) {
-            foreach ($this->xml_data['metadata'] as $node_key => $node) {
-                $this->getRaw($node_key, $node, 'dc:title', 'title');
-                $this->getRaw($node_key, $node, 'dc:description', 'description');
-                $this->getRaw($node_key, $node, 'dc:date', 'date');
-                $this->getRaw($node_key, $node, 'dc:publisher', 'publisher');
-                $this->getRaw($node_key, $node, 'dc:language', 'language');
-                $this->getRaw($node_key, $node, 'dc:rights', 'rights');
-                $this->getSubjects($node_key, $node, 'dc:subject');
-                $this->getCreators($node_key, $node, 'dc:creator');
-                $this->getContributor($node_key, $node, 'dc:contributor');
-                $this->getIdentifiers($node_key, $node, 'dc:identifier');
-                $this->getCalibreMeta($node_key, $node, 'meta');
-            }
+            $this->metadata = $this->xml_data['metadata'];
+
+            $this->getRaw('dc:title', 'title');
+            $this->getRaw('dc:description', 'description');
+            $this->getRaw('dc:date', 'date');
+            $this->getRaw('dc:publisher', 'publisher');
+            $this->getRaw('dc:language', 'language');
+            $this->getRaw('dc:rights', 'rights');
+            $this->getSubjects('dc:subject');
+            $this->getCreators('dc:creator');
+            $this->getContributor('dc:contributor');
+            $this->getIdentifiers('dc:identifier');
+            $this->getCalibreMeta('meta');
         }
 
         return $this;
     }
 
-    private function getRaw(string $node_key, mixed $node, string $extract_key, string $attribute): static
+    private function getRaw(string $extract_key, string $attribute): static
     {
-        if ($node_key === $extract_key) {
-            $this->engine->{$attribute} = $node;
+        if (array_key_exists($extract_key, $this->metadata)) {
+            $this->engine->{$attribute} = $this->metadata[$extract_key];
         }
 
         return $this;
@@ -88,10 +90,10 @@ class OpfModule implements XmlInterface
     /**
      * Get serie and volume.
      */
-    private function getCalibreMeta(string $node_key, mixed $node, string $extract_key): ParserEngine
+    private function getCalibreMeta(string $extract_key): ParserEngine
     {
-        if ($node_key === $extract_key) {
-            foreach ($node as $value) {
+        if (array_key_exists($extract_key, $this->metadata)) {
+            foreach ($this->metadata[$extract_key] as $value) {
                 if ($value['@attributes'] && $value['@attributes']['name'] && 'calibre:series' === $value['@attributes']['name']) {
                     $this->engine->serie = $value['@attributes']['content'];
                 }
@@ -107,11 +109,11 @@ class OpfModule implements XmlInterface
     /**
      * Get identifiers like ISBN.
      */
-    private function getIdentifiers(string $node_key, mixed $node, string $extract_key): static
+    private function getIdentifiers(string $extract_key): static
     {
-        if ($node_key === $extract_key) {
+        if (array_key_exists($extract_key, $this->metadata)) {
             $this->engine->identifiers = [];
-            foreach ($node as $identifier_value) {
+            foreach ($this->metadata[$extract_key] as $identifier_value) {
                 array_push(
                     $this->engine->identifiers,
                     BookIdentifier::create([
@@ -128,10 +130,10 @@ class OpfModule implements XmlInterface
     /**
      * Get contributor.
      */
-    private function getContributor(string $node_key, mixed $node, string $extract_key): static
+    private function getContributor(string $extract_key): static
     {
-        if ($node_key === $extract_key) {
-            array_push($this->engine->contributor, $node['@content']);
+        if (array_key_exists($extract_key, $this->metadata)) {
+            array_push($this->engine->contributor, $this->metadata[$extract_key]['@content']);
         }
 
         return $this;
@@ -142,16 +144,16 @@ class OpfModule implements XmlInterface
      * - use BookCreator to get name and role
      * - role can be 'aut' for author but it can be 'translator' for example.
      */
-    private function getCreators(string $node_key, mixed $node, string $extract_key): static
+    private function getCreators(string $extract_key): static
     {
-        if ($node_key === $extract_key) {
+        if (array_key_exists($extract_key, $this->metadata)) {
             $creators = [];
-            if (array_key_exists(0, $node)) {
-                foreach ($node as $creator_value) {
+            if (array_key_exists(0, $this->metadata[$extract_key])) {
+                foreach ($this->metadata[$extract_key] as $creator_value) {
                     array_push($creators, $this->extractCreator($creator_value));
                 }
             } else {
-                array_push($creators, $this->extractCreator($node));
+                array_push($creators, $this->extractCreator($this->metadata[$extract_key]));
             }
             $creators = array_map('unserialize', array_unique(array_map('serialize', $creators)));
             $this->engine->creators = $creators;
@@ -160,14 +162,14 @@ class OpfModule implements XmlInterface
         return $this;
     }
 
-    private function getSubjects(string $node_key, mixed $node, string $extract_key): static
+    private function getSubjects(string $extract_key): static
     {
-        if ($node_key === $extract_key) {
+        if (array_key_exists($extract_key, $this->metadata)) {
             $subjects = [];
-            if (is_string($node)) {
-                array_push($subjects, $node);
+            if (is_string($this->metadata[$extract_key])) {
+                array_push($subjects, $this->metadata[$extract_key]);
             } else {
-                foreach ($node as $subject) {
+                foreach ($this->metadata[$extract_key] as $subject) {
                     array_push($subjects, $subject);
                 }
             }
@@ -215,7 +217,7 @@ class OpfModule implements XmlInterface
                 $this->engine->cover_name = $cover;
                 $this->engine->cover_extension = pathinfo($cover, PATHINFO_EXTENSION);
             } else {
-                ConsoleService::print('No cover from OpfModule');
+                ConsoleService::print('No cover from EpubModule');
             }
         }
 

@@ -27,29 +27,37 @@ class ConverterEngine
     {
         if ($parser) {
             $book = ConverterEngine::bookIfExist($parser);
-            ConverterEngine::convertFormat($parser, $book);
-            if (! $book) {
+
+            if ($book) {
+                $book = BookConverter::check($parser, $book);
+                ConverterEngine::setBookData($parser, $book, $default);
+            } else {
                 $book = BookConverter::create($parser);
-                AuthorConverter::generate($parser, $book);
-                TagConverter::create($parser, $book);
-                PublisherConverter::create($parser, $book);
-                LanguageConverter::create($parser, $book);
-                SerieConverter::create($parser, $book);
-                BookIdentifierConverter::create($parser, $book);
-
-                if (! $default) {
-                    $book = CoverConverter::create($parser, $book);
-                }
-
-                ConverterEngine::convertFormat($parser, $book);
-
-                $book->save();
-
-                return $book;
+                ConverterEngine::setBookData($parser, $book, $default);
             }
         }
 
         return false;
+    }
+
+    public static function setBookData(ParserEngine $parser, Book $book, bool $default): Book
+    {
+        AuthorConverter::generate($parser, $book);
+        TagConverter::create($parser, $book);
+        PublisherConverter::create($parser, $book);
+        LanguageConverter::create($parser, $book);
+        SerieConverter::create($parser, $book);
+        BookIdentifierConverter::create($parser, $book);
+
+        if (! $default && ! $book->cover_book) {
+            $book = CoverConverter::create($parser, $book);
+        }
+
+        ConverterEngine::convertFormat($parser, $book);
+
+        $book->save();
+
+        return $book;
     }
 
     public static function convertFormat(ParserEngine $parser, Book|false $book)

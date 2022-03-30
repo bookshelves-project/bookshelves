@@ -82,6 +82,14 @@ const columns: (string | Column)[] = [
     searchable: true,
   },
   {
+    field: 'type',
+    type: 'select',
+    props: {
+      choices: 'book_types',
+    },
+    searchable: true,
+  },
+  {
     field: 'books_count',
     centered: true,
     sortable: true,

@@ -30,6 +30,8 @@ class SerieQuery extends BaseQuery
                 AllowedFilter::custom('q', new GlobalSearchFilter(['title'])),
                 AllowedFilter::partial('title'),
                 AllowedFilter::partial('authors'),
+                AllowedFilter::exact('type'),
+                AllowedFilter::scope('types', 'whereTypesIs'),
                 AllowedFilter::callback('language', function (Builder $query, $value) {
                     return $query->whereHas('language', function (Builder $query) use ($value) {
                         $query->where('name', 'like', "%{$value}%");
