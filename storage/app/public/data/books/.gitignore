@@ -1,0 +1,8 @@
+!.gitignore
+
+!audio/
+!comic/
+!essay/
+!handbook/
+!novel/
+!README.md
