@@ -6,6 +6,7 @@ use App\Enums\Traits\EnumMethods;
 
 /**
  * Check `ParserEngine::class`, `ConverterEngine::class` if you want to add new format.
+ * For `download` link, the last value will be the first possibility.
  */
 enum BookFormatEnum: string
 {

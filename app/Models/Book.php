@@ -13,6 +13,7 @@ use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
+use App\Services\DownloadService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -143,7 +144,6 @@ class Book extends Model implements HasMedia
     {
         $list = [];
         $formats = BookFormatEnum::toValues();
-        sort($formats);
         foreach ($formats as $format) {
             $media = null;
             if (null !== $this->files[$format]) {
@@ -154,12 +154,7 @@ class Book extends Model implements HasMedia
                 ]);
                 /** @var MediaExtended $file */
                 $file = $this->files[$format];
-                $media = [
-                    'name' => $file->file_name,
-                    'size' => $file->size_human,
-                    'download' => $route,
-                    'type' => $file->extension,
-                ];
+                $media = DownloadService::getFile($file->file_name, $file->size_human, $route, $file->extension);
             }
             $list[$format] = $media;
         }

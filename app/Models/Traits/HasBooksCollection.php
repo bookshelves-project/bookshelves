@@ -5,6 +5,7 @@ namespace App\Models\Traits;
 use App\Enums\BookFormatEnum;
 use App\Models\Author;
 use App\Models\Serie;
+use App\Services\DownloadService;
 
 trait HasBooksCollection
 {
@@ -27,7 +28,6 @@ trait HasBooksCollection
     {
         $sizes = [];
         $formats = BookFormatEnum::toValues();
-        sort($formats);
         foreach ($formats as $format) {
             $sizes[$format] = [
                 'size' => 0,
@@ -50,13 +50,8 @@ trait HasBooksCollection
             $list[$format] = null;
 
             if ($size['size']) {
-                $download = [
-                    'name' => $entity->slug,
-                    'size' => $size['size'] > 0 ? $this->humanFilesize($size['size']) : null,
-                    'download' => $route,
-                    'type' => "{$format} zip",
-                    'count' => $size['count'],
-                ];
+                $size_human = $size['size'] > 0 ? $this->humanFilesize($size['size']) : null;
+                $download = DownloadService::getFile($entity->slug, $size_human, $route, $format, $size['count'], true);
                 $list[$format] = $download;
             }
         }
