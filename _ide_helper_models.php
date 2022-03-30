@@ -43,7 +43,8 @@ namespace App\Models{
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
- * @property-read object $download_link
+ * @property-read mixed $file_main
+ * @property-read array $files_list
  * @property-read string $first_char
  * @property-read bool $is_favorite
  * @property-read string $show_books_link
@@ -124,8 +125,9 @@ namespace App\Models{
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
- * @property-read array $download_link
+ * @property-read mixed $file_main
  * @property-read \App\Models\MediaExtended[]|null[] $files
+ * @property-read array $files_list
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $isbn
@@ -771,12 +773,12 @@ namespace App\Models{
  * @property string|null $slug_sort
  * @property string|null $slug
  * @property string|null $language_slug
+ * @property \App\Enums\BookTypeEnum $type
  * @property string|null $description
  * @property string|null $link
  * @property int|null $wikipedia_item_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \App\Enums\BookTypeEnum $type
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
  * @property-read int|null $authors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -796,7 +798,8 @@ namespace App\Models{
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
- * @property-read object $download_link
+ * @property-read mixed $file_main
+ * @property-read array $files_list
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $meta_author
@@ -831,6 +834,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsAllIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereWikipediaItemId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)

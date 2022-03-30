@@ -248,10 +248,10 @@ class OpdsService
         $i = 4;
         foreach (BookFormatEnum::toValues() as $format) {
             if ($book->files[$format]) {
-                if (null !== $book->download_link[$format]) {
+                if (null !== $book->files_list[$format]) {
                     $list['__custom:link:4'] = [
                         '_attributes' => [
-                            'href' => $book->download_link[$format],
+                            'href' => $book->files_list[$format],
                             'type' => 'application/epub+zip',
                             'rel' => 'http://opds-spec.org/acquisition',
                             'title' => 'EPUB',

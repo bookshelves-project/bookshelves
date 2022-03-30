@@ -134,11 +134,17 @@ class Book extends Model implements HasMedia
         ]);
     }
 
-    public function getDownloadLinkAttribute(): array
+    public function getFileMainAttribute()
+    {
+        return current(array_filter(array_reverse($this->files_list)));
+    }
+
+    public function getFilesListAttribute(): array
     {
         $list = [];
-        $main = null;
-        foreach (BookFormatEnum::toValues() as $format) {
+        $formats = BookFormatEnum::toValues();
+        sort($formats);
+        foreach ($formats as $format) {
             $media = null;
             if (null !== $this->files[$format]) {
                 $route = route('api.download.book', [
@@ -154,11 +160,9 @@ class Book extends Model implements HasMedia
                     'download' => $route,
                     'type' => $file->extension,
                 ];
-                $main = $media;
             }
             $list[$format] = $media;
         }
-        $list['main'] = $main;
 
         return $list;
     }

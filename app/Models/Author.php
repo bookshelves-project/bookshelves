@@ -109,16 +109,6 @@ class Author extends Model implements HasMedia
         ]);
     }
 
-    public function getDownloadLinkAttribute(): object
-    {
-        $author = Author::whereSlug($this->slug)
-            ->with('books.media')
-            ->first()
-        ;
-
-        return $this->getSizesList($author);
-    }
-
     public function toSearchableArray()
     {
         return [

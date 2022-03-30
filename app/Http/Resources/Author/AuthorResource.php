@@ -30,7 +30,8 @@ class AuthorResource extends JsonResource
             ],
             'description' => $this->resource->description,
             'link' => $this->resource->link,
-            'download' => $this->resource->download_link,
+            'download' => $this->resource->file_main,
+            'files' => $this->resource->files_list,
             'isFavorite' => $this->resource->is_favorite,
             'comments' => CommentResource::collection($this->resource->comments),
         ]);

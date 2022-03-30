@@ -8,10 +8,27 @@ use App\Models\Serie;
 
 trait HasBooksCollection
 {
-    public function getSizesList(Author|Serie $entity): object
+    public function getFileMainAttribute()
+    {
+        return current(array_filter(array_reverse($this->files_list)));
+    }
+
+    public function getFilesListAttribute(): array
+    {
+        $entity = $this->getClassNamespace()::whereSlug($this->slug)
+            ->with('books.media')
+            ->first()
+        ;
+
+        return $this->getSizesList($entity);
+    }
+
+    public function getSizesList(Author|Serie $entity): array
     {
         $sizes = [];
-        foreach (BookFormatEnum::toValues() as $format) {
+        $formats = BookFormatEnum::toValues();
+        sort($formats);
+        foreach ($formats as $format) {
             $sizes[$format] = [
                 'size' => 0,
                 'count' => 0,
@@ -30,6 +47,7 @@ trait HasBooksCollection
         $list = [];
         foreach ($sizes as $format => $size) {
             $route = $this->getDownloadLinkFormat($format);
+            $list[$format] = null;
 
             if ($size['size']) {
                 $download = [
@@ -40,13 +58,10 @@ trait HasBooksCollection
                     'count' => $size['count'],
                 ];
                 $list[$format] = $download;
-                $list['main'] = $download;
-            } else {
-                $list[$format] = null;
             }
         }
 
-        return json_decode(json_encode($list, JSON_FORCE_OBJECT));
+        return $list;
     }
 
     public function humanFilesize(string|int $bytes, ?int $decimals = 2): string

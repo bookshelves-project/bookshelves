@@ -94,16 +94,6 @@ class Serie extends Model implements HasMedia
         ]);
     }
 
-    public function getDownloadLinkAttribute(): object
-    {
-        $serie = Serie::whereSlug($this->slug)
-            ->with('books.media')
-            ->first()
-        ;
-
-        return $this->getSizesList($serie);
-    }
-
     public function toSearchableArray()
     {
         return [
