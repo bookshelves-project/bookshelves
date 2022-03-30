@@ -10,8 +10,8 @@ class ConverterService
     public static function saveAsJson(mixed $data, string $name): void
     {
         $data = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-        Storage::disk('public')->put("temp/{$name}.json", $data);
-        ConsoleService::print("Saved to public/storage/temp/{$name}.json");
+        Storage::disk('public')->put("debug/{$name}.json", $data);
+        ConsoleService::print("Saved to public/storage/debug/{$name}.json");
     }
 
     public static function jsonToArray(string $path, bool $is_associative = true): array

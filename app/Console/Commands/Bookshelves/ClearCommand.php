@@ -41,11 +41,9 @@ class ClearCommand extends Command
         $this->alert("{$app}: clear");
         $debug = new DirectoryClearService(storage_path('app/public/debug'));
         $cache = new DirectoryClearService(storage_path('app/public/cache'));
-        $temp = new DirectoryClearService(storage_path('app/public/temp'));
 
         $debug->clearDir();
         $cache->clearDir();
-        $temp->clearDir();
 
         Artisan::call('cache:clear', [], $this->getOutput());
         Artisan::call('route:clear', [], $this->getOutput());
