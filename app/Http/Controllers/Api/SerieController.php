@@ -90,6 +90,9 @@ class SerieController extends ApiController
             $books = $serie->books;
         } else {
             $books = $serie->books->filter(fn ($book) => $book->volume > intval($volume));
+            if (0 === $books->count()) {
+                $books = $serie->books;
+            }
         }
 
         return BookOrSerieResource::collection($books->splice(0, 10));
