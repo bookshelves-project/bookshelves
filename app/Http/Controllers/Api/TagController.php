@@ -9,7 +9,10 @@ use App\Http\Resources\EntityResource;
 use App\Http\Resources\Tag\TagLightResource;
 use App\Http\Resources\Tag\TagResource;
 use App\Models\Book;
+use App\Models\TagExtend;
+use App\Utils\BookshelvesTools;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Spatie\Tags\Tag;
 
 /**
@@ -22,12 +25,18 @@ class TagController extends ApiController
      *
      * Get all Tags ordered by 'name'.
      *
-     * @queryParam type filters[tag,genre] Type of Tag, 'tag' by default. No-example
+     * @queryParam filters[type] Filter by type like `tag` or `genre`. No-example
+     * @queryParam full boolean Disable pagination. No-example
+     * @queryParam alpha boolean Chunk by first character. No-example
      *
      * @responseField name string Tag's name.
      */
     public function index(Request $request)
     {
+        if ($alpha = $this->chunkByAlpha($request, TagExtend::class, TagLightResource::class)) {
+            return $alpha;
+        }
+
         return app(TagQuery::class)
             ->make(QueryOption::create(
                 request: $request,
@@ -46,7 +55,7 @@ class TagController extends ApiController
      *
      * Get Tag details.
      *
-     * @queryParam type filters[tag,genre] Type of Tag, 'tag' by default. No-example
+     * @queryParam filters[type] Filter by type like `tag` or `genre`. No-example
      */
     public function show(Tag $tag)
     {

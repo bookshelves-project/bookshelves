@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Tag\TagLightResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
@@ -10,8 +11,12 @@ use App\Models\Page;
 use App\Models\Post;
 use App\Models\Publisher;
 use App\Models\Serie;
+use App\Models\TagExtend;
 use App\Models\User;
 use App\Services\RouteService;
+use App\Utils\BookshelvesTools;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -96,6 +101,37 @@ class ApiController extends Controller
     protected function getFull(Request $request): bool
     {
         return $request->parseBoolean('full');
+    }
+
+    /**
+     * @return false|JsonResponse
+     */
+    protected function chunkByAlpha(Request $request, string $model, string $resource)
+    {
+        $alpha = $request->parseBoolean('alpha');
+
+        if ($alpha) {
+            $filter = $request->get('filter');
+            $list = [];
+
+            if ($filter && array_key_exists('type', $filter)) {
+                $type = $filter['type'];
+                $models = $model::whereTypeIs($type)->get();
+            } else {
+                $models = $model::all();
+            }
+            $models_sorted = BookshelvesTools::chunkByAlpha($models, 'first_char');
+
+            foreach ($models_sorted as $char => $models_char) {
+                $list[$char] = $resource::collection($models_char);
+            }
+
+            return response()->json([
+                'data' => $list,
+            ]);
+        }
+
+        return false;
     }
 
     /**

@@ -23,10 +23,10 @@ class TagExtend extends \Spatie\Tags\Tag
         'type' => TagTypeEnum::class,
     ];
 
-    // protected $withCount = [
-    //     'books',
-    //     'series',
-    // ];
+    protected $withCount = [
+        'books',
+        'series',
+    ];
 
     protected $appends = [
         'first_char',

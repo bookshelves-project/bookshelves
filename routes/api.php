@@ -106,6 +106,7 @@ Route::prefix('comments')->group(function () {
  */
 Route::prefix('tags')->group(function () {
     Route::get('/', [TagController::class, 'index'])->name('api.tags.index');
+    Route::get('/character', [TagController::class, 'character'])->name('api.tags.character');
     Route::get('/{tag_slug}', [TagController::class, 'show'])->name('api.tags.show');
     Route::get('/books/{tag_slug}', [TagController::class, 'books'])->name('api.tags.show.books');
 });

@@ -25,10 +25,15 @@ class PublisherController extends ApiController
      * Get all Publishers ordered by 'name'.
      *
      * @queryParam size int Entities per page, '32' by default. No-example
+     * @queryParam full boolean Disable pagination. No-example
      * @queryParam page int The page number, '1' by default. No-example
      */
     public function index(Request $request)
     {
+        if ($alpha = $this->chunkByAlpha($request, Publisher::class, PublisherLightResource::class)) {
+            return $alpha;
+        }
+
         return app(PublisherQuery::class)
             ->make(QueryOption::create(
                 request: $request,
