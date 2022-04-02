@@ -15,26 +15,29 @@ use Illuminate\Support\Collection;
  */
 class SearchEngine
 {
+    /** @var Collection<int,Author> */
+    public ?Collection $authors = null;
+    /** @var Collection<int,Serie> */
+    public ?Collection $series = null;
+    /** @var Collection<int,Book> */
+    public ?Collection $books = null;
+
+    public ?AnonymousResourceCollection $authors_relevant = null;
+    public ?AnonymousResourceCollection $series_relevant = null;
+    public ?AnonymousResourceCollection $books_relevant = null;
+
+    public ?AnonymousResourceCollection $authors_other = null;
+    public ?AnonymousResourceCollection $series_other = null;
+    public ?AnonymousResourceCollection $books_other = null;
+
     public function __construct(
         public int $top_limit = 3,
         public int $max_limit = 10,
-        public int $results_count = 0,
+        public int $count = 0,
         public string $search_type = 'collection',
         public ?string $q = null,
         public ?array $types = [],
-        public ?Collection $authors = null,
-        public ?Collection $series = null,
-        public ?Collection $books = null,
-        public ?AnonymousResourceCollection $authors_relevant = null,
-        public ?AnonymousResourceCollection $series_relevant = null,
-        public ?AnonymousResourceCollection $books_relevant = null,
-        public ?AnonymousResourceCollection $authors_other = null,
-        public ?AnonymousResourceCollection $series_other = null,
-        public ?AnonymousResourceCollection $books_other = null,
     ) {
-        $this->authors = collect([]);
-        $this->series = collect([]);
-        $this->books = collect([]);
     }
 
     /**
@@ -55,39 +58,16 @@ class SearchEngine
      */
     public function searchEngine(): SearchEngine
     {
-        $authors = collect([]);
-        $series = collect([]);
-        $books = collect([]);
+        $this->authors = collect();
+        $this->series = collect();
+        $this->books = collect();
 
-        if ('collection' === config('scout.driver')) {
-            $results = $this->searchWithCollection();
-        } elseif ('meilisearch' === config('scout.driver')) {
-            $results = $this->searchWithMeilisearch();
-        } else {
-            $results = [
-                'authors' => $authors,
-                'series' => $series,
-                'books' => $books,
-            ];
-        }
         $this->search_type = config('scout.driver');
+        $this->search();
 
-        /** @var Collection $authors */
-        $authors = $results['authors'];
-
-        /** @var Collection $series */
-        $series = $results['series'];
-
-        /** @var Collection $books */
-        $books = $results['books'];
-
-        $this->results_count += $authors->count();
-        $this->results_count += $series->count();
-        $this->results_count += $books->count();
-
-        $this->authors = $authors;
-        $this->series = $series;
-        $this->books = $books;
+        $this->count += $this->authors->count();
+        $this->count += $this->series->count();
+        $this->count += $this->books->count();
 
         $this->authors_relevant = EntityResource::collection($this->authors->splice(0, $this->top_limit));
         $this->series_relevant = EntityResource::collection($this->series->splice(0, $this->top_limit));
@@ -101,50 +81,39 @@ class SearchEngine
     }
 
     /**
-     * Search from embedded search engine.
+     * Search Entity[].
      */
-    private function searchWithCollection(): array
+    private function search(): SearchEngine
     {
+        $scout_search = 'collection' !== $this->search_type;
         if (in_array('authors', $this->types)) {
-            $authors = Author::whereLike(['name', 'firstname', 'lastname'], $this->q)->with('media')->get();
+            $this->authors = $scout_search ?
+                    Author::search($this->q)
+                        ->get()
+                    : Author::whereLike(['name', 'firstname', 'lastname'], $this->q)
+                        ->with('media')
+                        ->get()
+                    ;
         }
         if (in_array('series', $this->types)) {
-            $series = Serie::whereLike(['title', 'authors.name'], $this->q)->with(['authors', 'media'])->get();
+            $this->series = $scout_search ?
+                Serie::search($this->q)
+                    ->get()
+                : Serie::whereLike(['title', 'authors.name'], $this->q)
+                    ->with(['authors', 'media'])
+                    ->get()
+                ;
         }
         if (in_array('books', $this->types)) {
-            $books = Book::whereLike(['title', 'authors.name', 'serie.title', 'isbn10', 'isbn13'], $this->q)
-                ->with(['authors', 'media'])
-                ->doesntHave('serie')
-                ->orderBy('serie_id')
-                ->orderBy('volume')->get();
+            $this->books = $scout_search ?
+                Book::search($this->q)
+                    ->get()
+                : Book::whereLike(['title', 'authors.name', 'serie.title', 'isbn10', 'isbn13'], $this->q)
+                    ->with(['authors', 'media'])
+                    ->get()
+                ;
         }
 
-        return [
-            'authors' => $authors ?? collect([]),
-            'series' => $series ?? collect([]),
-            'books' => $books ?? collect([]),
-        ];
-    }
-
-    /**
-     * Search with meilisearch.
-     */
-    private function searchWithMeilisearch(): array
-    {
-        if (in_array('authors', $this->types)) {
-            $authors = Author::search($this->q)->get();
-        }
-        if (in_array('series', $this->types)) {
-            $series = Serie::search($this->q)->get();
-        }
-        if (in_array('books', $this->types)) {
-            $books = Book::search($this->q)->get();
-        }
-
-        return [
-            'authors' => $authors ?? collect([]),
-            'series' => $series ?? collect([]),
-            'books' => $books ?? collect([]),
-        ];
+        return $this;
     }
 }

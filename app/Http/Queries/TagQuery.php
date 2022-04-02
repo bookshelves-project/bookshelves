@@ -50,11 +50,7 @@ class TagQuery extends BaseQuery
 
     public function collection(): AnonymousResourceCollection
     {
-        /** @var JsonResource $resource */
-        $resource = $this->option->resource;
-        $response = $this->option->withPagination ? $this->paginate() : $this->query->get();
-
-        return $resource::collection($response);
+        return $this->getCollection();
     }
 
     public function get(): array

@@ -2,23 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\BookFormatEnum;
 use App\Helpers\PaginationHelper;
 use App\Http\Queries\Addon\QueryOption;
 use App\Http\Queries\BookQuery;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookResource;
-use App\Http\Resources\BookOrSerieResource;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Selectionable;
-use App\Models\Serie;
-use App\Services\DownloadService;
 use App\Services\EntityService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Collection;
 
 /**
  * @group Entity: Book
@@ -47,19 +40,20 @@ class BookController extends ApiController
     public function index(Request $request)
     {
         // Examples
-        // - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[languages]=fr,en&filter[published]=2018-06-07,2021-11-01
-        // - http://localhost:8000/api/books?perPage=32&filter[has_serie]=true&filter[title]=monde
-        // - http://localhost:8000/api/books?perPage=32&filter[author_like]=bottero
+        // - http://localhost:8000/api/books?size=32&filter[has_serie]=true&filter[languages]=fr,en&filter[published]=2018-06-07,2021-11-01
+        // - http://localhost:8000/api/books?size=32&filter[has_serie]=true&filter[title]=monde
+        // - http://localhost:8000/api/books?size=32&filter[author_like]=bottero
 
-        $paginate = $request->parseBoolean('paginate', true);
+        $this->getLang($request);
 
         return app(BookQuery::class)
             ->make(QueryOption::create(
+                request: $request,
                 resource: BookLightResource::class,
                 orderBy: 'slug_sort',
                 withExport: false,
                 sortAsc: true,
-                withPagination: $paginate,
+                full: $this->getFull($request),
             ))
             ->paginateOrExport()
         ;
@@ -68,35 +62,10 @@ class BookController extends ApiController
     /**
      * GET Book.
      */
-    public function show(Author $author, Book $book)
+    public function show(Request $request, Author $author, Book $book)
     {
+        $this->getLang($request);
+
         return BookResource::make($book);
-    }
-
-    /**
-     * GET Entity[] related to Book.
-     *
-     * <small class="badge badge-blue">WITH PAGINATION</small>
-     *
-     * Get all Series/Books related to selected Book from Tag.
-     *
-     * @usesPagination
-     */
-    public function related(Request $request, Author $author, Book $book)
-    {
-        $page = $this->getPerPages($request);
-
-        if ($book->tags->count() >= 1) {
-            $related_books = EntityService::filterRelated($book);
-
-            if ($related_books->isNotEmpty()) {
-                return BookOrSerieResource::collection(PaginationHelper::paginate($related_books, $page));
-            }
-        }
-
-        return response()->json(
-            'No tags or no books related',
-            400
-        );
     }
 }

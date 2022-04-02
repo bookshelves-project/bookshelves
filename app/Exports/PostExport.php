@@ -27,7 +27,7 @@ class PostExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 
     public function headings(): array
     {
-        return collect(['title', 'category', 'status', 'summary', 'pin', 'promote', 'published_at', 'created_at', 'updated_at'])
+        return collect(['title', 'category', 'status', 'summary', 'pin', 'published_at', 'created_at', 'updated_at'])
             ->map(
                 fn ($field) => Lang::has("crud.posts.attributes.{$field}")
                     ? __("crud.posts.attributes.{$field}")
@@ -46,7 +46,6 @@ class PostExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
             $row->status->name,
             $row->summary,
             $row->pin,
-            $row->promote,
             $row->published_at,
             $row->created_at,
             $row->updated_at,

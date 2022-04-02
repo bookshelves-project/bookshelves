@@ -35,7 +35,6 @@ class PostQuery extends BaseQuery
                 AllowedFilter::exact('category', 'category_id'),
                 AllowedFilter::exact('status'),
                 AllowedFilter::exact('pin'),
-                AllowedFilter::exact('promote'),
                 AllowedFilter::scope('published_at', 'publishedBetween'),
                 AllowedFilter::callback('user', function (Builder $query, $value) {
                     return $query->whereHas('user', function (Builder $query) use ($value) {
@@ -57,10 +56,7 @@ class PostQuery extends BaseQuery
 
     public function collection(): AnonymousResourceCollection
     {
-        /** @var JsonResource $resource */
-        $resource = $this->option->resource;
-
-        return $resource::collection($this->paginate());
+        return $this->getCollection();
     }
 
     public function get(): array

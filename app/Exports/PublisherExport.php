@@ -27,7 +27,7 @@ class PublisherExport implements FromQuery, WithHeadings, WithMapping, ShouldAut
 
     public function headings(): array
     {
-        return collect(['title', 'category', 'status', 'summary', 'pin', 'promote', 'published_at', 'created_at', 'updated_at'])
+        return collect(['title', 'category', 'status', 'summary', 'pin', 'published_at', 'created_at', 'updated_at'])
             ->map(
                 fn ($field) => Lang::has("crud.books.attributes.{$field}")
                     ? __("crud.books.attributes.{$field}")

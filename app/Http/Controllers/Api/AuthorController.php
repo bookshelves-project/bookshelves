@@ -35,15 +35,16 @@ class AuthorController extends ApiController
      */
     public function index(Request $request)
     {
-        $paginate = $request->parseBoolean('paginate', true);
+        $this->getLang($request);
 
         return app(AuthorQuery::class)
             ->make(QueryOption::create(
+                request: $request,
                 resource: AuthorLightResource::class,
                 orderBy: 'lastname',
                 withExport: false,
                 sortAsc: true,
-                withPagination: $paginate
+                full: $this->getFull($request)
             ))
             ->paginateOrExport()
         ;
@@ -54,8 +55,10 @@ class AuthorController extends ApiController
      *
      * Details for one Author, find by slug.
      */
-    public function show(Author $author)
+    public function show(Request $request, Author $author)
     {
+        $this->getLang($request);
+
         return AuthorResource::make($author);
     }
 

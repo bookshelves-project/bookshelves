@@ -24,20 +24,19 @@ class PublisherController extends ApiController
      *
      * Get all Publishers ordered by 'name'.
      *
-     * @queryParam perPage int Entities per page, '32' by default. No-example
+     * @queryParam size int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      */
     public function index(Request $request)
     {
-        $paginate = $request->parseBoolean('paginate');
-
         return app(PublisherQuery::class)
             ->make(QueryOption::create(
+                request: $request,
                 resource: PublisherLightResource::class,
                 orderBy: 'name',
                 withExport: false,
                 sortAsc: true,
-                withPagination: $paginate
+                full: $this->getFull($request)
             ))
             ->paginateOrExport()
         ;
@@ -60,15 +59,15 @@ class PublisherController extends ApiController
      *
      * Get all Books of selected Publisher ordered by Books' 'title'.
      *
-     * @queryParam perPage int Entities per page, '32' by default. No-example
+     * @queryParam size int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      */
     public function books(Request $request, Publisher $publisher)
     {
-        $page = $request->get('perPage') ? $request->get('perPage') : 32;
+        $page = $request->get('size') ? $request->get('size') : 32;
         if (! is_numeric($page)) {
             return response()->json(
-                "Invalid 'perPage' query parameter, must be an int",
+                "Invalid 'size' query parameter, must be an int",
                 400
             );
         }

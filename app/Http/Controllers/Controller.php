@@ -14,12 +14,12 @@ class Controller extends BaseController
     use DispatchesJobs;
     use ValidatesRequests;
 
-    protected function getPerPages(Request $request)
+    protected function getsizes(Request $request)
     {
-        $page = $request->get('perPage') ? $request->get('perPage') : 32;
+        $page = $request->get('size') ? $request->get('size') : 32;
         if (! is_numeric($page)) {
             return response()->json(
-                "Invalid 'perPage' query parameter, must be an int",
+                "Invalid 'size' query parameter, must be an int",
                 400
             );
         }

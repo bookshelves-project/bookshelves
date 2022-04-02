@@ -3,17 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Queries\Addon\QueryOption;
+use App\Http\Queries\BookQuery;
 use App\Http\Queries\SerieQuery;
 use App\Http\Resources\Book\BookLightResource;
-use App\Http\Resources\BookOrSerieResource;
+use App\Http\Resources\EntityResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Serie\SerieResource;
 use App\Models\Author;
 use App\Models\Serie;
-use App\Services\DownloadService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Support\MediaStream;
 
 /**
  * @group Entity: Serie
@@ -40,15 +38,16 @@ class SerieController extends ApiController
      */
     public function index(Request $request)
     {
-        $paginate = $request->parseBoolean('paginate');
+        $this->getLang($request);
 
         return app(SerieQuery::class)
             ->make(QueryOption::create(
+                request: $request,
                 resource: SerieLightResource::class,
                 orderBy: 'slug_sort',
                 withExport: false,
                 sortAsc: true,
-                withPagination: $paginate
+                full: $this->getFull($request)
             ))
             ->paginateOrExport()
         ;
@@ -59,8 +58,9 @@ class SerieController extends ApiController
      *
      * Get details of Serie model, find by slug of serie and slug of author.
      */
-    public function show(Author $author, Serie $serie)
+    public function show(Request $request, Author $author, Serie $serie)
     {
+        $this->getLang($request);
         return SerieResource::make($serie);
     }
 
@@ -73,10 +73,13 @@ class SerieController extends ApiController
      */
     public function books(Request $request, Author $author, Serie $serie)
     {
-        return BookLightResource::collection(
-            $serie->booksAvailable()
-                ->paginate(32)
-        );
+        $this->getLang($request);
+
+        $books = $serie->booksAvailable();
+        $size = $this->getPaginationSize($request);
+        $books = $this->getFull($request) ? $books->get() : $books->paginate($size);
+
+        return BookLightResource::collection($books);
     }
 
     /**
@@ -95,6 +98,6 @@ class SerieController extends ApiController
             }
         }
 
-        return BookOrSerieResource::collection($books->splice(0, 10));
+        return EntityResource::collection($books->splice(0, 10));
     }
 }

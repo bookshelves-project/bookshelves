@@ -6,10 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
+use App\Models\Page;
+use App\Models\Post;
 use App\Models\Publisher;
 use App\Models\Serie;
 use App\Models\User;
 use App\Services\RouteService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Spatie\Tags\Tag;
 
@@ -20,42 +24,38 @@ class ApiController extends Controller
      */
     public function __construct()
     {
-        Route::bind('author_slug', function (string $author) {
-            return Author::whereSlug($author)
+        Route::bind(
+            'author_slug',
+            fn ($slug) => Author::whereSlug($slug)
                 ->withCount('books', 'series')
                 ->firstOrFail()
-            ;
-        });
+        );
 
-        Route::bind('book_slug', function (string $book) {
-            return Book::whereSlug($book)->firstOrFail();
-        });
+        Route::bind('book_slug', fn ($slug) => Book::whereSlug($slug)->firstOrFail());
 
-        Route::bind('serie_slug', function (string $serie) {
-            return Serie::whereSlug($serie)
+        Route::bind(
+            'serie_slug',
+            fn ($slug) => Serie::whereSlug($slug)
                 ->withCount('books')
                 ->firstOrFail()
-            ;
-        });
+        );
 
-        Route::bind('tag_slug', function (string $tag) {
-            return Tag::where('slug->en', $tag)->firstOrFail();
-        });
+        Route::bind('tag_slug', fn ($slug) => Tag::where('slug->en', $slug)->firstOrFail());
 
-        Route::bind('publisher_slug', function (string $publisher) {
-            return Publisher::whereSlug($publisher)
+        Route::bind(
+            'publisher_slug',
+            fn ($slug) => Publisher::whereSlug($slug)
                 ->withCount('books')
                 ->firstOrFail()
-            ;
-        });
+        );
 
-        Route::bind('language_slug', function (string $language) {
-            return Language::whereSlug($language)->firstOrFail();
-        });
+        Route::bind('language_slug', fn ($slug) => Language::whereSlug($slug)->firstOrFail());
 
-        Route::bind('user_slug', function (string $user) {
-            return User::whereSlug($user)->firstOrFail();
-        });
+        Route::bind('post_slug', fn ($slug) => Post::whereSlug($slug)->firstOrFail());
+
+        Route::bind('page_slug', fn ($slug) => Page::whereSlug($slug)->firstOrFail());
+
+        Route::bind('user_slug', fn ($slug) => User::whereSlug($slug)->firstOrFail());
     }
 
     /**
@@ -80,6 +80,22 @@ class ApiController extends Controller
             ],
             'api' => $list,
         ], 200);
+    }
+
+    protected function getLang(Request $request)
+    {
+        $lang = $request->lang ? $request->lang : config('app.locale');
+        App::setLocale($lang);
+    }
+
+    protected function getPaginationSize(Request $request): int
+    {
+        return $request->size ? $request->size : 32;
+    }
+
+    protected function getFull(Request $request): bool
+    {
+        return $request->parseBoolean('full');
     }
 
     /**

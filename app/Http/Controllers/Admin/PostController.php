@@ -95,10 +95,9 @@ class PostController extends Controller
     {
         $request->validate([
             'pin' => 'sometimes|boolean',
-            'promote' => 'sometimes|boolean',
         ]);
 
-        $post->update($request->only('pin', 'promote'));
+        $post->update($request->only('pin'));
 
         return redirect()->route('admin.posts')->with('flash.success', __('Post updated.'));
     }

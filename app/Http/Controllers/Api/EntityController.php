@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Engines\SearchEngine;
 use App\Helpers\PaginationHelper;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\BookOrSerieResource;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Selectionable;
+use App\Services\EntityService;
 use App\Services\EnumService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -111,6 +110,31 @@ class EntityController extends ApiController
     }
 
     /**
+     * GET Entity[] related to Book.
+     *
+     * <small class="badge badge-blue">WITH PAGINATION</small>
+     *
+     * Get all Series/Books related to selected Book from Tag.
+     *
+     * @usesPagination
+     */
+    public function related(Request $request, Author $author, Book $book)
+    {
+        if ($book->tags->count() >= 1) {
+            $related_books = EntityService::filterRelated($book);
+
+            if ($related_books->isNotEmpty()) {
+                return EntityResource::collection(PaginationHelper::paginate($related_books));
+            }
+        }
+
+        return response()->json(
+            'No tags or no books related',
+            400
+        );
+    }
+
+    /**
      * GET Search.
      *
      * Search full-text into authors, books & series.
@@ -128,7 +152,7 @@ class EntityController extends ApiController
 
             return response()->json([
                 'data' => [
-                    'count' => $engine->results_count,
+                    'count' => $engine->count,
                     'type' => $engine->search_type,
                     'relevant' => [
                         'authors' => $engine->authors_relevant,

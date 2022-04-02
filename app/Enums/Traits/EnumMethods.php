@@ -3,6 +3,7 @@
 namespace App\Enums\Traits;
 
 use Closure;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use ReflectionClass;
 
@@ -46,6 +47,16 @@ trait EnumMethods
         }
 
         return false;
+    }
+
+    public function trans()
+    {
+        $class = new ReflectionClass(static::class);
+        $class = $class->getShortName();
+
+        return Lang::has("enum.enums.{$class}.{$this->name}")
+            ? __("enum.enums.{$class}.{$this->name}")
+            : $this->name;
     }
 
     protected static function values(): Closure

@@ -28,15 +28,14 @@ class TagController extends ApiController
      */
     public function index(Request $request)
     {
-        $paginate = $request->parseBoolean('paginate');
-
         return app(TagQuery::class)
             ->make(QueryOption::create(
+                request: $request,
                 resource: TagLightResource::class,
                 orderBy: 'slug->en',
                 withExport: false,
                 sortAsc: true,
-                withPagination: $paginate,
+                full: $this->getFull($request),
             ))
             ->paginateOrExport()
         ;

@@ -46,10 +46,7 @@ class AuthorQuery extends BaseQuery
 
     public function collection(): AnonymousResourceCollection
     {
-        /** @var JsonResource $resource */
-        $resource = $this->option->resource;
-
-        return $resource::collection($this->paginate());
+        return $this->getCollection();
     }
 
     public function get(): array

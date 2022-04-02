@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Queries\Addon\QueryOption;
+    use App\Http\Queries\Addon\QueryOption;
 use App\Http\Queries\LanguageQuery;
-use App\Http\Resources\LanguageResource;
+use App\Http\Resources\Language\LanguageResource;
 use App\Models\Language;
 use Illuminate\Http\Request;
 
@@ -20,15 +20,14 @@ class LanguageController extends ApiController
      */
     public function index(Request $request)
     {
-        $paginate = $request->parseBoolean('paginate');
-
         return app(LanguageQuery::class)
             ->make(QueryOption::create(
+                request: $request,
                 resource: LanguageResource::class,
                 orderBy: 'name',
                 withExport: false,
                 sortAsc: true,
-                withPagination: $paginate
+                full: false
             ))
             ->paginateOrExport()
         ;
