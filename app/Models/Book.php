@@ -122,7 +122,7 @@ class Book extends Model implements HasMedia
 
     public function getShowRelatedLinkAttribute(): string
     {
-        return route('api.books.related', [
+        return route('api.entities.related', [
             'author_slug' => $this->meta_author,
             'book_slug' => $this->slug,
         ]);

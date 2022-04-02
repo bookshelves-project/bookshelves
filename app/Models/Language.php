@@ -6,6 +6,7 @@ use App\Models\Traits\HasFirstChar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Translatable\HasTranslations;
 
 /**
  * @property null|int $books_count
@@ -15,9 +16,13 @@ class Language extends Model
 {
     use HasFirstChar;
     use HasFactory;
+    use HasTranslations;
 
     public $incrementing = false;
     public $timestamps = false;
+    public $translatable = [
+        'name',
+    ];
 
     protected $primaryKey = 'slug';
     protected $keyType = 'string';

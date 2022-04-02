@@ -67,4 +67,17 @@ class MediaService
 
         return $this;
     }
+
+    public static function getFullUrl(Model $model, string $collection, ?string $conversion = ''): string
+    {
+        $cover = null;
+
+        try {
+            // @phpstan-ignore-next-line
+            $cover = $model->getFirstMediaUrl($collection, $conversion);
+        } catch (\Throwable $th) {
+        }
+
+        return $cover ? config('app.url').$cover : config('app.url').'/assets/images/no-cover.webp';
+    }
 }

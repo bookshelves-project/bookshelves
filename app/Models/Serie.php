@@ -63,6 +63,10 @@ class Serie extends Model implements HasMedia
         'media',
     ];
 
+    protected $withCount = [
+        'books',
+    ];
+
     public function getShowOpdsLinkAttribute(): string
     {
         return route('front.opds.series.show', [

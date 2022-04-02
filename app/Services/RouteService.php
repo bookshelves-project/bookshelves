@@ -53,13 +53,13 @@ class RouteService
         $accepted_routes = [
             'api.books.index',
             'api.books.show',
-            'api.books.related',
             'api.authors.index',
             'api.authors.show',
             'api.authors.show.books',
             'api.series.index',
             'api.series.show',
             'api.series.show.books',
+            'api.entities.related',
         ];
         $selected_routes = [];
         foreach ($routes as $key => $route) {
