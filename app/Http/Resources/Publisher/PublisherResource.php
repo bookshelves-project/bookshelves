@@ -21,13 +21,8 @@ class PublisherResource extends JsonResource
      */
     public function toArray($request)
     {
-        $books = Book::wherePublisherId([$this->resource->id])->get();
-        $books = SearchBookResource::collection($books);
-
         $resource = PublisherLightResource::make($this->resource)->toArray($request);
 
-        return array_merge($resource, [
-            // 'books' => $books,
-        ]);
+        return array_merge($resource);
     }
 }

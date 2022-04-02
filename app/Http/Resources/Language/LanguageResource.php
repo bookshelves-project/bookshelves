@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Language;
 
 use App\Models\Language;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,14 +19,15 @@ class LanguageResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'name' => $this->resource->name,
+        $resource = (array) LanguageLightResource::make($this->resource)->toArray($request);
+
+        return array_merge($resource, [
             'first_char' => $this->resource->first_char,
             'count' => $this->resource->books_count,
             'meta' => [
                 'slug' => $this->resource->slug,
                 'show' => $this->resource->show_link,
             ],
-        ];
+        ]);
     }
 }

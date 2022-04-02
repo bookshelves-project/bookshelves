@@ -24,7 +24,6 @@ class SerieResource extends JsonResource
         return array_merge(SerieLightResource::make($this->resource)->toArray($request), [
             'description' => $this->resource->description,
             'link' => $this->resource->link,
-            'language' => $this->resource->language?->slug,
             'cover' => [
                 'thumbnail' => $this->resource->cover_thumbnail,
                 'og' => $this->resource->cover_og,

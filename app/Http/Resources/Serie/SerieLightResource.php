@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Serie;
 
 use App\Http\Resources\Author\AuthorUltraLightResource;
+use App\Http\Resources\Language\LanguageLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -21,10 +22,8 @@ class SerieLightResource extends JsonResource
     {
         $resource = SerieUltraLightResource::make($this->resource)->toArray($request);
 
-        // dd($this->resource->books_count);
-
         return array_merge($resource, [
-            'language' => $this->resource->language?->slug,
+            'language' => LanguageLightResource::make($this->resource->language),
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
             'count' => $this->resource->books_count,
         ]);

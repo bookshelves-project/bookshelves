@@ -3,8 +3,13 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\Author\AuthorUltraLightResource;
+use App\Http\Resources\Language\LanguageLightResource;
+use App\Models\Entity;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property \App\Models\Entity $resource
+ */
 class EntityResource extends JsonResource
 {
     /**
@@ -17,41 +22,30 @@ class EntityResource extends JsonResource
     public function toArray($request)
     {
         if ($request->relation) {
-            $className = $request->relation;
-            $className = $this->resource->{$className};
-            $className = get_class($className);
-
-            $relation = $request->relation;
-            $relation = $this->{$relation};
-        } else {
-            $className = $this->resource;
-            $className = get_class($className);
-
-            $relation = $this->resource;
+            $this->resource = $this->{$request->relation};
         }
-
-        $entity = str_replace('App\Models\\', '', $className);
-        $entity = strtolower($entity);
 
         return [
             'meta' => [
-                'entity' => $entity,
-                'author' => $relation->meta_author ?? null,
-                'slug' => $relation->slug,
-                'show' => $relation->show_link,
+                'entity' => Entity::getEntity($this->resource),
+                'author' => $this->resource->meta_author,
+                'slug' => $this->resource->slug,
+                'show' => $this->resource->show_link,
             ],
-            'title' => $relation->title ?? $relation->name,
-            'authors' => $relation->authors ? AuthorUltraLightResource::collection($relation->authors) : null,
-            'serie' => $relation->serie?->title,
-            'language' => $relation->language?->slug,
-            'volume' => $relation->volume ?? null,
+            'title' => $this->resource->title ?? $this->resource->name,
+            'type' => $this->resource->type?->trans(),
+            'authors' => $this->resource->authors ? AuthorUltraLightResource::collection($this->resource->authors) : null,
+            'serie' => $this->resource->serie?->title,
+            'language' => LanguageLightResource::make($this->resource->language),
+            'volume' => $this->resource->volume ?? null,
+            'count' => $this->resource->books_count,
             'cover' => [
-                'thumbnail' => $relation->cover_thumbnail,
-                'original' => $relation->cover_original,
-                'simple' => $relation->cover_simple,
-                'color' => $relation->cover_color,
+                'thumbnail' => $this->resource->cover_thumbnail,
+                'original' => $this->resource->cover_original,
+                'simple' => $this->resource->cover_simple,
+                'color' => $this->resource->cover_color,
             ],
-            'first_char' => $relation->first_char,
+            'first_char' => $this->resource->first_char,
         ];
     }
 }

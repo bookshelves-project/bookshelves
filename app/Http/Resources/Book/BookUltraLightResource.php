@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Book;
 
 use App\Http\Resources\Author\AuthorUltraLightResource;
+use App\Http\Resources\Language\LanguageLightResource;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
@@ -22,6 +23,7 @@ class BookUltraLightResource extends JsonResource
     {
         return [
             'title' => $this->resource->title,
+            'type' => $this->resource->type->trans(),
             'meta' => [
                 'entity' => $this->resource->getClassName(),
                 'slug' => $this->resource->slug,
@@ -31,7 +33,7 @@ class BookUltraLightResource extends JsonResource
             ],
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
             'summary' => Str::limit($this->resource->description, 140),
-            'language' => $this->resource->language?->slug,
+            'language' => LanguageLightResource::make($this->resource->language),
             'releasedOn' => $this->resource->released_on,
             'cover' => [
                 'thumbnail' => $this->resource->cover_thumbnail,

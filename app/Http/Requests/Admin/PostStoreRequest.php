@@ -40,7 +40,6 @@ class PostStoreRequest extends FormRequest
             'body' => ['nullable'],
             'published_at' => ['nullable', 'date'],
             'pin' => ['boolean'],
-            'promote' => ['boolean'],
             'meta_title' => ['nullable'],
             'meta_description' => ['nullable'],
             'tags' => ['array'],
