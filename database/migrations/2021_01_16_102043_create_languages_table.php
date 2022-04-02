@@ -13,7 +13,7 @@ class CreateLanguagesTable extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             $table->string('slug')->unique()->index()->nullable();
-            $table->string('name')->nullable();
+            $table->json('name')->nullable();
         });
 
         Schema::table('books', function (Blueprint $table) {

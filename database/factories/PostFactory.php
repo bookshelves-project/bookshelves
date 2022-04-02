@@ -34,7 +34,6 @@ class PostFactory extends Factory
             'body' => $this->faker->htmlParagraphs(),
             'published_at' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
             'pin' => $this->faker->boolean(25),
-            'promote' => $this->faker->boolean(25),
             'meta_title' => ucfirst($this->faker->words(3, true)),
             'meta_description' => $this->faker->paragraph(),
         ];
@@ -99,18 +98,6 @@ class PostFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'pin' => true,
-            ];
-        });
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function promoted()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'promote' => true,
             ];
         });
     }

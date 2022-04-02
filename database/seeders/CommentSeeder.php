@@ -58,8 +58,12 @@ class CommentSeeder extends Seeder
 
                     $comment->updated_at = $date;
 
-                    $entity->comments()->save($comment);
-                    $entity->refresh();
+                    try {
+                        $entity->comments()->save($comment);
+                        $entity->refresh();
+                    } catch (\Throwable $th) {
+                        // throw $th;
+                    }
                 } else {
                     Comment::destroy($comment->id);
                 }
