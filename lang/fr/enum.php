@@ -16,10 +16,10 @@ return [
             'pdf' => 'PDF',
         ],
         'BookTypeEnum' => [
-            'handbook' => 'Handbook',
-            'essay' => 'Essay',
-            'comic' => 'Comic',
-            'novel' => 'Novel',
+            'handbook' => 'Manuel',
+            'essay' => 'Essai',
+            'comic' => 'Bande dessinée',
+            'novel' => 'Roman',
             'audio' => 'Audio',
         ],
         'GenderEnum' => [

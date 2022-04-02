@@ -13,7 +13,6 @@ return [
         'attributes' => [
             'category' => 'Category',
             'pin' => 'Pin',
-            'promote' => 'Promote',
             'user' => 'Author',
             'tags' => 'Tags',
         ],

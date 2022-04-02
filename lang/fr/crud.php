@@ -18,7 +18,6 @@ return [
             'summary' => 'Résumé',
             'body' => 'Corps',
             'pin' => 'Epinglé',
-            'promote' => 'Mis en avant',
             'published_at' => 'Publié le',
             'meta_title' => 'Meta title',
             'meta_description' => 'Meta description',
