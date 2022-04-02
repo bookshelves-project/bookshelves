@@ -14,7 +14,6 @@ export class Book extends Model {
     public body: string,
     public published_at: string,
     public pin: boolean,
-    public promote: boolean,
     public slug: string,
     public meta_title: string,
     public meta_description: string,

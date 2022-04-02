@@ -101,11 +101,6 @@ const columns: (string | Column)[] = [
     searchable: true,
   },
   {
-    field: 'promote',
-    type: 'switch',
-    searchable: true,
-  },
-  {
     field: 'user',
     type: 'reference',
     props: { text: 'name', resource: 'users', link: 'show' },

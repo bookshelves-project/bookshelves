@@ -8,7 +8,7 @@ const props = defineProps({
     required: true,
   },
   hideFooter: Boolean,
-  perPageOptions: {
+  sizeOptions: {
     type: Array as PropType<number[]>,
     default: () => [5, 10, 15, 32, 50, 100],
   },
@@ -17,13 +17,13 @@ const props = defineProps({
 const emit = defineEmits(['page-change'])
 
 const onPageChange = (page: number) => {
-  emit('page-change', { page, perPage: props.source.meta.per_page })
+  emit('page-change', { page, size: props.source.meta.per_page })
 }
 
-const onPerPageChange = (e: Event) => {
+const onSizeChange = (e: Event) => {
   emit('page-change', {
     page: 1,
-    perPage: parseInt((e.target as HTMLInputElement).value, 10),
+    size: parseInt((e.target as HTMLInputElement).value, 10),
   })
 }
 </script>
@@ -37,9 +37,9 @@ const onPerPageChange = (e: Event) => {
       <select
         :value="source.meta.per_page"
         class="mr-2 text-base text-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700"
-        @input="onPerPageChange"
+        @input="onSizeChange"
       >
-        <option v-for="(count, i) in perPageOptions" :key="i" :value="count">
+        <option v-for="(count, i) in sizeOptions" :key="i" :value="count">
           {{ count }}
         </option>
       </select>

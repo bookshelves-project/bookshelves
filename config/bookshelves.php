@@ -20,10 +20,9 @@ return [
     ],
     /*
      * Langs
-     * If a lang is not here, ParserEngine will create lang from meta
-     * Like a book in English with Calibre, meta will be `en`, the engine create `En` lang if not exist.
+     * ParserEngine will create Language with translations from Locale
      */
-    'langs' => explode(',', env('BOOKSHELVES_LANGS', 'fr.French,en.English')),
+    'langs' => explode(',', env('BOOKSHELVES_LANGS', 'fr,en')),
     /*
      * Tags
      * From Wikipedia: https://en.wikipedia.org/wiki/List_of_writing_genres.

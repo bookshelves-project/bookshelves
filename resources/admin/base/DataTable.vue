@@ -163,7 +163,7 @@
           <data-iterator
             :source="source"
             :hide-footer="hideFooter"
-            :per-page-options="perPageOptions"
+            :per-page-options="sizeOptions"
             class="w-full"
             @page-change="onPageChange"
           />
@@ -203,7 +203,7 @@ const props = defineProps({
   disableSearch: Boolean,
   hideHeader: Boolean,
   hideFooter: Boolean,
-  perPageOptions: {
+  sizeOptions: {
     type: Array as PropType<number[]>,
     default: () => [5, 10, 15, 32, 50, 100],
   },
@@ -284,7 +284,7 @@ const getDefaultFilter = () => {
 
 const form = useForm({
   page: props.source.meta.current_page,
-  perPage: props.source.meta.per_page,
+  size: props.source.meta.per_page,
   sort: props.sort,
   filter: {
     ...getDefaultFilter(),
@@ -302,9 +302,9 @@ const doQuery = () => {
   })
 }
 
-const onPageChange = (pager: { page: number; perPage: number }) => {
+const onPageChange = (pager: { page: number; size: number }) => {
   form.page = pager.page
-  form.perPage = pager.perPage
+  form.size = pager.size
   doQuery()
 }
 

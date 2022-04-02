@@ -72,7 +72,6 @@
           full
         />
         <switch-input source="pin" full />
-        <switch-input source="promote" full />
 
         <div class="flex form-full">
           <dropdown class="ml-auto" wrapper-classes="w-72 right">

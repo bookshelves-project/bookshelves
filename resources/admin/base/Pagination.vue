@@ -6,7 +6,7 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  perPage: {
+  size: {
     type: [Number, String],
     required: true,
   },
@@ -27,7 +27,7 @@ const props = defineProps({
 const emit = defineEmits(['page-change'])
 
 const pages = computed(() => {
-  let page = props.perPage
+  let page = props.size
   if (typeof page === 'string') {
     page = parseInt(page, 10)
   }
