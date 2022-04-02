@@ -172,14 +172,12 @@ test('admin can filter posts', function (array $filter, int $total) {
                 'status' => PostStatusEnum::draft->name,
                 'published_at' => Carbon::make('2020-01-01'),
                 'pin' => true,
-                'promote' => true,
             ],
             [
                 'title' => 'My post title 2',
                 'status' => PostStatusEnum::published->name,
                 'published_at' => Carbon::make('2021-01-01'),
                 'pin' => false,
-                'promote' => false,
             ],
         ])
     ;
@@ -199,8 +197,6 @@ test('admin can filter posts', function (array $filter, int $total) {
     [['summary' => 'post summary'], 1],
     [['body' => 'post body'], 1],
     [['status' => 'draft'], 1],
-    [['pin' => '1', 'promote' => '1'], 1],
-    [['pin' => '1', 'promote' => '0'], 0],
     [['user' => 'admin'], 0],
     [['published_at' => Carbon::make('2020-12-01')->format('Y-m-d').','.Carbon::make('2021-02-01')->format('Y-m-d')], 1],
 ]);
@@ -277,14 +273,12 @@ test('admin can store post', function (array $data, array $expected) {
         'summary' => 'My summary of the new post',
         'publish' => true,
         'pin' => true,
-        'promote' => true,
     ],
     [
         'title' => 'My new post',
         'summary' => 'My summary of the new post',
         'status' => 'published',
         'pin' => true,
-        'promote' => true,
     ],
 ], [
     [
@@ -488,7 +482,7 @@ test('admin can toggle post', function (string $attribute) {
     assertDatabaseHas('posts', [
         $attribute => true,
     ]);
-})->with(['pin', 'promote']);
+})->with(['pin']);
 
 test('admin can delete post', function () {
     $post = Post::factory()->create([

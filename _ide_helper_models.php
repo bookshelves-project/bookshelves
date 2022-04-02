@@ -182,6 +182,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereTypesIs(...$types)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereVolume($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
@@ -527,7 +528,7 @@ namespace App\Models{
  * App\Models\Language
  *
  * @property string|null $slug
- * @property string|null $name
+ * @property array|null $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
  * @property-read mixed $first_char
@@ -606,20 +607,26 @@ namespace App\Models{
  * @property int $id
  * @property string $title
  * @property string|null $slug
- * @property string $status
+ * @property \App\Enums\PostStatusEnum $status
  * @property string|null $summary
  * @property string|null $body
- * @property string|null $published_at
+ * @property \Illuminate\Support\Carbon|null $published_at
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $cover
+ * @property-read string $show_link
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Page draft()
  * @method static \Database\Factories\PageFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page published()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page publishedBetween($startDate, $endDate)
  * @method static \Illuminate\Database\Eloquent\Builder|Page query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page scheduled()
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereBody($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
@@ -648,13 +655,14 @@ namespace App\Models{
  * @property string|null $body
  * @property \Illuminate\Support\Carbon|null $published_at
  * @property bool $pin
- * @property bool $promote
  * @property string $slug
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\PostCategory|null $category
+ * @property-read string $cover
+ * @property-read string $show_link
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
@@ -675,7 +683,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereMetaTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post wherePin($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post wherePromote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post wherePublishedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereStatus($value)
@@ -835,6 +842,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTypesIs(...$types)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereWikipediaItemId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
