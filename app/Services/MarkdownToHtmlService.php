@@ -3,8 +3,11 @@
 namespace App\Services;
 
 use App\Models\MediaExtended;
+use App\Models\Page;
+use App\Models\Post;
 use DOMDocument;
 use DOMNodeList;
+use DOMXPath;
 use File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -103,17 +106,46 @@ class MarkdownToHtmlService
                 }
             }
         }
-        $this->html = $this->document->saveHTML($this->document->documentElement);
-        $this->document->removeChild($this->document->doctype);
-        $this->html = utf8_decode($this->document->saveHTML($this->document->documentElement));
-        $this->html = str_replace('<html><body>', '', $this->html);
-        $this->html = str_replace('</body></html>', '', $this->html);
-        $this->html = str_replace('<p><img', '<img', $this->html);
-        // $this->html = str_replace('></p>', ' >', $this->html);
+
+        $this->html = self::saveHtml($this->html, $this->document);
         // $this->html = $this->minifyOutput($this->html);
 
         $model->{$model_body_attr} = $this->html;
         $model->save();
+    }
+
+    public static function setHeadings(
+        Post|Page $model,
+        string $model_body_attr = 'body'
+    ) {
+        try {
+            $document = new DOMDocument();
+            $document->loadHTML($model->{$model_body_attr});
+            $xpath = new DOMXPath($document);
+
+            $elements = $xpath->query('(//h1|//h2|//h3|//h4|//h5)');
+
+            foreach ($elements as $index => $element) {
+                $element->setAttribute('id', Str::slug($element->textContent));
+            }
+
+            return self::saveHtml($model->{$model_body_attr}, $document);
+        } catch (\Throwable $th) {
+            // throw $th;
+        }
+    }
+
+    public static function saveHtml(?string $html, ?DOMDocument $document): ?string
+    {
+        $html = $document->saveHTML($document->documentElement);
+        if ($document->doctype) {
+            $document->removeChild($document->doctype);
+        }
+        $html = utf8_decode($document->saveHTML($document->documentElement));
+        $html = str_replace('<html><body>', '', $html);
+        $html = str_replace('</body></html>', '', $html);
+        $html = str_replace('<p><img', '<img', $html);
+        return str_replace('"></p>', '">', $html);
     }
 
     public static function minifyOutput(string $html): string

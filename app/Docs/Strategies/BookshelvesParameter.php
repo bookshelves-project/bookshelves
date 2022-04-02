@@ -6,6 +6,8 @@ use App\Enums\BookFormatEnum;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
+use App\Models\Page;
+use App\Models\Post;
 use App\Models\Publisher;
 use App\Models\Serie;
 use App\Models\TagExtend;
@@ -40,13 +42,15 @@ class BookshelvesParameter extends Strategy
             'authors.show.books' => 'author',
             'authors.show.series' => 'author',
             'books.show' => 'book',
-            'books.related' => 'book',
             'languages.show' => 'language',
             'publishers.show' => 'publisher',
             'publishers.show.books' => 'publisher',
             'series.show' => 'serie',
             'series.show.books' => 'serie',
             'series.current' => 'serieVolume',
+            'posts.show' => 'post',
+            'pages.show' => 'page',
+            'entities.related' => 'book',
             'download.book' => 'downloadBook',
             'download.serie' => 'downloadSerie',
             'download.author' => 'downloadAuthor',
@@ -70,6 +74,24 @@ class BookshelvesParameter extends Strategy
 
         return [
             ...$this->author_slug($author),
+        ];
+    }
+
+    private function post(): array
+    {
+        $post = Post::published()->inRandomOrder()->first();
+
+        return [
+            ...$this->post_slug($post),
+        ];
+    }
+
+    private function page(): array
+    {
+        $page = Page::published()->inRandomOrder()->first();
+
+        return [
+            ...$this->page_slug($page),
         ];
     }
 
@@ -224,6 +246,28 @@ class BookshelvesParameter extends Strategy
                 'description' => "`slug` of serie in `meta.slug` series' list, example: `{$serie->slug}`",
                 'required' => true,
                 'example' => $serie->slug,
+            ],
+        ];
+    }
+
+    private function post_slug(Post $post)
+    {
+        return [
+            'post_slug' => [
+                'description' => "`slug` of post in `meta.slug` posts' list, example: `{$post->slug}`",
+                'required' => true,
+                'example' => $post->slug,
+            ],
+        ];
+    }
+
+    private function page_slug(Page $page)
+    {
+        return [
+            'page_slug' => [
+                'description' => "`slug` of page in `meta.slug` pages' list, example: `{$page->slug}`",
+                'required' => true,
+                'example' => $page->slug,
             ],
         ];
     }

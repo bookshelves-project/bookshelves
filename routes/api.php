@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\EntityController;
 use App\Http\Controllers\Api\EnumController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LanguageController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\PublisherController;
 use App\Http\Controllers\Api\SearchController;
@@ -55,6 +56,7 @@ Route::prefix('entities')->group(function () {
     Route::get('/search', [EntityController::class, 'search'])->name('api.entities.search');
     Route::get('/latest', [EntityController::class, 'latest'])->name('api.entities.latest');
     Route::get('/selection', [EntityController::class, 'selection'])->name('api.entities.selection');
+    Route::get('/related/{author_slug}/{book_slug}', [EntityController::class, 'related'])->name('api.entities.related');
 });
 
 /*
@@ -80,7 +82,6 @@ Route::prefix('authors')->group(function () {
 Route::prefix('books')->group(function () {
     Route::get('/', [BookController::class, 'index'])->name('api.books.index');
     Route::get('/{author_slug}/{book_slug}', [BookController::class, 'show'])->name('api.books.show');
-    Route::get('/related/{author_slug}/{book_slug}', [BookController::class, 'related'])->name('api.books.related');
 });
 
 /*

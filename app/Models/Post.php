@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Enums\PostStatusEnum;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Traits\HasPublishStatus;
+use App\Services\MarkdownToHtmlService;
+use App\Services\MediaService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -22,6 +24,7 @@ class Post extends Model implements HasMedia
     use HasFactory;
     use HasSlug;
     use HasTags;
+    use HasPublishStatus;
     use InteractsWithMedia;
     use Searchable;
 
@@ -35,20 +38,13 @@ class Post extends Model implements HasMedia
         'body',
         'published_at',
         'pin',
-        'promote',
         'meta_title',
         'meta_description',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'status' => PostStatusEnum::class,
         'pin' => 'boolean',
-        'promote' => 'boolean',
         'published_at' => 'datetime',
     ];
 
@@ -76,35 +72,34 @@ class Post extends Model implements HasMedia
         ;
     }
 
+    public function getCoverAttribute(): string
+    {
+        return MediaService::getFullUrl($this, 'featured-image');
+    }
+
+    public function getShowLinkAttribute(): string
+    {
+        return route('api.posts.show', [
+            'post_slug' => $this->slug,
+        ]);
+    }
+
     public function category()
     {
         return $this->belongsTo(PostCategory::class, 'category_id');
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function scopeDraft(Builder $query)
+    public static function boot()
     {
-        return $query->whereStatus(PostStatusEnum::draft);
-    }
+        parent::boot();
 
-    public function scopeScheduled(Builder $query)
-    {
-        return $query->whereStatus(PostStatusEnum::scheduled);
-    }
-
-    public function scopePublished(Builder $query)
-    {
-        return $query->whereStatus(PostStatusEnum::published);
-    }
-
-    public function scopePublishedBetween(Builder $query, $startDate, $endDate)
-    {
-        return $query
-            ->whereBetween('published_at', [Carbon::parse($startDate), Carbon::parse($endDate)])
-        ;
+        self::updating(function (Post $post) {
+            $post->body = MarkdownToHtmlService::setHeadings($post);
+        });
     }
 }

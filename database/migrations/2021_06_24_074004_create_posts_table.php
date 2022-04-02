@@ -19,7 +19,6 @@ class CreatePostsTable extends Migration
             $table->longText('body')->nullable();
             $table->dateTime('published_at')->nullable();
             $table->boolean('pin')->default(0);
-            $table->boolean('promote')->default(0);
             $table->string('slug');
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();

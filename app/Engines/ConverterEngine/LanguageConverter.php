@@ -5,6 +5,7 @@ namespace App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
 use App\Models\Book;
 use App\Models\Language;
+use Locale;
 
 class LanguageConverter
 {
@@ -13,24 +14,22 @@ class LanguageConverter
      */
     public static function create(ParserEngine $parser, Book $book): Language
     {
-        $meta_name = $parser->language;
+        $lang_code = $parser->language;
 
         if (! $book->language) {
             $available_langs = config('bookshelves.langs');
-            $langs = [];
-            foreach ($available_langs as $lang) {
-                $converted = explode('.', $lang);
-                $langs[$converted[0]] = $converted[1];
+
+            $language = Language::whereSlug($lang_code)->first();
+            if (! $language) {
+                $lang_names = [];
+                foreach ($available_langs as $lang) {
+                    $lang_names[$lang] = ucfirst(Locale::getDisplayLanguage($lang_code, $lang));
+                }
+                $language = Language::firstOrCreate([
+                    'name' => $lang_names,
+                    'slug' => $lang_code,
+                ]);
             }
-            if (array_key_exists($meta_name, $langs)) {
-                $name = $langs[$meta_name];
-            } else {
-                $name = ucfirst($meta_name);
-            }
-            $language = Language::firstOrCreate([
-                'name' => $name,
-                'slug' => $meta_name,
-            ]);
 
             $book->language()->associate($language);
 
