@@ -163,7 +163,7 @@
           <data-iterator
             :source="source"
             :hide-footer="hideFooter"
-            :per-page-options="sizeOptions"
+            :size-options="sizeOptions"
             class="w-full"
             @page-change="onPageChange"
           />

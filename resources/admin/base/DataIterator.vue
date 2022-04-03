@@ -63,7 +63,7 @@ const onSizeChange = (e: Event) => {
       <pagination
         class="ml-2"
         :current-page="source.meta.current_page"
-        :per-page="source.meta.per_page"
+        :size="source.meta.per_page"
         :total="source.meta.total"
         @page-change="onPageChange"
       />
