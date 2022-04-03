@@ -148,11 +148,13 @@ class WikipediaQuery
         try {
             $response = json_decode(json_encode($response));
             $page = $response?->query?->pages;
-            $page = reset($page);
+            if (is_array($page)) {
+                $page = reset($page);
 
-            $this->extract = $this->convertExtract($page->extract, 2000);
-            $this->picture_url = $page->thumbnail?->source ?? null;
-            $this->page_url = $page->fullurl ?? null;
+                $this->extract = $this->convertExtract($page->extract, 2000);
+                $this->picture_url = $page->thumbnail?->source ?? null;
+                $this->page_url = $page->fullurl ?? null;
+            }
         } catch (\Throwable $th) {
             throw $th;
         }

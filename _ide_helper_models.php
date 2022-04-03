@@ -909,7 +909,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereNameEnIs(string $name)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereOrderColumn($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereShowNegligible(string $show_negligible)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereTypeIs(string $type)

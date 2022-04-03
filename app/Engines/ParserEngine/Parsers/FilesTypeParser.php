@@ -22,7 +22,6 @@ class FilesTypeParser
     public static function parseDataFiles(int $limit = null)
     {
         $book_types = BookTypeEnum::toArray();
-        $ext = 'epub';
 
         $files = [];
         foreach ($book_types as $type => $path) {

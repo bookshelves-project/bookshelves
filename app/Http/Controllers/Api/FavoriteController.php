@@ -24,9 +24,12 @@ class FavoriteController extends ApiController
     public function user(int $userId)
     {
         // TODO review
-        $favorites = Favoritable::whereUserId($userId)->with([
-            'favoritable',
-        ])->orderBy('created_at', 'DESC')->get();
+        // @phpstan-ignore-next-line
+        $favorites = Favoritable::whereUserId($userId)
+            ->with(['favoritable'])
+            ->orderBy('created_at', 'DESC')
+            ->get()
+        ;
 
         return FavoriteResource::collection($favorites);
     }
