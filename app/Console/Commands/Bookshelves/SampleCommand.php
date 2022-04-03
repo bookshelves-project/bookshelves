@@ -17,10 +17,8 @@ class SampleCommand extends Command
      */
     protected $signature = 'bookshelves:sample
                             {--u|users : generate users}
-                            {--c|comments : generate fake comments, favorites sample (users will be generated)}
-                            {--s|selection : generate fake selection sample (user admin will be generated)}
                             {--a|admin : generate only admin}
-                            {--p|posts : generate posts}
+                            {--c|cms : generate pages, posts and CMS content}
                             {--F|force : skip confirm in prod}';
 
     /**
@@ -48,11 +46,9 @@ class SampleCommand extends Command
         $this->alert("{$app}: sample");
 
         $users = $this->option('users') ?? false;
-        $comments = $this->option('comments') ?? false;
-        $selection = $this->option('selection') ?? false;
         $admin = $this->option('admin') ?? false;
         $force = $this->option('force') ?? false;
-        $posts = $this->option('posts') ?? false;
+        $cms = $this->option('cms') ?? false;
 
         if ('local' !== config('app.env') && ! $force) {
             if ($this->confirm('This command will erase all users/comments/selection/admin, do you really want to erase these data?', true)) {
@@ -64,21 +60,14 @@ class SampleCommand extends Command
             }
         }
 
-        // $users ? $roles = true : '';
-        // if ($admin) {
-        //     if (! Role::exists()) {
-        //         $roles = true;
-        //     }
-        // }
-
-        if ($comments) {
+        if ($cms) {
             if (! User::exists()) {
                 $roles = true;
                 $users = true;
             }
         }
 
-        if ($selection) {
+        if ($cms) {
             // $roles = true;
             $admin = true;
         }
@@ -103,6 +92,14 @@ class SampleCommand extends Command
             $this->newLine();
         }
 
+        if ($cms) {
+            $this->comment('Run CMS seeders');
+            Artisan::call('db:seed', ['--class' => 'CmsSeeder', '--force' => true]);
+            $this->newLine();
+            $this->info('Seeders ready!');
+            $this->newLine();
+        }
+
         if ($users) {
             $this->comment('Run users seeders');
             Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
@@ -111,7 +108,7 @@ class SampleCommand extends Command
             $this->newLine();
         }
 
-        if ($comments) {
+        if ($users) {
             $this->comment('Run comments and favorites seeders');
             Artisan::call('db:seed', ['--class' => 'CommentSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'FavoriteSeeder', '--force' => true]);
@@ -119,14 +116,14 @@ class SampleCommand extends Command
             $this->newLine();
         }
 
-        if ($selection) {
+        if ($cms) {
             $this->comment('Run selection seeders');
             Artisan::call('db:seed', ['--class' => 'SelectionSeeder', '--force' => true]);
             $this->info('Seeders ready!');
             $this->newLine();
         }
 
-        if ($posts) {
+        if ($cms) {
             $this->comment('Run posts & pages seeders');
             Artisan::call('db:seed', ['--class' => 'PostSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'PageSeeder', '--force' => true]);
