@@ -905,6 +905,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend query()
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereIsNegligible(string $negligible)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereNameEnIs(string $name)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereOrderColumn($value)

@@ -30,9 +30,9 @@ class PublisherController extends ApiController
      */
     public function index(Request $request)
     {
-        if ($alpha = $this->chunkByAlpha($request, Publisher::class, PublisherLightResource::class)) {
-            return $alpha;
-        }
+        // if ($alpha = $this->chunkByAlpha($request, Publisher::class, PublisherLightResource::class)) {
+        //     return $alpha;
+        // }
 
         return app(PublisherQuery::class)
             ->make(QueryOption::create(

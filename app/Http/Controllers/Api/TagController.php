@@ -33,9 +33,9 @@ class TagController extends ApiController
      */
     public function index(Request $request)
     {
-        if ($alpha = $this->chunkByAlpha($request, TagExtend::class, TagLightResource::class)) {
-            return $alpha;
-        }
+        // if ($alpha = $this->chunkByAlpha($request, TagExtend::class, TagLightResource::class)) {
+        //     return $alpha;
+        // }
 
         return app(TagQuery::class)
             ->make(QueryOption::create(

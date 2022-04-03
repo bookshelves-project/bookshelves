@@ -32,7 +32,7 @@ class TagQuery extends BaseQuery
                 AllowedFilter::partial('books_count'),
                 AllowedFilter::partial('series_count'),
                 AllowedFilter::partial('first_char'),
-                AllowedFilter::scope('show_negligible', 'whereShowNegligible')->default(false),
+                AllowedFilter::scope('negligible', 'whereIsNegligible')->default(false),
                 AllowedFilter::scope('type', 'whereTypeIs'),
             ])
             ->allowedSorts(['id', 'name', 'slug', 'type', 'first_char', 'books_count', 'series_count', 'created_at', 'updated_at'])

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\TagTypeEnum;
 use App\Models\TagExtend as ModelsTagExtend;
 use App\Models\Traits\HasFirstChar;
+use App\Models\Traits\HasNegligible;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Tags\HasTags;
@@ -16,6 +17,7 @@ class TagExtend extends \Spatie\Tags\Tag
 {
     use HasTags;
     use HasFirstChar;
+    use HasNegligible;
 
     protected $table = 'tags';
 
@@ -59,13 +61,6 @@ class TagExtend extends \Spatie\Tags\Tag
     public function scopeWhereTypeIs(Builder $query, string $type)
     {
         return $query->where('type', '=', $type);
-    }
-
-    public function scopeWhereShowNegligible(Builder $query, string $show_negligible)
-    {
-        $show_negligible = filter_var($show_negligible, FILTER_VALIDATE_BOOLEAN);
-
-        return $show_negligible ? $query : $query->whereHas('books', count: 3);
     }
 
     public function books(): MorphToMany

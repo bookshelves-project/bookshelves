@@ -22,7 +22,7 @@ class LanguageResource extends JsonResource
         $resource = (array) LanguageLightResource::make($this->resource)->toArray($request);
 
         return array_merge($resource, [
-            'first_char' => $this->resource->first_char,
+            'firstChar' => $this->resource->first_char,
             'count' => $this->resource->books_count,
             'meta' => [
                 'slug' => $this->resource->slug,

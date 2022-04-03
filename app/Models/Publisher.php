@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\HasFirstChar;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Traits\HasNegligible;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,6 +18,7 @@ class Publisher extends Model
     use HasFirstChar;
     use HasSlug;
     use HasFactory;
+    use HasNegligible;
 
     public $timestamps = false;
     protected $fillable = [
@@ -38,13 +39,6 @@ class Publisher extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug')
         ;
-    }
-
-    public function scopeWhereIsNegligible(Builder $query, string $negligible)
-    {
-        $negligible = filter_var($negligible, FILTER_VALIDATE_BOOLEAN);
-
-        return $negligible ? $query : $query->whereHas('books', count: 3);
     }
 
     public function getShowLinkAttribute(): string

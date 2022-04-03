@@ -30,7 +30,7 @@ class PublisherQuery extends BaseQuery
                 AllowedFilter::partial('id'),
                 AllowedFilter::partial('name'),
                 AllowedFilter::partial('slug'),
-                AllowedFilter::scope('negligible', 'whereIsNegligible'),
+                AllowedFilter::scope('negligible', 'whereIsNegligible')->default(false),
             ])
             ->allowedSorts(['id', 'name', 'slug', 'books_count', 'created_at', 'updated_at'])
             ->with($option->with)
