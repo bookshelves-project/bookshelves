@@ -16,8 +16,8 @@ class SampleCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:sample
-                            {--u|users : generate users}
                             {--a|admin : generate only admin}
+                            {--u|users : generate users with comments and favorites}
                             {--c|cms : generate pages, posts and CMS content}
                             {--F|force : skip confirm in prod}';
 
@@ -45,10 +45,10 @@ class SampleCommand extends Command
         $this->newLine();
         $this->alert("{$app}: sample");
 
-        $users = $this->option('users') ?? false;
         $admin = $this->option('admin') ?? false;
-        $force = $this->option('force') ?? false;
+        $users = $this->option('users') ?? false;
         $cms = $this->option('cms') ?? false;
+        $force = $this->option('force') ?? false;
 
         if ('local' !== config('app.env') && ! $force) {
             if ($this->confirm('This command will erase all users/comments/selection/admin, do you really want to erase these data?', true)) {
@@ -59,25 +59,6 @@ class SampleCommand extends Command
                 return false;
             }
         }
-
-        if ($cms) {
-            if (! User::exists()) {
-                $roles = true;
-                $users = true;
-            }
-        }
-
-        if ($cms) {
-            // $roles = true;
-            $admin = true;
-        }
-
-        // if ($roles) {
-        //     $this->comment('Run roles seeders');
-        //     $this->setRoles();
-        //     $this->info('Seeders ready!');
-        //     $this->newLine();
-        // }
 
         if ($admin) {
             Storage::deleteDirectory(storage_path('app/public/media/users'));
@@ -92,23 +73,13 @@ class SampleCommand extends Command
             $this->newLine();
         }
 
-        if ($cms) {
-            $this->comment('Run CMS seeders');
-            Artisan::call('db:seed', ['--class' => 'CmsSeeder', '--force' => true]);
-            $this->newLine();
-            $this->info('Seeders ready!');
-            $this->newLine();
-        }
-
         if ($users) {
             $this->comment('Run users seeders');
             Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
             $this->newLine();
             $this->info('Seeders ready!');
             $this->newLine();
-        }
 
-        if ($users) {
             $this->comment('Run comments and favorites seeders');
             Artisan::call('db:seed', ['--class' => 'CommentSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'FavoriteSeeder', '--force' => true]);
@@ -117,13 +88,17 @@ class SampleCommand extends Command
         }
 
         if ($cms) {
+            $this->comment('Run CMS seeders');
+            Artisan::call('db:seed', ['--class' => 'CmsSeeder', '--force' => true]);
+            $this->newLine();
+            $this->info('Seeders ready!');
+            $this->newLine();
+
             $this->comment('Run selection seeders');
             Artisan::call('db:seed', ['--class' => 'SelectionSeeder', '--force' => true]);
             $this->info('Seeders ready!');
             $this->newLine();
-        }
 
-        if ($cms) {
             $this->comment('Run posts & pages seeders');
             Artisan::call('db:seed', ['--class' => 'PostSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'PageSeeder', '--force' => true]);

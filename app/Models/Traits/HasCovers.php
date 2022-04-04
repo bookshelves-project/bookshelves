@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Models\MediaExtended;
+use ReflectionClass;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -13,11 +14,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 trait HasCovers
 {
     use InteractsWithMedia;
-
-    // public function registerMediaCollections(): void
-    // {
-    //     $this->addMediaCollection('covers');
-    // }
 
     /** @mixin \Spatie\Cover\Manipulations */
     public function registerMediaConversions(Media $media = null): void
@@ -96,7 +92,7 @@ trait HasCovers
     public function getCoverColorAttribute(): string|null
     {
         /** @var Media $media */
-        $media = $this->getFirstMedia($this->getClassName(true));
+        $media = $this->getFirstMedia('covers');
 
         // @phpstan-ignore-next-line
         if ($color = $media?->getCustomProperty('color')) {
