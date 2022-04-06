@@ -32,6 +32,7 @@ class LanguageConverter
             }
 
             $book->language()->associate($language);
+            $book->save();
 
             return $language;
         }

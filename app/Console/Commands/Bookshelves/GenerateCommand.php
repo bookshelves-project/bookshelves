@@ -4,9 +4,14 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Console\CommandProd;
 use App\Engines\ConverterEngine;
+use App\Engines\ConverterEngine\CoverConverter;
+use App\Engines\ConverterEngine\EntityConverter;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
+use App\Models\Author;
+use App\Models\Serie;
 use Illuminate\Support\Facades\Artisan;
+use ReflectionClass;
 use Spatie\Tags\Tag;
 
 /**
@@ -109,10 +114,36 @@ class GenerateCommand extends CommandProd
         $bar->finish();
         $this->newLine();
 
+        $this->improveRelation(Author::class);
+        $this->improveRelation(Serie::class);
+
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
         $this->info("Time in seconds: {$time_elapsed_secs}");
 
         return true;
+    }
+
+    private function improveRelation(string $model)
+    {
+        $default = $this->option('default') ?? false;
+
+        $class = new ReflectionClass($model);
+        $class = $class->getShortName();
+
+        $this->newLine();
+        $this->warn("Improve {$class}s...");
+        $this->newLine();
+        $bar = $this->output->createProgressBar($model::count());
+        $bar->start();
+        foreach ($model::all() as $entity) {
+            EntityConverter::setTags($entity);
+            if (! $default) {
+                CoverConverter::setLocalCover($entity);
+            }
+            $bar->advance();
+        }
+        $bar->finish();
+        $this->newLine();
     }
 }

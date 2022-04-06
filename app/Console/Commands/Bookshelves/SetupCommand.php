@@ -4,7 +4,6 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Console\CommandProd;
 use Artisan;
-use Illuminate\Console\Command;
 
 class SetupCommand extends CommandProd
 {
@@ -15,9 +14,9 @@ class SetupCommand extends CommandProd
      */
     protected $signature = 'bookshelves:setup
                             {--f|fresh : erase database and fresh installation, generate books and relations, all assets and selection books}
+                            {--a|api : use external API for more data}
                             {--s|sample : fake users with comments/favorites and CMS with posts and pages}
                             {--l|limit= : limit epub files to generate, useful for debug}
-                            {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
                             {--F|force : skip confirm in prod}';
 
@@ -48,9 +47,9 @@ class SetupCommand extends CommandProd
 
         $force = $this->option('force') ?? false;
         $fresh = $this->option('fresh') ?? false;
+        $api = $this->option('api') ?? false;
         $sample = $this->option('sample') ?? false;
         $limit = $this->option('limit') ? intval(str_replace('=', '', $this->option('limit'))) : false;
-        $local = $this->option('local') ?? false;
         $debug = $this->option('debug') ?? false;
 
         if ($fresh) {
@@ -78,16 +77,17 @@ class SetupCommand extends CommandProd
             '--force' => $force,
         ], $this->getOutput());
         /**
-         * Assets.
+         * API.
          */
-        Artisan::call('bookshelves:assets', [
-            '--books' => true,
-            '--authors' => true,
-            '--series' => true,
-            '--local' => $local,
-            '--fresh' => $fresh,
-            '--force' => $force,
-        ], $this->getOutput());
+        if ($api) {
+            Artisan::call('bookshelves:api', [
+                '--books' => true,
+                '--authors' => true,
+                '--series' => true,
+                '--fresh' => $fresh,
+                '--force' => $force,
+            ], $this->getOutput());
+        }
 
         if (! $debug) {
             Artisan::call('bookshelves:clear', [], $this->getOutput());
@@ -96,11 +96,13 @@ class SetupCommand extends CommandProd
         /**
          * Sample users.
          */
-        Artisan::call('bookshelves:sample', [
-            '--cms' => $sample,
-            '--users' => $sample,
-            '--force' => $force,
-        ], $this->getOutput());
+        if ($sample) {
+            Artisan::call('bookshelves:sample', [
+                '--cms' => true,
+                '--users' => true,
+                '--force' => $force,
+            ], $this->getOutput());
+        }
 
         /**
          * Scout.

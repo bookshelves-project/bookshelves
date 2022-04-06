@@ -93,7 +93,7 @@ class DatabaseCommand extends Command
             $books->each(function ($book) {
                 /** @var Book $book */
                 $book->clearMediaCollection(MediaDiskEnum::cover->value);
-                $book->clearMediaCollection('epub');
+                $book->clearMediaCollection(MediaDiskEnum::format->value);
             });
             $series->each(function ($serie) {
                 /** @var Serie $serie */

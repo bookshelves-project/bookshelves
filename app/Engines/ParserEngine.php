@@ -21,6 +21,24 @@ use Transliterator;
  */
 class ParserEngine
 {
+    /** @var string[][] */
+    public const DETERMINERS = [
+        'en' => [
+            'the ',
+            'a ',
+        ],
+        'fr' => [
+            'les ',
+            "l'",
+            'le ',
+            'la ',
+            "d'un",
+            "d'",
+            'une ',
+            'au ',
+        ],
+    ];
+
     /** @var BookCreator[] */
     public ?array $creators = [];
 
@@ -94,14 +112,17 @@ class ParserEngine
             $engine->title = Str::limit($engine->title, 250);
             $engine->rights = Str::limit($engine->rights, 250);
 
-            $engine->slug_sort = ParserEngine::generateSortTitle($engine->title);
+            $engine->slug_sort = ParserEngine::generateSortTitle($engine->title, $engine->language);
             $engine->slug = Str::slug($engine->title);
-            $engine->title_slug_lang = self::generateSlug($engine->title, $engine->type->value, $engine->language);
+            $engine->title_slug_lang = ParserEngine::generateSlug($engine->title, $engine->type->value, $engine->language);
+
             $engine->serie_slug = Str::slug($engine->serie);
-            $engine->serie_slug_lang = $engine->serie ? self::generateSlug($engine->serie, $engine->type->value, $engine->language) : null;
-            $engine->serie_sort = ParserEngine::generateSortTitle($engine->serie);
-            $engine->title_serie_sort = ParserEngine::generateSortSerie($engine->title, $engine->volume, $engine->serie);
+            $engine->serie_slug_lang = $engine->serie ? ParserEngine::generateSlug($engine->serie, $engine->type->value, $engine->language) : null;
+            $engine->serie_sort = ParserEngine::generateSortTitle($engine->serie, $engine->language);
+            $engine->title_serie_sort = ParserEngine::generateSortSerie($engine->title, $engine->serie, $engine->volume, $engine->language);
+
             $engine->description = ParserEngine::htmlToText($engine->description);
+
             if ($engine->date && ! str_contains($engine->date, '0101')) {
                 $engine->released_on = new DateTime($engine->date);
             }
@@ -131,25 +152,20 @@ class ParserEngine
      * Try to get sort title.
      * Example: `collier-de-la-reine` from `Le Collier de la Reine`.
      */
-    public static function generateSortTitle(string|null $title): string|false
+    public static function generateSortTitle(string|null $title, string $language): string|false
     {
         if ($title) {
             $slug_sort = $title;
-            $articles = [
-                'the ',
-                'les ',
-                "l'",
-                'le ',
-                'la ',
-                // 'a ',
-                "d'un",
-                "d'",
-                'une ',
-                'au ',
-            ];
-            foreach ($articles as $key => $value) {
+            $articles = self::DETERMINERS;
+
+            $articles_lang = $articles['en'];
+            if (array_key_exists($language, $articles)) {
+                $articles_lang = $articles[$language];
+            }
+            foreach ($articles_lang as $key => $value) {
                 $slug_sort = preg_replace('/^'.preg_quote($value, '/').'/i', '', $slug_sort);
             }
+
             $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
             $slug_sort = $transliterator->transliterate($slug_sort);
             $slug_sort = strtolower($slug_sort);
@@ -164,16 +180,16 @@ class ParserEngine
      * Generate full title sort.
      * Example: `miserables-01_fantine` from `Les Misérables, volume 01 : Fantine`.
      */
-    public static function generateSortSerie(string|null $title, int|null $volume, string|null $serie_title): string
+    public static function generateSortSerie(string $title, string|null $serie_title, int|null $volume, string $language): string
     {
         $serie = null;
         if ($serie_title) {
             // @phpstan-ignore-next-line
             $volume = strlen($volume) < 2 ? '0'.$volume : $volume;
             $serie = $serie_title.' '.$volume;
-            $serie = Str::slug(self::generateSortTitle($serie)).'_';
+            $serie = Str::slug(self::generateSortTitle($serie, $language)).'_';
         }
-        $title = Str::slug(self::generateSortTitle($title));
+        $title = Str::slug(self::generateSortTitle($title, $language));
 
         return "{$serie}{$title}";
     }
@@ -181,15 +197,16 @@ class ParserEngine
     /**
      * Strip HTML tags.
      */
-    public static function htmlToText(?string $html, ?string $allow = '<br>'): ?string
+    public static function htmlToText(?string $html, ?array $allow = ['br', 'p', 'ul', 'li']): ?string
     {
         $text = null;
         if ($html) {
-            $text = trim(strip_tags($html, $allow));
+            $text = str_replace("\n", '', $html); // remove break line
+            $text = trim(strip_tags($text, $allow)); // remove html tags and trim
 
-            $pattern = '/[a-zA-Z]*[:\\/\\/]*[A-Za-z0-9\\-_]+\\.+[A-Za-z0-9\\.\\/%&=\\?\\-_]+/i';
-            $replacement = '';
-            $text = preg_replace($pattern, $replacement, $text);
+            $regex = '@(https?://([-\\w\\.]+[-\\w])+(:\\d+)?(/([\\w/_\\.#-]*(\\?\\S+)?[^\\.\\s])?).*$)@';
+            $text = preg_replace($regex, ' ', $text); // remove links
+            $text = trim($text);
         }
 
         return $text;
