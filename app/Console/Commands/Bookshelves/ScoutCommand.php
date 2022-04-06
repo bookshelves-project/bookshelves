@@ -21,7 +21,7 @@ class ScoutCommand extends CommandProd
      *
      * @var string
      */
-    protected $description = 'Add or remove models to search engine with Laravel Scout.';
+    protected $description = 'Manage models to search engine with Laravel Scout.';
 
     /**
      * Create a new command instance.
@@ -38,7 +38,7 @@ class ScoutCommand extends CommandProd
      */
     public function handle()
     {
-        $this->intro('scout');
+        $this->intro();
 
         $flush = $this->option('flush') ?? false;
 

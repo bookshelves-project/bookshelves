@@ -24,10 +24,8 @@ class CommandProd extends Command
         }
 
         $this->alert("{$signature_name}");
-        if ($description) {
-            $this->warn($description);
-            $this->newLine();
-        }
+        $this->warn($this->description);
+        $this->newLine();
     }
 
     public function checkProd()
