@@ -4,34 +4,36 @@ namespace App\Services;
 
 use Illuminate\Console\Concerns\InteractsWithIO;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Throwable;
 
 class ConsoleService
 {
     use InteractsWithIO;
 
-    public static function print(string $message, ?Throwable $th = null, bool $jump = false): void
+    public static function print(string $message, string $color = 'green', Throwable $th = null): void
     {
-        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $outputStyle = new OutputFormatterStyle('red', '', ['bold']);
-        $output->getFormatter()->setStyle('fire', $outputStyle);
-
-        $space = $jump ? "\n" : '';
+        $output = new ConsoleOutput();
+        $style = new OutputFormatterStyle($color, '', []);
+        $output->getFormatter()
+            ->setStyle('info', $style)
+        ;
 
         if ($th) {
-            $output->writeln("<fire>Error about {$message}</>{$space}");
+            $output->writeln("<info>Error about {$message}</info>\n");
             $output->writeln($th->getMessage());
         } else {
-            $output->writeln("{$message}{$space}");
+            $output->writeln("<info>{$message}</info>");
         }
     }
 
-    public static function error(string $message, ?Throwable $th = null): void
+    public static function newLine()
     {
-        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $outputStyle = new OutputFormatterStyle('red', '', ['bold']);
-        $output->getFormatter()->setStyle('fire', $outputStyle);
-
-        $output->writeln("<fire>Error about {$message}</>\n");
+        $output = new ConsoleOutput();
+        $style = new OutputFormatterStyle('red', '', ['bold']);
+        $output->getFormatter()
+            ->setStyle('info', $style)
+        ;
+        $output->writeln('');
     }
 }

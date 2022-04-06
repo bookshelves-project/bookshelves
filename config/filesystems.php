@@ -33,14 +33,14 @@ return [
             'root' => storage_path('app'),
         ],
 
-        'covers' => [
+        'cover' => [
             'driver' => 'local',
             'root' => storage_path('app/public/media/covers'),
             'url' => env('APP_URL').'/storage/media/covers',
             'visibility' => 'public',
         ],
 
-        'formats' => [
+        'format' => [
             'driver' => 'local',
             'root' => storage_path('app/public/media/formats'),
             'url' => env('APP_URL').'/storage/media/formats',
@@ -54,7 +54,7 @@ return [
             'visibility' => 'public',
         ],
 
-        'users' => [
+        'user' => [
             'driver' => 'local',
             'root' => storage_path('app/public/media/users'),
             'url' => env('APP_URL').'/storage/media/users',
