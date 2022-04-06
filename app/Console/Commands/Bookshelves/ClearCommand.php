@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use App\Services\DirectoryClearService;
 use Artisan;
 use Illuminate\Console\Command;
 
-class ClearCommand extends Command
+class ClearCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -37,8 +38,9 @@ class ClearCommand extends Command
      */
     public function handle()
     {
-        $app = config('app.name');
-        $this->alert("{$app}: clear");
+        $this->warn('Bookshelves Clear');
+        $this->newLine();
+
         $debug = new DirectoryClearService(storage_path('app/public/debug'));
         $cache = new DirectoryClearService(storage_path('app/public/cache'));
 

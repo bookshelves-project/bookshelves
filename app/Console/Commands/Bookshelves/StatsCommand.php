@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
@@ -10,7 +11,7 @@ use App\Models\Serie;
 use Illuminate\Console\Command;
 use Spatie\Tags\Tag;
 
-class StatsCommand extends Command
+class StatsCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.

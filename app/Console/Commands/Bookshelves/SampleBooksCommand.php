@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use Artisan;
 use File;
 use Illuminate\Console\Command;
 
-class SampleBooksCommand extends Command
+class SampleBooksCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -35,8 +36,7 @@ class SampleBooksCommand extends Command
      */
     public function handle(): bool
     {
-        $app = config('app.name');
-        $this->alert("{$app}: sample books");
+        $this->intro();
 
         $demoPath = database_path('seeders/demo-ebooks');
         $booksRawPath = storage_path('app/public/data/books');

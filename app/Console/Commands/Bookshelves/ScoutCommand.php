@@ -2,10 +2,11 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class ScoutCommand extends Command
+class ScoutCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -37,8 +38,8 @@ class ScoutCommand extends Command
      */
     public function handle()
     {
-        $app = config('app.name');
-        $this->alert("{$app}: scout for search");
+        $this->intro('scout');
+
         $flush = $this->option('flush') ?? false;
 
         $models = [

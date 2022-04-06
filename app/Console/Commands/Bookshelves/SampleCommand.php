@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use App\Models\User;
 use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class SampleCommand extends Command
+class SampleCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -41,24 +42,14 @@ class SampleCommand extends Command
      */
     public function handle(): bool
     {
-        $app = config('app.name');
-        $this->newLine();
-        $this->alert("{$app}: sample");
+        $this->intro();
 
         $admin = $this->option('admin') ?? false;
         $users = $this->option('users') ?? false;
         $cms = $this->option('cms') ?? false;
         $force = $this->option('force') ?? false;
 
-        if ('local' !== config('app.env') && ! $force) {
-            if ($this->confirm('This command will erase all users/comments/selection/admin, do you really want to erase these data?', true)) {
-                $this->info('Confirmed.');
-            } else {
-                $this->error('Stop.');
-
-                return false;
-            }
-        }
+        $this->checkProd();
 
         if ($admin) {
             Storage::deleteDirectory(storage_path('app/public/media/users'));

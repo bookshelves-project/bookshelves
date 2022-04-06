@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
@@ -9,7 +10,7 @@ use App\Models\Book;
 use App\Services\DirectoryParserService;
 use Illuminate\Console\Command;
 
-class ScanCommand extends Command
+class ScanCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -38,9 +39,7 @@ class ScanCommand extends Command
      */
     public function handle(): false|array
     {
-        $app = config('app.name');
-        $this->alert("{$app}: scan all EPUB files");
-        $this->warn('Scan storage data books directory');
+        $this->intro('Scan storage data books directory');
 
         $verbose = $this->option('verbose');
 

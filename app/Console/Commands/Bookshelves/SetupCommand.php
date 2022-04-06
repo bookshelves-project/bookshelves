@@ -2,10 +2,11 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use Artisan;
 use Illuminate\Console\Command;
 
-class SetupCommand extends Command
+class SetupCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -40,9 +41,7 @@ class SetupCommand extends Command
      */
     public function handle()
     {
-        $app = config('app.name');
-        $this->newLine();
-        $this->alert("{$app}: setup");
+        $this->intro();
 
         $this->info('This command allow speed installation to group other bookshelves commands.');
         $this->newLine();
@@ -54,17 +53,9 @@ class SetupCommand extends Command
         $local = $this->option('local') ?? false;
         $debug = $this->option('debug') ?? false;
 
-        if ('local' !== config('app.env') && ! $force) {
-            if ($this->confirm('This command will erase all users/comments/selection/admin, do you really want to erase these data?', true)) {
-                $this->info('Confirmed.');
-            } else {
-                $this->error('Stop.');
-
-                return false;
-            }
-        }
-
         if ($fresh) {
+            $this->checkProd();
+
             Artisan::call('migrate:fresh --force', [], $this->getOutput());
             $this->newLine();
         }
@@ -74,8 +65,7 @@ class SetupCommand extends Command
          */
         Artisan::call('bookshelves:sample', [
             '--admin' => true,
-            '--cms' => $sample,
-            '--force' => true,
+            '--force' => $force,
         ], $this->getOutput());
 
         /**
@@ -85,6 +75,7 @@ class SetupCommand extends Command
             '--fresh' => $fresh,
             '--limit' => $limit,
             '--debug' => $debug,
+            '--force' => $force,
         ], $this->getOutput());
         /**
          * Assets.
@@ -95,6 +86,7 @@ class SetupCommand extends Command
             '--series' => true,
             '--local' => $local,
             '--fresh' => $fresh,
+            '--force' => $force,
         ], $this->getOutput());
 
         if (! $debug) {
@@ -105,9 +97,9 @@ class SetupCommand extends Command
          * Sample users.
          */
         Artisan::call('bookshelves:sample', [
-            '--users' => $sample,
             '--cms' => $sample,
-            '--force' => true,
+            '--users' => $sample,
+            '--force' => $force,
         ], $this->getOutput());
 
         /**

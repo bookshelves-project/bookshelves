@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Comment;
@@ -9,6 +10,7 @@ use App\Models\GoogleBook;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
+use App\Models\WikipediaItem;
 use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -72,7 +74,7 @@ class DatabaseCommand extends Command
         $this->clearAllMediaCollection();
 
         $this->newLine();
-        $this->alert('Clear '.config('app.name').' data...');
+        $this->warn('Clear '.config('app.name').' data...');
         $this->clearTables();
         $this->newLine();
     }
@@ -90,16 +92,16 @@ class DatabaseCommand extends Command
             $authors = Author::all();
             $books->each(function ($book) {
                 /** @var Book $book */
-                $book->clearMediaCollection('covers');
+                $book->clearMediaCollection(MediaDiskEnum::cover->value);
                 $book->clearMediaCollection('epub');
             });
             $series->each(function ($serie) {
                 /** @var Serie $serie */
-                $serie->clearMediaCollection('covers');
+                $serie->clearMediaCollection(MediaDiskEnum::cover->value);
             });
             $authors->each(function ($author) {
                 /** @var Author $author */
-                $author->clearMediaCollection('covers');
+                $author->clearMediaCollection(MediaDiskEnum::cover->value);
             });
             $isSuccess = true;
         } catch (\Throwable $th) {
@@ -109,7 +111,7 @@ class DatabaseCommand extends Command
 
         $this->newLine();
         $isSuccess ? $isSuccessText = 'success' : $isSuccessText = 'failed';
-        $this->alert("Clearing media... {$isSuccessText}!");
+        $this->warn("Clearing media... {$isSuccessText}!");
         $this->info("Clear all files into 'public/storage/media' manage by spatie/laravel-medialibrary");
 
         return $isSuccess;
@@ -142,6 +144,8 @@ class DatabaseCommand extends Command
         Comment::truncate();
         $this->info('Truncate google_books table');
         GoogleBook::truncate();
+        $this->info('Truncate wikipedia_items table');
+        WikipediaItem::truncate();
         $this->info('Truncate tags table');
         Tag::truncate();
 

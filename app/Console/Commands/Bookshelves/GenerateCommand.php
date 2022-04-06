@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
@@ -12,7 +13,7 @@ use Spatie\Tags\Tag;
 /**
  * Main command of Bookshelves to generate Books with relations.
  */
-class GenerateCommand extends Command
+class GenerateCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -23,7 +24,8 @@ class GenerateCommand extends Command
                             {--f|fresh : reset current books and relation, keep users}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
-                            {--D|default : use default cover for all (skip covers step)}';
+                            {--D|default : use default cover for all (skip covers step)}
+                            {--F|force : skip confirm in prod}';
 
     /**
      * The console command description.
@@ -47,12 +49,16 @@ class GenerateCommand extends Command
      */
     public function handle()
     {
-        $app = config('app.name');
+        $this->intro('Books & relations');
+
+        $force = $this->option('force') ?? false;
         $limit = str_replace('=', '', $this->option('limit'));
         $limit = intval($limit);
         $fresh = $this->option('fresh') ?? false;
         $debug = $this->option('debug') ?? false;
         $default = $this->option('default') ?? false;
+
+        $this->checkProd();
 
         Artisan::call('bookshelves:clear', [], $this->getOutput());
         $list = FilesTypeParser::parseDataFiles(limit: $limit);
@@ -63,7 +69,6 @@ class GenerateCommand extends Command
             ], $this->getOutput());
         }
 
-        $this->alert("{$app}: books & relations");
         if (! $list) {
             $this->alert('No EPUB detected!');
 

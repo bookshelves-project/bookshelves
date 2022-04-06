@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use App\Engines\ConverterEngine\AuthorConverter;
 use App\Engines\ConverterEngine\SerieConverter;
+use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\GoogleBook;
@@ -18,7 +20,7 @@ use Illuminate\Support\Collection;
 /**
  * Extra data for Book, Author, Serie.
  */
-class AssetsCommand extends Command
+class AssetsCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -32,7 +34,8 @@ class AssetsCommand extends Command
                             {--L|local : prevent external HTTP requests to public API for additional informations}
                             {--f|fresh : refresh authors medias, `description` & `link`}
                             {--d|debug : print log for debug}
-                            {--D|default : use default cover for all (skip covers step)}';
+                            {--D|default : use default cover for all (skip covers step)}
+                            {--F|force : skip confirm in prod}';
 
     /**
      * The console command description.
@@ -52,69 +55,71 @@ class AssetsCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return bool
      */
     public function handle()
     {
+        $this->checkProd();
+
+        $service = new DirectoryClearService(storage_path('app/public/debug/wikipedia'));
+        $service->clearDir();
+
+        $this->intro();
+
         $authors = $this->option('authors') ?? false;
         $series = $this->option('series') ?? false;
         $books = $this->option('books') ?? false;
         $local = $this->option('local') ?? false;
         $default = $this->option('default') ?? false;
 
-        $tool = new DirectoryClearService(storage_path('app/public/debug/wikipedia'));
-        $tool->clearDir();
-
-        $app = config('app.name');
-        $this->newLine();
-        $this->alert("{$app}: assets");
         if ($books) {
-            $this->comment('Books (REMOVE --books|-b to skip)');
-            if (! $local) {
-                $this->info('- GoogleBook: extract data to improve Book (--local|-L to skip)');
-            }
-            $this->newLine();
+            // $this->comment('Books (REMOVE --books|-b to skip)');
+            // if (! $local) {
+            //     $this->info('- GoogleBook: extract data to improve Book (--local|-L to skip)');
+            // }
+            // $this->newLine();
 
             $this->assets('Book', 'books', 'slug_sort');
         }
         if ($authors) {
-            $this->comment('Authors (REMOVE --authors|-a to skip)');
-            if (! $local) {
-                $this->info('- Picture from Wikipedia (--local|-L to skip)');
-            }
-            if (! $default) {
-                $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/authors` (--default|-D to skip)');
-            }
-            if (! $local) {
-                $this->info('- Description from Wikipedia (--local|-L to skip)');
-            }
-            $this->info('  - Default description can be in `public/storage/data/authors/authors.json`');
-            $this->newLine();
+            // $this->comment('Authors (REMOVE --authors|-a to skip)');
+            // if (! $local) {
+            //     $this->info('- Picture from Wikipedia (--local|-L to skip)');
+            // }
+            // if (! $default) {
+            //     $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/authors` (--default|-D to skip)');
+            // }
+            // if (! $local) {
+            //     $this->info('- Description from Wikipedia (--local|-L to skip)');
+            // }
+            // $this->info('  - Default description can be in `public/storage/data/authors/authors.json`');
+            // $this->newLine();
 
             $this->assets('Author', 'authors', 'lastname');
         }
         if ($series) {
-            $this->comment('Series (REMOVE --series|-s to skip)');
-            $this->info('- Tags from all Books of Serie');
-            if (! $default) {
-                $this->info('- Picture from first Book of Serie (--default|-D to skip)');
-            }
-            $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/series`');
-            if (! $local) {
-                $this->info('- Description from Wikipedia (--local|-L to skip)');
-            }
-            $this->info('  - Default description can be in `public/storage/data/series/series.json`');
-            $this->newLine();
+            // $this->comment('Series (REMOVE --series|-s to skip)');
+            // $this->info('- Tags from all Books of Serie');
+            // if (! $default) {
+            //     $this->info('- Picture from first Book of Serie (--default|-D to skip)');
+            // }
+            // $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/series`');
+            // if (! $local) {
+            //     $this->info('- Description from Wikipedia (--local|-L to skip)');
+            // }
+            // $this->info('  - Default description can be in `public/storage/data/series/series.json`');
+            // $this->newLine();
 
             $this->assets('Serie', 'series', 'slug_sort');
         }
 
-        return 0;
+        return true;
     }
 
     private function assets(string $model, string $collection, string $orderBy)
     {
-        $model_name = 'App\Models\\'.ucfirst($model);
+        $model_name = ucfirst($model);
+        $model_name = "App\\Models\\{$model_name}";
         $list = $model_name::orderBy($orderBy)->get();
         $this->comment($model.': '.sizeof($list));
 
@@ -124,6 +129,7 @@ class AssetsCommand extends Command
 
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
+        $this->newLine();
         $this->info("Time in seconds: {$time_elapsed_secs}");
 
         $this->newLine();
@@ -138,31 +144,32 @@ class AssetsCommand extends Command
         if (! $local) {
             if ($fresh) {
                 GoogleBook::query()->delete();
-
-                /** @var Book $model */
-                foreach ($list as $key => $model) {
-                    if ($model->googleBook) {
-                        $model->googleBook->delete();
-                    }
-                }
             }
 
+            $count = Book::whereNotNull('isbn10')
+                ->orWhereNotNull('isbn13')
+                ->count()
+            ;
+            $this->comment("Need to have ISBN, {$count} books can be scanned");
             $service = GoogleBookService::create(Book::class, debug: $debug);
 
-            if (count($service->queries) > 0) {
-                $bar = $this->output->createProgressBar(count($service->queries));
-                $bar->start();
-                foreach (Book::all() as $book) {
-                    if ($book->googleBook) {
-                        $book->googleBook->improveBookData();
-                    }
-                    $bar->advance();
-                }
-                $bar->finish();
-            } else {
+            $this->newLine();
+            if (0 === count($service->queries)) {
                 $this->warn('All books have already a GoogleBook relationship, execute same command with --fresh option to erase GoogleBook.');
+
+                return false;
             }
+
+            $bar = $this->output->createProgressBar(count($service->queries));
+            $bar->start();
+            foreach (Book::has('googleBook')->get() as $book) {
+                $book->googleBook->improveBook();
+                $bar->advance();
+            }
+            $bar->finish();
         }
+
+        return true;
     }
 
     private function authors(Collection $list, string $collection)
@@ -174,7 +181,7 @@ class AssetsCommand extends Command
             WikipediaItem::whereModel(Author::class)->delete();
             /** @var Author $model */
             foreach ($list as $model) {
-                $model->clearMediaCollection('covers');
+                $model->clearMediaCollection(MediaDiskEnum::cover->value);
                 $model->description = null;
                 $model->link = null;
                 $model->save();
@@ -190,7 +197,7 @@ class AssetsCommand extends Command
 
             $bar = $this->output->createProgressBar(count($service->queries));
             $bar->start();
-            foreach (Author::all() as $author) {
+            foreach (Author::has('wikipedia')->get() as $author) {
                 AuthorConverter::setWikiDescription($author);
                 if (! $default) {
                     AuthorConverter::setWikiPicture($author);
@@ -209,6 +216,7 @@ class AssetsCommand extends Command
             $bar->finish();
         }
 
+        $this->newLine();
         $this->info('Add placeholder if not picture');
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
@@ -241,10 +249,11 @@ class AssetsCommand extends Command
 
             $service = WikipediaService::create(Serie::class, 'title', debug: $debug);
 
+            $this->newLine();
             $this->info('Set extra content');
             $bar = $this->output->createProgressBar(count($service->queries));
             $bar->start();
-            foreach (Serie::all() as $model) {
+            foreach (Serie::has('wikipedia')->get() as $model) {
                 SerieConverter::setWikiDescription($model);
                 $bar->advance();
             }
