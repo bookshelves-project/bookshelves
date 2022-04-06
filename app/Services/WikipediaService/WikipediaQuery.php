@@ -177,22 +177,21 @@ class WikipediaQuery
     {
         $content = '';
         if ($text) {
-            $isUTF8 = mb_check_encoding($text, 'UTF-8');
-            $content = iconv('UTF-8', 'UTF-8//IGNORE', $text);
+            $text = iconv('UTF-8', 'UTF-8//IGNORE', $text);
 
-            if ($isUTF8) {
-                $content = trim($content);
-                if ($limit && strlen($content) > $limit) {
-                    $content = substr($content, 0, $limit);
-                }
-                $content = strip_tags($content);
-                $content = Str::ascii($content);
-                $content = str_replace('<<', '"', $content);
-                $content = str_replace('>>', '"', $content);
-                $content = trim($content);
-                $content = preg_replace('/\\([^)]+\\)/', '', $content);
-                $content = preg_replace('/\s\s+/', ' ', $content);
+            $text = trim($text);
+            $text = strip_tags($text);
+            $text = str_replace('<<', '"', $text);
+            $text = str_replace('>>', '"', $text);
+
+            if ($limit && strlen($text) > $limit) {
+                $text = substr($text, 0, $limit);
             }
+            // $text = preg_replace('/[^\p{L}0-9\-]/u', '', $text);
+
+            $text = trim($text);
+            $text = preg_replace('/\s\s+/', ' ', $text); // remove extra break lines
+            $content = $text;
         }
 
         return $content.'...';
