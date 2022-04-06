@@ -183,7 +183,16 @@ class ParserEngine
      */
     public static function htmlToText(?string $html, ?string $allow = '<br>'): ?string
     {
-        return $html ? trim(strip_tags($html, $allow)) : null;
+        $text = null;
+        if ($html) {
+            $text = trim(strip_tags($html, $allow));
+
+            $pattern = '/[a-zA-Z]*[:\\/\\/]*[A-Za-z0-9\\-_]+\\.+[A-Za-z0-9\\.\\/%&=\\?\\-_]+/i';
+            $replacement = '';
+            $text = preg_replace($pattern, $replacement, $text);
+        }
+
+        return $text;
     }
 
     public static function printFile(mixed $file, string $name, bool $raw = false): bool

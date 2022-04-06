@@ -63,12 +63,7 @@ class ConverterEngine
     public static function convertFormat(ParserEngine $parser, Book|false $book)
     {
         if ($book) {
-            match ($parser->format) {
-                BookFormatEnum::cbz => TypeConverter::cbz($book, $parser->file_path),
-                BookFormatEnum::epub => TypeConverter::epub($book, $parser->file_path),
-                BookFormatEnum::pdf => TypeConverter::pdf($book, $parser->file_path),
-                default => false,
-            };
+            TypeConverter::convert($parser, $book);
         }
     }
 

@@ -3,6 +3,7 @@
 namespace App\Engines\ConverterEngine;
 
 use App\Engines\ParserEngine;
+use App\Enums\MediaDiskEnum;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Services\DirectoryParserService;
@@ -13,7 +14,7 @@ use Storage;
 
 class SerieConverter
 {
-    public const DISK = 'covers';
+    public const DISK = MediaDiskEnum::cover;
 
     /**
      * Generate Serie for Book from ParserEngine.
@@ -120,7 +121,7 @@ class SerieConverter
      */
     public static function setCover(Serie $serie): Serie
     {
-        if ($serie->getMedia('covers')->isEmpty()) {
+        if ($serie->getMedia(self::DISK->value)->isEmpty()) {
             $disk = self::DISK;
 
             // get picture in $path if exist

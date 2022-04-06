@@ -44,7 +44,8 @@ class CbzModule implements XmlInterface
             ParserEngine::printFile($module->xml_data, "{$xml->engine->file_name}-metadata.json");
         }
         if (! $is_supported) {
-            ConsoleService::error("CbzModule {$module->type} not supported");
+            ConsoleService::print("CbzModule {$module->type} not supported", 'red');
+            ConsoleService::newLine();
         }
 
         return $module->engine;

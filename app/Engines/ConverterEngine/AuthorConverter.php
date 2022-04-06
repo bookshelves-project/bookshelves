@@ -4,6 +4,7 @@ namespace App\Engines\ConverterEngine;
 
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Models\BookCreator;
+use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
 use App\Services\DirectoryParserService;
@@ -15,7 +16,7 @@ use Illuminate\Support\Str;
 
 class AuthorConverter
 {
-    public const DISK = 'covers';
+    public const DISK = MediaDiskEnum::cover;
 
     public function __construct(
         public ?string $firstname,
@@ -29,15 +30,16 @@ class AuthorConverter
      */
     public static function create(BookCreator $creator): AuthorConverter
     {
-        $orderClassic = config('bookshelves.authors.order_natural');
+        $order_natural = config('bookshelves.authors.order_natural');
+        $lastname = '';
+        $firstname = '';
 
-        if ($orderClassic) {
-            $author_name = explode(' ', $creator->name);
+        $author_name = explode(' ', $creator->name);
+        if ($order_natural) {
             $lastname = $author_name[sizeof($author_name) - 1];
             array_pop($author_name);
             $firstname = implode(' ', $author_name);
         } else {
-            $author_name = explode(' ', $creator->name);
             $firstname = $author_name[sizeof($author_name) - 1];
             array_pop($author_name);
             $lastname = implode(' ', $author_name);
@@ -68,21 +70,17 @@ class AuthorConverter
                 if ($skipHomonys) {
                     $lastname = Author::whereFirstname($converter->lastname)->first();
                     if ($lastname) {
-                        $exist = Author::whereLastname($converter->firstname)->first();
-                        if ($exist) {
-                            $author = $exist;
-                        } else {
+                        $author = Author::whereLastname($converter->firstname)->first();
+                        if (! $author) {
                             $author = AuthorConverter::convert($converter, $creator);
                         }
-                        array_push($authors, $author);
                     } else {
                         $author = AuthorConverter::convert($converter, $creator);
-                        array_push($authors, $author);
                     }
                 } else {
                     $author = AuthorConverter::convert($converter, $creator);
-                    array_push($authors, $author);
                 }
+                array_push($authors, $author);
             }
         }
 
@@ -123,7 +121,7 @@ class AuthorConverter
     public static function setDefaultPicture(Author $author): Author
     {
         $disk = self::DISK;
-        if (! $author->getFirstMediaUrl($disk)) {
+        if (! $author->getFirstMediaUrl($disk->value)) {
             $path = database_path('seeders/media/authors/no-picture.jpg');
             $cover = File::get($path);
 
@@ -142,7 +140,6 @@ class AuthorConverter
      */
     public static function getLocalPicture(Author $author): ?string
     {
-        $disk = self::DISK;
         $path = storage_path('app/public/data/authors');
         $cover = null;
 
@@ -167,7 +164,7 @@ class AuthorConverter
         $cover = self::getLocalPicture($author);
 
         if ($cover) {
-            $author->clearMediaCollection($disk);
+            $author->clearMediaCollection($disk->value);
             MediaService::create($author, $author->slug, $disk)
                 ->setMedia($cover)
                 ->setColor()
@@ -194,7 +191,7 @@ class AuthorConverter
      */
     public static function setWikiPicture(Author $author): Author
     {
-        if ($author->getMedia('covers')->isEmpty()) {
+        if ($author->getMedia(MediaDiskEnum::cover->value)->isEmpty()) {
             $disk = self::DISK;
             $cover = self::getLocalPicture($author);
             if ($cover) {
@@ -209,7 +206,7 @@ class AuthorConverter
             }
 
             if ($picture && 'author-unknown' !== $author->slug) {
-                $author->clearMediaCollection($disk);
+                $author->clearMediaCollection($disk->value);
                 MediaService::create($author, $author->slug, $disk)
                     ->setMedia($picture)
                     ->setColor()
@@ -222,10 +219,10 @@ class AuthorConverter
 
     public static function setPicturePlaceholder(Author $author): Author
     {
-        if ($author->getMedia('covers')->isEmpty()) {
+        if ($author->getMedia(MediaDiskEnum::cover->value)->isEmpty()) {
             $placeholder = public_path('assets/images/no-author.jpg');
             $disk = self::DISK;
-            $author->clearMediaCollection($disk);
+            $author->clearMediaCollection($disk->value);
             MediaService::create($author, $author->slug, $disk)
                 ->setMedia(base64_encode(File::get($placeholder)))
                 ->setColor()

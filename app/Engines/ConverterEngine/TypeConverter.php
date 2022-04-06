@@ -2,20 +2,26 @@
 
 namespace App\Engines\ConverterEngine;
 
+use App\Engines\ParserEngine;
+use App\Enums\MediaDiskEnum;
+use App\Enums\SpatieMediaMethodEnum;
 use App\Models\Book;
 use App\Services\ConsoleService;
+use App\Services\MediaService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class TypeConverter
 {
+    public const DISK = MediaDiskEnum::format;
+
     /**
-     * Generate new EPUB file with standard name.
+     * Generate new file with standard name.
      * Managed by spatie/laravel-medialibrary.
      */
-    public static function cbz(Book $book, string $file_path): bool
+    public static function convert(ParserEngine $parser, Book $book): bool
     {
-        $extension = pathinfo($file_path, PATHINFO_EXTENSION);
+        $extension = pathinfo($parser->file_path, PATHINFO_EXTENSION);
 
         $author = $book->meta_author;
         $serie = $book->slug_sort;
@@ -23,71 +29,21 @@ class TypeConverter
         $file_name = Str::slug($author.'_'.$serie.'_'.$language);
 
         $result = false;
-        if (pathinfo($file_path, PATHINFO_BASENAME) !== $file_name) {
+        if (pathinfo($parser->file_path, PATHINFO_BASENAME) !== $file_name) {
             try {
-                $file = File::get($file_path);
-                $book->addMediaFromString($file)
-                    ->setName($file_name)
-                    ->setFileName($file_name.".{$extension}")
-                    ->toMediaCollection('cbz', 'formats')
-                ;
+                $file = File::get($parser->file_path);
+                MediaService::create(
+                    model: $book,
+                    name: $file_name,
+                    disk: self::DISK,
+                    collection: $parser->format->value,
+                    extension: $extension,
+                    method: SpatieMediaMethodEnum::addMediaFromString
+                )->setMedia($file);
                 $result = true;
             } catch (\Throwable $th) {
-                ConsoleService::print(__METHOD__, $th, true);
-            }
-        }
-
-        return $result;
-    }
-
-    public static function epub(Book $book, string $file_path): bool
-    {
-        $extension = pathinfo($file_path, PATHINFO_EXTENSION);
-
-        $author = $book->meta_author;
-        $serie = $book->slug_sort;
-        $language = $book->language_slug;
-        $file_name = Str::slug($author.'_'.$serie.'_'.$language);
-
-        $result = false;
-        if (pathinfo($file_path, PATHINFO_BASENAME) !== $file_name) {
-            try {
-                $file = File::get($file_path);
-                $book->addMediaFromString($file)
-                    ->setName($file_name)
-                    ->setFileName($file_name.".{$extension}")
-                    ->toMediaCollection('epub', 'formats')
-                ;
-                $result = true;
-            } catch (\Throwable $th) {
-                ConsoleService::print(__METHOD__, $th, true);
-            }
-        }
-
-        return $result;
-    }
-
-    public static function pdf(Book $book, string $file_path): bool
-    {
-        $extension = pathinfo($file_path, PATHINFO_EXTENSION);
-
-        $author = $book->meta_author;
-        $serie = $book->slug_sort;
-        $language = $book->language_slug;
-        $file_name = Str::slug($author.'_'.$serie.'_'.$language);
-
-        $result = false;
-        if (pathinfo($file_path, PATHINFO_BASENAME) !== $file_name) {
-            try {
-                $file = File::get($file_path);
-                $book->addMediaFromString($file)
-                    ->setName($file_name)
-                    ->setFileName($file_name.".{$extension}")
-                    ->toMediaCollection('pdf', 'formats')
-                ;
-                $result = true;
-            } catch (\Throwable $th) {
-                ConsoleService::print(__METHOD__, $th, true);
+                ConsoleService::print(__METHOD__, 'red', $th);
+                ConsoleService::newLine();
             }
         }
 
