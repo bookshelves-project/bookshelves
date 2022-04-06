@@ -50,7 +50,8 @@ class HttpService
             $chunk_size = sizeof($chunk);
             if ($size > 0) {
                 ConsoleService::print('HttpService will setup async requests...');
-                ConsoleService::print("Pool is limited to {$limit} from .env, {$size} requests will become {$chunk_size} chunks.", null, true);
+                ConsoleService::print("Pool is limited to {$limit} from .env, {$size} requests will become {$chunk_size} chunks.");
+                ConsoleService::newLine();
             }
 
             /**

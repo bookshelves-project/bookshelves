@@ -174,9 +174,4 @@ class Author extends Model implements HasMedia
             ->withCount('books')
         ;
     }
-
-    public function wikipediaItem(): BelongsTo
-    {
-        return $this->belongsTo(WikipediaItem::class);
-    }
 }

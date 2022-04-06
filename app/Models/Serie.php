@@ -132,11 +132,6 @@ class Serie extends Model implements HasMedia
         ;
     }
 
-    public function wikipediaItem(): BelongsTo
-    {
-        return $this->belongsTo(WikipediaItem::class);
-    }
-
     public function updateSlug()
     {
         $this->slug = ParserEngine::generateSlug($this->title, $this->type->value, $this->language_slug);

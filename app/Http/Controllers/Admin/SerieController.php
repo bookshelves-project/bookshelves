@@ -64,7 +64,7 @@ class SerieController extends Controller
     public function edit(Serie $serie)
     {
         return Inertia::render('series/Edit', [
-            'serie' => SerieResource::make($serie->load('authors', 'books', 'media', 'wikipediaItem', 'tags')),
+            'serie' => SerieResource::make($serie->load('authors', 'books', 'media', 'wikipedia', 'tags')),
         ]);
     }
 

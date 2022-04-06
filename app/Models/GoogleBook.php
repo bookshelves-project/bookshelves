@@ -31,7 +31,7 @@ class GoogleBook extends Model
     /**
      * Add more data to Book from GoogleBook.
      */
-    public function improveBookData()
+    public function improveBook()
     {
         $this->testAttribute('released_on');
         $this->testAttribute('description');

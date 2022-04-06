@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\MediaDiskEnum;
 use App\Enums\SpatieMediaMethodEnum;
 use App\Models\Cms\CmsApplication;
 use App\Models\Cms\CmsHomePage;
@@ -19,6 +20,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class CmsSeeder extends Seeder
 {
+    public const DISK = MediaDiskEnum::cms;
+
     /**
      * Run the database seeds.
      */
@@ -53,25 +56,25 @@ class CmsSeeder extends Seeder
         $application = CmsApplication::create($this->getData('CmsApplication'));
 
         // Set favicon.
-        MediaService::create($application, "{$application->slug}-favicon", 'cms', collection: 'cms_application_favicon', extension: 'svg')
+        MediaService::create($application, "{$application->slug}-favicon", self::DISK, collection: 'cms_application_favicon', extension: 'svg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/favicon.svg'))))
             ->setColor()
         ;
 
         // Set icon.
-        MediaService::create($application, "{$application->slug}-icon", 'cms', collection: 'cms_application_icon', extension: 'svg')
+        MediaService::create($application, "{$application->slug}-icon", self::DISK, collection: 'cms_application_icon', extension: 'svg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/icon.svg'))))
             ->setColor()
         ;
 
         // Set logo.
-        MediaService::create($application, "{$application->slug}-logo", 'cms', collection: 'cms_application_logo', extension: 'png')
+        MediaService::create($application, "{$application->slug}-logo", self::DISK, collection: 'cms_application_logo', extension: 'png')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/icon.png'))))
             ->setColor()
         ;
 
         // Set OpenGraph.
-        MediaService::create($application, "{$application->slug}-og", 'cms', collection: 'cms_application_og', extension: 'jpg')
+        MediaService::create($application, "{$application->slug}-og", self::DISK, collection: 'cms_application_og', extension: 'jpg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/open_graph.jpg'))))
             ->setColor()
         ;
@@ -87,7 +90,7 @@ class CmsSeeder extends Seeder
 
         $home_page = CmsHomePage::create($this->getData('CmsHomePage'));
 
-        MediaService::create($home_page, 'cms_hero', 'cms', collection: 'cms_hero', extension: 'svg')
+        MediaService::create($home_page, 'cms_hero', self::DISK, collection: 'cms_hero', extension: 'svg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/home-page/hero.svg'))))
             ->setColor()
         ;
@@ -117,7 +120,7 @@ class CmsSeeder extends Seeder
             $model->save();
 
             $logo = File::get(database_path("seeders/media/cms/home-page/logos/{$raw['slug']}.webp"));
-            MediaService::create($model, Str::slug($raw['slug']), 'cms', collection: 'cms_logos', extension: 'webp', method: SpatieMediaMethodEnum::addMediaFromString)
+            MediaService::create($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_logos', extension: 'webp', method: SpatieMediaMethodEnum::addMediaFromString)
                 ->setMedia($logo)
                 ->setColor()
             ;
@@ -133,7 +136,7 @@ class CmsSeeder extends Seeder
             $model->save();
 
             $logo = SvgService::setColor(database_path("seeders/media/cms/home-page/features/{$raw['slug']}.svg"), $raw['slug'], '#ffffff');
-            MediaService::create($model, Str::slug($raw['slug']), 'cms', collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
+            MediaService::create($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
                 ->setMedia($logo)
                 ->setColor()
             ;
@@ -149,13 +152,13 @@ class CmsSeeder extends Seeder
             $model->save();
 
             $icon = SvgService::setColor(database_path("seeders/media/cms/home-page/highlight/icon-{$raw['slug']}.svg"), 'icon-'.$raw['slug'], '#564fcc');
-            MediaService::create($model, Str::slug($raw['slug']), 'cms', collection: 'cms_highlights_icons', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
+            MediaService::create($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_highlights_icons', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
                 ->setMedia($icon)
                 ->setColor()
             ;
 
             $picture = File::get(database_path("seeders/media/cms/home-page/highlight/{$raw['slug']}.svg"));
-            MediaService::create($model, Str::slug($raw['slug']), 'cms', collection: 'cms_highlights', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
+            MediaService::create($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_highlights', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
                 ->setMedia($picture)
                 ->setColor()
             ;

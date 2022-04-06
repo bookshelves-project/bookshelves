@@ -2,8 +2,8 @@
 
 namespace App\Models\Traits;
 
+use App\Enums\MediaDiskEnum;
 use App\Models\MediaExtended;
-use ReflectionClass;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -46,7 +46,7 @@ trait HasCovers
     public function getCoverBookAttribute(): ?MediaExtended
     {
         // @phpstan-ignore-next-line
-        return $this->getMedia('covers')->first() ?? null;
+        return $this->getMedia(MediaDiskEnum::cover->value)->first() ?? null;
     }
 
     /**
@@ -92,7 +92,7 @@ trait HasCovers
     public function getCoverColorAttribute(): string|null
     {
         /** @var Media $media */
-        $media = $this->getFirstMedia('covers');
+        $media = $this->getFirstMedia(MediaDiskEnum::cover->value);
 
         // @phpstan-ignore-next-line
         if ($color = $media?->getCustomProperty('color')) {
@@ -102,7 +102,7 @@ trait HasCovers
         return '#ffffff';
     }
 
-    private function getCover(string $collection = '', string $extension = '')
+    private function getCover(string $collection = '', string $extension = ''): string
     {
         if (! $extension) {
             $extension = config('bookshelves.cover_extension');
@@ -112,7 +112,7 @@ trait HasCovers
         $cover = null;
 
         try {
-            $cover = $this->getFirstMediaUrl('covers', $collection);
+            $cover = $this->getFirstMediaUrl(MediaDiskEnum::cover->value, $collection);
         } catch (\Throwable $th) {
         }
 
