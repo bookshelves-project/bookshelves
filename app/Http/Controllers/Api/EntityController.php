@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Engines\SearchEngine;
 use App\Helpers\PaginationHelper;
+use App\Http\Resources\Comment\CommentResource;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\Comment;
 use App\Models\Selectionable;
 use App\Services\EntityService;
 use App\Services\EnumService;
@@ -135,6 +137,21 @@ class EntityController extends ApiController
     }
 
     /**
+     * GET Entity Comment[].
+     */
+    public function comments(Request $request, string $entity, int $id)
+    {
+        $this->getLang($request);
+
+        $comments = Comment::whereCommentableType($this->getEntity($entity))
+            ->whereCommentableId($id)
+            ->paginate($this->getPaginationSize($request, 5))
+        ;
+
+        return CommentResource::collection($comments);
+    }
+
+    /**
      * GET Search.
      *
      * Search full-text into authors, books & series.
@@ -148,7 +165,7 @@ class EntityController extends ApiController
         }
 
         if ($q) {
-            $engine = SearchEngine::create($q, $types);
+            $engine = SearchEngine::create($q, true, $types);
 
             return response()->json([
                 'data' => [

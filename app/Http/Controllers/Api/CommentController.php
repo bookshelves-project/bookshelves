@@ -19,7 +19,8 @@ class CommentController extends ApiController
      */
     public function index(string $model, string $slug)
     {
-        $model_name = 'App\Models\\'.ucfirst($model);
+        $model_name = ucfirst($model);
+        $model_name = "App\\Models\\{$model_name}";
         $entity = $model_name::whereSlug($slug)->first();
         $comments = $entity->comments;
 

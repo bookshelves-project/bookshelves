@@ -36,7 +36,7 @@ class ApiController extends Controller
                 ->firstOrFail()
         );
 
-        Route::bind('book_slug', fn ($slug) => Book::whereSlug($slug)->firstOrFail());
+        Route::bind('book_slug', fn ($slug) => Book::whereSlug($slug)->withCount('comments')->firstOrFail());
 
         Route::bind(
             'serie_slug',
@@ -44,6 +44,10 @@ class ApiController extends Controller
                 ->withCount('books')
                 ->firstOrFail()
         );
+
+        Route::bind('entity_slug', function ($slug) {
+            return Book::whereSlug($slug)->firstOrFail();
+        });
 
         Route::bind('tag_slug', fn ($slug) => Tag::where('slug->en', $slug)->firstOrFail());
 
@@ -93,14 +97,21 @@ class ApiController extends Controller
         App::setLocale($lang);
     }
 
-    protected function getPaginationSize(Request $request): int
+    protected function getPaginationSize(Request $request, int $default = 32): int
     {
-        return $request->size ? $request->size : 32;
+        return $request->size ? $request->size : $default;
     }
 
     protected function getFull(Request $request): bool
     {
         return $request->parseBoolean('full');
+    }
+
+    protected function getEntity(string $entity): string
+    {
+        $model_name = ucfirst($entity);
+
+        return "App\\Models\\{$model_name}";
     }
 
     /**
