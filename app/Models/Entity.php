@@ -31,6 +31,8 @@ class Entity
     public ?string $cover_simple;
     public ?string $cover_color;
 
+    public ?string $opds_link;
+
     public ?string $first_char;
 
     public static function getEntity(object $class): string

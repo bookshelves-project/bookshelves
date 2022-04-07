@@ -25,6 +25,9 @@ use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 
+/**
+ * @property null|int $comments_count
+ */
 class Book extends Model implements HasMedia
 {
     use HasFactory;
@@ -120,7 +123,7 @@ class Book extends Model implements HasMedia
         return $files;
     }
 
-    public function getShowRelatedLinkAttribute(): string
+    public function getRelatedLinkAttribute(): string
     {
         return route('api.entities.related', [
             'author_slug' => $this->meta_author,
@@ -128,7 +131,7 @@ class Book extends Model implements HasMedia
         ]);
     }
 
-    public function getShowOpdsLinkAttribute(): string
+    public function getOpdsLinkAttribute(): string
     {
         return route('front.opds.books.show', [
             'version' => 'v1.2',
@@ -255,7 +258,7 @@ class Book extends Model implements HasMedia
         $serie_title = $this->serie ? $this->serie->title : '';
 
         $this->slug = ParserEngine::generateSlug($this->title, $this->type->value, $this->language_slug);
-        $this->slug_sort = ParserEngine::generateSortSerie($this->title, $this->volume, $serie_title);
+        $this->slug_sort = ParserEngine::generateSortSerie($this->title, $serie_title, $this->volume, $this->language_slug);
         $this->save();
     }
 }

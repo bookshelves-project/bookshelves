@@ -67,7 +67,7 @@ class Serie extends Model implements HasMedia
         'books',
     ];
 
-    public function getShowOpdsLinkAttribute(): string
+    public function getOpdsLinkAttribute(): string
     {
         return route('front.opds.series.show', [
             'version' => 'v1.2',
@@ -81,7 +81,7 @@ class Serie extends Model implements HasMedia
         return $this->books->count().' books';
     }
 
-    public function getShowBooksLinkAttribute(): string
+    public function getBooksLinkAttribute(): string
     {
         return route('api.series.show.books', [
             'author_slug' => $this->meta_author,
@@ -135,7 +135,7 @@ class Serie extends Model implements HasMedia
     public function updateSlug()
     {
         $this->slug = ParserEngine::generateSlug($this->title, $this->type->value, $this->language_slug);
-        $this->slug_sort = ParserEngine::generateSortTitle($this->title);
+        $this->slug_sort = ParserEngine::generateSortTitle($this->title, $this->language_slug);
         $this->save();
     }
 }

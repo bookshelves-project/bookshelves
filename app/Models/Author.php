@@ -72,7 +72,7 @@ class Author extends Model implements HasMedia
         ]);
     }
 
-    public function getShowOpdsLinkAttribute(): string
+    public function getOpdsLinkAttribute(): string
     {
         return route('front.opds.authors.show', [
             'version' => 'v1.2',
@@ -85,14 +85,14 @@ class Author extends Model implements HasMedia
         return $this->books->count().' books';
     }
 
-    public function getShowBooksLinkAttribute(): string
+    public function getBooksLinkAttribute(): string
     {
         return route('api.authors.show.books', [
             'author_slug' => $this->slug,
         ]);
     }
 
-    public function getShowSeriesLinkAttribute(): string
+    public function getSeriesLinkAttribute(): string
     {
         return route('api.authors.show.series', [
             'author_slug' => $this->slug,

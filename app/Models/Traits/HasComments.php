@@ -15,4 +15,12 @@ trait HasComments
     {
         return $this->morphMany(Comment::class, 'comments', 'commentable_type', 'commentable_id')->orderBy('created_at', 'DESC');
     }
+
+    public function getCommentsLinkAttribute()
+    {
+        return route('api.entities.comments', [
+            'entity' => $this->getClassName(),
+            'entity_id' => $this->id,
+        ]);
+    }
 }
