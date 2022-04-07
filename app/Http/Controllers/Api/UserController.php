@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\PaginationHelper;
 use App\Http\Resources\FavoriteResource;
 use App\Http\Resources\Review\ReviewResource;
 use App\Http\Resources\User\UserListResource;
 use App\Http\Resources\User\UserResource;
+use App\Models\Favoritable;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -37,17 +40,33 @@ class UserController extends ApiController
 
     /**
      * GET Review[] belongs to User.
+     *
+     * @usesPagination
      */
     public function reviews(Request $request, User $user)
     {
-        return ReviewResource::collection($user->reviews);
+        $reviews = Review::whereUserId($user->id)
+            ->paginate(
+                $this->getPaginationSize($request)
+            )
+        ;
+
+        return ReviewResource::collection($reviews);
     }
 
     /**
      * GET Favorite[] belongs to User.
+     *
+     * @usesPagination
      */
     public function favorites(Request $request, User $user)
     {
-        return FavoriteResource::collection($user->favorites);
+        $favorites = Favoritable::whereUserId($user->id)
+            ->paginate(
+                $this->getPaginationSize($request)
+            )
+        ;
+
+        return FavoriteResource::collection($favorites);
     }
 }

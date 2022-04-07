@@ -718,6 +718,14 @@ namespace App\Models{
 /**
  * App\Models\Review
  *
+ * @property int $id
+ * @property string|null $text
+ * @property int|null $rating
+ * @property int|null $user_id
+ * @property int|null $reviewable_id
+ * @property string|null $reviewable_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
  * @property-read int|null $authors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -725,11 +733,19 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $reviewable
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\ReviewFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Review newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Review newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Review query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereReviewableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereReviewableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereUserId($value)
  */
 	class Review extends \Eloquent {}
 }
@@ -928,7 +944,7 @@ namespace App\Models{
  * @property string|null $pronouns
  * @property int $use_gravatar
  * @property int $display_favorites
- * @property int $display_comments
+ * @property int $display_reviews
  * @property int $display_gender
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -956,9 +972,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAbout($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayComments($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayFavorites($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayGender($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayReviews($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereGender($value)

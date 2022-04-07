@@ -16,6 +16,9 @@ class Review extends Model
     protected $fillable = [
         'text',
         'rating',
+        'reviewable_id',
+        'reviewable_type',
+        'user_id',
     ];
 
     protected $with = [
