@@ -46,6 +46,7 @@ class UserController extends ApiController
     public function reviews(Request $request, User $user)
     {
         $reviews = Review::whereUserId($user->id)
+            ->orderBy('created_at', 'desc')
             ->paginate(
                 $this->getPaginationSize($request)
             )
@@ -62,6 +63,7 @@ class UserController extends ApiController
     public function favorites(Request $request, User $user)
     {
         $favorites = Favoritable::whereUserId($user->id)
+            ->orderBy('created_at', 'desc')
             ->paginate(
                 $this->getPaginationSize($request)
             )

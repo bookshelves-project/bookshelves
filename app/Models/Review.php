@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property null|\App\Models\User                         $user
- * @property \Eloquent|\Illuminate\Database\Eloquent\Model $reviewable
+ * @property null|\App\Models\User                                 $user
+ * @property \App\Models\Author|\App\Models\Book|\App\Models\Serie $reviewable
  */
 class Review extends Model
 {
