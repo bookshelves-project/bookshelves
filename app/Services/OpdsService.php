@@ -4,7 +4,10 @@ namespace App\Services;
 
 use App\Enums\BookFormatEnum;
 use App\Enums\EntityEnum;
+use App\Models\Author;
 use App\Models\Book;
+use App\Models\Entity;
+use App\Models\Serie;
 use App\Models\TagExtend;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
@@ -52,16 +55,18 @@ class OpdsService
             foreach ($this->data as $key => $entry) {
                 if (EntityEnum::book === $this->entity) {
                     /** @var Book $entry */
-                    $templateEntry = $this->entryBook($entry);
+                    $template_entry = $this->entryBook($entry);
+                } elseif (EntityEnum::entity === $this->entity) {
+                    /** @var Author|Book|Serie $entry */
+                    $template_entry = $this->entryEntity($entry);
                 } else {
-                    $templateEntry = $this->entry($entry);
+                    $template_entry = $this->entry($entry);
                 }
 
-                array_push($entries, $templateEntry);
+                array_push($entries, $template_entry);
             }
         } elseif ($this->data instanceof Book) {
-            $templateEntry = $this->entryBook($this->data);
-            $entries = $templateEntry;
+            $entries = $this->entryBook($this->data);
         }
 
         return $entries;
@@ -91,7 +96,7 @@ class OpdsService
             'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
         ];
 
-        $feed = (array) [
+        $feed = [
             'id' => $id,
             '__custom:link:1' => [
                 '_attributes' => [
@@ -112,7 +117,7 @@ class OpdsService
             '__custom:link:3' => [
                 '_attributes' => [
                     'rel' => 'search',
-                    'href' => route('front.opds.feed', ['version' => $this->version]),
+                    'href' => route('front.opds.search', ['version' => $this->version]),
                     'type' => 'application/atom+xml;profile=opds-catalog;kind=navigation',
                     'title' => 'Search here',
                 ],
@@ -126,10 +131,15 @@ class OpdsService
             'entry' => $this->feed(),
         ];
 
-        return ArrayToXml::convert($feed, [
-            'rootElementName' => 'feed',
-            '_attributes' => $feed_links,
-        ], true, 'UTF-8');
+        return ArrayToXml::convert(
+            array: $feed,
+            rootElement: [
+                'rootElementName' => 'feed',
+                '_attributes' => $feed_links,
+            ],
+            replaceSpacesByUnderScoresInKeyNames: true,
+            xmlEncoding: 'UTF-8'
+        );
     }
 
     public function entry(object $entry): array
@@ -140,7 +150,7 @@ class OpdsService
 
         $title = $entry->title ?? "{$entry->lastname} {$entry->firstname}";
         $description = $entry->content_opds ?? $entry->content;
-        $route = $entry->show_opds_link ?? $entry->route;
+        $route = $entry->opds_link ?? $entry->route;
 
         return [
             'title' => $title,
@@ -191,13 +201,16 @@ class OpdsService
             ]);
         }
 
-        // $authors_xml = [];
-        // foreach ($book->authors as $key => $author) {
-        //     $authors_xml["__custom:author:{$key}"] = [
-        //         'name' => $author->name,
-        //     ];
-        // }
-        // $data = array_merge($base, $authors_xml);
+        $authors = [];
+        foreach ($book->authors as $key => $author) {
+            array_push(
+                $authors,
+                [
+                    'name' => $author->name,
+                    'uri' => $author->opds_link,
+                ],
+            );
+        }
 
         return [
             'title' => $book->title,
@@ -211,7 +224,7 @@ class OpdsService
             ],
             '__custom:link:1' => [
                 '_attributes' => [
-                    'href' => $book->show_opds_link,
+                    'href' => $book->opds_link,
                     'type' => 'application/atom+xml;profile=opds-catalog;kind=navigation',
                 ],
             ],
@@ -231,14 +244,68 @@ class OpdsService
             ],
             ...$this->formats($book),
             'category' => $categories,
-            'author' => [
-                'name' => $book->authors[0]->name,
-                'uri' => $book->authors[0]->show_opds_link,
-            ],
+            'author' => $authors,
             'dcterms:issued' => $book->released_on,
             'published' => $book->released_on,
             'volume' => $book->volume,
             'dcterms:language' => $book->language->name,
+        ];
+    }
+
+    public function entryEntity(Book|Author|Serie $entity)
+    {
+        $app = strtolower(config('app.name'));
+        $date = new DateTime();
+        $date = $date->format('Y-m-d H:i:s');
+
+        /** @var Entity $entity */
+        $id = $app.':books:';
+        $id .= $entity->serie ? Str::slug($entity->serie->title).':' : null;
+        $id .= $entity->slug;
+
+        $authors = [];
+        if ($entity->authors) {
+            foreach ($entity->authors as $key => $author) {
+                array_push(
+                    $authors,
+                    [
+                        'name' => $author->name,
+                        'uri' => $author->opds_link,
+                    ],
+                );
+            }
+        }
+
+        return [
+            'title' => $entity->title ?? $entity->name,
+            'updated' => $date,
+            'id' => $id,
+            'type' => $entity->type?->trans(),
+            'entity' => Entity::getEntity($entity),
+            '__custom:link:1' => [
+                '_attributes' => [
+                    'href' => $entity->opds_link,
+                    'type' => 'application/atom+xml;profile=opds-catalog;kind=navigation',
+                ],
+            ],
+            '__custom:link:2' => [
+                '_attributes' => [
+                    'href' => $entity->cover_original,
+                    'type' => 'image/png',
+                    'rel' => 'http://opds-spec.org/image',
+                ],
+            ],
+            '__custom:link:3' => [
+                '_attributes' => [
+                    'href' => $entity->cover_thumbnail,
+                    'type' => 'image/png',
+                    'rel' => 'http://opds-spec.org/image/thumbnail',
+                ],
+            ],
+            // ...$this->formats($entity),
+            'author' => $authors,
+            'volume' => $entity->volume,
+            'dcterms:language' => $entity->language?->name,
         ];
     }
 
@@ -249,9 +316,9 @@ class OpdsService
         foreach (BookFormatEnum::toValues() as $format) {
             if ($book->files[$format]) {
                 if (null !== $book->files_list[$format]) {
-                    $list['__custom:link:4'] = [
+                    $list['__custom:link:'.$i] = [
                         '_attributes' => [
-                            'href' => $book->files_list[$format],
+                            'href' => $book->files_list[$format]['url'],
                             'type' => 'application/epub+zip',
                             'rel' => 'http://opds-spec.org/acquisition',
                             'title' => 'EPUB',
@@ -263,5 +330,60 @@ class OpdsService
         }
 
         return $list;
+    }
+
+    public static function search(string $version): string
+    {
+        $date = new DateTime();
+        $date = $date->format('Y-m-d H:i:s');
+
+        $feed_links = [
+            'xmlns' => 'http://a9.com/-/spec/opensearch/1.1/',
+        ];
+
+        $feed = [
+            'ShortName' => [
+                '_value' => 'My catalog',
+            ],
+            'Description' => [
+                '_value' => 'Search for ebooks',
+            ],
+            'InputEncoding' => [
+                '_value' => 'UTF-8',
+            ],
+            'OutputEncoding' => [
+                '_value' => 'UTF-8',
+            ],
+            'Image' => [
+                '_attributes' => [
+                    'width' => '16',
+                    'height' => '16',
+                    'type' => 'image/x-icon',
+                ],
+                '_value' => '',
+            ],
+            'Url' => [
+                '_attributes' => [
+                    'template' => route('front.opds.search', ['version' => $version, 'q' => '{searchTerms}']),
+                    'type' => 'application/atom+xml',
+                ],
+            ],
+            'Query' => [
+                '_attributes' => [
+                    'role' => 'example',
+                    'searchTerms' => 'robot',
+                ],
+            ],
+        ];
+
+        return ArrayToXml::convert(
+            array: $feed,
+            rootElement: [
+                'rootElementName' => 'OpenSearchDescription',
+                '_attributes' => $feed_links,
+            ],
+            replaceSpacesByUnderScoresInKeyNames: true,
+            xmlEncoding: 'UTF-8'
+        );
     }
 }
