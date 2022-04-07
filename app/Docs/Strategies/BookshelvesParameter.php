@@ -48,6 +48,7 @@ class BookshelvesParameter extends Strategy
             'series.show' => 'serie',
             'series.show.books' => 'serie',
             'series.current' => 'serieVolume',
+            'series.next' => 'bookNext',
             'posts.show' => 'post',
             'pages.show' => 'page',
             'entities.related' => 'book',
@@ -112,6 +113,20 @@ class BookshelvesParameter extends Strategy
         return [
             ...$this->author_slug($serie->author),
             ...$this->serie_slug($serie),
+        ];
+    }
+
+    private function bookNext(): array
+    {
+        $book = Book::inRandomOrder()
+            ->whereNotNull('serie_id')
+            ->first()
+        ;
+
+        return [
+            ...$this->volume($book),
+            ...$this->author_slug($book->author),
+            ...$this->serie_slug($book->serie),
         ];
     }
 
@@ -246,6 +261,18 @@ class BookshelvesParameter extends Strategy
                 'description' => "`slug` of serie in `meta.slug` series' list, example: `{$serie->slug}`",
                 'required' => true,
                 'example' => $serie->slug,
+            ],
+        ];
+    }
+
+    private function volume(Book $book)
+    {
+        return [
+            'volume' => [
+                'description' => "`volume` of book with series', example: `{$book->volume}`",
+                'type' => 'int',
+                'required' => true,
+                'example' => 1,
             ],
         ];
     }
