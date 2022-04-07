@@ -64,6 +64,7 @@ class SetupCommand extends CommandProd
          */
         Artisan::call('bookshelves:sample', [
             '--admin' => true,
+            '--cms' => true,
             '--force' => $force,
         ], $this->getOutput());
 
@@ -98,7 +99,6 @@ class SetupCommand extends CommandProd
          */
         if ($sample) {
             Artisan::call('bookshelves:sample', [
-                '--cms' => true,
                 '--users' => true,
                 '--force' => $force,
             ], $this->getOutput());

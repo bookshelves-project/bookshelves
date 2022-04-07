@@ -71,6 +71,11 @@ class SampleCommand extends CommandProd
             $this->info('Seeders ready!');
             $this->newLine();
 
+            $this->comment('Run selection seeders');
+            Artisan::call('db:seed', ['--class' => 'SelectionSeeder', '--force' => true]);
+            $this->info('Seeders ready!');
+            $this->newLine();
+
             $this->comment('Run reviews and favorites seeders');
             Artisan::call('db:seed', ['--class' => 'ReviewSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'FavoriteSeeder', '--force' => true]);
@@ -81,11 +86,6 @@ class SampleCommand extends CommandProd
         if ($cms) {
             $this->comment('Run CMS seeders');
             Artisan::call('db:seed', ['--class' => 'CmsSeeder', '--force' => true]);
-            $this->info('Seeders ready!');
-            $this->newLine();
-
-            $this->comment('Run selection seeders');
-            Artisan::call('db:seed', ['--class' => 'SelectionSeeder', '--force' => true]);
             $this->info('Seeders ready!');
             $this->newLine();
 

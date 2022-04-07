@@ -3,13 +3,13 @@
 namespace App\Http\Resources\Cms;
 
 use App\Models\Book;
-use App\Models\Cms\CmsApplication;
+use App\Models\Cms\Application;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property CmsApplication $resource
+ * @property Application $resource
  */
-class CmsApplicationResource extends JsonResource
+class ApplicationResource extends JsonResource
 {
     /**
      * Transform the Book into an array.

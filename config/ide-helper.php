@@ -139,6 +139,7 @@ return [
 
     'model_locations' => [
         'app/Models',
+        'app/Models/Cms',
     ],
 
     /*

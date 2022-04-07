@@ -9,13 +9,9 @@ use App\Http\Controllers\Api\Auth\TokenController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CmsController;
-use App\Http\Controllers\Api\CountController;
-use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\EntityController;
-use App\Http\Controllers\Api\EnumController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LanguageController;
-use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\PublisherController;
 use App\Http\Controllers\Api\ReviewController;
@@ -45,6 +41,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/', [ApiController::class, 'home'])->name('api.index');
 Route::get('/application', [CmsController::class, 'application'])->name('api.application');
+Route::get('/navigation', [CmsController::class, 'navigation'])->name('api.navigation');
 Route::post('submission/send', [SubmissionController::class, 'send'])->name('api.submissions.send');
 
 /*
