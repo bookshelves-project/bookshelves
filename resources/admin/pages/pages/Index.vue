@@ -58,6 +58,8 @@ const columns: (string | Column)[] = [
     field: 'featured_image',
     type: 'image',
     props: {
+      preview: 'url',
+      original: 'url',
       canPreview: true,
     },
   },

@@ -10,7 +10,7 @@
     {{ $slot ?? '' }}
     <x-slot name="subcopy">
         <x-catalog.subcopy>
-            Catalog allows you to download eBooks directly from your eReader if it has a web browser. You can <a
+            Catalog allows you to download books directly from your eReader if it has a web browser. You can <a
                 href="{{ route('front.home') }}">back
                 to {{ config('app.name') }}</a>.
         </x-catalog.subcopy>

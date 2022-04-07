@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Enums\MediaDiskEnum;
 use App\Models\Serie;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,7 +23,7 @@ class SerieResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'cover' => MediaResource::collection($this->resource->getMedia('covers')),
+            'cover' => MediaResource::collection($this->resource->getMedia(MediaDiskEnum::cover->value)),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
         ] + $this->resource->toArray();
     }

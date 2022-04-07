@@ -21,7 +21,7 @@ class SampleBooksCommand extends CommandProd
      *
      * @var string
      */
-    protected $description = 'Setup Bookshelves with libre eBooks to have data';
+    protected $description = 'Setup Bookshelves with libre books to have data';
 
     /**
      * Create a new command instance.
