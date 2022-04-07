@@ -22,6 +22,14 @@ class SerieResource extends JsonResource
     public function toArray($request)
     {
         return array_merge(SerieLightResource::make($this->resource)->toArray($request), [
+            'meta' => [
+                'entity' => $this->resource->getClassName(),
+                'slug' => $this->resource->slug,
+                'author' => $this->resource->meta_author,
+                'show' => $this->resource->show_link,
+                'books' => $this->resource->books_link,
+                'comments' => $this->resource->comments_link,
+            ],
             'description' => $this->resource->description,
             'link' => $this->resource->link,
             'cover' => [

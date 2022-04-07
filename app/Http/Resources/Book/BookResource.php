@@ -28,6 +28,14 @@ class BookResource extends JsonResource
         $resource = (array) BookLightResource::make($this->resource)->toArray($request);
 
         return array_merge($resource, [
+            'meta' => [
+                'entity' => $this->resource->getClassName(),
+                'slug' => $this->resource->slug,
+                'author' => $this->resource->meta_author,
+                'show' => $this->resource->show_link,
+                'related' => $this->resource->related_link,
+                'comments' => $this->resource->comments_link,
+            ],
             'serie' => SerieLightResource::make($this->resource->serie),
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
             'cover' => [
@@ -49,7 +57,7 @@ class BookResource extends JsonResource
             'webreader' => $this->resource->webreader_link,
             'googleBook' => GoogleBookResource::make($this->resource->googleBook),
             'isFavorite' => $this->resource->is_favorite,
-            'comments' => CommentResource::collection($this->resource->comments),
+            'commentsCount' => $this->resource->comments_count,
         ]);
     }
 }
