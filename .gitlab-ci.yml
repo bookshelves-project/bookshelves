@@ -34,4 +34,4 @@ deploy-job:
       /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/npm run prod &&
       discord-queerotronic.sh '$CI_PROJECT_TITLE'"
   only:
-    - master
+    - main
