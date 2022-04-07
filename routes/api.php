@@ -57,6 +57,7 @@ Route::prefix('entities')->group(function () {
     Route::get('/latest', [EntityController::class, 'latest'])->name('api.entities.latest');
     Route::get('/selection', [EntityController::class, 'selection'])->name('api.entities.selection');
     Route::get('/related/{author_slug}/{book_slug}', [EntityController::class, 'related'])->name('api.entities.related');
+    Route::get('/comments/{entity}/{entity_id}', [EntityController::class, 'comments'])->name('api.entities.comments');
 });
 
 /*
@@ -91,7 +92,6 @@ Route::prefix('series')->group(function () {
     Route::get('/', [SerieController::class, 'index'])->name('api.series.index');
     Route::get('/{author_slug}/{serie_slug}', [SerieController::class, 'show'])->name('api.series.show');
     Route::get('/books/{author_slug}/{serie_slug}', [SerieController::class, 'books'])->name('api.series.show.books');
-    Route::get('/books/{volume}/{author_slug}/{serie_slug}', [SerieController::class, 'current'])->name('api.series.current');
 });
 
 /*
