@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\PaginationHelper;
 use App\Http\Queries\Addon\QueryOption;
 use App\Http\Queries\BookQuery;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookResource;
-use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
-use App\Services\EntityService;
 use Illuminate\Http\Request;
 
 /**

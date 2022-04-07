@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\MediaDiskEnum;
 use App\Enums\RoleEnum;
 use App\Models\User;
 use App\Services\MediaService;
@@ -44,13 +45,13 @@ class UserSeeder extends Seeder
             // $user->roles()->attach(Role::whereName(RoleEnum::user())->first());
 
             if ($faker->boolean(75)) {
-                MediaService::create($user, $user->slug, 'users', 'avatar')
+                MediaService::create($user, $user->slug, MediaDiskEnum::user, 'avatar')
                     ->setMedia(DatabaseSeeder::generateAvatar())
                     ->setColor()
                 ;
             }
             if ($faker->boolean()) {
-                MediaService::create($user, "{$user->slug}-banner", 'users', 'banner')
+                MediaService::create($user, "{$user->slug}-banner", MediaDiskEnum::user, 'banner')
                     ->setMedia(DatabaseSeeder::generateBanner())
                     ->setColor()
                 ;

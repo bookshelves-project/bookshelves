@@ -36,7 +36,7 @@ class ApiController extends Controller
                 ->firstOrFail()
         );
 
-        Route::bind('book_slug', fn ($slug) => Book::whereSlug($slug)->firstOrFail());
+        Route::bind('book_slug', fn ($slug) => Book::whereSlug($slug)->withCount('reviews')->firstOrFail());
 
         Route::bind(
             'serie_slug',
@@ -44,6 +44,10 @@ class ApiController extends Controller
                 ->withCount('books')
                 ->firstOrFail()
         );
+
+        Route::bind('entity_slug', function ($slug) {
+            return Book::whereSlug($slug)->firstOrFail();
+        });
 
         Route::bind('tag_slug', fn ($slug) => Tag::where('slug->en', $slug)->firstOrFail());
 
@@ -75,7 +79,7 @@ class ApiController extends Controller
             'version' => 'v1',
             'routes' => [
                 'application' => $this->getRouteData(config('app.front_url'), 'Main application', false),
-                'catalog' => $this->getRouteData('front.catalog', 'UI for eReader browser to get eBooks on it'),
+                'catalog' => $this->getRouteData('front.catalog', 'UI for eReader browser to get books on it'),
                 'opds' => $this->getRouteData('front.opds', 'OPDS API for application which use it'),
                 'webreader' => $this->getRouteData('front.webreader', 'UI to read directly an eBook into browser'),
                 'admin' => $this->getRouteData('admin.dashboard', 'For admin to manage data.'),
@@ -93,14 +97,21 @@ class ApiController extends Controller
         App::setLocale($lang);
     }
 
-    protected function getPaginationSize(Request $request): int
+    protected function getPaginationSize(Request $request, int $default = 32): int
     {
-        return $request->size ? $request->size : 32;
+        return $request->size ? $request->size : $default;
     }
 
     protected function getFull(Request $request): bool
     {
         return $request->parseBoolean('full');
+    }
+
+    protected function getEntity(string $entity): string
+    {
+        $model_name = ucfirst($entity);
+
+        return "App\\Models\\{$model_name}";
     }
 
     /**

@@ -32,10 +32,9 @@ namespace App\Models{
  * @property-read int|null $books_available_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $booksAvailableStandalone
  * @property-read int|null $books_available_standalone_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
+ * @property-read string $books_link
  * @property-read string $content_opds
  * @property-read \App\Models\MediaExtended|null $cover_book
  * @property-read string|null $cover_color
@@ -47,12 +46,14 @@ namespace App\Models{
  * @property-read array $files_list
  * @property-read string $first_char
  * @property-read bool $is_favorite
- * @property-read string $show_books_link
+ * @property-read string $opds_link
+ * @property-read mixed $reviews_link
+ * @property-read string $series_link
  * @property-read string $show_link
- * @property-read string $show_opds_link
- * @property-read string $show_series_link
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
+ * @property-read int|null $reviews_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
  * @property-read int|null $selections_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
@@ -60,7 +61,6 @@ namespace App\Models{
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\WikipediaItem|null $wikipedia
- * @property-read \App\Models\WikipediaItem|null $wikipediaItem
  * @method static \Database\Factories\AuthorFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
@@ -113,8 +113,6 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
  * @property-read int|null $authors_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
  * @property-read \App\Models\Author $author
@@ -132,10 +130,11 @@ namespace App\Models{
  * @property-read bool $is_favorite
  * @property-read string|null $isbn
  * @property-read string|null $meta_author
+ * @property-read string $opds_link
+ * @property-read string $related_link
+ * @property-read mixed $reviews_link
  * @property-read string $show_link
  * @property-read string $show_link_opds
- * @property-read string $show_opds_link
- * @property-read string $show_related_link
  * @property-read string $sort_name
  * @property-read mixed $tags_list
  * @property-read string $webreader_link
@@ -144,6 +143,8 @@ namespace App\Models{
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @property-read \App\Models\Publisher|null $publisher
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
+ * @property-read int|null $reviews_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
  * @property-read int|null $selections_count
  * @property-read \App\Models\Serie|null $serie
@@ -413,42 +414,6 @@ namespace App\Models\Cms{
  * @method static \Illuminate\Database\Eloquent\Builder|CmsHomePageStatistic whereUpdatedAt($value)
  */
 	class CmsHomePageStatistic extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Comment
- *
- * @property int $id
- * @property string|null $text
- * @property int|null $rating
- * @property int|null $user_id
- * @property int|null $commentable_id
- * @property string|null $commentable_type
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
- * @property-read int|null $authors_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
- * @property-read int|null $books_count
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $commentable
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
- * @property-read int|null $series_count
- * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\CommentFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment query()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCommentableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCommentableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereRating($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereText($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
- */
-	class Comment extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -734,8 +699,8 @@ namespace App\Models{
  * @property string|null $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
+ * @property-read string $books_link
  * @property-read mixed $first_char
- * @property-read string $show_books_link
  * @property-read string $show_link
  * @method static \Database\Factories\PublisherFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newModelQuery()
@@ -747,6 +712,42 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereSlug($value)
  */
 	class Publisher extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Review
+ *
+ * @property int $id
+ * @property string|null $text
+ * @property int|null $rating
+ * @property int|null $user_id
+ * @property int|null $reviewable_id
+ * @property string|null $reviewable_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
+ * @property-read int|null $authors_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
+ * @property-read int|null $books_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $reviewable
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
+ * @property-read int|null $series_count
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\ReviewFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereReviewableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereReviewableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Review whereUserId($value)
+ */
+	class Review extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -792,12 +793,11 @@ namespace App\Models{
  * @property-read int|null $books_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $booksAvailable
  * @property-read int|null $books_available_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
  * @property-read \App\Models\Author $author
  * @property-read string $authors_names
+ * @property-read string $books_link
  * @property-read string $content_opds
  * @property-read \App\Models\MediaExtended|null $cover_book
  * @property-read string|null $cover_color
@@ -810,21 +810,22 @@ namespace App\Models{
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $meta_author
- * @property-read string $show_books_link
+ * @property-read string $opds_link
+ * @property-read mixed $reviews_link
  * @property-read string $show_link
  * @property-read string $show_link_opds
- * @property-read string $show_opds_link
  * @property-read mixed $tags_list
  * @property-read string $webreader_link
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
+ * @property-read int|null $reviews_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
  * @property-read int|null $selections_count
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\WikipediaItem|null $wikipedia
- * @property-read \App\Models\WikipediaItem|null $wikipediaItem
  * @method static \Database\Factories\SerieFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
@@ -891,8 +892,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
+ * @property-read string $books_link
  * @property-read mixed $first_char
- * @property-read string $show_books_link
  * @property-read string $show_link
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
@@ -943,12 +944,10 @@ namespace App\Models{
  * @property string|null $pronouns
  * @property int $use_gravatar
  * @property int $display_favorites
- * @property int $display_comments
+ * @property int $display_reviews
  * @property int $display_gender
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Favoritable[] $favorites
  * @property-read int|null $favorites_count
  * @property-read string $avatar
@@ -956,12 +955,14 @@ namespace App\Models{
  * @property-read string $banner
  * @property-read string|null $color
  * @property-read string $show_link
- * @property-read string $show_link_comments
  * @property-read string $show_link_favorites
+ * @property-read string $show_link_reviews
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
+ * @property-read int|null $reviews_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
@@ -971,9 +972,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAbout($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayComments($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayFavorites($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayGender($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDisplayReviews($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereGender($value)

@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use App\Models\User;
 use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class SampleCommand extends Command
+class SampleCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -16,8 +17,8 @@ class SampleCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:sample
-                            {--u|users : generate users}
                             {--a|admin : generate only admin}
+                            {--u|users : generate users with reviews and favorites}
                             {--c|cms : generate pages, posts and CMS content}
                             {--F|force : skip confirm in prod}';
 
@@ -26,7 +27,7 @@ class SampleCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Setup Bookshelves with users features: roles, comments, favorites and selection.';
+    protected $description = 'Setup Bookshelves with users features: roles, reviews, favorites and selection.';
 
     /**
      * Create a new command instance.
@@ -41,43 +42,14 @@ class SampleCommand extends Command
      */
     public function handle(): bool
     {
-        $app = config('app.name');
-        $this->newLine();
-        $this->alert("{$app}: sample");
+        $this->intro();
 
-        $users = $this->option('users') ?? false;
         $admin = $this->option('admin') ?? false;
-        $force = $this->option('force') ?? false;
+        $users = $this->option('users') ?? false;
         $cms = $this->option('cms') ?? false;
+        $force = $this->option('force') ?? false;
 
-        if ('local' !== config('app.env') && ! $force) {
-            if ($this->confirm('This command will erase all users/comments/selection/admin, do you really want to erase these data?', true)) {
-                $this->info('Confirmed.');
-            } else {
-                $this->error('Stop.');
-
-                return false;
-            }
-        }
-
-        if ($cms) {
-            if (! User::exists()) {
-                $roles = true;
-                $users = true;
-            }
-        }
-
-        if ($cms) {
-            // $roles = true;
-            $admin = true;
-        }
-
-        // if ($roles) {
-        //     $this->comment('Run roles seeders');
-        //     $this->setRoles();
-        //     $this->info('Seeders ready!');
-        //     $this->newLine();
-        // }
+        $this->checkProd();
 
         if ($admin) {
             Storage::deleteDirectory(storage_path('app/public/media/users'));
@@ -92,38 +64,31 @@ class SampleCommand extends Command
             $this->newLine();
         }
 
-        if ($cms) {
-            $this->comment('Run CMS seeders');
-            Artisan::call('db:seed', ['--class' => 'CmsSeeder', '--force' => true]);
-            $this->newLine();
-            $this->info('Seeders ready!');
-            $this->newLine();
-        }
-
         if ($users) {
             $this->comment('Run users seeders');
             Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
             $this->newLine();
             $this->info('Seeders ready!');
             $this->newLine();
-        }
 
-        if ($users) {
-            $this->comment('Run comments and favorites seeders');
-            Artisan::call('db:seed', ['--class' => 'CommentSeeder', '--force' => true]);
+            $this->comment('Run reviews and favorites seeders');
+            Artisan::call('db:seed', ['--class' => 'ReviewSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'FavoriteSeeder', '--force' => true]);
             $this->info('Seeders ready!');
             $this->newLine();
         }
 
         if ($cms) {
+            $this->comment('Run CMS seeders');
+            Artisan::call('db:seed', ['--class' => 'CmsSeeder', '--force' => true]);
+            $this->info('Seeders ready!');
+            $this->newLine();
+
             $this->comment('Run selection seeders');
             Artisan::call('db:seed', ['--class' => 'SelectionSeeder', '--force' => true]);
             $this->info('Seeders ready!');
             $this->newLine();
-        }
 
-        if ($cms) {
             $this->comment('Run posts & pages seeders');
             Artisan::call('db:seed', ['--class' => 'PostSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'PageSeeder', '--force' => true]);
@@ -142,11 +107,6 @@ class SampleCommand extends Command
             $user->media()->delete();
         }
         DB::table('users')->truncate();
-        // DB::table('roles')->truncate();
-        // DB::table('permissions')->truncate();
-        // DB::table('model_has_roles')->truncate();
-        // DB::table('model_has_permissions')->truncate();
         DB::statement('SET foreign_key_checks=1');
-        // Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
     }
 }

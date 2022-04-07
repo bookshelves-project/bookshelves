@@ -11,5 +11,6 @@ enum EntityEnum: string
     case book = 'book';
     case author = 'author';
     case serie = 'serie';
+    case entity = 'entity';
     case feed = 'feed';
 }

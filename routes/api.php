@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\Auth\TokenController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CmsController;
-use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CountController;
 use App\Http\Controllers\Api\DownloadController;
 use App\Http\Controllers\Api\EntityController;
@@ -19,6 +18,7 @@ use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\PublisherController;
+use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\SubmissionController;
@@ -57,6 +57,7 @@ Route::prefix('entities')->group(function () {
     Route::get('/latest', [EntityController::class, 'latest'])->name('api.entities.latest');
     Route::get('/selection', [EntityController::class, 'selection'])->name('api.entities.selection');
     Route::get('/related/{author_slug}/{book_slug}', [EntityController::class, 'related'])->name('api.entities.related');
+    Route::get('/reviews/{entity}/{entity_id}', [EntityController::class, 'reviews'])->name('api.entities.reviews');
 });
 
 /*
@@ -91,14 +92,13 @@ Route::prefix('series')->group(function () {
     Route::get('/', [SerieController::class, 'index'])->name('api.series.index');
     Route::get('/{author_slug}/{serie_slug}', [SerieController::class, 'show'])->name('api.series.show');
     Route::get('/books/{author_slug}/{serie_slug}', [SerieController::class, 'books'])->name('api.series.show.books');
-    Route::get('/books/{volume}/{author_slug}/{serie_slug}', [SerieController::class, 'current'])->name('api.series.current');
 });
 
 /*
- * Comments routes
+ * Reviews routes
  */
-Route::prefix('comments')->group(function () {
-    Route::get('/{model}/{slug}', [CommentController::class, 'index'])->name('api.comments.index');
+Route::prefix('reviews')->group(function () {
+    Route::get('/{model}/{slug}', [ReviewController::class, 'index'])->name('api.reviews.index');
 });
 
 /*
@@ -134,7 +134,7 @@ Route::prefix('languages')->group(function () {
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('api.users.index');
     Route::get('/{user_slug}', [UserController::class, 'show'])->name('api.users.show');
-    Route::get('/comments/{user_slug}', [UserController::class, 'comments'])->name('api.users.comments');
+    Route::get('/reviews/{user_slug}', [UserController::class, 'reviews'])->name('api.users.reviews');
     Route::get('/favorites/{user_slug}', [UserController::class, 'favorites'])->name('api.users.favorites');
 });
 
@@ -166,14 +166,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     /*
-     * Comments routes
+     * Reviews routes
      */
-    Route::prefix('comments')->group(function () {
-        Route::get('/{user:id}', [CommentController::class, 'user'])->name('api.comments.user');
-        Route::post('/store/{model}/{slug}', [CommentController::class, 'store'])->name('api.comments.store');
-        Route::post('/edit/{book:slug}', [CommentController::class, 'edit'])->name('api.comments.edit');
-        Route::post('/update/{book:slug}', [CommentController::class, 'update'])->name('api.comments.update');
-        Route::post('/destroy/{book:slug}', [CommentController::class, 'destroy'])->name('api.comments.destroy');
+    Route::prefix('reviews')->group(function () {
+        Route::get('/{user:id}', [ReviewController::class, 'user'])->name('api.reviews.user');
+        Route::post('/store/{model}/{slug}', [ReviewController::class, 'store'])->name('api.reviews.store');
+        Route::post('/edit/{book:slug}', [ReviewController::class, 'edit'])->name('api.reviews.edit');
+        Route::post('/update/{book:slug}', [ReviewController::class, 'update'])->name('api.reviews.update');
+        Route::post('/destroy/{book:slug}', [ReviewController::class, 'destroy'])->name('api.reviews.destroy');
     });
 
     /*

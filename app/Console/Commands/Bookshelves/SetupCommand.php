@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use Artisan;
-use Illuminate\Console\Command;
 
-class SetupCommand extends Command
+class SetupCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -13,11 +13,12 @@ class SetupCommand extends Command
      * @var string
      */
     protected $signature = 'bookshelves:setup
-                            {--F|fresh : erase database and fresh installation, generate books and relations, all assets and selection books}
-                            {--S|social : fake users with comments/favorites}
+                            {--f|fresh : erase database and fresh installation, generate books and relations, all assets and selection books}
+                            {--a|api : use external API for more data}
+                            {--s|sample : fake users with comments/favorites and CMS with posts and pages}
                             {--l|limit= : limit epub files to generate, useful for debug}
-                            {--L|local : prevent external HTTP requests to public API for additional informations}
-                            {--d|debug : generate metadata files into public/storage/debug for debug}';
+                            {--d|debug : generate metadata files into public/storage/debug for debug}
+                            {--F|force : skip confirm in prod}';
 
     /**
      * The console command description.
@@ -39,60 +40,81 @@ class SetupCommand extends Command
      */
     public function handle()
     {
-        $app = config('app.name');
-        $this->newLine();
-        $this->alert("{$app}: setup");
+        $this->intro();
 
         $this->info('This command allow speed installation to group other bookshelves commands.');
         $this->newLine();
 
+        $force = $this->option('force') ?? false;
         $fresh = $this->option('fresh') ?? false;
-        $social = $this->option('social') ?? false;
+        $api = $this->option('api') ?? false;
+        $sample = $this->option('sample') ?? false;
         $limit = $this->option('limit') ? intval(str_replace('=', '', $this->option('limit'))) : false;
-        $local = $this->option('local') ?? false;
         $debug = $this->option('debug') ?? false;
 
         if ($fresh) {
+            $this->checkProd();
+
             Artisan::call('migrate:fresh --force', [], $this->getOutput());
             $this->newLine();
         }
 
+        /**
+         * Admin.
+         */
         Artisan::call('bookshelves:sample', [
             '--admin' => true,
-            '--force' => true,
+            '--force' => $force,
         ], $this->getOutput());
 
-        // Generate commands
+        /**
+         * Generate.
+         */
         Artisan::call('bookshelves:generate', [
             '--fresh' => $fresh,
             '--limit' => $limit,
             '--debug' => $debug,
+            '--force' => $force,
         ], $this->getOutput());
-        Artisan::call('bookshelves:assets', [
-            '--books' => true,
-            '--authors' => true,
-            '--series' => true,
-            '--local' => $local,
-            '--fresh' => $fresh,
-        ], $this->getOutput());
-        Artisan::call('bookshelves:cms', [], $this->getOutput());
-
-        Artisan::call('bookshelves:stats', [], $this->getOutput());
-        $this->newLine();
+        /**
+         * API.
+         */
+        if ($api) {
+            Artisan::call('bookshelves:api', [
+                '--books' => true,
+                '--authors' => true,
+                '--series' => true,
+                '--fresh' => $fresh,
+                '--force' => $force,
+            ], $this->getOutput());
+        }
 
         if (! $debug) {
             Artisan::call('bookshelves:clear', [], $this->getOutput());
         }
 
-        Artisan::call('bookshelves:sample', [
-            '--selection' => $fresh,
-            '--comments' => $social,
-            '--posts' => $social,
-            '--force' => true,
-            '--users' => $social,
-        ], $this->getOutput());
+        /**
+         * Sample users.
+         */
+        if ($sample) {
+            Artisan::call('bookshelves:sample', [
+                '--cms' => true,
+                '--users' => true,
+                '--force' => $force,
+            ], $this->getOutput());
+        }
 
+        /**
+         * Scout.
+         */
         Artisan::call('bookshelves:scout', [], $this->getOutput());
+        $this->newLine();
+
+        /**
+         * Stats.
+         */
+        Artisan::call('bookshelves:stats', [], $this->getOutput());
+        $this->newLine();
 
         $this->info('Done!');
     }

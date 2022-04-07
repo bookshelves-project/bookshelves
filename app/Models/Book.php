@@ -8,10 +8,10 @@ use App\Enums\BookTypeEnum;
 use App\Models\Traits\HasAuthors;
 use App\Models\Traits\HasBookType;
 use App\Models\Traits\HasClassName;
-use App\Models\Traits\HasComments;
 use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasLanguage;
+use App\Models\Traits\HasReviews;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
 use App\Services\DownloadService;
@@ -25,6 +25,9 @@ use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 
+/**
+ * @property null|int $reviews_count
+ */
 class Book extends Model implements HasMedia
 {
     use HasFactory;
@@ -32,7 +35,7 @@ class Book extends Model implements HasMedia
     use HasCovers;
     use HasAuthors;
     use HasFavorites;
-    use HasComments;
+    use HasReviews;
     use HasSelections;
     use HasLanguage;
     use HasTagsAndGenres;
@@ -120,7 +123,7 @@ class Book extends Model implements HasMedia
         return $files;
     }
 
-    public function getShowRelatedLinkAttribute(): string
+    public function getRelatedLinkAttribute(): string
     {
         return route('api.entities.related', [
             'author_slug' => $this->meta_author,
@@ -128,7 +131,7 @@ class Book extends Model implements HasMedia
         ]);
     }
 
-    public function getShowOpdsLinkAttribute(): string
+    public function getOpdsLinkAttribute(): string
     {
         return route('front.opds.books.show', [
             'version' => 'v1.2',
@@ -255,7 +258,7 @@ class Book extends Model implements HasMedia
         $serie_title = $this->serie ? $this->serie->title : '';
 
         $this->slug = ParserEngine::generateSlug($this->title, $this->type->value, $this->language_slug);
-        $this->slug_sort = ParserEngine::generateSortSerie($this->title, $this->volume, $serie_title);
+        $this->slug_sort = ParserEngine::generateSortSerie($this->title, $serie_title, $this->volume, $this->language_slug);
         $this->save();
     }
 }

@@ -21,7 +21,7 @@ class CatalogController extends Controller
     public function index(Request $request)
     {
         SEOTools::setTitle('Catalog');
-        SEOTools::setDescription('Get eBooks from your eReader');
+        SEOTools::setDescription('Get books from your eReader');
 
         $service = MarkdownService::generate('catalog/index.md');
         $content = $service->convertToHtml();

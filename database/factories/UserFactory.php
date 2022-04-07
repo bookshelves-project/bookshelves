@@ -46,7 +46,7 @@ class UserFactory extends Factory
             'about' => $this->faker->text(),
             'use_gravatar' => false,
             'display_favorites' => $this->faker->boolean(),
-            'display_comments' => $this->faker->boolean(),
+            'display_reviews' => $this->faker->boolean(),
             'display_gender' => $this->faker->boolean(),
             'role' => RoleEnum::user->name,
             'gender' => $gender,

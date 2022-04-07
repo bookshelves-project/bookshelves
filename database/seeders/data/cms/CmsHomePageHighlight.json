@@ -32,8 +32,8 @@
         },
         "slug": "guides",
         "text": {
-            "en": "Detailed guides are there to explain how to best manage your eReader but also to get to know the eBooks better in order to modify them if you wish.",
-            "fr": "Des guides détaillés sont là pour expliquer comment gérer au mieux votre liseuse mais aussi pour mieux connaître les eBooks afin de les modifier si vous le souhaitez."
+            "en": "Detailed guides are there to explain how to best manage your eReader but also to get to know the books better in order to modify them if you wish.",
+            "fr": "Des guides détaillés sont là pour expliquer comment gérer au mieux votre liseuse mais aussi pour mieux connaître les books afin de les modifier si vous le souhaitez."
         },
         "cta_text": {
             "en": "Discover guides",
@@ -58,8 +58,8 @@
         },
         "slug": "features",
         "text": {
-            "en": "Features offer a lot of extra options to find and read eBooks. You can download directly eBooks from your eReader with Catalog or you can use OPDS (Open Publication Distribution System) feed to get all eBooks on your favorite application. And if you want to read eBook directly in your browser with Webreader.",
-            "fr": "Features offrent de nombreuses options supplémentaires pour trouver et lire des eBooks. Vous pouvez télécharger directement les eBooks de votre eReader avec Catalog ou vous pouvez utiliser le flux OPDS (Open Publication Distribution System) pour obtenir tous les eBooks sur votre application préférée. Et si vous voulez lire un eBook directement dans votre navigateur avec Webreader."
+            "en": "Features offer a lot of extra options to find and read books. You can download directly books from your eReader with Catalog or you can use OPDS (Open Publication Distribution System) feed to get all books on your favorite application. And if you want to read eBook directly in your browser with Webreader.",
+            "fr": "Features offrent de nombreuses options supplémentaires pour trouver et lire des books. Vous pouvez télécharger directement les books de votre eReader avec Catalog ou vous pouvez utiliser le flux OPDS (Open Publication Distribution System) pour obtenir tous les books sur votre application préférée. Et si vous voulez lire un eBook directement dans votre navigateur avec Webreader."
         },
         "cta_text": {
             "en": "Discover Features",

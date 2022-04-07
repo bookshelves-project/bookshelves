@@ -217,7 +217,8 @@ class EpubModule implements XmlInterface
                 $this->engine->cover_name = $cover;
                 $this->engine->cover_extension = pathinfo($cover, PATHINFO_EXTENSION);
             } else {
-                ConsoleService::print('No cover from EpubModule');
+                ConsoleService::print('No cover from EpubModule', 'red');
+                ConsoleService::newLine();
             }
         }
 

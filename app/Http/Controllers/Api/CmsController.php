@@ -38,8 +38,12 @@ class CmsController extends ApiController
      */
     public function home()
     {
-        return CmsHomePageResource::make(
-            CmsHomePage::first()
-        );
+        if (null !== CmsHomePage::first()) {
+            return CmsHomePageResource::make(
+                CmsHomePage::first()
+            );
+        }
+
+        return abort(404);
     }
 }

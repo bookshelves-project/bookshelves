@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Front\Opds;
 
+use App\Engines\SearchEngine;
 use App\Enums\EntityEnum;
 use App\Http\Controllers\Controller;
+use App\Models\Author;
 use App\Services\ConverterService;
 use App\Services\MarkdownService;
 use App\Services\OpdsService;
@@ -60,6 +62,33 @@ class OpdsController extends Controller
             data: $feed,
         );
         $result = $opdsService->template();
+
+        return response($result)->withHeaders([
+            'Content-Type' => 'text/xml',
+        ]);
+    }
+
+    #[Get('/{version}/search', name: 'front.opds.search')]
+    public function search(Request $request, string $version)
+    {
+        $query = $request->q;
+        if ($query) {
+            $search = SearchEngine::create($query, false, ['books']);
+
+            $current_route = route(Route::currentRouteName(), [
+                'version' => $version,
+                'q' => $query,
+            ]);
+            $opdsService = new OpdsService(
+                version: $version,
+                entity: EntityEnum::book,
+                route: $current_route,
+                data: $search->list
+            );
+            $result = $opdsService->template("Results for {$query}");
+        } else {
+            $result = OpdsService::search($version);
+        }
 
         return response($result)->withHeaders([
             'Content-Type' => 'text/xml',

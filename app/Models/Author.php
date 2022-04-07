@@ -5,9 +5,9 @@ namespace App\Models;
 use App\Enums\BookFormatEnum;
 use App\Models\Traits\HasBooksCollection;
 use App\Models\Traits\HasClassName;
-use App\Models\Traits\HasComments;
 use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasFavorites;
+use App\Models\Traits\HasReviews;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasWikipediaItem;
 use App\Utils\BookshelvesTools;
@@ -32,7 +32,7 @@ class Author extends Model implements HasMedia
     use HasClassName;
     use HasCovers;
     use HasFavorites;
-    use HasComments;
+    use HasReviews;
     use HasSelections;
     use Searchable;
     use HasWikipediaItem;
@@ -72,7 +72,7 @@ class Author extends Model implements HasMedia
         ]);
     }
 
-    public function getShowOpdsLinkAttribute(): string
+    public function getOpdsLinkAttribute(): string
     {
         return route('front.opds.authors.show', [
             'version' => 'v1.2',
@@ -85,14 +85,14 @@ class Author extends Model implements HasMedia
         return $this->books->count().' books';
     }
 
-    public function getShowBooksLinkAttribute(): string
+    public function getBooksLinkAttribute(): string
     {
         return route('api.authors.show.books', [
             'author_slug' => $this->slug,
         ]);
     }
 
-    public function getShowSeriesLinkAttribute(): string
+    public function getSeriesLinkAttribute(): string
     {
         return route('api.authors.show.series', [
             'author_slug' => $this->slug,
@@ -173,10 +173,5 @@ class Author extends Model implements HasMedia
             ->orderBy('slug_sort')
             ->withCount('books')
         ;
-    }
-
-    public function wikipediaItem(): BelongsTo
-    {
-        return $this->belongsTo(WikipediaItem::class);
     }
 }

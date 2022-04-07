@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\MediaDiskEnum;
 use App\Http\Requests\ProfileDelete;
 use App\Http\Requests\ProfileUpdate;
 use App\Http\Resources\User\UserResource;
@@ -46,8 +47,20 @@ class ProfileController extends ApiController
         $user->slugAttributeIsUpdated('name', $request->name, true);
         $user->update($validated);
 
-        $this->saveMedia($request, $user, 'avatar', MediaService::create($user, $user->slug, 'users', 'avatar'), config('image.user.avatar'));
-        $this->saveMedia($request, $user, 'banner', MediaService::create($user, "{$user->slug}-banner", 'users', 'banner'), config('image.user.banner'));
+        $this->saveMedia(
+            $request,
+            $user,
+            'avatar',
+            MediaService::create($user, $user->slug, MediaDiskEnum::user, 'avatar'),
+            config('image.user.avatar')
+        );
+        $this->saveMedia(
+            $request,
+            $user,
+            'banner',
+            MediaService::create($user, "{$user->slug}-banner", MediaDiskEnum::user, 'banner'),
+            config('image.user.banner')
+        );
 
         $user = $user->refresh();
 

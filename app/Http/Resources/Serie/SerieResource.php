@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Serie;
 
 use App\Http\Resources\Book\BookSerieResource;
-use App\Http\Resources\Comment\CommentResource;
+use App\Http\Resources\Review\ReviewResource;
 use App\Http\Resources\Tag\TagLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,6 +22,14 @@ class SerieResource extends JsonResource
     public function toArray($request)
     {
         return array_merge(SerieLightResource::make($this->resource)->toArray($request), [
+            'meta' => [
+                'entity' => $this->resource->getClassName(),
+                'slug' => $this->resource->slug,
+                'author' => $this->resource->meta_author,
+                'show' => $this->resource->show_link,
+                'books' => $this->resource->books_link,
+                'reviews' => $this->resource->reviews_link,
+            ],
             'description' => $this->resource->description,
             'link' => $this->resource->link,
             'cover' => [
@@ -35,7 +43,7 @@ class SerieResource extends JsonResource
             'download' => $this->resource->file_main,
             'files' => $this->resource->files_list,
             'isFavorite' => $this->resource->is_favorite,
-            'comments' => CommentResource::collection($this->resource->comments),
+            'reviews' => ReviewResource::collection($this->resource->reviews),
         ]);
     }
 }

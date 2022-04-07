@@ -70,9 +70,34 @@ class SerieController extends ApiController
      * Books list from one Serie, find by slug.
      *
      * @usesPagination
+     *
+     * @queryParam next int
+     * Volume to select next Book[] after. No-example
+     *
+     * @queryParam first boolean
+     * To select only first Book with `next`. No-example
      */
     public function books(Request $request, Author $author, Serie $serie)
     {
+        $first = $request->parseBoolean('first');
+        $next = $request->get('next');
+
+        if ($next) {
+            $books = $serie->books->filter(fn ($book) => $book->volume > intval($next));
+
+            if ($first) {
+                $nextBook = $books->first();
+
+                if ($nextBook) {
+                    return EntityResource::make($nextBook);
+                }
+            } elseif ($books->isNotEmpty()) {
+                return EntityResource::collection($books);
+            }
+
+            return abort(404);
+        }
+
         $this->getLang($request);
 
         $books = $serie->booksAvailable();
@@ -80,24 +105,5 @@ class SerieController extends ApiController
         $books = $this->getFull($request) ? $books->get() : $books->paginate($size);
 
         return BookLightResource::collection($books);
-    }
-
-    /**
-     * GET Book[] belongs to Serie (from volume).
-     *
-     * Books list from one Serie, find by slug from volume and limited to 10 results.
-     */
-    public function current(Request $request, int $volume, Author $author, Serie $serie)
-    {
-        if ($serie->books->count() < 1) {
-            $books = $serie->books;
-        } else {
-            $books = $serie->books->filter(fn ($book) => $book->volume > intval($volume));
-            if (0 === $books->count()) {
-                $books = $serie->books;
-            }
-        }
-
-        return EntityResource::collection($books->splice(0, 10));
     }
 }

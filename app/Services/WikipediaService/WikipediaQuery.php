@@ -49,6 +49,7 @@ class WikipediaQuery
 
         // generator search images: https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=Jul%20Maroh&gsrprop=snippet&prop=imageinfo&iiprop=url&rawcontinue&gsrnamespace=6&format=json
         // generator search: https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=Baxter%20Stephen&prop=info|extracts|pageimages&format=json
+        // current search: https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch=intitle:Les%20Annales%20du%20Disque-Monde&format=json
         $url = "https://{$this->language}.wikipedia.org/w/api.php?";
         $url .= 'action=query';
         $url .= '&list=search';
@@ -65,6 +66,7 @@ class WikipediaQuery
      */
     public function getPageIdUrl(): WikipediaQuery
     {
+        // current search: http://fr.wikipedia.org/w/api.php?action=query&prop=info&pageids=1340228&inprop=url&format=json&prop=info|extracts|pageimages&pithumbsize=512
         $url = "http://{$this->language}.wikipedia.org/w/api.php?";
         $url .= 'action=query';
         $url .= '&prop=info';
@@ -148,13 +150,11 @@ class WikipediaQuery
         try {
             $response = json_decode(json_encode($response));
             $page = $response?->query?->pages;
-            if (is_array($page)) {
-                $page = reset($page);
+            $page = reset($page);
 
-                $this->extract = $this->convertExtract($page->extract, 2000);
-                $this->picture_url = $page->thumbnail?->source ?? null;
-                $this->page_url = $page->fullurl ?? null;
-            }
+            $this->extract = $this->convertExtract($page->extract, 2000);
+            $this->picture_url = $page->thumbnail?->source ?? null;
+            $this->page_url = $page->fullurl ?? null;
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -179,22 +179,22 @@ class WikipediaQuery
     {
         $content = '';
         if ($text) {
-            $isUTF8 = mb_check_encoding($text, 'UTF-8');
-            $content = iconv('UTF-8', 'UTF-8//IGNORE', $text);
+            $text = trim($text);
+            $text = strip_tags($text);
+            $text = str_replace('<<', '"', $text);
+            $text = str_replace('>>', '"', $text);
 
-            if ($isUTF8) {
-                $content = trim($content);
-                if ($limit && strlen($content) > $limit) {
-                    $content = substr($content, 0, $limit);
-                }
-                $content = strip_tags($content);
-                $content = Str::ascii($content);
-                $content = str_replace('<<', '"', $content);
-                $content = str_replace('>>', '"', $content);
-                $content = trim($content);
-                $content = preg_replace('/\\([^)]+\\)/', '', $content);
-                $content = preg_replace('/\s\s+/', ' ', $content);
+            if ($limit && strlen($text) > $limit) {
+                $text = substr($text, 0, $limit);
             }
+
+            $text = trim($text);
+            $text = preg_replace('/\s\s+/', ' ', $text); // remove extra break lines
+
+            $text = htmlspecialchars($text); // convert html special chars
+            $text = html_entity_decode($text); // translate html entities
+
+            $content = $text;
         }
 
         return $content.'...';

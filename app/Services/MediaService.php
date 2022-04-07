@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\MediaCollectionEnum;
+use App\Enums\MediaDiskEnum;
 use App\Enums\SpatieMediaMethodEnum;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +12,7 @@ class MediaService
     public function __construct(
         public Model $model,
         public string $name,
-        public string $disk,
+        public MediaDiskEnum $disk,
         public ?string $collection = null,
         public ?string $extension = null,
         public ?SpatieMediaMethodEnum $method = null,
@@ -20,13 +22,13 @@ class MediaService
     public static function create(
         Model $model,
         string $name,
-        string $disk,
+        MediaDiskEnum $disk,
         ?string $collection = null,
         ?string $extension = null,
         ?SpatieMediaMethodEnum $method = null
     ): MediaService {
         if (! $collection) {
-            $collection = $disk;
+            $collection = $disk->value;
         }
         if (! $extension) {
             $extension = config('bookshelves.cover_extension');
@@ -44,7 +46,7 @@ class MediaService
             $this->model->{$this->method->value}($data)
                 ->setName($this->name)
                 ->setFileName($this->name.'.'.$this->extension)
-                ->toMediaCollection($this->collection, $this->disk)
+                ->toMediaCollection($this->collection, $this->disk->value)
             ;
             $this->model->refresh();
         }

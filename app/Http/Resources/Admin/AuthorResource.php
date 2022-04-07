@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,7 +23,7 @@ class AuthorResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'cover' => MediaResource::collection($this->resource->getMedia('covers')),
+            'cover' => MediaResource::collection($this->resource->getMedia(MediaDiskEnum::cover->value)),
         ] + $this->resource->toArray();
     }
 }

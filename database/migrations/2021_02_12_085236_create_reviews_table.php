@@ -4,14 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCommentsTable extends Migration
+class CreateReviewsTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->text('text')->nullable();
             $table->integer('rating')->nullable();
@@ -21,8 +21,8 @@ class CreateCommentsTable extends Migration
                 ->on('users')
                 ->onDelete('cascade')
             ;
-            $table->foreignId('commentable_id')->nullable();
-            $table->string('commentable_type')->nullable();
+            $table->foreignId('reviewable_id')->nullable();
+            $table->string('reviewable_type')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('reviews');
     }
 }

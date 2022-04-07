@@ -46,7 +46,7 @@ class TagExtend extends \Spatie\Tags\Tag
         ]);
     }
 
-    public function getShowBooksLinkAttribute(): string
+    public function getBooksLinkAttribute(): string
     {
         return route('api.tags.show.books', [
             'tag_slug' => $this->slug,

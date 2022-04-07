@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Engines\SearchEngine;
 use App\Helpers\PaginationHelper;
 use App\Http\Resources\EntityResource;
+use App\Http\Resources\Review\ReviewResource;
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\Review;
 use App\Models\Selectionable;
 use App\Services\EntityService;
 use App\Services\EnumService;
@@ -135,6 +137,21 @@ class EntityController extends ApiController
     }
 
     /**
+     * GET Entity Review[].
+     */
+    public function reviews(Request $request, string $entity, int $id)
+    {
+        $this->getLang($request);
+
+        $reviews = Review::whereReviewableType($this->getEntity($entity))
+            ->whereReviewableId($id)
+            ->paginate($this->getPaginationSize($request, 5))
+        ;
+
+        return ReviewResource::collection($reviews);
+    }
+
+    /**
      * GET Search.
      *
      * Search full-text into authors, books & series.
@@ -148,7 +165,7 @@ class EntityController extends ApiController
         }
 
         if ($q) {
-            $engine = SearchEngine::create($q, $types);
+            $engine = SearchEngine::create($q, true, $types);
 
             return response()->json([
                 'data' => [

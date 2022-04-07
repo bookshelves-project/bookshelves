@@ -35,7 +35,7 @@ class User extends Authenticatable implements HasMedia
         'slug',
         'use_gravatar',
         'display_favorites',
-        'display_comments',
+        'display_reviews',
         'display_gender',
         'about',
         'gender',
@@ -91,9 +91,9 @@ class User extends Authenticatable implements HasMedia
         ]);
     }
 
-    public function getShowLinkCommentsAttribute(): string
+    public function getShowLinkReviewsAttribute(): string
     {
-        return route('api.users.comments', [
+        return route('api.users.reviews', [
             'user_slug' => $this->slug,
         ]);
     }
@@ -131,8 +131,8 @@ class User extends Authenticatable implements HasMedia
     //     return $this->belongsToMany(Role::class);
     // }
 
-    public function comments(): HasMany
+    public function reviews(): HasMany
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Review::class);
     }
 }

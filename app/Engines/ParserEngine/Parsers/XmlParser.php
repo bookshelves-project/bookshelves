@@ -54,7 +54,8 @@ class XmlParser
         }
 
         if (! isset($this->xml_string)) {
-            ConsoleService::error("{$this->module}: can't get {$this->extension_index}");
+            ConsoleService::print("{$this->module}: can't get {$this->extension_index}", 'red');
+            ConsoleService::newLine();
 
             return false;
         }
@@ -67,7 +68,8 @@ class XmlParser
             $this->xml_data = $this->xml_to_array($this->xml_string);
             $this->engine = $this->module::parse($this, $this->engine);
         } catch (\Throwable $th) {
-            ConsoleService::print(__METHOD__, $th);
+            ConsoleService::print(__METHOD__, 'red', $th);
+            ConsoleService::newLine();
         }
 
         if ($this->engine->cover_name) {

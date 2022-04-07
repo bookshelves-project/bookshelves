@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Comment\CommentResource;
+use App\Helpers\PaginationHelper;
 use App\Http\Resources\FavoriteResource;
+use App\Http\Resources\Review\ReviewResource;
 use App\Http\Resources\User\UserListResource;
 use App\Http\Resources\User\UserResource;
+use App\Models\Favoritable;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -20,7 +23,7 @@ class UserController extends ApiController
     public function index()
     {
         $users = User::orderBy('name')
-            ->with('comments')
+            ->with('reviews')
             ->get()
         ;
 
@@ -36,18 +39,36 @@ class UserController extends ApiController
     }
 
     /**
-     * GET Comment[] belongs to User.
+     * GET Review[] belongs to User.
+     *
+     * @usesPagination
      */
-    public function comments(Request $request, User $user)
+    public function reviews(Request $request, User $user)
     {
-        return CommentResource::collection($user->comments);
+        $reviews = Review::whereUserId($user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(
+                $this->getPaginationSize($request)
+            )
+        ;
+
+        return ReviewResource::collection($reviews);
     }
 
     /**
      * GET Favorite[] belongs to User.
+     *
+     * @usesPagination
      */
     public function favorites(Request $request, User $user)
     {
-        return FavoriteResource::collection($user->favorites);
+        $favorites = Favoritable::whereUserId($user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(
+                $this->getPaginationSize($request)
+            )
+        ;
+
+        return FavoriteResource::collection($favorites);
     }
 }

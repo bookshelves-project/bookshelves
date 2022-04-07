@@ -3,17 +3,15 @@
 namespace App\Engines\ConverterEngine;
 
 use App\Engines\ParserEngine;
+use App\Enums\MediaDiskEnum;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Services\DirectoryParserService;
 use App\Services\MediaService;
 use File;
-use Illuminate\Support\Str;
-use Storage;
 
 class SerieConverter
 {
-    public const DISK = 'covers';
+    public const DISK = MediaDiskEnum::cover;
 
     /**
      * Generate Serie for Book from ParserEngine.
@@ -53,123 +51,32 @@ class SerieConverter
         return false;
     }
 
-    // public static function setLocalDescription(Serie $serie): ?Serie
-    // {
-    //     if (File::exists(public_path('storage/data/series/series.json'))) {
-    //         $json = Storage::disk('public')->get('raw/series/series.json');
-    //         $json = json_decode($json);
-    //         foreach ($json as $key => $value) {
-    //             if ($key === $serie->slug) {
-    //                 $serie->description = $value->description;
-    //                 $serie->link = $value->link;
-    //                 $serie->save();
-
-    //                 return $serie;
-    //             }
-    //         }
-
-    //         return null;
-    //     }
-
-    //     return null;
-    // }
-
     /**
-     * Generate Serie description from Wikipedia if found.
+     * Set default cover from first `Book` of `Serie`.
+     * Get `volume` `1` if exist.
      */
-    public static function setWikiDescription(Serie $serie): Serie
-    {
-        if ($serie->wikipedia && ! $serie->description && ! $serie->link) {
-            $serie->description = Str::limit($serie->wikipedia->extract, 1000);
-            $serie->link = $serie->wikipedia->page_url;
-            $serie->save();
-        }
-
-        return $serie;
-    }
-
-    /**
-     * Generate Serie image from 'public/storage/data/series' if JPG file with Serie slug exist
-     * if not get image from Book with 'book_number' like '1'.
-     *
-     * Manage by spatie/laravel-medialibrary.
-     */
-    public static function getLocalCover(Serie $serie): string|null
+    public static function setBookCover(Serie $serie): Serie
     {
         $disk = self::DISK;
-        // Add special cover if exist from `public/storage/data/series/`
-        // Check if JPG file with series' slug name exist
-        // To know slug name, check into database when serie was created
-        $path = storage_path('app/public/data/series');
-        $files = DirectoryParserService::parseDirectoryFiles($path);
 
-        $local_cover = null;
-        foreach ($files as $key => $file) {
-            if (pathinfo($file, PATHINFO_FILENAME) === $serie->slug) {
-                $local_cover = base64_encode(file_get_contents($file));
+        if ($serie->getMedia($disk->value)->isEmpty()) {
+            $book = Book::whereVolume(1)->whereSerieId($serie->id)->first();
+            if (! $book) {
+                $book = Book::whereSerieId($serie->id)->first();
             }
-        }
 
-        return $local_cover;
-    }
-
-    /**
-     * Generate Serie image from Book volume '1' or first.
-     *
-     * Manage by spatie/laravel-medialibrary.
-     */
-    public static function setCover(Serie $serie): Serie
-    {
-        if ($serie->getMedia('covers')->isEmpty()) {
-            $disk = self::DISK;
-
-            // get picture in $path if exist
-            $cover = null;
-            $local_cover = self::getLocalCover($serie);
-            if ($local_cover) {
-                $cover = $local_cover;
-            } else {
-                // get first book of serie
-                $book = Book::whereVolume(1)->whereSerieId($serie->id)->first();
-                if (! $book) {
-                    $book = Book::whereSerieId($serie->id)->first();
-                }
-
-                /** @var Book $book */
-                $cover_exist = File::exists($book->cover_book?->getPath());
-                if ($cover_exist) {
-                    $cover = base64_encode(File::get($book->cover_book->getPath()));
-                }
-            }
-            if ($cover) {
+            /** @var Book $book */
+            $cover_exist = File::exists($book->cover_book?->getPath());
+            if ($cover_exist) {
+                $cover = base64_encode(File::get($book->cover_book->getPath()));
                 MediaService::create($serie, $serie->slug, $disk)
                     ->setMedia($cover)
                     ->setColor()
                 ;
             }
-            $serie->refresh();
 
-            return $serie;
+            $serie->save();
         }
-
-        return $serie;
-    }
-
-    /**
-     * Generate Serie tags from Books relationship tags.
-     */
-    public static function setTags(Serie $serie): Serie
-    {
-        $books = Book::whereSerieId($serie->id)->get();
-        $tags = [];
-        foreach ($books as $key => $book) {
-            foreach ($book->tags as $key => $tag) {
-                array_push($tags, $tag);
-            }
-        }
-
-        $serie->syncTags($tags);
-        $serie->save();
 
         return $serie;
     }

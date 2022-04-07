@@ -2,17 +2,22 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Console\CommandProd;
 use App\Engines\ConverterEngine;
+use App\Engines\ConverterEngine\CoverConverter;
+use App\Engines\ConverterEngine\EntityConverter;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
-use Illuminate\Console\Command;
+use App\Models\Author;
+use App\Models\Serie;
 use Illuminate\Support\Facades\Artisan;
+use ReflectionClass;
 use Spatie\Tags\Tag;
 
 /**
  * Main command of Bookshelves to generate Books with relations.
  */
-class GenerateCommand extends Command
+class GenerateCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -23,7 +28,8 @@ class GenerateCommand extends Command
                             {--f|fresh : reset current books and relation, keep users}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
-                            {--D|default : use default cover for all (skip covers step)}';
+                            {--D|default : use default cover for all (skip covers step)}
+                            {--F|force : skip confirm in prod}';
 
     /**
      * The console command description.
@@ -47,12 +53,16 @@ class GenerateCommand extends Command
      */
     public function handle()
     {
-        $app = config('app.name');
+        $this->intro('Books & relations');
+
+        $force = $this->option('force') ?? false;
         $limit = str_replace('=', '', $this->option('limit'));
         $limit = intval($limit);
         $fresh = $this->option('fresh') ?? false;
         $debug = $this->option('debug') ?? false;
         $default = $this->option('default') ?? false;
+
+        $this->checkProd();
 
         Artisan::call('bookshelves:clear', [], $this->getOutput());
         $list = FilesTypeParser::parseDataFiles(limit: $limit);
@@ -63,13 +73,12 @@ class GenerateCommand extends Command
             ], $this->getOutput());
         }
 
-        $this->alert("{$app}: books & relations");
         if (! $list) {
-            $this->alert('No EPUB detected!');
+            $this->alert('No files detected!');
 
             return false;
         }
-        $this->comment('EPUB files detected: '.sizeof($list));
+        $this->comment('Files detected: '.sizeof($list));
         $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie');
         $this->info('- Generate new EPUB file with standard name');
         $this->newLine();
@@ -105,10 +114,36 @@ class GenerateCommand extends Command
         $bar->finish();
         $this->newLine();
 
+        $this->improveRelation(Author::class);
+        $this->improveRelation(Serie::class);
+
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
         $this->info("Time in seconds: {$time_elapsed_secs}");
 
         return true;
+    }
+
+    private function improveRelation(string $model)
+    {
+        $default = $this->option('default') ?? false;
+
+        $class = new ReflectionClass($model);
+        $class = $class->getShortName();
+
+        $this->newLine();
+        $this->warn("Improve {$class}s...");
+        $this->newLine();
+        $bar = $this->output->createProgressBar($model::count());
+        $bar->start();
+        foreach ($model::all() as $entity) {
+            EntityConverter::setTags($entity);
+            if (! $default) {
+                CoverConverter::setLocalCover($entity);
+            }
+            $bar->advance();
+        }
+        $bar->finish();
+        $this->newLine();
     }
 }

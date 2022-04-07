@@ -48,7 +48,7 @@ class Publisher extends Model
         ]);
     }
 
-    public function getShowBooksLinkAttribute(): string
+    public function getBooksLinkAttribute(): string
     {
         return route('api.publishers.show.books', [
             'publisher_slug' => $this->slug,

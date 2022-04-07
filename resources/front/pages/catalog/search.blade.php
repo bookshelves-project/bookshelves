@@ -8,7 +8,7 @@
 
 <x-catalog.table>
     For an eBook, you can download it directly. For an author or a series, you have to tap on it to get list of
-    eBooks to download them.
+    books to download them.
 </x-catalog.table>
 
 @isset($results)

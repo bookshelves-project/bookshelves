@@ -33,7 +33,7 @@ class ProfileUpdate extends FormRequest
             'banner' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048|file',
             'use_gravatar' => 'required|boolean',
             'display_favorites' => 'required|boolean',
-            'display_comments' => 'required|boolean',
+            'display_reviews' => 'required|boolean',
             'display_gender' => 'required|boolean',
             'gender' => [new Enum(GenderEnum::class)],
         ];
@@ -62,7 +62,7 @@ class ProfileUpdate extends FormRequest
                 'description' => '',
                 'example' => true,
             ],
-            'display_comments' => [
+            'display_reviews' => [
                 'description' => '',
                 'example' => true,
             ],

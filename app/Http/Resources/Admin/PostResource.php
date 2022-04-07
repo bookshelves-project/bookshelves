@@ -22,7 +22,6 @@ class PostResource extends JsonResource
     public function toArray($request)
     {
         return [
-            // 'featured_image' => MediaResource::collection($this->whenLoaded('media')),
             'featured_image' => MediaResource::collection($this->resource->getMedia('featured-image')),
             'category' => PostCategoryResource::make($this->whenLoaded('category')),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
