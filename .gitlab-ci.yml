@@ -25,13 +25,13 @@ deploy-job:
     - ssh $SSH_USER@$SSH_IP "
       cd /home/ewilan/www/$CI_PROJECT_NAME &&
       git pull &&
-      composer install &&
+      /usr/bin/php$PHP_VERSION /usr/local/bin/composer install &&
       php$PHP_VERSION artisan bookshelves:clear &&
-      php$PHP_VERSION artisan optimize:clear &&
-      php$PHP_VERSION artisan scribe:generate &&
+      php$PHP_VERSION artisan optimize:cache &&
+      /usr/bin/php$PHP_VERSION /usr/local/bin/composer doc &&
       php$PHP_VERSION artisan bookshelves:scout -f &&
-      /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/npm i &&
-      /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/npm run prod &&
+      /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm i &&
+      /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm prod &&
       discord-queerotronic.sh '$CI_PROJECT_TITLE'"
   only:
     - main
