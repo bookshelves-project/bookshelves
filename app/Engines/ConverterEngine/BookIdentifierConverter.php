@@ -19,7 +19,8 @@ class BookIdentifierConverter
                 $fillables = (new Book())->getFillable();
                 $fillables = array_filter($fillables, fn ($value) => str_contains($value, 'isbn'));
                 if (in_array($value->name, $fillables)) {
-                    $identifiers[$value->name] = $value->value;
+                    $identifier = trim(str_replace('-', '', $value->value));
+                    $identifiers[$value->name] = $identifier;
                 }
             }
             if (! empty($identifiers)) {

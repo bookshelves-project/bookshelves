@@ -30,12 +30,11 @@ class AuthorConverter
      */
     public static function create(BookCreator $creator): AuthorConverter
     {
-        $order_natural = config('bookshelves.authors.order_natural');
-        $lastname = '';
-        $firstname = '';
+        $lastname = null;
+        $firstname = null;
 
         $author_name = explode(' ', $creator->name);
-        if ($order_natural) {
+        if (config('bookshelves.authors.order_natural')) {
             $lastname = $author_name[sizeof($author_name) - 1];
             array_pop($author_name);
             $firstname = implode(' ', $author_name);
@@ -50,11 +49,14 @@ class AuthorConverter
     }
 
     /**
-     * Generate Author[] for Book from ParserEngine.
+     * Generate Author[] for Book from ParserEngine and sync with Book.
      */
     public static function generate(ParserEngine $parser, Book $book): Collection
     {
-        $authors = [];
+        $authors = collect([]);
+        /**
+         * Unknown author.
+         */
         if (empty($parser->creators)) {
             $creator = new BookCreator(
                 name: 'Unknown Author',
@@ -62,31 +64,26 @@ class AuthorConverter
             );
             $converter = AuthorConverter::create($creator);
             $author = AuthorConverter::convert($converter, $creator);
-            array_push($authors, $author);
+            $authors->push($author);
         } else {
-            foreach ($parser->creators as $key => $creator) {
+            foreach ($parser->creators as $creator) {
                 $converter = AuthorConverter::create($creator);
-                $skipHomonys = config('bookshelves.authors.detect_homonyms');
-                if ($skipHomonys) {
+                $author = null;
+
+                if (config('bookshelves.authors.detect_homonyms')) {
                     $lastname = Author::whereFirstname($converter->lastname)->first();
                     if ($lastname) {
                         $author = Author::whereLastname($converter->firstname)->first();
-                        if (! $author) {
-                            $author = AuthorConverter::convert($converter, $creator);
-                        }
-                    } else {
-                        $author = AuthorConverter::convert($converter, $creator);
                     }
-                } else {
+                }
+                if (null === $author) {
                     $author = AuthorConverter::convert($converter, $creator);
                 }
-                array_push($authors, $author);
+                $authors->push($author);
             }
         }
 
-        foreach ($authors as $author) {
-            $book->authors()->attach($author);
-        }
+        $book->authors()->sync($authors->pluck('id'));
         $book->save();
 
         return $book->authors;

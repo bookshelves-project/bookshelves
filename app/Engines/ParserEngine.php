@@ -206,6 +206,7 @@ class ParserEngine
 
             $regex = '@(https?://([-\\w\\.]+[-\\w])+(:\\d+)?(/([\\w/_\\.#-]*(\\?\\S+)?[^\\.\\s])?).*$)@';
             $text = preg_replace($regex, ' ', $text); // remove links
+            $text = preg_replace('#(<[a-z ]*)(style=("|\')(.*?)("|\'))([a-z ]*>)#', '\\1\\6', $text); // remove style
             $text = trim($text);
         }
 
