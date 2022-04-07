@@ -18,7 +18,7 @@ class SampleCommand extends CommandProd
      */
     protected $signature = 'bookshelves:sample
                             {--a|admin : generate only admin}
-                            {--u|users : generate users with comments and favorites}
+                            {--u|users : generate users with reviews and favorites}
                             {--c|cms : generate pages, posts and CMS content}
                             {--F|force : skip confirm in prod}';
 
@@ -27,7 +27,7 @@ class SampleCommand extends CommandProd
      *
      * @var string
      */
-    protected $description = 'Setup Bookshelves with users features: roles, comments, favorites and selection.';
+    protected $description = 'Setup Bookshelves with users features: roles, reviews, favorites and selection.';
 
     /**
      * Create a new command instance.
@@ -71,8 +71,8 @@ class SampleCommand extends CommandProd
             $this->info('Seeders ready!');
             $this->newLine();
 
-            $this->comment('Run comments and favorites seeders');
-            Artisan::call('db:seed', ['--class' => 'CommentSeeder', '--force' => true]);
+            $this->comment('Run reviews and favorites seeders');
+            Artisan::call('db:seed', ['--class' => 'ReviewSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'FavoriteSeeder', '--force' => true]);
             $this->info('Seeders ready!');
             $this->newLine();

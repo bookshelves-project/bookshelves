@@ -2,20 +2,20 @@
 
 namespace Database\Factories;
 
-use App\Models\Comment;
+use App\Models\Review;
 use App\Models\User;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class CommentFactory extends Factory
+class ReviewFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Comment::class;
+    protected $model = Review::class;
 
     /**
      * Define the model's default state.

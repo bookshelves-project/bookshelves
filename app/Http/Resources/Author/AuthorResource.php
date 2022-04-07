@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Author;
 
-use App\Http\Resources\Comment\CommentResource;
+use App\Http\Resources\Review\ReviewResource;
 use App\Models\Author;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -27,14 +27,14 @@ class AuthorResource extends JsonResource
                 'show' => $this->resource->show_link,
                 'books' => $this->resource->books_link,
                 'series' => $this->resource->series_link,
-                'comments' => $this->resource->comments_link,
+                'reviews' => $this->resource->reviews_link,
             ],
             'description' => $this->resource->description,
             'link' => $this->resource->link,
             'download' => $this->resource->file_main,
             'files' => $this->resource->files_list,
             'isFavorite' => $this->resource->is_favorite,
-            'comments' => CommentResource::collection($this->resource->comments),
+            'reviews' => ReviewResource::collection($this->resource->reviews),
         ]);
     }
 }

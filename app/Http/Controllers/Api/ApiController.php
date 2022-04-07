@@ -36,7 +36,7 @@ class ApiController extends Controller
                 ->firstOrFail()
         );
 
-        Route::bind('book_slug', fn ($slug) => Book::whereSlug($slug)->withCount('comments')->firstOrFail());
+        Route::bind('book_slug', fn ($slug) => Book::whereSlug($slug)->withCount('reviews')->firstOrFail());
 
         Route::bind(
             'serie_slug',

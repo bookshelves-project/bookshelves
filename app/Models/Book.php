@@ -8,10 +8,10 @@ use App\Enums\BookTypeEnum;
 use App\Models\Traits\HasAuthors;
 use App\Models\Traits\HasBookType;
 use App\Models\Traits\HasClassName;
-use App\Models\Traits\HasComments;
 use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasLanguage;
+use App\Models\Traits\HasReviews;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
 use App\Services\DownloadService;
@@ -26,7 +26,7 @@ use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 
 /**
- * @property null|int $comments_count
+ * @property null|int $reviews_count
  */
 class Book extends Model implements HasMedia
 {
@@ -35,7 +35,7 @@ class Book extends Model implements HasMedia
     use HasCovers;
     use HasAuthors;
     use HasFavorites;
-    use HasComments;
+    use HasReviews;
     use HasSelections;
     use HasLanguage;
     use HasTagsAndGenres;

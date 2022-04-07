@@ -4,14 +4,14 @@ namespace Database\Seeders;
 
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Comment;
+use App\Models\Review;
 use App\Models\Serie;
 use App\Models\User;
 use DB;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
-class CommentSeeder extends Seeder
+class ReviewSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,7 +19,7 @@ class CommentSeeder extends Seeder
     public function run()
     {
         DB::statement('SET foreign_key_checks=0');
-        Comment::truncate();
+        Review::truncate();
         DB::statement('SET foreign_key_checks=1');
 
         $limit = 3;
@@ -39,33 +39,33 @@ class CommentSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
         $collect->each(function ($entity, $key) use ($faker) {
-            $comments = Comment::factory()->count($faker->numberBetween(1, 5))->create();
+            $reviews = Review::factory()->count($faker->numberBetween(1, 5))->create();
 
-            /** @var Comment $comment */
-            foreach ($comments as $comment) {
-                $exist_comments_user_id = $entity->comments->pluck('user_id');
+            /** @var Review $review */
+            foreach ($reviews as $review) {
+                $exist_reviews_user_id = $entity->reviews->pluck('user_id');
 
                 $user_id = User::inRandomOrder()->first()->id;
-                if (! in_array($user_id, $exist_comments_user_id->toArray())) {
-                    $comment->user_id = $user_id;
+                if (! in_array($user_id, $exist_reviews_user_id->toArray())) {
+                    $review->user_id = $user_id;
 
                     $dateTimes = [
                         $faker->dateTimeBetween('-1 week', '-5 day')->format('Y-m-d H:i:s'),
-                        $comment->created_at,
+                        $review->created_at,
                     ];
                     $newDateTime = $faker->randomElements($dateTimes);
                     $date = $newDateTime[0];
 
-                    $comment->updated_at = $date;
+                    $review->updated_at = $date;
 
                     try {
-                        $entity->comments()->save($comment);
+                        $entity->reviews()->save($review);
                         $entity->refresh();
                     } catch (\Throwable $th) {
                         // throw $th;
                     }
                 } else {
-                    Comment::destroy($comment->id);
+                    Review::destroy($review->id);
                 }
             }
         });

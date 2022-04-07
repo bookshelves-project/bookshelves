@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources\Comment;
+namespace App\Http\Resources\Review;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property \App\Models\Comment $resource
+ * @property \App\Models\Review $resource
  */
-class CommentResource extends JsonResource
+class ReviewResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,8 +18,8 @@ class CommentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $for = strtolower(str_replace('App\\Models\\', '', $this->resource->commentable_type));
-        $entity = $this->resource->commentable;
+        $for = strtolower(str_replace('App\\Models\\', '', $this->resource->reviewable_type));
+        $entity = $this->resource->reviewable;
         $title = null;
 
         switch ($for) {
@@ -49,12 +49,12 @@ class CommentResource extends JsonResource
 
         return [
             'meta' => [
-                'type' => 'comment',
+                'type' => 'review',
                 'for' => $for,
                 // @phpstan-ignore-next-line
-                'author' => $this->resource->commentable->meta_author,
+                'author' => $this->resource->reviewable->meta_author,
                 // @phpstan-ignore-next-line
-                'slug' => $this->resource->commentable->slug,
+                'slug' => $this->resource->reviewable->slug,
             ],
             'id' => $this->resource->id,
             'text' => $this->resource->text,
@@ -70,7 +70,7 @@ class CommentResource extends JsonResource
             'updatedAt' => $this->resource->updated_at,
             'title' => $title,
             // @phpstan-ignore-next-line
-            'cover' => $this->resource->commentable->cover_thumbnail,
+            'cover' => $this->resource->reviewable->cover_thumbnail,
         ];
     }
 }

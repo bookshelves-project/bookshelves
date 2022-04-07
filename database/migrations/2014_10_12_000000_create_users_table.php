@@ -26,7 +26,7 @@ return new class() extends Migration {
             $table->string('pronouns')->nullable();
             $table->boolean('use_gravatar')->default(false);
             $table->boolean('display_favorites')->default(false);
-            $table->boolean('display_comments')->default(false);
+            $table->boolean('display_reviews')->default(false);
             $table->boolean('display_gender')->default(false);
             $table->timestamps();
         });

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Comment\CommentResource;
 use App\Http\Resources\FavoriteResource;
+use App\Http\Resources\Review\ReviewResource;
 use App\Http\Resources\User\UserListResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
@@ -20,7 +20,7 @@ class UserController extends ApiController
     public function index()
     {
         $users = User::orderBy('name')
-            ->with('comments')
+            ->with('reviews')
             ->get()
         ;
 
@@ -36,11 +36,11 @@ class UserController extends ApiController
     }
 
     /**
-     * GET Comment[] belongs to User.
+     * GET Review[] belongs to User.
      */
-    public function comments(Request $request, User $user)
+    public function reviews(Request $request, User $user)
     {
-        return CommentResource::collection($user->comments);
+        return ReviewResource::collection($user->reviews);
     }
 
     /**

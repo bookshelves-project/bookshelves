@@ -50,7 +50,7 @@ class UserAdminSeeder extends Seeder
         //         'role' => RoleEnum::admin,
         //         'gender' => GenderEnum::unknown(),
         //         'use_gravatar' => false,
-        //         'display_comments' => true,
+        //         'display_reviews' => true,
         //         'display_favorites' => true,
         //         'display_gender' => true,
         //     ]);

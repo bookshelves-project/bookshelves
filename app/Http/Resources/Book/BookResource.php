@@ -3,10 +3,10 @@
 namespace App\Http\Resources\Book;
 
 use App\Http\Resources\Author\AuthorUltraLightResource;
-use App\Http\Resources\Comment\CommentResource;
 use App\Http\Resources\GoogleBookResource;
 use App\Http\Resources\MediaResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
+use App\Http\Resources\Review\ReviewResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Tag\TagLightResource;
 use App\Models\Book;
@@ -34,7 +34,7 @@ class BookResource extends JsonResource
                 'author' => $this->resource->meta_author,
                 'show' => $this->resource->show_link,
                 'related' => $this->resource->related_link,
-                'comments' => $this->resource->comments_link,
+                'reviews' => $this->resource->reviews_link,
             ],
             'serie' => SerieLightResource::make($this->resource->serie),
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
@@ -57,7 +57,7 @@ class BookResource extends JsonResource
             'webreader' => $this->resource->webreader_link,
             'googleBook' => GoogleBookResource::make($this->resource->googleBook),
             'isFavorite' => $this->resource->is_favorite,
-            'commentsCount' => $this->resource->comments_count,
+            'reviewsCount' => $this->resource->reviews_count,
         ]);
     }
 }

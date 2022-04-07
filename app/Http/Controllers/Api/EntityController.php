@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Engines\SearchEngine;
 use App\Helpers\PaginationHelper;
-use App\Http\Resources\Comment\CommentResource;
 use App\Http\Resources\EntityResource;
+use App\Http\Resources\Review\ReviewResource;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Comment;
+use App\Models\Review;
 use App\Models\Selectionable;
 use App\Services\EntityService;
 use App\Services\EnumService;
@@ -137,18 +137,18 @@ class EntityController extends ApiController
     }
 
     /**
-     * GET Entity Comment[].
+     * GET Entity Review[].
      */
-    public function comments(Request $request, string $entity, int $id)
+    public function reviews(Request $request, string $entity, int $id)
     {
         $this->getLang($request);
 
-        $comments = Comment::whereCommentableType($this->getEntity($entity))
-            ->whereCommentableId($id)
+        $reviews = Review::whereReviewableType($this->getEntity($entity))
+            ->whereReviewableId($id)
             ->paginate($this->getPaginationSize($request, 5))
         ;
 
-        return CommentResource::collection($comments);
+        return ReviewResource::collection($reviews);
     }
 
     /**

@@ -58,7 +58,7 @@ class BookshelvesParameter extends Strategy
             'tags.show' => 'tag',
             'tags.show.books' => 'tag',
             'users.show' => 'user',
-            'users.comments' => 'user',
+            'users.reviews' => 'user',
             'users.favorites' => 'user',
         ];
 

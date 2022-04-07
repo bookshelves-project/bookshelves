@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property null|\App\Models\User                         $user
- * @property \Eloquent|\Illuminate\Database\Eloquent\Model $commentable
+ * @property \Eloquent|\Illuminate\Database\Eloquent\Model $reviewable
  */
-class Comment extends Model
+class Review extends Model
 {
     use HasFactory;
 
@@ -20,10 +20,10 @@ class Comment extends Model
 
     protected $with = [
         'user',
-        'commentable',
+        'reviewable',
     ];
 
-    public function commentable()
+    public function reviewable()
     {
         return $this->morphTo();
     }
@@ -35,16 +35,16 @@ class Comment extends Model
 
     public function books()
     {
-        return $this->morphedByMany(Book::class, 'commentable', 'comments', 'commentable_id');
+        return $this->morphedByMany(Book::class, 'reviewable', 'reviews', 'reviewable_id');
     }
 
     public function series()
     {
-        return $this->morphedByMany(Serie::class, 'commentable', 'comments', 'commentable_id');
+        return $this->morphedByMany(Serie::class, 'reviewable', 'reviews', 'reviewable_id');
     }
 
     public function authors()
     {
-        return $this->morphedByMany(Author::class, 'commentable', 'comments', 'commentable_id');
+        return $this->morphedByMany(Author::class, 'reviewable', 'reviews', 'reviewable_id');
     }
 }
