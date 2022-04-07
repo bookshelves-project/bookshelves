@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Wikipedia;
 use App\Models\WikipediaItem;
 use App\Services\ConsoleService;
 use App\Services\HttpService;

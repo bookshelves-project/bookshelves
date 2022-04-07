@@ -100,7 +100,7 @@ class HttpService
             'handler' => $handler,
             // Curl options, any CURLOPT_* option is available
             'curl' => [
-                CURLOPT_BINARYTRANSFER => true,
+                // CURLOPT_BINARYTRANSFER => true,
             ],
             RequestOptions::CONNECT_TIMEOUT => self::REQUEST_TIMEOUT,
             // Allow redirects?
@@ -127,7 +127,8 @@ class HttpService
                 $responses[$index] = new \Illuminate\Http\Client\Response($response);
             },
             'rejected' => function (mixed $reason, $index) use ($responses) {
-                $responses[$index] = new \Illuminate\Http\Client\Response($reason->getResponse());
+                // $responses[$index] = new \Illuminate\Http\Client\Response($reason->getResponse());
+                $responses[$index] = null;
             },
         ]);
 

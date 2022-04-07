@@ -81,7 +81,6 @@ class SampleCommand extends CommandProd
         if ($cms) {
             $this->comment('Run CMS seeders');
             Artisan::call('db:seed', ['--class' => 'CmsSeeder', '--force' => true]);
-            $this->newLine();
             $this->info('Seeders ready!');
             $this->newLine();
 
@@ -108,11 +107,6 @@ class SampleCommand extends CommandProd
             $user->media()->delete();
         }
         DB::table('users')->truncate();
-        // DB::table('roles')->truncate();
-        // DB::table('permissions')->truncate();
-        // DB::table('model_has_roles')->truncate();
-        // DB::table('model_has_permissions')->truncate();
         DB::statement('SET foreign_key_checks=1');
-        // Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
     }
 }
