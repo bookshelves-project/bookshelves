@@ -74,11 +74,11 @@ class GenerateCommand extends CommandProd
         }
 
         if (! $list) {
-            $this->alert('No EPUB detected!');
+            $this->alert('No files detected!');
 
             return false;
         }
-        $this->comment('EPUB files detected: '.sizeof($list));
+        $this->comment('Files detected: '.sizeof($list));
         $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie');
         $this->info('- Generate new EPUB file with standard name');
         $this->newLine();
