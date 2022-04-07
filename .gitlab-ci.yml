@@ -27,7 +27,7 @@ deploy-job:
       git pull &&
       /usr/bin/php$PHP_VERSION /usr/local/bin/composer install &&
       php$PHP_VERSION artisan bookshelves:clear &&
-      php$PHP_VERSION artisan optimize:cache &&
+      php$PHP_VERSION artisan optimize &&
       /usr/bin/php$PHP_VERSION /usr/local/bin/composer doc &&
       php$PHP_VERSION artisan bookshelves:scout -f &&
       /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm i &&
