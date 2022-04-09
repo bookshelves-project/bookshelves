@@ -45,6 +45,7 @@ class MarkdownToHtmlService
                 'ROUTE_DOCS' => config('app.url').'/docs',
                 'ROUTE_CATALOG' => route('front.catalog'),
                 'ROUTE_OPDS_12' => route('front.opds.feed', ['version' => 'v1.2']),
+                'ROUTE_WEBREADER' => route('front.webreader'),
             ];
             foreach ($config as $key => $value) {
                 $content = str_replace($key, $value, $content);
