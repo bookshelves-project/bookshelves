@@ -1,6 +1,6 @@
 <template>
   <app-layout :title="title">
-    <dashboard-content />
+    <!-- <dashboard-content /> -->
     <div class="grid xl:grid-cols-2">
       <doughnut-chart :chart-data="entities" />
       <doughnut-chart :chart-data="users" />
