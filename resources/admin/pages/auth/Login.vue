@@ -23,7 +23,7 @@
           type="email"
           required
           autofocus
-          model-value="superadmin@example.com"
+          :model-value="isDev ? 'superadmin@example.com' : ''"
         />
       </div>
 
@@ -33,7 +33,7 @@
           type="password"
           required
           autocomplete="current-password"
-          model-value="password"
+          :model-value="isDev ? 'password' : ''"
         />
         <div class="flex mt-2">
           <inertia-link
@@ -74,6 +74,8 @@
 
 <script lang="ts" setup>
 import { useTitle } from '@admin/features/helpers'
+import { usePage } from '@inertiajs/inertia-vue3'
+import { computed } from 'vue'
 
 defineProps({
   canRegister: Boolean,
@@ -81,4 +83,6 @@ defineProps({
 })
 
 useTitle('Login')
+
+const isDev = computed((): boolean => usePage().props.value.env === 'local')
 </script>

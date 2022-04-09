@@ -11,12 +11,13 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\Tags\Tag;
 
 class TagQuery extends BaseQuery
 {
     public function make(?QueryOption $option = null): self
     {
-        if (! $option) {
+        if (! $option || null === $option->resource) {
             $option = new QueryOption(resource: TagResource::class);
         }
 
@@ -32,7 +33,7 @@ class TagQuery extends BaseQuery
                 AllowedFilter::partial('books_count'),
                 AllowedFilter::partial('series_count'),
                 AllowedFilter::partial('first_char'),
-                AllowedFilter::scope('negligible', 'whereIsNegligible')->default(false),
+                AllowedFilter::scope('negligible', 'whereIsNegligible')->default(true),
                 AllowedFilter::scope('type', 'whereTypeIs'),
             ])
             ->allowedSorts(['id', 'name', 'slug', 'type', 'first_char', 'books_count', 'series_count', 'created_at', 'updated_at'])

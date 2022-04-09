@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/inertia-vue3'
 import axios from 'axios'
 import { computed, ExtractPropTypes, ref, watch } from 'vue'
 import route from 'ziggy-js'
@@ -20,7 +21,14 @@ export const referenceSetup = (
     const { data } = await axios.get<{ data: any }>(
       route(`admin.${props.resource}.fetch`)
     )
+
     choices.value = data.data
+    if (props.i18n) {
+      const locale = usePage().props.value.locale
+      choices.value.forEach((choice) => {
+        choice[props.optionText] = choice[props.optionText][locale]
+      })
+    }
   }
 
   watch(

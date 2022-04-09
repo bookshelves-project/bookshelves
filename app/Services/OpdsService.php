@@ -280,7 +280,7 @@ class OpdsService
             'title' => $entity->title ?? $entity->name,
             'updated' => $date,
             'id' => $id,
-            'type' => $entity->type?->trans(),
+            'type' => $entity->type?->i18n(),
             'entity' => Entity::getEntity($entity),
             '__custom:link:1' => [
                 '_attributes' => [

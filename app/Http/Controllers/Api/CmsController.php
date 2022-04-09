@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Cms\CmsApplicationResource;
-use App\Http\Resources\Cms\CmsHomePageResource;
+use App\Enums\NavigationCategoryEnum;
+use App\Http\Resources\Api\Cms\NavigationResource;
+use App\Http\Resources\Cms\ApplicationResource;
+use App\Http\Resources\Cms\HomePageResource;
 use App\Http\Resources\Language\LanguageResource;
-use App\Models\Cms\CmsApplication;
-use App\Models\Cms\CmsHomePage;
+use App\Models\Cms\Application;
+use App\Models\Cms\HomePage\HomePage;
+use App\Models\Cms\Navigation;
 use App\Models\Language;
 use App\Services\EnumService;
+use Illuminate\Http\Request;
 
 /**
  * @group CMS
@@ -26,8 +30,8 @@ class CmsController extends ApiController
             'data' => [
                 'enums' => EnumService::list(),
                 'languages' => LanguageResource::collection(Language::all()),
-                'application' => CmsApplicationResource::make(
-                    CmsApplication::first()
+                'application' => ApplicationResource::make(
+                    Application::first()
                 ),
             ],
         ]);
@@ -38,12 +42,37 @@ class CmsController extends ApiController
      */
     public function home()
     {
-        if (null !== CmsHomePage::first()) {
-            return CmsHomePageResource::make(
-                CmsHomePage::first()
+        if (null !== HomePage::first()) {
+            return HomePageResource::make(
+                HomePage::first()
             );
         }
 
         return abort(404);
+    }
+
+    public function navigation(Request $request)
+    {
+        $lang = $request->lang ?? 'en';
+        app()->setLocale($lang);
+
+        $navigation = Navigation::all();
+        $grouped = collect($navigation->toArray());
+
+        $grouped = $grouped->groupBy('category');
+        $grouped->all();
+
+        $navigation = [];
+        foreach (NavigationCategoryEnum::toValues() as $category) {
+            $grouped = Navigation::whereCategory($category)->get();
+            $navigation[$category] = NavigationResource::collection($grouped);
+        }
+        // dd($navigation);
+
+        // return NavigationResource::collection($navigation);
+
+        return response()->json([
+            'data' => $navigation,
+        ]);
     }
 }

@@ -13,6 +13,7 @@ class QueryOption
     public function __construct(
         public ?string $resource,
         public array $with = [],
+        public array $withCount = [],
         public bool $withExport = true,
         public string $orderBy = 'id',
         public bool $sortAsc = false,
@@ -23,10 +24,11 @@ class QueryOption
     }
 
     public static function create(
-        Request $request,
-        string $resource,
+        ?Request $request = null,
+        ?string $resource = null,
         string $orderBy = 'id',
         array $with = [],
+        array $withCount = [],
         bool $withExport = true,
         bool $sortAsc = false,
         bool $full = false,
@@ -37,11 +39,12 @@ class QueryOption
             full: $full,
             orderBy: $orderBy,
             sortAsc: $sortAsc,
-            with: $with
+            with: $with,
+            withCount: $withCount
         );
         $query->sortDirection = $query->sortAsc ? '' : '-';
         $query->defaultSort = "{$query->sortDirection}{$query->orderBy}";
-        $query->size = $request->size ? $request->size : 32;
+        $query->size = $request?->size ? $request->size : 32;
 
         return $query;
     }

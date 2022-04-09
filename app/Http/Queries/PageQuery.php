@@ -16,7 +16,7 @@ class PageQuery extends BaseQuery
 {
     public function make(?QueryOption $option = null): self
     {
-        if (! $option) {
+        if (! $option || null === $option->resource) {
             $option = new QueryOption(resource: PageResource::class);
         }
 

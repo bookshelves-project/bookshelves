@@ -20,7 +20,6 @@
         </template>
         <template #field:row-action>
           <div class="flex gap-2 mx-auto">
-            <!-- <show-button hide-label /> -->
             <edit-button hide-label />
             <delete-button hide-label />
           </div>
@@ -118,6 +117,7 @@ const columns: (string | Column)[] = [
     props: {
       text: 'name',
       resource: 'languages',
+      i18n: true,
     },
     sortable: true,
     searchable: true,

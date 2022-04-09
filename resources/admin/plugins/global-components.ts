@@ -1,4 +1,5 @@
 import TextField from '@admin/base/fields/TextField.vue'
+import I18nField from '@admin/base/fields/I18nField.vue'
 import EmailField from '@admin/base/fields/EmailField.vue'
 import BooleanField from '@admin/base/fields/BooleanField.vue'
 import SwitchField from '@admin/base/fields/SwitchField.vue'
@@ -21,6 +22,7 @@ import { App } from 'vue'
 export default {
   install: (app: App): void => {
     app.component('TextField', TextField)
+    app.component('I18nField', I18nField)
     app.component('EmailField', EmailField)
     app.component('BooleanField', BooleanField)
     app.component('SwitchField', SwitchField)

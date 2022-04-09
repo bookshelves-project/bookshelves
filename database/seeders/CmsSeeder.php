@@ -4,12 +4,13 @@ namespace Database\Seeders;
 
 use App\Enums\MediaDiskEnum;
 use App\Enums\SpatieMediaMethodEnum;
-use App\Models\Cms\CmsApplication;
-use App\Models\Cms\CmsHomePage;
-use App\Models\Cms\CmsHomePageFeature;
-use App\Models\Cms\CmsHomePageHighlight;
-use App\Models\Cms\CmsHomePageLogo;
-use App\Models\Cms\CmsHomePageStatistic;
+use App\Models\Cms\Application;
+use App\Models\Cms\HomePage\HomePage;
+use App\Models\Cms\HomePage\HomePageFeature;
+use App\Models\Cms\HomePage\HomePageHighlight;
+use App\Models\Cms\HomePage\HomePageLogo;
+use App\Models\Cms\HomePage\HomePageStatistic;
+use App\Models\Cms\Navigation;
 use App\Services\ConverterService;
 use App\Services\MediaService;
 use App\Services\SvgService;
@@ -40,20 +41,32 @@ class CmsSeeder extends Seeder
             Media::where('collection_name', $collection)->delete();
         }
 
+        $this->setNavigation();
         $this->setApplication();
         $this->setHomePage();
     }
 
-    private function getData(string $name)
+    private function getJson(string $name)
     {
         return ConverterService::jsonToArray(database_path("seeders/data/cms/{$name}.json"));
     }
 
+    private function setNavigation()
+    {
+        Navigation::query()->delete();
+
+        $navigations = $this->getJson('Navigation');
+
+        foreach ($navigations as $navigation) {
+            Navigation::create($navigation);
+        }
+    }
+
     private function setApplication()
     {
-        CmsApplication::query()->delete();
+        Application::query()->delete();
 
-        $application = CmsApplication::create($this->getData('CmsApplication'));
+        $application = Application::create($this->getJson('Application'));
 
         // Set favicon.
         MediaService::create($application, "{$application->slug}-favicon", self::DISK, collection: 'cms_application_favicon', extension: 'svg')
@@ -82,13 +95,13 @@ class CmsSeeder extends Seeder
 
     private function setHomePage()
     {
-        CmsHomePage::query()->delete();
-        CmsHomePageLogo::query()->delete();
-        CmsHomePageFeature::query()->delete();
-        CmsHomePageStatistic::query()->delete();
-        CmsHomePageHighlight::query()->delete();
+        HomePage::query()->delete();
+        HomePageLogo::query()->delete();
+        HomePageFeature::query()->delete();
+        HomePageStatistic::query()->delete();
+        HomePageHighlight::query()->delete();
 
-        $home_page = CmsHomePage::create($this->getData('CmsHomePage'));
+        $home_page = HomePage::create($this->getJson('HomePage'));
 
         MediaService::create($home_page, 'cms_hero', self::DISK, collection: 'cms_hero', extension: 'svg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/home-page/hero.svg'))))
@@ -103,9 +116,9 @@ class CmsSeeder extends Seeder
 
     private function setHomePageStatistics()
     {
-        $homePage = CmsHomePage::first();
-        foreach ($this->getData('CmsHomePageStatistic') as $raw) {
-            $model = CmsHomePageStatistic::create($raw);
+        $homePage = HomePage::first();
+        foreach ($this->getJson('HomePageStatistic') as $raw) {
+            $model = HomePageStatistic::create($raw);
             $model->homePage()->associate($homePage);
             $model->save();
         }
@@ -113,9 +126,9 @@ class CmsSeeder extends Seeder
 
     private function setHomePageLogos()
     {
-        $homePage = CmsHomePage::first();
-        foreach ($this->getData('CmsHomePageLogo') as $raw) {
-            $model = CmsHomePageLogo::create($raw);
+        $homePage = HomePage::first();
+        foreach ($this->getJson('HomePageLogo') as $raw) {
+            $model = HomePageLogo::create($raw);
             $model->homePage()->associate($homePage);
             $model->save();
 
@@ -129,9 +142,9 @@ class CmsSeeder extends Seeder
 
     private function setHomePageFeatures()
     {
-        $homePage = CmsHomePage::first();
-        foreach ($this->getData('CmsHomePageFeature') as $raw) {
-            $model = CmsHomePageFeature::create($raw);
+        $homePage = HomePage::first();
+        foreach ($this->getJson('HomePageFeature') as $raw) {
+            $model = HomePageFeature::create($raw);
             $model->homePage()->associate($homePage);
             $model->save();
 
@@ -145,9 +158,9 @@ class CmsSeeder extends Seeder
 
     private function setHomePageHighlight()
     {
-        $homePage = CmsHomePage::first();
-        foreach ($this->getData('CmsHomePageHighlight') as $raw) {
-            $model = CmsHomePageHighlight::create($raw);
+        $homePage = HomePage::first();
+        foreach ($this->getJson('HomePageHighlight') as $raw) {
+            $model = HomePageHighlight::create($raw);
             $model->homePage()->associate($homePage);
             $model->save();
 

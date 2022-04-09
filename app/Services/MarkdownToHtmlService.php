@@ -45,6 +45,7 @@ class MarkdownToHtmlService
                 'ROUTE_DOCS' => config('app.url').'/docs',
                 'ROUTE_CATALOG' => route('front.catalog'),
                 'ROUTE_OPDS_12' => route('front.opds.feed', ['version' => 'v1.2']),
+                'ROUTE_WEBREADER' => route('front.webreader'),
             ];
             foreach ($config as $key => $value) {
                 $content = str_replace($key, $value, $content);
@@ -64,8 +65,15 @@ class MarkdownToHtmlService
             }
             $service->image_paths = $image_paths;
         }
+        $service->html = self::improveHtml($service->html);
 
         return $service->html ? $service : false;
+    }
+
+    public static function improveHtml(string $html): string
+    {
+        $html = preg_replace('/<a(.*?)>/', '<a$1 target="_blank" rel="noopener noreferrer">', $html);
+        return preg_replace('/<img(.*?)>/', '<img$1 loading="lazy">', $html);
     }
 
     public function setImages(
@@ -129,8 +137,9 @@ class MarkdownToHtmlService
             foreach ($elements as $index => $element) {
                 $element->setAttribute('id', Str::slug($element->textContent));
             }
+            $html = self::saveHtml($model->{$model_body_attr}, $document);
 
-            return self::saveHtml($model->{$model_body_attr}, $document);
+            return self::improveHtml($html);
         } catch (\Throwable $th) {
             // throw $th;
         }

@@ -9,6 +9,7 @@
           label-key="language"
           resource="languages"
           allow-empty
+          i18n
         />
         <rich-select-input
           source="authors.fetch"
@@ -46,17 +47,7 @@
           :getter="(serie) => serie.tags.map((t) => t.name)"
           full
         />
-        <div class="flex form-full mt-auto">
-          <base-button
-            class="ml-auto"
-            type="button"
-            variant="success"
-            :loading="processing"
-            @click="submit()"
-          >
-            {{ $t('Save') }}
-          </base-button>
-        </div>
+        <form-button :processing="processing" :submit="submit" />
       </card-side>
     </div>
   </base-form>

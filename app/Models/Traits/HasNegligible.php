@@ -3,10 +3,11 @@
 namespace App\Models\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 trait HasNegligible
 {
-    public function scopeWhereIsNegligible(Builder $query, string $negligible)
+    public function scopeWhereIsNegligible(Builder $query, string $negligible): Builder
     {
         $negligible = filter_var($negligible, FILTER_VALIDATE_BOOLEAN);
 

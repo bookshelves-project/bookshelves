@@ -14,7 +14,7 @@ defineProps({
 
 const form: Ref<HTMLElement | null | any> = ref(null)
 
-const submit = () => {
+const submit = (): void => {
   if (form.value) {
     form.value.submit()
   }
@@ -26,20 +26,8 @@ const submit = () => {
     <div class="form-grid">
       <card-content>
         <text-input source="name" type="text" />
+        <form-button :processing="processing" :submit="submit" />
       </card-content>
-      <card-side>
-        <div class="flex form-full mt-auto">
-          <base-button
-            class="ml-auto"
-            type="button"
-            variant="success"
-            :loading="processing"
-            @click="submit()"
-          >
-            {{ $t('Save') }}
-          </base-button>
-        </div>
-      </card-side>
     </div>
   </base-form>
 </template>

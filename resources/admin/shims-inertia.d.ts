@@ -4,6 +4,8 @@ import { Page, PageProps, ErrorBag, Errors } from '@inertiajs/inertia'
 declare module '@inertiajs/inertia' {
   interface PageProps {
     appName: string
+    env: string
+    locale: string
     query: string
     auth: Profile
     flash: { [key: string]: string }

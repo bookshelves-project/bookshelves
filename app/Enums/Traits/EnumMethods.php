@@ -49,7 +49,7 @@ trait EnumMethods
         return false;
     }
 
-    public function trans()
+    public function i18n()
     {
         $class = new ReflectionClass(static::class);
         $class = $class->getShortName();

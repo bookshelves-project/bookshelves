@@ -43,6 +43,8 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'appName' => config('app.name'),
+            'env' => config('app.env'),
+            'locale' => app()->getLocale(),
             'flash' => function () use ($request) {
                 return $request->session()->get('flash', []);
             },

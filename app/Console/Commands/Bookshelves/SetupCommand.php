@@ -18,6 +18,7 @@ class SetupCommand extends CommandProd
                             {--s|sample : fake users with comments/favorites and CMS with posts and pages}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
+                            {--D|default : use default cover for all (skip covers step)}
                             {--F|force : skip confirm in prod}';
 
     /**
@@ -51,6 +52,7 @@ class SetupCommand extends CommandProd
         $sample = $this->option('sample') ?? false;
         $limit = $this->option('limit') ? intval(str_replace('=', '', $this->option('limit'))) : false;
         $debug = $this->option('debug') ?? false;
+        $default = $this->option('default') ?? false;
 
         if ($fresh) {
             $this->checkProd();
@@ -64,6 +66,7 @@ class SetupCommand extends CommandProd
          */
         Artisan::call('bookshelves:sample', [
             '--admin' => true,
+            '--cms' => true,
             '--force' => $force,
         ], $this->getOutput());
 
@@ -75,6 +78,7 @@ class SetupCommand extends CommandProd
             '--limit' => $limit,
             '--debug' => $debug,
             '--force' => $force,
+            '--default' => $default,
         ], $this->getOutput());
         /**
          * API.
@@ -86,6 +90,7 @@ class SetupCommand extends CommandProd
                 '--series' => true,
                 '--fresh' => $fresh,
                 '--force' => $force,
+                '--default' => $default,
             ], $this->getOutput());
         }
 
@@ -98,7 +103,6 @@ class SetupCommand extends CommandProd
          */
         if ($sample) {
             Artisan::call('bookshelves:sample', [
-                '--cms' => true,
                 '--users' => true,
                 '--force' => $force,
             ], $this->getOutput());

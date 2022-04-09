@@ -15,6 +15,7 @@ use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\Tag;
 
 class DatabaseCommand extends Command
@@ -71,7 +72,7 @@ class DatabaseCommand extends Command
      */
     public function fresh()
     {
-        $this->clearAllMediaCollection();
+        $this->clearBooksMediaCollection();
 
         $this->newLine();
         $this->warn('Clear '.config('app.name').' data...');
@@ -82,7 +83,7 @@ class DatabaseCommand extends Command
     /**
      * Clear all media collection manage by spatie/laravel-medialibrary.
      */
-    public function clearAllMediaCollection(): bool
+    public function clearBooksMediaCollection(): bool
     {
         $isSuccess = false;
 
@@ -107,11 +108,19 @@ class DatabaseCommand extends Command
         } catch (\Throwable $th) {
             // throw $th;
         }
+
+        return $isSuccess;
+    }
+
+    public function clearAllMediaCollection(): bool
+    {
+        $isSuccess = false;
+
+        Media::query()->delete();
         Storage::disk('public')->deleteDirectory('media');
 
         $this->newLine();
-        $isSuccess ? $isSuccessText = 'success' : $isSuccessText = 'failed';
-        $this->warn("Clearing media... {$isSuccessText}!");
+        $this->warn('Clearing media...');
         $this->info("Clear all files into 'public/storage/media' manage by spatie/laravel-medialibrary");
 
         return $isSuccess;

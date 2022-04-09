@@ -17,8 +17,8 @@ class CreateCmsHomePageStatisticsTable extends Migration
             $table->string('link')->nullable();
             $table->string('model')->nullable();
             $table->json('modelWhere')->nullable();
-            $table->foreignId('cms_home_page_id')->index()->nullable();
-            $table->foreign('cms_home_page_id')
+            $table->foreignId('home_page_id')->index()->nullable();
+            $table->foreign('home_page_id')
                 ->references('id')
                 ->on('cms_home_pages')
                 ->nullOnDelete()

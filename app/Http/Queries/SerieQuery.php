@@ -17,12 +17,12 @@ class SerieQuery extends BaseQuery
 {
     public function make(?QueryOption $option = null): self
     {
-        if (! $option) {
+        if (! $option || null === $option->resource) {
             $option = new QueryOption(resource: SerieResource::class);
         }
 
         $this->option = $option;
-        $option->with = [] === $option->with ? ['books', 'media', 'authors', 'language', 'tags'] : $this->option->with;
+        $option->with = [] === $option->with ? [] : $this->option->with;
 
         $this->query = QueryBuilder::for(Serie::class)
             ->defaultSort($this->option->defaultSort)

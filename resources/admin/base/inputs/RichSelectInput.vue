@@ -70,8 +70,6 @@ const onAddTag = (searchQuery: never) => {
 const asyncSearch = computed(() => {
   return async (query: string) => {
     if (query) {
-      console.log(`${route(`admin.${props.resource}`)}?filter[q]=${query}`)
-
       const { data } = await axios.get<{ data: any }>(
         `${route(`admin.${props.resource}`)}?filter[q]=${query}`
       )
@@ -98,7 +96,12 @@ const asyncSearch = computed(() => {
 
 <template>
   <base-input>
-    <input-label class="mb-1">{{ getLabel }}</input-label>
+    <input-label
+      class="mb-1"
+      :required="'required' in $attrs"
+      :readonly="'readonly' in $attrs"
+      >{{ getLabel }}</input-label
+    >
     <Multiselect
       v-model="formValue"
       v-bind="{ ...translations }"
@@ -113,6 +116,8 @@ const asyncSearch = computed(() => {
       :placeholder="placeholder"
       :filter-results="!asyncSearch"
       :delay="200"
+      :required="'required' in $attrs"
+      :readonly="'readonly' in $attrs"
       @tag="onAddTag"
     >
       <template #singlelabel="labelProps">

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Cms;
+namespace App\Models\Cms\HomePage;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -8,12 +8,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
 
 /**
- * @property \Illuminate\Database\Eloquent\Collection<mixed, \App\Models\Cms\CmsHomePageStatistic> $statistics
- * @property \Illuminate\Database\Eloquent\Collection<mixed, \App\Models\Cms\CmsHomePageLogo>      $logos
- * @property \Illuminate\Database\Eloquent\Collection<mixed, \App\Models\Cms\CmsHomePageFeature>   $features
- * @property \Illuminate\Database\Eloquent\Collection<mixed, \App\Models\Cms\CmsHomePageHighlight> $highlights
+ * @property \Illuminate\Database\Eloquent\Collection<mixed, \App\Models\Cms\HomePage\HomePageStatistic> $statistics
+ * @property \Illuminate\Database\Eloquent\Collection<mixed, \App\Models\Cms\HomePage\HomePageLogo>      $logos
+ * @property \Illuminate\Database\Eloquent\Collection<mixed, \App\Models\Cms\HomePage\HomePageFeature>   $features
+ * @property \Illuminate\Database\Eloquent\Collection<mixed, \App\Models\Cms\HomePage\HomePageHighlight> $highlights
  */
-class CmsHomePage extends Model implements HasMedia
+class HomePage extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasTranslations;
@@ -28,6 +28,8 @@ class CmsHomePage extends Model implements HasMedia
         'features_title',
         'features_text',
     ];
+
+    protected $table = 'cms_home_pages';
     protected $fillable = [
         'hero_title',
         'hero_text',
@@ -67,21 +69,21 @@ class CmsHomePage extends Model implements HasMedia
 
     public function statistics()
     {
-        return $this->hasMany(CmsHomePageStatistic::class, 'cms_home_page_id');
+        return $this->hasMany(HomePageStatistic::class, 'home_page_id');
     }
 
     public function logos()
     {
-        return $this->hasMany(CmsHomePageLogo::class, 'cms_home_page_id');
+        return $this->hasMany(HomePageLogo::class, 'home_page_id');
     }
 
     public function features()
     {
-        return $this->hasMany(CmsHomePageFeature::class, 'cms_home_page_id');
+        return $this->hasMany(HomePageFeature::class, 'home_page_id');
     }
 
     public function highlights()
     {
-        return $this->hasMany(CmsHomePageHighlight::class, 'cms_home_page_id');
+        return $this->hasMany(HomePageHighlight::class, 'home_page_id');
     }
 }

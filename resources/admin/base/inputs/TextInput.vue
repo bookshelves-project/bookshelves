@@ -1,6 +1,12 @@
 <template>
   <base-input>
-    <input-label :for="id" class="mb-1" :value="getLabel" />
+    <input-label
+      :for="id"
+      class="mb-1"
+      :value="getLabel"
+      :required="'required' in $attrs"
+      :readonly="'readonly' in $attrs"
+    />
     <textarea
       v-if="multiline"
       v-bind="$attrs"
@@ -51,3 +57,9 @@ const focus = () => {
 
 defineExpose({ focus })
 </script>
+
+<style lang="css" scoped>
+input[readonly] {
+  @apply bg-gray-200 dark:bg-gray-900 text-gray-400 dark:text-gray-600 focus:ring-0 focus:border-none;
+}
+</style>
