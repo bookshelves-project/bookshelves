@@ -1,13 +1,18 @@
 <template>
   <base-input>
-    <select-input v-model="formValue" v-bind="props" :choices="choices" />
+    <select-input
+      v-model="formValue"
+      v-bind="props"
+      :choices="choices"
+      :required="required"
+      :readonly="readonly"
+    />
   </base-input>
 </template>
 
 <script lang="ts" setup>
 import { inputProps, inputSetup } from '@admin/composables/input'
 import { referenceSetup } from '@admin/composables/reference'
-import {} from 'vue'
 
 const props = defineProps({
   ...inputProps,
@@ -27,6 +32,9 @@ const props = defineProps({
   },
   allowEmpty: Boolean,
   emptyText: String,
+  i18n: Boolean,
+  required: Boolean,
+  readonly: Boolean,
 })
 
 const emit = defineEmits(['update:modelValue'])

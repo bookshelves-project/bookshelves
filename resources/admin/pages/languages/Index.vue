@@ -32,6 +32,7 @@
 <script lang="ts" setup>
 import { Language, PaginatedData } from '@admin/types'
 import { Column } from '@admin/types/data-table'
+import { usePage } from '@inertiajs/inertia-vue3'
 import { PropType } from 'vue'
 
 defineProps({
@@ -58,6 +59,7 @@ const columns: (string | Column)[] = [
     sortable: true,
     searchable: true,
     main: true,
+    type: 'i18n',
   },
   {
     field: 'books_count',

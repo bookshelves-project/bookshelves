@@ -105,6 +105,7 @@ const columns: (string | Column)[] = [
     props: {
       text: 'name',
       resource: 'languages',
+      i18n: true,
     },
     sortable: true,
     searchable: true,

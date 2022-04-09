@@ -20,7 +20,7 @@
     </div>
     <div v-else class="badge">
       <div v-if="!link && value">
-        <span>{{ text ? value[text] : value }}</span>
+        <span>{{ getText }}</span>
       </div>
       <inertia-link
         v-else-if="value"
@@ -28,13 +28,14 @@
         :href="route(`admin.${resource}.${link}`, value['id'])"
         @click.stop
       >
-        <span>{{ text ? value[text] : value }}</span>
+        <span>{{ getText }}</span>
       </inertia-link>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { usePage } from '@inertiajs/inertia-vue3'
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -44,11 +45,31 @@ const props = defineProps({
   },
   text: String,
   resource: String,
+  i18n: Boolean,
   link: String,
 })
 
+const locale = computed(() => usePage().props.value.locale)
+
 const isArray = computed(() => {
   return props.value instanceof Array
+})
+
+const getLocaleText = (value: object): string => {
+  // eslint-disable-next-line no-prototype-builtins
+  if (value.hasOwnProperty(locale.value)) {
+    return value[locale.value]
+  } else {
+    return value[Object.keys(props.value)[0]]
+  }
+}
+const getText = computed((): string => {
+  let value = props.text ? props.value[props.text] : props.value
+  if (props.i18n) {
+    return getLocaleText(value)
+  } else {
+    return value
+  }
 })
 </script>
 

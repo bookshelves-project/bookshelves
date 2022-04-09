@@ -2,7 +2,7 @@
   <base-form ref="form" v-slot="{ processing }" :method="method" :url="url">
     <div class="form-grid">
       <card-content>
-        <text-input source="title" type="text" />
+        <text-input source="title" type="text" required />
         <text-input source="volume" type="number" />
         <text-input source="isbn10" type="text" />
         <text-input source="isbn13" type="text" />
@@ -10,6 +10,8 @@
           source="language_slug"
           label-key="language"
           resource="languages"
+          i18n
+          required
         />
         <reference-input
           source="serie_id"
@@ -32,6 +34,7 @@
           :min-chars="0"
           option-value="name"
           :getter="(book) => book.authors.map((t) => t.name)"
+          required
         />
         <editor-input source="description" :height="800" options="basic" full />
         <text-input source="contributor" type="text" />
@@ -44,10 +47,11 @@
           delete-source="cover_delete"
           preview
           preview-attr="url"
+          full
         />
-        <text-input source="slug" type="text" full />
-        <text-input source="slug_sort" type="text" full />
-        <select-input source="type" choices="book_types" full />
+        <text-input source="slug" type="text" full required />
+        <text-input source="slug_sort" type="text" full required />
+        <select-input source="type" choices="book_types" full required />
         <date-input
           source="released_on"
           :options="{ dateFormat: 'Y-m-d' }"
@@ -68,17 +72,7 @@
         <text-input source="page_count" type="number" full />
         <text-input source="maturity_rating" type="text" full />
         <switch-input source="disabled" full />
-        <div class="flex form-full mt-auto">
-          <base-button
-            class="ml-auto"
-            type="button"
-            variant="success"
-            :loading="processing"
-            @click="submit()"
-          >
-            {{ $t('Save') }}
-          </base-button>
-        </div>
+        <form-button :processing="processing" :submit="submit" />
       </card-side>
     </div>
   </base-form>
