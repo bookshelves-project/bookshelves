@@ -31,7 +31,7 @@ deploy-job:
       /usr/bin/php$PHP_VERSION /usr/local/bin/composer doc &&
       php$PHP_VERSION artisan bookshelves:scout -f &&
       /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm i &&
-      /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm prod &&
+      /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm build &&
       discord-queerotronic.sh '$CI_PROJECT_TITLE'"
   only:
     - main
