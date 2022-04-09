@@ -22,7 +22,7 @@ class SerieQuery extends BaseQuery
         }
 
         $this->option = $option;
-        $option->with = [] === $option->with ? ['books', 'media', 'authors', 'language', 'tags'] : $this->option->with;
+        $option->with = [] === $option->with ? [] : $this->option->with;
 
         $this->query = QueryBuilder::for(Serie::class)
             ->defaultSort($this->option->defaultSort)

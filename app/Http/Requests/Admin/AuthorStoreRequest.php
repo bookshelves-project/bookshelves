@@ -29,6 +29,7 @@ class AuthorStoreRequest extends FormRequest
             'firstname' => ['required'],
             'lastname' => ['required'],
             'name' => ['nullable'],
+            'slug' => ['required'],
             'role' => [new Enum(AuthorRoleEnum::class)],
             'description' => ['nullable'],
             'link' => ['nullable'],

@@ -21,7 +21,7 @@ class AuthorQuery extends BaseQuery
         }
 
         $this->option = $option;
-        $option->with = [] === $option->with ? ['series', 'books', 'media'] : $this->option->with;
+        $option->with = [] === $option->with ? [] : $this->option->with;
 
         $this->query = QueryBuilder::for(Author::class)
             ->defaultSort($this->option->defaultSort)
