@@ -47,6 +47,7 @@ abstract class BaseQuery
 
     public function getCollection()
     {
+
         /** @var JsonResource $resource */
         $resource = $this->option->resource;
         $response = $this->option->full ? $this->query->get() : $this->paginate();

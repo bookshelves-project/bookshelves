@@ -17,7 +17,7 @@ class BookQuery extends BaseQuery
 {
     public function make(?QueryOption $option = null)
     {
-        if (! $option) {
+        if (! $option || null === $option->resource) {
             $option = new QueryOption(resource: BookResource::class);
         }
 
