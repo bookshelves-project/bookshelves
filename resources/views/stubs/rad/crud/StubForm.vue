@@ -28,17 +28,7 @@ const submit = () => {
         <text-input source="stubAttr" type="text" />
       </card-content>
       <card-side>
-        <div class="flex form-full mt-auto">
-          <base-button
-            class="ml-auto"
-            type="button"
-            variant="success"
-            :loading="processing"
-            @click="submit()"
-          >
-            {{ $t('Save') }}
-          </base-button>
-        </div>
+        <form-button :processing="processing" :submit="submit" />
       </card-side>
     </div>
   </base-form>
