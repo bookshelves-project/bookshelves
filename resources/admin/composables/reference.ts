@@ -23,9 +23,11 @@ export const referenceSetup = (
     )
 
     choices.value = data.data
+    // @ts-ignore
     if (props.i18n) {
       const locale = usePage().props.value.locale
       choices.value.forEach((choice) => {
+        // @ts-ignore
         choice[props.optionText] = choice[props.optionText][locale]
       })
     }
