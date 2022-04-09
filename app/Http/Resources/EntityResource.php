@@ -33,7 +33,7 @@ class EntityResource extends JsonResource
                 'show' => $this->resource->show_link,
             ],
             'title' => $this->resource->title ?? $this->resource->name,
-            'type' => $this->resource->type?->trans(),
+            'type' => $this->resource->type?->i18n(),
             'authors' => $this->resource->authors ? AuthorUltraLightResource::collection($this->resource->authors) : null,
             'serie' => $this->resource->serie?->title,
             'language' => LanguageLightResource::make($this->resource->language),

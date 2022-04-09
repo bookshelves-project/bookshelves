@@ -23,7 +23,7 @@ class BookUltraLightResource extends JsonResource
     {
         return [
             'title' => $this->resource->title,
-            'type' => $this->resource->type->trans(),
+            'type' => $this->resource->type->i18n(),
             'meta' => [
                 'entity' => $this->resource->getClassName(),
                 'slug' => $this->resource->slug,
