@@ -61,10 +61,10 @@ class SampleCommand extends CommandProd
             } else {
                 $this->error('Admin not created, some users exists!');
             }
-            $this->newLine();
         }
 
         if ($users) {
+            $this->newLine();
             $this->comment('Run users seeders');
             Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
             $this->newLine();
@@ -80,10 +80,10 @@ class SampleCommand extends CommandProd
             Artisan::call('db:seed', ['--class' => 'ReviewSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'FavoriteSeeder', '--force' => true]);
             $this->info('Seeders ready!');
-            $this->newLine();
         }
 
         if ($cms) {
+            $this->newLine();
             $this->comment('Run CMS seeders');
             Artisan::call('db:seed', ['--class' => 'CmsSeeder', '--force' => true]);
             $this->info('Seeders ready!');
@@ -93,7 +93,6 @@ class SampleCommand extends CommandProd
             Artisan::call('db:seed', ['--class' => 'PostSeeder', '--force' => true]);
             Artisan::call('db:seed', ['--class' => 'PageSeeder', '--force' => true]);
             $this->info('Seeders ready!');
-            $this->newLine();
         }
 
         return true;

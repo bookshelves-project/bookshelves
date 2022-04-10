@@ -117,6 +117,7 @@ class ApiCommand extends CommandProd
         $bar->finish();
 
         $this->newLine();
+        $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
         $this->info("Time in seconds: {$time_elapsed_secs}");
         $this->newLine();
@@ -186,6 +187,7 @@ class ApiCommand extends CommandProd
         }
         $bar->finish();
 
+        $this->newLine();
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
         $this->info("Time in seconds: {$time_elapsed_secs}");

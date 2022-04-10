@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\CommandProd;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\Tag;
 
-class DatabaseCommand extends Command
+class DatabaseCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
@@ -72,10 +73,12 @@ class DatabaseCommand extends Command
      */
     public function fresh()
     {
+        $this->intro();
+
         $this->clearBooksMediaCollection();
 
-        $this->newLine();
         $this->warn('Clear '.config('app.name').' data...');
+        $this->newLine();
         $this->clearTables();
         $this->newLine();
     }

@@ -55,8 +55,6 @@ class ClearCommand extends CommandProd
         $clear = new DirectoryClearService('bootstrap/cache');
         $clear->clearDir();
 
-        $this->newLine();
-
         return 0;
     }
 }
