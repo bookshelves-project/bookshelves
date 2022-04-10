@@ -23,6 +23,11 @@ class UserSeeder extends Seeder
     {
         // DatabaseSeeder::deleteRoles();
 
+        User::where('role', '!=', 'super_admin')
+            ->where('role', '!=', 'admin')
+            ->delete()
+        ;
+
         Storage::disk('public')->deleteDirectory('media/users');
         $faker = \Faker\Factory::create();
 
