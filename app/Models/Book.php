@@ -159,7 +159,12 @@ class Book extends Model implements HasMedia
                 ]);
                 /** @var MediaExtended $file */
                 $file = $this->files[$format];
-                $media = DownloadService::getFile($file->file_name, $file->size_human, $route, $file->extension);
+                $reader = route('webreader.reader', [
+                    'author' => $this->meta_author,
+                    $this->getClassName() => $this->slug,
+                    'format' => $format,
+                ]);
+                $media = DownloadService::getFile($file->file_name, $file->size_human, $route, $reader, $file->extension);
             }
             $list[$format] = $media;
         }

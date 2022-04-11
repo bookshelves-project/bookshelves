@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Webreader;
 
+use App\Enums\BookFormatEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Author;
@@ -19,26 +20,39 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('webreader')]
 class WebreaderController extends Controller
 {
-    #[Get('/{author}/{book}/{page?}', name: 'webreader.reader')]
-    public function reader(string $author, string $book, ?string $page = null)
+    #[Get('/{author}/{book}/{format}/{page?}', name: 'webreader.reader')]
+    public function reader(string $author, string $book, string $format, ?string $page = null)
     {
+        $format = BookFormatEnum::from($format);
         $home = route('webreader.reader', [
             'author' => $author,
             'book' => $book,
+            'format' => $format->value,
         ]);
 
         $author = Author::whereSlug($author)->firstOrFail();
         $book = Book::whereRelation('authors', 'name', '=', $author->name)->whereSlug($book)->firstOrFail();
-        $epub = $book->getFirstMediaUrl('epub');
-        $download_link = $epub;
-        $epub_path = str_replace(config('app.url'), '', $epub);
 
         $title = $book->title;
         $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';
         $title .= ' by '.$book->authors_names;
 
         SEOTools::setTitle($book->title);
+        $download_link = $book->getFirstMediaUrl($format->value);
 
-        return view('webreader::pages.reader', compact('epub_path', 'download_link', 'book', 'title', 'home'));
+        if (BookFormatEnum::epub === $format) {
+            $epub_path = str_replace(config('app.url'), '', $download_link);
+
+            return view('webreader::pages.epub', compact('epub_path', 'download_link', 'book', 'title', 'home'));
+        }
+        if (BookFormatEnum::pdf === $format) {
+            $pdf = $book->getFirstMedia(BookFormatEnum::pdf->value);
+
+            return response()->download($pdf->getPath(), $pdf->file_name);
+        }
+        if (BookFormatEnum::cbz === $format) {
+        }
+
+        return view('webreader::pages.not-ready', compact('download_link'));
     }
 }
