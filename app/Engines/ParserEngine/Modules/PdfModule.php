@@ -23,13 +23,6 @@ class PdfModule
             $name = $parser->file_name;
             $path = public_path("storage/cache/{$name}.jpg");
             $imagick->writeImage($path);
-
-            // $image = new Imagick();
-            // $image->setResolution(300, 300);
-            // $image->readImage($parser->file_path);
-            // $image->setImageFormat('webp');
-            // $image->scaleImage(500, 500, true);
-            // $image->setImageAlphaChannel(Imagick::VIRTUALPIXELMETHOD_WHITE);
             $parser->cover_file = base64_encode(File::get($path));
             $imagick->clear();
             $imagick->destroy();

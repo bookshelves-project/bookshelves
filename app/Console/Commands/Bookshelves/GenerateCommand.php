@@ -8,6 +8,7 @@ use App\Engines\ConverterEngine\CoverConverter;
 use App\Engines\ConverterEngine\EntityConverter;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
+use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\MediaExtended;
@@ -15,9 +16,7 @@ use App\Models\Serie;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\Tag;
-use Storage;
 
 /**
  * Main command of Bookshelves to generate Books with relations.
@@ -74,7 +73,9 @@ class GenerateCommand extends CommandProd
 
         if ($fresh) {
             MediaExtended::where('collection_name', MediaDiskEnum::cover)->delete();
-            MediaExtended::where('collection_name', MediaDiskEnum::format)->delete();
+            foreach (BookFormatEnum::toArray() as $format) {
+                MediaExtended::where('collection_name', $format)->delete();
+            }
             File::deleteDirectory(public_path('storage/media/covers'));
             File::deleteDirectory(public_path('storage/media/formats'));
             Artisan::call('database', [

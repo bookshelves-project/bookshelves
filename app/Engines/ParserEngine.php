@@ -110,6 +110,7 @@ class ParserEngine
             default => false,
         };
         if (! $engine || null === $engine->title) {
+            // ConsoleService::print('Try to get data from name');
             $engine = NameModule::create($parser);
         }
 

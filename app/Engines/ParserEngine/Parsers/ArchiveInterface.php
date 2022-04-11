@@ -4,7 +4,7 @@ namespace App\Engines\ParserEngine\Parsers;
 
 use App\Engines\ParserEngine;
 
-interface XmlInterface
+interface ArchiveInterface
 {
     /**
      * Initialize `XmlParser`.
@@ -12,7 +12,7 @@ interface XmlInterface
      * Example from `EpubModule::class`
      * ```php
      * $xml = new XmlParser($parser, EpubModule::class, 'opf');
-     * $xml = $xml->openArchive();
+     * $xml = $xml->open();
      *
      * return $xml->engine;
      * ```
@@ -43,5 +43,5 @@ interface XmlInterface
      * return $module->engine;
      * ```
      */
-    public static function parse(XmlParser $xml): ParserEngine;
+    public static function parse(ArchiveParser $parser): ParserEngine;
 }
