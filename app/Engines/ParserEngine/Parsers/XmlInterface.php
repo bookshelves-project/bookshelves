@@ -12,7 +12,7 @@ interface XmlInterface
      * Example from `EpubModule::class`
      * ```php
      * $xml = new XmlParser($parser, EpubModule::class, 'opf');
-     * $xml = $xml->openZip();
+     * $xml = $xml->openArchive();
      *
      * return $xml->engine;
      * ```

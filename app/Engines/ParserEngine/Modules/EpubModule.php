@@ -23,7 +23,7 @@ class EpubModule implements XmlInterface
     public static function create(ParserEngine $engine): ParserEngine|false
     {
         $xml = new XmlParser($engine, EpubModule::class, 'opf');
-        $xml = $xml->openZip();
+        $xml = $xml->openArchive();
 
         return $xml->engine;
     }

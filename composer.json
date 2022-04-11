@@ -23,6 +23,10 @@
         "books",
         "ebooks"
     ],
+    "suggest": {
+        "ext-imagick": "*",
+        "ext-rar": "*"
+    },
     "require": {
         "php": "^8.0.2",
         "artesaos/seotools": "^0.22.0",

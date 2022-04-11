@@ -15,15 +15,20 @@ class CbzModule implements XmlInterface
         public ?array $xml_data = null,
         public ?string $type = null,
         public ?ParserEngine $engine = null,
+        public ?bool $cbr = false
     ) {
     }
 
-    public static function create(ParserEngine $engine): ParserEngine|false
+    public static function create(ParserEngine $engine, bool $cbr = false): ParserEngine|false
     {
         $parser = new XmlParser($engine, CbzModule::class);
-        $xml = $parser->openZip(true);
+        $xml = $parser->openArchive(true, $cbr);
 
-        return $xml->engine;
+        if ($xml) {
+            return $xml->engine;
+        }
+
+        return $xml;
     }
 
     public static function parse(XmlParser $xml): ParserEngine

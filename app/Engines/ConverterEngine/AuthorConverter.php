@@ -55,11 +55,11 @@ class AuthorConverter
     {
         $authors = collect([]);
         /**
-         * Unknown author.
+         * Anonymous author.
          */
         if (empty($parser->creators)) {
             $creator = new BookCreator(
-                name: 'Unknown Author',
+                name: 'Anonymous',
                 role: 'aut'
             );
             $converter = AuthorConverter::create($creator);

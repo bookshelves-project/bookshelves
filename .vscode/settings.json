@@ -2,4 +2,5 @@
   "windicss.includeLanguages": {
     "blade.php": "html",
   },
+  "php.validate.executablePath": "/usr/local/bin/php",
 }
