@@ -27,6 +27,7 @@ class BookConverter
             'rights' => $parser->rights,
             'volume' => $parser->serie ? $parser->volume : null,
             'type' => $parser->type,
+            'page_count' => $parser->page_count,
         ]);
     }
 

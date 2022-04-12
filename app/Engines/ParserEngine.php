@@ -68,6 +68,7 @@ class ParserEngine
         public ?string $serie_slug_lang = null,
         public ?string $serie_sort = null,
         public ?int $volume = null,
+        public ?int $page_count = null,
         public ?string $file_name = null,
         public ?string $file_path = null,
         public ?BookTypeEnum $type = null,

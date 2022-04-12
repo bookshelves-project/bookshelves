@@ -9,6 +9,23 @@ use App\Enums\BookTypeEnum;
 
 class NameParser
 {
+    /** @var BookCreator[] */
+    public ?array $creators = [];
+
+    /** @var BookIdentifier[] */
+    public ?array $identifiers = null;
+
+    public function __construct(
+        public ParserEngine $engine,
+        public ?string $title = null,
+        public ?string $language = null,
+        public ?string $serie = null,
+        public ?int $volume = null,
+        public ?string $date = null,
+        public ?string $publisher = null,
+    ) {
+    }
+
     /**
      * Parse file name to generate Book.
      *
@@ -37,17 +54,35 @@ class NameParser
                 $data[$value] = self::parseName($parsing, $key);
             }
 
-            $parser->title = self::transformToString($data['title']);
-            $parser->creators = self::extractCreators($data['creators']);
-            $parser->language = self::nullValueCheck($data['language']);
-            $parser->serie = self::transformToString($data['serie']);
-            $parser->volume = intval($data['volume']);
-            $parser->date = self::nullValueCheck($data['date']);
-            $parser->publisher = self::nullValueCheck($data['publisher']);
-            $parser->identifiers = self::extractIdentifiers($data['identifiers']);
+            $name_parser = new NameParser($parser);
+            $name_parser->title = self::transformToString($data['title']);
+            $name_parser->creators = self::extractCreators($data['creators']);
+            $name_parser->language = self::nullValueCheck($data['language']);
+            $name_parser->serie = self::transformToString($data['serie']);
+            $name_parser->volume = intval($data['volume']);
+            $name_parser->date = self::nullValueCheck($data['date']);
+            $name_parser->publisher = self::nullValueCheck($data['publisher']);
+            $name_parser->identifiers = self::extractIdentifiers($data['identifiers']);
+
+            $parser->title = $name_parser->assignIfNull('title');
+            $parser->creators = $name_parser->assignIfNull('creators');
+            $parser->language = $name_parser->assignIfNull('language');
+            $parser->serie = $name_parser->assignIfNull('serie');
+            $parser->volume = $name_parser->assignIfNull('volume');
+            $parser->date = $name_parser->assignIfNull('date');
+            $parser->publisher = $name_parser->assignIfNull('publisher');
+            $parser->identifiers = $name_parser->assignIfNull('identifiers');
         }
 
         return $parser;
+    }
+
+    private function assignIfNull(string $property): mixed
+    {
+        if (! is_array($this->engine->{$property})) {
+            return null === $this->engine->{$property} ? $this->{$property} : $this->engine->{$property};
+        }
+        return [] === $this->engine->{$property} ? $this->{$property} : $this->engine->{$property};
     }
 
     private static function parseName(array $parsing, int $key): ?string
