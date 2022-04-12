@@ -66,9 +66,8 @@
             "fr": "Découvrir Features"
         },
         "cta_link": {
-            "name": "type-slug",
+            "name": "slug",
             "params": {
-                "type": "pages",
                 "slug": "features"
             }
         },

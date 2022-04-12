@@ -33,7 +33,7 @@ class PostController extends ApiController
                 resource: PostCollectionResource::class,
                 orderBy: 'published_at',
                 withExport: false,
-                sortAsc: true,
+                sortAsc: false,
                 full: $this->getFull($request),
             ))
             ->paginateOrExport()

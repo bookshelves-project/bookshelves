@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bddd5050516b216d29b4b4751c5fca58",
+    "content-hash": "a6e0cf4e6933d66a60248a6f7bcbabcf",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -2430,16 +2430,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.0.15",
+            "version": "3.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "3b71cd136dc0331ee87b636b25f4ee339368c718"
+                "reference": "dea729954c596bdb6cdaecba6f73df9f3e2c4255"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/3b71cd136dc0331ee87b636b25f4ee339368c718",
-                "reference": "3b71cd136dc0331ee87b636b25f4ee339368c718",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/dea729954c596bdb6cdaecba6f73df9f3e2c4255",
+                "reference": "dea729954c596bdb6cdaecba6f73df9f3e2c4255",
                 "shasum": ""
             },
             "require": {
@@ -2500,7 +2500,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.0.15"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.0.16"
             },
             "funding": [
                 {
@@ -2516,7 +2516,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-08T18:36:06+00:00"
+            "time": "2022-04-11T13:32:22+00:00"
         },
         {
             "name": "league/glide",
@@ -2721,16 +2721,16 @@
         },
         {
             "name": "league/mime-type-detection",
-            "version": "1.9.0",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/mime-type-detection.git",
-                "reference": "aa70e813a6ad3d1558fc927863d47309b4c23e69"
+                "reference": "3e4a35d756eedc67096f30240a68a3149120dae7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/aa70e813a6ad3d1558fc927863d47309b4c23e69",
-                "reference": "aa70e813a6ad3d1558fc927863d47309b4c23e69",
+                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/3e4a35d756eedc67096f30240a68a3149120dae7",
+                "reference": "3e4a35d756eedc67096f30240a68a3149120dae7",
                 "shasum": ""
             },
             "require": {
@@ -2761,7 +2761,7 @@
             "description": "Mime-type detection for Flysystem",
             "support": {
                 "issues": "https://github.com/thephpleague/mime-type-detection/issues",
-                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.9.0"
+                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.10.0"
             },
             "funding": [
                 {
@@ -2773,7 +2773,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-21T11:48:40+00:00"
+            "time": "2022-04-11T12:49:04+00:00"
         },
         {
             "name": "livewire/livewire",
@@ -5076,6 +5076,57 @@
                 }
             ],
             "time": "2022-03-27T21:42:02+00:00"
+        },
+        {
+            "name": "smalot/pdfparser",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smalot/pdfparser.git",
+                "reference": "193515a64fb979aff1786b09d5960797db2f3b0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/193515a64fb979aff1786b09d5960797db2f3b0a",
+                "reference": "193515a64fb979aff1786b09d5960797db2f3b0a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "ext-zlib": "*",
+                "php": ">=7.1",
+                "symfony/polyfill-mbstring": "^1.18"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Smalot\\PdfParser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastien MALOT",
+                    "email": "sebastien@malot.fr"
+                }
+            ],
+            "description": "Pdf parser library. Can read and extract information from pdf file.",
+            "homepage": "https://www.pdfparser.org",
+            "keywords": [
+                "extract",
+                "parse",
+                "parser",
+                "pdf",
+                "text"
+            ],
+            "support": {
+                "issues": "https://github.com/smalot/pdfparser/issues",
+                "source": "https://github.com/smalot/pdfparser/tree/v2.2.0"
+            },
+            "time": "2022-04-04T10:25:03+00:00"
         },
         {
             "name": "spatie/array-to-xml",

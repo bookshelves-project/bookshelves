@@ -4,12 +4,12 @@ namespace App\Engines\ParserEngine\Modules;
 
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Models\BookCreator;
-use App\Engines\ParserEngine\Parsers\XmlInterface;
-use App\Engines\ParserEngine\Parsers\XmlParser;
+use App\Engines\ParserEngine\Parsers\ArchiveInterface;
+use App\Engines\ParserEngine\Parsers\ArchiveParser;
 use App\Services\ConsoleService;
 use Illuminate\Support\Carbon;
 
-class CbzModule implements XmlInterface
+class CbzModule implements ArchiveInterface
 {
     public function __construct(
         public ?array $xml_data = null,
@@ -20,18 +20,18 @@ class CbzModule implements XmlInterface
 
     public static function create(ParserEngine $engine): ParserEngine|false
     {
-        $parser = new XmlParser($engine, CbzModule::class);
-        $xml = $parser->openZip(true);
+        $archive = new ArchiveParser($engine, CbzModule::class);
+        $archive->find_cover = true;
 
-        return $xml->engine;
+        return $archive->open();
     }
 
-    public static function parse(XmlParser $xml): ParserEngine
+    public static function parse(ArchiveParser $parser): ParserEngine
     {
         $module = new CbzModule();
 
-        $module->xml_data = $xml->xml_data;
-        $module->engine = $xml->engine;
+        $module->xml_data = $parser->xml_data;
+        $module->engine = $parser->engine;
 
         $module->type = $module->xml_data['@root'];
 
@@ -40,8 +40,8 @@ class CbzModule implements XmlInterface
             default => false,
         };
 
-        if ($xml->engine->debug) {
-            ParserEngine::printFile($module->xml_data, "{$xml->engine->file_name}-metadata.json");
+        if ($parser->engine->debug) {
+            ParserEngine::printFile($module->xml_data, "{$parser->engine->file_name}-metadata.json");
         }
         if (! $is_supported) {
             ConsoleService::print("CbzModule {$module->type} not supported", 'red');

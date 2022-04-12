@@ -11,9 +11,7 @@ use App\Enums\Traits\EnumMethods;
  *
  * ```php
  * $engine = match ($engine->format) {
- *   BookFormatEnum::cbz => CbzModule::create($engine),
  *   BookFormatEnum::epub => EpubModule::create($engine),
- *   BookFormatEnum::pdf => PdfModule::create($engine),
  *   default => false,
  * };
  * ```
@@ -24,6 +22,7 @@ enum BookFormatEnum: string
     use EnumMethods;
 
     case pdf = 'pdf';
+    case cbr = 'cbr';
     case cbz = 'cbz';
     case epub = 'epub';
 }

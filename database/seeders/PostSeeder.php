@@ -20,6 +20,7 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
+        Post::query()->delete();
         // $users = User::all();
         // $tags = Tag::all();
 

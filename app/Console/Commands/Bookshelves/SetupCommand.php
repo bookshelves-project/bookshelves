@@ -58,7 +58,6 @@ class SetupCommand extends CommandProd
             $this->checkProd();
 
             Artisan::call('migrate:fresh --force', [], $this->getOutput());
-            $this->newLine();
         }
 
         /**

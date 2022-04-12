@@ -9,6 +9,17 @@ use ReflectionClass;
 
 trait EnumMethods
 {
+    public static function toNames()
+    {
+        $array = [];
+
+        foreach (static::cases() as $definition) {
+            $array[$definition->name] = $definition->name;
+        }
+
+        return $array;
+    }
+
     public static function toValues()
     {
         $array = [];

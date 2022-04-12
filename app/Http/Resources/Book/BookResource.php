@@ -54,7 +54,6 @@ class BookResource extends JsonResource
             'genres' => TagLightResource::collection($this->resource->genres_list),
             'download' => $this->resource->file_main,
             'files' => $this->resource->files_list,
-            'webreader' => $this->resource->webreader_link,
             'googleBook' => GoogleBookResource::make($this->resource->googleBook),
             'isFavorite' => $this->resource->is_favorite,
             'reviewsCount' => $this->resource->reviews_count,

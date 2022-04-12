@@ -18,6 +18,8 @@ class CommandProd extends Command
                 $signature_name = explode(':', $signature_name);
                 $signature_name = array_map('ucfirst', $signature_name);
                 $signature_name = implode(' ', $signature_name);
+            } else {
+                $signature_name = ucfirst($signature_name);
             }
         } else {
             $signature_name = $this->signature;

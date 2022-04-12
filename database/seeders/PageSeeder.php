@@ -22,6 +22,8 @@ class PageSeeder extends Seeder
      */
     public function run()
     {
+        Page::query()->delete();
+
         foreach (Page::all() as $page) {
             $page->clearMediaCollection('featured-image');
             $page->clearMediaCollection('page-images');
@@ -31,6 +33,7 @@ class PageSeeder extends Seeder
         $list = [
             [
                 'title' => 'About',
+                'slug' => 'about',
                 'summary' => 'About this project',
                 'status' => PostStatusEnum::published,
                 'name' => 'about',
@@ -38,6 +41,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'title' => 'FAQ',
+                'slug' => 'faq',
                 'summary' => 'Frequently Asked Questions',
                 'status' => PostStatusEnum::published,
                 'name' => 'faq',
@@ -45,6 +49,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'title' => 'Features: OPDS, Catalog & more',
+                'slug' => 'features',
                 'summary' => 'On other ways',
                 'status' => PostStatusEnum::published,
                 'name' => 'features',
@@ -52,6 +57,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'title' => 'Legal',
+                'slug' => 'legal',
                 'summary' => 'About legal',
                 'status' => PostStatusEnum::published,
                 'name' => 'legal',
@@ -59,6 +65,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'title' => 'More eBooks',
+                'slug' => 'more-ebooks',
                 'summary' => 'About more eBooks projects',
                 'status' => PostStatusEnum::published,
                 'name' => 'more-ebooks',
@@ -66,6 +73,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'title' => 'Privacy',
+                'slug' => 'privacy',
                 'summary' => 'Your privacy & your data',
                 'status' => PostStatusEnum::published,
                 'name' => 'privacy',
@@ -86,7 +94,7 @@ class PageSeeder extends Seeder
         if ($service) {
             $page = Page::create([
                 'title' => $md->title,
-                'slug' => Str::slug($md->title),
+                'slug' => $md->slug,
                 'status' => $md->status,
                 'summary' => $md->summary,
                 'body' => $service->html,

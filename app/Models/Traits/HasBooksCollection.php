@@ -51,7 +51,7 @@ trait HasBooksCollection
 
             if ($size['size']) {
                 $size_human = $size['size'] > 0 ? $this->humanFilesize($size['size']) : null;
-                $download = DownloadService::getFile($entity->slug, $size_human, $route, $format, $size['count'], true);
+                $download = DownloadService::getFile($entity->slug, $size_human, $route, null, $format, $size['count'], true);
                 $list[$format] = $download;
             }
         }

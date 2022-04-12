@@ -5,11 +5,11 @@ namespace App\Engines\ParserEngine\Modules;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Models\BookCreator;
 use App\Engines\ParserEngine\Models\BookIdentifier;
-use App\Engines\ParserEngine\Parsers\XmlInterface;
-use App\Engines\ParserEngine\Parsers\XmlParser;
+use App\Engines\ParserEngine\Parsers\ArchiveInterface;
+use App\Engines\ParserEngine\Parsers\ArchiveParser;
 use App\Services\ConsoleService;
 
-class EpubModule implements XmlInterface
+class EpubModule implements ArchiveInterface
 {
     public array $metadata = [];
 
@@ -22,31 +22,30 @@ class EpubModule implements XmlInterface
 
     public static function create(ParserEngine $engine): ParserEngine|false
     {
-        $xml = new XmlParser($engine, EpubModule::class, 'opf');
-        $xml = $xml->openZip();
+        $archive = new ArchiveParser($engine, EpubModule::class, 'opf');
 
-        return $xml->engine;
+        return $archive->open();
     }
 
-    public static function parse(XmlParser $xml): ParserEngine
+    public static function parse(ArchiveParser $parser): ParserEngine
     {
         $module = new EpubModule();
 
-        $module->xml_data = $xml->xml_data;
+        $module->xml_data = $parser->xml_data;
         $module->version = 2.0;
 
         if ($module->xml_data['@attributes'] && $version = $module->xml_data['@attributes']['version']) {
             $module->version = floatval($version);
         }
-        $module->engine = $xml->engine;
+        $module->engine = $parser->engine;
 
         $is_supported = match ($module->version) {
             2.0 => $module->version2(),
             default => false,
         };
 
-        if ($xml->engine->debug) {
-            ParserEngine::printFile($module->xml_data, "{$xml->engine->file_name}-metadata.json");
+        if ($parser->engine->debug) {
+            ParserEngine::printFile($module->xml_data, "{$parser->engine->file_name}-metadata.json");
         }
         if (! $is_supported) {
             ConsoleService::print("EpubModule {$module->version} not supported");

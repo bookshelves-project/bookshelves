@@ -184,6 +184,10 @@ class EntityController extends ApiController
                 ],
             ]);
         }
+
+        return response()->json([
+            'message' => 'You have to use `q` as query param to search.',
+        ], 404);
     }
 
     /**

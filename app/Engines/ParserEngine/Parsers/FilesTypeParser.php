@@ -22,6 +22,7 @@ class FilesTypeParser
     public static function parseDataFiles(int $limit = null)
     {
         $book_types = BookTypeEnum::toArray();
+        $formats = BookFormatEnum::toArray();
 
         $files = [];
         foreach ($book_types as $type => $path) {
@@ -30,7 +31,7 @@ class FilesTypeParser
             foreach (DirectoryParserService::parseDirectoryFiles($path) as $file_path) {
                 if (array_key_exists('extension', pathinfo($file_path))) {
                     $ext = pathinfo($file_path, PATHINFO_EXTENSION);
-                    if (array_key_exists($ext, BookFormatEnum::toArray())) {
+                    if (array_key_exists($ext, $formats)) {
                         array_push($files, new FilesTypeParser(BookTypeEnum::from($type), $file_path));
                     }
                 }

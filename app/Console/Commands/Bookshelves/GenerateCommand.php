@@ -8,9 +8,13 @@ use App\Engines\ConverterEngine\CoverConverter;
 use App\Engines\ConverterEngine\EntityConverter;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
+use App\Enums\BookFormatEnum;
+use App\Enums\MediaDiskEnum;
 use App\Models\Author;
+use App\Models\MediaExtended;
 use App\Models\Serie;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 use ReflectionClass;
 use Spatie\Tags\Tag;
 
@@ -68,6 +72,12 @@ class GenerateCommand extends CommandProd
         $list = FilesTypeParser::parseDataFiles(limit: $limit);
 
         if ($fresh) {
+            MediaExtended::where('collection_name', MediaDiskEnum::cover)->delete();
+            foreach (BookFormatEnum::toArray() as $format) {
+                MediaExtended::where('collection_name', $format)->delete();
+            }
+            File::deleteDirectory(public_path('storage/media/covers'));
+            File::deleteDirectory(public_path('storage/media/formats'));
             Artisan::call('database', [
                 '--books' => $fresh,
             ], $this->getOutput());
