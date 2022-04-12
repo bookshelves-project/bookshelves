@@ -44,6 +44,8 @@ class AuthorConverter
             $lastname = implode(' ', $author_name);
         }
         $role = $creator->role;
+        $firstname = trim($firstname);
+        $lastname = trim($lastname);
 
         return new AuthorConverter($firstname, $lastname, $role);
     }

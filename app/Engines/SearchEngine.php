@@ -116,9 +116,8 @@ class SearchEngine
 
     private function entitySearch(string $key, string $class, array $search_on = [], array|string $with = [])
     {
-        $scout_search = 'collection' !== $this->search_type;
         if (in_array($key, $this->types)) {
-            $this->authors = $scout_search ?
+            $this->{$key} = 'collection' !== $this->search_type ?
                 $class::search($this->q)
                     ->get()
                 : $class::whereLike($search_on, $this->q)

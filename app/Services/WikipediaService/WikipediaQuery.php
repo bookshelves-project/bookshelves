@@ -94,7 +94,7 @@ class WikipediaQuery
 
         try {
             $response = json_decode(json_encode($response));
-            if (! $response->query) {
+            if (! property_exists($response, 'query')) {
                 return $this;
             }
             $search = $response->query->search;
