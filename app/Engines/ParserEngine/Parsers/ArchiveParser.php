@@ -31,7 +31,7 @@ class ArchiveParser
     public function open(): ParserEngine|false
     {
         if ($this->is_rar) {
-            $this->rarNative();
+            $this->rar();
         } else {
             $this->zip();
         }
@@ -39,7 +39,7 @@ class ArchiveParser
         return $this->engine;
     }
 
-    public function rarNative(): static|false
+    public function rar(): static|false
     {
         if (! extension_loaded('rar')) {
             ConsoleService::print('.rar file: rar extension: is not installed', 'red');
