@@ -6,6 +6,8 @@ use App\Engines\ParserEngine;
 use App\Services\ConsoleService;
 use File;
 use RarArchive;
+use Selective\Rar\RarFileReader;
+use SplFileObject;
 use ZipArchive;
 
 /**
@@ -65,13 +67,7 @@ class ArchiveParser
                 File::delete($xml_path);
             }
         }
-        if ($this->find_cover) {
-            natsort($zip_files_list);
-            $this->zip_files_list = array_values($zip_files_list);
-            if (sizeof($this->zip_files_list) > 0) {
-                $this->engine->cover_name = $this->zip_files_list[0];
-            }
-        }
+        $this->sortFileList($zip_files_list);
 
         $this->parseXml();
 
@@ -110,13 +106,7 @@ class ArchiveParser
                 $this->xml_string = $zip->getFromName($file['name']);
             }
         }
-        if ($this->find_cover) {
-            natsort($zip_files_list);
-            $this->zip_files_list = array_values($zip_files_list);
-            if (sizeof($this->zip_files_list) > 0) {
-                $this->engine->cover_name = $this->zip_files_list[0];
-            }
-        }
+        $this->sortFileList($zip_files_list);
 
         $this->parseXml();
 
@@ -132,7 +122,18 @@ class ArchiveParser
         return $this;
     }
 
-    public function parseXml()
+    private function sortFileList(array $zip_files_list)
+    {
+        if ($this->find_cover) {
+            natsort($zip_files_list);
+            $this->zip_files_list = array_values($zip_files_list);
+            if (sizeof($this->zip_files_list) > 0) {
+                $this->engine->cover_name = $this->zip_files_list[0];
+            }
+        }
+    }
+
+    private function parseXml()
     {
         if ($this->xml_string) {
             $parser = XmlParser::create($this);
