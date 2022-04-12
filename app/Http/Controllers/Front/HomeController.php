@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Services\MarkdownService;
 use Artesaos\SEOTools\Facades\SEOTools;
-use Illuminate\Support\Facades\File;
 use Spatie\RouteAttributes\Attributes\Get;
 
 class HomeController extends Controller
@@ -34,8 +33,14 @@ class HomeController extends Controller
         $service = MarkdownService::generate('webreader/index.md');
         $content = $service->convertToHtml();
         if ($random_book) {
+            /** @var Book $random_book */
             $cover = $random_book->getCoverThumbnailAttribute();
-            $route = route('webreader.reader', ['author' => $random_book->meta_author, 'book' => $random_book->slug]);
+            $file = $random_book->file_main;
+            $route = route('webreader.reader', [
+                'author' => $random_book->meta_author,
+                'book' => $random_book->slug,
+                'format' => $file->format,
+            ]);
         }
 
         return view('front::pages.webreader', compact('random_book', 'cover', 'route', 'content'));
