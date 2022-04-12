@@ -228,6 +228,12 @@ class Book extends Model implements HasMedia
         return $query->where('is_disabled', '=', $is_disabled);
     }
 
+    public function searchableAs()
+    {
+        $app = config('app.name');
+        return "{$app}_book";
+    }
+
     public function toSearchableArray()
     {
         return [

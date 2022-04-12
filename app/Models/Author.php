@@ -109,6 +109,12 @@ class Author extends Model implements HasMedia
         ]);
     }
 
+    public function searchableAs()
+    {
+        $app = config('app.name');
+        return "{$app}_author";
+    }
+
     public function toSearchableArray()
     {
         return [

@@ -42,14 +42,14 @@ class ScoutCommand extends CommandProd
 
         $flush = $this->option('flush') ?? false;
 
+        $app = config('app.name');
         $models = [
-            'Book' => 'books',
-            'Serie' => 'series',
-            'Author' => 'authors',
+            'Book' => "{$app}_books",
+            'Serie' => "{$app}_series",
+            'Author' => "{$app}_authors",
         ];
         $path = 'App\\\\Models\\\\';
 
-        // $this->clear();
         if ($flush) {
             foreach ($models as $key => $value) {
                 Artisan::call('scout:flush "'.$path.$key.'"', [], $this->getOutput());
@@ -59,7 +59,6 @@ class ScoutCommand extends CommandProd
         foreach ($models as $key => $value) {
             Artisan::call('scout:import "'.$path.$key.'"', [], $this->getOutput());
         }
-        // $this->clear();
 
         return 0;
     }
