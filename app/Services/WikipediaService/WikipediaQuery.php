@@ -140,8 +140,11 @@ class WikipediaQuery
     /**
      * Parse page id response to extract data.
      */
-    public function parsePageIdData(Response $response): WikipediaQuery
+    public function parsePageIdData(?Response $response): WikipediaQuery
     {
+        if (null === $response) {
+            return $this;
+        }
         $response = $response->json();
         if ($this->debug) {
             $this->print($response, 'page-id');
