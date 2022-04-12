@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
+    'name' => Str::slug(env('APP_NAME', 'Bookshelves')),
     // Authentication.
     'admin' => [
         'email' => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),

@@ -107,35 +107,24 @@ class SearchEngine
      */
     private function search(): SearchEngine
     {
-        $scout_search = 'collection' !== $this->search_type;
-        if (in_array('authors', $this->types)) {
-            $this->authors = $scout_search ?
-                Author::search($this->q)
-                    ->get()
-                : Author::whereLike(['name', 'firstname', 'lastname'], $this->q)
-                    ->with('media')
-                    ->get()
-                ;
-        }
-        if (in_array('series', $this->types)) {
-            $this->series = $scout_search ?
-                Serie::search($this->q)
-                    ->get()
-                : Serie::whereLike(['title', 'authors.name'], $this->q)
-                    ->with(['authors', 'media'])
-                    ->get()
-                ;
-        }
-        if (in_array('books', $this->types)) {
-            $this->books = $scout_search ?
-                Book::search($this->q)
-                    ->get()
-                : Book::whereLike(['title', 'authors.name', 'serie.title', 'isbn10', 'isbn13'], $this->q)
-                    ->with(['authors', 'media'])
-                    ->get()
-                ;
-        }
+        $this->entitySearch('authors', Author::class, ['name', 'firstname', 'lastname'], 'media');
+        $this->entitySearch('series', Serie::class, ['title', 'authors.name'], ['authors', 'media']);
+        $this->entitySearch('books', Book::class, ['title', 'authors.name', 'serie.title', 'isbn10', 'isbn13'], ['authors', 'media']);
 
         return $this;
+    }
+
+    private function entitySearch(string $key, string $class, array $search_on = [], array|string $with = [])
+    {
+        $scout_search = 'collection' !== $this->search_type;
+        if (in_array($key, $this->types)) {
+            $this->authors = $scout_search ?
+                $class::search($this->q)
+                    ->get()
+                : $class::whereLike($search_on, $this->q)
+                    ->with($with)
+                    ->get()
+                ;
+        }
     }
 }

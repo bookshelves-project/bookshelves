@@ -42,7 +42,7 @@ class ScoutCommand extends CommandProd
 
         $flush = $this->option('flush') ?? false;
 
-        $app = config('app.name');
+        $app = config('bookshelves.name');
         $models = [
             'Book' => "{$app}_books",
             'Serie' => "{$app}_series",
