@@ -47,10 +47,10 @@ Route::post('submission/send', [SubmissionController::class, 'send'])->name('api
 /*
  * Entities routes
  */
+Route::get('/search', [EntityController::class, 'search'])->name('api.entities.search');
 Route::prefix('entities')->group(function () {
     Route::get('/enums', [EntityController::class, 'enums'])->name('api.entities.enums');
     Route::get('/count', [EntityController::class, 'count'])->name('api.entities.count');
-    Route::get('/search', [EntityController::class, 'search'])->name('api.entities.search');
     Route::get('/latest', [EntityController::class, 'latest'])->name('api.entities.latest');
     Route::get('/selection', [EntityController::class, 'selection'])->name('api.entities.selection');
     Route::get('/related/{author_slug}/{book_slug}', [EntityController::class, 'related'])->name('api.entities.related');
