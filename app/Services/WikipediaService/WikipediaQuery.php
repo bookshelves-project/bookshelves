@@ -94,7 +94,10 @@ class WikipediaQuery
 
         try {
             $response = json_decode(json_encode($response));
-            $search = $response->query?->search;
+            if (! $response->query) {
+                return $this;
+            }
+            $search = $response->query->search;
             $search = array_slice($search, 0, 5);
 
             // $search_list = explode(' ', $this->search_query);
