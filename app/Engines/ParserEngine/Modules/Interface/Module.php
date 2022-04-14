@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Engines\ParserEngine\Modules;
+namespace App\Engines\ParserEngine\Modules\Interface;
 
 use App\Engines\ParserEngine;
 

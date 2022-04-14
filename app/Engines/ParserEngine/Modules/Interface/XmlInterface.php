@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Engines\ParserEngine\Parsers;
+namespace App\Engines\ParserEngine\Modules\Interface;
 
 use App\Engines\ParserEngine;
+use App\Engines\ParserEngine\Parsers\ArchiveParser;
 
 interface XmlInterface
 {

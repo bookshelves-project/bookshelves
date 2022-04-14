@@ -4,8 +4,10 @@ namespace App\Engines\ParserEngine\Modules;
 
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Models\BookCreator;
+use App\Engines\ParserEngine\Modules\Interface\Module;
+use App\Engines\ParserEngine\Modules\Interface\ModuleInterface;
+use App\Engines\ParserEngine\Modules\Interface\XmlInterface;
 use App\Engines\ParserEngine\Parsers\ArchiveParser;
-use App\Engines\ParserEngine\Parsers\XmlInterface;
 use App\Services\ConsoleService;
 use Illuminate\Support\Carbon;
 

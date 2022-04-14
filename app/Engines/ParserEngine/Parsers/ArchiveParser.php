@@ -3,6 +3,7 @@
 namespace App\Engines\ParserEngine\Parsers;
 
 use App\Engines\ParserEngine;
+use App\Engines\ParserEngine\Modules\Interface\XmlInterface;
 use App\Services\ConsoleService;
 use File;
 use RarArchive;
