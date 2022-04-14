@@ -250,6 +250,7 @@ class Book extends Model implements HasMedia
             'picture' => $this->cover_thumbnail,
             'released_on' => $this->released_on,
             'author' => $this->authors_names,
+            'serie' => $this->serie?->title,
             'isbn10' => $this->isbn10,
             'isbn13' => $this->isbn13,
             'created_at' => $this->created_at,
