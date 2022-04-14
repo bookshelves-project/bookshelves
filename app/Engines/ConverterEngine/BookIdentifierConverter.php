@@ -2,20 +2,20 @@
 
 namespace App\Engines\ConverterEngine;
 
-use App\Engines\ParserEngine;
+use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine\Models\BookIdentifier;
 use App\Models\Book;
 
 class BookIdentifierConverter
 {
-    public static function create(ParserEngine $parser, Book $book): ?Book
+    public static function create(ConverterEngine $converter): ?Book
     {
-        if ($parser->identifiers && ! $book->identifiers) {
+        if ($converter->parser->identifiers && ! $converter->book->identifiers) {
             $identifiers = [];
             $fillables = [];
 
             /** @var BookIdentifier $value */
-            foreach ($parser->identifiers as $key => $value) {
+            foreach ($converter->parser->identifiers as $key => $value) {
                 $fillables = (new Book())->getFillable();
                 $fillables = array_filter($fillables, fn ($value) => str_contains($value, 'isbn'));
                 if (in_array($value->name, $fillables)) {
@@ -26,14 +26,14 @@ class BookIdentifierConverter
             if (! empty($identifiers)) {
                 foreach ($fillables as $key => $value) {
                     if (array_key_exists($value, $identifiers)) {
-                        $book->{$value} = $identifiers[$value];
+                        $converter->book->{$value} = $identifiers[$value];
                     }
                 }
-                $book->identifiers = $parser->identifiers;
+                $converter->book->identifiers = $converter->parser->identifiers;
             }
-            $book->save();
+            $converter->book->save();
         }
 
-        return $book;
+        return $converter->book;
     }
 }

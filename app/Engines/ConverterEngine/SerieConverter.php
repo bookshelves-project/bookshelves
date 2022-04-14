@@ -2,6 +2,7 @@
 
 namespace App\Engines\ConverterEngine;
 
+use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
 use App\Enums\MediaDiskEnum;
 use App\Models\Book;
@@ -16,18 +17,18 @@ class SerieConverter
     /**
      * Generate Serie for Book from ParserEngine.
      */
-    public static function create(ParserEngine $parser, Book $book): Serie|false
+    public static function create(ConverterEngine $converter): Serie|false
     {
-        if ($parser->serie && ! $book->serie) {
-            $serie = Serie::whereSlug($parser->serie_slug)->first();
+        if ($converter->parser->serie && ! $converter->book->serie) {
+            $serie = Serie::whereSlug($converter->parser->serie_slug)->first();
             if (! $serie) {
                 $serie = Serie::firstOrCreate([
-                    'title' => $parser->serie,
-                    'slug_sort' => $parser->serie_sort,
-                    'slug' => $parser->serie_slug_lang,
-                    'type' => $parser->type,
+                    'title' => $converter->parser->serie,
+                    'slug_sort' => $converter->parser->serie_sort,
+                    'slug' => $converter->parser->serie_slug_lang,
+                    'type' => $converter->parser->type,
                 ]);
-                $serie->language()->associate($book->language);
+                $serie->language()->associate($converter->book->language);
                 $serie->save();
             }
 
@@ -35,15 +36,15 @@ class SerieConverter
             foreach ($serie->authors as $key => $author) {
                 array_push($authors_serie, $author->slug);
             }
-            $book_authors = $book->authors;
+            $book_authors = $converter->book->authors;
             foreach ($book_authors as $key => $author) {
                 if (! in_array($author->slug, $authors_serie)) {
                     $serie->authors()->save($author);
                 }
             }
 
-            $book->serie()->associate($serie);
-            $book->save();
+            $converter->book->serie()->associate($serie);
+            $converter->book->save();
 
             return $serie;
         }

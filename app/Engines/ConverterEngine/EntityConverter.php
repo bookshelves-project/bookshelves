@@ -53,7 +53,7 @@ class EntityConverter
     public static function setCoverPlaceholder(Author $author): Author
     {
         if ($author->getMedia(MediaDiskEnum::cover->value)->isEmpty()) {
-            $placeholder = public_path('assets/images/no-author.jpg');
+            $placeholder = public_path('assets/images/no-author.webp');
             $disk = self::DISK;
             $author->clearMediaCollection($disk->value);
             MediaService::create($author, $author->slug, $disk)

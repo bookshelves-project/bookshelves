@@ -49,7 +49,6 @@ class GoogleBook extends Model
             }
             $this->book->publisher()->associate($publisher);
         }
-        $this->book->save();
 
         if (empty($this->book->isbn10)) {
             $this->book->isbn10 = $this->isbn10;
@@ -57,14 +56,14 @@ class GoogleBook extends Model
         if (empty($this->book->isbn13)) {
             $this->book->isbn13 = $this->isbn13;
         }
-        $this->book->save();
 
         $categories = json_decode($this->categories);
         if (is_array($categories)) {
             foreach ($categories as $key => $category) {
-                TagConverter::setTag($category, $this->book);
+                TagConverter::setTag($category);
             }
         }
+        $this->book->save();
     }
 
     public function testAttribute($attribute)

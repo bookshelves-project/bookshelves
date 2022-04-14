@@ -2,6 +2,7 @@
 
 namespace App\Engines\ConverterEngine;
 
+use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
@@ -18,21 +19,25 @@ class CoverConverter
      * Generate Book image from original cover string file.
      * Manage by spatie/laravel-medialibrary.
      */
-    public static function create(ParserEngine $parser, Book $book): Book
+    public static function create(ConverterEngine $converter): Book
     {
-        if (! empty($parser->cover_file)) {
+        if (! $converter->default
+            && ! $converter->book->cover_book
+            && ! empty($converter->parser->cover_file)
+        ) {
             try {
-                MediaService::create($book, $book->slug, MediaDiskEnum::cover)
-                    ->setMedia($parser->cover_file)
+                MediaService::create($converter->book, $converter->book->slug, MediaDiskEnum::cover)
+                    ->setMedia($converter->parser->cover_file)
                     ->setColor()
                 ;
             } catch (\Throwable $th) {
                 ConsoleService::print(__METHOD__, 'red', $th);
                 ConsoleService::newLine();
             }
+            $converter->book->save();
         }
 
-        return $book;
+        return $converter->book;
     }
 
     /**

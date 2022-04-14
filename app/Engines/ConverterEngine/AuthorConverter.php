@@ -2,15 +2,10 @@
 
 namespace App\Engines\ConverterEngine;
 
-use App\Engines\ParserEngine;
+use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine\Models\BookCreator;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
-use App\Models\Book;
-use App\Services\DirectoryParserService;
-use App\Services\MediaService;
-use App\Services\WikipediaService\WikipediaQuery;
-use File;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -26,9 +21,52 @@ class AuthorConverter
     }
 
     /**
+     * Generate Author[] for Book from ParserEngine and sync with Book.
+     *
+     * @return Collection<int,Author>
+     */
+    public static function create(ConverterEngine $converter)
+    {
+        $authors = collect([]);
+        /**
+         * Anonymous author.
+         */
+        if (empty($converter->parser->creators)) {
+            $creator = new BookCreator(
+                name: 'Anonymous',
+                role: 'aut'
+            );
+            $author_converter = AuthorConverter::convert($creator);
+            $author = AuthorConverter::generate($author_converter, $creator);
+            $authors->push($author);
+        } else {
+            foreach ($converter->parser->creators as $creator) {
+                $author_converter = AuthorConverter::convert($creator);
+                $author = null;
+
+                if (config('bookshelves.authors.detect_homonyms')) {
+                    $lastname = Author::whereFirstname($author_converter->lastname)->first();
+                    if ($lastname) {
+                        $author = Author::whereLastname($author_converter->firstname)->first();
+                    }
+                }
+                if (null === $author) {
+                    $author = AuthorConverter::generate($author_converter, $creator);
+                }
+                $authors->push($author);
+            }
+        }
+
+        $converter->book->authors()->sync($authors->pluck('id'));
+        $converter->book->save();
+
+        return $converter->book->authors;
+    }
+
+    /**
      * Convert BookCreator to AuthorConverter from config order.
      */
-    public static function create(BookCreator $creator): AuthorConverter
+    public static function convert(BookCreator $creator): AuthorConverter
     {
         $lastname = null;
         $firstname = null;
@@ -51,50 +89,9 @@ class AuthorConverter
     }
 
     /**
-     * Generate Author[] for Book from ParserEngine and sync with Book.
-     */
-    public static function generate(ParserEngine $parser, Book $book): Collection
-    {
-        $authors = collect([]);
-        /**
-         * Anonymous author.
-         */
-        if (empty($parser->creators)) {
-            $creator = new BookCreator(
-                name: 'Anonymous',
-                role: 'aut'
-            );
-            $converter = AuthorConverter::create($creator);
-            $author = AuthorConverter::convert($converter, $creator);
-            $authors->push($author);
-        } else {
-            foreach ($parser->creators as $creator) {
-                $converter = AuthorConverter::create($creator);
-                $author = null;
-
-                if (config('bookshelves.authors.detect_homonyms')) {
-                    $lastname = Author::whereFirstname($converter->lastname)->first();
-                    if ($lastname) {
-                        $author = Author::whereLastname($converter->firstname)->first();
-                    }
-                }
-                if (null === $author) {
-                    $author = AuthorConverter::convert($converter, $creator);
-                }
-                $authors->push($author);
-            }
-        }
-
-        $book->authors()->sync($authors->pluck('id'));
-        $book->save();
-
-        return $book->authors;
-    }
-
-    /**
      * Create Author if not exist.
      */
-    private static function convert(AuthorConverter $converter, BookCreator $creator): Author
+    private static function generate(AuthorConverter $converter, BookCreator $creator): Author
     {
         return Author::firstOrCreate([
             'lastname' => $converter->lastname,
