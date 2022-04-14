@@ -84,31 +84,32 @@ class WikipediaQuery
     /**
      * Find page id among Wikipedia results, if found set $page_id_url.
      */
-    public function parseQueryResults(Response $response): WikipediaQuery
+    public function parseQueryResults(?Response $response): WikipediaQuery
     {
         $pageId = false;
-        $response = $response->json();
-        if ($this->debug) {
-            $this->print($response, 'results');
-        }
-
-        try {
-            $response = json_decode(json_encode($response));
-            if (! property_exists($response, 'query')) {
-                return $this;
+        if ($response) {
+            $response = $response->json();
+            if ($this->debug) {
+                $this->print($response, 'results');
             }
-            $search = $response->query->search;
-            $search = array_slice($search, 0, 5);
 
-            // $search_list = explode(' ', $this->search_query);
-
-            foreach ($search as $key => $result) {
-                if (0 === $key) {
-                    $pageId = $result->pageid;
-
-                    break;
+            try {
+                $response = json_decode(json_encode($response));
+                if (! property_exists($response, 'query')) {
+                    return $this;
                 }
-                // if (0 < count(array_intersect(array_map('strtolower', explode(' ', $result->title)), $search_list))) {
+                $search = $response->query->search;
+                $search = array_slice($search, 0, 5);
+
+                // $search_list = explode(' ', $this->search_query);
+
+                foreach ($search as $key => $result) {
+                    if (0 === $key) {
+                        $pageId = $result->pageid;
+
+                        break;
+                    }
+                    // if (0 < count(array_intersect(array_map('strtolower', explode(' ', $result->title)), $search_list))) {
                 //     $pageId = $result->pageid;
 
                 //     break;
@@ -123,18 +124,19 @@ class WikipediaQuery
 
                 //     break;
                 // }
+                }
+
+                if (! $pageId && array_key_exists(0, $search)) {
+                    $pageId = $search[0]->pageid;
+                }
+            } catch (\Throwable $th) {
+                throw $th;
             }
 
-            if (! $pageId && array_key_exists(0, $search)) {
-                $pageId = $search[0]->pageid;
+            if ($pageId) {
+                $this->page_id = $pageId;
+                $this->getPageIdUrl();
             }
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-
-        if ($pageId) {
-            $this->page_id = $pageId;
-            $this->getPageIdUrl();
         }
 
         return $this;

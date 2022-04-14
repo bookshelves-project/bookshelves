@@ -134,6 +134,18 @@ class Author extends Model implements HasMedia
         return strtolower($this->lastname[0]);
     }
 
+    public function getLangMainAttribute(): string
+    {
+        $languages = [];
+        foreach ($this->books as $book) {
+            array_push($languages, $book->language_slug);
+        }
+        $languages = array_count_values($languages);
+        asort($languages);
+
+        return array_key_first($languages);
+    }
+
     /**
      * Get all of the books that are assigned this author.
      */

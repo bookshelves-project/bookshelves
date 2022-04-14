@@ -13,6 +13,7 @@ use App\Models\WikipediaItem;
 use App\Services\DirectoryClearService;
 use App\Services\GoogleBookService;
 use App\Services\WikipediaService;
+use Illuminate\Database\Eloquent\Model;
 use ReflectionClass;
 
 /**
@@ -71,10 +72,10 @@ class ApiCommand extends CommandProd
             $this->googleBook();
         }
         if ($authors) {
-            $this->wikipediaRequest(Author::class, 'lastname', ['firstname', 'lastname']);
+            $this->wikipediaRequest(new Author(), 'lastname', ['firstname', 'lastname'], 'lang_main');
         }
         if ($series) {
-            $this->wikipediaRequest(Serie::class, 'slug_sort', ['title']);
+            $this->wikipediaRequest(new Serie(), 'slug_sort', ['title']);
         }
 
         return true;
@@ -125,7 +126,7 @@ class ApiCommand extends CommandProd
         return true;
     }
 
-    private function wikipediaRequest(string $model_name, string $orderBy, array $wikipedia_query)
+    private function wikipediaRequest(Author|Serie $model_name, string $orderBy, array $attribute, string $language_attribute = 'language_slug')
     {
         $debug = $this->option('debug') ?? false;
         $default = $this->option('default') ?? false;
@@ -163,7 +164,8 @@ class ApiCommand extends CommandProd
         $start = microtime(true);
 
         if ($fresh) {
-            WikipediaItem::whereModel($model_name)->delete();
+            $class_name = new ReflectionClass($model_name);
+            WikipediaItem::whereModel($class_name->getName())->delete();
             /** @var Author|Serie $model */
             foreach ($list as $model) {
                 // $model->clearMediaCollection(MediaDiskEnum::cover->value);
@@ -173,7 +175,7 @@ class ApiCommand extends CommandProd
             }
         }
 
-        $service = WikipediaService::create($model_name, $wikipedia_query, debug: $debug);
+        $service = WikipediaService::create($model_name, $attribute, $language_attribute, $debug);
         $this->newLine();
 
         $bar = $this->output->createProgressBar(count($service->queries));
