@@ -11,7 +11,7 @@ return [
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
      */
-    'max_file_size' => 1024 * 1024 * 1000, // 10MB
+    'max_file_size' => env('MEDIA_MAX_SIZE', 1024 * 1024 * 1000), // 1GB
 
     /*
      * This queue will be used to generate derived and responsive images.
