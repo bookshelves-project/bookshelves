@@ -6,20 +6,20 @@ use App\Engines\ParserEngine;
 use App\Services\ConsoleService;
 use File;
 use RarArchive;
-use Selective\Rar\RarFileReader;
-use SplFileObject;
 use ZipArchive;
 
 /**
- * Parse XML string to array.
+ * Parse archive to extract XML path and cover, implements `XmlInterface`.
  */
 class ArchiveParser
 {
+    public const IMAGE_FORMATS = ['jpg', 'jpeg'];
+
     public function __construct(
         public ?ParserEngine $engine,
-        public ?string $module,
+        public ?XmlInterface $module,
         public ?string $extension_index = 'xml',
-        public ?array $xml_data = [],
+        public ?array $metadata = [],
         public ?array $zip_files_list = [],
         public ?string $xml_string = null,
         public ?bool $find_cover = false,
@@ -28,7 +28,7 @@ class ArchiveParser
     }
 
     /**
-     * Open Zip to find file with `$extension_index`, convert it to `array` and parse it. To use this method, the module have to implements `XmlInterface`.
+     * Open Zip to find file with `$extension_index`, convert it to `array` and parse it.
      */
     public function open(): ParserEngine|false
     {
@@ -56,7 +56,7 @@ class ArchiveParser
             $name = $entry->getName();
             $ext = pathinfo($name, PATHINFO_EXTENSION);
 
-            if ($this->find_cover && 'jpg' === $ext) {
+            if ($this->find_cover && $this->checkImageFormat($ext)) {
                 array_push($zip_files_list, $name);
             }
             if ($ext === $this->extension_index) {
@@ -74,7 +74,9 @@ class ArchiveParser
         if ($this->engine->cover_name) {
             foreach ($zip->getEntries() as $key => $entry) {
                 if ($this->engine->cover_name === $entry->getName()) {
-                    $cover_path = "{$path}/{$this->engine->file_name}.jpg";
+                    $extension = explode('.', $entry->getName());
+                    $extension = end($extension);
+                    $cover_path = "{$path}/{$this->engine->file_name}.{$extension}";
                     $entry->extract($path, $cover_path);
 
                     $cover = File::get($cover_path);
@@ -99,7 +101,7 @@ class ArchiveParser
             $file = $zip->statIndex($i);
             $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
-            if ($this->find_cover && 'jpg' === $ext) {
+            if ($this->find_cover && $this->checkImageFormat($ext)) {
                 array_push($zip_files_list, $file['name']);
             }
             if ($ext === $this->extension_index) {
@@ -122,6 +124,17 @@ class ArchiveParser
         return $this;
     }
 
+    public function checkImageFormat(string $ext): bool
+    {
+        foreach (self::IMAGE_FORMATS as $value) {
+            if ($value === $ext) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private function sortFileList(array $zip_files_list)
     {
         if ($this->find_cover) {
@@ -137,7 +150,7 @@ class ArchiveParser
     {
         if ($this->xml_string) {
             $parser = XmlParser::create($this);
-            $this->xml_data = $parser->xml_data;
+            $this->metadata = $parser->metadata;
             $this->engine = $parser->engine;
         }
     }

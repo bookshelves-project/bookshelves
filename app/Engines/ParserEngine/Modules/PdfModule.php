@@ -11,11 +11,12 @@ use File;
 use Imagick;
 use Smalot\PdfParser\Parser;
 
-class PdfModule
+/**
+ * Parse PDF to extract cover with `ImageMagick` (if installed) and metadata.
+ */
+class PdfModule extends Module implements ModuleInterface
 {
     public function __construct(
-        public ParserEngine $engine,
-        public ?array $metadata = [],
         public ?string $title = null,
         public ?string $creator = null,
         public ?string $author = null,
@@ -29,7 +30,8 @@ class PdfModule
 
     public static function create(ParserEngine $parser): ParserEngine|false
     {
-        $module = new PdfModule(engine: $parser);
+        $module = new PdfModule();
+        $module->engine = $parser;
 
         if (config('bookshelves.pdf.cover')) {
             $module = $module->getCover();
@@ -38,7 +40,7 @@ class PdfModule
             $module = $module->getMetadata();
         }
 
-        return NameParser::parse($parser);
+        return $parser;
     }
 
     private function getCover(): static
@@ -82,7 +84,7 @@ class PdfModule
         $this->engine->description = $this->subject;
         $this->engine->creators = $this->getCreators();
         $this->engine->publisher = $this->producer;
-        $this->engine->subjects = $this->getSubjects();
+        $this->engine->tags = $this->getSubjects();
         $this->engine->released_on = $this->creation_date;
         $this->engine->page_count = $this->pages;
 
@@ -101,18 +103,21 @@ class PdfModule
      */
     private function getCreators()
     {
-        $authors = [];
-        array_push($authors, $this->author);
-        if (str_contains($this->author, ',')) {
-            $authors = explode(',', $this->author);
-        }
-        if (str_contains($this->author, '&')) {
-            $authors = explode('&', $this->author);
-        }
-
         $list = [];
-        foreach ($authors as $author) {
-            array_push($list, new BookCreator($author, 'aut'));
+
+        if (null !== $this->author) {
+            $authors = [];
+            array_push($authors, $this->author);
+            if (str_contains($this->author, ',')) {
+                $authors = explode(',', $this->author);
+            }
+            if (str_contains($this->author, '&')) {
+                $authors = explode('&', $this->author);
+            }
+
+            foreach ($authors as $author) {
+                array_push($list, new BookCreator($author, 'aut'));
+            }
         }
 
         return $list;

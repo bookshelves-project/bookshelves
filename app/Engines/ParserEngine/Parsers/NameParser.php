@@ -5,7 +5,6 @@ namespace App\Engines\ParserEngine\Parsers;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Models\BookCreator;
 use App\Engines\ParserEngine\Models\BookIdentifier;
-use App\Enums\BookTypeEnum;
 
 class NameParser
 {
@@ -51,18 +50,18 @@ class NameParser
                 'identifiers',
             ];
             foreach ($list as $key => $value) {
-                $data[$value] = self::parseName($parsing, $key);
+                $data[$value] = NameParser::parseName($parsing, $key);
             }
 
             $name_parser = new NameParser($parser);
-            $name_parser->title = self::transformToString($data['title']);
-            $name_parser->creators = self::extractCreators($data['creators']);
-            $name_parser->language = self::nullValueCheck($data['language']);
-            $name_parser->serie = self::transformToString($data['serie']);
+            $name_parser->title = NameParser::transformToString($data['title']);
+            $name_parser->creators = NameParser::extractCreators($data['creators']);
+            $name_parser->language = NameParser::nullValueCheck($data['language']);
+            $name_parser->serie = NameParser::transformToString($data['serie']);
             $name_parser->volume = intval($data['volume']);
-            $name_parser->date = self::nullValueCheck($data['date']);
-            $name_parser->publisher = self::nullValueCheck($data['publisher']);
-            $name_parser->identifiers = self::extractIdentifiers($data['identifiers']);
+            $name_parser->date = NameParser::nullValueCheck($data['date']);
+            $name_parser->publisher = NameParser::nullValueCheck($data['publisher']);
+            $name_parser->identifiers = NameParser::extractIdentifiers($data['identifiers']);
 
             $parser->title = $name_parser->assignIfNull('title');
             $parser->creators = $name_parser->assignIfNull('creators');
@@ -87,22 +86,22 @@ class NameParser
 
     private static function parseName(array $parsing, int $key): ?string
     {
-        return array_key_exists($key, $parsing) ? self::nullValueCheck($parsing[$key]) : null;
+        return array_key_exists($key, $parsing) ? NameParser::nullValueCheck($parsing[$key]) : null;
     }
 
     private static function transformToString(?string $attribute): string
     {
-        return self::nullValueCheck(str_replace('_', ' ', $attribute));
+        return NameParser::nullValueCheck(str_replace('_', ' ', $attribute));
     }
 
     private static function extractCreators(?string $creators): array
     {
         $list = [];
-        if ($creators) {
+        if (null !== $creators) {
             $creators = explode('&', $creators);
 
             foreach ($creators as $creator) {
-                array_push($list, new BookCreator(self::transformToString($creator), 'aut'));
+                array_push($list, new BookCreator(NameParser::transformToString($creator), 'aut'));
             }
         }
 
@@ -116,7 +115,7 @@ class NameParser
             $identifiers = explode('&', $identifiers);
 
             foreach ($identifiers as $identifier) {
-                array_push($list, new BookIdentifier('isbn13', self::transformToString($identifier)));
+                array_push($list, new BookIdentifier('isbn13', NameParser::transformToString($identifier)));
             }
 
             return $list;
