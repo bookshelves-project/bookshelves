@@ -20,24 +20,6 @@ use Illuminate\Http\Request;
 class CmsController extends ApiController
 {
     /**
-     * GET Application.
-     *
-     * Useful for CMS at front-end init with `enums`, `languages` and `application`.
-     */
-    public function application()
-    {
-        return response()->json([
-            'data' => [
-                'enums' => EnumService::list(),
-                'languages' => LanguageResource::collection(Language::all()),
-                'application' => ApplicationResource::make(
-                    Application::first()
-                ),
-            ],
-        ]);
-    }
-
-    /**
      * GET Home page.
      */
     public function home()
@@ -49,30 +31,5 @@ class CmsController extends ApiController
         }
 
         return abort(404);
-    }
-
-    public function navigation(Request $request)
-    {
-        $lang = $request->lang ?? 'en';
-        app()->setLocale($lang);
-
-        $navigation = Navigation::all();
-        $grouped = collect($navigation->toArray());
-
-        $grouped = $grouped->groupBy('category');
-        $grouped->all();
-
-        $navigation = [];
-        foreach (NavigationCategoryEnum::toValues() as $category) {
-            $grouped = Navigation::whereCategory($category)->get();
-            $navigation[$category] = NavigationResource::collection($grouped);
-        }
-        // dd($navigation);
-
-        // return NavigationResource::collection($navigation);
-
-        return response()->json([
-            'data' => $navigation,
-        ]);
     }
 }
