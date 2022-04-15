@@ -148,6 +148,7 @@ class GenerateCommand extends CommandProd
         $bar->start();
         foreach ($model::all() as $entity) {
             EntityConverter::setTags($entity);
+            EntityConverter::setLocalData($entity);
             if (! $default) {
                 CoverConverter::setLocalCover($entity);
             }

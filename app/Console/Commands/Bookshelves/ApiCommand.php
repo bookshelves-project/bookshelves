@@ -72,7 +72,7 @@ class ApiCommand extends CommandProd
             $this->googleBook();
         }
         if ($authors) {
-            $this->wikipediaRequest(new Author(), 'lastname', ['firstname', 'lastname'], 'lang_main');
+            $this->wikipediaRequest(new Author(), 'lastname', ['firstname', 'lastname'], 'language_slug');
         }
         if ($series) {
             $this->wikipediaRequest(new Serie(), 'slug_sort', ['title']);
