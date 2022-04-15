@@ -17,7 +17,7 @@ class CreateBooksTable extends Migration
             $table->string('slug_sort')->nullable();
             $table->string('slug')->unique()->index()->nullable();
             $table->string('contributor')->nullable();
-            $table->text('description')->nullable();
+            $table->json('description')->nullable();
             $table->dateTime('released_on')->nullable();
             $table->string('rights')->nullable();
             $table->integer('volume')->nullable();
