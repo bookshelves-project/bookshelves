@@ -2,29 +2,68 @@
 
 namespace App\Engines\ConverterEngine;
 
-use App\Engines\ParserEngine;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
-use App\Models\Book;
 use App\Models\Serie;
-use App\Services\DirectoryParserService;
+use App\Services\ConverterService;
 use App\Services\MediaService;
 use App\Services\WikipediaService\WikipediaQuery;
 use File;
 use Illuminate\Support\Str;
+use ReflectionClass;
 use Storage;
 
 class EntityConverter
 {
     public const DISK = MediaDiskEnum::cover;
 
+    public static function setLocalData(Serie|Author $model): Serie|Author
+    {
+        $class_name = new ReflectionClass($model);
+        $class_name = strtolower($class_name->getShortName());
+        $path = public_path("storage/data/{$class_name}s/{$class_name}s.json");
+        if (File::exists($path)) {
+            $json = json_decode(File::get($path));
+            $data = ConverterService::objectToArray($json);
+
+            $local = null;
+            if (array_key_exists($model->slug, $data)) {
+                $local = $data[$model->slug];
+            }
+            if (array_key_exists($model->slug_sort, $data)) {
+                $local = $data[$model->slug_sort];
+            }
+            if (null !== $local) {
+                if (array_key_exists('description', $local)) {
+                    $model->description = $local['description'];
+                }
+                if (array_key_exists('link', $local)) {
+                    $model->link = $local['link'];
+                }
+                if (array_key_exists('note', $local)) {
+                    $model->note = $local['note'];
+                }
+                $model->save();
+            }
+        }
+
+        return $model;
+    }
+
     public static function setWikipediaDescription(Serie|Author $model): Serie|Author
     {
         if ($model->wikipedia && ! $model->description && ! $model->link) {
-            $model->description = Str::limit($model->wikipedia->extract, 1000);
+            if ('' === $model->getTranslation('description', $model->language_slug)) {
+                $model->setTranslation(
+                    'description',
+                    $model->language_slug,
+                    Str::limit($model->wikipedia->extract, 1000)
+                );
+            }
             $model->link = $model->wikipedia->page_url;
             $model->save();
         }
+        EntityConverter::setLocalData($model);
 
         return $model;
     }
@@ -64,27 +103,6 @@ class EntityConverter
 
         return $author;
     }
-
-    // public static function setLocalDescription(Serie $serie): ?Serie
-    // {
-    //     if (File::exists(public_path('storage/data/series/series.json'))) {
-    //         $json = Storage::disk('public')->get('raw/series/series.json');
-    //         $json = json_decode($json);
-    //         foreach ($json as $key => $value) {
-    //             if ($key === $serie->slug) {
-    //                 $serie->description = $value->description;
-    //                 $serie->link = $value->link;
-    //                 $serie->save();
-
-    //                 return $serie;
-    //             }
-    //         }
-
-    //         return null;
-    //     }
-
-    //     return null;
-    // }
 
     /**
      * Generate Serie tags from Books relationship tags.
