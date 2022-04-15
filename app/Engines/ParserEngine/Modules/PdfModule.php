@@ -95,9 +95,15 @@ class PdfModule extends Module implements ModuleInterface
 
     private function checkKey(string $key): mixed
     {
-        return array_key_exists($key, $this->metadata) ?
-            $this->metadata[$key]
-            : null;
+        $value = null;
+        if (array_key_exists($key, $this->metadata)) {
+            $value = $this->metadata[$key];
+            if (is_array($value)) {
+                $value = reset($value);
+            }
+        }
+
+        return $value;
     }
 
     /**

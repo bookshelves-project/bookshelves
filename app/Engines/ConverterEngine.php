@@ -73,14 +73,16 @@ class ConverterEngine
             array_push($authors_name, "{$author->lastname} {$author->firstname}");
         }
 
-        $book = Book::whereSlug($this->parser->title_slug_lang)
-            ->whereHas(
+        $book = Book::whereSlug($this->parser->title_slug_lang);
+        if (! empty($authors_name)) {
+            $book = $book->whereHas(
                 'authors',
                 fn (Builder $query) => $query->whereIn('name', $authors_name)
-            )
-            ->whereType($this->parser->type)
+            );
+        }
+        $book = $book->whereType($this->parser->type)
             ->first()
-            ;
+        ;
 
         return null !== $book ? $book : false;
     }

@@ -142,6 +142,15 @@ class ParserEngine
         $engine->title_serie_sort = ParserEngine::generateSortSerie($engine->title, $engine->serie, $engine->volume, $engine->language);
 
         $engine->description = ParserEngine::htmlToText($engine->description);
+        $reset_creators = false;
+        foreach ($engine->creators as $creator) {
+            if ('' === $creator->name) {
+                $reset_creators = true;
+            }
+        }
+        if ($reset_creators) {
+            $engine->creators = [];
+        }
 
         if ($engine->date && ! str_contains($engine->date, '0101')) {
             $engine->released_on = new DateTime($engine->date);
