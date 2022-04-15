@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.7.0.
+ * Generated for Laravel 9.8.1.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -2476,6 +2476,19 @@
                         return $instance->getClassComponentAliases();
         }
                     /**
+         * Register an anonymous component namespace.
+         *
+         * @param string $directory
+         * @param string|null $prefix
+         * @return void 
+         * @static 
+         */ 
+        public static function anonymousComponentNamespace($directory, $prefix = null)
+        {
+                        /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
+                        $instance->anonymousComponentNamespace($directory, $prefix);
+        }
+                    /**
          * Register a class-based component namespace.
          *
          * @param string $namespace
@@ -2487,6 +2500,17 @@
         {
                         /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
                         $instance->componentNamespace($namespace, $prefix);
+        }
+                    /**
+         * Get the registered anonymous component namespaces.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getAnonymousComponentNamespaces()
+        {
+                        /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
+                        return $instance->getAnonymousComponentNamespaces();
         }
                     /**
          * Get the registered class component namespaces.
@@ -4809,6 +4833,66 @@
                         return $instance->setApplication($app);
         }
                     /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+                        \Illuminate\Database\DatabaseManager::macro($name, $macro);
+        }
+                    /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void 
+         * @throws \ReflectionException
+         * @static 
+         */ 
+        public static function mixin($mixin, $replace = true)
+        {
+                        \Illuminate\Database\DatabaseManager::mixin($mixin, $replace);
+        }
+                    /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+                        return \Illuminate\Database\DatabaseManager::hasMacro($name);
+        }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Database\DatabaseManager::flushMacros();
+        }
+                    /**
+         * Dynamically handle calls to the class.
+         *
+         * @param string $method
+         * @param array $parameters
+         * @return mixed 
+         * @throws \BadMethodCallException
+         * @static 
+         */ 
+        public static function macroCall($method, $parameters)
+        {
+                        /** @var \Illuminate\Database\DatabaseManager $instance */
+                        return $instance->macroCall($method, $parameters);
+        }
+                    /**
          * Determine if the connected database is a MariaDB database.
          *
          * @return bool 
@@ -4913,6 +4997,21 @@
         {            //Method inherited from \Illuminate\Database\Connection         
                         /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->selectOne($query, $bindings, $useReadPdo);
+        }
+                    /**
+         * Run a select statement and return the first column of the first row.
+         *
+         * @param string $query
+         * @param array $bindings
+         * @param bool $useReadPdo
+         * @return mixed 
+         * @throws \Illuminate\Database\MultipleColumnsSelectedException
+         * @static 
+         */ 
+        public static function scalar($query, $bindings = [], $useReadPdo = true)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
+                        return $instance->scalar($query, $bindings, $useReadPdo);
         }
                     /**
          * Run a select statement against the database.
@@ -11183,7 +11282,7 @@
          * Retrieve an old input item.
          *
          * @param string|null $key
-         * @param string|array|null $default
+         * @param \Illuminate\Database\Eloquent\Model|string|array|null $default
          * @return string|array|null 
          * @static 
          */ 
