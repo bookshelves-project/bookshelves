@@ -39,18 +39,20 @@ class WebreaderController extends Controller
 
         SEOTools::setTitle($book->title);
         $download_link = $book->getFirstMediaUrl($format->value);
+        $file_path = str_replace(config('app.url'), '', $download_link);
+        $current_format = $format->value;
+        $data = ['file_path', 'download_link', 'book', 'current_format', 'title', 'home'];
 
         if (BookFormatEnum::epub === $format) {
-            $epub_path = str_replace(config('app.url'), '', $download_link);
-
-            return view('webreader::pages.epub', compact('epub_path', 'download_link', 'book', 'title', 'home'));
+            return view('webreader::pages.epub', compact($data));
         }
         if (BookFormatEnum::pdf === $format) {
             $pdf = $book->getFirstMedia(BookFormatEnum::pdf->value);
 
             return response()->download($pdf->getPath(), $pdf->file_name);
         }
-        if (BookFormatEnum::cbz === $format) {
+        if (BookFormatEnum::cbz === $format || BookFormatEnum::cbr === $format) {
+            return view('webreader::pages.cbz', compact($data));
         }
 
         return view('webreader::pages.not-ready', compact('download_link'));

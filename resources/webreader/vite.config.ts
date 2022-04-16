@@ -43,6 +43,10 @@ export default defineConfig({
       'vue',
       'alpinejs',
       'epubjs',
+      'jszip',
+      'jszip-utils',
+      '@zip.js/zip.js',
+      'rarjs',
     ],
   },
 })
