@@ -13,7 +13,7 @@
             <button @click="switchSize('sizeHalf')" class="bg-primary-600 rounded-md px-2 py-1">half screen</button>
             <button @click="switchSize('sizeScreen')" class="bg-primary-600 rounded-md px-2 py-1">screen</button>
         </div>
-        <img x-ref="current" src="" :class="[sizeFull ? 'w-full' : '', sizeHalf ? 'h-[130vh]' : '', sizeScreen ? 'h-screen' : '', 'mx-auto']" />
+        <img x-ref="current" src="" :class="[sizeFull ? 'w-full' : '', sizeHalf ? 'h-[150vh]' : '', sizeScreen ? 'h-screen' : '', 'mx-auto']" />
         {{-- <div x-data>
             <button @click="$store.sidebar.toggle()">sidebar</button>
             <span x-show="$store.sidebar.on">opened</span>

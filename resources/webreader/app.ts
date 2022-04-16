@@ -30,7 +30,6 @@ Alpine.store('navigation', {
 Alpine.data('toc', toc)
 Alpine.data('epubjs', epubjs)
 Alpine.data('cbz', cbz)
-// Alpine.store('sidebar', sidebar)
 Alpine.store('sidebar', sidebar)
 
 Alpine.start()
