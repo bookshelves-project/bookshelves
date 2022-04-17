@@ -4,7 +4,6 @@ namespace App\Engines;
 
 use App\Engines\ParserEngine\Models\BookCreator;
 use App\Engines\ParserEngine\Models\BookIdentifier;
-use App\Engines\ParserEngine\Modules\CbrModule;
 use App\Engines\ParserEngine\Modules\CbzModule;
 use App\Engines\ParserEngine\Modules\EpubModule;
 use App\Engines\ParserEngine\Modules\NameModule;
@@ -49,6 +48,9 @@ class ParserEngine
 
     public ?BookFormatEnum $format;
 
+    /** @var string[] */
+    public ?array $tags = [];
+
     public function __construct(
         public ?string $title = null,
         public ?string $slug_sort = null,
@@ -60,7 +62,6 @@ class ParserEngine
         public ?DateTime $released_on = null,
         public ?string $date = null,
         public ?string $publisher = null,
-        public ?array $subjects = [],
         public ?string $language = null,
         public ?string $rights = null,
         public ?string $serie = null,
@@ -98,7 +99,6 @@ class ParserEngine
 
         $parser->file_name = $file_name;
         $parser->file_path = $file->path;
-        $parser->format = null;
         $parser->format = BookFormatEnum::tryFrom($extension);
         $parser->type = $file->type;
         $parser->debug = $debug;
@@ -107,7 +107,7 @@ class ParserEngine
             BookFormatEnum::cbz => CbzModule::create($parser),
             BookFormatEnum::epub => EpubModule::create($parser),
             BookFormatEnum::pdf => PdfModule::create($parser),
-            BookFormatEnum::cbr => CbrModule::create($parser),
+            BookFormatEnum::cbr => CbzModule::create($parser, true),
             default => false,
         };
         if (! $engine || null === $engine->title) {
@@ -142,6 +142,15 @@ class ParserEngine
         $engine->title_serie_sort = ParserEngine::generateSortSerie($engine->title, $engine->serie, $engine->volume, $engine->language);
 
         $engine->description = ParserEngine::htmlToText($engine->description);
+        $reset_creators = false;
+        foreach ($engine->creators as $creator) {
+            if ('' === $creator->name) {
+                $reset_creators = true;
+            }
+        }
+        if ($reset_creators) {
+            $engine->creators = [];
+        }
 
         if ($engine->date && ! str_contains($engine->date, '0101')) {
             $engine->released_on = new DateTime($engine->date);

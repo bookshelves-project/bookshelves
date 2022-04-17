@@ -9,7 +9,7 @@ import { Book, Rendition } from 'epubjs'
 import { EpubThemes, dark, tan, defaultStyle } from './theme'
 
 interface AlpineRefs {
-  epubPath?: HTMLElement
+  filePath?: HTMLElement
   loadingMessage?: HTMLElement
   readButton?: HTMLElement
   presentation?: HTMLElement
@@ -31,7 +31,7 @@ let book: Book
 let rendition: Rendition
 let toc = []
 // let progress
-// const isReady = false
+// const isLoading = false
 let refsAlpine: AlpineRefs
 
 const epubjsInit = async (refs) => {
@@ -45,8 +45,8 @@ const epubjsInit = async (refs) => {
  * Init Book and Rendition
  */
 const setup = async () => {
-  const epubPath = refsAlpine.epubPath
-  const path = epubPath?.textContent
+  const filePath = refsAlpine.filePath
+  const path = filePath?.textContent
 
   const info = {
     toc: {},

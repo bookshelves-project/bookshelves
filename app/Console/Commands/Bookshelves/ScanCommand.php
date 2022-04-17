@@ -52,7 +52,8 @@ class ScanCommand extends CommandProd
         }
         foreach ($files as $key => $file) {
             $parser = ParserEngine::create($file);
-            $is_exist = ConverterEngine::bookIfExist($parser);
+            $converter = new ConverterEngine($parser);
+            $is_exist = $converter->bookIfExist();
             if (! $is_exist) {
                 array_push($new_files, $parser);
             }

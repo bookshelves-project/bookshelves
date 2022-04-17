@@ -1,6 +1,6 @@
 <x-layouts.webreader>
     <div x-data="epubjs()">
-        <div x-ref="epubPath" class="hidden">{{ $epub_path }}</div>
+        <div x-ref="filePath" class="hidden">{{ $file_path }}</div>
         <div x-data>
             <button @click="$store.sidebar.toggle()">sidebar</button>
             <span x-show="$store.sidebar.on">opened</span>

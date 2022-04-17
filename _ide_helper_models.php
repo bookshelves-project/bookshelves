@@ -20,9 +20,9 @@ namespace App\Models{
  * @property string|null $firstname
  * @property string|null $name
  * @property string|null $role
- * @property string|null $description
+ * @property array|null $description
  * @property string|null $link
- * @property string|null $note
+ * @property array|null $note
  * @property int|null $wikipedia_item_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -46,6 +46,7 @@ namespace App\Models{
  * @property-read array $files_list
  * @property-read string $first_char
  * @property-read bool $is_favorite
+ * @property-read string $language_slug
  * @property-read string $opds_link
  * @property-read mixed $reviews_link
  * @property-read string $series_link
@@ -94,7 +95,7 @@ namespace App\Models{
  * @property string|null $slug_sort
  * @property string|null $slug
  * @property string|null $contributor
- * @property string|null $description
+ * @property array|null $description
  * @property \Illuminate\Support\Carbon|null $released_on
  * @property string|null $rights
  * @property int|null $serie_id
@@ -800,7 +801,7 @@ namespace App\Models{
  * @property string|null $slug
  * @property string|null $language_slug
  * @property \App\Enums\BookTypeEnum $type
- * @property string|null $description
+ * @property array|null $description
  * @property string|null $link
  * @property int|null $wikipedia_item_id
  * @property \Illuminate\Support\Carbon|null $created_at

@@ -12,7 +12,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
- * @group Relation: Page
+ * @group CMS: Page
  *
  * Endpoint to get Pages data.
  */

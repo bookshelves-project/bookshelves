@@ -31,7 +31,6 @@ class BookUltraLightResource extends JsonResource
                 'show' => $this->resource->show_link,
             ],
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
-            'summary' => Str::limit($this->resource->description, 140),
             'language' => LanguageLightResource::make($this->resource->language),
             'releasedOn' => $this->resource->released_on,
             'cover' => [

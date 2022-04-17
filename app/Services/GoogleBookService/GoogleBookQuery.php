@@ -77,61 +77,63 @@ class GoogleBookQuery
     /**
      * Parse Google Book API response.
      */
-    public function parseResponse(Response $response): GoogleBookQuery
+    public function parseResponse(?Response $response): GoogleBookQuery
     {
-        $response = $response->json();
-        if ($this->debug) {
-            $this->print($response, 'gbooks');
-        }
+        if (null !== $response) {
+            $response = $response->json();
+            if ($this->debug) {
+                $this->print($response, 'gbooks');
+            }
 
-        try {
-            $response = json_decode(json_encode($response));
+            try {
+                $response = json_decode(json_encode($response));
 
-            if (property_exists($response, 'items')) {
-                $item = $response->items[0];
+                if (property_exists($response, 'items')) {
+                    $item = $response->items[0];
 
-                if (property_exists($item, 'volumeInfo')) {
-                    $volumeInfo = $item->volumeInfo ?? null;
-                    if ($volumeInfo) {
-                        $this->published_date = new DateTime($volumeInfo->publishedDate);
-                        $this->publisher = $volumeInfo->publisher ?? null;
-                        $this->description = $volumeInfo->description ?? null;
-                        $this->industry_identifiers = $volumeInfo->industryIdentifiers ?? null;
-                        $this->page_count = $volumeInfo->pageCount ?? null;
-                        $this->categories = $volumeInfo->categories ?? null;
-                        $this->maturity_rating = $volumeInfo->maturityRating ?? null;
-                        $this->language = $volumeInfo->language ?? null;
-                        $this->preview_link = $volumeInfo->previewLink ?? null;
+                    if (property_exists($item, 'volumeInfo')) {
+                        $volumeInfo = $item->volumeInfo ?? null;
+                        if ($volumeInfo) {
+                            $this->published_date = new DateTime($volumeInfo->publishedDate);
+                            $this->publisher = $volumeInfo->publisher ?? null;
+                            $this->description = $volumeInfo->description ?? null;
+                            $this->industry_identifiers = $volumeInfo->industryIdentifiers ?? null;
+                            $this->page_count = $volumeInfo->pageCount ?? null;
+                            $this->categories = $volumeInfo->categories ?? null;
+                            $this->maturity_rating = $volumeInfo->maturityRating ?? null;
+                            $this->language = $volumeInfo->language ?? null;
+                            $this->preview_link = $volumeInfo->previewLink ?? null;
+                        }
                     }
-                }
 
-                if (property_exists($item, 'saleInfo')) {
-                    $saleInfo = $item->saleInfo;
-                    if ($saleInfo) {
-                        if (property_exists($saleInfo, 'retailPrice')) {
-                            $retailPrice = $saleInfo->retailPrice;
-                            if ($retailPrice) {
-                                $this->retail_price_amount = intval($retailPrice->amount);
-                                $this->retail_price_currency_code = intval($retailPrice->currencyCode);
+                    if (property_exists($item, 'saleInfo')) {
+                        $saleInfo = $item->saleInfo;
+                        if ($saleInfo) {
+                            if (property_exists($saleInfo, 'retailPrice')) {
+                                $retailPrice = $saleInfo->retailPrice;
+                                if ($retailPrice) {
+                                    $this->retail_price_amount = intval($retailPrice->amount);
+                                    $this->retail_price_currency_code = intval($retailPrice->currencyCode);
+                                }
+                            }
+                            $this->buy_link = $saleInfo->buyLink ?? null;
+                        }
+                    }
+
+                    if ($this->industry_identifiers) {
+                        foreach ($this->industry_identifiers as $key => $new_identifier) {
+                            if ('ISBN_13' === $new_identifier->type) {
+                                $this->isbn13 = $new_identifier->identifier ?? null;
+                            }
+                            if ('ISBN_10' === $new_identifier->type) {
+                                $this->isbn10 = $new_identifier->identifier ?? null;
                             }
                         }
-                        $this->buy_link = $saleInfo->buyLink ?? null;
                     }
                 }
-
-                if ($this->industry_identifiers) {
-                    foreach ($this->industry_identifiers as $key => $new_identifier) {
-                        if ('ISBN_13' === $new_identifier->type) {
-                            $this->isbn13 = $new_identifier->identifier ?? null;
-                        }
-                        if ('ISBN_10' === $new_identifier->type) {
-                            $this->isbn10 = $new_identifier->identifier ?? null;
-                        }
-                    }
-                }
+            } catch (\Throwable $th) {
+                throw $th;
             }
-        } catch (\Throwable $th) {
-            throw $th;
         }
 
         return $this;

@@ -12,84 +12,78 @@ use App\Engines\ConverterEngine\SerieConverter;
 use App\Engines\ConverterEngine\TagConverter;
 use App\Engines\ConverterEngine\TypeConverter;
 use App\Engines\ParserEngine\Models\BookCreator;
-use App\Enums\BookFormatEnum;
-use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Builder;
 
 class ConverterEngine
 {
+    public function __construct(
+        public ParserEngine $parser,
+        public ?Book $book = null,
+        public ?bool $default = false
+    ) {
+    }
+
     /**
      * Convert ParserEngine into Book and relations.
      * Rejected if Book slug exist.
      */
-    public static function convert(?ParserEngine $parser, ?bool $default = false): Book|false
+    public static function create(?ParserEngine $parser, ?bool $default = false): Book|false
     {
+        $converter = new ConverterEngine($parser);
+        $converter->default = $default;
         if ($parser) {
-            $book = ConverterEngine::bookIfExist($parser);
+            $book_exist = $converter->bookIfExist();
 
-            if ($book) {
-                $book = BookConverter::check($parser, $book);
-                ConverterEngine::setBookData($parser, $book, $default);
+            if ($book_exist) {
+                $converter->book = BookConverter::check($converter->parser, $book_exist);
+                $converter->setRelations();
             } else {
-                $book = BookConverter::create($parser);
-                ConverterEngine::setBookData($parser, $book, $default);
+                $converter->book = BookConverter::create($converter->parser);
+                $converter->setRelations();
             }
         }
 
         return false;
     }
 
-    public static function setBookData(ParserEngine $parser, Book $book, bool $default): Book
+    public function setRelations(): Book
     {
-        AuthorConverter::generate($parser, $book);
-        TagConverter::create($parser, $book);
-        PublisherConverter::create($parser, $book);
-        LanguageConverter::create($parser, $book);
-        SerieConverter::create($parser, $book);
-        BookIdentifierConverter::create($parser, $book);
+        AuthorConverter::create($this);
+        TagConverter::create($this);
+        PublisherConverter::create($this);
+        LanguageConverter::create($this);
+        SerieConverter::create($this);
+        BookIdentifierConverter::create($this);
+        CoverConverter::create($this);
+        TypeConverter::create($this);
 
-        if (! $default && ! $book->cover_book) {
-            $book = CoverConverter::create($parser, $book);
-        }
+        $this->book->save();
 
-        ConverterEngine::convertFormat($parser, $book);
-
-        $book->save();
-
-        return $book;
+        return $this->book;
     }
 
-    public static function convertFormat(ParserEngine $parser, Book|false $book)
+    public function bookIfExist(): Book|false
     {
-        if ($book) {
-            TypeConverter::convert($parser, $book);
-        }
-    }
-
-    public static function bookIfExist(?ParserEngine $parser): Book|false
-    {
-        if ($parser) {
-            $authors_name = [];
-            /** @var BookCreator $creator */
-            foreach ($parser->creators as $creator) {
-                $author = AuthorConverter::create($creator);
-                array_push($authors_name, "{$author->firstname} {$author->lastname}");
-                array_push($authors_name, "{$author->lastname} {$author->firstname}");
-            }
-
-            $book = Book::whereSlug($parser->title_slug_lang)
-                ->whereHas(
-                    'authors',
-                    fn (Builder $query) => $query->whereIn('name', $authors_name)
-                )
-                ->whereType($parser->type)
-                ->first()
-            ;
-
-            return null !== $book ? $book : false;
+        $authors_name = [];
+        /** @var BookCreator $creator */
+        foreach ($this->parser->creators as $creator) {
+            $author = AuthorConverter::convert($creator);
+            array_push($authors_name, "{$author->firstname} {$author->lastname}");
+            array_push($authors_name, "{$author->lastname} {$author->firstname}");
         }
 
-        return false;
+        $book = Book::whereSlug($this->parser->title_slug_lang);
+        if (! empty($authors_name)) {
+            $book = $book->whereHas(
+                'authors',
+                fn (Builder $query) => $query->whereIn('name', $authors_name)
+            );
+        }
+        $book = $book->whereType($this->parser->type)
+            ->first()
+        ;
+
+        return null !== $book ? $book : false;
     }
 }

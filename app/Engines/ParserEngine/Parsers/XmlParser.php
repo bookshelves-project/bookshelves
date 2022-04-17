@@ -4,10 +4,12 @@ namespace App\Engines\ParserEngine\Parsers;
 
 use App\Engines\ParserEngine;
 use App\Services\ConsoleService;
+use Closure;
 use DOMDocument;
+use ReflectionClass;
 
 /**
- * Parse XML string to array.
+ * Parse XML string to array, have to implements `XmlInterface`.
  */
 class XmlParser
 {
@@ -15,7 +17,9 @@ class XmlParser
     {
         if (! isset($parser->xml_string)) {
             if ($parser->engine->debug) {
-                ConsoleService::print("{$parser->module}: can't get {$parser->extension_index}", 'red');
+                $class = new ReflectionClass($parser->module);
+                $module_name = $class->getShortName();
+                ConsoleService::print("{$module_name}: can't get {$parser->extension_index}", 'red');
                 ConsoleService::newLine();
             }
 
@@ -27,8 +31,9 @@ class XmlParser
         }
 
         try {
-            $parser->xml_data = XmlParser::xml_to_array($parser->xml_string);
-            $parser->engine = $parser->module::parse($parser, $parser->engine);
+            $xml_parser = new XmlParser();
+            $parser->metadata = $xml_parser->xml_to_array($parser->xml_string);
+            $parser->engine = $parser->module::parse($parser);
         } catch (\Throwable $th) {
             ConsoleService::print(__METHOD__, 'red', $th);
             ConsoleService::newLine();
@@ -47,18 +52,18 @@ class XmlParser
      *
      * @see http://gaarf.info/2009/08/13/xml-string-to-php-array/
      */
-    public static function xml_to_array(string $xml_string)
+    public function xml_to_array(string $xml_string)
     {
         $doc = new DOMDocument();
         $doc->loadXML($xml_string);
         $root = $doc->documentElement;
-        $output = self::domnode_to_array($root);
+        $output = $this->domnode_to_array($root);
         $output['@root'] = $root->tagName;
 
         return $output;
     }
 
-    public static function domnode_to_array(mixed $node)
+    public function domnode_to_array(mixed $node)
     {
         $output = [];
 
@@ -72,7 +77,7 @@ class XmlParser
             case XML_ELEMENT_NODE:
                 for ($i = 0, $m = $node->childNodes->length; $i < $m; ++$i) {
                     $child = $node->childNodes->item($i);
-                    $v = self::domnode_to_array($child);
+                    $v = $this->domnode_to_array($child);
                     if (isset($child->tagName)) {
                         $t = $child->tagName;
                         if (! isset($output[$t])) {

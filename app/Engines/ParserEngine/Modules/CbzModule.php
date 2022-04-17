@@ -4,23 +4,24 @@ namespace App\Engines\ParserEngine\Modules;
 
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Models\BookCreator;
-use App\Engines\ParserEngine\Parsers\ArchiveInterface;
+use App\Engines\ParserEngine\Modules\Interface\Module;
+use App\Engines\ParserEngine\Modules\Interface\ModuleInterface;
+use App\Engines\ParserEngine\Modules\Interface\XmlInterface;
 use App\Engines\ParserEngine\Parsers\ArchiveParser;
 use App\Services\ConsoleService;
 use Illuminate\Support\Carbon;
 
-class CbzModule implements ArchiveInterface
+class CbzModule extends Module implements ModuleInterface, XmlInterface
 {
     public function __construct(
-        public ?array $xml_data = null,
         public ?string $type = null,
-        public ?ParserEngine $engine = null,
     ) {
     }
 
-    public static function create(ParserEngine $engine): ParserEngine|false
+    public static function create(ParserEngine $engine, ?bool $cbr = false): ParserEngine|false
     {
-        $archive = new ArchiveParser($engine, CbzModule::class);
+        $archive = new ArchiveParser($engine, new CbzModule());
+        $archive->is_rar = $cbr;
         $archive->find_cover = true;
 
         return $archive->open();
@@ -28,12 +29,13 @@ class CbzModule implements ArchiveInterface
 
     public static function parse(ArchiveParser $parser): ParserEngine
     {
-        $module = new CbzModule();
+        /** @var CbzModule */
+        $module = $parser->module;
 
-        $module->xml_data = $parser->xml_data;
+        $module->metadata = $parser->metadata;
         $module->engine = $parser->engine;
 
-        $module->type = $module->xml_data['@root'];
+        $module->type = $module->metadata['@root'];
 
         $is_supported = match ($module->type) {
             'ComicInfo' => $module->comicInfo(),
@@ -41,19 +43,19 @@ class CbzModule implements ArchiveInterface
         };
 
         if ($parser->engine->debug) {
-            ParserEngine::printFile($module->xml_data, "{$parser->engine->file_name}-metadata.json");
+            ParserEngine::printFile($module->metadata, "{$parser->engine->file_name}-metadata.json");
         }
         if (! $is_supported) {
             ConsoleService::print("CbzModule {$module->type} not supported", 'red');
             ConsoleService::newLine();
         }
 
-        return $module->engine;
+        return $parser->engine;
     }
 
     private function comicInfo(): static
     {
-        if ($this->xml_data) {
+        if ($this->metadata) {
             $this->getRaw('Title', 'title');
             $this->getRaw('Summary', 'description');
             $this->getRaw('Series', 'serie');
@@ -69,8 +71,8 @@ class CbzModule implements ArchiveInterface
 
     private function getRaw(string $extract_key, string $attribute): static
     {
-        if (array_key_exists($extract_key, $this->xml_data)) {
-            $this->engine->{$attribute} = $this->xml_data[$extract_key];
+        if (array_key_exists($extract_key, $this->metadata)) {
+            $this->engine->{$attribute} = $this->metadata[$extract_key];
         }
 
         return $this;
@@ -78,8 +80,8 @@ class CbzModule implements ArchiveInterface
 
     private function getCreators(string $extracted_key, string $attribute): static
     {
-        if (array_key_exists($extracted_key, $this->xml_data)) {
-            $creators = explode(',', $this->xml_data[$extracted_key]);
+        if (array_key_exists($extracted_key, $this->metadata)) {
+            $creators = explode(',', $this->metadata[$extracted_key]);
             foreach ($creators as $creator) {
                 $creator = new BookCreator(trim($creator), 'aut');
                 array_push($this->engine->{$attribute}, $creator);
@@ -94,14 +96,14 @@ class CbzModule implements ArchiveInterface
         $year = null;
         $month = null;
         $day = null;
-        if (array_key_exists('Year', $this->xml_data)) {
-            $year = $this->xml_data['Year'];
+        if (array_key_exists('Year', $this->metadata)) {
+            $year = $this->metadata['Year'];
         }
-        if (array_key_exists('Month', $this->xml_data)) {
-            $month = $this->xml_data['Month'];
+        if (array_key_exists('Month', $this->metadata)) {
+            $month = $this->metadata['Month'];
         }
-        if (array_key_exists('Day', $this->xml_data)) {
-            $day = $this->xml_data['Day'];
+        if (array_key_exists('Day', $this->metadata)) {
+            $day = $this->metadata['Day'];
         }
 
         if ($year || $month || $day) {

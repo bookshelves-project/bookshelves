@@ -4,9 +4,10 @@ import 'clockwork-browser/toolbar'
 import 'virtual:windi.css'
 import './app.css'
 
-import toc from './scripts/components/toc'
-import epubjs from './scripts/components/epub'
-import sidebar from './scripts/components/sidebar'
+import toc from './scripts/toc'
+import epubjs from './scripts/epub'
+import comic from './scripts/comic'
+import sidebar from './scripts/sidebar'
 
 import Alpine from 'alpinejs'
 
@@ -28,7 +29,7 @@ Alpine.store('navigation', {
 })
 Alpine.data('toc', toc)
 Alpine.data('epubjs', epubjs)
-// Alpine.store('sidebar', sidebar)
+Alpine.data('comic', comic)
 Alpine.store('sidebar', sidebar)
 
 Alpine.start()

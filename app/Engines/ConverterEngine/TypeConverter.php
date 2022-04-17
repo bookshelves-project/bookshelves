@@ -2,6 +2,7 @@
 
 namespace App\Engines\ConverterEngine;
 
+use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
 use App\Enums\MediaDiskEnum;
 use App\Enums\SpatieMediaMethodEnum;
@@ -19,24 +20,24 @@ class TypeConverter
      * Generate new file with standard name.
      * Managed by spatie/laravel-medialibrary.
      */
-    public static function convert(ParserEngine $parser, Book $book): bool
+    public static function create(ConverterEngine $converter): bool
     {
-        $extension = pathinfo($parser->file_path, PATHINFO_EXTENSION);
+        $extension = pathinfo($converter->parser->file_path, PATHINFO_EXTENSION);
 
-        $author = $book->meta_author;
-        $serie = $book->slug_sort;
-        $language = $book->language_slug;
+        $author = $converter->book->meta_author;
+        $serie = $converter->book->slug_sort;
+        $language = $converter->book->language_slug;
         $file_name = Str::slug($author.'_'.$serie.'_'.$language);
 
         $result = false;
-        if (pathinfo($parser->file_path, PATHINFO_BASENAME) !== $file_name) {
+        if (pathinfo($converter->parser->file_path, PATHINFO_BASENAME) !== $file_name) {
             try {
-                $file = File::get($parser->file_path);
+                $file = File::get($converter->parser->file_path);
                 MediaService::create(
-                    model: $book,
+                    model: $converter->book,
                     name: $file_name,
                     disk: self::DISK,
-                    collection: $parser->format->value,
+                    collection: $converter->parser->format->value,
                     extension: $extension,
                     method: SpatieMediaMethodEnum::addMediaFromString
                 )->setMedia($file);

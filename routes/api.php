@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\PasswordController;
@@ -40,17 +41,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/', [ApiController::class, 'home'])->name('api.index');
-Route::get('/application', [CmsController::class, 'application'])->name('api.application');
-Route::get('/navigation', [CmsController::class, 'navigation'])->name('api.navigation');
+
+Route::get('/enums', [ApplicationController::class, 'enums'])->name('api.enums');
+Route::get('/count', [ApplicationController::class, 'count'])->name('api.count');
+Route::get('/application', [ApplicationController::class, 'application'])->name('api.application');
+Route::get('/navigation', [ApplicationController::class, 'navigation'])->name('api.navigation');
+Route::get('/search', [EntityController::class, 'search'])->name('api.search');
+
 Route::post('submission/send', [SubmissionController::class, 'send'])->name('api.submissions.send');
 
 /*
  * Entities routes
  */
-Route::get('/search', [EntityController::class, 'search'])->name('api.entities.search');
 Route::prefix('entities')->group(function () {
-    Route::get('/enums', [EntityController::class, 'enums'])->name('api.entities.enums');
-    Route::get('/count', [EntityController::class, 'count'])->name('api.entities.count');
     Route::get('/latest', [EntityController::class, 'latest'])->name('api.entities.latest');
     Route::get('/selection', [EntityController::class, 'selection'])->name('api.entities.selection');
     Route::get('/related/{author_slug}/{book_slug}', [EntityController::class, 'related'])->name('api.entities.related');

@@ -115,7 +115,7 @@ class GenerateCommand extends CommandProd
         $bar->start();
         foreach ($list as $file) {
             $parser = ParserEngine::create($file, $debug);
-            ConverterEngine::convert($parser, $default);
+            ConverterEngine::create($parser, $default);
 
             if (! $debug) {
                 $bar->advance();
@@ -148,6 +148,7 @@ class GenerateCommand extends CommandProd
         $bar->start();
         foreach ($model::all() as $entity) {
             EntityConverter::setTags($entity);
+            EntityConverter::setLocalData($entity);
             if (! $default) {
                 CoverConverter::setLocalCover($entity);
             }

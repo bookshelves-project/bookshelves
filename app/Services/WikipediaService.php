@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Author;
+use App\Models\Serie;
 use App\Models\WikipediaItem;
 use App\Services\ConsoleService;
 use App\Services\HttpService;
@@ -9,6 +11,7 @@ use App\Services\WikipediaService\WikipediaQuery;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use ReflectionClass;
 
 /**
  * Use Wikipedia to get some data about authors and series.
@@ -37,12 +40,14 @@ class WikipediaService
     /**
      * Create WikipediaService from Model and create WikipediaQuery for each entity only if hasn't WikipediaItem.
      */
-    public static function create(string $class, string|array $attribute, ?string $language_attribute = 'language_slug', ?bool $debug = false): WikipediaService
+    public static function create(Author|Serie $class, string|array $attribute, ?string $language_attribute = 'language_slug', ?bool $debug = false): WikipediaService
     {
         $service = new WikipediaService();
-        $service->class = $class;
+        $class_name = new ReflectionClass($class);
+        $service->class = $class_name->getName();
         $models = $class::all();
         // Keep only books without wikipedia relation.
+        /** @var Author|Serie $model */
         foreach ($models as $model) {
             if (! $model->wikipedia) {
                 $service->models->add($model);
@@ -93,7 +98,10 @@ class WikipediaService
                 /**
                  * If language attribute is unknown, set it to english.
                  */
-                $lang = array_key_exists($this->language_attribute, $model->getAttributes()) ? $model->{$this->language_attribute} : 'en';
+                $lang = $model->{$this->language_attribute};
+                if ('any' === $lang) {
+                    $lang = 'en';
+                }
 
                 $query = null;
                 if (is_array($this->query_attribute)) {

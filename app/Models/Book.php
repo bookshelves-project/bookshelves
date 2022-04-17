@@ -23,6 +23,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\Translatable\HasTranslations;
 
 /**
  * @property null|int $reviews_count
@@ -40,6 +41,11 @@ class Book extends Model implements HasMedia
     use HasTagsAndGenres;
     use HasBookType;
     use Searchable;
+    use HasTranslations;
+
+    public $translatable = [
+        'description',
+    ];
 
     protected $fillable = [
         'title',
@@ -250,6 +256,7 @@ class Book extends Model implements HasMedia
             'picture' => $this->cover_thumbnail,
             'released_on' => $this->released_on,
             'author' => $this->authors_names,
+            'serie' => $this->serie?->title,
             'isbn10' => $this->isbn10,
             'isbn13' => $this->isbn13,
             'created_at' => $this->created_at,

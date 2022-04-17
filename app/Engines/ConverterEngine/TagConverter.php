@@ -2,7 +2,7 @@
 
 namespace App\Engines\ConverterEngine;
 
-use App\Engines\ParserEngine;
+use App\Engines\ConverterEngine;
 use App\Enums\TagTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Collection;
@@ -13,20 +13,23 @@ class TagConverter
     /**
      * Generate Tag[] for Book from ParserEngine.
      */
-    public static function create(ParserEngine $parser, Book $book): Collection
+    public static function create(ConverterEngine $converter): Collection
     {
-        foreach ($parser->subjects as $key => $subject) {
-            TagConverter::setTag($subject, $book);
+        foreach ($converter->parser->tags as $key => $tag) {
+            $tag_model = TagConverter::setTag($tag);
+            if ($tag_model) {
+                $converter->book->attachTag($tag_model);
+            }
         }
-        $book->refresh();
+        $converter->book->refresh();
 
-        return $book->tags;
+        return $converter->book->tags;
     }
 
     /**
      * Attach Tag to Book and define type from list of main tags.
      */
-    public static function setTag(string $tag, Book $book): Book
+    public static function setTag(string $tag): ?Tag
     {
         $main_genres = config('bookshelves.tags.genres_list');
         $tag = str_replace(' and ', ' & ', $tag);
@@ -40,18 +43,17 @@ class TagConverter
             }
         }
 
+        $tag_model = null;
         if (strlen($tag) > 1 && strlen($tag) < 30 && ! in_array($tag, $forbidden_tags)) {
             $tag = strtolower($tag);
             $tag = ucfirst($tag);
             if (in_array($tag, $main_genres)) {
-                $tag = Tag::findOrCreate($tag, TagTypeEnum::genre->value);
+                $tag_model = Tag::findOrCreate($tag, TagTypeEnum::genre->value);
             } else {
-                $tag = Tag::findOrCreate($tag, TagTypeEnum::tag->value);
+                $tag_model = Tag::findOrCreate($tag, TagTypeEnum::tag->value);
             }
-
-            $book->attachTag($tag);
         }
 
-        return $book;
+        return $tag_model;
     }
 }

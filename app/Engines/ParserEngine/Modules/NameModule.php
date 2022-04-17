@@ -3,9 +3,11 @@
 namespace App\Engines\ParserEngine\Modules;
 
 use App\Engines\ParserEngine;
+use App\Engines\ParserEngine\Modules\Interface\Module;
+use App\Engines\ParserEngine\Modules\Interface\ModuleInterface;
 use App\Engines\ParserEngine\Parsers\NameParser;
 
-class NameModule
+class NameModule extends Module implements ModuleInterface
 {
     public static function create(ParserEngine $engine): ParserEngine|false
     {
