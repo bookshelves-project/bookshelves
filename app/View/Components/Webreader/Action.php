@@ -11,7 +11,9 @@ class Action extends Component
      */
     public function __construct(
         public string $icon,
-        public ?string $action = 'false'
+        public ?string $action = 'false',
+        public ?bool $download = false,
+        public ?string $downloadLink = null
     ) {
     }
 
