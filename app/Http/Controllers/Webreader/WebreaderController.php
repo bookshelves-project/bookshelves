@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\MediaExtended;
 use App\Services\MarkdownService;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Inertia\Inertia;
@@ -38,10 +39,14 @@ class WebreaderController extends Controller
         $title .= ' by '.$book->authors_names;
 
         SEOTools::setTitle($book->title);
+        /** @var MediaExtended $file */
+        $file = $book->files[$format->value];
+
         $download_link = $book->getFirstMediaUrl($format->value);
+        $full_download = $download_link;
         $file_path = str_replace(config('app.url'), '', $download_link);
         $current_format = $format->value;
-        $data = ['file_path', 'download_link', 'book', 'current_format', 'title', 'home'];
+        $data = ['file_path', 'download_link', 'full_download', 'file', 'book', 'current_format', 'title', 'home'];
 
         if (BookFormatEnum::epub === $format) {
             return view('webreader::pages.epub', compact($data));
@@ -52,7 +57,7 @@ class WebreaderController extends Controller
             return response()->download($pdf->getPath(), $pdf->file_name);
         }
         if (BookFormatEnum::cbz === $format || BookFormatEnum::cbr === $format) {
-            return view('webreader::pages.cbz', compact($data));
+            return view('webreader::pages.comic', compact($data));
         }
 
         return view('webreader::pages.not-ready', compact('download_link'));

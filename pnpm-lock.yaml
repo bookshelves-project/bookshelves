@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@comix/parser': ^0.1.0
   '@headlessui/vue': ^1.5.0
   '@heroicons/vue': ^1.0.6
   '@inertiajs/inertia': ^0.11.0
@@ -35,7 +36,6 @@ specifiers:
   '@vueuse/core': ^8.2.6
   '@vueuse/shared': ^8.2.6
   '@windicss/plugin-scrollbar': ^1.2.3
-  '@zip.js/zip.js': ^2.4.10
   alpinejs: ^3.9.6
   axios: ^0.26.1
   chart.js: ^3.7.1
@@ -56,7 +56,6 @@ specifiers:
   pinia: ^2.0.13
   prettier: ^2.6.2
   qs: ^6.10.3
-  rarjs: ^0.0.2
   ts-jest: ^27.1.4
   typescript: ^4.6.3
   unplugin-vue-components: ^0.18.5
@@ -71,6 +70,7 @@ specifiers:
   ziggy-js: ^1.4.6
 
 dependencies:
+  '@comix/parser': 0.1.0
   '@tiptap/core': 2.0.0-beta.174
   '@tiptap/extension-character-count': 2.0.0-beta.25_@tiptap+core@2.0.0-beta.174
   '@tiptap/extension-image': 2.0.0-beta.27_@tiptap+core@2.0.0-beta.174
@@ -81,11 +81,9 @@ dependencies:
   '@tiptap/extension-typography': 2.0.0-beta.20_@tiptap+core@2.0.0-beta.174
   '@tiptap/starter-kit': 2.0.0-beta.183
   '@tiptap/vue-3': 2.0.0-beta.90_7d5a27dfafa0e6510f6c4930c7804936
-  '@zip.js/zip.js': 2.4.10
   chart.js: 3.7.1
   epubjs: 0.3.93
   pinia: 2.0.13_typescript@4.6.3+vue@3.2.33
-  rarjs: 0.0.2
   vue-chart-3: 3.1.8_chart.js@3.7.1+vue@3.2.33
 
 devDependencies:
@@ -476,6 +474,16 @@ packages:
   /@bcoe/v8-coverage/0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
+
+  /@comix/parser/0.1.0:
+    resolution: {integrity: sha512-mibU+U/2Se5JtDY3H+lIi9uONKh0oe6agMeQDDv/tDWmYSkFG04taXFIuG3+/UkNbTIecvKeRgJoRb0yQ9Qs4g==}
+    dependencies:
+      buffer: 6.0.3
+      buffer-image-size: 0.6.4
+      eventemitter3: 4.0.7
+      node-unrar-js: 1.0.6
+      unzipit: 1.4.0
+    dev: false
 
   /@eslint/eslintrc/1.2.1:
     resolution: {integrity: sha512-bxvbYnBPN1Gibwyp6NrpnFzA3YtRL3BBAyEAFVIpNTm2Rn4Vy87GA5M4aSn3InRrlsbX5N0GW7XIx+U4SAEKdQ==}
@@ -1382,7 +1390,6 @@ packages:
 
   /@types/node/17.0.24:
     resolution: {integrity: sha512-aveCYRQbgTH9Pssp1voEP7HiuWlD2jW2BO56w+bVrJn04i61yh6mRfoKO6hEYQD9vF+W8Chkwc6j1M36uPkx4g==}
-    dev: true
 
   /@types/orderedmap/1.0.0:
     resolution: {integrity: sha512-dxKo80TqYx3YtBipHwA/SdFmMMyLCnP+5mkEqN0eMjcTBzHkiiX0ES118DsjDBjvD+zeSsSU9jULTZ+frog+Gw==}
@@ -1884,10 +1891,6 @@ packages:
     engines: {node: '>=10.0.0'}
     dev: false
 
-  /@zip.js/zip.js/2.4.10:
-    resolution: {integrity: sha512-lhlDPfkG8iMsAE7CNTu6fqFZp/qySEUIGBLXQQA0RNfNtgCt7SlkaGAwX0nKaCwMMNqw+wDrTJIP8gOR7uxqEg==}
-    dev: false
-
   /abab/2.0.5:
     resolution: {integrity: sha512-9IK9EadsbHo6jLWIpxpR6pL0sazTXV6+SQv25ZB+F7Bj9mJNaOc4nCRabwd5M/JwmUa8idz6Eci6eKfJryPs6Q==}
     dev: true
@@ -2129,7 +2132,6 @@ packages:
 
   /base64-js/1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
-    dev: true
 
   /before-after-hook/2.2.2:
     resolution: {integrity: sha512-3pZEU3NT5BFUo/AD5ERPWOgQOCZITni6iavr5AUw5AUwQjMlI0kzu5btnyD39AF0gUEsDPwJT+oY1ORBJijPjQ==}
@@ -2219,12 +2221,26 @@ packages:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
     dev: true
 
+  /buffer-image-size/0.6.4:
+    resolution: {integrity: sha512-nEh+kZOPY1w+gcCMobZ6ETUp9WfibndnosbpwB1iJk/8Gt5ZF2bhS6+B6bPYz424KtwsR6Rflc3tCz1/ghX2dQ==}
+    engines: {node: '>=4.0'}
+    dependencies:
+      '@types/node': 17.0.24
+    dev: false
+
   /buffer/5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
     dev: true
+
+  /buffer/6.0.3:
+    resolution: {integrity: sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==}
+    dependencies:
+      base64-js: 1.5.1
+      ieee754: 1.2.1
+    dev: false
 
   /cacheable-request/6.1.0:
     resolution: {integrity: sha512-Oj3cAGPCqOZX7Rz64Uny2GYAZNliQSqfbePrgAQ1wKAihYmCUnraBtJtKcGR4xz7wF+LoJC+ssFZvv5BgF9Igg==}
@@ -3253,6 +3269,10 @@ packages:
       es5-ext: 0.10.60
     dev: false
 
+  /eventemitter3/4.0.7:
+    resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
+    dev: false
+
   /execa/4.1.0:
     resolution: {integrity: sha512-j5W0//W7f8UxAn8hXVnwG8tLwdiUy4FJLcSupCg6maBYZDpyBvTApK7KyuI4bKj8KOh1r2YH+6ucuYtJv1bTZA==}
     engines: {node: '>=10'}
@@ -3706,7 +3726,6 @@ packages:
 
   /ieee754/1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
-    dev: true
 
   /ignore/5.2.0:
     resolution: {integrity: sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==}
@@ -5003,6 +5022,11 @@ packages:
     resolution: {integrity: sha512-maHFz6OLqYxz+VQyCAtA3PTX4UP/53pa05fyDNc9CwjvJ0yEh6+xBwKsgCxMNhS8taUKBFYxfuiaD9U/55iFaw==}
     dev: true
 
+  /node-unrar-js/1.0.6:
+    resolution: {integrity: sha512-jObs9hXUmXldlQI04/oYb+97RolAx4aJO08Rz5mRE/wFdwzcftuffEPZLZao+c0nKiwXCT77ZUN+sp/5lnpA2w==}
+    engines: {node: '>=10.0.0'}
+    dev: false
+
   /normalize-package-data/2.5.0:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
     dependencies:
@@ -5560,10 +5584,6 @@ packages:
   /queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
-
-  /rarjs/0.0.2:
-    resolution: {integrity: sha1-q35oaU3jDAFKSOQxiboKZ/vlMO0=}
-    dev: false
 
   /rc/1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
@@ -6397,6 +6417,13 @@ packages:
       webpack-virtual-modules: 0.4.3
     dev: true
 
+  /unzipit/1.4.0:
+    resolution: {integrity: sha512-hjoB8j1igXJgmxqaAvqkIW+faKTpG9cPK6QvkBhNCyd8OPWqODXTBVqTEmZbz62K5J/dX4Xa8lTa0NRikQwSjQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      uzip-module: 1.0.3
+    dev: false
+
   /upath/2.0.1:
     resolution: {integrity: sha512-1uEe95xksV1O0CYKXo8vQvN1JEbtJp7lb7C5U9HMsIp6IVwntkH/oNUzyVNQSd4S1sYk2FpSSW44FqMc8qee5w==}
     engines: {node: '>=4'}
@@ -6446,6 +6473,10 @@ packages:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
     dev: true
+
+  /uzip-module/1.0.3:
+    resolution: {integrity: sha512-AMqwWZaknLM77G+VPYNZLEruMGWGzyigPK3/Whg99B3S6vGHuqsyl5ZrOv1UUF3paGK1U6PM0cnayioaryg/fA==}
+    dev: false
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}

@@ -39,6 +39,8 @@ class ArchiveParser
             $this->zip();
         }
 
+        $this->engine->page_count = count($this->zip_files_list);
+
         return $this->engine;
     }
 

@@ -22,6 +22,7 @@ const primary = {
 
 export default defineConfig({
   darkMode: 'class',
+  safelist: ['border-2', 'border-white', 'border-transparent'],
   theme: {
     fontFamily: {
       sans: ['Open Sans', ...defaultTheme.fontFamily.sans],

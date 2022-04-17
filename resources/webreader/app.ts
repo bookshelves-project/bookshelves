@@ -6,7 +6,7 @@ import './app.css'
 
 import toc from './scripts/toc'
 import epubjs from './scripts/epub'
-import cbz from './scripts/cbz'
+import comic from './scripts/comic'
 import sidebar from './scripts/sidebar'
 
 import Alpine from 'alpinejs'
@@ -29,7 +29,7 @@ Alpine.store('navigation', {
 })
 Alpine.data('toc', toc)
 Alpine.data('epubjs', epubjs)
-Alpine.data('cbz', cbz)
+Alpine.data('comic', comic)
 Alpine.store('sidebar', sidebar)
 
 Alpine.start()

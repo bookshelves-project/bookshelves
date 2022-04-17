@@ -31,7 +31,7 @@ let book: Book
 let rendition: Rendition
 let toc = []
 // let progress
-// const isReady = false
+// const isLoading = false
 let refsAlpine: AlpineRefs
 
 const epubjsInit = async (refs) => {
