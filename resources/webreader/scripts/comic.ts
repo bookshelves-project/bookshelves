@@ -49,6 +49,12 @@ const cbz = () => ({
       }
     })
     this.lastPage = imagesList.length - 1
+    imagesList = imagesList.sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      })
+    )
 
     await this.setImage()
     this.isLoading = false
