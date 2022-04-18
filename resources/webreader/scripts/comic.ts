@@ -18,7 +18,7 @@ interface Config {
 
 interface GridImg {
   name: string
-  img: string
+  img?: string
 }
 
 let refsAlpine: AlpineRefs
@@ -28,6 +28,7 @@ const cbz = () => ({
   filename: '',
   url: '',
   imagesList: [] as comix.ComicImage[],
+  gridIsAvailable: false,
   grid: [] as GridImg[],
   showGrid: false,
   isLoading: true,
@@ -42,15 +43,12 @@ const cbz = () => ({
   informationEnabled: false,
   currentPage: 0,
   lastPage: 0,
-  isDoubleSpace: 0,
-  configKey: '',
-  downloadStatus: '0%',
+  configKey: 'webreader_comic_config',
   async init() {
     // @ts-ignore
     refsAlpine = this.$refs
     this.url = refsAlpine.url.textContent!
     this.filename = refsAlpine.fileName.textContent!
-    this.configKey = refsAlpine.fileName.textContent!
 
     const file = await download(this.url, this.filename)
     if (file) {
@@ -77,6 +75,11 @@ const cbz = () => ({
       this.isLoading = false
 
       this.events()
+      for (let i = 0; i < this.imagesList.length; i++) {
+        this.grid.push({
+          name: i.toString(),
+        })
+      }
       await this.getGrid()
     }
   },
@@ -152,51 +155,56 @@ const cbz = () => ({
     this.saveConfig()
   },
   displayGrid() {
-    this.showGrid = !this.showGrid
     const full = document.getElementById('fullScreen')
+    this.showGrid = !this.showGrid
+
     full?.scrollTo({
       top: 0,
       behavior: 'smooth',
     })
   },
   async getGrid() {
-    this.grid = []
+    let grid: GridImg[] = []
     for (const file of this.imagesList) {
       const imageBuffer = await file.read()
       const arrayBufferView = new Uint8Array(imageBuffer)
       const imageBlob = new Blob([arrayBufferView], { type: 'image/jpg' })
       const imageUrl = URL.createObjectURL(imageBlob)
-      this.grid.push({
+      grid.push({
         name: file.name,
         img: imageUrl,
       })
     }
-    this.grid = this.grid.sort((a, b) =>
+    grid = grid.sort((a, b) =>
       a.name.localeCompare(b.name, undefined, {
         numeric: true,
         sensitivity: 'base',
       })
     )
+    this.gridIsAvailable = true
+    this.grid = grid
   },
   saveConfig() {
     const config: Config = {
-      page: this.currentPage.toString(),
       size: this.currentSize,
       locked: this.navigationIsLock,
     }
-    localStorage.setItem(this.filename, JSON.stringify(config))
+    localStorage.setItem(this.configKey, JSON.stringify(config))
+    localStorage.setItem(this.filename, this.currentPage.toString())
   },
   getConfig(): Config {
     let config: Config = {
-      page: '0',
       size: 'sizeScreen',
       locked: true,
     }
-    if (localStorage.getItem(this.filename) !== null) {
-      const storage = localStorage.getItem(this.filename)!
+    if (localStorage.getItem(this.configKey) !== null) {
+      const storage = localStorage.getItem(this.configKey)!
       config = JSON.parse(storage)
     }
-    this.currentPage = parseInt(config.page!)
+    if (localStorage.getItem(this.filename) !== null) {
+      const currentPage = localStorage.getItem(this.filename)!
+      this.currentPage = parseInt(currentPage)
+    }
     this.switchSize(config.size!)
     this.navigationIsLock = config.locked!
     this.showNavigation = config.locked!
@@ -208,11 +216,7 @@ const cbz = () => ({
       if (event.key === 'ArrowLeft') {
         this.previous()
       }
-      if (
-        event.key === 'ArrowRight' ||
-        event.key === 'Control' ||
-        event.key === 'Meta'
-      ) {
+      if (event.key === 'ArrowRight' || event.key === 'Alt') {
         this.next()
       }
 
@@ -277,7 +281,7 @@ const cbz = () => ({
         label: 'Previous page',
       },
       {
-        key: ['⌘', 'Ctrl', '→'],
+        key: ['Alt', '→'],
         label: 'Next page',
       },
       {

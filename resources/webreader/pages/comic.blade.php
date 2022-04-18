@@ -1,13 +1,14 @@
 <x-layouts.webreader>
-    <div id="fullScreen" x-data="comic()">
+    <div id="fullScreen" x-data="comic()" :class="showGrid ? 'overflow-hidden' : ''">
         <div x-show="showGrid" class="fixed z-10 w-full overflow-auto h-screen bg-gray-900">
             <div class="grid grid-cols-4 gap-3">
                 <template x-for="(file,key) in grid">
                     <button class="relative" @click="currentPage = key, setImage(), displayGrid()">
-                        <div class="absolute bottom-0 left-0 p-2 bg-gray-800">
+                        <div class="absolute bottom-0 left-0 p-2 bg-gray-800 z-10">
                             Page <span x-text="key"></span>
                         </div>
-                        <img :src="file . img" alt="" class="object-cover">
+                        <img x-show="file.img" :src="file . img" alt="" class="object-cover">
+                        <div x-show="!gridIsAvailable" class="min-h-64 w-full bg-gray-700 animate-pulse"></div>
                     </button>
                 </template>
             </div>
@@ -98,25 +99,5 @@
                 'mx-auto min-w-[60rem] min-w-[auto]',
             ]" />
         </div>
-        {{-- <div x-data>
-            <button @click="$store.sidebar.toggle()">sidebar</button>
-            <span x-show="$store.sidebar.on">opened</span>
-            <div x-ref="sidebar"></div>
-        </div>
-        <x-webreader.color-mode />
-        <x-webreader.sidebar :title="$title" />
-        <x-webreader.navigation :download="$download_link" :home="$home" />
-        <x-webreader.navigation-on-screen />
-
-        <div class="flex">
-            <div class="mx-auto w-full md:max-w-3xl">
-                <div class="flex h-screen">
-                    <div class="h-screen mt-auto w-full">
-                        <x-webreader.presentation :book="$book" />
-                        <x-webreader.reader />
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </div>
 </x-layouts.webreader>
