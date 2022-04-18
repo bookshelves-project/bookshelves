@@ -1,5 +1,22 @@
 <x-layouts.webreader>
     <div id="fullScreen" x-data="comic()">
+        <div x-show="showGrid" class="fixed z-10 w-full overflow-auto h-screen bg-gray-900">
+            <div class="grid grid-cols-4 gap-3">
+                <template x-for="(file,key) in grid">
+                    <button class="relative" @click="currentPage = key, setImage(), displayGrid()">
+                        <div class="absolute bottom-0 left-0 p-2 bg-gray-800">
+                            Page <span x-text="key"></span>
+                        </div>
+                        <img :src="file . img" alt="" class="object-cover">
+                    </button>
+                </template>
+            </div>
+        </div>
+        <div x-show="isLoading" x-transition
+            class="fixed top-5 left-5 bg-gray-700 rounded-md py-2 px-3 flex items-center space-x-2">
+            <x-icons.loading class="w-5 h-5 text-gray-300" />
+            <span>Your comic is loading... <span id="downloadStatus"></span> ({{ $file->size_human }})</span>
+        </div>
         <div x-show="informationEnabled"
             class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform bg-gray-900 p-6 rounded-md shadow max-w-lg">
             <h2 class="text-lg mb-2">
@@ -22,12 +39,7 @@
                 {{ config('app.name') }} Webreader
             </div>
         </div>
-        <div x-show="isLoading" x-transition
-            class="fixed top-5 left-5 bg-gray-700 rounded-md py-2 px-3 flex items-center space-x-2">
-            <x-icons.loading class="w-5 h-5 text-gray-300" />
-            <span>Your comic is loading... ({{ $file->size_human }})</span>
-        </div>
-        <div x-show="!isLoading" x-transition class="fixed bottom-0 w-full h-20"
+        <div x-show="!isLoading" x-transition class="fixed z-20 bottom-0 w-full h-20"
             @mouseover="navigationIsLock ? '' : showNavigation = true"
             @mouseleave="navigationIsLock ? '' : showNavigation = false">
             <div class="fixed bottom-0 left-0">
@@ -37,7 +49,11 @@
                         @click="fullscreen" />
                     <x-webreader.action x-show="isFullscreen" icon="fullscreen-exit" title="Exit fullscreen (E)"
                         @click="fullscreenExit" />
-                    <x-webreader.action icon="grid" title="See all pages" @click="fullscreen" />
+                    <x-webreader.action x-show="grid.length === lastPage+1" icon="grid" title="See all pages (G)"
+                        action="showGrid" @click="displayGrid()" />
+                    <div x-show="grid.length !== lastPage+1" class="w-10 flex justify-center">
+                        <x-icons.loading />
+                    </div>
                     <x-webreader.action-divider />
                     <x-webreader.action icon="chevron-double-left" title="First page" @click="first" />
                     <x-webreader.action icon="chevron-double-left" title="Last page" class="transform rotate-180"
@@ -57,7 +73,7 @@
                     <x-webreader.action x-show="currentPage !== 0" icon="trash" title="Delete progression"
                         @click="deleteProgression" />
                     <x-webreader.action icon="download" title="Download" download :download-link="$full_download" />
-                    <x-webreader.action icon="information" title="Information"
+                    <x-webreader.action icon="information" title="Information" action="informationEnabled"
                         @click="informationEnabled = !informationEnabled" />
                     <x-webreader.action icon="lock-open" action="navigationIsLock" title="Lock navigation (O)"
                         @click="lock" />
@@ -75,7 +91,7 @@
         <div x-ref="filePath" class="hidden">{{ $file_path }}</div>
         <div x-ref="fileFormat" class="hidden">{{ $current_format }}</div>
         <div x-show="imageIsReady" x-transition>
-            <img x-ref="current" src="" :class="[
+            <img x-ref="currentPageImg" src="" :class="[
                 sizeFull ? 'lg:w-full' : '',
                 sizeLarge ? 'lg:h-[170vh]' : '',
                 sizeScreen ? 'lg:h-screen' : '',

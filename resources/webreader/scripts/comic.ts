@@ -1,4 +1,5 @@
 import * as comix from '@comix/parser'
+import { download } from './download'
 
 type Size = 'sizeFull' | 'sizeLarge' | 'sizeScreen'
 interface AlpineRefs {
@@ -6,13 +7,18 @@ interface AlpineRefs {
   url: HTMLElement
   filePath: HTMLElement
   fileFormat: HTMLElement
-  current: HTMLImageElement
+  currentPageImg: HTMLImageElement
 }
 
 interface Config {
   page?: string
   size?: Size
   locked?: boolean
+}
+
+interface GridImg {
+  name: string
+  img: string
 }
 
 let refsAlpine: AlpineRefs
@@ -22,6 +28,8 @@ const cbz = () => ({
   filename: '',
   url: '',
   imagesList: [] as comix.ComicImage[],
+  grid: [] as GridImg[],
+  showGrid: false,
   isLoading: true,
   imageIsReady: false,
   showNavigation: true,
@@ -36,6 +44,7 @@ const cbz = () => ({
   lastPage: 0,
   isDoubleSpace: 0,
   configKey: '',
+  downloadStatus: '0%',
   async init() {
     // @ts-ignore
     refsAlpine = this.$refs
@@ -43,33 +52,33 @@ const cbz = () => ({
     this.filename = refsAlpine.fileName.textContent!
     this.configKey = refsAlpine.fileName.textContent!
 
-    const response = await fetch(this.url)
-    const blob = await response.blob()
-    const file = new File([blob], this.filename)
+    const file = await download(this.url, this.filename)
+    if (file) {
+      const parser = new comix.Parser()
+      const comic = await parser.parse(file)
 
-    const parser = new comix.Parser()
-    const comic = await parser.parse(file)
-
-    this.imagesList = comic.images.filter((image) => {
-      const name = image.name.split('.')
-      const extension = name[name.length - 1]
-      if (extensions.includes(extension)) {
-        return image
-      }
-    })
-    this.lastPage = this.imagesList.length - 1
-    this.imagesList = this.imagesList.sort((a, b) =>
-      a.name.localeCompare(b.name, undefined, {
-        numeric: true,
-        sensitivity: 'base',
+      this.imagesList = comic.images.filter((image) => {
+        const name = image.name.split('.')
+        const extension = name[name.length - 1]
+        if (extensions.includes(extension)) {
+          return image
+        }
       })
-    )
+      this.lastPage = this.imagesList.length - 1
+      this.imagesList = this.imagesList.sort((a, b) =>
+        a.name.localeCompare(b.name, undefined, {
+          numeric: true,
+          sensitivity: 'base',
+        })
+      )
 
-    this.getConfig()
-    await this.setImage()
-    this.isLoading = false
+      this.getConfig()
+      await this.setImage()
+      this.isLoading = false
 
-    this.events()
+      this.events()
+      await this.getGrid()
+    }
   },
   async setImage() {
     const imageBuffer = await this.imagesList[this.currentPage].read()
@@ -83,7 +92,7 @@ const cbz = () => ({
       top: 0,
       behavior: 'smooth',
     })
-    refsAlpine.current.setAttribute('src', imageUrl)
+    refsAlpine.currentPageImg.setAttribute('src', imageUrl)
     this.imageIsReady = true
 
     this.saveConfig()
@@ -141,6 +150,33 @@ const cbz = () => ({
     this.navigationIsLock = true
 
     this.saveConfig()
+  },
+  displayGrid() {
+    this.showGrid = !this.showGrid
+    const full = document.getElementById('fullScreen')
+    full?.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  },
+  async getGrid() {
+    this.grid = []
+    for (const file of this.imagesList) {
+      const imageBuffer = await file.read()
+      const arrayBufferView = new Uint8Array(imageBuffer)
+      const imageBlob = new Blob([arrayBufferView], { type: 'image/jpg' })
+      const imageUrl = URL.createObjectURL(imageBlob)
+      this.grid.push({
+        name: file.name,
+        img: imageUrl,
+      })
+    }
+    this.grid = this.grid.sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      })
+    )
   },
   saveConfig() {
     const config: Config = {
@@ -212,6 +248,9 @@ const cbz = () => ({
       if (event.key === 'i') {
         this.informationEnabled = !this.informationEnabled
       }
+      if (event.key === 'g') {
+        this.displayGrid()
+      }
     })
   },
   commands() {
@@ -223,6 +262,11 @@ const cbz = () => ({
       {
         key: ['E'],
         label: 'Fullscreen/Exit Fullscreen',
+      },
+      {
+        key: ['G'],
+        label:
+          'Display all pages (this features need some time to loading after init)',
       },
       {
         key: ['↑', '↓', 'Space'],
