@@ -22,16 +22,16 @@ class BookLightResource extends JsonResource
     {
         return array_merge(BookUltraLightResource::make($this->resource)->toArray($request), [
             // 'serie' => SerieUltraLightResource::make($this->resource->serie),
-            'serie' => [
-                'title' => $this->resource->title,
-                'type' => $this->resource->type->i18n(),
+            'serie' => $this->resource->serie ? [
+                'title' => $this->resource->serie->title,
+                // 'type' => $this->resource->type->i18n(),
                 'meta' => [
-                    'entity' => $this->resource->getClassName(),
-                    'slug' => $this->resource->slug,
-                    'author' => $this->resource->meta_author,
-                    'show' => $this->resource->show_link,
+                    'entity' => $this->resource->serie->getClassName(),
+                    'slug' => $this->resource->serie->slug,
+                    'author' => $this->resource->serie->meta_author,
+                    'show' => $this->resource->serie->show_link,
                 ],
-            ],
+            ] : null,
         ]);
     }
 }
