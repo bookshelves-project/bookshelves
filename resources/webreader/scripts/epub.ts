@@ -2,10 +2,16 @@ import { epubjsInit } from './epubjs/methods'
 import Epub, { Book, NavItem, Rendition } from 'epubjs'
 import { EpubThemes, dark, tan, defaultStyle } from './epubjs/theme'
 interface AlpineRefs {
-  filePath?: HTMLElement
-  url?: HTMLElement
   reader?: HTMLElement
   tocElement?: HTMLElement
+}
+
+interface Data {
+  title: string
+  filename: string
+  url: string
+  format: string
+  size_human: string
 }
 
 let refsAlpine: AlpineRefs
@@ -14,7 +20,7 @@ let refsAlpine: AlpineRefs
  * Init ebook: https://github.com/futurepress/epub.js/issues/744#issuecomment-492300092
  * Save progress: https://github.com/futurepress/epub.js/issues/691
  */
-const epubjs = () => ({
+const epub = () => ({
   isLoading: true,
   readerIsEnabled: false,
   book: {} as Book,
@@ -28,13 +34,13 @@ const epubjs = () => ({
   currentPage: 0,
   lastPage: 0,
   progress: 0,
-  async init() {
+  pageRange: 0,
+  async initialize(data: string) {
+    const dataFormated: Data = JSON.parse(data)
+
     // @ts-ignore
-    // return epubjsInit(this.$refs)
     refsAlpine = this.$refs
 
-    const filePath = refsAlpine.filePath
-    const path = filePath?.textContent
     this.currentPage = 0
 
     if (localStorage.getItem('webreader_epub_tutorial')) {
@@ -42,7 +48,7 @@ const epubjs = () => ({
     }
 
     // Initialize the book
-    const bookUri = refsAlpine.url?.textContent
+    const bookUri = dataFormated.url
     this.book = Epub(bookUri!, {})
     this.rendition = this.book.renderTo(refsAlpine.reader!, {
       flow: 'paginated',
@@ -83,32 +89,25 @@ const epubjs = () => ({
       this.book.key() + '-locations',
       this.book.locations.save()
     )
+    this.toc = this.book.navigation.toc
 
     // When navigating to the next/previous page
     this.rendition.on('relocated', (locations) => {
       this.progress = this.book.locations.percentageFromCfi(locations.start.cfi)
-      // console.log('Progress:', this.progress) // The % of how far along in the book you are
-      // console.log(
-      //   'Current Page:',
-      //   this.book.locations.locationFromCfi(locations.start.cfi)
-      // )
       const current = this.book.locations.locationFromCfi(locations.start.cfi)
       this.currentPage = parseInt(current.toString())
-      // console.log('Total Pages:', this.book.locations.total)
+      this.pageRange = this.currentPage
     })
     this.lastPage = this.book.locations.total
     // this.currentPage = 20
     // this.rendition.display(this.currentPage)
 
-    const save = localStorage.getItem('ebook')
-    if (save) {
-      this.rendition.display(
-        this.book.locations.cfiFromLocation(parseInt(save))
-      )
-    }
-  },
-  setToc() {
-    this.toc = this.book.navigation.toc
+    // const save = localStorage.getItem('ebook')
+    // if (save) {
+    //   this.rendition.display(
+    //     this.book.locations.cfiFromLocation(parseInt(save))
+    //   )
+    // }
   },
   setChapter(chapter) {
     this.rendition.display(chapter)
@@ -156,6 +155,9 @@ const epubjs = () => ({
     this.tutorialIsEnabled = false
     localStorage.setItem('webreader_epub_tutorial', 'false')
   },
+  changePageRange() {
+    this.rendition.display(this.book.locations.cfiFromLocation(this.pageRange))
+  },
   toggleSidebar() {
     if (this.sidebarWrapperIsEnabled) {
       this.closeSidebar()
@@ -179,7 +181,7 @@ const epubjs = () => ({
   },
 })
 
-export default epubjs
+export default epub
 
 // import { epubjsInit } from './epubjs/methods'
 // import { Book, NavItem, Rendition } from 'epubjs'

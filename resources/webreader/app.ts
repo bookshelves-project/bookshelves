@@ -5,7 +5,7 @@ import 'virtual:windi.css'
 import './app.css'
 
 import toc from './scripts/toc'
-import epubjs from './scripts/epub'
+import epub from './scripts/epub'
 import comic from './scripts/comic'
 import sidebar from './scripts/sidebar'
 
@@ -28,7 +28,7 @@ Alpine.store('navigation', {
   },
 })
 Alpine.data('toc', toc)
-Alpine.data('epubjs', epubjs)
+Alpine.data('epub', epub)
 Alpine.data('comic', comic)
 Alpine.store('sidebar', sidebar)
 

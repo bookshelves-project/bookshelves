@@ -11,7 +11,6 @@ class Navigation extends Component
      */
     public function __construct(
         public ?string $download = null,
-        public ?string $home = null,
     ) {
     }
 

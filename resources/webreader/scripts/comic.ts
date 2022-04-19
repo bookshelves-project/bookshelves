@@ -3,13 +3,16 @@ import { download } from './download'
 
 type Size = 'sizeFull' | 'sizeLarge' | 'sizeScreen'
 interface AlpineRefs {
-  fileName: HTMLElement
-  url: HTMLElement
-  filePath: HTMLElement
-  fileFormat: HTMLElement
   currentPageImg: HTMLImageElement
 }
 
+interface Data {
+  title: string
+  filename: string
+  url: string
+  format: string
+  size_human: string
+}
 interface Config {
   page?: string
   size?: Size
@@ -24,7 +27,7 @@ interface GridImg {
 let refsAlpine: AlpineRefs
 const extensions = ['jpg', 'jpeg']
 
-const cbz = () => ({
+const comic = () => ({
   filename: '',
   url: '',
   imagesList: [] as comix.ComicImage[],
@@ -44,11 +47,13 @@ const cbz = () => ({
   currentPage: 0,
   lastPage: 0,
   configKey: 'webreader_comic_config',
-  async init() {
+  async initialize(data: string) {
+    const dataFormated: Data = JSON.parse(data)
+
     // @ts-ignore
     refsAlpine = this.$refs
-    this.url = refsAlpine.url.textContent!
-    this.filename = refsAlpine.fileName.textContent!
+    this.url = dataFormated.url
+    this.filename = dataFormated.filename
 
     const file = await download(this.url, this.filename)
     if (file) {
@@ -134,7 +139,7 @@ const cbz = () => ({
     this.saveConfig()
   },
   fullscreen() {
-    refsAlpine.fileName?.requestFullscreen()
+    document.getElementById('fullScreen')?.requestFullscreen()
     this.isFullscreen = true
   },
   fullscreenExit() {
@@ -310,4 +315,4 @@ const cbz = () => ({
   },
 })
 
-export default cbz
+export default comic

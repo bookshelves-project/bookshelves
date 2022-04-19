@@ -1,5 +1,8 @@
+@php
+$data_object = json_decode($data);
+@endphp
 <x-layouts.webreader>
-    <div id="fullScreen" x-data="comic()" :class="showGrid ? 'overflow-hidden' : ''">
+    <div id="fullScreen" x-data="comic()" x-init="initialize('{{ $data }}')" :class="showGrid ? 'overflow-hidden' : ''">
         <div x-show="showGrid" class="fixed z-10 w-full overflow-auto h-screen bg-gray-900">
             <div class="grid grid-cols-4 gap-3">
                 <template x-for="(file,key) in grid">
@@ -16,12 +19,13 @@
         <div x-show="isLoading" x-transition
             class="fixed top-5 left-5 bg-gray-700 rounded-md py-2 px-3 flex items-center space-x-2">
             <x-icons.loading class="w-5 h-5 text-gray-300" />
-            <span>Your comic is loading... <span id="downloadStatus"></span> ({{ $file->size_human }})</span>
+            <span>Your comic is loading... <span id="downloadStatus"></span>
+                ({{ $data_object->size_human }})</span>
         </div>
         <div x-show="informationEnabled"
             class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform bg-gray-900 p-6 rounded-md shadow max-w-lg">
             <h2 class="text-lg mb-2">
-                {{ $title }}
+                {{ $data_object->title }}
             </h2>
             <p>
                 You progression is automatically saved but you can remove it with trash icon.
@@ -73,7 +77,7 @@
                     <x-webreader.action-divider />
                     <x-webreader.action x-show="currentPage !== 0" icon="trash" title="Delete progression"
                         @click="deleteProgression" />
-                    <x-webreader.action icon="download" title="Download" download :download-link="$full_download" />
+                    <x-webreader.action icon="download" title="Download" download :download-link="$data_object->url" />
                     <x-webreader.action icon="information" title="Information" action="informationEnabled"
                         @click="informationEnabled = !informationEnabled" />
                     <x-webreader.action icon="lock-open" action="navigationIsLock" title="Lock navigation (O)"
@@ -87,10 +91,6 @@
                 <div x-text="lastPage"></div>
             </div>
         </div>
-        <div x-ref="fileName" class="hidden">{{ $file->file_name }}</div>
-        <div x-ref="url" class="hidden">{{ $full_download }}</div>
-        <div x-ref="filePath" class="hidden">{{ $file_path }}</div>
-        <div x-ref="fileFormat" class="hidden">{{ $current_format }}</div>
         <div x-show="imageIsReady" x-transition>
             <img x-ref="currentPageImg" src="" :class="[
                 sizeFull ? 'lg:w-full' : '',
