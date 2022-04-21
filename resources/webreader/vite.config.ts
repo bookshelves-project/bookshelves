@@ -43,6 +43,7 @@ export default defineConfig({
       'vue',
       'alpinejs',
       'epubjs',
+      '@comix/parser',
     ],
   },
 })

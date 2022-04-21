@@ -10,16 +10,15 @@ use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasReviews;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasWikipediaItem;
-use App\Utils\BookshelvesTools;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
+use Spatie\Translatable\HasTranslations;
 
 /**
  * @property null|int $books_count
@@ -38,6 +37,12 @@ class Author extends Model implements HasMedia
     use HasWikipediaItem;
     use HasSlug;
     use HasBooksCollection;
+    use HasTranslations;
+
+    public $translatable = [
+        'description',
+        'note',
+    ];
 
     protected $fillable = [
         'lastname',
@@ -109,6 +114,12 @@ class Author extends Model implements HasMedia
         ]);
     }
 
+    public function searchableAs()
+    {
+        $app = config('bookshelves.name');
+        return "{$app}_author";
+    }
+
     public function toSearchableArray()
     {
         return [
@@ -126,6 +137,18 @@ class Author extends Model implements HasMedia
     public function getFirstCharAttribute(): string
     {
         return strtolower($this->lastname[0]);
+    }
+
+    public function getLanguageSlugAttribute(): string
+    {
+        $languages = [];
+        foreach ($this->books as $book) {
+            array_push($languages, $book->language_slug);
+        }
+        $languages = array_count_values($languages);
+        asort($languages);
+
+        return array_key_first($languages);
     }
 
     /**

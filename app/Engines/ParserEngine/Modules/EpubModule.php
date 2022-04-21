@@ -5,62 +5,60 @@ namespace App\Engines\ParserEngine\Modules;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Models\BookCreator;
 use App\Engines\ParserEngine\Models\BookIdentifier;
-use App\Engines\ParserEngine\Parsers\XmlInterface;
-use App\Engines\ParserEngine\Parsers\XmlParser;
+use App\Engines\ParserEngine\Modules\Interface\Module;
+use App\Engines\ParserEngine\Modules\Interface\ModuleInterface;
+use App\Engines\ParserEngine\Modules\Interface\XmlInterface;
+use App\Engines\ParserEngine\Parsers\ArchiveParser;
 use App\Services\ConsoleService;
 
-class EpubModule implements XmlInterface
+class EpubModule extends Module implements ModuleInterface, XmlInterface
 {
-    public array $metadata = [];
-
     public function __construct(
-        public ?array $xml_data = null,
         public ?float $version = null,
-        public ?ParserEngine $engine = null,
     ) {
     }
 
     public static function create(ParserEngine $engine): ParserEngine|false
     {
-        $xml = new XmlParser($engine, EpubModule::class, 'opf');
-        $xml = $xml->openZip();
+        $archive = new ArchiveParser($engine, new EpubModule(), 'opf');
 
-        return $xml->engine;
+        return $archive->open();
     }
 
-    public static function parse(XmlParser $xml): ParserEngine
+    public static function parse(ArchiveParser $archive_parser): ParserEngine
     {
-        $module = new EpubModule();
+        /** @var EpubModule */
+        $module = $archive_parser->module;
 
-        $module->xml_data = $xml->xml_data;
+        $module->metadata = $archive_parser->metadata;
         $module->version = 2.0;
 
-        if ($module->xml_data['@attributes'] && $version = $module->xml_data['@attributes']['version']) {
+        if ($module->metadata['@attributes'] && $version = $module->metadata['@attributes']['version']) {
             $module->version = floatval($version);
         }
-        $module->engine = $xml->engine;
+        $module->engine = $archive_parser->engine;
 
         $is_supported = match ($module->version) {
             2.0 => $module->version2(),
             default => false,
         };
 
-        if ($xml->engine->debug) {
-            ParserEngine::printFile($module->xml_data, "{$xml->engine->file_name}-metadata.json");
+        if ($archive_parser->engine->debug) {
+            ParserEngine::printFile($module->metadata, "{$archive_parser->engine->file_name}-metadata.json");
         }
         if (! $is_supported) {
             ConsoleService::print("EpubModule {$module->version} not supported");
         }
 
-        return $module->engine;
+        return $archive_parser->engine;
     }
 
     private function version2(): static
     {
         $this->getCover();
 
-        if ($this->xml_data['metadata']) {
-            $this->metadata = $this->xml_data['metadata'];
+        if ($this->metadata['metadata']) {
+            $this->metadata = $this->metadata['metadata'];
 
             $this->getRaw('dc:title', 'title');
             $this->getRaw('dc:description', 'description');
@@ -174,7 +172,7 @@ class EpubModule implements XmlInterface
                 }
             }
             $subjects = array_map('unserialize', array_unique(array_map('serialize', $subjects)));
-            $this->engine->subjects = $subjects;
+            $this->engine->tags = $subjects;
         }
 
         return $this;
@@ -188,7 +186,7 @@ class EpubModule implements XmlInterface
      */
     private function getCover(): static
     {
-        if ($this->xml_data['manifest'] && $items = $this->xml_data['manifest']['item']) {
+        if ($this->metadata['manifest'] && $items = $this->metadata['manifest']['item']) {
             $cover = null;
 
             foreach ($items as $node) {

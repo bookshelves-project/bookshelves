@@ -73,7 +73,8 @@ class DatabaseCommand extends CommandProd
      */
     public function fresh()
     {
-        $this->intro();
+        $this->comment('Bookshelves Database');
+        $this->newLine();
 
         $this->clearBooksMediaCollection();
 

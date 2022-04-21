@@ -8,6 +8,7 @@ use App\Http\Resources\MediaResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
 use App\Http\Resources\Review\ReviewResource;
 use App\Http\Resources\Serie\SerieLightResource;
+use App\Http\Resources\Serie\SerieUltraLightResource;
 use App\Http\Resources\Tag\TagLightResource;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -25,9 +26,8 @@ class BookResource extends JsonResource
      */
     public function toArray($request): array
     {
-        $resource = (array) BookLightResource::make($this->resource)->toArray($request);
-
-        return array_merge($resource, [
+        return [
+            ...BookLightResource::make($this->resource)->toArray($request),
             'meta' => [
                 'entity' => $this->resource->getClassName(),
                 'slug' => $this->resource->slug,
@@ -36,7 +36,7 @@ class BookResource extends JsonResource
                 'related' => $this->resource->related_link,
                 'reviews' => $this->resource->reviews_link,
             ],
-            'serie' => SerieLightResource::make($this->resource->serie),
+            'serie' => SerieUltraLightResource::make($this->resource->serie),
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
             'cover' => [
                 'thumbnail' => $this->resource->cover_thumbnail,
@@ -54,10 +54,9 @@ class BookResource extends JsonResource
             'genres' => TagLightResource::collection($this->resource->genres_list),
             'download' => $this->resource->file_main,
             'files' => $this->resource->files_list,
-            'webreader' => $this->resource->webreader_link,
             'googleBook' => GoogleBookResource::make($this->resource->googleBook),
             'isFavorite' => $this->resource->is_favorite,
             'reviewsCount' => $this->resource->reviews_count,
-        ]);
+        ];
     }
 }

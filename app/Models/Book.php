@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Engines\ParserEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
+use App\Models\Media\DownloadFile;
 use App\Models\Traits\HasAuthors;
 use App\Models\Traits\HasBookType;
 use App\Models\Traits\HasClassName;
@@ -14,16 +15,15 @@ use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasReviews;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
-use App\Services\DownloadService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\Translatable\HasTranslations;
 
 /**
  * @property null|int $reviews_count
@@ -41,6 +41,11 @@ class Book extends Model implements HasMedia
     use HasTagsAndGenres;
     use HasBookType;
     use Searchable;
+    use HasTranslations;
+
+    public $translatable = [
+        'description',
+    ];
 
     protected $fillable = [
         'title',
@@ -140,12 +145,15 @@ class Book extends Model implements HasMedia
         ]);
     }
 
-    public function getFileMainAttribute()
+    public function getFileMainAttribute(): DownloadFile
     {
         return current(array_filter(array_reverse($this->files_list)));
     }
 
-    public function getFilesListAttribute(): array
+    /**
+     * @return DownloadFile[]
+     */
+    public function getFilesListAttribute()
     {
         $list = [];
         $formats = BookFormatEnum::toValues();
@@ -159,7 +167,18 @@ class Book extends Model implements HasMedia
                 ]);
                 /** @var MediaExtended $file */
                 $file = $this->files[$format];
-                $media = DownloadService::getFile($file->file_name, $file->size_human, $route, $file->extension);
+                $reader = route('webreader.reader', [
+                    'author' => $this->meta_author,
+                    $this->getClassName() => $this->slug,
+                    'format' => $format,
+                ]);
+                $media = new DownloadFile(
+                    $file->file_name,
+                    $file->size_human,
+                    $route,
+                    $reader,
+                    $file->extension,
+                );
             }
             $list[$format] = $media;
         }
@@ -223,6 +242,12 @@ class Book extends Model implements HasMedia
         return $query->where('is_disabled', '=', $is_disabled);
     }
 
+    public function searchableAs()
+    {
+        $app = config('bookshelves.name');
+        return "{$app}_book";
+    }
+
     public function toSearchableArray()
     {
         return [
@@ -231,6 +256,7 @@ class Book extends Model implements HasMedia
             'picture' => $this->cover_thumbnail,
             'released_on' => $this->released_on,
             'author' => $this->authors_names,
+            'serie' => $this->serie?->title,
             'isbn10' => $this->isbn10,
             'isbn13' => $this->isbn13,
             'created_at' => $this->created_at,

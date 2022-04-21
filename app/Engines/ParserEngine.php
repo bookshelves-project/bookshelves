@@ -6,6 +6,7 @@ use App\Engines\ParserEngine\Models\BookCreator;
 use App\Engines\ParserEngine\Models\BookIdentifier;
 use App\Engines\ParserEngine\Modules\CbzModule;
 use App\Engines\ParserEngine\Modules\EpubModule;
+use App\Engines\ParserEngine\Modules\NameModule;
 use App\Engines\ParserEngine\Modules\PdfModule;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
 use App\Enums\BookFormatEnum;
@@ -45,6 +46,11 @@ class ParserEngine
     /** @var BookIdentifier[] */
     public ?array $identifiers = null;
 
+    public ?BookFormatEnum $format;
+
+    /** @var string[] */
+    public ?array $tags = [];
+
     public function __construct(
         public ?string $title = null,
         public ?string $slug_sort = null,
@@ -56,7 +62,6 @@ class ParserEngine
         public ?DateTime $released_on = null,
         public ?string $date = null,
         public ?string $publisher = null,
-        public ?array $subjects = [],
         public ?string $language = null,
         public ?string $rights = null,
         public ?string $serie = null,
@@ -64,9 +69,9 @@ class ParserEngine
         public ?string $serie_slug_lang = null,
         public ?string $serie_sort = null,
         public ?int $volume = null,
+        public ?int $page_count = null,
         public ?string $file_name = null,
         public ?string $file_path = null,
-        public ?BookFormatEnum $format = null,
         public ?BookTypeEnum $type = null,
         public ?string $cover_name = null,
         public ?string $cover_extension = null,
@@ -82,7 +87,7 @@ class ParserEngine
     {
         $extension = pathinfo($file->path, PATHINFO_EXTENSION);
         $file_name = pathinfo($file->path, PATHINFO_BASENAME);
-        $formats = BookFormatEnum::toArray();
+        $formats = BookFormatEnum::toNames();
 
         if (! array_key_exists($extension, $formats)) {
             ConsoleService::print("{$file->path} ParserEngine error: extension is not recognized");
@@ -90,54 +95,77 @@ class ParserEngine
             return null;
         }
 
-        $engine = new ParserEngine();
-        $engine->file_name = $file_name;
-        $engine->file_path = $file->path;
-        $engine->format = BookFormatEnum::from($extension);
-        $engine->type = $file->type;
-        $engine->debug = $debug;
+        $parser = new ParserEngine();
 
-        $engine = match ($engine->format) {
-            BookFormatEnum::cbz => CbzModule::create($engine),
-            BookFormatEnum::epub => EpubModule::create($engine),
-            BookFormatEnum::pdf => PdfModule::create($engine),
+        $parser->file_name = $file_name;
+        $parser->file_path = $file->path;
+        $parser->format = BookFormatEnum::tryFrom($extension);
+        $parser->type = $file->type;
+        $parser->debug = $debug;
+
+        $engine = match ($parser->format) {
+            BookFormatEnum::cbz => CbzModule::create($parser),
+            BookFormatEnum::epub => EpubModule::create($parser),
+            BookFormatEnum::pdf => PdfModule::create($parser),
+            BookFormatEnum::cbr => CbzModule::create($parser, true),
             default => false,
         };
+        if (! $engine || null === $engine->title) {
+            // ConsoleService::print('Try to get data from name');
+            $engine = NameModule::create($parser);
+        }
+
+        if (! $engine) {
+            ConsoleService::print("{$file->path} ParserEngine error: format {$extension} not recognized");
+            return null;
+        }
+
+        if (null === $engine->title) {
+            ConsoleService::print("{$file->path} ParserEngine error: can't get title {$extension}");
+            return null;
+        }
 
         if (null === $engine->language) {
             $engine->language = 'any';
         }
 
-        if ($engine) {
-            $engine->title = Str::limit($engine->title, 250);
-            $engine->rights = Str::limit($engine->rights, 250);
+        $engine->title = Str::limit($engine->title, 250);
+        $engine->rights = Str::limit($engine->rights, 250);
 
-            $engine->slug_sort = ParserEngine::generateSortTitle($engine->title, $engine->language);
-            $engine->slug = Str::slug($engine->title);
-            $engine->title_slug_lang = ParserEngine::generateSlug($engine->title, $engine->type->value, $engine->language);
+        $engine->slug_sort = ParserEngine::generateSortTitle($engine->title, $engine->language);
+        $engine->slug = Str::slug($engine->title);
+        $engine->title_slug_lang = ParserEngine::generateSlug($engine->title, $engine->type->value, $engine->language);
 
-            $engine->serie_slug = Str::slug($engine->serie);
-            $engine->serie_slug_lang = $engine->serie ? ParserEngine::generateSlug($engine->serie, $engine->type->value, $engine->language) : null;
-            $engine->serie_sort = ParserEngine::generateSortTitle($engine->serie, $engine->language);
-            $engine->title_serie_sort = ParserEngine::generateSortSerie($engine->title, $engine->serie, $engine->volume, $engine->language);
+        $engine->serie_slug = Str::slug($engine->serie);
+        $engine->serie_slug_lang = $engine->serie ? ParserEngine::generateSlug($engine->serie, $engine->type->value, $engine->language) : null;
+        $engine->serie_sort = ParserEngine::generateSortTitle($engine->serie, $engine->language);
+        $engine->title_serie_sort = ParserEngine::generateSortSerie($engine->title, $engine->serie, $engine->volume, $engine->language);
 
-            $engine->description = ParserEngine::htmlToText($engine->description);
+        $engine->description = ParserEngine::htmlToText($engine->description);
+        $reset_creators = false;
+        foreach ($engine->creators as $creator) {
+            if ('' === $creator->name) {
+                $reset_creators = true;
+            }
+        }
+        if ($reset_creators) {
+            $engine->creators = [];
+        }
 
-            if ($engine->date && ! str_contains($engine->date, '0101')) {
+        if ($engine->date && ! str_contains($engine->date, '0101')) {
+            try {
                 $engine->released_on = new DateTime($engine->date);
+            } catch (\Throwable $th) {
+                // throw $th;
             }
+        }
 
-            if ($engine->debug) {
-                ConsoleService::print("{$engine->title}");
-                $engine_print = clone $engine;
-                $engine_print->cover_file = $engine_print->cover_file
-                    ? 'available (removed into this JSON)' : $engine_print->cover_file;
-                ParserEngine::printFile($engine_print, "{$engine->file_name}-parser.json");
-            }
-        } else {
-            ConsoleService::print("{$file->path} ParserEngine error: format not recognized");
-
-            return null;
+        if ($engine->debug) {
+            ConsoleService::print("{$engine->title}");
+            $engine_print = clone $engine;
+            $engine_print->cover_file = $engine_print->cover_file
+                ? 'available (removed into this JSON)' : $engine_print->cover_file;
+            ParserEngine::printFile($engine_print, "{$engine->file_name}-parser.json");
         }
 
         return $engine;

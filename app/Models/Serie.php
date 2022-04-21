@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\Translatable\HasTranslations;
 
 /**
  * @property null|int $books_count
@@ -43,6 +44,11 @@ class Serie extends Model implements HasMedia
     use Searchable;
     use HasWikipediaItem;
     use HasBooksCollection;
+    use HasTranslations;
+
+    public $translatable = [
+        'description',
+    ];
 
     protected $fillable = [
         'title',
@@ -98,6 +104,12 @@ class Serie extends Model implements HasMedia
             'serie_slug' => $this->slug,
             'format' => $format,
         ]);
+    }
+
+    public function searchableAs()
+    {
+        $app = config('bookshelves.name');
+        return "{$app}_serie";
     }
 
     public function toSearchableArray()

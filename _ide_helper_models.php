@@ -20,9 +20,9 @@ namespace App\Models{
  * @property string|null $firstname
  * @property string|null $name
  * @property string|null $role
- * @property string|null $description
+ * @property array|null $description
  * @property string|null $link
- * @property string|null $note
+ * @property array|null $note
  * @property int|null $wikipedia_item_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -46,6 +46,7 @@ namespace App\Models{
  * @property-read array $files_list
  * @property-read string $first_char
  * @property-read bool $is_favorite
+ * @property-read string $language_slug
  * @property-read string $opds_link
  * @property-read mixed $reviews_link
  * @property-read string $series_link
@@ -94,7 +95,7 @@ namespace App\Models{
  * @property string|null $slug_sort
  * @property string|null $slug
  * @property string|null $contributor
- * @property string|null $description
+ * @property array|null $description
  * @property \Illuminate\Support\Carbon|null $released_on
  * @property string|null $rights
  * @property int|null $serie_id
@@ -123,9 +124,9 @@ namespace App\Models{
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
- * @property-read mixed $file_main
+ * @property-read \App\Models\Media\DownloadFile $file_main
  * @property-read \App\Models\MediaExtended[]|null[] $files
- * @property-read array $files_list
+ * @property-read \App\Models\Media\DownloadFile[] $files_list
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $isbn
@@ -137,7 +138,6 @@ namespace App\Models{
  * @property-read string $show_link_opds
  * @property-read string $sort_name
  * @property-read mixed $tags_list
- * @property-read string $webreader_link
  * @property-read \App\Models\GoogleBook|null $googleBook
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
@@ -801,7 +801,7 @@ namespace App\Models{
  * @property string|null $slug
  * @property string|null $language_slug
  * @property \App\Enums\BookTypeEnum $type
- * @property string|null $description
+ * @property array|null $description
  * @property string|null $link
  * @property int|null $wikipedia_item_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -834,7 +834,6 @@ namespace App\Models{
  * @property-read string $show_link
  * @property-read string $show_link_opds
  * @property-read mixed $tags_list
- * @property-read string $webreader_link
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count

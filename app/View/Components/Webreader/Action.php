@@ -4,14 +4,17 @@ namespace App\View\Components\Webreader;
 
 use Illuminate\View\Component;
 
-class Reader extends Component
+class Action extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct()
-    {
-        //
+    public function __construct(
+        public string $icon,
+        public ?string $action = 'false',
+        public ?bool $download = false,
+        public ?string $downloadLink = null
+    ) {
     }
 
     /**
@@ -21,6 +24,6 @@ class Reader extends Component
      */
     public function render()
     {
-        return view('components.webreader.reader');
+        return view('components.webreader.action');
     }
 }

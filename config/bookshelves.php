@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
+    'name' => Str::slug(env('APP_NAME', 'Bookshelves')),
     // Authentication.
     'admin' => [
         'email' => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),
@@ -17,6 +20,10 @@ return [
         // true: `Victor Hugo` and `Hugo Victor` will be merge
         // false: two Author will be created
         'detect_homonyms' => env('BOOKSHELVES_AUTHOR_DETECT_HOMONYMS', true),
+    ],
+    'pdf' => [
+        'cover' => env('BOOKSHELVES_PDF_COVER', true),
+        'metadata' => env('BOOKSHELVES_PDF_METADATA', true),
     ],
     /*
      * Langs

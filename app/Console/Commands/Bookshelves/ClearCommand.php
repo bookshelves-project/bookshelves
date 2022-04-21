@@ -41,11 +41,11 @@ class ClearCommand extends CommandProd
         $this->warn('Bookshelves Clear');
         $this->newLine();
 
-        $debug = new DirectoryClearService(storage_path('app/public/debug'));
         $cache = new DirectoryClearService(storage_path('app/public/cache'));
+        $debug = new DirectoryClearService(storage_path('app/public/debug'));
 
-        $debug->clearDir();
         $cache->clearDir();
+        $debug->clearDir();
 
         Artisan::call('cache:clear', [], $this->getOutput());
         Artisan::call('route:clear', [], $this->getOutput());

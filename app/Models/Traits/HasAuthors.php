@@ -76,18 +76,6 @@ trait HasAuthors
         ]);
     }
 
-    public function getWebreaderLinkAttribute(): string
-    {
-        if ($this->meta_author && $this->slug) {
-            return route('webreader.reader', [
-                'author' => $this->meta_author,
-                $this->getClassName() => $this->slug,
-            ]);
-        }
-
-        return '';
-    }
-
     public function syncAuthors(array|ArrayAccess $authors): static
     {
         $authors_list = collect();

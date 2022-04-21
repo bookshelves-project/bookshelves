@@ -64,7 +64,6 @@ class SampleCommand extends CommandProd
         }
 
         if ($users) {
-            $this->newLine();
             $this->comment('Run users seeders');
             Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
             $this->newLine();

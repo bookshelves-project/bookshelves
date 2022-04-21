@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Translatable\Facades\Translatable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -51,6 +52,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Translatable::fallback(
+            fallbackAny: true,
+        );
+
         Blade::directive('vite', function ($expression) {
             return '{!! App\Facades\ViteManifest::embed('.$expression.') !!}';
         });

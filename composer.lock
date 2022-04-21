@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bddd5050516b216d29b4b4751c5fca58",
+    "content-hash": "e49d961abaa662e1e8e5a8769a88c1ef",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -1668,16 +1668,16 @@
         },
         {
             "name": "itsgoingd/clockwork",
-            "version": "v5.1.5",
+            "version": "v5.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "6a7b3942224fa53cf3704d9adba636e1f3dfeb9a"
+                "reference": "9df41432da1d8cb39c7fda383ddcc02231c83ff3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/6a7b3942224fa53cf3704d9adba636e1f3dfeb9a",
-                "reference": "6a7b3942224fa53cf3704d9adba636e1f3dfeb9a",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/9df41432da1d8cb39c7fda383ddcc02231c83ff3",
+                "reference": "9df41432da1d8cb39c7fda383ddcc02231c83ff3",
                 "shasum": ""
             },
             "require": {
@@ -1724,7 +1724,7 @@
             ],
             "support": {
                 "issues": "https://github.com/itsgoingd/clockwork/issues",
-                "source": "https://github.com/itsgoingd/clockwork/tree/v5.1.5"
+                "source": "https://github.com/itsgoingd/clockwork/tree/v5.1.6"
             },
             "funding": [
                 {
@@ -1732,7 +1732,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-13T22:57:42+00:00"
+            "time": "2022-04-12T21:35:47+00:00"
         },
         {
             "name": "laravel/fortify",
@@ -1799,16 +1799,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v9.7.0",
+            "version": "v9.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "54c9696ee3e558ab29317ed6e0cb16bb9db5aad4"
+                "reference": "4d5a07640891b772188d7737348886a0222737d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/54c9696ee3e558ab29317ed6e0cb16bb9db5aad4",
-                "reference": "54c9696ee3e558ab29317ed6e0cb16bb9db5aad4",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4d5a07640891b772188d7737348886a0222737d8",
+                "reference": "4d5a07640891b772188d7737348886a0222737d8",
                 "shasum": ""
             },
             "require": {
@@ -1974,20 +1974,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-04-05T15:07:51+00:00"
+            "time": "2022-04-19T15:01:23+00:00"
         },
         {
             "name": "laravel/sanctum",
-            "version": "v2.15.0",
+            "version": "v2.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sanctum.git",
-                "reference": "5be160413b6f37dcf8758663edeab12d0e806f56"
+                "reference": "31fbe6f85aee080c4dc2f9b03dc6dd5d0ee72473"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sanctum/zipball/5be160413b6f37dcf8758663edeab12d0e806f56",
-                "reference": "5be160413b6f37dcf8758663edeab12d0e806f56",
+                "url": "https://api.github.com/repos/laravel/sanctum/zipball/31fbe6f85aee080c4dc2f9b03dc6dd5d0ee72473",
+                "reference": "31fbe6f85aee080c4dc2f9b03dc6dd5d0ee72473",
                 "shasum": ""
             },
             "require": {
@@ -2039,7 +2039,7 @@
                 "issues": "https://github.com/laravel/sanctum/issues",
                 "source": "https://github.com/laravel/sanctum"
             },
-            "time": "2022-03-28T13:53:05+00:00"
+            "time": "2022-04-08T13:39:49+00:00"
         },
         {
             "name": "laravel/scout",
@@ -2430,16 +2430,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.0.15",
+            "version": "3.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "3b71cd136dc0331ee87b636b25f4ee339368c718"
+                "reference": "29eb78cac0be0c22237c5e0f6f98234d97037d79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/3b71cd136dc0331ee87b636b25f4ee339368c718",
-                "reference": "3b71cd136dc0331ee87b636b25f4ee339368c718",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/29eb78cac0be0c22237c5e0f6f98234d97037d79",
+                "reference": "29eb78cac0be0c22237c5e0f6f98234d97037d79",
                 "shasum": ""
             },
             "require": {
@@ -2500,7 +2500,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.0.15"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.0.17"
             },
             "funding": [
                 {
@@ -2516,7 +2516,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-08T18:36:06+00:00"
+            "time": "2022-04-14T14:57:13+00:00"
         },
         {
             "name": "league/glide",
@@ -2721,16 +2721,16 @@
         },
         {
             "name": "league/mime-type-detection",
-            "version": "1.9.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/mime-type-detection.git",
-                "reference": "aa70e813a6ad3d1558fc927863d47309b4c23e69"
+                "reference": "ff6248ea87a9f116e78edd6002e39e5128a0d4dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/aa70e813a6ad3d1558fc927863d47309b4c23e69",
-                "reference": "aa70e813a6ad3d1558fc927863d47309b4c23e69",
+                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/ff6248ea87a9f116e78edd6002e39e5128a0d4dd",
+                "reference": "ff6248ea87a9f116e78edd6002e39e5128a0d4dd",
                 "shasum": ""
             },
             "require": {
@@ -2761,7 +2761,7 @@
             "description": "Mime-type detection for Flysystem",
             "support": {
                 "issues": "https://github.com/thephpleague/mime-type-detection/issues",
-                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.9.0"
+                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.11.0"
             },
             "funding": [
                 {
@@ -2773,7 +2773,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-21T11:48:40+00:00"
+            "time": "2022-04-17T13:12:02+00:00"
         },
         {
             "name": "livewire/livewire",
@@ -5076,6 +5076,57 @@
                 }
             ],
             "time": "2022-03-27T21:42:02+00:00"
+        },
+        {
+            "name": "smalot/pdfparser",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smalot/pdfparser.git",
+                "reference": "193515a64fb979aff1786b09d5960797db2f3b0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/193515a64fb979aff1786b09d5960797db2f3b0a",
+                "reference": "193515a64fb979aff1786b09d5960797db2f3b0a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "ext-zlib": "*",
+                "php": ">=7.1",
+                "symfony/polyfill-mbstring": "^1.18"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Smalot\\PdfParser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastien MALOT",
+                    "email": "sebastien@malot.fr"
+                }
+            ],
+            "description": "Pdf parser library. Can read and extract information from pdf file.",
+            "homepage": "https://www.pdfparser.org",
+            "keywords": [
+                "extract",
+                "parse",
+                "parser",
+                "pdf",
+                "text"
+            ],
+            "support": {
+                "issues": "https://github.com/smalot/pdfparser/issues",
+                "source": "https://github.com/smalot/pdfparser/tree/v2.2.0"
+            },
+            "time": "2022-04-04T10:25:03+00:00"
         },
         {
             "name": "spatie/array-to-xml",
@@ -9940,16 +9991,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.13.9",
+            "version": "v1.13.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "7bb294fe99fc42c3b1bee83fb667cd7698b3c385"
+                "reference": "cbf55e1a392724313f7726c38578b5e008df6a0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/7bb294fe99fc42c3b1bee83fb667cd7698b3c385",
-                "reference": "7bb294fe99fc42c3b1bee83fb667cd7698b3c385",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/cbf55e1a392724313f7726c38578b5e008df6a0f",
+                "reference": "cbf55e1a392724313f7726c38578b5e008df6a0f",
                 "shasum": ""
             },
             "require": {
@@ -9996,7 +10047,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2022-04-04T15:21:51+00:00"
+            "time": "2022-04-14T18:29:22+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -11020,16 +11071,16 @@
         },
         {
             "name": "phpro/grumphp-shim",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpro/grumphp-shim.git",
-                "reference": "ec397dda167ba1cdf5539a8025de7b20efbef895"
+                "reference": "71313e9886c9a1f3f978663977e08394c09d14b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/ec397dda167ba1cdf5539a8025de7b20efbef895",
-                "reference": "ec397dda167ba1cdf5539a8025de7b20efbef895",
+                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/71313e9886c9a1f3f978663977e08394c09d14b7",
+                "reference": "71313e9886c9a1f3f978663977e08394c09d14b7",
                 "shasum": ""
             },
             "require": {
@@ -11073,9 +11124,9 @@
             "description": "GrumPHP Phar distribution",
             "support": {
                 "issues": "https://github.com/phpro/grumphp-shim/issues",
-                "source": "https://github.com/phpro/grumphp-shim/tree/v1.10.0"
+                "source": "https://github.com/phpro/grumphp-shim/tree/v1.11.0"
             },
-            "time": "2022-03-25T14:32:55+00:00"
+            "time": "2022-04-15T11:41:14+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -11146,16 +11197,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.5.4",
+            "version": "1.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "bbf68cae24f6dc023c607ea0f87da55dd9d55c2b"
+                "reference": "7fb7e2e1e9f3d59a26a413b2d3d5e47f0edb75ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/bbf68cae24f6dc023c607ea0f87da55dd9d55c2b",
-                "reference": "bbf68cae24f6dc023c607ea0f87da55dd9d55c2b",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/7fb7e2e1e9f3d59a26a413b2d3d5e47f0edb75ac",
+                "reference": "7fb7e2e1e9f3d59a26a413b2d3d5e47f0edb75ac",
                 "shasum": ""
             },
             "require": {
@@ -11181,7 +11232,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.5.4"
+                "source": "https://github.com/phpstan/phpstan/tree/1.5.7"
             },
             "funding": [
                 {
@@ -11201,7 +11252,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-03T12:39:00+00:00"
+            "time": "2022-04-20T12:20:27+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -13003,16 +13054,16 @@
         },
         {
             "name": "spatie/laravel-ignition",
-            "version": "1.2.0",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-ignition.git",
-                "reference": "2b54c8c66f2d280f25e15064ebe3d5e3eda19820"
+                "reference": "924d1ae878874ad0bb49f63b69a9af759a34ee78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/2b54c8c66f2d280f25e15064ebe3d5e3eda19820",
-                "reference": "2b54c8c66f2d280f25e15064ebe3d5e3eda19820",
+                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/924d1ae878874ad0bb49f63b69a9af759a34ee78",
+                "reference": "924d1ae878874ad0bb49f63b69a9af759a34ee78",
                 "shasum": ""
             },
             "require": {
@@ -13089,7 +13140,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-01T21:01:58+00:00"
+            "time": "2022-04-14T18:04:51+00:00"
         },
         {
             "name": "symfony/filesystem",

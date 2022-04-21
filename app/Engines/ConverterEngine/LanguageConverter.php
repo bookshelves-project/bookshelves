@@ -2,6 +2,7 @@
 
 namespace App\Engines\ConverterEngine;
 
+use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
 use App\Models\Book;
 use App\Models\Language;
@@ -12,11 +13,11 @@ class LanguageConverter
     /**
      * Set Language from ParserEngine.
      */
-    public static function create(ParserEngine $parser, Book $book): Language
+    public static function create(ConverterEngine $converter): Language
     {
-        $lang_code = $parser->language;
+        $lang_code = $converter->parser->language;
 
-        if (! $book->language) {
+        if (! $converter->book->language) {
             $available_langs = config('bookshelves.langs');
 
             $language = Language::whereSlug($lang_code)->first();
@@ -31,12 +32,12 @@ class LanguageConverter
                 ]);
             }
 
-            $book->language()->associate($language);
-            $book->save();
+            $converter->book->language()->associate($language);
+            $converter->book->save();
 
             return $language;
         }
 
-        return $book->language;
+        return $converter->book->language;
     }
 }
