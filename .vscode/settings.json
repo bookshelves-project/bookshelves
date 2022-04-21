@@ -2,4 +2,5 @@
   "windicss.includeLanguages": {
     "blade.php": "html",
   },
+  "npm.packageManager": "pnpm"
 }
