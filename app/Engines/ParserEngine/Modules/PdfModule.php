@@ -6,7 +6,6 @@ use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Models\BookCreator;
 use App\Engines\ParserEngine\Modules\Interface\Module;
 use App\Engines\ParserEngine\Modules\Interface\ModuleInterface;
-use App\Engines\ParserEngine\Parsers\NameParser;
 use App\Services\ConsoleService;
 use DateTime;
 use File;
