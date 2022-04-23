@@ -79,6 +79,7 @@ const epub = () => ({
     // Generate location and pagination
     await this.book.ready
     const stored = localStorage.getItem(this.book.key() + '-locations')
+    // @ts-ignore
     console.log('metadata:', this.book.package.metadata)
     if (stored) {
       this.book.locations.load(stored)
@@ -98,6 +99,7 @@ const epub = () => ({
       this.currentPage = parseInt(current.toString())
       this.pageRange = this.currentPage
     })
+    // @ts-ignore
     this.lastPage = this.book.locations.total
     // this.currentPage = 20
     // this.rendition.display(this.currentPage)
@@ -128,7 +130,6 @@ const epub = () => ({
       this.rendition.themes.select(theme)
 
       this.rendition.start()
-      this.setToc()
       // this.book.rendition.generatePagination('200px', '200px')
       this.book.locations.generate(2000)
       this.rendition.on('relocated', (location) => {

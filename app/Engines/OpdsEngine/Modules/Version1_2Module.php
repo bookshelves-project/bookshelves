@@ -3,26 +3,24 @@
 namespace App\Engines\OpdsEngine\Modules;
 
 use App\Engines\OpdsEngine;
+use App\Engines\OpdsEngine\Modules\Interface\Module;
+use App\Engines\OpdsEngine\Modules\Interface\ModuleInterface;
 use App\Engines\OpdsEngine\XmlResponse;
 use App\Engines\SearchEngine;
 use App\Enums\EntityEnum;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Route;
 
-class Version1_2Module
+class Version1_2Module extends Module implements ModuleInterface
 {
-    public OpdsEngine $engine;
-
-    public static function create(OpdsEngine $engine): Version1_2Module
+    public static function create(OpdsEngine $engine): ModuleInterface
     {
-        $opds = new Version1_2Module();
-        $opds->engine = $engine;
-
-        return $opds;
+        return new Version1_2Module($engine);
     }
 
-    public function template(EntityEnum $entity, Collection|Model $data, ?string $title = null)
+    public function template(EntityEnum $entity, Collection|Model $data, ?string $title = null): string
     {
         $parameters = [...Route::getCurrentRoute()->parameters, ...$this->engine->request->all()];
         $current_route = route(Route::currentRouteName(), $parameters);
@@ -35,14 +33,14 @@ class Version1_2Module
         return $service->template($title);
     }
 
-    public function xml(string $template)
+    public function xml(string $template): Response
     {
         return response($template)->withHeaders([
             'Content-Type' => 'text/xml',
         ]);
     }
 
-    public function index()
+    public function index(): Response
     {
         foreach ($this->engine->feed as $key => $value) {
             $model_name = 'App\Models\\'.ucfirst($value->model);
@@ -55,7 +53,7 @@ class Version1_2Module
         return $this->xml($template);
     }
 
-    public function search()
+    public function search(): Response
     {
         $query = $this->engine->request->q;
 
@@ -69,7 +67,7 @@ class Version1_2Module
         return $this->xml($template);
     }
 
-    public function entities(EntityEnum $entity, Collection|Model $collection)
+    public function entities(EntityEnum $entity, Collection|Model $collection, ?string $title = null): Response
     {
         $template = $this->template($entity, $collection);
 

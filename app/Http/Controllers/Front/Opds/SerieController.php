@@ -14,7 +14,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('opds/series')]
+#[Prefix('opds/{version}/series')]
 class SerieController extends Controller
 {
     #[Get('/', name: 'front.opds.series')]
@@ -30,7 +30,7 @@ class SerieController extends Controller
     }
 
     #[Get('/{author}/{serie}', name: 'front.opds.series.show')]
-    public function show(Request $request, string $author_slug, string $serie_slug)
+    public function show(Request $request, string $version, string $author_slug, string $serie_slug)
     {
         $engine = OpdsEngine::create($request);
         $entity = Author::with('series.books', 'series.books.authors', 'series.books.tags', 'series.books.media', 'series.books.serie', 'series.books.language')
