@@ -70,7 +70,7 @@ trait HasAuthors
     public function getShowLinkOpdsAttribute(): string
     {
         return route('front.opds.'.$this->getClassName(true).'.show', [
-            'version' => 'v1.2',
+            'version' => '1.2',
             'author' => $this->meta_author,
             $this->getClassName() => $this->slug,
         ]);

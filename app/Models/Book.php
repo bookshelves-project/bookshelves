@@ -139,7 +139,7 @@ class Book extends Model implements HasMedia
     public function getOpdsLinkAttribute(): string
     {
         return route('front.opds.books.show', [
-            'version' => 'v1.2',
+            'version' => '1.2',
             'author' => $this->meta_author,
             'book' => $this->slug,
         ]);

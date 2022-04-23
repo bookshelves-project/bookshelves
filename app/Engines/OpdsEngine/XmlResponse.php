@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Engines\OpdsEngine;
 
 use App\Enums\BookFormatEnum;
 use App\Enums\EntityEnum;
@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\ArrayToXml\ArrayToXml;
 
-class OpdsService
+class XmlResponse
 {
     public const FEED = [
         [
@@ -101,7 +101,7 @@ class OpdsService
             '__custom:link:1' => [
                 '_attributes' => [
                     'rel' => 'start',
-                    'href' => route('front.opds.feed', ['version' => $this->version]),
+                    'href' => route('front.opds', ['version' => $this->version]),
                     'type' => 'application/atom+xml;profile=opds-catalog;kind=navigation',
                     'title' => 'Home',
                 ],
@@ -118,7 +118,7 @@ class OpdsService
                 '_attributes' => [
                     'rel' => 'search',
                     'href' => route('front.opds.search', ['version' => $this->version]),
-                    'type' => 'application/atom+xml;profile=opds-catalog;kind=navigation',
+                    'type' => 'application/opensearchdescription+xml',
                     'title' => 'Search here',
                 ],
             ],
@@ -156,7 +156,7 @@ class OpdsService
             'title' => $title,
             'updated' => $date,
             'id' => $app.':'.Str::slug($this->entity->value).':'.Str::slug($title),
-            'content' => [
+            'summary' => [
                 '_attributes' => [
                     'type' => 'text',
                 ],
@@ -318,7 +318,7 @@ class OpdsService
                 if (null !== $book->files_list[$format]) {
                     $list['__custom:link:'.$i] = [
                         '_attributes' => [
-                            'href' => $book->files_list[$format]['url'],
+                            'href' => $book->files_list[$format]->url,
                             'type' => 'application/epub+zip',
                             'rel' => 'http://opds-spec.org/acquisition',
                             'title' => 'EPUB',
@@ -340,13 +340,14 @@ class OpdsService
         $feed_links = [
             'xmlns' => 'http://a9.com/-/spec/opensearch/1.1/',
         ];
+        $app = config('app.name');
 
         $feed = [
             'ShortName' => [
-                '_value' => 'My catalog',
+                '_value' => $app,
             ],
             'Description' => [
-                '_value' => 'Search for ebooks',
+                '_value' => "OPDS search engine {$app}",
             ],
             'InputEncoding' => [
                 '_value' => 'UTF-8',
@@ -360,11 +361,34 @@ class OpdsService
                     'height' => '16',
                     'type' => 'image/x-icon',
                 ],
-                '_value' => '',
+                '_value' => config('app.url').'/favicon.ico',
             ],
-            'Url' => [
+            // '__custom:Url:1' => [
+            //     '_attributes' => [
+            //         // 'template' => 'http://gallica.bnf.fr/services/engine/search/sru?operation=searchRetrieve&version=1.2&query=(gallica%20all%20%22{searchTerms}%22)',
+            //         'template' => route('front.opds.search', ['version' => $version, 'q' => '{searchTerms}']),
+            //         'type' => 'text/html',
+            //     ],
+            // ],
+            // '__custom:Url:2' => [
+            //     '_attributes' => [
+            //         // 'template' => 'http://gallica.bnf.fr/services/engine/search/openSearchSuggest?typedoc=&query={searchTerms}',
+            //         'template' => route('front.opds.search', ['version' => $version, 'q' => '{searchTerms}']),
+            //         'type' => 'application/x-suggestions+json',
+            //         'rel' => 'suggestions',
+            //     ],
+            // ],
+            '__custom:Url:3' => [
                 '_attributes' => [
-                    'template' => route('front.opds.search', ['version' => $version, 'q' => '{searchTerms}']),
+                    // 'template' => 'http://gallica.bnf.fr/assets/static/opensearchdescription.xml',
+                    'template' => route('front.opds.search', ['version' => $version]),
+                    'type' => 'application/opensearchdescription+xml',
+                    'rel' => 'self',
+                ],
+            ],
+            '__custom:Url:4' => [
+                '_attributes' => [
+                    'template' => urldecode(route('front.opds.search', ['version' => $version, 'q' => '{searchTerms}'])),
                     'type' => 'application/atom+xml',
                 ],
             ],
@@ -373,6 +397,21 @@ class OpdsService
                     'role' => 'example',
                     'searchTerms' => 'robot',
                 ],
+            ],
+            'Developer' => [
+                '_value' => "{$app} Team",
+            ],
+            'Attribution' => [
+                '_value' => "Search data {$app}",
+            ],
+            'SyndicationRight' => [
+                '_value' => 'open',
+            ],
+            'AdultContent' => [
+                '_value' => 'false',
+            ],
+            'Language' => [
+                '_value' => '*',
             ],
         ];
 

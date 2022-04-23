@@ -76,7 +76,7 @@ class Serie extends Model implements HasMedia
     public function getOpdsLinkAttribute(): string
     {
         return route('front.opds.series.show', [
-            'version' => 'v1.2',
+            'version' => '1.2',
             'author' => $this->meta_author,
             'serie' => $this->slug,
         ]);

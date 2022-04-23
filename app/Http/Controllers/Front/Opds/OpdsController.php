@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers\Front\Opds;
 
-use App\Engines\SearchEngine;
-use App\Enums\EntityEnum;
+use App\Engines\OpdsEngine;
 use App\Http\Controllers\Controller;
-use App\Models\Author;
-use App\Services\ConverterService;
 use App\Services\MarkdownService;
-use App\Services\OpdsService;
 use Artesaos\SEOTools\Facades\SEOTools;
-use File;
 use Illuminate\Http\Request;
-use Route;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -33,65 +27,24 @@ class OpdsController extends Controller
         $feeds = [
             [
                 'title' => 'Version 1.2',
-                'param' => 'v1.2',
+                'param' => '1.2',
             ],
         ];
         $latest_feed = $feeds[sizeof($feeds) - 1];
-        $latest_feed = route('front.opds.feed', ['version' => $latest_feed['param']]);
+        $latest_feed = route('front.opds', ['version' => $latest_feed['param']]);
+
+        if ($engine = OpdsEngine::create($request)) {
+            return $engine->index();
+        }
 
         return view('front::pages.opds.index', compact('content', 'feeds', 'latest_feed'));
     }
 
-    #[Get('/{version}', name: 'front.opds.feed')]
-    public function feed(Request $request, string $version)
+    #[Get('/search', name: 'front.opds.search')]
+    public function search(Request $request)
     {
-        $feed = ConverterService::arrayToObject(OpdsService::FEED);
-        foreach ($feed as $key => $value) {
-            $model_name = 'App\Models\\'.ucfirst($value->model);
-            $value->cover_thumbnail = config('app.url')."/assets/images/opds/{$value->key}.png";
-            $value->route = route($value->route, ['version' => $version]);
-            $value->content = $model_name::count().' '.$value->content;
-        }
-        $feed = collect($feed);
+        $engine = OpdsEngine::create($request);
 
-        $current_route = route(Route::currentRouteName(), ['version' => $version]);
-        $opdsService = new OpdsService(
-            version: $version,
-            entity: EntityEnum::feed,
-            route: $current_route,
-            data: $feed,
-        );
-        $result = $opdsService->template();
-
-        return response($result)->withHeaders([
-            'Content-Type' => 'text/xml',
-        ]);
-    }
-
-    #[Get('/{version}/search', name: 'front.opds.search')]
-    public function search(Request $request, string $version)
-    {
-        $query = $request->q;
-        if ($query) {
-            $search = SearchEngine::create($query, false, ['books']);
-
-            $current_route = route(Route::currentRouteName(), [
-                'version' => $version,
-                'q' => $query,
-            ]);
-            $opdsService = new OpdsService(
-                version: $version,
-                entity: EntityEnum::book,
-                route: $current_route,
-                data: $search->list
-            );
-            $result = $opdsService->template("Results for {$query}");
-        } else {
-            $result = OpdsService::search($version);
-        }
-
-        return response($result)->withHeaders([
-            'Content-Type' => 'text/xml',
-        ]);
+        return $engine->search();
     }
 }

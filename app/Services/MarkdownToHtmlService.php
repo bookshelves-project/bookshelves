@@ -44,7 +44,7 @@ class MarkdownToHtmlService
                 'APP_REPOSITORY_URL' => config('app.repository_url'),
                 'ROUTE_DOCS' => config('app.url').'/docs',
                 'ROUTE_CATALOG' => route('front.catalog'),
-                'ROUTE_OPDS_12' => route('front.opds.feed', ['version' => 'v1.2']),
+                'ROUTE_OPDS' => route('front.opds', ['version' => '1.2']),
                 'ROUTE_WEBREADER' => route('front.webreader'),
             ];
             foreach ($config as $key => $value) {

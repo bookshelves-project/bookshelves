@@ -4,7 +4,7 @@
             <ul>
                 @foreach ($feeds as $item)
                     <li>
-                        <a href="{{ route('front.opds.feed', ['version' => $item['param']]) }}" target="_blank"
+                        <a href="{{ route('front.opds', ['version' => $item['param']]) }}" target="_blank"
                             rel="noopener noreferrer">
                             {{ $item['title'] }}
                         </a>

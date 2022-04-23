@@ -80,7 +80,7 @@ class Author extends Model implements HasMedia
     public function getOpdsLinkAttribute(): string
     {
         return route('front.opds.authors.show', [
-            'version' => 'v1.2',
+            'version' => '1.2',
             'author' => $this->slug,
         ]);
     }
