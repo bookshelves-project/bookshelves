@@ -69,7 +69,7 @@ class Version1_2Module extends Module implements ModuleInterface
 
     public function entities(EntityEnum $entity, Collection|Model $collection, ?string $title = null): Response
     {
-        $template = $this->template($entity, $collection);
+        $template = $this->template($entity, $collection, $title);
 
         return $this->xml($template);
     }
