@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\PaginationHelper;
 use App\Http\Resources\FavoriteResource;
 use App\Http\Resources\Review\ReviewResource;
 use App\Http\Resources\User\UserListResource;

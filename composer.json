@@ -39,6 +39,7 @@
         "itsgoingd/clockwork": "^5.1",
         "laravel/fortify": "^1.10",
         "laravel/framework": "^9.1",
+        "laravel/octane": "^1.2",
         "laravel/sanctum": "^2.14",
         "laravel/scout": "^9.4",
         "laravel/tinker": "^2.7",

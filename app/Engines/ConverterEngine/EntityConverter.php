@@ -11,7 +11,6 @@ use App\Services\WikipediaService\WikipediaQuery;
 use File;
 use Illuminate\Support\Str;
 use ReflectionClass;
-use Storage;
 
 class EntityConverter
 {

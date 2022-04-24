@@ -6,7 +6,6 @@ use App\Engines\OpdsEngine\Modules\Interface\ModuleInterface;
 use App\Engines\OpdsEngine\Modules\NotSupportedModule;
 use App\Engines\OpdsEngine\Modules\Version1_2Module;
 use App\Services\ConverterService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class OpdsEngine

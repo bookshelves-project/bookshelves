@@ -33,7 +33,7 @@ $rules = [
     'array_syntax' => true,
     'blank_line_after_opening_tag' => true,
     'blank_line_before_statement' => false,
-    'no_unused_imports' => false,
+    'no_unused_imports' => true,
 ];
 
 $finder = PhpCsFixer\Finder::create()

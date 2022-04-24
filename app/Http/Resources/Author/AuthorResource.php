@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Author;
 
 use App\Http\Resources\Review\ReviewResource;
-use App\Models\Author;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**

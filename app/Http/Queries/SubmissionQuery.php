@@ -8,7 +8,6 @@ use App\Http\Queries\Filter\GlobalSearchFilter;
 use App\Http\Resources\Admin\SubmisionResource;
 use App\Models\Submission;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 

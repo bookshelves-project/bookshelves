@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Book;
 use App\Models\GoogleBook;
 use App\Services\GoogleBookService\GoogleBookQuery;
-use App\Services\HttpService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 

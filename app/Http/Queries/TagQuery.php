@@ -8,10 +8,8 @@ use App\Http\Queries\Filter\GlobalSearchFilter;
 use App\Http\Resources\Admin\TagResource;
 use App\Models\TagExtend;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\Tags\Tag;
 
 class TagQuery extends BaseQuery
 {

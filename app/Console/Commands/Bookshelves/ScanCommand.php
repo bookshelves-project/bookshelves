@@ -7,7 +7,6 @@ use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
 use App\Models\Book;
-use App\Services\DirectoryParserService;
 use Illuminate\Console\Command;
 
 class ScanCommand extends CommandProd
