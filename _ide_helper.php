@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.8.1.
+ * Generated for Laravel 9.9.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1936,7 +1936,7 @@
          *
          * @param array $credentials
          * @param array|callable $callbacks
-         * @param false $remember
+         * @param bool $remember
          * @return bool 
          * @static 
          */ 
@@ -6795,7 +6795,7 @@
          * Define a new ability.
          *
          * @param string $ability
-         * @param callable|string $callback
+         * @param callable|array|string $callback
          * @return \Illuminate\Auth\Access\Gate 
          * @throws \InvalidArgumentException
          * @static 
@@ -7253,6 +7253,7 @@
      * @method static \Illuminate\Http\Client\PendingRequest withUserAgent(string $userAgent)
      * @method static \Illuminate\Http\Client\PendingRequest withoutRedirecting()
      * @method static \Illuminate\Http\Client\PendingRequest withoutVerifying()
+     * @method static \Illuminate\Http\Client\PendingRequest throw(callable $callback = null)
      * @method static array pool(callable $callback)
      * @method static \Illuminate\Http\Client\Response delete(string $url, array $data = [])
      * @method static \Illuminate\Http\Client\Response get(string $url, array|string|null $query = null)
@@ -19969,6 +19970,18 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
                                 return $instance->setEagerLoads($eagerLoad);
+            }
+             
+                /**
+             * Flush the relationships being eagerly loaded.
+             *
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function withoutEagerLoads()
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->withoutEagerLoads();
             }
              
                 /**

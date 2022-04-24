@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Front\Opds;
 
+use App\Engines\OpdsEngine;
 use App\Enums\EntityEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
-use App\Services\OpdsService;
-use Route;
+use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -17,44 +17,27 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 class AuthorController extends Controller
 {
     #[Get('/', name: 'front.opds.authors')]
-    public function index(string $version)
+    public function index(Request $request)
     {
-        $entities = Author::with('books', 'media')->orderBy('lastname')->get();
+        $engine = OpdsEngine::create($request);
+        $entities = Author::with('books', 'media')
+            ->orderBy('lastname')
+            ->get()
+        ;
 
-        $current_route = route(Route::currentRouteName(), ['version' => $version]);
-        $opdsService = new OpdsService(
-            version: $version,
-            entity: EntityEnum::author,
-            route: $current_route,
-            data: $entities
-        );
-        $result = $opdsService->template();
-
-        return response($result)->withHeaders([
-            'Content-Type' => 'text/xml',
-        ]);
+        return $engine->entities(EntityEnum::author, $entities);
     }
 
     #[Get('/{author}', name: 'front.opds.authors.show')]
-    public function show(string $version, string $author_slug)
+    public function show(Request $request, string $version, string $author_slug)
     {
-        $author = Author::with('books.authors', 'books.tags', 'books.media', 'books.serie', 'books.language')->whereSlug($author_slug)->firstOrFail();
-        $books = $author->books;
+        $engine = OpdsEngine::create($request);
+        $entity = Author::with('books.authors', 'books.tags', 'books.media', 'books.serie', 'books.language')
+            ->whereSlug($author_slug)
+            ->firstOrFail()
+        ;
+        $books = $entity->books;
 
-        $current_route = route(Route::currentRouteName(), [
-            'version' => $version,
-            'author' => $author_slug,
-        ]);
-        $opdsService = new OpdsService(
-            version: $version,
-            entity: EntityEnum::book,
-            route: $current_route,
-            data: $books
-        );
-        $result = $opdsService->template("{$author->lastname} {$author->firstname}");
-
-        return response($result)->withHeaders([
-            'Content-Type' => 'text/xml',
-        ]);
+        return $engine->entities(EntityEnum::book, $books, "{$entity->lastname} {$entity->firstname}");
     }
 }

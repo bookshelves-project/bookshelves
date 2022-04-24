@@ -30,10 +30,16 @@ class DownloadController extends ApiController
      *
      * @header Content-Type application/epub+zip
      */
-    #[Get('/book/{author_slug}/{book_slug}/{format?}', 'download.book')]
-    public function book(Author $author, Book $book, ?string $format = null)
+    #[Get('/book/{author_slug}/{book_slug}', 'download.book')]
+    public function book(Request $request, Author $author, Book $book)
     {
-        $format = $this->getFormat($book, $format);
+        if ($format = $request->get('format')) {
+            $format = BookFormatEnum::from($format);
+        } else {
+            $media = $book->file_main;
+            $format = BookFormatEnum::from($media->format);
+        }
+        $format = $this->getFormat($book, $format->value);
 
         if (null === $format) {
             return response()->json([

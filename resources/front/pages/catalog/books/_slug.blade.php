@@ -27,11 +27,11 @@
 </x-catalog.panel>
 
 <x-catalog.table>
-    {!! $book->summary !!}
+    {!! $book->description !!}
 </x-catalog.table>
 
 @isset($book->download)
-<x-catalog.button url="{{ $book->download->main }}">
+<x-catalog.button url="{{ $book->download->url }}">
     Download
 </x-catalog.button>
 @endisset

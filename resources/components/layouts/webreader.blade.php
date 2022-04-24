@@ -17,7 +17,7 @@
     @vite('webreader', 'app.ts', 3300)
 </head>
 
-<body x-data :class="$store.darkMode.on && 'bg-gray-900'" class="dark:bg-gray-900 dark:text-white"
+<body class="dark:bg-gray-900 dark:text-white"
     class="antialiased min-h-screen {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
     <div class="flex flex-col min-h-screen m-0">
         {{ $slot }}

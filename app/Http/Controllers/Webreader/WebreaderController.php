@@ -10,6 +10,7 @@ use App\Models\Book;
 use App\Models\MediaExtended;
 use App\Services\MarkdownService;
 use Artesaos\SEOTools\Facades\SEOTools;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Route;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -21,18 +22,23 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('webreader')]
 class WebreaderController extends Controller
 {
-    #[Get('/{author}/{book}/{format}/{page?}', name: 'webreader.reader')]
-    public function reader(string $author, string $book, string $format, ?string $page = null)
+    #[Get('/{author}/{book}', name: 'webreader.reader')]
+    public function reader(Request $request, string $author, string $book)
     {
-        $format = BookFormatEnum::from($format);
+        $author = Author::whereSlug($author)->firstOrFail();
+        $book = Book::whereRelation('authors', 'name', '=', $author->name)->whereSlug($book)->firstOrFail();
+
         $home = route('webreader.reader', [
             'author' => $author,
             'book' => $book,
-            'format' => $format->value,
         ]);
 
-        $author = Author::whereSlug($author)->firstOrFail();
-        $book = Book::whereRelation('authors', 'name', '=', $author->name)->whereSlug($book)->firstOrFail();
+        if ($format = $request->get('format')) {
+            $format = BookFormatEnum::from($format);
+        } else {
+            $media = $book->file_main;
+            $format = BookFormatEnum::from($media->format);
+        }
 
         $title = $book->title;
         $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';
@@ -41,15 +47,18 @@ class WebreaderController extends Controller
         SEOTools::setTitle($book->title);
         /** @var MediaExtended $file */
         $file = $book->files[$format->value];
-
-        $download_link = $book->getFirstMediaUrl($format->value);
-        $full_download = $download_link;
-        $file_path = str_replace(config('app.url'), '', $download_link);
-        $current_format = $format->value;
-        $data = ['file_path', 'download_link', 'full_download', 'file', 'book', 'current_format', 'title', 'home'];
+        $data = [
+            'title' => $title,
+            'filename' => $file->file_name,
+            'url' => $file->download,
+            'format' => $format->value,
+            'size_human' => $file->size_human,
+        ];
+        $url = $data['url'];
+        $data = json_encode($data);
 
         if (BookFormatEnum::epub === $format) {
-            return view('webreader::pages.epub', compact($data));
+            return view('webreader::pages.epub', compact('data'));
         }
         if (BookFormatEnum::pdf === $format) {
             $pdf = $book->getFirstMedia(BookFormatEnum::pdf->value);
@@ -57,9 +66,9 @@ class WebreaderController extends Controller
             return response()->download($pdf->getPath(), $pdf->file_name);
         }
         if (BookFormatEnum::cbz === $format || BookFormatEnum::cbr === $format) {
-            return view('webreader::pages.comic', compact($data));
+            return view('webreader::pages.comic', compact('data'));
         }
 
-        return view('webreader::pages.not-ready', compact('download_link'));
+        return view('webreader::pages.not-ready', compact('url'));
     }
 }

@@ -153,7 +153,11 @@ class ParserEngine
         }
 
         if ($engine->date && ! str_contains($engine->date, '0101')) {
-            $engine->released_on = new DateTime($engine->date);
+            try {
+                $engine->released_on = new DateTime($engine->date);
+            } catch (\Throwable $th) {
+                // throw $th;
+            }
         }
 
         if ($engine->debug) {

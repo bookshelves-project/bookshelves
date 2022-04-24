@@ -63,7 +63,7 @@ style="height: 200px; width: 200px; object-fit: cover">
 @endif
 @isset($item->language)
 <div>
-<i>Language</i> : {{ $item->language }}
+<i>Language</i> : {{ $item->language?->name }}
 </div>
 @endisset
 @isset($item->serie)
