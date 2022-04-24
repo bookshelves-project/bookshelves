@@ -2,7 +2,6 @@
 
 namespace App\Http\Queries\Addon;
 
-use App\Http\Queries\BaseQuery;
 use Illuminate\Http\Request;
 
 class QueryOption

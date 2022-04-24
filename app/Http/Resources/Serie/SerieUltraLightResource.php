@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Serie;
 
-use App\Models\Serie;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**

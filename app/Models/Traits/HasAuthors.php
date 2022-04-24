@@ -2,7 +2,6 @@
 
 namespace App\Models\Traits;
 
-use App\Enums\BookFormatEnum;
 use App\Models\Author;
 use ArrayAccess;
 use Illuminate\Database\Eloquent\Builder;

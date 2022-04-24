@@ -2,7 +2,6 @@
 
 namespace App\View\Components;
 
-use App\Services\ConverterService;
 use Illuminate\View\Component;
 
 class Breadcrumbs extends Component

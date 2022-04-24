@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\PostCategoryResource;
-use App\Http\Resources\Admin\PostResource;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Front\Opds;
 
 use App\Engines\OpdsEngine;
-use App\Engines\OpdsEngine\Modules\Interface\ModuleInterface;
 use App\Http\Controllers\Controller;
 use App\Services\MarkdownService;
 use Artesaos\SEOTools\Facades\SEOTools;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;

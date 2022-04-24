@@ -10,8 +10,6 @@ use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Serie\SerieLightResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Support\MediaStream;
 
 /**
  * @group Entity: Author

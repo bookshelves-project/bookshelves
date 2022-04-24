@@ -3,17 +3,11 @@
 namespace Database\Seeders;
 
 use App\Enums\PostStatusEnum;
-use App\Models\MediaExtended;
 use App\Models\Page;
 use App\Services\ConverterService;
 use App\Services\MarkdownToHtmlService;
-use App\Services\MediaService;
 use DateTime;
-use Doctrine\DBAL\Portability\Converter;
-use DOMDocument;
-use File;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class PageSeeder extends Seeder
 {

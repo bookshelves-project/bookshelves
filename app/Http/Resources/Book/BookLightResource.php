@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Book;
 
-use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Serie\SerieUltraLightResource;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;

@@ -3,7 +3,6 @@
 namespace App\Enums\Traits;
 
 use Closure;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use ReflectionClass;
 

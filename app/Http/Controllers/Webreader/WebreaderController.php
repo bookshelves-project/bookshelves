@@ -4,15 +4,11 @@ namespace App\Http\Controllers\Webreader;
 
 use App\Enums\BookFormatEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Book\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\MediaExtended;
-use App\Services\MarkdownService;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Route;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 

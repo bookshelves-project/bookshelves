@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Serie;
 
-use App\Http\Resources\Book\BookSerieResource;
 use App\Http\Resources\Review\ReviewResource;
 use App\Http\Resources\Tag\TagLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;

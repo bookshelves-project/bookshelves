@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\BookQuery;
 use App\Http\Queries\SerieQuery;
 use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\EntityResource;

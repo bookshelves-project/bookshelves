@@ -4,10 +4,7 @@ namespace App\Http\Resources\Book;
 
 use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\GoogleBookResource;
-use App\Http\Resources\MediaResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
-use App\Http\Resources\Review\ReviewResource;
-use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Serie\SerieUltraLightResource;
 use App\Http\Resources\Tag\TagLightResource;
 use App\Models\Book;

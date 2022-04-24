@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\MediaCollectionEnum;
 use App\Enums\MediaDiskEnum;
 use App\Enums\SpatieMediaMethodEnum;
 use Illuminate\Database\Eloquent\Model;

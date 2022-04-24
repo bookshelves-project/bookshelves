@@ -6,7 +6,6 @@ use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\Language\LanguageLightResource;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Str;
 
 /**
  * @property \App\Models\Book $resource

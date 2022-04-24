@@ -5,8 +5,6 @@ namespace App\Services;
 use App\Models\Author;
 use App\Models\Serie;
 use App\Models\WikipediaItem;
-use App\Services\ConsoleService;
-use App\Services\HttpService;
 use App\Services\WikipediaService\WikipediaQuery;
 use Exception;
 use Illuminate\Database\Eloquent\Model;

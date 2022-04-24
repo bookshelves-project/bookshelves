@@ -4,7 +4,6 @@ namespace App\Engines\ParserEngine\Parsers;
 
 use App\Engines\ParserEngine;
 use App\Services\ConsoleService;
-use Closure;
 use DOMDocument;
 use ReflectionClass;
 
