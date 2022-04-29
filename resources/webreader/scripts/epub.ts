@@ -6,6 +6,15 @@ interface AlpineRefs {
   tocElement?: HTMLElement
 }
 
+interface IEpub extends IBook {
+  book: Book
+  rendition: Rendition
+  toc: NavItem[]
+  pageRange: number
+  tutorialIsEnabled: boolean
+  disableTutorial: () => void
+}
+
 interface Data {
   title: string
   filename: string
@@ -20,35 +29,33 @@ let refsAlpine: AlpineRefs
  * Init ebook: https://github.com/futurepress/epub.js/issues/744#issuecomment-492300092
  * Save progress: https://github.com/futurepress/epub.js/issues/691
  */
-const epub = () => ({
-  isLoading: true,
-  readerIsEnabled: false,
+const epub = (): IEpub => ({
+  $store: {
+    webreader: {} as IWebreader,
+  },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  $watch: (value: string, callback: (value: any) => void) => {},
   book: {} as Book,
   rendition: {} as Rendition,
   toc: [] as NavItem[],
-  navigationIsEnabled: false,
-  tutorialIsEnabled: true,
-  sidebarWrapperIsEnabled: false,
-  sidebarBackdropIsEnabled: false,
-  sidebarIsEnabled: false,
-  currentPage: 0,
-  lastPage: 0,
-  progress: 0,
   pageRange: 0,
-  async initialize(data: string) {
-    const dataFormated: Data = JSON.parse(data)
+  tutorialIsEnabled: true,
+  async initialize(data?: string) {
+    this.$store.webreader.bookData = data ? JSON.parse(data) : {}
 
     // @ts-ignore
     refsAlpine = this.$refs
-
-    this.currentPage = 0
+    this.createBook()
+  },
+  async createBook() {
+    this.$store.webreader.currentPage = 0
 
     if (localStorage.getItem('webreader_epub_tutorial')) {
       this.disableTutorial()
     }
 
     // Initialize the book
-    const bookUri = dataFormated.url
+    const bookUri = this.$store.webreader.bookData.url
     this.book = Epub(bookUri!, {})
     this.rendition = this.book.renderTo(refsAlpine.reader!, {
       flow: 'paginated',
@@ -64,8 +71,8 @@ const epub = () => ({
 
     const theme: EpubThemes = 'defaultStyle'
     this.rendition.themes.select(theme)
-    // Display the book
     this.rendition.display()
+
     // const displayed = rendition.display(
     //   window.location.hash.substr(1) || undefined
     // )
@@ -73,8 +80,8 @@ const epub = () => ({
     //   console.log('rendition.currentLocation():', rendition.currentLocation())
     // })
 
-    this.isLoading = false
-    this.readerIsEnabled = true
+    this.$store.webreader.isLoading = false
+    this.$store.webreader.bookIsReady = true
 
     // Generate location and pagination
     await this.book.ready
@@ -94,10 +101,12 @@ const epub = () => ({
 
     // When navigating to the next/previous page
     this.rendition.on('relocated', (locations) => {
-      this.progress = this.book.locations.percentageFromCfi(locations.start.cfi)
+      this.$store.webreader.progress = this.book.locations.percentageFromCfi(
+        locations.start.cfi
+      )
       const current = this.book.locations.locationFromCfi(locations.start.cfi)
-      this.currentPage = parseInt(current.toString())
-      this.pageRange = this.currentPage
+      this.$store.webreader.currentPage = parseInt(current.toString())
+      this.pageRange = this.$store.webreader.currentPage
     })
     // @ts-ignore
     this.lastPage = this.book.locations.total
@@ -111,39 +120,8 @@ const epub = () => ({
     //   )
     // }
   },
-  setChapter(chapter) {
-    this.rendition.display(chapter)
-  },
-  read() {
-    this.readerIsEnabled = true
-
-    if (refsAlpine.reader) {
-      this.rendition.attachTo(refsAlpine.reader)
-      this.rendition.display()
-      console.log(this.rendition)
-
-      this.rendition.themes.registerRules('dark', dark)
-      this.rendition.themes.registerRules('tan', tan)
-      this.rendition.themes.registerRules('default', defaultStyle)
-
-      const theme: EpubThemes = 'defaultStyle'
-      this.rendition.themes.select(theme)
-
-      this.rendition.start()
-      // this.book.rendition.generatePagination('200px', '200px')
-      this.book.locations.generate(2000)
-      this.rendition.on('relocated', (location) => {
-        this.book.locations.locationFromCfi(location.start.cfi)
-      })
-    }
-  },
-  previous() {
-    this.rendition.prev()
-  },
-  next() {
-    this.rendition.next()
-    const cfi = this.book.locations.cfiFromPercentage(this.currentPage / 100)
-    localStorage.setItem('ebook', this.currentPage.toString())
+  setImage() {
+    console.log('setImage')
   },
   first() {
     this.rendition.display(0)
@@ -152,33 +130,52 @@ const epub = () => ({
     // @ts-ignore
     this.rendition.display(this.book.spine.spineItems.length - 1)
   },
+  previous() {
+    this.rendition.prev()
+  },
+  next() {
+    this.rendition.next()
+    const cfi = this.book.locations.cfiFromPercentage(
+      this.$store.webreader.currentPage / 100
+    )
+    localStorage.setItem('ebook', this.$store.webreader.currentPage.toString())
+  },
+  switchSize() {
+    console.log('switchSize')
+  },
+  fullscreen() {
+    console.log('fullscreen')
+  },
+  fullscreenExit() {
+    console.log('fullscreenExit')
+  },
+  lock() {
+    console.log('lock')
+  },
+  deleteProgression() {
+    console.log('deleteProgression')
+  },
+  displayGrid() {
+    console.log('displayGrid')
+  },
+  getGrid() {
+    console.log('getGrid')
+  },
+  saveConfig() {
+    console.log('saveConfig')
+  },
+  getConfig() {
+    console.log('getConfig')
+  },
+  events() {
+    console.log('events')
+  },
+  commands() {
+    console.log('commands')
+  },
   disableTutorial() {
     this.tutorialIsEnabled = false
     localStorage.setItem('webreader_epub_tutorial', 'false')
-  },
-  changePageRange() {
-    this.rendition.display(this.book.locations.cfiFromLocation(this.pageRange))
-  },
-  toggleSidebar() {
-    if (this.sidebarWrapperIsEnabled) {
-      this.closeSidebar()
-    } else {
-      this.openSidebar()
-    }
-  },
-  openSidebar() {
-    this.sidebarWrapperIsEnabled = true
-    setTimeout(() => {
-      this.sidebarBackdropIsEnabled = true
-      this.sidebarIsEnabled = true
-    }, 300)
-  },
-  closeSidebar() {
-    this.sidebarBackdropIsEnabled = false
-    this.sidebarIsEnabled = false
-    setTimeout(() => {
-      this.sidebarWrapperIsEnabled = false
-    }, 300)
   },
 })
 
@@ -316,7 +313,7 @@ export default epub
 //   },
 //   openSidebar() {
 //     this.sidebarWrapperIsEnabled = true
-//     setTimeout(() => {
+//     setTimeout(() {
 //       this.sidebarBackdropIsEnabled = true
 //       this.sidebarIsEnabled = true
 //     }, 300)
@@ -324,7 +321,7 @@ export default epub
 //   closeSidebar() {
 //     this.sidebarBackdropIsEnabled = false
 //     this.sidebarIsEnabled = false
-//     setTimeout(() => {
+//     setTimeout(() {
 //       this.sidebarWrapperIsEnabled = false
 //     }, 300)
 //   },

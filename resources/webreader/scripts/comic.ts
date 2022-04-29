@@ -1,95 +1,87 @@
 import * as comix from '@comix/parser'
 import { download } from './download'
 
-type Size = 'sizeFull' | 'sizeLarge' | 'sizeScreen'
+interface IComic extends IBook {}
+
 interface AlpineRefs {
-  currentPageImg: HTMLImageElement
-}
-
-interface Data {
-  title: string
-  filename: string
-  url: string
-  format: string
-  size_human: string
-}
-interface Config {
-  page?: string
-  size?: Size
-  locked?: boolean
-}
-
-interface GridImg {
-  name: string
-  img?: string
+  reader: HTMLImageElement
 }
 
 let refsAlpine: AlpineRefs
 const extensions = ['jpg', 'jpeg']
 
 const comic = () => ({
-  filename: '',
-  url: '',
-  imagesList: [] as comix.ComicImage[],
-  gridIsAvailable: false,
-  grid: [] as GridImg[],
-  showGrid: false,
-  isLoading: true,
-  imageIsReady: false,
-  showNavigation: true,
-  navigationIsLock: true,
-  sizeFull: false,
-  sizeLarge: false,
-  sizeScreen: true,
-  currentSize: 'sizeScreen' as Size,
-  isFullscreen: false,
-  informationEnabled: false,
-  currentPage: 0,
-  lastPage: 0,
-  configKey: 'webreader_comic_config',
+  list: [],
+  $store: {
+    webreader: {} as IWebreader,
+  },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  $watch: (value: string, callback: (value: any) => void) => {},
+  init() {
+    this.$watch('$store.webreader.bookIsReady', (isReady) => {
+      console.log('ready')
+    })
+    this.$watch('$store.webreader.showGrid', (isReady) => {
+      console.log('grid')
+      if (!this.$store.webreader.gridIsAvailable) {
+        setTimeout(async () => {
+          await this.getGrid()
+        }, 500)
+      }
+    })
+  },
   async initialize(data: string) {
-    const dataFormated: Data = JSON.parse(data)
+    this.$store.webreader.bookData = JSON.parse(data)
 
     // @ts-ignore
     refsAlpine = this.$refs
-    this.url = dataFormated.url
-    this.filename = dataFormated.filename
-
-    const file = await download(this.url, this.filename)
+    await this.createBook()
+  },
+  async createBook() {
+    const file = await download(
+      this.$store.webreader.bookData.url,
+      this.$store.webreader.bookData.filename
+    )
     if (file) {
       const parser = new comix.Parser()
       const comic = await parser.parse(file)
 
-      this.imagesList = comic.images.filter((image) => {
+      this.$store.webreader.imagesList = comic.images.filter((image) => {
         const name = image.name.split('.')
         const extension = name[name.length - 1]
         if (extensions.includes(extension)) {
           return image
         }
       })
-      this.lastPage = this.imagesList.length - 1
-      this.imagesList = this.imagesList.sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, {
-          numeric: true,
-          sensitivity: 'base',
-        })
+      this.$store.webreader.lastPage =
+        this.$store.webreader.imagesList.length - 1
+      this.$store.webreader.imagesList = this.$store.webreader.imagesList.sort(
+        (a, b) =>
+          a.name.localeCompare(b.name, undefined, {
+            numeric: true,
+            sensitivity: 'base',
+          })
       )
 
       this.getConfig()
       await this.setImage()
-      this.isLoading = false
+      this.$store.webreader.isLoading = false
 
       this.events()
-      for (let i = 0; i < this.imagesList.length; i++) {
-        this.grid.push({
+      for (let i = 0; i < this.$store.webreader.imagesList.length; i++) {
+        this.$store.webreader.grid.push({
           name: i.toString(),
         })
       }
-      await this.getGrid()
     }
   },
+  checkIsReady() {
+    console.log(this.$store.webreader.isLoading)
+  },
   async setImage() {
-    const imageBuffer = await this.imagesList[this.currentPage].read()
+    const imageBuffer = await this.$store.webreader.imagesList[
+      this.$store.webreader.currentPage
+    ].read()
 
     const arrayBufferView = new Uint8Array(imageBuffer)
     const imageBlob = new Blob([arrayBufferView], { type: 'image/jpg' })
@@ -100,68 +92,73 @@ const comic = () => ({
       top: 0,
       behavior: 'smooth',
     })
-    refsAlpine.currentPageImg.setAttribute('src', imageUrl)
-    this.imageIsReady = true
+    refsAlpine.reader.setAttribute('src', imageUrl)
+    this.$store.webreader.bookIsReady = true
 
     this.saveConfig()
   },
   first() {
-    this.currentPage = 0
+    this.$store.webreader.currentPage = 0
     this.setImage()
   },
   last() {
-    this.currentPage = this.lastPage
+    this.$store.webreader.currentPage = this.$store.webreader.lastPage
     this.setImage()
   },
   previous() {
-    if (this.currentPage > 0) {
-      this.currentPage = this.currentPage - 1
+    if (this.$store.webreader.currentPage > 0) {
+      this.$store.webreader.currentPage = this.$store.webreader.currentPage - 1
     } else {
-      this.currentPage = this.lastPage
+      this.$store.webreader.currentPage = this.$store.webreader.lastPage
     }
     this.setImage()
   },
   next() {
-    if (this.currentPage < this.imagesList.length - 1) {
-      this.currentPage = this.currentPage + 1
+    if (
+      this.$store.webreader.currentPage <
+      this.$store.webreader.imagesList.length - 1
+    ) {
+      this.$store.webreader.currentPage = this.$store.webreader.currentPage + 1
     } else {
-      this.currentPage = 0
+      this.$store.webreader.currentPage = 0
     }
     this.setImage()
   },
   switchSize(size: Size) {
-    this.sizeFull = false
-    this.sizeLarge = false
-    this.sizeScreen = false
-    this[size] = true
-    this.currentSize = size
+    this.$store.webreader.sizeFull = false
+    this.$store.webreader.sizeLarge = false
+    this.$store.webreader.sizeScreen = false
+    this.$store.webreader[size] = true
+    this.$store.webreader.currentSize = size
 
     this.saveConfig()
   },
   fullscreen() {
     document.getElementById('fullScreen')?.requestFullscreen()
-    this.isFullscreen = true
+    this.$store.webreader.isFullscreen = true
   },
   fullscreenExit() {
     document.exitFullscreen()
-    this.isFullscreen = false
+    this.$store.webreader.isFullscreen = false
   },
   lock() {
-    this.navigationIsLock = !this.navigationIsLock
-    this.showNavigation = this.navigationIsLock
+    this.$store.webreader.navigationIsLock =
+      !this.$store.webreader.navigationIsLock
+    this.$store.webreader.showNavigation =
+      this.$store.webreader.navigationIsLock
 
     this.saveConfig()
   },
   deleteProgression() {
-    this.currentPage = 0
-    this.currentSize = 'sizeScreen'
-    this.navigationIsLock = true
+    this.$store.webreader.currentPage = 0
+    this.$store.webreader.currentSize = 'sizeScreen'
+    this.$store.webreader.navigationIsLock = true
 
     this.saveConfig()
   },
   displayGrid() {
     const full = document.getElementById('fullScreen')
-    this.showGrid = !this.showGrid
+    this.$store.webreader.showGrid = !this.$store.webreader.showGrid
 
     full?.scrollTo({
       top: 0,
@@ -170,7 +167,7 @@ const comic = () => ({
   },
   async getGrid() {
     let grid: GridImg[] = []
-    for (const file of this.imagesList) {
+    for (const file of this.$store.webreader.imagesList) {
       const imageBuffer = await file.read()
       const arrayBufferView = new Uint8Array(imageBuffer)
       const imageBlob = new Blob([arrayBufferView], { type: 'image/jpg' })
@@ -186,33 +183,43 @@ const comic = () => ({
         sensitivity: 'base',
       })
     )
-    this.gridIsAvailable = true
-    this.grid = grid
+    this.$store.webreader.gridIsAvailable = true
+    this.$store.webreader.grid = grid
   },
   saveConfig() {
-    const config: Config = {
-      size: this.currentSize,
-      locked: this.navigationIsLock,
+    const config: StorageConfig = {
+      size: this.$store.webreader.currentSize,
+      locked: this.$store.webreader.navigationIsLock,
     }
-    localStorage.setItem(this.configKey, JSON.stringify(config))
-    localStorage.setItem(this.filename, this.currentPage.toString())
+    localStorage.setItem(
+      this.$store.webreader.configKey,
+      JSON.stringify(config)
+    )
+    localStorage.setItem(
+      this.$store.webreader.bookData.filename,
+      this.$store.webreader.currentPage.toString()
+    )
   },
-  getConfig(): Config {
-    let config: Config = {
+  getConfig(): StorageConfig {
+    let config: StorageConfig = {
       size: 'sizeScreen',
       locked: true,
     }
-    if (localStorage.getItem(this.configKey) !== null) {
-      const storage = localStorage.getItem(this.configKey)!
+    if (localStorage.getItem(this.$store.webreader.configKey) !== null) {
+      const storage = localStorage.getItem(this.$store.webreader.configKey)!
       config = JSON.parse(storage)
     }
-    if (localStorage.getItem(this.filename) !== null) {
-      const currentPage = localStorage.getItem(this.filename)!
-      this.currentPage = parseInt(currentPage)
+    if (
+      localStorage.getItem(this.$store.webreader.bookData.filename) !== null
+    ) {
+      const currentPage = localStorage.getItem(
+        this.$store.webreader.bookData.filename
+      )!
+      this.$store.webreader.currentPage = parseInt(currentPage)
     }
     this.switchSize(config.size!)
-    this.navigationIsLock = config.locked!
-    this.showNavigation = config.locked!
+    this.$store.webreader.navigationIsLock = config.locked!
+    this.$store.webreader.showNavigation = config.locked!
 
     return config
   },
@@ -245,7 +252,7 @@ const comic = () => ({
         this.switchSize('sizeScreen')
       }
       if (event.key === 'e') {
-        if (this.isFullscreen) {
+        if (this.$store.webreader.isFullscreen) {
           this.fullscreenExit()
         } else {
           this.fullscreen()
@@ -255,7 +262,8 @@ const comic = () => ({
         this.lock()
       }
       if (event.key === 'i') {
-        this.informationEnabled = !this.informationEnabled
+        this.$store.webreader.informationEnabled =
+          !this.$store.webreader.informationEnabled
       }
       if (event.key === 'g') {
         this.displayGrid()
@@ -263,10 +271,6 @@ const comic = () => ({
     })
   },
   commands() {
-    interface Command {
-      key?: string[]
-      label?: string
-    }
     const commands: Command[] = [
       {
         key: ['E'],
@@ -310,8 +314,7 @@ const comic = () => ({
         label: 'Lock navigation',
       },
     ]
-
-    return commands
+    this.$store.webreader.commands = commands
   },
 })
 
