@@ -2,7 +2,7 @@
 $data_object = json_decode($data);
 @endphp
 <x-layouts.webreader>
-    <div x-data="epub()" x-init="initialize('{{ $data }}')">
+    <div x-data="epub()" x-init="initialize(`{{ $data }}`)">
         {{-- <div x-data>
             <button @click="$store.sidebar.toggle()">sidebar</button>
             <span x-show="$store.sidebar.on">opened</span>

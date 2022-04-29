@@ -2,7 +2,7 @@
 $data_object = json_decode($data);
 @endphp
 <x-layouts.webreader>
-    <div id="fullScreen" x-data="comic()" x-init="initialize('{{ $data }}')" :class="showGrid ? 'overflow-hidden' : ''">
+    <div id="fullScreen" x-data="comic()" x-init="initialize(`{{ $data }}`)" :class="showGrid ? 'overflow-hidden' : ''">
         <div x-show="showGrid" class="fixed z-10 w-full overflow-auto h-screen bg-gray-900">
             <div class="grid grid-cols-4 gap-3">
                 <template x-for="(file,key) in grid">
@@ -10,7 +10,7 @@ $data_object = json_decode($data);
                         <div class="absolute bottom-0 left-0 p-2 bg-gray-800 z-10">
                             Page <span x-text="key"></span>
                         </div>
-                        <img x-show="file.img" :src="file . img" alt="" class="object-cover">
+                        <img x-show="file.img" :src="file.img" alt="" class="object-cover">
                         <div x-show="!gridIsAvailable" class="min-h-64 w-full bg-gray-700 animate-pulse"></div>
                     </button>
                 </template>
@@ -92,12 +92,13 @@ $data_object = json_decode($data);
             </div>
         </div>
         <div x-show="imageIsReady" x-transition>
-            <img x-ref="currentPageImg" src="" :class="[
-                sizeFull ? 'lg:w-full' : '',
-                sizeLarge ? 'lg:h-[170vh]' : '',
-                sizeScreen ? 'lg:h-screen' : '',
-                'mx-auto min-w-[60rem] min-w-[auto]',
-            ]" />
+            <img x-ref="currentPageImg" src=""
+                :class="[
+                    sizeFull ? 'lg:w-full' : '',
+                    sizeLarge ? 'lg:h-[170vh]' : '',
+                    sizeScreen ? 'lg:h-screen' : '',
+                    'mx-auto min-w-[60rem] min-w-[auto]',
+                ]" />
         </div>
     </div>
 </x-layouts.webreader>
