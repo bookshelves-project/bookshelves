@@ -9,6 +9,7 @@ use App\Models\Book;
 use App\Models\MediaExtended;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -40,21 +41,31 @@ class WebreaderController extends Controller
         $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';
         $title .= ' by '.$book->authors_names;
 
-        SEOTools::setTitle($book->title);
+        SEOTools::setTitle($title);
+        SEOTools::setDescription(Str::limit($book->description, 150).'...');
+        SEOTools::addImages($book->cover_simple);
+
         /** @var MediaExtended $file */
         $file = $book->files[$format->value];
         $data = [
-            'title' => $title,
+            'title' => $book->title,
+            'full_title' => $title,
             'filename' => $file->file_name,
             'url' => $file->download,
+            'download' => route('api.download.book', [
+                'author_slug' => $author->slug,
+                'book_slug' => $book->slug,
+                'format' => $format->value,
+            ]),
             'format' => $format->value,
             'size_human' => $file->size_human,
         ];
         $url = $data['url'];
         $data = json_encode($data);
+        $book = json_decode($data);
 
         if (BookFormatEnum::epub === $format) {
-            return view('webreader::pages.epub', compact('data'));
+            return view('webreader::pages.epub', compact('book'));
         }
         if (BookFormatEnum::pdf === $format) {
             $pdf = $book->getFirstMedia(BookFormatEnum::pdf->value);
@@ -62,7 +73,7 @@ class WebreaderController extends Controller
             return response()->download($pdf->getPath(), $pdf->file_name);
         }
         if (BookFormatEnum::cbz === $format || BookFormatEnum::cbr === $format) {
-            return view('webreader::pages.comic', compact('data'));
+            return view('webreader::pages.comic', compact('book'));
         }
 
         return view('webreader::pages.not-ready', compact('url'));

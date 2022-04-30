@@ -3556,9 +3556,9 @@
          * Obtains multiple cache items by their unique keys.
          *
          * @return \Illuminate\Cache\iterable 
-         * @param \Psr\SimpleCache\iterable $keys A list of keys that can obtained in a single operation.
+         * @param \Psr\SimpleCache\iterable<string> $keys A list of keys that can be obtained in a single operation.
          * @param mixed $default Default value to return for keys that do not exist.
-         * @return \Psr\SimpleCache\iterable A list of key => value pairs. Cache keys that do not exist or are stale will have $default as value.
+         * @return \Psr\SimpleCache\iterable<string, mixed> A list of key => value pairs. Cache keys that do not exist or are stale will have $default as value.
          * @throws \Psr\SimpleCache\InvalidArgumentException
          *   MUST be thrown if $keys is neither an array nor a Traversable,
          *   or if any of the $keys are not a legal value.
@@ -3771,7 +3771,7 @@
          * Deletes multiple cache items in a single operation.
          *
          * @return bool 
-         * @param \Psr\SimpleCache\iterable $keys A list of string-based keys to be deleted.
+         * @param \Psr\SimpleCache\iterable<string> $keys A list of string-based keys to be deleted.
          * @return bool True if the items were successfully removed. False if there was an error.
          * @throws \Psr\SimpleCache\InvalidArgumentException
          *   MUST be thrown if $keys is neither an array nor a Traversable,

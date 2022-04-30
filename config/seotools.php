@@ -33,7 +33,7 @@ return [
             'title' => env('META_OG_TITLE', 'Bookshelves'), // set false to total remove
             'description' => env('META_OG_DESCRIPTION', 'To read books.'), // set false to total remove
             'url' => null, // Set null for using Url::current(), set false to total remove
-            'type' => false,
+            'type' => 'website',
             'site_name' => env('APP_NAME', false),
             'images' => [],
         ],

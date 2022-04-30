@@ -129,7 +129,8 @@ class ParserEngine
             $engine->language = 'any';
         }
 
-        $engine->title = Str::limit($engine->title, 250);
+        $title = Str::limit($engine->title, 250);
+        $engine->title = Str::replace('`', '’', $title);
         $engine->rights = Str::limit($engine->rights, 250);
 
         $engine->slug_sort = ParserEngine::generateSortTitle($engine->title, $engine->language);

@@ -4,32 +4,21 @@ import 'clockwork-browser/toolbar'
 import 'virtual:windi.css'
 import './app.css'
 
-import toc from './scripts/toc'
-import epub from './scripts/epub'
-import comic from './scripts/comic'
-import sidebar from './scripts/sidebar'
+import epub from './scripts/alpine/epub'
+import comic from './scripts/alpine/comic'
+import webreader from './scripts/alpine/webreader'
+import events from './scripts/alpine/events'
 
 import Alpine from 'alpinejs'
+// @ts-ignore
+import type { Alpine as AlpineType } from '@types/alpinejs'
 
-window.Alpine = Alpine
+const alpine: AlpineType = Alpine
+window.Alpine = alpine
 
-Alpine.store('darkMode', {
-  on: false,
+alpine.data('epub', epub)
+alpine.data('comic', comic)
+alpine.store('webreader', webreader)
+alpine.data('events', events)
 
-  toggle() {
-    this.on = !this.on
-  },
-})
-Alpine.store('navigation', {
-  on: false,
-
-  toggle() {
-    this.on = !this.on
-  },
-})
-Alpine.data('toc', toc)
-Alpine.data('epub', epub)
-Alpine.data('comic', comic)
-Alpine.store('sidebar', sidebar)
-
-Alpine.start()
+alpine.start()
