@@ -52,7 +52,7 @@ trait HasAuthors
     {
         $authors = [];
         foreach ($this->authors as $key => $author) {
-            array_push($authors, $author->name);
+            array_push($authors, trim($author->name));
         }
 
         return implode(', ', $authors);

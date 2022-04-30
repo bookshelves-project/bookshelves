@@ -1,5 +1,5 @@
 <div x-show="$store.webreader.informationEnabled"
-    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform bg-gray-900 p-6 rounded-md shadow max-w-lg">
+    class="fixed z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform bg-gray-900 p-6 rounded-md shadow max-w-lg">
     <h2 class="text-lg mb-2">
         {{ $book->full_title }}
     </h2>

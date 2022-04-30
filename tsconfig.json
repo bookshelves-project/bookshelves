@@ -16,7 +16,7 @@
         ],
         "types": [
             "vite/client",
-            "@types/jest"
+            "@types/jest",
         ],
         "paths": {
             "@admin/*": [
@@ -24,7 +24,13 @@
             ],
             "@front/*": [
                 "./resources/front/*"
-            ]
+            ],
+            "~": [
+                "./resources"
+            ],
+            "~/*": [
+                "./resources/*"
+            ],
         }
     },
     "include": [
@@ -34,6 +40,7 @@
         "resources/**/*.vue"
     ],
     "exclude": [
-        "resources/views/stubs"
+        "resources/views/stubs",
+        "resources/webreader/scripts/library"
     ]
 }

@@ -7,7 +7,7 @@
             you click on center, you can have option menu on top.
         </p>
         <div x-ref="navigationOnScreenDisableTutoBtn">
-            <x-button button @click="disableTutorial" class="text-black">
+            <x-button button @click="$store.webreader.disableTutorial()" class="text-black">
                 I understand how to read
             </x-button>
         </div>
@@ -19,7 +19,7 @@
                 Click on me to get previous page
             </div>
         </button>
-        <button x-data @click="navigationIsEnabled=!navigationIsEnabled" class="on-screen-btn">
+        <button x-data @click="$store.webreader.toggleMenu()" class="on-screen-btn">
             <div x-show="$store.webreader.tutorialIsEnabled" class="on-screen-tuto">
                 Click on me to get options
             </div>

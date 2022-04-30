@@ -20,6 +20,7 @@ specifiers:
   '@tiptap/extension-typography': ^2.0.0-beta.20
   '@tiptap/starter-kit': ^2.0.0-beta.183
   '@tiptap/vue-3': ^2.0.0-beta.90
+  '@types/alpinejs': ^3.7.0
   '@types/color-string': ^1.5.2
   '@types/estree': ^0.0.51
   '@types/jest': ^27.4.1
@@ -96,6 +97,7 @@ devDependencies:
   '@inertiajs/progress': 0.2.7_@inertiajs+inertia@0.11.0
   '@testing-library/vue': 6.5.1_344328493c1f0d14bde2ad764605e012
   '@tinymce/tinymce-vue': 5.0.0_vue@3.2.33
+  '@types/alpinejs': 3.7.0
   '@types/color-string': 1.5.2
   '@types/estree': 0.0.51
   '@types/jest': 27.4.1
@@ -1353,6 +1355,12 @@ packages:
   /@trysound/sax/0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
+    dev: true
+
+  /@types/alpinejs/3.7.0:
+    resolution: {integrity: sha512-iMvJwgJHYFUlMOixKF68BmMQZbnxVA/erh1blbfhY8Z6u6oleEJViz8bye58roLOp8jyBNOsXtobyq7zR/7A2g==}
+    dependencies:
+      '@vue/reactivity': 3.2.33
     dev: true
 
   /@types/aria-query/4.2.2:

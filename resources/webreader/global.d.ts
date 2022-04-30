@@ -1,5 +1,7 @@
+import type { Alpine as AlpineType } from '@types/alpinejs'
+
 interface Window {
-  Alpine: any
+  Alpine: AlpineType
 }
 
 declare module 'alpinejs'

@@ -9,6 +9,7 @@ use App\Models\Book;
 use App\Models\MediaExtended;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -40,7 +41,10 @@ class WebreaderController extends Controller
         $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';
         $title .= ' by '.$book->authors_names;
 
-        SEOTools::setTitle($book->title);
+        SEOTools::setTitle($title);
+        SEOTools::setDescription(Str::limit($book->description, 150).'...');
+        SEOTools::addImages($book->cover_simple);
+
         /** @var MediaExtended $file */
         $file = $book->files[$format->value];
         $data = [
