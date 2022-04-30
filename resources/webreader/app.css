@@ -1,5 +1,5 @@
 .on-screen-btn {
-  @apply hover:bg-white hover:bg-opacity-10 transition-colors duration-75;
+  @apply hover:bg-white hover:bg-opacity-5 transition-colors duration-75;
 }
 .on-screen-tuto-color {
   @apply bg-white bg-opacity-80 text-black;
@@ -14,5 +14,5 @@
   width: calc(100% - 8px);
   height: calc(100% - 8px);
   z-index: 5;
-  overflow-y: auto;
+  overflow: auto;
 }

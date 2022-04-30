@@ -17,9 +17,9 @@
     @vite('webreader', 'app.ts', 3300)
 </head>
 
-<body class="dark:bg-gray-900 dark:text-white"
+<body x-data class="dark:bg-gray-900 dark:text-white"
     class="antialiased min-h-screen {{ config('app.env') === 'local' ? 'debug-screens' : '' }}">
-    <div class="flex flex-col min-h-screen m-0">
+    <div x-data="events()" class="flex flex-col min-h-screen m-0">
         {{ $slot }}
     </div>
 </body>

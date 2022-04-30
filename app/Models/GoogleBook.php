@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Engines\ConverterEngine\BookConverter;
 use App\Engines\ConverterEngine\TagConverter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -35,7 +34,7 @@ class GoogleBook extends Model
     public function improveBook()
     {
         $this->testAttribute('released_on');
-        BookConverter::setDescription($this->book, $this->language, $this->description);
+        $this->testAttribute('description');
         $this->testAttribute('page_count');
         $this->testAttribute('maturity_rating');
 
