@@ -82,7 +82,11 @@
         "@tiptap/vue-3": "^2.0.0-beta.90",
         "chart.js": "^3.7.1",
         "epubjs": "^0.3.93",
+        "jszip": "^3.9.1",
+        "jszip-utils": "^0.1.0",
         "pinia": "^2.0.13",
+        "showdown": "^2.1.0",
+        "turndown": "^7.1.1",
         "vue-chart-3": "^3.1.8"
     }
 }

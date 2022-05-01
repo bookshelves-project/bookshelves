@@ -44,6 +44,8 @@ export default defineConfig({
       'alpinejs',
       'epubjs',
       '@comix/parser',
+      'jszip',
+      'jszip-utils',
     ],
   },
 })

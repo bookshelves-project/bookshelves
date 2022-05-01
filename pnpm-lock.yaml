@@ -51,6 +51,8 @@ specifiers:
   eslint-plugin-vue: ^8.7.1
   flatpickr: ^4.6.13
   jest: ^28.0.2
+  jszip: ^3.9.1
+  jszip-utils: ^0.1.0
   lodash: ^4.17.21
   matice: ^1.1.4
   mini-svg-data-uri: ^1.4.4
@@ -58,7 +60,9 @@ specifiers:
   pinia: ^2.0.13
   prettier: ^2.6.2
   qs: ^6.10.3
+  showdown: ^2.1.0
   ts-jest: ^27.1.4
+  turndown: ^7.1.1
   typescript: ^4.6.3
   unplugin-vue-components: ^0.19.3
   vite: ^2.9.6
@@ -86,7 +90,11 @@ dependencies:
   '@tiptap/vue-3': 2.0.0-beta.90_7d5a27dfafa0e6510f6c4930c7804936
   chart.js: 3.7.1
   epubjs: 0.3.93
+  jszip: 3.9.1
+  jszip-utils: 0.1.0
   pinia: 2.0.13_typescript@4.6.3+vue@3.2.33
+  showdown: 2.1.0
+  turndown: 7.1.1
   vue-chart-3: 3.1.8_chart.js@3.7.1+vue@3.2.33
 
 devDependencies:
@@ -2433,6 +2441,11 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
+  /commander/9.2.0:
+    resolution: {integrity: sha512-e2i4wANQiSXgnrBlIatyHtP1odfUp0BbV5Y5nEGbxtIrStkEOAAzCUirvLBNXHLr7kwLvJl6V+4V3XV9x7Wd9w==}
+    engines: {node: ^12.20.0 || >=14}
+    dev: false
+
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: true
@@ -2679,6 +2692,10 @@ packages:
     dependencies:
       domelementtype: 2.3.0
     dev: true
+
+  /domino/2.1.6:
+    resolution: {integrity: sha512-3VdM/SXBZX2omc9JF9nOPCtDaYQ67BGp5CoLpIQlO2KCAPETs8TcDHacF26jXadGbvUteZzRTeos2fhID5+ucQ==}
+    dev: false
 
   /domutils/2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
@@ -4587,6 +4604,10 @@ packages:
     hasBin: true
     dev: true
 
+  /jszip-utils/0.1.0:
+    resolution: {integrity: sha512-tBNe0o3HAf8vo0BrOYnLPnXNo5A3KsRMnkBFYjh20Y3GPYGfgyoclEMgvVchx0nnL+mherPi74yLPIusHUQpZg==}
+    dev: false
+
   /jszip/3.9.1:
     resolution: {integrity: sha512-H9A60xPqJ1CuC4Ka6qxzXZeU8aNmgOeP5IFqwJbQQwtu2EUYxota3LdsiZWplF7Wgd9tkAd0mdu36nceSaPuYw==}
     dependencies:
@@ -5747,6 +5768,13 @@ packages:
       rechoir: 0.6.2
     dev: true
 
+  /showdown/2.1.0:
+    resolution: {integrity: sha512-/6NVYu4U819R2pUIk79n67SYgJHWCce0a5xTP979WbNp0FL9MN1I1QK662IDU1b6JzKTvmhgI7T7JYIxBi3kMQ==}
+    hasBin: true
+    dependencies:
+      commander: 9.2.0
+    dev: false
+
   /side-channel/1.0.4:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
     dependencies:
@@ -6099,6 +6127,12 @@ packages:
       tslib: 1.14.1
       typescript: 4.6.3
     dev: true
+
+  /turndown/7.1.1:
+    resolution: {integrity: sha512-BEkXaWH7Wh7e9bd2QumhfAXk5g34+6QUmmWx+0q6ThaVOLuLUqsnkq35HQ5SBHSaxjSfSM7US5o4lhJNH7B9MA==}
+    dependencies:
+      domino: 2.1.6
+    dev: false
 
   /type-check/0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}

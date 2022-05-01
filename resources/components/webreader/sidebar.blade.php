@@ -18,15 +18,34 @@
         </div>
 
         <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto scrollbar-thin">
-            <h1 class="text-xl font-quicksand font-semibold text-black dark:text-gray-100 p-3">
-                {{ $title }}
-            </h1>
+            <div class="px-4 pb-3">
+                <h1 class="text-xl font-quicksand font-semibold text-black dark:text-gray-100">
+                    {{ $book->title }}
+                </h1>
+                <div class="mt-1">
+                    <div class="italic text-sm">
+                        By {{ $book->authors }}
+                    </div>
+                    <div class="text-sm">
+                        {{ $book->serie }}
+                    </div>
+                    @if ($book->book_next)
+                        <div class="mt-2 text-sm">
+                            <span>Next: </span>
+                            <a href="{{ $book->book_next_route }}" target="_blank" rel="noopener noreferrer"
+                                class="underline underline-offset-2">
+                                {{ $book->book_next }}, vol. {{ $book->volume + 1 }}
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
             <nav class="mt-5 px-2">
                 <ul class="list-none">
                     <template x-for="(item,key) in $store.webreader.toc">
-                        <li :id="`${item.id} chapter-${key}`" :data-chapter="`${item.href}`"
+                        <li :id="item.id" :data-chapter="item.href"
                             class="toc-item cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white group flex links-center px-2 py-2 text-sm font-medium rounded-md my-1 justify-between"
-                            x-text="item.label" @click="setChapter(key)"></li>
+                            x-text="item.label" @click="setChapter(item.page)"></li>
                     </template>
                 </ul>
             </nav>
