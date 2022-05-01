@@ -38,8 +38,6 @@ export default defineConfig({
   ],
   optimizeDeps: {
     include: [
-      'clockwork-browser/metrics',
-      'clockwork-browser/toolbar',
       'vue',
       'alpinejs',
       'epubjs',

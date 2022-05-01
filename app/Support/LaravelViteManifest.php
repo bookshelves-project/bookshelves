@@ -12,10 +12,14 @@ class LaravelViteManifest
     public function embed(string $name, string $entry, int $port): string
     {
         if (Config::get('vite.dev_server')) {
-            $host = Config::get('vite.dev_server_host');
+            if ('production' !== Config::get('app.env')) {
+                $host = Config::get('vite.dev_server_host');
+            } else {
+                $host = Config::get('app.url');
+            }
 
             return $this->jsImports(
-                "http://{$host}:{$port}/{$entry}"
+                "{$host}:{$port}/{$entry}"
             );
         }
 
