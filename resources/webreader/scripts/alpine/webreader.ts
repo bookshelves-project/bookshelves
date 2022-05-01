@@ -14,7 +14,7 @@ const webreader: IWebreader = {
   sidebarWrapperIsEnabled: false,
   sidebarBackdropIsEnabled: false,
   sidebarIsEnabled: false,
-  toc: [] as NavItem[],
+  toc: [] as EpubParserNavItem[] | NavItem[],
 
   bookIsDownloaded: false,
   bookIsReady: false,
@@ -31,6 +31,7 @@ const webreader: IWebreader = {
   tutorialIsEnabled: true,
 
   currentPage: 0,
+  chapter: 0,
   lastPage: 0,
   progress: 0,
   pageRange: 0,
@@ -53,7 +54,6 @@ const webreader: IWebreader = {
   init() {
     setTimeout(() => {
       this.setCommands()
-      this.setEvents()
     }, 500)
   },
 
@@ -64,9 +64,6 @@ const webreader: IWebreader = {
   toggleMenu() {
     this.navigationIsLock = !this.navigationIsLock
     this.showNavigation = this.navigationIsLock
-  },
-  setEvents() {
-    // document.addEventListener('keydown', (event) => {})
   },
   setCommands() {
     const commands: Command[] = [

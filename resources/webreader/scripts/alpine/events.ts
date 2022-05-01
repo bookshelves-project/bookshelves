@@ -1,5 +1,3 @@
-import TinyGesture from '../library/tinygesture'
-
 const events = () => ({
   $store: {
     webreader: {} as IWebreader,
@@ -8,14 +6,6 @@ const events = () => ({
     this.setEvents()
   },
   setEvents() {
-    document.addEventListener('DOMContentLoaded', () => {
-      const target = document.getElementById('fullScreen')!
-      const gesture = new TinyGesture(target)
-
-      gesture.on('tap', () => {
-        this.$store.webreader.toggleMenu()
-      })
-    })
     document.addEventListener('keydown', (event) => {
       const full = document.getElementById('fullScreen')
       if (event.key === 'ArrowUp') {

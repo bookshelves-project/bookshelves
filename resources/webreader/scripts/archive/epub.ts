@@ -1,5 +1,5 @@
 import Epub, { Book, NavItem, Rendition } from 'epubjs'
-import { EpubThemes, dark, tan, defaultStyle } from '../alpine/epubjs/theme'
+import { EpubThemes, dark, tan, defaultStyle } from './epubjs/theme'
 import TinyGesture from '../library/tinygesture'
 
 interface IEpub extends IBook {
