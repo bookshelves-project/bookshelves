@@ -95,7 +95,7 @@ namespace App\Models{
  * @property string|null $slug_sort
  * @property string|null $slug
  * @property string|null $contributor
- * @property mixed|null $description
+ * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $released_on
  * @property string|null $rights
  * @property int|null $serie_id

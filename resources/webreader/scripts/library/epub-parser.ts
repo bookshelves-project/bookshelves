@@ -149,7 +149,6 @@ export default class EpubParser {
   private orderPagesFromToc = () => {
     const list: Page[] = []
     this.tableOfContent.forEach((item) => {
-      console.log(item.content)
       const ncxPages = this.pages.filter((page) => page.ncx === item.content)
       list.push(...ncxPages)
     })

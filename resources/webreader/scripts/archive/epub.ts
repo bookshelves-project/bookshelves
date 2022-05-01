@@ -88,7 +88,6 @@ const epub = (): IEpub => ({
     })
 
     this.rendition.on('displayed', (locations) => {
-      console.log('displayed')
       // this.state.rendition.on("displayed", this.onRenditionDisplayedTouchSwipe.bind(this));
     })
 
@@ -133,8 +132,6 @@ const epub = (): IEpub => ({
     // Generate location and pagination
     await this.book.ready
     const stored = localStorage.getItem(this.book.key() + '-locations')
-    // @ts-ignore
-    console.log('metadata:', this.book.package.metadata)
     if (stored) {
       this.book.locations.load(stored)
     } else {
