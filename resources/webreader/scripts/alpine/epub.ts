@@ -30,8 +30,6 @@ const epub = (): IEpub => ({
 
     this.$store.webreader.navigationOptions.sidebar = true
 
-    // @ts-ignore
-    refsAlpine = this.$refs
     await this.createBook()
     this.setEvents()
   },

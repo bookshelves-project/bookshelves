@@ -1,5 +1,5 @@
 <x-layouts.webreader>
-    <div id="fullScreen" x-data="comic()" x-init="initialize(`{{ json_encode($book) }}`)"
+    <div id="fullScreen" x-data="comic()" x-init="initialize(`{{ json_encode() }}`)"
         :class="$store.webreader.showGrid ? 'overflow-hidden' : ''">
 
         <x-webreader.grid />

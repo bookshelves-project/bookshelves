@@ -48,8 +48,7 @@
 
             <x-webreader.action-divider />
 
-            <x-webreader.action x-show="$store.webreader.currentPage !== 0" icon="trash" title="Delete progression"
-                @click="$store.webreader.deleteProgression()" />
+            <x-webreader.action icon="trash" title="Delete progression" @click="$store.webreader.deleteProgression()" />
             <x-webreader.action icon="download" title="Download" download :download-link="$book->download" />
             <x-webreader.action x-show="$store.webreader.navigationOptions.information" icon="information"
                 title="Information" action="$store.webreader.informationEnabled"

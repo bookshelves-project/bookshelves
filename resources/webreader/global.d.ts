@@ -10,6 +10,9 @@ import EpubParser from './library/epub-parser'
 
 export {}
 
+/**
+ * From https://bobbyhadz.com/blog/typescript-make-types-global
+ */
 declare global {
   interface IWebreader {
     $nextTick: (callback: (value: any) => void) => void

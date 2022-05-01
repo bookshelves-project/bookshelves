@@ -31,13 +31,10 @@ export default class EpubParser {
     this.setCover()
     this.setPages()
     this.setTableOfContents()
+    this.orderPagesFromToc()
 
     this.currentPage = this.pages[0]
     this.total = this.pages.length
-
-    console.log(this.pages)
-    console.log(this.spine)
-    console.log(this.tableOfContent)
 
     return this
   }
@@ -86,14 +83,15 @@ export default class EpubParser {
     )
   }
 
+  /**
+   * Set `zipNcx` and `zipOpf`.
+   */
   private setMedatadataFiles = () => {
     this.zip.forEach((file) => {
       if (['ncx'].includes(file.extension!)) {
         this.zipNcx = file
       } else if (['opf'].includes(file.extension!)) {
         this.zipOpf = file
-      } else {
-        // console.log(file.name)
       }
     })
   }
@@ -146,7 +144,20 @@ export default class EpubParser {
   }
 
   /**
-   * Get table of content from `toc.ncx`.
+   * Reorder pages from `tableOfContents`.
+   */
+  private orderPagesFromToc = () => {
+    const list: Page[] = []
+    this.tableOfContent.forEach((item) => {
+      console.log(item.content)
+      const ncxPages = this.pages.filter((page) => page.ncx === item.content)
+      list.push(...ncxPages)
+    })
+    this.pages = list
+  }
+
+  /**
+   * Get table of content from `toc.ncx` and improve `tableOfContent`.
    */
   private setTableOfContents = () => {
     const parser = new DOMParser()
