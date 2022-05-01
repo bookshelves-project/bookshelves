@@ -154,6 +154,7 @@ export default class EpubParser {
       list.push(...ncxPages)
     })
     this.pages = list
+    this.pages.unshift(this.cover)
   }
 
   /**
