@@ -1,7 +1,0 @@
-{
-  "windicss.includeLanguages": {
-    "blade.php": "html",
-  },
-  "npm.packageManager": "pnpm",
-  // "php.validate.executablePath": "/usr/local/bin/php",
-}
