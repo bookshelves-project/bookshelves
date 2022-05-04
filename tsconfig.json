@@ -1,46 +1,50 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
-        "moduleResolution": "node",
-        "strict": true,
-        "jsx": "preserve",
-        "sourceMap": true,
-        "resolveJsonModule": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "noImplicitAny": false,
-        "lib": [
-            "esnext",
-            "dom"
-        ],
-        "types": [
-            "vite/client",
-            "@types/jest",
-        ],
-        "paths": {
-            "@admin/*": [
-                "./resources/admin/*"
-            ],
-            "@front/*": [
-                "./resources/front/*"
-            ],
-            "~": [
-                "./resources"
-            ],
-            "~/*": [
-                "./resources/*"
-            ],
-        }
-    },
-    "include": [
-        "resources/**/*.ts",
-        "resources/**/*.d.ts",
-        "resources/**/*.tsx",
-        "resources/**/*.vue"
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "lib": [
+      "esnext",
+      "dom"
     ],
-    "exclude": [
-        "resources/views/stubs",
-        "resources/webreader/scripts/library"
-    ]
+    "types": [
+      "vite/client",
+      "@types/jest",
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "resources/**/*.d.ts"
+    ],
+    "paths": {
+      "@admin/*": [
+        "./resources/admin/*"
+      ],
+      "@front/*": [
+        "./resources/front/*"
+      ],
+      "~": [
+        "./resources"
+      ],
+      "~/*": [
+        "./resources/*"
+      ],
+    }
+  },
+  "include": [
+    "resources/**/*.ts",
+    "resources/**/*.d.ts",
+    "resources/**/*.tsx",
+    "resources/**/*.vue",
+  ],
+  "exclude": [
+    "resources/views/stubs",
+    "resources/webreader/scripts/library"
+  ]
 }

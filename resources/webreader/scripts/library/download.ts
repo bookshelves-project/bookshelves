@@ -2,7 +2,11 @@ let downloadStatus = '0'
 let loaded = 0
 let total = 0
 
-const download = async (url: string, filename: string) => {
+const download = async (
+  url: string,
+  filename: string,
+  type: 'File' | 'Blob' = 'File'
+) => {
   const response = await fetch(url)
 
   if (response.body) {
@@ -48,6 +52,9 @@ const download = async (url: string, filename: string) => {
     // Step 5: decode into a string
     // const result = new TextDecoder('utf-8').decode(chunksAll)
     const blob = new Blob([new Uint8Array(chunksAll)])
+    if (type === 'Blob') {
+      return blob
+    }
 
     return convertToFile(blob, filename)
   }

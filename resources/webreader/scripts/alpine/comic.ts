@@ -2,7 +2,10 @@ import * as comix from '@comix/parser'
 import { download } from '../library/download'
 import TinyGesture from '../library/tinygesture'
 
-interface IComic extends IBook {}
+interface IComic extends IBook {
+  displayGrid?: () => void
+  setGrid?: () => Promise<void>
+}
 
 let refsAlpine: AlpineRefs
 const extensions = ['jpg', 'jpeg']
@@ -88,6 +91,9 @@ const comic = (): IComic => ({
       const target = document.getElementById('fullScreen')!
       const gesture = new TinyGesture(target)
 
+      gesture.on('tap', () => {
+        this.$store.webreader.toggleMenu()
+      })
       gesture.on('swiperight', () => {
         this.previous()
       })
@@ -140,6 +146,11 @@ const comic = (): IComic => ({
     this.$store.webreader.pageRange = this.$store.webreader.currentPage
     this.setReader()
   },
+  changePageRange() {
+    this.$store.webreader.currentPage = this.$store.webreader.pageRange
+    this.setReader()
+  },
+
   displayGrid() {
     const full = document.getElementById('fullScreen')
     this.$store.webreader.showGrid = !this.$store.webreader.showGrid
@@ -169,10 +180,6 @@ const comic = (): IComic => ({
     )
     this.$store.webreader.gridIsAvailable = true
     this.$store.webreader.grid = grid
-  },
-  changePageRange() {
-    this.$store.webreader.currentPage = this.$store.webreader.pageRange
-    this.setReader()
   },
 })
 

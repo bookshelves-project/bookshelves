@@ -24,6 +24,18 @@ class WebreaderController extends Controller
     {
         $author = Author::whereSlug($author)->firstOrFail();
         $book = Book::whereRelation('authors', 'name', '=', $author->name)->whereSlug($book)->firstOrFail();
+        $book_next = null;
+        $book_next_route = null;
+        if ($book->serie) {
+            $volume = $book->volume;
+            $books = $book->serie->books->filter(fn ($book) => $book->volume > intval($volume));
+
+            $book_next = $books->first();
+            $book_next_route = route('webreader.reader', [
+                'author' => $book_next->meta_author,
+                'book' => $book_next->slug,
+            ]);
+        }
 
         $home = route('webreader.reader', [
             'author' => $author,
@@ -49,6 +61,11 @@ class WebreaderController extends Controller
         $file = $book->files[$format->value];
         $data = [
             'title' => $book->title,
+            'authors' => $book->authors_names,
+            'serie' => $book->serie ? "{$book->serie->title}, vol. {$book->volume}" : null,
+            'volume' => $book->volume,
+            'book_next' => $book_next?->title,
+            'book_next_route' => $book_next_route,
             'full_title' => $title,
             'filename' => $file->file_name,
             'url' => $file->download,
@@ -65,7 +82,7 @@ class WebreaderController extends Controller
         $book = json_decode($data);
 
         if (BookFormatEnum::epub === $format) {
-            return view('webreader::pages.epub', compact('book'));
+            return view('webreader::pages.epubjs', compact('book'));
         }
         if (BookFormatEnum::pdf === $format) {
             $pdf = $book->getFirstMedia(BookFormatEnum::pdf->value);

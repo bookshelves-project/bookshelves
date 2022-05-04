@@ -1,7 +1,7 @@
 {
   "recommendations": [
     "voorjaar.windicss-intellisense",
-    "johnsoncodehk.volar",
+    "Vue.volar",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "shufo.vscode-blade-formatter",
