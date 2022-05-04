@@ -5,6 +5,7 @@ import 'virtual:windi.css'
 import './app.css'
 
 import epub from './scripts/alpine/epub'
+import epubjs from './scripts/alpine/epubjs'
 import comic from './scripts/alpine/comic'
 import webreader from './scripts/alpine/webreader'
 import events from './scripts/alpine/events'
@@ -16,7 +17,8 @@ import type { Alpine as AlpineType } from '@types/alpinejs'
 const alpine: AlpineType = Alpine
 window.Alpine = alpine
 
-alpine.data('epub', epub)
+// alpine.data('epub', epub)
+alpine.data('epubjs', epubjs)
 alpine.data('comic', comic)
 alpine.store('webreader', webreader)
 alpine.data('events', events)

@@ -1,3 +1,4 @@
+import { download } from '../library/download'
 import EpubParser from '../library/epub-parser'
 import TinyGesture from '../library/tinygesture'
 

@@ -38,6 +38,7 @@ specifiers:
   '@vueuse/core': ^8.3.1
   '@vueuse/shared': ^8.3.1
   '@windicss/plugin-scrollbar': ^1.2.3
+  '@zip.js/zip.js': ^2.4.10
   alpinejs: ^3.10.2
   axios: ^0.27.2
   chart.js: ^3.7.1
@@ -88,6 +89,7 @@ dependencies:
   '@tiptap/extension-typography': 2.0.0-beta.20_dnmi3l4cmhcjsyva7fhnxwdlza
   '@tiptap/starter-kit': 2.0.0-beta.183
   '@tiptap/vue-3': 2.0.0-beta.90_pvncpx5pudtfcd3mjeympacjgy
+  '@zip.js/zip.js': 2.4.10
   chart.js: 3.7.1
   epubjs: 0.3.93
   jszip: 3.9.1
@@ -1938,6 +1940,10 @@ packages:
   /@xmldom/xmldom/0.7.5:
     resolution: {integrity: sha512-V3BIhmY36fXZ1OtVcI9W+FxQqxVLsPKcNjWigIaa81dLC9IolJl5Mt4Cvhmr0flUnjSpTdrbMTSbXqYqV5dT6A==}
     engines: {node: '>=10.0.0'}
+    dev: false
+
+  /@zip.js/zip.js/2.4.10:
+    resolution: {integrity: sha512-lhlDPfkG8iMsAE7CNTu6fqFZp/qySEUIGBLXQQA0RNfNtgCt7SlkaGAwX0nKaCwMMNqw+wDrTJIP8gOR7uxqEg==}
     dev: false
 
   /acorn-jsx/5.3.2_acorn@8.7.1:

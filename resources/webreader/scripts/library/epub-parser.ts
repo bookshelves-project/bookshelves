@@ -1,5 +1,3 @@
-import JSZipUtils from 'jszip-utils'
-import JSZip from 'jszip'
 import EpubParserUtils from './epub-parser-utils'
 
 export default class EpubParser {
@@ -18,14 +16,16 @@ export default class EpubParser {
   tableOfContent: EpubParserNavItem[] = []
   total = 0
   textHeight = 0
+  epubParserUtils: EpubParserUtils
 
   constructor(url: string, size: number) {
     this.url = url
     this.size = size
+    this.epubParserUtils = new EpubParserUtils()
   }
 
   parse = async () => {
-    this.zip = await this.extractFiles()
+    this.zip = await this.epubParserUtils.extractFilesJsZip(this.url)
     this.setMedatadataFiles()
     this.setSpine()
     this.setCover()
@@ -36,50 +36,6 @@ export default class EpubParser {
     this.total = this.pages.length - 1
 
     return this
-  }
-
-  /**
-   * Extract files from `application/epub+zip`.
-   */
-  private extractFiles = async (): Promise<ZipFile[]> => {
-    return await new Promise((resolve) =>
-      JSZipUtils.getBinaryContent(this.url, async (err, data) => {
-        if (err) {
-          throw err // or handle err
-        }
-        const entries = await JSZip.loadAsync(data)
-        const zip: ZipFile[] = []
-
-        const files = Object.entries(entries.files)
-        for (const entry of files) {
-          const name = entry[0]
-          const file = entry[1]
-
-          const findExt = file.name.split('.')
-          const extension = findExt[findExt.length - 1]
-
-          if (
-            !file.dir &&
-            name !== 'mimetype' &&
-            !['ttf', 'css'].includes(extension)
-          ) {
-            const blob = new Blob([await file.async('blob')])
-            const text = await new Response(blob).text()
-            const zipFile = {
-              name: name,
-              file: file,
-              extension: extension,
-              blob: blob,
-              text: text,
-            }
-
-            zip.push(zipFile)
-          }
-        }
-
-        resolve(zip)
-      })
-    )
   }
 
   /**
@@ -114,10 +70,13 @@ export default class EpubParser {
       if (['html', 'htm', 'xhtml'].includes(file.extension!)) {
         chapterNumber = chapterNumber + 1
 
-        const utils = new EpubParserUtils()
-        const text = utils.stripTags(file.text!, ['p', 'i', 'u', 's'], true)
+        const text = this.epubParserUtils.stripTags(
+          file.text!,
+          ['p', 'i', 'u', 's'],
+          true
+        )
         // const chunksText = utils.chunkString(text, vh * this.size)
-        const split = utils.splitString(text, vh * this.size)
+        const split = this.epubParserUtils.splitString(text, vh * this.size)
 
         split.forEach((chunk, chunkKey) => {
           if (chunkKey === 0) {

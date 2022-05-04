@@ -82,7 +82,7 @@ class WebreaderController extends Controller
         $book = json_decode($data);
 
         if (BookFormatEnum::epub === $format) {
-            return view('webreader::pages.epub', compact('book'));
+            return view('webreader::pages.epubjs', compact('book'));
         }
         if (BookFormatEnum::pdf === $format) {
             $pdf = $book->getFirstMedia(BookFormatEnum::pdf->value);

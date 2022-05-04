@@ -1,4 +1,97 @@
+import * as zip from '@zip.js/zip.js'
+import { download } from './download'
+import JSZipUtils from 'jszip-utils'
+import JSZip from 'jszip'
+
 export default class EpubParserUtils {
+  /**
+   * Extract files from `application/epub+zip`.
+   */
+  extractFilesJsZip = async (url: string): Promise<ZipFile[]> => {
+    return await new Promise((resolve) =>
+      JSZipUtils.getBinaryContent(url, async (err, data) => {
+        if (err) {
+          throw err // or handle err
+        }
+        const entries = await JSZip.loadAsync(data)
+        const zip: ZipFile[] = []
+
+        const files = Object.entries(entries.files)
+        for (const entry of files) {
+          const name = entry[0]
+          const file = entry[1]
+
+          const findExt = file.name.split('.')
+          const extension = findExt[findExt.length - 1]
+
+          if (
+            !file.dir &&
+            name !== 'mimetype' &&
+            !['ttf', 'css'].includes(extension)
+          ) {
+            const blob = new Blob([await file.async('blob')])
+            const text = await new Response(blob).text()
+            const zipFile = {
+              name: name,
+              file: file,
+              extension: extension,
+              blob: blob,
+              text: text,
+            }
+
+            zip.push(zipFile)
+          }
+        }
+
+        resolve(zip)
+      })
+    )
+  }
+
+  extractFilesZipJs = async (url: string) => {
+    const blob = await download(url, 'epub.zip', 'Blob')
+    if (blob) {
+      // create a BlobReader to read with a ZipReader the zip from a Blob object
+      const reader = new zip.ZipReader(new zip.BlobReader(blob))
+
+      // get all entries from the zip
+      const entries = await reader.getEntries()
+      console.log(entries)
+
+      const list: any[] = []
+      if (entries.length) {
+        // for (const file of files) {
+        //   const contents = await fs.readFile(file, 'utf8');
+        //   console.log(contents);
+        // }
+
+        await Promise.all(
+          entries.map(async (entry) => {
+            if (entry) {
+              const writer = new zip.TextWriter()
+              // @ts-ignore
+              const text = await entry.getData(writer!)
+              list.push(text)
+            }
+          })
+        )
+        // // get first entry content as text by using a TextWriter
+        // const text = await entries[0].getData(new zip.TextWriter(), {
+        //   onprogress: (index, max) => {
+        //     // onprogress callback
+        //     console.log(index)
+        //   },
+        // })
+        // // text contains the entry data as a String
+        // console.log(text)
+      }
+      console.log(list)
+
+      // close the ZipReader
+      await reader.close()
+    }
+  }
+
   measureText = (string: string, fontSize: number) => {
     const widths = [
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
