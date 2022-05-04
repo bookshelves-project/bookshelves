@@ -7,7 +7,7 @@ stages:
   - deploy
 
 variables:
-  NODE_VERSION: '16.14.0'
+  NODE_VERSION: '16.15.0'
   PHP_VERSION: '8.1'
 
 deploy-job:
