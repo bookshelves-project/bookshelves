@@ -49,10 +49,11 @@ export default class EpubParserUtils {
   }
 
   extractFilesZipJs = async (url: string) => {
-    const blob = await download(url, 'epub.zip', 'Blob')
-    if (blob) {
+    const downloader = new Downloader(url, 'epub.zip')
+    await downloader.download()
+    if (downloader.blob) {
       // create a BlobReader to read with a ZipReader the zip from a Blob object
-      const reader = new zip.ZipReader(new zip.BlobReader(blob))
+      const reader = new zip.ZipReader(new zip.BlobReader(downloader.blob))
 
       // get all entries from the zip
       const entries = await reader.getEntries()
