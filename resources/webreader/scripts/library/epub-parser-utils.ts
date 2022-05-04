@@ -1,5 +1,5 @@
 import * as zip from '@zip.js/zip.js'
-import { download } from './download'
+import Downloader from './downloader'
 import JSZipUtils from 'jszip-utils'
 import JSZip from 'jszip'
 
