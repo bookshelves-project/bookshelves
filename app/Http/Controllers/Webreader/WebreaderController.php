@@ -64,7 +64,7 @@ class WebreaderController extends Controller
             'authors' => $book->authors_names,
             'serie' => $book->serie ? "{$book->serie->title}, vol. {$book->volume}" : null,
             'volume' => $book->volume,
-            'book_next' => $book_next->title,
+            'book_next' => $book_next?->title,
             'book_next_route' => $book_next_route,
             'full_title' => $title,
             'filename' => $file->file_name,

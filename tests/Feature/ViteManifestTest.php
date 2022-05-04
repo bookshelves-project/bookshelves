@@ -36,7 +36,7 @@ test('vite manifest return dev scripts', function () {
 
     $scripts = app(LaravelViteManifest::class)->embed('test', 'app.ts', 3100);
 
-    expect($scripts)->toMatch('/(http|https):\\/\\/127.0.0.1:\\d+\\/app\\.ts/i');
+    expect($scripts)->toMatch('/http:\\/\\/127.0.0.1:\\d+\\/app\\.ts/i');
 });
 
 test('vite manifest return production scripts', function () {

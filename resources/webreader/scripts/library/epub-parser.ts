@@ -31,10 +31,9 @@ export default class EpubParser {
     this.setCover()
     this.setPages()
     this.setTableOfContents()
-    this.orderPagesFromToc()
 
     this.currentPage = this.pages[0]
-    this.total = this.pages.length
+    this.total = this.pages.length - 1
 
     return this
   }
@@ -112,7 +111,7 @@ export default class EpubParser {
     let chapterNumber = 0
     let pageNumber = 0
     this.zip.forEach((file) => {
-      if (['html', 'htm'].includes(file.extension!)) {
+      if (['html', 'htm', 'xhtml'].includes(file.extension!)) {
         chapterNumber = chapterNumber + 1
 
         const utils = new EpubParserUtils()
@@ -148,6 +147,7 @@ export default class EpubParser {
    */
   private orderPagesFromToc = () => {
     const list: Page[] = []
+
     this.tableOfContent.forEach((item) => {
       const ncxPages = this.pages.filter((page) => page.ncx === item.content)
       list.push(...ncxPages)
@@ -164,18 +164,35 @@ export default class EpubParser {
     const xmlDoc = parser.parseFromString(this.zipNcx.text!, 'text/xml')
     const navMap = xmlDoc.getElementsByTagName('navMap')[0]
     const navPoints = navMap.getElementsByTagName('navPoint')
-    let i = 0
-    for (const navPoint of Object.values(navPoints)) {
-      const navLabel = navPoint.getElementsByTagName('navLabel')[0]
-      const title = navLabel.getElementsByTagName('text')[0]
-        .textContent as string
-      const content = navPoint
-        .getElementsByTagName('content')[0]
-        .getAttribute('src')
 
-      this.tableOfContent[i].label = title
-      this.tableOfContent[i].content = this.getFileNameNcx(content!)
-      i++
+    let list = Object.values(navPoints)
+    list = list.filter(
+      (value, index, self) => index === self.findIndex((t) => t.id === value.id)
+    )
+
+    if (
+      list.length === this.tableOfContent.length ||
+      list.length === this.tableOfContent.length - 1 ||
+      list.length === this.tableOfContent.length + 1
+    ) {
+      let i = 0
+      for (const navPoint of list) {
+        const navLabel = navPoint.getElementsByTagName('navLabel')[0]
+        const title = navLabel.getElementsByTagName('text')[0]
+          .textContent as string
+        const content = navPoint
+          .getElementsByTagName('content')[0]
+          .getAttribute('src')
+
+        const contentName = this.getFileNameNcx(content!)
+
+        if (this.tableOfContent.length && this.tableOfContent[i]) {
+          this.tableOfContent[i].label = title
+          this.tableOfContent[i].content = contentName
+        }
+        i++
+      }
+      this.orderPagesFromToc()
     }
 
     return this.tableOfContent
@@ -299,7 +316,8 @@ export default class EpubParser {
    * Get `page`.
    */
   jump = (page: number): Progress => {
-    this.currentPageIndex = page
+    // @ts-ignore
+    this.currentPageIndex = parseInt(page)
     this.currentPage = this.pages[this.currentPageIndex]
 
     return {

@@ -26,6 +26,8 @@ deploy-job:
       cd /home/ewilan/www/$CI_PROJECT_NAME &&
       git pull &&
       /usr/bin/php$PHP_VERSION /usr/local/bin/composer install &&
+      php$PHP_VERSION artisan optimize:clear &&
+      /usr/bin/php$PHP_VERSION /usr/local/bin/composer dump-autoload &&
       php$PHP_VERSION artisan bookshelves:clear &&
       php$PHP_VERSION artisan optimize &&
       /usr/bin/php$PHP_VERSION /usr/local/bin/composer doc &&
