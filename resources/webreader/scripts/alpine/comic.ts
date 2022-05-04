@@ -1,5 +1,5 @@
 import * as comix from '@comix/parser'
-import { download } from '../library/download'
+import Downloader from '../library/downloader'
 import TinyGesture from '../library/tinygesture'
 
 interface IComic extends IBook {
@@ -29,14 +29,15 @@ const comic = (): IComic => ({
     await this.createBook()
   },
   async createBook() {
-    const file = await download(
+    const downloader = new Downloader(
       this.$store.webreader.bookData.url,
       this.$store.webreader.bookData.filename
     )
+    await downloader.download()
     this.$store.webreader.bookIsDownloaded = true
-    if (file) {
+    if (downloader.file) {
       const parser = new comix.Parser()
-      const comic = await parser.parse(file)
+      const comic = await parser.parse(downloader.file)
 
       this.$store.webreader.imagesList = comic.images.filter((image) => {
         const name = image.name.split('.')
