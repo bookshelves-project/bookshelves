@@ -4,7 +4,7 @@
             Last update: {{ $date }}
         </div>
     @endif
-    <div id="content" x-data="codeblock"
+    <div
         class="prose prose-lg prose-invert mt-6 prose-headings:font-handlee word-wraping {{ $full ? 'max-w-full' : '' }}">
         {{ $title ?? '' }}
         {!! $content !!}

@@ -135,7 +135,9 @@ class MarkdownToHtmlService
             $elements = $xpath->query('(//h1|//h2|//h3|//h4|//h5)');
 
             foreach ($elements as $index => $element) {
-                $element->setAttribute('id', Str::slug($element->textContent));
+                $id = Str::slug($element->textContent);
+                $id = preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-]/s', '', $id);
+                $element->setAttribute('id', $id);
             }
             $html = self::saveHtml($model->{$model_body_attr}, $document);
 

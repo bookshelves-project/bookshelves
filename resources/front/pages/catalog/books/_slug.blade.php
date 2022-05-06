@@ -31,7 +31,7 @@
 </x-catalog.table>
 
 @isset($book->download)
-<x-catalog.button url="{{ $book->download->url }}">
+<x-catalog.button url="{{ $book->download->url }}" download>
     Download
 </x-catalog.button>
 @endisset

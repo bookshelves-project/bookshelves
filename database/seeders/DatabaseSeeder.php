@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             // CmsSeeder::class,
             // UserAdminSeeder::class,
             // UserSeeder::class,
-            // PostSeeder::class,
+            PostSeeder::class,
+            PageSeeder::class,
         ]);
     }
 

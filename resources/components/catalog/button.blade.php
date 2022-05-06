@@ -8,7 +8,7 @@
                             <tr>
                                 <td>
                                     <a href="{{ $url }}"
-                                        class="button button-{{ $color ?? 'primary' }}">{{ $slot }}</a>
+                                        {{ $attributes->merge(['class' => 'button button-primary']) }}>{{ $slot }}</a>
                                 </td>
                             </tr>
                         </table>
