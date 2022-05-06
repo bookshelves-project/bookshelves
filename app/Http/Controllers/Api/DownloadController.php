@@ -53,7 +53,7 @@ class DownloadController extends ApiController
             ], 404);
         }
 
-        return response()->download($media->getPath(), $media->file_name);
+        return response()->download($media->getPath(), $media->file_name, disposition: 'inline');
     }
 
     /**
