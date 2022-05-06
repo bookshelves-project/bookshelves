@@ -31,10 +31,10 @@ class WebreaderController extends Controller
             $books = $book->serie->books->filter(fn ($book) => $book->volume > intval($volume));
 
             $book_next = $books->first();
-            $book_next_route = route('webreader.reader', [
+            $book_next_route = $book_next ? route('webreader.reader', [
                 'author' => $book_next->meta_author,
                 'book' => $book_next->slug,
-            ]);
+            ]) : null;
         }
 
         $home = route('webreader.reader', [
