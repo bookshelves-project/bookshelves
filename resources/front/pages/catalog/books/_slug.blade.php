@@ -32,7 +32,7 @@
 
 <a href="{{ $book->download->url }}">download</a>
 <a href="{{ $book->download->url }}" target="_blank" rel="noopener noreferrer">download</a>
-<a href="{{ $book->download->url }}" target="_blank" rel="noopener noreferrer" download="{{ $book->download->name }}">{{ $book->download->url }}</a>
+<a href="{{ $book->download->url }}" target="_blank" rel="noopener noreferrer" download="{{ $book->download->name }}">download</a>
 
 @isset($book->download)
 <x-catalog.button url="{{ $book->download->url }}" download>
