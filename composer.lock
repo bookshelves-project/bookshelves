@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bcdd8c72f5f9fe56d3236c90a7515b6e",
+    "content-hash": "8ff051dc9525edab7c34cf89ec45c731",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -1736,16 +1736,16 @@
         },
         {
             "name": "laminas/laminas-diactoros",
-            "version": "2.9.2",
+            "version": "2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-diactoros.git",
-                "reference": "07475df6b4bf6277ae8b9cbbc94d0ac6fee5e726"
+                "reference": "a3f03b3c158a3a7014c6ba553b0cb83bf7da19c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/07475df6b4bf6277ae8b9cbbc94d0ac6fee5e726",
-                "reference": "07475df6b4bf6277ae8b9cbbc94d0ac6fee5e726",
+                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/a3f03b3c158a3a7014c6ba553b0cb83bf7da19c4",
+                "reference": "a3f03b3c158a3a7014c6ba553b0cb83bf7da19c4",
                 "shasum": ""
             },
             "require": {
@@ -1831,20 +1831,20 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-04-06T17:37:15+00:00"
+            "time": "2022-05-04T15:16:15+00:00"
         },
         {
             "name": "laravel/fortify",
-            "version": "v1.12.0",
+            "version": "v1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/fortify.git",
-                "reference": "a6caadc80e348755de0e1da221a6253d9f2c48f9"
+                "reference": "0b8e7a860f0aa4868846555f5d095d7b546ffb9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/fortify/zipball/a6caadc80e348755de0e1da221a6253d9f2c48f9",
-                "reference": "a6caadc80e348755de0e1da221a6253d9f2c48f9",
+                "url": "https://api.github.com/repos/laravel/fortify/zipball/0b8e7a860f0aa4868846555f5d095d7b546ffb9c",
+                "reference": "0b8e7a860f0aa4868846555f5d095d7b546ffb9c",
                 "shasum": ""
             },
             "require": {
@@ -1894,20 +1894,20 @@
                 "issues": "https://github.com/laravel/fortify/issues",
                 "source": "https://github.com/laravel/fortify"
             },
-            "time": "2022-03-29T14:37:05+00:00"
+            "time": "2022-05-05T14:52:14+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v9.10.1",
+            "version": "v9.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "93414b1c7c0a56081d96c060bb850ac192d3d323"
+                "reference": "1b2e596d4522bc0c7cf81acce9fe3327163e9891"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/93414b1c7c0a56081d96c060bb850ac192d3d323",
-                "reference": "93414b1c7c0a56081d96c060bb850ac192d3d323",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/1b2e596d4522bc0c7cf81acce9fe3327163e9891",
+                "reference": "1b2e596d4522bc0c7cf81acce9fe3327163e9891",
                 "shasum": ""
             },
             "require": {
@@ -2073,20 +2073,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-04-28T13:18:25+00:00"
+            "time": "2022-05-10T14:02:00+00:00"
         },
         {
             "name": "laravel/octane",
-            "version": "v1.2.8",
+            "version": "v1.2.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/octane.git",
-                "reference": "f03913ab0498e157a0eac49f1e5cff7584d074cf"
+                "reference": "2ead59cc724b4d7180befe1ebc44d1b53f0edc83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/octane/zipball/f03913ab0498e157a0eac49f1e5cff7584d074cf",
-                "reference": "f03913ab0498e157a0eac49f1e5cff7584d074cf",
+                "url": "https://api.github.com/repos/laravel/octane/zipball/2ead59cc724b4d7180befe1ebc44d1b53f0edc83",
+                "reference": "2ead59cc724b4d7180befe1ebc44d1b53f0edc83",
                 "shasum": ""
             },
             "require": {
@@ -2148,7 +2148,7 @@
                 "issues": "https://github.com/laravel/octane/issues",
                 "source": "https://github.com/laravel/octane"
             },
-            "time": "2022-04-20T14:24:51+00:00"
+            "time": "2022-05-09T15:32:09+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -2217,16 +2217,16 @@
         },
         {
             "name": "laravel/scout",
-            "version": "v9.4.7",
+            "version": "v9.4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/scout.git",
-                "reference": "46114761e835ae77e6b6b26abceb5ae63859ba98"
+                "reference": "61ce79ce87fbebb28dcc0dd8f95776aa0dec00c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/scout/zipball/46114761e835ae77e6b6b26abceb5ae63859ba98",
-                "reference": "46114761e835ae77e6b6b26abceb5ae63859ba98",
+                "url": "https://api.github.com/repos/laravel/scout/zipball/61ce79ce87fbebb28dcc0dd8f95776aa0dec00c8",
+                "reference": "61ce79ce87fbebb28dcc0dd8f95776aa0dec00c8",
                 "shasum": ""
             },
             "require": {
@@ -2285,7 +2285,7 @@
                 "issues": "https://github.com/laravel/scout/issues",
                 "source": "https://github.com/laravel/scout"
             },
-            "time": "2022-04-06T09:38:17+00:00"
+            "time": "2022-05-05T14:24:18+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -2604,16 +2604,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.0.18",
+            "version": "3.0.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "c8e137e594948240b03372e012344b07c61b9193"
+                "reference": "670df21225d68d165a8df38587ac3f41caf608f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c8e137e594948240b03372e012344b07c61b9193",
-                "reference": "c8e137e594948240b03372e012344b07c61b9193",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/670df21225d68d165a8df38587ac3f41caf608f8",
+                "reference": "670df21225d68d165a8df38587ac3f41caf608f8",
                 "shasum": ""
             },
             "require": {
@@ -2674,7 +2674,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.0.18"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.0.19"
             },
             "funding": [
                 {
@@ -2690,7 +2690,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-25T18:55:04+00:00"
+            "time": "2022-05-03T21:19:02+00:00"
         },
         {
             "name": "league/glide",
@@ -3024,16 +3024,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.1.39",
+            "version": "3.1.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SpartnerNL/Laravel-Excel.git",
-                "reference": "5165334de44c6f7788a5818a1d019aa71a43e092"
+                "reference": "8a54972e3d616c74687c3cbff15765555761885c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/5165334de44c6f7788a5818a1d019aa71a43e092",
-                "reference": "5165334de44c6f7788a5818a1d019aa71a43e092",
+                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/8a54972e3d616c74687c3cbff15765555761885c",
+                "reference": "8a54972e3d616c74687c3cbff15765555761885c",
                 "shasum": ""
             },
             "require": {
@@ -3086,7 +3086,7 @@
             ],
             "support": {
                 "issues": "https://github.com/SpartnerNL/Laravel-Excel/issues",
-                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.39"
+                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.40"
             },
             "funding": [
                 {
@@ -3098,7 +3098,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-23T11:44:18+00:00"
+            "time": "2022-05-02T13:50:01+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -3280,16 +3280,16 @@
         },
         {
             "name": "meilisearch/meilisearch-php",
-            "version": "v0.23.1",
+            "version": "v0.23.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/meilisearch/meilisearch-php.git",
-                "reference": "dcd198b5f2c5e58306ba062b0e05f280bf015edd"
+                "reference": "e6048db909634f86fa8d346915819e83806aed86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/meilisearch/meilisearch-php/zipball/dcd198b5f2c5e58306ba062b0e05f280bf015edd",
-                "reference": "dcd198b5f2c5e58306ba062b0e05f280bf015edd",
+                "url": "https://api.github.com/repos/meilisearch/meilisearch-php/zipball/e6048db909634f86fa8d346915819e83806aed86",
+                "reference": "e6048db909634f86fa8d346915819e83806aed86",
                 "shasum": ""
             },
             "require": {
@@ -3341,9 +3341,9 @@
             ],
             "support": {
                 "issues": "https://github.com/meilisearch/meilisearch-php/issues",
-                "source": "https://github.com/meilisearch/meilisearch-php/tree/v0.23.1"
+                "source": "https://github.com/meilisearch/meilisearch-php/tree/v0.23.2"
             },
-            "time": "2022-03-17T08:16:55+00:00"
+            "time": "2022-05-09T11:31:15+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -3403,16 +3403,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "4192345e260f1d51b365536199744b987e160edc"
+                "reference": "247918972acd74356b0a91dfaa5adcaec069b6c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/4192345e260f1d51b365536199744b987e160edc",
-                "reference": "4192345e260f1d51b365536199744b987e160edc",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/247918972acd74356b0a91dfaa5adcaec069b6c0",
+                "reference": "247918972acd74356b0a91dfaa5adcaec069b6c0",
                 "shasum": ""
             },
             "require": {
@@ -3425,18 +3425,23 @@
             "require-dev": {
                 "aws/aws-sdk-php": "^2.4.9 || ^3.0",
                 "doctrine/couchdb": "~1.0@dev",
-                "elasticsearch/elasticsearch": "^7",
+                "elasticsearch/elasticsearch": "^7 || ^8",
+                "ext-json": "*",
                 "graylog2/gelf-php": "^1.4.2",
+                "guzzlehttp/guzzle": "^7.4",
+                "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
                 "php-amqplib/php-amqplib": "~2.4 || ^3",
                 "php-console/php-console": "^3.1.3",
-                "phpspec/prophecy": "^1.6.1",
+                "phpspec/prophecy": "^1.15",
                 "phpstan/phpstan": "^0.12.91",
-                "phpunit/phpunit": "^8.5",
+                "phpunit/phpunit": "^8.5.14",
                 "predis/predis": "^1.1",
                 "rollbar/rollbar": "^1.3 || ^2 || ^3",
-                "ruflin/elastica": ">=0.90@dev",
-                "swiftmailer/swiftmailer": "^5.3|^6.0"
+                "ruflin/elastica": "^7",
+                "swiftmailer/swiftmailer": "^5.3|^6.0",
+                "symfony/mailer": "^5.4 || ^6",
+                "symfony/mime": "^5.4 || ^6"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -3486,7 +3491,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.5.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.6.0"
             },
             "funding": [
                 {
@@ -3498,7 +3503,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-08T15:43:54+00:00"
+            "time": "2022-05-10T09:36:00+00:00"
         },
         {
             "name": "myclabs/php-enum",
@@ -3562,16 +3567,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.57.0",
+            "version": "2.58.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "4a54375c21eea4811dbd1149fe6b246517554e78"
+                "reference": "97a34af22bde8d0ac20ab34b29d7bfe360902055"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/4a54375c21eea4811dbd1149fe6b246517554e78",
-                "reference": "4a54375c21eea4811dbd1149fe6b246517554e78",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/97a34af22bde8d0ac20ab34b29d7bfe360902055",
+                "reference": "97a34af22bde8d0ac20ab34b29d7bfe360902055",
                 "shasum": ""
             },
             "require": {
@@ -3589,7 +3594,8 @@
                 "phpmd/phpmd": "^2.9",
                 "phpstan/extension-installer": "^1.0",
                 "phpstan/phpstan": "^0.12.54 || ^1.0",
-                "phpunit/phpunit": "^7.5.20 || ^8.5.14",
+                "phpunit/php-file-iterator": "^2.0.5",
+                "phpunit/phpunit": "^7.5.20 || ^8.5.23",
                 "squizlabs/php_codesniffer": "^3.4"
             },
             "bin": [
@@ -3654,7 +3660,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-13T18:13:33+00:00"
+            "time": "2022-04-25T19:31:17+00:00"
         },
         {
             "name": "nette/schema",
@@ -4958,16 +4964,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.11.2",
+            "version": "v0.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "7f7da640d68b9c9fec819caae7c744a213df6514"
+                "reference": "05c544b339b112226ad14803e1e5b09a61957454"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/7f7da640d68b9c9fec819caae7c744a213df6514",
-                "reference": "7f7da640d68b9c9fec819caae7c744a213df6514",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/05c544b339b112226ad14803e1e5b09a61957454",
+                "reference": "05c544b339b112226ad14803e1e5b09a61957454",
                 "shasum": ""
             },
             "require": {
@@ -4982,15 +4988,13 @@
                 "symfony/console": "4.4.37 || 5.3.14 || 5.3.15 || 5.4.3 || 5.4.4 || 6.0.3 || 6.0.4"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.2",
-                "hoa/console": "3.17.05.02"
+                "bamarni/composer-bin-plugin": "^1.2"
             },
             "suggest": {
                 "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
                 "ext-pdo-sqlite": "The doc command requires SQLite to work.",
                 "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well.",
-                "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history.",
-                "hoa/console": "A pure PHP readline implementation. You'll want this if your PHP install doesn't already support readline or libedit."
+                "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history."
             },
             "bin": [
                 "bin/psysh"
@@ -5030,9 +5034,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.11.2"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.11.4"
             },
-            "time": "2022-02-28T15:28:54+00:00"
+            "time": "2022-05-06T12:49:14+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -5252,17 +5256,65 @@
             "time": "2022-03-27T21:42:02+00:00"
         },
         {
-            "name": "smalot/pdfparser",
-            "version": "v2.2.0",
+            "name": "selective/rar",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/smalot/pdfparser.git",
-                "reference": "193515a64fb979aff1786b09d5960797db2f3b0a"
+                "url": "https://github.com/selective-php/rar.git",
+                "reference": "7d1e71046906abfa4062aebedbaeab38b15504b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/193515a64fb979aff1786b09d5960797db2f3b0a",
-                "reference": "193515a64fb979aff1786b09d5960797db2f3b0a",
+                "url": "https://api.github.com/repos/selective-php/rar/zipball/7d1e71046906abfa4062aebedbaeab38b15504b4",
+                "reference": "7d1e71046906abfa4062aebedbaeab38b15504b4",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3 || ^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2",
+                "overtrue/phplint": "^2",
+                "phpstan/phpstan": "0.*",
+                "phpunit/phpunit": "^9",
+                "squizlabs/php_codesniffer": "^3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Selective\\Rar\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "RAR file reader",
+            "homepage": "https://github.com/selective-php/rar",
+            "keywords": [
+                "archive",
+                "file",
+                "rar",
+                "reader"
+            ],
+            "support": {
+                "issues": "https://github.com/selective-php/rar/issues",
+                "source": "https://github.com/selective-php/rar/tree/0.2.0"
+            },
+            "time": "2021-01-06T17:42:22+00:00"
+        },
+        {
+            "name": "smalot/pdfparser",
+            "version": "v2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smalot/pdfparser.git",
+                "reference": "7c007090776f29119e72be28f7780e638ea0cbf4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/7c007090776f29119e72be28f7780e638ea0cbf4",
+                "reference": "7c007090776f29119e72be28f7780e638ea0cbf4",
                 "shasum": ""
             },
             "require": {
@@ -5298,22 +5350,22 @@
             ],
             "support": {
                 "issues": "https://github.com/smalot/pdfparser/issues",
-                "source": "https://github.com/smalot/pdfparser/tree/v2.2.0"
+                "source": "https://github.com/smalot/pdfparser/tree/v2.2.1"
             },
-            "time": "2022-04-04T10:25:03+00:00"
+            "time": "2022-05-02T06:42:03+00:00"
         },
         {
             "name": "spatie/array-to-xml",
-            "version": "3.1.2",
+            "version": "3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/array-to-xml.git",
-                "reference": "dd6f7de05ce12a321dfca8ac0c3cfeade5e37a2d"
+                "reference": "14ac461c1a97a14ab4656f3c1edfcfd776cbb37b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/dd6f7de05ce12a321dfca8ac0c3cfeade5e37a2d",
-                "reference": "dd6f7de05ce12a321dfca8ac0c3cfeade5e37a2d",
+                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/14ac461c1a97a14ab4656f3c1edfcfd776cbb37b",
+                "reference": "14ac461c1a97a14ab4656f3c1edfcfd776cbb37b",
                 "shasum": ""
             },
             "require": {
@@ -5322,8 +5374,8 @@
             },
             "require-dev": {
                 "mockery/mockery": "^1.2",
-                "phpunit/phpunit": "^9.5",
-                "spatie/phpunit-snapshot-assertions": "^4.2"
+                "pestphp/pest": "^1.21",
+                "spatie/pest-plugin-snapshots": "^1.1"
             },
             "type": "library",
             "autoload": {
@@ -5351,8 +5403,7 @@
                 "xml"
             ],
             "support": {
-                "issues": "https://github.com/spatie/array-to-xml/issues",
-                "source": "https://github.com/spatie/array-to-xml/tree/3.1.2"
+                "source": "https://github.com/spatie/array-to-xml/tree/3.1.3"
             },
             "funding": [
                 {
@@ -5364,7 +5415,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-03T14:20:46+00:00"
+            "time": "2022-05-08T20:26:48+00:00"
         },
         {
             "name": "spatie/eloquent-sortable",
@@ -5633,16 +5684,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "10.3.2",
+            "version": "10.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "0d2074ac07ebf0913359e987faf742c71a975832"
+                "reference": "d3d09dc6b1eae36552d723128896be738733e056"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/0d2074ac07ebf0913359e987faf742c71a975832",
-                "reference": "0d2074ac07ebf0913359e987faf742c71a975832",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/d3d09dc6b1eae36552d723128896be738733e056",
+                "reference": "d3d09dc6b1eae36552d723128896be738733e056",
                 "shasum": ""
             },
             "require": {
@@ -5725,7 +5776,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/10.3.2"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/10.3.4"
             },
             "funding": [
                 {
@@ -5737,7 +5788,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-07T22:26:42+00:00"
+            "time": "2022-05-05T06:36:20+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
@@ -9458,22 +9509,22 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.3.5",
+            "version": "3.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "719663b15983278227669c8595151586a2ff3327"
+                "reference": "9e7f76dd1cde81c62574fdffa5a9c655c847ad21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/719663b15983278227669c8595151586a2ff3327",
-                "reference": "719663b15983278227669c8595151586a2ff3327",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/9e7f76dd1cde81c62574fdffa5a9c655c847ad21",
+                "reference": "9e7f76dd1cde81c62574fdffa5a9c655c847ad21",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2",
                 "doctrine/cache": "^1.11|^2.0",
-                "doctrine/deprecations": "^0.5.3",
+                "doctrine/deprecations": "^0.5.3|^1",
                 "doctrine/event-manager": "^1.0",
                 "php": "^7.3 || ^8.0",
                 "psr/cache": "^1|^2|^3",
@@ -9481,15 +9532,15 @@
             },
             "require-dev": {
                 "doctrine/coding-standard": "9.0.0",
-                "jetbrains/phpstorm-stubs": "2021.1",
-                "phpstan/phpstan": "1.5.3",
-                "phpstan/phpstan-strict-rules": "^1.1",
-                "phpunit/phpunit": "9.5.16",
+                "jetbrains/phpstorm-stubs": "2022.1",
+                "phpstan/phpstan": "1.6.3",
+                "phpstan/phpstan-strict-rules": "^1.2",
+                "phpunit/phpunit": "9.5.20",
                 "psalm/plugin-phpunit": "0.16.1",
                 "squizlabs/php_codesniffer": "3.6.2",
                 "symfony/cache": "^5.2|^6.0",
                 "symfony/console": "^2.7|^3.0|^4.0|^5.0|^6.0",
-                "vimeo/psalm": "4.22.0"
+                "vimeo/psalm": "4.23.0"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
@@ -9549,7 +9600,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.3.5"
+                "source": "https://github.com/doctrine/dbal/tree/3.3.6"
             },
             "funding": [
                 {
@@ -9565,29 +9616,29 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-05T09:50:18+00:00"
+            "time": "2022-05-02T17:21:01+00:00"
         },
         {
             "name": "doctrine/deprecations",
-            "version": "v0.5.3",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "9504165960a1f83cc1480e2be1dd0a0478561314"
+                "reference": "0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/9504165960a1f83cc1480e2be1dd0a0478561314",
-                "reference": "9504165960a1f83cc1480e2be1dd0a0478561314",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de",
+                "reference": "0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1|^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^6.0|^7.0|^8.0",
-                "phpunit/phpunit": "^7.0|^8.0|^9.0",
-                "psr/log": "^1.0"
+                "doctrine/coding-standard": "^9",
+                "phpunit/phpunit": "^7.5|^8.5|^9.5",
+                "psr/log": "^1|^2|^3"
             },
             "suggest": {
                 "psr/log": "Allows logging deprecations via PSR-3 logger implementation"
@@ -9606,9 +9657,9 @@
             "homepage": "https://www.doctrine-project.org/",
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
-                "source": "https://github.com/doctrine/deprecations/tree/v0.5.3"
+                "source": "https://github.com/doctrine/deprecations/tree/v1.0.0"
             },
-            "time": "2021-03-21T12:59:47+00:00"
+            "time": "2022-05-02T15:47:09+00:00"
         },
         {
             "name": "doctrine/event-manager",
@@ -10253,16 +10304,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.14.0",
+            "version": "v1.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "453c66fde4109eb49e12299ffe3bf0d667983447"
+                "reference": "cee088fbe57432dd15678e3f7b6a8259f3073c46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/453c66fde4109eb49e12299ffe3bf0d667983447",
-                "reference": "453c66fde4109eb49e12299ffe3bf0d667983447",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/cee088fbe57432dd15678e3f7b6a8259f3073c46",
+                "reference": "cee088fbe57432dd15678e3f7b6a8259f3073c46",
                 "shasum": ""
             },
             "require": {
@@ -10309,7 +10360,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2022-04-27T13:10:22+00:00"
+            "time": "2022-05-10T12:58:49+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -11333,22 +11384,22 @@
         },
         {
             "name": "phpro/grumphp-shim",
-            "version": "v1.11.0",
+            "version": "v1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpro/grumphp-shim.git",
-                "reference": "71313e9886c9a1f3f978663977e08394c09d14b7"
+                "reference": "062f25b477816ae1136081cb35e4d393be3b470c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/71313e9886c9a1f3f978663977e08394c09d14b7",
-                "reference": "71313e9886c9a1f3f978663977e08394c09d14b7",
+                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/062f25b477816ae1136081cb35e4d393be3b470c",
+                "reference": "062f25b477816ae1136081cb35e4d393be3b470c",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "~2.0",
                 "ext-json": "*",
-                "php": "^8.0"
+                "php": "^7.4 || ^8.0"
             },
             "replace": {
                 "phpro/grumphp": "self.version"
@@ -11386,9 +11437,9 @@
             "description": "GrumPHP Phar distribution",
             "support": {
                 "issues": "https://github.com/phpro/grumphp-shim/issues",
-                "source": "https://github.com/phpro/grumphp-shim/tree/v1.11.0"
+                "source": "https://github.com/phpro/grumphp-shim/tree/v1.12.0"
             },
-            "time": "2022-04-15T11:41:14+00:00"
+            "time": "2022-05-06T14:00:52+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -11459,16 +11510,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.6.3",
+            "version": "1.6.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "6128620b98292e0b69ea6d799871d77163681c8e"
+                "reference": "d76498c5531232cb8386ceb6004f7e013138d3ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/6128620b98292e0b69ea6d799871d77163681c8e",
-                "reference": "6128620b98292e0b69ea6d799871d77163681c8e",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d76498c5531232cb8386ceb6004f7e013138d3ba",
+                "reference": "d76498c5531232cb8386ceb6004f7e013138d3ba",
                 "shasum": ""
             },
             "require": {
@@ -11494,7 +11545,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.6.3"
+                "source": "https://github.com/phpstan/phpstan/tree/1.6.8"
             },
             "funding": [
                 {
@@ -11514,7 +11565,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-28T11:27:53+00:00"
+            "time": "2022-05-10T06:54:21+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -13246,16 +13297,16 @@
         },
         {
             "name": "spatie/ignition",
-            "version": "1.2.9",
+            "version": "1.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ignition.git",
-                "reference": "db25202fab2d5c14613b8914a1bb374998bbf870"
+                "reference": "dd8c3a21170b1d0f4d15048b2f4fa4a1a3a92a64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ignition/zipball/db25202fab2d5c14613b8914a1bb374998bbf870",
-                "reference": "db25202fab2d5c14613b8914a1bb374998bbf870",
+                "url": "https://api.github.com/repos/spatie/ignition/zipball/dd8c3a21170b1d0f4d15048b2f4fa4a1a3a92a64",
+                "reference": "dd8c3a21170b1d0f4d15048b2f4fa4a1a3a92a64",
                 "shasum": ""
             },
             "require": {
@@ -13312,20 +13363,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-23T20:37:21+00:00"
+            "time": "2022-05-10T12:21:27+00:00"
         },
         {
             "name": "spatie/laravel-ignition",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-ignition.git",
-                "reference": "924d1ae878874ad0bb49f63b69a9af759a34ee78"
+                "reference": "51e5daaa7e43c154fe57f1ddfbba862f9fe57646"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/924d1ae878874ad0bb49f63b69a9af759a34ee78",
-                "reference": "924d1ae878874ad0bb49f63b69a9af759a34ee78",
+                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/51e5daaa7e43c154fe57f1ddfbba862f9fe57646",
+                "reference": "51e5daaa7e43c154fe57f1ddfbba862f9fe57646",
                 "shasum": ""
             },
             "require": {
@@ -13402,7 +13453,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-14T18:04:51+00:00"
+            "time": "2022-05-05T15:53:24+00:00"
         },
         {
             "name": "symfony/filesystem",

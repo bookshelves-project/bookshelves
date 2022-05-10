@@ -51,6 +51,7 @@
         "meilisearch/meilisearch-php": "^0.23.1",
         "mobiledetect/mobiledetectlib": "^2.8",
         "oscarotero/inline-svg": "^2.0",
+        "selective/rar": "^0.2.0",
         "smalot/pdfparser": "^2.2",
         "spatie/array-to-xml": "^3.1",
         "spatie/eloquent-sortable": "^4.0",
