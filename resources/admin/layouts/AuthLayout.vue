@@ -1,3 +1,9 @@
+<script setup lang="ts">
+window.onerror = (error) => {
+  //
+}
+</script>
+
 <template>
   <div
     class="min-h-screen flex flex-col justify-center items-center bg-primary-400 dark:bg-primary-600 px-6"
