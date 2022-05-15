@@ -45,6 +45,18 @@ trait HasTagsAndGenres
         });
     }
 
+    public function getTagsStringAttribute(): string
+    {
+        $tags = $this->tags()->get();
+        /** @var string[] $tag_names */
+        $tag_names = $tags->map(function ($tag, $key) {
+            /** @var Tag $tag */
+            return $tag->getTranslation('name', 'en');
+        })->toArray();
+
+        return implode(', ', $tag_names);
+    }
+
     public function getTagsListAttribute()
     {
         return $this->tags()->whereType('tag')->get();

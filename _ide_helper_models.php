@@ -138,6 +138,7 @@ namespace App\Models{
  * @property-read string $show_link_opds
  * @property-read string $sort_name
  * @property-read mixed $tags_list
+ * @property-read mixed $tags_string
  * @property-read \App\Models\GoogleBook|null $googleBook
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
@@ -834,6 +835,7 @@ namespace App\Models{
  * @property-read string $show_link
  * @property-read string $show_link_opds
  * @property-read mixed $tags_list
+ * @property-read mixed $tags_string
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\App\Models\MediaExtended[] $media
  * @property-read int|null $media_count

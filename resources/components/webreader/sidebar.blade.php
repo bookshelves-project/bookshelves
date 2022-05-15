@@ -42,10 +42,15 @@
             </div>
             <nav class="mt-5 px-2">
                 <ul class="list-none">
-                    <template x-for="(item,key) in $store.webreader.toc">
+                    {{-- <template x-for="(item,key) in $store.webreader.toc">
                         <li :id="item.id" :data-chapter="item.href"
                             class="toc-item cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white group flex links-center px-2 py-2 text-sm font-medium rounded-md my-1 justify-between"
                             x-text="item.label" @click="setChapter(item.page)"></li>
+                    </template> --}}
+                    <template x-for="(item,key) in $store.webreader.toc">
+                        <li :id="`${item.id} chapter-${key}`" :data-chapter="`${item.href}`"
+                            class="toc-item cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white group flex links-center px-2 py-2 text-sm font-medium rounded-md my-1 justify-between"
+                            x-text="item.label" @click="setChapter(key)"></li>
                     </template>
                 </ul>
             </nav>

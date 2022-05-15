@@ -28,7 +28,7 @@ import { mainNav, isTitle, isLink } from '@admin/_nav'
           :rel="item.external ? 'noopener noreferrer' : ''"
           :class="
             item.active()
-              ? 'bg-primary-800 dark:bg-primary-700 text-white'
+              ? 'bg-primary-800 dark:bg-primary-800 text-white'
               : 'text-primary-100 hover:text-white hover:bg-primary-600'
           "
           class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md"

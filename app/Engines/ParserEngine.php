@@ -172,6 +172,9 @@ class ParserEngine
         return $engine;
     }
 
+    /**
+     * Generate `slug` with `title`,  `BookTypeEnum` and `language_slug`.
+     */
     public static function generateSlug(string $title, string $type, string $language): string
     {
         return Str::slug($title.' '.$type.' '.$language);

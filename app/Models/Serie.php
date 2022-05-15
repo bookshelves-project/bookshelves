@@ -117,6 +117,7 @@ class Serie extends Model implements HasMedia
             'picture' => $this->cover_thumbnail,
             'author' => $this->authors_names,
             'description' => $this->description,
+            'tags' => $this->tags_string,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

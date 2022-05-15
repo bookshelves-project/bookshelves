@@ -145,6 +145,7 @@ const epub = (): IEpub => ({
       this.book.key() + '-locations',
       this.book.locations.save()
     )
+
     this.$store.webreader.toc = this.book.navigation.toc
   },
   first() {
