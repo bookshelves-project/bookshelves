@@ -1,5 +1,11 @@
+<script setup lang="ts">
+defineProps<{
+  title?: string
+}>()
+</script>
+
 <template>
-  <div class="min-h-full">
+  <main-layout class="min-h-full">
     <sidebar />
 
     <!-- Static sidebar for desktop -->
@@ -26,11 +32,5 @@
       <slot name="aside"></slot>
       <app-footer />
     </div>
-  </div>
+  </main-layout>
 </template>
-
-<script setup lang="ts">
-defineProps({
-  title: String,
-})
-</script>

@@ -1,11 +1,5 @@
-<script setup lang="ts">
-window.onerror = (error) => {
-  //
-}
-</script>
-
 <template>
-  <div
+  <main-layout
     class="min-h-screen flex flex-col justify-center items-center bg-primary-400 dark:bg-primary-600 px-6"
   >
     <div
@@ -16,5 +10,5 @@ window.onerror = (error) => {
       </a>
       <slot />
     </div>
-  </div>
+  </main-layout>
 </template>

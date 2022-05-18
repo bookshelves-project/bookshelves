@@ -73,6 +73,7 @@ declare module '@vue/runtime-core' {
     LanguageForm: typeof import('./components/forms/LanguageForm.vue')['default']
     ListButton: typeof import('./base/buttons/ListButton.vue')['default']
     ListContext: typeof import('./base/cruds/ListContext.vue')['default']
+    MainLayout: typeof import('./layouts/MainLayout.vue')['default']
     Modal: typeof import('./base/Modal.vue')['default']
     Navbar: typeof import('./base/Navbar.vue')['default']
     Navigation: typeof import('./components/layout/navigation.vue')['default']
