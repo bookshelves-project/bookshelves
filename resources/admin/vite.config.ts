@@ -29,7 +29,9 @@ export default defineConfig({
       },
     }),
     svgLoader(),
-    AutoImport(),
+    AutoImport({
+      imports: ['vue', '@vueuse/core'],
+    }),
   ],
   optimizeDeps: {
     entries: ['admin/app.ts'],
