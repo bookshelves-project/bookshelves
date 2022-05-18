@@ -2,6 +2,9 @@ grumphp:
   fixer:
     enabled: false
     fix_by_default: true
+  parallel:
+    enabled: true
+    max_workers: 32
   tasks:
     eslint:
       bin: node_modules/.bin/eslint

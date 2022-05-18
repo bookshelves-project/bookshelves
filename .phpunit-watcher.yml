@@ -9,5 +9,5 @@ notifications:
   failingTests: false
 phpunit:
   binaryPath: vendor/bin/pest
-  arguments: '--stop-on-failure'
+  arguments: '--stop-on-failure -p'
   timeout: 180
