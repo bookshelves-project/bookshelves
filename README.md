@@ -10,36 +10,16 @@
 
 [![mysql](https://img.shields.io/static/v1?label=MySQL&message=v8.*&color=4479A1&style=flat-square&logo=mysql&logoColor=ffffff)](https://www.mysql.com)
 
-📀 [**bookshelves-project**](https://gitlab.com/bookshelves-project): Bookshelves project  
+📀 [**bookshelves-project**](https://gitlab.com/bookshelves-project): Bookshelves project repository  
 💻 [**bookshelves.ink**](https://bookshelves.ink): demo  
-📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation, if this link not work, you can check doc on [this repository](https://gitlab.com/bookshelves-project/bookshelves-doc)  
+📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://gitlab.com/bookshelves-project/bookshelves-doc)  
 
 ## **Setup**
-
-### *a. Dependencies*
-
-Extensions for PHP, here for `php8.1`
-
-```bash
-sudo apt-get install -y php8.1-xml php8.1-gd
-```
-
-For spatie image optimize tools
-
-```bash
-sudo apt-get install -y jpegoptim optipng pngquant optipng gifsicle webp
-```
-
-```bash
-npm install -g svgo
-```
-
-### *b. Setup*
 
 Download dependencies
 
 ```bash
-composer install
+composer i ; pnpm i
 ```
 
 Execute `setup` and follow guide
@@ -47,6 +27,8 @@ Execute `setup` and follow guide
 ```bash
 php artisan setup
 ```
+
+See [**documentation**](https://bookshelves-documentation.netlify.app) to know more about *Bookshelves*.
 
 ## **Usage**
 
