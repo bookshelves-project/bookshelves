@@ -75,6 +75,7 @@
         "nunomaduro/larastan": "^2.1.2",
         "pestphp/pest": "^1.21",
         "pestphp/pest-plugin-laravel": "^1.2",
+        "pestphp/pest-plugin-parallel": "^1.1",
         "phpro/grumphp-shim": "^1.8",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
@@ -126,14 +127,14 @@
             "php-cs-fixer fix --ansi"
         ],
         "analyse": [
-            "phpstan analyse --ansi"
+            "phpstan analyse --ansi --memory-limit=4G"
         ],
         "serve": [
             "Composer\\Config::disableProcessTimeout",
             "php artisan serve"
         ],
         "test": [
-            "@php artisan test"
+            "@php artisan test -p"
         ],
         "test:filter": [
             "@php artisan test --filter"

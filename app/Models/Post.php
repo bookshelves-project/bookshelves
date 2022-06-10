@@ -94,6 +94,12 @@ class Post extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
+    public function searchableAs()
+    {
+        $app = config('bookshelves.name');
+        return "{$app}_post";
+    }
+
     public static function boot()
     {
         parent::boot();

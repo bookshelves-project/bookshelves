@@ -10,7 +10,7 @@
         </page-header>
       </template>
 
-      <book-form :method="method" :url="url" />
+      <book-upload-form :method="method" :url="url" />
     </app-layout>
   </create-context>
 </template>

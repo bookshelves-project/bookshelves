@@ -26,7 +26,7 @@
         leave-to="-translate-x-full"
       >
         <div
-          class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-primary-700 dark:bg-purple-800 overflow-y-auto overflow-y-auto scrollbar-thin scrollbar-thumb-primary-600 scrollbar-track-primary-700"
+          class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-primary-700 dark:bg-purple-700 overflow-y-auto overflow-y-auto scrollbar-thin scrollbar-thumb-primary-600 scrollbar-track-primary-700"
         >
           <TransitionChild
             as="template"

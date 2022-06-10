@@ -2,8 +2,8 @@
   <app-layout :title="title">
     <!-- <dashboard-content /> -->
     <div class="grid xl:grid-cols-2">
-      <doughnut-chart :chart-data="entities" />
-      <doughnut-chart :chart-data="users" />
+      <doughnut-chart :chart-data="entities" :options="options" />
+      <doughnut-chart :chart-data="users" :options="options" />
     </div>
   </app-layout>
 </template>
@@ -15,6 +15,7 @@ import { Chart, ChartData, ChartOptions, registerables } from 'chart.js'
 import { useTitle } from '@admin/features/helpers'
 import { ChartModel } from '@admin/types'
 import { useEnums } from '@admin/composables/useEnums'
+import { useColorMode } from '@admin/composables/color-mode'
 
 const props = defineProps<{
   chartEntities: ChartModel
@@ -22,6 +23,8 @@ const props = defineProps<{
 }>()
 
 const title = useTitle('Dashboard')
+const colorMode = useColorMode()
+
 Chart.register(...registerables)
 
 let colors = useEnums().getChartColors()
@@ -32,6 +35,7 @@ const entities = computed<ChartData<'doughnut'>>(() => ({
     {
       data: props.chartEntities?.values,
       backgroundColor: Object.values(colors),
+      borderColor: colorMode.isDarkMode.value ? 'black' : 'white',
     },
   ],
 }))
@@ -42,21 +46,21 @@ const users = computed<ChartData<'doughnut'>>(() => ({
     {
       data: props.chartUsers?.values,
       backgroundColor: Object.values(colors),
+      borderColor: colorMode.isDarkMode.value ? 'black' : 'white',
     },
   ],
 }))
 
-// const options = computed<ChartOptions<'doughnut'>>(() => ({
-//   plugins: {
-//     legend: {
-//       position: 'bottom',
-//     },
-//     title: {
-//       display: true,
-//       text: 'Entities',
-//     },
-//   },
-// }))
+const options = computed<ChartOptions<'doughnut'>>(() => ({
+  plugins: {
+    legend: {
+      position: 'top',
+      labels: {
+        color: colorMode.isDarkMode.value ? 'white' : 'black',
+      },
+    },
+  },
+}))
 
 // useDoughnutChart({
 //   entities,

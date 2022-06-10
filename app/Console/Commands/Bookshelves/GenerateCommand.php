@@ -142,7 +142,7 @@ class GenerateCommand extends CommandProd
         $class = $class->getShortName();
 
         $this->newLine();
-        $this->warn("Improve {$class}s...");
+        $this->warn("Set relation {$class}s...");
         $this->newLine();
         $bar = $this->output->createProgressBar($model::count());
         $bar->start();

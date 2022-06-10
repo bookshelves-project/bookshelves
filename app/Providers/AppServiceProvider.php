@@ -35,7 +35,6 @@ class AppServiceProvider extends ServiceProvider
                                 $query->where($relationAttribute, 'LIKE', "%{$searchTerm}%");
                             });
                         },
-                        // @phpstan-ignore-next-line
                         function (Builder $query) use ($attribute, $searchTerm) {
                             $query->orWhere($attribute, 'LIKE', "%{$searchTerm}%");
                         }

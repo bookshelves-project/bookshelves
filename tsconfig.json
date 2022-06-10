@@ -15,8 +15,7 @@
       "dom"
     ],
     "types": [
-      "vite/client",
-      "@types/jest",
+      "vite/client"
     ],
     "typeRoots": [
       "./node_modules/@types",
@@ -34,17 +33,18 @@
       ],
       "~/*": [
         "./resources/*"
-      ],
+      ]
     }
   },
   "include": [
     "resources/**/*.ts",
     "resources/**/*.d.ts",
     "resources/**/*.tsx",
-    "resources/**/*.vue",
+    "resources/**/*.vue"
   ],
   "exclude": [
     "resources/views/stubs",
-    "resources/webreader/scripts/library"
+    "resources/webreader/scripts/library",
+    "resources/admin/auto-imports.d.ts"
   ]
 }

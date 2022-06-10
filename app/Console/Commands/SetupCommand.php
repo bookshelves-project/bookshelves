@@ -73,8 +73,12 @@ class SetupCommand extends Command
 
         $this->info('Node.js dependencies installation...');
         exec('pnpm i');
-        $this->info('Laravel mix, wait a minute...');
-        exec('pnpm prod');
+        if ($prod) {
+            $this->info('Run Vite production mode...');
+            exec('pnpm build');
+        } else {
+            $this->info('You will have to run `pnpm dev` to run Vite in development mode.');
+        }
 
         $this->info('Cleaning...');
         if ($prod) {
@@ -213,18 +217,38 @@ class SetupCommand extends Command
      */
     protected function createEnvFile()
     {
-        if (! file_exists('.env')) {
+        $dotenv_exist = file_exists('.env');
+        $dotenv_test_exist = file_exists('.env.testing');
+
+        if (! $dotenv_exist) {
             copy('.env.example', '.env');
 
             $this->warn('.env file successfully created'."\n");
 
+            if (! $dotenv_test_exist) {
+                copy('.env.testing.example', '.env.testing');
+
+                $this->warn('.env.testing file successfully created'."\n");
+            }
+
             return true;
         }
+
         if ($this->confirm('.env detected, do you want to erase current .env file?', false)) {
             unlink('.env');
             copy('.env.example', '.env');
 
             $this->warn('~ .env file successfully recreated'."\n");
+
+            if ($dotenv_test_exist) {
+                $this->confirm('.env.testing detected, do you want to erase current .env file?', false);
+                unlink('.env.testing');
+                copy('.env.testing.example', '.env.testing');
+
+                $this->warn('~ .env.testing file successfully recreated'."\n");
+
+                return true;
+            }
 
             return true;
         }

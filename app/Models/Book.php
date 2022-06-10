@@ -253,6 +253,7 @@ class Book extends Model implements HasMedia
             'serie' => $this->serie?->title,
             'isbn10' => $this->isbn10,
             'isbn13' => $this->isbn13,
+            'tags' => $this->tags_string,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

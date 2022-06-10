@@ -93,11 +93,14 @@ class AuthorConverter
      */
     private static function generate(AuthorConverter $converter, BookCreator $creator): Author
     {
+        $name = "{$converter->lastname} {$converter->firstname}";
+        $name = trim($name);
+
         return Author::firstOrCreate([
             'lastname' => $converter->lastname,
             'firstname' => $converter->firstname,
-            'name' => "{$converter->lastname} {$converter->firstname}",
-            'slug' => Str::slug("{$converter->lastname} {$converter->firstname}", '-'),
+            'name' => $name,
+            'slug' => Str::slug($name, '-'),
             'role' => $creator->role,
         ]);
     }
