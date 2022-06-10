@@ -15,8 +15,7 @@
       "dom"
     ],
     "types": [
-      "vite/client",
-      "@types/jest"
+      "vite/client"
     ],
     "typeRoots": [
       "./node_modules/@types",

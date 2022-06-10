@@ -4,7 +4,7 @@ import 'clockwork-browser/toolbar'
 import 'virtual:windi.css'
 import './app.css'
 
-import epub from './scripts/alpine/epub'
+// import epub from './scripts/alpine/epub'
 import epubjs from './scripts/alpine/epubjs'
 import comic from './scripts/alpine/comic'
 import webreader from './scripts/alpine/webreader'
