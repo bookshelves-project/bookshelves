@@ -33,8 +33,7 @@ class LanguageController extends Controller
     public function index()
     {
         return app(LanguageQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('languages/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('languages/Index', $data));
     }
 
     #[Get('create', name: 'languages.create')]
@@ -80,8 +79,7 @@ class LanguageController extends Controller
     {
         $count = Language::query()->findMany($request->input('ids'))
             ->each(fn (Language $language) => $language->delete())
-            ->count()
-        ;
+            ->count();
 
         return redirect()->route('admin.languages')->with('flash.success', __(':count languages deleted.', ['count' => $count]));
     }

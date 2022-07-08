@@ -36,7 +36,7 @@ class SerieExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSiz
     }
 
     /**
-     * @param Book $row
+     * @param  Book  $row
      */
     public function map($row): array
     {

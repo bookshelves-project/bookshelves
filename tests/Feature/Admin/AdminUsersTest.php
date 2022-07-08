@@ -167,8 +167,7 @@ test('admin can store user', function () {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/users')
-    ;
+        ->assertRedirect('/admin/users');
 
     assertDatabaseHas('users', [
         'name' => 'example',
@@ -185,8 +184,7 @@ test('admin cannot store user with invalid data', function () {
 
     $response
         ->assertStatus(302)
-        ->assertSessionHasErrors(['name'])
-    ;
+        ->assertSessionHasErrors(['name']);
 });
 
 test('admin can update user', function () {
@@ -203,8 +201,7 @@ test('admin can update user', function () {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/users')
-    ;
+        ->assertRedirect('/admin/users');
 
     assertDatabaseHas('users', [
         'name' => 'example',
@@ -223,8 +220,7 @@ test('admin cannot update user with invalid data', function () {
 
     $response
         ->assertStatus(302)
-        ->assertSessionHasErrors(['name'])
-    ;
+        ->assertSessionHasErrors(['name']);
 });
 
 test('admin can toggle non active user to active', function () {
@@ -239,8 +235,7 @@ test('admin can toggle non active user to active', function () {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/users')
-    ;
+        ->assertRedirect('/admin/users');
 
     assertDatabaseHas('users', [
         'active' => true,
@@ -257,8 +252,7 @@ test('admin can delete user', function () {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/users')
-    ;
+        ->assertRedirect('/admin/users');
 
     assertDatabaseMissing('users', [
         'email' => 'user@example.com',
@@ -275,8 +269,7 @@ test('admin can delete multiple users', function () {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/users')
-    ;
+        ->assertRedirect('/admin/users');
 
     assertDatabaseCount('users', 1);
 });

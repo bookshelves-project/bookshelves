@@ -37,8 +37,7 @@ class CreateGoogleBooksTable extends Migration
             $table->foreign('google_book_id')
                 ->references('id')
                 ->on('google_books')
-                ->nullOnDelete()
-            ;
+                ->nullOnDelete();
         });
     }
 

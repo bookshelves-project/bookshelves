@@ -191,7 +191,6 @@ class MarkdownService
             // ->addExtension(new StrikethroughExtension())
             // ->addExtension(new TableOfContentsExtension())
             ->addExtension(new TableExtension())
-            ->addExtension(new TaskListExtension())
-        ;
+            ->addExtension(new TaskListExtension());
     }
 }

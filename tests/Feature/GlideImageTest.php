@@ -17,8 +17,7 @@ test('media return good url', function () {
 
     $media = $post->addMedia(database_path('media/placeholder.jpg'))
         ->preservingOriginal()
-        ->toMediaCollection('featured-image')
-    ;
+        ->toMediaCollection('featured-image');
 
     expect($media->getUrl())->toBe("/storage/{$media->id}/placeholder.jpg");
 });
@@ -46,8 +45,7 @@ test('existing glide image return image', function () {
     /** @var Media */
     $media = $post->addMedia(database_path('media/placeholder.jpg'))
         ->preservingOriginal()
-        ->toMediaCollection('featured-image', 'public')
-    ;
+        ->toMediaCollection('featured-image', 'public');
 
     $response = get(
         $media->glide(['w' => 10, 'h' => 10, 'method' => 'fit'])->getUrl()

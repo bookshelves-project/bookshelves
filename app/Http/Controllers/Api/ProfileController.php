@@ -108,16 +108,14 @@ class ProfileController extends ApiController
             $media = base64_encode(File::get($media));
 
             $service->setMedia($media)
-                ->setColor()
-            ;
+                ->setColor();
 
             $model->save();
 
             // @phpstan-ignore-next-line
             Image::load($model->getMedia($field)->first()?->getPath())
                 ->crop(Manipulations::CROP_CENTER, $format['width'], $format['height'])
-                ->save()
-            ;
+                ->save();
         }
     }
 }

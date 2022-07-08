@@ -15,9 +15,13 @@ use Spatie\QueryBuilder\QueryBuilder;
 abstract class BaseQuery
 {
     public QueryOption $option;
+
     protected Builder|QueryBuilder $query;
+
     protected $export;
+
     protected string $resource;
+
     protected int $size = 15;
 
     public function paginate(): LengthAwarePaginator

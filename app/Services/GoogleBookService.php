@@ -47,8 +47,7 @@ class GoogleBookService
 
         $service->getQueries()
             ->search()
-            ->convert()
-        ;
+            ->convert();
 
         return $service;
     }

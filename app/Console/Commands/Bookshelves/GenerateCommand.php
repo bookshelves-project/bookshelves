@@ -88,7 +88,7 @@ class GenerateCommand extends CommandProd
 
             return false;
         }
-        $this->comment('Files detected: '.sizeof($list));
+        $this->comment('Files detected: '.count($list));
         $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie');
         $this->info('- Generate new EPUB file with standard name');
         $this->newLine();
@@ -111,7 +111,7 @@ class GenerateCommand extends CommandProd
 
         $start = microtime(true);
 
-        $bar = $this->output->createProgressBar(sizeof($list));
+        $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($list as $file) {
             $parser = ParserEngine::create($file, $debug);

@@ -18,8 +18,7 @@ trait HasBooksCollection
     {
         $entity = $this->getClassNamespace()::whereSlug($this->slug)
             ->with('books.media')
-            ->first()
-        ;
+            ->first();
 
         return $this->getSizesList($entity);
     }
@@ -39,7 +38,7 @@ trait HasBooksCollection
                 $sizes[$format]['size'] += $media?->size;
                 // @phpstan-ignore-next-line
                 if ($media?->size) {
-                    ++$sizes[$format]['count'];
+                    $sizes[$format]['count']++;
                 }
             }
         }

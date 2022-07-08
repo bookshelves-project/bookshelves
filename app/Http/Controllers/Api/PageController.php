@@ -36,8 +36,7 @@ class PageController extends ApiController
                 sortAsc: true,
                 full: false,
             ))
-            ->paginateOrExport()
-        ;
+            ->paginateOrExport();
     }
 
     /**

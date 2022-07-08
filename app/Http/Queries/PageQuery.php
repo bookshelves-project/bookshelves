@@ -30,8 +30,7 @@ class PageQuery extends BaseQuery
             ])
             ->allowedSorts(['id', 'title', 'created_at', 'updated_at'])
             ->with($option->with)
-            ->orderByDesc($this->option->orderBy)
-        ;
+            ->orderByDesc($this->option->orderBy);
 
         if ($this->option->withExport) {
             $this->export = new PageExport($this->query);

@@ -37,7 +37,6 @@ class PostCategory extends Model implements Sortable
         return SlugOptions::create()
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug')
-            ->doNotGenerateSlugsOnUpdate()
-        ;
+            ->doNotGenerateSlugsOnUpdate();
     }
 }

@@ -44,7 +44,6 @@ class Breadcrumbs
                     'name' => $link['text'],
                     'item' => $link['href'],
                 ]
-            )->toArray())
-        ;
+            )->toArray());
     }
 }

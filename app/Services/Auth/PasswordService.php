@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 class PasswordService
 {
     public const MIN_TIMEOUT = 10;
+
     public const MAX_TIMEOUT = 86400;
 
     public static function forgot(PasswordForgotRequest $request)

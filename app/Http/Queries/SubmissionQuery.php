@@ -30,8 +30,7 @@ class SubmissionQuery extends BaseQuery
                 AllowedFilter::partial('email'),
             ])
             ->allowedSorts(['id', 'name', 'email', 'created_at', 'updated_at'])
-            ->with($option->with)
-        ;
+            ->with($option->with);
 
         if ($this->option->withExport) {
             $this->export = new SubmissionExport($this->query);

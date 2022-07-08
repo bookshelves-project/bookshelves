@@ -26,7 +26,6 @@ trait HasPublishStatus
     public function scopePublishedBetween(Builder $query, $startDate, $endDate)
     {
         return $query
-            ->whereBetween('published_at', [Carbon::parse($startDate), Carbon::parse($endDate)])
-        ;
+            ->whereBetween('published_at', [Carbon::parse($startDate), Carbon::parse($endDate)]);
     }
 }

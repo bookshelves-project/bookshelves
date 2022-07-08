@@ -22,8 +22,7 @@ class CreatePublishersTable extends Migration
             $table->foreign('publisher_id')
                 ->references('id')
                 ->on('publishers')
-                ->nullOnDelete()
-            ;
+                ->nullOnDelete();
         });
     }
 

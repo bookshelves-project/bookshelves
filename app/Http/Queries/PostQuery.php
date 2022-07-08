@@ -42,8 +42,7 @@ class PostQuery extends BaseQuery
                 }),
             ])
             ->allowedSorts(['id', 'title', 'published_at', 'created_at', 'updated_at'])
-            ->with($option->with)
-        ;
+            ->with($option->with);
 
         if ($this->option->withExport) {
             $this->export = new PostExport($this->query);

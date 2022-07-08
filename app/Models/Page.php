@@ -37,12 +37,10 @@ class Page extends Model implements HasMedia
     {
         $this->addMediaCollection('featured-image')
             ->singleFile()
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
-        ;
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
 
         $this->addMediaCollection('page-images')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
-        ;
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
     }
 
     public function getCoverAttribute(): string

@@ -100,7 +100,7 @@ class ArchiveParser
         $zip->open($this->engine->file_path);
 
         $zip_files_list = [];
-        for ($i = 0; $i < $zip->numFiles; ++$i) {
+        for ($i = 0; $i < $zip->numFiles; $i++) {
             $file = $zip->statIndex($i);
             $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
@@ -116,7 +116,7 @@ class ArchiveParser
         $this->parseXml();
 
         if ($this->engine->cover_name) {
-            for ($i = 0; $i < $zip->numFiles; ++$i) {
+            for ($i = 0; $i < $zip->numFiles; $i++) {
                 $cover = $zip->getFromName($this->engine->cover_name);
                 $this->engine->cover_file = base64_encode($cover);
             }
@@ -143,7 +143,7 @@ class ArchiveParser
         if ($this->find_cover) {
             natsort($zip_files_list);
             $this->zip_files_list = array_values($zip_files_list);
-            if (sizeof($this->zip_files_list) > 0) {
+            if (count($this->zip_files_list) > 0) {
                 $this->engine->cover_name = $this->zip_files_list[0];
             }
         }

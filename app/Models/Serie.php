@@ -106,6 +106,7 @@ class Serie extends Model implements HasMedia
     public function searchableAs()
     {
         $app = config('bookshelves.name');
+
         return "{$app}_serie";
     }
 
@@ -138,8 +139,7 @@ class Serie extends Model implements HasMedia
     {
         return $this->hasMany(Book::class)
             ->where('disabled', false)
-            ->orderBy('volume')
-        ;
+            ->orderBy('volume');
     }
 
     public function updateSlug()

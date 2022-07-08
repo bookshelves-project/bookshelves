@@ -52,12 +52,10 @@ class Post extends Model implements HasMedia
     {
         $this->addMediaCollection('featured-image')
             ->singleFile()
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
-        ;
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
 
         $this->addMediaCollection('post-images')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
-        ;
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
     }
 
     /**
@@ -68,8 +66,7 @@ class Post extends Model implements HasMedia
         return SlugOptions::create()
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug')
-            ->doNotGenerateSlugsOnUpdate()
-        ;
+            ->doNotGenerateSlugsOnUpdate();
     }
 
     public function getCoverAttribute(): string
@@ -97,6 +94,7 @@ class Post extends Model implements HasMedia
     public function searchableAs()
     {
         $app = config('bookshelves.name');
+
         return "{$app}_post";
     }
 

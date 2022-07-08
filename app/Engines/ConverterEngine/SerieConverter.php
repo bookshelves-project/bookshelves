@@ -72,8 +72,7 @@ class SerieConverter
                 $cover = base64_encode(File::get($book->cover_book->getPath()));
                 MediaService::create($serie, $serie->slug, $disk)
                     ->setMedia($cover)
-                    ->setColor()
-                ;
+                    ->setColor();
             }
 
             $serie->save();

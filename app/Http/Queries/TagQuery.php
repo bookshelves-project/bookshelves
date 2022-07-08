@@ -36,8 +36,7 @@ class TagQuery extends BaseQuery
             ])
             ->allowedSorts(['id', 'name', 'slug', 'type', 'first_char', 'books_count', 'series_count', 'created_at', 'updated_at'])
             ->with($option->with)
-            ->withCount('books', 'series')
-        ;
+            ->withCount('books', 'series');
 
         if ($this->option->withExport) {
             $this->export = new TagExport($this->query);

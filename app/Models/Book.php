@@ -61,15 +61,18 @@ class Book extends Model implements HasMedia
         'serie_id',
         'publisher_id',
     ];
+
     protected $with = [
         'language',
         'authors',
         'serie',
         'media',
     ];
+
     protected $appends = [
         'isbn',
     ];
+
     protected $casts = [
         'released_on' => 'datetime',
         'disabled' => 'boolean',
@@ -94,8 +97,7 @@ class Book extends Model implements HasMedia
         $files = [];
         foreach (BookFormatEnum::toValues() as $format) {
             $media = $this->getMedia($format)
-                ->first(null, MediaExtended::class)
-            ;
+                ->first(null, MediaExtended::class);
             $files[$format] = is_string($media) ? null : $media;
         }
 
@@ -113,8 +115,7 @@ class Book extends Model implements HasMedia
         $files = [];
         foreach (BookFormatEnum::toValues() as $format) {
             $media = $this->getMedia($format)
-                ->first(null, MediaExtended::class)
-            ;
+                ->first(null, MediaExtended::class);
             $files[$format] = is_string($media) ? null : $media;
         }
 
@@ -190,8 +191,7 @@ class Book extends Model implements HasMedia
     public function scopePublishedBetween(Builder $query, string $startDate, string $endDate): Builder
     {
         return $query
-            ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)])
-        ;
+            ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)]);
     }
 
     /**
@@ -219,8 +219,7 @@ class Book extends Model implements HasMedia
     public function scopeWhereSerieTitleIs(Builder $query, $title): Builder
     {
         return $query
-            ->whereRelation('serie', 'title', '=', $title)
-        ;
+            ->whereRelation('serie', 'title', '=', $title);
     }
 
     public function scopeWhereIsbnIs(Builder $query, $isbn): Builder
@@ -239,6 +238,7 @@ class Book extends Model implements HasMedia
     public function searchableAs()
     {
         $app = config('bookshelves.name');
+
         return "{$app}_book";
     }
 

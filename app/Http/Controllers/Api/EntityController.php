@@ -30,8 +30,7 @@ class EntityController extends ApiController
     {
         $books = Book::orderByDesc('updated_at')
             ->limit(10)
-            ->get()
-        ;
+            ->get();
 
         return EntityResource::collection($books);
     }
@@ -47,8 +46,7 @@ class EntityController extends ApiController
 
         $selection = Selectionable::orderBy('updated_at')
             ->limit(10)
-            ->get()
-        ;
+            ->get();
 
         return EntityResource::collection($selection);
     }
@@ -87,8 +85,7 @@ class EntityController extends ApiController
 
         $reviews = Review::whereReviewableType($this->getEntity($entity))
             ->whereReviewableId($id)
-            ->paginate($this->getPaginationSize($request, 5))
-        ;
+            ->paginate($this->getPaginationSize($request, 5));
 
         return ReviewResource::collection($reviews);
     }

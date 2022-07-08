@@ -122,8 +122,7 @@ class User extends Authenticatable implements HasMedia
     public function favorites()
     {
         return $this->hasMany(Favoritable::class)
-            ->orderBy('created_at')
-        ;
+            ->orderBy('created_at');
     }
 
     // public function roles(): BelongsToMany

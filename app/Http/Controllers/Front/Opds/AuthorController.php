@@ -22,8 +22,7 @@ class AuthorController extends Controller
         $engine = OpdsEngine::create($request);
         $entities = Author::with('books', 'media')
             ->orderBy('lastname')
-            ->get()
-        ;
+            ->get();
 
         return $engine->entities(EntityEnum::author, $entities);
     }
@@ -34,8 +33,7 @@ class AuthorController extends Controller
         $engine = OpdsEngine::create($request);
         $entity = Author::with('books.authors', 'books.tags', 'books.media', 'books.serie', 'books.language')
             ->whereSlug($author_slug)
-            ->firstOrFail()
-        ;
+            ->firstOrFail();
         $books = $entity->books;
 
         return $engine->entities(EntityEnum::book, $books, "{$entity->lastname} {$entity->firstname}");

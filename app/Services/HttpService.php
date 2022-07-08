@@ -17,8 +17,11 @@ use Illuminate\Support\Facades\Http;
 class HttpService
 {
     public const MAX_CURL_HANDLES = 100;
+
     public const MAX_REDIRECTS = 10;
+
     public const REQUEST_TIMEOUT = 30;
+
     public const GUZZLE_CONCURRENCY = 5;
 
     /**
@@ -44,9 +47,9 @@ class HttpService
              * Chunk by limit into arrays.
              */
             $limit = config('http.pool_limit');
-            $size = sizeof($url_list);
+            $size = count($url_list);
             $chunk = array_chunk($url_list, $limit, true);
-            $chunk_size = sizeof($chunk);
+            $chunk_size = count($chunk);
             if ($size > 0) {
                 ConsoleService::print('HttpService will setup async requests...');
                 ConsoleService::print("Pool is limited to {$limit} from .env, {$size} requests will become {$chunk_size} chunks.");
@@ -59,7 +62,7 @@ class HttpService
              * @var array $limited_url_list
              */
             foreach ($chunk as $chunk_key => $limited_url_list) {
-                $size_list = sizeof($limited_url_list);
+                $size_list = count($limited_url_list);
                 $current_chunk = $chunk_key + 1;
                 ConsoleService::print("Execute {$size_list} requests from chunk {$current_chunk}...");
                 $responses = self::pool($limited_url_list);

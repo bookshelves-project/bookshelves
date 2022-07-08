@@ -40,8 +40,7 @@ test('admin can list posts', function () {
         ->create([
             'title' => 'My post title',
             'summary' => 'My post summary',
-        ])
-    ;
+        ]);
 
     $response = get('/admin/posts');
 
@@ -141,8 +140,7 @@ test('admin can sort posts', function (string $sort, $expected) {
                 'title' => 'My post title 2',
                 'published_at' => Carbon::make('2020-02-01'),
             ],
-        ])
-    ;
+        ]);
 
     $response = get("/admin/posts?sort={$sort}");
 
@@ -179,8 +177,7 @@ test('admin can filter posts', function (array $filter, int $total) {
                 'published_at' => Carbon::make('2021-01-01'),
                 'pin' => false,
             ],
-        ])
-    ;
+        ]);
 
     $query = filterAsQuery($filter);
     $response = get("/admin/posts?{$query}");
@@ -228,8 +225,7 @@ test('admin can render post edit page', function () {
     $post = Post::factory()->create();
     $post->addMedia(database_path('media/placeholder.jpg'))
         ->preservingOriginal()
-        ->toMediaCollection('featured-image')
-    ;
+        ->toMediaCollection('featured-image');
 
     $response = get("/admin/posts/{$post->id}/edit");
 
@@ -251,8 +247,7 @@ test('admin can store post', function (array $data, array $expected) {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/posts')
-    ;
+        ->assertRedirect('/admin/posts');
 
     assertDatabaseHas('posts', $expected);
 })->with([[
@@ -309,8 +304,7 @@ test('admin can store post with image', function () {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/posts')
-    ;
+        ->assertRedirect('/admin/posts');
 
     assertDatabaseHas('media', [
         'file_name' => 'placeholder.jpg',
@@ -326,15 +320,13 @@ test('admin cannot store post with invalid data', function (array $data, array $
 
     $response
         ->assertStatus(302)
-        ->assertSessionHasErrors($expected)
-    ;
+        ->assertSessionHasErrors($expected);
 })->with('invalid_posts');
 
 test('admin can update post', function (array $initial, array $data, array $expected) {
     $post = Post::factory()
         ->for(PostCategory::factory(), 'category')
-        ->create($initial)
-    ;
+        ->create($initial);
 
     $response = put(
         route('admin.posts.update', [
@@ -348,8 +340,7 @@ test('admin can update post', function (array $initial, array $data, array $expe
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/posts')
-    ;
+        ->assertRedirect('/admin/posts');
 
     assertDatabaseHas('posts', $expected);
 })->with([[
@@ -391,8 +382,7 @@ test('admin can update post with image', function () {
 
     $post = Post::factory()
         ->for(PostCategory::factory(), 'category')
-        ->create()
-    ;
+        ->create();
 
     $response = put("/admin/posts/{$post->id}", [
         'category_id' => $post->category->id,
@@ -405,8 +395,7 @@ test('admin can update post with image', function () {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/posts')
-    ;
+        ->assertRedirect('/admin/posts');
 
     assertDatabaseHas('media', [
         'file_name' => 'placeholder.jpg',
@@ -419,13 +408,11 @@ test('admin can delete image of post', function () {
     /** @var Post */
     $post = Post::factory()
         ->for(PostCategory::factory(), 'category')
-        ->create()
-    ;
+        ->create();
 
     $post->addMedia(database_path('media/placeholder.jpg'))
         ->preservingOriginal()
-        ->toMediaCollection('featured-image')
-    ;
+        ->toMediaCollection('featured-image');
 
     $response = put("/admin/posts/{$post->id}", [
         'category_id' => $post->category->id,
@@ -436,8 +423,7 @@ test('admin can delete image of post', function () {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/posts')
-    ;
+        ->assertRedirect('/admin/posts');
 
     assertDatabaseCount('media', 0);
 });
@@ -446,8 +432,7 @@ test('admin cannot update post with invalid data', function (array $data, array 
     $post = Post::factory()
         ->draft()
         ->for(PostCategory::factory(), 'category')
-        ->create()
-    ;
+        ->create();
 
     $response = put(
         route('admin.posts.update', [
@@ -460,8 +445,7 @@ test('admin cannot update post with invalid data', function (array $data, array 
 
     $response
         ->assertStatus(302)
-        ->assertSessionHasErrors($expected)
-    ;
+        ->assertSessionHasErrors($expected);
 })->with('invalid_posts');
 
 test('admin can toggle post', function (string $attribute) {
@@ -476,8 +460,7 @@ test('admin can toggle post', function (string $attribute) {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/posts')
-    ;
+        ->assertRedirect('/admin/posts');
 
     assertDatabaseHas('posts', [
         $attribute => true,
@@ -494,8 +477,7 @@ test('admin can delete post', function () {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/posts')
-    ;
+        ->assertRedirect('/admin/posts');
 
     assertDatabaseMissing('posts', [
         'title' => 'My deleted post',
@@ -512,8 +494,7 @@ test('admin can delete multiple posts', function () {
     $response
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirect('/admin/posts')
-    ;
+        ->assertRedirect('/admin/posts');
 
     assertDatabaseCount('posts', 0);
 });

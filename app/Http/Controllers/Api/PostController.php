@@ -36,8 +36,7 @@ class PostController extends ApiController
                 sortAsc: false,
                 full: $this->getFull($request),
             ))
-            ->paginateOrExport()
-        ;
+            ->paginateOrExport();
     }
 
     /**

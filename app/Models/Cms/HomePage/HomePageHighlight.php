@@ -11,6 +11,7 @@ class HomePageHighlight extends Model implements HasMedia
 {
     use HasTranslations;
     use InteractsWithMedia;
+
     public $translatable = [
         'title',
         'text',
@@ -20,6 +21,7 @@ class HomePageHighlight extends Model implements HasMedia
     ];
 
     protected $table = 'cms_home_page_highlights';
+
     protected $fillable = [
         'title',
         'text',
@@ -28,6 +30,7 @@ class HomePageHighlight extends Model implements HasMedia
         'quote_text',
         'quote_author',
     ];
+
     protected $casts = [
         'cta_link' => 'array',
     ];

@@ -67,8 +67,8 @@
         "barryvdh/laravel-ide-helper": "^2.12",
         "beyondcode/laravel-dump-server": "^1.8",
         "fakerphp/faker": "^1.9.1",
-        "friendsofphp/php-cs-fixer": "^3.6",
         "knuckleswtf/scribe": "^3.23",
+        "laravel/pint": "^0.2.3",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
@@ -116,7 +116,8 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:models --nowrite --reset",
             "@php artisan ide-helper:eloquent",
-            "@php artisan matice:generate"
+            "@php artisan matice:generate",
+            "./vendor/bin/pint"
         ],
         "doc": [
             "@php artisan view:clear",
@@ -124,7 +125,7 @@
             "@php artisan scribe:generate --force"
         ],
         "format": [
-            "php-cs-fixer fix --ansi"
+            "./vendor/bin/pint"
         ],
         "analyse": [
             "phpstan analyse --ansi --memory-limit=4G"

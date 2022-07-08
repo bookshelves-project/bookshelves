@@ -24,8 +24,7 @@ class CreatePostCategoriesTable extends Migration
                 ->nullable()
                 ->after('id')
                 ->constrained('post_categories')
-                ->onDelete('set null')
-            ;
+                ->onDelete('set null');
         });
     }
 

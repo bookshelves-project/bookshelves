@@ -33,8 +33,7 @@ class PublisherQuery extends BaseQuery
             ])
             ->allowedSorts(['id', 'name', 'slug', 'books_count', 'created_at', 'updated_at'])
             ->with($option->with)
-            ->withCount('books')
-        ;
+            ->withCount('books');
 
         if ($this->option->withExport) {
             $this->export = new LanguageExport($this->query);

@@ -73,11 +73,11 @@ class AuthorConverter
 
         $author_name = explode(' ', $creator->name);
         if (config('bookshelves.authors.order_natural')) {
-            $lastname = $author_name[sizeof($author_name) - 1];
+            $lastname = $author_name[count($author_name) - 1];
             array_pop($author_name);
             $firstname = implode(' ', $author_name);
         } else {
-            $firstname = $author_name[sizeof($author_name) - 1];
+            $firstname = $author_name[count($author_name) - 1];
             array_pop($author_name);
             $lastname = implode(' ', $author_name);
         }

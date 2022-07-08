@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 class QueryOption
 {
     public string $sortDirection = '';
+
     public string $defaultSort = '-id';
 
     public function __construct(

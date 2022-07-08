@@ -16,8 +16,7 @@ class ConsoleService
         $output = new ConsoleOutput();
         $style = new OutputFormatterStyle($color, '', []);
         $output->getFormatter()
-            ->setStyle('info', $style)
-        ;
+            ->setStyle('info', $style);
 
         if ($th) {
             $output->writeln("<info>Error about {$message}</info>\n");
@@ -32,8 +31,7 @@ class ConsoleService
         $output = new ConsoleOutput();
         $style = new OutputFormatterStyle('red', '', ['bold']);
         $output->getFormatter()
-            ->setStyle('info', $style)
-        ;
+            ->setStyle('info', $style);
         $output->writeln('');
     }
 }

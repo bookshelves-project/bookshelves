@@ -28,8 +28,7 @@ class FavoriteController extends ApiController
         $favorites = Favoritable::whereUserId($userId)
             ->with(['favoritable'])
             ->orderBy('created_at', 'DESC')
-            ->get()
-        ;
+            ->get();
 
         return FavoriteResource::collection($favorites);
     }
@@ -50,7 +49,7 @@ class FavoriteController extends ApiController
             $user = User::find($user);
 
             $favoriteExist = $model_name::find($entity->id)->favorites;
-            if (sizeof($favoriteExist) < 1) {
+            if (count($favoriteExist) < 1) {
                 $entity->favorites()->save($user);
                 $favoriteExist = $model_name::find($entity->id)->favorites;
             } else {

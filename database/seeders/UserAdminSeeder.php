@@ -21,8 +21,7 @@ class UserAdminSeeder extends Seeder
     {
         User::where('role', '!=', 'publisher')
             ->where('role', '!=', 'user')
-            ->delete()
-        ;
+            ->delete();
 
         // DatabaseSeeder::deleteRoles();
         // if (! Role::exists()) {

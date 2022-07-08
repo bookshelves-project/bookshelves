@@ -21,17 +21,23 @@ class SearchEngine
 
     /** @var Collection<int,Author> */
     public ?Collection $authors = null;
+
     /** @var Collection<int,Serie> */
     public ?Collection $series = null;
+
     /** @var Collection<int,Book> */
     public ?Collection $books = null;
 
     public ?AnonymousResourceCollection $authors_relevant = null;
+
     public ?AnonymousResourceCollection $series_relevant = null;
+
     public ?AnonymousResourceCollection $books_relevant = null;
 
     public ?AnonymousResourceCollection $authors_other = null;
+
     public ?AnonymousResourceCollection $series_other = null;
+
     public ?AnonymousResourceCollection $books_other = null;
 
     public function __construct(
@@ -122,8 +128,7 @@ class SearchEngine
                     ->get()
                 : $class::whereLike($search_on, $this->q)
                     ->with($with)
-                    ->get()
-                ;
+                    ->get();
         }
     }
 }

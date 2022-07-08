@@ -32,8 +32,7 @@ class AuthorQuery extends BaseQuery
             ])
             ->allowedSorts(['id', 'firstname', 'lastname', 'name', 'role', 'books_count', 'series_count', 'created_at', 'updated_at'])
             ->with($option->with)
-            ->withCount('series', 'books')
-        ;
+            ->withCount('series', 'books');
 
         if ($this->option->withExport) {
             $this->export = new AuthorExport($this->query);

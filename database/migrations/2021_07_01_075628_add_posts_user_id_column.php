@@ -16,8 +16,7 @@ class AddPostsUserIdColumn extends Migration
                 ->nullable()
                 ->after('id')
                 ->constrained('users')
-                ->onDelete('set null')
-            ;
+                ->onDelete('set null');
         });
     }
 

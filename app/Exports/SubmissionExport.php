@@ -36,7 +36,7 @@ class SubmissionExport implements FromQuery, WithHeadings, WithMapping, ShouldAu
     }
 
     /**
-     * @param User $row
+     * @param  User  $row
      */
     public function map($row): array
     {

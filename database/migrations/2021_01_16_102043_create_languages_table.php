@@ -21,8 +21,7 @@ class CreateLanguagesTable extends Migration
             $table->foreign('language_slug')
                 ->references('slug')
                 ->on('languages')
-                ->nullOnDelete()
-            ;
+                ->nullOnDelete();
         });
 
         Schema::table('series', function (Blueprint $table) {
@@ -30,8 +29,7 @@ class CreateLanguagesTable extends Migration
             $table->foreign('language_slug')
                 ->references('slug')
                 ->on('languages')
-                ->nullOnDelete()
-            ;
+                ->nullOnDelete();
         });
     }
 

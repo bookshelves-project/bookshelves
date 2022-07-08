@@ -29,8 +29,7 @@ class SubmissionController extends ApiController
             ]);
 
             Notification::route('mail', [config('mail.to.address') => config('mail.to.name')])
-                ->notify(new SubmissionNotification($submission))
-            ;
+                ->notify(new SubmissionNotification($submission));
         }
 
         return response()->json([

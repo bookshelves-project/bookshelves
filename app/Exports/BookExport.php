@@ -36,7 +36,7 @@ class BookExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
     }
 
     /**
-     * @param Book $row
+     * @param  Book  $row
      */
     public function map($row): array
     {

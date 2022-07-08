@@ -33,8 +33,7 @@ class AuthorController extends Controller
     public function index()
     {
         return app(AuthorQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('authors/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('authors/Index', $data));
     }
 
     #[Get('create', name: 'authors.create')]
@@ -88,8 +87,7 @@ class AuthorController extends Controller
     {
         $count = Author::query()->findMany($request->input('ids'))
             ->each(fn (Author $author) => $author->delete())
-            ->count()
-        ;
+            ->count();
 
         return redirect()->route('admin.authors')->with('flash.success', __(':count authors deleted.', ['count' => $count]));
     }

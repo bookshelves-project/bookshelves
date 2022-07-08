@@ -41,8 +41,7 @@ class SerieQuery extends BaseQuery
             ])
             ->allowedSorts(['id', 'title', 'authors', 'books_count', 'language', 'created_at', 'updated_at', 'language'])
             ->with($option->with)
-            ->withCount('books', 'tags')
-        ;
+            ->withCount('books', 'tags');
 
         if ($this->option->withExport) {
             $this->export = new SerieExport($this->query);

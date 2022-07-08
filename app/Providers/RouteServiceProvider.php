@@ -42,60 +42,49 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'))
-            ;
+                ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
                 ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'))
-            ;
+                ->group(base_path('routes/web.php'));
         });
 
         // Auth specific actions routes...
         Route::group(['middleware' => ['web']], function () {
             Route::post('/login', [AuthenticatedSessionController::class, 'store'])
                 ->middleware(['guest', 'throttle:login'])
-                ->name('login')
-            ;
+                ->name('login');
 
             Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->name('logout')
-            ;
+                ->name('logout');
 
             Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
                 ->middleware(['guest'])
-                ->name('password.email')
-            ;
+                ->name('password.email');
 
             Route::post('/reset-password', [NewPasswordController::class, 'store'])
                 ->middleware(['guest'])
-                ->name('password.update')
-            ;
+                ->name('password.update');
 
             Route::post('/register', [RegisteredUserController::class, 'store'])
                 ->middleware(['guest'])
-                ->name('register')
-                ;
+                ->name('register');
 
             Route::put('/user/profile-information', [ProfileInformationController::class, 'update'])
                 ->middleware(['auth'])
-                ->name('user-profile-information.update')
-            ;
+                ->name('user-profile-information.update');
 
             Route::put('/user/password', [PasswordController::class, 'update'])
                 ->middleware(['auth'])
-                ->name('user-password.update')
-            ;
+                ->name('user-password.update');
 
             Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store'])
                 ->middleware(['auth'])
-                ->name('password.confirm')
-            ;
+                ->name('password.confirm');
 
             Route::delete('/user', [DestroyUserController::class, 'destroy'])
                 ->middleware(['auth'])
-                ->name('current-user.destroy')
-            ;
+                ->name('current-user.destroy');
         });
 
         Route::prefix('api')
@@ -105,23 +94,19 @@ class RouteServiceProvider extends ServiceProvider
                     (new RouteRegistrar(app(Router::class)))
                         ->useRootNamespace(app()->getNamespace())
                         ->useMiddleware(['web'])
-                        ->registerDirectory(app_path('Http/Controllers/Api'))
-                    ;
+                        ->registerDirectory(app_path('Http/Controllers/Api'));
                 }
-            )
-        ;
+            );
 
         (new RouteRegistrar(app(Router::class)))
             ->useRootNamespace(app()->getNamespace())
             ->useMiddleware(['web'])
-            ->registerDirectory(app_path('Http/Controllers/Front'))
-        ;
+            ->registerDirectory(app_path('Http/Controllers/Front'));
 
         (new RouteRegistrar(app(Router::class)))
             ->useRootNamespace(app()->getNamespace())
             ->useMiddleware(['web'])
-            ->registerDirectory(app_path('Http/Controllers/Webreader'))
-        ;
+            ->registerDirectory(app_path('Http/Controllers/Webreader'));
 
         // Admin dedicated routes...
         Route::prefix('admin')
@@ -132,18 +117,15 @@ class RouteServiceProvider extends ServiceProvider
                     (new RouteRegistrar(app(Router::class)))
                         ->useRootNamespace(app()->getNamespace())
                         ->useMiddleware(['web'])
-                        ->registerClass(AdminAuthController::class)
-                    ;
+                        ->registerClass(AdminAuthController::class);
 
                     // Admin authenticated routes...
                     (new RouteRegistrar(app(Router::class)))
                         ->useRootNamespace(app()->getNamespace())
                         ->useMiddleware(['web', 'auth:sanctum', 'can:access-admin'])
-                        ->registerDirectory(app_path('Http/Controllers/Admin'))
-                    ;
+                        ->registerDirectory(app_path('Http/Controllers/Admin'));
                 }
-            )
-        ;
+            );
 
         Route::get('glide/{path}', [ImageController::class, 'glide'])->where('path', '.+');
     }

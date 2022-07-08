@@ -24,8 +24,7 @@ class CreateCmsHomePageHighlightsTable extends Migration
             $table->foreign('home_page_id')
                 ->references('id')
                 ->on('cms_home_pages')
-                ->nullOnDelete()
-            ;
+                ->nullOnDelete();
             $table->timestamps();
         });
     }

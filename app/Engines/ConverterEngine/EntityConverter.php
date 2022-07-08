@@ -80,8 +80,7 @@ class EntityConverter
                 $model->clearMediaCollection($disk->value);
                 MediaService::create($model, $model->slug, $disk)
                     ->setMedia($cover)
-                    ->setColor()
-                ;
+                    ->setColor();
             }
         }
 
@@ -96,8 +95,7 @@ class EntityConverter
             $author->clearMediaCollection($disk->value);
             MediaService::create($author, $author->slug, $disk)
                 ->setMedia(base64_encode(File::get($placeholder)))
-                ->setColor()
-            ;
+                ->setColor();
         }
 
         return $author;

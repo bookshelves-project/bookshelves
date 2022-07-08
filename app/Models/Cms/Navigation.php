@@ -19,6 +19,7 @@ class Navigation extends Model
     public $timestamps = false;
 
     protected $table = 'cms_navigations';
+
     protected $fillable = [
         'title',
         'route',

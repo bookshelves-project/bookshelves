@@ -32,8 +32,7 @@ class PageController extends Controller
     public function index()
     {
         return app(PageQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('pages/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('pages/Index', $data));
     }
 
     #[Get('create', name: 'pages.create')]
@@ -73,8 +72,7 @@ class PageController extends Controller
 
         if ($request->featured_image_file) {
             $page->addMediaFromRequest('featured_image_file')
-                ->toMediaCollection('featured-image')
-            ;
+                ->toMediaCollection('featured-image');
         }
 
         return redirect()->route('admin.pages')->with('flash.success', __('Page updated.'));
@@ -93,8 +91,7 @@ class PageController extends Controller
     {
         $count = Page::query()->findMany($request->input('ids'))
             ->each(fn (Page $page) => $page->delete())
-            ->count()
-        ;
+            ->count();
 
         return redirect()->route('admin.pages')->with('flash.success', __(':count Pages deleted.', ['count' => $count]));
     }

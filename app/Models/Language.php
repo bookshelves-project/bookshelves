@@ -19,13 +19,17 @@ class Language extends Model
     use HasTranslations;
 
     public $incrementing = false;
+
     public $timestamps = false;
+
     public $translatable = [
         'name',
     ];
 
     protected $primaryKey = 'slug';
+
     protected $keyType = 'string';
+
     protected $fillable = [
         'slug',
         'name',
@@ -35,6 +39,7 @@ class Language extends Model
         // 'books',
         // 'series',
     ];
+
     protected $appends = [
         'first_char',
         'id',

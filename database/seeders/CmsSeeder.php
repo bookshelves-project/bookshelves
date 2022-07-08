@@ -71,26 +71,22 @@ class CmsSeeder extends Seeder
         // Set favicon.
         MediaService::create($application, "{$application->slug}-favicon", self::DISK, collection: 'cms_application_favicon', extension: 'svg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/favicon.svg'))))
-            ->setColor()
-        ;
+            ->setColor();
 
         // Set icon.
         MediaService::create($application, "{$application->slug}-icon", self::DISK, collection: 'cms_application_icon', extension: 'svg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/icon.svg'))))
-            ->setColor()
-        ;
+            ->setColor();
 
         // Set logo.
         MediaService::create($application, "{$application->slug}-logo", self::DISK, collection: 'cms_application_logo', extension: 'png')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/icon.png'))))
-            ->setColor()
-        ;
+            ->setColor();
 
         // Set OpenGraph.
         MediaService::create($application, "{$application->slug}-og", self::DISK, collection: 'cms_application_og', extension: 'jpg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/open_graph.jpg'))))
-            ->setColor()
-        ;
+            ->setColor();
     }
 
     private function setHomePage()
@@ -105,8 +101,7 @@ class CmsSeeder extends Seeder
 
         MediaService::create($home_page, 'cms_hero', self::DISK, collection: 'cms_hero', extension: 'svg')
             ->setMedia(base64_encode(File::get(database_path('seeders/media/cms/home-page/hero.svg'))))
-            ->setColor()
-        ;
+            ->setColor();
 
         $this->setHomePageStatistics();
         $this->setHomePageLogos();
@@ -135,8 +130,7 @@ class CmsSeeder extends Seeder
             $logo = File::get(database_path("seeders/media/cms/home-page/logos/{$raw['slug']}.webp"));
             MediaService::create($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_logos', extension: 'webp', method: SpatieMediaMethodEnum::addMediaFromString)
                 ->setMedia($logo)
-                ->setColor()
-            ;
+                ->setColor();
         }
     }
 
@@ -151,8 +145,7 @@ class CmsSeeder extends Seeder
             $logo = SvgService::setColor(database_path("seeders/media/cms/home-page/features/{$raw['slug']}.svg"), $raw['slug'], '#ffffff');
             MediaService::create($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
                 ->setMedia($logo)
-                ->setColor()
-            ;
+                ->setColor();
         }
     }
 
@@ -167,14 +160,12 @@ class CmsSeeder extends Seeder
             $icon = SvgService::setColor(database_path("seeders/media/cms/home-page/highlight/icon-{$raw['slug']}.svg"), 'icon-'.$raw['slug'], '#564fcc');
             MediaService::create($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_highlights_icons', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
                 ->setMedia($icon)
-                ->setColor()
-            ;
+                ->setColor();
 
             $picture = File::get(database_path("seeders/media/cms/home-page/highlight/{$raw['slug']}.svg"));
             MediaService::create($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_highlights', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
                 ->setMedia($picture)
-                ->setColor()
-            ;
+                ->setColor();
         }
     }
 }

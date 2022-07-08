@@ -21,6 +21,7 @@ class Publisher extends Model
     use HasNegligible;
 
     public $timestamps = false;
+
     protected $fillable = [
         'name',
         'slug',
@@ -37,8 +38,7 @@ class Publisher extends Model
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug')
-        ;
+            ->saveSlugsTo('slug');
     }
 
     public function getShowLinkAttribute(): string

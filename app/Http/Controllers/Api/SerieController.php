@@ -48,8 +48,7 @@ class SerieController extends ApiController
                 sortAsc: true,
                 full: $this->getFull($request)
             ))
-            ->paginateOrExport()
-        ;
+            ->paginateOrExport();
     }
 
     /**
@@ -60,6 +59,7 @@ class SerieController extends ApiController
     public function show(Request $request, Author $author, Serie $serie)
     {
         $this->getLang($request);
+
         return SerieResource::make($serie);
     }
 

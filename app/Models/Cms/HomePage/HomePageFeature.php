@@ -11,18 +11,21 @@ class HomePageFeature extends Model implements HasMedia
 {
     use HasTranslations;
     use InteractsWithMedia;
+
     public $translatable = [
         'title',
         'text',
     ];
 
     protected $table = 'cms_home_page_features';
+
     protected $fillable = [
         'title',
         'slug',
         'link',
         'text',
     ];
+
     protected $casts = [
         'link' => 'array',
     ];

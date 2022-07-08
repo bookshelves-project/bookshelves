@@ -33,8 +33,7 @@ class PublisherController extends Controller
     public function index()
     {
         return app(PublisherQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('publishers/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('publishers/Index', $data));
     }
 
     #[Get('create', name: 'publishers.create')]
@@ -88,8 +87,7 @@ class PublisherController extends Controller
     {
         $count = Publisher::query()->findMany($request->input('ids'))
             ->each(fn (Publisher $publisher) => $publisher->delete())
-            ->count()
-        ;
+            ->count();
 
         return redirect()->route('admin.publishers')->with('flash.success', __(':count publishers deleted.', ['count' => $count]));
     }

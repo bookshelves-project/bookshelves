@@ -73,6 +73,7 @@ class MarkdownToHtmlService
     public static function improveHtml(string $html): string
     {
         $html = preg_replace('/<a(.*?)>/', '<a$1 target="_blank" rel="noopener noreferrer">', $html);
+
         return preg_replace('/<img(.*?)>/', '<img$1 loading="lazy">', $html);
     }
 
@@ -88,8 +89,7 @@ class MarkdownToHtmlService
             $image = base64_encode(File::get($this->path_image));
             MediaService::create($model, $model->{$model_name_attr}, MediaDiskEnum::cms, $featured_image_name)
                 ->setMedia($image)
-                ->setColor()
-            ;
+                ->setColor();
         }
 
         foreach ($this->image_paths as $name) {
@@ -98,8 +98,7 @@ class MarkdownToHtmlService
                 $src = base64_encode(File::get($path_src));
                 MediaService::create($model, $name, MediaDiskEnum::cms, $inside_images_name)
                     ->setMedia($src)
-                    ->setColor()
-                ;
+                    ->setColor();
             }
         }
         // @phpstan-ignore-next-line
@@ -157,6 +156,7 @@ class MarkdownToHtmlService
         $html = str_replace('<html><body>', '', $html);
         $html = str_replace('</body></html>', '', $html);
         $html = str_replace('<p><img', '<img', $html);
+
         return str_replace('"></p>', '">', $html);
     }
 

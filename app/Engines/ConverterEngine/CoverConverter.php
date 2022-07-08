@@ -27,8 +27,7 @@ class CoverConverter
             try {
                 MediaService::create($converter->book, $converter->book->slug, MediaDiskEnum::cover)
                     ->setMedia($converter->parser->cover_file)
-                    ->setColor()
-                ;
+                    ->setColor();
             } catch (\Throwable $th) {
                 ConsoleService::print(__METHOD__, 'red', $th);
                 ConsoleService::newLine();
@@ -77,8 +76,7 @@ class CoverConverter
             $model->clearMediaCollection($disk->value);
             MediaService::create($model, $model->slug, $disk)
                 ->setMedia($local_cover)
-                ->setColor()
-            ;
+                ->setColor();
 
             $model->save();
         }

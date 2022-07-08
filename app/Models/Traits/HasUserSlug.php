@@ -10,9 +10,9 @@ trait HasUserSlug
     /**
      * Generate a slug for Model.
      *
-     * @param mixed  $model     instance of current model
-     * @param string $attribute linked to slug like `title`
-     * @param bool   $with_tag  add a random number tag to allow model to have same $attribute with different `slug`
+     * @param  mixed  $model     instance of current model
+     * @param  string  $attribute linked to slug like `title`
+     * @param  bool  $with_tag  add a random number tag to allow model to have same $attribute with different `slug`
      */
     public static function generateSlug(mixed $model, string $attribute, bool $with_tag = false): string
     {
@@ -40,9 +40,9 @@ trait HasUserSlug
     /**
      * Check if attribute link to slug is updated.
      *
-     * @param string $attribute in Model, like `title` or `name`
-     * @param string $value     new value for previous attibute from Request
-     * @param bool   $with_tag  add a random number tag to allow model to have same $attribute with different `slug`
+     * @param  string  $attribute in Model, like `title` or `name`
+     * @param  string  $value     new value for previous attibute from Request
+     * @param  bool  $with_tag  add a random number tag to allow model to have same $attribute with different `slug`
      */
     public function slugAttributeIsUpdated(string $attribute, string $value, bool $with_tag = false): string
     {
