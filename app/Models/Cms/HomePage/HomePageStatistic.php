@@ -37,7 +37,8 @@ class HomePageStatistic extends Model
 
         if ($this->modelWhere) {
             $count = $class::where($this->modelWhere[0], $this->modelWhere[1])
-                ->count();
+                ->count()
+            ;
         } else {
             $count = $class::count();
         }

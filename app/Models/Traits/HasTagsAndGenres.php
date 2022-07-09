@@ -71,7 +71,8 @@ trait HasTagsAndGenres
     {
         return $this
             ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
-            ->orderBy('order_column');
+            ->orderBy('order_column')
+        ;
     }
 
     public function syncTagsList(array|ArrayAccess $tags): static

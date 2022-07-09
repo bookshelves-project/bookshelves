@@ -139,7 +139,8 @@ class Serie extends Model implements HasMedia
     {
         return $this->hasMany(Book::class)
             ->where('disabled', false)
-            ->orderBy('volume');
+            ->orderBy('volume')
+        ;
     }
 
     public function updateSlug()

@@ -35,7 +35,8 @@ class LanguageQuery extends BaseQuery
             ])
             ->allowedSorts(['id', 'name', 'slug', 'created_at', 'updated_at'])
             ->with($option->with)
-            ->withCount('books', 'series');
+            ->withCount('books', 'series')
+        ;
 
         if ($this->option->withExport) {
             $this->export = new LanguageExport($this->query);

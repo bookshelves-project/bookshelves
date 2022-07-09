@@ -17,7 +17,8 @@ trait PasswordValidationRules
         $password
             ->requireNumeric()
             ->requireUppercase()
-            ->requireSpecialCharacter();
+            ->requireSpecialCharacter()
+        ;
 
         return ['required', 'string', $password, 'confirmed'];
         // return ['required', 'string', new Password(), 'confirmed'];

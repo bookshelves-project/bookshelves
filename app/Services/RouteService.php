@@ -106,7 +106,8 @@ class RouteService
                     try {
                         if (is_string($model_name)) {
                             $entity = $model_name::inRandomOrder()
-                                ->first();
+                                ->first()
+                            ;
                             $params_example[$param['parameter']] = $entity->slug;
                         }
                     } catch (\Throwable $th) {

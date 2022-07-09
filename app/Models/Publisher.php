@@ -38,7 +38,8 @@ class Publisher extends Model
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
+            ->saveSlugsTo('slug')
+        ;
     }
 
     public function getShowLinkAttribute(): string

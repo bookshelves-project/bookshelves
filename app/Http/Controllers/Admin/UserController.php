@@ -36,7 +36,8 @@ class UserController extends Controller
     public function index()
     {
         return app(UserQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('users/Index', ['action' => 'list'] + $data));
+            ->paginateOrExport(fn ($data) => Inertia::render('users/Index', ['action' => 'list'] + $data))
+        ;
     }
 
     #[Get('create', name: 'users.create')]
@@ -107,7 +108,8 @@ class UserController extends Controller
         $count = User::query()->findMany($request->input('ids'))
             ->filter(fn (User $user) => Auth::user()->can('modify-user', $user))
             ->each(fn (User $user) => $user->delete())
-            ->count();
+            ->count()
+        ;
 
         return redirect()->route('admin.users')->with('flash.success', __(':count users deleted.', ['count' => $count]));
     }

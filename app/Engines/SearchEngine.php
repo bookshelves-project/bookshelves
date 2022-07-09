@@ -128,7 +128,8 @@ class SearchEngine
                     ->get()
                 : $class::whereLike($search_on, $this->q)
                     ->with($with)
-                    ->get();
+                    ->get()
+                ;
         }
     }
 }

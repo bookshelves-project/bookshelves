@@ -67,7 +67,8 @@ class SvgService
     public static function setColor(string $svg_path, string $slug, string $hexa_color): string
     {
         $icons = Collection::fromPath(pathinfo($svg_path)['dirname'])
-            ->addTransformer(new Cleaner());
+            ->addTransformer(new Cleaner())
+        ;
         $svg = $icons->get($slug);
 
         $type = str_contains($svg->__toString(), 'stroke="currentColor"')

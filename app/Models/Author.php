@@ -66,7 +66,8 @@ class Author extends Model implements HasMedia
     {
         return SlugOptions::create()
             ->generateSlugsFrom(['lastname', 'firstname'])
-            ->saveSlugsTo('slug');
+            ->saveSlugsTo('slug')
+        ;
     }
 
     public function getShowLinkAttribute(): string
@@ -158,7 +159,8 @@ class Author extends Model implements HasMedia
     {
         return $this->morphedByMany(Book::class, 'authorable')
             ->orderBy('slug_sort')
-            ->orderBy('volume');
+            ->orderBy('volume')
+        ;
     }
 
     /**
@@ -169,7 +171,8 @@ class Author extends Model implements HasMedia
         return $this->morphedByMany(Book::class, 'authorable')
             ->where('disabled', false)
             ->orderBy('slug_sort')
-            ->orderBy('volume');
+            ->orderBy('volume')
+        ;
     }
 
     /**
@@ -181,7 +184,8 @@ class Author extends Model implements HasMedia
             ->where('disabled', false)
             ->whereDoesntHave('serie')
             ->orderBy('slug_sort')
-            ->orderBy('volume');
+            ->orderBy('volume')
+        ;
     }
 
     /**
@@ -191,6 +195,7 @@ class Author extends Model implements HasMedia
     {
         return $this->morphedByMany(Serie::class, 'authorable')
             ->orderBy('slug_sort')
-            ->withCount('books');
+            ->withCount('books')
+        ;
     }
 }

@@ -4,16 +4,17 @@
   "rules": {
     "array_indentation": true,
     "array_syntax": true,
-    "align_multiline_comment": true,
     "blank_line_after_opening_tag": true,
+    "blank_line_before_statement": false,
     "blank_line_after_namespace": true,
-    "cast_spaces": true,
-    "combine_consecutive_unsets": true,
     "explicit_string_variable": false,
     "indentation_type": true,
     "lambda_not_used_import": false,
     "linebreak_after_opening_tag": true,
     "method_chaining_indentation": true,
+    "multiline_whitespace_before_semicolons": {
+      "strategy": "new_line_for_chained_calls"
+    },
     "no_empty_comment": false,
     "no_extra_blank_lines": {
       "tokens": [

@@ -33,7 +33,8 @@ class StubController extends Controller
     public function index()
     {
         return app(StubQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('stubsKebab/Index', $data));
+            ->paginateOrExport(fn ($data) => Inertia::render('stubsKebab/Index', $data))
+        ;
     }
 
     #[Get('create', name: 'stubsKebab.create')]
@@ -87,7 +88,8 @@ class StubController extends Controller
     {
         $count = Stub::query()->findMany($request->input('ids'))
             ->each(fn (Stub $stubPascal) => $stubPascal->delete())
-            ->count();
+            ->count()
+        ;
 
         return redirect()->route('admin.stubsKebab')->with('flash.success', __(':count Stubs deleted.', ['count' => $count]));
     }

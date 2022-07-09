@@ -23,7 +23,8 @@ class SerieController extends Controller
         $engine = OpdsEngine::create($request);
         $entities = Serie::with('books', 'authors', 'media')
             ->orderBy('slug_sort')
-            ->get();
+            ->get()
+        ;
 
         return $engine->entities(EntityEnum::author, $entities);
     }
@@ -34,7 +35,8 @@ class SerieController extends Controller
         $engine = OpdsEngine::create($request);
         $entity = Author::with('series.books', 'series.books.authors', 'series.books.tags', 'series.books.media', 'series.books.serie', 'series.books.language')
             ->whereSlug($author_slug)
-            ->firstOrFail();
+            ->firstOrFail()
+        ;
         $serie = $entity->series->firstWhere('slug', $serie_slug);
         $books = $serie->books;
 

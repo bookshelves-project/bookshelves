@@ -30,7 +30,8 @@ class CreateWikipediaItemsTable extends Migration
             $table->foreign('wikipedia_item_id')
                 ->references('id')
                 ->on('wikipedia_items')
-                ->nullOnDelete();
+                ->nullOnDelete()
+            ;
         });
 
         Schema::table('series', function (Blueprint $table) {
@@ -38,7 +39,8 @@ class CreateWikipediaItemsTable extends Migration
             $table->foreign('wikipedia_item_id')
                 ->references('id')
                 ->on('wikipedia_items')
-                ->nullOnDelete();
+                ->nullOnDelete()
+            ;
         });
     }
 

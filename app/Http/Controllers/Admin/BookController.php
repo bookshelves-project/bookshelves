@@ -34,7 +34,8 @@ class BookController extends Controller
     public function index()
     {
         return app(BookQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('books/Index', $data));
+            ->paginateOrExport(fn ($data) => Inertia::render('books/Index', $data))
+        ;
     }
 
     #[Get('create', name: 'books.create')]
@@ -83,7 +84,8 @@ class BookController extends Controller
 
         if ($request->cover_file) {
             $book->addMediaFromRequest('cover_file')
-                ->toMediaCollection('books');
+                ->toMediaCollection('books')
+            ;
         }
 
         return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
@@ -114,7 +116,8 @@ class BookController extends Controller
     {
         $count = Book::query()->findMany($request->input('ids'))
             ->each(fn (Book $book) => $book->delete())
-            ->count();
+            ->count()
+        ;
 
         return redirect()->route('admin.books')->with('flash.success', __(':count books deleted.', ['count' => $count]));
     }

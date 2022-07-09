@@ -120,7 +120,8 @@ class BookshelvesParameter extends Strategy
     {
         $book = Book::inRandomOrder()
             ->whereNotNull('serie_id')
-            ->first();
+            ->first()
+        ;
 
         return [
             ...$this->volume($book),

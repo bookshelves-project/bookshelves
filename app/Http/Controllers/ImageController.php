@@ -18,7 +18,8 @@ class ImageController extends Controller
                 SignatureFactory::create($key)
                     ->validateRequest($request->path(), $request->only([
                         'ts', 'w', 'h', 'fit', 's',
-                    ]));
+                    ]))
+                ;
             } catch (SignatureException $e) {
                 abort(403);
             }

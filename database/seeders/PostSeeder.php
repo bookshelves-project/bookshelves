@@ -153,7 +153,8 @@ class PostSeeder extends Seeder
             ]);
 
             $category = PostCategory::whereName($md->category)
-                ->first();
+                ->first()
+            ;
             if (null === $category) {
                 $category = PostCategory::create([
                     'name' => $md->category,
@@ -161,7 +162,8 @@ class PostSeeder extends Seeder
             }
             $post->category()->associate($category);
             $user = User::whereId(1)
-                ->first();
+                ->first()
+            ;
             $post->user()->associate($user);
             $post->save();
 

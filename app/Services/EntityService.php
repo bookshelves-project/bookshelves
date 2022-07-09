@@ -16,7 +16,8 @@ class EntityService
         // get related books by tags, same lang
         $related_books = Book::withAllTags($book->tags)
             ->whereLanguageSlug($book->language_slug)
-            ->get();
+            ->get()
+        ;
 
         // get serie of current book
         $serie_books = Serie::whereSlug($book->serie?->slug)->first();

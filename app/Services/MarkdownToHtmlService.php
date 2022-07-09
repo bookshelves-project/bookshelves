@@ -89,7 +89,8 @@ class MarkdownToHtmlService
             $image = base64_encode(File::get($this->path_image));
             MediaService::create($model, $model->{$model_name_attr}, MediaDiskEnum::cms, $featured_image_name)
                 ->setMedia($image)
-                ->setColor();
+                ->setColor()
+            ;
         }
 
         foreach ($this->image_paths as $name) {
@@ -98,7 +99,8 @@ class MarkdownToHtmlService
                 $src = base64_encode(File::get($path_src));
                 MediaService::create($model, $name, MediaDiskEnum::cms, $inside_images_name)
                     ->setMedia($src)
-                    ->setColor();
+                    ->setColor()
+                ;
             }
         }
         // @phpstan-ignore-next-line

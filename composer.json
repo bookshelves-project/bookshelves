@@ -117,7 +117,7 @@
             "@php artisan ide-helper:models --nowrite --reset",
             "@php artisan ide-helper:eloquent",
             "@php artisan matice:generate",
-            "./vendor/bin/pint"
+            "pint"
         ],
         "doc": [
             "@php artisan view:clear",
@@ -125,7 +125,7 @@
             "@php artisan scribe:generate --force"
         ],
         "format": [
-            "./vendor/bin/pint"
+            "pint"
         ],
         "analyse": [
             "phpstan analyse --ansi --memory-limit=4G"

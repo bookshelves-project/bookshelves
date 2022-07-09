@@ -18,7 +18,8 @@ trait HasBooksCollection
     {
         $entity = $this->getClassNamespace()::whereSlug($this->slug)
             ->with('books.media')
-            ->first();
+            ->first()
+        ;
 
         return $this->getSizesList($entity);
     }

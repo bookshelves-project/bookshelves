@@ -19,7 +19,8 @@ class CreateReviewsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->onDelete('cascade')
+            ;
             $table->foreignId('reviewable_id')->nullable();
             $table->string('reviewable_type')->nullable();
             $table->timestamps();

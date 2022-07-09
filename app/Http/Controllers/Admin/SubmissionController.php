@@ -19,7 +19,8 @@ class SubmissionController extends Controller
     public function index()
     {
         return app(SubmissionQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('submissions/Index', $data));
+            ->paginateOrExport(fn ($data) => Inertia::render('submissions/Index', $data))
+        ;
     }
 
     #[Get('submissions', name: 'submissions.create')]
@@ -44,7 +45,8 @@ class SubmissionController extends Controller
     {
         $count = Submission::query()->findMany($request->input('ids'))
             ->each(fn (Submission $submission) => $submission->delete())
-            ->count();
+            ->count()
+        ;
 
         return redirect()->route('admin.submissions')->with('flash.success', __(':count submissions deleted.', ['count' => $count]));
     }

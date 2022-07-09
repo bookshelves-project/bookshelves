@@ -23,7 +23,8 @@ class UserController extends ApiController
     {
         $users = User::orderBy('name')
             ->with('reviews')
-            ->get();
+            ->get()
+        ;
 
         return UserListResource::collection($users);
     }
@@ -47,7 +48,8 @@ class UserController extends ApiController
             ->orderBy('created_at', 'desc')
             ->paginate(
                 $this->getPaginationSize($request)
-            );
+            )
+        ;
 
         return ReviewResource::collection($reviews);
     }
@@ -63,7 +65,8 @@ class UserController extends ApiController
             ->orderBy('created_at', 'desc')
             ->paginate(
                 $this->getPaginationSize($request)
-            );
+            )
+        ;
 
         return FavoriteResource::collection($favorites);
     }

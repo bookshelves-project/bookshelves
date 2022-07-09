@@ -34,7 +34,8 @@ class PostController extends Controller
     public function index()
     {
         return app(PostQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('posts/Index', $data));
+            ->paginateOrExport(fn ($data) => Inertia::render('posts/Index', $data))
+        ;
     }
 
     #[Get('create', name: 'posts.create')]
@@ -62,7 +63,8 @@ class PostController extends Controller
 
         if ($request->featured_image_file) {
             $post->addMediaFromRequest('featured_image_file')
-                ->toMediaCollection('featured-image');
+                ->toMediaCollection('featured-image')
+            ;
         }
 
         return redirect()->route('admin.posts')->with('flash.success', __('Post created.'));
@@ -81,7 +83,8 @@ class PostController extends Controller
 
         if ($request->featured_image_file) {
             $post->addMediaFromRequest('featured_image_file')
-                ->toMediaCollection('featured-image');
+                ->toMediaCollection('featured-image')
+            ;
         }
 
         return redirect()->route('admin.posts')->with('flash.success', __('Post updated.'));
@@ -112,7 +115,8 @@ class PostController extends Controller
     {
         $count = Post::query()->findMany($request->input('ids'))
             ->each(fn (Post $post) => $post->delete())
-            ->count();
+            ->count()
+        ;
 
         return redirect()->route('admin.posts')->with('flash.success', __(':count posts deleted.', ['count' => $count]));
     }

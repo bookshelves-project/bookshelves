@@ -33,7 +33,8 @@ class SerieController extends Controller
     public function index()
     {
         return app(SerieQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('series/Index', $data));
+            ->paginateOrExport(fn ($data) => Inertia::render('series/Index', $data))
+        ;
     }
 
     #[Get('create', name: 'series.create')]
@@ -89,7 +90,8 @@ class SerieController extends Controller
     {
         $count = Serie::query()->findMany($request->input('ids'))
             ->each(fn (Serie $serie) => $serie->delete())
-            ->count();
+            ->count()
+        ;
 
         return redirect()->route('admin.series')->with('flash.success', __(':count series deleted.', ['count' => $count]));
     }

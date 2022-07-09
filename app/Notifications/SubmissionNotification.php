@@ -45,7 +45,8 @@ class SubmissionNotification extends Notification
             ->subject($subject)
             ->markdown('views.emails.submission', [
                 'submission' => $this->submission,
-            ]);
+            ])
+        ;
     }
 
     /**

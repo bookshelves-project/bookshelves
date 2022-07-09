@@ -44,7 +44,8 @@ class TagController extends ApiController
                 sortAsc: true,
                 full: $this->getFull($request),
             ))
-            ->paginateOrExport();
+            ->paginateOrExport()
+        ;
     }
 
     /**

@@ -81,7 +81,8 @@ class ConverterEngine
             );
         }
         $book = $book->whereType($this->parser->type)
-            ->first();
+            ->first()
+        ;
 
         return null !== $book ? $book : false;
     }

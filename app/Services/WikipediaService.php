@@ -113,7 +113,8 @@ class WikipediaService
 
                 // @phpstan-ignore-next-line
                 $query = WikipediaQuery::create($query, $model->id, $lang, $this)
-                    ->getQueryUrl();
+                    ->getQueryUrl()
+                ;
 
                 $this->queries->add($query);
             } else {

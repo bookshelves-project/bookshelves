@@ -25,7 +25,8 @@ class UserSeeder extends Seeder
 
         User::where('role', '!=', 'super_admin')
             ->where('role', '!=', 'admin')
-            ->delete();
+            ->delete()
+        ;
 
         Storage::disk('public')->deleteDirectory('media/users');
         $faker = \Faker\Factory::create();
@@ -51,12 +52,14 @@ class UserSeeder extends Seeder
             if ($faker->boolean(75)) {
                 MediaService::create($user, $user->slug, MediaDiskEnum::user, 'avatar')
                     ->setMedia(DatabaseSeeder::generateAvatar())
-                    ->setColor();
+                    ->setColor()
+                ;
             }
             if ($faker->boolean()) {
                 MediaService::create($user, "{$user->slug}-banner", MediaDiskEnum::user, 'banner')
                     ->setMedia(DatabaseSeeder::generateBanner())
-                    ->setColor();
+                    ->setColor()
+                ;
             }
 
             $user->save();

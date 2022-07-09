@@ -65,7 +65,8 @@ class HandleInertiaRequests extends Middleware
                     'chart_colors' => ChartColorEnum::class,
                     'submission_reasons' => SubmissionReasonEnum::class,
                 ])
-                    ->mapWithKeys(fn ($enum, $key) => [$key => $enum::toArray()]);
+                    ->mapWithKeys(fn ($enum, $key) => [$key => $enum::toArray()])
+                ;
             },
             'repositoryUrl' => config('app.repository_url'),
             'documentationUrl' => config('app.documentation_url'),

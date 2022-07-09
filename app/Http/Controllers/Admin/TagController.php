@@ -40,7 +40,8 @@ class TagController extends Controller
     public function index()
     {
         return app(TagQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('tags/Index', $data));
+            ->paginateOrExport(fn ($data) => Inertia::render('tags/Index', $data))
+        ;
     }
 
     #[Get('create', name: 'tags.create')]
@@ -94,7 +95,8 @@ class TagController extends Controller
     {
         $count = TagExtend::query()->findMany($request->input('ids'))
             ->each(fn (TagExtend $tag) => $tag->delete())
-            ->count();
+            ->count()
+        ;
 
         return redirect()->route('admin.tags')->with('flash.success', __(':count tags deleted.', ['count' => $count]));
     }

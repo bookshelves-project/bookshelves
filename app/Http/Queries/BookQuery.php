@@ -66,7 +66,8 @@ class BookQuery extends BaseQuery
             ])
             ->allowedSorts(['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'isbn', 'publisher',  'released_on', 'created_at', 'updated_at'])
             ->with($option->with)
-            ->withCount('tags');
+            ->withCount('tags')
+        ;
 
         if ($this->option->withExport) {
             $this->export = new BookExport($this->query);

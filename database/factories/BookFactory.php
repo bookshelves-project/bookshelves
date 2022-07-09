@@ -55,13 +55,17 @@ class BookFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             $authors = Author::factory(2)
-                ->create();
+                ->create()
+            ;
             $serie = Serie::factory()
-                ->create();
+                ->create()
+            ;
             $language = Language::factory()
-                ->create();
+                ->create()
+            ;
             $publisher = Publisher::factory()
-                ->create();
+                ->create()
+            ;
 
             return [
                 // 'serie_id' => $serie->id,

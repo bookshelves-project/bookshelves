@@ -32,7 +32,8 @@ class UserQuery extends BaseQuery
                 AllowedFilter::exact('role'),
                 AllowedFilter::exact('active'),
             ])
-            ->allowedSorts(['id', 'name', 'last_login_at', 'created_at', 'updated_at']);
+            ->allowedSorts(['id', 'name', 'last_login_at', 'created_at', 'updated_at'])
+        ;
 
         if ($this->option->withExport) {
             $this->export = new UserExport($this->query);
