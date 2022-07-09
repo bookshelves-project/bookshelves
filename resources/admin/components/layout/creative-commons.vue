@@ -19,8 +19,8 @@ import Nc from '@admin/svg/nc.svg'
 import { computed } from 'vue'
 
 const year = computed(() => {
-  let begin = 2020
-  let current = new Date().getFullYear()
+  const begin = 2020
+  const current = new Date().getFullYear()
   return begin !== current ? `${begin} - ${current}` : current
 })
 </script>

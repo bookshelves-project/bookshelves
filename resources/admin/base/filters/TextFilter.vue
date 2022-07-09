@@ -1,5 +1,8 @@
 <template>
-  <input :value="modelValue" type="text" @input="onFilter" />
+  <input
+    :value="modelValue"
+    type="text"
+    @input="onFilter" />
 </template>
 
 <script lang="ts" setup>

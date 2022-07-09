@@ -1,5 +1,8 @@
 <template>
-  <edit-context v-slot="{ title }" resource="languages" :item="language">
+  <edit-context
+    v-slot="{ title }"
+    resource="languages"
+    :item="language">
     <app-layout>
       <template #header>
         <page-header>
@@ -11,7 +14,9 @@
         </page-header>
       </template>
 
-      <language-form :method="method" :url="url" />
+      <language-form
+        :method="method"
+        :url="url" />
     </app-layout>
   </edit-context>
 </template>

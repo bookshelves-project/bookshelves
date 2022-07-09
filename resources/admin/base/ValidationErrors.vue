@@ -1,7 +1,13 @@
 <template>
-  <div v-if="hasErrors" class="bg-red-500 rounded-md p-3">
+  <div
+    v-if="hasErrors"
+    class="bg-red-500 rounded-md p-3">
     <ul class="text-base text-white">
-      <li v-for="(error, key) in errors" :key="key">{{ error }}</li>
+      <li
+        v-for="(error, key) in errors"
+        :key="key">
+        {{ error }}
+      </li>
     </ul>
   </div>
 </template>

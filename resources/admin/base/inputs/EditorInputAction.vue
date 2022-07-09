@@ -12,7 +12,9 @@ const { callMethod } = useEditorInput()
 
 <template>
   <span class="button-action">
-    <div v-if="button.seperator" class="flex h-full">
+    <div
+      v-if="button.seperator"
+      class="flex h-full">
       <div
         class="bg-gray-400 dark:bg-gray-600 mx-3 w-[1px] h-3/5 my-auto"
       ></div>

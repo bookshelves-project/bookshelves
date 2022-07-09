@@ -47,11 +47,15 @@
     </template>
 
     <template #actions="{ processing, recentlySuccessful }">
-      <action-message :on="recentlySuccessful" class="mr-3">
+      <action-message
+        :on="recentlySuccessful"
+        class="mr-3">
         {{ $t('Saved.') }}
       </action-message>
 
-      <base-button type="submit" :loading="processing">
+      <base-button
+        type="submit"
+        :loading="processing">
         {{ $t('Save') }}
       </base-button>
     </template>

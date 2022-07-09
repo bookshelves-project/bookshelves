@@ -15,7 +15,10 @@ const url = route('admin.stubsKebab.update', { id: props.stubPascal.id })
 </script>
 
 <template>
-  <edit-context v-slot="{ title }" resource="stubsKebab" :item="stubPascal">
+  <edit-context
+    v-slot="{ title }"
+    resource="stubsKebab"
+    :item="stubPascal">
     <app-layout :title="stubPascal.stubAttr">
       <template #header>
         <page-header>
@@ -27,7 +30,9 @@ const url = route('admin.stubsKebab.update', { id: props.stubPascal.id })
         </page-header>
       </template>
 
-      <stubKebab-form :method="method" :url="url" />
+      <stubKebab-form
+        :method="method"
+        :url="url" />
     </app-layout>
   </edit-context>
 </template>

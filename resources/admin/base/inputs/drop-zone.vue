@@ -14,8 +14,8 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 const emit = defineEmits(['files-dropped'])
 
-let active = ref(false)
-let inActiveTimeout = ref<NodeJS.Timeout>()
+const active = ref(false)
+const inActiveTimeout = ref<NodeJS.Timeout>()
 
 // setActive and setInactive use timeouts, so that when you drag an item over a child element,
 // the dragleave event that is fired won't cause a flicker. A few ms should be plenty of

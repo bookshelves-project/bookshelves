@@ -42,7 +42,8 @@ export default class Downloader {
 
         this.loaded += value.byteLength
         // const status = `Received ${receivedLength} of ${contentLength}`
-        progress({ loaded: this.loaded, total: this.total })
+        progress({ loaded: this.loaded,
+          total: this.total })
         const element = document.getElementById('downloadStatus')!
         element.textContent = this.downloadStatus
       }

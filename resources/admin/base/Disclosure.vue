@@ -31,8 +31,12 @@
                 itemText ? element[itemText] : element
               }}</span>
             </DisclosureButton>
-            <div v-if="editable" class="flex items-center gap-4 px-6">
-              <button type="button" @click="deletePanel(index)">
+            <div
+              v-if="editable"
+              class="flex items-center gap-4 px-6">
+              <button
+                type="button"
+                @click="deletePanel(index)">
                 <trash-icon class="w-5 h-5 text-red-500" />
               </button>
               <span class="handle cursor-move">
@@ -49,8 +53,13 @@
             leave-to-class="transform scale-95 opacity-0"
           >
             <DisclosurePanel class="px-6 py-4 text-base text-gray-500">
-              <slot :item="element" :index="index" />
-              <slot :name="`panel-${index}`" :item="element" :open="open" />
+              <slot
+                :item="element"
+                :index="index" />
+              <slot
+                :name="`panel-${index}`"
+                :item="element"
+                :open="open" />
             </DisclosurePanel>
           </transition>
         </Disclosure>

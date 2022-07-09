@@ -1,5 +1,7 @@
 <template>
-  <list-context v-slot="{ title }" resource="submissions">
+  <list-context
+    v-slot="{ title }"
+    resource="submissions">
     <app-layout :title="title">
       <data-table
         :source="submissions"

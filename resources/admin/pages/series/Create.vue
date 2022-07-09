@@ -1,5 +1,7 @@
 <template>
-  <create-context v-slot="{ title }" resource="series">
+  <create-context
+    v-slot="{ title }"
+    resource="series">
     <app-layout>
       <template #header>
         <page-header>
@@ -10,7 +12,9 @@
         </page-header>
       </template>
 
-      <serie-form :method="method" :url="url" />
+      <serie-form
+        :method="method"
+        :url="url" />
     </app-layout>
   </create-context>
 </template>

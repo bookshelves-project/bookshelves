@@ -8,7 +8,10 @@
       :url="route('password.update')"
     >
       <div>
-        <text-input source="email" type="email" required />
+        <text-input
+          source="email"
+          type="email"
+          required />
       </div>
 
       <div class="mt-4">
@@ -31,7 +34,10 @@
       </div>
 
       <div class="mt-4">
-        <base-button type="submit" class="w-full" :loading="processing">
+        <base-button
+          type="submit"
+          class="w-full"
+          :loading="processing">
           {{ $t('Reset Password') }}
         </base-button>
       </div>

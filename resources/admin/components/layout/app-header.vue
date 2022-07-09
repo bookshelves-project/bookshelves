@@ -6,19 +6,28 @@
       @click="sidebarOpen"
     >
       <span class="sr-only">Open sidebar</span>
-      <MenuAlt1Icon class="h-6 w-6" aria-hidden="true" />
+      <MenuAlt1Icon
+        class="h-6 w-6"
+        aria-hidden="true" />
     </button>
     <!-- Search bar -->
     <div class="flex-1 px-4 flex justify-between sm:px-6 lg:px-8">
       <div class="flex-1 flex my-2">
-        <form class="w-full flex md:ml-0" action="#" method="GET">
-          <label for="search-field" class="sr-only">Search</label>
+        <form
+          class="w-full flex md:ml-0"
+          action="#"
+          method="GET">
+          <label
+            for="search-field"
+            class="sr-only">Search</label>
           <div class="relative w-full text-gray-400 focus-within:text-gray-600">
             <div
               class="absolute inset-y-0 left-2 flex items-center pointer-events-none"
               aria-hidden="true"
             >
-              <SearchIcon class="h-5 w-5" aria-hidden="true" />
+              <SearchIcon
+                class="h-5 w-5"
+                aria-hidden="true" />
             </div>
             <input
               id="search-field"
@@ -35,7 +44,9 @@
       <div class="ml-4 flex items-center md:ml-6">
         <color-mode />
         <!-- Profile dropdown -->
-        <Menu as="div" class="ml-3 relative">
+        <Menu
+          as="div"
+          class="ml-3 relative">
           <div>
             <MenuButton
               class="max-w-xs rounded-full flex items-center text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 lg:p-2 lg:rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -47,8 +58,8 @@
                 /> -->
               <span
                 class="hidden ml-3 text-gray-700 dark:text-gray-400 text-base font-medium lg:block"
-                ><span class="sr-only">Open user menu for </span
-                >{{ $page.props.auth.name }}</span
+              ><span class="sr-only">Open user menu for </span
+              >{{ $page.props.auth.name }}</span
               >
               <ChevronDownIcon
                 class="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
@@ -74,7 +85,9 @@
                     active ? 'bg-gray-100 dark:bg-gray-700' : '',
                     'block px-4 py-2 text-base text-gray-700 dark:text-gray-300',
                   ]"
-                  >{{ $t('Profile') }}</inertia-link
+                >
+                  {{ $t('Profile') }}
+                </inertia-link
                 >
               </MenuItem>
               <MenuItem v-if="$page.props.auth.is_impersonating">
@@ -140,7 +153,7 @@ onMounted(() => {
 })
 
 const sidebarOpen = () => {
-  let store = useIndexStore()
+  const store = useIndexStore()
   store.toggleSidebar()
 }
 </script>

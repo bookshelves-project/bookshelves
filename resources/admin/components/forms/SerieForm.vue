@@ -1,9 +1,17 @@
 <template>
-  <base-form ref="form" v-slot="{ processing }" :method="method" :url="url">
+  <base-form
+    ref="form"
+    v-slot="{ processing }"
+    :method="method"
+    :url="url">
     <div class="form-grid">
       <card-content>
-        <text-input source="title" type="text" />
-        <text-input source="link" type="text" />
+        <text-input
+          source="title"
+          type="text" />
+        <text-input
+          source="link"
+          type="text" />
         <reference-input
           source="language_slug"
           label-key="language"
@@ -22,7 +30,10 @@
           option-value="name"
           :getter="(serie) => serie.authors.map((t) => t.name)"
         />
-        <editor-input source="description" :height="800" full />
+        <editor-input
+          source="description"
+          :height="800"
+          full />
       </card-content>
       <card-side>
         <file-input
@@ -33,8 +44,14 @@
           preview-attr="url"
           full
         />
-        <text-input source="slug" type="text" full />
-        <text-input source="slug_sort" type="text" full />
+        <text-input
+          source="slug"
+          type="text"
+          full />
+        <text-input
+          source="slug_sort"
+          type="text"
+          full />
         <rich-select-input
           source="tags.fetch"
           resource="tags.fetch"
@@ -47,7 +64,9 @@
           :getter="(serie) => serie.tags.map((t) => t.name)"
           full
         />
-        <form-button :processing="processing" :submit="submit" />
+        <form-button
+          :processing="processing"
+          :submit="submit" />
       </card-side>
     </div>
   </base-form>

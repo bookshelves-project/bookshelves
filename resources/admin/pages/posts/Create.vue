@@ -1,5 +1,7 @@
 <template>
-  <create-context v-slot="{ title }" resource="posts">
+  <create-context
+    v-slot="{ title }"
+    resource="posts">
     <app-layout>
       <template #header>
         <page-header>
@@ -10,7 +12,9 @@
         </page-header>
       </template>
 
-      <post-form :method="method" :url="url" />
+      <post-form
+        :method="method"
+        :url="url" />
     </app-layout>
   </create-context>
 </template>

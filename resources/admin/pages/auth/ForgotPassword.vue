@@ -8,7 +8,9 @@
       }}
     </div>
 
-    <div v-if="status" class="mb-4 font-medium text-base text-green-600">
+    <div
+      v-if="status"
+      class="mb-4 font-medium text-base text-green-600">
       {{ status }}
     </div>
 
@@ -20,7 +22,11 @@
       :url="route('password.email')"
     >
       <div>
-        <text-input source="email" type="email" required autofocus />
+        <text-input
+          source="email"
+          type="email"
+          required
+          autofocus />
       </div>
 
       <div class="mt-4">

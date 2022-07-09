@@ -17,7 +17,7 @@ import { createPinia } from 'pinia'
 
 createInertiaApp({
   resolve: (name) => {
-    const pages = import.meta.globEager(`./pages/**/*`)
+    const pages = import.meta.globEager('./pages/**/*')
 
     return pages[`./pages/${name}.vue`].default
   },

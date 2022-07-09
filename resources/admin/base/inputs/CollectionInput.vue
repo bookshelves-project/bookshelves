@@ -1,5 +1,7 @@
 <template>
-  <input-label class="mb-1" :value="getLabel" />
+  <input-label
+    class="mb-1"
+    :value="getLabel" />
   <disclosure
     v-model="formValue"
     :item-text="itemText"

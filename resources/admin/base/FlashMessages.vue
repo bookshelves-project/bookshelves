@@ -48,7 +48,9 @@
                   @click="show = false"
                 >
                   <span class="sr-only">Close</span>
-                  <XIcon class="h-5 w-5" aria-hidden="true" />
+                  <XIcon
+                    class="h-5 w-5"
+                    aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -72,8 +74,8 @@ const style = computed(() => {
   return flash.value?.danger
     ? 'danger'
     : flash.value?.warning
-    ? 'warning'
-    : 'success'
+      ? 'warning'
+      : 'success'
 })
 
 const icon = computed(() => {

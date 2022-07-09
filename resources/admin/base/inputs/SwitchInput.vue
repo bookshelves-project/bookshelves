@@ -1,8 +1,15 @@
 <template>
   <base-input>
-    <switch-toggle v-model="formValue" :label="getLabel" :name="getName" />
-    <input-error :message="getError" class="mt-2" />
-    <input-hint :message="hint" class="mt-2" />
+    <switch-toggle
+      v-model="formValue"
+      :label="getLabel"
+      :name="getName" />
+    <input-error
+      :message="getError"
+      class="mt-2" />
+    <input-hint
+      :message="hint"
+      class="mt-2" />
   </base-input>
 </template>
 

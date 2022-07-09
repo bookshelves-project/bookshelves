@@ -4,7 +4,9 @@
     class="inline-flex p-1 rounded text-white"
     :class="value ? 'bg-green-500' : 'bg-red-500'"
   >
-    <component :is="value ? 'check-icon' : 'x-icon'" class="h-5 w-5" />
+    <component
+      :is="value ? 'check-icon' : 'x-icon'"
+      class="h-5 w-5" />
   </span>
 </template>
 

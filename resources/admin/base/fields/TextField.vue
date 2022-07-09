@@ -5,7 +5,7 @@
     target="_blank"
     rel="noopener noreferrer"
     class="underline relative z-10 hover:bg-gray-200 rounded-md px-2 py-1"
-    >{{ getText }}</a
+  >{{ getText }}</a
   >
   <span v-else>{{ getText }}</span>
 </template>
@@ -26,8 +26,8 @@ const props = defineProps({
 const getText = computed(() => {
   return props.truncate
     ? truncate(props.value, {
-        length: props.truncate,
-      })
+      length: props.truncate,
+    })
     : props.value
 })
 </script>

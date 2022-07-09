@@ -1,5 +1,7 @@
 <template>
-  <select-filter v-model="value" :choices="choices" />
+  <select-filter
+    v-model="value"
+    :choices="choices" />
 </template>
 
 <script lang="ts" setup>

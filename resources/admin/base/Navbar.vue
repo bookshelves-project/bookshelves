@@ -54,7 +54,9 @@
                   {{ $t('Manage Account') }}
                 </div>
 
-                <dropdown-link :href="route('admin.profile.show')" icon="user">
+                <dropdown-link
+                  :href="route('admin.profile.show')"
+                  icon="user">
                   {{ $t('Profile') }}
                 </dropdown-link>
 
@@ -71,7 +73,9 @@
                 </dropdown-link>
 
                 <!-- Authentication -->
-                <dropdown-link icon="logout" @click="logout">
+                <dropdown-link
+                  icon="logout"
+                  @click="logout">
                   {{ $t('Log Out') }}
                 </dropdown-link>
               </template>
@@ -85,8 +89,12 @@
             class="inline-flex items-center justify-center p-2 rounded-md text-white sm:text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition"
             @click="showingNavigationDropdown = !showingNavigationDropdown"
           >
-            <x-icon v-if="showingNavigationDropdown" class="h-6 w-6" />
-            <menu-icon v-else class="h-6 w-6" />
+            <x-icon
+              v-if="showingNavigationDropdown"
+              class="h-6 w-6" />
+            <menu-icon
+              v-else
+              class="h-6 w-6" />
           </button>
         </div>
       </div>

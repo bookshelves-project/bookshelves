@@ -6,7 +6,8 @@ export const useUploader = () => {
 
     // track status and upload file
     file.status = 'loading'
-    const response = await fetch(url, { method: 'POST', body: formData })
+    const response = await fetch(url, { method: 'POST',
+      body: formData })
 
     // change status to indicate the success of the upload request
     file.status = response.ok

@@ -1,6 +1,8 @@
 <template>
   <div class="flex gap-4">
-    <template v-for="(media, i) in value" :key="i">
+    <template
+      v-for="(media, i) in value"
+      :key="i">
       <a
         v-if="canPreview && media[original]"
         :href="media[original]"

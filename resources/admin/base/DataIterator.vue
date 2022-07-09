@@ -17,7 +17,8 @@ const props = defineProps({
 const emit = defineEmits(['page-change'])
 
 const onPageChange = (page: number) => {
-  emit('page-change', { page, size: props.source.meta.per_page })
+  emit('page-change', { page,
+    size: props.source.meta.per_page })
 }
 
 const onSizeChange = (e: Event) => {
@@ -39,7 +40,10 @@ const onSizeChange = (e: Event) => {
         class="mr-2 text-base text-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700"
         @input="onSizeChange"
       >
-        <option v-for="(count, i) in sizeOptions" :key="i" :value="count">
+        <option
+          v-for="(count, i) in sizeOptions"
+          :key="i"
+          :value="count">
           {{ count }}
         </option>
       </select>
@@ -47,18 +51,20 @@ const onSizeChange = (e: Event) => {
         $t('admin.data-table.rows_per_page_text')
       }}</label>
     </div>
-    <div v-if="source.meta.total" class="flex flex-row items-center ml-auto">
+    <div
+      v-if="source.meta.total"
+      class="flex flex-row items-center ml-auto">
       <span
         class="hidden sm:inline-block text-base text-gray-700 dark:text-gray-400"
-        >{{
-          $t('admin.data-table.page_text', {
-            args: {
-              start: source.meta.from,
-              end: source.meta.to,
-              total: source.meta.total,
-            },
-          })
-        }}</span
+      >{{
+        $t('admin.data-table.page_text', {
+          args: {
+            start: source.meta.from,
+            end: source.meta.to,
+            total: source.meta.total,
+          },
+        })
+      }}</span
       >
       <pagination
         class="ml-2"

@@ -44,5 +44,6 @@ export const referenceSetup = (
     set: (val) => emit('update:modelValue', val),
   })
 
-  return { choices, value }
+  return { choices,
+    value }
 }

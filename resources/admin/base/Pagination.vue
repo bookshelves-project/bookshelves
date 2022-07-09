@@ -122,7 +122,11 @@ const changePage = (page: number) => {
       >
         <chevron-left-icon />
       </button>
-      <button v-if="showFirstDots" type="button" class="link" disabled>
+      <button
+        v-if="showFirstDots"
+        type="button"
+        class="link"
+        disabled>
         ...
       </button>
       <button
@@ -136,7 +140,11 @@ const changePage = (page: number) => {
       >
         {{ page }}
       </button>
-      <button v-if="showLastDots" type="button" class="link" disabled>
+      <button
+        v-if="showLastDots"
+        type="button"
+        class="link"
+        disabled>
         ...
       </button>
       <button

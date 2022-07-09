@@ -1,31 +1,42 @@
 <script setup lang="ts">
 defineProps({
-  file: { type: Object, required: true },
-  tag: { type: String, default: 'li' },
+  file: { type: Object,
+    required: true },
+  tag: { type: String,
+    default: 'li' },
 })
 
 defineEmits(['remove'])
 </script>
 
 <template>
-  <component :is="tag" class="overflow-auto">
-    <button class="close-icon" @click="$emit('remove', file)">&times;</button>
-    <img :src="file.url" :alt="file.file.name" :title="file.file.name" />
+  <component
+    :is="tag"
+    class="overflow-auto">
+    <button
+      class="close-icon"
+      @click="$emit('remove', file)">
+      &times;
+    </button>
+    <img
+      :src="file.url"
+      :alt="file.file.name"
+      :title="file.file.name" />
 
     <span
       v-show="file.status == 'loading'"
       class="status-indicator loading-indicator"
-      >In Progress</span
+    >In Progress</span
     >
     <span
       v-show="file.status == true"
       class="status-indicator success-indicator"
-      >Uploaded</span
+    >Uploaded</span
     >
     <span
       v-show="file.status == false"
       class="status-indicator failure-indicator"
-      >Error</span
+    >Error</span
     >
   </component>
 </template>

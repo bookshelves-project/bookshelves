@@ -1,6 +1,8 @@
 <template>
   <input-label class="mb-1">{{ getLabel }}</input-label>
-  <div class="flex" :class="{ 'flex-col gap-1': stacked, 'gap-4': !stacked }">
+  <div
+    class="flex"
+    :class="{ 'flex-col gap-1': stacked, 'gap-4': !stacked }">
     <label
       v-for="option in getChoices"
       :key="option.value"
@@ -17,8 +19,12 @@
       {{ option.text }}
     </label>
   </div>
-  <input-error :message="getError" class="mt-2" />
-  <input-hint :message="hint" class="mt-2" />
+  <input-error
+    :message="getError"
+    class="mt-2" />
+  <input-hint
+    :message="hint"
+    class="mt-2" />
 </template>
 
 <script lang="ts" setup>

@@ -1,13 +1,30 @@
 <template>
-  <base-form ref="form" v-slot="{ processing }" :method="method" :url="url">
+  <base-form
+    ref="form"
+    v-slot="{ processing }"
+    :method="method"
+    :url="url">
     <div class="form-grid">
       <card-content>
-        <text-input source="lastname" type="text" />
-        <text-input source="firstname" type="text" />
-        <select-input source="role" choices="author_roles" />
-        <text-input source="link" type="text" />
-        <text-input source="note" multiline />
-        <editor-input source="description" :height="800" full />
+        <text-input
+          source="lastname"
+          type="text" />
+        <text-input
+          source="firstname"
+          type="text" />
+        <select-input
+          source="role"
+          choices="author_roles" />
+        <text-input
+          source="link"
+          type="text" />
+        <text-input
+          source="note"
+          multiline />
+        <editor-input
+          source="description"
+          :height="800"
+          full />
       </card-content>
       <card-side>
         <file-input
@@ -18,8 +35,13 @@
           preview-attr="url"
           full
         />
-        <text-input source="slug" type="text" full />
-        <form-button :processing="processing" :submit="submit" />
+        <text-input
+          source="slug"
+          type="text"
+          full />
+        <form-button
+          :processing="processing"
+          :submit="submit" />
       </card-side>
     </div>
   </base-form>

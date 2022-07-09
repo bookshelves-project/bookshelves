@@ -24,7 +24,7 @@
               target="_blank"
               rel="noopener noreferrer"
               class="hover:text-gray-600"
-              >Powered by Laravel RAD Stack</a
+            >Powered by Laravel RAD Stack</a
             >.</span
           >
         </p>

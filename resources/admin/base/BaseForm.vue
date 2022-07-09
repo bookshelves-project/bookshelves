@@ -1,6 +1,10 @@
 <template>
-  <form class="base-form" @submit.prevent="onSubmit">
-    <slot :processing="processing" :recently-successful="recentlySuccessful" />
+  <form
+    class="base-form"
+    @submit.prevent="onSubmit">
+    <slot
+      :processing="processing"
+      :recently-successful="recentlySuccessful" />
   </form>
 </template>
 

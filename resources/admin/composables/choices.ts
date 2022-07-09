@@ -29,7 +29,8 @@ export const getOptionsFromChoices = (
 ) => {
   if (Array.isArray(choices)) {
     return choices.map((o) => {
-      return { value: o[optionValue], text: o[optionText] }
+      return { value: o[optionValue],
+        text: o[optionText] }
     })
   }
 
@@ -38,7 +39,8 @@ export const getOptionsFromChoices = (
   }
 
   return Object.keys(choices).map((key) => {
-    return { value: key, text: (choices as any)[key] }
+    return { value: key,
+      text: (choices as any)[key] }
   })
 }
 
@@ -56,11 +58,13 @@ export const choicesSetup = (
     )
 
     if (props.allowEmpty) {
-      options = [{ value: '', text: props.emptyText }, ...options]
+      options = [{ value: '',
+        text: props.emptyText }, ...options]
     }
 
     return options
   })
 
-  return { ...initial, getChoices }
+  return { ...initial,
+    getChoices }
 }

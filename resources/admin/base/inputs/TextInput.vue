@@ -28,8 +28,12 @@
       class="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm border-gray-300 dark:border-gray-700 dark:bg-gray-700 rounded-md dark:text-white"
       :class="{ 'form-invalid': hasError }"
     />
-    <input-error :message="getError" class="mt-2" />
-    <input-hint :message="hint" class="mt-2" />
+    <input-error
+      :message="getError"
+      class="mt-2" />
+    <input-hint
+      :message="hint"
+      class="mt-2" />
   </base-input>
 </template>
 

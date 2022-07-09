@@ -77,10 +77,15 @@ const buttons = props.options === 'basic' ? buttonsBasic() : buttonsComplete()
 
 <template>
   <base-input>
-    <input-label :for="id" class="mb-1" :value="getLabel" />
+    <input-label
+      :for="id"
+      class="mb-1"
+      :value="getLabel" />
     <div class="editor-text">
       <div class="editor relative">
-        <div v-if="editor" class="editor__actions">
+        <div
+          v-if="editor"
+          class="editor__actions">
           <editor-input-action
             v-for="(button, index) in buttons"
             :key="index"
@@ -101,7 +106,9 @@ const buttons = props.options === 'basic' ? buttonsBasic() : buttonsComplete()
           class="editor__body"
         />
         <div class="mx-4">
-          <div v-if="editor" class="character-count">
+          <div
+            v-if="editor"
+            class="character-count">
             {{ editor.storage.characterCount.words() }} words
           </div>
           <div
@@ -113,20 +120,24 @@ const buttons = props.options === 'basic' ? buttonsBasic() : buttonsComplete()
               target="_blank"
               rel="noopener noreferrer"
               class="underline underline-gray-600 underline-offset-2"
-              >Tiptap</a
+            >Tiptap</a
             >, you can use
             <a
               href="https://www.markdownguide.org/cheat-sheet/"
               target="_blank"
               rel="noopener noreferrer"
               class="underline underline-gray-600 underline-offset-2"
-              >Markdown</a
+            >Markdown</a
             >.
           </div>
         </div>
       </div>
-      <input-error :message="getError" class="mt-2" />
-      <input-hint :message="hint" class="mt-2" />
+      <input-error
+        :message="getError"
+        class="mt-2" />
+      <input-hint
+        :message="hint"
+        class="mt-2" />
     </div>
   </base-input>
 </template>

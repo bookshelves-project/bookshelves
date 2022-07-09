@@ -3,7 +3,9 @@
     :class="{ 'bg-gray-100 dark:bg-gray-900': modelValue }"
     class="hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900"
   >
-    <td v-if="canSelect" class="relative w-12 px-6 sm:w-16 sm:px-8">
+    <td
+      v-if="canSelect"
+      class="relative w-12 px-6 sm:w-16 sm:px-8">
       <!-- Selected row marker, only show when row is selected. -->
       <div
         v-if="modelValue"
@@ -45,7 +47,9 @@
             :value="getValue(column)"
             v-bind="column.props"
           />
-          <span v-else class="group inline-flex space-x-2 truncate">
+          <span
+            v-else
+            class="group inline-flex space-x-2 truncate">
             {{ getValue(column) }}
           </span>
         </slot>

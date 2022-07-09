@@ -32,7 +32,9 @@ const columns: (string | Column)[] = [
 </script>
 
 <template>
-  <list-context v-slot="{ title }" resource="stubsKebab">
+  <list-context
+    v-slot="{ title }"
+    resource="stubsKebab">
     <app-layout :title="title">
       <template #header-actions>
         <create-button />

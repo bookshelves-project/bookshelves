@@ -1,5 +1,7 @@
 <template>
-  <create-context v-slot="{ title }" resource="authors">
+  <create-context
+    v-slot="{ title }"
+    resource="authors">
     <app-layout>
       <template #header>
         <page-header>
@@ -10,7 +12,9 @@
         </page-header>
       </template>
 
-      <author-form :method="method" :url="url" />
+      <author-form
+        :method="method"
+        :url="url" />
     </app-layout>
   </create-context>
 </template>

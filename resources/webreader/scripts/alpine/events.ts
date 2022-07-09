@@ -10,11 +10,13 @@ const events = () => ({
       const full = document.getElementById('fullScreen')
       if (event.key === 'ArrowUp') {
         event.preventDefault()
-        full?.scrollBy({ top: -100, behavior: 'smooth' })
+        full?.scrollBy({ top: -100,
+          behavior: 'smooth' })
       }
       if (event.key === 'ArrowDown' || event.key === ' ') {
         event.preventDefault()
-        full?.scrollBy({ top: 100, behavior: 'smooth' })
+        full?.scrollBy({ top: 100,
+          behavior: 'smooth' })
       }
 
       if (event.key === 'f') {

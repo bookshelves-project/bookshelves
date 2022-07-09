@@ -1,5 +1,7 @@
 <template>
-  <create-context v-slot="{ title }" resource="books">
+  <create-context
+    v-slot="{ title }"
+    resource="books">
     <app-layout>
       <template #header>
         <page-header>
@@ -10,7 +12,9 @@
         </page-header>
       </template>
 
-      <book-upload-form :method="method" :url="url" />
+      <book-upload-form
+        :method="method"
+        :url="url" />
     </app-layout>
   </create-context>
 </template>

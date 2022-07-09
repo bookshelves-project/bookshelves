@@ -30,7 +30,7 @@ const props = defineProps({
   placeholder: String,
 })
 
-let newTagsList = ref([])
+const newTagsList = ref([])
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -41,7 +41,7 @@ const translations = computed(() => {
 })
 
 const isNew = (option: any) => {
-  let list = option as never
+  const list = option as never
 
   if (newTagsList.value.includes(list[props.optionText])) {
     return classes.value.tagOnCreate
@@ -100,7 +100,9 @@ const asyncSearch = computed(() => {
       class="mb-1"
       :required="'required' in $attrs"
       :readonly="'readonly' in $attrs"
-      >{{ getLabel }}</input-label
+    >
+      {{ getLabel }}
+    </input-label
     >
     <Multiselect
       v-model="formValue"
@@ -121,11 +123,15 @@ const asyncSearch = computed(() => {
       @tag="onAddTag"
     >
       <template #singlelabel="labelProps">
-        <slot name="singlelabel" :value="labelProps.value"></slot>
+        <slot
+          name="singlelabel"
+          :value="labelProps.value"></slot>
       </template>
 
       <template #option="{ option }">
-        <slot name="option" :option="option"></slot>
+        <slot
+          name="option"
+          :option="option"></slot>
       </template>
 
       <template #tag="{ option, handleTagRemove, disabled }">
@@ -145,8 +151,12 @@ const asyncSearch = computed(() => {
       Try to type any {{ resource }} to find existing {{ resource }}, if it not
       present click on it to create it.
     </span>
-    <input-error :message="getError" class="mt-2" />
-    <input-hint :message="hint" class="mt-2" />
+    <input-error
+      :message="getError"
+      class="mt-2" />
+    <input-hint
+      :message="hint"
+      class="mt-2" />
   </base-input>
 </template>
 

@@ -1,5 +1,7 @@
 <template>
-  <list-context v-slot="{ title }" resource="posts">
+  <list-context
+    v-slot="{ title }"
+    resource="posts">
     <app-layout :title="title">
       <template #header-actions>
         <create-button />
@@ -105,7 +107,9 @@ const columns: (string | Column)[] = [
   {
     field: 'user',
     type: 'reference',
-    props: { text: 'name', resource: 'users', link: 'show' },
+    props: { text: 'name',
+      resource: 'users',
+      link: 'show' },
     searchable: true,
     filterType: 'text',
   },

@@ -1,8 +1,14 @@
 <template>
   <base-input>
-    <input-label :for="id" class="mb-1" :value="getLabel" />
+    <input-label
+      :for="id"
+      class="mb-1"
+      :value="getLabel" />
     <div class="grid md:grid-cols-2 gap-4">
-      <span v-for="(item, lang) in formValue" :key="lang" class="relative">
+      <span
+        v-for="(item, lang) in formValue"
+        :key="lang"
+        class="relative">
         <div class="mt-1 flex rounded-md shadow-sm">
           <span
             class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm uppercase dark:border-gray-600 dark:bg-gray-600 dark:text-gray-100"

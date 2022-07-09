@@ -1,6 +1,9 @@
 <template>
   <div class="relative">
-    <input v-bind="$attrs" ref="fpInput" type="text" />
+    <input
+      v-bind="$attrs"
+      ref="fpInput"
+      type="text" />
     <button
       v-if="modelValue"
       type="button"
@@ -32,7 +35,7 @@ const fpInput: Ref<HTMLInputElement | null> = ref(null)
 onMounted(() => {
   if (fp.value) return
 
-  let config: FlatpickrOptions = props.options || {
+  const config: FlatpickrOptions = props.options || {
     enableTime: true,
     dateFormat: 'Y-m-d H:i',
   }

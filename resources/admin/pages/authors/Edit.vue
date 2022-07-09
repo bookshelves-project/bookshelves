@@ -1,5 +1,8 @@
 <template>
-  <edit-context v-slot="{ title }" resource="authors" :item="author">
+  <edit-context
+    v-slot="{ title }"
+    resource="authors"
+    :item="author">
     <app-layout :title="author.name">
       <template #header>
         <page-header>
@@ -11,7 +14,9 @@
         </page-header>
       </template>
 
-      <author-form :method="method" :url="url" />
+      <author-form
+        :method="method"
+        :url="url" />
     </app-layout>
   </edit-context>
 </template>

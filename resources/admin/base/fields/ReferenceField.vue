@@ -1,8 +1,12 @@
 <template>
   <div>
-    <div v-if="isArray" class="badge">
+    <div
+      v-if="isArray"
+      class="badge">
       <div v-if="!link && value">
-        <span v-for="(item, index) in value" :key="index">
+        <span
+          v-for="(item, index) in value"
+          :key="index">
           {{ item instanceof Object && text ? item[text] : '' }}
         </span>
       </div>
@@ -18,7 +22,9 @@
         </inertia-link>
       </span>
     </div>
-    <div v-else class="badge">
+    <div
+      v-else
+      class="badge">
       <div v-if="!link && value">
         <span>{{ getText }}</span>
       </div>
@@ -64,7 +70,7 @@ const getLocaleText = (value: object): string => {
   }
 }
 const getText = computed((): string => {
-  let value = props.text ? props.value[props.text] : props.value
+  const value = props.text ? props.value[props.text] : props.value
   if (props.i18n) {
     return getLocaleText(value)
   } else {

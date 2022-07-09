@@ -1,27 +1,47 @@
 <template>
-  <show-context v-slot="{ title }" resource="users" :item="user">
-    <app-aside :title="title" class="w-96">
+  <show-context
+    v-slot="{ title }"
+    resource="users"
+    :item="user">
+    <app-aside
+      :title="title"
+      class="w-96">
       <div class="flex flex-col gap-4">
         <div>
           <field source="name" />
         </div>
         <div>
-          <field source="email" type="email" />
+          <field
+            source="email"
+            type="email" />
         </div>
         <div>
-          <field source="active" type="boolean" />
+          <field
+            source="active"
+            type="boolean" />
         </div>
         <div>
-          <field source="role" type="select" choices="roles" />
+          <field
+            source="role"
+            type="select"
+            choices="roles" />
         </div>
         <div>
-          <field source="last_login_at" type="date" />
+          <field
+            source="last_login_at"
+            type="date" />
         </div>
         <div>
-          <field source="created_at" type="date" format="dd/MM/yyyy" />
+          <field
+            source="created_at"
+            type="date"
+            format="dd/MM/yyyy" />
         </div>
         <div>
-          <field source="updated_at" type="date" format="dd/MM/yyyy" />
+          <field
+            source="updated_at"
+            type="date"
+            format="dd/MM/yyyy" />
         </div>
         <div class="flex">
           <edit-button class="ml-auto" />

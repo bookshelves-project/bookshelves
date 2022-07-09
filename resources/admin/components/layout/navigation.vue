@@ -10,7 +10,11 @@ import { mainNav, isTitle, isLink } from '@admin/_nav'
         :href="route('admin.dashboard')"
         class="group flex items-center px-2 py-2 text-base leading-6"
       >
-        <app-logo class="!m-0" color="text-primary-600" full reverse />
+        <app-logo
+          class="!m-0"
+          color="text-primary-600"
+          full
+          reverse />
       </inertia-link>
     </div>
   </div>
@@ -19,7 +23,9 @@ import { mainNav, isTitle, isLink } from '@admin/_nav'
     aria-label="Sidebar"
   >
     <div class="px-2 space-y-1">
-      <div v-for="(item, index) in mainNav" :key="index">
+      <div
+        v-for="(item, index) in mainNav"
+        :key="index">
         <component
           :is="item.external ? 'a' : 'inertia-link'"
           v-if="isLink(item)"
@@ -68,7 +74,9 @@ import { mainNav, isTitle, isLink } from '@admin/_nav'
           </div>
         </div> -->
   </nav>
-  <div class="mt-5 divide-primary-800" aria-label="Sidebar">
+  <div
+    class="mt-5 divide-primary-800"
+    aria-label="Sidebar">
     <div class="px-2 space-y-1">
       <a
         href="/"

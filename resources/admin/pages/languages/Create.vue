@@ -1,5 +1,7 @@
 <template>
-  <create-context v-slot="{ title }" resource="languages">
+  <create-context
+    v-slot="{ title }"
+    resource="languages">
     <app-layout>
       <template #header>
         <page-header>
@@ -10,7 +12,9 @@
         </page-header>
       </template>
 
-      <language-form :method="method" :url="url" />
+      <language-form
+        :method="method"
+        :url="url" />
     </app-layout>
   </create-context>
 </template>

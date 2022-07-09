@@ -2,8 +2,12 @@
   <app-layout :title="title">
     <!-- <dashboard-content /> -->
     <div class="grid xl:grid-cols-2">
-      <doughnut-chart :chart-data="entities" :options="options" />
-      <doughnut-chart :chart-data="users" :options="options" />
+      <doughnut-chart
+        :chart-data="entities"
+        :options="options" />
+      <doughnut-chart
+        :chart-data="users"
+        :options="options" />
     </div>
   </app-layout>
 </template>
@@ -27,7 +31,7 @@ const colorMode = useColorMode()
 
 Chart.register(...registerables)
 
-let colors = useEnums().getChartColors()
+const colors = useEnums().getChartColors()
 
 const entities = computed<ChartData<'doughnut'>>(() => ({
   labels: props.chartEntities?.labels,

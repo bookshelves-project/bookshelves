@@ -69,22 +69,22 @@ const webreader: IWebreader = {
     const commands: Command[] = [
       this.navigationOptions.fullscreen
         ? {
-            key: ['E'],
-            label: 'Fullscreen/Exit Fullscreen',
-          }
+          key: ['E'],
+          label: 'Fullscreen/Exit Fullscreen',
+        }
         : {},
       this.navigationOptions.grid
         ? {
-            key: ['G'],
-            label:
+          key: ['G'],
+          label:
               'Display all pages (this features need some time to loading after init)',
-          }
+        }
         : {},
       this.navigationOptions.sidebar
         ? {
-            key: ['G'],
-            label: 'Display sidebar to get chapters',
-          }
+          key: ['G'],
+          label: 'Display sidebar to get chapters',
+        }
         : {},
       {
         key: ['↑', '↓', 'Space'],
@@ -100,27 +100,27 @@ const webreader: IWebreader = {
       },
       this.navigationOptions.sizeable
         ? {
-            key: ['F'],
-            label: 'Size full width',
-          }
+          key: ['F'],
+          label: 'Size full width',
+        }
         : {},
       this.navigationOptions.sizeable
         ? {
-            key: ['L'],
-            label: 'Size large',
-          }
+          key: ['L'],
+          label: 'Size large',
+        }
         : {},
       this.navigationOptions.sizeable
         ? {
-            key: ['S'],
-            label: 'Size height screen',
-          }
+          key: ['S'],
+          label: 'Size height screen',
+        }
         : {},
       this.navigationOptions.information
         ? {
-            key: ['I'],
-            label: 'Show informations',
-          }
+          key: ['I'],
+          label: 'Show informations',
+        }
         : {},
       {
         key: ['O', 'Middle screen part'],

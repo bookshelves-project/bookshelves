@@ -4,7 +4,9 @@
       v-if="source && !hideHeader"
       class="flex flex-col sm:flex-row gap-4 mb-6"
     >
-      <div v-if="!disableSearch" class="w-full sm:w-96">
+      <div
+        v-if="!disableSearch"
+        class="w-full sm:w-96">
         <div class="relative">
           <input
             v-model="form.filter.q"
@@ -31,9 +33,13 @@
             }}
           </span>
 
-          <slot name="bulk-actions" :selected="selected" />
+          <slot
+            name="bulk-actions"
+            :selected="selected" />
         </div>
-        <slot v-else name="actions" />
+        <slot
+          v-else
+          name="actions" />
       </div>
     </div>
     <div class="mt-8 flex flex-col">
@@ -149,7 +155,9 @@
                   :key="column.field"
                   #[`field:${column.field}`]="columnProps"
                 >
-                  <slot :name="`field:${column.field}`" v-bind="columnProps" />
+                  <slot
+                    :name="`field:${column.field}`"
+                    v-bind="columnProps" />
                 </template>
               </data-table-row>
             </tbody>
@@ -276,7 +284,8 @@ const getDefaultFilter = () => {
     .filter((c) => c.searchable)
     .reduce(
       (acc, column) => {
-        return { ...acc, [column.field]: '' }
+        return { ...acc,
+          [column.field]: '' }
       },
       props.disableSearch ? {} : ({ q: '' } as { [key: string]: string })
     )

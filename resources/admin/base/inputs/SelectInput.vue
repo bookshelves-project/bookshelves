@@ -22,7 +22,9 @@ const { getLabel, formValue, getError, id, getName, getChoices, hasError } =
       class="mb-1"
       :required="required"
       :readonly="readonly"
-      >{{ getLabel }}</input-label
+    >
+      {{ getLabel }}
+    </input-label
     >
     <select
       v-bind="$attrs"
@@ -43,7 +45,11 @@ const { getLabel, formValue, getError, id, getName, getChoices, hasError } =
         {{ option.text }}
       </option>
     </select>
-    <input-error :message="getError" class="mt-2" />
-    <input-hint :message="hint" class="mt-2" />
+    <input-error
+      :message="getError"
+      class="mt-2" />
+    <input-hint
+      :message="hint"
+      class="mt-2" />
   </base-input>
 </template>

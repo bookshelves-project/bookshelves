@@ -57,7 +57,10 @@
         </template>
 
         <template #footer="{ processing }">
-          <base-button outlined type="button" @click="closeModal">
+          <base-button
+            outlined
+            type="button"
+            @click="closeModal">
             {{ $t('Cancel') }}
           </base-button>
 

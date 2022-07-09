@@ -186,15 +186,15 @@ const epub = (): IEpub => ({
     const themes = {
       dark: {
         body: {
-          background: `#444 !important`,
-          color: `#fff !important`,
+          background: '#444 !important',
+          color: '#fff !important',
         },
         '*': {
           color: 'inherit !important',
           background: 'inherit !important',
         },
         'a:link': {
-          color: `#1e83d2 !important`,
+          color: '#1e83d2 !important',
           'text-decoration': 'none !important',
         },
         'a:link:hover': {
@@ -209,15 +209,15 @@ const epub = (): IEpub => ({
       },
       tan: {
         body: {
-          background: `#fdf6e3 !important`,
-          color: `#002b36 !important`,
+          background: '#fdf6e3 !important',
+          color: '#002b36 !important',
         },
         '*': {
           color: 'inherit !important',
           background: 'inherit !important',
         },
         'a:link': {
-          color: `#268bd2 !important`,
+          color: '#268bd2 !important',
           'text-decoration': 'none !important',
         },
         'a:link:hover': {
@@ -226,15 +226,15 @@ const epub = (): IEpub => ({
       },
       defaultStyle: {
         body: {
-          background: `#fdf6e3 !important`,
-          color: `#002b36 !important`,
+          background: '#fdf6e3 !important',
+          color: '#002b36 !important',
         },
         '*': {
           color: 'inherit !important',
           background: 'inherit !important',
         },
         'a:link': {
-          color: `#268bd2 !important`,
+          color: '#268bd2 !important',
           'text-decoration': 'none !important',
         },
         'a:link:hover': {

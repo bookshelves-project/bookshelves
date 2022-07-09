@@ -1,5 +1,7 @@
 <template>
-  <switch-toggle v-model="modelValue" @click.stop />
+  <switch-toggle
+    v-model="modelValue"
+    @click.stop />
 </template>
 
 <script lang="ts" setup>

@@ -111,7 +111,7 @@ onMounted(() => {
 
 const nav = mainNav.filter((l) => isLink(l)) as NavLink[]
 const sidebarOpen = () => {
-  let store = useIndexStore()
+  const store = useIndexStore()
   store.toggleSidebar()
 }
 </script>

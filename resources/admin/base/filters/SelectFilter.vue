@@ -1,5 +1,7 @@
 <template>
-  <select class="py-0" @input="onFilter">
+  <select
+    class="py-0"
+    @input="onFilter">
     <option value=""></option>
     <option
       v-for="option in getChoices"

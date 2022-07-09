@@ -56,7 +56,9 @@
           role="list"
           class="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden"
         >
-          <li v-for="transaction in transactions" :key="transaction.id">
+          <li
+            v-for="transaction in transactions"
+            :key="transaction.id">
             <a
               :href="transaction.href"
               class="block px-4 py-4 hover:bg-gray-50"
@@ -70,9 +72,9 @@
                   <span class="flex flex-col text-gray-500 text-base truncate">
                     <span class="truncate">{{ transaction.name }}</span>
                     <span
-                      ><span class="text-gray-900 font-medium">{{
-                        transaction.amount
-                      }}</span>
+                    ><span class="text-gray-900 font-medium">{{
+                       transaction.amount
+                     }}</span>
                       {{ transaction.currency }}</span
                     >
                     <time :datetime="transaction.datetime">{{
@@ -171,7 +173,7 @@
                     class="px-6 py-4 text-right whitespace-nowrap text-base text-gray-500"
                   >
                     <span class="text-gray-900 font-medium"
-                      >{{ transaction.amount }}
+                    >{{ transaction.amount }}
                     </span>
                     {{ transaction.currency }}
                   </td>

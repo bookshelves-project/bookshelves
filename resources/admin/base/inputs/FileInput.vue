@@ -1,6 +1,9 @@
 <template>
   <base-input>
-    <input-label :for="id" class="mb-1 dark:text-white" :value="getLabel" />
+    <input-label
+      :for="id"
+      class="mb-1 dark:text-white"
+      :value="getLabel" />
     <div class="flex items-center space-x-6">
       <div class="shrink-0">
         <image-field
@@ -10,7 +13,10 @@
         />
       </div>
       <div>
-        <label :for="id" class="block" :value="getLabel">
+        <label
+          :for="id"
+          class="block"
+          :value="getLabel">
           <span class="sr-only">Choose file</span>
           <input
             v-bind="$attrs"
@@ -22,11 +28,19 @@
             :multiple="multiple"
             @change="onFileChange"
           />
-          <input-error :message="getError" class="mt-2" />
-          <input-hint :message="hint" class="mt-2" />
+          <input-error
+            :message="getError"
+            class="mt-2" />
+          <input-hint
+            :message="hint"
+            class="mt-2" />
         </label>
-        <label v-if="hasFile" class="flex items-center mt-2">
-          <input type="checkbox" @change="onChange" />
+        <label
+          v-if="hasFile"
+          class="flex items-center mt-2">
+          <input
+            type="checkbox"
+            @change="onChange" />
           <span class="ml-2 text-base text-gray-600">{{
             $t('admin.actions.delete')
           }}</span>

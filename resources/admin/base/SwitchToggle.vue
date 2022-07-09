@@ -1,10 +1,14 @@
 <template>
-  <div class="flex items-center justify-between mt-1" :title="label">
-    <span v-if="label" class="flex-grow flex flex-col">
+  <div
+    class="flex items-center justify-between mt-1"
+    :title="label">
+    <span
+      v-if="label"
+      class="flex-grow flex flex-col">
       <span
         id="availability-label"
         class="text-base font-medium text-gray-900 dark:text-gray-100"
-        >{{ label }}</span
+      >{{ label }}</span
       >
     </span>
     <button

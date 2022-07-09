@@ -1,5 +1,7 @@
 <template>
-  <create-context v-slot="{ title }" resource="tags">
+  <create-context
+    v-slot="{ title }"
+    resource="tags">
     <app-layout>
       <template #header>
         <page-header>
@@ -10,7 +12,9 @@
         </page-header>
       </template>
 
-      <tag-form :method="method" :url="url" />
+      <tag-form
+        :method="method"
+        :url="url" />
     </app-layout>
   </create-context>
 </template>

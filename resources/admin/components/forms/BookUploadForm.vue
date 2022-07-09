@@ -1,9 +1,15 @@
 <template>
-  <base-form ref="form" v-slot="{ processing }" :method="method" :url="url">
+  <base-form
+    ref="form"
+    v-slot="{ processing }"
+    :method="method"
+    :url="url">
     <div class="form-grid">
       <card-content>
         <file-drag-input full />
-        <form-button :processing="processing" :submit="submit" />
+        <form-button
+          :processing="processing"
+          :submit="submit" />
       </card-content>
     </div>
   </base-form>

@@ -10,8 +10,12 @@
       getLabel
     }}</span>
   </label>
-  <input-error :message="getError" class="mt-2" />
-  <input-hint :message="hint" class="mt-2" />
+  <input-error
+    :message="getError"
+    class="mt-2" />
+  <input-hint
+    :message="hint"
+    class="mt-2" />
 </template>
 
 <script lang="ts" setup>

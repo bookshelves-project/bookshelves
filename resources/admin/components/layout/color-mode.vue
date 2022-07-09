@@ -14,7 +14,9 @@ const toggle = () => {
     class="text-primary color-mode rounded-sm px-2 py-2 transition-colors duration-75 hover:bg-gray-100 focus:outline-transparent dark:hover:bg-gray-800"
     @click="toggle"
   >
-    <span class="sun" title="Switch to dark mode">
+    <span
+      class="sun"
+      title="Switch to dark mode">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-6 w-6"
@@ -30,7 +32,9 @@ const toggle = () => {
         />
       </svg>
     </span>
-    <span class="moon" title="Switch to light mode">
+    <span
+      class="moon"
+      title="Switch to light mode">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-6 w-6"

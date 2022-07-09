@@ -20,7 +20,9 @@ export const useFileList = () => {
     if (index > -1) files.value.splice(index, 1)
   }
 
-  return { files, addFiles, removeFile }
+  return { files,
+    addFiles,
+    removeFile }
 }
 
 class UploadableFile {

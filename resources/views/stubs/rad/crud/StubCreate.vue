@@ -6,7 +6,9 @@ const url = route('admin.stubsKebab.store')
 </script>
 
 <template>
-  <create-context v-slot="{ title }" resource="stubsKebab">
+  <create-context
+    v-slot="{ title }"
+    resource="stubsKebab">
     <app-layout title="Create new stubPascal">
       <template #header>
         <page-header>
@@ -17,7 +19,9 @@ const url = route('admin.stubsKebab.store')
         </page-header>
       </template>
 
-      <stubKebab-form :method="method" :url="url" />
+      <stubKebab-form
+        :method="method"
+        :url="url" />
     </app-layout>
   </create-context>
 </template>

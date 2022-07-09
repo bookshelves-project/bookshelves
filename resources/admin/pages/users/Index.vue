@@ -1,5 +1,7 @@
 <template>
-  <list-context v-slot="{ title }" resource="users">
+  <list-context
+    v-slot="{ title }"
+    resource="users">
     <app-layout :title="title">
       <template #header-actions>
         <create-button :only="['action']" />
@@ -20,13 +22,17 @@
         </template>
         <template #field:row-action="{ row }">
           <div class="flex gap-2 mx-auto">
-            <show-button hide-label :only="['action', 'user']" />
+            <show-button
+              hide-label
+              :only="['action', 'user']" />
             <edit-button
               v-if="canBeUpdated(row)"
               hide-label
               :only="['action', 'user']"
             />
-            <impersonate-button v-if="canBeImpersonated(row)" hide-label />
+            <impersonate-button
+              v-if="canBeImpersonated(row)"
+              hide-label />
             <delete-button
               v-if="canBeUpdated(row) && $page.props.auth.id !== row.id"
               hide-label
@@ -35,10 +41,16 @@
         </template>
       </data-table>
 
-      <template v-if="action !== 'list'" #aside>
+      <template
+        v-if="action !== 'list'"
+        #aside>
         <create-user v-if="action === 'create'" />
-        <show-user v-if="user && action === 'show'" :user="user" />
-        <edit-user v-if="user && action === 'edit'" :user="user" />
+        <show-user
+          v-if="user && action === 'show'"
+          :user="user" />
+        <edit-user
+          v-if="user && action === 'edit'"
+          :user="user" />
       </template>
     </app-layout>
   </list-context>

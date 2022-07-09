@@ -6,7 +6,10 @@
           role="list"
           class="-my-5 divide-y divide-gray-200 dark:divide-gray-700"
         >
-          <li v-for="(item, index) in configuration" :key="index" class="py-4">
+          <li
+            v-for="(item, index) in configuration"
+            :key="index"
+            class="py-4">
             <div class="flex items-center space-x-4">
               <div class="flex-1 min-w-0">
                 <p

@@ -226,8 +226,8 @@ export default class TinyGesture {
           ? 'horizontal'
           : 'pre-horizontal'
         : this.swipingVertical
-        ? 'vertical'
-        : 'pre-vertical'
+          ? 'vertical'
+          : 'pre-vertical'
     if (Math.max(absTouchMoveX, absTouchMoveY) > this.opts.pressThreshold) {
       clearTimeout(this.longPressTimer)
     }

@@ -26,7 +26,10 @@
       </div>
 
       <div class="mt-4">
-        <base-button type="submit" class="w-full" :loading="processing">
+        <base-button
+          type="submit"
+          class="w-full"
+          :loading="processing">
           {{ $t('Confirm') }}
         </base-button>
       </div>

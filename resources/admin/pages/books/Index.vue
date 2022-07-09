@@ -1,5 +1,7 @@
 <template>
-  <list-context v-slot="{ title }" resource="books">
+  <list-context
+    v-slot="{ title }"
+    resource="books">
     <app-layout :title="title">
       <template #header-actions>
         <create-button />

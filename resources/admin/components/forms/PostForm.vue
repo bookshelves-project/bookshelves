@@ -14,14 +14,29 @@
   >
     <div class="form-grid">
       <card-content>
-        <text-input source="title" type="text" />
-        <text-input source="meta_title" type="text" />
-        <text-input source="summary" multiline />
-        <text-input source="meta_description" multiline />
-        <editor-input source="body" :height="800" full />
+        <text-input
+          source="title"
+          type="text" />
+        <text-input
+          source="meta_title"
+          type="text" />
+        <text-input
+          source="summary"
+          multiline />
+        <text-input
+          source="meta_description"
+          multiline />
+        <editor-input
+          source="body"
+          :height="800"
+          full />
       </card-content>
       <card-side>
-        <field source="status" type="select" choices="post_statuses" full />
+        <field
+          source="status"
+          type="select"
+          choices="post_statuses"
+          full />
         <text-input
           source="slug"
           type="text"
@@ -71,10 +86,14 @@
           :getter="(post) => post.tags.map((t) => t.name)"
           full
         />
-        <switch-input source="pin" full />
+        <switch-input
+          source="pin"
+          full />
 
         <div class="flex form-full">
-          <dropdown class="ml-auto" wrapper-classes="w-72 right">
+          <dropdown
+            class="ml-auto"
+            wrapper-classes="w-72 right">
             <template #trigger>
               <base-button
                 type="button"
@@ -88,7 +107,9 @@
             </template>
 
             <template #content>
-              <dropdown-link type="button" @click.prevent="submit(false)">
+              <dropdown-link
+                type="button"
+                @click.prevent="submit(false)">
                 {{ $t('Save as draft') }}
               </dropdown-link>
             </template>

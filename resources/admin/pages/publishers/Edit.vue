@@ -1,5 +1,8 @@
 <template>
-  <edit-context v-slot="{ title }" resource="publishers" :item="publisher">
+  <edit-context
+    v-slot="{ title }"
+    resource="publishers"
+    :item="publisher">
     <app-layout>
       <template #header>
         <page-header>
@@ -11,7 +14,9 @@
         </page-header>
       </template>
 
-      <publisher-form :method="method" :url="url" />
+      <publisher-form
+        :method="method"
+        :url="url" />
     </app-layout>
   </edit-context>
 </template>
