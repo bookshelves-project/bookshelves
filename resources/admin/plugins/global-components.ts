@@ -17,7 +17,7 @@ import DateFilter from '@admin/base/filters/DateFilter.vue'
 
 import draggable from 'vuedraggable'
 
-import { App } from 'vue'
+import type { App } from 'vue'
 
 export default {
   install: (app: App): void => {

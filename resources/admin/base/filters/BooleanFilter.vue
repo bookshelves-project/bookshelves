@@ -1,9 +1,3 @@
-<template>
-  <select-filter
-    v-model="value"
-    :choices="choices" />
-</template>
-
 <script lang="ts" setup>
 import { __ } from 'matice'
 import { computed } from 'vue'
@@ -21,6 +15,13 @@ const choices = {
 
 const value = computed({
   get: () => props.modelValue,
-  set: (val) => emit('update:modelValue', val),
+  set: val => emit('update:modelValue', val),
 })
 </script>
+
+<template>
+  <select-filter
+    v-model="value"
+    :choices="choices"
+  />
+</template>

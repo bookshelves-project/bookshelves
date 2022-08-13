@@ -1,7 +1,25 @@
+<script setup lang="ts">
+import { useIndexStore } from '@admin/stores'
+import {
+  Dialog,
+  DialogOverlay,
+  TransitionChild,
+  TransitionRoot,
+} from '@headlessui/vue'
+import { computed } from 'vue'
+
+const store = useIndexStore()
+
+const sidebarOpen = computed(() => {
+  return store.sidebar
+})
+</script>
+
 <template>
   <TransitionRoot
     as="template"
-    :show="sidebarOpen">
+    :show="sidebarOpen"
+  >
     <Dialog
       as="div"
       class="fixed inset-0 flex z-40 lg:hidden"
@@ -48,7 +66,8 @@
                 <span class="sr-only">Close sidebar</span>
                 <XIcon
                   class="h-6 w-6 text-white"
-                  aria-hidden="true" />
+                  aria-hidden="true"
+                />
               </button>
             </div>
           </TransitionChild>
@@ -57,26 +76,10 @@
       </TransitionChild>
       <div
         class="flex-shrink-0 w-14"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <!-- Dummy element to force sidebar to shrink to fit close icon -->
       </div>
     </Dialog>
   </TransitionRoot>
 </template>
-
-<script setup lang="ts">
-import { useIndexStore } from '@admin/stores'
-import {
-  Dialog,
-  DialogOverlay,
-  TransitionChild,
-  TransitionRoot,
-} from '@headlessui/vue'
-import { computed } from 'vue'
-
-const store = useIndexStore()
-
-const sidebarOpen = computed(() => {
-  return store.sidebar
-})
-</script>

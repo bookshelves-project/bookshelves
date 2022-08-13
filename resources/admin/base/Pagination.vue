@@ -28,9 +28,9 @@ const emit = defineEmits(['page-change'])
 
 const pages = computed(() => {
   let page = props.size
-  if (typeof page === 'string') {
+  if (typeof page === 'string')
     page = parseInt(page, 10)
-  }
+
   return Math.ceil(props.total / page)
 })
 
@@ -39,25 +39,25 @@ const showAllPages = computed(() => {
 })
 const nearFromBeginning = computed(() => {
   return (
-    !showAllPages.value &&
-    props.currentPage < props.limit - 1 &&
-    props.limit > props.ellipsesThreshold
+    !showAllPages.value
+    && props.currentPage < props.limit - 1
+    && props.limit > props.ellipsesThreshold
   )
 })
 const nearFromEnd = computed(() => {
   return (
-    !showAllPages.value &&
-    !nearFromBeginning.value &&
-    pages.value - props.currentPage + 2 < props.limit &&
-    props.limit > props.ellipsesThreshold
+    !showAllPages.value
+    && !nearFromBeginning.value
+    && pages.value - props.currentPage + 2 < props.limit
+    && props.limit > props.ellipsesThreshold
   )
 })
 const isOnTheMiddle = computed(() => {
   return (
-    !showAllPages.value &&
-    !nearFromBeginning.value &&
-    !nearFromEnd.value &&
-    props.limit > props.ellipsesThreshold
+    !showAllPages.value
+    && !nearFromBeginning.value
+    && !nearFromEnd.value
+    && props.limit > props.ellipsesThreshold
   )
 })
 const showFirstDots = computed(() => {
@@ -67,35 +67,35 @@ const showLastDots = computed(() => {
   return nearFromBeginning.value || isOnTheMiddle.value
 })
 const numberOfLinks = computed(() => {
-  if (showAllPages.value) {
+  if (showAllPages.value)
     return pages.value
-  }
-  if (nearFromBeginning.value || nearFromEnd.value) {
+
+  if (nearFromBeginning.value || nearFromEnd.value)
     return props.limit - 1
-  }
-  if (isOnTheMiddle.value) {
+
+  if (isOnTheMiddle.value)
     return props.limit - 2
-  }
+
   return props.limit
 })
 const startNumber = computed(() => {
   let startNumber = 1
-  if (nearFromEnd.value) {
+  if (nearFromEnd.value)
     startNumber = pages.value - numberOfLinks.value + 1
-  } else if (isOnTheMiddle.value) {
+  else if (isOnTheMiddle.value)
     startNumber = props.currentPage - Math.floor(numberOfLinks.value / 2)
-  }
-  if (startNumber < 1) {
+
+  if (startNumber < 1)
     return 1
-  }
-  if (startNumber > pages.value - numberOfLinks.value) {
+
+  if (startNumber > pages.value - numberOfLinks.value)
     return pages.value - numberOfLinks.value + 1
-  }
+
   return startNumber
 })
 
 const links = computed(() =>
-  [...Array(numberOfLinks.value).keys()].map((x) => startNumber.value + x)
+  [...Array(numberOfLinks.value).keys()].map(x => startNumber.value + x),
 )
 
 const changePage = (page: number) => {
@@ -126,7 +126,8 @@ const changePage = (page: number) => {
         v-if="showFirstDots"
         type="button"
         class="link"
-        disabled>
+        disabled
+      >
         ...
       </button>
       <button
@@ -144,7 +145,8 @@ const changePage = (page: number) => {
         v-if="showLastDots"
         type="button"
         class="link"
-        disabled>
+        disabled
+      >
         ...
       </button>
       <button

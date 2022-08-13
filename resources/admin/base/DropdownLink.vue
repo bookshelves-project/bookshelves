@@ -1,3 +1,10 @@
+<script lang="ts" setup>
+defineProps({
+  href: String,
+  icon: String,
+})
+</script>
+
 <template>
   <component
     :is="href ? 'inertia-link' : 'button'"
@@ -8,14 +15,8 @@
     <component
       :is="`${icon}-icon`"
       v-if="icon"
-      class="w-4 h-4 mr-2" />
-    <slot></slot>
+      class="w-4 h-4 mr-2"
+    />
+    <slot />
   </component>
 </template>
-
-<script lang="ts" setup>
-defineProps({
-  href: String,
-  icon: String,
-})
-</script>

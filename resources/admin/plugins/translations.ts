@@ -1,6 +1,7 @@
-import { App, inject } from 'vue'
+import type { App } from 'vue'
+import { inject } from 'vue'
 
-import { __, transChoice, trans } from 'matice'
+import { __, trans, transChoice } from 'matice'
 
 export const transAttribute = (field: string) => {
   const resource = inject<string | null>('resource', null)
@@ -8,10 +9,12 @@ export const transAttribute = (field: string) => {
   if (resource) {
     try {
       return trans(`crud.${resource}.attributes.${field}`)
-    } catch {
+    }
+    catch {
       try {
         return trans(`admin.attributes.${field}`)
-      } catch {
+      }
+      catch {
         return ''
       }
     }
@@ -19,7 +22,8 @@ export const transAttribute = (field: string) => {
 
   try {
     return trans(`admin.attributes.${field}`)
-  } catch {
+  }
+  catch {
     return ''
   }
 }

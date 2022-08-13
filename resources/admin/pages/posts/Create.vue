@@ -1,7 +1,15 @@
+<script lang="ts" setup>
+import route from 'ziggy-js'
+
+const method = 'post'
+const url = route('admin.posts.store')
+</script>
+
 <template>
   <create-context
     v-slot="{ title }"
-    resource="posts">
+    resource="posts"
+  >
     <app-layout>
       <template #header>
         <page-header>
@@ -14,14 +22,8 @@
 
       <post-form
         :method="method"
-        :url="url" />
+        :url="url"
+      />
     </app-layout>
   </create-context>
 </template>
-
-<script lang="ts" setup>
-import route from 'ziggy-js'
-
-const method = 'post'
-const url = route('admin.posts.store')
-</script>

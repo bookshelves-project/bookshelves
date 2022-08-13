@@ -1,18 +1,18 @@
 import { __ } from 'matice'
 import route from 'ziggy-js'
 import {
-  CogIcon,
-  HomeIcon,
-  NewspaperIcon,
   BookOpenIcon,
-  UsersIcon,
-  UserIcon,
+  CogIcon,
   CollectionIcon,
+  HomeIcon,
   MailIcon,
-  TagIcon,
-  TranslateIcon,
+  NewspaperIcon,
   PrinterIcon,
+  TagIcon,
   TemplateIcon,
+  TranslateIcon,
+  UserIcon,
+  UsersIcon,
 } from '@heroicons/vue/outline'
 
 interface NavTitle {
@@ -65,16 +65,16 @@ const mainNav: (NavLink | NavTitle)[] = [
   {
     href: route('admin.languages'),
     active: () =>
-      route().current('admin.languages') ||
-      route().current('admin.languages.*'),
+      route().current('admin.languages')
+      || route().current('admin.languages.*'),
     icon: TranslateIcon,
     text: __('Languages'),
   },
   {
     href: route('admin.publishers'),
     active: () =>
-      route().current('admin.publishers') ||
-      route().current('admin.publishers.*'),
+      route().current('admin.publishers')
+      || route().current('admin.publishers.*'),
     icon: PrinterIcon,
     text: __('Publishers'),
   },
@@ -104,8 +104,8 @@ const mainNav: (NavLink | NavTitle)[] = [
   {
     href: route('admin.submissions'),
     active: () =>
-      route().current('admin.submissions') ||
-      route().current('admin.submissions.*'),
+      route().current('admin.submissions')
+      || route().current('admin.submissions.*'),
     icon: MailIcon,
     text: __('Submissions'),
   },

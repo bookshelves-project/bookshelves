@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+import { useTitle } from '@admin/features/helpers'
+
+useTitle('Register')
+</script>
+
 <template>
   <auth-layout>
     <validation-errors class="mb-4" />
@@ -5,7 +11,8 @@
     <base-form
       v-slot="{ processing }"
       method="post"
-      :url="route('register')">
+      :url="route('register')"
+    >
       <div>
         <text-input
           source="name"
@@ -20,7 +27,8 @@
         <text-input
           source="email"
           type="email"
-          required />
+          required
+        />
       </div>
 
       <div class="mt-4">
@@ -52,16 +60,11 @@
         <base-button
           type="submit"
           class="ml-4"
-          :loading="processing">
+          :loading="processing"
+        >
           {{ $t('Register') }}
         </base-button>
       </div>
     </base-form>
   </auth-layout>
 </template>
-
-<script lang="ts" setup>
-import { useTitle } from '@admin/features/helpers'
-
-useTitle('Register')
-</script>

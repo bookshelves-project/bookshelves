@@ -7,10 +7,12 @@
     >
       <a
         href="/"
-        class="block mb-8 mt-2">
+        class="block mb-8 mt-2"
+      >
         <app-logo
           :size="12"
-          color="text-primary-600" />
+          color="text-primary-600"
+        />
       </a>
       <slot />
     </div>

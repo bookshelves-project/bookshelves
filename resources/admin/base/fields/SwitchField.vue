@@ -1,11 +1,5 @@
-<template>
-  <switch-toggle
-    v-model="modelValue"
-    @click.stop />
-</template>
-
 <script lang="ts" setup>
-import { Model } from '@admin/types'
+import type { Model } from '@admin/types'
 import { Inertia } from '@inertiajs/inertia'
 import { computed, inject } from 'vue'
 import route from 'ziggy-js'
@@ -33,3 +27,10 @@ const modelValue = computed({
   },
 })
 </script>
+
+<template>
+  <switch-toggle
+    v-model="modelValue"
+    @click.stop
+  />
+</template>

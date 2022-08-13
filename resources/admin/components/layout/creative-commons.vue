@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import By from '@admin/svg/by.svg'
+import Cc from '@admin/svg/cc.svg'
+import Nc from '@admin/svg/nc.svg'
+import { computed } from 'vue'
+
+const year = computed(() => {
+  const begin = 2020
+  const current = new Date().getFullYear()
+  return begin !== current ? `${begin} - ${current}` : current
+})
+</script>
+
 <template>
   <a
     href="https://creativecommons.org/"
@@ -11,16 +24,3 @@
     <span class="ml-2">{{ year }}</span>
   </a>
 </template>
-
-<script setup lang="ts">
-import By from '@admin/svg/by.svg'
-import Cc from '@admin/svg/cc.svg'
-import Nc from '@admin/svg/nc.svg'
-import { computed } from 'vue'
-
-const year = computed(() => {
-  const begin = 2020
-  const current = new Date().getFullYear()
-  return begin !== current ? `${begin} - ${current}` : current
-})
-</script>

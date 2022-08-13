@@ -1,19 +1,5 @@
-<template>
-  <base-button
-    v-if="item"
-    tag="a"
-    icon="eye"
-    :href="getPath"
-    target="_blank"
-    variant="invisible"
-    :hide-label="hideLabel"
-  >
-    {{ $t('Show') }}
-  </base-button>
-</template>
-
 <script lang="ts" setup>
-import { Model } from '@admin/types'
+import type { Model } from '@admin/types'
 import trimStart from 'lodash/trimStart'
 import get from 'lodash/get'
 import { computed, inject } from 'vue'
@@ -34,9 +20,23 @@ const item = inject<Model>('item')
 const getPath = computed(() => {
   let url = `/${trimStart(get(item, props.path), '/')}`
 
-  if (props.query) {
+  if (props.query)
     url += `?${qs.stringify(props.query)}`
-  }
+
   return url
 })
 </script>
+
+<template>
+  <base-button
+    v-if="item"
+    tag="a"
+    icon="eye"
+    :href="getPath"
+    target="_blank"
+    variant="invisible"
+    :hide-label="hideLabel"
+  >
+    {{ $t('Show') }}
+  </base-button>
+</template>

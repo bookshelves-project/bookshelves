@@ -1,24 +1,52 @@
+<script lang="ts" setup>
+import type { Ref } from 'vue'
+import { ref } from 'vue'
+
+defineProps({
+  method: {
+    type: String,
+    required: true,
+  },
+  url: {
+    type: String,
+    required: true,
+  },
+})
+
+const form: Ref<HTMLElement | null | any> = ref(null)
+
+const submit = () => {
+  if (form.value)
+    form.value.submit()
+}
+</script>
+
 <template>
   <base-form
     ref="form"
     v-slot="{ processing }"
     :method="method"
-    :url="url">
+    :url="url"
+  >
     <div class="form-grid">
       <card-content>
         <text-input
           source="title"
           type="text"
-          required />
+          required
+        />
         <text-input
           source="volume"
-          type="number" />
+          type="number"
+        />
         <text-input
           source="isbn10"
-          type="text" />
+          type="text"
+        />
         <text-input
           source="isbn13"
-          type="text" />
+          type="text"
+        />
         <reference-input
           source="language_slug"
           label-key="language"
@@ -53,13 +81,16 @@
           source="description"
           :height="800"
           options="basic"
-          full />
+          full
+        />
         <text-input
           source="contributor"
-          type="text" />
+          type="text"
+        />
         <text-input
           source="rights"
-          type="text" />
+          type="text"
+        />
       </card-content>
       <card-side>
         <file-input
@@ -74,17 +105,20 @@
           source="slug"
           type="text"
           full
-          required />
+          required
+        />
         <text-input
           source="slug_sort"
           type="text"
           full
-          required />
+          required
+        />
         <select-input
           source="type"
           choices="book_types"
           full
-          required />
+          required
+        />
         <date-input
           source="released_on"
           :options="{ dateFormat: 'Y-m-d' }"
@@ -105,41 +139,22 @@
         <text-input
           source="page_count"
           type="number"
-          full />
+          full
+        />
         <text-input
           source="maturity_rating"
           type="text"
-          full />
+          full
+        />
         <switch-input
           source="disabled"
-          full />
+          full
+        />
         <form-button
           :processing="processing"
-          :submit="submit" />
+          :submit="submit"
+        />
       </card-side>
     </div>
   </base-form>
 </template>
-
-<script lang="ts" setup>
-import { Ref, ref } from 'vue'
-
-defineProps({
-  method: {
-    type: String,
-    required: true,
-  },
-  url: {
-    type: String,
-    required: true,
-  },
-})
-
-const form: Ref<HTMLElement | null | any> = ref(null)
-
-const submit = () => {
-  if (form.value) {
-    form.value.submit()
-  }
-}
-</script>

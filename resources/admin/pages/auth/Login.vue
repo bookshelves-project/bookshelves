@@ -1,8 +1,24 @@
+<script lang="ts" setup>
+import { useTitle } from '@admin/features/helpers'
+import { usePage } from '@inertiajs/inertia-vue3'
+import { computed } from 'vue'
+
+defineProps({
+  canRegister: Boolean,
+  status: String,
+})
+
+useTitle('Login')
+
+const isDev = computed((): boolean => usePage().props.value.env === 'local')
+</script>
+
 <template>
   <auth-layout>
     <div
       v-if="status"
-      class="mb-4 font-medium text-base text-green-600">
+      class="mb-4 font-medium text-base text-green-600"
+    >
       {{ status }}
     </div>
 
@@ -51,15 +67,15 @@
         <checkbox-input
           source="remember"
           name="remember"
-          :model-value="true" />
+          :model-value="true"
+        />
       </div>
 
       <div class="flex items-center justify-between mt-6">
         <a
           href="/"
           class="text-base italic underline dark:text-white"
-        >Back to website</a
-        >
+        >Back to website</a>
 
         <div class="flex items-center justify-end">
           <!-- <inertia-link
@@ -73,7 +89,8 @@
           <base-button
             type="submit"
             class="ml-4"
-            :loading="processing">
+            :loading="processing"
+          >
             {{ $t('Log in') }}
           </base-button>
         </div>
@@ -81,18 +98,3 @@
     </base-form>
   </auth-layout>
 </template>
-
-<script lang="ts" setup>
-import { useTitle } from '@admin/features/helpers'
-import { usePage } from '@inertiajs/inertia-vue3'
-import { computed } from 'vue'
-
-defineProps({
-  canRegister: Boolean,
-  status: String,
-})
-
-useTitle('Login')
-
-const isDev = computed((): boolean => usePage().props.value.env === 'local')
-</script>

@@ -1,3 +1,15 @@
+<script lang="ts" setup>
+import type { PropType } from 'vue'
+import type { Profile } from '@admin/types'
+
+defineProps({
+  user: {
+    type: Object as PropType<Profile>,
+    required: true,
+  },
+})
+</script>
+
 <template>
   <form-section
     method="put"
@@ -8,7 +20,9 @@
     }"
     :item="user"
   >
-    <template #title> {{ $t('Profile Information') }} </template>
+    <template #title>
+      {{ $t('Profile Information') }}
+    </template>
 
     <template #description>
       {{ $t("Update your account's profile information and email address.") }}
@@ -21,7 +35,8 @@
           source="name"
           type="text"
           required
-          autocomplete="name" />
+          autocomplete="name"
+        />
       </div>
 
       <!-- Email -->
@@ -29,34 +44,25 @@
         <text-input
           source="email"
           type="text"
-          required />
+          required
+        />
       </div>
     </template>
 
     <template #actions="{ processing, recentlySuccessful }">
       <action-message
         :on="recentlySuccessful"
-        class="mr-3">
+        class="mr-3"
+      >
         {{ $t('Saved.') }}
       </action-message>
 
       <base-button
         type="submit"
-        :loading="processing">
+        :loading="processing"
+      >
         {{ $t('Save') }}
       </base-button>
     </template>
   </form-section>
 </template>
-
-<script lang="ts" setup>
-import { PropType } from 'vue'
-import { Profile } from '@admin/types'
-
-defineProps({
-  user: {
-    type: Object as PropType<Profile>,
-    required: true,
-  },
-})
-</script>

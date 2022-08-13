@@ -1,23 +1,3 @@
-<template>
-  <label class="flex items-center">
-    <input
-      v-model="formValue"
-      v-bind="$attrs"
-      :name="getName"
-      type="checkbox"
-    />
-    <span class="ml-2 text-base text-gray-600 dark:text-gray-400">{{
-      getLabel
-    }}</span>
-  </label>
-  <input-error
-    :message="getError"
-    class="mt-2" />
-  <input-hint
-    :message="hint"
-    class="mt-2" />
-</template>
-
 <script lang="ts" setup>
 import { inputProps, inputSetup } from '@admin/composables/input'
 
@@ -33,3 +13,25 @@ const emit = defineEmits(['update:modelValue'])
 
 const { getLabel, getName, formValue, getError } = inputSetup(props, emit)
 </script>
+
+<template>
+  <label class="flex items-center">
+    <input
+      v-model="formValue"
+      v-bind="$attrs"
+      :name="getName"
+      type="checkbox"
+    >
+    <span class="ml-2 text-base text-gray-600 dark:text-gray-400">{{
+      getLabel
+    }}</span>
+  </label>
+  <input-error
+    :message="getError"
+    class="mt-2"
+  />
+  <input-hint
+    :message="hint"
+    class="mt-2"
+  />
+</template>

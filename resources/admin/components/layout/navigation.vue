@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import route from 'ziggy-js'
-import { mainNav, isTitle, isLink } from '@admin/_nav'
+import { isLink, isTitle, mainNav } from '@admin/_nav'
 </script>
 
 <template>
@@ -14,7 +14,8 @@ import { mainNav, isTitle, isLink } from '@admin/_nav'
           class="!m-0"
           color="text-primary-600"
           full
-          reverse />
+          reverse
+        />
       </inertia-link>
     </div>
   </div>
@@ -25,7 +26,8 @@ import { mainNav, isTitle, isLink } from '@admin/_nav'
     <div class="px-2 space-y-1">
       <div
         v-for="(item, index) in mainNav"
-        :key="index">
+        :key="index"
+      >
         <component
           :is="item.external ? 'a' : 'inertia-link'"
           v-if="isLink(item)"
@@ -76,7 +78,8 @@ import { mainNav, isTitle, isLink } from '@admin/_nav'
   </nav>
   <div
     class="mt-5 divide-primary-800"
-    aria-label="Sidebar">
+    aria-label="Sidebar"
+  >
     <div class="px-2 space-y-1">
       <a
         href="/"

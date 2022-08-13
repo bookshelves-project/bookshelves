@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+defineProps({
+  on: Boolean,
+})
+</script>
+
 <template>
   <div>
     <transition
@@ -7,15 +13,10 @@
     >
       <div
         v-show="on"
-        class="text-base text-green-500">
+        class="text-base text-green-500"
+      >
         <slot />
       </div>
     </transition>
   </div>
 </template>
-
-<script lang="ts" setup>
-defineProps({
-  on: Boolean,
-})
-</script>

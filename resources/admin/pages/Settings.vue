@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { useTitle } from '@admin/features/helpers'
+
+defineProps<{
+  configuration: any
+}>()
+
+const title = useTitle('Settings')
+</script>
+
 <template>
   <app-layout :title="title">
     <div class="max-w-sm">
@@ -9,7 +19,8 @@
           <li
             v-for="(item, index) in configuration"
             :key="index"
-            class="py-4">
+            class="py-4"
+          >
             <div class="flex items-center space-x-4">
               <div class="flex-1 min-w-0">
                 <p
@@ -28,13 +39,3 @@
     </div>
   </app-layout>
 </template>
-
-<script setup lang="ts">
-import { useTitle } from '@admin/features/helpers'
-
-const title = useTitle('Settings')
-
-defineProps<{
-  configuration: any
-}>()
-</script>

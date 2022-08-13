@@ -1,36 +1,3 @@
-<template>
-  <modal
-    :show="show"
-    :max-width="maxWidth"
-    :closeable="closeable"
-    @close="$emit('close')"
-  >
-    <base-form
-      v-slot="{ processing }"
-      :method="method"
-      :url="url"
-      :options="options"
-      :data="data"
-    >
-      <div class="px-6 py-4">
-        <div class="text-lg">
-          <slot name="title"></slot>
-        </div>
-
-        <div class="mt-4">
-          <slot name="content"></slot>
-        </div>
-      </div>
-
-      <div class="px-6 py-4 bg-gray-100 dark:bg-gray-800 text-right">
-        <slot
-          name="footer"
-          :processing="processing"></slot>
-      </div>
-    </base-form>
-  </modal>
-</template>
-
 <script lang="ts" setup>
 import {} from 'vue'
 
@@ -61,3 +28,37 @@ defineProps({
 
 defineEmits(['close'])
 </script>
+
+<template>
+  <modal
+    :show="show"
+    :max-width="maxWidth"
+    :closeable="closeable"
+    @close="$emit('close')"
+  >
+    <base-form
+      v-slot="{ processing }"
+      :method="method"
+      :url="url"
+      :options="options"
+      :data="data"
+    >
+      <div class="px-6 py-4">
+        <div class="text-lg">
+          <slot name="title" />
+        </div>
+
+        <div class="mt-4">
+          <slot name="content" />
+        </div>
+      </div>
+
+      <div class="px-6 py-4 bg-gray-100 dark:bg-gray-800 text-right">
+        <slot
+          name="footer"
+          :processing="processing"
+        />
+      </div>
+    </base-form>
+  </modal>
+</template>
