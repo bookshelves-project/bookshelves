@@ -10,9 +10,9 @@
 
 [![mysql](https://img.shields.io/static/v1?label=MySQL&message=v8&color=4479A1&style=flat-square&logo=mysql&logoColor=ffffff)](https://www.mysql.com)
 
-📀 [**bookshelves-project**](https://gitlab.com/bookshelves-project): Bookshelves project repository  
+📀 [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository  
 💻 [**bookshelves.ink**](https://bookshelves.ink): demo  
-📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://gitlab.com/bookshelves-project/bookshelves-doc)  
+📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-doc)  
 
 ## **Setup**
 
@@ -32,7 +32,7 @@ See [**documentation**](https://bookshelves-documentation.netlify.app) to know m
 
 ## **Usage**
 
-To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app), if this link is broken, you have to refer to [**raw documentation**](https://gitlab.com/bookshelves-project/bookshelves-doc) on repository.
+To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app), if this link is broken, you have to refer to [**raw documentation**](https://github.com/bookshelves-project/bookshelves-doc) on repository.
 
 ## **Tests**
 
