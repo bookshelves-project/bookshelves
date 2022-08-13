@@ -12,6 +12,7 @@ export default class Downloader {
     this.url = url
     this.filename = filename
   }
+
   download = async () => {
     const response = await fetch(this.url)
 
@@ -23,27 +24,28 @@ export default class Downloader {
       this.total = contentLength
 
       const progress = ({ loaded, total }) => {
-        this.downloadStatus = Math.round((loaded / total) * 100) + '%'
+        this.downloadStatus = `${Math.round((loaded / total) * 100)}%`
       }
 
       // Step 3: read the data
       let receivedLength = 0 // received that many bytes at the moment
       const chunks: Uint8Array[] = [] // array of received binary chunks (comprises the body)
-      // eslint-disable-next-line no-constant-condition
+
       while (true) {
         const { done, value } = await reader.read()
 
-        if (done) {
+        if (done)
           break
-        }
 
         chunks.push(value)
         receivedLength += value.length
 
         this.loaded += value.byteLength
         // const status = `Received ${receivedLength} of ${contentLength}`
-        progress({ loaded: this.loaded,
-          total: this.total })
+        progress({
+          loaded: this.loaded,
+          total: this.total,
+        })
         const element = document.getElementById('downloadStatus')!
         element.textContent = this.downloadStatus
       }
@@ -61,6 +63,7 @@ export default class Downloader {
       this.convert(chunksAll)
     }
   }
+
   private convert = (uint8Array: Uint8Array) => {
     this.blob = new Blob([new Uint8Array(uint8Array)])
     this.file = new File([this.blob], this.filename)

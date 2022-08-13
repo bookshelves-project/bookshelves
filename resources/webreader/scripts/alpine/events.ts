@@ -10,37 +10,40 @@ const events = () => ({
       const full = document.getElementById('fullScreen')
       if (event.key === 'ArrowUp') {
         event.preventDefault()
-        full?.scrollBy({ top: -100,
-          behavior: 'smooth' })
+        full?.scrollBy({
+          top: -100,
+          behavior: 'smooth',
+        })
       }
       if (event.key === 'ArrowDown' || event.key === ' ') {
         event.preventDefault()
-        full?.scrollBy({ top: 100,
-          behavior: 'smooth' })
+        full?.scrollBy({
+          top: 100,
+          behavior: 'smooth',
+        })
       }
 
-      if (event.key === 'f') {
+      if (event.key === 'f')
         this.$store.webreader.switchSize('sizeFull')
-      }
-      if (event.key === 'l') {
+
+      if (event.key === 'l')
         this.$store.webreader.switchSize('sizeLarge')
-      }
-      if (event.key === 's') {
+
+      if (event.key === 's')
         this.$store.webreader.switchSize('sizeScreen')
-      }
+
       if (event.key === 'e') {
-        if (this.$store.webreader.isFullscreen) {
+        if (this.$store.webreader.isFullscreen)
           this.$store.webreader.fullscreenExit()
-        } else {
+        else
           this.$store.webreader.fullscreen()
-        }
       }
-      if (event.key === 'o') {
+      if (event.key === 'o')
         this.$store.webreader.lockMenu()
-      }
+
       if (event.key === 'i') {
-        this.$store.webreader.informationEnabled =
-          !this.$store.webreader.informationEnabled
+        this.$store.webreader.informationEnabled
+          = !this.$store.webreader.informationEnabled
       }
     })
   },
