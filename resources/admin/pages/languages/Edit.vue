@@ -1,24 +1,6 @@
-<template>
-  <edit-context v-slot="{ title }" resource="languages" :item="language">
-    <app-layout>
-      <template #header>
-        <page-header>
-          <h1>{{ title }}</h1>
-          <template #actions>
-            <list-button />
-            <delete-button />
-          </template>
-        </page-header>
-      </template>
-
-      <language-form :method="method" :url="url" />
-    </app-layout>
-  </edit-context>
-</template>
-
 <script lang="ts" setup>
-import { Language } from '@admin/types'
-import { PropType } from 'vue'
+import type { Language } from '@admin/types'
+import type { PropType } from 'vue'
 import route from 'ziggy-js'
 
 const props = defineProps({
@@ -31,3 +13,28 @@ const props = defineProps({
 const method = 'put'
 const url = route('admin.languages.update', { id: props.language.id })
 </script>
+
+<template>
+  <edit-context
+    v-slot="{ title }"
+    resource="languages"
+    :item="language"
+  >
+    <app-layout>
+      <template #header>
+        <page-header>
+          <h1>{{ title }}</h1>
+          <template #actions>
+            <list-button />
+            <delete-button />
+          </template>
+        </page-header>
+      </template>
+
+      <language-form
+        :method="method"
+        :url="url"
+      />
+    </app-layout>
+  </edit-context>
+</template>

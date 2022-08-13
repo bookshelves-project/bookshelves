@@ -1,5 +1,5 @@
 import { useElfinderStore } from '@admin/stores/elfinder'
-import { Editor } from '@tiptap/vue-3'
+import type { Editor } from '@tiptap/vue-3'
 import { truncate } from 'lodash'
 import route from 'ziggy-js'
 
@@ -142,14 +142,13 @@ export const useEditorInput = () => {
   }
   const callMethod = (name: string, params: any) => {
     const list: { [K: string]: any } = {
-      addImage: addImage,
-      clear: clear,
-      setLink: setLink,
+      addImage,
+      clear,
+      setLink,
     }
 
-    if (list[name]) {
+    if (list[name])
       return list[name](params)
-    }
 
     console.error(`Method '${name}' is not implemented.`)
   }
@@ -159,9 +158,8 @@ export const useEditorInput = () => {
     // toggleElfinderStatus()
     const url = window.prompt('URL')
 
-    if (url) {
+    if (url)
       editor.chain().focus().setImage({ src: url }).run()
-    }
   }
 
   const clear = (editor: Editor) => {
@@ -174,9 +172,8 @@ export const useEditorInput = () => {
     const url = window.prompt('URL', previousUrl)
 
     // cancelled
-    if (url === null) {
+    if (url === null)
       return
-    }
 
     // empty
     if (url === '') {

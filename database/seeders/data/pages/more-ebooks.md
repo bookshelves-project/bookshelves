@@ -62,7 +62,7 @@ If you have an application to read eBooks from OPDS feeds, you can add new feeds
 
 - [**Calibre Web application**](https://github.com/janeczku/calibre-web): Github for Calibre on web (dynamic database)
 - [**COPS**](https://github.com/seblucas/cops): Calibre OPDS PHP Server : web-based to serve ebooks (dynamic database)
-- This current application with [**bookshelves-back**](https://gitlab.com/bookshelves-project/bookshelves-back) (PHP with Laravel) and [**bookshelves-front**](https://gitlab.com/bookshelves-project/bookshelves-front) (Vue.js with Nuxt.js) with static database
+- This current application with [**bookshelves-back**](https://github.com/bookshelves-project/bookshelves-back) (PHP with Laravel) and [**bookshelves-front**](https://github.com/bookshelves-project/bookshelves-front) (Vue.js with Nuxt.js) with static database
 
 ## Applications
 

@@ -66,7 +66,7 @@ return [
     |
     */
 
-    'repository_url' => env('APP_REPOSITORY_URL', 'https://gitlab.com/bookshelves-project'),
+    'repository_url' => env('APP_REPOSITORY_URL', 'https://github.com/bookshelves-project'),
 
     'documentation_url' => env('APP_DOCUMENTATION_URL', 'https://bookshelves-documentation.netlify.app'),
 

@@ -30,6 +30,7 @@ class Version1_2Module extends Module implements ModuleInterface
             route: $current_route,
             data: $data,
         );
+
         return $service->template($title);
     }
 

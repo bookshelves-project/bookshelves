@@ -30,7 +30,9 @@ class OpdsEngine
     ];
 
     public Request $request;
+
     public string $version;
+
     public object $feed;
 
     public static function create(Request $request): ModuleInterface

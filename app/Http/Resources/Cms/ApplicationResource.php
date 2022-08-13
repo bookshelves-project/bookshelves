@@ -14,7 +14,7 @@ class ApplicationResource extends JsonResource
     /**
      * Transform the Book into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @mixin Book
      */
     public function toArray($request): array

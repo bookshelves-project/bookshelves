@@ -1,7 +1,47 @@
+<script setup lang="ts">
+import { ScaleIcon } from '@heroicons/vue/outline'
+import {
+  CashIcon,
+  CheckCircleIcon,
+  ChevronRightIcon,
+  OfficeBuildingIcon,
+} from '@heroicons/vue/solid'
+
+const cards = [
+  {
+    name: 'Account balance',
+    href: '#',
+    icon: ScaleIcon,
+    amount: '$30,659.45',
+  },
+  // More items...
+]
+const transactions = [
+  {
+    id: 1,
+    name: 'Payment to Molly Sanders',
+    href: '#',
+    amount: '$20,000',
+    currency: 'USD',
+    status: 'success',
+    date: 'July 11, 2020',
+    datetime: '2020-07-11',
+  },
+  // More transactions...
+]
+const statusStyles = {
+  success: 'bg-green-100 text-green-800',
+  processing: 'bg-yellow-100 text-yellow-800',
+  failed: 'bg-gray-100 text-gray-800',
+}
+</script>
+
 <template>
   <div>
     <div class="mt-8">
-      <h2 class="text-lg leading-6 font-medium text-gray-900">Overview</h2>
+      <h2 class="text-lg leading-6 font-medium text-gray-900">
+        Overview
+      </h2>
       <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <!-- Card -->
         <div
@@ -56,7 +96,10 @@
           role="list"
           class="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden"
         >
-          <li v-for="transaction in transactions" :key="transaction.id">
+          <li
+            v-for="transaction in transactions"
+            :key="transaction.id"
+          >
             <a
               :href="transaction.href"
               class="block px-4 py-4 hover:bg-gray-50"
@@ -69,12 +112,10 @@
                   />
                   <span class="flex flex-col text-gray-500 text-base truncate">
                     <span class="truncate">{{ transaction.name }}</span>
-                    <span
-                      ><span class="text-gray-900 font-medium">{{
-                        transaction.amount
-                      }}</span>
-                      {{ transaction.currency }}</span
-                    >
+                    <span><span class="text-gray-900 font-medium">{{
+                            transaction.amount
+                          }}</span>
+                      {{ transaction.currency }}</span>
                     <time :datetime="transaction.datetime">{{
                       transaction.date
                     }}</time>
@@ -170,8 +211,7 @@
                   <td
                     class="px-6 py-4 text-right whitespace-nowrap text-base text-gray-500"
                   >
-                    <span class="text-gray-900 font-medium"
-                      >{{ transaction.amount }}
+                    <span class="text-gray-900 font-medium">{{ transaction.amount }}
                     </span>
                     {{ transaction.currency }}
                   </td>
@@ -179,9 +219,8 @@
                     class="hidden px-6 py-4 whitespace-nowrap text-base text-gray-500 md:block"
                   >
                     <span
-                      :class="[
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize" :class="[
                         statusStyles[transaction.status],
-                        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize',
                       ]"
                     >
                       {{ transaction.status }}
@@ -240,41 +279,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ScaleIcon } from '@heroicons/vue/outline'
-import {
-  CashIcon,
-  CheckCircleIcon,
-  ChevronRightIcon,
-  OfficeBuildingIcon,
-} from '@heroicons/vue/solid'
-
-const cards = [
-  {
-    name: 'Account balance',
-    href: '#',
-    icon: ScaleIcon,
-    amount: '$30,659.45',
-  },
-  // More items...
-]
-const transactions = [
-  {
-    id: 1,
-    name: 'Payment to Molly Sanders',
-    href: '#',
-    amount: '$20,000',
-    currency: 'USD',
-    status: 'success',
-    date: 'July 11, 2020',
-    datetime: '2020-07-11',
-  },
-  // More transactions...
-]
-const statusStyles = {
-  success: 'bg-green-100 text-green-800',
-  processing: 'bg-yellow-100 text-yellow-800',
-  failed: 'bg-gray-100 text-gray-800',
-}
-</script>

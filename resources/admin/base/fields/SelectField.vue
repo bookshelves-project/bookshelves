@@ -1,12 +1,3 @@
-<template>
-  <span
-    v-if="label"
-    class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full text-gray-800"
-    :class="variant || 'bg-primary-100'"
-    >{{ label }}</span
-  >
-</template>
-
 <script lang="ts" setup>
 import { usePage } from '@inertiajs/inertia-vue3'
 import { computed } from 'vue'
@@ -26,20 +17,29 @@ const props = defineProps({
 const label = computed(() => {
   let options = props.choices
 
-  if (typeof options === 'string') {
+  if (typeof options === 'string')
     options = (usePage().props.value.enums as any)[props.choices as string]
-  }
+
   return (options as any)[props.value]
 })
 
 const variant = computed(() => {
-  if (typeof props.choices !== 'string') return null
+  if (typeof props.choices !== 'string')
+    return null
 
   const variant = (enumVariants as any)[props.choices]
 
-  if (variant) {
+  if (variant)
     return variant[props.value]
-  }
+
   return null
 })
 </script>
+
+<template>
+  <span
+    v-if="label"
+    class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full text-gray-800"
+    :class="variant || 'bg-primary-100'"
+  >{{ label }}</span>
+</template>

@@ -1,3 +1,19 @@
+<script lang="ts" setup>
+import type { PropType } from 'vue'
+import type { Media } from '@admin/types'
+
+defineProps({
+  value: {
+    type: [String, Object] as
+      | PropType<Media[]>
+      | PropType<{
+        [uuid: string]: Media
+      }>,
+    required: true,
+  },
+})
+</script>
+
 <template>
   <div class="flex flex-col">
     <template v-for="(media, i) in value">
@@ -14,19 +30,3 @@
     </template>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { PropType } from 'vue'
-import { Media } from '@admin/types'
-
-defineProps({
-  value: {
-    type: [String, Object] as
-      | PropType<Media[]>
-      | PropType<{
-          [uuid: string]: Media
-        }>,
-    required: true,
-  },
-})
-</script>

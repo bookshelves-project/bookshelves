@@ -96,7 +96,7 @@ class ApiCommand extends CommandProd
         $count = Book::whereNotNull('isbn10')
             ->orWhereNotNull('isbn13')
             ->count()
-            ;
+        ;
         $this->comment("Need to have ISBN, {$count} books can be scanned");
         $start = microtime(true);
         $service = GoogleBookService::create(Book::class, debug: $debug);
@@ -158,7 +158,7 @@ class ApiCommand extends CommandProd
         }
 
         $list = $model_name::orderBy($orderBy)->get();
-        $this->comment($class.': '.sizeof($list));
+        $this->comment($class.': '.count($list));
 
         $start = microtime(true);
 

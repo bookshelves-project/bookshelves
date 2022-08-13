@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+import { useTitle } from '@admin/features/helpers'
+
+const title = useTitle('Profile')
+</script>
+
 <template>
   <app-layout>
     <template #header>
@@ -17,9 +23,3 @@
     </div>
   </app-layout>
 </template>
-
-<script lang="ts" setup>
-import { useTitle } from '@admin/features/helpers'
-
-const title = useTitle('Profile')
-</script>

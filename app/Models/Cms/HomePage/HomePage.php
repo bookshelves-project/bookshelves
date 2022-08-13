@@ -30,6 +30,7 @@ class HomePage extends Model implements HasMedia
     ];
 
     protected $table = 'cms_home_pages';
+
     protected $fillable = [
         'hero_title',
         'hero_text',

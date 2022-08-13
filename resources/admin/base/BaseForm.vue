@@ -1,12 +1,7 @@
-<template>
-  <form class="base-form" @submit.prevent="onSubmit">
-    <slot :processing="processing" :recently-successful="recentlySuccessful" />
-  </form>
-</template>
-
 <script lang="ts" setup>
-import { inject, provide, ref, reactive } from 'vue'
-import { Inertia, Method } from '@inertiajs/inertia'
+import { inject, provide, reactive, ref } from 'vue'
+import type { Method } from '@inertiajs/inertia'
+import { Inertia } from '@inertiajs/inertia'
 
 const props = defineProps({
   transform: Function,
@@ -39,9 +34,8 @@ const form = reactive({
 provide('form', form)
 
 const onSubmit = () => {
-  if (!props.disableSubmit) {
+  if (!props.disableSubmit)
     submit()
-  }
 }
 
 const submit = async (data = {}) => {
@@ -58,49 +52,56 @@ const submit = async (data = {}) => {
       recentlySuccessful.value = false
       clearTimeout(recentlySuccessfulTimeoutId)
 
-      if (props.options?.onBefore) {
+      if (props.options?.onBefore)
         return props.options.onBefore(visit)
-      }
     },
     onStart: (visit) => {
       processing.value = true
 
-      if (props.options?.onStart) {
+      if (props.options?.onStart)
         return props.options.onStart(visit)
-      }
     },
     onSuccess: (page) => {
       processing.value = false
       recentlySuccessful.value = true
       recentlySuccessfulTimeoutId = setTimeout(
         () => (recentlySuccessful.value = false),
-        2000
+        2000,
       )
 
-      if (props.options?.onSuccess) {
+      if (props.options?.onSuccess)
         return props.options.onSuccess(page)
-      }
     },
     onError: (errors) => {
       processing.value = false
       form.errors = { ...errors }
 
-      if (props.options?.onError) {
+      if (props.options?.onError)
         return props.options.onError(errors)
-      }
     },
     onFinish: () => {
       processing.value = false
 
-      if (props.options?.onFinish) {
+      if (props.options?.onFinish)
         return props.options.onFinish()
-      }
     },
   })
 }
 
 defineExpose({ submit })
 </script>
+
+<template>
+  <form
+    class="base-form"
+    @submit.prevent="onSubmit"
+  >
+    <slot
+      :processing="processing"
+      :recently-successful="recentlySuccessful"
+    />
+  </form>
+</template>
 
 <style lang="css" scoped>
 .base-form {

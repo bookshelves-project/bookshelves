@@ -145,7 +145,7 @@ class ApiController extends Controller
     /**
      * @hideFromAPIDocumentation
      *
-     * @param mixed $isLaravelRoute
+     * @param  mixed  $isLaravelRoute
      */
     private function getRouteData(string $route, string $description, $isLaravelRoute = true)
     {

@@ -36,7 +36,7 @@ class PageExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
     }
 
     /**
-     * @param Page $row
+     * @param  Page  $row
      */
     public function map($row): array
     {

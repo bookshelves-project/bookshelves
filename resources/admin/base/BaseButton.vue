@@ -1,58 +1,3 @@
-<template>
-  <span class="inline-flex">
-    <component
-      v-bind="$attrs"
-      :is="href ? tag : 'button'"
-      class="inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-l text-xs uppercase font-semibold tracking-widest focus:outline-none focus:ring disabled:opacity-25 transition"
-      :class="[
-        `btn-${variant}`,
-        {
-          'btn-outlined': outlined,
-          'opacity-25': loading,
-          'rounded-r': !split,
-        },
-      ]"
-      :disabled="disabled || loading"
-      :href="href"
-      :only="only"
-      @click.stop="$emit('click')"
-    >
-      <spinner
-        v-if="loading"
-        class="-ml-1 h-4 w-4 text-white"
-        :class="{
-          '-ml-1 mr-2': hasLabel,
-          '-ml-1 -mr-2': !hasLabel,
-        }"
-      />
-      <component
-        :is="`${icon}-icon`"
-        v-else-if="icon"
-        class="w-5 h-5"
-        :class="{
-          '-ml-1 mr-2': hasLabel,
-          '-ml-2 -mr-2': !hasLabel,
-        }"
-      />
-      <slot v-if="hasLabel"></slot>
-    </component>
-    <button
-      v-if="split"
-      type="button"
-      class="px-2 py-2 border border-transparent rounded-r disabled:opacity-25"
-      :class="[
-        `btn-${variant}`,
-        {
-          'btn-outlined': outlined,
-        },
-      ]"
-      :disabled="disabled || loading"
-    >
-      <chevron-down-icon class="h-4 w-4" />
-    </button>
-  </span>
-</template>
-
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
 
@@ -91,6 +36,61 @@ const hasLabel = computed(() => {
   return !props.hideLabel && !!useSlots().default
 })
 </script>
+
+<template>
+  <span class="inline-flex">
+    <component
+      v-bind="$attrs"
+      :is="href ? tag : 'button'"
+      class="inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-l text-xs uppercase font-semibold tracking-widest focus:outline-none focus:ring disabled:opacity-25 transition"
+      :class="[
+        `btn-${variant}`,
+        {
+          'btn-outlined': outlined,
+          'opacity-25': loading,
+          'rounded-r': !split,
+        },
+      ]"
+      :disabled="disabled || loading"
+      :href="href"
+      :only="only"
+      @click.stop="$emit('click')"
+    >
+      <spinner
+        v-if="loading"
+        class="-ml-1 h-4 w-4 text-white"
+        :class="{
+          '-ml-1 mr-2': hasLabel,
+          '-ml-1 -mr-2': !hasLabel,
+        }"
+      />
+      <component
+        :is="`${icon}-icon`"
+        v-else-if="icon"
+        class="w-5 h-5"
+        :class="{
+          '-ml-1 mr-2': hasLabel,
+          '-ml-2 -mr-2': !hasLabel,
+        }"
+      />
+      <slot v-if="hasLabel" />
+    </component>
+    <button
+      v-if="split"
+      type="button"
+      class="px-2 py-2 border border-transparent rounded-r disabled:opacity-25"
+      :class="[
+        `btn-${variant}`,
+        {
+          'btn-outlined': outlined,
+        },
+      ]"
+      :disabled="disabled || loading"
+    >
+      <chevron-down-icon class="h-4 w-4" />
+    </button>
+  </span>
+</template>
 
 <style lang="css" scoped>
 a,

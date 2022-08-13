@@ -128,8 +128,8 @@ class WikipediaService
     /**
      * Make GET request from Wikipedia API and parse it.
      *
-     * @param string $url_attribute is WikipediaQuery attribute which is an URL
-     * @param string $method        is WikipediaQuery class method to parse response
+     * @param  string  $url_attribute is WikipediaQuery attribute which is an URL
+     * @param  string  $method        is WikipediaQuery class method to parse response
      */
     public function search(string $url_attribute, string $method): WikipediaService
     {

@@ -5,20 +5,22 @@ import 'virtual:windi.css'
 import './app.css'
 
 import { createApp, h } from 'vue'
-import { createInertiaApp, Link } from '@inertiajs/inertia-vue3'
+import { Link, createInertiaApp } from '@inertiajs/inertia-vue3'
 import { InertiaProgress } from '@inertiajs/progress'
 
+import { createPinia } from 'pinia'
 import Route from './plugins/route'
 import Translations from './plugins/translations'
 import GlobalComponents from './plugins/global-components'
 import DateFns from './plugins/date-fns'
 import HeroIcons from './plugins/hero-icons'
-import { createPinia } from 'pinia'
 
 createInertiaApp({
   resolve: (name) => {
-    const pages = import.meta.globEager(`./pages/**/*`)
+    const pages = import.meta.globEager('./pages/**/*')
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     return pages[`./pages/${name}.vue`].default
   },
   setup({ el, app, props, plugin }) {

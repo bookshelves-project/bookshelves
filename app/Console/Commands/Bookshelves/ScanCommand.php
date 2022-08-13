@@ -46,7 +46,7 @@ class ScanCommand extends CommandProd
 
         $new_files = [];
         if (! $verbose) {
-            $bar = $this->output->createProgressBar(sizeof($files));
+            $bar = $this->output->createProgressBar(count($files));
             $bar->start();
         }
         foreach ($files as $key => $file) {
@@ -67,7 +67,7 @@ class ScanCommand extends CommandProd
             $this->newLine();
         }
 
-        if (sizeof($new_files) > 0) {
+        if (count($new_files) > 0) {
             $this->newLine();
             $this->info('New files detected');
             $this->newLine();
@@ -79,18 +79,18 @@ class ScanCommand extends CommandProd
         }
 
         $this->newLine();
-        $this->warn(sizeof(($files)).' files found');
-        if (sizeof($new_files) > 0) {
-            $this->warn(sizeof(($new_files)).' new files found, to add it to collection, you can use `bookshelves:generate`');
+        $this->warn(count(($files)).' files found');
+        if (count($new_files) > 0) {
+            $this->warn(count(($new_files)).' new files found, to add it to collection, you can use `bookshelves:generate`');
         }
-        if (0 === sizeof(($new_files)) && sizeof(($files)) !== Book::count()) {
+        if (0 === count(($new_files)) && count(($files)) !== Book::count()) {
             $this->warn('Some duplicates detected!');
         }
         $this->newLine();
 
         $this->table(
             ['New books', 'Books'],
-            [[sizeof($new_files), Book::count()]]
+            [[count($new_files), Book::count()]]
         );
 
         return $files;

@@ -10,10 +10,10 @@ const currentIcon = computed(() =>
   defineAsyncComponent({
     loader: () => import(`../svg/${props.name}.svg`),
     loadingComponent: {
-      template: `<span></span>`,
+      template: '<span></span>',
     },
     errorComponent: {
-      template: `<span>error</span>`,
+      template: '<span>error</span>',
     },
     delay: 200, // default: 200
     timeout: 3000, // default: Infinity
@@ -25,14 +25,17 @@ const currentIcon = computed(() =>
       //   fail()
       // }
     },
-  })
+  }),
 )
 const attrs = useAttrs()
 </script>
 
 <template>
   <span>
-    <component :is="currentIcon" :class="attrs.class" />
+    <component
+      :is="currentIcon"
+      :class="attrs.class"
+    />
     <!-- <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

@@ -18,7 +18,7 @@ trait HasFavorites
             $entity = $this->getClassNamespace()::whereSlug($this->slug)->first();
 
             $checkIfFavorite = $this->getClassNamespace()::find($entity->id)->favorites;
-            if (! sizeof($checkIfFavorite) < 1) {
+            if (! count($checkIfFavorite) < 1) {
                 $is_favorite = true;
             }
         }

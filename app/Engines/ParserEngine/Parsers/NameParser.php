@@ -81,6 +81,7 @@ class NameParser
         if (! is_array($this->engine->{$property})) {
             return null === $this->engine->{$property} ? $this->{$property} : $this->engine->{$property};
         }
+
         return [] === $this->engine->{$property} ? $this->{$property} : $this->engine->{$property};
     }
 

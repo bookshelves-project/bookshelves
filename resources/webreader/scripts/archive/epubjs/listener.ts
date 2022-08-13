@@ -15,11 +15,13 @@ const mouseListener = (document, rendition, fn) => {
   document.addEventListener(
     'click',
     (event) => {
-      if (event.ignore) return
+      if (event.ignore)
+        return
       event.ignore = true
 
       // User selected text
-      if (document.getSelection().toString()) return
+      if (document.getSelection().toString())
+        return
 
       // Get book iframe window's size
       const wX = document.body.clientWidth
@@ -30,11 +32,13 @@ const mouseListener = (document, rendition, fn) => {
       // const cY = event.clientY;
 
       // Click was in left 20% of page
-      if (cX < wX * 0.2) fn('prev')
+      if (cX < wX * 0.2)
+        fn('prev')
       // Click was in right 20% of page
-      else if (cX > wX - wX * 0.2) fn('next')
+      else if (cX > wX - wX * 0.2)
+        fn('next')
     },
-    false
+    false,
   )
 }
 
@@ -49,15 +53,14 @@ const keyListener = (el, fn) => {
     'keyup',
     (e) => {
       // Right or up arrow key indicates next
-      if (e.keyCode === 39 || e.keyCode === 38) {
+      if (e.keyCode === 39 || e.keyCode === 38)
         fn('next')
-      }
+
       // left or down arrow key indicates next
-      else if (e.keyCode === 37 || e.keyCode === 40) {
+      else if (e.keyCode === 37 || e.keyCode === 40)
         fn('prev')
-      }
     },
-    false
+    false,
   )
 }
 
@@ -73,13 +76,15 @@ const selectListener = (document, rendition, fn) => {
   })
 
   document.addEventListener('mouseup', (e) => {
-    if (e.ignore) return
+    if (e.ignore)
+      return
     e.ignore = true
 
     const selection = document.getSelection()
     const text = selection.toString()
 
-    if (text === '') return
+    if (text === '')
+      return
     const range = selection.getRangeAt(0)
 
     const [contents] = rendition.getContents()
@@ -126,20 +131,22 @@ const swipListener = (document, fn) => {
   document.addEventListener(
     'touchstart',
     (e) => {
-      if (e.ignore) return
+      if (e.ignore)
+        return
       e.ignore = true
 
       startX = e.changedTouches[0].pageX
       startY = e.changedTouches[0].pageY
       startTime = Date.now()
     },
-    false
+    false,
   )
 
   document.addEventListener(
     'touchend',
     (e) => {
-      if (e.ignore) return
+      if (e.ignore)
+        return
       e.ignore = true
 
       // Get distance traveled by finger while in contact with surface
@@ -152,12 +159,12 @@ const swipListener = (document, fn) => {
       if (elapsedTime <= allowedTime) {
         // Horizontal swipe
         if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint)
-          // If dist traveled is negative, it indicates left swipe
-          fn(distX < 0 ? 'prev' : 'next')
+        // If dist traveled is negative, it indicates left swipe
+        { fn(distX < 0 ? 'prev' : 'next') }
         // Vertical swipe
         else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint)
-          // If dist traveled is negative, it indicates up swipe
-          fn(distY < 0 ? 'up' : 'down')
+        // If dist traveled is negative, it indicates up swipe
+        { fn(distY < 0 ? 'up' : 'down') }
         // Tap
         else {
           document.defaultView.getSelection().removeAllRanges()
@@ -167,7 +174,7 @@ const swipListener = (document, fn) => {
             new MouseEvent('click', {
               clientX: startX,
               clientY: startY,
-            })
+            }),
           )
 
           // !! Needed to prevent double 'clicks' in certain environments
@@ -175,7 +182,7 @@ const swipListener = (document, fn) => {
         }
       }
     },
-    false
+    false,
   )
 }
 
@@ -195,7 +202,8 @@ const wheelListener = (el, fn) => {
   let isScrolling
 
   el.addEventListener('wheel', (e) => {
-    if (e.ignore) return
+    if (e.ignore)
+      return
     e.ignore = true
 
     clearTimeout(isScrolling)

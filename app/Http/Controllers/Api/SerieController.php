@@ -60,6 +60,7 @@ class SerieController extends ApiController
     public function show(Request $request, Author $author, Serie $serie)
     {
         $this->getLang($request);
+
         return SerieResource::make($serie);
     }
 

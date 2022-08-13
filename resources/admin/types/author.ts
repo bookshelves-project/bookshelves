@@ -5,10 +5,11 @@ export class Author extends Model {
     public id: number,
     public firstname: string,
     public lastname: string,
-    public name: string
+    public name: string,
   ) {
     super(id)
   }
+
   toString() {
     return `${this.firstname} ${this.lastname}`
   }

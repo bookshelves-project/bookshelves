@@ -61,15 +61,18 @@ class Book extends Model implements HasMedia
         'serie_id',
         'publisher_id',
     ];
+
     protected $with = [
         'language',
         'authors',
         'serie',
         'media',
     ];
+
     protected $appends = [
         'isbn',
     ];
+
     protected $casts = [
         'released_on' => 'datetime',
         'disabled' => 'boolean',
@@ -239,6 +242,7 @@ class Book extends Model implements HasMedia
     public function searchableAs()
     {
         $app = config('bookshelves.name');
+
         return "{$app}_book";
     }
 

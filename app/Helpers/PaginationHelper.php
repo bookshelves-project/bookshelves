@@ -13,6 +13,7 @@ class PaginationHelper
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
+
         return new LengthAwarePaginator($items->forPage($page, $size), $items->count(), $size, $page, $options);
     }
 

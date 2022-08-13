@@ -13,7 +13,7 @@ class BookIdentifier
     /**
      * Normalize identifier.
      *
-     * @param array $data [id, value]
+     * @param  array  $data [id, value]
      */
     public static function create(array $data): BookIdentifier|null
     {

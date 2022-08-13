@@ -102,28 +102,28 @@ export default class TinyGesture {
     this.element.addEventListener(
       'touchstart',
       this._onTouchStart,
-      passiveIfSupported
+      passiveIfSupported,
     )
     this.element.addEventListener(
       'touchmove',
       this._onTouchMove,
-      passiveIfSupported
+      passiveIfSupported,
     )
     this.element.addEventListener(
       'touchend',
       this._onTouchEnd,
-      passiveIfSupported
+      passiveIfSupported,
     )
     if (this.opts.mouseSupport && !('ontouchstart' in window)) {
       this.element.addEventListener(
         'mousedown',
         this._onTouchStart,
-        passiveIfSupported
+        passiveIfSupported,
       )
       document.addEventListener(
         'mousemove',
         this._onTouchMove,
-        passiveIfSupported
+        passiveIfSupported,
       )
       document.addEventListener('mouseup', this._onTouchEnd, passiveIfSupported)
     }
@@ -154,16 +154,14 @@ export default class TinyGesture {
   off(type: Gesture, fn: () => void) {
     if (this.handlers[type]) {
       const idx = this.handlers[type].indexOf(fn)
-      if (idx !== -1) {
+      if (idx !== -1)
         this.handlers[type].splice(idx, 1)
-      }
     }
   }
 
   fire(type: Gesture, event: Event) {
-    for (let i = 0; i < this.handlers[type].length; i++) {
+    for (let i = 0; i < this.handlers[type].length; i++)
       this.handlers[type][i](event)
-    }
   }
 
   onTouchStart(event) {
@@ -171,18 +169,18 @@ export default class TinyGesture {
     this.thresholdY = this.opts.threshold('y', this)
     this.disregardVelocityThresholdX = this.opts.disregardVelocityThreshold(
       'x',
-      this
+      this,
     )
     this.disregardVelocityThresholdY = this.opts.disregardVelocityThreshold(
       'y',
-      this
+      this,
     )
-    this.touchStartX =
-      event.type === 'mousedown'
+    this.touchStartX
+      = event.type === 'mousedown'
         ? event.screenX
         : event.changedTouches[0].screenX
-    this.touchStartY =
-      event.type === 'mousedown'
+    this.touchStartY
+      = event.type === 'mousedown'
         ? event.screenY
         : event.changedTouches[0].screenY
     this.touchMoveX = null
@@ -192,26 +190,26 @@ export default class TinyGesture {
     // Long press.
     this.longPressTimer = setTimeout(
       () => this.fire('longpress', event),
-      this.opts.longPressTime
+      this.opts.longPressTime,
     )
     this.fire('panstart', event)
   }
 
   onTouchMove(event) {
     if (
-      event.type === 'mousemove' &&
-      (!this.touchStartX || this.touchEndX !== null)
-    ) {
+      event.type === 'mousemove'
+      && (!this.touchStartX || this.touchEndX !== null)
+    )
       return
-    }
-    const touchMoveX =
-      (event.type === 'mousemove'
+
+    const touchMoveX
+      = (event.type === 'mousemove'
         ? event.screenX
         : event.changedTouches[0].screenX) - this.touchStartX
     this.velocityX = touchMoveX - this.touchMoveX
     this.touchMoveX = touchMoveX
-    const touchMoveY =
-      (event.type === 'mousemove'
+    const touchMoveY
+      = (event.type === 'mousemove'
         ? event.screenY
         : event.changedTouches[0].screenY) - this.touchStartY
     this.velocityY = touchMoveY - this.touchMoveY
@@ -220,31 +218,31 @@ export default class TinyGesture {
     const absTouchMoveY = Math.abs(this.touchMoveY)
     this.swipingHorizontal = absTouchMoveX > this.thresholdX
     this.swipingVertical = absTouchMoveY > this.thresholdY
-    this.swipingDirection =
-      absTouchMoveX > absTouchMoveY
+    this.swipingDirection
+      = absTouchMoveX > absTouchMoveY
         ? this.swipingHorizontal
           ? 'horizontal'
           : 'pre-horizontal'
         : this.swipingVertical
-        ? 'vertical'
-        : 'pre-vertical'
-    if (Math.max(absTouchMoveX, absTouchMoveY) > this.opts.pressThreshold) {
+          ? 'vertical'
+          : 'pre-vertical'
+    if (Math.max(absTouchMoveX, absTouchMoveY) > this.opts.pressThreshold)
       clearTimeout(this.longPressTimer)
-    }
+
     this.fire('panmove', event)
   }
 
   onTouchEnd(event) {
     if (
-      event.type === 'mouseup' &&
-      (!this.touchStartX || this.touchEndX !== null)
-    ) {
+      event.type === 'mouseup'
+      && (!this.touchStartX || this.touchEndX !== null)
+    )
       return
-    }
-    this.touchEndX =
-      event.type === 'mouseup' ? event.screenX : event.changedTouches[0].screenX
-    this.touchEndY =
-      event.type === 'mouseup' ? event.screenY : event.changedTouches[0].screenY
+
+    this.touchEndX
+      = event.type === 'mouseup' ? event.screenX : event.changedTouches[0].screenX
+    this.touchEndY
+      = event.type === 'mouseup' ? event.screenY : event.changedTouches[0].screenY
     this.fire('panend', event)
     clearTimeout(this.longPressTimer)
 
@@ -264,54 +262,54 @@ export default class TinyGesture {
         if (x < 0) {
           // Left swipe.
           if (
-            this.velocityX < -this.opts.velocityThreshold ||
-            x < -this.disregardVelocityThresholdX
-          ) {
+            this.velocityX < -this.opts.velocityThreshold
+            || x < -this.disregardVelocityThresholdX
+          )
             this.fire('swipeleft', event)
-          }
-        } else {
+        }
+        else {
           // Right swipe.
           if (
-            this.velocityX > this.opts.velocityThreshold ||
-            x > this.disregardVelocityThresholdX
-          ) {
+            this.velocityX > this.opts.velocityThreshold
+            || x > this.disregardVelocityThresholdX
+          )
             this.fire('swiperight', event)
-          }
         }
       }
       if (this.swipedVertical) {
         if (y < 0) {
           // Upward swipe.
           if (
-            this.velocityY < -this.opts.velocityThreshold ||
-            y < -this.disregardVelocityThresholdY
-          ) {
+            this.velocityY < -this.opts.velocityThreshold
+            || y < -this.disregardVelocityThresholdY
+          )
             this.fire('swipeup', event)
-          }
-        } else {
+        }
+        else {
           // Downward swipe.
           if (
-            this.velocityY > this.opts.velocityThreshold ||
-            y > this.disregardVelocityThresholdY
-          ) {
+            this.velocityY > this.opts.velocityThreshold
+            || y > this.disregardVelocityThresholdY
+          )
             this.fire('swipedown', event)
-          }
         }
       }
-    } else if (
-      absX < this.opts.pressThreshold &&
-      absY < this.opts.pressThreshold
+    }
+    else if (
+      absX < this.opts.pressThreshold
+      && absY < this.opts.pressThreshold
     ) {
       // Tap.
       if (this.doubleTapWaiting) {
         this.doubleTapWaiting = false
         clearTimeout(this.doubleTapTimer)
         this.fire('doubletap', event)
-      } else {
+      }
+      else {
         this.doubleTapWaiting = true
         this.doubleTapTimer = setTimeout(
           () => (this.doubleTapWaiting = false),
-          this.opts.doubleTapTime
+          this.opts.doubleTapTime,
         )
         this.fire('tap', event)
       }
@@ -324,17 +322,17 @@ const optionsDefault: Options = {
     Math.max(
       25,
       Math.floor(
-        0.15 *
-          (type === 'x'
+        0.15
+          * (type === 'x'
             ? window.innerWidth || document.body.clientWidth
-            : window.innerHeight || document.body.clientHeight)
-      )
+            : window.innerHeight || document.body.clientHeight),
+      ),
     ),
   velocityThreshold: 10,
   disregardVelocityThreshold: (type: Gesture, self) =>
     Math.floor(
-      0.5 *
-        (type === 'x' ? self.element.clientWidth : self.element.clientHeight)
+      0.5
+        * (type === 'x' ? self.element.clientWidth : self.element.clientHeight),
     ),
   pressThreshold: 8,
   diagonalSwipes: false,

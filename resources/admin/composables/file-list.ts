@@ -5,8 +5,8 @@ export const useFileList = () => {
 
   function addFiles(newFiles: UploadableFile[]) {
     const newUploadableFiles = [...newFiles]
-      .map((file) => new UploadableFile(file))
-      .filter((file) => !fileExists(file.id))
+      .map(file => new UploadableFile(file))
+      .filter(file => !fileExists(file.id))
     files.value = files.value.concat(newUploadableFiles)
   }
 
@@ -17,10 +17,15 @@ export const useFileList = () => {
   function removeFile(file) {
     const index = files.value.indexOf(file)
 
-    if (index > -1) files.value.splice(index, 1)
+    if (index > -1)
+      files.value.splice(index, 1)
   }
 
-  return { files, addFiles, removeFile }
+  return {
+    files,
+    addFiles,
+    removeFile,
+  }
 }
 
 class UploadableFile {

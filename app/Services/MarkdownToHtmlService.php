@@ -73,6 +73,7 @@ class MarkdownToHtmlService
     public static function improveHtml(string $html): string
     {
         $html = preg_replace('/<a(.*?)>/', '<a$1 target="_blank" rel="noopener noreferrer">', $html);
+
         return preg_replace('/<img(.*?)>/', '<img$1 loading="lazy">', $html);
     }
 
@@ -157,6 +158,7 @@ class MarkdownToHtmlService
         $html = str_replace('<html><body>', '', $html);
         $html = str_replace('</body></html>', '', $html);
         $html = str_replace('<p><img', '<img', $html);
+
         return str_replace('"></p>', '">', $html);
     }
 

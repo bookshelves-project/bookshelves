@@ -1,4 +1,4 @@
-import { EnumTypes } from '@admin/types'
+import type { EnumTypes } from '@admin/types'
 import { usePage } from '@inertiajs/inertia-vue3'
 
 export const useEnums = () => {

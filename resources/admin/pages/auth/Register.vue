@@ -1,8 +1,18 @@
+<script lang="ts" setup>
+import { useTitle } from '@admin/features/helpers'
+
+useTitle('Register')
+</script>
+
 <template>
   <auth-layout>
     <validation-errors class="mb-4" />
 
-    <base-form v-slot="{ processing }" method="post" :url="route('register')">
+    <base-form
+      v-slot="{ processing }"
+      method="post"
+      :url="route('register')"
+    >
       <div>
         <text-input
           source="name"
@@ -14,7 +24,11 @@
       </div>
 
       <div class="mt-4">
-        <text-input source="email" type="email" required />
+        <text-input
+          source="email"
+          type="email"
+          required
+        />
       </div>
 
       <div class="mt-4">
@@ -43,16 +57,14 @@
           {{ $t('Already registered?') }}
         </inertia-link>
 
-        <base-button type="submit" class="ml-4" :loading="processing">
+        <base-button
+          type="submit"
+          class="ml-4"
+          :loading="processing"
+        >
           {{ $t('Register') }}
         </base-button>
       </div>
     </base-form>
   </auth-layout>
 </template>
-
-<script lang="ts" setup>
-import { useTitle } from '@admin/features/helpers'
-
-useTitle('Register')
-</script>

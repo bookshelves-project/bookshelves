@@ -1,3 +1,5 @@
+<script lang="ts" setup></script>
+
 <template>
   <form-section
     method="put"
@@ -7,12 +9,14 @@
       preserveScroll: true,
     }"
   >
-    <template #title> {{ $t('Update Password') }} </template>
+    <template #title>
+      {{ $t('Update Password') }}
+    </template>
 
     <template #description>
       {{
         $t(
-          'Ensure your account is using a long, random password to stay secure.'
+          'Ensure your account is using a long, random password to stay secure.',
         )
       }}
     </template>
@@ -47,15 +51,19 @@
     </template>
 
     <template #actions="{ processing, recentlySuccessful }">
-      <action-message :on="recentlySuccessful" class="mr-3">
+      <action-message
+        :on="recentlySuccessful"
+        class="mr-3"
+      >
         {{ $t('Saved.') }}
       </action-message>
 
-      <base-button type="submit" :loading="processing">
+      <base-button
+        type="submit"
+        :loading="processing"
+      >
         {{ $t('Save') }}
       </base-button>
     </template>
   </form-section>
 </template>
-
-<script lang="ts" setup></script>

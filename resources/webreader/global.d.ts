@@ -1,19 +1,14 @@
-import type { Alpine as AlpineType } from '@types/alpinejs'
-
-interface Window {
-  Alpine: AlpineType
-}
-
-declare module 'alpinejs'
-
+import type { Alpine as AlpineType } from 'alpinejs'
 import EpubParser from './library/epub-parser'
-
-export {}
 
 /**
  * From https://bobbyhadz.com/blog/typescript-make-types-global
  */
 declare global {
+  const Alpine: AlpineType
+  interface Window {
+    Alpine: AlpineType
+  }
   interface IWebreader {
     $nextTick: (callback: (value: any) => void) => void
 
@@ -200,7 +195,9 @@ declare global {
     extension?: string
     blob?: Blob
     text?: string
-    isImage? = false
+    isImage?= false
     src?: string
   }
 }
+
+export { }

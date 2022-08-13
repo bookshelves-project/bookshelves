@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { computed, PropType } from 'vue'
+import type { PropType } from 'vue'
+import { computed } from 'vue'
 import { inputProps, inputSetup } from '@admin/composables/input'
-import { Options } from 'flatpickr/dist/types/options'
+import type { Options } from 'flatpickr/dist/types/options'
 
 const props = defineProps({
   ...inputProps,
@@ -29,7 +30,11 @@ const config = computed((): Options => {
 
 <template>
   <base-input>
-    <input-label :for="id" class="mb-1" :value="getLabel" />
+    <input-label
+      :for="id"
+      class="mb-1"
+      :value="getLabel"
+    />
     <flatpickr-input-wrapper
       v-bind="$attrs"
       :id="id"
@@ -38,7 +43,13 @@ const config = computed((): Options => {
       :options="config"
       :model-value="formValue"
     />
-    <input-error :message="getError" class="mt-2" />
-    <input-hint :message="hint" class="mt-2" />
+    <input-error
+      :message="getError"
+      class="mt-2"
+    />
+    <input-hint
+      :message="hint"
+      class="mt-2"
+    />
   </base-input>
 </template>

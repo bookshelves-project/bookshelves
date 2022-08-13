@@ -117,6 +117,7 @@ class Author extends Model implements HasMedia
     public function searchableAs()
     {
         $app = config('bookshelves.name');
+
         return "{$app}_author";
     }
 

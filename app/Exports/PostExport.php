@@ -36,7 +36,7 @@ class PostExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
     }
 
     /**
-     * @param Post $row
+     * @param  Post  $row
      */
     public function map($row): array
     {

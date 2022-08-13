@@ -1,11 +1,40 @@
+<script lang="ts" setup>
+import { onMounted, onUnmounted, ref } from 'vue'
+
+defineProps({
+  wrapperClasses: {
+    type: [String, Array],
+    default: () => ['w-48', 'right'],
+  },
+  linkClasses: {
+    type: [String, Array],
+    default: () => ['py-1', 'bg-white'],
+  },
+})
+
+const open = ref(false)
+
+const closeOnEscape = (e: KeyboardEvent) => {
+  if (open.value && e.key === 'Escape')
+    open.value = false
+}
+
+onMounted(() => document.addEventListener('keydown', closeOnEscape))
+onUnmounted(() => document.removeEventListener('keydown', closeOnEscape))
+</script>
+
 <template>
   <div class="relative whitespace-nowrap">
     <div @click="open = !open">
-      <slot name="trigger"></slot>
+      <slot name="trigger" />
     </div>
 
     <!-- Full Screen Dropdown Overlay -->
-    <div v-show="open" class="fixed inset-0 z-40" @click="open = false"></div>
+    <div
+      v-show="open"
+      class="fixed inset-0 z-40"
+      @click="open = false"
+    />
 
     <transition
       enter-active-class="transition ease-out duration-200"
@@ -26,38 +55,12 @@
           class="rounded-md ring-1 ring-black ring-opacity-5"
           :class="linkClasses"
         >
-          <slot name="content"></slot>
+          <slot name="content" />
         </div>
       </div>
     </transition>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from 'vue'
-
-defineProps({
-  wrapperClasses: {
-    type: [String, Array],
-    default: () => ['w-48', 'right'],
-  },
-  linkClasses: {
-    type: [String, Array],
-    default: () => ['py-1', 'bg-white'],
-  },
-})
-
-let open = ref(false)
-
-const closeOnEscape = (e: KeyboardEvent) => {
-  if (open.value && e.key === 'Escape') {
-    open.value = false
-  }
-}
-
-onMounted(() => document.addEventListener('keydown', closeOnEscape))
-onUnmounted(() => document.removeEventListener('keydown', closeOnEscape))
-</script>
 
 <style lang="postcss" scoped>
 .left {

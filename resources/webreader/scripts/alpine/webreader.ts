@@ -190,11 +190,10 @@ const webreader: IWebreader = {
   },
 
   toggleSidebar() {
-    if (this.sidebarWrapperIsEnabled) {
+    if (this.sidebarWrapperIsEnabled)
       this.closeSidebar()
-    } else {
+    else
       this.openSidebar()
-    }
   },
   openSidebar() {
     this.sidebarWrapperIsEnabled = true

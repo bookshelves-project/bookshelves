@@ -1,3 +1,52 @@
+<script setup lang="ts">
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { BellIcon, MenuAlt1Icon } from '@heroicons/vue/outline'
+import { ChevronDownIcon, SearchIcon } from '@heroicons/vue/solid'
+import { useIndexStore } from '@admin/stores'
+import route from 'ziggy-js'
+import type { NavLink } from '@admin/_nav'
+import { isLink, mainNav } from '@admin/_nav'
+import type { Ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
+import { usePage } from '@inertiajs/inertia-vue3'
+
+const showingNavigationDropdown = ref(false)
+const globalSearch = ref(usePage().props.value.query)
+const globalSearchInput: Ref<HTMLInputElement | null> = ref(null)
+
+const logout = () => {
+  Inertia.post(route('logout'))
+}
+
+const stopImpersonate = () => {
+  Inertia.post(route('admin.users.stop-impersonate'))
+}
+
+watch(
+  () => globalSearch.value,
+  val =>
+    Inertia.get(
+      route('admin.search', { query: val }),
+      {},
+      {
+        preserveState: true,
+      },
+    ),
+)
+
+onMounted(() => {
+  if (route().current('admin.search'))
+    globalSearchInput.value?.focus()
+})
+
+const nav = mainNav.filter(l => isLink(l)) as NavLink[]
+const sidebarOpen = () => {
+  const store = useIndexStore()
+  store.toggleSidebar()
+}
+</script>
+
 <template>
   <div class="py-6 px-8 md:flex md:items-center md:justify-between">
     <div class="flex-1 min-w-0">
@@ -67,51 +116,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { BellIcon, MenuAlt1Icon } from '@heroicons/vue/outline'
-import { ChevronDownIcon, SearchIcon } from '@heroicons/vue/solid'
-import { useIndexStore } from '@admin/stores'
-import route from 'ziggy-js'
-import { NavLink, isLink, mainNav } from '@admin/_nav'
-import { onMounted, Ref, ref, watch } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { usePage } from '@inertiajs/inertia-vue3'
-
-const showingNavigationDropdown = ref(false)
-const globalSearch = ref(usePage().props.value.query)
-const globalSearchInput: Ref<HTMLInputElement | null> = ref(null)
-
-const logout = () => {
-  Inertia.post(route('logout'))
-}
-
-const stopImpersonate = () => {
-  Inertia.post(route('admin.users.stop-impersonate'))
-}
-
-watch(
-  () => globalSearch.value,
-  (val) =>
-    Inertia.get(
-      route('admin.search', { query: val }),
-      {},
-      {
-        preserveState: true,
-      }
-    )
-)
-
-onMounted(() => {
-  if (route().current('admin.search')) {
-    globalSearchInput.value?.focus()
-  }
-})
-
-const nav = mainNav.filter((l) => isLink(l)) as NavLink[]
-const sidebarOpen = () => {
-  let store = useIndexStore()
-  store.toggleSidebar()
-}
-</script>

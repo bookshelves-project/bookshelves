@@ -1,5 +1,15 @@
+<script lang="ts" setup>
+import route from 'ziggy-js'
+
+const method = 'post'
+const url = route('admin.languages.store')
+</script>
+
 <template>
-  <create-context v-slot="{ title }" resource="languages">
+  <create-context
+    v-slot="{ title }"
+    resource="languages"
+  >
     <app-layout>
       <template #header>
         <page-header>
@@ -10,14 +20,10 @@
         </page-header>
       </template>
 
-      <language-form :method="method" :url="url" />
+      <language-form
+        :method="method"
+        :url="url"
+      />
     </app-layout>
   </create-context>
 </template>
-
-<script lang="ts" setup>
-import route from 'ziggy-js'
-
-const method = 'post'
-const url = route('admin.languages.store')
-</script>

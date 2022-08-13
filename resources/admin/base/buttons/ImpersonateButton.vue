@@ -1,17 +1,5 @@
-<template>
-  <base-button
-    icon="lock-closed"
-    variant="invisible"
-    :loading="form.processing"
-    :hide-label="hideLabel"
-    @click="submit"
-  >
-    {{ $t('Impersonate') }}
-  </base-button>
-</template>
-
 <script lang="ts" setup>
-import { Model } from '@admin/types'
+import type { Model } from '@admin/types'
 import { useForm } from '@inertiajs/inertia-vue3'
 import { inject } from 'vue'
 import route from 'ziggy-js'
@@ -36,3 +24,15 @@ const submit = () => {
   })
 }
 </script>
+
+<template>
+  <base-button
+    icon="lock-closed"
+    variant="invisible"
+    :loading="form.processing"
+    :hide-label="hideLabel"
+    @click="submit"
+  >
+    {{ $t('Impersonate') }}
+  </base-button>
+</template>

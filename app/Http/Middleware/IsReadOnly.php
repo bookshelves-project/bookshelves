@@ -18,8 +18,7 @@ class IsReadOnly
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -36,8 +35,7 @@ class IsReadOnly
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
     private function isReadOnly($request)
@@ -54,8 +52,7 @@ class IsReadOnly
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
     private function inExceptArray($request)

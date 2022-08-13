@@ -1,20 +1,21 @@
 import { usePage } from '@inertiajs/inertia-vue3'
-import { __, TranslationOptions } from 'matice'
+import type { TranslationOptions } from 'matice'
+import { __ } from 'matice'
 import { useTitle as vueUseTitle } from '@vueuse/core'
-import {
+import type {
   Author,
   Book,
   Language,
   Model,
+  Page,
   Post,
   Publisher,
   Serie,
   Submission,
   Tag,
   User,
-  Page,
 } from '@admin/types'
-import { PageProps } from '@inertiajs/inertia'
+import type { PageProps } from '@inertiajs/inertia'
 
 export function useTitle(title: string, options?: TranslationOptions): string {
   const subTitle = __(title, options)
@@ -36,7 +37,7 @@ export function useUniqueId(): string {
 
 export function useModelToString(
   resource: string | undefined,
-  model: Model | undefined
+  model: Model | undefined,
 ): string | undefined {
   if (resource) {
     return (

@@ -36,7 +36,7 @@ class PublisherExport implements FromQuery, WithHeadings, WithMapping, ShouldAut
     }
 
     /**
-     * @param Book $row
+     * @param  Book  $row
      */
     public function map($row): array
     {

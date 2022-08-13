@@ -117,11 +117,13 @@ class ParserEngine
 
         if (! $engine) {
             ConsoleService::print("{$file->path} ParserEngine error: format {$extension} not recognized");
+
             return null;
         }
 
         if (null === $engine->title) {
             ConsoleService::print("{$file->path} ParserEngine error: can't get title {$extension}");
+
             return null;
         }
 

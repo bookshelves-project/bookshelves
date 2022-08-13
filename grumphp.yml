@@ -6,14 +6,14 @@ grumphp:
     enabled: true
     max_workers: 32
   tasks:
-    eslint:
-      bin: node_modules/.bin/eslint
-      triggered_by: [js, ts, vue]
-      whitelist_patterns:
-        - /^resources\/admin\/(.*)/
-        - /^resources\/front\/(.*)/
+    # eslint:
+    #   bin: node_modules/.bin/eslint
+    #   triggered_by: [js, ts, vue]
+    #   whitelist_patterns:
+    #     - /^resources\/admin\/(.*)/
+    #     - /^resources\/front\/(.*)/
+    # phpcsfixer:
+    #   config: .php-cs-fixer.dist.php
     pest: ~
-    phpcsfixer:
-      config: .php-cs-fixer.dist.php
     phpstan:
       use_grumphp_paths: false

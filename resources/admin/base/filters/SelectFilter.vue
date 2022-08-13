@@ -1,19 +1,6 @@
-<template>
-  <select class="py-0" @input="onFilter">
-    <option value=""></option>
-    <option
-      v-for="option in getChoices"
-      :key="option.value"
-      :value="option.value"
-      :selected="isSelected(option)"
-    >
-      {{ option.text }}
-    </option>
-  </select>
-</template>
-
 <script lang="ts" setup>
-import { getOptionsFromChoices, Option } from '@admin/composables/choices'
+import type { Option } from '@admin/composables/choices'
+import { getOptionsFromChoices } from '@admin/composables/choices'
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -30,11 +17,13 @@ const props = defineProps({
   multiple: Boolean,
 })
 
+const emit = defineEmits(['update:modelValue'])
+
 const getChoices = computed((): Option[] => {
   return getOptionsFromChoices(
     props.choices,
     props.optionText,
-    props.optionValue
+    props.optionValue,
   )
 })
 
@@ -47,6 +36,21 @@ const isSelected = (option: Option) => {
     ? ((props.modelValue as string[]) || []).includes(option.value)
     : props.modelValue === option.value
 }
-
-const emit = defineEmits(['update:modelValue'])
 </script>
+
+<template>
+  <select
+    class="py-0"
+    @input="onFilter"
+  >
+    <option value="" />
+    <option
+      v-for="option in getChoices"
+      :key="option.value"
+      :value="option.value"
+      :selected="isSelected(option)"
+    >
+      {{ option.text }}
+    </option>
+  </select>
+</template>

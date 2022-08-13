@@ -1,16 +1,6 @@
-<template>
-  <base-form ref="form" v-slot="{ processing }" :method="method" :url="url">
-    <div class="form-grid">
-      <card-content>
-        <file-drag-input full />
-        <form-button :processing="processing" :submit="submit" />
-      </card-content>
-    </div>
-  </base-form>
-</template>
-
 <script lang="ts" setup>
-import { Ref, ref } from 'vue'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 
 defineProps({
   method: {
@@ -26,8 +16,26 @@ defineProps({
 const form: Ref<HTMLElement | null | any> = ref(null)
 
 const submit = () => {
-  if (form.value) {
+  if (form.value)
     form.value.submit()
-  }
 }
 </script>
+
+<template>
+  <base-form
+    ref="form"
+    v-slot="{ processing }"
+    :method="method"
+    :url="url"
+  >
+    <div class="form-grid">
+      <card-content>
+        <file-drag-input full />
+        <form-button
+          :processing="processing"
+          :submit="submit"
+        />
+      </card-content>
+    </div>
+  </base-form>
+</template>

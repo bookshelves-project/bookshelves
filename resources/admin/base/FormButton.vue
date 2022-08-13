@@ -12,7 +12,7 @@ watch(
   () => props.processing,
   (newVal) => {
     loading.value = newVal
-  }
+  },
 )
 
 const send = () => {

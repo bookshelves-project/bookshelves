@@ -11,6 +11,7 @@ class HomePageLogo extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $table = 'cms_home_page_logos';
+
     protected $fillable = [
         'label',
         'slug',

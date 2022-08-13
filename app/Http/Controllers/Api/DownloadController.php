@@ -78,7 +78,7 @@ class DownloadController extends ApiController
                 }
             }
         }
-        if (0 === sizeof($files)) {
+        if (0 === count($files)) {
             return response()->json([
                 'message' => "Have not {$format} format available.",
             ], 404);
@@ -112,7 +112,7 @@ class DownloadController extends ApiController
                 }
             }
         }
-        if (0 === sizeof($files)) {
+        if (0 === count($files)) {
             return response()->json([
                 'message' => "Have not {$format} format available.",
             ], 404);

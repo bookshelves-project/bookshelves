@@ -75,7 +75,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::post('/register', [RegisteredUserController::class, 'store'])
                 ->middleware(['guest'])
                 ->name('register')
-                ;
+            ;
 
             Route::put('/user/profile-information', [ProfileInformationController::class, 'update'])
                 ->middleware(['auth'])

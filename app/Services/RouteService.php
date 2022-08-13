@@ -125,7 +125,7 @@ class RouteService
                     // 'action' => str_replace('App\\Http\\Controllers\\Api\\', '', $route->getActionName()),
                     // 'middleware' => $route->middleware(),
                     'example' => config('app.url')."/{$uri}",
-                    'parameters' => sizeof($paramsList) > 0 ? $paramsList : null,
+                    'parameters' => count($paramsList) > 0 ? $paramsList : null,
                 ];
             }
         }

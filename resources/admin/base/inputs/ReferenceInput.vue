@@ -1,15 +1,3 @@
-<template>
-  <base-input>
-    <select-input
-      v-model="formValue"
-      v-bind="props"
-      :choices="choices"
-      :required="required"
-      :readonly="readonly"
-    />
-  </base-input>
-</template>
-
 <script lang="ts" setup>
 import { inputProps, inputSetup } from '@admin/composables/input'
 import { referenceSetup } from '@admin/composables/reference'
@@ -43,3 +31,15 @@ const { formValue } = inputSetup(props, emit)
 
 const { choices } = referenceSetup(props, emit)
 </script>
+
+<template>
+  <base-input>
+    <select-input
+      v-model="formValue"
+      v-bind="props"
+      :choices="choices"
+      :required="required"
+      :readonly="readonly"
+    />
+  </base-input>
+</template>

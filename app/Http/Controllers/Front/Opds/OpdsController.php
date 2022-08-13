@@ -30,7 +30,7 @@ class OpdsController extends Controller
                 'param' => '1.2',
             ],
         ];
-        $latest_feed = $feeds[sizeof($feeds) - 1];
+        $latest_feed = $feeds[count($feeds) - 1];
         $latest_feed = route('front.opds.version', ['version' => $latest_feed['param']]);
 
         return view('front::pages.opds.index', compact('content', 'feeds', 'latest_feed'));

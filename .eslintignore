@@ -1,1 +1,3 @@
-resources/admin/auto-imports.d.ts
+node_modules
+public/assets/dist
+vendor

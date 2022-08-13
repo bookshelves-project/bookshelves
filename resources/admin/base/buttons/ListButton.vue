@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+import { inject } from 'vue'
+
+defineProps({
+  hideLabel: Boolean,
+})
+
+const resource = inject<string>('resource')
+</script>
+
 <template>
   <base-button
     variant="info"
@@ -12,13 +22,3 @@
     }}
   </base-button>
 </template>
-
-<script lang="ts" setup>
-import { inject } from 'vue'
-
-defineProps({
-  hideLabel: Boolean,
-})
-
-const resource = inject<string>('resource')
-</script>

@@ -1,3 +1,44 @@
+<script lang="ts" setup>
+import route from 'ziggy-js'
+import type { NavLink } from '@admin/_nav'
+import { isLink, mainNav } from '@admin/_nav'
+import type { Ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
+import { usePage } from '@inertiajs/inertia-vue3'
+
+const showingNavigationDropdown = ref(false)
+const globalSearch = ref(usePage().props.value.query)
+const globalSearchInput: Ref<HTMLInputElement | null> = ref(null)
+
+const logout = () => {
+  Inertia.post(route('logout'))
+}
+
+const stopImpersonate = () => {
+  Inertia.post(route('admin.users.stop-impersonate'))
+}
+
+watch(
+  () => globalSearch.value,
+  val =>
+    Inertia.get(
+      route('admin.search', { query: val }),
+      {},
+      {
+        preserveState: true,
+      },
+    ),
+)
+
+onMounted(() => {
+  if (route().current('admin.search'))
+    globalSearchInput.value?.focus()
+})
+
+const nav = mainNav.filter(l => isLink(l)) as NavLink[]
+</script>
+
 <template>
   <nav class="sm:border-b sm:border-gray-100">
     <!-- Primary Navigation Menu -->
@@ -20,7 +61,7 @@
                 type="text"
                 class="w-96"
                 :placeholder="$t('admin.actions.search')"
-              />
+              >
               <search-icon
                 class="h-5 w-5 absolute top-1/2 right-4 transform -translate-y-1/2 opacity-50"
               />
@@ -54,11 +95,14 @@
                   {{ $t('Manage Account') }}
                 </div>
 
-                <dropdown-link :href="route('admin.profile.show')" icon="user">
+                <dropdown-link
+                  :href="route('admin.profile.show')"
+                  icon="user"
+                >
                   {{ $t('Profile') }}
                 </dropdown-link>
 
-                <div class="border-t border-gray-100"></div>
+                <div class="border-t border-gray-100" />
 
                 <!-- Authentication -->
                 <dropdown-link
@@ -71,7 +115,10 @@
                 </dropdown-link>
 
                 <!-- Authentication -->
-                <dropdown-link icon="logout" @click="logout">
+                <dropdown-link
+                  icon="logout"
+                  @click="logout"
+                >
                   {{ $t('Log Out') }}
                 </dropdown-link>
               </template>
@@ -85,8 +132,14 @@
             class="inline-flex items-center justify-center p-2 rounded-md text-white sm:text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition"
             @click="showingNavigationDropdown = !showingNavigationDropdown"
           >
-            <x-icon v-if="showingNavigationDropdown" class="h-6 w-6" />
-            <menu-icon v-else class="h-6 w-6" />
+            <x-icon
+              v-if="showingNavigationDropdown"
+              class="h-6 w-6"
+            />
+            <menu-icon
+              v-else
+              class="h-6 w-6"
+            />
           </button>
         </div>
       </div>
@@ -141,43 +194,3 @@
     </div>
   </nav>
 </template>
-
-<script lang="ts" setup>
-import route from 'ziggy-js'
-import { NavLink, isLink, mainNav } from '@admin/_nav'
-import { onMounted, Ref, ref, watch } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { usePage } from '@inertiajs/inertia-vue3'
-
-const showingNavigationDropdown = ref(false)
-const globalSearch = ref(usePage().props.value.query)
-const globalSearchInput: Ref<HTMLInputElement | null> = ref(null)
-
-const logout = () => {
-  Inertia.post(route('logout'))
-}
-
-const stopImpersonate = () => {
-  Inertia.post(route('admin.users.stop-impersonate'))
-}
-
-watch(
-  () => globalSearch.value,
-  (val) =>
-    Inertia.get(
-      route('admin.search', { query: val }),
-      {},
-      {
-        preserveState: true,
-      }
-    )
-)
-
-onMounted(() => {
-  if (route().current('admin.search')) {
-    globalSearchInput.value?.focus()
-  }
-})
-
-const nav = mainNav.filter((l) => isLink(l)) as NavLink[]
-</script>

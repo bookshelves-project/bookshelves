@@ -1,7 +1,8 @@
 import { useModelToString, useTitle } from '@admin/features/helpers'
-import { Model } from '@admin/types'
+import type { Model } from '@admin/types'
 import { transChoice } from 'matice'
-import { computed, ExtractPropTypes, PropType, provide } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
+import { computed, provide } from 'vue'
 
 export const pageProps = {
   title: String,
@@ -24,16 +25,16 @@ export const pageSetup = (
   props: Readonly<ExtractPropTypes<typeof pageProps>>,
   name: string,
   count: number,
-  args: { [key: string]: any } = {}
+  args: { [key: string]: any } = {},
 ) => {
   const getTitle = computed(() => {
     return (
-      props.title ||
-      useTitle(`admin.titles.${name}`, {
+      props.title
+      || useTitle(`admin.titles.${name}`, {
         args: {
           resource: transChoice(
             `crud.${props.resource}.name`,
-            count
+            count,
           ).toLowerCase(),
           ...args,
         },
@@ -49,7 +50,7 @@ export const pageSetup = (
 export const pageWithItemSetup = (
   props: Readonly<ExtractPropTypes<typeof pageWithItemProps>>,
   name: string,
-  count: number
+  count: number,
 ) => {
   const initial = pageSetup(props, name, count, {
     label: useModelToString(props.resource, props.item),

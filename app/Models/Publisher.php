@@ -21,6 +21,7 @@ class Publisher extends Model
     use HasNegligible;
 
     public $timestamps = false;
+
     protected $fillable = [
         'name',
         'slug',

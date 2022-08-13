@@ -1,4 +1,47 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
+<script setup lang="ts">
+import { XIcon } from '@heroicons/vue/solid'
+import { computed, ref, watch } from 'vue'
+import { usePage } from '@inertiajs/inertia-vue3'
+
+const flash = computed(() => {
+  return usePage().props.value.flash
+})
+
+const style = computed(() => {
+  return flash.value?.danger
+    ? 'danger'
+    : flash.value?.warning
+      ? 'warning'
+      : 'success'
+})
+
+const icon = computed(() => {
+  const v: 'success' | 'warning' | 'danger' = style.value
+
+  return {
+    success: 'check-circle',
+    warning: 'exclamation',
+    danger: 'x-circle',
+  }[v]
+})
+
+const message = computed(() => {
+  return flash.value[style.value]
+})
+
+watch(
+  () => usePage().props.value.flash,
+  () => {
+    show.value = true
+    setTimeout(() => {
+      show.value = false
+    }, 2500)
+  },
+)
+const show = ref(true)
+</script>
+
 <template>
   <!-- Global notification live region, render this permanently at the end of the document -->
   <div
@@ -48,7 +91,10 @@
                   @click="show = false"
                 >
                   <span class="sr-only">Close</span>
-                  <XIcon class="h-5 w-5" aria-hidden="true" />
+                  <XIcon
+                    class="h-5 w-5"
+                    aria-hidden="true"
+                  />
                 </button>
               </div>
             </div>
@@ -58,49 +104,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { XIcon } from '@heroicons/vue/solid'
-import { computed, ref, watch } from 'vue'
-import { usePage } from '@inertiajs/inertia-vue3'
-
-const flash = computed(() => {
-  return usePage().props.value.flash
-})
-
-const style = computed(() => {
-  return flash.value?.danger
-    ? 'danger'
-    : flash.value?.warning
-    ? 'warning'
-    : 'success'
-})
-
-const icon = computed(() => {
-  const v: 'success' | 'warning' | 'danger' = style.value
-
-  return {
-    success: 'check-circle',
-    warning: 'exclamation',
-    danger: 'x-circle',
-  }[v]
-})
-
-const message = computed(() => {
-  return flash.value[style.value]
-})
-
-watch(
-  () => usePage().props.value.flash,
-  () => {
-    show.value = true
-    setTimeout(() => {
-      show.value = false
-    }, 2500)
-  }
-)
-const show = ref(true)
-</script>
 
 <style lang="css" scoped>
 .status::first-letter {

@@ -36,7 +36,7 @@ class StubExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
     }
 
     /**
-     * @param Stub $row
+     * @param  Stub  $row
      */
     public function map($row): array
     {

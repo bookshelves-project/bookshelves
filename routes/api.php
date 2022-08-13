@@ -16,7 +16,6 @@ use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\PublisherController;
 use App\Http\Controllers\Api\ReviewController;
-use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SerieController;
 use App\Http\Controllers\Api\SubmissionController;
 use App\Http\Controllers\Api\TagController;
