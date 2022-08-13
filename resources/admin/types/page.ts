@@ -1,4 +1,3 @@
-// @ts-expect-error
 import { Model } from './model'
 
 export class Page extends Model {

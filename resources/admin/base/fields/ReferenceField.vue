@@ -71,7 +71,7 @@ const getText = computed((): string => {
       <inertia-link
         v-else-if="value"
         class="badge-link"
-        :href="route(`admin.${resource}.${link}`, value.id)"
+        :href="route(`admin.${resource}.${link}`)"
         @click.stop
       >
         <span>{{ getText }}</span>

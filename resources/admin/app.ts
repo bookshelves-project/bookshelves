@@ -19,6 +19,8 @@ createInertiaApp({
   resolve: (name) => {
     const pages = import.meta.globEager('./pages/**/*')
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     return pages[`./pages/${name}.vue`].default
   },
   setup({ el, app, props, plugin }) {
