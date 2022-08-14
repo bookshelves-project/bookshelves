@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Engines\ParserEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
+use App\Enums\MediaDiskEnum;
 use App\Models\Media\DownloadFile;
 use App\Models\Traits\HasAuthors;
 use App\Models\Traits\HasBookType;
@@ -23,6 +24,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property null|int $reviews_count
@@ -85,6 +87,11 @@ class Book extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('epub');
+    }
+
+    public function getMediaPrimaryAttribute(): ?Media
+    {
+        return $this->getFirstMedia(MediaDiskEnum::cover->value);
     }
 
     /**
@@ -243,7 +250,7 @@ class Book extends Model implements HasMedia
     {
         $app = config('bookshelves.name');
 
-        return "{$app}_book";
+        return "{$app}_books";
     }
 
     public function toSearchableArray()

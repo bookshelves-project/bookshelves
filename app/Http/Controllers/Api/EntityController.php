@@ -101,35 +101,16 @@ class EntityController extends ApiController
     public function search(Request $request)
     {
         $q = $request->input('q');
+        $relevant = $request->boolean('relevant');
         $types = $request->input('types');
-        if ($types) {
-            $types = explode(',', $types);
-        }
 
-        if ($q) {
-            $engine = SearchEngine::create($q, true, $types);
+        $engine = SearchEngine::create(
+            q: $q,
+            relevant: $relevant,
+            types: $types
+        );
 
-            return response()->json([
-                'data' => [
-                    'count' => $engine->count,
-                    'type' => $engine->search_type,
-                    'relevant' => [
-                        'authors' => $engine->authors_relevant,
-                        'series' => $engine->series_relevant,
-                        'books' => $engine->books_relevant,
-                    ],
-                    'other' => [
-                        'authors' => $engine->authors_other,
-                        'series' => $engine->series_other,
-                        'books' => $engine->books_other,
-                    ],
-                ],
-            ]);
-        }
-
-        return response()->json([
-            'message' => 'You have to use `q` as query param to search.',
-        ], 404);
+        return $engine->json();
     }
 
     /**

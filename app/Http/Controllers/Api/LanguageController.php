@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-    use App\Http\Queries\Addon\QueryOption;
+use App\Http\Queries\Addon\QueryOption;
 use App\Http\Queries\LanguageQuery;
 use App\Http\Resources\Language\LanguageResource;
 use App\Models\Language;

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\BookFormatEnum;
+use App\Enums\MediaDiskEnum;
 use App\Models\Traits\HasBooksCollection;
 use App\Models\Traits\HasClassName;
 use App\Models\Traits\HasCovers;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
@@ -58,6 +60,11 @@ class Author extends Model implements HasMedia
     protected $with = [
         'media',
     ];
+
+    public function getMediaPrimaryAttribute(): ?Media
+    {
+        return $this->getFirstMedia(MediaDiskEnum::cover->value);
+    }
 
     /**
      * Get the options for generating the slug.
@@ -118,7 +125,7 @@ class Author extends Model implements HasMedia
     {
         $app = config('bookshelves.name');
 
-        return "{$app}_author";
+        return "{$app}_authors";
     }
 
     public function toSearchableArray()

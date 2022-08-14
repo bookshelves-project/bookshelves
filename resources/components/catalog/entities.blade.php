@@ -47,7 +47,7 @@ align="left">
 
 <div
 style="line-height: 140%; text-align: center; word-wrap: break-word; width: 200px">
-<img src="{{ $item->cover?->simple }}" alt="{{ $item->title }}"
+<img src="{{ $item->cover }}" alt="{{ $item->title }}"
 style="height: 200px; width: 200px; object-fit: cover">
 <h2 style="font-size: 14px; line-height: 140%;">
 {{ $item->title }}

@@ -110,7 +110,7 @@ class SetupCommand extends CommandProd
         /**
          * Scout.
          */
-        Artisan::call('bookshelves:scout', [], $this->getOutput());
+        Artisan::call('scout:fresh', [], $this->getOutput());
         $this->newLine();
 
         /**
