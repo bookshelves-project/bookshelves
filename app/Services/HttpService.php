@@ -81,6 +81,11 @@ class HttpService
         return $responses_list;
     }
 
+    /**
+     * GuzzleHttp pool.
+     *
+     * From: https://nunomaduro.com/speed_up_your_php_http_guzzle_requests_with_concurrency
+     */
     public static function asyncSettle(array $urls)
     {
         if (extension_loaded('curl')) {
