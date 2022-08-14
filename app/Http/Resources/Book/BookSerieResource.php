@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Book;
 
+use App\Http\Resources\SpatieMediaResource;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,13 +22,7 @@ class BookSerieResource extends JsonResource
         $resource = BookUltraLightResource::make($this->resource)->toArray($request);
 
         return array_merge($resource, [
-            'cover' => [
-                'thumbnail' => $this->resource->cover_thumbnail,
-                'og' => $this->resource->cover_og,
-                'simple' => $this->resource->cover_simple,
-                'original' => $this->resource->cover_original,
-                'color' => $this->resource->cover_color,
-            ],
+            'media' => SpatieMediaResource::make($this->resource->media_primary),
         ]);
     }
 }

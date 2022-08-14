@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Book;
 
+use App\Http\Resources\SpatieMediaResource;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,10 +27,7 @@ class BookLightestResource extends JsonResource
                 'author' => $this->resource->meta_author,
                 'show' => $this->resource->show_link,
             ],
-            'cover' => [
-                'thumbnail' => $this->resource->cover_thumbnail,
-                'color' => $this->resource->cover_color,
-            ],
+            'media' => SpatieMediaResource::make($this->resource->media_primary),
             'serie' => $this->resource->serie?->title,
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Serie;
 
+use App\Http\Resources\SpatieMediaResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -27,11 +28,8 @@ class SerieUltraLightResource extends JsonResource
                 'show' => $this->resource->show_link,
                 'books' => $this->resource->books_link,
             ],
-            'cover' => [
-                'thumbnail' => $this->resource->cover_thumbnail,
-                'simple' => $this->resource->cover_simple,
-                'color' => $this->resource->cover_color,
-            ],
+            'media' => SpatieMediaResource::make($this->resource->media_primary),
+            'media_social' => $this->resource->cover_simple,
         ];
     }
 }

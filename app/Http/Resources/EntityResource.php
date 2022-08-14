@@ -39,7 +39,7 @@ class EntityResource extends JsonResource
             'volume' => $this->resource->volume ?? null,
             'count' => $this->resource->books_count,
             'media' => SpatieMediaResource::make($this->resource->media_primary),
-            'cover' => $this->resource->cover_simple,
+            'media_social' => $this->resource->cover_simple,
             'first_char' => $this->resource->first_char,
         ];
     }
