@@ -124,9 +124,9 @@ class HttpService
         $responses_list = [];
         foreach ($responses as $id => $response) {
             /** @var string */
-            $state = $response["state"]; // "fulfilled"
+            $state = $response['state']; // "fulfilled"
             /** @var \GuzzleHttp\Psr7\Response */
-            $value = $response["value"]; // "fulfilled"
+            $value = $response['value']; // "fulfilled"
 
             $body = json_decode($value->getBody()->getContents(), true);
             $responses_list[$id] = $body;
