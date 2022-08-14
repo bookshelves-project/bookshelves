@@ -87,14 +87,14 @@ class BookshelvesTools
             preg_replace(
                 ['#[\\s-]+#', '#[^A-Za-z0-9. -]+#'],
                 ['-', ''],
-              // the full cleanString() can be downloaded from http://www.unexpectedit.com/php/php-clean-string-of-utf8-chars-convert-to-similar-ascii-char
-              self::cleanString(
-                  str_replace( // preg_replace can be used to support more complicated replacements
-                      array_keys($dict),
-                      array_values($dict),
-                      urldecode($string)
-                  )
-              )
+                // the full cleanString() can be downloaded from http://www.unexpectedit.com/php/php-clean-string-of-utf8-chars-convert-to-similar-ascii-char
+                self::cleanString(
+                    str_replace( // preg_replace can be used to support more complicated replacements
+                        array_keys($dict),
+                        array_values($dict),
+                        urldecode($string)
+                    )
+                )
             )
         );
     }

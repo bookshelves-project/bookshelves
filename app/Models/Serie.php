@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Engines\ParserEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
+use App\Enums\MediaDiskEnum;
 use App\Models\Traits\HasAuthors;
 use App\Models\Traits\HasBooksCollection;
 use App\Models\Traits\HasBookType;
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -70,6 +72,11 @@ class Serie extends Model implements HasMedia
         'books',
     ];
 
+    public function getMediaPrimaryAttribute(): ?Media
+    {
+        return $this->getFirstMedia(MediaDiskEnum::cover->value);
+    }
+
     public function getOpdsLinkAttribute(): string
     {
         return route('front.opds.series.show', [
@@ -107,7 +114,7 @@ class Serie extends Model implements HasMedia
     {
         $app = config('bookshelves.name');
 
-        return "{$app}_serie";
+        return "{$app}_series";
     }
 
     public function toSearchableArray()

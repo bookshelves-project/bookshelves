@@ -38,28 +38,15 @@ class CatalogController extends Controller
     public function search(Request $request)
     {
         $q = $request->input('q');
-        if ($q) {
-            $engine = SearchEngine::create($q);
+        $engine = SearchEngine::create(
+            q: $q,
+            relevant: true,
+        );
+        $results = $engine->results;
 
-            $results = [
-                'relevant' => [
-                    'authors' => $engine->authors_relevant,
-                    'series' => $engine->series_relevant,
-                    'books' => $engine->books_relevant,
-                ],
-                'other' => [
-                    'authors' => $engine->authors_other,
-                    'series' => $engine->series_other,
-                    'books' => $engine->books_other,
-                ],
-            ];
-
-            return view('front.pages.catalog.search', compact(
-                'q',
-                'results',
-            ));
-        }
-
-        return view('front.pages.catalog.search');
+        return view('front.pages.catalog.search', compact(
+            'q',
+            'results',
+        ));
     }
 }

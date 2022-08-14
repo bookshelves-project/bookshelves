@@ -59,8 +59,8 @@ class Version1_2Module extends Module implements ModuleInterface
         $query = $this->engine->request->q;
 
         if ($query) {
-            $search = SearchEngine::create($query, false, ['books']);
-            $template = $this->template(EntityEnum::book, $search->list, "Results for {$query}");
+            $search = SearchEngine::create(q: $query, relevant: false, opds: true, types: ['books']);
+            $template = $this->template(EntityEnum::book, $search->results_opds, "Results for {$query}");
         } else {
             $template = XmlResponse::search($this->engine->version);
         }
