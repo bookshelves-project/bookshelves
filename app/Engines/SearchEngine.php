@@ -26,8 +26,10 @@ class SearchEngine
     ];
 
     public array $results = [];
+
     public array $results_relevant = [];
-    /** @var Collection<int, Entity> $results_opds */
+
+    /** @var Collection<int, Entity> */
     public Collection $results_opds;
 
     public function __construct(
@@ -59,19 +61,18 @@ class SearchEngine
             ];
         }
         $engine = new SearchEngine(q: $q, relevant: $relevant, opds: $opds, types: $types);
-        $engine = $engine->searchEngine();
-
-        return $engine;
+        return $engine->searchEngine();
     }
 
-    public function json(): JsonResponse {
+    public function json(): JsonResponse
+    {
         return response()->json([
             'data' => [
                 'count' => empty($this->q) ? 0 : $this->count,
                 'type' => $this->search_type,
                 'query' => $this->q,
-                'results' => empty($this->q) ? [] : (!$this->relevant ? $this->results : []),
-                'results_relevant' => empty($this->q) ? [] : (!$this->relevant ? [] : $this->results_relevant),
+                'results' => empty($this->q) ? [] : (! $this->relevant ? $this->results : []),
+                'results_relevant' => empty($this->q) ? [] : (! $this->relevant ? [] : $this->results_relevant),
             ],
         ]);
     }
@@ -136,7 +137,8 @@ class SearchEngine
         }
     }
 
-    public function getRelevantResults() {
+    public function getRelevantResults()
+    {
         $list = collect();
         /** @var string $model */
         foreach ($this->results as $model => $results) {
@@ -148,13 +150,15 @@ class SearchEngine
 
             $list->put($model, [
                 'relevant' => $relevant_results,
-                'other' => $results_list
+                'other' => $results_list,
             ]);
         }
 
         return $list->toArray();
     }
-    public function getOpdsResults() {
+
+    public function getOpdsResults()
+    {
         $list = collect();
         /** @var string $model */
         foreach ($this->results as $model => $results) {
