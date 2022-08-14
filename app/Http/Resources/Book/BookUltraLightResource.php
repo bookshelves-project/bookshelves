@@ -4,6 +4,7 @@ namespace App\Http\Resources\Book;
 
 use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\Language\LanguageLightResource;
+use App\Http\Resources\SpatieMediaResource;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -32,11 +33,8 @@ class BookUltraLightResource extends JsonResource
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
             'language' => LanguageLightResource::make($this->resource->language),
             'releasedOn' => $this->resource->released_on,
-            'cover' => [
-                'thumbnail' => $this->resource->cover_thumbnail,
-                'simple' => $this->resource->cover_simple,
-                'color' => $this->resource->cover_color,
-            ],
+            'media' => SpatieMediaResource::make($this->resource->media_primary),
+            'media_social' => $this->resource->cover_simple,
             'volume' => $this->resource->volume,
         ];
     }
