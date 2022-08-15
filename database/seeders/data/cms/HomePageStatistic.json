@@ -3,8 +3,8 @@
         "model": "App\\Models\\Book",
         "modelWhere": null,
         "label": {
-            "en": "Books available",
-            "fr": "Livres disponibles"
+            "en": "Books",
+            "fr": "Livres"
         },
         "link": ""
     },
@@ -27,26 +27,29 @@
         "link": ""
     },
     {
-        "model": "App\\Models\\Book",
-        "modelWhere": [
-            "language_slug",
-            "fr"
-        ],
+        "model": "App\\Models\\TagExtend",
+        "modelWhere": null,
         "label": {
-            "en": "Books available in french",
-            "fr": "Livres disponibles en français"
+            "en": "Tags",
+            "fr": "Tags"
         },
         "link": ""
     },
     {
-        "model": "App\\Models\\Book",
-        "modelWhere": [
-            "language_slug",
-            "en"
-        ],
+        "model": "App\\Models\\Publisher",
+        "modelWhere": null,
         "label": {
-            "en": "Books available in english",
-            "fr": "Livres disponibles en anglais"
+            "en": "Publishers",
+            "fr": "Editeurs"
+        },
+        "link": ""
+    },
+    {
+        "model": "App\\Models\\Language",
+        "modelWhere": null,
+        "label": {
+            "en": "Languages",
+            "fr": "Langues"
         },
         "link": ""
     }
