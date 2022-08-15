@@ -97,7 +97,7 @@ class WikipediaService
                  * If language attribute is unknown, set it to english.
                  */
                 $lang = $model->{$this->language_attribute};
-                if ('any' === $lang) {
+                if ('unknown' === $lang) {
                     $lang = 'en';
                 }
 
