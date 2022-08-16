@@ -6,13 +6,17 @@ use App\Http\Resources\FavoriteResource;
 use App\Models\Favoritable;
 use App\Models\User;
 use Auth;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Route;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
  * @group User: Account
  *
  * Endpoint to get Authors data.
  */
+#[Prefix('/profile/favorites')]
 class FavoriteController extends ApiController
 {
     // #[Route("/api/favorites/{user}", methods: ["GET"])]
@@ -21,11 +25,17 @@ class FavoriteController extends ApiController
      *
      * @authenticated
      */
-    public function user(int $userId)
+    #[Get('/', 'favorites.me', middleware: ['auth:sanctum'])]
+    public function me()
     {
+        $user = Auth::user();
+        if (!$user) {
+            return abort(404);
+        }
+
         // TODO review
         // @phpstan-ignore-next-line
-        $favorites = Favoritable::whereUserId($userId)
+        $favorites = Favoritable::whereUserId($user->id)
             ->with(['favoritable'])
             ->orderBy('created_at', 'DESC')
             ->get()

@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\ApplicationController;
-use App\Http\Controllers\Api\Auth\AuthController;
-use App\Http\Controllers\Api\Auth\LoginController;
-use App\Http\Controllers\Api\Auth\PasswordController;
-use App\Http\Controllers\Api\Auth\RegisterController;
-use App\Http\Controllers\Api\Auth\TokenController;
+// use App\Http\Controllers\Api\Auth\AuthController;
+// use App\Http\Controllers\Api\Auth\LoginController;
+// use App\Http\Controllers\Api\Auth\PasswordController;
+// use App\Http\Controllers\Api\Auth\RegisterController;
+// use App\Http\Controllers\Api\Auth\TokenController;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CmsController;
@@ -38,7 +38,6 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::get('/', [ApiController::class, 'home'])->name('api.index');
 
 Route::get('/enums', [ApplicationController::class, 'enums'])->name('api.enums');
@@ -47,7 +46,7 @@ Route::get('/application', [ApplicationController::class, 'application'])->name(
 Route::get('/navigation', [ApplicationController::class, 'navigation'])->name('api.navigation');
 Route::get('/search', [EntityController::class, 'search'])->name('api.search');
 
-Route::post('submission/send', [SubmissionController::class, 'send'])->name('api.submissions.send');
+Route::post('submissions', [SubmissionController::class, 'create'])->name('api.submissions.create');
 
 /*
  * Entities routes
@@ -149,6 +148,9 @@ Route::prefix('users')->group(function () {
 /*
  * Users features routes
  */
+Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
+    return $request->user();
+});
 Route::middleware(['auth:sanctum'])->group(function () {
     /**
      * Logout route.
@@ -184,18 +186,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/delete', [ProfileController::class, 'delete'])->name('api.profile.delete');
         Route::get('/delete/avatar', [ProfileController::class, 'deleteAvatar'])->name('api.profile.delete.avatar');
     });
-    Route::post('/password/update', [PasswordController::class, 'update'])->name('api.password.update');
+    // Route::post('/password/update', [PasswordController::class, 'update'])->name('api.password.update');
 });
 
+
 Route::middleware(['api'])->group(function () {
-    Route::post('/login', [LoginController::class, 'authenticate'])->name('api.login');
-    Route::post('/logout', [LoginController::class, 'logout'])->name('api.logout');
-    Route::post('/login/token', [TokenController::class, 'authenticate'])->name('api.login.token');
-    Route::post('/logout/token', [TokenController::class, 'logout'])->name('api.logout.token');
+    // Route::post('/login', [LoginController::class, 'authenticate'])->name('api.login');
+    // Route::post('/logout', [LoginController::class, 'logout'])->name('api.logout');
+    // Route::post('/login/token', [TokenController::class, 'authenticate'])->name('api.login.token');
+    // Route::post('/logout/token', [TokenController::class, 'logout'])->name('api.logout.token');
 
-    Route::post('/register', [RegisterController::class, 'store'])->name('api.register');
+    // Route::post('/register', [RegisterController::class, 'store'])->name('api.register');
 
-    Route::middleware(['auth:user'])->group(function () {
-        Route::get('/user', [AuthController::class, 'user'])->name('api.user');
-    });
+    // Route::middleware(['auth:user'])->group(function () {
+    //     Route::get('/user', [AuthController::class, 'user'])->name('api.user');
+    // });
 });

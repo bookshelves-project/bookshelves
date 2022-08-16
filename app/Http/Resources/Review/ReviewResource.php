@@ -26,7 +26,7 @@ class ReviewResource extends JsonResource
         return [
             'meta' => [
                 'type' => 'review',
-                'for' => $reviewable->getClassName(),
+                'entity' => $reviewable->getClassName(),
                 'author' => $reviewable->meta_author,
                 'slug' => $reviewable->slug,
             ],

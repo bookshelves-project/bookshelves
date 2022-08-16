@@ -17,7 +17,7 @@ class SubmissionController extends ApiController
      *
      * If `honeypot` is `true`, submission will be not sended.
      */
-    public function send(SubmissionRequest $request)
+    public function create(SubmissionRequest $request)
     {
         $validated = $request->validated();
 
