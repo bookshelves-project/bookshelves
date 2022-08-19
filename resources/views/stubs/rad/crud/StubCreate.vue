@@ -8,7 +8,8 @@ const url = route('admin.stubsKebab.store')
 <template>
   <create-context
     v-slot="{ title }"
-    resource="stubsKebab">
+    resource="stubsKebab"
+  >
     <app-layout title="Create new stubPascal">
       <template #header>
         <page-header>
@@ -21,7 +22,8 @@ const url = route('admin.stubsKebab.store')
 
       <stubKebab-form
         :method="method"
-        :url="url" />
+        :url="url"
+      />
     </app-layout>
   </create-context>
 </template>

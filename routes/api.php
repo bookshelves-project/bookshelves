@@ -35,7 +35,7 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/auth/me', function (Request $request) {
     return $request->user();
 });
 
@@ -47,7 +47,7 @@ Route::get('/application', [ApplicationController::class, 'application'])->name(
 Route::get('/navigation', [ApplicationController::class, 'navigation'])->name('api.navigation');
 Route::get('/search', [EntityController::class, 'search'])->name('api.search');
 
-Route::post('submission/send', [SubmissionController::class, 'send'])->name('api.submissions.send');
+Route::post('submissions', [SubmissionController::class, 'create'])->name('api.submissions.create');
 
 /*
  * Entities routes
@@ -149,6 +149,9 @@ Route::prefix('users')->group(function () {
 /*
  * Users features routes
  */
+Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
+    return $request->user();
+});
 Route::middleware(['auth:sanctum'])->group(function () {
     /**
      * Logout route.
@@ -184,8 +187,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/delete', [ProfileController::class, 'delete'])->name('api.profile.delete');
         Route::get('/delete/avatar', [ProfileController::class, 'deleteAvatar'])->name('api.profile.delete.avatar');
     });
-    Route::post('/password/update', [PasswordController::class, 'update'])->name('api.password.update');
+    // Route::post('/password/update', [PasswordController::class, 'update'])->name('api.password.update');
 });
+
 
 Route::middleware(['api'])->group(function () {
     Route::post('/login', [LoginController::class, 'authenticate'])->name('api.login');

@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+import { inject } from 'vue'
+
+defineProps({
+  title: String,
+})
+
+const resource = inject<string>('resource')
+</script>
+
 <template>
   <div
     class="fixed right-0 top-0 z-50 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 shadow-xl"
@@ -22,13 +32,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { inject } from 'vue'
-
-defineProps({
-  title: String,
-})
-
-const resource = inject<string>('resource')
-</script>

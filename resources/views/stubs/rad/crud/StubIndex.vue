@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { PaginatedData, Stub } from '@admin/types'
-import { Column } from '@admin/types/data-table'
-import { PropType } from 'vue'
+import type { PaginatedData, Stub } from '@admin/types'
+import type { Column } from '@admin/types/data-table'
+import type { PropType } from 'vue'
 
 defineProps({
   stubsPascal: {
@@ -34,7 +34,8 @@ const columns: (string | Column)[] = [
 <template>
   <list-context
     v-slot="{ title }"
-    resource="stubsKebab">
+    resource="stubsKebab"
+  >
     <app-layout :title="title">
       <template #header-actions>
         <create-button />

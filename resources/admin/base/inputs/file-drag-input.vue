@@ -66,14 +66,19 @@ const { uploadFiles } = createUploader('/admin/books/upload')
                   class="sr-only"
                   multiple
                   @change="onInputChange"
-                />
+                >
               </label>
-              <p class="pl-1">or drag and drop</p>
+              <p class="pl-1">
+                or drag and drop
+              </p>
             </div>
-            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+            <p class="text-xs text-gray-500">
+              PNG, JPG, GIF up to 10MB
+            </p>
             <ul
               v-show="files.length"
-              class="grid grid-cols-4 gap-4">
+              class="grid grid-cols-4 gap-4"
+            >
               <file-preview
                 v-for="file of files"
                 :key="file.id"
@@ -87,7 +92,8 @@ const { uploadFiles } = createUploader('/admin/books/upload')
       </div>
       <button
         class="upload-button"
-        @click.prevent="uploadFiles(files)">
+        @click.prevent="uploadFiles(files)"
+      >
         Upload
       </button>
     </drop-zone>

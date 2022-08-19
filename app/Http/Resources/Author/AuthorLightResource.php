@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Author;
 
+use App\Http\Resources\SpatieMediaResource;
 use App\Models\Author;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,12 +24,8 @@ class AuthorLightResource extends JsonResource
         return array_merge($resource, [
             'lastname' => $author->lastname,
             'firstname' => $author->firstname,
-            'cover' => [
-                'thumbnail' => $author->cover_thumbnail,
-                'og' => $author->cover_og,
-                'simple' => $author->cover_simple,
-                'color' => $this->resource->cover_color,
-            ],
+            'media' => SpatieMediaResource::make($this->resource->media_primary),
+            'media_social' => $this->resource->cover_simple,
             'count' => [
                 'books' => $author->books_count,
                 'series' => $author->series_count,

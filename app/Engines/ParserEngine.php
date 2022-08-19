@@ -128,7 +128,7 @@ class ParserEngine
         }
 
         if (null === $engine->language) {
-            $engine->language = 'any';
+            $engine->language = 'unknown';
         }
 
         $title = Str::limit($engine->title, 250);

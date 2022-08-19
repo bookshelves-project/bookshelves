@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Serie;
 
 use App\Http\Resources\Review\ReviewResource;
+use App\Http\Resources\SpatieMediaResource;
 use App\Http\Resources\Tag\TagLightResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -30,12 +31,8 @@ class SerieResource extends JsonResource
             ],
             'description' => $this->resource->description,
             'link' => $this->resource->link,
-            'cover' => [
-                'thumbnail' => $this->resource->cover_thumbnail,
-                'og' => $this->resource->cover_og,
-                'simple' => $this->resource->cover_simple,
-                'color' => $this->resource->cover_color,
-            ],
+            'media' => SpatieMediaResource::make($this->resource->media_primary),
+            'media_social' => $this->resource->cover_simple,
             'tags' => TagLightResource::collection($this->resource->tags_list),
             'genres' => TagLightResource::collection($this->resource->genres_list),
             'download' => $this->resource->file_main,

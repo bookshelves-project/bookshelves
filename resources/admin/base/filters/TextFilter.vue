@@ -1,10 +1,3 @@
-<template>
-  <input
-    :value="modelValue"
-    type="text"
-    @input="onFilter" />
-</template>
-
 <script lang="ts" setup>
 import {} from 'vue'
 
@@ -18,3 +11,11 @@ const onFilter = (e: Event) => {
   emit('update:modelValue', (e.target as HTMLInputElement).value)
 }
 </script>
+
+<template>
+  <input
+    :value="modelValue"
+    type="text"
+    @input="onFilter"
+  >
+</template>

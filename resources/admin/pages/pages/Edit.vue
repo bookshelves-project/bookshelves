@@ -1,8 +1,25 @@
+<script lang="ts" setup>
+import type { PropType } from 'vue'
+import type { Page } from '@admin/types'
+import route from 'ziggy-js'
+
+const props = defineProps({
+  page: {
+    type: Object as PropType<Page>,
+    required: true,
+  },
+})
+
+const method = 'post'
+const url = route('admin.pages.update', { id: props.page.id })
+</script>
+
 <template>
   <edit-context
     v-slot="{ title }"
     resource="pages"
-    :item="page">
+    :item="page"
+  >
     <app-layout :title="page.title">
       <template #header>
         <page-header>
@@ -16,23 +33,8 @@
 
       <page-form
         :method="method"
-        :url="url" />
+        :url="url"
+      />
     </app-layout>
   </edit-context>
 </template>
-
-<script lang="ts" setup>
-import { PropType } from 'vue'
-import { Page } from '@admin/types'
-import route from 'ziggy-js'
-
-const props = defineProps({
-  page: {
-    type: Object as PropType<Page>,
-    required: true,
-  },
-})
-
-const method = 'post'
-const url = route('admin.pages.update', { id: props.page.id })
-</script>

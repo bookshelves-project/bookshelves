@@ -6,8 +6,10 @@ export const useUploader = () => {
 
     // track status and upload file
     file.status = 'loading'
-    const response = await fetch(url, { method: 'POST',
-      body: formData })
+    const response = await fetch(url, {
+      method: 'POST',
+      body: formData,
+    })
 
     // change status to indicate the success of the upload request
     file.status = response.ok
@@ -16,15 +18,15 @@ export const useUploader = () => {
   }
 
   const uploadFiles = (files, url) => {
-    return Promise.all(files.map((file) => uploadFile(file, url)))
+    return Promise.all(files.map(file => uploadFile(file, url)))
   }
 
   const createUploader = (url) => {
     return {
-      uploadFile: function (file) {
+      uploadFile(file) {
         return uploadFile(file, url)
       },
-      uploadFiles: function (files) {
+      uploadFiles(files) {
         return uploadFiles(files, url)
       },
     }

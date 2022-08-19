@@ -5,10 +5,11 @@ export class Profile extends Model {
     public id: number,
     public name: string,
     public email: string,
-    public is_impersonating: boolean
+    public is_impersonating: boolean,
   ) {
     super(id)
   }
+
   toString() {
     return this.name
   }

@@ -113,17 +113,17 @@ class WikipediaQuery
                 //     $pageId = $result->pageid;
 
                 //     break;
-                // }
-                // if (str_contains($result->title, '(writer)')) {
+                    // }
+                    // if (str_contains($result->title, '(writer)')) {
                 //     $pageId = $result->pageid;
 
                 //     break;
-                // }
-                // if (str_contains($result->title, '(author)')) {
+                    // }
+                    // if (str_contains($result->title, '(author)')) {
                 //     $pageId = $result->pageid;
 
                 //     break;
-                // }
+                    // }
                 }
 
                 if (! $pageId && array_key_exists(0, $search)) {

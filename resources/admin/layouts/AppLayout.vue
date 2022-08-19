@@ -21,15 +21,15 @@ defineProps<{
           <app-header />
 
           <page-header :title="title">
-            <slot name="header-actions"></slot>
+            <slot name="header-actions" />
           </page-header>
         </div>
 
         <app-content>
-          <slot></slot>
+          <slot />
         </app-content>
       </div>
-      <slot name="aside"></slot>
+      <slot name="aside" />
       <app-footer />
     </div>
   </main-layout>

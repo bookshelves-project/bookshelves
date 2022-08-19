@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { Ref, ref } from 'vue'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 
 defineProps({
   method: {
@@ -15,9 +16,8 @@ defineProps({
 const form: Ref<HTMLElement | null | any> = ref(null)
 
 const submit = () => {
-  if (form.value) {
+  if (form.value)
     form.value.submit()
-  }
 }
 </script>
 
@@ -26,17 +26,20 @@ const submit = () => {
     ref="form"
     v-slot="{ processing }"
     :method="method"
-    :url="url">
+    :url="url"
+  >
     <div class="form-grid">
       <card-content>
         <text-input
           source="stubAttr"
-          type="text" />
+          type="text"
+        />
       </card-content>
       <card-side>
         <form-button
           :processing="processing"
-          :submit="submit" />
+          :submit="submit"
+        />
       </card-side>
     </div>
   </base-form>

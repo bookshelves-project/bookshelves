@@ -11,8 +11,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const { getLabel, formValue, getError, id, getName, getChoices, hasError } =
-  choicesSetup(props, emit)
+const { getLabel, formValue, getError, id, getName, getChoices, hasError }
+  = choicesSetup(props, emit)
 </script>
 
 <template>
@@ -24,8 +24,7 @@ const { getLabel, formValue, getError, id, getName, getChoices, hasError } =
       :readonly="readonly"
     >
       {{ getLabel }}
-    </input-label
-    >
+    </input-label>
     <select
       v-bind="$attrs"
       :id="id"
@@ -47,9 +46,11 @@ const { getLabel, formValue, getError, id, getName, getChoices, hasError } =
     </select>
     <input-error
       :message="getError"
-      class="mt-2" />
+      class="mt-2"
+    />
     <input-hint
       :message="hint"
-      class="mt-2" />
+      class="mt-2"
+    />
   </base-input>
 </template>

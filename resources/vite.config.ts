@@ -1,4 +1,4 @@
-import { UserConfigExport } from 'vite'
+import type { UserConfigExport } from 'vite'
 import Dotenv from 'dotenv'
 
 Dotenv.config()

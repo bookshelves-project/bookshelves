@@ -7,6 +7,7 @@ use GuzzleHttp\Handler\CurlFactory;
 use GuzzleHttp\Handler\CurlMultiHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Pool;
+use GuzzleHttp\Promise\Utils;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Http\Client\Response;
@@ -65,7 +66,8 @@ class HttpService
                 $size_list = count($limited_url_list);
                 $current_chunk = $chunk_key + 1;
                 ConsoleService::print("Execute {$size_list} requests from chunk {$current_chunk}...");
-                $responses = self::pool($limited_url_list);
+                $responses = HttpService::pool($limited_url_list);
+                // $responses = HttpService::asyncSettle($limited_url_list);
                 foreach ($responses as $key => $response) {
                     $responses_list[$key] = $response;
                 }
@@ -74,6 +76,65 @@ class HttpService
             foreach ($url_list as $id => $url) {
                 $responses_list[$id] = Http::timeout(120)->get($url);
             }
+        }
+
+        return $responses_list;
+    }
+
+    /**
+     * GuzzleHttp pool.
+     *
+     * From: https://nunomaduro.com/speed_up_your_php_http_guzzle_requests_with_concurrency
+     */
+    public static function asyncSettle(array $urls)
+    {
+        if (extension_loaded('curl')) {
+            $handler = HandlerStack::create(
+                new CurlMultiHandler([
+                    'handle_factory' => new CurlFactory(self::MAX_CURL_HANDLES),
+                    'select_timeout' => self::REQUEST_TIMEOUT,
+                ])
+            );
+        } else {
+            $handler = HandlerStack::create();
+        }
+
+        $client = new Client([
+            // No exceptions of 404, 500 etc.
+            'http_errors' => false,
+            'handler' => $handler,
+            // Curl options, any CURLOPT_* option is available
+            'curl' => [
+                // CURLOPT_BINARYTRANSFER => true,
+            ],
+            RequestOptions::CONNECT_TIMEOUT => self::REQUEST_TIMEOUT,
+            // Allow redirects?
+            // Set this to RequestOptions::ALLOW_REDIRECTS => false, to turn off.
+            RequestOptions::ALLOW_REDIRECTS => [
+                'max' => self::MAX_REDIRECTS,        // allow at most 10 redirects.
+                'strict' => true,      // use "strict" RFC compliant redirects.
+                'track_redirects' => false,
+            ],
+        ]);
+
+        $promises = [];
+        foreach ($urls as $id => $url) {
+            $promises[$id] = $client->getAsync($url);
+        }
+
+        $responses = Utils::settle(
+            Utils::unwrap($promises),
+        )->wait();
+
+        $responses_list = [];
+        foreach ($responses as $id => $response) {
+            /** @var string */
+            $state = $response['state']; // "fulfilled"
+            /** @var \GuzzleHttp\Psr7\Response */
+            $value = $response['value']; // "fulfilled"
+
+            $body = json_decode($value->getBody()->getContents(), true);
+            $responses_list[$id] = $body;
         }
 
         return $responses_list;

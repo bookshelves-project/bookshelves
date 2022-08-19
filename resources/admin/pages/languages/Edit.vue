@@ -1,8 +1,25 @@
+<script lang="ts" setup>
+import type { Language } from '@admin/types'
+import type { PropType } from 'vue'
+import route from 'ziggy-js'
+
+const props = defineProps({
+  language: {
+    type: Object as PropType<Language>,
+    required: true,
+  },
+})
+
+const method = 'put'
+const url = route('admin.languages.update', { id: props.language.id })
+</script>
+
 <template>
   <edit-context
     v-slot="{ title }"
     resource="languages"
-    :item="language">
+    :item="language"
+  >
     <app-layout>
       <template #header>
         <page-header>
@@ -16,23 +33,8 @@
 
       <language-form
         :method="method"
-        :url="url" />
+        :url="url"
+      />
     </app-layout>
   </edit-context>
 </template>
-
-<script lang="ts" setup>
-import { Language } from '@admin/types'
-import { PropType } from 'vue'
-import route from 'ziggy-js'
-
-const props = defineProps({
-  language: {
-    type: Object as PropType<Language>,
-    required: true,
-  },
-})
-
-const method = 'put'
-const url = route('admin.languages.update', { id: props.language.id })
-</script>

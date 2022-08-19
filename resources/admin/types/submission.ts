@@ -5,10 +5,11 @@ export class Submission extends Model {
     public id: number,
     public name: string,
     public email: string,
-    public message: string
+    public message: string,
   ) {
     super(id)
   }
+
   toString() {
     return this.name
   }

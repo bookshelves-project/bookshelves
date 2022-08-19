@@ -1,6 +1,7 @@
-import { defineConfig, PluginOption } from 'vite'
-import baseConfig from '../vite.config'
+import type { PluginOption } from 'vite'
+import { defineConfig } from 'vite'
 import windicss from 'vite-plugin-windicss'
+import baseConfig from '../vite.config'
 
 /**
  * Enable full reload for blade file

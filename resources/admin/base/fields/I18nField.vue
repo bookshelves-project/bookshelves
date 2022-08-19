@@ -1,7 +1,3 @@
-<template>
-  <span>{{ getLocaleText }}</span>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 import truncate from 'lodash/truncate'
@@ -18,10 +14,13 @@ const locale = computed(() => usePage().props.value.locale)
 
 const getLocaleText = computed(() => {
   // eslint-disable-next-line no-prototype-builtins
-  if (props.value.hasOwnProperty(locale.value)) {
+  if (props.value.hasOwnProperty(locale.value))
     return props.value[locale.value]
-  } else {
+  else
     return props.value[Object.keys(props.value)[0]]
-  }
 })
 </script>
+
+<template>
+  <span>{{ getLocaleText }}</span>
+</template>

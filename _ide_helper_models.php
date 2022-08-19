@@ -47,6 +47,7 @@ namespace App\Models{
  * @property-read string $first_char
  * @property-read bool $is_favorite
  * @property-read string $language_slug
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Media|null $media_primary
  * @property-read string $opds_link
  * @property-read mixed $reviews_link
  * @property-read string $series_link
@@ -130,6 +131,7 @@ namespace App\Models{
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $isbn
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Media|null $media_primary
  * @property-read string|null $meta_author
  * @property-read string $opds_link
  * @property-read string $related_link
@@ -829,6 +831,7 @@ namespace App\Models{
  * @property-read array $files_list
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Media|null $media_primary
  * @property-read string|null $meta_author
  * @property-read string $opds_link
  * @property-read mixed $reviews_link

@@ -1,3 +1,31 @@
+<script lang="ts" setup>
+import { useTitle } from '@admin/features/helpers'
+import type { Book, PaginatedData, Post } from '@admin/types'
+import type { PropType } from 'vue'
+import { computed } from 'vue'
+
+const props = defineProps({
+  query: {
+    type: String,
+    required: true,
+  },
+  posts: {
+    type: Object as PropType<PaginatedData<Post>>,
+    required: true,
+  },
+  books: {
+    type: Object as PropType<PaginatedData<Book>>,
+    required: true,
+  },
+})
+
+const title = computed(() => {
+  return useTitle('Search :query', {
+    args: { query: props.query },
+  })
+})
+</script>
+
 <template>
   <app-layout>
     <template #header>
@@ -23,7 +51,7 @@
             :src="post.featured_image[0].preview_url"
             alt=""
             class="absolute inset-0 w-full h-full object-cover"
-          />
+          >
         </div>
         <div class="flex-auto p-6">
           <div class="flex flex-wrap">
@@ -60,30 +88,3 @@
     </div>
   </app-layout>
 </template>
-
-<script lang="ts" setup>
-import { useTitle } from '@admin/features/helpers'
-import { Book, PaginatedData, Post } from '@admin/types'
-import { computed, PropType } from 'vue'
-
-const props = defineProps({
-  query: {
-    type: String,
-    required: true,
-  },
-  posts: {
-    type: Object as PropType<PaginatedData<Post>>,
-    required: true,
-  },
-  books: {
-    type: Object as PropType<PaginatedData<Book>>,
-    required: true,
-  },
-})
-
-const title = computed(() => {
-  return useTitle('Search :query', {
-    args: { query: props.query },
-  })
-})
-</script>

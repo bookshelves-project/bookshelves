@@ -27,7 +27,7 @@ class FavoriteResource extends JsonResource
         return [
             'meta' => [
                 'type' => 'favorite',
-                'for' => $favoritable->getClassName(),
+                'entity' => $favoritable->getClassName(),
                 'author' => $favoritable->meta_author,
                 'slug' => $favoritable->slug,
             ],

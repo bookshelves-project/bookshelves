@@ -20,7 +20,8 @@ const comic = (): IComic => ({
   async initialize(data: string) {
     this.$store.webreader.bookData = JSON.parse(data)
 
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     refsAlpine = this.$refs
     this.$store.webreader.navigationOptions.grid = true
     this.$store.webreader.navigationOptions.sizeable = true
@@ -31,7 +32,7 @@ const comic = (): IComic => ({
   async createBook() {
     const downloader = new Downloader(
       this.$store.webreader.bookData.url,
-      this.$store.webreader.bookData.filename
+      this.$store.webreader.bookData.filename,
     )
     await downloader.download()
     this.$store.webreader.bookIsDownloaded = true
@@ -42,18 +43,17 @@ const comic = (): IComic => ({
       this.$store.webreader.imagesList = comic.images.filter((image) => {
         const name = image.name.split('.')
         const extension = name[name.length - 1]
-        if (extensions.includes(extension)) {
+        if (extensions.includes(extension))
           return image
-        }
       })
-      this.$store.webreader.lastPage =
-        this.$store.webreader.imagesList.length - 1
+      this.$store.webreader.lastPage
+        = this.$store.webreader.imagesList.length - 1
       this.$store.webreader.imagesList = this.$store.webreader.imagesList.sort(
         (a, b) =>
           a.name.localeCompare(b.name, undefined, {
             numeric: true,
             sensitivity: 'base',
-          })
+          }),
       )
 
       this.$store.webreader.getConfig()
@@ -103,16 +103,14 @@ const comic = (): IComic => ({
       })
     })
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') {
+      if (event.key === 'ArrowLeft')
         this.previous()
-      }
-      if (event.key === 'ArrowRight' || event.key === 'Alt') {
-        this.next()
-      }
 
-      if (event.key === 'g') {
+      if (event.key === 'ArrowRight' || event.key === 'Alt')
+        this.next()
+
+      if (event.key === 'g')
         this.displayGrid!()
-      }
     })
   },
 
@@ -127,23 +125,23 @@ const comic = (): IComic => ({
     this.setReader()
   },
   previous() {
-    if (this.$store.webreader.currentPage > 0) {
+    if (this.$store.webreader.currentPage > 0)
       this.$store.webreader.currentPage = this.$store.webreader.currentPage - 1
-    } else {
+    else
       this.$store.webreader.currentPage = this.$store.webreader.lastPage
-    }
+
     this.$store.webreader.pageRange = this.$store.webreader.currentPage
     this.setReader()
   },
   next() {
     if (
-      this.$store.webreader.currentPage <
-      this.$store.webreader.imagesList.length - 1
-    ) {
+      this.$store.webreader.currentPage
+      < this.$store.webreader.imagesList.length - 1
+    )
       this.$store.webreader.currentPage = this.$store.webreader.currentPage + 1
-    } else {
+    else
       this.$store.webreader.currentPage = 0
-    }
+
     this.$store.webreader.pageRange = this.$store.webreader.currentPage
     this.setReader()
   },
@@ -177,7 +175,7 @@ const comic = (): IComic => ({
       a.name.localeCompare(b.name, undefined, {
         numeric: true,
         sensitivity: 'base',
-      })
+      }),
     )
     this.$store.webreader.gridIsAvailable = true
     this.$store.webreader.grid = grid

@@ -3,7 +3,8 @@ import { transAttribute } from '@admin/plugins/translations'
 import last from 'lodash/last'
 import get from 'lodash/get'
 import set from 'lodash/set'
-import { computed, ExtractPropTypes, inject, watch } from 'vue'
+import type { ExtractPropTypes } from 'vue'
+import { computed, inject, watch } from 'vue'
 
 export const inputProps = {
   label: String,
@@ -19,7 +20,7 @@ export const inputProps = {
 
 export const inputSetup = (
   props: Readonly<ExtractPropTypes<typeof inputProps> & { modelValue?: any }>,
-  emit: (event: 'update:modelValue', ...args: any[]) => void
+  emit: (event: 'update:modelValue', ...args: any[]) => void,
 ) => {
   const id = useUniqueId()
   const form = inject<null | { initial; data; errors }>('form', null)
@@ -28,7 +29,7 @@ export const inputSetup = (
     if (!props.label) {
       return (
         transAttribute(
-          last<string>((props.labelKey || props.source!).split('.')) || ''
+          last<string>((props.labelKey || props.source!).split('.')) || '',
         ) || props.source
       )
     }
@@ -44,9 +45,9 @@ export const inputSetup = (
   })
 
   const getError = computed(() => {
-    if (form!.errors && form!.errors[props.source!]) {
+    if (form!.errors && form!.errors[props.source!])
       return form!.errors[props.source!]
-    }
+
     return ''
   })
 
@@ -55,7 +56,8 @@ export const inputSetup = (
   })
 
   const getInitialValue = computed(() => {
-    if (!form || !form.initial) return props.modelValue
+    if (!form || !form.initial)
+      return props.modelValue
     return props.getter
       ? props.getter(form.initial)
       : get(form.initial, props.source!)
@@ -77,7 +79,7 @@ export const inputSetup = (
       () => props.modelValue,
       (val) => {
         formValue.value = val
-      }
+      },
     )
   }
 

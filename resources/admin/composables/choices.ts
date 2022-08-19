@@ -1,5 +1,6 @@
 import { usePage } from '@inertiajs/inertia-vue3'
-import { computed, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes } from 'vue'
+import { computed } from 'vue'
 import { inputProps, inputSetup } from './input'
 
 export const choicesProps = {
@@ -25,28 +26,31 @@ export interface Option {
 export const getOptionsFromChoices = (
   choices,
   optionText: string,
-  optionValue: string
+  optionValue: string,
 ) => {
   if (Array.isArray(choices)) {
     return choices.map((o) => {
-      return { value: o[optionValue],
-        text: o[optionText] }
+      return {
+        value: o[optionValue],
+        text: o[optionText],
+      }
     })
   }
 
-  if (typeof choices === 'string') {
+  if (typeof choices === 'string')
     choices = (usePage().props.value.enums as any)[choices]
-  }
 
   return Object.keys(choices).map((key) => {
-    return { value: key,
-      text: (choices as any)[key] }
+    return {
+      value: key,
+      text: (choices as any)[key],
+    }
   })
 }
 
 export const choicesSetup = (
   props: Readonly<ExtractPropTypes<typeof choicesProps> & { modelValue?: any }>,
-  emit: (event: 'update:modelValue', ...args: any[]) => void
+  emit: (event: 'update:modelValue', ...args: any[]) => void,
 ) => {
   const initial = inputSetup(props, emit)
 
@@ -54,17 +58,21 @@ export const choicesSetup = (
     let options = getOptionsFromChoices(
       props.choices,
       props.optionText,
-      props.optionValue
+      props.optionValue,
     )
 
     if (props.allowEmpty) {
-      options = [{ value: '',
-        text: props.emptyText }, ...options]
+      options = [{
+        value: '',
+        text: props.emptyText,
+      }, ...options]
     }
 
     return options
   })
 
-  return { ...initial,
-    getChoices }
+  return {
+    ...initial,
+    getChoices,
+  }
 }

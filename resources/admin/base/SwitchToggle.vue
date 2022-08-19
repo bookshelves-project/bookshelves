@@ -1,15 +1,41 @@
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
+const props = defineProps({
+  modelValue: Boolean,
+  label: {
+    type: String,
+    default: null,
+  },
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+const toggled = ref(false)
+const toggle = () => {
+  toggled.value = !toggled.value
+  emit('update:modelValue', toggled.value)
+}
+
+onMounted(() => {
+  if (props.modelValue)
+    toggled.value = props.modelValue
+})
+</script>
+
 <template>
   <div
     class="flex items-center justify-between mt-1"
-    :title="label">
+    :title="label"
+  >
     <span
       v-if="label"
-      class="flex-grow flex flex-col">
+      class="flex-grow flex flex-col"
+    >
       <span
         id="availability-label"
         class="text-base font-medium text-gray-900 dark:text-gray-100"
-      >{{ label }}</span
-      >
+      >{{ label }}</span>
     </span>
     <button
       type="button"
@@ -35,8 +61,7 @@
           "
           class="absolute inset-0 h-full w-full flex items-center justify-center transition-opacity"
           aria-hidden="true"
-        >
-        </span>
+        />
         <span
           :class="
             toggled
@@ -45,35 +70,8 @@
           "
           class="absolute inset-0 h-full w-full flex items-center justify-center transition-opacity"
           aria-hidden="true"
-        >
-        </span>
+        />
       </span>
     </button>
   </div>
 </template>
-
-<script setup lang="ts">
-import { onMounted, ref } from 'vue'
-
-const props = defineProps({
-  modelValue: Boolean,
-  label: {
-    type: String,
-    default: null,
-  },
-})
-
-const emit = defineEmits(['update:modelValue'])
-
-const toggled = ref(false)
-const toggle = () => {
-  toggled.value = !toggled.value
-  emit('update:modelValue', toggled.value)
-}
-
-onMounted(() => {
-  if (props.modelValue) {
-    toggled.value = props.modelValue
-  }
-})
-</script>

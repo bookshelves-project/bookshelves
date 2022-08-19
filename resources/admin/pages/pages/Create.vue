@@ -1,7 +1,15 @@
+<script lang="ts" setup>
+import route from 'ziggy-js'
+
+const method = 'post'
+const url = route('admin.pages.store')
+</script>
+
 <template>
   <create-context
     v-slot="{ title }"
-    resource="pages">
+    resource="pages"
+  >
     <app-layout title="Create new Page">
       <template #header>
         <page-header>
@@ -14,14 +22,8 @@
 
       <page-form
         :method="method"
-        :url="url" />
+        :url="url"
+      />
     </app-layout>
   </create-context>
 </template>
-
-<script lang="ts" setup>
-import route from 'ziggy-js'
-
-const method = 'post'
-const url = route('admin.pages.store')
-</script>

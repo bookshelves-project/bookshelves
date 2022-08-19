@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, onMounted } from 'vue'
 import { inputProps, inputSetup } from '@admin/composables/input'
-import { getLocale, __ } from 'matice'
+import { __, getLocale } from 'matice'
 import route from 'ziggy-js'
 import axios from 'axios'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
@@ -9,8 +9,6 @@ import StarterKit from '@tiptap/starter-kit'
 import Typography from '@tiptap/extension-typography'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
-import TaskList from '@tiptap/extension-task-list'
-import TaskItem from '@tiptap/extension-task-item'
 import Placeholder from '@tiptap/extension-placeholder'
 import CharacterCount from '@tiptap/extension-character-count'
 import { useEditorInput } from '@admin/composables/useEditorInput'
@@ -43,10 +41,6 @@ const editor = useEditor({
     Link.configure({
       openOnClick: false,
     }),
-    // TaskList,
-    // TaskItem.configure({
-    //   nested: true,
-    // }),
     Placeholder.configure({
       placeholder: 'Write something…',
     }),
@@ -64,9 +58,8 @@ const editor = useEditor({
   },
 })
 onMounted(() => {
-  if (editor.value) {
+  if (editor.value)
     editor.value.commands.setContent(formValue.value)
-  }
 })
 
 const store = useElfinderStore()
@@ -80,12 +73,14 @@ const buttons = props.options === 'basic' ? buttonsBasic() : buttonsComplete()
     <input-label
       :for="id"
       class="mb-1"
-      :value="getLabel" />
+      :value="getLabel"
+    />
     <div class="editor-text">
       <div class="editor relative">
         <div
           v-if="editor"
-          class="editor__actions">
+          class="editor__actions"
+        >
           <editor-input-action
             v-for="(button, index) in buttons"
             :key="index"
@@ -99,7 +94,7 @@ const buttons = props.options === 'basic' ? buttonsBasic() : buttonsComplete()
             />
           </editor-input-action>
         </div>
-        <hr class="mx-4" />
+        <hr class="mx-4">
         <editor-content
           v-model="formValue"
           :editor="editor"
@@ -108,7 +103,8 @@ const buttons = props.options === 'basic' ? buttonsBasic() : buttonsComplete()
         <div class="mx-4">
           <div
             v-if="editor"
-            class="character-count">
+            class="character-count"
+          >
             {{ editor.storage.characterCount.words() }} words
           </div>
           <div
@@ -120,24 +116,24 @@ const buttons = props.options === 'basic' ? buttonsBasic() : buttonsComplete()
               target="_blank"
               rel="noopener noreferrer"
               class="underline underline-gray-600 underline-offset-2"
-            >Tiptap</a
-            >, you can use
+            >Tiptap</a>, you can use
             <a
               href="https://www.markdownguide.org/cheat-sheet/"
               target="_blank"
               rel="noopener noreferrer"
               class="underline underline-gray-600 underline-offset-2"
-            >Markdown</a
-            >.
+            >Markdown</a>.
           </div>
         </div>
       </div>
       <input-error
         :message="getError"
-        class="mt-2" />
+        class="mt-2"
+      />
       <input-hint
         :message="hint"
-        class="mt-2" />
+        class="mt-2"
+      />
     </div>
   </base-input>
 </template>

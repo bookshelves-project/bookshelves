@@ -25,7 +25,7 @@ const currentIcon = computed(() =>
       //   fail()
       // }
     },
-  })
+  }),
 )
 const attrs = useAttrs()
 </script>
@@ -34,7 +34,8 @@ const attrs = useAttrs()
   <span>
     <component
       :is="currentIcon"
-      :class="attrs.class" />
+      :class="attrs.class"
+    />
     <!-- <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

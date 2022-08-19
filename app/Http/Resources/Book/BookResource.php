@@ -6,6 +6,7 @@ use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\GoogleBookResource;
 use App\Http\Resources\Publisher\PublisherLightResource;
 use App\Http\Resources\Serie\SerieUltraLightResource;
+use App\Http\Resources\SpatieMediaResource;
 use App\Http\Resources\Tag\TagLightResource;
 use App\Models\Book;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -35,13 +36,8 @@ class BookResource extends JsonResource
             ],
             'serie' => SerieUltraLightResource::make($this->resource->serie),
             'authors' => AuthorUltraLightResource::collection($this->resource->authors),
-            'cover' => [
-                'thumbnail' => $this->resource->cover_thumbnail,
-                'og' => $this->resource->cover_og,
-                'simple' => $this->resource->cover_simple,
-                'original' => $this->resource->cover_original,
-                'color' => $this->resource->cover_color,
-            ],
+            'media' => SpatieMediaResource::make($this->resource->media_primary),
+            'media_social' => $this->resource->cover_simple,
             'description' => $this->resource->description,
             'identifier' => BookIdentifierResource::make($this->resource),
             'pageCount' => $this->resource->page_count,

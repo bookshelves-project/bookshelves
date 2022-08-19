@@ -30,9 +30,9 @@ const props = defineProps({
   placeholder: String,
 })
 
-const newTagsList = ref([])
-
 const emit = defineEmits(['update:modelValue'])
+
+const newTagsList = ref([])
 
 const { getLabel, formValue, getError } = inputSetup(props, emit)
 
@@ -43,9 +43,8 @@ const translations = computed(() => {
 const isNew = (option: any) => {
   const list = option as never
 
-  if (newTagsList.value.includes(list[props.optionText])) {
+  if (newTagsList.value.includes(list[props.optionText]))
     return classes.value.tagOnCreate
-  }
 
   return classes.value.tag
 }
@@ -64,30 +63,27 @@ const classes = computed(() => {
 
 const onAddTag = (searchQuery: never) => {
   newTagsList.value.push(searchQuery)
-  return
 }
 
 const asyncSearch = computed(() => {
   return async (query: string) => {
     if (query) {
       const { data } = await axios.get<{ data: any }>(
-        `${route(`admin.${props.resource}`)}?filter[q]=${query}`
+        `${route(`admin.${props.resource}`)}?filter[q]=${query}`,
       )
       return data.data
     }
 
-    if (props.taggable) {
+    if (props.taggable)
       return formValue.value
-    }
 
     const value = props.multiple ? (formValue.value as []) : [formValue.value]
 
-    if (isEmpty(value)) {
+    if (isEmpty(value))
       return []
-    }
 
     const { data } = await axios.get<{ data: any }>(
-      `${route(`admin.${props.resource}`)}?filter[id]=${value.join(',')}`
+      `${route(`admin.${props.resource}`)}?filter[id]=${value.join(',')}`,
     )
     return data.data
   }
@@ -102,8 +98,7 @@ const asyncSearch = computed(() => {
       :readonly="'readonly' in $attrs"
     >
       {{ getLabel }}
-    </input-label
-    >
+    </input-label>
     <Multiselect
       v-model="formValue"
       v-bind="{ ...translations }"
@@ -125,13 +120,15 @@ const asyncSearch = computed(() => {
       <template #singlelabel="labelProps">
         <slot
           name="singlelabel"
-          :value="labelProps.value"></slot>
+          :value="labelProps.value"
+        />
       </template>
 
       <template #option="{ option }">
         <slot
           name="option"
-          :option="option"></slot>
+          :option="option"
+        />
       </template>
 
       <template #tag="{ option, handleTagRemove, disabled }">
@@ -142,7 +139,7 @@ const asyncSearch = computed(() => {
             :class="classes.tagRemove"
             @click="handleTagRemove(option, $event)"
           >
-            <span :class="classes.tagRemoveIcon"></span>
+            <span :class="classes.tagRemoveIcon" />
           </span>
         </span>
       </template>
@@ -153,10 +150,12 @@ const asyncSearch = computed(() => {
     </span>
     <input-error
       :message="getError"
-      class="mt-2" />
+      class="mt-2"
+    />
     <input-hint
       :message="hint"
-      class="mt-2" />
+      class="mt-2"
+    />
   </base-input>
 </template>
 

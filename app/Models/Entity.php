@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\BookTypeEnum;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use ReflectionClass;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Entity
 {
@@ -34,6 +35,8 @@ class Entity
     public ?int $volume;
 
     public ?int $books_count;
+
+    public ?Media $media_primary;
 
     public ?string $cover_thumbnail;
 

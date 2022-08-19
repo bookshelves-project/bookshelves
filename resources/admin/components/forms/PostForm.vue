@@ -1,3 +1,26 @@
+<script setup lang="ts">
+import type { Ref } from 'vue'
+import { ref } from 'vue'
+
+defineProps({
+  method: {
+    type: String,
+    required: true,
+  },
+  url: {
+    type: String,
+    required: true,
+  },
+})
+
+const form: Ref<HTMLElement | null | any> = ref(null)
+
+const submit = (publish: boolean) => {
+  if (form.value)
+    form.value.submit({ publish })
+}
+</script>
+
 <template>
   <base-form
     ref="form"
@@ -16,27 +39,33 @@
       <card-content>
         <text-input
           source="title"
-          type="text" />
+          type="text"
+        />
         <text-input
           source="meta_title"
-          type="text" />
+          type="text"
+        />
         <text-input
           source="summary"
-          multiline />
+          multiline
+        />
         <text-input
           source="meta_description"
-          multiline />
+          multiline
+        />
         <editor-input
           source="body"
           :height="800"
-          full />
+          full
+        />
       </card-content>
       <card-side>
         <field
           source="status"
           type="select"
           choices="post_statuses"
-          full />
+          full
+        />
         <text-input
           source="slug"
           type="text"
@@ -62,7 +91,7 @@
           source="published_at"
           :hint="
             $t(
-              'If future date, the post will be automatically posted at this date.'
+              'If future date, the post will be automatically posted at this date.',
             )
           "
           full
@@ -88,12 +117,14 @@
         />
         <switch-input
           source="pin"
-          full />
+          full
+        />
 
         <div class="flex form-full">
           <dropdown
             class="ml-auto"
-            wrapper-classes="w-72 right">
+            wrapper-classes="w-72 right"
+          >
             <template #trigger>
               <base-button
                 type="button"
@@ -109,7 +140,8 @@
             <template #content>
               <dropdown-link
                 type="button"
-                @click.prevent="submit(false)">
+                @click.prevent="submit(false)"
+              >
                 {{ $t('Save as draft') }}
               </dropdown-link>
             </template>
@@ -119,26 +151,3 @@
     </div>
   </base-form>
 </template>
-
-<script setup lang="ts">
-import { Ref, ref } from 'vue'
-
-defineProps({
-  method: {
-    type: String,
-    required: true,
-  },
-  url: {
-    type: String,
-    required: true,
-  },
-})
-
-const form: Ref<HTMLElement | null | any> = ref(null)
-
-const submit = (publish: boolean) => {
-  if (form.value) {
-    form.value.submit({ publish })
-  }
-}
-</script>

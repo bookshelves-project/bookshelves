@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { PropType } from 'vue'
-import { Model, PaginatedData } from '@admin/types'
+import type { PropType } from 'vue'
+import type { Model, PaginatedData } from '@admin/types'
 
 const props = defineProps({
   source: {
@@ -17,8 +17,10 @@ const props = defineProps({
 const emit = defineEmits(['page-change'])
 
 const onPageChange = (page: number) => {
-  emit('page-change', { page,
-    size: props.source.meta.per_page })
+  emit('page-change', {
+    page,
+    size: props.source.meta.per_page,
+  })
 }
 
 const onSizeChange = (e: Event) => {
@@ -43,7 +45,8 @@ const onSizeChange = (e: Event) => {
         <option
           v-for="(count, i) in sizeOptions"
           :key="i"
-          :value="count">
+          :value="count"
+        >
           {{ count }}
         </option>
       </select>
@@ -53,7 +56,8 @@ const onSizeChange = (e: Event) => {
     </div>
     <div
       v-if="source.meta.total"
-      class="flex flex-row items-center ml-auto">
+      class="flex flex-row items-center ml-auto"
+    >
       <span
         class="hidden sm:inline-block text-base text-gray-700 dark:text-gray-400"
       >{{
@@ -64,8 +68,7 @@ const onSizeChange = (e: Event) => {
             total: source.meta.total,
           },
         })
-      }}</span
-      >
+      }}</span>
       <pagination
         class="ml-2"
         :current-page="source.meta.current_page"

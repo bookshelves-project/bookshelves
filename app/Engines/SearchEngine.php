@@ -7,8 +7,11 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Entity;
 use App\Models\Serie;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
+use ReflectionClass;
+use Str;
 
 /**
  * Search Engine with laravel/scout
@@ -16,29 +19,18 @@ use Illuminate\Support\Collection;
  */
 class SearchEngine
 {
-    /** @var Collection<int,Entity> */
-    public ?Collection $list = null;
+    public const LIST = [
+        Author::class,
+        Serie::class,
+        Book::class,
+    ];
 
-    /** @var Collection<int,Author> */
-    public ?Collection $authors = null;
+    public array $results = [];
 
-    /** @var Collection<int,Serie> */
-    public ?Collection $series = null;
+    public array $results_relevant = [];
 
-    /** @var Collection<int,Book> */
-    public ?Collection $books = null;
-
-    public ?AnonymousResourceCollection $authors_relevant = null;
-
-    public ?AnonymousResourceCollection $series_relevant = null;
-
-    public ?AnonymousResourceCollection $books_relevant = null;
-
-    public ?AnonymousResourceCollection $authors_other = null;
-
-    public ?AnonymousResourceCollection $series_other = null;
-
-    public ?AnonymousResourceCollection $books_other = null;
+    /** @var Collection<int, Entity> */
+    public Collection $results_opds;
 
     public function __construct(
         public int $top_limit = 3,
@@ -46,7 +38,8 @@ class SearchEngine
         public int $count = 0,
         public string $search_type = 'collection',
         public ?string $q = null,
-        public ?bool $sorted = true,
+        public ?bool $relevant = false,
+        public ?bool $opds = false,
         public ?array $types = [],
     ) {
     }
@@ -54,14 +47,34 @@ class SearchEngine
     /**
      * Create an instance of SearchEngine from query.
      */
-    public static function create(string $q, bool $sorted = true, array|null $types = []): SearchEngine
+    public static function create(?string $q = '', bool $relevant = false, bool $opds = false, string|array $types = null): SearchEngine
     {
-        if (empty($types)) {
-            $types = ['books', 'series', 'authors'];
+        if (gettype($types) === 'string') {
+            $types = explode(',', $types);
         }
-        $engine = new SearchEngine(q: $q, sorted: $sorted, types: $types);
 
+        if (empty($types)) {
+            $types = [
+                'authors',
+                'series',
+                'books',
+            ];
+        }
+        $engine = new SearchEngine(q: $q, relevant: $relevant, opds: $opds, types: $types);
         return $engine->searchEngine();
+    }
+
+    public function json(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'count' => empty($this->q) ? 0 : $this->count,
+                'type' => $this->search_type,
+                'query' => $this->q,
+                'results' => empty($this->q) ? [] : (! $this->relevant ? $this->results : []),
+                'results_relevant' => empty($this->q) ? [] : (! $this->relevant ? [] : $this->results_relevant),
+            ],
+        ]);
     }
 
     /**
@@ -69,40 +82,20 @@ class SearchEngine
      */
     public function searchEngine(): SearchEngine
     {
-        $this->authors = collect();
-        $this->series = collect();
-        $this->books = collect();
-
         $this->search_type = config('scout.driver');
         $this->search();
 
-        $this->count += $this->authors->count();
-        $this->count += $this->series->count();
-        $this->count += $this->books->count();
+        /** @var Collection $collection */
+        foreach ($this->results as $key => $collection) {
+            $this->count += $collection->count();
+        }
 
-        $authors_relevant = $this->authors->splice(0, $this->top_limit);
-        $series_relevant = $this->series->splice(0, $this->top_limit);
-        $books_relevant = $this->books->splice(0, $this->top_limit);
+        if ($this->relevant) {
+            $this->results_relevant = $this->getRelevantResults();
+        }
 
-        $authors_other = $this->authors->splice($this->top_limit, $this->max_limit);
-        $series_other = $this->series->splice($this->top_limit, $this->max_limit);
-        $books_other = $this->books->splice($this->top_limit, $this->max_limit);
-        if ($this->sorted) {
-            $this->authors_relevant = EntityResource::collection($authors_relevant);
-            $this->series_relevant = EntityResource::collection($series_relevant);
-            $this->books_relevant = EntityResource::collection($books_relevant);
-
-            $this->authors_other = EntityResource::collection($authors_other);
-            $this->series_other = EntityResource::collection($series_other);
-            $this->books_other = EntityResource::collection($books_other);
-        } else {
-            $this->list = collect();
-            $this->list->push(...$authors_relevant);
-            $this->list->push(...$series_relevant);
-            $this->list->push(...$books_relevant);
-            $this->list->push(...$authors_other);
-            $this->list->push(...$series_other);
-            $this->list->push(...$books_other);
+        if ($this->opds) {
+            $this->results_opds = $this->getOpdsResults();
         }
 
         return $this;
@@ -113,23 +106,67 @@ class SearchEngine
      */
     private function search(): SearchEngine
     {
-        $this->entitySearch('authors', Author::class, ['name', 'firstname', 'lastname'], 'media');
-        $this->entitySearch('series', Serie::class, ['title', 'authors.name'], ['authors', 'media']);
-        $this->entitySearch('books', Book::class, ['title', 'authors.name', 'serie.title', 'isbn10', 'isbn13'], ['authors', 'media']);
+        foreach (self::LIST as $value) {
+            $this->entitySearch($value);
+        }
 
         return $this;
     }
 
-    private function entitySearch(string $key, string $class, array $search_on = [], array|string $with = [])
+    private function entitySearch(string $model)
     {
+        $instance = new $model();
+        $class = new ReflectionClass($instance);
+        $static = $class->getName();
+        $name = $class->getShortName();
+        $key = Str::plural($name);
+
+        $slug = preg_split('/(?=[A-Z])/', $name);
+        $slug = implode('-', $slug);
+        $key = Str::plural(Str::slug($slug));
+
         if (in_array($key, $this->types)) {
-            $this->{$key} = 'collection' !== $this->search_type ?
-                $class::search($this->q)
-                    ->get()
-                : $class::whereLike($search_on, $this->q)
-                    ->with($with)
-                    ->get()
-                ;
+            if ($this->opds) {
+                array_push($this->results, $static::search($this->q)->get()); // @phpstan-ignore-line
+            } else {
+                $this->results[$key] = EntityResource::collection(
+                    $static::search($this->q) // @phpstan-ignore-line
+                        ->get(),
+                );
+            }
         }
+    }
+
+    public function getRelevantResults()
+    {
+        $list = collect();
+        /** @var string $model */
+        foreach ($this->results as $model => $results) {
+            /** @var AnonymousResourceCollection $collection */
+            $collection = $results;
+            $json = $collection->toJson();
+            $results_list = json_decode($json);
+            $relevant_results = array_splice($results_list, 0, $this->top_limit);
+
+            $list->put($model, [
+                'relevant' => $relevant_results,
+                'other' => $results_list,
+            ]);
+        }
+
+        return $list->toArray();
+    }
+
+    public function getOpdsResults()
+    {
+        $list = collect();
+        /** @var string $model */
+        foreach ($this->results as $model => $results) {
+            /** @var Collection<int, Entity> $collection */
+            $collection = $results;
+            $list->push(...$collection);
+        }
+
+        return $list;
     }
 }

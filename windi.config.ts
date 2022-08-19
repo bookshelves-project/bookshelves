@@ -32,10 +32,10 @@ export default defineConfig({
         center: true,
       },
       screens: {
-        sm: '360px',
-        md: '600px',
-        lg: '900px',
-        xl: '1300px',
+        'sm': '360px',
+        'md': '600px',
+        'lg': '900px',
+        'xl': '1300px',
         '2xl': '1536px',
         '3xl': '1920px',
       },
@@ -56,17 +56,17 @@ export default defineConfig({
         'multiselect-caret': `url("${svgToDataUri(
           `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>`
+          </svg>`,
         )}")`,
         'multiselect-spinner': `url("${svgToDataUri(
           `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>`
+          </svg>`,
         )}")`,
         'multiselect-remove': `url("${svgToDataUri(
           `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>`
+          </svg>`,
         )}")`,
       }),
       typography: {
@@ -100,7 +100,7 @@ export default defineConfig({
           '-webkit-hyphens': 'auto',
           '-moz-hyphens': 'auto',
           '-ms-hyphens': 'auto',
-          hyphens: 'auto',
+          'hyphens': 'auto',
         },
         '.word-wrap-break': {
           'word-wrap': 'break-word',

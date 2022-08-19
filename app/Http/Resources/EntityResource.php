@@ -38,12 +38,8 @@ class EntityResource extends JsonResource
             'language' => LanguageLightResource::make($this->resource->language),
             'volume' => $this->resource->volume ?? null,
             'count' => $this->resource->books_count,
-            'cover' => [
-                'thumbnail' => $this->resource->cover_thumbnail,
-                'original' => $this->resource->cover_original,
-                'simple' => $this->resource->cover_simple,
-                'color' => $this->resource->cover_color,
-            ],
+            'media' => SpatieMediaResource::make($this->resource->media_primary),
+            'media_social' => $this->resource->cover_simple,
             'first_char' => $this->resource->first_char,
         ];
     }

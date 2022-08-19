@@ -1,15 +1,3 @@
-<template>
-  <base-button
-    tag="a"
-    variant="success"
-    icon="download"
-    :href="exportUrl"
-    :hide-label="hideLabel"
-  >
-    {{ $t('admin.data-table.export') }}
-  </base-button>
-</template>
-
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
 import route from 'ziggy-js'
@@ -29,3 +17,15 @@ const exportUrl = computed((): string => {
   })}`
 })
 </script>
+
+<template>
+  <base-button
+    tag="a"
+    variant="success"
+    icon="download"
+    :href="exportUrl"
+    :hide-label="hideLabel"
+  >
+    {{ $t('admin.data-table.export') }}
+  </base-button>
+</template>

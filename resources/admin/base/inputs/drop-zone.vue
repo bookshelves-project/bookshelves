@@ -1,17 +1,5 @@
-<template>
-  <div
-    :data-active="active"
-    @dragenter.prevent="setActive"
-    @dragover.prevent="setActive"
-    @dragleave.prevent="setInactive"
-    @drop.prevent="onDrop"
-  >
-    <slot :drop-zone-active="active"></slot>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 const emit = defineEmits(['files-dropped'])
 
 const active = ref(false)
@@ -53,3 +41,15 @@ onUnmounted(() => {
   })
 })
 </script>
+
+<template>
+  <div
+    :data-active="active"
+    @dragenter.prevent="setActive"
+    @dragover.prevent="setActive"
+    @dragleave.prevent="setInactive"
+    @drop.prevent="onDrop"
+  >
+    <slot :drop-zone-active="active" />
+  </div>
+</template>

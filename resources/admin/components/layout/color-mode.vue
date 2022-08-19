@@ -16,7 +16,8 @@ const toggle = () => {
   >
     <span
       class="sun"
-      title="Switch to dark mode">
+      title="Switch to dark mode"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-6 w-6"
@@ -34,7 +35,8 @@ const toggle = () => {
     </span>
     <span
       class="moon"
-      title="Switch to light mode">
+      title="Switch to light mode"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-6 w-6"

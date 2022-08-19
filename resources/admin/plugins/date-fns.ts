@@ -1,4 +1,4 @@
-import { App } from 'vue'
+import type { App } from 'vue'
 
 import { format as dateFormat, parseJSON as dateParse } from 'date-fns'
 
@@ -6,7 +6,7 @@ export default {
   install: (app: App): void => {
     app.config.globalProperties.$dateFormat = (
       date: string | number | undefined,
-      format = 'dd/MM/yyyy'
+      format = 'dd/MM/yyyy',
     ): string => (date ? dateFormat(dateParse(date), format) : '')
   },
 }

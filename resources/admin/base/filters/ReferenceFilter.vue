@@ -1,12 +1,3 @@
-<template>
-  <select-filter
-    v-model="value"
-    :choices="choices"
-    :option-text="optionText"
-    :option-value="optionValue"
-  />
-</template>
-
 <script lang="ts" setup>
 import { referenceSetup } from '@admin/composables/reference'
 import {} from 'vue'
@@ -30,3 +21,12 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 const { value, choices } = referenceSetup(props, emit)
 </script>
+
+<template>
+  <select-filter
+    v-model="value"
+    :choices="choices"
+    :option-text="optionText"
+    :option-value="optionValue"
+  />
+</template>

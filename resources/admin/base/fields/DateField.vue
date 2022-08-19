@@ -1,7 +1,3 @@
-<template>
-  <span>{{ $dateFormat(value, format) }}</span>
-</template>
-
 <script lang="ts" setup>
 defineProps({
   value: {
@@ -14,3 +10,7 @@ defineProps({
   },
 })
 </script>
+
+<template>
+  <span>{{ $dateFormat(value, format) }}</span>
+</template>
