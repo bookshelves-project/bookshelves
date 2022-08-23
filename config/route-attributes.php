@@ -9,7 +9,7 @@ return [
      * will automatically be registered.
      */
     'directories' => [
-        app_path('Http/Controllers/Admin'),
+        // app_path('Http/Controllers/Api'),
     ],
 
     // This middleware will be applied to all routes.

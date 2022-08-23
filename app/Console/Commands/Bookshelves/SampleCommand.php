@@ -65,7 +65,7 @@ class SampleCommand extends CommandProd
 
         if ($users) {
             $this->comment('Run users seeders');
-            Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
+            Artisan::call('db:seed', ['--class' => 'EmptySeeder', '--force' => true]);
             $this->newLine();
             $this->info('Seeders ready!');
             $this->newLine();

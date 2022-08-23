@@ -6,7 +6,6 @@ use App\Http\Resources\FavoriteResource;
 use App\Models\Favoritable;
 use App\Models\User;
 use Auth;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Route;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -29,7 +28,7 @@ class FavoriteController extends ApiController
     public function me()
     {
         $user = Auth::user();
-        if (!$user) {
+        if (! $user) {
             return abort(404);
         }
 

@@ -1014,7 +1014,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUseGravatar($value)
  */
-	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Filament\Models\Contracts\FilamentUser {}
 }
 
 namespace App\Models{

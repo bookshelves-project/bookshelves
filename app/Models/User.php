@@ -6,6 +6,7 @@ use App\Enums\RoleEnum;
 use App\Models\Traits\HasAvatar;
 use App\Models\Traits\HasImpersonate;
 use App\Models\Traits\HasUserSlug;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,7 +18,7 @@ use Spatie\MediaLibrary\HasMedia;
 /**
  * @property \App\Models\Favoritable[]|\Illuminate\Database\Eloquent\Collection $favorites
  */
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMedia, FilamentUser
 {
     use HasFactory;
     use Notifiable;
@@ -134,5 +135,10 @@ class User extends Authenticatable implements HasMedia
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function canAccessFilament(): bool
+    {
+        return $this->hasRole(RoleEnum::super_admin) || $this->hasRole(RoleEnum::admin) || $this->hasRole(RoleEnum::publisher);
     }
 }
