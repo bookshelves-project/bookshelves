@@ -69,7 +69,7 @@ class AuthorController extends ApiController
      */
     public function books(Request $request, Author $author)
     {
-        if ($request->parseBoolean('standalone')) {
+        if ($request->boolean('standalone')) {
             $books = $author->booksAvailableStandalone();
         } else {
             $books = $author->booksAvailable();

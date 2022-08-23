@@ -1,6 +1,6 @@
 {
-    "name": "Bookshelves",
-    "short_name": "Bookshelves",
+    "name": "Useweb",
+    "short_name": "Useweb",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#564fcc",
-    "background_color": "#564fcc",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
     "display": "standalone"
 }

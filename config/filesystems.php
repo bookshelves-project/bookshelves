@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
@@ -21,44 +22,18 @@ return [
     |
     | Here you may configure as many filesystem "disks" as you wish, and you
     | may even configure multiple disks of the same driver. Defaults have
-    | been setup for each driver as an example of the required options.
+    | been set up for each driver as an example of the required values.
     |
     | Supported Drivers: "local", "ftp", "sftp", "s3"
     |
     */
 
     'disks' => [
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
-        ],
-
-        'cover' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/covers'),
-            'url' => env('APP_URL').'/storage/media/covers',
-            'visibility' => 'public',
-        ],
-
-        'format' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/formats'),
-            'url' => env('APP_URL').'/storage/media/formats',
-            'visibility' => 'public',
-        ],
-
-        'cms' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/cms'),
-            'url' => env('APP_URL').'/storage/media/cms',
-            'visibility' => 'public',
-        ],
-
-        'user' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/users'),
-            'url' => env('APP_URL').'/storage/media/users',
-            'visibility' => 'public',
+            'throw' => false,
         ],
 
         'public' => [
@@ -66,18 +41,7 @@ return [
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
-        ],
-
-        'media' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media'),
-            'url' => '/storage/media',
-        ],
-
-        'files' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/files'),
-            'url' => env('APP_URL').'/storage/files',
+            'throw' => false,
         ],
 
         's3' => [
@@ -89,7 +53,9 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
         ],
+
     ],
 
     /*
@@ -106,4 +72,5 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
+
 ];

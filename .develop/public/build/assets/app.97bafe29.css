@@ -1,0 +1,1 @@
+@tailwind base;@tailwind components;@tailwind utilities;body{@apply bg-white dark:bg-gray-900 text-black dark:text-white;}[x-cloak]{display:none}

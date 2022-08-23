@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Enums\ColorEnum;
+use App\Enums\ContactSubjectEnum;
+use App\Enums\PublishStatusEnum;
+use Spatie\RouteAttributes\Attributes\Get;
+
+class MainController extends ApiController
+{
+    #[Get('/', name: 'api.index')]
+    public function index()
+    {
+        return [
+            'enums' => route('api.enums'),
+            'data' => [
+                'contents' => route('api.contents.index'),
+                'pages' => route('api.pages.index'),
+                'posts' => route('api.posts.index'),
+                'references' => route('api.references.index'),
+                'services' => route('api.services.index'),
+                'team-members' => route('api.team-members.index'),
+            ],
+        ];
+    }
+
+    /**
+     * GET enums.
+     *
+     * Get all enums.
+     */
+    #[Get('/enums', name: 'api.enums')]
+    public function enums()
+    {
+        $colors = ColorEnum::toArray();
+        $contact_sujects = ContactSubjectEnum::toArray();
+        $publish_statuses = PublishStatusEnum::toArray();
+
+        return response()->json([
+            'data' => [
+                'colors' => $colors,
+                'contact_sujects' => $contact_sujects,
+                'publish_statuses' => $publish_statuses,
+            ],
+        ]);
+    }
+}

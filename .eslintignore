@@ -1,3 +1,7 @@
+.nuxt
+build
+dist
 node_modules
-public/assets/dist
+public/build
+public/dist
 vendor

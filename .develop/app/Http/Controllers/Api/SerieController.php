@@ -79,7 +79,7 @@ class SerieController extends ApiController
      */
     public function books(Request $request, Author $author, Serie $serie)
     {
-        $first = $request->parseBoolean('first');
+        $first = $request->boolean('first');
         $next = $request->get('next');
 
         if ($next) {

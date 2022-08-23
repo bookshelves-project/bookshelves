@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Mailer
@@ -41,6 +42,7 @@ return [
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
+            'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
 
         'ses' => [
@@ -57,7 +59,7 @@ return [
 
         'sendmail' => [
             'transport' => 'sendmail',
-            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -t -i'),
+            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
         ],
 
         'log' => [
@@ -93,9 +95,12 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
-    'to' => [
-        'address' => env('MAIL_TO_ADDRESS', 'contact@bookshelves.ink'),
-        'name' => env('MAIL_TO_NAME', 'Bookshelves'),
+
+    'recipients' => [
+        'default' => [
+            'address' => env('MAIL_RECIPIENT_DEFAULT_ADDRESS', 'hello@example.com'),
+            'name' => env('MAIL_RECIPIENT_DEFAULT_NAME', 'Example'),
+        ],
     ],
 
     /*
@@ -116,4 +121,5 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
+
 ];

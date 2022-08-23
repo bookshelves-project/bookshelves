@@ -2,52 +2,44 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\PostQuery;
-use App\Http\Resources\Api\Post\PostCollectionResource;
-use App\Http\Resources\Api\Post\PostResource;
+use App\Http\Resources\Post\PostCollectionResource;
+use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
- * @group CMS: Post
+ * @group Blog
  *
- * Endpoint to get Posts data.
+ * APIs for Blog.
  */
 #[Prefix('posts')]
 class PostController extends ApiController
 {
     /**
      * GET Post[].
+     *
+     * Get all Posts ordered by `published_at`.
+     *
+     * @responseField data Post[] List of posts.
      */
-    #[Get('/', name: 'posts.index')]
+    #[Get('/', name: 'api.posts.index')]
     public function index(Request $request)
     {
-        $this->getLang($request);
-
-        return app(PostQuery::class)
-            ->make(QueryOption::create(
-                request: $request,
-                resource: PostCollectionResource::class,
-                orderBy: 'published_at',
-                withExport: false,
-                sortAsc: false,
-                full: $this->getFull($request),
-            ))
-            ->paginateOrExport()
+        $posts = Post::published()
+            ->paginate($request->get('limit') ?? Post::DEFAULT_PER_PAGE)
         ;
+
+        return PostCollectionResource::collection($posts);
     }
 
     /**
      * GET Post.
      */
-    #[Get('/{post_slug}', name: 'posts.show')]
-    public function show(Request $request, Post $post)
+    #[Get('/{post_slug}', name: 'api.posts.show')]
+    public function show(Post $post)
     {
-        $this->getLang($request);
-
         return PostResource::make($post);
     }
 }

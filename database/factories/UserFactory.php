@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\GenderEnum;
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Models\User;
 use Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,17 +25,17 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $gender = $this->faker->randomElements(GenderEnum::toArray())[0];
-        $pronouns_options = ['she', 'he', 'they'];
-        $pronouns = 'they';
-        if ('WOMAN' === $gender) {
-            $pronouns = 'she';
-        } elseif ('MAN' === $gender) {
-            $pronouns = 'he';
-        } else {
-            $pronouns = $this->faker->randomElements($pronouns_options, $this->faker->numberBetween(1, 2));
-            $pronouns = implode(', ', $pronouns);
-        }
+        // $gender = $this->faker->randomElements(GenderEnum::toArray())[0];
+        // $pronouns_options = ['she', 'he', 'they'];
+        // $pronouns = 'they';
+        // if ('WOMAN' === $gender) {
+        //     $pronouns = 'she';
+        // } elseif ('MAN' === $gender) {
+        //     $pronouns = 'he';
+        // } else {
+        //     $pronouns = $this->faker->randomElements($pronouns_options, $this->faker->numberBetween(1, 2));
+        //     $pronouns = implode(', ', $pronouns);
+        // }
 
         return [
             'name' => "{$this->faker->firstName()} {$this->faker->lastName()}",
@@ -43,14 +43,14 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
-            'about' => $this->faker->text(),
-            'use_gravatar' => false,
-            'display_favorites' => $this->faker->boolean(),
-            'display_reviews' => $this->faker->boolean(),
-            'display_gender' => $this->faker->boolean(),
-            'role' => RoleEnum::user->name,
-            'gender' => $gender,
-            'pronouns' => $pronouns,
+            // 'about' => $this->faker->text(),
+            // 'use_gravatar' => false,
+            // 'display_favorites' => $this->faker->boolean(),
+            // 'display_reviews' => $this->faker->boolean(),
+            // 'display_gender' => $this->faker->boolean(),
+            'role' => UserRole::user->name,
+            // 'gender' => $gender,
+            // 'pronouns' => $pronouns,
         ];
     }
 
@@ -91,7 +91,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role' => RoleEnum::super_admin->name,
+                'role' => UserRole::super_admin->value,
             ];
         });
     }
@@ -105,7 +105,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role' => RoleEnum::admin->name,
+                'role' => UserRole::admin->name,
             ];
         });
     }

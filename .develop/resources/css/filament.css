@@ -1,0 +1,5 @@
+@import '../../vendor/filament/filament/resources/css/app.css';
+
+.filament-forms-markdown-editor-component div div {
+  @apply overflow-auto;
+}

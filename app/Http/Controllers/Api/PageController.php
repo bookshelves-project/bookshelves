@@ -2,52 +2,41 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\PageQuery;
-use App\Http\Resources\Api\Page\PageCollectionResource;
-use App\Http\Resources\Api\Page\PageResource;
+use App\Http\Resources\Page\PageCollectionResource;
+use App\Http\Resources\Page\PageResource;
 use App\Models\Page;
-use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
- * @group CMS: Page
+ * @group Content
  *
- * Endpoint to get Pages data.
+ * APIs for Content.
  */
 #[Prefix('pages')]
 class PageController extends ApiController
 {
     /**
      * GET Page[].
+     *
+     * Get all Pages ordered by `slug`.
+     *
+     * @responseField data Page[] List of pages.
      */
-    #[Get('/', name: 'pages.index')]
-    public function index(Request $request)
+    #[Get('/', name: 'api.pages.index')]
+    public function index()
     {
-        $this->getLang($request);
+        $models = Page::orderBy('slug')->get();
 
-        return app(PageQuery::class)
-            ->make(QueryOption::create(
-                request: $request,
-                resource: PageCollectionResource::class,
-                orderBy: 'published_at',
-                withExport: false,
-                sortAsc: true,
-                full: false,
-            ))
-            ->paginateOrExport()
-        ;
+        return PageCollectionResource::collection($models);
     }
 
     /**
      * GET Page.
      */
-    #[Get('/{page_slug}', name: 'pages.show')]
-    public function show(Request $request, Page $Page)
+    #[Get('/{page_slug}', name: 'api.pages.show')]
+    public function show(Page $page)
     {
-        $this->getLang($request);
-
-        return PageResource::make($Page);
+        return PageResource::make($page);
     }
 }

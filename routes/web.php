@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 use Knuckles\Scribe\Http\Controller as ScribeController;
 
@@ -14,13 +15,5 @@ use Knuckles\Scribe\Http\Controller as ScribeController;
 |
 */
 
-// Route::get('cache/resolve/{method}/{size}/{path}', [ImageController::class, 'thumbnail'])->where('path', '.*');
-
-// $prefix = config('scribe.laravel.docs_url');
-// $middleware = config('scribe.laravel.middleware');
-
-// Route::middleware($middleware)->group(function () use ($prefix) {
-//     Route::get($prefix, [ScribeController::class, 'webpage'])->name('scribe');
-//     Route::get("{$prefix}.postman", [ScribeController::class, 'postman'])->name('scribe.postman');
-//     Route::get("{$prefix}.openapi", [ScribeController::class, 'openapi'])->name('scribe.openapi');
-// });
+Route::get('/', [MainController::class, 'index'])->name('front.index');
+Route::get('/login', fn () => redirect('/admin/login'))->name('login');

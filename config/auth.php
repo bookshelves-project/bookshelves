@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -107,5 +108,4 @@ return [
 
     'password_timeout' => 10800,
 
-    'registration' => env('USER_REGISTRATION', true),
 ];

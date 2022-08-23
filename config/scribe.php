@@ -1,21 +1,28 @@
 <?php
 
-use App\Docs\Strategies\BookshelvesMetadata;
-use App\Docs\Strategies\BookshelvesParameter;
-use App\Docs\Strategies\BookshelvesQuery;
+use App\Docs\Strategies\ApplicationMetadata;
+use App\Docs\Strategies\ApplicationParameter;
+use App\Docs\Strategies\ApplicationQuery;
 use App\Docs\Strategies\UsePaginationQuery;
 use Knuckles\Scribe\Extracting\Strategies;
 
 return [
+
     'theme' => 'default',
 
-    // The HTML <title> for the generated documentation. If this is empty, Scribe will infer it from config('app.name').
+    /*
+     * The HTML <title> for the generated documentation. If this is empty, Scribe will infer it from config('app.name').
+     */
     'title' => config('app.name').' API Documentation',
 
-    // A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
+    /*
+     * A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
+     */
     'description' => 'The API documentation for '.config('app.name').' to use endpoints with another app.',
 
-    // The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
+    /*
+     * The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
+     */
     'base_url' => null,
 
     /*
@@ -30,13 +37,19 @@ return [
              * A route must fulfill ALL conditions to be included.
              */
             'match' => [
-                // Match only routes whose paths match this pattern (use * as a wildcard to match any characters). Example: 'users/*'.
+                /*
+                 * Match only routes whose paths match this pattern (use * as a wildcard to match any characters). Example: 'users/*'.
+                 */
                 'prefixes' => ['api/*'],
 
-                // Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.
+                /*
+                 * Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.
+                 */
                 'domains' => ['*'],
 
-                // [Dingo router only] Match only routes registered under this version. Wildcards are not supported.
+                /*
+                 * [Dingo router only] Match only routes registered under this version. Wildcards are not supported.
+                 */
                 'versions' => ['v1'],
             ],
 
@@ -56,9 +69,13 @@ return [
                 // '/health', 'admin.*'
             ],
 
-            // Settings to be applied to all the matched routes in this group when generating documentation
+            /*
+             * Settings to be applied to all the matched routes in this group when generating documentation
+             */
             'apply' => [
-                // Additional headers to be added to the example requests
+                /*
+                 * Additional headers to be added to the example requests
+                 */
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Accept' => 'application/json',
@@ -87,12 +104,16 @@ return [
                         // 'app.debug' => false,
                     ],
 
-                    // Query parameters which should be sent with the API call.
+                    /*
+                     * Query parameters which should be sent with the API call.
+                     */
                     'queryParams' => [
                         // 'key' => 'value',
                     ],
 
-                    // Body parameters which should be sent with the API call.
+                    /*
+                     * Body parameters which should be sent with the API call.
+                     */
                     'bodyParams' => [
                         // 'key' => 'value',
                     ],
@@ -105,7 +126,9 @@ return [
                         // 'key' => 'storage/app/image.png',
                     ],
 
-                    // Cookies which should be sent with the API call.
+                    /*
+                     * Cookies which should be sent with the API call.
+                     */
                     'cookies' => [
                         // 'name' => 'value'
                     ],
@@ -121,16 +144,20 @@ return [
      */
     'type' => 'static',
 
-    // Settings for `static` type output.
+    /*
+     * Settings for `static` type output.
+     */
     'static' => [
         /*
          * HTML documentation, assets and Postman collection will be generated to this folder.
          * Source Markdown will still be in resources/docs.
          */
-        'output_path' => 'public/docs',
+        'output_path' => 'public/api/documentation',
     ],
 
-    // Settings for `laravel` type output.
+    /*
+     * Settings for `laravel` type output.
+     */
     'laravel' => [
         /*
          * Whether to automatically create a docs endpoint for you to view your generated docs.
@@ -142,36 +169,53 @@ return [
          * URL path to use for the docs endpoint (if `add_routes` is true).
          * By default, `/docs` opens the HTML page, `/docs.postman` opens the Postman collection, and `/docs.openapi` the OpenAPI spec.
          */
-        'docs_url' => '/docs',
+        'docs_url' => '/api/documentation',
 
-        // Middleware to attach to the docs endpoint (if `add_routes` is true).
+        /*
+         * Directory within `public` in which to store CSS and JS assets.
+         * By default, assets are stored in `public/vendor/scribe`.
+         * If set, assets will be stored in `public/{{assets_directory}}`
+         */
+        'assets_directory' => null,
+
+        /*
+         * Middleware to attach to the docs endpoint (if `add_routes` is true).
+         */
         'middleware' => [],
     ],
 
     'try_it_out' => [
-        /*
+        /**
          * Add a Try It Out button to your endpoints so consumers can test endpoints right from their browser.
          * Don't forget to enable CORS headers for your endpoints.
          */
         'enabled' => true,
 
-        /*
+        /**
          * The base URL for the API tester to use (for example, you can set this to your staging URL).
          * Leave as null to use the current app URL (config(app.url)).
          */
         'base_url' => null,
 
-        // Fetch a CSRF token before each request, and add it as an X-XSRF-TOKEN header. Needed if you're using Laravel Sanctum.
-        'use_csrf' => true,
+        /**
+         * Fetch a CSRF token before each request, and add it as an X-XSRF-TOKEN header. Needed if you're using Laravel Sanctum.
+         */
+        'use_csrf' => false,
 
-        // The URL to fetch the CSRF token from (if `use_csrf` is true).
+        /**
+         * The URL to fetch the CSRF token from (if `use_csrf` is true).
+         */
         'csrf_url' => '/sanctum/csrf-cookie',
     ],
 
-    // How is your API authenticated? This information will be used in the displayed docs, generated examples and response calls.
+    /*
+     * How is your API authenticated? This information will be used in the displayed docs, generated examples and response calls.
+     */
     'auth' => [
-        // Set this to true if any endpoints in your API use authentication.
-        'enabled' => true,
+        /*
+         * Set this to true if any endpoints in your API use authentication.
+         */
+        'enabled' => false,
 
         /*
          * Set this to true if your API should be authenticated by default. If so, you must also set `enabled` (above) to true.
@@ -185,7 +229,9 @@ return [
          */
         'in' => 'bearer',
 
-        // The name of the auth parameter (eg token, key, apiKey) or header (eg Authorization, Api-Key).
+        /*
+         * The name of the auth parameter (eg token, key, apiKey) or header (eg Authorization, Api-Key).
+         */
         'name' => 'key',
 
         /*
@@ -208,7 +254,9 @@ return [
         'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
     ],
 
-    // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
+    /*
+     * Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
+     */
     'intro_text' => <<<'INTRO'
 This documentation aims to provide all the information you need to work with our API.
 
@@ -226,7 +274,6 @@ INTRO
     'example_languages' => [
         'bash',
         'javascript',
-        'php',
     ],
 
     /*
@@ -238,7 +285,9 @@ INTRO
     'postman' => [
         'enabled' => true,
 
-        // Manually override some generated content in the spec. Dot notation is supported.
+        /*
+         * Manually override some generated content in the spec. Dot notation is supported.
+         */
         'overrides' => [
             // 'info.version' => '2.0.0',
         ],
@@ -253,13 +302,17 @@ INTRO
     'openapi' => [
         'enabled' => true,
 
-        // Manually override some generated content in the spec. Dot notation is supported.
+        /*
+         * Manually override some generated content in the spec. Dot notation is supported.
+         */
         'overrides' => [
             // 'info.version' => '2.0.0',
         ],
     ],
 
-    // Endpoints which don't have a @group will be placed in this default group.
+    /*
+     * Endpoints which don't have a @group will be placed in this default group.
+     */
     'default_group' => 'Endpoints',
 
     /*
@@ -279,26 +332,26 @@ INTRO
      */
     'faker_seed' => null,
 
-    /*
+    /**
      * The strategies Scribe will use to extract information about your routes at each stage.
      * If you create or install a custom strategy, add it here.
      */
     'strategies' => [
         'metadata' => [
             Strategies\Metadata\GetFromDocBlocks::class,
-            BookshelvesMetadata::class,
+            ApplicationMetadata::class,
         ],
         'urlParameters' => [
             // Strategies\UrlParameters\GetFromLaravelAPI::class,
             // Strategies\UrlParameters\GetFromLumenAPI::class,
             // Strategies\UrlParameters\GetFromUrlParamTag::class,
-            BookshelvesParameter::class,
+            ApplicationParameter::class,
         ],
         'queryParameters' => [
             Strategies\QueryParameters\GetFromFormRequest::class,
             Strategies\QueryParameters\GetFromInlineValidator::class,
             Strategies\QueryParameters\GetFromQueryParamTag::class,
-            BookshelvesQuery::class,
+            ApplicationQuery::class,
             UsePaginationQuery::class,
         ],
         'headers' => [
@@ -329,10 +382,13 @@ INTRO
         'serializer' => null,
     ],
 
-    // [Advanced] Custom implementation of RouteMatcherInterface to customise how routes are matched
+    /*
+     * [Advanced] Custom implementation of RouteMatcherInterface to customise how routes are matched
+     *
+     */
     'routeMatcher' => \Knuckles\Scribe\Matching\RouteMatcher::class,
 
-    /*
+    /**
      * For response calls, API resource responses and transformer responses,
      * Scribe will try to start database transactions, so no changes are persisted to your database.
      * Tell Scribe which connections should be transacted here.

@@ -2,111 +2,104 @@
 
 namespace App\Models;
 
-use App\Enums\PostStatusEnum;
-use App\Models\Traits\HasPublishStatus;
-use App\Services\MarkdownToHtmlService;
-use App\Services\MediaService;
+use App\Enums\PostTypeEnum;
+use App\Traits\HasSEO;
+use App\Traits\HasShowLive;
+use App\Traits\HasShowRoute;
+use App\Traits\HasSlug;
+use App\Traits\Mediable;
+use App\Traits\Publishable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
-use Spatie\Tags\HasTags;
 
-/**
- * @property null|\App\Models\PostCategory $category
- */
-class Post extends Model implements HasMedia
+class Post extends Model
 {
     use HasFactory;
     use HasSlug;
-    use HasTags;
-    use HasPublishStatus;
-    use InteractsWithMedia;
+    use HasShowLive;
+    use HasSEO;
+    use Mediable;
+    use HasShowRoute;
+    use Publishable;
     use Searchable;
+
+    public const DEFAULT_PER_PAGE = 15;
 
     protected $fillable = [
         'title',
-        'slug',
-        'status',
-        'category_id',
-        'user_id',
+        'subtitle',
         'summary',
         'body',
-        'published_at',
-        'pin',
-        'meta_title',
-        'meta_description',
+
+        'youtube_id',
+        'cta',
+        'is_pinned',
+        'type',
+
+        'image',
+        'image_extra',
     ];
+
+    protected $slug_with = 'title';
+    protected $meta_title_from = 'title';
+    protected $meta_description_from = 'summary';
 
     protected $casts = [
-        'status' => PostStatusEnum::class,
-        'pin' => 'boolean',
-        'published_at' => 'datetime',
+        'is_pinned' => 'boolean',
+        'type' => PostTypeEnum::class,
     ];
 
-    public function registerMediaCollections(): void
+    public function getRelatedAttribute()
     {
-        $this->addMediaCollection('featured-image')
-            ->singleFile()
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
-        ;
-
-        $this->addMediaCollection('post-images')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
+        $current = Post::where('slug', '=', $this->slug)->first();
+        return Post::whereHas('tags', fn (Builder $q) => $q->whereIn('name', $current->tags->pluck('name')))
+            ->where('id', '!=', $current->id) // So you won't fetch same post
+            ->get()
         ;
     }
 
-    /**
-     * Get the options for generating the slug.
-     */
-    public function getSlugOptions(): SlugOptions
+    public function getRecentAttribute()
     {
-        return SlugOptions::create()
-            ->generateSlugsFrom('title')
-            ->saveSlugsTo('slug')
-            ->doNotGenerateSlugsOnUpdate()
+        return Post::published()
+            ->where('slug', '!=', $this->slug)
+            ->orderBy('published_at', 'desc')
+            ->limit(3)
+            ->get()
         ;
     }
 
-    public function getCoverAttribute(): string
+    public function tags(): MorphToMany
     {
-        return MediaService::getFullUrl($this, 'featured-image');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    public function getShowLinkAttribute(): string
+    public function authors(): BelongsToMany
     {
-        return route('api.posts.show', [
-            'post_slug' => $this->slug,
-        ]);
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(PostCategory::class, 'category_id');
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(TeamMember::class);
     }
 
     public function searchableAs()
     {
-        $app = config('bookshelves.name');
+        $app_name = config('app.name');
 
-        return "{$app}_post";
+        return "{$app_name}_posts";
     }
 
-    public static function boot()
+    public function toSearchableArray()
     {
-        parent::boot();
-
-        self::updating(function (Post $post) {
-            $post->body = MarkdownToHtmlService::setHeadings($post);
-        });
+        return [
+            'title' => $this->title,
+            'subtitle' => $this->subtitle,
+            'summary' => $this->summary,
+            'body' => $this->body,
+            'image' => $this->getMediable(),
+            'published_at' => $this->published_at,
+            'meta_title' => $this->meta_title,
+            'meta_description' => $this->meta_description,
+        ];
     }
 }

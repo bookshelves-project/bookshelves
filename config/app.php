@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Facade;
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -59,16 +60,12 @@ return [
 
     'front_url' => env('APP_FRONT_URL', 'http://localhost:3000'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | App repository
-    |--------------------------------------------------------------------------
-    |
-    */
+    'legacy_api_url' => env('APP_LEGACY_API_URL', 'http://localhost:8000'),
 
-    'repository_url' => env('APP_REPOSITORY_URL', 'https://github.com/bookshelves-project'),
-
-    'documentation_url' => env('APP_DOCUMENTATION_URL', 'https://bookshelves-documentation.netlify.app'),
+    'admin' => [
+        'email' => env('APP_ADMIN_EMAIL', 'superadmin@example.com'),
+        'password' => env('APP_ADMIN_PASSWORD', 'password'),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -94,7 +91,7 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => 'fr',
 
     /*
     |--------------------------------------------------------------------------
@@ -139,6 +136,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Maintenance Mode Driver
+    |--------------------------------------------------------------------------
+    |
+    | These configuration options determine the driver used to determine and
+    | manage Laravel's "maintenance mode" status. The "cache" driver will
+    | allow maintenance mode to be controlled across multiple machines.
+    |
+    | Supported drivers: "file", "cache"
+    |
+    */
+
+    'maintenance' => [
+        'driver' => 'file',
+        // 'store'  => 'redis',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
@@ -149,7 +164,10 @@ return [
     */
 
     'providers' => [
-        // Laravel Framework Service Providers...
+
+        /*
+         * Laravel Framework Service Providers...
+         */
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -173,16 +191,19 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        // Package Service Providers...
+        /*
+         * Package Service Providers...
+         */
 
-        // Application Service Providers...
+        /*
+         * Application Service Providers...
+         */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        // App\Providers\FortifyServiceProvider::class,
-        // App\Providers\JetstreamServiceProvider::class,
+
     ],
 
     /*
@@ -197,6 +218,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
+        // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
+
 ];

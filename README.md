@@ -1,53 +1,105 @@
-# **Bookshelves · Back** <!-- omit in toc -->
+# **Useweb Back** <!-- omit in toc -->
 
-[![composer](https://img.shields.io/static/v1?label=Composer&message=v2.x&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)
+[![composer](https://img.shields.io/static/v1?label=Composer&message=v2.*&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)
 [![php](https://img.shields.io/static/v1?label=PHP&message=v8.1&color=777bb4&style=flat-square&logo=php&logoColor=ffffff)](https://www.php.net)
-[![laravel](https://img.shields.io/static/v1?label=Laravel&message=v9.x&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
+[![laravel](https://img.shields.io/static/v1?label=Laravel&message=v9.*&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
 
-[![pnpm](https://img.shields.io/static/v1?label=pnpm&message=v7.x&color=F69220&style=flat-square&logo=pnpm&logoColor=ffffff)](https://pnpm.io)
-[![node](https://img.shields.io/static/v1?label=Node.js&message=v16.x&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
-[![vuejs](https://img.shields.io/static/v1?label=Vue.js&message=v3.x&color=4FC08D&style=flat-square&logo=vue.js&logoColor=ffffff)](https://vuejs.org)
+[![pnpm](https://img.shields.io/static/v1?label=pnpm&message=v7.*&color=F69220&style=flat-square&logo=pnpm&logoColor=ffffff)](https://pnpm.io)
+[![node](https://img.shields.io/static/v1?label=Node.js&message=v16.*&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
 
-[![mysql](https://img.shields.io/static/v1?label=MySQL&message=v8&color=4479A1&style=flat-square&logo=mysql&logoColor=ffffff)](https://www.mysql.com)
+[![mysql](https://img.shields.io/static/v1?label=MySQL&message=v8.*&color=4479A1&style=flat-square&logo=mysql&logoColor=ffffff)](https://www.mysql.com)
 
-📀 [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository  
-💻 [**bookshelves.ink**](https://bookshelves.ink): demo  
-📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-doc)  
+📀 [**repository**](https://bitbucket.org/useweb/useweb-back)  
+💻 [**www.useweb.fr/admin**](https://www.useweb.fr/admin)  
 
 ## **Setup**
 
-Download dependencies
+Download dependencies.
 
 ```bash
-composer i ; pnpm i
+composer i
+cp .env.example .env
+php artisan key:generate
+php artisan storage:link
+pnpm i
+pnpm build
 ```
 
-Execute `setup` and follow guide
+Create database `useweb`.
 
 ```bash
-php artisan setup
+# .env
+DB_DATABASE=useweb
+DB_USERNAME=root
+DB_PASSWORD=
+
+MAIL_MAILER=smtp
+MAIL_HOST=127.0.0.1
+MAIL_PORT=2525
+MAIL_USERNAME=Inbox-Name
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+
+APP_ADMIN_EMAIL=superadmin@example.com
+APP_ADMIN_PASSWORD=password
 ```
 
-See [**documentation**](https://bookshelves-documentation.netlify.app) to know more about *Bookshelves*.
+```bash
+php artisan migrate:fresh --seed
+```
 
-## **Usage**
+## **Serve**
 
-To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app), if this link is broken, you have to refer to [**raw documentation**](https://github.com/bookshelves-project/bookshelves-doc) on repository.
+```bash
+php artisan serve
+```
+
+```bash
+pnpm dev
+```
+
+Serve at <http://localhost:8000>, admin is available on <http://localhost:8000/admin>.
+
+## **Production**
+
+If admin not exist, you can insert it
+
+```bash
+php artisan db:seed --class=EmptySeeder
+```
 
 ## **Tests**
 
-```bash
-cp .env.testing.example .env.testing
-```
+Run tests.
 
 ```bash
-php artisan migrate --env=testing
+composer test
 ```
 
-```bash
-php artisan test
-```
+### Watch
+
+Install `spatie/phpunit-watcher` [GitHub](https://github.com/spatie/phpunit-watcher)
 
 ```bash
-phpunit-watcher watch
+composer global require spatie/phpunit-watcher
 ```
+
+And run tests.
+
+```bash
+composer test:watch
+```
+
+## Notes
+
+## questions
+
+- posts: multi author instead two relations
+
+### todo
+
+- api doc
+- pagination
+- images resizing
+- tests
+- front views: livewire, alpine
