@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Traits;
+namespace App\Traits;
 
 use App\Enums\BookFormatEnum;
 use App\Models\Author;
