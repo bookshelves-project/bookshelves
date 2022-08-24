@@ -3,6 +3,10 @@ const colors = require('tailwindcss/colors')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  safelist: [
+    'w-6', // svg
+    'h-6', // svg
+  ],
   content: [
     './resources/**/*.{vue,js,ts,jsx,tsx,php}',
     './vendor/filament/**/*.blade.php',
@@ -10,9 +14,24 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        quicksand: ['Quicksand'],
+        handlee: ['Handlee, cursive'],
+      },
       colors: {
         danger: colors.rose,
-        primary: colors.purple,
+        primary: {
+          50: '#e2e0ff',
+          100: '#e2e0ff',
+          200: '#c4c1ff',
+          300: '#a7a1ff',
+          400: '#8982ff',
+          500: '#6c63ff',
+          600: '#564fcc',
+          700: '#413b99',
+          800: '#2b2866',
+          900: '#161433',
+        },
         success: colors.green,
         warning: colors.yellow,
       },

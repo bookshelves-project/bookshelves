@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-.title {
-  color: red;
-  font-family: sans-serif;
+@font-face {
+  font-family: Handlee;
+  src: url('/fonts/Handlee-Regular.ttf');
 }
 
 body {

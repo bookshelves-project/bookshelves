@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
             //     'Avancé',
             // ]);
             Filament::registerTheme(
-                app(Vite::class)('resources/filament.css'),
+                app(Vite::class)('resources/admin/filament.css'),
             );
         });
     }

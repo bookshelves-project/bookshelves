@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [
     laravel({
       input: [
-        'resources/filament.css',
+        'resources/admin/filament.css',
         /** Front */
         'resources/front/css/app.css',
         /** Catalog */

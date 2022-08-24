@@ -1,16 +1,37 @@
 {
-  "name": "useweb/back",
+  "name": "bookshelves/back",
   "type": "project",
-  "description": "Back for Useweb project.",
-  "keywords": [
-    "framework",
-    "laravel"
+  "description": "Back of Bookshelves application.",
+  "license": "BSD 2-Clause",
+  "version": "1.0.0",
+  "homepage": "https://github.com/bookshelves-project",
+  "authors": [
+    {
+      "name": "ewilan-riviere",
+      "email": "ewilan.riviere@gmail.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Mopi",
+      "email": "mopi@gdotslashplay.it",
+      "role": "Tester, ideas"
+    }
   ],
-  "license": "MIT",
+  "keywords": [
+    "api",
+    "epubs",
+    "books",
+    "ebooks"
+  ],
+  "suggest": {
+    "ext-imagick": "*",
+    "ext-rar": "*"
+  },
   "require": {
     "php": "^8.1.0",
     "artesaos/seotools": "^0.22.1",
     "awcodes/filament-curator": "^0.4.1",
+    "blade-ui-kit/blade-icons": "^1.3",
     "filament/filament": "^2.0",
     "guzzlehttp/guzzle": "^7.2",
     "http-interop/http-factory-guzzle": "^1.2",
