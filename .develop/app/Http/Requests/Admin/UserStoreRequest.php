@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
@@ -31,7 +31,7 @@ class UserStoreRequest extends FormRequest
             'email' => ['required', 'max:50', 'email', Rule::unique('users')],
             'password' => ['required'],
             'active' => ['boolean'],
-            'role' => ['required', new Enum(RoleEnum::class)],
+            'role' => ['required', new Enum(UserRole::class)],
         ];
     }
 }

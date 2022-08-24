@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\User;
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -41,7 +41,7 @@ class UserListResource extends JsonResource
             'use_gravatar' => $this->resource->use_gravatar,
             'reviews_count' => $this->resource->reviews()->count(),
             'favorites_count' => $this->resource->favorites()->count(),
-            'is_admin' => $this->resource->hasRole(RoleEnum::admin),
+            'is_admin' => $this->resource->hasRole(UserRole::admin),
             'display_reviews' => $this->resource->display_reviews,
             'display_favorites' => $this->resource->display_favorites,
             'display_gender' => $this->resource->display_gender,

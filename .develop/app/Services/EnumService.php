@@ -9,7 +9,7 @@ use App\Enums\CountSizeEnum;
 use App\Enums\EntityEnum;
 use App\Enums\GenderEnum;
 use App\Enums\PostStatusEnum;
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Enums\SubmissionReasonEnum;
 use App\Enums\TagTypeEnum;
 
@@ -24,7 +24,7 @@ class EnumService
         $entities = EntityEnum::toArray();
         $genders = GenderEnum::toArray();
         $post_status = PostStatusEnum::toArray();
-        $roles = RoleEnum::toArray();
+        $roles = UserRole::toArray();
         $submissions_reasons = SubmissionReasonEnum::toArray();
         $tag_types = TagTypeEnum::toArray();
 

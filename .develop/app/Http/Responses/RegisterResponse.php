@@ -2,7 +2,7 @@
 
 namespace App\Http\Responses;
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
@@ -17,7 +17,7 @@ class RegisterResponse implements RegisterResponseContract
      */
     public function toResponse($request)
     {
-        if (Auth::user()->role->equals(RoleEnum::user)) {
+        if (Auth::user()->role->equals(UserRole::user)) {
             return Inertia::location(route('front.home'));
         }
 

@@ -16,4 +16,4 @@ use Knuckles\Scribe\Http\Controller as ScribeController;
 */
 
 // Route::get('/', [FrontController::class, 'index'])->name('front.index');
-// Route::get('/login', fn () => redirect('/admin/login'))->name('login');
+Route::get('/login', fn () => redirect('/admin/login'))->name('login');

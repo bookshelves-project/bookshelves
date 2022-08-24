@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\assertDatabaseHas;
@@ -22,7 +22,7 @@ test('admin cannot create new user when read only active', function () {
         'email' => 'user@example.com',
         'password' => 'password',
         'active' => true,
-        'role' => RoleEnum::user->name,
+        'role' => UserRole::user->name,
     ]);
 
     $response->assertRedirect()->assertSessionHasErrors();
@@ -49,7 +49,7 @@ test('super admin can create new user when read only active', function () {
         'email' => 'user@example.com',
         'password' => 'password',
         'active' => true,
-        'role' => RoleEnum::user->name,
+        'role' => UserRole::user->name,
     ]);
 
     $response->assertSessionMissing('flash.error');

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
@@ -35,7 +35,7 @@ uses(RefreshDatabase::class);
 //     // assertDatabaseHas('users', [
 //     //     'name' => 'User',
 //     //     'email' => 'test@example.com',
-//     //     'role' => RoleEnum::super_admin,
+//     //     'role' => UserRole::super_admin,
 //     // ]);
 // });
 
@@ -55,7 +55,7 @@ uses(RefreshDatabase::class);
 //     // assertDatabaseHas('users', [
 //     //     'name' => 'User',
 //     //     'email' => 'test@example.com',
-//     //     'role' => RoleEnum::user->name,
+//     //     'role' => UserRole::user->name,
 //     // ]);
 // });
 

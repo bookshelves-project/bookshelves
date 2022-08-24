@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\ContactSubjectEnum;
+use App\Enums\SubmissionReasonEnum;
 use App\Traits\HasAttachment;
 use App\Traits\Mediable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,40 +15,24 @@ class Submission extends Model
     use Mediable;
 
     protected $fillable = [
-        'subject',
         'name',
         'email',
-        'phone',
-        'society',
+        'reason',
         'message',
-        'accept_conditions',
-        'want_newsletter',
-        'cv',
-        'letter',
     ];
 
     protected $appends = [
-        'cv_file',
-        'lm_file',
+        // 'attachment_file',
     ];
 
     protected $casts = [
-        'subject' => ContactSubjectEnum::class,
-        'accept_conditions' => 'boolean',
-        'want_newsletter' => 'boolean',
+        'reason' => SubmissionReasonEnum::class,
     ];
 
-    public function getCvFileAttribute()
-    {
-        return $this->cv
-            ? config('app.url')."/storage{$this->cv}"
-            : null;
-    }
-
-    public function getLmFileAttribute()
-    {
-        return $this->letter
-            ? config('app.url')."/storage{$this->letter}"
-            : null;
-    }
+    // public function getAttachmentFileAttribute()
+    // {
+    //     return $this->cv
+    //         ? config('app.url')."/storage{$this->cv}"
+    //         : null;
+    // }
 }

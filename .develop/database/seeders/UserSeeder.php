@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\MediaDiskEnum;
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Models\User;
 use App\Services\MediaService;
 use Illuminate\Database\Seeder;
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
         Storage::disk('public')->deleteDirectory('media/users');
         $faker = \Faker\Factory::create();
 
-        // $users = User::whereRelation('roles', 'name', '!==', RoleEnum::admin)->pluck('id')->toArray();
+        // $users = User::whereRelation('roles', 'name', '!==', UserRole::admin)->pluck('id')->toArray();
         // User::destroy($users);
         $media = Media::where('collection_name', 'avatar')->pluck('id')->toArray();
         Media::destroy($media);
@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
         $progress->start();
 
         $users->each(function ($user) use ($progress, $faker) {
-            // $user->roles()->attach(Role::whereName(RoleEnum::user())->first());
+            // $user->roles()->attach(Role::whereName(UserRole::user())->first());
 
             if ($faker->boolean(75)) {
                 MediaService::create($user, $user->slug, MediaDiskEnum::user, 'avatar')

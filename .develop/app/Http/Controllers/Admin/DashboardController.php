@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Book;
@@ -52,10 +52,10 @@ class DashboardController extends Controller
                     'Users',
                 ],
                 'values' => [
-                    User::whereRole(RoleEnum::super_admin)->count(),
-                    User::whereRole(RoleEnum::admin)->count(),
-                    User::whereRole(RoleEnum::publisher)->count(),
-                    User::whereRole(RoleEnum::user)->count(),
+                    User::whereRole(UserRole::super_admin)->count(),
+                    User::whereRole(UserRole::admin)->count(),
+                    User::whereRole(UserRole::publisher)->count(),
+                    User::whereRole(UserRole::user)->count(),
                 ],
             ],
         ];

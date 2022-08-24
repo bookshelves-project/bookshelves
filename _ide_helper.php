@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.25.1.
+ * Generated for Laravel 9.26.1.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -4327,7 +4327,7 @@
                         return $instance->make($name, $value, $minutes, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
         }
                     /**
-         * Create a cookie that lasts "forever" (five years).
+         * Create a cookie that lasts "forever" (400 days).
          *
          * @param string $name
          * @param string $value
@@ -12093,13 +12093,13 @@
          * Dump the request items and end the script.
          *
          * @param mixed $keys
-         * @return void 
+         * @return \Illuminate\Http\never 
          * @static 
          */ 
         public static function dd(...$keys)
         {
                         /** @var \Illuminate\Http\Request $instance */
-                        $instance->dd(...$keys);
+                        return $instance->dd(...$keys);
         }
                     /**
          * Dump the items.
@@ -16824,6 +16824,42 @@
                         return $instance->useIntegrityKey($key);
         }
                     /**
+         * Set the Vite entry points.
+         *
+         * @param array $entryPoints
+         * @return \Illuminate\Foundation\Vite 
+         * @static 
+         */ 
+        public static function withEntryPoints($entryPoints)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->withEntryPoints($entryPoints);
+        }
+                    /**
+         * Set the Vite "hot" file path.
+         *
+         * @param string $path
+         * @return \Illuminate\Foundation\Vite 
+         * @static 
+         */ 
+        public static function useHotFile($path)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->useHotFile($path);
+        }
+                    /**
+         * Set the Vite build directory.
+         *
+         * @param string $path
+         * @return \Illuminate\Foundation\Vite 
+         * @static 
+         */ 
+        public static function useBuildDirectory($path)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->useBuildDirectory($path);
+        }
+                    /**
          * Use the given callback to resolve attributes for script tags.
          *
          * @param \Illuminate\Foundation\(callable(string,  string, ?array, ?array): array)|array  $attributes
@@ -16857,6 +16893,30 @@
         {
                         /** @var \Illuminate\Foundation\Vite $instance */
                         return $instance->reactRefresh();
+        }
+                    /**
+         * Get the URL for an asset.
+         *
+         * @param string $asset
+         * @param string|null $buildDirectory
+         * @return string 
+         * @static 
+         */ 
+        public static function asset($asset, $buildDirectory = null)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->asset($asset, $buildDirectory);
+        }
+                    /**
+         * Get the Vite tag content as a string of HTML.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function toHtml()
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->toHtml();
         }
          
     }
@@ -20100,6 +20160,90 @@
         public static function assertTableBulkActionDisabled($name)
         {
                         return \Livewire\Testing\TestableLivewire::assertTableBulkActionDisabled($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionHasIcon()
+         * @param string $name
+         * @param string $icon
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableBulkActionHasIcon($name, $icon, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableBulkActionHasIcon($name, $icon, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionDoesNotHaveIcon()
+         * @param string $name
+         * @param string $icon
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableBulkActionDoesNotHaveIcon($name, $icon, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableBulkActionDoesNotHaveIcon($name, $icon, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionHasLabel()
+         * @param string $name
+         * @param string $label
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableBulkActionHasLabel($name, $label, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableBulkActionHasLabel($name, $label, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionDoesNotHaveLabel()
+         * @param string $name
+         * @param string $label
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableBulkActionDoesNotHaveLabel($name, $label, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableBulkActionDoesNotHaveLabel($name, $label, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionHasColor()
+         * @param string $name
+         * @param string $color
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableBulkActionHasColor($name, $color, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableBulkActionHasColor($name, $color, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionDoesNotHaveColor()
+         * @param string $name
+         * @param string $color
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableBulkActionDoesNotHaveColor($name, $color, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableBulkActionDoesNotHaveColor($name, $color, $record);
         }
                     /**
          * 

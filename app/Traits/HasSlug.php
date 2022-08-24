@@ -12,15 +12,15 @@ trait HasSlug
 
     public function initializeHasSlug()
     {
-        $this->fillable[] = $this->getSlugColumn();
+        $this->fillable[] = $this->getUsernameColumn();
     }
 
-    public function getSlugWith(): string
+    public function getUsernameWith(): string
     {
         return $this->slug_with ?? $this->default_slug_with;
     }
 
-    public function getSlugColumn(): string
+    public function getUsernameColumn(): string
     {
         return $this->slug_column ?? $this->default_slug_column;
     }
@@ -28,17 +28,17 @@ trait HasSlug
     protected static function bootHasSlug()
     {
         static::creating(function ($model) {
-            if (empty($model->{$model->getSlugColumn()})) {
-                $model->{$model->getSlugColumn()} = $model->generateUniqueSlug($model->{$model->getSlugWith()}, 0, $model->getSlugColumn());
+            if (empty($model->{$model->getUsernameColumn()})) {
+                $model->{$model->getUsernameColumn()} = $model->generateUniqueUsername($model->{$model->getUsernameWith()}, 0, $model->getUsernameColumn());
             }
         });
     }
 
-    protected function generateUniqueSlug(string $name, int $counter = 0, string $slug_field = 'slug'): string
+    protected function generateUniqueUsername(string $name, int $counter = 0, string $slug_field = 'slug'): string
     {
         $updated_name = 0 == $counter ? $name : $name.'-'.$counter;
         if (static::where($slug_field, Str::slug($updated_name))->exists()) {
-            return $this->generateUniqueSlug($name, $counter + 1, $slug_field);
+            return $this->generateUniqueUsername($name, $counter + 1, $slug_field);
         }
         return Str::slug($updated_name);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,7 +44,7 @@ class IsReadOnly
             return false;
         }
 
-        if (Auth::check() && Auth::user()->role->equals(RoleEnum::super_admin)) {
+        if (Auth::check() && Auth::user()->role->equals(UserRole::super_admin)) {
             return false;
         }
 

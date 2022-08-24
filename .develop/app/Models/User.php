@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Models\Traits\HasAvatar;
 use App\Models\Traits\HasImpersonate;
 use App\Models\Traits\HasUserSlug;
@@ -51,7 +51,7 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     protected $casts = [
         'email_verified_at' => 'datetime',
         'active' => 'boolean',
-        'role' => RoleEnum::class,
+        'role' => UserRole::class,
         'last_login_at' => 'datetime',
     ];
 
@@ -73,16 +73,16 @@ class User extends Authenticatable implements HasMedia, FilamentUser
 
     public function hasAdminAccess()
     {
-        return $this->role->equals(RoleEnum::super_admin, RoleEnum::admin);
+        return $this->role->equals(UserRole::super_admin, UserRole::admin);
     }
 
     public function canUpdate(User $user)
     {
-        if ($this->role->equals(RoleEnum::admin)) {
-            return ! $user->role->equals(RoleEnum::super_admin);
+        if ($this->role->equals(UserRole::admin)) {
+            return ! $user->role->equals(UserRole::super_admin);
         }
 
-        return $this->role->equals(RoleEnum::super_admin);
+        return $this->role->equals(UserRole::super_admin);
     }
 
     public function getShowLinkAttribute(): string
@@ -106,7 +106,7 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         ]);
     }
 
-    public function hasRole(RoleEnum $role): bool
+    public function hasRole(UserRole $role): bool
     {
         // $roles = [];
         // foreach ($this->roles as $key => $role) {
@@ -139,6 +139,6 @@ class User extends Authenticatable implements HasMedia, FilamentUser
 
     public function canAccessFilament(): bool
     {
-        return $this->hasRole(RoleEnum::super_admin) || $this->hasRole(RoleEnum::admin) || $this->hasRole(RoleEnum::publisher);
+        return $this->hasRole(UserRole::super_admin) || $this->hasRole(UserRole::admin) || $this->hasRole(UserRole::publisher);
     }
 }

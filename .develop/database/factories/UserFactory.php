@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\GenderEnum;
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Models\User;
 use Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -48,7 +48,7 @@ class UserFactory extends Factory
             'display_favorites' => $this->faker->boolean(),
             'display_reviews' => $this->faker->boolean(),
             'display_gender' => $this->faker->boolean(),
-            'role' => RoleEnum::user->name,
+            'role' => UserRole::user->name,
             'gender' => $gender,
             'pronouns' => $pronouns,
         ];
@@ -91,7 +91,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role' => RoleEnum::super_admin->name,
+                'role' => UserRole::super_admin->name,
             ];
         });
     }
@@ -105,7 +105,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role' => RoleEnum::admin->name,
+                'role' => UserRole::admin->name,
             ];
         });
     }

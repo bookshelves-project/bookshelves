@@ -1,2 +1,5 @@
 *
+!cache/
+!data/
+!debug/
 !.gitignore

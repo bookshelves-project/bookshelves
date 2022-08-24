@@ -52,15 +52,15 @@ class EmptySeeder extends Seeder
         //         'email_verified_at' => new DateTime(),
         //         'password' => $userRaw['password'],
         //         'about' => 'Super admin of plateform',
-        //         'role' => RoleEnum::admin,
+        //         'role' => UserRole::admin,
         //         'gender' => GenderEnum::unknown(),
         //         'use_gravatar' => false,
         //         'display_reviews' => true,
         //         'display_favorites' => true,
         //         'display_gender' => true,
         //     ]);
-        //     // $userRole = Role::where('name', RoleEnum::user)->first();
-        //     // $adminRole = Role::where('name', RoleEnum::admin)->first();
+        //     // $userRole = Role::where('name', UserRole::user)->first();
+        //     // $adminRole = Role::where('name', UserRole::admin)->first();
 
         //     // $user->roles()->attach($userRole);
         //     // $user->roles()->attach($adminRole);

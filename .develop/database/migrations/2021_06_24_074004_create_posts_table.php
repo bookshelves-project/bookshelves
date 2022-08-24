@@ -13,6 +13,7 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+
             $table->string('title');
             $table->string('status')->default('draft');
             $table->text('summary')->nullable();
@@ -22,6 +23,14 @@ class CreatePostsTable extends Migration
             $table->string('slug');
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
+
+            $table->foreignId('user_id')
+                ->nullable()
+                ->after('id')
+                ->constrained('users')
+                ->onDelete('set null')
+            ;
+
             $table->timestamps();
         });
     }
@@ -31,6 +40,9 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('user_id');
+        });
         Schema::dropIfExists('posts');
     }
 }

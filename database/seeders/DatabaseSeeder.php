@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             // FavoriteSeeder::class,
             // ReviewSeeder::class,
             // CmsSeeder::class,
-            // UserAdminSeeder::class,
+            // EmptySeeder::class,
             // EmptySeeder::class,
             // PostSeeder::class,
             // PageSeeder::class,
@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
 
     public static function deleteRoles()
     {
-        // $role = RoleEnum::admin;
+        // $role = UserRole::admin;
         // $role = Role::where('name', $role)->first();
         // DB::statement('SET foreign_key_checks=0');
         // DB::table('model_has_roles')->truncate();

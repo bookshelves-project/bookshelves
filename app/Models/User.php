@@ -4,7 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\GenderEnum;
 use App\Enums\UserRole;
+use App\Traits\HasUsername;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,25 +18,25 @@ class User extends Authenticatable implements FilamentUser
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
+    use HasUsername;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'remember_token',
         'is_blocked',
         'role',
+        'use_gravatar',
+        'display_favorites',
+        'display_reviews',
+        'display_gender',
+        'about',
+        'gender',
+        'pronouns',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -46,15 +48,14 @@ class User extends Authenticatable implements FilamentUser
         'is_admin',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'is_blocked' => 'boolean',
         'role' => UserRole::class,
+        'display_favorites' => 'boolean',
+        'display_reviews' => 'boolean',
+        'display_gender' => 'boolean',
+        'gender' => GenderEnum::class,
     ];
 
     public function canAccessFilament(): bool

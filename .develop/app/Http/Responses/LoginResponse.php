@@ -2,7 +2,7 @@
 
 namespace App\Http\Responses;
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -32,7 +32,7 @@ class LoginResponse implements LoginResponseContract
      */
     public function toResponse($request)
     {
-        if ($this->user->role->equals(RoleEnum::user)) {
+        if ($this->user->role->equals(UserRole::user)) {
             return Inertia::location(route('front.home'));
         }
 

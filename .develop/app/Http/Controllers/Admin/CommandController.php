@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use Artisan;
 use Auth;
@@ -16,7 +16,7 @@ class CommandController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->hasRole(RoleEnum::admin)) {
+        if ($user->hasRole(UserRole::admin)) {
             $books = Artisan::call('books:generate -Fs');
 
             return response()->json([

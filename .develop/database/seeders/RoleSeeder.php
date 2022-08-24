@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use DB;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -18,20 +18,20 @@ class RoleSeeder extends Seeder
         // Role::truncate();
         // DB::statement('SET foreign_key_checks=1');
 
-        // /** @var RoleEnum[] $roles */
+        // /** @var UserRole[] $roles */
         // $roles = [
         //     [
-        //         'name' => RoleEnum::admin,
+        //         'name' => UserRole::admin,
         //     ],
         //     [
-        //         'name' => RoleEnum::publisher,
+        //         'name' => UserRole::publisher,
         //     ],
         //     [
-        //         'name' => RoleEnum::user,
+        //         'name' => UserRole::user,
         //     ],
         // ];
 
-        // /** @var RoleEnum $role */
+        // /** @var UserRole $role */
         // foreach ($roles as $key => $role) {
         //     Role::firstOrCreate($role);
         // }
