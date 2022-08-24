@@ -13,7 +13,7 @@ trait HasUsername
 
     public function initializeHasUsername()
     {
-        $this->fillable[] = $this->getUsernameColumn();
+        // $this->fillable[] = $this->getUsernameColumn();
     }
 
     public function getUsernameWith(): string
@@ -30,40 +30,29 @@ trait HasUsername
     {
         static::creating(function ($model) {
             if (empty($model->{$model->getUsernameColumn()})) {
-                $model->{$model->getUsernameColumn()} =
-                    $model->generateUsername($model, $model->{$model->getUsernameWith()}, true);
+                $model->{$model->getUsernameColumn()} = $model->generateUsername();
             }
         });
     }
 
     /**
      * Generate a username for Model.
-     *
-     * @param  mixed  $model     instance of current model
-     * @param  string  $attribute linked to username like `title`
-     * @param  bool  $with_tag  add a random number tag to allow model to have same $attribute with different `username`
      */
-    public static function generateUsername(Model $model, string $attribute, bool $with_tag = false): string
+    public function generateUsername(): string
     {
-        $id = $with_tag ? self::generateId() : null;
+        $tag = rand(1000, 9999);
+        $username_name = Str::slug($this->{$this->getUsernameWith()}, '-');
+        $username = "{$username_name}-{$tag}";
 
-        $username_name = Str::slug($model->{$attribute}, '-');
-        $username = $username_name.$id;
-        $exist = $model::where($model->getUsernameColumn(), $username)->first();
+        $exist = $this::where($this->getUsernameColumn(), $username)->first();
 
         while ($exist) {
-            $id = $with_tag ? self::generateId() : null;
-            $username = $username_name.$id;
+            $tag = $this->generateUsername();
+            $username_name = Str::slug($this->{$this->getUsernameWith()}, '-');
+            $username = "{$username_name}-{$tag}";
         }
 
         return $username;
-    }
-
-    public static function generateId(): string
-    {
-        $id = rand(1000, 9999);
-
-        return '-'.$id;
     }
 
     /**
@@ -73,7 +62,7 @@ trait HasUsername
      * @param  string  $value     new value for previous attibute from Request
      * @param  bool  $with_tag  add a random number tag to allow model to have same $attribute with different `username`
      */
-    public function usernameAttributeIsUpdated(string $attribute, string $value, bool $with_tag = false): string
+    public function usernameAttributeIsUpdated(string $attribute, string $value, bool $with_tag = true): string
     {
         $username = $this->username;
 
@@ -85,7 +74,7 @@ trait HasUsername
             $exist = get_class($this)::where($this->getUsernameColumn(), $new_username)->first();
 
             if ($exist) {
-                $new_username = $this->generateUsername($this, $this->getUsernameWith(), $with_tag);
+                $new_username = $this->generateUsername();
             }
             $this->username = $new_username;
 

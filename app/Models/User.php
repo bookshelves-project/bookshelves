@@ -6,23 +6,25 @@ namespace App\Models;
 
 use App\Enums\GenderEnum;
 use App\Enums\UserRole;
+use App\Traits\HasAvatar;
 use App\Traits\HasUsername;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements HasMedia, FilamentUser
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
     use HasUsername;
+    use HasAvatar;
 
     protected $fillable = [
         'name',
-        'username',
         'email',
         'password',
         'remember_token',

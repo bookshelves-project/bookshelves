@@ -598,6 +598,50 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\TagExtend
+ *
+ * @property int $id
+ * @property array $name
+ * @property array $slug
+ * @property \App\Enums\TagTypeEnum|null $type
+ * @property int|null $order_column
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
+ * @property-read int|null $books_count
+ * @property-read string $books_link
+ * @property-read mixed $first_char
+ * @property-read string $show_link
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
+ * @property-read int|null $series_count
+ * @property \Illuminate\Database\Eloquent\Collection|TagExtend[] $tags
+ * @property-read int|null $tags_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag containing(string $name, $locale = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag ordered(string $direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereIsNegligible(string $negligible)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereNameEnIs(string $name)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereOrderColumn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereTypeIs(string $type)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend withAllTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend withAnyTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag withType(?string $type = null)
+ */
+	class TagExtend extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\User
  *
  * @property int $id

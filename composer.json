@@ -44,6 +44,7 @@
     "psr/simple-cache": "^1.0",
     "pxlrbt/filament-excel": "^1.1",
     "smalot/pdfparser": "^2.2",
+    "spatie/array-to-xml": "^3.1",
     "spatie/image": "^2.2",
     "spatie/laravel-medialibrary": "^10.0.0",
     "spatie/laravel-query-builder": "^5.0",
