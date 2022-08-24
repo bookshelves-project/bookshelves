@@ -57,7 +57,7 @@ class SampleCommand extends CommandProd
 
             if (! User::exists()) {
                 Artisan::call('db:seed', ['--class' => 'UserAdminSeeder', '--force' => true]);
-                $this->info('Admin was created from `.env` variables with email '.config('bookshelves.admin.email'));
+                $this->info('Admin was created from `.env` variables with email '.config('app.admin.email'));
             } else {
                 $this->error('Admin not created, some users exists!');
             }

@@ -21,6 +21,10 @@ module.exports = {
   plugins: [
     plugin(({ addComponents }) => {
       addComponents({
+        '.center': {
+          '@apply absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2':
+          {},
+        },
         '.debug-screens': {
           '@apply before:bottom-0 before:left-0 before:fixed before:px-1 before:text-sm before:bg-black before:text-white before:shadow-xl before:content-["screen:_"] sm:before:content-["screen:sm"] md:before:content-["screen:md"] lg:before:content-["screen:lg"] xl:before:content-["screen:xl"] 2xl:before:content-["screen:2xl"]':
             {},

@@ -88,7 +88,7 @@ return [
             ],
             [
                 'route' => false,
-                'href' => config('app.documentation_url'),
+                'href' => config('bookshelves.documentation_url'),
                 'title' => 'Documentation',
                 'description' => '',
                 // 'icon' => 'wiki',
@@ -96,7 +96,7 @@ return [
             ],
             [
                 'route' => false,
-                'href' => config('app.repository_url'),
+                'href' => config('bookshelves.repository_url'),
                 'title' => 'Git',
                 'description' => '',
                 // 'icon' => 'git',

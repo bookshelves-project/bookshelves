@@ -5,8 +5,10 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Spatie\RouteAttributes\RouteRegistrar;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -17,7 +19,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/admin';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -36,6 +38,43 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'))
             ;
         });
+
+        Route::prefix('api')
+            ->name('api.')
+            ->group(
+                fn () => (new RouteRegistrar(app(Router::class)))
+                    ->useRootNamespace(app()->getNamespace())
+                    ->useMiddleware(['api'])
+                    ->registerDirectory(app_path('Http/Controllers/Api'))
+            )
+        ;
+
+        Route::name('front.')
+            ->group(
+                fn () => (new RouteRegistrar(app(Router::class)))
+                    ->useRootNamespace(app()->getNamespace())
+                    ->useMiddleware(['web'])
+                    ->registerDirectory(app_path('Http/Controllers/Front'))
+            )
+        ;
+
+        Route::name('catalog.')
+            ->group(
+                fn () => (new RouteRegistrar(app(Router::class)))
+                    ->useRootNamespace(app()->getNamespace())
+                    ->useMiddleware(['web'])
+                    ->registerDirectory(app_path('Http/Controllers/Catalog'))
+            )
+        ;
+
+        Route::name('webreader.')
+            ->group(
+                fn () => (new RouteRegistrar(app(Router::class)))
+                    ->useRootNamespace(app()->getNamespace())
+                    ->useMiddleware(['web'])
+                    ->registerDirectory(app_path('Http/Controllers/Webreader'))
+            )
+        ;
     }
 
     /**

@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.title {
+  color: red;
+  font-family: sans-serif;
+}
+
 body {
   @apply bg-white dark:bg-gray-900 text-black dark:text-white;
 }

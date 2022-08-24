@@ -12,8 +12,8 @@ class Login extends BasePage
 
         if ('local' === config('app.env')) {
             $this->form->fill([
-                'email' => config('bookshelves.admin.email'),
-                'password' => config('bookshelves.admin.password'),
+                'email' => config('app.admin.email'),
+                'password' => config('app.admin.password'),
                 'remember' => true,
             ]);
         }

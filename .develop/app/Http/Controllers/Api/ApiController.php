@@ -80,9 +80,9 @@ class ApiController extends Controller
                 'opds' => $this->getRouteData('front.opds', 'OPDS API for application which use it'),
                 'webreader' => $this->getRouteData('front.webreader', 'UI to read directly an eBook into browser'),
                 'admin' => $this->getRouteData('admin.dashboard', 'For admin to manage data.'),
-                'documentation' => $this->getRouteData(config('app.documentation_url'), 'Documentation for developers', false),
+                'documentation' => $this->getRouteData(config('bookshelves.documentation_url'), 'Documentation for developers', false),
                 'api-doc' => $this->getRouteData(route('scribe'), 'API documentation to use data on others applications', false),
-                'repository' => $this->getRouteData(config('app.repository_url'), 'Repository of this application', false),
+                'repository' => $this->getRouteData(config('bookshelves.repository_url'), 'Repository of this application', false),
             ],
             'api' => $list,
         ], 200);

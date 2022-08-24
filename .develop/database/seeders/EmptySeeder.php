@@ -30,8 +30,8 @@ class EmptySeeder extends Seeder
 
         User::factory()->superAdmin()->create([
             'name' => 'Super Admin',
-            'email' => config('bookshelves.admin.email'),
-            'password' => Hash::make(config('bookshelves.admin.password')),
+            'email' => config('app.admin.email'),
+            'password' => Hash::make(config('app.admin.password')),
         ]);
         // User::factory()->admin()->create([
         //     'name' => 'Admin',
@@ -41,8 +41,8 @@ class EmptySeeder extends Seeder
         // $users = [
         //     [
         //         'name' => config('app.name').' Admin',
-        //         'email' => config('bookshelves.admin.email'),
-        //         'password' => Hash::make(config('bookshelves.admin.password')),
+        //         'email' => config('app.admin.email'),
+        //         'password' => Hash::make(config('app.admin.password')),
         //     ],
         // ];
         // foreach ($users as $key => $userRaw) {

@@ -9,13 +9,13 @@ return [
          * The default configurations to be used by the meta generator.
          */
         'defaults' => [
-            'title' => config('app.name'), // set false to total remove
+            'title' => env('META_TITLE', 'Bookshelves'), // set false to total remove
             'titleBefore' => false, // Put defaults.title before page title, like 'It's Over 9000! - Dashboard'
-            'description' => 'Website description', // set false to total remove
-            'separator' => ' - ',
+            'description' => env('META_DESCRIPTION', 'To read books.'), // set false to total remove
+            'separator' => ' · ',
             'keywords' => [],
-            'canonical' => false, // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
-            'robots' => 'index/follow', // Set to 'all', 'none' or any combination of index/noindex and follow/nofollow
+            'canonical' => 'full', // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
+            'robots' => env('META_ROBOTS', 'all'), // Set to 'all', 'none' or any combination of index/noindex and follow/nofollow
         ],
         /*
          * Webmaster tags are always added.
@@ -36,9 +36,9 @@ return [
          * The default configurations to be used by the opengraph generator.
          */
         'defaults' => [
-            'title' => config('app.name'), // set false to total remove
-            'description' => 'Website description', // set false to total remove
-            'url' => null, // Set null for using Url::current(), set false to total remove
+            'title' => env('META_OG_TITLE', 'Bookshelves'), // set false to total remove
+            'description' => env('META_OG_DESCRIPTION', 'To read books.'), // set false to total remove
+            'url' => 'full', // Set null for using Url::current(), set false to total remove
             'type' => false,
             'site_name' => false,
             'images' => [
@@ -51,7 +51,7 @@ return [
          * The default values to be used by the twitter cards generator.
          */
         'defaults' => [
-            'card' => 'large_summary',
+            'card' => 'summary_large_image',
             // 'site'        => '@LuizVinicius73',
         ],
     ],
@@ -60,9 +60,9 @@ return [
          * The default configurations to be used by the json-ld generator.
          */
         'defaults' => [
-            'title' => config('app.name'), // set false to total remove
-            'description' => 'Website description', // set false to total remove
-            'url' => false, // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
+            'title' => env('META_TITLE', 'Bookshelves'), // set false to total remove
+            'description' => env('META_DESCRIPTION', 'To read books.'), // set false to total remove
+            'url' => 'full', // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
             'type' => 'WebPage',
             'images' => [],
         ],

@@ -112,7 +112,7 @@ class Serie extends Model implements HasMedia
 
     public function searchableAs()
     {
-        $app = config('bookshelves.name');
+        $app = config('bookshelves.slug');
 
         return "{$app}_series";
     }

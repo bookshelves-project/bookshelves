@@ -5,10 +5,15 @@ export default defineConfig({
   plugins: [
     laravel({
       input: [
-        'resources/css/filament.css',
-        'resources/css/app.css',
+        'resources/filament.css',
+        /** Front */
+        'resources/front/css/app.css',
+        /** Catalog */
+        'resources/catalog/css/app.css',
+        /** Webreader */
+        'resources/webreader/css/app.css',
       ],
-      refresh: true,
+      refresh: ['resources/**'],
     }),
   ],
   optimizeDeps: {

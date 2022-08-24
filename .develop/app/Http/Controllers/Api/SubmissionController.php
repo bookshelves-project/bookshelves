@@ -28,7 +28,7 @@ class SubmissionController extends ApiController
                 'message' => $validated['message'],
             ]);
 
-            Notification::route('mail', [config('mail.to.address') => config('mail.to.name')])
+            Notification::route('mail', [config('mail.default.to.address') => config('mail.default.to.name')])
                 ->notify(new SubmissionNotification($submission))
             ;
         }

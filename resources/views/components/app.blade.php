@@ -31,7 +31,7 @@
 
     <script src="{{ asset('/js/color-mode.js') }}"></script>
 
-    @vite(['resources/css/app.css', 'resources/ts/app.ts'])
+    @stack('head')
     @stack('styles')
     @livewireStyles
 </head>

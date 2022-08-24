@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\MainController;
+use App\Http\Controllers\Front\FrontController;
 use Illuminate\Support\Facades\Route;
 use Knuckles\Scribe\Http\Controller as ScribeController;
 
@@ -15,5 +15,5 @@ use Knuckles\Scribe\Http\Controller as ScribeController;
 |
 */
 
-Route::get('/', [MainController::class, 'index'])->name('front.index');
-Route::get('/login', fn () => redirect('/admin/login'))->name('login');
+// Route::get('/', [FrontController::class, 'index'])->name('front.index');
+// Route::get('/login', fn () => redirect('/admin/login'))->name('login');
