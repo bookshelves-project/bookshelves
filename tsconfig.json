@@ -22,12 +22,6 @@
       "resources/**/*.d.ts"
     ],
     "paths": {
-      "@admin/*": [
-        "./resources/admin/*"
-      ],
-      "@front/*": [
-        "./resources/front/*"
-      ],
       "~": [
         "./resources"
       ],
