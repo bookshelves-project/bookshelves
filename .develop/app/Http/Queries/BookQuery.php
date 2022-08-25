@@ -40,7 +40,7 @@ class BookQuery extends BaseQuery
                         $query->where('name', 'like', "%{$value}%");
                     });
                 }),
-                AllowedFilter::exact('disabled'),
+                AllowedFilter::exact('is_disabled'),
                 AllowedFilter::exact('released_on'),
                 AllowedFilter::exact('type'),
                 AllowedFilter::scope('types', 'whereTypesIs'),

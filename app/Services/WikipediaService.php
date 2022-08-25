@@ -97,7 +97,7 @@ class WikipediaService
                  * If language attribute is unknown, set it to english.
                  */
                 $lang = $model->{$this->language_attribute};
-                if ('unknown' === $lang || $lang === null) {
+                if ('unknown' === $lang || null === $lang) {
                     $lang = 'en';
                 }
 
@@ -128,8 +128,8 @@ class WikipediaService
     /**
      * Make GET request from Wikipedia API and parse it.
      *
-     * @param  string  $url_attribute is WikipediaQuery attribute which is an URL
-     * @param  string  $method        is WikipediaQuery class method to parse response
+     * @param string $url_attribute is WikipediaQuery attribute which is an URL
+     * @param string $method        is WikipediaQuery class method to parse response
      */
     public function search(string $url_attribute, string $method): WikipediaService
     {

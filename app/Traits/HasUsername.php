@@ -26,15 +26,6 @@ trait HasUsername
         return $this->username_column ?? $this->default_username_column;
     }
 
-    protected static function bootHasUsername()
-    {
-        static::creating(function ($model) {
-            if (empty($model->{$model->getUsernameColumn()})) {
-                $model->{$model->getUsernameColumn()} = $model->generateUsername();
-            }
-        });
-    }
-
     /**
      * Generate a username for Model.
      */
@@ -58,9 +49,9 @@ trait HasUsername
     /**
      * Check if attribute link to username is updated.
      *
-     * @param  string  $attribute in Model, like `title` or `name`
-     * @param  string  $value     new value for previous attibute from Request
-     * @param  bool  $with_tag  add a random number tag to allow model to have same $attribute with different `username`
+     * @param string $attribute in Model, like `title` or `name`
+     * @param string $value     new value for previous attibute from Request
+     * @param bool   $with_tag  add a random number tag to allow model to have same $attribute with different `username`
      */
     public function usernameAttributeIsUpdated(string $attribute, string $value, bool $with_tag = true): string
     {
@@ -84,5 +75,14 @@ trait HasUsername
         }
 
         return $username;
+    }
+
+    protected static function bootHasUsername()
+    {
+        static::creating(function ($model) {
+            if (empty($model->{$model->getUsernameColumn()})) {
+                $model->{$model->getUsernameColumn()} = $model->generateUsername();
+            }
+        });
     }
 }

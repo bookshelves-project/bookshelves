@@ -176,7 +176,7 @@ class Author extends Model implements HasMedia
     public function booksAvailable(): MorphToMany
     {
         return $this->morphedByMany(Book::class, 'authorable')
-            ->where('disabled', false)
+            ->where('is_disabled', false)
             ->orderBy('slug_sort')
             ->orderBy('volume')
         ;
@@ -188,7 +188,7 @@ class Author extends Model implements HasMedia
     public function booksAvailableStandalone(): MorphToMany
     {
         return $this->morphedByMany(Book::class, 'authorable')
-            ->where('disabled', false)
+            ->where('is_disabled', false)
             ->whereDoesntHave('serie')
             ->orderBy('slug_sort')
             ->orderBy('volume')

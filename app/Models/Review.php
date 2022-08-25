@@ -21,9 +21,8 @@ class Review extends Model
     ];
 
     /**
-     * Relationships
+     * Relationships.
      */
-
     public function reviewable(): MorphTo
     {
         return $this->morphTo();
@@ -39,7 +38,7 @@ class Review extends Model
         return $this->morphedByMany(Book::class, 'reviewable', 'reviews', 'reviewable_id');
     }
 
-    public function series():MorphToMany
+    public function series(): MorphToMany
     {
         return $this->morphedByMany(Serie::class, 'reviewable', 'reviews', 'reviewable_id');
     }

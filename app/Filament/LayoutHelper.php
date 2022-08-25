@@ -3,8 +3,7 @@
 namespace App\Filament;
 
 use Closure;
-use Filament\Forms\Components\Card;
-use Filament\Forms\Components\Group;
+use Filament\Forms;
 use Filament\Resources\Form;
 
 class LayoutHelper
@@ -24,29 +23,29 @@ class LayoutHelper
 
     public static function fullColumn(array|Closure $firstPart = [], array|Closure $secondPart = [], array|Closure $thirdPart = [])
     {
-        return Group::make()
+        return Forms\Components\Group::make()
             ->schema([
                 ! empty($firstPart)
-                    ? Card::make()
+                    ? Forms\Components\Card::make()
                         ->schema($firstPart)
                         ->columns([
                             'sm' => 2,
                         ])
-                    : Group::make(),
+                    : Forms\Components\Group::make(),
                 ! empty($secondPart)
-                    ? Card::make()
+                    ? Forms\Components\Card::make()
                         ->schema($secondPart)
                         ->columns([
                             'sm' => 2,
                         ])
-                    : Group::make(),
+                    : Forms\Components\Group::make(),
                 ! empty($thirdPart)
-                ? Card::make()
+                ? Forms\Components\Card::make()
                     ->schema($thirdPart)
                     ->columns([
                         'sm' => 2,
                     ])
-                : Group::make(),
+                : Forms\Components\Group::make(),
             ])
             ->columnSpan([
                 'sm' => 2,
@@ -69,29 +68,29 @@ class LayoutHelper
 
     public static function mainColumn(array|Closure $firstPart = [], array|Closure $secondPart = [], array|Closure $thirdPart = [])
     {
-        return Group::make()
+        return Forms\Components\Group::make()
             ->schema([
                 ! empty($firstPart)
-                    ? Card::make()
+                    ? Forms\Components\Card::make()
                         ->schema($firstPart)
                         ->columns([
                             'sm' => 2,
                         ])
-                    : Group::make(),
+                    : Forms\Components\Group::make(),
                 ! empty($secondPart)
-                    ? Card::make()
+                    ? Forms\Components\Card::make()
                         ->schema($secondPart)
                         ->columns([
                             'sm' => 2,
                         ])
-                    : Group::make(),
+                    : Forms\Components\Group::make(),
                 ! empty($thirdPart)
-                ? Card::make()
+                ? Forms\Components\Card::make()
                     ->schema($thirdPart)
                     ->columns([
                         'sm' => 2,
                     ])
-                : Group::make(),
+                : Forms\Components\Group::make(),
             ])
             ->columnSpan([
                 'sm' => 2,
@@ -101,23 +100,23 @@ class LayoutHelper
 
     public static function sideColumn(array|Closure $firstPart = [], array|Closure $secondPart = [], array|Closure $thirdPart = [])
     {
-        return Group::make()
+        return Forms\Components\Group::make()
             ->schema([
                 ! empty($firstPart)
-                    ? Card::make()
+                    ? Forms\Components\Card::make()
                         ->schema($firstPart)
                         ->columns(1)
-                    : Group::make(),
+                    : Forms\Components\Group::make(),
                 ! empty($secondPart)
-                    ? Card::make()
+                    ? Forms\Components\Card::make()
                         ->schema($secondPart)
                         ->columns(1)
-                    : Group::make(),
+                    : Forms\Components\Group::make(),
                 ! empty($thirdPart)
-                ? Card::make()
+                ? Forms\Components\Card::make()
                     ->schema($thirdPart)
                     ->columns(1)
-                : Group::make(),
+                : Forms\Components\Group::make(),
 
             ])
             ->columnSpan(1)

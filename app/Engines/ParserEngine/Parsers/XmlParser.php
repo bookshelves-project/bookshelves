@@ -74,7 +74,7 @@ class XmlParser
                 break;
 
             case XML_ELEMENT_NODE:
-                for ($i = 0, $m = $node->childNodes->length; $i < $m; $i++) {
+                for ($i = 0, $m = $node->childNodes->length; $i < $m; ++$i) {
                     $child = $node->childNodes->item($i);
                     $v = $this->domnode_to_array($child);
                     if (isset($child->tagName)) {

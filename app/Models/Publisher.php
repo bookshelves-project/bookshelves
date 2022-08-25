@@ -16,15 +16,14 @@ class Publisher extends Model
         'name',
     ];
 
-
     /**
-     * Relationships
+     * Relationships.
      */
-
     public function books(): HasMany
     {
         return $this->hasMany(Book::class)
             ->orderBy('serie_id')
-            ->orderBy('volume');
+            ->orderBy('volume')
+        ;
     }
 }

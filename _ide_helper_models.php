@@ -30,7 +30,7 @@ namespace App\Models{
  * @property-read int|null $books_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
- * @property-read \App\Models\MediaExtended|\App\Models\Media|null $cover_book
+ * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_book
  * @property-read string|null $cover_color
  * @property-read string|null $cover_og
  * @property-read string|null $cover_original
@@ -95,7 +95,7 @@ namespace App\Models{
  * @property int|null $google_book_id
  * @property int|null $page_count
  * @property string|null $maturity_rating
- * @property bool $disabled
+ * @property bool $is_disabled
  * @property \App\Enums\BookTypeEnum $type
  * @property string|null $isbn10
  * @property string|null $isbn13
@@ -108,7 +108,7 @@ namespace App\Models{
  * @property-read int|null $favorites_count
  * @property-read \App\Models\Author $author
  * @property-read string $authors_names
- * @property-read \App\Models\MediaExtended|\App\Models\Media|null $cover_book
+ * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_book
  * @property-read string|null $cover_color
  * @property-read string|null $cover_og
  * @property-read string|null $cover_original
@@ -139,10 +139,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereContributor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifiers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsDisabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn10($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn13($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguageSlug($value)
@@ -201,9 +201,9 @@ namespace App\Models{
  * @property string|null $url
  * @property string|null $published_date
  * @property string|null $description
- * @property mixed|null $industry_identifiers
+ * @property array|null $industry_identifiers
  * @property int|null $page_count
- * @property mixed|null $categories
+ * @property array|null $categories
  * @property string|null $maturity_rating
  * @property string|null $language
  * @property string|null $preview_link
@@ -248,7 +248,7 @@ namespace App\Models{
  * App\Models\Language
  *
  * @property string $slug
- * @property mixed|null $name
+ * @property array|null $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -522,7 +522,7 @@ namespace App\Models{
  * @property-read int|null $favorites_count
  * @property-read \App\Models\Author $author
  * @property-read string $authors_names
- * @property-read \App\Models\MediaExtended|\App\Models\Media|null $cover_book
+ * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_book
  * @property-read string|null $cover_color
  * @property-read string|null $cover_og
  * @property-read string|null $cover_original
@@ -662,6 +662,12 @@ namespace App\Models{
  * @property bool $display_gender
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $avatar
+ * @property-read string|null $avatar_thumbnail
+ * @property-read string $banner
+ * @property-read string|null $color
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
@@ -689,7 +695,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUseGravatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  */
-	class User extends \Eloquent implements \Filament\Models\Contracts\FilamentUser {}
+	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Filament\Models\Contracts\FilamentUser {}
 }
 
 namespace App\Models{

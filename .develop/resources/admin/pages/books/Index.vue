@@ -97,7 +97,7 @@ const columns: (string | Column)[] = [
     searchable: true,
   },
   {
-    field: 'disabled',
+    field: 'is_disabled',
     type: 'switch',
     searchable: true,
   },

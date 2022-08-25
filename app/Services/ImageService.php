@@ -10,8 +10,9 @@ class ImageService
      * Detect the Dominant Color used in an Image
      * Copyright 2019 Igor Gaffling.
      *
-     * @param  mixed  $img
-     * @param  string  $default
+     * @param mixed  $img
+     * @param string $default
+     *
      * @return string
      */
     public static function simple_color_thief($img, $default = 'eee')

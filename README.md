@@ -70,3 +70,20 @@ And run tests.
 ```bash
 composer test:watch
 ```
+
+## Notes
+
+```php
+TextInput::make('title')
+  ->afterStateUpdated(function (string $context, Closure $set, $state) {
+      if ($context === 'edit') {
+          return;
+      }
+
+      $set('slug', Str::slug($state));
+  })
+```
+
+- Book genre => enum
+- placeholder timestamps only on edit mode
+- Book create only upload formats

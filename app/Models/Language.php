@@ -5,10 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Translatable\HasTranslations;
 
 class Language extends Model
 {
-    use HasFactory;
+   use HasFactory;
+   use HasTranslations;
+
+   public $translatable = [
+        'name',
+    ];
 
     public $incrementing = false;
 
@@ -22,9 +28,8 @@ class Language extends Model
     ];
 
     /**
-     * Relationships
+     * Relationships.
      */
-
     public function books(): HasMany
     {
         return $this->hasMany(Book::class);

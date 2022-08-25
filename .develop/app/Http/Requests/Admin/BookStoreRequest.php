@@ -42,7 +42,7 @@ class BookStoreRequest extends FormRequest
             'volume' => ['nullable', 'integer'],
             'page_count' => ['nullable', 'integer'],
             'maturity_rating' => ['nullable'],
-            'disabled' => ['boolean'],
+            'is_disabled' => ['boolean'],
             'type' => [new Enum(BookTypeEnum::class)],
             'tags' => ['array'],
             'cover_file' => ['nullable', 'image'],

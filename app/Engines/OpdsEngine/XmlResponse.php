@@ -305,7 +305,7 @@ class XmlResponse
                             'title' => 'EPUB',
                         ],
                     ];
-                    $i++;
+                    ++$i;
                 }
             }
         }

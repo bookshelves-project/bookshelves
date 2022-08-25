@@ -36,7 +36,7 @@ class UserExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
     }
 
     /**
-     * @param  User  $row
+     * @param User $row
      */
     public function map($row): array
     {

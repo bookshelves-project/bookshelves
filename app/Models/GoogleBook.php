@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Engines\ConverterEngine\TagConverter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -28,6 +29,11 @@ class GoogleBook extends Model
         'buy_link',
         'isbn10',
         'isbn13',
+    ];
+
+    protected $casts = [
+        'industry_identifiers' => 'array',
+        'categories' => 'array',
     ];
 
     /**
@@ -59,10 +65,10 @@ class GoogleBook extends Model
             $this->book->isbn13 = $this->isbn13;
         }
 
-        $categories = json_decode($this->categories);
+        $categories = $this->categories;
         if (is_array($categories)) {
             foreach ($categories as $key => $category) {
-                // TagConverter::setTag($category);
+                TagConverter::setTag($category);
             }
         }
         $this->book->save();
@@ -76,9 +82,8 @@ class GoogleBook extends Model
     }
 
     /**
-     * Relationships
+     * Relationships.
      */
-
     public function book(): HasOne
     {
         return $this->hasOne(Book::class);

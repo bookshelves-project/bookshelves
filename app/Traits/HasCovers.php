@@ -43,7 +43,7 @@ trait HasCovers
     /**
      * Manage EPUB files with spatie/laravel-medialibrary.
      *
-     * @return MediaExtended|Media|null
+     * @return null|Media|MediaExtended
      */
     public function getCoverBookAttribute()
     {

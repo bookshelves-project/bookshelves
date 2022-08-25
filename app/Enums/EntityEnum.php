@@ -2,7 +2,6 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\EnumMethods;
 use App\Traits\LazyEnum;
 
 enum EntityEnum: string

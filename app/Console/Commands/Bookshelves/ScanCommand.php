@@ -79,11 +79,11 @@ class ScanCommand extends CommandProd
         }
 
         $this->newLine();
-        $this->warn(count(($files)).' files found');
+        $this->warn(count($files).' files found');
         if (count($new_files) > 0) {
-            $this->warn(count(($new_files)).' new files found, to add it to collection, you can use `bookshelves:generate`');
+            $this->warn(count($new_files).' new files found, to add it to collection, you can use `bookshelves:generate`');
         }
-        if (0 === count(($new_files)) && count(($files)) !== Book::count()) {
+        if (0 === count($new_files) && count($files) !== Book::count()) {
             $this->warn('Some duplicates detected!');
         }
         $this->newLine();

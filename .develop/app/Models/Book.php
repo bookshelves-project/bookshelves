@@ -54,7 +54,7 @@ class Book extends Model implements HasMedia
         'volume',
         'page_count',
         'maturity_rating',
-        'disabled',
+        'is_disabled',
         'type',
         'isbn10',
         'isbn13',
@@ -77,7 +77,7 @@ class Book extends Model implements HasMedia
 
     protected $casts = [
         'released_on' => 'datetime',
-        'disabled' => 'boolean',
+        'is_disabled' => 'boolean',
         'type' => BookTypeEnum::class,
         'identifiers' => 'array',
         'volume' => 'integer',

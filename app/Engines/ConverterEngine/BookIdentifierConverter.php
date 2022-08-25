@@ -12,25 +12,15 @@ class BookIdentifierConverter
     {
         if ($converter->parser->identifiers && ! $converter->book->identifiers) {
             $identifiers = [];
-            $fillables = [];
 
-            /** @var BookIdentifier $value */
-            foreach ($converter->parser->identifiers as $key => $value) {
-                $fillables = (new Book())->getFillable();
-                $fillables = array_filter($fillables, fn ($value) => str_contains($value, 'isbn'));
-                if (in_array($value->name, $fillables)) {
-                    $identifier = trim(str_replace('-', '', $value->value));
-                    $identifiers[$value->name] = $identifier;
-                }
+            foreach ($converter->parser->identifiers as $book_identifier) {
+                $identifiers[$book_identifier->name] = $book_identifier->value;
             }
-            if (! empty($identifiers)) {
-                foreach ($fillables as $key => $value) {
-                    if (array_key_exists($value, $identifiers)) {
-                        $converter->book->{$value} = $identifiers[$value];
-                    }
-                }
-                $converter->book->identifiers = $converter->parser->identifiers;
-            }
+
+            $converter->book->isbn10 = $identifiers['isbn10'] ?? null;
+            $converter->book->isbn13 = $identifiers['isbn13'] ?? null;
+
+            $converter->book->identifiers = $identifiers;
             $converter->book->save();
         }
 

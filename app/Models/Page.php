@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\PublishStatusEnum;
 use App\Traits\HasSeo;
 use App\Traits\HasSlug;
 use App\Traits\Publishable;

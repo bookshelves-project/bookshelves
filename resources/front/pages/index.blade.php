@@ -1,4 +1,4 @@
-@extends('front::layouts.app')
+@extends('front::layouts.app', ['nav_features' => false, 'nav_developer' => false])
 
 @section('default')
     <div class="pt-10 sm:pt-0">
@@ -12,17 +12,8 @@
                 </div>
             </div>
             <div class="mx-auto mt-6 max-w-lg">
-                @include('front::components.features')
-                <div class="mx-auto mt-3 max-w-sm border-t border-gray-600">
-                </div>
-                <nav class="mt-3 justify-center sm:flex sm:space-x-3">
-                    @foreach ($developer as $route)
-                        <div>
-                            <x-link :data="$route"
-                                class="max-content !mx-auto rounded-md p-2 text-base text-gray-400 hover:bg-gray-800 hover:text-gray-300" />
-                        </div>
-                    @endforeach
-                </nav>
+                @include('front::components.nav-features')
+                @include('front::components.nav-developer')
             </div>
         </div>
     </div>

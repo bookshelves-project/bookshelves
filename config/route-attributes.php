@@ -13,7 +13,7 @@ return [
      * Optionally, you can specify group configuration by using key/values
      */
     'directories' => [
-        /** Routes available in `App/Providers/RouteServiceProvider` */
+    /** Routes available in `App/Providers/RouteServiceProvider` */
         // app_path('Http/Controllers'),
     ],
 

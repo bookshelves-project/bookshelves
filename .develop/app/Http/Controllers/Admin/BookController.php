@@ -95,10 +95,10 @@ class BookController extends Controller
     public function toggle(Book $book, BookUpdateRequest $request)
     {
         $request->validate([
-            'disabled' => 'sometimes|boolean',
+            'is_disabled' => 'sometimes|boolean',
         ]);
 
-        $book->update($request->only('disabled'));
+        $book->update($request->only('is_disabled'));
 
         return redirect()->route('admin.books')->with('flash.success', __('Book updated.'));
     }

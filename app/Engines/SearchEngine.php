@@ -49,7 +49,7 @@ class SearchEngine
      */
     public static function create(?string $q = '', bool $relevant = false, bool $opds = false, string|array $types = null): SearchEngine
     {
-        if (gettype($types) === 'string') {
+        if ('string' === gettype($types)) {
             $types = explode(',', $types);
         }
 
@@ -101,6 +101,39 @@ class SearchEngine
         return $this;
     }
 
+    public function getRelevantResults()
+    {
+        $list = collect();
+        /** @var string $model */
+        foreach ($this->results as $model => $results) {
+            /** @var AnonymousResourceCollection $collection */
+            $collection = $results;
+            $json = $collection->toJson();
+            $results_list = json_decode($json);
+            $relevant_results = array_splice($results_list, 0, $this->top_limit);
+
+            $list->put($model, [
+                'relevant' => $relevant_results,
+                'other' => $results_list,
+            ]);
+        }
+
+        return $list->toArray();
+    }
+
+    public function getOpdsResults()
+    {
+        $list = collect();
+        /** @var string $model */
+        foreach ($this->results as $model => $results) {
+            /** @var Collection<int, Entity> $collection */
+            $collection = $results;
+            $list->push(...$collection);
+        }
+
+        return $list;
+    }
+
     /**
      * Search Entity[].
      */
@@ -135,38 +168,5 @@ class SearchEngine
                 );
             }
         }
-    }
-
-    public function getRelevantResults()
-    {
-        $list = collect();
-        /** @var string $model */
-        foreach ($this->results as $model => $results) {
-            /** @var AnonymousResourceCollection $collection */
-            $collection = $results;
-            $json = $collection->toJson();
-            $results_list = json_decode($json);
-            $relevant_results = array_splice($results_list, 0, $this->top_limit);
-
-            $list->put($model, [
-                'relevant' => $relevant_results,
-                'other' => $results_list,
-            ]);
-        }
-
-        return $list->toArray();
-    }
-
-    public function getOpdsResults()
-    {
-        $list = collect();
-        /** @var string $model */
-        foreach ($this->results as $model => $results) {
-            /** @var Collection<int, Entity> $collection */
-            $collection = $results;
-            $list->push(...$collection);
-        }
-
-        return $list;
     }
 }

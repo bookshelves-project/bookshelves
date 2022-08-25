@@ -53,17 +53,20 @@ class FrontNavigation
                 'external' => true,
             ],
             [
+                'route' => false,
                 'href' => config('app.url').'/api/documentation',
                 'title' => 'API docs',
                 'external' => true,
             ],
             [
+                'route' => false,
                 'href' => config('bookshelves.documentation_url'),
                 'title' => 'Documentation',
                 'description' => '',
                 'external' => true,
             ],
             [
+                'route' => false,
                 'href' => config('bookshelves.repository_url'),
                 'title' => 'Git',
                 'description' => '',

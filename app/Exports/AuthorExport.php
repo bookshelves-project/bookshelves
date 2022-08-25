@@ -36,7 +36,7 @@ class AuthorExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSi
     }
 
     /**
-     * @param  Book  $row
+     * @param Book $row
      */
     public function map($row): array
     {

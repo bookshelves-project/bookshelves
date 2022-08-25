@@ -145,7 +145,7 @@ class Serie extends Model implements HasMedia
     public function booksAvailable(): HasMany
     {
         return $this->hasMany(Book::class)
-            ->where('disabled', false)
+            ->where('is_disabled', false)
             ->orderBy('volume')
         ;
     }

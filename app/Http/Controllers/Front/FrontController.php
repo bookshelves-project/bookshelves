@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Utils\FrontNavigation;
 use Artesaos\SEOTools\Facades\SEOTools;
-use Intervention\Image\Gd\Font;
 use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Prefix;
 
 class FrontController extends Controller
 {

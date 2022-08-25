@@ -6,11 +6,8 @@ use App\Enums\MediaTypeEnum;
 use App\Enums\UserRole;
 use App\Models\User;
 use Closure;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms;
+use Filament\Forms\Components;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,7 +16,7 @@ class FormHelper
 {
     public static function getTitle(string $field = 'title', string $label = 'Titre')
     {
-        return TextInput::make($field)
+        return Forms\Components\TextInput::make($field)
             ->label($label)
             ->helperText('Génère le titre en SEO et le métalien, uniquement à la création.')
             ->required()
@@ -65,18 +62,30 @@ class FormHelper
         };
     }
 
+    public static function getTimestamps()
+    {
+        return [
+            Forms\Components\Placeholder::make('created_at')
+                ->label('Created at')
+                ->content(fn ($record): ?string => $record?->created_at?->diffForHumans()),
+            Forms\Components\Placeholder::make('updated_at')
+                ->label('Updated at')
+                ->content(fn ($record): ?string => $record?->updated_at?->diffForHumans()),
+        ];
+    }
+
     public static function getSeo(string $model)
     {
         return [
-            Placeholder::make('seo')
+            Forms\Components\Placeholder::make('seo')
                 ->label('SEO'),
-            TextInput::make('slug')
+            Forms\Components\TextInput::make('slug')
                 ->label('Metalien')
                 ->required()
                 ->unique($model, 'slug', fn ($record) => $record),
-            TextInput::make('meta_title')
+            Forms\Components\TextInput::make('meta_title')
                 ->label('Titre'),
-            Textarea::make('meta_description')
+            Forms\Components\Textarea::make('meta_description')
                 ->label('Description'),
         ];
     }
@@ -85,10 +94,10 @@ class FormHelper
     {
         return Filter::make('created_at')
             ->form([
-                DatePicker::make('created_from')
+                Forms\Components\DatePicker::make('created_from')
                     ->label('Publié depuis le')
                     ->placeholder(fn ($state): string => now()->subYear()->format('M d, Y')),
-                DatePicker::make('created_until')
+                Forms\Components\DatePicker::make('created_until')
                     ->label("Publié jusqu'au")
                     ->placeholder(fn ($state): string => now()->format('M d, Y')),
             ])
@@ -128,7 +137,7 @@ class FormHelper
         ],
         string $hint = 'Accepte JPG, WEBP, PNG, SVG'
     ) {
-        return FileUpload::make($field)
+        return Components\FileUpload::make($field)
             ->label($label)
             ->hint($hint)
             ->acceptedFileTypes($fileTypes)

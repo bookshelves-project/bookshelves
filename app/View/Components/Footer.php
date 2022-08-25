@@ -2,7 +2,6 @@
 
 namespace App\View\Components;
 
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\View\Component;
 
 class Footer extends Component

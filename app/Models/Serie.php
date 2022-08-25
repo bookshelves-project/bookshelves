@@ -46,7 +46,7 @@ class Serie extends Model implements HasMedia
     ];
 
     /**
-     * Relationships
+     * Relationships.
      */
 
     /**
@@ -55,7 +55,8 @@ class Serie extends Model implements HasMedia
     public function books(): HasMany
     {
         return $this->hasMany(Book::class)
-            ->orderBy('volume');
+            ->orderBy('volume')
+        ;
     }
 
     /**
@@ -64,15 +65,14 @@ class Serie extends Model implements HasMedia
     // public function booksAvailable(): HasMany
     // {
     //     return $this->hasMany(Book::class)
-    //         ->where('disabled', false)
+    //         ->where('is_disabled', false)
     //         ->orderBy('volume')
     //     ;
     // }
 
     /**
-     * Scout
+     * Scout.
      */
-
     public function searchableAs()
     {
         $app = config('bookshelves.slug');

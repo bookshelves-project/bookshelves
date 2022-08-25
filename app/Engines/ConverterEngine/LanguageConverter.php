@@ -26,7 +26,7 @@ class LanguageConverter
                     $lang_names[$lang] = ucfirst(Locale::getDisplayLanguage($lang_code, $lang));
                 }
                 $language = Language::firstOrCreate([
-                    'name' => json_encode($lang_names), // TODO translatable
+                    'name' => $lang_names,
                     'slug' => $lang_code,
                 ]);
             }

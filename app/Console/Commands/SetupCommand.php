@@ -105,8 +105,9 @@ class SetupCommand extends Command
     /**
      * Prompt the user for optional input but hide the answer from the console.
      *
-     * @param  string  $question
-     * @param  bool  $fallback
+     * @param string $question
+     * @param bool   $fallback
+     *
      * @return string
      */
     public function askHiddenWithDefault($question, $fallback = true)
@@ -263,7 +264,7 @@ class SetupCommand extends Command
     /**
      * Migrate the db with the new credentials.
      *
-     * @param  array  $credentials
+     * @param array $credentials
      */
     protected function migrateDatabaseWithFreshCredentials($credentials)
     {

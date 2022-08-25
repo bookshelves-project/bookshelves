@@ -23,9 +23,8 @@ class WikipediaItem extends Model
     ];
 
     /**
-     * Relationships
+     * Relationships.
      */
-
     public function author(): HasOne
     {
         return $this->hasOne(Author::class);

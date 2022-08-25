@@ -7,9 +7,9 @@ use App\Traits\HasClassName;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasReviews;
-use App\Traits\HasWikipediaItem;
 use App\Traits\HasSlug;
 use App\Traits\HasTagsAndGenres;
+use App\Traits\HasWikipediaItem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -38,12 +38,12 @@ class Author extends Model implements HasMedia
         'note',
     ];
 
-    protected $casts =[
-        'role' => AuthorRoleEnum::class
+    protected $casts = [
+        'role' => AuthorRoleEnum::class,
     ];
 
     /**
-     * Relationships
+     * Relationships.
      */
 
     /**
@@ -69,9 +69,8 @@ class Author extends Model implements HasMedia
     }
 
     /**
-     * Scout
+     * Scout.
      */
-
     public function searchableAs()
     {
         $app = config('bookshelves.slug');

@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Enums\BookTypeEnum;
-use App\Traits\HasCovers;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookType;
 use App\Traits\HasClassName;
+use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
 use App\Traits\HasReviews;
@@ -41,7 +41,7 @@ class Book extends Model implements HasMedia
         'volume',
         'page_count',
         'maturity_rating',
-        'disabled',
+        'is_disabled',
         'type',
         'isbn10',
         'isbn13',
@@ -57,17 +57,17 @@ class Book extends Model implements HasMedia
 
     protected $casts = [
         'released_on' => 'datetime',
-        'disabled' => 'boolean',
+        'is_disabled' => 'boolean',
         'type' => BookTypeEnum::class,
         'identifiers' => 'array',
         'volume' => 'integer',
         'page_count' => 'integer',
     ];
 
-    // public function registerMediaCollections(): void
-    // {
-    //     $this->addMediaCollection('epub');
-    // }
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('epub');
+    }
 
     public function getIsbnAttribute(): ?string
     {
@@ -75,9 +75,8 @@ class Book extends Model implements HasMedia
     }
 
     /**
-     * Relationships
+     * Relationships.
      */
-
     public function publisher(): BelongsTo
     {
         return $this->belongsTo(Publisher::class);
@@ -94,9 +93,8 @@ class Book extends Model implements HasMedia
     }
 
     /**
-     * Scout
+     * Scout.
      */
-
     public function searchableAs()
     {
         $app = config('bookshelves.slug');
