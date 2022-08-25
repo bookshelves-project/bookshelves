@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Book;
+use App\Models\Serie;
+use App\Models\User;
+use DB;
 use Illuminate\Database\Seeder;
 
 class SelectionableSeeder extends Seeder
@@ -11,6 +15,31 @@ class SelectionableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::statement('SET foreign_key_checks=0');
+        DB::table('selectionables')->truncate();
+        DB::statement('SET foreign_key_checks=1');
+
+        $users = User::all();
+        $books = Book::inRandomOrder()->limit(5)->get();
+        // $authors = Author::inRandomOrder()->limit(5)->get();
+        $series = Serie::inRandomOrder()->limit(5)->get();
+
+        $books->each(function ($book, $key) use ($users) {
+            $user = $users->first();
+
+            $book->selections()->save($user);
+        });
+
+        // $authors->each(function ($author, $key) use ($users) {
+        //     $user = $users->first();
+
+        //     $author->selections()->save($user);
+        // });
+
+        $series->each(function ($serie, $key) use ($users) {
+            $user = $users->first();
+
+            $serie->selections()->save($user);
+        });
     }
 }

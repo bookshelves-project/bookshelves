@@ -11,6 +11,7 @@ use Filament\Forms\Components;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Str;
 
 class FormHelper
 {
@@ -21,7 +22,14 @@ class FormHelper
             ->helperText('Génère le titre en SEO et le métalien, uniquement à la création.')
             ->required()
             ->reactive()
-            ->afterStateUpdated(FormHelper::updateOnlyOn(['slug', 'meta_title']))
+            ->afterStateUpdated(function (string $context, Closure $set, $state) {
+                if ($context === 'edit') {
+                    return;
+                }
+
+                $set('slug', Str::slug($state));
+                $set('meta_title', $state);
+            })
         ;
     }
 
@@ -43,21 +51,26 @@ class FormHelper
         };
     }
 
-    public static function updateOnlyOn(string|array $field, bool $onCreate = true)
+    /**
+     * Update field on context type
+     *
+     * @param string|array $field
+     * @param "edit"|"create" $context_type
+     * @return Closure
+     */
+    public static function afterStateUpdated(string|array $field, string $context_type = 'edit')
     {
-        return function (mixed $livewire, Closure $set, ?string $state) use ($field, $onCreate) {
-            $class = get_class($livewire);
-            $class = explode('\\', $class);
-            $action = $class[sizeof($class) - 1];
+        return function (string $context, Closure $set, $state) use ($field, $context_type) {
+            if ($context === $context_type) {
+                return;
+            }
 
-            if (! str_contains($action, $onCreate ? 'Edit' : 'Update')) {
-                if (is_array($field)) {
-                    foreach ($field as $value) {
-                        $set($value, $state);
-                    }
-                } else {
-                    $set($field, $state);
+            if (is_array($field)) {
+                foreach ($field as $item) {
+                    $set($item, $state);
                 }
+            } else {
+                $set($field, $state);
             }
         };
     }
@@ -65,6 +78,9 @@ class FormHelper
     public static function getTimestamps()
     {
         return [
+            Forms\Components\Placeholder::make('id')
+                ->label('ID')
+                ->content(fn ($record): ?string => $record?->id),
             Forms\Components\Placeholder::make('created_at')
                 ->label('Created at')
                 ->content(fn ($record): ?string => $record?->created_at?->diffForHumans()),

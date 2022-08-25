@@ -10,6 +10,7 @@ use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
 use App\Traits\HasReviews;
+use App\Traits\HasSelections;
 use App\Traits\HasTagsAndGenres;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,7 @@ class Book extends Model implements HasMedia
     use HasFavorites;
     use HasReviews;
     use HasLanguage;
+    use HasSelections;
     use HasTagsAndGenres;
     use HasBookType;
     use HasCovers;

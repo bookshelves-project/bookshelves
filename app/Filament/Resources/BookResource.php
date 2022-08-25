@@ -6,17 +6,16 @@ use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Filament\FormHelper;
 use App\Filament\LayoutHelper;
+use App\Filament\RelationManagers\GoogleBookRelationManager;
 use App\Filament\Resources\BookResource\Pages;
 use App\Filament\Resources\BookResource\RelationManagers;
 use App\Forms\Components\SpatieMediaView;
 use App\Models\Book;
-use App\Models\Language;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Model;
 
 class BookResource extends Resource
 {
@@ -46,6 +45,8 @@ class BookResource extends Resource
                     Forms\Components\TextInput::make('volume')
                         ->type('number')
                         ->label('Volume'),
+                ],
+                [
                     Forms\Components\SpatieTagsInput::make('tags')
                         ->type('tag')
                         ->label('Tags')
@@ -97,7 +98,7 @@ class BookResource extends Resource
                         ->default(BookTypeEnum::novel->value),
                     Forms\Components\Toggle::make('is_disabled')
                         ->label('Disabled')
-                        ->helperText("Prevent this book from being displayed in the public catalog."),
+                        ->helperText('Prevent this book from being displayed in the public catalog.'),
                 ],
                 [
                     Forms\Components\Select::make('publisher')
@@ -162,7 +163,7 @@ class BookResource extends Resource
                     ->colors([
                         'primary',
                         'danger' => BookTypeEnum::audio,
-                        // 'success' => BookTypeEnum::comic,
+                        'success' => BookTypeEnum::comic,
                     ])
                     ->searchable()
                     ->sortable(),
@@ -203,9 +204,19 @@ class BookResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
+                    Tables\Columns\TextColumn::make('released_on')
+                        ->label('Released on')
+                        ->date('Y-m-d')
+                        ->searchable()
+                        ->sortable()
+                        ->toggleable()
+                        ->toggledHiddenByDefault(),
             ])
             ->filters([
-                //
+                FormHelper::getDateFilter('released_on'),
+                Tables\Filters\SelectFilter::make('type')
+                    ->label('Type')
+                    ->options(BookTypeEnum::toList()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -213,14 +224,14 @@ class BookResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ])
-            ->defaultSort('slug_sort');
+            ->defaultSort('slug_sort')
         ;
     }
 
     public static function getRelations(): array
     {
         return [
-            RelationManagers\GoogleBookRelationManager::class,
+            GoogleBookRelationManager::class,
         ];
     }
 
@@ -235,7 +246,6 @@ class BookResource extends Resource
 
     public static function getGlobalSearchResultTitle(mixed $record): string
     {
-
         $volume = $record->volume ? "vol. {$record->volume}" : '';
         $serie = $record->serie ? " in {$record->serie->title} {$volume}" : '';
 
@@ -245,5 +255,15 @@ class BookResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['title', 'authors.name', 'serie.title'];
+    }
+
+    protected function getTableFiltersLayout(): ?string
+    {
+        return Tables\Filters\Layout::AboveContent;
+    }
+
+    protected function shouldPersistTableFiltersInSession(): bool
+    {
+        return true;
     }
 }

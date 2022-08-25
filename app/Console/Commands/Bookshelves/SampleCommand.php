@@ -71,7 +71,7 @@ class SampleCommand extends CommandProd
             $this->newLine();
 
             $this->comment('Run selection seeders');
-            Artisan::call('db:seed', ['--class' => 'SelectionSeeder', '--force' => true]);
+            Artisan::call('db:seed', ['--class' => 'SelectionableSeeder', '--force' => true]);
             $this->info('Seeders ready!');
             $this->newLine();
 
@@ -81,18 +81,18 @@ class SampleCommand extends CommandProd
             $this->info('Seeders ready!');
         }
 
-        // if ($cms) {
-        //     $this->newLine();
-        //     $this->comment('Run CMS seeders');
-        //     Artisan::call('db:seed', ['--class' => 'CmsSeeder', '--force' => true]);
-        //     $this->info('Seeders ready!');
-        //     $this->newLine();
+        if ($cms) {
+            // $this->newLine();
+            // $this->comment('Run CMS seeders');
+            // Artisan::call('db:seed', ['--class' => 'CmsSeeder', '--force' => true]);
+            // $this->info('Seeders ready!');
+            // $this->newLine();
 
-        //     $this->comment('Run posts & pages seeders');
-        //     Artisan::call('db:seed', ['--class' => 'PostSeeder', '--force' => true]);
-        //     Artisan::call('db:seed', ['--class' => 'PageSeeder', '--force' => true]);
-        //     $this->info('Seeders ready!');
-        // }
+            // $this->comment('Run posts & pages seeders');
+            // Artisan::call('db:seed', ['--class' => 'PostSeeder', '--force' => true]);
+            // Artisan::call('db:seed', ['--class' => 'PageSeeder', '--force' => true]);
+            // $this->info('Seeders ready!');
+        }
 
         return true;
     }

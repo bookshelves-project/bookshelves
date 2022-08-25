@@ -14,8 +14,7 @@ return new class() extends Migration {
             $table->id();
 
             $table->string('name');
-            $table->unsignedInteger('order_column')->nullable();
-            $table->string('slug');
+            $table->string('slug')->unique()->index();
 
             $table->timestamps();
         });
@@ -25,7 +24,7 @@ return new class() extends Migration {
                 ->nullable()
                 ->after('id')
                 ->constrained('post_categories')
-                ->onDelete('set null')
+                ->nullOnDelete()
             ;
         });
     }

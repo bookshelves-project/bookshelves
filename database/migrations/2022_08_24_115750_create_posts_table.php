@@ -19,7 +19,7 @@ return new class() extends Migration {
             $table->text('summary')->nullable();
             $table->longText('body')->nullable();
             $table->dateTime('published_at')->nullable();
-            $table->boolean('pin')->default(0);
+            $table->boolean('is_pineed')->default(0);
             $table->string('slug');
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();

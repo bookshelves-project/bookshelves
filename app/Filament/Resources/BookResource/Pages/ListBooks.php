@@ -17,8 +17,8 @@ class ListBooks extends ListRecords
         ];
     }
 
-    protected function getTableRecordsPerPageSelectOptions(): array
-    {
-        return [25, 50, 100];
-    }
+    // protected function getTableRecordsPerPageSelectOptions(): array
+    // {
+    //     return [25, 50, 100];
+    // }
 }

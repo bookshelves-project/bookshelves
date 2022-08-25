@@ -13,6 +13,11 @@ class EmptySeeder extends Seeder
      */
     public function run()
     {
+        $current_admin = User::where('email', config('app.admin.email'))->first();
+        if ($current_admin) {
+            $current_admin->delete();
+        }
+
         User::factory()->superAdmin()->create([
             'name' => 'Super Admin',
             'email' => config('app.admin.email'),

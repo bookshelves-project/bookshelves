@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\Translatable\HasTranslations;
 
 class Serie extends Model implements HasMedia
 {
@@ -30,7 +31,13 @@ class Serie extends Model implements HasMedia
     use HasWikipediaItem;
     use HasCovers;
     use HasClassName;
+    use HasTranslations;
     use Searchable;
+
+    public $translatable = [
+        // 'title',
+        'description',
+    ];
 
     protected $fillable = [
         'title',
