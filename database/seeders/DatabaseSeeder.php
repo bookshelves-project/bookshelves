@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             EmptySeeder::class,
-            // FavoriteSeeder::class,
+            // FavoritableSeeder::class,
             // ReviewSeeder::class,
             // CmsSeeder::class,
             // EmptySeeder::class,

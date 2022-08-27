@@ -10,6 +10,7 @@ use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
 use App\Traits\HasReviews;
+use App\Traits\HasSelections;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\HasWikipediaItem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,6 +31,7 @@ class Serie extends Model implements HasMedia
     use HasBookType;
     use HasWikipediaItem;
     use HasCovers;
+    use HasSelections;
     use HasClassName;
     use HasTranslations;
     use Searchable;

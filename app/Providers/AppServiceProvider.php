@@ -27,12 +27,9 @@ class AppServiceProvider extends ServiceProvider
         View::addNamespace('webreader', resource_path('webreader'));
 
         Filament::serving(function () {
-            // Filament::registerNavigationGroups([
-            //     'Blog',
-            //     'Créations',
-            //     'Contenus',
-            //     'Avancé',
-            // ]);
+            Filament::registerNavigationGroups([
+                'Books',
+            ]);
             Filament::registerTheme(
                 app(Vite::class)('resources/admin/filament.css'),
             );

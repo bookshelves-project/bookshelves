@@ -7,8 +7,6 @@ use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class WikipediaItemRelationManager extends RelationManager
 {
@@ -23,7 +21,8 @@ class WikipediaItemRelationManager extends RelationManager
                 Forms\Components\TextInput::make('search_query')
                     ->required()
                     ->maxLength(255),
-            ]);
+            ])
+        ;
     }
 
     public static function table(Table $table): Table
@@ -44,6 +43,7 @@ class WikipediaItemRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])
+        ;
     }
 }

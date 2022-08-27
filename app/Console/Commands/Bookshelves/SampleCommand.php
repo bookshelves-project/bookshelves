@@ -77,7 +77,7 @@ class SampleCommand extends CommandProd
 
             $this->comment('Run reviews and favorites seeders');
             Artisan::call('db:seed', ['--class' => 'ReviewSeeder', '--force' => true]);
-            Artisan::call('db:seed', ['--class' => 'FavoriteSeeder', '--force' => true]);
+            Artisan::call('db:seed', ['--class' => 'FavoritableSeeder', '--force' => true]);
             $this->info('Seeders ready!');
         }
 

@@ -23,7 +23,7 @@ class FormHelper
             ->required()
             ->reactive()
             ->afterStateUpdated(function (string $context, Closure $set, $state) {
-                if ($context === 'edit') {
+                if ('edit' === $context) {
                     return;
                 }
 
@@ -52,10 +52,10 @@ class FormHelper
     }
 
     /**
-     * Update field on context type
+     * Update field on context type.
      *
-     * @param string|array $field
-     * @param "edit"|"create" $context_type
+     * @param "create"|"edit" $context_type
+     *
      * @return Closure
      */
     public static function afterStateUpdated(string|array $field, string $context_type = 'edit')

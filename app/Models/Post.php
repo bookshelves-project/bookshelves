@@ -58,9 +58,8 @@ class Post extends Model implements HasMedia
     }
 
     /**
-     * Scout
+     * Scout.
      */
-
     public function searchableAs()
     {
         $app = config('bookshelves.slug');

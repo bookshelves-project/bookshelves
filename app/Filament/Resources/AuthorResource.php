@@ -9,21 +9,22 @@ use App\Filament\RelationManagers\ReviewsRelationManager;
 use App\Filament\RelationManagers\SeriesRelationManager;
 use App\Filament\RelationManagers\WikipediaItemRelationManager;
 use App\Filament\Resources\AuthorResource\Pages;
-use App\Filament\Resources\AuthorResource\RelationManagers;
 use App\Models\Author;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AuthorResource extends Resource
 {
     protected static ?string $model = Author::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationGroup = 'Books';
 
     public static function form(Form $form): Form
     {
@@ -111,7 +112,8 @@ class AuthorResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ])
-            ->defaultSort('slug');
+            ->defaultSort('slug')
+        ;
     }
 
     public static function getRelations(): array

@@ -5,6 +5,7 @@ namespace App\Filament;
 use Closure;
 use Filament\Forms;
 use Filament\Resources\Form;
+use Str;
 
 class LayoutHelper
 {
@@ -120,6 +121,19 @@ class LayoutHelper
 
             ])
             ->columnSpan(1)
+        ;
+    }
+
+    public static function card(string $title, array|Closure $card = [], int $columns = 2)
+    {
+        return Forms\Components\Card::make()
+            ->schema([
+                Forms\Components\Placeholder::make(Str::slug($title))
+                    ->label($title)
+                    ->columnSpan(2),
+                ...$card,
+            ])
+            ->columns($columns)
         ;
     }
 }

@@ -7,8 +7,6 @@ use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ReviewsRelationManager extends RelationManager
 {
@@ -23,7 +21,8 @@ class ReviewsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('user_id')
                     ->required()
                     ->maxLength(255),
-            ]);
+            ])
+        ;
     }
 
     public static function table(Table $table): Table
@@ -44,6 +43,7 @@ class ReviewsRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])
+        ;
     }
 }

@@ -2,15 +2,12 @@
 
 namespace App\Filament\RelationManagers;
 
-use App\Filament\Resources\BookResource\Pages\EditBook;
 use App\Models\Book;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BooksRelationManager extends RelationManager
 {
@@ -25,7 +22,8 @@ class BooksRelationManager extends RelationManager
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-            ]);
+            ])
+        ;
     }
 
     public static function table(Table $table): Table
@@ -48,9 +46,10 @@ class BooksRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\Action::make('show')
-                        ->url(fn (Book $record): string => route('filament.resources.books.edit', ['record' => $record->id]))
-                        ->icon('heroicon-o-pencil'),
+                    ->url(fn (Book $record): string => route('filament.resources.books.edit', ['record' => $record->id]))
+                    ->icon('heroicon-o-pencil'),
             ])
-            ->defaultSort('volume');
+            ->defaultSort('volume')
+        ;
     }
 }

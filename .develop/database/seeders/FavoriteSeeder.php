@@ -10,7 +10,7 @@ use DB;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
-class FavoriteSeeder extends Seeder
+class FavoritableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

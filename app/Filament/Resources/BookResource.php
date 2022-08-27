@@ -8,7 +8,6 @@ use App\Filament\FormHelper;
 use App\Filament\LayoutHelper;
 use App\Filament\RelationManagers\GoogleBookRelationManager;
 use App\Filament\Resources\BookResource\Pages;
-use App\Filament\Resources\BookResource\RelationManagers;
 use App\Forms\Components\SpatieMediaView;
 use App\Models\Book;
 use Filament\Forms;
@@ -24,6 +23,10 @@ class BookResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     protected static ?string $recordTitleAttribute = 'title';
+
+    protected static ?int $navigationSort = 1;
+
+    protected static ?string $navigationGroup = 'Books';
 
     public static function form(Form $form): Form
     {
@@ -204,13 +207,13 @@ class BookResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                    Tables\Columns\TextColumn::make('released_on')
-                        ->label('Released on')
-                        ->date('Y-m-d')
-                        ->searchable()
-                        ->sortable()
-                        ->toggleable()
-                        ->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('released_on')
+                    ->label('Released on')
+                    ->date('Y-m-d')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
             ])
             ->filters([
                 FormHelper::getDateFilter('released_on'),
@@ -255,6 +258,12 @@ class BookResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['title', 'authors.name', 'serie.title'];
+    }
+
+    protected static function getNavigationBadge(): ?string
+    {
+        $count = Book::whereIsDisabled(true)->count();
+        return "{$count}";
     }
 
     protected function getTableFiltersLayout(): ?string

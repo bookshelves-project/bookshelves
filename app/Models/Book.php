@@ -29,6 +29,7 @@ class Book extends Model implements HasMedia
     use HasTagsAndGenres;
     use HasBookType;
     use HasCovers;
+    use HasSelections;
     use HasClassName;
     use Searchable;
 

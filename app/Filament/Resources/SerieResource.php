@@ -8,7 +8,6 @@ use App\Filament\LayoutHelper;
 use App\Filament\RelationManagers\BooksRelationManager;
 use App\Filament\RelationManagers\WikipediaItemRelationManager;
 use App\Filament\Resources\SerieResource\Pages;
-use App\Filament\Resources\SerieResource\RelationManagers;
 use App\Models\Serie;
 use Filament\Forms;
 use Filament\Resources\Concerns\Translatable;
@@ -16,8 +15,6 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SerieResource extends Resource
 {
@@ -26,6 +23,10 @@ class SerieResource extends Resource
     protected static ?string $model = Serie::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
+    protected static ?int $navigationSort = 3;
+
+    protected static ?string $navigationGroup = 'Books';
 
     public static function form(Form $form): Form
     {
@@ -136,7 +137,8 @@ class SerieResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ])
-            ->defaultSort('slug_sort');
+            ->defaultSort('slug_sort')
+        ;
     }
 
     public static function getRelations(): array
