@@ -128,6 +128,8 @@ namespace App\Models{
  * @property-read \App\Models\Publisher|null $publisher
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
  * @property-read int|null $reviews_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
+ * @property-read int|null $selections_count
  * @property-read \App\Models\Serie|null $serie
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
@@ -168,6 +170,39 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTagsOfAnyType($tags)
  */
 	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models\Cms{
+/**
+ * App\Models\Cms\Page
+ *
+ * @property int $id
+ * @property string $title
+ * @property string|null $slug
+ * @property string $status
+ * @property string|null $summary
+ * @property string|null $body
+ * @property string|null $published_at
+ * @property string|null $meta_title
+ * @property string|null $meta_description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereSummary($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
+ */
+	class Page extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -364,28 +399,34 @@ namespace App\Models{
  * @property int $id
  * @property int|null $category_id
  * @property string $title
- * @property string $status
+ * @property \App\Enums\PublishStatusEnum $status
  * @property string|null $summary
  * @property string|null $body
- * @property string|null $published_at
- * @property int $pin
+ * @property \Illuminate\Support\Carbon|null $published_at
+ * @property int $is_pineed
  * @property string $slug
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property int|null $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\PostCategory|null $category
+ * @property-read array $seo
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\PostFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Post published()
  * @method static \Illuminate\Database\Eloquent\Builder|Post query()
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereBody($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Post whereIsPineed($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereMetaTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post wherePin($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post wherePublishedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereStatus($value)
@@ -394,7 +435,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUserId($value)
  */
-	class Post extends \Eloquent {}
+	class Post extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -403,10 +444,11 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
- * @property int|null $order_column
  * @property string $slug
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
+ * @property-read int|null $posts_count
  * @method static \Database\Factories\PostCategoryFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|PostCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PostCategory newQuery()
@@ -414,7 +456,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereOrderColumn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereUpdatedAt($value)
  */
@@ -486,6 +527,9 @@ namespace App\Models{
  * App\Models\Selectionable
  *
  * @property int $id
+ * @property int $user_id
+ * @property int $selectionable_id
+ * @property string $selectionable_type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\SelectionableFactory factory(...$parameters)
@@ -494,7 +538,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Selectionable query()
  * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereSelectionableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereSelectionableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Selectionable whereUserId($value)
  */
 	class Selectionable extends \Eloquent {}
 }
@@ -509,7 +556,7 @@ namespace App\Models{
  * @property string|null $slug
  * @property string|null $language_slug
  * @property \App\Enums\BookTypeEnum $type
- * @property mixed|null $description
+ * @property array|null $description
  * @property string|null $link
  * @property int|null $wikipedia_item_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -539,6 +586,8 @@ namespace App\Models{
  * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
  * @property-read int|null $reviews_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $selections
+ * @property-read int|null $selections_count
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\WikipediaItem|null $wikipedia

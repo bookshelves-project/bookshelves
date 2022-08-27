@@ -1,0 +1,34 @@
+[
+  {
+    "title": {
+      "en": "Books",
+      "fr": "Livres"
+    },
+    "route": "/books",
+    "category": "navbar"
+  },
+  {
+    "title": {
+      "en": "Series",
+      "fr": "Séries"
+    },
+    "route": "/series",
+    "category": "navbar"
+  },
+  {
+    "title": {
+      "en": "Authors",
+      "fr": "Auteur·ices"
+    },
+    "route": "/authors",
+    "category": "navbar"
+  },
+  {
+    "title": {
+      "en": "Tags & genres",
+      "fr": "Tags & genres"
+    },
+    "route": "/tags",
+    "category": "navbar"
+  }
+]

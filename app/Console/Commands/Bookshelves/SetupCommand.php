@@ -15,6 +15,7 @@ class SetupCommand extends CommandProd
     protected $signature = 'bookshelves:setup
                             {--f|fresh : erase database and fresh installation, generate books and relations, all assets and selection books}
                             {--a|api : use external API for more data}
+                            {--A|admin : generate admin, replace if exist}
                             {--s|sample : fake users with comments/favorites and CMS with posts and pages}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
@@ -49,6 +50,7 @@ class SetupCommand extends CommandProd
         $force = $this->option('force') ?? false;
         $fresh = $this->option('fresh') ?? false;
         $api = $this->option('api') ?? false;
+        $admin = $this->option('admin') ?? false;
         $sample = $this->option('sample') ?? false;
         $limit = $this->option('limit') ? intval(str_replace('=', '', $this->option('limit'))) : false;
         $debug = $this->option('debug') ?? false;
@@ -63,9 +65,7 @@ class SetupCommand extends CommandProd
         /**
          * Admin.
          */
-        Artisan::call('bookshelves:sample', [
-            '--admin' => true,
-            '--cms' => true,
+        Artisan::call('bookshelves:admin', [
             '--force' => $force,
         ], $this->getOutput());
 
@@ -103,6 +103,7 @@ class SetupCommand extends CommandProd
         if ($sample) {
             Artisan::call('bookshelves:sample', [
                 '--users' => true,
+                '--cms' => true,
                 '--force' => $force,
             ], $this->getOutput());
         }

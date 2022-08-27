@@ -7,7 +7,6 @@ use App\Models\User;
 use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class SampleCommand extends CommandProd
 {
@@ -17,7 +16,6 @@ class SampleCommand extends CommandProd
      * @var string
      */
     protected $signature = 'bookshelves:sample
-                            {--a|admin : generate only admin}
                             {--u|users : generate users with reviews and favorites}
                             {--c|cms : generate pages, posts and CMS content}
                             {--F|force : skip confirm in prod}';
@@ -44,28 +42,15 @@ class SampleCommand extends CommandProd
     {
         $this->intro();
 
-        $admin = $this->option('admin') ?? false;
         $users = $this->option('users') ?? false;
         $cms = $this->option('cms') ?? false;
         $force = $this->option('force') ?? false;
 
         $this->checkProd();
 
-        if ($admin) {
-            Storage::deleteDirectory(storage_path('app/public/media/users'));
-            $this->clear();
-
-            if (! User::exists()) {
-                Artisan::call('db:seed', ['--class' => 'EmptySeeder', '--force' => true]);
-                $this->info('Admin was created from `.env` variables with email '.config('app.admin.email'));
-            } else {
-                $this->error('Admin not created, some users exists!');
-            }
-        }
-
         if ($users) {
             $this->comment('Run users seeders');
-            Artisan::call('db:seed', ['--class' => 'EmptySeeder', '--force' => true]);
+            Artisan::call('db:seed', ['--class' => 'UserSeeder', '--force' => true]);
             $this->newLine();
             $this->info('Seeders ready!');
             $this->newLine();
@@ -82,11 +67,10 @@ class SampleCommand extends CommandProd
         }
 
         if ($cms) {
-            // $this->newLine();
-            // $this->comment('Run CMS seeders');
-            // Artisan::call('db:seed', ['--class' => 'CmsSeeder', '--force' => true]);
-            // $this->info('Seeders ready!');
-            // $this->newLine();
+            $this->comment('Run CMS seeders');
+            Artisan::call('db:seed', ['--class' => 'PageSeeder', '--force' => true]);
+            $this->info('Seeders ready!');
+            $this->newLine();
 
             // $this->comment('Run posts & pages seeders');
             // Artisan::call('db:seed', ['--class' => 'PostSeeder', '--force' => true]);

@@ -2,20 +2,29 @@
 
 namespace App\Filament\Resources\Cms;
 
+use App\Enums\TemplateEnum;
 use App\Filament\LayoutHelper;
 use App\Filament\Resources\Cms\PageResource\Pages;
+use App\Filament\PageHelper;
 use App\Models\Cms\Page;
+use Closure;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Str;
+use Whoops\Util\TemplateHelper;
 
 class PageResource extends Resource
 {
     protected static ?string $model = Page::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
+    protected static ?int $navigationSort = 1;
+
+    protected static ?string $navigationGroup = 'CMS';
 
     public static function form(Form $form): Form
     {
@@ -31,47 +40,51 @@ class PageResource extends Resource
         //     )
         // ]);
 
-        return LayoutHelper::columns($form, [
-            LayoutHelper::mainColumn(
+        return LayoutHelper::column($form, [
+            LayoutHelper::fullColumn(
                 [
-                    Forms\Components\TextInput::make('title')
-                        ->label('Title'),
-                    LayoutHelper::card('Hero', [
-                        Forms\Components\TextInput::make('title')
-                            ->label('Title'),
-                        Forms\Components\Textarea::make('text')
-                            ->label('Text')
-                            ->columnSpan(2),
-                        Forms\Components\SpatieMediaLibraryFileUpload::make('media')
-                            ->label('Media'),
-                    ]),
-                    LayoutHelper::card('Statistics', [
-                        Forms\Components\TextInput::make('eyebrow')
-                            ->label('Eyebrow'),
-                        Forms\Components\TextInput::make('title')
-                            ->label('Title'),
-                        Forms\Components\KeyValue::make('list')
-                            ->label('List')
-                            ->keyLabel('Label')
-                            ->valueLabel('Query')
-                            ->columnSpan(2),
-                    ]),
-                    LayoutHelper::card('Logos', [
-                        Forms\Components\TextInput::make('title')
-                            ->label('Title')
-                            ->columnSpan(2),
-                        Forms\Components\Repeater::make('list')
-                            ->schema([
-                                Forms\Components\TextInput::make('label'),
-                                Forms\Components\TextInput::make('slug'),
-                                Forms\Components\TextInput::make('link')
-                                    ->url(),
-                                Forms\Components\SpatieMediaLibraryFileUpload::make('media'),
-                            ])
-                            ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
-                            ->columns(2)
-                            ->columnSpan(2),
-                    ]),
+                    Forms\Components\TextInput::make('name')
+                        ->label('Name')
+                        ->reactive()
+                        ->afterStateUpdated(function (Closure $set, Closure $get, $state) {
+                            $name = Str::slug($state);
+                            $lang = $get('language');
+                            $set('name', $name);
+                            $set('slug', "{$name}_{$lang}");
+                        }),
+                    Forms\Components\TextInput::make('slug')
+                        ->label('Slug')
+                        ->disabled(),
+                    Forms\Components\Select::make('language')
+                        ->options([
+                            'en' => 'English',
+                            'fr' => 'Français',
+                        ])
+                        ->label('Language')
+                        ->reactive()
+                        ->afterStateUpdated(function (Closure $set, Closure $get, $state) {
+                            $name = $get('name');
+                            $lang = $state;
+                            $set('slug', "{$name}_{$lang}");
+                        }),
+                    Forms\Components\Select::make('type')
+                        ->options(TemplateEnum::toList())
+                        ->label('Type')
+                        ->helperText('Select type of template.')
+                        ->default(TemplateEnum::basic->value)
+                        ->reactive()
+                        ->afterStateUpdated(function (Closure $set) {
+                            $set('content', []);
+                        }),
+                    Forms\Components\Repeater::make('content')
+                        ->schema(function (Closure $get) {
+                            $method = $get('type');
+                            return TemplateHelper::{$method}();
+                        })
+                        ->columns(1)
+                        ->maxItems(1)
+                        ->orderable(fn () => false)
+                        ->columnSpan(2),
                 ]
             ),
             LayoutHelper::sideColumn(
@@ -84,7 +97,23 @@ class PageResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\BadgeColumn::make('type')
+                    ->label('Type')
+                    ->colors([
+                        'primary',
+                        'success' => TemplateEnum::basic,
+                    ])
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('slug')
+                    ->label('Slug')
+                    ->sortable(),
+                Tables\Columns\BadgeColumn::make('language')
+                    ->label('Language')
+                    ->sortable(),
             ])
             ->filters([
                 //

@@ -21,7 +21,7 @@ class MediaService
     public static function create(
         Model $model,
         string $name,
-        MediaDiskEnum $disk,
+        MediaDiskEnum $disk = MediaDiskEnum::media,
         ?string $collection = null,
         ?string $extension = null,
         ?SpatieMediaMethodEnum $method = null

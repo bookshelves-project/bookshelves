@@ -22,6 +22,13 @@ class FilesTypeParser
     public static function parseDataFiles(int $limit = null)
     {
         $book_types = BookTypeEnum::toArray();
+        // $book_types = [
+        //     'audio' => 'audio',
+        //     // "comic" => "comic",
+        //     'essay' => 'essay',
+        //     'handbook' => 'handbook',
+        //     'novel' => 'novel',
+        // ];
         $formats = BookFormatEnum::toArray();
 
         $files = [];

@@ -36,6 +36,13 @@ return [
             'throw' => false,
         ],
 
+        'cms' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/media/cms'),
+            'url' => env('APP_URL').'/storage/media/cms',
+            'visibility' => 'public',
+        ],
+
         'cover' => [
             'driver' => 'local',
             'root' => storage_path('app/public/media/covers'),
@@ -50,10 +57,10 @@ return [
             'visibility' => 'public',
         ],
 
-        'cms' => [
+        'media' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/media/cms'),
-            'url' => env('APP_URL').'/storage/media/cms',
+            'root' => storage_path('app/public/media/media'),
+            'url' => env('APP_URL').'/storage/media/media',
             'visibility' => 'public',
         ],
 

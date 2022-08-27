@@ -8,6 +8,6 @@ enum PostTypeEnum: string
 {
     use LazyEnum;
 
-    case seo = 'SEO';
-    case development = 'Développement';
+    case seo = 'seo';
+    case development = 'development';
 }

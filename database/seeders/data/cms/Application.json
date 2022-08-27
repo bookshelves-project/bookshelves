@@ -1,0 +1,19 @@
+{
+  "name": "Bookshelves",
+  "title_template": "%s · Bookshelves",
+  "slug": "bookshelves",
+  "meta_title": {
+    "en": "Bookshelves, your online library...",
+    "fr": "Bookshelves, votre bibliothèque en ligne..."
+  },
+  "meta_description": {
+    "en": "For people with eReaders, download books and your online library, your digital library that goes everywhere with you.",
+    "fr": "Pour les personnes disposant d'une liseuse, téléchargez des books et lisez en toute tranquillité, votre bibliothèque numérique qui vous accompagne partout."
+  },
+  "meta_author": {
+    "en": "Bookshelves Team",
+    "fr": "L'équipe Bookshelves"
+  },
+  "meta_twitter_creator": "@ewilanriviere",
+  "meta_twitter_site": "@bookshelves_ink"
+}

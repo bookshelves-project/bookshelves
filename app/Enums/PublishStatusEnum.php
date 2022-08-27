@@ -8,7 +8,7 @@ enum PublishStatusEnum: string
 {
     use LazyEnum;
 
-    case draft = 'Brouillon';
-    case scheduled = 'Planifié';
-    case published = 'Publié';
+    case draft = 'draft';
+    case scheduled = 'scheduled';
+    case published = 'published';
 }

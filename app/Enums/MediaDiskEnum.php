@@ -11,5 +11,6 @@ enum MediaDiskEnum: string
     case cms = 'cms';
     case cover = 'cover';
     case format = 'format';
+    case media = 'media';
     case user = 'user';
 }
