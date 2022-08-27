@@ -3,35 +3,29 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Content;
-use App\Models\Page;
-use App\Models\Post;
-use App\Models\Reference;
-use App\Models\Service;
+use App\Models\Author;
+use App\Models\Book;
+use App\Models\Cms\CmsPage;
+use App\Models\Serie;
 use Route;
 
 class ApiController extends Controller
 {
     public function __construct()
     {
-        Route::bind('content_key', function ($slug) {
-            return Content::where('key', $slug)->firstOrFail();
-        });
+        Route::bind('cms_page_slug', fn (string $param) => CmsPage::where('slug', $param)->firstOrFail());
 
-        Route::bind('page_slug', function ($slug) {
-            return Page::whereSlug($slug)->firstOrFail();
-        });
+        Route::bind('author_slug', fn (string $param) => Author::where('slug', $param)->firstOrFail());
 
-        Route::bind('post_slug', function ($slug) {
-            return Post::whereSlug($slug)->firstOrFail();
-        });
+        Route::bind('book_slug', fn (string $param) => Book::where('slug', $param)
+            ->withCount('reviews')
+            ->firstOrFail());
 
-        Route::bind('reference_slug', function ($slug) {
-            return Reference::whereSlug($slug)->firstOrFail();
-        });
-
-        Route::bind('service_slug', function ($slug) {
-            return Service::whereSlug($slug)->firstOrFail();
-        });
+        Route::bind(
+            'serie_slug',
+            fn (string $param) => Serie::whereSlug($param)
+                ->withCount('books')
+                ->firstOrFail()
+        );
     }
 }

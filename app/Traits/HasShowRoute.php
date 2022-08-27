@@ -19,10 +19,12 @@ trait HasShowRoute
         $instance = new $this();
         $class = new ReflectionClass($instance);
         $static = $class->getName();
-        $route_name = Str::lower($class->getShortName());
+        $route_name = Str::kebab($class->getShortName());
+        $route_name = str_replace('-', '.', $route_name);
+        $param_name = str_replace('.', '_', $route_name);
 
         return route("api.{$route_name}s.show", [
-            "{$route_name}_{$this->getShowRouteColumn()}" => $this->{$this->getShowRouteColumn()},
+            "{$param_name}_{$this->getShowRouteColumn()}" => $this->{$this->getShowRouteColumn()},
         ]);
     }
 

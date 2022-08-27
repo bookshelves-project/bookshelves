@@ -3,6 +3,8 @@
   "slug": "home-page_en",
   "language": "en",
   "template": "home",
+  "meta_title": "Home",
+  "meta_description": "The home page",
   "content": [
     {
       "hero": [

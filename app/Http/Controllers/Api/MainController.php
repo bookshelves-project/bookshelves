@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\ColorEnum;
 use App\Enums\ContactSubjectEnum;
 use App\Enums\PublishStatusEnum;
 use Spatie\RouteAttributes\Attributes\Get;

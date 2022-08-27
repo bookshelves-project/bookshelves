@@ -174,32 +174,39 @@ namespace App\Models{
 
 namespace App\Models\Cms{
 /**
- * App\Models\Cms\Page
+ * App\Models\Cms\CmsPage
  *
  * @property int $id
  * @property string $name
  * @property string $slug
  * @property string $language
- * @property \App\Enums\TemplateEnum $type
+ * @property \App\Enums\TemplateEnum $template
  * @property array|null $content
+ * @property string|null $meta_title
+ * @property string|null $meta_description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read array $meta
  * @property-read array|null $page_transform
+ * @property-read string|null $route_show
+ * @property-read array $seo
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
- * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Page query()
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereLanguage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereMetaDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereMetaTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereTemplate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereUpdatedAt($value)
  */
-	class Page extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class CmsPage extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{

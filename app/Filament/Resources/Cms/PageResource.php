@@ -6,7 +6,7 @@ use App\Enums\TemplateEnum;
 use App\Filament\LayoutHelper;
 use App\Filament\Resources\Cms\PageResource\Pages;
 use App\Filament\TemplateHelper;
-use App\Models\Cms\Page;
+use App\Models\Cms\CmsPage;
 use Closure;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -17,7 +17,7 @@ use Str;
 
 class PageResource extends Resource
 {
-    protected static ?string $model = Page::class;
+    protected static ?string $model = CmsPage::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 

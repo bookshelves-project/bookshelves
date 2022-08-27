@@ -5,13 +5,15 @@ namespace App\Models\Cms;
 use App\Enums\MediaDiskEnum;
 use App\Enums\TemplateEnum;
 use App\Traits\HasSeo;
+use App\Traits\HasShowRoute;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Page extends Model implements HasMedia
+class CmsPage extends Model implements HasMedia
 {
     use InteractsWithMedia;
+    use HasShowRoute;
     use HasSeo;
 
     protected $table = 'cms_pages';
@@ -30,12 +32,16 @@ class Page extends Model implements HasMedia
 
     public function getPageTransformAttribute(): ?array
     {
-        $data = [];
-        foreach ($this->content as $value) {
-            $this->transformData($value, $data);
+        if (is_array($this->content)) {
+            $data = [];
+            foreach ($this->content as $value) {
+                $this->transformData($value, $data);
+            }
+
+            return $this->setMedia($data);
         }
 
-        return $this->setMedia($data);
+        return [];
     }
 
     private function transformData(mixed $data, array &$page_data)
