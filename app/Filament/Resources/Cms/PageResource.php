@@ -5,7 +5,7 @@ namespace App\Filament\Resources\Cms;
 use App\Enums\TemplateEnum;
 use App\Filament\LayoutHelper;
 use App\Filament\Resources\Cms\PageResource\Pages;
-use App\Filament\PageHelper;
+use App\Filament\TemplateHelper;
 use App\Models\Cms\Page;
 use Closure;
 use Filament\Forms;
@@ -14,7 +14,6 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Str;
-use Whoops\Util\TemplateHelper;
 
 class PageResource extends Resource
 {
@@ -45,6 +44,7 @@ class PageResource extends Resource
                 [
                     Forms\Components\TextInput::make('name')
                         ->label('Name')
+                        ->required()
                         ->reactive()
                         ->afterStateUpdated(function (Closure $set, Closure $get, $state) {
                             $name = Str::slug($state);
@@ -54,6 +54,7 @@ class PageResource extends Resource
                         }),
                     Forms\Components\TextInput::make('slug')
                         ->label('Slug')
+                        ->required()
                         ->disabled(),
                     Forms\Components\Select::make('language')
                         ->options([
@@ -61,24 +62,34 @@ class PageResource extends Resource
                             'fr' => 'Français',
                         ])
                         ->label('Language')
+                        ->required()
                         ->reactive()
                         ->afterStateUpdated(function (Closure $set, Closure $get, $state) {
                             $name = $get('name');
                             $lang = $state;
                             $set('slug', "{$name}_{$lang}");
                         }),
-                    Forms\Components\Select::make('type')
-                        ->options(TemplateEnum::toList())
-                        ->label('Type')
+                    Forms\Components\Select::make('template')
+                        ->options(TemplateEnum::toArray())
+                        ->label('Template')
                         ->helperText('Select type of template.')
                         ->default(TemplateEnum::basic->value)
+                        ->required()
                         ->reactive()
                         ->afterStateUpdated(function (Closure $set) {
                             $set('content', []);
                         }),
+                    LayoutHelper::card('SEO', [
+                        Forms\Components\TextInput::make('meta_title')
+                            ->label('Titre')
+                            ->columnSpan(2),
+                        Forms\Components\Textarea::make('meta_description')
+                            ->label('Description')
+                            ->columnSpan(2),
+                    ]),
                     Forms\Components\Repeater::make('content')
                         ->schema(function (Closure $get) {
-                            $method = $get('type');
+                            $method = $get('template');
                             return TemplateHelper::{$method}();
                         })
                         ->columns(1)
@@ -87,9 +98,6 @@ class PageResource extends Resource
                         ->columnSpan(2),
                 ]
             ),
-            LayoutHelper::sideColumn(
-                []
-            ),
         ]);
     }
 
@@ -97,8 +105,8 @@ class PageResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\BadgeColumn::make('type')
-                    ->label('Type')
+                Tables\Columns\BadgeColumn::make('template')
+                    ->label('Template')
                     ->colors([
                         'primary',
                         'success' => TemplateEnum::basic,

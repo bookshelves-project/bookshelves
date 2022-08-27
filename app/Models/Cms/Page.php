@@ -4,6 +4,7 @@ namespace App\Models\Cms;
 
 use App\Enums\MediaDiskEnum;
 use App\Enums\TemplateEnum;
+use App\Traits\HasSeo;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -11,18 +12,19 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Page extends Model implements HasMedia
 {
     use InteractsWithMedia;
+    use HasSeo;
 
     protected $table = 'cms_pages';
 
     protected $fillable = [
         'title',
         'language',
-        'type',
+        'template',
         'content',
     ];
 
     protected $casts = [
-        'type' => TemplateEnum::class,
+        'template' => TemplateEnum::class,
         'content' => 'array',
     ];
 

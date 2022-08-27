@@ -10,13 +10,15 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('cms_templates', function (Blueprint $table) {
+        Schema::create('cms_pages', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug')->index()->unique();
             $table->string('language');
-            $table->string('type');
+            $table->string('template');
             $table->json('content')->nullable();
+            $table->string('meta_title')->nullable();
+            $table->text('meta_description')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('cms_templates');
+        Schema::dropIfExists('cms_pages');
     }
 };

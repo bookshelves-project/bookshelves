@@ -177,32 +177,29 @@ namespace App\Models\Cms{
  * App\Models\Cms\Page
  *
  * @property int $id
- * @property string $title
- * @property string|null $slug
- * @property string $status
- * @property string|null $summary
- * @property string|null $body
- * @property string|null $published_at
- * @property string|null $meta_title
- * @property string|null $meta_description
+ * @property string $name
+ * @property string $slug
+ * @property string $language
+ * @property \App\Enums\TemplateEnum $type
+ * @property array|null $content
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read array|null $page_transform
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Page query()
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereSummary($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
  */
-	class Page extends \Eloquent {}
+	class Page extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{

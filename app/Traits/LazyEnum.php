@@ -8,6 +8,7 @@ use Exception;
 use Lang;
 use ReflectionClass;
 use ReflectionEnum;
+use Str;
 
 trait LazyEnum
 {
@@ -77,10 +78,13 @@ trait LazyEnum
         $array = [];
         $class = new ReflectionClass(static::class);
         $class = $class->getShortName();
+        $class_slug = Str::kebab($class);
+        $class_slug = str_replace('-enum', '', $class_slug);
 
         foreach (static::cases() as $definition) {
-            $array[$definition->name] = Lang::has("enum.enums.{$class}.{$definition->value}")
-                ? __("enum.enums.{$class}.{$definition->value}")
+            $locale = "enums.{$class_slug}.{$definition->value}";
+            $array[$definition->name] = Lang::has($locale)
+                ? __($locale)
                 : $definition->value;
         }
 

@@ -6,6 +6,7 @@ use App\Enums\ColorEnum;
 use App\Enums\ContactSubjectEnum;
 use App\Enums\PublishStatusEnum;
 use Spatie\RouteAttributes\Attributes\Get;
+use Str;
 
 class MainController extends ApiController
 {
@@ -33,15 +34,13 @@ class MainController extends ApiController
     #[Get('/enums', name: 'api.enums')]
     public function enums()
     {
-        $colors = ColorEnum::toArray();
         $contact_sujects = ContactSubjectEnum::toArray();
         $publish_statuses = PublishStatusEnum::toArray();
 
         return response()->json([
             'data' => [
-                'colors' => $colors,
-                'contact_sujects' => $contact_sujects,
-                'publish_statuses' => $publish_statuses,
+                Str::kebab('ContactSubjectEnum') => $contact_sujects,
+                Str::kebab('PublishStatusEnum') => $publish_statuses,
             ],
         ]);
     }

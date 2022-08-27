@@ -2,7 +2,7 @@
   "name": "home-page",
   "slug": "home-page_fr",
   "language": "fr",
-  "type": "home",
+  "template": "home",
   "content": [
     {
       "hero": [
