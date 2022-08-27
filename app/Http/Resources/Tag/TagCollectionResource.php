@@ -5,7 +5,7 @@ namespace App\Http\Resources\Tag;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property \App\Models\Tag $resource
+ * @property \App\Models\TagExtend $resource
  */
 class TagCollectionResource extends JsonResource
 {

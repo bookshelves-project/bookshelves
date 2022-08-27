@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Engines\SearchEngine;
 use App\Http\Controllers\Controller;
-use App\Services\SearchService;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -22,7 +22,7 @@ class SearchController extends Controller
         $q = $request->input('q');
         $types = $request->input('types');
 
-        $service = SearchService::create(
+        $service = SearchEngine::create(
             q: $q,
             types: $types
         );
