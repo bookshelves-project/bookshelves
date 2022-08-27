@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Cms\Page\PageCollectionResource;
 use App\Http\Resources\Cms\Page\PageResource;
-use App\Models\Cms\CmsPage;
+use App\Models\CmsPage;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;

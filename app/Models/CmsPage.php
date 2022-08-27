@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Cms;
+namespace App\Models;
 
 use App\Enums\MediaDiskEnum;
 use App\Enums\TemplateEnum;

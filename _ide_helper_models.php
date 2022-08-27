@@ -172,9 +172,9 @@ namespace App\Models{
 	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
-namespace App\Models\Cms{
+namespace App\Models{
 /**
- * App\Models\Cms\CmsPage
+ * App\Models\CmsPage
  *
  * @property int $id
  * @property string $name

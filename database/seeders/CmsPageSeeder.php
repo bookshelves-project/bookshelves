@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\MediaDiskEnum;
-use App\Models\Cms\CmsPage;
+use App\Models\CmsPage;
 use App\Services\ConverterService;
 use File;
 use Illuminate\Database\Seeder;

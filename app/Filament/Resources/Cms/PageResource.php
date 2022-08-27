@@ -6,7 +6,7 @@ use App\Enums\TemplateEnum;
 use App\Filament\LayoutHelper;
 use App\Filament\Resources\Cms\PageResource\Pages;
 use App\Filament\TemplateHelper;
-use App\Models\Cms\CmsPage;
+use App\Models\CmsPage;
 use Closure;
 use Filament\Forms;
 use Filament\Resources\Form;
