@@ -187,9 +187,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read array $meta
- * @property-read array|null $page_transform
  * @property-read string|null $route_show
  * @property-read array $seo
+ * @property-read array|null $template_transform
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPage newModelQuery()
@@ -207,6 +207,49 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereUpdatedAt($value)
  */
 	class CmsPage extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\CmsPost
+ *
+ * @property int $id
+ * @property string $title
+ * @property \App\Enums\PublishStatusEnum $status
+ * @property string|null $summary
+ * @property string|null $body
+ * @property \Illuminate\Support\Carbon|null $published_at
+ * @property int $is_pineed
+ * @property string $slug
+ * @property string|null $meta_title
+ * @property string|null $meta_description
+ * @property int|null $user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \App\Enums\CmsPostCategoryEnum $category
+ * @property-read array $seo
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost published()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereIsPineed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereMetaDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereMetaTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereSummary($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereUserId($value)
+ */
+	class CmsPost extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -358,112 +401,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereUuid($value)
  */
 	class MediaExtended extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Page
- *
- * @property int $id
- * @property string $title
- * @property string|null $slug
- * @property \App\Enums\PublishStatusEnum $status
- * @property string|null $summary
- * @property string|null $body
- * @property \Illuminate\Support\Carbon|null $published_at
- * @property string|null $meta_title
- * @property string|null $meta_description
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read array $seo
- * @method static \Database\Factories\PageFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Page published()
- * @method static \Illuminate\Database\Eloquent\Builder|Page query()
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page wherePublishedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereSummary($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
- */
-	class Page extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Post
- *
- * @property int $id
- * @property int|null $category_id
- * @property string $title
- * @property \App\Enums\PublishStatusEnum $status
- * @property string|null $summary
- * @property string|null $body
- * @property \Illuminate\Support\Carbon|null $published_at
- * @property int $is_pineed
- * @property string $slug
- * @property string|null $meta_title
- * @property string|null $meta_description
- * @property int|null $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\PostCategory|null $category
- * @property-read array $seo
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
- * @property-read int|null $media_count
- * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\PostFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post published()
- * @method static \Illuminate\Database\Eloquent\Builder|Post query()
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereIsPineed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereMetaDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereMetaTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post wherePublishedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereSummary($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereUserId($value)
- */
-	class Post extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
-}
-
-namespace App\Models{
-/**
- * App\Models\PostCategory
- *
- * @property int $id
- * @property string $name
- * @property string $slug
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
- * @property-read int|null $posts_count
- * @method static \Database\Factories\PostCategoryFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|PostCategory newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PostCategory newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PostCategory query()
- * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereUpdatedAt($value)
- */
-	class PostCategory extends \Eloquent {}
 }
 
 namespace App\Models{

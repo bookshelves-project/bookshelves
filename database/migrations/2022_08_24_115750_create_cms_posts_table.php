@@ -11,16 +11,19 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('cms_posts', function (Blueprint $table) {
             $table->id();
 
             $table->string('title');
-            $table->string('status')->default(PublishStatusEnum::published->value);
+            $table->string('slug');
             $table->text('summary')->nullable();
             $table->longText('body')->nullable();
+            $table->boolean('is_pinned')->default(0);
+            $table->string('category')->nullable();
+
             $table->dateTime('published_at')->nullable();
-            $table->boolean('is_pineed')->default(0);
-            $table->string('slug');
+            $table->string('status')->default(PublishStatusEnum::published->value);
+
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
 
@@ -40,6 +43,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('cms_posts');
     }
 };

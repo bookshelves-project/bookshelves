@@ -16,64 +16,64 @@ class AuthService
 {
     public static function authenticate(LoginRequest $request)
     {
-        $credentials = $request->only('email', 'password');
+        // $credentials = $request->only('email', 'password');
 
-        if (! auth('user')->attempt($credentials, $request->remember)) {
-            throw ValidationException::withMessages([
-                'email' => 'Invalid credentials',
-            ]);
-        }
+        // if (! auth('user')->attempt($credentials, $request->remember)) {
+        //     throw ValidationException::withMessages([
+        //         'email' => 'Invalid credentials',
+        //     ]);
+        // }
 
-        $request->session()->regenerate();
+        // $request->session()->regenerate();
 
-        return response()->json(null, 201);
+        // return response()->json(null, 201);
     }
 
     public static function token(LoginTokenRequest $request)
     {
-        $user = User::where('email', $request->email)->first();
+        // $user = User::where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
+        // if (! $user || ! Hash::check($request->password, $user->password)) {
+        //     throw ValidationException::withMessages([
+        //         'email' => ['The provided credentials are incorrect.'],
+        //     ]);
+        // }
 
-        return response()->json([
-            // @var User $user
-            'token' => $user->createToken($request->device_name)->plainTextToken,
-        ]);
+        // return response()->json([
+        //     // @var User $user
+        //     'token' => $user->createToken($request->device_name)->plainTextToken,
+        // ]);
     }
 
     public static function logout(Request $request)
     {
-        /** @var User $user */
-        $user = Auth::user();
-        $user->tokens()->delete();
+        // /** @var User $user */
+        // $user = Auth::user();
+        // $user->tokens()->delete();
 
-        // auth('user')->guard('user')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        // // auth('user')->guard('user')->logout();
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
 
-        return response()->json(null, 200);
+        // return response()->json(null, 200);
     }
 
     public static function register(Request $request)
     {
-        $validate = $request->validate([
-            'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+        // $validate = $request->validate([
+        //     'email' => 'required|string|email|unique:users,email',
+        //     'password' => 'required|string|min:6|confirmed',
+        // ]);
 
-        $name = $validate['email'];
-        $name = explode('@', $name);
-        $user = User::create([
-            'name' => $name[0],
-            'password' => Hash::make($validate['password']),
-            'email' => $validate['email'],
-            'role' => UserRole::user->name,
-        ]);
+        // $name = $validate['email'];
+        // $name = explode('@', $name);
+        // $user = User::create([
+        //     'name' => $name[0],
+        //     'password' => Hash::make($validate['password']),
+        //     'email' => $validate['email'],
+        //     'role' => UserRole::user->name,
+        // ]);
 
-        return UserResource::make($user);
+        // return UserResource::make($user);
     }
 }

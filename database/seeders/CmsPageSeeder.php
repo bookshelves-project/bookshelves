@@ -19,14 +19,14 @@ class CmsPageSeeder extends Seeder
             ->delete()
         ;
 
-        $templates_path = database_path('seeders/data/cms/templates');
+        $templates_path = database_path('seeders/data/cms/pages');
         $media_disk = MediaDiskEnum::cms;
         $media_path = database_path('seeders/media');
 
         $templates = File::allFiles($templates_path);
 
         foreach ($templates as $file) {
-            $data = ConverterService::jsonToArray($file->getLinkTarget());
+            $data = ConverterService::jsonToArray($file->getPathname());
             $template = CmsPage::create($data);
 
             $array = $template->toArray();

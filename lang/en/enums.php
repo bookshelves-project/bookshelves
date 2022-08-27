@@ -2,6 +2,10 @@
 
 return [
 
+    'cms-post-category' => [
+        'calibre' => 'Calibre',
+        'ereader' => 'eReader',
+    ],
     'publish-status' => [
         'draft' => 'Draft',
         'scheduled' => 'Scheduled',

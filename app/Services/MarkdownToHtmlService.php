@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Enums\MediaDiskEnum;
+use App\Models\CmsPage;
+use App\Models\CmsPost;
 use App\Models\MediaExtended;
-use App\Models\Page;
-use App\Models\Post;
 use DOMDocument;
 use DOMNodeList;
 use DOMXPath;
@@ -125,7 +125,7 @@ class MarkdownToHtmlService
     }
 
     public static function setHeadings(
-        Post|Page $model,
+        CmsPost|CmsPage $model,
         string $model_body_attr = 'body'
     ) {
         try {

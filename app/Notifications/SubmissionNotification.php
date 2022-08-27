@@ -41,42 +41,22 @@ class SubmissionNotification extends Notification
     public function toMail($notifiable)
     {
         $appName = config('app.name');
-        $with_newsletter = $this->submission->want_newsletter ? 'accepte de recevoir la newsletter' : null;
-        $with_cv = $this->submission->cv ? 'a joint son CV' : null;
-        $with_letter = $this->submission->letter ? 'a joint sa lettre de motivation' : null;
-
-        $more = [$with_newsletter, $with_cv, $with_letter];
-        $more = array_filter($more);
-        $more = implode(', ', $more);
-
-        $cv = $this->submission->cv ? public_path("storage{$this->submission->cv}") : null;
-        $letter = $this->submission->letter ? public_path("storage{$this->submission->letter}") : null;
 
         $mail = (new MailMessage())
-            ->subject("[{$appName}] {$this->submission->subject->value} - {$this->submission->name}")
-            ->greeting('Bonjour,')
-            ->line("Vous avez reçu un nouveau message de la part de {$this->submission->name}.")
+            ->subject("[{$appName}] {$this->submission->reason->value} - {$this->submission->name}")
+            ->greeting('Hello,')
+            ->line("You have a new message from {$this->submission->name}.")
             ->lines([
-                "Sujet : {$this->submission->subject->value}",
-                "Nom : {$this->submission->name}",
+                "Name: {$this->submission->name}",
                 "Email: {$this->submission->email}",
-                "Téléphone : {$this->submission->phone}",
-                "Société : {$this->submission->society}",
-                'Message :',
+                "Reason: {$this->submission->reason->value}",
+                'Message:',
                 $this->submission->message,
-                ucfirst($more),
             ])
-            ->action('Voir sur le back-office', route('filament.resources.submissions.index'))
-            ->line('Cordialement,')
-            ->salutation("L'équipe {$appName}")
+            ->action('Check on dashboard', route('filament.resources.submissions.index'))
+            ->line('Regards,')
+            ->salutation("{$appName} team")
         ;
-
-        if ($cv) {
-            $mail->attach($cv);
-        }
-        if ($letter) {
-            $mail->attach($letter);
-        }
 
         return $mail;
     }
@@ -92,7 +72,6 @@ class SubmissionNotification extends Notification
     {
         return [
             'submission' => $this->submission->toArray(),
-            'with_files' => true,
         ];
     }
 }
