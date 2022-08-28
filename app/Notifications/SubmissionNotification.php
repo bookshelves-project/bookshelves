@@ -42,7 +42,7 @@ class SubmissionNotification extends Notification
     {
         $appName = config('app.name');
 
-        $mail = (new MailMessage())
+        return (new MailMessage())
             ->subject("[{$appName}] {$this->submission->reason->value} - {$this->submission->name}")
             ->greeting('Hello,')
             ->line("You have a new message from {$this->submission->name}.")
@@ -57,8 +57,6 @@ class SubmissionNotification extends Notification
             ->line('Regards,')
             ->salutation("{$appName} team")
         ;
-
-        return $mail;
     }
 
     /**

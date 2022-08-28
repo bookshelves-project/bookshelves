@@ -27,7 +27,7 @@ class UserExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 
     public function headings(): array
     {
-        return collect(['name', 'email', 'active', 'role', 'last_login_at', 'created_at', 'updated_at'])
+        return collect(['name', 'email', 'is_blocked', 'role', 'created_at', 'updated_at'])
             ->map(
                 fn ($field) => Lang::has("crud.users.attributes.{$field}")
                     ? __("crud.users.attributes.{$field}")
@@ -43,9 +43,8 @@ class UserExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
         return [
             $row->name,
             $row->email,
-            $row->active ? __('Active') : __('Inactive'),
-            $row->role->name ?? null,
-            $row->last_login_at,
+            $row->is_blocked,
+            $row->role->value,
             $row->created_at,
             $row->updated_at,
         ];

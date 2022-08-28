@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\User;
+use App\Models\Submission;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Lang;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -27,7 +27,7 @@ class SubmissionExport implements FromQuery, WithHeadings, WithMapping, ShouldAu
 
     public function headings(): array
     {
-        return collect(['name', 'email', 'active', 'role', 'last_login_at', 'created_at', 'updated_at'])
+        return collect(['name', 'email', 'reason', 'message', 'created_at', 'updated_at'])
             ->map(
                 fn ($field) => Lang::has("crud.users.attributes.{$field}")
                     ? __("crud.users.attributes.{$field}")
@@ -36,16 +36,15 @@ class SubmissionExport implements FromQuery, WithHeadings, WithMapping, ShouldAu
     }
 
     /**
-     * @param User $row
+     * @param Submission $row
      */
     public function map($row): array
     {
         return [
             $row->name,
             $row->email,
-            $row->active ? __('Active') : __('Inactive'),
-            $row->role->name ?? null,
-            $row->last_login_at,
+            $row->reason->value,
+            $row->message,
             $row->created_at,
             $row->updated_at,
         ];
