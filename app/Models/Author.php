@@ -7,9 +7,11 @@ use App\Traits\HasClassName;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasReviews;
+use App\Traits\HasShowRoute;
 use App\Traits\HasSlug;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\HasWikipediaItem;
+use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -20,6 +22,7 @@ class Author extends Model implements HasMedia
 {
     use HasFactory;
     use HasSlug;
+    use IsEntity;
     use HasFavorites;
     use HasReviews;
     use HasWikipediaItem;

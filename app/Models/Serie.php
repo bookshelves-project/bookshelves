@@ -13,6 +13,7 @@ use App\Traits\HasReviews;
 use App\Traits\HasSelections;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\HasWikipediaItem;
+use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,6 +25,7 @@ class Serie extends Model implements HasMedia
 {
     use HasFactory;
     use HasAuthors;
+    use IsEntity;
     use HasFavorites;
     use HasReviews;
     use HasLanguage;

@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Resources\Cms\Page;
+namespace App\Http\Resources\Book;
 
+use App\Http\Resources\Serie\SerieCollectionResource;
+use App\Http\Resources\Serie\SerieResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property \App\Model\CmsPage $resource
+ * @property \App\Models\Book $resource
  */
-class PageCollectionResource extends JsonResource
+class BookCollectionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -21,8 +23,9 @@ class PageCollectionResource extends JsonResource
         return [
             'meta' => $this->resource->meta,
             'title' => $this->resource->title,
-            'slug' => $this->resource->slug,
-            'language' => $this->resource->language,
+            'type' => $this->resource->type,
+            'serie' => SerieCollectionResource::make($this->resource->serie),
+            'volume' => $this->resource->volume,
         ];
     }
 }

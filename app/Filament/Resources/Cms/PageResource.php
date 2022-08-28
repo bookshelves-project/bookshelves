@@ -44,15 +44,15 @@ class PageResource extends Resource
         return LayoutHelper::column($form, [
             LayoutHelper::fullColumn(
                 [
-                    Forms\Components\TextInput::make('name')
-                        ->label('Name')
+                    Forms\Components\TextInput::make('title')
+                        ->label('Title')
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(function (Closure $set, Closure $get, $state) {
-                            $name = Str::slug($state);
+                            $title = Str::slug($state);
                             $lang = $get('language');
-                            $set('name', $name);
-                            $set('slug', "{$name}_{$lang}");
+                            $set('title', $title);
+                            $set('slug', "{$title}_{$lang}");
                         }),
                     Forms\Components\TextInput::make('slug')
                         ->label('Slug')
@@ -67,9 +67,9 @@ class PageResource extends Resource
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(function (Closure $set, Closure $get, $state) {
-                            $name = $get('name');
+                            $title = $get('title');
                             $lang = $state;
-                            $set('slug', "{$name}_{$lang}");
+                            $set('slug', "{$title}_{$lang}");
                         }),
                     Forms\Components\Select::make('template')
                         ->options(TemplateEnum::toArray())

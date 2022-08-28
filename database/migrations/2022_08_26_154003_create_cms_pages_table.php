@@ -12,7 +12,7 @@ return new class() extends Migration {
     {
         Schema::create('cms_pages', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('title');
             $table->string('slug')->index()->unique();
             $table->string('language');
             $table->string('template');

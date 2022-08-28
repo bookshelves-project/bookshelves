@@ -38,6 +38,7 @@ namespace App\Models{
  * @property-read string|null $cover_thumbnail
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
+ * @property-read array $meta
  * @property-read mixed $reviews_link
  * @property-read mixed $tags_list
  * @property-read string $tags_string
@@ -117,6 +118,7 @@ namespace App\Models{
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $isbn
+ * @property-read array $meta
  * @property-read string|null $meta_author
  * @property-read mixed $reviews_link
  * @property-read mixed $tags_list
@@ -133,14 +135,17 @@ namespace App\Models{
  * @property-read \App\Models\Serie|null $serie
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Book available()
  * @method static \Database\Factories\BookFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Book publishedBetween(string $startDate, string $endDate)
  * @method static \Illuminate\Database\Eloquent\Builder|Book query()
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereAuthorIsLike(string $author)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereContributor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisallowSerie(string $has_not_serie)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifiers($value)
@@ -177,7 +182,7 @@ namespace App\Models{
  * App\Models\CmsPage
  *
  * @property int $id
- * @property string $name
+ * @property string $title
  * @property string $slug
  * @property string $language
  * @property \App\Enums\TemplateEnum $template
@@ -201,9 +206,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereLanguage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereMetaTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereTemplate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPage whereUpdatedAt($value)
  */
 	class CmsPage extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
@@ -215,18 +220,18 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $title
- * @property \App\Enums\PublishStatusEnum $status
+ * @property string $slug
  * @property string|null $summary
  * @property string|null $body
+ * @property bool $is_pinned
+ * @property \App\Enums\CmsPostCategoryEnum|null $category
  * @property \Illuminate\Support\Carbon|null $published_at
- * @property int $is_pineed
- * @property string $slug
+ * @property \App\Enums\PublishStatusEnum $status
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property int|null $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \App\Enums\CmsPostCategoryEnum $category
  * @property-read array $seo
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
@@ -236,9 +241,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPost published()
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPost query()
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereIsPineed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereIsPinned($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPost whereMetaTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CmsPost wherePublishedAt($value)
@@ -518,6 +524,7 @@ namespace App\Models{
  * @property-read string|null $cover_thumbnail
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
+ * @property-read array $meta
  * @property-read string|null $meta_author
  * @property-read mixed $reviews_link
  * @property-read mixed $tags_list

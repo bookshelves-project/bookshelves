@@ -29,7 +29,7 @@ trait HasAuthors
     {
         $author = $this->authors->first();
 
-        return $author->slug;
+        return $author !== null ? $author->slug : 'unkown';
     }
 
     /**

@@ -11,10 +11,14 @@ use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
 use App\Traits\HasReviews;
 use App\Traits\HasSelections;
+use App\Traits\HasSlug;
 use App\Traits\HasTagsAndGenres;
+use App\Traits\IsEntity;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 
@@ -22,6 +26,8 @@ class Book extends Model implements HasMedia
 {
     use HasFactory;
     use HasAuthors;
+    use HasSlug;
+    use IsEntity;
     use HasFavorites;
     use HasReviews;
     use HasLanguage;
@@ -35,7 +41,6 @@ class Book extends Model implements HasMedia
 
     protected $fillable = [
         'title',
-        'slug',
         'slug_sort',
         'contributor',
         'description',
@@ -75,6 +80,29 @@ class Book extends Model implements HasMedia
     public function getIsbnAttribute(): ?string
     {
         return $this->isbn13 ?? $this->isbn10;
+    }
+
+    /**
+     * Scope
+     */
+
+    public function scopeAvailable(Builder $query): Builder
+    {
+        return $query->where('is_disabled', false);
+    }
+
+    public function scopeWhereDisallowSerie(Builder $query, string $has_not_serie): Builder
+    {
+        $has_not_serie = filter_var($has_not_serie, FILTER_VALIDATE_BOOLEAN);
+
+        return $has_not_serie ? $query->whereDoesntHave('serie') : $query;
+    }
+
+    public function scopePublishedBetween(Builder $query, string $startDate, string $endDate): Builder
+    {
+        return $query
+            ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)])
+        ;
     }
 
     /**

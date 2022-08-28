@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Traits;
+
+use App\Models\Author;
+use Closure;
+use Illuminate\Support\Str;
+use ReflectionClass;
+
+trait IsEntity
+{
+    public function getEntity(): string
+    {
+        $class = new ReflectionClass($this);
+        $short_name = $class->getShortName();
+
+        return strtolower($short_name);
+    }
+
+    public function getShowRouteEntity(): string
+    {
+        $entity = $this->getEntity();
+        $route = null;
+        if ($this instanceof Author) {
+            $route = route("api.{$entity}s.show", [
+                "{$entity}_slug" => $this->slug,
+            ]);
+        } else {
+            $route = route("api.{$entity}s.show", [
+                "author_slug" => $this->meta_author,
+                "{$entity}_slug" => $this->slug,
+            ]);
+        }
+
+        return $route;
+    }
+
+    public function isAuthorEntity(Closure $isAuthor, Closure $isNotAuthor)
+    {
+        if ($this instanceof Author) {
+            return $isAuthor;
+        } else {
+            return $isNotAuthor;
+        }
+    }
+
+    public function getMetaAttribute(): array
+    {
+        $meta = [
+            'entity' => $this->getEntity(),
+            'show' => $this->getShowRouteEntity(),
+            'slug' => $this->slug,
+        ];
+
+        if (!$this instanceof Author) {
+            $meta['author'] = $this->meta_author;
+        } else {
+            $meta['books'] = route('api.authors.show.books', [
+                'author_slug' => $this->slug,
+            ]);
+            $meta['series'] = route('api.authors.show.series', [
+                'author_slug' => $this->slug,
+            ]);
+        }
+
+        return $meta;
+    }
+}
