@@ -6,7 +6,7 @@ use App\Enums\SubmissionReasonEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class SubmissionRequest extends FormRequest
+class SubmissionStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

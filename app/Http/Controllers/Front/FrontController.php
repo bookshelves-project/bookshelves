@@ -32,7 +32,7 @@ class FrontController extends Controller
         $feeds = [
             [
                 'label' => 'Version 1.2',
-                'route' => route('front.opds'),
+                'route' => route('opds.version', ['version' => '1.2']),
             ],
         ];
 

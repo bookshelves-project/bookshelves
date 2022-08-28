@@ -1,13 +1,14 @@
 <x-layouts.main>
     <x-content :content="$content">
-        <div class="mx-auto w-max mt-6">
-            <x-button :route="route('front.catalog.search')">
+        <div class="mx-auto mt-6 w-max">
+            <x-button :route="route('catalog.search')">
                 Access to Catalog
             </x-button>
         </div>
         <div class="mt-3">
-            To access to Catalog from your eReader, just put this address to your web browser*:
-            <pre>{{ route('front.catalog') }}</pre>
+            To access to Catalog from your eReader, just put this address to
+            your web browser*:
+            <pre>{{ route('catalog') }}</pre>
             <div class="mt-3">
                 <small>
                     *: Works only on phone, tablet or eReader.

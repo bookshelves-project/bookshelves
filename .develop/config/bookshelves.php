@@ -54,7 +54,7 @@ return [
                 'external' => false,
             ],
             [
-                'route' => 'front.catalog',
+                'route' => 'catalog',
                 'href' => false,
                 'title' => 'Catalog',
                 'description' => 'With a very basic interface to allow an eReader browser to dowload any eBook without computer. Easy download & read when you travel.',

@@ -82,7 +82,7 @@ class XmlResponse
             '__custom:link:1' => [
                 '_attributes' => [
                     'rel' => 'start',
-                    'href' => route('front.opds', ['version' => $this->version]),
+                    'href' => route('opds.version', ['version' => $this->version]),
                     'type' => 'application/atom+xml;profile=opds-catalog;kind=navigation',
                     'title' => 'Home',
                 ],
@@ -98,7 +98,7 @@ class XmlResponse
             '__custom:link:3' => [
                 '_attributes' => [
                     'rel' => 'search',
-                    'href' => route('front.opds.search', ['version' => $this->version]),
+                    'href' => route('opds.search', ['version' => $this->version]),
                     'type' => 'application/opensearchdescription+xml',
                     'title' => 'Search here',
                 ],
@@ -347,14 +347,14 @@ class XmlResponse
             // '__custom:Url:1' => [
             //     '_attributes' => [
             //         // 'template' => 'http://gallica.bnf.fr/services/engine/search/sru?operation=searchRetrieve&version=1.2&query=(gallica%20all%20%22{searchTerms}%22)',
-            //         'template' => route('front.opds.search', ['version' => $version, 'q' => '{searchTerms}']),
+            //         'template' => route('opds.search', ['version' => $version, 'q' => '{searchTerms}']),
             //         'type' => 'text/html',
             //     ],
             // ],
             // '__custom:Url:2' => [
             //     '_attributes' => [
             //         // 'template' => 'http://gallica.bnf.fr/services/engine/search/openSearchSuggest?typedoc=&query={searchTerms}',
-            //         'template' => route('front.opds.search', ['version' => $version, 'q' => '{searchTerms}']),
+            //         'template' => route('opds.search', ['version' => $version, 'q' => '{searchTerms}']),
             //         'type' => 'application/x-suggestions+json',
             //         'rel' => 'suggestions',
             //     ],
@@ -362,14 +362,14 @@ class XmlResponse
             '__custom:Url:3' => [
                 '_attributes' => [
                     // 'template' => 'http://gallica.bnf.fr/assets/static/opensearchdescription.xml',
-                    'template' => route('front.opds.search', ['version' => $version]),
+                    'template' => route('opds.search', ['version' => $version]),
                     'type' => 'application/opensearchdescription+xml',
                     'rel' => 'self',
                 ],
             ],
             '__custom:Url:4' => [
                 '_attributes' => [
-                    'template' => urldecode(route('front.opds.search', ['version' => $version, 'q' => '{searchTerms}'])),
+                    'template' => urldecode(route('opds.search', ['version' => $version, 'q' => '{searchTerms}'])),
                     'type' => 'application/atom+xml',
                 ],
             ],

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources\Cms\Page;
+namespace App\Http\Resources\CmsPage;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property \App\Model\CmsPage $resource
+ * @property \App\Models\CmsPage $resource
  */
-class PageCollectionResource extends JsonResource
+class PageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,10 +19,8 @@ class PageCollectionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'meta' => $this->resource->meta,
-            'title' => $this->resource->title,
-            'slug' => $this->resource->slug,
-            'language' => $this->resource->language,
+            ...PageCollectionResource::make($this->resource)->toArray($request),
+            'content' => $this->resource->page_transform,
         ];
     }
 }
