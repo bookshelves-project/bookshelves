@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Cms;
 
+use App\Enums\LanguageEnum;
+use App\Enums\MediaDiskEnum;
 use App\Enums\TemplateEnum;
 use App\Filament\LayoutHelper;
 use App\Filament\Resources\Cms\PageResource\Pages;
@@ -49,27 +51,25 @@ class PageResource extends Resource
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(function (Closure $set, Closure $get, $state) {
-                            $title = Str::slug($state);
-                            $lang = $get('language');
-                            $set('title', $title);
-                            $set('slug', "{$title}_{$lang}");
+                            $set('slug', Str::slug("{$state} {$get('language')}"));
                         }),
                     Forms\Components\TextInput::make('slug')
                         ->label('Slug')
                         ->required()
-                        ->disabled(),
+                        ->disabled()
+                        ->unique(CmsPage::class, 'slug', fn ($record) => $record),
+                    // Forms\Components\Select::make('language')
+                    //     ->label('Language')
+                    //     ->options(LanguageEnum::toArray())
+                    //     ->default(LanguageEnum::en->value),
                     Forms\Components\Select::make('language')
-                        ->options([
-                            'en' => 'English',
-                            'fr' => 'Français',
-                        ])
+                        ->options(LanguageEnum::toArray())
+                        ->default(LanguageEnum::en->value)
                         ->label('Language')
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(function (Closure $set, Closure $get, $state) {
-                            $title = $get('title');
-                            $lang = $state;
-                            $set('slug', "{$title}_{$lang}");
+                            $set('slug', Str::slug("{$get('title')} {$state}"));
                         }),
                     Forms\Components\Select::make('template')
                         ->options(TemplateEnum::toArray())
@@ -89,15 +89,16 @@ class PageResource extends Resource
                             ->label('Description')
                             ->columnSpan(2),
                     ]),
-                    Forms\Components\Repeater::make('content')
-                        ->schema(function (Closure $get) {
-                            $method = $get('template');
-                            return TemplateHelper::{$method}();
-                        })
-                        ->columns(1)
-                        ->maxItems(1)
-                        ->orderable(fn () => false)
-                        ->columnSpan(2),
+                    // Forms\Components\Repeater::make('content')
+                    //     ->schema(function (Closure $get) {
+                    //         $method = $get('template');
+                    //         return TemplateHelper::{$method}();
+                    //     })
+                    //     ->columns(1)
+                    //     ->maxItems(1)
+                    //     ->orderable(fn () => false)
+                    //     ->columnSpan(2),
+                    TemplateHelper::home(),
                 ]
             ),
         ]);

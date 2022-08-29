@@ -4,7 +4,6 @@ namespace App\Traits;
 
 use App\Models\Author;
 use Closure;
-use Illuminate\Support\Str;
 use ReflectionClass;
 
 trait IsEntity
@@ -27,7 +26,7 @@ trait IsEntity
             ]);
         } else {
             $route = route("api.{$entity}s.show", [
-                "author_slug" => $this->meta_author,
+                'author_slug' => $this->meta_author,
                 "{$entity}_slug" => $this->slug,
             ]);
         }
@@ -39,9 +38,8 @@ trait IsEntity
     {
         if ($this instanceof Author) {
             return $isAuthor;
-        } else {
-            return $isNotAuthor;
         }
+        return $isNotAuthor;
     }
 
     public function getMetaAttribute(): array
@@ -52,7 +50,7 @@ trait IsEntity
             'slug' => $this->slug,
         ];
 
-        if (!$this instanceof Author) {
+        if (! $this instanceof Author) {
             $meta['author'] = $this->meta_author;
         } else {
             $meta['books'] = route('api.authors.show.books', [

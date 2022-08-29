@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Book;
 
 use App\Http\Resources\Serie\SerieCollectionResource;
-use App\Http\Resources\Serie\SerieResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**

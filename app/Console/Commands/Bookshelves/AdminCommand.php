@@ -22,7 +22,7 @@ class AdminCommand extends CommandProd
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Create admin.';
 
     /**
      * Execute the console command.

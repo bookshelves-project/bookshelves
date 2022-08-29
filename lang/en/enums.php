@@ -6,6 +6,10 @@ return [
         'calibre' => 'Calibre',
         'ereader' => 'eReader',
     ],
+    'language' => [
+        'en' => 'English',
+        'fr' => 'Français',
+    ],
     'publish-status' => [
         'draft' => 'Draft',
         'scheduled' => 'Scheduled',
