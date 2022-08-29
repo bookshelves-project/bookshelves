@@ -17,7 +17,7 @@ class OpdsEngine
             'title' => 'Authors',
             'content' => 'Authors availables',
             'cover_thumbnail' => '',
-            'route' => 'front.opds.authors',
+            'route' => 'opds.authors.index',
         ],
         [
             'key' => 'series',
@@ -25,7 +25,7 @@ class OpdsEngine
             'title' => 'Series',
             'content' => 'Series availables',
             'cover_thumbnail' => '',
-            'route' => 'front.opds.series',
+            'route' => 'opds.series.index',
         ],
     ];
 

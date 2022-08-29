@@ -13,7 +13,7 @@
         browser, simply add the Catalog address to access and download
         books.
     </p>
-    <x-button route="{{ route('front.catalog') }}">Access to Catalog</x-button>
+    <x-button route="{{ route('catalog') }}">Access to Catalog</x-button>
     <section>
         <p>To access to Catalog from your eReader, just put this address to your
             web browser*: </p>

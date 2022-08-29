@@ -43,7 +43,7 @@ class MarkdownToHtmlService
                 'APP_DOCUMENTATION_URL' => config('bookshelves.documentation_url'),
                 'APP_REPOSITORY_URL' => config('bookshelves.repository_url'),
                 'ROUTE_DOCS' => config('app.url').'/docs',
-                'ROUTE_CATALOG' => route('front.catalog'),
+                'ROUTE_CATALOG' => route('catalog'),
                 'ROUTE_OPDS' => route('front.opds', ['version' => '1.2']),
                 'ROUTE_WEBREADER' => route('front.webreader'),
             ];

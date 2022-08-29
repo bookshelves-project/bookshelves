@@ -42,6 +42,28 @@ trait IsEntity
         return $isNotAuthor;
     }
 
+    public function getOpdsLinkAttribute(): string
+    {
+        $entity = $this->getEntity();
+        $route = null;
+        $route_name = "opds.{$entity}s.show";
+        $version = "1.2";
+        if ($this instanceof Author) {
+            $route = route($route_name, [
+                'version' => $version,
+                'author' => $this->slug,
+            ]);
+        } else {
+            $route = route($route_name, [
+                'version' => $version,
+                'author' => $this->meta_author,
+                $entity => $this->slug,
+            ]);
+        }
+
+        return $route;
+    }
+
     public function getMetaAttribute(): array
     {
         $meta = [

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\PublishStatusEnum;
+use App\Models\CmsPost;
 use App\Models\Post;
 use App\Models\Reference;
 use Carbon\Carbon;
@@ -37,8 +38,7 @@ class PublishScheduledCommand extends Command
         $this->newLine();
 
         $models = [
-            Post::class,
-            Reference::class,
+            CmsPost::class,
         ];
 
         foreach ($models as $model) {

@@ -17,7 +17,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('catalog')]
 class CatalogController extends Controller
 {
-    #[Get('/', name: 'front.catalog')]
+    #[Get('/', name: 'catalog')]
     public function index(Request $request)
     {
         SEOTools::setTitle('Catalog');
@@ -31,10 +31,10 @@ class CatalogController extends Controller
             return view('front::pages.catalog.index', compact('content'));
         }
 
-        return redirect(route('front.catalog.search'));
+        return redirect(route('catalog.search'));
     }
 
-    #[Get('/search', name: 'front.catalog.search')]
+    #[Get('/search', name: 'catalog.search')]
     public function search(Request $request)
     {
         $q = $request->input('q');

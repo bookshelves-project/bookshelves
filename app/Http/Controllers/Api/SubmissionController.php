@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\MediaTypeEnum;
-use App\Http\Requests\StoreSubmissionRequest;
+use App\Http\Requests\SubmissionStoreRequest;
 use App\Models\Submission;
 use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -20,7 +20,7 @@ class SubmissionController extends ApiController
      * GET Service.
      */
     #[Post('/create', name: 'api.submissions.create')]
-    public function create(StoreSubmissionRequest $request)
+    public function create(SubmissionStoreRequest $request)
     {
         $success = false;
         $submission = null;
@@ -30,7 +30,6 @@ class SubmissionController extends ApiController
 
             $submission = new Submission();
             $submission->fill($request->validated());
-            $submission = $submission->saveAttachments(['cv', 'letter'], $submission, $request, $submission->name, MediaTypeEnum::submissions);
             $submission->save();
         }
 

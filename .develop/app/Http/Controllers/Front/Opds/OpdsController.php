@@ -44,7 +44,7 @@ class OpdsController extends Controller
         return $engine->index();
     }
 
-    #[Get('/{version}/search', name: 'front.opds.search')]
+    #[Get('/{version}/search', name: 'opds.search')]
     public function search(Request $request)
     {
         $engine = OpdsEngine::create($request);

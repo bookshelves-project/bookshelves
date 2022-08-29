@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Queries\Addon\QueryOption;
 use App\Http\Queries\PageQuery;
-use App\Http\Resources\Api\Page\PageCollectionResource;
-use App\Http\Resources\Api\Page\PageResource;
+use App\Http\Resources\Api\CmsPage\CmsPageCollectionResource;
+use App\Http\Resources\Api\CmsPage\CmsPageResource;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -30,7 +30,7 @@ class PageController extends ApiController
         return app(PageQuery::class)
             ->make(QueryOption::create(
                 request: $request,
-                resource: PageCollectionResource::class,
+                resource: CmsPageCollectionResource::class,
                 orderBy: 'published_at',
                 withExport: false,
                 sortAsc: true,
@@ -48,6 +48,6 @@ class PageController extends ApiController
     {
         $this->getLang($request);
 
-        return PageResource::make($Page);
+        return CmsPageResource::make($Page);
     }
 }

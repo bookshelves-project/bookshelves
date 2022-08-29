@@ -23,11 +23,11 @@ class Navbar extends Component
         $navigation = [
             [
                 'title' => 'Authors',
-                'route' => 'front.catalog.authors',
+                'route' => 'catalog.authors',
             ],
             [
                 'title' => 'Series',
-                'route' => 'front.catalog.series',
+                'route' => 'catalog.series',
             ],
         ];
 

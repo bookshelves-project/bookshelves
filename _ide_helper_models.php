@@ -39,6 +39,7 @@ namespace App\Models{
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read array $meta
+ * @property-read string $opds_link
  * @property-read mixed $reviews_link
  * @property-read mixed $tags_list
  * @property-read string $tags_string
@@ -115,11 +116,15 @@ namespace App\Models{
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
+ * @property-read \App\Models\Media\DownloadFile $file_main
+ * @property-read \App\Models\MediaExtended[]|null[] $files
+ * @property-read \App\Models\Media\DownloadFile[] $files_list
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $isbn
  * @property-read array $meta
  * @property-read string|null $meta_author
+ * @property-read string $opds_link
  * @property-read mixed $reviews_link
  * @property-read mixed $tags_list
  * @property-read string $tags_string
@@ -526,6 +531,7 @@ namespace App\Models{
  * @property-read bool $is_favorite
  * @property-read array $meta
  * @property-read string|null $meta_author
+ * @property-read string $opds_link
  * @property-read mixed $reviews_link
  * @property-read mixed $tags_list
  * @property-read string $tags_string

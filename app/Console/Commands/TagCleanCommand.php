@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Tag;
+use App\Models\TagExtend;
 use DB;
 use Illuminate\Console\Command;
 
@@ -41,7 +42,7 @@ class TagCleanCommand extends Command
                 $this->warn("Deleted taggable entry: {$row->taggable_type} #{$row->taggable_id}");
             }
 
-            $tag = Tag::find($row->tag_id);
+            $tag = TagExtend::find($row->tag_id);
             if (null === $tag) {
                 DB::table('taggables')->where('id', $row->id)->delete();
                 $this->warn("Deleted taggable entry: Tag #{$row->id}");

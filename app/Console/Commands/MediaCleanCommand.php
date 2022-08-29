@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Author;
+use App\Models\Book;
 use App\Models\Content;
 use App\Models\Page;
 use App\Models\Post;
 use App\Models\Reference;
+use App\Models\Serie;
 use App\Models\Service;
 use App\Models\TeamMember;
 use DB;
@@ -45,12 +48,9 @@ class MediaCleanCommand extends Command
         $this->newLine();
 
         $models_list = [
-            Content::class,
-            Page::class,
-            Post::class,
-            Reference::class,
-            Service::class,
-            TeamMember::class,
+            Book::class,
+            Author::class,
+            Serie::class,
         ];
         $media_path = public_path('storage');
 

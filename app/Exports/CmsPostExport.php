@@ -43,7 +43,7 @@ class CmsPostExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoS
         return [
             $row->title,
             $row->category->value,
-            $row->status->value,
+            $row->status,
             $row->summary,
             $row->is_pinned,
             $row->published_at,

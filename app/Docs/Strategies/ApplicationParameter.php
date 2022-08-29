@@ -2,12 +2,13 @@
 
 namespace App\Docs\Strategies;
 
-use App\Models\Content;
-use App\Models\Page;
-use App\Models\Post;
-use App\Models\Reference;
-use App\Models\Service;
-use App\Models\TeamMember;
+use App\Models\Author;
+use App\Models\Book;
+use App\Models\Place;
+use App\Models\Serie;
+use App\Models\Trip;
+use App\Models\User;
+use App\Models\Vehicle;
 use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Knuckles\Scribe\Extracting\ParamHelpers;
 use Knuckles\Scribe\Extracting\Strategies\Strategy;
@@ -49,35 +50,32 @@ class ApplicationParameter extends Strategy
     private function routes()
     {
         $routes = [
-            'contents.show' => [
-                'class' => Content::class,
-                'field' => 'key',
+            'book' => [
+                'class' => Book::class,
+                'routes' => ['books.show'],
+                'field' => 'id',
             ],
-            'pages.show' => [
-                'class' => Page::class,
-                'field' => 'slug',
+            'author' => [
+                'class' => Author::class,
+                'routes' => ['authors.show', 'authors.show.books', 'authors.show.series'],
+                'field' => 'id',
             ],
-            'posts.show' => [
-                'class' => Post::class,
-                'field' => 'slug',
-            ],
-            'references.show' => [
-                'class' => Reference::class,
-                'field' => 'slug',
-            ],
-            'services.show' => [
-                'class' => Service::class,
-                'field' => 'slug',
-            ],
-            'team-members.show' => [
-                'class' => TeamMember::class,
-                'field' => 'slug',
+            'serie' => [
+                'class' => Serie::class,
+                'routes' => ['series.show', 'series.show.books', 'series.show.series'],
+                'field' => 'id',
             ],
         ];
 
         foreach ($routes as $name => $model) {
-            if ("api.{$name}" === $this->routeName) {
-                $this->urlParams = $this->setParameter($model['class'], $model['field']);
+            $class = $model['class'];
+            $routes = $model['routes'];
+            $field = $model['field'];
+
+            foreach ($routes as $route) {
+                if ("api.{$route}" === $this->routeName) {
+                    $this->urlParams = $this->setParameter($class, $field);
+                }
             }
         }
     }

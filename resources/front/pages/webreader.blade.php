@@ -11,5 +11,5 @@
     <img src="{{ asset('images/front/webreader/example.webp') }}"
         alt="">
     <i>An example with Webreader option at right</i>
-    <x-button route="{{ route('front.catalog') }}">Try random book</x-button>
+    <x-button route="{{ route('catalog') }}">Try random book</x-button>
 @endsection

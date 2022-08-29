@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Front\Opds;
+namespace App\Http\Controllers\Opds;
 
 use App\Engines\OpdsEngine;
 use App\Enums\EntityEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
+use App\Models\Serie;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -13,30 +14,31 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('{version}/authors')]
-class AuthorController extends Controller
+#[Prefix('{version}/series')]
+class SerieController extends Controller
 {
-    #[Get('/', name: 'authors.index')]
+    #[Get('/', name: 'series.index')]
     public function index(Request $request)
     {
         $engine = OpdsEngine::create($request);
-        $entities = Author::with('books', 'media')
-            ->orderBy('lastname')
+        $entities = Serie::with('books', 'authors', 'media')
+            ->orderBy('slug_sort')
             ->get()
         ;
 
         return $engine->entities(EntityEnum::author, $entities);
     }
 
-    #[Get('/{author}', name: 'authors.show')]
-    public function show(Request $request, string $version, string $author_slug)
+    #[Get('/{author}/{serie}', name: 'series.show')]
+    public function show(Request $request, string $version, string $author_slug, string $serie_slug)
     {
         $engine = OpdsEngine::create($request);
-        $entity = Author::with('books.authors', 'books.tags', 'books.media', 'books.serie', 'books.language')
+        $entity = Author::with('series.books', 'series.books.authors', 'series.books.tags', 'series.books.media', 'series.books.serie', 'series.books.language')
             ->whereSlug($author_slug)
             ->firstOrFail()
         ;
-        $books = $entity->books;
+        $serie = $entity->series->firstWhere('slug', $serie_slug);
+        $books = $serie->books;
 
         return $engine->entities(EntityEnum::book, $books, "{$entity->lastname} {$entity->firstname}");
     }
