@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookCollectionResource;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Author;
@@ -15,7 +14,8 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 class BookController extends ApiController
 {
     #[Get('/', name: 'books.index')]
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $models = Book::available()
             ->orderBy('slug_sort')
             ->paginate(32)

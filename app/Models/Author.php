@@ -7,7 +7,6 @@ use App\Traits\HasClassName;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasReviews;
-use App\Traits\HasShowRoute;
 use App\Traits\HasSlug;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\HasWikipediaItem;

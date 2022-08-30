@@ -166,7 +166,6 @@ class Book extends Model implements HasMedia
     /**
      * Scope
      */
-
     public function scopeAvailable(Builder $query): Builder
     {
         return $query->where('is_disabled', false);

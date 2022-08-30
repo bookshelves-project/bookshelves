@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Author\AuthorCollectionResource;
 use App\Http\Resources\Author\AuthorResource;
 use App\Http\Resources\Book\BookCollectionResource;

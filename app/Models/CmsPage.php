@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\LanguageEnum;
 use App\Traits\HasSeo;
 use App\Traits\HasShowRoute;
+use App\Traits\HasSlug;
 use App\Traits\HasTemplate;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -12,6 +14,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class CmsPage extends Model implements HasMedia
 {
     use InteractsWithMedia;
+    use HasSlug;
     use HasShowRoute;
     use HasTemplate;
     use HasSeo;
@@ -26,5 +29,6 @@ class CmsPage extends Model implements HasMedia
 
     protected $casts = [
         'content' => 'array',
+        'language' => LanguageEnum::class,
     ];
 }

@@ -3,182 +3,198 @@
 namespace App\Filament;
 
 use App\Enums\MediaDiskEnum;
+use Closure;
 use Filament\Forms;
 
 class TemplateHelper
 {
-    public static function basic()
+    public static function builderContainer(array $content, string $field = 'content')
     {
-        return [
-            Forms\Components\Repeater::make('content')
-                ->schema([
-                    Forms\Components\MarkdownEditor::make('content')
-                        ->columnSpan(2),
-                ])
-                ->columns(2)
-                ->maxItems(1),
-        ];
+        return Forms\Components\Builder::make($field)
+            ->blocks([
+                ...$content
+            ])
+            ->columnSpan(2);
+    }
+
+    public static function builderBlock(array $content, string $name = 'content')
+    {
+        return Forms\Components\Builder\Block::make($name)
+            ->schema([
+                ...$content
+            ])
+            ->columns(2);
+    }
+
+    public static function display()
+    {
+        return Forms\Components\Toggle::make('display')
+            ->label('Display')
+            ->default(true)
+            ->columnSpan(2);
     }
 
     public static function home()
     {
-        return [
-            Forms\Components\Repeater::make('hero')
-                ->schema([
-                    Forms\Components\Toggle::make('display')
-                        ->default(true)
-                        ->helperText('Display or not this entry.')
-                        ->columnSpan(2),
-                    Forms\Components\TextInput::make('name'),
-                    Forms\Components\TextInput::make('title'),
-                    Forms\Components\Textarea::make('text')
-                        ->columnSpan(2),
-                    Forms\Components\FileUpload::make('media')
-                        ->label('Media')
-                        ->directory(MediaDiskEnum::cms->value),
-                ])
-                ->columns(2)
-                ->maxItems(1),
-            Forms\Components\Repeater::make('statistics')
-                ->schema([
-                    Forms\Components\Toggle::make('display')
-                        ->default(true)
-                        ->helperText('Display or not this entry.')
-                        ->columnSpan(2),
-                    Forms\Components\TextInput::make('eyebrow'),
-                    Forms\Components\TextInput::make('title'),
-                    Forms\Components\Textarea::make('text')
-                        ->columnSpan(2),
-                    Forms\Components\Repeater::make('list')
-                        ->schema([
-                            Forms\Components\Select::make('model')
-                                ->options([
-                                    'Book' => 'Book',
-                                    'Author' => 'Author',
-                                    'Serie' => 'Serie',
-                                    'Publisher' => 'Publisher',
-                                    'TagExtend' => 'TagExtend',
-                                    'Language' => 'Language',
-                                ]),
-                            Forms\Components\TextInput::make('modelWhere'),
-                            Forms\Components\TextInput::make('label'),
-                        ])
-                        ->itemLabel(fn (array $state): ?string => $state['label'] ?? null)
-                        ->columns(2)
-                        ->columnSpan(2)
-                        ->collapsible()
-                        ->collapsed(),
-                ])
-                ->columns(2)
-                ->maxItems(1),
-            Forms\Components\Repeater::make('logos')
-                ->schema([
-                    Forms\Components\Toggle::make('display')
-                        ->default(true)
-                        ->helperText('Display or not this entry.')
-                        ->columnSpan(2),
-                    Forms\Components\TextInput::make('title')
-                        ->columnSpan(2),
-                    Forms\Components\Repeater::make('list')
-                        ->schema([
-                            Forms\Components\TextInput::make('label'),
-                            Forms\Components\TextInput::make('slug'),
-                            Forms\Components\TextInput::make('link')
-                                ->url(),
-                        ])
-                        ->itemLabel(fn (array $state): ?string => $state['label'] ?? null)
-                        ->columns(2)
-                        ->columnSpan(2)
-                        ->collapsible()
-                        ->collapsed(),
-                ])
-                ->columns(2)
-                ->maxItems(1),
-            Forms\Components\Repeater::make('features')
-                ->schema([
-                    Forms\Components\Toggle::make('display')
-                        ->default(true)
-                        ->helperText('Display or not this entry.')
-                        ->columnSpan(2),
-                    Forms\Components\TextInput::make('title')
-                        ->columnSpan(2),
-                    Forms\Components\Textarea::make('text')
-                        ->columnSpan(2),
-                    Forms\Components\Repeater::make('list')
-                        ->schema([
-                            Forms\Components\TextInput::make('title'),
-                            Forms\Components\TextInput::make('slug'),
-                            Forms\Components\Textarea::make('text')
+        return TemplateHelper::builderContainer([
+            TemplateHelper::builderBlock([
+                TemplateHelper::display(),
+                Forms\Components\TextInput::make('title')
+                    ->label('Title')
+                    ->columnSpan(1),
+                Forms\Components\TextInput::make('hang')
+                    ->label('Hang')
+                    ->columnSpan(1),
+                Forms\Components\Textarea::make('text')
+                    ->label('Text')
+                    ->columnSpan(2),
+                Forms\Components\FileUpload::make('media')
+                    ->label('Media')
+                    ->columnSpan(2),
+            ], 'hero'),
+            TemplateHelper::builderBlock([
+                TemplateHelper::display(),
+                Forms\Components\TextInput::make('eyebrow')
+                    ->label('Eyebrow'),
+                Forms\Components\TextInput::make('title')
+                    ->label('Title'),
+                Forms\Components\Textarea::make('text')
+                    ->label('Text')
+                    ->columnSpan(2),
+                Forms\Components\Repeater::make('list')
+                    ->label('List')
+                    ->schema([
+                        Forms\Components\TextInput::make('label')
+                        ->label('label')
+                        ->columnSpan(1),
+                        Forms\Components\TextInput::make('model')
+                            ->label('model')
+                                ->columnSpan(1),
+                        Forms\Components\TextInput::make('modelWhere')
+                            ->label('modelWhere')
+                                ->columnSpan(1),
+                    ])
+                    ->columns(2)
+                    ->columnSpan(2)
+                    ->itemLabel(fn (array $state): ?string => $state['label'] ?? null)
+                    ->collapsible()
+                    ->collapsed(),
+            ], 'statistics'),
+            TemplateHelper::builderBlock([
+                TemplateHelper::display(),
+                Forms\Components\TextInput::make('title')
+                    ->label('title'),
+                Forms\Components\Repeater::make('list')
+                    ->label('List')
+                    ->schema([
+                        Forms\Components\TextInput::make('label')
+                            ->label('label')
+                            ->columnSpan(1),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('slug')
+                                ->columnSpan(1),
+                        Forms\Components\TextInput::make('link')
+                            ->label('link')
+                            ->url()
+                                ->columnSpan(1),
+                                Forms\Components\FileUpload::make('media')
+                                    ->label('media')
+                                    ->columnSpan(2),
+                    ])
+                    ->columns(2)
+                    ->columnSpan(2)
+                    ->itemLabel(fn (array $state): ?string => $state['label'] ?? null)
+                    ->collapsible()
+                    ->collapsed(),
+            ], 'logos'),
+            TemplateHelper::builderBlock([
+                TemplateHelper::display(),
+                Forms\Components\TextInput::make('title')
+                    ->label('title'),
+                Forms\Components\Textarea::make('text')
+                    ->label('text'),
+                Forms\Components\Repeater::make('list')
+                    ->label('List')
+                    ->schema([
+                        Forms\Components\TextInput::make('title')
+                            ->label('title')
+                            ->columnSpan(1),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('slug')
+                                ->columnSpan(1),
+                        Forms\Components\Textarea::make('text')
+                            ->label('text')
                                 ->columnSpan(2),
-                        ])
-                        ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
-                        ->columns(2)
-                        ->columnSpan(2)
-                        ->collapsible()
-                        ->collapsed(),
-                ])
-                ->columns(2)
-                ->maxItems(1),
-            Forms\Components\Repeater::make('highlights')
-                ->schema([
-                    Forms\Components\Toggle::make('display')
-                        ->default(true)
-                        ->helperText('Display or not this entry.')
-                        ->columnSpan(2),
-                    Forms\Components\Repeater::make('list')
-                        ->schema([
-                            Forms\Components\TextInput::make('title'),
-                            Forms\Components\TextInput::make('slug'),
-                            Forms\Components\Textarea::make('text')
-                                ->columnSpan(2),
-                            Forms\Components\Card::make()
+                                Forms\Components\FileUpload::make('media')
+                                ->label('media')
+                                    ->columnSpan(2),
+                    ])
+                    ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                    ->columns(2)
+                    ->columnSpan(2)
+                    ->collapsible()
+                    ->collapsed(),
+            ], 'features'),
+            TemplateHelper::builderBlock([
+                TemplateHelper::display(),
+                Forms\Components\Repeater::make('list')
+                    ->label('List')
+                    ->schema([
+                        Forms\Components\TextInput::make('title')
+                            ->label('title')
+                            ->columnSpan(1),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('slug')
+                            ->columnSpan(1),
+                        Forms\Components\Textarea::make('text')
+                            ->label('text')
+                            ->columnSpan(2),
+                            Forms\Components\FileUpload::make('media')
+                            ->label('media')
+                            ->columnSpan(2),
+                            Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Card::make()
                                 ->schema([
                                     Forms\Components\Placeholder::make('cta')
-                                        ->label('CTA')
-                                        ->columnSpan(2),
+                                        ->label('CTA'),
                                     Forms\Components\TextInput::make('cta_text')
-                                        ->label('Text'),
+                                        ->label('cta_text'),
                                     Forms\Components\TextInput::make('cta_link')
-                                        ->label('Link'),
+                                        ->label('cta_link'),
                                 ])
-                                ->columns(2),
+                                ->columnSpan(1),
                             Forms\Components\Card::make()
                                 ->schema([
                                     Forms\Components\Placeholder::make('quote')
-                                        ->label('Quotation')
-                                        ->columnSpan(2),
+                                        ->label('Quote'),
                                     Forms\Components\TextInput::make('quote_text')
-                                        ->label('Text'),
+                                        ->label('quote_text'),
                                     Forms\Components\TextInput::make('quote_author')
-                                        ->label('Author'),
+                                        ->label('quote_author'),
                                 ])
-                                ->columns(2),
-                        ])
-                        ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
-                        ->collapsible()
-                        ->collapsed()
-                        ->columns(2),
-                ])
-                ->maxItems(1),
-        ];
+                                ->columnSpan(1),
+                            ])
+                            ->columns(2)
+                            ->columnSpan(2)
+
+                    ])
+                    ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                    ->columns(2)
+                    ->columnSpan(2)
+                    ->collapsible()
+                    ->collapsed(),
+            ], 'highlights'),
+        ]);
     }
 
-    public static function about()
+    public static function basic()
     {
-        return [
-            Forms\Components\Repeater::make('hero')
-                ->schema([
-                    Forms\Components\Toggle::make('display')
-                        ->default(true)
-                        ->helperText('Display or not this entry.')
-                        ->columnSpan(2),
-                    Forms\Components\TextInput::make('name'),
-                    Forms\Components\TextInput::make('title'),
-                    Forms\Components\Textarea::make('text')
-                        ->columnSpan(2),
-                ])
-                ->columns(2)
-                ->maxItems(1),
-        ];
+        return TemplateHelper::builderContainer([
+            TemplateHelper::builderBlock([
+                Forms\Components\RichEditor::make('content')
+                    ->columnSpan(2),
+            ]),
+        ]);
     }
 }
