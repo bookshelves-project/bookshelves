@@ -7,7 +7,6 @@ use App\Models\Book;
 use App\Models\Serie;
 use Artisan;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Model;
 use ReflectionClass;
 
 class ScoutFreshCommand extends Command
@@ -39,12 +38,12 @@ class ScoutFreshCommand extends Command
         $this->warn($this->description);
 
         $list = [
-            new Book(),
-            new Serie(),
-            new Author(),
+            Book::class,
+            Serie::class,
+            Author::class,
         ];
-        foreach ($list as $value) {
-            $this->getScoutName($value);
+        foreach ($list as $model) {
+            $this->getScoutName($model);
         }
 
         try {
@@ -63,8 +62,9 @@ class ScoutFreshCommand extends Command
         return 0;
     }
 
-    public function getScoutName(Model $instance)
+    public function getScoutName(string $model)
     {
+        $instance = new $model();
         $class = new ReflectionClass($instance);
         $name = str_replace('\\', '\\\\', $class->getName());
         // @phpstan-ignore-next-line
