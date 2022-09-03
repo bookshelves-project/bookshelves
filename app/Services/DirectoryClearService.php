@@ -13,28 +13,37 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
  * Example
  *
  * ```php
- * $service = new DirectoryClearService($path);`
- * $service->clearDir();
+ * DirectoryClearService::create($paths, $ignore);
  * ```
  */
 class DirectoryClearService
 {
     public function __construct(
-        public string $path,
-        public ?array $ignore = ['.gitignore'],
+        public array $paths,
+        public ?array $ignore = [],
     ) {
+    }
+
+    public static function create(array $paths, array $ignore = ['.gitignore']): DirectoryClearService
+    {
+        $service = new DirectoryClearService($paths, $ignore);
+        foreach ($paths as $path) {
+            $service->clear($path);
+        }
+
+        return $service;
     }
 
     /**
      * Remove all files into selected directory from but keep files into $ignore.
      */
-    public function clearDir()
+    public function clear(string $path)
     {
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $outputStyle = new OutputFormatterStyle('red', '', ['bold', 'blink']);
         $output->getFormatter()->setStyle('fire', $outputStyle);
 
-        foreach (glob("{$this->path}/*") as $file) {
+        foreach (glob("{$path}/*") as $file) {
             if (! in_array(basename($file), $this->ignore)) {
                 if (is_dir($file)) {
                     $this->rmdir_recursive($file);
@@ -44,7 +53,7 @@ class DirectoryClearService
             }
         }
 
-        $output->writeln('Clear storage/'.basename($this->path));
+        $output->writeln('Clear storage/'.basename($path));
     }
 
     public function rmdir_recursive($dir)
