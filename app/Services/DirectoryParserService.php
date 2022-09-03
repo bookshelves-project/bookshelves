@@ -2,13 +2,21 @@
 
 namespace App\Services;
 
+/**
+ * Directory parser.
+ *
+ * Example
+ *
+ * ```php
+ * $files = DirectoryParserService::parseDirectoryFiles($path);
+ * ```
+ */
 class DirectoryParserService
 {
     /**
      * Parse directory (recursive).
      *
-     * @param mixed $dir
-     *
+     * @param  mixed  $dir
      * @return \Generator<mixed, mixed, mixed, void>
      */
     public static function parseDirectoryFiles($dir)

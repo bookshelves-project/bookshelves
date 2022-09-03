@@ -7,6 +7,16 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
+/**
+ * Clear directories.
+ *
+ * Example
+ *
+ * ```php
+ * $service = new DirectoryClearService($path);`
+ * $service->clearDir();
+ * ```
+ */
 class DirectoryClearService
 {
     public function __construct(
