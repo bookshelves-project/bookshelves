@@ -12,8 +12,9 @@ return new class() extends Migration {
     {
         Schema::create('authorables', function (Blueprint $table) {
             $table->foreignId('author_id');
-            $table->bigInteger('authorable_id')->nullable();
-            $table->string('authorable_type')->nullable();
+            $table->morphs('authorable');
+            // $table->bigInteger('authorable_id')->nullable();
+            // $table->string('authorable_type')->nullable();
         });
     }
 
