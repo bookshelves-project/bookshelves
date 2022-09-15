@@ -164,7 +164,7 @@ class Book extends Model implements HasMedia
     }
 
     /**
-     * Scope
+     * Scope.
      */
     public function scopeAvailable(Builder $query): Builder
     {

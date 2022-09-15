@@ -4,11 +4,7 @@ namespace App\Docs\Strategies;
 
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Place;
 use App\Models\Serie;
-use App\Models\Trip;
-use App\Models\User;
-use App\Models\Vehicle;
 use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Knuckles\Scribe\Extracting\ParamHelpers;
 use Knuckles\Scribe\Extracting\Strategies\Strategy;

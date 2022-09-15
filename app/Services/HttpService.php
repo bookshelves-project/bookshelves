@@ -205,7 +205,6 @@ class HttpService
      */
     public static function getQueryFromResponse(Response $response): string
     {
-        // @phpstan-ignore-next-line
         $uri = $response->transferStats->getRequest()->getUri();
         $scheme = $uri->getScheme();
         $host = $uri->getHost();

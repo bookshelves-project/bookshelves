@@ -18211,6 +18211,17 @@
      
 }
 
+    namespace Fruitcake\TelescopeToolbar { 
+            /**
+     * 
+     *
+     */ 
+        class Toolbar {
+         
+    }
+     
+}
+
     namespace Intervention\Image\Facades { 
             /**
      * 
@@ -19108,6 +19119,162 @@
         {
                         /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
                         return $instance->assertImported($filePath, $disk, $callback);
+        }
+         
+    }
+     
+}
+
+    namespace Opcodes\LogViewer\Facades { 
+            /**
+     * 
+     *
+     * @see \Opcodes\LogViewer\LogViewerService
+     */ 
+        class LogViewer {
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function basePathForLogs()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->basePathForLogs();
+        }
+                    /**
+         * 
+         *
+         * @return \Opcodes\LogViewer\LogFileCollection|\Opcodes\LogViewer\LogFile[] 
+         * @static 
+         */ 
+        public static function getFiles()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getFiles();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getFilesGroupedByFolder()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getFilesGroupedByFolder();
+        }
+                    /**
+         * Find the file with the given identifier or file name.
+         *
+         * @param string|null $fileIdentifier
+         * @return \Opcodes\LogViewer\LogFile|null 
+         * @static 
+         */ 
+        public static function getFile($fileIdentifier)
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getFile($fileIdentifier);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function clearFileCache()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->clearFileCache();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRouteDomain()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getRouteDomain();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRoutePrefix()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getRoutePrefix();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRouteMiddleware()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->getRouteMiddleware();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function auth($callback = null)
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->auth($callback);
+        }
+                    /**
+         * Get the maximum number of bytes of the log that we should display.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function maxLogSize()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->maxLogSize();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setMaxLogSize($bytes)
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->setMaxLogSize($bytes);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function laravelRegexPattern()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->laravelRegexPattern();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function logMatchPattern()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->logMatchPattern();
+        }
+                    /**
+         * Get the current version of the Log Viewer
+         *
+         * @static 
+         */ 
+        public static function version()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->version();
         }
          
     }
@@ -24735,11 +24902,13 @@ namespace  {
             class Twitter extends \Artesaos\SEOTools\Facades\TwitterCard {}
             class JsonLd extends \Artesaos\SEOTools\Facades\JsonLd {}
             class SEO extends \Artesaos\SEOTools\Facades\SEOTools {}
+            class Toolbar extends \Fruitcake\TelescopeToolbar\Toolbar {}
             class Image extends \Intervention\Image\Facades\Image {}
             class Clockwork extends \Clockwork\Support\Laravel\Facade {}
             class Steward extends \Kiwilan\Steward\Facades\LaravelSteward {}
             class Livewire extends \Livewire\Livewire {}
             class Excel extends \Maatwebsite\Excel\Facades\Excel {}
+            class LogViewer extends \Opcodes\LogViewer\Facades\LogViewer {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
      
 }

@@ -4,13 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Content;
-use App\Models\Page;
-use App\Models\Post;
-use App\Models\Reference;
 use App\Models\Serie;
-use App\Models\Service;
-use App\Models\TeamMember;
 use DB;
 use File;
 use Illuminate\Console\Command;

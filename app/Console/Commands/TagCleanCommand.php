@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Tag;
 use App\Models\TagExtend;
 use DB;
 use Illuminate\Console\Command;

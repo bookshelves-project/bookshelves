@@ -2,8 +2,6 @@
 
 namespace App\Filament;
 
-use App\Enums\MediaDiskEnum;
-use Closure;
 use Filament\Forms;
 
 class TemplateHelper
@@ -12,18 +10,20 @@ class TemplateHelper
     {
         return Forms\Components\Builder::make($field)
             ->blocks([
-                ...$content
+                ...$content,
             ])
-            ->columnSpan(2);
+            ->columnSpan(2)
+        ;
     }
 
     public static function builderBlock(array $content, string $name = 'content')
     {
         return Forms\Components\Builder\Block::make($name)
             ->schema([
-                ...$content
+                ...$content,
             ])
-            ->columns(2);
+            ->columns(2)
+        ;
     }
 
     public static function display()
@@ -31,7 +31,8 @@ class TemplateHelper
         return Forms\Components\Toggle::make('display')
             ->label('Display')
             ->default(true)
-            ->columnSpan(2);
+            ->columnSpan(2)
+        ;
     }
 
     public static function home()
@@ -65,14 +66,14 @@ class TemplateHelper
                     ->label('List')
                     ->schema([
                         Forms\Components\TextInput::make('label')
-                        ->label('label')
-                        ->columnSpan(1),
+                            ->label('label')
+                            ->columnSpan(1),
                         Forms\Components\TextInput::make('model')
                             ->label('model')
-                                ->columnSpan(1),
+                            ->columnSpan(1),
                         Forms\Components\TextInput::make('modelWhere')
                             ->label('modelWhere')
-                                ->columnSpan(1),
+                            ->columnSpan(1),
                     ])
                     ->columns(2)
                     ->columnSpan(2)
@@ -92,14 +93,14 @@ class TemplateHelper
                             ->columnSpan(1),
                         Forms\Components\TextInput::make('slug')
                             ->label('slug')
-                                ->columnSpan(1),
+                            ->columnSpan(1),
                         Forms\Components\TextInput::make('link')
                             ->label('link')
                             ->url()
-                                ->columnSpan(1),
-                                Forms\Components\FileUpload::make('media')
-                                    ->label('media')
-                                    ->columnSpan(2),
+                            ->columnSpan(1),
+                        Forms\Components\FileUpload::make('media')
+                            ->label('media')
+                            ->columnSpan(2),
                     ])
                     ->columns(2)
                     ->columnSpan(2)
@@ -121,13 +122,13 @@ class TemplateHelper
                             ->columnSpan(1),
                         Forms\Components\TextInput::make('slug')
                             ->label('slug')
-                                ->columnSpan(1),
+                            ->columnSpan(1),
                         Forms\Components\Textarea::make('text')
                             ->label('text')
-                                ->columnSpan(2),
-                                Forms\Components\FileUpload::make('media')
-                                ->label('media')
-                                    ->columnSpan(2),
+                            ->columnSpan(2),
+                        Forms\Components\FileUpload::make('media')
+                            ->label('media')
+                            ->columnSpan(2),
                     ])
                     ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
                     ->columns(2)
@@ -149,34 +150,34 @@ class TemplateHelper
                         Forms\Components\Textarea::make('text')
                             ->label('text')
                             ->columnSpan(2),
-                            Forms\Components\FileUpload::make('media')
+                        Forms\Components\FileUpload::make('media')
                             ->label('media')
                             ->columnSpan(2),
-                            Forms\Components\Group::make()
+                        Forms\Components\Group::make()
                             ->schema([
                                 Forms\Components\Card::make()
-                                ->schema([
-                                    Forms\Components\Placeholder::make('cta')
-                                        ->label('CTA'),
-                                    Forms\Components\TextInput::make('cta_text')
-                                        ->label('cta_text'),
-                                    Forms\Components\TextInput::make('cta_link')
-                                        ->label('cta_link'),
-                                ])
-                                ->columnSpan(1),
-                            Forms\Components\Card::make()
-                                ->schema([
-                                    Forms\Components\Placeholder::make('quote')
-                                        ->label('Quote'),
-                                    Forms\Components\TextInput::make('quote_text')
-                                        ->label('quote_text'),
-                                    Forms\Components\TextInput::make('quote_author')
-                                        ->label('quote_author'),
-                                ])
-                                ->columnSpan(1),
+                                    ->schema([
+                                        Forms\Components\Placeholder::make('cta')
+                                            ->label('CTA'),
+                                        Forms\Components\TextInput::make('cta_text')
+                                            ->label('cta_text'),
+                                        Forms\Components\TextInput::make('cta_link')
+                                            ->label('cta_link'),
+                                    ])
+                                    ->columnSpan(1),
+                                Forms\Components\Card::make()
+                                    ->schema([
+                                        Forms\Components\Placeholder::make('quote')
+                                            ->label('Quote'),
+                                        Forms\Components\TextInput::make('quote_text')
+                                            ->label('quote_text'),
+                                        Forms\Components\TextInput::make('quote_author')
+                                            ->label('quote_author'),
+                                    ])
+                                    ->columnSpan(1),
                             ])
                             ->columns(2)
-                            ->columnSpan(2)
+                            ->columnSpan(2),
 
                     ])
                     ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)

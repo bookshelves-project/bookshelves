@@ -94,7 +94,8 @@ class ApiCommand extends CommandProd
 
         $count = Book::whereNotNull('isbn10')
             ->orWhereNotNull('isbn13')
-            ->count();
+            ->count()
+        ;
         $this->comment("Need to have ISBN, {$count} books can be scanned");
         $start = microtime(true);
         $service = GoogleBookService::create(Book::class, debug: $debug);

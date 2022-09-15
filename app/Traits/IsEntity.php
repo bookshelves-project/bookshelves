@@ -47,7 +47,7 @@ trait IsEntity
         $entity = $this->getEntity();
         $route = null;
         $route_name = "opds.{$entity}s.show";
-        $version = "1.2";
+        $version = '1.2';
         if ($this instanceof Author) {
             $route = route($route_name, [
                 'version' => $version,

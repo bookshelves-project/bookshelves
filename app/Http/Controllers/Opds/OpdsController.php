@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Opds;
 
 use App\Engines\OpdsEngine;
 use App\Http\Controllers\Controller;
-use App\Services\MarkdownService;
-use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -23,7 +21,7 @@ class OpdsController extends Controller
             route('opds.version', ['version' => '1.2']),
         ];
 
-        return redirect($versions[sizeof($versions)-1]);
+        return redirect($versions[sizeof($versions) - 1]);
     }
 
     #[Get('/{version}', name: 'version')]

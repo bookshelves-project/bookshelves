@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\MediaTypeEnum;
 use App\Http\Requests\SubmissionStoreRequest;
 use App\Models\Submission;
 use Spatie\RouteAttributes\Attributes\Post;

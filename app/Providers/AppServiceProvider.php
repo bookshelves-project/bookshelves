@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Vite;
 use Illuminate\Support\ServiceProvider;
+use Opcodes\LogViewer\Facades\LogViewer;
 use View;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,7 +16,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
@@ -33,6 +38,13 @@ class AppServiceProvider extends ServiceProvider
             Filament::registerTheme(
                 app(Vite::class)('resources/admin/filament.css'),
             );
+        });
+
+        LogViewer::auth(function ($request) {
+            /** @var User */
+            $user = $request->user();
+
+            return $user->is_admin || $user->is_super_admin;
         });
     }
 }
