@@ -24,7 +24,7 @@ class SerieController extends Controller
         $series = Serie::with(['authors', 'media'])->get();
         $series = BookshelvesTools::chunkByAlpha($series, 'title');
 
-        return view('front.pages.catalog.series.index', compact('series'));
+        return view('front::pages.catalog.series.index', compact('series'));
     }
 
     #[Get('/{character}', name: 'catalog.series.character')]
@@ -41,7 +41,7 @@ class SerieController extends Controller
 
         $series = EntityResource::collection($series);
 
-        return view('front.pages.catalog.series.character', compact('series', 'character'));
+        return view('front::pages.catalog.series.character', compact('series', 'character'));
     }
 
     #[Get('/{author}/{serie}', name: 'catalog.series.show')]
@@ -58,6 +58,6 @@ class SerieController extends Controller
         $serie = SerieResource::make($serie);
         $serie = json_decode($serie->toJson());
 
-        return view('front.pages.catalog.series._slug', compact('serie', 'books'));
+        return view('front::pages.catalog.series._slug', compact('serie', 'books'));
     }
 }

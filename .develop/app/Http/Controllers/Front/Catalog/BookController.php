@@ -26,6 +26,6 @@ class BookController extends Controller
         $book = BookResource::make($book);
         $book = json_decode($book->toJson());
 
-        return view('front.pages.catalog.books._slug', compact('book'));
+        return view('front::pages.catalog.books._slug', compact('book'));
     }
 }

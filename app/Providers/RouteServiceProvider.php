@@ -49,8 +49,7 @@ class RouteServiceProvider extends ServiceProvider
             )
         ;
 
-        Route::prefix('front')
-            ->name('front.')
+        Route::name('front.')
             ->group(
                 fn () => (new RouteRegistrar(app(Router::class)))
                     ->useRootNamespace(app()->getNamespace())

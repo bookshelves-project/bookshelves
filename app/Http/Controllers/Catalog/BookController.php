@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front\Catalog;
+namespace App\Http\Controllers\Catalog;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Book\BookResource;
@@ -13,10 +13,10 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('catalog/books')]
+#[Prefix('books')]
 class BookController extends Controller
 {
-    #[Get('/{author}/{book}', name: 'catalog.books.show')]
+    #[Get('/{author}/{book}', name: 'books.show')]
     public function show(Request $request, string $author, string $slug)
     {
         $author = Author::whereSlug($author)->firstOrFail();
@@ -26,6 +26,6 @@ class BookController extends Controller
         $book = BookResource::make($book);
         $book = json_decode($book->toJson());
 
-        return view('front.pages.catalog.books._slug', compact('book'));
+        return view('front::pages.catalog.books._slug', compact('book'));
     }
 }

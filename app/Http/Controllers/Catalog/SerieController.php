@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front\Catalog;
+namespace App\Http\Controllers\Catalog;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EntityResource;
@@ -15,19 +15,19 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('catalog/series')]
+#[Prefix('series')]
 class SerieController extends Controller
 {
-    #[Get('/', name: 'catalog.series')]
+    #[Get('/', name: 'series')]
     public function index(Request $request)
     {
         $series = Serie::with(['authors', 'media'])->get();
         $series = BookshelvesTools::chunkByAlpha($series, 'title');
 
-        return view('front.pages.catalog.series.index', compact('series'));
+        return view('front::pages.catalog.series.index', compact('series'));
     }
 
-    #[Get('/{character}', name: 'catalog.series.character')]
+    #[Get('/{character}', name: 'series.character')]
     public function character(Request $request)
     {
         $character = $request->character;
@@ -41,10 +41,10 @@ class SerieController extends Controller
 
         $series = EntityResource::collection($series);
 
-        return view('front.pages.catalog.series.character', compact('series', 'character'));
+        return view('front::pages.catalog.series.character', compact('series', 'character'));
     }
 
-    #[Get('/{author}/{serie}', name: 'catalog.series.show')]
+    #[Get('/{author}/{serie}', name: 'series.show')]
     public function show(Request $request, string $author, string $slug)
     {
         $author = Author::whereSlug($author)->firstOrFail();
@@ -58,6 +58,6 @@ class SerieController extends Controller
         $serie = SerieResource::make($serie);
         $serie = json_decode($serie->toJson());
 
-        return view('front.pages.catalog.series._slug', compact('serie', 'books'));
+        return view('front::pages.catalog.series._slug', compact('serie', 'books'));
     }
 }

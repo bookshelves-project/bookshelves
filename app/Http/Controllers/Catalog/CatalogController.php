@@ -1,23 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Front\Catalog;
+namespace App\Http\Controllers\Catalog;
 
 use App\Engines\SearchEngine;
 use App\Http\Controllers\Controller;
-use App\Services\MarkdownService;
 use Artesaos\SEOTools\Facades\SEOTools;
-use Detection\MobileDetect;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('catalog')]
 class CatalogController extends Controller
 {
-    #[Get('/', name: 'catalog.index')]
+    #[Get('/', name: 'index')]
     public function index(Request $request)
     {
         SEOTools::setTitle('Catalog');
@@ -26,7 +22,7 @@ class CatalogController extends Controller
         return redirect(route('catalog.search'));
     }
 
-    #[Get('/search', name: 'catalog.search')]
+    #[Get('/search', name: 'search')]
     public function search(Request $request)
     {
         $q = $request->input('q');
@@ -36,7 +32,8 @@ class CatalogController extends Controller
         );
         $results = $engine->results;
 
-        return view('front.pages.catalog.search', compact(
+        // catalog::pages.catalog.search
+        return view('catalog::pages.index', compact(
             'q',
             'results',
         ));

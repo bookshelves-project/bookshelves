@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front\Catalog;
+namespace App\Http\Controllers\Catalog;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Author\AuthorResource;
@@ -14,19 +14,19 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('catalog/authors')]
+#[Prefix('authors')]
 class AuthorController extends Controller
 {
-    #[Get('/', name: 'catalog.authors')]
+    #[Get('/', name: 'authors')]
     public function index(Request $request)
     {
         $authors = Author::with(['media'])->get();
         $authors = BookshelvesTools::chunkByAlpha($authors, 'lastname');
 
-        return view('front.pages.catalog.authors.index', compact('authors'));
+        return view('front::pages.catalog.authors.index', compact('authors'));
     }
 
-    #[Get('/{character}', name: 'catalog.authors.character')]
+    #[Get('/{character}', name: 'authors.character')]
     public function character(Request $request)
     {
         $character = $request->character;
@@ -40,10 +40,10 @@ class AuthorController extends Controller
 
         $authors = EntityResource::collection($authors);
 
-        return view('front.pages.catalog.authors.character', compact('authors', 'character'));
+        return view('front::pages.catalog.authors.character', compact('authors', 'character'));
     }
 
-    #[Get('/{character}/{author}', name: 'catalog.authors.show')]
+    #[Get('/{character}/{author}', name: 'authors.show')]
     public function show(Request $request, string $character, string $slug)
     {
         $author = Author::whereSlug($slug)->firstOrFail();
@@ -52,6 +52,6 @@ class AuthorController extends Controller
         $author = AuthorResource::make($author);
         $author = json_decode($author->toJson());
 
-        return view('front.pages.catalog.authors._slug', compact('author', 'books'));
+        return view('front::pages.catalog.authors._slug', compact('author', 'books'));
     }
 }

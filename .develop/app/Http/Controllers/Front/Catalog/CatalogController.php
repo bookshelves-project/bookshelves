@@ -44,7 +44,7 @@ class CatalogController extends Controller
         );
         $results = $engine->results;
 
-        return view('front.pages.catalog.search', compact(
+        return view('front::pages.catalog.search', compact(
             'q',
             'results',
         ));
