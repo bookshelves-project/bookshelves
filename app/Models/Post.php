@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\CmsPostCategoryEnum;
+use App\Enums\PostCategoryEnum;
 use App\Traits\HasSeo;
 use App\Traits\HasSlug;
 use App\Traits\Publishable;
@@ -13,7 +13,7 @@ use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class CmsPost extends Model implements HasMedia
+class Post extends Model implements HasMedia
 {
     use HasFactory;
     use HasSlug;
@@ -34,7 +34,7 @@ class CmsPost extends Model implements HasMedia
 
     protected $casts = [
         'is_pinned' => 'boolean',
-        'category' => CmsPostCategoryEnum::class,
+        'category' => PostCategoryEnum::class,
     ];
 
     public function registerMediaCollections(): void

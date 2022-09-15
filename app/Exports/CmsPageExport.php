@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\CmsPage;
+use App\Models\Page;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Lang;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class CmsPageExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
+class PageExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 {
     private Builder|QueryBuilder $query;
 
@@ -36,7 +36,7 @@ class CmsPageExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoS
     }
 
     /**
-     * @param CmsPage $row
+     * @param Page $row
      */
     public function map($row): array
     {

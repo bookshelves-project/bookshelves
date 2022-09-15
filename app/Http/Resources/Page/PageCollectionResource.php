@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\CmsPage;
+namespace App\Http\Resources\Page;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property \App\Model\CmsPage $resource
+ * @property \App\Model\Page $resource
  */
 class PageCollectionResource extends JsonResource
 {

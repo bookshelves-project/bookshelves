@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use App\Traits\LazyEnum;
 
-enum CmsPostCategoryEnum: string
+enum PostCategoryEnum: string
 {
     use LazyEnum;
 

@@ -3,12 +3,11 @@
 namespace App\Filament\Resources\Cms;
 
 use App\Enums\LanguageEnum;
-use App\Enums\MediaDiskEnum;
 use App\Enums\TemplateEnum;
 use App\Filament\LayoutHelper;
 use App\Filament\Resources\Cms\PageResource\Pages;
 use App\Filament\TemplateHelper;
-use App\Models\CmsPage;
+use App\Models\Page;
 use Closure;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -19,7 +18,7 @@ use Str;
 
 class PageResource extends Resource
 {
-    protected static ?string $model = CmsPage::class;
+    protected static ?string $model = Page::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -57,7 +56,7 @@ class PageResource extends Resource
                         ->label('Slug')
                         ->required()
                         ->disabled()
-                        ->unique(CmsPage::class, 'slug', fn ($record) => $record),
+                        ->unique(Page::class, 'slug', fn ($record) => $record),
                     // Forms\Components\Select::make('language')
                     //     ->label('Language')
                     //     ->options(LanguageEnum::toArray())

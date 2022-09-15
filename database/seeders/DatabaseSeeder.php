@@ -19,10 +19,8 @@ class DatabaseSeeder extends Seeder
             // FavoritableSeeder::class,
             // ReviewSeeder::class,
             // CmsSeeder::class,
-            // EmptySeeder::class,
-            // EmptySeeder::class,
-            // PostSeeder::class,
-            // PageSeeder::class,
+            PostSeeder::class,
+            PageSeeder::class,
         ]);
     }
 

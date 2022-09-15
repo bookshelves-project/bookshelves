@@ -18,7 +18,7 @@ use Spatie\Tags\HasTags;
 /**
  * @property null|\App\Models\PostCategory $category
  */
-class CmsPost extends Model implements HasMedia
+class Post extends Model implements HasMedia
 {
     use HasFactory;
     use HasSlug;
@@ -94,7 +94,7 @@ class CmsPost extends Model implements HasMedia
     {
         parent::boot();
 
-        self::updating(function (CmsPost $post) {
+        self::updating(function (Post $post) {
             $post->body = MarkdownToHtmlService::setHeadings($post);
         });
     }

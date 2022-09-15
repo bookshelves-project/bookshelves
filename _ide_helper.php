@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.26.1.
+ * Generated for Laravel 9.30.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1495,6 +1495,52 @@
         {            //Method inherited from \Illuminate\Container\Container         
                         /** @var \Illuminate\Foundation\Application $instance */
                         $instance->offsetUnset($key);
+        }
+                    /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+                        \Illuminate\Foundation\Application::macro($name, $macro);
+        }
+                    /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void 
+         * @throws \ReflectionException
+         * @static 
+         */ 
+        public static function mixin($mixin, $replace = true)
+        {
+                        \Illuminate\Foundation\Application::mixin($mixin, $replace);
+        }
+                    /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+                        return \Illuminate\Foundation\Application::hasMacro($name);
+        }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Foundation\Application::flushMacros();
         }
          
     }
@@ -3337,6 +3383,17 @@
         {
                         /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
                         $instance->assertBatchCount($count);
+        }
+                    /**
+         * Assert that no batched jobs were dispatched.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function assertNothingBatched()
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        $instance->assertNothingBatched();
         }
                     /**
          * Get all of the jobs matching a truth-test callback.
@@ -7514,7 +7571,7 @@
                     /**
          * Register a stub callable that will intercept requests and be able to return stub responses.
          *
-         * @param callable|array $callback
+         * @param callable|array|null $callback
          * @return \Illuminate\Http\Client\Factory 
          * @static 
          */ 
@@ -9887,18 +9944,6 @@
                         return $instance->intended($default, $status, $headers, $secure);
         }
                     /**
-         * Set the intended url.
-         *
-         * @param string $url
-         * @return \Illuminate\Routing\Redirector 
-         * @static 
-         */ 
-        public static function setIntendedUrl($url)
-        {
-                        /** @var \Illuminate\Routing\Redirector $instance */
-                        return $instance->setIntendedUrl($url);
-        }
-                    /**
          * Create a new redirect response to the given path.
          *
          * @param string $path
@@ -10025,6 +10070,29 @@
         {
                         /** @var \Illuminate\Routing\Redirector $instance */
                         $instance->setSession($session);
+        }
+                    /**
+         * Get the "intended" URL from the session.
+         *
+         * @return string|null 
+         * @static 
+         */ 
+        public static function getIntendedUrl()
+        {
+                        /** @var \Illuminate\Routing\Redirector $instance */
+                        return $instance->getIntendedUrl();
+        }
+                    /**
+         * Set the "intended" URL in the session.
+         *
+         * @param string $url
+         * @return \Illuminate\Routing\Redirector 
+         * @static 
+         */ 
+        public static function setIntendedUrl($url)
+        {
+                        /** @var \Illuminate\Routing\Redirector $instance */
+                        return $instance->setIntendedUrl($url);
         }
                     /**
          * Register a custom macro.
@@ -14496,6 +14564,18 @@
                         return $instance->createS3Driver($config);
         }
                     /**
+         * Create a scoped driver.
+         *
+         * @param array $config
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @static 
+         */ 
+        public static function createScopedDriver($config)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemManager $instance */
+                        return $instance->createScopedDriver($config);
+        }
+                    /**
          * Set the given disk instance.
          *
          * @param string $name
@@ -16836,6 +16916,17 @@
                         return $instance->withEntryPoints($entryPoints);
         }
                     /**
+         * Get the Vite "hot" file path.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function hotFile()
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->hotFile();
+        }
+                    /**
          * Set the Vite "hot" file path.
          *
          * @param string $path
@@ -18435,6 +18526,18 @@
      
 }
 
+    namespace Kiwilan\Steward\Facades { 
+            /**
+     * 
+     *
+     * @see \Kiwilan\Steward\LaravelSteward
+     */ 
+        class LaravelSteward {
+         
+    }
+     
+}
+
     namespace Livewire { 
             /**
      * 
@@ -19564,6 +19667,18 @@
                     /**
          * 
          *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionDoesNotExist()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionDoesNotExist($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionDoesNotExist($name);
+        }
+                    /**
+         * 
+         *
          * @see \Filament\Testing\TestsPageActions::assertPageActionVisible()
          * @param string $name
          * @return static 
@@ -19696,6 +19811,60 @@
                     /**
          * 
          *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionHasUrl()
+         * @param string $name
+         * @param string $url
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionHasUrl($name, $url, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionHasUrl($name, $url, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionDoesNotHaveUrl()
+         * @param string $name
+         * @param string $url
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionDoesNotHaveUrl($name, $url, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionDoesNotHaveUrl($name, $url, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionShouldOpenUrlInNewTab()
+         * @param string $name
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionShouldOpenUrlInNewTab($name, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionShouldOpenUrlInNewTab($name, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Testing\TestsPageActions::assertPageActionShouldNotOpenUrlInNewTab()
+         * @param string $name
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertPageActionShouldNotOpenUrlInNewTab($name, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertPageActionShouldNotOpenUrlInNewTab($name, $record);
+        }
+                    /**
+         * 
+         *
          * @see \Filament\Testing\TestsPageActions::assertPageActionHeld()
          * @param string $name
          * @return static 
@@ -19776,6 +19945,83 @@
         public static function assertHasNoFormErrors($keys = [])
         {
                         return \Livewire\Testing\TestableLivewire::assertHasNoFormErrors($keys);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormExists()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormExists($name = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormExists($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormFieldExists()
+         * @param string $fieldName
+         * @param string $formName
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormFieldExists($fieldName, $formName = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormFieldExists($fieldName, $formName);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormFieldIsDisabled()
+         * @param string $fieldName
+         * @param string $formName
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormFieldIsDisabled($fieldName, $formName = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormFieldIsDisabled($fieldName, $formName);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormFieldIsEnabled()
+         * @param string $fieldName
+         * @param string $formName
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormFieldIsEnabled($fieldName, $formName = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormFieldIsEnabled($fieldName, $formName);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormFieldIsHidden()
+         * @param string $fieldName
+         * @param string $formName
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormFieldIsHidden($fieldName, $formName = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormFieldIsHidden($fieldName, $formName);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Forms\Testing\TestsForms::assertFormFieldIsVisible()
+         * @param string $fieldName
+         * @param string $formName
+         * @return static 
+         * @static 
+         */ 
+        public static function assertFormFieldIsVisible($fieldName, $formName = 'form')
+        {
+                        return \Livewire\Testing\TestableLivewire::assertFormFieldIsVisible($fieldName, $formName);
         }
                     /**
          * 
@@ -19864,6 +20110,18 @@
         public static function assertTableActionExists($name)
         {
                         return \Livewire\Testing\TestableLivewire::assertTableActionExists($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionDoesNotExist()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionDoesNotExist($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionDoesNotExist($name);
         }
                     /**
          * 
@@ -20004,6 +20262,60 @@
                     /**
          * 
          *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionHasUrl()
+         * @param string $name
+         * @param string $url
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionHasUrl($name, $url, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionHasUrl($name, $url, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionDoesNotHaveUrl()
+         * @param string $name
+         * @param string $url
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionDoesNotHaveUrl($name, $url, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionDoesNotHaveUrl($name, $url, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionShouldOpenUrlInNewTab()
+         * @param string $name
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionShouldOpenUrlInNewTab($name, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionShouldOpenUrlInNewTab($name, $record);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsActions::assertTableActionShouldNotOpenUrlInNewTab()
+         * @param string $name
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableActionShouldNotOpenUrlInNewTab($name, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableActionShouldNotOpenUrlInNewTab($name, $record);
+        }
+                    /**
+         * 
+         *
          * @see \Filament\Tables\Testing\TestsActions::assertTableActionHeld()
          * @param string $name
          * @return static 
@@ -20112,6 +20424,18 @@
         public static function assertTableBulkActionExists($name)
         {
                         return \Livewire\Testing\TestableLivewire::assertTableBulkActionExists($name);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsBulkActions::assertTableBulkActionDoesNotExist()
+         * @param string $name
+         * @return static 
+         * @static 
+         */ 
+        public static function assertTableBulkActionDoesNotExist($name)
+        {
+                        return \Livewire\Testing\TestableLivewire::assertTableBulkActionDoesNotExist($name);
         }
                     /**
          * 
@@ -20332,6 +20656,19 @@
                     /**
          * 
          *
+         * @see \Filament\Tables\Testing\TestsColumns::callTableColumnAction()
+         * @param string $name
+         * @param mixed $record
+         * @return static 
+         * @static 
+         */ 
+        public static function callTableColumnAction($name, $record = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::callTableColumnAction($name, $record);
+        }
+                    /**
+         * 
+         *
          * @see \Filament\Tables\Testing\TestsColumns::sortTable()
          * @param string|null $name
          * @param string|null $direction
@@ -20381,6 +20718,30 @@
                     /**
          * 
          *
+         * @see \Filament\Tables\Testing\TestsFilters::removeTableFilter()
+         * @param string $filter
+         * @param string|null $field
+         * @return static 
+         * @static 
+         */ 
+        public static function removeTableFilter($filter, $field = null)
+        {
+                        return \Livewire\Testing\TestableLivewire::removeTableFilter($filter, $field);
+        }
+                    /**
+         * 
+         *
+         * @see \Filament\Tables\Testing\TestsFilters::removeTableFilters()
+         * @return static 
+         * @static 
+         */ 
+        public static function removeTableFilters()
+        {
+                        return \Livewire\Testing\TestableLivewire::removeTableFilters();
+        }
+                    /**
+         * 
+         *
          * @see \Filament\Tables\Testing\TestsFilters::assertTableFilterExists()
          * @param string $name
          * @return static 
@@ -20389,18 +20750,6 @@
         public static function assertTableFilterExists($name)
         {
                         return \Livewire\Testing\TestableLivewire::assertTableFilterExists($name);
-        }
-                    /**
-         * 
-         *
-         * @see \Filament\Tables\Testing\TestsFilters::parseFilterName()
-         * @param string $name
-         * @return string 
-         * @static 
-         */ 
-        public static function parseFilterName($name)
-        {
-                        return \Livewire\Testing\TestableLivewire::parseFilterName($name);
         }
                     /**
          * 
@@ -23725,7 +24074,7 @@ namespace  {
                 /**
              * Add a union statement to the query.
              *
-             * @param \Illuminate\Database\Query\Builder|\Closure $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $query
              * @param bool $all
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -23739,7 +24088,7 @@ namespace  {
                 /**
              * Add a union all statement to the query.
              *
-             * @param \Illuminate\Database\Query\Builder|\Closure $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $query
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -24388,6 +24737,7 @@ namespace  {
             class SEO extends \Artesaos\SEOTools\Facades\SEOTools {}
             class Image extends \Intervention\Image\Facades\Image {}
             class Clockwork extends \Clockwork\Support\Laravel\Facade {}
+            class Steward extends \Kiwilan\Steward\Facades\LaravelSteward {}
             class Livewire extends \Livewire\Livewire {}
             class Excel extends \Maatwebsite\Excel\Facades\Excel {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}

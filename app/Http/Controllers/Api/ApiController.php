@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\CmsPage;
+use App\Models\Page;
 use App\Models\Serie;
 use Route;
 
@@ -13,7 +13,7 @@ class ApiController extends Controller
 {
     public function __construct()
     {
-        Route::bind('cms_page_slug', fn (string $param) => CmsPage::where('slug', $param)->firstOrFail());
+        Route::bind('cms_page_slug', fn (string $param) => Page::where('slug', $param)->firstOrFail());
 
         Route::bind('author_slug', fn (string $param) => Author::where('slug', $param)->firstOrFail());
 

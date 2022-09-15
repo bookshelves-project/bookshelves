@@ -6,17 +6,17 @@ use App\Enums\LanguageEnum;
 use App\Traits\HasSeo;
 use App\Traits\HasShowRoute;
 use App\Traits\HasSlug;
-use App\Traits\HasTemplate;
 use Illuminate\Database\Eloquent\Model;
+use Kiwilan\Steward\Traits\HasBuilder;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class CmsPage extends Model implements HasMedia
+class Page extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasSlug;
-    use HasShowRoute;
-    use HasTemplate;
+    // use HasShowRoute;
+    use HasBuilder;
     use HasSeo;
 
     protected $table = 'cms_pages';

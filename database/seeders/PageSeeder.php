@@ -3,19 +3,19 @@
 namespace Database\Seeders;
 
 use App\Enums\MediaDiskEnum;
-use App\Models\CmsPage;
+use App\Models\Page;
 use App\Services\ConverterService;
 use File;
 use Illuminate\Database\Seeder;
 
-class CmsPageSeeder extends Seeder
+class PageSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run()
     {
-        CmsPage::query()
+        Page::query()
             ->delete()
         ;
 
@@ -27,7 +27,7 @@ class CmsPageSeeder extends Seeder
 
         foreach ($templates as $file) {
             $data = ConverterService::jsonToArray($file->getPathname());
-            $template = CmsPage::create($data);
+            $template = Page::create($data);
 
             $array = $template->toArray();
 
