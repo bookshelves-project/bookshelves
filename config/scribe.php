@@ -1,9 +1,5 @@
 <?php
 
-use App\Docs\Strategies\ApplicationMetadata;
-use App\Docs\Strategies\ApplicationParameter;
-use App\Docs\Strategies\ApplicationQuery;
-use App\Docs\Strategies\UsePaginationQuery;
 use Knuckles\Scribe\Extracting\Strategies;
 
 return [
@@ -152,7 +148,7 @@ return [
          * HTML documentation, assets and Postman collection will be generated to this folder.
          * Source Markdown will still be in resources/docs.
          */
-        'output_path' => 'public/api/documentation',
+        'output_path' => 'public/api/docs',
     ],
 
     /*
@@ -169,7 +165,7 @@ return [
          * URL path to use for the docs endpoint (if `add_routes` is true).
          * By default, `/docs` opens the HTML page, `/docs.postman` opens the Postman collection, and `/docs.openapi` the OpenAPI spec.
          */
-        'docs_url' => '/api/documentation',
+        'docs_url' => '/api/docs',
 
         /*
          * Directory within `public` in which to store CSS and JS assets.
@@ -310,10 +306,34 @@ INTRO
         ],
     ],
 
-    /*
-     * Endpoints which don't have a @group will be placed in this default group.
-     */
-    'default_group' => 'Endpoints',
+    'groups' => [
+        /*
+         * Endpoints which don't have a @group will be placed in this default group.
+         */
+        'default' => 'Endpoints',
+
+        /*
+         * By default, Scribe will sort groups alphabetically, and endpoints in the order their routes are defined.
+         * You can override this by listing the groups, subgroups and endpoints here in the order you want them.
+         *
+         * Any groups, subgroups or endpoints you don't list here will be added as usual after the ones here.
+         * If an endpoint/subgroup is listed under a group it doesn't belong in, it will be ignored.
+         * Note: you must include the initial '/' when writing an endpoint.
+         */
+        'order' => [
+            // 'This group will come first',
+            // 'This group will come next' => [
+            //     'POST /this-endpoint-will-comes-first',
+            //     'GET /this-endpoint-will-comes-next',
+            // ],
+            // 'This group will come third' => [
+            //     'This subgroup will come first' => [
+            //         'GET /this-other-endpoint-will-comes-first',
+            //         'GET /this-other-endpoint-will-comes-next',
+            //     ]
+            // ]
+        ],
+    ],
 
     /*
      * Custom logo path. This will be used as the value of the src attribute for the <img> tag,
@@ -326,11 +346,20 @@ INTRO
      */
     'logo' => false,
 
-    /*
-     * If you would like the package to generate the same example values for parameters on each run,
-     * set this to any number (eg. 1234)
-     */
-    'faker_seed' => null,
+    'examples' => [
+        /*
+         * If you would like the package to generate the same example values for parameters on each run,
+         * set this to any number (eg. 1234)
+         */
+        'faker_seed' => null,
+
+        /*
+         * With API resources and transformers, Scribe tries to generate example models to use in your API responses.
+         * By default, Scribe will try the model's factory, and if that fails, try fetching the first from the database.
+         * You can reorder or remove strategies here.
+         */
+        'models_source' => ['factoryCreate', 'factoryMake', 'databaseFirst'],
+    ],
 
     /**
      * The strategies Scribe will use to extract information about your routes at each stage.
@@ -339,31 +368,40 @@ INTRO
     'strategies' => [
         'metadata' => [
             Strategies\Metadata\GetFromDocBlocks::class,
-            ApplicationMetadata::class,
+            Strategies\Metadata\GetFromMetadataAttributes::class,
+
+            \App\Docs\Strategies\ApplicationMetadata::class,
         ],
         'urlParameters' => [
-            // Strategies\UrlParameters\GetFromLaravelAPI::class,
-            // Strategies\UrlParameters\GetFromLumenAPI::class,
-            // Strategies\UrlParameters\GetFromUrlParamTag::class,
-            ApplicationParameter::class,
+            Strategies\UrlParameters\GetFromLaravelAPI::class,
+            Strategies\UrlParameters\GetFromLumenAPI::class,
+            Strategies\UrlParameters\GetFromUrlParamAttribute::class,
+            Strategies\UrlParameters\GetFromUrlParamTag::class,
+
+            \App\Docs\Strategies\ApplicationParameter::class,
         ],
         'queryParameters' => [
             Strategies\QueryParameters\GetFromFormRequest::class,
             Strategies\QueryParameters\GetFromInlineValidator::class,
+            Strategies\QueryParameters\GetFromQueryParamAttribute::class,
             Strategies\QueryParameters\GetFromQueryParamTag::class,
-            ApplicationQuery::class,
-            UsePaginationQuery::class,
+
+            \App\Docs\Strategies\ApplicationQuery::class,
+            \App\Docs\Strategies\UsePaginationQuery::class,
         ],
         'headers' => [
             Strategies\Headers\GetFromRouteRules::class,
+            Strategies\Headers\GetFromHeaderAttribute::class,
             Strategies\Headers\GetFromHeaderTag::class,
         ],
         'bodyParameters' => [
             Strategies\BodyParameters\GetFromFormRequest::class,
             Strategies\BodyParameters\GetFromInlineValidator::class,
+            Strategies\BodyParameters\GetFromBodyParamAttribute::class,
             Strategies\BodyParameters\GetFromBodyParamTag::class,
         ],
         'responses' => [
+            Strategies\Responses\UseResponseAttributes::class,
             Strategies\Responses\UseTransformerTags::class,
             Strategies\Responses\UseApiResourceTags::class,
             Strategies\Responses\UseResponseTag::class,
@@ -371,6 +409,7 @@ INTRO
             Strategies\Responses\ResponseCalls::class,
         ],
         'responseFields' => [
+            Strategies\ResponseFields\GetFromResponseFieldAttribute::class,
             Strategies\ResponseFields\GetFromResponseFieldTag::class,
         ],
     ],

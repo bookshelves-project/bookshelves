@@ -39,8 +39,8 @@ trait HasSeo
     public function getSeoAttribute(): array
     {
         return [
-            'title' => $this->meta_title,
-            'description' => $this->meta_description,
+            'title' => $this->meta_title ?? '',
+            'description' => $this->meta_description ?? '',
         ];
     }
 }

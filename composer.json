@@ -120,7 +120,7 @@
     "analyse": [
       "phpstan analyse --ansi --memory-limit=4G"
     ],
-    "doc": [
+    "docs": [
       "php artisan scribe:generate"
     ],
     "test": [

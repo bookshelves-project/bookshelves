@@ -35,7 +35,7 @@ class ApplicationParameter extends Strategy
      *
      * See the documentation linked above for more details about writing custom strategies.
      */
-    public function __invoke(ExtractedEndpointData $endpointData, array $routeRules): ?array
+    public function __invoke(ExtractedEndpointData $endpointData, array $routeRules = []): ?array
     {
         $this->routeName = $endpointData->route->getName();
         $this->routes();
