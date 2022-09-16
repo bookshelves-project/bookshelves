@@ -2,6 +2,13 @@
 
 return [
 
+    'book_type' => [
+        'audio' => 'Audio',
+        'comic' => 'Comic',
+        'essay' => 'Essay',
+        'handbook' => 'Handbook',
+        'novel' => 'Novel',
+    ],
     'cms-post-category' => [
         'calibre' => 'Calibre',
         'ereader' => 'eReader',
@@ -19,6 +26,6 @@ return [
         'basic' => 'Basic',
         'home' => 'Home',
         'about' => 'About',
-    ]
+    ],
 
 ];

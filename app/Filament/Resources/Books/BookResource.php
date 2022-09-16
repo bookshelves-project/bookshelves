@@ -163,6 +163,7 @@ class BookResource extends Resource
                     ->toggledHiddenByDefault(),
                 Tables\Columns\BadgeColumn::make('type')
                     ->label('Type')
+                    ->enum(BookTypeEnum::toArray())
                     ->colors([
                         'primary',
                         'danger' => BookTypeEnum::audio,
