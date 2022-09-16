@@ -1,8 +1,4 @@
-@extends('front::layouts.app', ['prose' => true, 'navigation' => true])
-
-@section('title', 'Catalog')
-
-@section('default')
+<x-layout.front title="Catalog">
   <p>
     Catalog is a feature that allows you to access books from your
     eReader’s
@@ -13,7 +9,12 @@
     browser, simply add the Catalog address to access and download
     books.
   </p>
-  <x-button route="{{ route('catalog.index') }}">Access to Catalog</x-button>
+  <x-button
+    route="{{ route('catalog.index') }}"
+    external
+  >
+    Access to Catalog
+  </x-button>
   <section>
     <p>To access to Catalog from your eReader, just put this address to your
       web browser*: </p>
@@ -42,4 +43,4 @@
       >here an example for Kobo</a>.
     </strong>
   </section>
-@endsection
+</x-layout.front>

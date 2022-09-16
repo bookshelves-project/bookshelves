@@ -18,7 +18,8 @@
 Download dependencies
 
 ```bash
-composer i ; pnpm i
+composer i
+pnpm i
 ```
 
 Execute `setup` and follow guide

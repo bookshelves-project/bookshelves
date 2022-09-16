@@ -4,7 +4,7 @@
       <div class="text-white lg:absolute lg:top-1/2 lg:left-1/2 lg:-translate-y-1/2 lg:-translate-x-1/2 lg:transform">
         <div class="flex">
           <div class="font-handlee max-content mx-auto flex items-center space-x-2 text-xl lg:text-3xl">
-            <x-icons.bookshelves class="text-primary-600 h-6 w-6 lg:h-10 lg:w-10" />
+            <x-icon.bookshelves class="text-primary-600 h-6 w-6 lg:h-10 lg:w-10" />
             <span>{{ config('app.name') }}</span>
           </div>
         </div>

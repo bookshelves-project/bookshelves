@@ -79,6 +79,6 @@ class MediaService
         } catch (\Throwable $th) {
         }
 
-        return $cover ? $cover : config('app.url').'/assets/images/no-cover.webp';
+        return $cover ? $cover : config('app.url').'/vendor/vendor/images/no-cover.webp';
     }
 }

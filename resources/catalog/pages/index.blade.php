@@ -1,7 +1,5 @@
-@extends('catalog::layouts.app')
-
-@section('default')
-    <div class="center title">
-        Catalog
-    </div>
-@endsection
+<x-layout.catalog>
+  <div class="center title">
+    Catalog
+  </div>
+</x-layout.catalog>

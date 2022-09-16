@@ -116,6 +116,6 @@ trait HasCovers
         } catch (\Throwable $th) {
         }
 
-        return $cover ? $cover : config('app.url').'/assets/images/'.('authors' === $class_name ? 'no-author.webp' : 'no-cover.webp');
+        return $cover ? $cover : config('app.url').'/vendor/vendor/images/'.('authors' === $class_name ? 'no-author.webp' : 'no-cover.webp');
     }
 }

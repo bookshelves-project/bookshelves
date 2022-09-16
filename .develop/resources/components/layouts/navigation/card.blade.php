@@ -1,19 +1,24 @@
-<x-link :object="$route"
-    class="py-8 px-6 bg-gray-800 hover:bg-gray-700 transition-colors duration-75 text-center rounded-lg xl:px-8 xl:text-left relative">
-    <div class="h-full flex flex-col">
-        <x-dynamic-component :component="'icons.'.$route->icon" class="mx-auto w-16 h-16 xl:w-32 xl:h-32 text-white" />
-        <div class="space-y-5 xl:flex xl:items-center xl:justify-between mt-8">
-            <div class="font-medium text-lg leading-6 space-y-3">
-                <h3 class="text-white font-semibold text-3xl text-center">
-                    {{ $route->title }}
-                </h3>
-                <div class="text-gray-400 italic text-sm">
-                    {{ $route->description }}
-                </div>
-            </div>
+<x-link
+  :object="$route"
+  class="relative rounded-lg bg-gray-800 py-8 px-6 text-center transition-colors duration-75 hover:bg-gray-700 xl:px-8 xl:text-left"
+>
+  <div class="flex h-full flex-col">
+    <x-dynamic-component
+      :component="'icons.' . $route->icon"
+      class="mx-auto h-16 w-16 text-white xl:h-32 xl:w-32"
+    />
+    <div class="mt-8 space-y-5 xl:flex xl:items-center xl:justify-between">
+      <div class="space-y-3 text-lg font-medium leading-6">
+        <h3 class="text-center text-3xl font-semibold text-white">
+          {{ $route->title }}
+        </h3>
+        <div class="text-sm italic text-gray-400">
+          {{ $route->description }}
         </div>
-        <div class="mt-auto ml-auto">
-            <x-icons.arrow-sm-right class="text-white h-10 w-10 ml-auto" />
-        </div>
+      </div>
     </div>
+    <div class="mt-auto ml-auto">
+      <x-icon.arrow-sm-right class="ml-auto h-10 w-10 text-white" />
+    </div>
+  </div>
 </x-link>

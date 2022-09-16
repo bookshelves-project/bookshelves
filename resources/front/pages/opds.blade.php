@@ -24,54 +24,59 @@ $list = [
 ];
 @endphp
 
-@extends('front::layouts.app')
-
-@section('title', 'OPDS feed')
-
-@section('default')
-    <p>
-        The Open Publication Distribution System (OPDS) format is a syndication
-        format for electronic publications based on Atom and HTTP, with an
-        <strong>OPDS
-            feed
-            you can get all books available on
-            {{ config('app.name') }}</strong>. OPDS enable the
-        aggregation,
-        distribution, discovery, and acquisition of electronic publications.OPDS
-        use
-        existing or emergent open standards and conventions, with a priority on
-        simplicity.
-    </p>
-    <x-button route="{{ $latest_feed['route'] }}">Latest feed</x-button>
-    <section>
-        <h2>
-            Feeds by version
-        </h2>
-        <ul>
-            @foreach ($feeds as $feed)
-                <li>
-                    <a href="{{ $feed['route'] }}"
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        {{ $feed['label'] }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
-    </section>
-    <section>
-        <h2>
-            More about OPDS
-        </h2>
-        <ul>
-            @foreach ($list as $item)
-                <li>
-                    <a href="{{ $item['url'] }}"
-                        target="_blank"
-                        rel="noopener noreferrer">{{ $item['title'] }}</a>:
-                    {{ $item['text'] }}
-                </li>
-            @endforeach
-        </ul>
-    </section>
-@endsection
+<x-layout.front title="OPDS feed">
+  <p>
+    The Open Publication Distribution System (OPDS) format is a syndication
+    format for electronic publications based on Atom and HTTP, with an
+    <strong>OPDS
+      feed
+      you can get all books available on
+      {{ config('app.name') }}</strong>. OPDS enable the
+    aggregation,
+    distribution, discovery, and acquisition of electronic publications.OPDS
+    use
+    existing or emergent open standards and conventions, with a priority on
+    simplicity.
+  </p>
+  <x-button
+    route="{{ $latest_feed['route'] }}"
+    external
+  >
+    Latest feed
+  </x-button>
+  <section>
+    <h2>
+      Feeds by version
+    </h2>
+    <ul>
+      @foreach ($feeds as $feed)
+        <li>
+          <a
+            href="{{ $feed['route'] }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ $feed['label'] }}
+          </a>
+        </li>
+      @endforeach
+    </ul>
+  </section>
+  <section>
+    <h2>
+      More about OPDS
+    </h2>
+    <ul>
+      @foreach ($list as $item)
+        <li>
+          <a
+            href="{{ $item['url'] }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >{{ $item['title'] }}</a>:
+          {{ $item['text'] }}
+        </li>
+      @endforeach
+    </ul>
+  </section>
+</x-layout.front>

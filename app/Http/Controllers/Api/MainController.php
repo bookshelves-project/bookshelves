@@ -9,7 +9,7 @@ use Str;
 
 class MainController extends ApiController
 {
-    #[Get('/', name: 'api.index')]
+    #[Get('/', name: 'index')]
     public function index()
     {
         return [
@@ -30,7 +30,7 @@ class MainController extends ApiController
      *
      * Get all enums.
      */
-    #[Get('/enums', name: 'api.enums')]
+    #[Get('/enums', name: 'enums')]
     public function enums()
     {
         $contact_sujects = ContactSubjectEnum::toArray();

@@ -45,7 +45,7 @@ class Version1_2Module extends Module implements ModuleInterface
     {
         foreach ($this->engine->feed as $key => $value) {
             $model_name = 'App\Models\\'.ucfirst($value->model);
-            $value->cover_thumbnail = config('app.url')."/assets/images/opds/{$value->key}.png";
+            $value->cover_thumbnail = config('app.url')."/vendor/vendor/images/opds/{$value->key}.png";
             $value->route = route($value->route, ['version' => $this->engine->version]);
             $value->content = $model_name::count().' '.$value->content;
         }

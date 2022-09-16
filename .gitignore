@@ -1,5 +1,5 @@
 /node_modules
-/public/build
+/public/vendor/build
 /public/api
 /public/hot
 /public/storage

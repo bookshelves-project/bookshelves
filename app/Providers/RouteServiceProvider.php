@@ -49,6 +49,16 @@ class RouteServiceProvider extends ServiceProvider
             )
         ;
 
+        Route::prefix('admin')
+            ->name('admin.')
+            ->group(
+                fn () => (new RouteRegistrar(app(Router::class)))
+                    ->useRootNamespace(app()->getNamespace())
+                    ->useMiddleware(['web', 'auth'])
+                    ->registerDirectory(app_path('Http/Controllers/Admin'))
+            )
+        ;
+
         Route::name('front.')
             ->group(
                 fn () => (new RouteRegistrar(app(Router::class)))

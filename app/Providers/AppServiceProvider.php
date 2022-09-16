@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        View::addNamespace('admin', resource_path('admin'));
         View::addNamespace('front', resource_path('front'));
         View::addNamespace('catalog', resource_path('catalog'));
         View::addNamespace('webreader', resource_path('webreader'));

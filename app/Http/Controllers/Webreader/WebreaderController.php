@@ -11,15 +11,13 @@ use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Spatie\RouteAttributes\Attributes\Get;
-use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('webreader')]
 class WebreaderController extends Controller
 {
-    #[Get('/{author}/{book}', name: 'webreader.reader')]
+    #[Get('/{author}/{book}', name: 'reader')]
     public function reader(Request $request, string $author, string $book)
     {
         $author = Author::whereSlug($author)->firstOrFail();
@@ -82,7 +80,7 @@ class WebreaderController extends Controller
         $book = json_decode($data);
 
         if (BookFormatEnum::epub === $format) {
-            return view('webreader::pages.epubjs', compact('book'));
+            return view('webreader::pages.epubjs', ['book' => $book]);
         }
         if (BookFormatEnum::pdf === $format) {
             $pdf = $book->getFirstMedia(BookFormatEnum::pdf->value);
@@ -90,9 +88,9 @@ class WebreaderController extends Controller
             return response()->download($pdf->getPath(), $pdf->file_name);
         }
         if (BookFormatEnum::cbz === $format || BookFormatEnum::cbr === $format) {
-            return view('webreader::pages.comic', compact('book'));
+            return view('webreader::pages.comic', ['book' => $book]);
         }
 
-        return view('webreader::pages.not-ready', compact('url'));
+        return view('webreader::pages.not-ready', ['url' => $url]);
     }
 }
