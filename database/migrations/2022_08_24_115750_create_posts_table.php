@@ -1,9 +1,9 @@
 <?php
 
-use App\Enums\PublishStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Kiwilan\Steward\Enums\PublishStatusEnum;
 
 return new class() extends Migration {
     /**
@@ -11,7 +11,7 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('cms_posts', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->id();
 
             $table->string('title');
@@ -27,8 +27,8 @@ return new class() extends Migration {
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
 
-            $table->foreignId('user_id')->index()->nullable();
-            $table->foreign('user_id')
+            $table->foreignId('author_id')->index()->nullable();
+            $table->foreign('author_id')
                 ->references('id')
                 ->on('users')
                 ->nullOnDelete()
@@ -43,6 +43,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('cms_posts');
+        Schema::dropIfExists('posts');
     }
 };

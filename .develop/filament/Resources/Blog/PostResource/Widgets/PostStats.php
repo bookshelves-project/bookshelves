@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\Blog\PostResource\Widgets;
 
-use App\Enums\PublishStatusEnum;
 use App\Models\Post;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Card;
+use Kiwilan\Steward\Enums\PublishStatusEnum;
 
 class PostStats extends BaseWidget
 {

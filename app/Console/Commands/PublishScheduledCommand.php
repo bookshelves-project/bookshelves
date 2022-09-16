@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\PublishStatusEnum;
 use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Kiwilan\Steward\Enums\PublishStatusEnum;
 use Schema;
 
 class PublishScheduledCommand extends Command

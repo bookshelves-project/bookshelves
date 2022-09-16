@@ -1,3 +1,6 @@
-<div>
-    <!-- If you do not have a consistent goal in life, you can not live it in a consistent way. - Marcus Aurelius -->
-</div>
+<x-app>
+  @push('head')
+    @vite(['resources/admin/css/app.css', 'resources/admin/ts/app.ts'])
+  @endpush
+  {{ $slot }}
+</x-app>

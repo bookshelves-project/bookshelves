@@ -5,7 +5,10 @@ export default defineConfig({
   plugins: [
     laravel({
       input: [
+        /** Admin */
         'resources/admin/filament.css',
+        'resources/admin/css/app.css',
+        'resources/admin/ts/app.ts',
         /** Front */
         'resources/front/css/app.css',
         'resources/front/ts/app.ts',

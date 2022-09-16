@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use App\Traits\LazyEnum;
+use Kiwilan\Steward\Traits\LazyEnum;
 
 /**
  * List of available formats.

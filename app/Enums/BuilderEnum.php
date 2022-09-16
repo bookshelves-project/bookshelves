@@ -2,9 +2,9 @@
 
 namespace App\Enums;
 
-use App\Traits\LazyEnum;
+use Kiwilan\Steward\Traits\LazyEnum;
 
-enum TemplateEnum: string
+enum BuilderEnum: string
 {
     use LazyEnum;
 

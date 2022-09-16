@@ -13,7 +13,6 @@ use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
 use App\Traits\HasReviews;
 use App\Traits\HasSelections;
-use App\Traits\HasSlug;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,6 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Kiwilan\Steward\Traits\HasSlug;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 

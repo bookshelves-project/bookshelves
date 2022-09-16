@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\ContactSubjectEnum;
-use App\Enums\PublishStatusEnum;
+use Kiwilan\Steward\Enums\PublishStatusEnum;
 use Spatie\RouteAttributes\Attributes\Get;
 use Str;
 

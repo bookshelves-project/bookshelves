@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use App\Enums\PostCategoryEnum;
-use App\Traits\HasSeo;
-use App\Traits\HasSlug;
-use App\Traits\Publishable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Kiwilan\Steward\Traits\HasSeo;
+use Kiwilan\Steward\Traits\HasSlug;
+use Kiwilan\Steward\Traits\Publishable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -22,14 +22,15 @@ class Post extends Model implements HasMedia
     use HasSeo;
     use Searchable;
 
+    protected $slug_with = 'title';
+    protected $meta_title_from = 'title';
+
     protected $fillable = [
         'title',
         'summary',
         'body',
         'is_pinned',
         'category',
-
-        'user_id',
     ];
 
     protected $casts = [
@@ -49,9 +50,9 @@ class Post extends Model implements HasMedia
         ;
     }
 
-    public function user(): BelongsTo
+    public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     /**

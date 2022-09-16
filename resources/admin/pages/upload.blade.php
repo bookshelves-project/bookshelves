@@ -1,3 +1,3 @@
 <x-layout.admin>
-  @dump($settings)
+  <livewire:form.book-upload />
 </x-layout.admin>

@@ -2,19 +2,18 @@
 
 namespace App\Filament\Resources\Cms;
 
-use App\Enums\LanguageEnum;
-use App\Enums\TemplateEnum;
-use App\Filament\LayoutHelper;
+use App\Enums\BuilderEnum;
 use App\Filament\Resources\Cms\PageResource\Pages;
-use App\Filament\TemplateHelper;
+use App\Filament\TemplateShortcut;
 use App\Models\Page;
-use Closure;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Str;
+use Kiwilan\Steward\Enums\LanguageEnum;
+use Kiwilan\Steward\Filament\FormHelper;
+use Kiwilan\Steward\Filament\LayoutHelper;
 
 class PageResource extends Resource
 {
@@ -30,77 +29,27 @@ class PageResource extends Resource
 
     public static function form(Form $form): Form
     {
-        // return LayoutHelper::columns($form, [
-        //     LayoutHelper::mainColumn(
-        //         [
-        //             Forms\Components\TextInput::make('title')
-        //                 ->label('Title'),
-        //         ]
-        //     ),
-        //     LayoutHelper::sideColumn(
-        //         []
-        //     )
-        // ]);
-
-        return LayoutHelper::column($form, [
-            LayoutHelper::fullColumn(
+        return LayoutHelper::container([
+            LayoutHelper::column(
                 [
-                    Forms\Components\TextInput::make('title')
-                        ->label('Title')
-                        ->required()
-                        ->reactive()
-                        ->afterStateUpdated(function (Closure $set, Closure $get, $state) {
-                            $set('slug', Str::slug("{$state} {$get('language')}"));
-                        }),
+                    FormHelper::getName('title'),
                     Forms\Components\TextInput::make('slug')
-                        ->label('Slug')
-                        ->required()
-                        ->disabled()
-                        ->unique(Page::class, 'slug', fn ($record) => $record),
-                    // Forms\Components\Select::make('language')
-                    //     ->label('Language')
-                    //     ->options(LanguageEnum::toArray())
-                    //     ->default(LanguageEnum::en->value),
+                        ->label('Metalink'),
+                    TemplateShortcut::home(),
+                ],
+            ),
+            LayoutHelper::column(
+                [
                     Forms\Components\Select::make('language')
                         ->options(LanguageEnum::toArray())
-                        ->default(LanguageEnum::en->value)
-                        ->label('Language')
-                        ->required()
-                        ->reactive()
-                        ->afterStateUpdated(function (Closure $set, Closure $get, $state) {
-                            $set('slug', Str::slug("{$get('title')} {$state}"));
-                        }),
-                    Forms\Components\Select::make('template')
-                        ->options(TemplateEnum::toArray())
-                        ->label('Template')
-                        ->helperText('Select type of template.')
-                        ->default(TemplateEnum::basic->value)
-                        ->required()
-                        ->reactive()
-                        ->afterStateUpdated(function (Closure $set) {
-                            $set('content', []);
-                        }),
-                    LayoutHelper::card('SEO', [
-                        Forms\Components\TextInput::make('meta_title')
-                            ->label('Titre')
-                            ->columnSpan(2),
-                        Forms\Components\Textarea::make('meta_description')
-                            ->label('Description')
-                            ->columnSpan(2),
-                    ]),
-                    // Forms\Components\Repeater::make('content')
-                    //     ->schema(function (Closure $get) {
-                    //         $method = $get('template');
-                    //         return TemplateHelper::{$method}();
-                    //     })
-                    //     ->columns(1)
-                    //     ->maxItems(1)
-                    //     ->orderable(fn () => false)
-                    //     ->columnSpan(2),
-                    TemplateHelper::home(),
-                ]
+                        ->label('Language'),
+                    Forms\Components\Select::make('builder')
+                        ->options(BuilderEnum::toArray())
+                        ->label('Builder'),
+                ],
+                width: 1
             ),
-        ]);
+        ], $form);
     }
 
     public static function table(Table $table): Table
@@ -111,10 +60,10 @@ class PageResource extends Resource
                     ->label('Template')
                     ->colors([
                         'primary',
-                        'success' => TemplateEnum::basic,
+                        'success' => BuilderEnum::basic,
                     ])
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('title')
                     ->label('Name')
                     ->sortable()
                     ->searchable(),

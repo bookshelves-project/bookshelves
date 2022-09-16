@@ -12,7 +12,7 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('cms_pages', function (Blueprint $table) {
+        Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('slug')->index()->unique();
@@ -30,6 +30,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('cms_pages');
+        Schema::dropIfExists('pages');
     }
 };

@@ -7,10 +7,10 @@ use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Enums\EntityEnum;
 use App\Enums\GenderEnum;
-use App\Enums\PublishStatusEnum;
 use App\Enums\SubmissionReasonEnum;
 use App\Enums\TagTypeEnum;
 use App\Enums\UserRole;
+use Kiwilan\Steward\Enums\PublishStatusEnum;
 
 class EnumService
 {

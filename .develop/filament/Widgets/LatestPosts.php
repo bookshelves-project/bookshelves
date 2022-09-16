@@ -2,12 +2,12 @@
 
 namespace App\Filament\Widgets;
 
-use App\Enums\PublishStatusEnum;
 use App\Filament\Resources\Blog\PostResource;
 use App\Models\Post;
 use Filament\Tables;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
+use Kiwilan\Steward\Enums\PublishStatusEnum;
 
 class LatestPosts extends BaseWidget
 {

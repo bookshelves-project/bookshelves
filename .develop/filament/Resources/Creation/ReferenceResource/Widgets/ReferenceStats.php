@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\Creation\ReferenceResource\Widgets;
 
-use App\Enums\PublishStatusEnum;
 use App\Models\Reference;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Card;
+use Kiwilan\Steward\Enums\PublishStatusEnum;
 
 class ReferenceStats extends BaseWidget
 {

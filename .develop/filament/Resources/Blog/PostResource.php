@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Blog;
 
 use App\Enums\MediaTypeEnum;
 use App\Enums\PostTypeEnum;
-use App\Enums\PublishStatusEnum;
 use App\Filament\FormHelper;
 use App\Filament\LayoutHelper;
 use App\Filament\Resources\Blog\PostResource\Pages;
@@ -28,6 +27,7 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Kiwilan\Steward\Enums\PublishStatusEnum;
 
 class PostResource extends Resource
 {

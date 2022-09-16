@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use App\Traits\LazyEnum;
+use Kiwilan\Steward\Traits\LazyEnum;
 
 enum EntityEnum: string
 {

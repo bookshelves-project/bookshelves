@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Enums\LanguageEnum;
-use App\Traits\HasSeo;
-use App\Traits\HasShowRoute;
-use App\Traits\HasSlug;
+use App\Enums\BuilderEnum;
 use Illuminate\Database\Eloquent\Model;
+use Kiwilan\Steward\Enums\LanguageEnum;
 use Kiwilan\Steward\Traits\HasBuilder;
+use Kiwilan\Steward\Traits\HasSeo;
+use Kiwilan\Steward\Traits\HasSlug;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -19,8 +19,6 @@ class Page extends Model implements HasMedia
     use HasBuilder;
     use HasSeo;
 
-    protected $table = 'cms_pages';
-
     protected $fillable = [
         'title',
         'language',
@@ -30,5 +28,6 @@ class Page extends Model implements HasMedia
     protected $casts = [
         'content' => 'array',
         'language' => LanguageEnum::class,
+        'builder' => BuilderEnum::class,
     ];
 }

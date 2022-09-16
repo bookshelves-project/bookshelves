@@ -7,13 +7,13 @@ use App\Traits\HasClassName;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasReviews;
-use App\Traits\HasSlug;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\HasWikipediaItem;
 use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Kiwilan\Steward\Traits\HasSlug;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 

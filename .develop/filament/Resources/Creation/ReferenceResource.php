@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Creation;
 
 use App\Enums\MediaTypeEnum;
-use App\Enums\PublishStatusEnum;
 use App\Filament\FormHelper;
 use App\Filament\LayoutHelper;
 use App\Filament\Resources\Creation\ReferenceResource\Pages;
@@ -27,6 +26,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Kiwilan\Steward\Enums\PublishStatusEnum;
 
 class ReferenceResource extends Resource
 {
