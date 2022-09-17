@@ -38,12 +38,12 @@ $list = [
     existing or emergent open standards and conventions, with a priority on
     simplicity.
   </p>
-  <x-button
+  <x-steward-button
     route="{{ $latest_feed['route'] }}"
     external
   >
     Latest feed
-  </x-button>
+  </x-steward-button>
   <section>
     <h2>
       Feeds by version

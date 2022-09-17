@@ -9,12 +9,12 @@
     browser, simply add the Catalog address to access and download
     books.
   </p>
-  <x-button
+  <x-steward-button
     route="{{ route('catalog.index') }}"
     external
   >
     Access to Catalog
-  </x-button>
+  </x-steward-button>
   <section>
     <p>To access to Catalog from your eReader, just put this address to your
       web browser*: </p>

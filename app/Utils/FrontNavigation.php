@@ -54,7 +54,7 @@ class FrontNavigation
             ],
             [
                 'route' => false,
-                'href' => config('app.url').'/api/documentation',
+                'href' => config('app.url').'/api/docs',
                 'title' => 'API docs',
                 'external' => true,
             ],

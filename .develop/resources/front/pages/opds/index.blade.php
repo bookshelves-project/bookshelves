@@ -15,8 +15,8 @@
         @endforeach
       </ul>
     </x-content>
-    <x-button :route="$latest_feed">
+    <x-steward-button :route="$latest_feed">
       Lastest feed
-    </x-button>
+    </x-steward-button>
   </div>
 </x-layouts.main>

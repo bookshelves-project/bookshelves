@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Enums\PostStatusEnum;
 use App\Models\Page;
 use App\Services\ConverterService;
 use App\Services\MarkdownToHtmlService;
 use DateTime;
 use Illuminate\Database\Seeder;
+use Kiwilan\Steward\Enums\PublishStatusEnum;
 
 class PageSeeder extends Seeder
 {
@@ -16,20 +16,19 @@ class PageSeeder extends Seeder
      */
     public function run()
     {
-        Page::query()->delete();
-
-        foreach (Page::all() as $page) {
-            $page->clearMediaCollection('featured-image');
-            $page->clearMediaCollection('page-images');
-        }
-        Page::truncate();
+        // Page::query()->delete();
+        // foreach (Page::all() as $page) {
+        //     $page->clearMediaCollection('featured-image');
+        //     $page->clearMediaCollection('page-images');
+        // }
+        // Page::truncate();
 
         $list = [
             [
                 'title' => 'About',
                 'slug' => 'about',
                 'summary' => 'About this project',
-                'status' => PostStatusEnum::published,
+                'status' => PublishStatusEnum::published,
                 'name' => 'about',
                 'image' => 'about',
             ],
@@ -37,7 +36,7 @@ class PageSeeder extends Seeder
                 'title' => 'FAQ',
                 'slug' => 'faq',
                 'summary' => 'Frequently Asked Questions',
-                'status' => PostStatusEnum::published,
+                'status' => PublishStatusEnum::published,
                 'name' => 'faq',
                 'image' => 'faq',
             ],
@@ -45,7 +44,7 @@ class PageSeeder extends Seeder
                 'title' => 'Features: OPDS, Catalog & more',
                 'slug' => 'features',
                 'summary' => 'On other ways',
-                'status' => PostStatusEnum::published,
+                'status' => PublishStatusEnum::published,
                 'name' => 'features',
                 'image' => 'features',
             ],
@@ -53,7 +52,7 @@ class PageSeeder extends Seeder
                 'title' => 'Legal',
                 'slug' => 'legal',
                 'summary' => 'About legal',
-                'status' => PostStatusEnum::published,
+                'status' => PublishStatusEnum::published,
                 'name' => 'legal',
                 'image' => 'legal',
             ],
@@ -61,7 +60,7 @@ class PageSeeder extends Seeder
                 'title' => 'More eBooks',
                 'slug' => 'more-ebooks',
                 'summary' => 'About more eBooks projects',
-                'status' => PostStatusEnum::published,
+                'status' => PublishStatusEnum::published,
                 'name' => 'more-ebooks',
                 'image' => 'more-ebooks',
             ],
@@ -69,7 +68,7 @@ class PageSeeder extends Seeder
                 'title' => 'Privacy',
                 'slug' => 'privacy',
                 'summary' => 'Your privacy & your data',
-                'status' => PostStatusEnum::published,
+                'status' => PublishStatusEnum::published,
                 'name' => 'privacy',
                 'image' => 'privacy',
             ],

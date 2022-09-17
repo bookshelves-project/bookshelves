@@ -2,7 +2,7 @@
   "title": "HomePage",
   "slug": "homepage-en",
   "language": "en",
-  "template": "home",
+  "builder": "home",
   "meta_title": "HomePage",
   "meta_description": "The home page",
   "content": [

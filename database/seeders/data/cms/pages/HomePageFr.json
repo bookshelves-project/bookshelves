@@ -2,7 +2,7 @@
   "title": "Page d'accueil",
   "slug": "homepage-fr",
   "language": "fr",
-  "template": "home",
+  "builder": "home",
   "meta_title": "Page d'accueil",
   "meta_description": "La page d'accueil",
   "content": [

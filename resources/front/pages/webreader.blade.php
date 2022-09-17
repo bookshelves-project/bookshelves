@@ -9,10 +9,10 @@
     alt=""
   >
   <i>An example with Webreader option at right</i>
-  <x-button
+  <x-steward-button
     route="{{ route('catalog.index') }}"
     external
   >
     Try random book
-  </x-button>
+  </x-steward-button>
 </x-layout.front>

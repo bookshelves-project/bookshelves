@@ -22,12 +22,13 @@ class Page extends Model implements HasMedia
     protected $fillable = [
         'title',
         'language',
+        // 'builder',
         'content',
     ];
 
     protected $casts = [
         'content' => 'array',
         'language' => LanguageEnum::class,
-        'builder' => BuilderEnum::class,
+        // 'builder' => BuilderEnum::class,
     ];
 }

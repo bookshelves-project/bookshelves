@@ -1,6 +1,10 @@
 <div>
-  <x-field.upload-file />
-  <button>
+  <x-steward-field-upload-file
+    name="covers"
+    label="Covers"
+    class="mt-6"
+  />
+  <x-steward-button>
     upload
-  </button>
+  </x-steward-button>
 </div>
