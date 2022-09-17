@@ -57,7 +57,9 @@ class SetupCommand extends CommandProd
         $default = $this->option('default') ?? false;
 
         if ($fresh) {
-            $this->checkProd();
+            if (! $force) {
+                $this->checkProd();
+            }
 
             Artisan::call('migrate:fresh --force', [], $this->getOutput());
         }
