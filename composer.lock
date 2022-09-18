@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f44f9cb696b41d624070a2aabb7ba4a",
+    "content-hash": "bc91d6db6c8931a7e15256ac22eedcc9",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2031,12 +2031,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/laravel-steward.git",
-                "reference": "08cdb8085e840d22706b0c97ea58fd0f9d33b90c"
+                "reference": "8ac4ceaee0dd4b73a1d0125a4ed93e3f5b32528f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/laravel-steward/zipball/08cdb8085e840d22706b0c97ea58fd0f9d33b90c",
-                "reference": "08cdb8085e840d22706b0c97ea58fd0f9d33b90c",
+                "url": "https://api.github.com/repos/kiwilan/laravel-steward/zipball/8ac4ceaee0dd4b73a1d0125a4ed93e3f5b32528f",
+                "reference": "8ac4ceaee0dd4b73a1d0125a4ed93e3f5b32528f",
                 "shasum": ""
             },
             "require": {
@@ -2044,6 +2044,8 @@
                 "illuminate/contracts": "^9.0",
                 "illuminate/database": "^9.18",
                 "illuminate/support": "^7.0|^8.0|^9.0",
+                "livewire/livewire": "^2.10",
+                "maatwebsite/excel": "^3.1",
                 "php": "^8.1",
                 "psr/simple-cache": "^1.0",
                 "spatie/laravel-package-tools": "^1.9.2",
@@ -2053,13 +2055,13 @@
                 "filament/filament": "^2.15",
                 "knuckleswtf/scribe": "^4.0",
                 "laravel/pint": "^1.0",
-                "maatwebsite/excel": "^3.1",
                 "nunomaduro/collision": "^6.0",
                 "nunomaduro/larastan": "^2.0.1",
                 "orchestra/testbench": "^7.0",
                 "pestphp/pest": "^1.21",
                 "pestphp/pest-plugin-laravel": "^1.1",
                 "pestphp/pest-plugin-mock": "^1.0",
+                "phpro/grumphp": "^1.13",
                 "phpstan/extension-installer": "^1.1",
                 "phpstan/phpstan-deprecation-rules": "^1.0",
                 "phpstan/phpstan-phpunit": "^1.0",
@@ -2106,7 +2108,7 @@
                 "issues": "https://github.com/kiwilan/laravel-steward/issues",
                 "source": "https://github.com/kiwilan/laravel-steward/tree/main"
             },
-            "time": "2022-09-18T07:29:07+00:00"
+            "time": "2022-09-18T09:57:39+00:00"
         },
         {
             "name": "lab404/laravel-impersonate",

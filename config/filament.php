@@ -88,6 +88,7 @@ return [
     'auth' => [
         'guard' => env('FILAMENT_AUTH_GUARD', 'web'),
         'pages' => [
+            // 'login' => \Filament\Http\Livewire\Auth\Login::class,
             'login' => \App\Filament\Pages\Auth\Login::class,
         ],
     ],
@@ -141,6 +142,7 @@ return [
         'path' => app_path('Filament/Widgets'),
         'register' => [
             Widgets\AccountWidget::class,
+            // Widgets\FilamentInfoWidget::class,
             DocumentationAdminWidget::class,
         ],
     ],
@@ -174,6 +176,44 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Database notifications
+    |--------------------------------------------------------------------------
+    |
+    | By enabling this feature, your users are able to open a slide-over within
+    | the admin panel to view their database notifications.
+    |
+    */
+
+    'database_notifications' => [
+        'enabled' => true,
+        'polling_interval' => '30s',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Broadcasting
+    |--------------------------------------------------------------------------
+    |
+    | By uncommenting the Laravel Echo configuration, you may connect your
+    | admin panel to any Pusher-compatible websockets server.
+    |
+    | This will allow your admin panel to receive real-time notifications.
+    |
+    */
+
+    'broadcasting' => [
+
+        // 'echo' => [
+        //     'broadcaster' => 'pusher',
+        //     'key' => env('VITE_PUSHER_APP_KEY'),
+        //     'cluster' => env('VITE_PUSHER_APP_CLUSTER'),
+        //     'forceTLS' => true,
+        // ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Layout
     |--------------------------------------------------------------------------
     |
@@ -199,7 +239,7 @@ return [
             'have_inline_labels' => false,
         ],
         'footer' => [
-            'should_show_logo' => false,
+            'should_show_logo' => true,
         ],
         'max_content_width' => null,
         'notifications' => [
@@ -212,6 +252,7 @@ return [
                 'are_collapsible' => true,
             ],
             'width' => null,
+            'collapsed_width' => null,
         ],
     ],
 
@@ -264,6 +305,7 @@ return [
     */
 
     'google_fonts' => 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+
     /*
     |--------------------------------------------------------------------------
     | Middleware

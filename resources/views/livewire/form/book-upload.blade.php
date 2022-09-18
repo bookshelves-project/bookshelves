@@ -8,6 +8,7 @@
     wire:model="foo"
     wire:poll.10000ms="autosave"
   ></x-field.editor>
+  <livewire:editor />
   <x-steward-button>
     upload
   </x-steward-button>

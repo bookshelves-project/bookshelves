@@ -45,20 +45,21 @@
     href="/site.webmanifest"
   >
 
-  {{-- <script src="{{ asset('/vendor/js/color-mode.js') }}"></script> --}}
+  <script src="{{ asset('/vendor/js/color-mode.js') }}"></script>
 
   @stack('head')
   @stack('styles')
   @stack('scripts-head')
   @livewireStyles
+  @livewireScripts
 </head>
 
-<body class="{{ config('app.env') === 'local' ? 'debug-screens' : '' }} color-mode">
+<body class="{{ config('app.env') === 'local' ? 'debug-screens' : '' }} color-mode antialiased">
   {{ $slot }}
 
   @stack('modals')
   @stack('scripts')
-  @livewireScripts
+  @livewire('notifications')
 </body>
 
 </html>

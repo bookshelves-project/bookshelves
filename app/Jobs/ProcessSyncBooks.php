@@ -2,13 +2,17 @@
 
 namespace App\Jobs;
 
+use Filament\Notifications\Notification;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ProcessSyncBooks implements ShouldQueue
 {
@@ -25,6 +29,7 @@ class ProcessSyncBooks implements ShouldQueue
      */
     public function __construct(
         public bool $fresh = false,
+        public ?Authenticatable $recipient = null,
     ) {
     }
 
@@ -34,6 +39,11 @@ class ProcessSyncBooks implements ShouldQueue
     public function handle()
     {
         Log::info('SyncBooksProcess: start');
+
+        if ($this->fresh) {
+            File::deleteDirectory(public_path('storage/covers'));
+            File::deleteDirectory(public_path('storage/formats'));
+        }
 
         Log::debug('SyncBooksProcess: generate');
         Artisan::call('bookshelves:generate', [
@@ -51,5 +61,33 @@ class ProcessSyncBooks implements ShouldQueue
         ]);
 
         Log::info('SyncBooksProcess: end');
+
+        if ($this->recipient) {
+            Notification::make()
+                ->title('Sync is finished')
+                ->icon('heroicon-o-refresh')
+                ->iconColor('success')
+                ->body($this->fresh ? 'All books are deleted and re-created.' : 'All books are sync with assets and relations.')
+                ->sendToDatabase($this->recipient)
+            ;
+        }
+    }
+
+    /**
+     * Handle a job failure.
+     */
+    public function failed(Throwable $exception)
+    {
+        Log::error('SyncBooksProcess: failed', [
+            'exception' => $exception,
+        ]);
+
+        Notification::make()
+            ->title('Sync error')
+            ->icon('heroicon-o-refresh')
+            ->iconColor('danger')
+            ->body("Sync process failed with error: {$exception->getMessage()}")
+            ->sendToDatabase($this->recipient)
+        ;
     }
 }

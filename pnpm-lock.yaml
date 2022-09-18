@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@antfu/eslint-config': ^0.26.3
+  '@awcodes/alpine-floating-ui': ^3.4.0
   '@tailwindcss/aspect-ratio': ^0.4.2
   '@tailwindcss/forms': ^0.5.3
   '@tailwindcss/line-clamp': ^0.4.2
@@ -20,6 +21,7 @@ specifiers:
 
 devDependencies:
   '@antfu/eslint-config': 0.26.3_irgkl5vooow2ydyo6aokmferha
+  '@awcodes/alpine-floating-ui': 3.4.0
   '@tailwindcss/aspect-ratio': 0.4.2_tailwindcss@3.1.8
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.1.8
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.1.8
@@ -137,6 +139,10 @@ packages:
       - eslint-import-resolver-webpack
       - supports-color
       - typescript
+    dev: true
+
+  /@awcodes/alpine-floating-ui/3.4.0:
+    resolution: {integrity: sha512-D2XnqKAqN1w9q4rGnz1bG4bVE9kh8jVYpbBAT8jtvQ7jeadevW3g+NIV/CCljGdH3N8LmoYoyBfAtLYzDesXdw==}
     dev: true
 
   /@babel/code-frame/7.18.6:

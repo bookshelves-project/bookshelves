@@ -34,6 +34,7 @@ deploy-job:
       php$PHP_VERSION artisan scout:fresh &&
       /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm i &&
       /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm build &&
+      supervisorctl restart bookshelves-worker:bookshelves-worker_00 &&
       discord-queerotronic.sh '$CI_PROJECT_TITLE'"
   only:
     - main
