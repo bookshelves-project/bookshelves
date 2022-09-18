@@ -1,6 +1,6 @@
 /node_modules
 /public/vendor/build
-/public/vendor/js/color-mode.js
+/public/vendor/js
 /public/api
 /public/hot
 /public/storage

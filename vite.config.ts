@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite'
 import laravel, { refreshPaths } from 'laravel-vite-plugin'
-import { colorMode } from './vendor/kiwilan/laravel-steward/dist/steward.cjs'
+import { steward } from './vendor/kiwilan/laravel-steward/dist/steward.cjs'
 
 export default defineConfig({
   plugins: [
-    colorMode({
+    steward({
       outputDir: './public/vendor/js',
     }),
     laravel({
