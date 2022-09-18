@@ -45,10 +45,11 @@
     href="/site.webmanifest"
   >
 
-  <script src="{{ asset('/vendor/js/color-mode.js') }}"></script>
+  {{-- <script src="{{ asset('/vendor/js/color-mode.js') }}"></script> --}}
 
   @stack('head')
   @stack('styles')
+  @stack('scripts-head')
   @livewireStyles
 </head>
 

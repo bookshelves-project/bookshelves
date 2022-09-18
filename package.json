@@ -13,6 +13,7 @@
     "@tailwindcss/line-clamp": "^0.4.2",
     "@tailwindcss/typography": "^0.5.7",
     "@types/alpinejs": "^3.7.0",
+    "@types/node": "^18.7.18",
     "alpinejs": "^3.10.3",
     "autoprefixer": "^10.4.11",
     "eslint": "^8.23.1",
