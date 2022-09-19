@@ -4,9 +4,7 @@ import { steward } from './vendor/kiwilan/laravel-steward/dist/steward.cjs'
 
 export default defineConfig({
   plugins: [
-    steward({
-      outputDir: './public/vendor/js',
-    }),
+    steward(),
     laravel({
       input: [
         /** Admin */
