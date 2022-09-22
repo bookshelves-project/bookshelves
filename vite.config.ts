@@ -1,8 +1,15 @@
+import path from 'path'
 import { defineConfig } from 'vite'
 import laravel, { refreshPaths } from 'laravel-vite-plugin'
-import { steward } from './vendor/kiwilan/laravel-steward/dist/steward.cjs'
+import steward from '@kiwilan/vite-plugin-laravel-steward'
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@': path.join(__dirname, '/'),
+      '~': path.join(__dirname, '/resources'),
+    },
+  },
   plugins: [
     steward(),
     laravel({
