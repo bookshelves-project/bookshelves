@@ -18731,6 +18731,18 @@
      
 }
 
+    namespace Kiwilan\Steward\Facades { 
+            /**
+     * 
+     *
+     * @see \Kiwilan\Steward\LaravelSteward
+     */ 
+        class LaravelSteward {
+         
+    }
+     
+}
+
     namespace Livewire { 
             /**
      * 
@@ -25115,6 +25127,7 @@ namespace  {
             class Toolbar extends \Fruitcake\TelescopeToolbar\Toolbar {}
             class Image extends \Intervention\Image\Facades\Image {}
             class Clockwork extends \Clockwork\Support\Laravel\Facade {}
+            class Steward extends \Kiwilan\Steward\Facades\LaravelSteward {}
             class Livewire extends \Livewire\Livewire {}
             class Excel extends \Maatwebsite\Excel\Facades\Excel {}
             class LogViewer extends \Opcodes\LogViewer\Facades\LogViewer {}
