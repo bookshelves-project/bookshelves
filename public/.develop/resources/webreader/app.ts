@@ -1,9 +1,3 @@
-import 'clockwork-browser/metrics'
-import 'clockwork-browser/toolbar'
-
-import 'virtual:windi.css'
-import './app.css'
-
 // import epub from './scripts/alpine/epub'
 import Alpine from 'alpinejs'
 import epubjs from './scripts/alpine/epubjs'
