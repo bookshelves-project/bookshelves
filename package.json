@@ -3,13 +3,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint . --ext .ts,.js,.vue",
-    "lint:fix": "eslint . --ext .ts,.js,.vue --fix"
+    "lint": "eslint . --ext .ts,.js --ignore-path .gitignore",
+    "lint:fix": "eslint . --ext .ts,.js --fix --ignore-path .gitignore"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.3",
     "@awcodes/alpine-floating-ui": "^3.4.0",
-    "@kiwilan/vite-plugin-laravel-steward": "^0.0.129",
+    "@kiwilan/vite-plugin-laravel-steward": "^0.0.130",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.2",

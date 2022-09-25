@@ -9,6 +9,7 @@ class BookUpload extends Component
 {
     use WithFileUploads;
 
+    public string $content = '';
     public mixed $upload = [];
 
     public function render()
