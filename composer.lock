@@ -956,16 +956,16 @@
         },
         {
             "name": "filament/filament",
-            "version": "v2.16.14",
+            "version": "v2.16.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/admin.git",
-                "reference": "1e1c937094e30d16d3f29e924b0c18ec5d49d902"
+                "reference": "be00d1e801db4d82fb5798a355ccdc9aaac1d4dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/admin/zipball/1e1c937094e30d16d3f29e924b0c18ec5d49d902",
-                "reference": "1e1c937094e30d16d3f29e924b0c18ec5d49d902",
+                "url": "https://api.github.com/repos/filamentphp/admin/zipball/be00d1e801db4d82fb5798a355ccdc9aaac1d4dd",
+                "reference": "be00d1e801db4d82fb5798a355ccdc9aaac1d4dd",
                 "shasum": ""
             },
             "require": {
@@ -1015,20 +1015,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2022-09-23T11:39:36+00:00"
+            "time": "2022-09-25T11:51:27+00:00"
         },
         {
             "name": "filament/forms",
-            "version": "v2.16.14",
+            "version": "v2.16.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/forms.git",
-                "reference": "037ef411663c4925c490b92bc4ebe6b948d57296"
+                "reference": "5a7f0bf82e9ae849675e7a1a92473ce6f5c85f7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/forms/zipball/037ef411663c4925c490b92bc4ebe6b948d57296",
-                "reference": "037ef411663c4925c490b92bc4ebe6b948d57296",
+                "url": "https://api.github.com/repos/filamentphp/forms/zipball/5a7f0bf82e9ae849675e7a1a92473ce6f5c85f7b",
+                "reference": "5a7f0bf82e9ae849675e7a1a92473ce6f5c85f7b",
                 "shasum": ""
             },
             "require": {
@@ -1073,11 +1073,11 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2022-09-23T11:39:40+00:00"
+            "time": "2022-09-25T11:51:30+00:00"
         },
         {
             "name": "filament/notifications",
-            "version": "v2.16.14",
+            "version": "v2.16.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/notifications.git",
@@ -1127,7 +1127,7 @@
         },
         {
             "name": "filament/spatie-laravel-media-library-plugin",
-            "version": "v2.16.14",
+            "version": "v2.16.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-media-library-plugin.git",
@@ -1164,7 +1164,7 @@
         },
         {
             "name": "filament/spatie-laravel-tags-plugin",
-            "version": "v2.16.14",
+            "version": "v2.16.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-tags-plugin.git",
@@ -1201,7 +1201,7 @@
         },
         {
             "name": "filament/spatie-laravel-translatable-plugin",
-            "version": "v2.16.14",
+            "version": "v2.16.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-translatable-plugin.git",
@@ -1247,16 +1247,16 @@
         },
         {
             "name": "filament/support",
-            "version": "v2.16.14",
+            "version": "v2.16.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/support.git",
-                "reference": "c0cc59bd50d926b9f60cf1ea0762982ffd71cb06"
+                "reference": "d9d2036e8e41c97960e0dca6cd4a499a95d5da15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/support/zipball/c0cc59bd50d926b9f60cf1ea0762982ffd71cb06",
-                "reference": "c0cc59bd50d926b9f60cf1ea0762982ffd71cb06",
+                "url": "https://api.github.com/repos/filamentphp/support/zipball/d9d2036e8e41c97960e0dca6cd4a499a95d5da15",
+                "reference": "d9d2036e8e41c97960e0dca6cd4a499a95d5da15",
                 "shasum": ""
             },
             "require": {
@@ -1293,20 +1293,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2022-09-22T19:57:32+00:00"
+            "time": "2022-09-25T11:51:25+00:00"
         },
         {
             "name": "filament/tables",
-            "version": "v2.16.14",
+            "version": "v2.16.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/tables.git",
-                "reference": "9690836dfcf378e907167ab2e9dd19dc483fed8f"
+                "reference": "cf2e312202ac192db49938d64e7685ce75f23dae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/tables/zipball/9690836dfcf378e907167ab2e9dd19dc483fed8f",
-                "reference": "9690836dfcf378e907167ab2e9dd19dc483fed8f",
+                "url": "https://api.github.com/repos/filamentphp/tables/zipball/cf2e312202ac192db49938d64e7685ce75f23dae",
+                "reference": "cf2e312202ac192db49938d64e7685ce75f23dae",
                 "shasum": ""
             },
             "require": {
@@ -1349,7 +1349,7 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2022-09-23T11:39:54+00:00"
+            "time": "2022-09-25T11:51:27+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -2031,12 +2031,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/laravel-steward.git",
-                "reference": "b4780944d049ec4f32c92bffec82ad9c25aa1fbb"
+                "reference": "0e1c2cb057eccc5d78c026821551cc3e212a1ad0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/laravel-steward/zipball/b4780944d049ec4f32c92bffec82ad9c25aa1fbb",
-                "reference": "b4780944d049ec4f32c92bffec82ad9c25aa1fbb",
+                "url": "https://api.github.com/repos/kiwilan/laravel-steward/zipball/0e1c2cb057eccc5d78c026821551cc3e212a1ad0",
+                "reference": "0e1c2cb057eccc5d78c026821551cc3e212a1ad0",
                 "shasum": ""
             },
             "require": {
@@ -2108,7 +2108,7 @@
                 "issues": "https://github.com/kiwilan/laravel-steward/issues",
                 "source": "https://github.com/kiwilan/laravel-steward/tree/main"
             },
-            "time": "2022-09-24T07:47:14+00:00"
+            "time": "2022-09-25T17:34:50+00:00"
         },
         {
             "name": "lab404/laravel-impersonate",
@@ -4590,16 +4590,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "1.24.1",
+            "version": "1.25.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "69991111e05fca3ff7398e1e7fca9ebed33efec6"
+                "reference": "a317a09e7def49852400a4b3eca4a4b0790ceeb5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/69991111e05fca3ff7398e1e7fca9ebed33efec6",
-                "reference": "69991111e05fca3ff7398e1e7fca9ebed33efec6",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/a317a09e7def49852400a4b3eca4a4b0790ceeb5",
+                "reference": "a317a09e7def49852400a4b3eca4a4b0790ceeb5",
                 "shasum": ""
             },
             "require": {
@@ -4616,33 +4616,34 @@
                 "ext-xmlwriter": "*",
                 "ext-zip": "*",
                 "ext-zlib": "*",
-                "ezyang/htmlpurifier": "^4.13",
+                "ezyang/htmlpurifier": "^4.15",
                 "maennchen/zipstream-php": "^2.1",
                 "markbaker/complex": "^3.0",
                 "markbaker/matrix": "^3.0",
                 "php": "^7.3 || ^8.0",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
-                "psr/simple-cache": "^1.0 || ^2.0"
+                "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "dev-master",
                 "dompdf/dompdf": "^1.0 || ^2.0",
                 "friendsofphp/php-cs-fixer": "^3.2",
-                "jpgraph/jpgraph": "^4.0",
+                "mitoteam/jpgraph": "10.2.4",
                 "mpdf/mpdf": "8.1.1",
                 "phpcompatibility/php-compatibility": "^9.3",
                 "phpstan/phpstan": "^1.1",
                 "phpstan/phpstan-phpunit": "^1.0",
                 "phpunit/phpunit": "^8.5 || ^9.0",
                 "squizlabs/php_codesniffer": "^3.7",
-                "tecnickcom/tcpdf": "^6.4"
+                "tecnickcom/tcpdf": "6.5"
             },
             "suggest": {
-                "dompdf/dompdf": "Option for rendering PDF with PDF Writer (doesn't yet support PHP8)",
-                "jpgraph/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
+                "dompdf/dompdf": "Option for rendering PDF with PDF Writer",
+                "ext-intl": "PHP Internationalization Functions",
+                "mitoteam/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
                 "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
-                "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer (doesn't yet support PHP8)"
+                "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer"
             },
             "type": "library",
             "autoload": {
@@ -4688,9 +4689,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.24.1"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.25.2"
             },
-            "time": "2022-07-18T19:50:48+00:00"
+            "time": "2022-09-25T17:21:01+00:00"
         },
         {
             "name": "phpoption/phpoption",
