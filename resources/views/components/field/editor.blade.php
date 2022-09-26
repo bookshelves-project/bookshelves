@@ -1,8 +1,8 @@
 <!-- Include stylesheet -->
-<link
+{{-- <link
   href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
   rel="stylesheet"
->
+> --}}
 <style>
   .ql-link path {
     stroke: white !important;
