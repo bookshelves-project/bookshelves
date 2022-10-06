@@ -3,27 +3,37 @@
 namespace App\Models;
 
 use App\Enums\PostCategoryEnum;
+use App\Http\Resources\Post\PostCollectionResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Kiwilan\Steward\Traits\HasSeo;
+use Kiwilan\Steward\Traits\HasShowRoute;
 use Kiwilan\Steward\Traits\HasSlug;
+use Kiwilan\Steward\Traits\Mediable;
 use Kiwilan\Steward\Traits\Publishable;
+use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Post extends Model implements HasMedia
+class Post extends Model
 {
     use HasFactory;
     use HasSlug;
+    use HasShowRoute;
     use Publishable;
-    use InteractsWithMedia;
     use HasSeo;
     use Searchable;
+    use Queryable;
+    use Mediable;
 
     protected $slug_with = 'title';
     protected $meta_title_from = 'title';
+
+    protected $query_default_sort = 'published_at';
+    protected $query_default_sort_direction = 'desc';
+    protected $query_allowed_filters = ['title', 'slug'];
+    protected $query_allowed_sorts = ['slug'];
+    protected $query_resource = PostCollectionResource::class;
 
     protected $fillable = [
         'title',
@@ -31,6 +41,7 @@ class Post extends Model implements HasMedia
         'body',
         'is_pinned',
         'category',
+        'picture',
     ];
 
     protected $casts = [
@@ -38,17 +49,9 @@ class Post extends Model implements HasMedia
         'category' => PostCategoryEnum::class,
     ];
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('featured-image')
-            ->singleFile()
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
-        ;
-
-        $this->addMediaCollection('post-images')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
-        ;
-    }
+    protected $with = [
+        'author',
+    ];
 
     public function author(): BelongsTo
     {

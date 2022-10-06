@@ -341,19 +341,19 @@ namespace App\Models{
  * @property string $title
  * @property string $slug
  * @property \Kiwilan\Steward\Enums\LanguageEnum $language
- * @property \stdClass|null $builder
+ * @property string $template
  * @property array|null $content
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \stdClass|null $builder
  * @property-read array $seo
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Page query()
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereBuilder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
@@ -361,6 +361,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereTemplate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
  */
@@ -386,6 +387,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $author
+ * @property-read array $meta
+ * @property-read string|null $route_show
  * @property-read array $seo
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count

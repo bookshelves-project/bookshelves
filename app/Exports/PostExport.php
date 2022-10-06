@@ -4,7 +4,6 @@ namespace App\Exports;
 
 use App\Models\Post;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\Lang;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -27,12 +26,16 @@ class PostExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 
     public function headings(): array
     {
-        return collect(['title', 'category', 'status', 'summary', 'is_pinned', 'published_at', 'created_at', 'updated_at'])
-            ->map(
-                fn ($field) => Lang::has("crud.posts.attributes.{$field}")
-                    ? __("crud.posts.attributes.{$field}")
-                    : __("admin.attributes.{$field}")
-            )->toArray();
+        return collect([
+            'title',
+            'category',
+            'status',
+            'summary',
+            'is_pinned',
+            'published_at',
+            'created_at',
+            'updated_at',
+        ])->toArray();
     }
 
     /**
@@ -42,6 +45,13 @@ class PostExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
     {
         return [
             $row->title,
+            $row->category?->name,
+            $row->status->value, // @phpstan-ignore-line
+            $row->summary,
+            $row->is_pinned ? 'true' : 'false',
+            $row->published_at,
+            $row->created_at,
+            $row->updated_at,
         ];
     }
 }

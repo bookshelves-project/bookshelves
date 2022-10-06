@@ -24,10 +24,11 @@ class PostFactory extends Factory
         return [
             'title' => ucfirst($this->faker->words(5, true)),
             'summary' => $this->faker->paragraph(),
-            'body' => $this->faker->paragraphs(5, true),
             'status' => $this->faker->randomElement(PublishStatusEnum::toValues()),
             'is_pinned' => $this->faker->boolean(15),
             'category' => $this->faker->randomElement(PostCategoryEnum::toValues()),
+            'picture' => SeederService::medias('posts'),
+            'body' => SeederService::generateRichBody($this->faker),
         ];
     }
 

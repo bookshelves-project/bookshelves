@@ -20,6 +20,7 @@ return new class() extends Migration {
             $table->longText('body')->nullable();
             $table->boolean('is_pinned')->default(0);
             $table->string('category')->nullable();
+            $table->string('picture')->nullable();
 
             $table->dateTime('published_at')->nullable();
             $table->string('status')->default(PublishStatusEnum::published->value);
