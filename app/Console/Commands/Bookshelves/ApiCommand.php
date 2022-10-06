@@ -179,6 +179,7 @@ class ApiCommand extends CommandProd
         $bar = $this->output->createProgressBar(count($service->queries));
         $bar->start();
         foreach ($model_name::has('wikipedia')->get() as $entity) {
+            /** @var Author|Serie $entity */
             EntityConverter::setWikipediaDescription($entity);
             if (! $default && $entity instanceof Author) {
                 EntityConverter::setWikipediaCover($entity);
