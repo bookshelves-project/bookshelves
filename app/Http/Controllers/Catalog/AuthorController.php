@@ -23,7 +23,7 @@ class AuthorController extends Controller
         $authors = Author::with(['media'])->get();
         $authors = BookshelvesTools::chunkByAlpha($authors, 'lastname');
 
-        return view('front::pages.catalog.authors.index', compact('authors'));
+        return view('catalog::pages.authors.index', compact('authors'));
     }
 
     #[Get('/{character}', name: 'authors.character')]
@@ -40,7 +40,7 @@ class AuthorController extends Controller
 
         $authors = EntityResource::collection($authors);
 
-        return view('front::pages.catalog.authors.character', compact('authors', 'character'));
+        return view('catalog::pages.authors.characters', compact('authors', 'character'));
     }
 
     #[Get('/{character}/{author}', name: 'authors.show')]
@@ -52,6 +52,6 @@ class AuthorController extends Controller
         $author = AuthorResource::make($author);
         $author = json_decode($author->toJson());
 
-        return view('front::pages.catalog.authors._slug', compact('author', 'books'));
+        return view('catalog::pages.authors._slug', compact('author', 'books'));
     }
 }
