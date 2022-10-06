@@ -104,6 +104,32 @@ trait HasCovers
         return '#ffffff';
     }
 
+    public function getCoverMediaAttribute(): array
+    {
+        return [
+            'url' => $this->cover_thumbnail,
+            'color' => $this->cover_color,
+        ];
+    }
+
+    public function getCoverAttribute(): array
+    {
+        return [
+            'thumbnail' => $this->cover_thumbnail,
+            'color' => $this->cover_color,
+        ];
+    }
+
+    public function getCoverFullAttribute(): array
+    {
+        return [
+            ...$this->cover,
+            'og' => $this->cover_og,
+            'simple' => $this->cover_simple,
+            'original' => $this->cover_original,
+        ];
+    }
+
     private function getCover(string $collection = '', string $extension = ''): string
     {
         if (! $extension) {

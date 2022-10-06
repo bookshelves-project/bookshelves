@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Kiwilan\Steward\Traits\HasSlug;
+use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 
@@ -40,6 +41,11 @@ class Book extends Model implements HasMedia
     use HasSelections;
     use HasClassName;
     use Searchable;
+    use Queryable;
+
+    protected $query_default_sort = 'slug_sort';
+    protected $query_allowed_filters = ['title', 'slug'];
+    protected $query_allowed_sorts = ['slug'];
 
     protected $fillable = [
         'title',
@@ -72,6 +78,10 @@ class Book extends Model implements HasMedia
         'identifiers' => 'array',
         'volume' => 'integer',
         'page_count' => 'integer',
+    ];
+
+    protected $withCount = [
+        'tags',
     ];
 
     public function registerMediaCollections(): void

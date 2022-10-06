@@ -17,6 +17,10 @@ use Kiwilan\Steward\Traits\HasSlug;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 
+/**
+ * @property null|int $books_count
+ * @property null|int $series_count
+ */
 class Author extends Model implements HasMedia
 {
     use HasFactory;
@@ -42,6 +46,11 @@ class Author extends Model implements HasMedia
 
     protected $casts = [
         'role' => AuthorRoleEnum::class,
+    ];
+
+    protected $withCount = [
+        'books',
+        'series',
     ];
 
     /**

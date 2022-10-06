@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Translatable\HasTranslations;
 
+/**
+ * @property null|int $books_count
+ */
 class Language extends Model
 {
     use HasFactory;
@@ -25,6 +28,11 @@ class Language extends Model
     protected $fillable = [
         'slug',
         'name',
+    ];
+
+    protected $withCount = [
+        'books',
+        'series',
     ];
 
     /**

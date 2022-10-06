@@ -7,6 +7,7 @@ use App\Http\Resources\Book\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Queries\HttpQuery;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -16,12 +17,16 @@ class BookController extends ApiController
     #[Get('/', name: 'books.index')]
     public function index(Request $request)
     {
-        $models = Book::available()
-            ->orderBy('slug_sort')
-            ->paginate(32)
-        ;
+        // $models = Book::available()
+        //     ->orderBy('slug_sort')
+        //     ->paginate(32)
+        // ;
 
-        return BookCollectionResource::collection($models);
+        // return BookCollectionResource::collection($models);
+
+        return HttpQuery::make(Book::class, $request)
+            ->collection()
+        ;
     }
 
     #[Get('/{author_slug}/{book_slug}', name: 'books.show')]

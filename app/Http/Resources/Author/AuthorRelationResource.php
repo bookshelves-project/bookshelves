@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property \App\Models\Author $resource
  */
-class AuthorCollectionResource extends JsonResource
+class AuthorRelationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,14 +19,11 @@ class AuthorCollectionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            ...AuthorRelationResource::make($this->resource)->toArray($request),
-            'lastname' => $this->resource->lastname,
-            'firstname' => $this->resource->firstname,
-            'media' => $this->resource->cover_media,
-            'count' => [
-                'books' => $this->resource->books_count,
-                'series' => $this->resource->series_count,
+            'meta' => [
+                ...$this->resource->meta,
+                'entity' => $this->resource->entity,
             ],
+            'name' => $this->resource->name,
         ];
     }
 }

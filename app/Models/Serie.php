@@ -21,6 +21,9 @@ use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\Translatable\HasTranslations;
 
+/**
+ * @property null|int $books_count
+ */
 class Serie extends Model implements HasMedia
 {
     use HasFactory;
@@ -54,6 +57,10 @@ class Serie extends Model implements HasMedia
 
     protected $casts = [
         'type' => BookTypeEnum::class,
+    ];
+
+    protected $withCount = [
+        'books',
     ];
 
     /**

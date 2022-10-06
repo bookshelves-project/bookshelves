@@ -8,6 +8,11 @@ use ReflectionClass;
 
 trait IsEntity
 {
+    public function getEntityAttribute(): string
+    {
+        return $this->getEntity();
+    }
+
     public function getEntity(): string
     {
         $class = new ReflectionClass($this);
