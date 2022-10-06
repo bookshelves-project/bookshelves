@@ -341,19 +341,21 @@ namespace App\Models{
  * @property string $title
  * @property string $slug
  * @property \Kiwilan\Steward\Enums\LanguageEnum $language
- * @property string $template
+ * @property \stdClass|null $builder
  * @property array|null $content
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \stdClass|null $builder
+ * @property-read array $meta
+ * @property-read string|null $route_show
  * @property-read array $seo
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Page query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereBuilder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
@@ -361,7 +363,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereTemplate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
  */
@@ -379,6 +380,7 @@ namespace App\Models{
  * @property string|null $body
  * @property bool $is_pinned
  * @property \App\Enums\PostCategoryEnum|null $category
+ * @property string|null $picture
  * @property \Illuminate\Support\Carbon|null $published_at
  * @property \Kiwilan\Steward\Enums\PublishStatusEnum $status
  * @property string|null $meta_title
@@ -387,11 +389,11 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $author
+ * @property-read object $mediable
+ * @property-read array $mediables_list
  * @property-read array $meta
  * @property-read string|null $route_show
  * @property-read array $seo
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
- * @property-read int|null $media_count
  * @method static \Database\Factories\PostFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
@@ -405,6 +407,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereIsPinned($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereMetaTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Post wherePicture($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post wherePublishedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereStatus($value)
@@ -412,7 +415,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
  */
-	class Post extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class Post extends \Eloquent {}
 }
 
 namespace App\Models{

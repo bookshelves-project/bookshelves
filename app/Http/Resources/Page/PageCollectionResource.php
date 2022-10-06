@@ -5,7 +5,7 @@ namespace App\Http\Resources\Page;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property \App\Model\Page $resource
+ * @property \App\Models\Page $resource
  */
 class PageCollectionResource extends JsonResource
 {

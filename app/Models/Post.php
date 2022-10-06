@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\PostCategoryEnum;
-use App\Http\Resources\Post\PostCollectionResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,7 +32,6 @@ class Post extends Model
     protected $query_default_sort_direction = 'desc';
     protected $query_allowed_filters = ['title', 'slug'];
     protected $query_allowed_sorts = ['slug'];
-    protected $query_resource = PostCollectionResource::class;
 
     protected $fillable = [
         'title',

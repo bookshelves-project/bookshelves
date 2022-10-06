@@ -11,10 +11,9 @@ class PostResource extends JsonResource
 {
     public function toArray($request)
     {
-        $resource = (array) PostCollectionResource::make($this->resource)->toArray($request);
-
-        return array_merge($resource, [
+        return [
+            ...PostCollectionResource::make($this->resource)->toArray($request),
             'body' => $this->resource->body,
-        ]);
+        ];
     }
 }
