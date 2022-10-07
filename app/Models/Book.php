@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
-use App\Models\Media\DownloadFile;
 use App\Traits\HasAuthors;
+use App\Traits\HasBookFiles;
 use App\Traits\HasBookType;
 use App\Traits\HasClassName;
 use App\Traits\HasCovers;
@@ -20,10 +19,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
+use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
 use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class Book extends Model implements HasMedia
 {
@@ -40,12 +42,13 @@ class Book extends Model implements HasMedia
     use HasCovers;
     use HasSelections;
     use HasClassName;
+    use HasBookFiles;
     use Searchable;
     use Queryable;
+    use HasSearchableName;
 
     protected $query_default_sort = 'slug_sort';
-    protected $query_allowed_filters = ['title', 'slug'];
-    protected $query_allowed_sorts = ['slug'];
+    protected $query_allowed_sorts = ['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'isbn', 'publisher', 'released_on', 'created_at', 'updated_at'];
 
     protected $fillable = [
         'title',
@@ -95,85 +98,6 @@ class Book extends Model implements HasMedia
     }
 
     /**
-     * Manage files with spatie/laravel-medialibrary.
-     *
-     * @return MediaExtended[]|null[]
-     */
-    public function getFilesAttribute()
-    {
-        $files = [];
-        foreach (BookFormatEnum::toValues() as $format) {
-            $media = $this->getMedia($format)
-                ->first(null, MediaExtended::class)
-            ;
-            $files[$format] = is_string($media) ? null : $media;
-        }
-
-        // @phpstan-ignore-next-line
-        return $files;
-    }
-
-    /**
-     * Manage files with spatie/laravel-medialibrary.
-     *
-     * @return MediaExtended[]
-     */
-    public function getFilesType(BookFormatEnum $format)
-    {
-        $files = [];
-        foreach (BookFormatEnum::toValues() as $format) {
-            $media = $this->getMedia($format)
-                ->first(null, MediaExtended::class)
-            ;
-            $files[$format] = is_string($media) ? null : $media;
-        }
-
-        // @phpstan-ignore-next-line
-        return $files;
-    }
-
-    public function getFileMainAttribute(): DownloadFile
-    {
-        return current(array_filter(array_reverse($this->files_list)));
-    }
-
-    /**
-     * @return DownloadFile[]
-     */
-    public function getFilesListAttribute()
-    {
-        $list = [];
-        $formats = BookFormatEnum::toValues();
-        foreach ($formats as $format) {
-            $media = null;
-            if (null !== $this->files[$format]) {
-                $route = route('api.download.book', [
-                    'author_slug' => $this->meta_author,
-                    'book_slug' => $this->slug,
-                    'format' => $format,
-                ]);
-                /** @var MediaExtended $file */
-                $file = $this->files[$format];
-                $reader = route('webreader.reader', [
-                    'author' => $this->meta_author,
-                    $this->getClassName() => $this->slug,
-                    'format' => $format,
-                ]);
-                $media = new DownloadFile(
-                    $file->file_name,
-                    $file->size_human,
-                    $route,
-                    $reader,
-                    $file->extension,
-                );
-            }
-            $list[$format] = $media;
-        }
-
-        return $list;
-    }
-
-    /**
      * Scope.
      */
     public function scopeAvailable(Builder $query): Builder
@@ -218,9 +142,7 @@ class Book extends Model implements HasMedia
      */
     public function searchableAs()
     {
-        $app = config('bookshelves.slug');
-
-        return "{$app}_books";
+        return $this->searchableNameAs();
     }
 
     public function toSearchableArray()
@@ -237,6 +159,57 @@ class Book extends Model implements HasMedia
             'tags' => $this->tags_string,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+        ];
+    }
+
+    protected function setQueryAllowedFilters(): array
+    {
+        return [
+            AllowedFilter::custom('q', new GlobalSearchFilter(['title', 'serie'])),
+            AllowedFilter::exact('id'),
+            AllowedFilter::partial('title'),
+            AllowedFilter::callback(
+                'serie',
+                fn (Builder $query, $value) => $query->whereHas(
+                    'serie',
+                    fn (Builder $query) => $query->where('title', 'like', "%{$value}%")
+                )
+            ),
+            AllowedFilter::partial('volume'),
+            AllowedFilter::callback(
+                'authors',
+                fn (Builder $query, $value) => $query->whereHas(
+                    'authors',
+                    fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
+                )
+            ),
+            AllowedFilter::exact('is_disabled'),
+            AllowedFilter::exact('released_on'),
+            AllowedFilter::exact('type'),
+            AllowedFilter::scope('types', 'whereTypesIs'),
+            AllowedFilter::callback(
+                'language',
+                fn (Builder $query, $value) => $query->whereHas(
+                    'language',
+                    fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
+                )
+            ),
+            AllowedFilter::scope('languages', 'whereLanguagesIs'),
+            AllowedFilter::callback(
+                'publisher',
+                fn (Builder $query, $value) => $query->whereHas(
+                    'publisher',
+                    fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
+                )
+            ),
+            AllowedFilter::scope('disallow_serie', 'whereDisallowSerie'),
+            AllowedFilter::scope('language', 'whereLanguagesIs'),
+            AllowedFilter::scope('published', 'publishedBetween'),
+            AllowedFilter::scope('is_disabled', 'whereIsDisabled'),
+            AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
+            AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
+            AllowedFilter::scope('tags', 'whereTagsIs'),
+            AllowedFilter::scope('isbn', 'whereIsbnIs'),
         ];
     }
 }

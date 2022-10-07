@@ -14,11 +14,16 @@ use App\Traits\HasSelections;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\HasWikipediaItem;
 use App\Traits\IsEntity;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
+use Kiwilan\Steward\Traits\HasSearchableName;
+use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -40,11 +45,16 @@ class Serie extends Model implements HasMedia
     use HasClassName;
     use HasTranslations;
     use Searchable;
+    use Queryable;
+    use HasSearchableName;
 
     public $translatable = [
         // 'title',
         'description',
     ];
+
+    protected $query_default_sort = 'slug_sort';
+    protected $query_allowed_sorts = ['id', 'title', 'authors', 'books_count', 'language', 'created_at', 'updated_at', 'language'];
 
     protected $fillable = [
         'title',
@@ -66,36 +76,21 @@ class Serie extends Model implements HasMedia
     /**
      * Relationships.
      */
-
-    /**
-     * Get Books into Serie, by volume order.
-     */
     public function books(): HasMany
     {
+        // Get Books into Serie, by volume order.
         return $this->hasMany(Book::class)
+            ->where('is_disabled', false)
             ->orderBy('volume')
         ;
     }
-
-    /**
-     * Get available Books into Serie, by volume order.
-     */
-    // public function booksAvailable(): HasMany
-    // {
-    //     return $this->hasMany(Book::class)
-    //         ->where('is_disabled', false)
-    //         ->orderBy('volume')
-    //     ;
-    // }
 
     /**
      * Scout.
      */
     public function searchableAs()
     {
-        $app = config('bookshelves.slug');
-
-        return "{$app}_series";
+        return $this->searchableNameAs();
     }
 
     public function toSearchableArray()
@@ -109,6 +104,26 @@ class Serie extends Model implements HasMedia
             'tags' => $this->tags_string,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+        ];
+    }
+
+    protected function setQueryAllowedFilters(): array
+    {
+        return [
+            AllowedFilter::custom('q', new GlobalSearchFilter(['title'])),
+            AllowedFilter::partial('title'),
+            AllowedFilter::partial('authors'),
+            AllowedFilter::exact('type'),
+            AllowedFilter::scope('types', 'whereTypesIs'),
+            AllowedFilter::callback(
+                'language',
+                fn (Builder $query, $value) => $query->whereHas(
+                    'language',
+                    fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
+                )
+            ),
+            AllowedFilter::scope('languages', 'whereLanguagesIs'),
+            AllowedFilter::scope('language', 'whereLanguagesIs'),
         ];
     }
 }

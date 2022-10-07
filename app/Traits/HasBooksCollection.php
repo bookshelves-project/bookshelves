@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
+use App\Class\DownloadFile;
 use App\Enums\BookFormatEnum;
 use App\Models\Author;
-use App\Models\Media\DownloadFile;
 use App\Models\Serie;
 
 trait HasBooksCollection

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Author\AuthorCollectionResource;
 use App\Http\Resources\Author\AuthorResource;
 use App\Http\Resources\Book\BookCollectionResource;
 use App\Http\Resources\Serie\SerieCollectionResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Queries\HttpQuery;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -15,13 +15,11 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 class AuthorController extends ApiController
 {
     #[Get('/', name: 'authors.index')]
-    public function index()
+    public function index(Request $request)
     {
-        $models = Author::orderBy('lastname')
-            ->paginate(32)
+        return HttpQuery::make(Author::class, $request)
+            ->collection()
         ;
-
-        return AuthorCollectionResource::collection($models);
     }
 
     #[Get('/{author_slug}', name: 'authors.show')]

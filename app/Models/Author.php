@@ -13,9 +13,13 @@ use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
+use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
+use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\QueryBuilder\AllowedFilter;
 
 /**
  * @property null|int $books_count
@@ -33,6 +37,11 @@ class Author extends Model implements HasMedia
     use HasCovers;
     use HasClassName;
     use Searchable;
+    use Queryable;
+    use HasSearchableName;
+
+    protected $query_default_sort = 'lastname';
+    protected $query_allowed_sorts = ['id', 'firstname', 'lastname', 'name', 'role', 'books_count', 'series_count', 'created_at', 'updated_at'];
 
     protected $fillable = [
         'lastname',
@@ -84,9 +93,7 @@ class Author extends Model implements HasMedia
      */
     public function searchableAs()
     {
-        $app = config('bookshelves.slug');
-
-        return "{$app}_authors";
+        return $this->searchableNameAs();
     }
 
     public function toSearchableArray()
@@ -100,6 +107,16 @@ class Author extends Model implements HasMedia
             'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+        ];
+    }
+
+    public function setQueryAllowedFilters(): array
+    {
+        return [
+            AllowedFilter::custom('q', new GlobalSearchFilter(['firstname', 'lastname', 'name'])),
+            AllowedFilter::partial('firstname'),
+            AllowedFilter::partial('lastname'),
+            AllowedFilter::exact('role'),
         ];
     }
 }

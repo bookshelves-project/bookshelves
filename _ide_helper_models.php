@@ -124,9 +124,9 @@ namespace App\Models{
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
  * @property-read string $entity
- * @property-read \App\Models\Media\DownloadFile $file_main
+ * @property-read \App\Class\DownloadFile $file_main
  * @property-read \App\Models\MediaExtended[]|null[] $files
- * @property-read \App\Models\Media\DownloadFile[] $files_list
+ * @property-read \App\Models\DownloadFile[] $files_list
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read string|null $isbn

@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * Get authors
- * - with author for meta
- * - a string with all authors seperated by a comma
+ * Manage Authors
+ * - with `author` for meta
+ * - a string with all Authors seperated by a comma
  * - API links: `show`, `show-opds`, `download-link`,`webreader-link`.
  */
 trait HasAuthors

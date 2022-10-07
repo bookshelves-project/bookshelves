@@ -6,6 +6,7 @@ use App\Enums\PostCategoryEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSeo;
 use Kiwilan\Steward\Traits\HasShowRoute;
 use Kiwilan\Steward\Traits\HasSlug;
@@ -24,6 +25,7 @@ class Post extends Model
     use Searchable;
     use Queryable;
     use Mediable;
+    use HasSearchableName;
 
     protected $slug_with = 'title';
     protected $meta_title_from = 'title';
@@ -61,8 +63,6 @@ class Post extends Model
      */
     public function searchableAs()
     {
-        $app = config('bookshelves.slug');
-
-        return "{$app}_post";
+        return $this->searchableNameAs();
     }
 }

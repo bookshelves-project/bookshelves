@@ -7,5 +7,35 @@
       "type": "npm",
       "script": "install",
     },
+    {
+      "label": "Helper",
+      "type": "shell",
+      "command": "composer helper",
+      "problemMatcher": []
+    },
+    {
+      "label": "Format",
+      "type": "shell",
+      "command": "composer format",
+      "problemMatcher": []
+    },
+    {
+      "label": "Analyse",
+      "type": "shell",
+      "command": "composer analyse",
+      "problemMatcher": []
+    },
+    {
+      "label": "Docs",
+      "type": "shell",
+      "command": "composer docs",
+      "problemMatcher": []
+    },
+    {
+      "label": "Tests",
+      "type": "shell",
+      "command": "composer tests",
+      "problemMatcher": []
+    }
   ]
 }

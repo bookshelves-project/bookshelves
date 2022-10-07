@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Media;
+namespace App\Class;
 
 class DownloadFile
 {
