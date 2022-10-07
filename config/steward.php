@@ -111,6 +111,7 @@ return [
     'query' => [
         'default_sort' => 'id',
         'default_sort_direction' => 'asc',
-        'size' => 15,
+        'limit' => 15,
+        'full' => false,
     ],
 ];

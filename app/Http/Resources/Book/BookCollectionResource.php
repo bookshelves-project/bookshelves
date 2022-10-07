@@ -4,7 +4,7 @@ namespace App\Http\Resources\Book;
 
 use App\Http\Resources\Author\AuthorRelationResource;
 use App\Http\Resources\Language\LanguageCollectionResource;
-use App\Http\Resources\Serie\SerieCollectionResource;
+use App\Http\Resources\Serie\SerieRelationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -28,7 +28,7 @@ class BookCollectionResource extends JsonResource
             'volume' => $this->resource->volume,
             'language' => LanguageCollectionResource::make($this->resource->language),
             'authors' => AuthorRelationResource::collection($this->resource->authors),
-            'serie' => SerieCollectionResource::make($this->resource->serie),
+            'serie' => SerieRelationResource::make($this->resource->serie),
         ];
     }
 }

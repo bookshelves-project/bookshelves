@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property \App\Models\TagExtend $resource
  */
-class TagCollectionResource extends JsonResource
+class TagRelationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,10 +19,12 @@ class TagCollectionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            ...TagRelationResource::make($this->resource)->toArray($request),
-            'type' => $this->resource->type,
-            'count' => $this->resource->books_count,
-            'first_char' => $this->resource->first_char,
+            'meta' => [
+                'slug' => $this->resource->slug,
+                'show' => $this->resource->show_link,
+                'books' => $this->resource->books_link,
+            ],
+            'name' => $this->resource->name,
         ];
     }
 }

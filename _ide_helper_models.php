@@ -30,12 +30,16 @@ namespace App\Models{
  * @property-read int|null $books_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $favorites
  * @property-read int|null $favorites_count
+ * @property-read array $cover
  * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_book
  * @property-read string|null $cover_color
+ * @property-read array $cover_full
+ * @property-read array $cover_media
  * @property-read string|null $cover_og
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
+ * @property-read string $entity
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read array $meta
@@ -110,12 +114,16 @@ namespace App\Models{
  * @property-read int|null $favorites_count
  * @property-read \App\Models\Author $author
  * @property-read string $authors_names
+ * @property-read array $cover
  * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_book
  * @property-read string|null $cover_color
+ * @property-read array $cover_full
+ * @property-read array $cover_media
  * @property-read string|null $cover_og
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
+ * @property-read string $entity
  * @property-read \App\Models\Media\DownloadFile $file_main
  * @property-read \App\Models\MediaExtended[]|null[] $files
  * @property-read \App\Models\Media\DownloadFile[] $files_list
@@ -525,12 +533,16 @@ namespace App\Models{
  * @property-read int|null $favorites_count
  * @property-read \App\Models\Author $author
  * @property-read string $authors_names
+ * @property-read array $cover
  * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_book
  * @property-read string|null $cover_color
+ * @property-read array $cover_full
+ * @property-read array $cover_media
  * @property-read string|null $cover_og
  * @property-read string|null $cover_original
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
+ * @property-read string $entity
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read array $meta
@@ -618,6 +630,8 @@ namespace App\Models{
  * @property-read int|null $books_count
  * @property-read string $books_link
  * @property-read mixed $first_char
+ * @property-read array $meta
+ * @property-read string|null $route_show
  * @property-read string $show_link
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
