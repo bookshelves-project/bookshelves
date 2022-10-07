@@ -36,6 +36,12 @@
       "type": "shell",
       "command": "composer tests",
       "problemMatcher": []
+    },
+    {
+      "label": "Routes",
+      "type": "shell",
+      "command": "php artisan route:list",
+      "problemMatcher": []
     }
   ]
 }

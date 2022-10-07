@@ -63,6 +63,7 @@ return [
              */
             'exclude' => [
                 // '/health', 'admin.*'
+                'blv.*',
             ],
 
             /*
