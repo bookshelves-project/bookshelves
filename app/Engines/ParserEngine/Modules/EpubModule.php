@@ -9,7 +9,7 @@ use App\Engines\ParserEngine\Modules\Interface\Module;
 use App\Engines\ParserEngine\Modules\Interface\ModuleInterface;
 use App\Engines\ParserEngine\Modules\Interface\XmlInterface;
 use App\Engines\ParserEngine\Parsers\ArchiveParser;
-use Kiwilan\Steward\Services\ConsoleService;
+use Kiwilan\Steward\Utils\Console;
 
 class EpubModule extends Module implements ModuleInterface, XmlInterface
 {
@@ -47,7 +47,8 @@ class EpubModule extends Module implements ModuleInterface, XmlInterface
             ParserEngine::printFile($module->metadata, "{$archive_parser->engine->file_name}-metadata.json");
         }
         if (! $is_supported) {
-            ConsoleService::print("EpubModule {$module->version} not supported");
+            $console = Console::make();
+            $console->print("EpubModule {$module->version} not supported");
         }
 
         return $archive_parser->engine;
@@ -215,8 +216,9 @@ class EpubModule extends Module implements ModuleInterface, XmlInterface
                 $this->engine->cover_name = $cover;
                 $this->engine->cover_extension = pathinfo($cover, PATHINFO_EXTENSION);
             } else {
-                ConsoleService::print('No cover from EpubModule', 'red');
-                ConsoleService::newLine();
+                $console = Console::make();
+                $console->print('No cover from EpubModule', 'red');
+                $console->newLine();
             }
         }
 

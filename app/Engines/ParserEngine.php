@@ -14,7 +14,7 @@ use App\Enums\BookTypeEnum;
 use DateTime;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Kiwilan\Steward\Services\ConsoleService;
+use Kiwilan\Steward\Utils\Console;
 use Transliterator;
 
 /**
@@ -88,9 +88,10 @@ class ParserEngine
         $extension = pathinfo($file->path, PATHINFO_EXTENSION);
         $file_name = pathinfo($file->path, PATHINFO_BASENAME);
         $formats = BookFormatEnum::toNames();
+        $console = Console::make();
 
         if (! array_key_exists($extension, $formats)) {
-            ConsoleService::print("{$file->path} ParserEngine error: extension is not recognized");
+            $console->print("{$file->path} ParserEngine error: extension is not recognized");
 
             return null;
         }
@@ -111,18 +112,18 @@ class ParserEngine
             default => false,
         };
         if (! $engine || null === $engine->title) {
-            // ConsoleService::print('Try to get data from name');
+            // $console->print('Try to get data from name');
             $engine = NameModule::create($parser);
         }
 
         if (! $engine) {
-            ConsoleService::print("{$file->path} ParserEngine error: format {$extension} not recognized");
+            $console->print("{$file->path} ParserEngine error: format {$extension} not recognized");
 
             return null;
         }
 
         if (null === $engine->title) {
-            ConsoleService::print("{$file->path} ParserEngine error: can't get title {$extension}");
+            $console->print("{$file->path} ParserEngine error: can't get title {$extension}");
 
             return null;
         }
@@ -164,7 +165,7 @@ class ParserEngine
         }
 
         if ($engine->debug) {
-            ConsoleService::print("{$engine->title}");
+            $console->print("{$engine->title}");
             $engine_print = clone $engine;
             $engine_print->cover_file = $engine_print->cover_file
                 ? 'available (removed into this JSON)' : $engine_print->cover_file;
@@ -249,6 +250,8 @@ class ParserEngine
 
     public static function printFile(mixed $file, string $name, bool $raw = false): bool
     {
+        $console = Console::make();
+
         try {
             $file = $raw
                 ? $file
@@ -256,7 +259,7 @@ class ParserEngine
 
             return Storage::disk('public')->put("/debug/{$name}", $file);
         } catch (\Throwable $th) {
-            ConsoleService::print(__METHOD__, $th);
+            $console->print(__METHOD__, $th);
         }
 
         return false;

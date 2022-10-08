@@ -9,7 +9,7 @@ use App\Engines\ParserEngine\Modules\Interface\ModuleInterface;
 use DateTime;
 use Illuminate\Support\Facades\File;
 use Imagick;
-use Kiwilan\Steward\Services\ConsoleService;
+use Kiwilan\Steward\Utils\Console;
 use Smalot\PdfParser\Parser;
 
 /**
@@ -47,7 +47,8 @@ class PdfModule extends Module implements ModuleInterface
     private function getCover(): static
     {
         if (! extension_loaded('Imagick')) {
-            ConsoleService::print(".pdf file: Imagick extension: is not installed (can't get cover)", 'red');
+            $console = Console::make();
+            $console->print(".pdf file: Imagick extension: is not installed (can't get cover)", 'red');
         } else {
             $format = 'jpg';
 

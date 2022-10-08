@@ -7,8 +7,8 @@ use App\Enums\MediaDiskEnum;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Kiwilan\Steward\Enums\SpatieMediaMethodEnum;
-use Kiwilan\Steward\Services\ConsoleService;
 use Kiwilan\Steward\Services\MediaService;
+use Kiwilan\Steward\Utils\Console;
 
 class TypeConverter
 {
@@ -41,8 +41,9 @@ class TypeConverter
                 )->setMedia($file);
                 $result = true;
             } catch (\Throwable $th) {
-                ConsoleService::print(__METHOD__, 'red', $th);
-                ConsoleService::newLine();
+                $console = Console::make();
+                $console->print(__METHOD__, 'red', $th);
+                $console->newLine();
             }
         }
 

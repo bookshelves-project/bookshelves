@@ -7,9 +7,9 @@ use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
-use Kiwilan\Steward\Services\ConsoleService;
 use Kiwilan\Steward\Services\DirectoryParserService;
 use Kiwilan\Steward\Services\MediaService;
+use Kiwilan\Steward\Utils\Console;
 use ReflectionClass;
 
 class CoverConverter
@@ -30,8 +30,9 @@ class CoverConverter
                     ->setColor()
                 ;
             } catch (\Throwable $th) {
-                ConsoleService::print(__METHOD__, 'red', $th);
-                ConsoleService::newLine();
+                $console = Console::make();
+                $console->print(__METHOD__, 'red', $th);
+                $console->newLine();
             }
             $converter->book->save();
         }

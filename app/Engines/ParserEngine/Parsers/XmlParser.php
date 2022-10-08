@@ -4,7 +4,7 @@ namespace App\Engines\ParserEngine\Parsers;
 
 use App\Engines\ParserEngine;
 use DOMDocument;
-use Kiwilan\Steward\Services\ConsoleService;
+use Kiwilan\Steward\Utils\Console;
 use ReflectionClass;
 
 /**
@@ -14,12 +14,14 @@ class XmlParser
 {
     public static function create(ArchiveParser $parser): ArchiveParser|false
     {
+        $console = Console::make();
+
         if (! isset($parser->xml_string)) {
             if ($parser->engine->debug) {
                 $class = new ReflectionClass($parser->module);
                 $module_name = $class->getShortName();
-                ConsoleService::print("{$module_name}: can't get {$parser->extension_index}", 'red');
-                ConsoleService::newLine();
+                $console->print("{$module_name}: can't get {$parser->extension_index}", 'red');
+                $console->newLine();
             }
 
             return false;
@@ -34,8 +36,8 @@ class XmlParser
             $parser->metadata = $xml_parser->xml_to_array($parser->xml_string);
             $parser->engine = $parser->module::parse($parser);
         } catch (\Throwable $th) {
-            ConsoleService::print(__METHOD__, 'red', $th);
-            ConsoleService::newLine();
+            $console->print(__METHOD__, 'red', $th);
+            $console->newLine();
         }
 
         return $parser;

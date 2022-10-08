@@ -9,7 +9,7 @@ use App\Engines\ParserEngine\Modules\Interface\ModuleInterface;
 use App\Engines\ParserEngine\Modules\Interface\XmlInterface;
 use App\Engines\ParserEngine\Parsers\ArchiveParser;
 use Illuminate\Support\Carbon;
-use Kiwilan\Steward\Services\ConsoleService;
+use Kiwilan\Steward\Utils\Console;
 
 class CbzModule extends Module implements ModuleInterface, XmlInterface
 {
@@ -46,8 +46,9 @@ class CbzModule extends Module implements ModuleInterface, XmlInterface
             ParserEngine::printFile($module->metadata, "{$parser->engine->file_name}-metadata.json");
         }
         if (! $is_supported) {
-            ConsoleService::print("CbzModule {$module->type} not supported", 'red');
-            ConsoleService::newLine();
+            $console = Console::make();
+            $console->print("CbzModule {$module->type} not supported", 'red');
+            $console->newLine();
         }
 
         return $parser->engine;

@@ -5,7 +5,7 @@ namespace App\Engines\ParserEngine\Parsers;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Modules\Interface\XmlInterface;
 use File;
-use Kiwilan\Steward\Services\ConsoleService;
+use Kiwilan\Steward\Utils\Console;
 use RarArchive;
 use ZipArchive;
 
@@ -47,7 +47,8 @@ class ArchiveParser
     public function rar(): static|false
     {
         if (! extension_loaded('rar')) {
-            ConsoleService::print('.rar file: rar extension: is not installed', 'red');
+            $console = Console::make();
+            $console->print('.rar file: rar extension: is not installed', 'red');
 
             return false;
         }
