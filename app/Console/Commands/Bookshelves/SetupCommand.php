@@ -72,9 +72,9 @@ class SetupCommand extends CommandProd
         ], $this->getOutput());
 
         /**
-         * Generate.
+         * Make.
          */
-        Artisan::call('bookshelves:generate', [
+        Artisan::call('bookshelves:make', [
             '--fresh' => $fresh,
             '--limit' => $limit,
             '--debug' => $debug,

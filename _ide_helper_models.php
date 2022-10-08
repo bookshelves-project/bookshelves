@@ -23,7 +23,6 @@ namespace App\Models{
  * @property mixed|null $description
  * @property string|null $link
  * @property mixed|null $note
- * @property int|null $wikipedia_item_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
@@ -55,7 +54,6 @@ namespace App\Models{
  * @property-read int|null $series_count
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
- * @property-read \App\Models\WikipediaItem|null $wikipedia
  * @method static \Database\Factories\AuthorFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
@@ -73,13 +71,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsAllIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereWikipediaItemId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTagsOfAnyType($tags)
  */
-	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \App\Services\WikipediaService\Wikipediable {}
 }
 
 namespace App\Models{
@@ -98,7 +95,6 @@ namespace App\Models{
  * @property int|null $volume
  * @property int|null $publisher_id
  * @property string|null $language_slug
- * @property int|null $google_book_id
  * @property int|null $page_count
  * @property string|null $maturity_rating
  * @property bool $is_disabled
@@ -136,7 +132,6 @@ namespace App\Models{
  * @property-read mixed $reviews_link
  * @property-read mixed $tags_list
  * @property-read string $tags_string
- * @property-read \App\Models\GoogleBook|null $googleBook
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
@@ -159,7 +154,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisallowSerie(string $has_not_serie)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifiers($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsDisabled($value)
@@ -187,7 +181,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTagsOfAnyType($tags)
  */
-	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \App\Services\GoogleBookService\GoogleBookable {}
 }
 
 namespace App\Models{
@@ -210,57 +204,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Favoritable whereUserId($value)
  */
 	class Favoritable extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\GoogleBook
- *
- * @property int $id
- * @property string|null $original_isbn
- * @property string|null $url
- * @property string|null $published_date
- * @property string|null $description
- * @property array|null $industry_identifiers
- * @property int|null $page_count
- * @property array|null $categories
- * @property string|null $maturity_rating
- * @property string|null $language
- * @property string|null $preview_link
- * @property string|null $publisher
- * @property int|null $retail_price_amount
- * @property int|null $retail_price_currency_code
- * @property string|null $buy_link
- * @property string|null $isbn10
- * @property string|null $isbn13
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Book|null $book
- * @method static \Database\Factories\GoogleBookFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook query()
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereBuyLink($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereCategories($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereIndustryIdentifiers($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereIsbn10($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereIsbn13($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereLanguage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereMaturityRating($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereOriginalIsbn($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePageCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePreviewLink($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePublishedDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook wherePublisher($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereRetailPriceAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereRetailPriceCurrencyCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|GoogleBook whereUrl($value)
- */
-	class GoogleBook extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -526,7 +469,6 @@ namespace App\Models{
  * @property \App\Enums\BookTypeEnum $type
  * @property array|null $description
  * @property string|null $link
- * @property int|null $wikipedia_item_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
@@ -564,7 +506,6 @@ namespace App\Models{
  * @property-read int|null $selections_count
  * @property \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $tags
  * @property-read int|null $tags_count
- * @property-read \App\Models\WikipediaItem|null $wikipedia
  * @method static \Database\Factories\SerieFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie newQuery()
@@ -582,15 +523,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTypesIs(...$types)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie whereWikipediaItemId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAnyTagsOfAnyType($tags)
  */
-	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \App\Services\WikipediaService\Wikipediable {}
 }
 
 namespace App\Models{
@@ -723,43 +662,5 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  */
 	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Filament\Models\Contracts\FilamentUser {}
-}
-
-namespace App\Models{
-/**
- * App\Models\WikipediaItem
- *
- * @property int $id
- * @property string|null $model
- * @property string|null $language
- * @property string $search_query
- * @property string|null $query_url
- * @property string|null $page_id
- * @property string|null $page_id_url
- * @property string|null $page_url
- * @property string|null $extract
- * @property string|null $picture_url
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Author|null $author
- * @property-read \App\Models\Serie|null $serie
- * @method static \Database\Factories\WikipediaItemFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem query()
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereExtract($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereLanguage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereModel($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem wherePageId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem wherePageIdUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem wherePageUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem wherePictureUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereQueryUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereSearchQuery($value)
- * @method static \Illuminate\Database\Eloquent\Builder|WikipediaItem whereUpdatedAt($value)
- */
-	class WikipediaItem extends \Eloquent {}
 }
 

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Class\WikipediaItem;
+use App\Engines\ConverterEngine\EntityConverter;
 use App\Enums\AuthorRoleEnum;
+use App\Services\WikipediaService\Wikipediable;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasReviews;
 use App\Traits\HasTagsAndGenres;
-use App\Traits\HasWikipediaItem;
 use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,14 +28,13 @@ use Spatie\QueryBuilder\AllowedFilter;
  * @property null|int $books_count
  * @property null|int $series_count
  */
-class Author extends Model implements HasMedia
+class Author extends Model implements HasMedia, Wikipediable
 {
     use HasFactory;
     use HasSlug;
     use IsEntity;
     use HasFavorites;
     use HasReviews;
-    use HasWikipediaItem;
     use HasTagsAndGenres;
     use HasCovers;
     use HasMetaClass;
@@ -66,6 +67,19 @@ class Author extends Model implements HasMedia
         'books',
         'series',
     ];
+
+    public function wikipediaConvert(WikipediaItem $wikipediaItem, bool $with_media = true): Wikipediable
+    {
+        $converter = EntityConverter::make($wikipediaItem)
+            ->setWikipediaDescription()
+        ;
+        if ($with_media) {
+            $converter->setWikipediaCover();
+        }
+        $this->save();
+
+        return $this;
+    }
 
     /**
      * Relationships.

@@ -7,7 +7,6 @@ use App\Filament\LayoutHelper;
 use App\Filament\RelationManagers\BooksRelationManager;
 use App\Filament\RelationManagers\ReviewsRelationManager;
 use App\Filament\RelationManagers\SeriesRelationManager;
-use App\Filament\RelationManagers\WikipediaItemRelationManager;
 use App\Filament\Resources\Books\AuthorResource\Pages;
 use App\Models\Author;
 use Filament\Forms;
@@ -122,7 +121,6 @@ class AuthorResource extends Resource
             BooksRelationManager::class,
             SeriesRelationManager::class,
             ReviewsRelationManager::class,
-            WikipediaItemRelationManager::class,
         ];
     }
 

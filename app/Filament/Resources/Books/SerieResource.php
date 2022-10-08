@@ -6,7 +6,6 @@ use App\Enums\BookTypeEnum;
 use App\Filament\FormHelper;
 use App\Filament\LayoutHelper;
 use App\Filament\RelationManagers\BooksRelationManager;
-use App\Filament\RelationManagers\WikipediaItemRelationManager;
 use App\Filament\Resources\Books\SerieResource\Pages;
 use App\Models\Serie;
 use Filament\Forms;
@@ -145,7 +144,6 @@ class SerieResource extends Resource
     {
         return [
             BooksRelationManager::class,
-            WikipediaItemRelationManager::class,
         ];
     }
 

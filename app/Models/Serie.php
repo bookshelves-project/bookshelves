@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use App\Class\WikipediaItem;
+use App\Engines\ConverterEngine\EntityConverter;
 use App\Enums\BookTypeEnum;
+use App\Services\WikipediaService\Wikipediable;
 use App\Traits\HasAuthors;
-use App\Traits\HasBookType;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
 use App\Traits\HasReviews;
 use App\Traits\HasSelections;
 use App\Traits\HasTagsAndGenres;
-use App\Traits\HasWikipediaItem;
 use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,7 +30,7 @@ use Spatie\Translatable\HasTranslations;
 /**
  * @property null|int $books_count
  */
-class Serie extends Model implements HasMedia
+class Serie extends Model implements HasMedia, Wikipediable
 {
     use HasFactory;
     use HasAuthors;
@@ -38,8 +39,6 @@ class Serie extends Model implements HasMedia
     use HasReviews;
     use HasLanguage;
     use HasTagsAndGenres;
-    use HasBookType;
-    use HasWikipediaItem;
     use HasCovers;
     use HasSelections;
     use HasMetaClass;
@@ -105,6 +104,16 @@ class Serie extends Model implements HasMedia
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+    }
+
+    public function wikipediaConvert(WikipediaItem $wikipediaItem, bool $with_media = true): Wikipediable
+    {
+        EntityConverter::make($wikipediaItem)
+            ->setWikipediaDescription()
+        ;
+        $this->save();
+
+        return $this;
     }
 
     protected function setQueryAllowedFilters(): array

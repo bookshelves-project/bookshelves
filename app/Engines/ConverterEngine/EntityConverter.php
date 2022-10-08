@@ -2,6 +2,7 @@
 
 namespace App\Engines\ConverterEngine;
 
+use App\Class\WikipediaItem;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Serie;
@@ -9,18 +10,49 @@ use App\Services\ConverterService;
 use App\Services\MediaService;
 use App\Services\WikipediaService\WikipediaQuery;
 use File;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use ReflectionClass;
 
+/**
+ * Class to convert WikipediaItem data into Model data.
+ *
+ * @property WikipediaItem $wikipediaItem
+ * @property Author|Serie  $model
+ */
 class EntityConverter
 {
     public const DISK = MediaDiskEnum::cover;
 
-    public static function setLocalData(Serie|Author $model): Serie|Author
+    public function __construct(
+        public WikipediaItem $wikipediaItem,
+        public mixed $model = null,
+    ) {
+    }
+
+    public static function make(WikipediaItem $wikipediaItem): self
     {
-        $class_name = new ReflectionClass($model);
-        $class_name = strtolower($class_name->getShortName());
-        $path = public_path("storage/data/{$class_name}s/{$class_name}s.json");
+        $converter = new EntityConverter($wikipediaItem);
+        $converter->setModel();
+
+        return $converter;
+    }
+
+    public function setModel(): self
+    {
+        $this->model = $this->wikipediaItem->model_name::find($this->wikipediaItem->model_id);
+
+        return $this;
+    }
+
+    /**
+     * Improve model with local data into JSON.
+     */
+    public static function parseJson(Serie|Author $model): Serie|Author
+    {
+        $subject = new ReflectionClass($model);
+        $subject = strtolower($subject->getShortName());
+        $path = public_path("storage/data/{$subject}s/{$subject}s.json");
         if (File::exists($path)) {
             $json = json_decode(File::get($path));
             $data = ConverterService::objectToArray($json);
@@ -49,44 +81,44 @@ class EntityConverter
         return $model;
     }
 
-    public static function setWikipediaDescription(Serie|Author $model): Serie|Author
+    public function setWikipediaDescription(): self
     {
-        if ($model->wikipedia && ! $model->description && ! $model->link) {
+        if (! $this->model->description && ! $this->model->link) {
             // if ('' === $model->getTranslation('description', $model->language_slug)) {
             //     $model->setTranslation(
             //         'description',
             //         $model->language_slug,
-            //         Str::limit($model->wikipedia->extract, 1000)
+            //         Str::limit($model->wikipediaItem->extract, 1000)
             //     );
             // }
-            $model->description = Str::limit($model->wikipedia->extract, 1000); // TODO translatable
-            $model->link = $model->wikipedia->page_url;
-            $model->save();
+            $this->model->description = Str::limit($this->wikipediaItem->extract, 1000); // TODO translatable
+            $this->model->link = $this->wikipediaItem->page_url;
+            $this->model->save();
         }
-        EntityConverter::setLocalData($model);
+        EntityConverter::parseJson($this->model);
 
-        return $model;
+        return $this;
     }
 
-    public static function setWikipediaCover(Serie|Author $model): Serie|Author
+    public function setWikipediaCover(): self
     {
         $disk = MediaDiskEnum::cover;
-        if ($model->getMedia($disk->value)->isEmpty()) {
+        if ($this->model->getMedia($disk->value)->isEmpty()) {
             $cover = null;
-            if ($model->wikipedia) {
-                $cover = WikipediaQuery::getPictureFile($model->wikipedia->picture_url);
+            if ($this->model->link) {
+                $cover = WikipediaQuery::getPictureFile($this->wikipediaItem->picture_url);
             }
 
-            if ($cover && 'author-unknown' !== $model->slug) {
-                $model->clearMediaCollection($disk->value);
-                MediaService::create($model, $model->slug, $disk)
+            if ($cover && 'author-unknown' !== $this->model->slug) {
+                $this->model->clearMediaCollection($disk->value);
+                MediaService::create($this->model, $this->model->slug, $disk)
                     ->setMedia($cover)
                     ->setColor()
                 ;
             }
         }
 
-        return $model;
+        return $this;
     }
 
     public static function setCoverPlaceholder(Author $author): Author

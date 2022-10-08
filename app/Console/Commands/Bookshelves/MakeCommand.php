@@ -21,14 +21,14 @@ use Spatie\Tags\Tag;
 /**
  * Main command of Bookshelves to generate Books with relations.
  */
-class GenerateCommand extends CommandProd
+class MakeCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:generate
+    protected $signature = 'bookshelves:make
                             {--f|fresh : reset current books and relation, keep users}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
@@ -40,7 +40,7 @@ class GenerateCommand extends CommandProd
      *
      * @var string
      */
-    protected $description = 'Generate Book model with all relationships, generate covers with different dimensions.';
+    protected $description = 'Make Book model with all relationships, generate covers with different dimensions.';
 
     /**
      * Create a new command instance.
@@ -148,7 +148,7 @@ class GenerateCommand extends CommandProd
         $bar->start();
         foreach ($model::all() as $entity) {
             EntityConverter::setTags($entity);
-            EntityConverter::setLocalData($entity);
+            EntityConverter::parseJson($entity);
             if (! $default) {
                 CoverConverter::setLocalCover($entity);
             }

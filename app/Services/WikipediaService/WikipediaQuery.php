@@ -3,169 +3,88 @@
 namespace App\Services\WikipediaService;
 
 use App\Services\WikipediaService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use ReflectionClass;
 
+/**
+ * Create WikipediaQuery from Model and ISBN.
+ *
+ * @property ?string $search_query
+ * @property ?Model  $model
+ * @property ?string $model_name
+ * @property ?int    $model_id
+ * @property ?bool   $debug
+ * @property ?string $subject_identifier
+ * @property ?string $language
+ * @property ?string $query_url
+ * @property ?string $page_id
+ * @property ?string $page_id_url
+ * @property ?string $page_url
+ * @property ?string $extract
+ * @property ?string $picture_url
+ */
 class WikipediaQuery
 {
     public function __construct(
+        public ?string $search_query = null,
+        public ?Model $model = null,
         public ?string $model_name = null,
         public ?int $model_id = 0,
+        public ?bool $debug = false,
+        public ?string $subject_identifier = 'id',
         public ?string $language = 'en',
-        public ?string $search_query = null,
         public ?string $query_url = null,
         public ?string $page_id = null,
         public ?string $page_id_url = null,
         public ?string $page_url = null,
         public ?string $extract = null,
         public ?string $picture_url = null,
-        public ?bool $debug = false,
     ) {
     }
 
     /**
      * Create WikipediaQuery from $search_query, $model_id, $language and WikipediaService.
      */
-    public static function create(string $search_query, int $model_id, string $language, WikipediaService $service): WikipediaQuery
+    // string $search_query, int $model_id, string $language, WikipediaService $service
+    public static function make(string $search_query, Model $model, bool $debug = false): self
     {
         $query = new WikipediaQuery();
-        $query->model_name = $service->class;
-        $query->model_id = $model_id;
-        $query->debug = $service->debug;
+        $subject = new ReflectionClass($model);
+
         $query->search_query = $search_query;
-        $query->language = $language;
+        $query->model = $model;
+        $query->model_name = $subject->getName();
+        $query->model_id = $model->{$query->subject_identifier};
+        $query->debug = $debug;
 
         return $query;
     }
 
     /**
-     * Build Wikipedia query URL from $search_query and $language to set $query_url.
+     * Set language for Wikipedia instance.
+     *
+     * @param string $language Default is `en`
      */
-    public function getQueryUrl(): WikipediaQuery
+    public function setLanguage(string $language = 'en'): self
     {
-        $query = str_replace(' ', '%20', "{$this->search_query}");
-
-        // generator search images: https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=Jul%20Maroh&gsrprop=snippet&prop=imageinfo&iiprop=url&rawcontinue&gsrnamespace=6&format=json
-        // generator search: https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=Baxter%20Stephen&prop=info|extracts|pageimages&format=json
-        // current search: https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch=intitle:Les%20Annales%20du%20Disque-Monde&format=json
-        $url = "https://{$this->language}.wikipedia.org/w/api.php?";
-        $url .= 'action=query';
-        $url .= '&list=search';
-        $url .= "&srsearch=intitle:{$query}";
-        $url .= '&format=json';
-
-        $this->query_url = $url;
+        $this->language = $language;
 
         return $this;
     }
 
     /**
-     * Build Wikipedia page id URL from $page_id and $language to set $page_id_url.
+     * Set unique identifier of the model.
+     *
+     * @param string $subject_identifier Default is `id`
      */
-    public function getPageIdUrl(): WikipediaQuery
+    public function setSubjectIdentifier(string $subject_identifier = 'id'): self
     {
-        // current search: http://fr.wikipedia.org/w/api.php?action=query&prop=info&pageids=1340228&inprop=url&format=json&prop=info|extracts|pageimages&pithumbsize=512
-        $url = "http://{$this->language}.wikipedia.org/w/api.php?";
-        $url .= 'action=query';
-        $url .= '&prop=info';
-        $url .= "&pageids={$this->page_id}";
-        $url .= '&inprop=url';
-        $url .= '&format=json';
-        $url .= '&prop=info|extracts|pageimages';
-        $url .= '&pithumbsize=512';
-
-        $this->page_id_url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Find page id among Wikipedia results, if found set $page_id_url.
-     */
-    public function parseQueryResults(?Response $response): WikipediaQuery
-    {
-        $pageId = false;
-        if ($response) {
-            $response = $response->json();
-            if ($this->debug) {
-                $this->print($response, 'results');
-            }
-
-            try {
-                $response = json_decode(json_encode($response));
-                if (! property_exists($response, 'query')) {
-                    return $this;
-                }
-                $search = $response->query->search;
-                $search = array_slice($search, 0, 5);
-
-                // $search_list = explode(' ', $this->search_query);
-
-                foreach ($search as $key => $result) {
-                    if (0 === $key) {
-                        $pageId = $result->pageid;
-
-                        break;
-                    }
-                    // if (0 < count(array_intersect(array_map('strtolower', explode(' ', $result->title)), $search_list))) {
-                //     $pageId = $result->pageid;
-
-                //     break;
-                    // }
-                    // if (str_contains($result->title, '(writer)')) {
-                //     $pageId = $result->pageid;
-
-                //     break;
-                    // }
-                    // if (str_contains($result->title, '(author)')) {
-                //     $pageId = $result->pageid;
-
-                //     break;
-                    // }
-                }
-
-                if (! $pageId && array_key_exists(0, $search)) {
-                    $pageId = $search[0]->pageid;
-                }
-            } catch (\Throwable $th) {
-                throw $th;
-            }
-
-            if ($pageId) {
-                $this->page_id = $pageId;
-                $this->getPageIdUrl();
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Parse page id response to extract data.
-     */
-    public function parsePageIdData(?Response $response): WikipediaQuery
-    {
-        if (null === $response) {
-            return $this;
-        }
-        $response = $response->json();
-        if ($this->debug) {
-            $this->print($response, 'page-id');
-        }
-
-        try {
-            $response = json_decode(json_encode($response));
-            $page = $response?->query?->pages;
-            $page = reset($page);
-
-            $this->extract = $this->convertExtract($page->extract, 2000);
-            $this->picture_url = $page->thumbnail?->source ?? null;
-            $this->page_url = $page->fullurl ?? null;
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        $this->subject_identifier = $subject_identifier;
+        $this->model_id = $this->model->{$this->subject_identifier};
 
         return $this;
     }
@@ -208,7 +127,145 @@ class WikipediaQuery
         return $content.'...';
     }
 
-    public function print(mixed $response, string $directory)
+    public function execute(): self
+    {
+        $this->setQueryUrl();
+
+        return $this;
+    }
+
+    /**
+     * Find page id among Wikipedia results, if found set $page_id_url.
+     */
+    public function parseQueryResults(?Response $response): self
+    {
+        $pageId = false;
+        if (! $response) {
+            return $this;
+        }
+        $response = $response->json();
+        if ($this->debug) {
+            $this->print($response, 'results');
+        }
+
+        try {
+            $response = json_decode(json_encode($response));
+            if (! property_exists($response, 'query')) {
+                return $this;
+            }
+            $search = $response->query->search;
+            $search = array_slice($search, 0, 5);
+
+            // $search_list = explode(' ', $this->search_query);
+
+            foreach ($search as $key => $result) {
+                if (0 === $key) {
+                    $pageId = $result->pageid;
+
+                    break;
+                }
+                // if (0 < count(array_intersect(array_map('strtolower', explode(' ', $result->title)), $search_list))) {
+                //     $pageId = $result->pageid;
+
+                //     break;
+                // }
+                // if (str_contains($result->title, '(writer)')) {
+                //     $pageId = $result->pageid;
+
+                //     break;
+                // }
+                // if (str_contains($result->title, '(author)')) {
+                //     $pageId = $result->pageid;
+
+                //     break;
+                // }
+            }
+
+            if (! $pageId && array_key_exists(0, $search)) {
+                $pageId = $search[0]->pageid;
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        if ($pageId) {
+            $this->page_id = $pageId;
+            $this->getPageIdUrl();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Parse page id response to extract data.
+     */
+    public function parsePageIdData(?Response $response): self
+    {
+        if (null === $response) {
+            return $this;
+        }
+        $response = $response->json();
+        if ($this->debug) {
+            $this->print($response, 'page-id');
+        }
+
+        try {
+            $response = json_decode(json_encode($response));
+            $page = $response?->query?->pages;
+            $page = reset($page);
+
+            $this->extract = $this->convertExtract($page->extract, 2000);
+            $this->picture_url = $page->thumbnail?->source ?? null;
+            $this->page_url = $page->fullurl ?? null;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Build Wikipedia query URL from $search_query and $language to set $query_url.
+     */
+    private function setQueryUrl(): self
+    {
+        $query = str_replace(' ', '%20', "{$this->search_query}");
+
+        // generator search images: https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=Jul%20Maroh&gsrprop=snippet&prop=imageinfo&iiprop=url&rawcontinue&gsrnamespace=6&format=json
+        // generator search: https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=Baxter%20Stephen&prop=info|extracts|pageimages&format=json
+        // current search: https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch=intitle:Les%20Annales%20du%20Disque-Monde&format=json
+        $url = "https://{$this->language}.wikipedia.org/w/api.php?";
+        $url .= 'action=query';
+        $url .= '&list=search';
+        $url .= "&srsearch=intitle:{$query}";
+        $url .= '&format=json';
+
+        $this->query_url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Build Wikipedia page id URL from $page_id and $language to set $page_id_url.
+     */
+    private function getPageIdUrl(): self
+    {
+        // current search: http://fr.wikipedia.org/w/api.php?action=query&prop=info&pageids=1340228&inprop=url&format=json&prop=info|extracts|pageimages&pithumbsize=512
+        $url = "http://{$this->language}.wikipedia.org/w/api.php?";
+        $url .= 'action=query';
+        $url .= '&prop=info';
+        $url .= "&pageids={$this->page_id}";
+        $url .= '&inprop=url';
+        $url .= '&format=json';
+        $url .= '&prop=info|extracts|pageimages';
+        $url .= '&pithumbsize=512';
+
+        $this->page_id_url = $url;
+
+        return $this;
+    }
+
+    private function print(mixed $response, string $directory)
     {
         $response_json = json_encode($response, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         Storage::disk('public')->put("debug/wikipedia/{$directory}/{$this->model_id}.json", $response_json);

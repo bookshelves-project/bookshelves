@@ -2,11 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\Author;
-use App\Models\Serie;
-use App\Models\WikipediaItem;
+use App\Class\WikipediaItem;
 use App\Services\WikipediaService\WikipediaQuery;
-use Exception;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use ReflectionClass;
@@ -16,110 +14,150 @@ use ReflectionClass;
  * Doc in french: https://korben.info/comment-utiliser-lapi-de-recherche-de-wikipedia.html.
  *
  * For each Wikipedia search, need to execute two API calls to search to get page id and to parse page id data.
+ *
+ * @property EloquentBuilder|Relation|string $subject            Model class name, `Author::class`.
+ * @property string                          $subject_identifier Unique identifier for Model, default is `id`
+ * @property ?Collection<int,Model>          $models             List of scanned models
+ * @property string[]                        $query_attributes   Attributes to search in Wikipedia, can be multiple for concat search
+ * @property ?string                         $language           Wikipedia instance language
+ * @property ?Collection<int,WikipediaQuery> $queries            List of queries
+ * @property ?Collection<int,WikipediaQuery> $queries_failed     List of failed queries
+ * @property ?Collection<int,WikipediaItem>  $wikipediaItems     List of WikipediaItem items
+ * @property ?bool                           $debug              default `false`
  */
 class WikipediaService
 {
     public function __construct(
-        public ?string $class = null,
+        public mixed $subject = null,
+        public string $subject_identifier = 'id',
         public ?Collection $models = null,
-        public mixed $query_attribute = null,
-        public ?string $language_attribute = null,
+        public array $query_attributes = ['name'],
+        public ?string $language_field = null,
         public ?Collection $queries = null,
         public ?Collection $queries_failed = null,
-        public ?Collection $items = null,
+        public ?Collection $wikipediaItems = null,
         public ?bool $debug = false,
     ) {
         $this->models = collect([]);
         $this->queries = collect([]);
         $this->queries_failed = collect([]);
-        $this->items = collect([]);
+        $this->wikipediaItems = collect([]);
     }
 
     /**
      * Create WikipediaService from Model and create WikipediaQuery for each entity only if hasn't WikipediaItem.
      */
-    public static function create(Author|Serie $class, string|array $attribute, ?string $language_attribute = 'language_slug', ?bool $debug = false): WikipediaService
+    public static function make(string $subject, ?bool $debug = false): self
     {
         $service = new WikipediaService();
-        $class_name = new ReflectionClass($class);
-        $service->class = $class_name->getName();
-        $models = $class::all();
-        // Keep only books without wikipedia relation.
-        /** @var Author|Serie $model */
-        foreach ($models as $model) {
-            if (! $model->wikipedia) {
-                $service->models->add($model);
-            }
-        }
-        $service->query_attribute = $attribute;
-        $service->language_attribute = $language_attribute;
+
+        $instance = new $subject();
+        $subject = new ReflectionClass($instance);
+
+        $service->subject = $subject->getName();
         $service->debug = $debug;
-
-        $service->getWikipediaQueries();
-
-        ConsoleService::print('List of query URL available, requests from query URL to get page id.');
-        ConsoleService::newLine();
-
-        $service->search('query_url', 'parseQueryResults');
-
-        ConsoleService::print('List of page id URL available, requests from page id URL to get extra content.');
-        ConsoleService::newLine();
-
-        $service->search('page_id_url', 'parsePageIdData');
-
-        ConsoleService::print('Convert into WikipediaItem...');
-
-        $service->convert();
 
         return $service;
     }
 
-    /**
-     * Get WikipediaQuery for each $models.
-     */
-    public function getWikipediaQueries(): WikipediaService
+    public function fetchModels(): self
     {
-        /** @var Model $model */
+        /** @var Collection<int,Model> */
+        $models = $this->subject::all();
+        $this->models = $models;
+
+        return $this;
+    }
+
+    /**
+     * Set attributes to search on Wikipedia, can be unique or multiple for concat search.
+     *
+     * @param string|string[] $attributes
+     */
+    public function setQueryAttributes(mixed $attributes = ['name']): self
+    {
+        $list = [];
+        if (is_string($attributes)) {
+            $list[] = $attributes;
+        } else {
+            $list = $attributes;
+        }
+
+        $this->query_attributes = $list;
+
+        return $this;
+    }
+
+    /**
+     * Set language to use for Wikipedia search instance.
+     */
+    public function setLanguageField(string $language_field): self
+    {
+        $this->language_field = $language_field;
+
+        return $this;
+    }
+
+    /**
+     * Set unique identifier of the model.
+     *
+     * @param string $subject_identifier Default is `id`
+     */
+    public function setSubjectIdentifier(string $subject_identifier = 'id'): self
+    {
+        $this->subject_identifier = $subject_identifier;
+
+        return $this;
+    }
+
+    /**
+     * Execute WikipediaService.
+     */
+    public function execute(): self
+    {
+        $this->fetchModels();
         foreach ($this->models as $model) {
-            $exist = true;
-            if (is_array($this->query_attribute)) {
-                foreach ($this->query_attribute as $attribute) {
-                    if (! array_key_exists($attribute, $model->getAttributes())) {
-                        $exist = false;
-                    }
-                }
-            } else {
-                $exist = array_key_exists($this->query_attribute, $model->getAttributes());
-            }
-            // It's necessary to have a query attribute to search on Wikipedia and an ID to refer to model.
-            if ($exist && array_key_exists('id', $model->getAttributes())) {
-                /**
-                 * If language attribute is unknown, set it to english.
-                 */
-                $lang = $model->{$this->language_attribute};
-                if ('unknown' === $lang || null === $lang) {
-                    $lang = 'en';
-                }
+            $query = $this->wikipediaQuery($model);
+            $this->queries->add($query);
+        }
 
-                $query = null;
-                if (is_array($this->query_attribute)) {
-                    foreach ($this->query_attribute as $attr) {
-                        $query .= $model->{$attr}.' ';
-                    }
-                } else {
-                    $query = $model->{$this->query_attribute};
-                }
-                $query = trim($query);
+        ConsoleService::print('List of query URL available, requests from query URL to get page id.');
+        ConsoleService::newLine();
 
-                // @phpstan-ignore-next-line
-                $query = WikipediaQuery::create($query, $model->id, $lang, $this)
-                    ->getQueryUrl()
-                ;
+        $this->search('query_url', 'parseQueryResults');
 
-                $this->queries->add($query);
-            } else {
-                throw new Exception("This model don't have attributes: {$this->query_attribute},id.");
-            }
+        ConsoleService::print('List of page id URL available, requests from page id URL to get extra content.');
+        ConsoleService::newLine();
+
+        $this->search('page_id_url', 'parsePageIdData');
+
+        ConsoleService::print('Convert into WikipediaItem...');
+
+        $this->convert();
+
+        return $this;
+    }
+
+    /**
+     * Create `WikipediaItem[]` from `WikipediaQuery[]`.
+     */
+    private function convert(): self
+    {
+        /** @var WikipediaQuery $query */
+        foreach ($this->queries as $query) {
+            $wikipediaItem = new WikipediaItem(
+                model_id: $query->model_id,
+                model_name: $query->model_name,
+                language: $query->language,
+                search_query: $query->search_query,
+                query_url: $query->query_url,
+                page_id: $query->page_id,
+                page_id_url: $query->page_id_url,
+                page_url: $query->page_url,
+                extract: $query->extract,
+                picture_url: $query->picture_url,
+            );
+            $this->wikipediaItems->add($wikipediaItem);
         }
 
         return $this;
@@ -131,7 +169,7 @@ class WikipediaService
      * @param string $url_attribute is WikipediaQuery attribute which is an URL
      * @param string $method        is WikipediaQuery class method to parse response
      */
-    public function search(string $url_attribute, string $method): WikipediaService
+    private function search(string $url_attribute, string $method): self
     {
         /**
          * Make GET request from $url_attribute of WikipediaQuery[].
@@ -159,28 +197,47 @@ class WikipediaService
     }
 
     /**
-     * Create WikipediaItem and associate with model.
+     * Get WikipediaQuery for each `$models`.
      */
-    public function convert(): WikipediaService
+    private function wikipediaQuery(Model $model): WikipediaQuery|false
     {
-        /** @var WikipediaQuery $query */
-        foreach ($this->queries as $query) {
-            $item = WikipediaItem::create([
-                'model' => $query->model_name,
-                'language' => $query->language,
-                'search_query' => $query->search_query,
-                'query_url' => $query->query_url,
-                'page_id' => $query->page_id,
-                'page_id_url' => $query->page_id_url,
-                'page_url' => $query->page_url,
-                'extract' => $query->extract,
-                'picture_url' => $query->picture_url,
-            ]);
-            $model = $query->model_name::find($query->model_id);
-            $model->wikipedia()->associate($item);
-            $model->save();
+        $exist = true;
+
+        // Test each attribute
+        foreach ($this->query_attributes as $attribute) {
+            if (! $this->attributeExistInModel($attribute, $model)) {
+                return false;
+            }
         }
 
-        return $this;
+        $lang = 'en';
+        // If language attribute is unknown, set it to english.
+        if ($this->attributeExistInModel($this->language_field, $model)) {
+            $lang = $model->{$this->language_field};
+            if ('unknown' === $lang || null === $lang) {
+                $lang = 'en';
+            }
+        }
+
+        // set query string from `$query_attributes`
+        $query_string = null;
+        foreach ($this->query_attributes as $attr) {
+            $query_string .= $model->{$attr}.' ';
+        }
+        $query_string = trim($query_string);
+
+        return WikipediaQuery::make($query_string, $model, $this->debug)
+            ->setSubjectIdentifier($this->subject_identifier)
+            ->setLanguage($lang)
+            ->execute()
+        ;
+    }
+
+    /**
+     * Check if attribute exist into Model.
+     */
+    private function attributeExistInModel(string $attribute, Model $model): bool
+    {
+        return array_key_exists($attribute, $model->getAttributes());
     }
 }

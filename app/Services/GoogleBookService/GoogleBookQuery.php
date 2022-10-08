@@ -2,25 +2,50 @@
 
 namespace App\Services\GoogleBookService;
 
-use App\Models\Book;
 use App\Services\GoogleBookService;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Create GoogleBookQuery from Model and ISBN.
+ *
+ * @property ?string   $original_isbn
+ * @property ?string   $url
+ * @property ?string   $model_name
+ * @property ?int      $model_id
+ * @property ?DateTime $published_date
+ * @property ?string   $description
+ * @property array     $industry_identifiers
+ * @property ?int      $page_count
+ * @property array     $categories
+ * @property ?string   $maturity_rating
+ * @property ?string   $language
+ * @property ?string   $preview_link
+ * @property ?string   $publisher
+ * @property ?int      $retail_price_amount
+ * @property ?int      $retail_price_currency_code
+ * @property ?string   $buy_link
+ * @property ?string   $isbn10
+ * @property ?string   $isbn13
+ * @property string[]  $isbn_available
+ * @property ?bool     $debug
+ */
 class GoogleBookQuery
 {
     public function __construct(
+        public ?int $model_id = null,
+        public ?string $model_name = null,
+        public ?bool $debug = false,
+        public array $isbn_available = [],
         public ?string $original_isbn = null,
         public ?string $url = null,
-        public ?string $model_name = null,
-        public ?int $model_id = 0,
         public ?DateTime $published_date = null,
         public ?string $description = null,
-        public ?array $industry_identifiers = null,
+        public array $industry_identifiers = [],
         public ?int $page_count = null,
-        public ?array $categories = null,
+        public array $categories = [],
         public ?string $maturity_rating = null,
         public ?string $language = null,
         public ?string $preview_link = null,
@@ -30,28 +55,24 @@ class GoogleBookQuery
         public ?string $buy_link = null,
         public ?string $isbn10 = null,
         public ?string $isbn13 = null,
-        public ?bool $debug = false,
     ) {
     }
 
     /**
      * Create new GoogleBookQuery from Model and GoogleBookService.
      */
-    public static function create(Model $model, GoogleBookService $service): GoogleBookQuery
+    public static function make(object $model, GoogleBookService $service): self
     {
         $query = new GoogleBookQuery();
-        // @phpstan-ignore-next-line
-        $query->model_id = $model->id;
-        $query->model_name = $service->class;
+        $query->model_id = $model->{$service->subject_identifier} ?? null;
+        $query->model_name = $service->subject ?? null;
+        $query->debug = $service->debug;
 
-        /** @var Book $model */
-        if ($model->isbn) {
-            $query->isbn10 = $model->isbn10 ?? null;
-            $query->isbn13 = $model->isbn13 ?? null;
-            $query->debug = $service->debug;
-
-            $query->getGoogleBookUrl();
+        foreach ($service->isbn_fields as $field) {
+            $query->isbn_available[] = $model->{$field} ?? null;
         }
+        $query->isbn_available = array_filter($query->isbn_available);
+        $query->setGoogleBookUrl();
 
         return $query;
     }
@@ -59,9 +80,12 @@ class GoogleBookQuery
     /**
      * Build GoogleBook API url from ISBN.
      */
-    public function getGoogleBookUrl(): GoogleBookQuery
+    public function setGoogleBookUrl(): self
     {
-        $isbn = $this->isbn13 ? $this->isbn13 : $this->isbn10;
+        $isbn = null;
+        if (array_key_exists(0, $this->isbn_available)) {
+            $isbn = $this->isbn_available[0];
+        }
 
         if ($isbn) {
             $url = 'https://www.googleapis.com/books/v1/volumes';
@@ -77,7 +101,7 @@ class GoogleBookQuery
     /**
      * Parse Google Book API response.
      */
-    public function parseResponse(?Response $response): GoogleBookQuery
+    public function parseResponse(?Response $response): self
     {
         if (null !== $response) {
             $response = $response->json();
@@ -97,9 +121,9 @@ class GoogleBookQuery
                             $this->published_date = new DateTime($volumeInfo->publishedDate);
                             $this->publisher = $volumeInfo->publisher ?? null;
                             $this->description = $volumeInfo->description ?? null;
-                            $this->industry_identifiers = $volumeInfo->industryIdentifiers ?? null;
+                            $this->industry_identifiers = $volumeInfo->industryIdentifiers ?? [];
                             $this->page_count = $volumeInfo->pageCount ?? null;
-                            $this->categories = $volumeInfo->categories ?? null;
+                            $this->categories = $volumeInfo->categories ?? [];
                             $this->maturity_rating = $volumeInfo->maturityRating ?? null;
                             $this->language = $volumeInfo->language ?? null;
                             $this->preview_link = $volumeInfo->previewLink ?? null;

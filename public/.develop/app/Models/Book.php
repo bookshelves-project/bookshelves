@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Class\DownloadFile as ClassDownloadFile;
 use App\Engines\ParserEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
@@ -176,7 +177,7 @@ class Book extends Model implements HasMedia
                     $this->entity => $this->slug,
                     'format' => $format,
                 ]);
-                $media = new DownloadFile(
+                $media = new ClassDownloadFile(
                     $file->file_name,
                     $file->size_human,
                     $route,

@@ -6,7 +6,6 @@ use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Filament\FormHelper;
 use App\Filament\LayoutHelper;
-use App\Filament\RelationManagers\GoogleBookRelationManager;
 use App\Filament\Resources\Books\BookResource\Pages;
 use App\Forms\Components\SpatieMediaView;
 use App\Models\Book;
@@ -234,9 +233,7 @@ class BookResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            GoogleBookRelationManager::class,
-        ];
+        return [];
     }
 
     public static function getPages(): array

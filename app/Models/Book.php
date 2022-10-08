@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Class\GoogleBook;
+use App\Engines\ConverterEngine\TagConverter;
 use App\Enums\BookTypeEnum;
+use App\Services\GoogleBookService\GoogleBookable;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
 use App\Traits\HasBookType;
@@ -18,6 +21,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
@@ -30,7 +34,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 /**
  * @property null|int $reviews_count
  */
-class Book extends Model implements HasMedia
+class Book extends Model implements HasMedia, GoogleBookable
 {
     use HasFactory;
     use HasAuthors;
@@ -136,11 +140,6 @@ class Book extends Model implements HasMedia
         return $this->belongsTo(Serie::class);
     }
 
-    public function googleBook(): BelongsTo
-    {
-        return $this->belongsTo(GoogleBook::class);
-    }
-
     /**
      * Scout.
      */
@@ -164,6 +163,41 @@ class Book extends Model implements HasMedia
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+    }
+
+    public function googleBookConvert(GoogleBook $googleBook): self
+    {
+        if ($googleBook->published_date) {
+            $carbon = Carbon::instance($googleBook->published_date);
+            $this->released_on = $this->released_on ?? $carbon->toDateTimeString();
+        }
+        $this->description = $this->description ?? $googleBook->description;
+        $this->page_count = $this->page_count ?? $googleBook->page_count;
+        $this->maturity_rating = $this->maturity_rating ?? $googleBook->maturity_rating;
+        $this->isbn10 = $this->isbn10 ?? $googleBook->isbn10;
+        $this->isbn13 = $this->isbn13 ?? $googleBook->isbn13;
+
+        // Set publisher
+        if (! $this->publisher) {
+            $publisher_slug = Str::slug($googleBook->publisher, '-');
+            $publisher = Publisher::whereSlug($publisher_slug)->first();
+            if (! $publisher) {
+                $publisher = Publisher::firstOrCreate([
+                    'name' => $this->publisher,
+                    'slug' => $publisher_slug,
+                ]);
+            }
+            $this->publisher()->associate($publisher);
+        }
+
+        // Set tags
+        foreach ($googleBook->categories as $category) {
+            TagConverter::setTag($category);
+        }
+
+        $this->save();
+
+        return $this;
     }
 
     protected function setQueryAllowedFilters(): array

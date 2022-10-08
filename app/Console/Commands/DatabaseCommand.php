@@ -6,12 +6,10 @@ use App\Console\CommandProd;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\GoogleBook;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Review;
 use App\Models\Serie;
-use App\Models\WikipediaItem;
 use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -155,10 +153,6 @@ class DatabaseCommand extends CommandProd
         Language::truncate();
         $this->info('Truncate reviews table');
         Review::truncate();
-        $this->info('Truncate google_books table');
-        GoogleBook::truncate();
-        $this->info('Truncate wikipedia_items table');
-        WikipediaItem::truncate();
         $this->info('Truncate tags table');
         Tag::truncate();
 

@@ -3,17 +3,15 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Console\CommandProd;
-use App\Engines\ConverterEngine\EntityConverter;
-use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\GoogleBook;
 use App\Models\Serie;
-use App\Models\WikipediaItem;
 use App\Services\DirectoryClearService;
 use App\Services\GoogleBookService;
+use App\Services\GoogleBookService\GoogleBookable;
 use App\Services\WikipediaService;
-use ReflectionClass;
+use App\Services\WikipediaService\Wikipediable;
+use Kiwilan\Steward\Class\MetaClass;
 
 /**
  * Extra data for Book, Author, Serie.
@@ -41,6 +39,10 @@ class ApiCommand extends CommandProd
      */
     protected $description = 'Generate data for Books, Authors, Series from public API.';
 
+    protected bool $fresh = false;
+    protected bool $debug = false;
+    protected bool $default = false;
+
     /**
      * Create a new command instance.
      */
@@ -66,9 +68,11 @@ class ApiCommand extends CommandProd
         $series = $this->option('series') ?? false;
         $books = $this->option('books') ?? false;
 
-        $debug = $this->option('debug') ?? false;
+        $this->fresh = $this->option('fresh') ?? false;
+        $this->debug = $this->option('debug') ?? false;
+        $this->default = $this->option('default') ?? false;
 
-        if ($debug) {
+        if ($this->debug) {
             $this->newLine();
             $this->info('Debug mode');
             $this->info('All requests will be printed as JSON into `public/storage/debug/wikipedia` directory.');
@@ -76,132 +80,122 @@ class ApiCommand extends CommandProd
         }
 
         if ($books) {
-            $this->googleBook();
+            $this->googleBookRequest(Book::class, ['isbn13', 'isbn10']);
         }
         if ($authors) {
-            $this->wikipediaRequest(new Author(), 'lastname', ['firstname', 'lastname'], 'language_slug');
+            $this->wikipediaRequest(
+                Author::class,
+                ['firstname', 'lastname'],
+            );
         }
         if ($series) {
-            $this->wikipediaRequest(new Serie(), 'slug_sort', ['title']);
+            $this->wikipediaRequest(
+                Serie::class,
+                ['title']
+            );
         }
-
         return true;
     }
 
-    private function googleBook()
+    /**
+     * Request Google Book API for each `$subject`.
+     *
+     * @param string   $subject     Class name, like `Book::class`
+     * @param string[] $isbn_fields Fields into `$subject` with ISBN, set more relevant first, like `['isbn13', 'isbn10']`
+     *
+     * @return int Number of requests
+     */
+    private function googleBookRequest(string $subject, array $isbn_fields): int
     {
-        $this->comment('Books (REMOVE --books|-b to skip)');
-        $this->info('- GoogleBook: extract data to improve Book');
-        $this->newLine();
+        $models = GoogleBookService::availableModels($subject, $isbn_fields);
 
-        $fresh = $this->option('fresh') ?? false;
-        $debug = $this->option('debug') ?? false;
+        $count = $models->count();
+        $isbn_types = implode('/', $isbn_fields);
+        $this->comment("Need to have {$isbn_types}, on {$subject::count()} entities, {$count} entities can be scanned.");
+        if (0 === $count) {
+            $this->warn('No entities to scan.');
 
-        if ($fresh) {
-            GoogleBook::query()->delete();
+            return $count;
         }
 
-        $count = Book::whereNotNull('isbn10')
-            ->orWhereNotNull('isbn13')
-            ->count()
+        $start = microtime(true); // register time
+        $service = GoogleBookService::make(Book::class, $this->debug)
+            ->setModels($models)
+            ->setIsbnFields($isbn_fields)
+            ->execute()
         ;
-        $this->comment("Need to have ISBN, {$count} books can be scanned");
-        $start = microtime(true);
-        $service = GoogleBookService::create(Book::class, debug: $debug);
 
-        $this->newLine();
-        if (0 === count($service->queries)) {
-            $this->warn('All books have already a GoogleBook relationship, execute same command with --fresh option to erase GoogleBook.');
-
-            return false;
-        }
-
-        $bar = $this->output->createProgressBar(count($service->queries));
+        $bar = $this->output->createProgressBar(count($service->googleBooks));
         $bar->start();
-        foreach (Book::has('googleBook')->get() as $book) {
-            $book->googleBook->improveBook();
+        foreach ($service->googleBooks as $googleBook) {
+            /** @var GoogleBookable */
+            $model = $googleBook->model_name::find($googleBook->model_id);
+            $model->googleBookConvert($googleBook);
             $bar->advance();
         }
         $bar->finish();
 
-        $this->newLine();
-        $this->newLine();
+        $this->newLine(2);
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
-        $this->info("Time in seconds: {$time_elapsed_secs}");
+        $this->info("Time in seconds: {$time_elapsed_secs}"); // display time
         $this->newLine();
 
-        return true;
+        return $count;
     }
 
-    private function wikipediaRequest(Author|Serie $model_name, string $orderBy, array $attribute, string $language_attribute = 'language_slug')
-    {
-        $debug = $this->option('debug') ?? false;
-        $default = $this->option('default') ?? false;
-        $fresh = $this->option('fresh') ?? false;
+    /**
+     * Request Wikipedia API for each `$subject`.
+     *
+     * @param string   $subject        like `Author::class`
+     * @param string[] $attributes     used to create Wikipedia query, like `['firstname', 'lastname']`
+     * @param string   $language_field field into model which corresponding to Model language, like `language_slug`, default is `language_slug`
+     *
+     * @return int Number of requests
+     */
+    private function wikipediaRequest(
+        string $subject,
+        array $attributes,
+        string $language_field = 'language_slug'
+    ): int {
+        $meta = MetaClass::make($subject);
 
-        $class = new ReflectionClass($model_name);
-        $class = $class->getShortName();
-
-        if ('Serie' === $class) {
-            $this->comment('Series (--series|-s option)');
-            $this->info('- Tags from all Books of Serie');
-            if (! $default) {
-                $this->info('- Picture from first Book of Serie (--default|-D to skip)');
-            }
-            $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/series`');
-            $this->info('- Description from Wikipedia (--local|-L to skip)');
-            $this->info('  - Default description can be in `public/storage/data/series/series.json`');
-            $this->newLine();
+        $this->comment("{$meta->class_name} (--{$meta->class_kebab_plural}|-{$meta->first_char} option)");
+        if (! $this->default) {
+            $this->info('- Picture from relation or Wikipedia (--default|-D to skip)');
         }
+        $this->info("  - Default picture can be JPG file with slug of {$meta->class_kebab} in `public/storage/data/{$meta->class_kebab_plural}`");
+        $this->info('- Description from Wikipedia (--local|-L to skip)');
+        $this->info("  - Default description can be in `public/storage/data/{$meta->class_kebab_plural}/{$meta->class_kebab_plural}.json`");
+        $this->newLine();
 
-        if ('Author' === $class) {
-            $this->comment('Authors (--authors|-a option)');
-            $this->info('- Picture from Wikipedia');
-            if (! $default) {
-                $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/authors` (--default|-D to skip)');
-            }
-            $this->info('- Description from Wikipedia (--local|-L to skip)');
-            $this->info('  - Default description can be in `public/storage/data/authors/authors.json`');
-            $this->newLine();
-        }
-
-        $list = $model_name::orderBy($orderBy)->get();
-        $this->comment($class.': '.count($list));
+        $list = $subject::all();
+        $this->comment($meta->class_name.': '.count($list));
 
         $start = microtime(true);
 
-        if ($fresh) {
-            $class_name = new ReflectionClass($model_name);
-            WikipediaItem::whereModel($class_name->getName())->delete();
-            /** @var Author|Serie $model */
-            foreach ($list as $model) {
-                // $model->clearMediaCollection(MediaDiskEnum::cover->value);
-                $model->description = null;
-                $model->link = null;
-                $model->save();
-            }
-        }
-
-        $service = WikipediaService::create($model_name, $attribute, $language_attribute, $debug);
+        $service = WikipediaService::make($subject, $this->debug)
+            ->setQueryAttributes($attributes)
+            ->setLanguageField($language_field)
+            ->execute()
+        ;
         $this->newLine();
 
-        $bar = $this->output->createProgressBar(count($service->queries));
+        $bar = $this->output->createProgressBar(count($service->wikipediaItems));
         $bar->start();
-        foreach ($model_name::has('wikipedia')->get() as $entity) {
-            /** @var Author|Serie $entity */
-            EntityConverter::setWikipediaDescription($entity);
-            if (! $default && $entity instanceof Author) {
-                EntityConverter::setWikipediaCover($entity);
-            }
+        foreach ($service->wikipediaItems as $wikipediaItem) {
+            /** @var Wikipediable */
+            $model = $wikipediaItem->model_name::find($wikipediaItem->model_id);
+            $model->wikipediaConvert($wikipediaItem, $this->default);
             $bar->advance();
         }
         $bar->finish();
 
-        $this->newLine();
-        $this->newLine();
+        $this->newLine(2);
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
         $this->info("Time in seconds: {$time_elapsed_secs}");
 
         $this->newLine();
+
+        return count($list);
     }
 }
