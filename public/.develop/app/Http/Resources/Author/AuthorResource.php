@@ -20,7 +20,7 @@ class AuthorResource extends JsonResource
     {
         return array_merge(AuthorLightResource::make($this->resource)->toArray($request), [
             'meta' => [
-                'entity' => $this->resource->getClassName(),
+                'entity' => $this->resource->entity,
                 'slug' => $this->resource->slug,
                 'show' => $this->resource->show_link,
                 'books' => $this->resource->books_link,

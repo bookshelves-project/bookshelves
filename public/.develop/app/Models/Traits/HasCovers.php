@@ -107,7 +107,7 @@ trait HasCovers
         if (! $extension) {
             $extension = config('bookshelves.cover_extension');
         }
-        $class_name = $this->getClassName(true);
+        $class_name = $this->meta_class_snake_plural;
         // fix crash if conversion not exist in spatie/laravel-medialibrary
         $cover = null;
 
@@ -116,6 +116,6 @@ trait HasCovers
         } catch (\Throwable $th) {
         }
 
-        return $cover ? $cover : config('app.url').'/vendor/vendor/images/'.('authors' === $class_name ? 'no-author.webp' : 'no-cover.webp');
+        return $cover ? $cover : config('app.url').'/vendor/images/'.('authors' === $class_name ? 'no-author.webp' : 'no-cover.webp');
     }
 }

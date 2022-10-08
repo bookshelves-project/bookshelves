@@ -2,19 +2,41 @@
 
 namespace App\Models;
 
+use App\Traits\HasFirstChar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Kiwilan\Steward\Traits\HasShowRoute;
 use Kiwilan\Steward\Traits\HasSlug;
 
+/**
+ * @property null|int $books_count
+ */
 class Publisher extends Model
 {
     use HasFactory;
     use HasSlug;
+    use HasFirstChar;
+    use HasShowRoute;
 
     protected $fillable = [
         'name',
     ];
+
+    protected $appends = [
+        'first_char',
+    ];
+
+    protected $withCount = [
+        'books',
+    ];
+
+    public function getBooksRouteAttribute()
+    {
+        return route('api.publishers.books', [
+            'publisher_slug' => $this->slug,
+        ]);
+    }
 
     /**
      * Relationships.

@@ -14,7 +14,8 @@ class BookLightResource extends JsonResource
     /**
      * Transform the Book into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @mixin Book
      */
     public function toArray($request)
@@ -25,7 +26,7 @@ class BookLightResource extends JsonResource
                 'title' => $this->resource->serie->title,
                 // 'type' => $this->resource->type->i18n(),
                 'meta' => [
-                    'entity' => $this->resource->serie->getClassName(),
+                    'entity' => $this->resource->serie->entity,
                     'slug' => $this->resource->serie->slug,
                     'author' => $this->resource->serie->meta_author,
                     'show' => $this->resource->serie->show_link,

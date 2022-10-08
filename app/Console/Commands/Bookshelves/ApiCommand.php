@@ -66,6 +66,15 @@ class ApiCommand extends CommandProd
         $series = $this->option('series') ?? false;
         $books = $this->option('books') ?? false;
 
+        $debug = $this->option('debug') ?? false;
+
+        if ($debug) {
+            $this->newLine();
+            $this->info('Debug mode');
+            $this->info('All requests will be printed as JSON into `public/storage/debug/wikipedia` directory.');
+            $this->newLine();
+        }
+
         if ($books) {
             $this->googleBook();
         }
@@ -134,7 +143,7 @@ class ApiCommand extends CommandProd
         $class = $class->getShortName();
 
         if ('Serie' === $class) {
-            $this->comment('Series (REMOVE --series|-s to skip)');
+            $this->comment('Series (--series|-s option)');
             $this->info('- Tags from all Books of Serie');
             if (! $default) {
                 $this->info('- Picture from first Book of Serie (--default|-D to skip)');
@@ -146,7 +155,7 @@ class ApiCommand extends CommandProd
         }
 
         if ('Author' === $class) {
-            $this->comment('Authors (REMOVE --authors|-a to skip)');
+            $this->comment('Authors (--authors|-a option)');
             $this->info('- Picture from Wikipedia');
             if (! $default) {
                 $this->info('  - Default picture can be JPG file with slug of serie in `public/storage/data/authors` (--default|-D to skip)');

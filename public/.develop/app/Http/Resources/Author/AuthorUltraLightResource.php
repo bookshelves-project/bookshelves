@@ -12,7 +12,8 @@ class AuthorUltraLightResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -20,7 +21,7 @@ class AuthorUltraLightResource extends JsonResource
         return [
             'name' => $this->resource->name,
             'meta' => [
-                'entity' => $this->resource->getClassName(),
+                'entity' => $this->resource->entity,
                 'slug' => $this->resource->slug,
                 'show' => $this->resource->show_link,
             ],

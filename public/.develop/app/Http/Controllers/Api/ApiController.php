@@ -12,11 +12,11 @@ use App\Models\Publisher;
 use App\Models\Serie;
 use App\Models\User;
 use App\Services\RouteService;
-use App\Utils\BookshelvesTools;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use Kiwilan\Steward\Utils\Toolbox;
 use Spatie\Tags\Tag;
 
 class ApiController extends Controller
@@ -128,7 +128,7 @@ class ApiController extends Controller
             } else {
                 $models = $model::all();
             }
-            $models_sorted = BookshelvesTools::chunkByAlpha($models, 'first_char');
+            $models_sorted = Toolbox::chunkByAlpha($models, 'first_char');
 
             foreach ($models_sorted as $char => $models_char) {
                 $list[$char] = $resource::collection($models_char);
@@ -145,7 +145,7 @@ class ApiController extends Controller
     /**
      * @hideFromAPIDocumentation
      *
-     * @param  mixed  $isLaravelRoute
+     * @param mixed $isLaravelRoute
      */
     private function getRouteData(string $route, string $description, $isLaravelRoute = true)
     {

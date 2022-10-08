@@ -42,6 +42,12 @@
       "type": "shell",
       "command": "php artisan route:list",
       "problemMatcher": []
+    },
+    {
+      "label": "PNPM dev",
+      "type": "shell",
+      "command": "pnpm dev",
+      "problemMatcher": []
     }
   ]
 }

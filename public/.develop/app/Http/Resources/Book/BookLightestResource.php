@@ -14,7 +14,8 @@ class BookLightestResource extends JsonResource
     /**
      * Transform the Book into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @mixin Book
      */
     public function toArray($request): array
@@ -22,7 +23,7 @@ class BookLightestResource extends JsonResource
         return [
             'title' => $this->resource->title,
             'meta' => [
-                'entity' => $this->resource->getClassName(),
+                'entity' => $this->resource->entity,
                 'slug' => $this->resource->slug,
                 'author' => $this->resource->meta_author,
                 'show' => $this->resource->show_link,

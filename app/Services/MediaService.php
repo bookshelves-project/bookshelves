@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\MediaDiskEnum;
 use App\Enums\SpatieMediaMethodEnum;
 use Illuminate\Database\Eloquent\Model;
+use Kiwilan\Steward\Services\ImageService;
 
 class MediaService
 {
@@ -59,7 +60,7 @@ class MediaService
         $image = $this->model->getFirstMediaPath($this->collection);
 
         if ($image) {
-            $color = ImageService::simple_color_thief($image);
+            $color = ImageService::colorThief($image);
             // @phpstan-ignore-next-line
             $media = $this->model->getFirstMedia($this->collection);
             $media->setCustomProperty('color', $color);

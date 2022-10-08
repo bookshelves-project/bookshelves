@@ -60,18 +60,18 @@ trait HasAuthors
 
     // public function getShowLinkAttribute(): string
     // {
-    //     return route('api.'.$this->getClassName(true).'.show', [
+    //     return route('api.'.$this->meta_class_snake_plural.'.show', [
     //         'author_slug' => $this->meta_author,
-    //         "{$this->getClassName()}_slug" => $this->slug,
+    //         "{$this->meta_class_snake}_slug" => $this->slug,
     //     ]);
     // }
 
     // public function getShowLinkOpdsAttribute(): string
     // {
-    //     return route('front.opds.'.$this->getClassName(true).'.show', [
+    //     return route('front.opds.'.$this->meta_class_snake_plural.'.show', [
     //         'version' => '1.2',
     //         'author' => $this->meta_author,
-    //         $this->getClassName() => $this->slug,
+    //         $this->meta_class_snake => $this->slug,
     //     ]);
     // }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property null|\App\Models\User                                 $user
@@ -26,7 +27,7 @@ class Review extends Model
         'reviewable',
     ];
 
-    public function reviewable()
+    public function reviewable(): MorphTo
     {
         return $this->morphTo();
     }

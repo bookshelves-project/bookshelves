@@ -16,7 +16,7 @@ trait HasBooksCollection
 
     public function getFilesListAttribute(): array
     {
-        $entity = $this->getClassNamespace()::whereSlug($this->slug)
+        $entity = $this->meta_class_namespaced::whereSlug($this->slug)
             ->with('books.media')
             ->first()
         ;

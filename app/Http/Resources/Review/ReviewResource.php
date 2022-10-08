@@ -17,7 +17,7 @@ class ReviewResource extends JsonResource
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return array
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
     {
@@ -37,11 +37,11 @@ class ReviewResource extends JsonResource
             'user' => $this->resource->user ? [
                 'id' => $this->resource->user->id,
                 'name' => $this->resource->user->name,
-                'slug' => $this->resource->user->slug,
+                'slug' => $this->resource->user->username,
                 'avatar' => $this->resource->user->avatar,
                 'color' => $this->resource->user->color,
             ] : null,
-            'title' => $reviewable->title ?? $reviewable->name,
+            'title' => $reviewable->title,
             'cover' => $reviewable->cover_thumbnail,
             'color' => $reviewable->cover_color,
             'createdAt' => $this->resource->created_at,

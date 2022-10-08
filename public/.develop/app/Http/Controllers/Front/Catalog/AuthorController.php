@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Author\AuthorResource;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
-use App\Utils\BookshelvesTools;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Utils\Toolbox;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -21,7 +21,7 @@ class AuthorController extends Controller
     public function index(Request $request)
     {
         $authors = Author::with(['media'])->get();
-        $authors = BookshelvesTools::chunkByAlpha($authors, 'lastname');
+        $authors = Toolbox::chunkByAlpha($authors, 'lastname');
 
         return view('front::pages.catalog.authors.index', compact('authors'));
     }
@@ -32,7 +32,7 @@ class AuthorController extends Controller
         $character = $request->character;
         $authors = Author::with(['media'])->get();
 
-        $chunks = BookshelvesTools::chunkByAlpha($authors, 'lastname');
+        $chunks = Toolbox::chunkByAlpha($authors, 'lastname');
         $current_chunk = [];
         $authors = $chunks->first(function ($value, $key) use ($character) {
             return $key === strtoupper($character);

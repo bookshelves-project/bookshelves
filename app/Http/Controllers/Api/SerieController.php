@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Book\BookRelationResource;
+use App\Http\Resources\Book\BookCollectionResource;
 use App\Http\Resources\EntityResource;
 use App\Http\Resources\Serie\SerieResource;
 use App\Models\Author;
@@ -19,6 +19,7 @@ class SerieController extends ApiController
     public function index(Request $request)
     {
         return HttpQuery::make(Serie::class, $request)
+            ->with(['media', 'authors', 'books'])
             ->collection()
         ;
     }
@@ -57,6 +58,6 @@ class SerieController extends ApiController
         $limit = $this->getPaginationLimit($request);
         $books = $this->getFull($request) ? $books->get() : $books->paginate($limit);
 
-        return BookRelationResource::collection($books);
+        return BookCollectionResource::collection($books);
     }
 }

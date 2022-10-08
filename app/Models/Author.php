@@ -3,17 +3,18 @@
 namespace App\Models;
 
 use App\Enums\AuthorRoleEnum;
-use App\Traits\HasClassName;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasReviews;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\HasWikipediaItem;
 use App\Traits\IsEntity;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
+use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
 use Kiwilan\Steward\Traits\Queryable;
@@ -35,7 +36,7 @@ class Author extends Model implements HasMedia
     use HasWikipediaItem;
     use HasTagsAndGenres;
     use HasCovers;
-    use HasClassName;
+    use HasMetaClass;
     use Searchable;
     use Queryable;
     use HasSearchableName;
@@ -55,6 +56,10 @@ class Author extends Model implements HasMedia
 
     protected $casts = [
         'role' => AuthorRoleEnum::class,
+    ];
+
+    protected $appends = [
+        'title',
     ];
 
     protected $withCount = [
@@ -103,7 +108,7 @@ class Author extends Model implements HasMedia
             'name' => $this->name,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
-            // 'picture' => $this->cover_thumbnail,
+            'cover' => $this->cover_thumbnail,
             'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -118,5 +123,12 @@ class Author extends Model implements HasMedia
             AllowedFilter::partial('lastname'),
             AllowedFilter::exact('role'),
         ];
+    }
+
+    protected function title(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->name,
+        );
     }
 }

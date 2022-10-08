@@ -6,6 +6,11 @@ use App\Models\Author;
 use Closure;
 use ReflectionClass;
 
+/**
+ * @property string $entity
+ * @property array  $meta
+ * @property string $opds_link
+ */
 trait IsEntity
 {
     public function getEntityAttribute(): string

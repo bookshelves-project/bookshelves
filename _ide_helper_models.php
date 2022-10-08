@@ -356,8 +356,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read array $meta
- * @property-read string|null $route_show
  * @property-read array $seo
+ * @property-read string|null $show_route
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
@@ -400,8 +400,8 @@ namespace App\Models{
  * @property-read object $mediable
  * @property-read array $mediables_list
  * @property-read array $meta
- * @property-read string|null $route_show
  * @property-read array $seo
+ * @property-read string|null $show_route
  * @method static \Database\Factories\PostFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
@@ -437,6 +437,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
+ * @property-read mixed $books_route
+ * @property-read mixed $first_char
+ * @property-read array $meta
+ * @property-read string|null $show_route
  * @method static \Database\Factories\PublisherFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newQuery()
@@ -600,6 +604,8 @@ namespace App\Models{
  * @property string|null $message
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read object $mediable
+ * @property-read array $mediables_list
  * @method static \Database\Factories\SubmissionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Submission newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Submission newQuery()
@@ -631,8 +637,8 @@ namespace App\Models{
  * @property-read string $books_link
  * @property-read mixed $first_char
  * @property-read array $meta
- * @property-read string|null $route_show
  * @property-read string $show_link
+ * @property-read string|null $show_route
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Serie[] $series
  * @property-read int|null $series_count
  * @property \Illuminate\Database\Eloquent\Collection|TagExtend[] $tags

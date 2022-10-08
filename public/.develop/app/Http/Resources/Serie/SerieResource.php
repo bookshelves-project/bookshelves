@@ -15,14 +15,15 @@ class SerieResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
     {
         return array_merge(SerieLightResource::make($this->resource)->toArray($request), [
             'meta' => [
-                'entity' => $this->resource->getClassName(),
+                'entity' => $this->resource->entity,
                 'slug' => $this->resource->slug,
                 'author' => $this->resource->meta_author,
                 'show' => $this->resource->show_link,

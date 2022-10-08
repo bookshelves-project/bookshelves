@@ -17,6 +17,7 @@ class BookController extends ApiController
     public function index(Request $request)
     {
         return HttpQuery::make(Book::class, $request)
+            ->with(['authors', 'media', 'language', 'serie'])
             ->collection()
         ;
     }

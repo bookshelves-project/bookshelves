@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Enums\SubmissionReasonEnum;
-use App\Traits\HasAttachment;
-use App\Traits\Mediable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kiwilan\Steward\Traits\HasAttachment;
+use Kiwilan\Steward\Traits\Mediable;
 
 class Submission extends Model
 {

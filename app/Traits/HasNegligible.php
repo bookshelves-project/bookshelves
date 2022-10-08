@@ -4,6 +4,11 @@ namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Negligible books.
+ *
+ * - scope `whereNegligibleIs` with `where` on `negligible` for books cout under 3
+ */
 trait HasNegligible
 {
     public function scopeWhereIsNegligible(Builder $query, string $negligible): Builder

@@ -2,12 +2,24 @@
 
 namespace App\Services;
 
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Support\Collection;
 
 class EntityService
 {
+    /**
+     * Give an Entity output.
+     *
+     * @return Author|Book|Serie
+     */
+    public static function entityOutput(mixed $class)
+    {
+        /** @var Author|Book|Serie */
+        return $class;
+    }
+
     /**
      * Get Book or Serie related to a Book from Tag[].
      */

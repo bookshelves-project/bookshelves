@@ -27,7 +27,7 @@ class BookResource extends JsonResource
         return [
             ...BookLightResource::make($this->resource)->toArray($request),
             'meta' => [
-                'entity' => $this->resource->getClassName(),
+                'entity' => $this->resource->entity,
                 'slug' => $this->resource->slug,
                 'author' => $this->resource->meta_author,
                 'show' => $this->resource->show_link,

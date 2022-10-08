@@ -6,7 +6,6 @@ use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
 use App\Traits\HasBookType;
-use App\Traits\HasClassName;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
@@ -20,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
+use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
 use Kiwilan\Steward\Traits\Queryable;
@@ -27,6 +27,9 @@ use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\QueryBuilder\AllowedFilter;
 
+/**
+ * @property null|int $reviews_count
+ */
 class Book extends Model implements HasMedia
 {
     use HasFactory;
@@ -41,7 +44,7 @@ class Book extends Model implements HasMedia
     use HasBookType;
     use HasCovers;
     use HasSelections;
-    use HasClassName;
+    use HasMetaClass;
     use HasBookFiles;
     use Searchable;
     use Queryable;
@@ -49,6 +52,7 @@ class Book extends Model implements HasMedia
 
     protected $query_default_sort = 'slug_sort';
     protected $query_allowed_sorts = ['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'isbn', 'publisher', 'released_on', 'created_at', 'updated_at'];
+    protected $query_limit = 32;
 
     protected $fillable = [
         'title',

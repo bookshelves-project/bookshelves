@@ -2,10 +2,10 @@
 
 namespace App\Engines;
 
+use App\Class\Entity;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Entity;
 use App\Models\Serie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;

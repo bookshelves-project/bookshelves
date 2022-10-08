@@ -18,6 +18,7 @@ class AuthorController extends ApiController
     public function index(Request $request)
     {
         return HttpQuery::make(Author::class, $request)
+            ->with(['media'])
             ->collection()
         ;
     }

@@ -27,7 +27,6 @@ class TagExtend extends \Spatie\Tags\Tag
     use Queryable;
 
     protected $query_default_sort = 'slug->en';
-    // protected $query_allowed_filters = [];
     protected $query_allowed_sorts = ['id', 'name', 'slug', 'type', 'first_char', 'books_count', 'series_count', 'created_at', 'updated_at'];
     protected $query_full = true;
     protected $query_resource = TagCollectionResource::class;

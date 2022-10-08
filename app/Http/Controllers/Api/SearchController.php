@@ -14,7 +14,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
  * APIs for Search.
  */
 #[Prefix('search')]
-class SearchController extends Controller
+class SearchController extends ApiController
 {
     #[Get('/', name: 'api.search.index')]
     public function index(Request $request)

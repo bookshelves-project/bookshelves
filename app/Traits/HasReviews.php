@@ -19,7 +19,7 @@ trait HasReviews
     public function getReviewsLinkAttribute()
     {
         return route('api.entities.reviews', [
-            'entity' => $this->getClassName(),
+            'entity' => $this->entity,
             'entity_id' => $this->id,
         ]);
     }

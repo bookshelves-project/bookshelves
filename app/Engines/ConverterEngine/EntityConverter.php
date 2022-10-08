@@ -59,7 +59,7 @@ class EntityConverter
             //         Str::limit($model->wikipedia->extract, 1000)
             //     );
             // }
-            $model->description = json_encode(Str::limit($model->wikipedia->extract, 1000)); // TODO translatable
+            $model->description = Str::limit($model->wikipedia->extract, 1000); // TODO translatable
             $model->link = $model->wikipedia->page_url;
             $model->save();
         }
@@ -92,7 +92,7 @@ class EntityConverter
     public static function setCoverPlaceholder(Author $author): Author
     {
         if ($author->getMedia(MediaDiskEnum::cover->value)->isEmpty()) {
-            $placeholder = public_path('vendor/vendor/images/no-author.webp');
+            $placeholder = public_path('vendor/images/no-author.webp');
             $disk = self::DISK;
             $author->clearMediaCollection($disk->value);
             MediaService::create($author, $author->slug, $disk)

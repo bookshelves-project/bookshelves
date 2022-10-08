@@ -7,6 +7,7 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Page;
 use App\Models\Post;
+use App\Models\Publisher;
 use App\Models\Serie;
 use App\Models\TagExtend;
 use Illuminate\Http\Request;
@@ -35,6 +36,8 @@ class ApiController extends Controller
         Route::bind('cms_page_slug', fn (string $param) => Page::where('slug', $param)->firstOrFail());
 
         Route::bind('post_slug', fn (string $param) => Post::where('slug', $param)->firstOrFail());
+
+        Route::bind('publisher_slug', fn (string $param) => Publisher::where('slug', $param)->firstOrFail());
     }
 
     protected function getLang(Request $request)
@@ -51,5 +54,12 @@ class ApiController extends Controller
     protected function getFull(Request $request): bool
     {
         return $request->boolean('full');
+    }
+
+    protected function getEntity(string $entity): string
+    {
+        $model_name = ucfirst($entity);
+
+        return "App\\Models\\{$model_name}";
     }
 }

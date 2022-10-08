@@ -1,12 +1,19 @@
 <?php
 
-namespace App\Models;
+namespace App\Class;
 
 use App\Enums\BookTypeEnum;
+use App\Models\Author;
+use App\Models\Language;
+use App\Models\Serie;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use ReflectionClass;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * @property string $entity
+ */
 class Entity
 {
     public ?string $meta_author;
@@ -16,8 +23,6 @@ class Entity
     public ?string $show_link;
 
     public ?string $title;
-
-    public ?string $name;
 
     public ?BookTypeEnum $type;
 
@@ -56,5 +61,12 @@ class Entity
         $class = $class->getShortName();
 
         return strtolower($class);
+    }
+
+    protected function entity(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->getEntity($this),
+        );
     }
 }

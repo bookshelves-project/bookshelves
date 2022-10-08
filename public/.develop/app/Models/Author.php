@@ -4,20 +4,20 @@ namespace App\Models;
 
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
-use App\Models\Traits\HasBooksCollection;
-use App\Models\Traits\HasClassName;
 use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasReviews;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasWikipediaItem;
+use App\Traits\HasBooksCollection as TraitsHasBooksCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Kiwilan\Steward\Traits\HasMetaClass;
+use Kiwilan\Steward\Traits\HasSlug as TraitsHasSlug;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
 use Spatie\Translatable\HasTranslations;
@@ -30,15 +30,15 @@ class Author extends Model implements HasMedia
 {
     use HasFactory;
     use HasTags;
-    use HasClassName;
+    use HasMetaClass;
     use HasCovers;
     use HasFavorites;
     use HasReviews;
     use HasSelections;
     use Searchable;
     use HasWikipediaItem;
-    use HasSlug;
-    use HasBooksCollection;
+    use TraitsHasSlug;
+    use TraitsHasBooksCollection;
     use HasTranslations;
 
     public $translatable = [

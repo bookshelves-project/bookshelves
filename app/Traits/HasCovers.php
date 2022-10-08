@@ -3,13 +3,23 @@
 namespace App\Traits;
 
 use App\Enums\MediaDiskEnum;
+use App\Models\Book;
 use App\Models\MediaExtended;
+use App\Services\EntityService;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Manage cover with conversions with `spatie/laravel-medialibrary`.
+ *
+ * @property string $cover_book
+ * @property string $cover_thumbnail
+ * @property string $cover_og
+ * @property string $cover_simple
+ * @property string $cover_original
+ * @property string $cover_color
+ * @property string $cover
  */
 trait HasCovers
 {
@@ -123,7 +133,7 @@ trait HasCovers
     public function getCoverFullAttribute(): array
     {
         return [
-            ...$this->cover,
+            'cover' => $this->cover,
             'og' => $this->cover_og,
             'simple' => $this->cover_simple,
             'original' => $this->cover_original,
@@ -135,7 +145,9 @@ trait HasCovers
         if (! $extension) {
             $extension = config('bookshelves.cover_extension');
         }
-        $class_name = $this->getClassName(true);
+
+        $that = EntityService::entityOutput($this);
+        $class_name = $that->meta_class_snake_plural;
         // fix crash if conversion not exist in spatie/laravel-medialibrary
         $cover = null;
 
@@ -144,6 +156,6 @@ trait HasCovers
         } catch (\Throwable $th) {
         }
 
-        return $cover ? $cover : config('app.url').'/vendor/vendor/images/'.('authors' === $class_name ? 'no-author.webp' : 'no-cover.webp');
+        return $cover ? $cover : config('app.url').'/vendor/images/'.('authors' === $class_name ? 'no-author.webp' : 'no-cover.webp');
     }
 }

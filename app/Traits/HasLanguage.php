@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Manage language with `BelongsTo` `languages`.
+ * Manage language.
+ *
+ * - scope `whereLanguagesIs` with `whereIn` on `language_slug`
+ * - relation `language` with `BelongsTo` `languages`
  */
 trait HasLanguage
 {

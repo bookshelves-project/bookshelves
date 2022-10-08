@@ -13,7 +13,8 @@ class SerieUltraLightResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -22,7 +23,7 @@ class SerieUltraLightResource extends JsonResource
             'title' => $this->resource->title,
             'type' => $this->resource->type->i18n(),
             'meta' => [
-                'entity' => $this->resource->getClassName(),
+                'entity' => $this->resource->entity,
                 'slug' => $this->resource->slug,
                 'author' => $this->resource->meta_author,
                 'show' => $this->resource->show_link,

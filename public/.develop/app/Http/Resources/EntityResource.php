@@ -2,20 +2,21 @@
 
 namespace App\Http\Resources;
 
+use App\Class\Entity;
 use App\Http\Resources\Author\AuthorUltraLightResource;
 use App\Http\Resources\Language\LanguageLightResource;
-use App\Models\Entity;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property \App\Models\Entity $resource
+ * @property \App\Class\Entity $resource
  */
 class EntityResource extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)

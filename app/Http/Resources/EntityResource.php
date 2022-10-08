@@ -2,11 +2,12 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Entity;
+use App\Http\Resources\Author\AuthorRelationResource;
+use App\Http\Resources\Language\LanguageCollectionResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property \App\Models\Entity $resource
+ * @property \App\Models\Author|\App\Models\Book|\App\Models\Serie $resource
  */
 class EntityResource extends JsonResource
 {
@@ -19,11 +20,24 @@ class EntityResource extends JsonResource
      */
     public function toArray($request)
     {
+        // if ($request->relation) {
+        //     /** @var Author|Book|Serie */
+        //     $this->resource = $this->{$request->relation};
+        // }
+
         return [
-            'entity' => Entity::getEntity($this->resource),
-            'slug' => $this->resource->slug,
+            'meta' => $this->resource->meta,
             'title' => $this->resource->title,
-            // 'media' => MediaResource::make($this->resource->media_primary),
+            'type' => $this->resource->type->locale(),
+            'authors' => AuthorRelationResource::collection($this->resource->authors ?? []),
+            'serie' => $this->resource->serie?->title,
+            'language' => LanguageCollectionResource::make($this->resource->language),
+            'volume' => $this->resource->volume ?? null,
+            'count' => $this->resource->books_count,
+            // 'media' => SpatieMediaResource::make($this->resource->media_primary),
+            'media' => $this->resource->cover_media,
+            'media_social' => $this->resource->cover_simple,
+            'first_char' => $this->resource->first_char ?? null,
         ];
     }
 }

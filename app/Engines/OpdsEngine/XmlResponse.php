@@ -2,11 +2,11 @@
 
 namespace App\Engines\OpdsEngine;
 
+use App\Class\Entity;
 use App\Enums\BookFormatEnum;
 use App\Enums\EntityEnum;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Entity;
 use App\Models\Serie;
 use App\Models\TagExtend;
 use DateTime;
@@ -258,7 +258,7 @@ class XmlResponse
         }
 
         return [
-            'title' => $entity->title ?? $entity->name,
+            'title' => $entity->title,
             'updated' => $date,
             'id' => $id,
             'type' => $entity->type?->i18n(),

@@ -7,8 +7,8 @@ use App\Http\Resources\EntityResource;
 use App\Http\Resources\Serie\SerieResource;
 use App\Models\Author;
 use App\Models\Serie;
-use App\Utils\BookshelvesTools;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Utils\Toolbox;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -22,7 +22,7 @@ class SerieController extends Controller
     public function index(Request $request)
     {
         $series = Serie::with(['authors', 'media'])->get();
-        $series = BookshelvesTools::chunkByAlpha($series, 'title');
+        $series = Toolbox::chunkByAlpha($series, 'title');
 
         return view('catalog::pages.series.index', compact('series'));
     }
@@ -33,7 +33,7 @@ class SerieController extends Controller
         $character = $request->character;
         $series = Serie::with(['authors', 'media'])->get();
 
-        $chunks = BookshelvesTools::chunkByAlpha($series, 'title');
+        $chunks = Toolbox::chunkByAlpha($series, 'title');
         $current_chunk = [];
         $series = $chunks->first(function ($value, $key) use ($character) {
             return $key === strtoupper($character);

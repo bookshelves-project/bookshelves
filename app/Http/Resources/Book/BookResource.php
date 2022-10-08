@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Book;
 
+use App\Http\Resources\Publisher\PublisherRelationResource;
+use App\Http\Resources\Tag\TagRelationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -27,6 +29,17 @@ class BookResource extends JsonResource
             'page_count' => $this->resource->page_count,
             'maturity_rating' => $this->resource->maturity_rating,
             'isbn' => $this->resource->isbn,
+            'identifiers' => BookIdentifierResource::make($this->resource),
+
+            'tags' => TagRelationResource::collection($this->resource->tags_list),
+            'genres' => TagRelationResource::collection($this->resource->genres_list),
+            'publisher' => PublisherRelationResource::make($this->resource->publisher),
+
+            'download' => $this->resource->file_main,
+            'files' => $this->resource->files_list,
+
+            'isFavorite' => $this->resource->is_favorite,
+            'reviewsCount' => $this->resource->reviews_count,
         ];
     }
 }

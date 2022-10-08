@@ -73,7 +73,7 @@ trait HasBookFiles
                 $file = $this->files[$format];
                 $reader = route('webreader.reader', [
                     'author' => $this->meta_author,
-                    $this->getClassName() => $this->slug,
+                    $this->entity => $this->slug,
                     'format' => $format,
                 ]);
                 $media = new DownloadFile(
