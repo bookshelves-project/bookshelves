@@ -23,7 +23,7 @@ class CatalogController extends Controller
         SEOTools::setTitle('Catalog');
         SEOTools::setDescription('Get books from your eReader');
 
-        $service = MarkdownService::generate('catalog/index.md');
+        $service = MarkdownService::make('catalog/index.md');
         $content = $service->convertToHtml();
 
         $mobile = new MobileDetect();

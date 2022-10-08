@@ -25,6 +25,8 @@ trait HasCovers
 {
     use InteractsWithMedia;
 
+    protected $cover_available = false;
+
     /** @mixin \Spatie\Cover\Manipulations */
     public function registerMediaConversions(Media $media = null): void
     {
@@ -119,6 +121,7 @@ trait HasCovers
         return [
             'url' => $this->cover_thumbnail,
             'color' => $this->cover_color,
+            'available' => $this->cover_available,
         ];
     }
 
@@ -153,6 +156,9 @@ trait HasCovers
 
         try {
             $cover = $this->getFirstMediaUrl(MediaDiskEnum::cover->value, $collection);
+            if (! empty($cover)) {
+                $this->cover_available = true;
+            }
         } catch (\Throwable $th) {
         }
 

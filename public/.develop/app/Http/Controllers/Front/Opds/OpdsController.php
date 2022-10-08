@@ -21,7 +21,7 @@ class OpdsController extends Controller
     {
         SEOTools::setTitle('OPDS');
 
-        $service = MarkdownService::generate('opds/index.md');
+        $service = MarkdownService::make('opds/index.md');
         $content = $service->convertToHtml();
 
         $feeds = [

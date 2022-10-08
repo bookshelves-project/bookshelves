@@ -51,7 +51,8 @@ class CoverConverter
         $path = storage_path("app/public/data/{$model_name}s");
         $cover = null;
 
-        $files = DirectoryParserService::parse($path);
+        $service = DirectoryParserService::make($path);
+        $files = $service->files;
 
         foreach ($files as $file) {
             if (pathinfo($file, PATHINFO_FILENAME) === $model->slug) {

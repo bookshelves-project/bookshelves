@@ -13,10 +13,10 @@ class HomeController extends Controller
     #[Get('/', name: 'front.home')]
     public function index()
     {
-        $service = MarkdownService::generate('welcome.md');
+        $service = MarkdownService::make('welcome.md');
         $welcome = $service->convertToHtml();
 
-        $service = MarkdownService::generate('developers.md');
+        $service = MarkdownService::make('developers.md');
         $developers = $service->convertToHtml();
 
         return view('front::pages.index', compact('welcome', 'developers'));
@@ -30,7 +30,7 @@ class HomeController extends Controller
         $random_book = Book::inRandomOrder()->first();
         $cover = null;
         $route = null;
-        $service = MarkdownService::generate('webreader/index.md');
+        $service = MarkdownService::make('webreader/index.md');
         $content = $service->convertToHtml();
         if ($random_book) {
             /** @var Book $random_book */

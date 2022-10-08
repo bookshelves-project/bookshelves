@@ -22,20 +22,16 @@ class FilesTypeParser
     public static function parseDataFiles(int $limit = null)
     {
         $book_types = BookTypeEnum::toArray();
-        // $book_types = [
-        //     'audio' => 'audio',
-        //     // "comic" => "comic",
-        //     'essay' => 'essay',
-        //     'handbook' => 'handbook',
-        //     'novel' => 'novel',
-        // ];
         $formats = BookFormatEnum::toArray();
 
         $files = [];
         foreach ($book_types as $type => $path) {
             $path = storage_path("app/public/data/books/{$type}");
 
-            foreach (DirectoryParserService::parse($path) as $file_path) {
+            $service = DirectoryParserService::make($path);
+            $files_list = $service->files;
+
+            foreach ($files_list as $file_path) {
                 if (array_key_exists('extension', pathinfo($file_path))) {
                     $ext = pathinfo($file_path, PATHINFO_EXTENSION);
                     if (array_key_exists($ext, $formats)) {
