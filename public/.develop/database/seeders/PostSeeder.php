@@ -6,11 +6,11 @@ use App\Enums\PostStatusEnum;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\User;
-use App\Services\ConverterService;
 use App\Services\MarkdownToHtmlService;
 use DateTime;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Kiwilan\Steward\Services\ConverterService;
 use Spatie\Tags\Tag;
 
 class PostSeeder extends Seeder

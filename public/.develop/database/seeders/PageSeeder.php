@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Page;
-use App\Services\ConverterService;
 use App\Services\MarkdownToHtmlService;
 use DateTime;
 use Illuminate\Database\Seeder;
 use Kiwilan\Steward\Enums\PublishStatusEnum;
+use Kiwilan\Steward\Services\ConverterService;
 
 class PageSeeder extends Seeder
 {

@@ -10,12 +10,12 @@ use App\Models\Cms\HomePage\HomePageHighlight;
 use App\Models\Cms\HomePage\HomePageLogo;
 use App\Models\Cms\HomePage\HomePageStatistic;
 use App\Models\Cms\Navigation;
-use App\Services\ConverterService;
 use App\Services\SvgService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Kiwilan\Steward\Enums\SpatieMediaMethodEnum;
+use Kiwilan\Steward\Services\ConverterService;
 use Kiwilan\Steward\Services\MediaService;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 

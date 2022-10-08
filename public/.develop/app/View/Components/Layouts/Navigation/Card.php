@@ -2,8 +2,8 @@
 
 namespace App\View\Components\Layouts\Navigation;
 
-use App\Services\ConverterService;
 use Illuminate\View\Component;
+use Kiwilan\Steward\Services\ConverterService;
 
 class Card extends Component
 {

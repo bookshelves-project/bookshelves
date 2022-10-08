@@ -7,7 +7,7 @@ use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Kiwilan\Steward\Enums\PublishStatusEnum;
-use Kiwilan\Steward\Services\SeederService;
+use Kiwilan\Steward\Services\FactoryService;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
@@ -21,14 +21,18 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $factory = FactoryService::make()
+            ->setFactoryMedia()
+        ;
+
         return [
             'title' => ucfirst($this->faker->words(5, true)),
             'summary' => $this->faker->paragraph(),
             'status' => $this->faker->randomElement(PublishStatusEnum::toValues()),
             'is_pinned' => $this->faker->boolean(15),
             'category' => $this->faker->randomElement(PostCategoryEnum::toValues()),
-            'picture' => SeederService::medias('posts'),
-            'body' => SeederService::generateRichBody($this->faker),
+            'picture' => $factory->media->medias('posts'),
+            'body' => $factory->generateRichBody($this->faker),
         ];
     }
 
@@ -51,7 +55,8 @@ class PostFactory extends Factory
     public function timestamps(): PostFactory
     {
         return $this->state(function (array $attributes) {
-            $timestamps = SeederService::timestamps();
+            $factory = FactoryService::make();
+            $timestamps = $factory->timestamps();
 
             return [
                 'published_at' => $timestamps['created_at'],

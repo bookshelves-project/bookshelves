@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\MediaDiskEnum;
 use App\Models\Page;
-use App\Services\ConverterService;
+use Kiwilan\Steward\Services\ConverterService;
 use File;
 use Illuminate\Database\Seeder;
 
