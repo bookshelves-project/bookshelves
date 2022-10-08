@@ -2,16 +2,16 @@
 
 namespace App\Engines\ConverterEngine;
 
-use App\Class\WikipediaItem;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Serie;
-use App\Services\ConverterService;
-use App\Services\MediaService;
-use App\Services\WikipediaService\WikipediaQuery;
-use File;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Kiwilan\Steward\Class\WikipediaItem;
+use Kiwilan\Steward\Services\ConverterService;
+use Kiwilan\Steward\Services\MediaService;
+use Kiwilan\Steward\Services\WikipediaService\WikipediaQuery;
 use ReflectionClass;
 
 /**
@@ -111,7 +111,7 @@ class EntityConverter
 
             if ($cover && 'author-unknown' !== $this->model->slug) {
                 $this->model->clearMediaCollection($disk->value);
-                MediaService::create($this->model, $this->model->slug, $disk)
+                MediaService::make($this->model, $this->model->slug, $disk)
                     ->setMedia($cover)
                     ->setColor()
                 ;
@@ -127,7 +127,7 @@ class EntityConverter
             $placeholder = public_path('vendor/images/no-author.webp');
             $disk = self::DISK;
             $author->clearMediaCollection($disk->value);
-            MediaService::create($author, $author->slug, $disk)
+            MediaService::make($author, $author->slug, $disk)
                 ->setMedia(base64_encode(File::get($placeholder)))
                 ->setColor()
             ;

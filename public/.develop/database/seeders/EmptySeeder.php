@@ -10,8 +10,6 @@ class EmptySeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
@@ -65,11 +63,11 @@ class EmptySeeder extends Seeder
         //     // $user->roles()->attach($userRole);
         //     // $user->roles()->attach($adminRole);
 
-        //     MediaService::create($user, $user->slug, 'users', 'avatar')
+        //     MediaService::make($user, $user->slug, 'users', 'avatar')
         //         ->setMedia(DatabaseSeeder::generateAvatar())
         //         ->setColor()
         //     ;
-        //     MediaService::create($user, "{$user->slug}-banner", 'users', 'banner')
+        //     MediaService::make($user, "{$user->slug}-banner", 'users', 'banner')
         //         ->setMedia(DatabaseSeeder::generateBanner())
         //         ->setColor()
         //     ;

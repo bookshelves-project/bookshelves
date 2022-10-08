@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Class\GoogleBook;
 use App\Engines\ConverterEngine\TagConverter;
 use App\Enums\BookTypeEnum;
-use App\Services\GoogleBookService\GoogleBookable;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
 use App\Traits\HasBookType;
@@ -22,7 +20,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Kiwilan\Steward\Class\GoogleBook;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
+use Kiwilan\Steward\Services\GoogleBookService\GoogleBookable;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;

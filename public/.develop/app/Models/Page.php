@@ -5,9 +5,9 @@ namespace App\Models;
 use App\Enums\PostStatusEnum;
 use App\Models\Traits\HasPublishStatus;
 use App\Services\MarkdownToHtmlService;
-use App\Services\MediaService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kiwilan\Steward\Services\MediaService;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 

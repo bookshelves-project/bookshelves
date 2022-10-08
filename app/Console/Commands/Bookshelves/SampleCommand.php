@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
 use App\Models\User;
 use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Kiwilan\Steward\Console\CommandProd;
 
 class SampleCommand extends CommandProd
 {

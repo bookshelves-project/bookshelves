@@ -9,7 +9,7 @@ use App\Engines\ParserEngine\Modules\Interface\Module;
 use App\Engines\ParserEngine\Modules\Interface\ModuleInterface;
 use App\Engines\ParserEngine\Modules\Interface\XmlInterface;
 use App\Engines\ParserEngine\Parsers\ArchiveParser;
-use App\Services\ConsoleService;
+use Kiwilan\Steward\Services\ConsoleService;
 
 class EpubModule extends Module implements ModuleInterface, XmlInterface
 {

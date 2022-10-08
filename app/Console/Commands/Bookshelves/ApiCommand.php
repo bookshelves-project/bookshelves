@@ -2,16 +2,16 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Services\DirectoryClearService;
-use App\Services\GoogleBookService;
-use App\Services\GoogleBookService\GoogleBookable;
-use App\Services\WikipediaService;
-use App\Services\WikipediaService\Wikipediable;
 use Kiwilan\Steward\Class\MetaClass;
+use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Services\DirectoryClearService;
+use Kiwilan\Steward\Services\GoogleBookService;
+use Kiwilan\Steward\Services\GoogleBookService\GoogleBookable;
+use Kiwilan\Steward\Services\WikipediaService;
+use Kiwilan\Steward\Services\WikipediaService\Wikipediable;
 
 /**
  * Extra data for Book, Author, Serie.
@@ -62,7 +62,7 @@ class ApiCommand extends CommandProd
 
         $this->checkProd();
 
-        DirectoryClearService::create([storage_path('app/public/debug/wikipedia')]);
+        DirectoryClearService::make([storage_path('app/public/debug/wikipedia')]);
 
         $authors = $this->option('authors') ?? false;
         $series = $this->option('series') ?? false;

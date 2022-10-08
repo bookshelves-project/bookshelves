@@ -11,10 +11,10 @@ use App\Engines\ParserEngine\Modules\PdfModule;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
-use App\Services\ConsoleService;
 use DateTime;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Kiwilan\Steward\Services\ConsoleService;
 use Transliterator;
 
 /**

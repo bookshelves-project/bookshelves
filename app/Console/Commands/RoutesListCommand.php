@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Services\ConverterService;
-use App\Services\RouteService;
 use Illuminate\Console\Command;
+use Kiwilan\Steward\Services\ConverterService;
+use Kiwilan\Steward\Services\RouteService;
 
 class RoutesListCommand extends Command
 {

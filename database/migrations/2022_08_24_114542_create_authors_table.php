@@ -18,7 +18,7 @@ return new class() extends Migration {
             $table->string('firstname')->nullable();
             $table->string('name')->nullable();
             $table->string('role')->nullable();
-            $table->json('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('link')->nullable();
             $table->json('note')->nullable();
 

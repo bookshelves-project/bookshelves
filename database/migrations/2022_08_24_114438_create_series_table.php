@@ -17,7 +17,7 @@ return new class() extends Migration {
             $table->string('slug_sort')->nullable();
             $table->string('slug')->unique()->index()->nullable();
             $table->string('type')->default('novel');
-            $table->json('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('link')->nullable();
 
             $table->timestamps();

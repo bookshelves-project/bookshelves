@@ -5,8 +5,8 @@ namespace App\Engines;
 use App\Engines\OpdsEngine\Modules\Interface\ModuleInterface;
 use App\Engines\OpdsEngine\Modules\NotSupportedModule;
 use App\Engines\OpdsEngine\Modules\Version1_2Module;
-use App\Services\ConverterService;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Services\ConverterService;
 
 class OpdsEngine
 {

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Cms\PostResource\Pages;
 
 use App\Filament\Resources\Cms\PostResource;
-use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreatePost extends CreateRecord

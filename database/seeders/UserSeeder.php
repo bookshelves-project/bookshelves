@@ -5,11 +5,11 @@ namespace Database\Seeders;
 use App\Enums\MediaDiskEnum;
 use App\Enums\UserRole;
 use App\Models\User;
-use App\Services\MediaService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use Kiwilan\Steward\Services\MediaService;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -52,13 +52,13 @@ class UserSeeder extends Seeder
             // $user->roles()->attach(Role::whereName(UserRole::user())->first());
 
             if ($faker->boolean(75)) {
-                MediaService::create($user, $user->username, MediaDiskEnum::user, 'avatar')
+                MediaService::make($user, $user->username, MediaDiskEnum::user, 'avatar')
                     ->setMedia(DatabaseSeeder::generateAvatar())
                     ->setColor()
                 ;
             }
             if ($faker->boolean()) {
-                MediaService::create($user, "{$user->username}-banner", MediaDiskEnum::user, 'banner')
+                MediaService::make($user, "{$user->username}-banner", MediaDiskEnum::user, 'banner')
                     ->setMedia(DatabaseSeeder::generateBanner())
                     ->setColor()
                 ;

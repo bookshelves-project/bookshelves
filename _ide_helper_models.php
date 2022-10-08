@@ -20,7 +20,7 @@ namespace App\Models{
  * @property string|null $firstname
  * @property string|null $name
  * @property \App\Enums\AuthorRoleEnum|null $role
- * @property mixed|null $description
+ * @property string|null $description
  * @property string|null $link
  * @property mixed|null $note
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -76,7 +76,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTagsOfAnyType($tags)
  */
-	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \App\Services\WikipediaService\Wikipediable {}
+	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Kiwilan\Steward\Services\WikipediaService\Wikipediable {}
 }
 
 namespace App\Models{
@@ -120,7 +120,7 @@ namespace App\Models{
  * @property-read string|null $cover_simple
  * @property-read string|null $cover_thumbnail
  * @property-read string $entity
- * @property-read \App\Class\DownloadFile $file_main
+ * @property-read \Kiwilan\Steward\Class\DownloadFile $file_main
  * @property-read \App\Models\MediaExtended[]|null[] $files
  * @property-read \App\Models\DownloadFile[] $files_list
  * @property-read mixed $genres_list
@@ -181,7 +181,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTagsOfAnyType($tags)
  */
-	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \App\Services\GoogleBookService\GoogleBookable {}
+	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Kiwilan\Steward\Services\GoogleBookService\GoogleBookable {}
 }
 
 namespace App\Models{
@@ -467,7 +467,7 @@ namespace App\Models{
  * @property string|null $slug
  * @property string|null $language_slug
  * @property \App\Enums\BookTypeEnum $type
- * @property array|null $description
+ * @property string|null $description
  * @property string|null $link
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -529,7 +529,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAnyTagsOfAnyType($tags)
  */
-	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \App\Services\WikipediaService\Wikipediable {}
+	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Kiwilan\Steward\Services\WikipediaService\Wikipediable {}
 }
 
 namespace App\Models{

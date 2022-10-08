@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
 use Illuminate\Console\Command;
+use Kiwilan\Steward\Console\CommandProd;
 use Spatie\Tags\Tag;
 
 class StatsCommand extends CommandProd

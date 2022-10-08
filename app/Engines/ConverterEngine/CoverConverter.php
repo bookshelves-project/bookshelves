@@ -7,9 +7,9 @@ use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Services\ConsoleService;
-use App\Services\DirectoryParserService;
-use App\Services\MediaService;
+use Kiwilan\Steward\Services\ConsoleService;
+use Kiwilan\Steward\Services\DirectoryParserService;
+use Kiwilan\Steward\Services\MediaService;
 use ReflectionClass;
 
 class CoverConverter
@@ -25,7 +25,7 @@ class CoverConverter
             && ! empty($converter->parser->cover_file)
         ) {
             try {
-                MediaService::create($converter->book, $converter->book->slug, MediaDiskEnum::cover)
+                MediaService::make($converter->book, $converter->book->slug, MediaDiskEnum::cover)
                     ->setMedia($converter->parser->cover_file)
                     ->setColor()
                 ;
@@ -50,7 +50,7 @@ class CoverConverter
         $path = storage_path("app/public/data/{$model_name}s");
         $cover = null;
 
-        $files = DirectoryParserService::parseDirectoryFiles($path);
+        $files = DirectoryParserService::parse($path);
 
         foreach ($files as $file) {
             if (pathinfo($file, PATHINFO_FILENAME) === $model->slug) {
@@ -75,7 +75,7 @@ class CoverConverter
 
         if ($local_cover) {
             $model->clearMediaCollection($disk->value);
-            MediaService::create($model, $model->slug, $disk)
+            MediaService::make($model, $model->slug, $disk)
                 ->setMedia($local_cover)
                 ->setColor()
             ;

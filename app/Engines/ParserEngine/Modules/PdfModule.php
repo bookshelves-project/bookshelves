@@ -6,10 +6,10 @@ use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Models\BookCreator;
 use App\Engines\ParserEngine\Modules\Interface\Module;
 use App\Engines\ParserEngine\Modules\Interface\ModuleInterface;
-use App\Services\ConsoleService;
 use DateTime;
-use File;
+use Illuminate\Support\Facades\File;
 use Imagick;
+use Kiwilan\Steward\Services\ConsoleService;
 use Smalot\PdfParser\Parser;
 
 /**

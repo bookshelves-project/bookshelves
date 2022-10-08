@@ -7,11 +7,11 @@ use App\Http\Requests\ProfileDelete;
 use App\Http\Requests\ProfileUpdate;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
-use App\Services\MediaService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Kiwilan\Steward\Services\MediaService;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -51,14 +51,14 @@ class ProfileController extends ApiController
             $request,
             $user,
             'avatar',
-            MediaService::create($user, $user->slug, MediaDiskEnum::user, 'avatar'),
+            MediaService::make($user, $user->slug, MediaDiskEnum::user, 'avatar'),
             config('image.user.avatar')
         );
         $this->saveMedia(
             $request,
             $user,
             'banner',
-            MediaService::create($user, "{$user->slug}-banner", MediaDiskEnum::user, 'banner'),
+            MediaService::make($user, "{$user->slug}-banner", MediaDiskEnum::user, 'banner'),
             config('image.user.banner')
         );
 

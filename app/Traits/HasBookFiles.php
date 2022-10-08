@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
-use App\Class\DownloadFile;
 use App\Enums\BookFormatEnum;
 use App\Models\MediaExtended;
+use Kiwilan\Steward\Class\DownloadFile;
 
 /**
  * Manager multiple formats for a book.

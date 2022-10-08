@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
-use App\Services\DirectoryClearService;
 use Artisan;
 use Illuminate\Console\Command;
+use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Services\DirectoryClearService;
 
 class ClearCommand extends CommandProd
 {
@@ -41,7 +41,7 @@ class ClearCommand extends CommandProd
         $this->warn('Bookshelves Clear');
         $this->newLine();
 
-        DirectoryClearService::create([
+        DirectoryClearService::make([
             storage_path('app/public/cache'),
             storage_path('app/public/debug'),
             'bootstrap/cache',

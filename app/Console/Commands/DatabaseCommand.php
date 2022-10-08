@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Console\CommandProd;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
@@ -14,6 +13,7 @@ use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Kiwilan\Steward\Console\CommandProd;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\Tag;
 

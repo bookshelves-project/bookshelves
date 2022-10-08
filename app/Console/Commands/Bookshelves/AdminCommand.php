@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
 use App\Models\User;
 use Artisan;
 use Illuminate\Console\Command;
+use Kiwilan\Steward\Console\CommandProd;
 
 class AdminCommand extends CommandProd
 {

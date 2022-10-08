@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Class\WikipediaItem;
 use App\Engines\ConverterEngine\EntityConverter;
 use App\Enums\AuthorRoleEnum;
-use App\Services\WikipediaService\Wikipediable;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasReviews;
@@ -15,7 +13,9 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Kiwilan\Steward\Class\WikipediaItem;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
+use Kiwilan\Steward\Services\WikipediaService\Wikipediable;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
@@ -68,12 +68,12 @@ class Author extends Model implements HasMedia, Wikipediable
         'series',
     ];
 
-    public function wikipediaConvert(WikipediaItem $wikipediaItem, bool $with_media = true): Wikipediable
+    public function wikipediaConvert(WikipediaItem $wikipediaItem, bool $default = true): Wikipediable
     {
         $converter = EntityConverter::make($wikipediaItem)
             ->setWikipediaDescription()
         ;
-        if ($with_media) {
+        if (! $default) {
             $converter->setWikipediaCover();
         }
         $this->save();

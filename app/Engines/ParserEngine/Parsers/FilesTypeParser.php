@@ -4,7 +4,7 @@ namespace App\Engines\ParserEngine\Parsers;
 
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
-use App\Services\DirectoryParserService;
+use Kiwilan\Steward\Services\DirectoryParserService;
 
 class FilesTypeParser
 {
@@ -35,7 +35,7 @@ class FilesTypeParser
         foreach ($book_types as $type => $path) {
             $path = storage_path("app/public/data/books/{$type}");
 
-            foreach (DirectoryParserService::parseDirectoryFiles($path) as $file_path) {
+            foreach (DirectoryParserService::parse($path) as $file_path) {
                 if (array_key_exists('extension', pathinfo($file_path))) {
                     $ext = pathinfo($file_path, PATHINFO_EXTENSION);
                     if (array_key_exists($ext, $formats)) {

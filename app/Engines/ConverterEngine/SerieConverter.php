@@ -7,8 +7,8 @@ use App\Engines\ParserEngine;
 use App\Enums\MediaDiskEnum;
 use App\Models\Book;
 use App\Models\Serie;
-use App\Services\MediaService;
 use File;
+use Kiwilan\Steward\Services\MediaService;
 
 class SerieConverter
 {
@@ -70,7 +70,7 @@ class SerieConverter
             $cover_exist = File::exists($book->cover_book?->getPath());
             if ($cover_exist) {
                 $cover = base64_encode(File::get($book->cover_book->getPath()));
-                MediaService::create($serie, $serie->slug, $disk)
+                MediaService::make($serie, $serie->slug, $disk)
                     ->setMedia($cover)
                     ->setColor()
                 ;

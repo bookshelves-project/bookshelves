@@ -11,11 +11,11 @@ use App\Models\Post;
 use App\Models\Publisher;
 use App\Models\Serie;
 use App\Models\User;
-use App\Services\RouteService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use Kiwilan\Steward\Services\RouteService;
 use Kiwilan\Steward\Utils\Toolbox;
 use Spatie\Tags\Tag;
 

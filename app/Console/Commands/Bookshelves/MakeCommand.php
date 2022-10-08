@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
 use App\Engines\ConverterEngine;
 use App\Engines\ConverterEngine\CoverConverter;
 use App\Engines\ConverterEngine\EntityConverter;
@@ -15,6 +14,7 @@ use App\Models\MediaExtended;
 use App\Models\Serie;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Kiwilan\Steward\Console\CommandProd;
 use ReflectionClass;
 use Spatie\Tags\Tag;
 

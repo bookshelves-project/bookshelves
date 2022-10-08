@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
 use Artisan;
 use File;
 use Illuminate\Console\Command;
+use Kiwilan\Steward\Console\CommandProd;
 
 class SampleBooksCommand extends CommandProd
 {

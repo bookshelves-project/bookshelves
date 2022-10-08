@@ -4,11 +4,11 @@ namespace App\Engines\ConverterEngine;
 
 use App\Engines\ConverterEngine;
 use App\Enums\MediaDiskEnum;
-use App\Enums\SpatieMediaMethodEnum;
-use App\Services\ConsoleService;
-use App\Services\MediaService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Kiwilan\Steward\Enums\SpatieMediaMethodEnum;
+use Kiwilan\Steward\Services\ConsoleService;
+use Kiwilan\Steward\Services\MediaService;
 
 class TypeConverter
 {
@@ -31,7 +31,7 @@ class TypeConverter
         if (pathinfo($converter->parser->file_path, PATHINFO_BASENAME) !== $file_name) {
             try {
                 $file = File::get($converter->parser->file_path);
-                MediaService::create(
+                MediaService::make(
                     model: $converter->book,
                     name: $file_name,
                     disk: self::DISK,

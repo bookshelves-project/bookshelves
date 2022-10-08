@@ -82,7 +82,7 @@ class PageSeeder extends Seeder
 
     public static function getHtmlFromMd(object $md)
     {
-        $service = MarkdownToHtmlService::create($md, 'pages');
+        $service = MarkdownToHtmlService::make($md, 'pages');
 
         if ($service) {
             $page = Page::create([

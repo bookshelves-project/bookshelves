@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
 use Artisan;
+use Kiwilan\Steward\Console\CommandProd;
 
 class SetupCommand extends CommandProd
 {

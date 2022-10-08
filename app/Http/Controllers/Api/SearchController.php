@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Engines\SearchEngine;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;

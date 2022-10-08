@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
 use App\Engines\ConverterEngine;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
 use App\Models\Book;
 use Illuminate\Console\Command;
+use Kiwilan\Steward\Console\CommandProd;
 
 class ScanCommand extends CommandProd
 {

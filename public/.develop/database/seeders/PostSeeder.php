@@ -137,7 +137,7 @@ class PostSeeder extends Seeder
 
     public static function getHtmlFromMd(object $md)
     {
-        $service = MarkdownToHtmlService::create($md, 'posts');
+        $service = MarkdownToHtmlService::make($md, 'posts');
 
         if ($service) {
             $post = Post::create([

@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Class\WikipediaItem;
 use App\Engines\ConverterEngine\EntityConverter;
 use App\Enums\BookTypeEnum;
-use App\Services\WikipediaService\Wikipediable;
 use App\Traits\HasAuthors;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
@@ -18,14 +16,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Kiwilan\Steward\Class\WikipediaItem;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
+use Kiwilan\Steward\Services\WikipediaService\Wikipediable;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\Translatable\HasTranslations;
 
 /**
  * @property null|int $books_count
@@ -42,15 +41,9 @@ class Serie extends Model implements HasMedia, Wikipediable
     use HasCovers;
     use HasSelections;
     use HasMetaClass;
-    use HasTranslations;
     use Searchable;
     use Queryable;
     use HasSearchableName;
-
-    public $translatable = [
-        // 'title',
-        'description',
-    ];
 
     protected $query_default_sort = 'slug_sort';
     protected $query_allowed_sorts = ['id', 'title', 'authors', 'books_count', 'language', 'created_at', 'updated_at', 'language'];
@@ -106,7 +99,7 @@ class Serie extends Model implements HasMedia, Wikipediable
         ];
     }
 
-    public function wikipediaConvert(WikipediaItem $wikipediaItem, bool $with_media = true): Wikipediable
+    public function wikipediaConvert(WikipediaItem $wikipediaItem, bool $default = false): Wikipediable
     {
         EntityConverter::make($wikipediaItem)
             ->setWikipediaDescription()

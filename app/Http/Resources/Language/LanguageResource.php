@@ -19,7 +19,6 @@ class LanguageResource extends JsonResource
      */
     public function toArray($request)
     {
-
         return [
             ...LanguageCollectionResource::make($this->resource)->toArray($request),
             // 'first_char' => $this->resource->first_char,

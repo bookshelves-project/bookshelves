@@ -2,10 +2,10 @@
 
 namespace App\Traits;
 
-use App\Class\DownloadFile;
 use App\Enums\BookFormatEnum;
 use App\Models\Author;
 use App\Models\Serie;
+use Kiwilan\Steward\Class\DownloadFile;
 
 trait HasBooksCollection
 {
