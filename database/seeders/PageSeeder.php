@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use App\Enums\MediaDiskEnum;
 use App\Models\Page;
-use Kiwilan\Steward\Services\ConverterService;
 use File;
 use Illuminate\Database\Seeder;
+use Kiwilan\Steward\Services\ConverterService;
 
 class PageSeeder extends Seeder
 {

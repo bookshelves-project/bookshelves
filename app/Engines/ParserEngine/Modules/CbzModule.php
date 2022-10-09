@@ -18,7 +18,7 @@ class CbzModule extends Module implements ModuleInterface, XmlInterface
     ) {
     }
 
-    public static function create(ParserEngine $engine, ?bool $cbr = false): ParserEngine|false
+    public static function make(ParserEngine $engine, ?bool $cbr = false): ParserEngine|false
     {
         $archive = new ArchiveParser($engine, new CbzModule());
         $archive->is_rar = $cbr;
@@ -27,13 +27,13 @@ class CbzModule extends Module implements ModuleInterface, XmlInterface
         return $archive->open();
     }
 
-    public static function parse(ArchiveParser $parser): ParserEngine
+    public static function parse(ArchiveParser $parser_engine): ParserEngine
     {
         /** @var CbzModule */
-        $module = $parser->module;
+        $module = $parser_engine->module;
 
-        $module->metadata = $parser->metadata;
-        $module->engine = $parser->engine;
+        $module->metadata = $parser_engine->metadata;
+        $module->engine = $parser_engine->engine;
 
         $module->type = $module->metadata['@root'];
 
@@ -42,8 +42,8 @@ class CbzModule extends Module implements ModuleInterface, XmlInterface
             default => false,
         };
 
-        if ($parser->engine->debug) {
-            ParserEngine::printFile($module->metadata, "{$parser->engine->file_name}-metadata.json");
+        if ($parser_engine->engine->debug) {
+            ParserEngine::printFile($module->metadata, "{$parser_engine->engine->file_name}-metadata.json");
         }
         if (! $is_supported) {
             $console = Console::make();
@@ -51,7 +51,7 @@ class CbzModule extends Module implements ModuleInterface, XmlInterface
             $console->newLine();
         }
 
-        return $parser->engine;
+        return $parser_engine->engine;
     }
 
     private function comicInfo(): static

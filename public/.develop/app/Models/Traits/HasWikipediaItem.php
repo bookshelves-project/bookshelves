@@ -2,13 +2,13 @@
 
 namespace App\Models\Traits;
 
-use App\Models\WikipediaItem;
+use App\Models\wikipedia_item;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-trait HasWikipediaItem
+trait Haswikipedia_item
 {
     public function wikipedia(): BelongsTo
     {
-        return $this->belongsTo(WikipediaItem::class, 'wikipedia_item_id');
+        return $this->belongsTo(wikipedia_item::class, 'wikipedia_item_id');
     }
 }

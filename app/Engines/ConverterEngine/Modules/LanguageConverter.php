@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Engines\ConverterEngine;
+namespace App\Engines\ConverterEngine\Modules;
 
 use App\Engines\ConverterEngine;
+use App\Engines\ConverterEngine\Modules\Interface\ConverterInterface;
 use App\Engines\ParserEngine;
 use App\Models\Language;
 use Locale;
 
-class LanguageConverter
+class LanguageConverter implements ConverterInterface
 {
     /**
      * Set Language from ParserEngine.
      */
-    public static function create(ConverterEngine $converter): Language
+    public static function make(ConverterEngine $converter_engine): Language
     {
-        $lang_code = $converter->parser->language;
+        $lang_code = $converter_engine->parser_engine->language;
 
-        if (! $converter->book->language) {
+        if (! $converter_engine->book->language) {
             $available_langs = config('bookshelves.langs');
 
             $language = Language::whereSlug($lang_code)->first();
@@ -31,12 +32,12 @@ class LanguageConverter
                 ]);
             }
 
-            $converter->book->language()->associate($language);
-            $converter->book->save();
+            $converter_engine->book->language()->associate($language);
+            $converter_engine->book->save();
 
             return $language;
         }
 
-        return $converter->book->language;
+        return $converter_engine->book->language;
     }
 }

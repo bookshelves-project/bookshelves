@@ -16,7 +16,7 @@ use App\Models\Traits\HasLanguage;
 use App\Models\Traits\HasReviews;
 use App\Models\Traits\HasSelections;
 use App\Models\Traits\HasTagsAndGenres;
-use App\Models\Traits\HasWikipediaItem;
+use App\Models\Traits\Haswikipedia_item;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -41,7 +41,7 @@ class Serie extends Model implements HasMedia
     use HasTagsAndGenres;
     use HasBookType;
     use Searchable;
-    use HasWikipediaItem;
+    use Haswikipedia_item;
     use HasBooksCollection;
     use HasTranslations;
 

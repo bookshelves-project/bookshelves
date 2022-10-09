@@ -8,7 +8,7 @@ use App\Models\Traits\HasCovers;
 use App\Models\Traits\HasFavorites;
 use App\Models\Traits\HasReviews;
 use App\Models\Traits\HasSelections;
-use App\Models\Traits\HasWikipediaItem;
+use App\Models\Traits\Haswikipedia_item;
 use App\Traits\HasBooksCollection as TraitsHasBooksCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -36,7 +36,7 @@ class Author extends Model implements HasMedia
     use HasReviews;
     use HasSelections;
     use Searchable;
-    use HasWikipediaItem;
+    use Haswikipedia_item;
     use TraitsHasSlug;
     use TraitsHasBooksCollection;
     use HasTranslations;

@@ -153,9 +153,9 @@ class ArchiveParser
     private function parseXml()
     {
         if ($this->xml_string) {
-            $parser = XmlParser::create($this);
-            $this->metadata = $parser->metadata;
-            $this->engine = $parser->engine;
+            $parser_engine = XmlParser::create($this);
+            $this->metadata = $parser_engine->metadata;
+            $this->engine = $parser_engine->engine;
         }
     }
 }

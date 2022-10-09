@@ -9,8 +9,8 @@ use App\Engines\ParserEngine\Parsers\NameParser;
 
 class NameModule extends Module implements ModuleInterface
 {
-    public static function create(ParserEngine $engine): ParserEngine|false
+    public static function make(ParserEngine $engine): ParserEngine|false
     {
-        return NameParser::parse($engine);
+        return NameParser::make($engine);
     }
 }

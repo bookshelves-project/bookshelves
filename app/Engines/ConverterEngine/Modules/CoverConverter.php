@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Engines\ConverterEngine;
+namespace App\Engines\ConverterEngine\Modules;
 
 use App\Engines\ConverterEngine;
+use App\Engines\ConverterEngine\Modules\Interface\ConverterInterface;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
@@ -12,21 +13,21 @@ use Kiwilan\Steward\Services\MediaService;
 use Kiwilan\Steward\Utils\Console;
 use ReflectionClass;
 
-class CoverConverter
+class CoverConverter implements ConverterInterface
 {
     /**
      * Generate Book image from original cover string file.
      * Manage by spatie/laravel-medialibrary.
      */
-    public static function create(ConverterEngine $converter): Book
+    public static function make(ConverterEngine $converter_engine): Book
     {
-        if (! $converter->default
-            && ! $converter->book->cover_book
-            && ! empty($converter->parser->cover_file)
+        if (! $converter_engine->default
+            && ! $converter_engine->book->cover_book
+            && ! empty($converter_engine->parser_engine->cover_file)
         ) {
             try {
-                MediaService::make($converter->book, $converter->book->slug, MediaDiskEnum::cover)
-                    ->setMedia($converter->parser->cover_file)
+                MediaService::make($converter_engine->book, $converter_engine->book->slug, MediaDiskEnum::cover)
+                    ->setMedia($converter_engine->parser_engine->cover_file)
                     ->setColor()
                 ;
             } catch (\Throwable $th) {
@@ -34,10 +35,10 @@ class CoverConverter
                 $console->print(__METHOD__, 'red', $th);
                 $console->newLine();
             }
-            $converter->book->save();
+            $converter_engine->book->save();
         }
 
-        return $converter->book;
+        return $converter_engine->book;
     }
 
     /**
@@ -69,7 +70,7 @@ class CoverConverter
     public static function setLocalCover(Author|Serie $model): Serie|Author
     {
         $disk = MediaDiskEnum::cover;
-        $local_cover = CoverConverter::getLocal($model);
+        $local_cover = self::getLocal($model);
 
         if ($model instanceof Serie) {
             SerieConverter::setBookCover($model);

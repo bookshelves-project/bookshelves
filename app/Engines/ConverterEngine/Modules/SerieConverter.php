@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Engines\ConverterEngine;
+namespace App\Engines\ConverterEngine\Modules;
 
 use App\Engines\ConverterEngine;
+use App\Engines\ConverterEngine\Modules\Interface\ConverterInterface;
 use App\Engines\ParserEngine;
 use App\Enums\MediaDiskEnum;
 use App\Models\Book;
@@ -10,25 +11,25 @@ use App\Models\Serie;
 use File;
 use Kiwilan\Steward\Services\MediaService;
 
-class SerieConverter
+class SerieConverter implements ConverterInterface
 {
     public const DISK = MediaDiskEnum::cover;
 
     /**
      * Generate Serie for Book from ParserEngine.
      */
-    public static function create(ConverterEngine $converter): Serie|false
+    public static function make(ConverterEngine $converter_engine): Serie|false
     {
-        if ($converter->parser->serie && ! $converter->book->serie) {
-            $serie = Serie::whereSlug($converter->parser->serie_slug)->first();
+        if ($converter_engine->parser_engine->serie && ! $converter_engine->book->serie) {
+            $serie = Serie::whereSlug($converter_engine->parser_engine->serie_slug)->first();
             if (! $serie) {
                 $serie = Serie::firstOrCreate([
-                    'title' => $converter->parser->serie,
-                    'slug_sort' => $converter->parser->serie_sort,
-                    'slug' => $converter->parser->serie_slug_lang,
-                    'type' => $converter->parser->type,
+                    'title' => $converter_engine->parser_engine->serie,
+                    'slug_sort' => $converter_engine->parser_engine->serie_sort,
+                    'slug' => $converter_engine->parser_engine->serie_slug_lang,
+                    'type' => $converter_engine->parser_engine->type,
                 ]);
-                $serie->language()->associate($converter->book->language);
+                $serie->language()->associate($converter_engine->book->language);
                 $serie->save();
             }
 
@@ -36,15 +37,15 @@ class SerieConverter
             foreach ($serie->authors as $key => $author) {
                 array_push($authors_serie, $author->slug);
             }
-            $book_authors = $converter->book->authors;
+            $book_authors = $converter_engine->book->authors;
             foreach ($book_authors as $key => $author) {
                 if (! in_array($author->slug, $authors_serie)) {
                     $serie->authors()->save($author);
                 }
             }
 
-            $converter->book->serie()->associate($serie);
-            $converter->book->save();
+            $converter_engine->book->serie()->associate($serie);
+            $converter_engine->book->save();
 
             return $serie;
         }

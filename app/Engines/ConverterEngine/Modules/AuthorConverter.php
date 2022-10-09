@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Engines\ConverterEngine;
+namespace App\Engines\ConverterEngine\Modules;
 
 use App\Engines\ConverterEngine;
+use App\Engines\ConverterEngine\Modules\Interface\ConverterInterface;
 use App\Engines\ParserEngine\Models\BookCreator;
 use App\Enums\AuthorRoleEnum;
 use App\Enums\MediaDiskEnum;
@@ -10,7 +11,7 @@ use App\Models\Author;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class AuthorConverter
+class AuthorConverter implements ConverterInterface
 {
     public const DISK = MediaDiskEnum::cover;
 
@@ -26,13 +27,13 @@ class AuthorConverter
      *
      * @return Collection<int,Author>
      */
-    public static function create(ConverterEngine $converter)
+    public static function make(ConverterEngine $converter_engine)
     {
         $authors = collect([]);
         /**
          * Anonymous author.
          */
-        if (empty($converter->parser->creators)) {
+        if (empty($converter_engine->parser_engine->creators)) {
             $creator = new BookCreator(
                 name: 'Anonymous',
                 role: 'aut'
@@ -41,7 +42,7 @@ class AuthorConverter
             $author = AuthorConverter::generate($author_converter, $creator);
             $authors->push($author);
         } else {
-            foreach ($converter->parser->creators as $creator) {
+            foreach ($converter_engine->parser_engine->creators as $creator) {
                 $author_converter = AuthorConverter::convert($creator);
                 $author = null;
 
@@ -58,10 +59,10 @@ class AuthorConverter
             }
         }
 
-        $converter->book->authors()->sync($authors->pluck('id'));
-        $converter->book->save();
+        $converter_engine->book->authors()->sync($authors->pluck('id'));
+        $converter_engine->book->save();
 
-        return $converter->book->authors;
+        return $converter_engine->book->authors;
     }
 
     /**
@@ -92,17 +93,17 @@ class AuthorConverter
     /**
      * Create Author if not exist.
      */
-    private static function generate(AuthorConverter $converter, BookCreator $creator): Author
+    private static function generate(AuthorConverter $converter_engine, BookCreator $creator): Author
     {
-        $name = "{$converter->lastname} {$converter->firstname}";
+        $name = "{$converter_engine->lastname} {$converter_engine->firstname}";
         $name = trim($name);
 
         return Author::firstOrCreate([
-            'lastname' => $converter->lastname,
-            'firstname' => $converter->firstname,
+            'lastname' => $converter_engine->lastname,
+            'firstname' => $converter_engine->firstname,
             'name' => $name,
             'slug' => Str::slug($name, '-'),
-            'role' => AuthorRoleEnum::tryFrom($converter->role),
+            'role' => AuthorRoleEnum::tryFrom($converter_engine->role),
         ]);
     }
 }

@@ -1,29 +1,30 @@
 <?php
 
-namespace App\Engines\ConverterEngine;
+namespace App\Engines\ConverterEngine\Modules;
 
 use App\Engines\ConverterEngine;
+use App\Engines\ConverterEngine\Modules\Interface\ConverterInterface;
 use App\Enums\TagTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Collection;
 use Spatie\Tags\Tag;
 
-class TagConverter
+class TagConverter implements ConverterInterface
 {
     /**
      * Generate Tag[] for Book from ParserEngine.
      */
-    public static function create(ConverterEngine $converter): Collection
+    public static function make(ConverterEngine $converter_engine): Collection
     {
-        foreach ($converter->parser->tags as $key => $tag) {
+        foreach ($converter_engine->parser_engine->tags as $key => $tag) {
             $tag_model = TagConverter::setTag($tag);
             if ($tag_model) {
-                $converter->book->attachTag($tag_model);
+                $converter_engine->book->attachTag($tag_model);
             }
         }
-        $converter->book->refresh();
+        $converter_engine->book->refresh();
 
-        return $converter->book->tags;
+        return $converter_engine->book->tags;
     }
 
     /**

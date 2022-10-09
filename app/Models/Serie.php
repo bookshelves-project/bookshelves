@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Engines\ConverterEngine\EntityConverter;
+use App\Engines\ConverterEngine\WikipediaItemConverter;
 use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasCovers;
@@ -99,9 +99,9 @@ class Serie extends Model implements HasMedia, Wikipediable
         ];
     }
 
-    public function wikipediaConvert(WikipediaItem $wikipediaItem, bool $default = false): Wikipediable
+    public function wikipediaConvert(WikipediaItem $wikipedia_item, bool $default = false): Wikipediable
     {
-        EntityConverter::make($wikipediaItem)
+        WikipediaItemConverter::make($wikipedia_item)
             ->setWikipediaDescription()
         ;
         $this->save();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Bookshelves;
+namespace App\Console\Commands;
 
 use Artisan;
 use Illuminate\Console\Command;
@@ -14,14 +14,15 @@ class ClearCommand extends CommandProd
      *
      * @var string
      */
-    protected $signature = 'bookshelves:clear';
+    protected $signature = 'clear:all
+                            {--p|production : cache after clear}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Clear temporary files from Bookshelves';
+    protected $description = 'Clear temporary files and cache.';
 
     /**
      * Create a new command instance.
@@ -38,8 +39,10 @@ class ClearCommand extends CommandProd
      */
     public function handle()
     {
-        $this->warn('Bookshelves Clear');
+        $this->warn('Clear full');
         $this->newLine();
+
+        $prod = $this->option('production') ?? false;
 
         DirectoryClearService::make([
             storage_path('app/public/cache'),
@@ -52,6 +55,13 @@ class ClearCommand extends CommandProd
         Artisan::call('config:clear', [], $this->getOutput());
         Artisan::call('view:clear', [], $this->getOutput());
         Artisan::call('optimize:clear', [], $this->getOutput());
+
+        if ($prod) {
+            Artisan::call('route:cache', [], $this->getOutput());
+            Artisan::call('config:cache', [], $this->getOutput());
+            Artisan::call('view:cache', [], $this->getOutput());
+            Artisan::call('optimize', [], $this->getOutput());
+        }
 
         return 0;
     }

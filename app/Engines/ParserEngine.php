@@ -19,6 +19,36 @@ use Transliterator;
 
 /**
  * Parser engine for eBook.
+ *
+ * @property ?string          $title            title
+ * @property ?string          $slug_sort        slug_sort
+ * @property ?string          $title_serie_sort title_serie_sort
+ * @property ?string          $slug             slug
+ * @property ?string          $title_slug_lang  title_slug_lang
+ * @property string[]         $contributor      contributor
+ * @property ?string          $description      description
+ * @property ?DateTime        $released_on      released_on
+ * @property ?string          $date             date
+ * @property ?string          $publisher        publisher
+ * @property ?string          $language         language
+ * @property ?string          $rights           rights
+ * @property ?string          $serie            serie
+ * @property ?string          $serie_slug       serie_slug
+ * @property ?string          $serie_slug_lang  serie_slug_lang
+ * @property ?string          $serie_sort       serie_sort
+ * @property ?int             $volume           volume
+ * @property ?int             $page_count       page_count
+ * @property ?string          $file_name        file_name
+ * @property ?string          $file_path        file_path
+ * @property ?BookTypeEnum    $type             type
+ * @property ?string          $cover_name       cover_name
+ * @property ?string          $cover_extension  cover_extension
+ * @property ?string          $cover_file       cover_file
+ * @property ?bool            $debug            debug
+ * @property BookCreator[]    $creators         creators
+ * @property BookIdentifier[] $identifiers      identifiers
+ * @property ?BookFormatEnum  $format           format
+ * @property string[]         $tags             tags
  */
 class ParserEngine
 {
@@ -40,24 +70,13 @@ class ParserEngine
         ],
     ];
 
-    /** @var BookCreator[] */
-    public ?array $creators = [];
-
-    /** @var BookIdentifier[] */
-    public ?array $identifiers = null;
-
-    public ?BookFormatEnum $format;
-
-    /** @var string[] */
-    public ?array $tags = [];
-
     public function __construct(
         public ?string $title = null,
         public ?string $slug_sort = null,
         public ?string $title_serie_sort = null,
         public ?string $slug = null,
         public ?string $title_slug_lang = null,
-        public ?array $contributor = [],
+        public array $contributor = [],
         public ?string $description = null,
         public ?DateTime $released_on = null,
         public ?string $date = null,
@@ -77,13 +96,17 @@ class ParserEngine
         public ?string $cover_extension = null,
         public ?string $cover_file = null,
         public ?bool $debug = false,
+        public array $creators = [],
+        public array $identifiers = [],
+        public ?BookFormatEnum $format = null,
+        public array $tags = [],
     ) {
     }
 
     /**
      * Transform OPF file to ParserEngine.
      */
-    public static function create(FilesTypeParser $file, bool $debug = false): ?ParserEngine
+    public static function make(FilesTypeParser $file, bool $debug = false): ?ParserEngine
     {
         $extension = pathinfo($file->path, PATHINFO_EXTENSION);
         $file_name = pathinfo($file->path, PATHINFO_BASENAME);
@@ -96,24 +119,24 @@ class ParserEngine
             return null;
         }
 
-        $parser = new ParserEngine();
+        $parser_engine = new ParserEngine();
 
-        $parser->file_name = $file_name;
-        $parser->file_path = $file->path;
-        $parser->format = BookFormatEnum::tryFrom($extension);
-        $parser->type = $file->type;
-        $parser->debug = $debug;
+        $parser_engine->file_name = $file_name;
+        $parser_engine->file_path = $file->path;
+        $parser_engine->format = BookFormatEnum::tryFrom($extension);
+        $parser_engine->type = $file->type;
+        $parser_engine->debug = $debug;
 
-        $engine = match ($parser->format) {
-            BookFormatEnum::cbz => CbzModule::create($parser),
-            BookFormatEnum::epub => EpubModule::create($parser),
-            BookFormatEnum::pdf => PdfModule::create($parser),
-            BookFormatEnum::cbr => CbzModule::create($parser, true),
+        $engine = match ($parser_engine->format) {
+            BookFormatEnum::cbz => CbzModule::make($parser_engine),
+            BookFormatEnum::epub => EpubModule::make($parser_engine),
+            BookFormatEnum::pdf => PdfModule::make($parser_engine),
+            BookFormatEnum::cbr => CbzModule::make($parser_engine, true),
             default => false,
         };
         if (! $engine || null === $engine->title) {
             // $console->print('Try to get data from name');
-            $engine = NameModule::create($parser);
+            $engine = NameModule::make($parser_engine);
         }
 
         if (! $engine) {

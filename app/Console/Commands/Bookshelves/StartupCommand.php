@@ -5,17 +5,17 @@ namespace App\Console\Commands\Bookshelves;
 use Artisan;
 use Kiwilan\Steward\Console\CommandProd;
 
-class SetupCommand extends CommandProd
+class StartupCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:setup
-                            {--f|fresh : erase database and fresh installation, generate books and relations, all assets and selection books}
+    protected $signature = 'bookshelves:startup
                             {--a|api : use external API for more data}
                             {--A|admin : generate admin, replace if exist}
+                            {--f|fresh : erase database and fresh installation, generate books and relations, all assets and selection books}
                             {--s|sample : fake users with comments/favorites and CMS with posts and pages}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--d|debug : generate metadata files into public/storage/debug for debug}
@@ -96,7 +96,7 @@ class SetupCommand extends CommandProd
         }
 
         if (! $debug) {
-            Artisan::call('bookshelves:clear', [], $this->getOutput());
+            Artisan::call('clear:full', [], $this->getOutput());
         }
 
         /**

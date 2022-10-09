@@ -45,8 +45,8 @@ class ProcessSyncBooks implements ShouldQueue
             File::deleteDirectory(public_path('storage/formats'));
         }
 
-        Log::debug('SyncBooksProcess: generate');
-        Artisan::call('bookshelves:generate', [
+        Log::debug('SyncBooksProcess: make');
+        Artisan::call('bookshelves:make', [
             '--fresh' => $this->fresh,
             '--force' => true,
         ]);

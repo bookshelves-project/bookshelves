@@ -125,12 +125,12 @@ class ApiCommand extends CommandProd
             ->execute()
         ;
 
-        $bar = $this->output->createProgressBar(count($service->googleBooks));
+        $bar = $this->output->createProgressBar(count($service->google_books));
         $bar->start();
-        foreach ($service->googleBooks as $googleBook) {
+        foreach ($service->google_books as $google_book) {
             /** @var GoogleBookable */
-            $model = $googleBook->model_name::find($googleBook->model_id);
-            $model->googleBookConvert($googleBook);
+            $model = $google_book->model_name::find($google_book->model_id);
+            $model->googleBookConvert($google_book);
             $bar->advance();
         }
         $bar->finish();
@@ -180,12 +180,12 @@ class ApiCommand extends CommandProd
         ;
         $this->newLine();
 
-        $bar = $this->output->createProgressBar(count($service->wikipediaItems));
+        $bar = $this->output->createProgressBar(count($service->wikipedia_items));
         $bar->start();
-        foreach ($service->wikipediaItems as $wikipediaItem) {
+        foreach ($service->wikipedia_items as $wikipedia_item) {
             /** @var Wikipediable */
-            $model = $wikipediaItem->model_name::find($wikipediaItem->model_id);
-            $model->wikipediaConvert($wikipediaItem, $this->default);
+            $model = $wikipedia_item->model_name::find($wikipedia_item->model_id);
+            $model->wikipediaConvert($wikipedia_item, $this->default);
             $bar->advance();
         }
         $bar->finish();

@@ -7,141 +7,88 @@ use App\Models\Author;
 use App\Models\Serie;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
-use Kiwilan\Steward\Class\WikipediaItem;
 use Kiwilan\Steward\Services\ConverterService;
 use Kiwilan\Steward\Services\MediaService;
-use Kiwilan\Steward\Services\WikipediaService\WikipediaQuery;
 use ReflectionClass;
 
 /**
- * Class to convert WikipediaItem data into Model data.
+ * Improve Author or Serie with additional data.
  *
- * @property WikipediaItem $wikipediaItem
- * @property Author|Serie  $model
+ * @property Author|Serie $model
  */
 class EntityConverter
 {
     public const DISK = MediaDiskEnum::cover;
 
     public function __construct(
-        public WikipediaItem $wikipediaItem,
         public mixed $model = null,
     ) {
     }
 
-    public static function make(WikipediaItem $wikipediaItem): self
+    public static function make(Serie|Author $model): self
     {
-        $converter = new EntityConverter($wikipediaItem);
-        $converter->setModel();
-
-        return $converter;
-    }
-
-    public function setModel(): self
-    {
-        $this->model = $this->wikipediaItem->model_name::find($this->wikipediaItem->model_id);
-
-        return $this;
+        return new EntityConverter($model);
     }
 
     /**
      * Improve model with local data into JSON.
      */
-    public static function parseJson(Serie|Author $model): Serie|Author
+    public function parseJson(): self
     {
-        $subject = new ReflectionClass($model);
+        $subject = new ReflectionClass($this->model);
         $subject = strtolower($subject->getShortName());
         $path = public_path("storage/data/{$subject}s/{$subject}s.json");
-        if (File::exists($path)) {
-            $json = json_decode(File::get($path));
-            $data = ConverterService::objectToArray($json);
-
-            $local = null;
-            if (array_key_exists($model->slug, $data)) {
-                $local = $data[$model->slug];
-            }
-            if (array_key_exists($model->slug_sort, $data)) {
-                $local = $data[$model->slug_sort];
-            }
-            if (null !== $local) {
-                if (array_key_exists('description', $local)) {
-                    $model->description = $local['description'];
-                }
-                if (array_key_exists('link', $local)) {
-                    $model->link = $local['link'];
-                }
-                if (array_key_exists('note', $local)) {
-                    $model->note = $local['note'];
-                }
-                $model->save();
-            }
+        if (! File::exists($path)) {
+            return $this->model;
         }
 
-        return $model;
-    }
+        $json = json_decode(File::get($path));
+        $data = ConverterService::objectToArray($json);
 
-    public function setWikipediaDescription(): self
-    {
-        if (! $this->model->description && ! $this->model->link) {
-            // if ('' === $model->getTranslation('description', $model->language_slug)) {
-            //     $model->setTranslation(
-            //         'description',
-            //         $model->language_slug,
-            //         Str::limit($model->wikipediaItem->extract, 1000)
-            //     );
-            // }
-            $this->model->description = Str::limit($this->wikipediaItem->extract, 1000); // TODO translatable
-            $this->model->link = $this->wikipediaItem->page_url;
+        $local = null;
+        if (array_key_exists($this->model->slug, $data)) {
+            $local = $data[$this->model->slug];
+        }
+        if (array_key_exists($this->model->slug_sort, $data)) {
+            $local = $data[$this->model->slug_sort];
+        }
+        if (null !== $local) {
+            if (array_key_exists('description', $local)) {
+                $this->model->description = $local['description'];
+            }
+            if (array_key_exists('link', $local)) {
+                $this->model->link = $local['link'];
+            }
+            if (array_key_exists('note', $local)) {
+                $this->model->note = $local['note'];
+            }
             $this->model->save();
         }
-        EntityConverter::parseJson($this->model);
 
         return $this;
     }
 
-    public function setWikipediaCover(): self
+    public function setCoverPlaceholder(): self
     {
-        $disk = MediaDiskEnum::cover;
-        if ($this->model->getMedia($disk->value)->isEmpty()) {
-            $cover = null;
-            if ($this->model->link) {
-                $cover = WikipediaQuery::getPictureFile($this->wikipediaItem->picture_url);
-            }
-
-            if ($cover && 'author-unknown' !== $this->model->slug) {
-                $this->model->clearMediaCollection($disk->value);
-                MediaService::make($this->model, $this->model->slug, $disk)
-                    ->setMedia($cover)
-                    ->setColor()
-                ;
-            }
-        }
-
-        return $this;
-    }
-
-    public static function setCoverPlaceholder(Author $author): Author
-    {
-        if ($author->getMedia(MediaDiskEnum::cover->value)->isEmpty()) {
+        if ($this->model->getMedia(MediaDiskEnum::cover->value)->isEmpty()) {
             $placeholder = public_path('vendor/images/no-author.webp');
             $disk = self::DISK;
-            $author->clearMediaCollection($disk->value);
-            MediaService::make($author, $author->slug, $disk)
+            $this->model->clearMediaCollection($disk->value);
+            MediaService::make($this->model, $this->model->slug, $disk)
                 ->setMedia(base64_encode(File::get($placeholder)))
                 ->setColor()
             ;
         }
 
-        return $author;
+        return $this;
     }
 
     /**
      * Generate Serie tags from Books relationship tags.
      */
-    public static function setTags(Serie|Author $model): Serie|Author
+    public function setTags(): self
     {
-        $books = $model->books;
+        $books = $this->model->books;
         $tags = [];
         foreach ($books as $key => $book) {
             foreach ($book->tags as $key => $tag) {
@@ -149,9 +96,9 @@ class EntityConverter
             }
         }
 
-        $model->syncTags($tags);
-        $model->save();
+        $this->model->syncTags($tags);
+        $this->model->save();
 
-        return $model;
+        return $this;
     }
 }

@@ -12,35 +12,35 @@ use ReflectionClass;
  */
 class XmlParser
 {
-    public static function create(ArchiveParser $parser): ArchiveParser|false
+    public static function create(ArchiveParser $parser_engine): ArchiveParser|false
     {
         $console = Console::make();
 
-        if (! isset($parser->xml_string)) {
-            if ($parser->engine->debug) {
-                $class = new ReflectionClass($parser->module);
+        if (! isset($parser_engine->xml_string)) {
+            if ($parser_engine->engine->debug) {
+                $class = new ReflectionClass($parser_engine->module);
                 $module_name = $class->getShortName();
-                $console->print("{$module_name}: can't get {$parser->extension_index}", 'red');
+                $console->print("{$module_name}: can't get {$parser_engine->extension_index}", 'red');
                 $console->newLine();
             }
 
             return false;
         }
 
-        if ($parser->engine->debug) {
-            ParserEngine::printFile($parser->xml_string, "{$parser->engine->file_name}.{$parser->extension_index}", true);
+        if ($parser_engine->engine->debug) {
+            ParserEngine::printFile($parser_engine->xml_string, "{$parser_engine->engine->file_name}.{$parser_engine->extension_index}", true);
         }
 
         try {
             $xml_parser = new XmlParser();
-            $parser->metadata = $xml_parser->xml_to_array($parser->xml_string);
-            $parser->engine = $parser->module::parse($parser);
+            $parser_engine->metadata = $xml_parser->xml_to_array($parser_engine->xml_string);
+            $parser_engine->engine = $parser_engine->module::parse($parser_engine);
         } catch (\Throwable $th) {
             $console->print(__METHOD__, 'red', $th);
             $console->newLine();
         }
 
-        return $parser;
+        return $parser_engine;
     }
 
     /**

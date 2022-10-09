@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Engines\ConverterEngine\TagConverter;
+use App\Engines\ConverterEngine\Modules\TagConverter;
 use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
@@ -165,21 +165,21 @@ class Book extends Model implements HasMedia, GoogleBookable
         ];
     }
 
-    public function googleBookConvert(GoogleBook $googleBook): self
+    public function googleBookConvert(GoogleBook $google_book): self
     {
-        if ($googleBook->published_date) {
-            $carbon = Carbon::instance($googleBook->published_date);
+        if ($google_book->published_date) {
+            $carbon = Carbon::instance($google_book->published_date);
             $this->released_on = $this->released_on ?? $carbon->toDateTimeString();
         }
-        $this->description = $this->description ?? $googleBook->description;
-        $this->page_count = $this->page_count ?? $googleBook->page_count;
-        $this->maturity_rating = $this->maturity_rating ?? $googleBook->maturity_rating;
-        $this->isbn10 = $this->isbn10 ?? $googleBook->isbn10;
-        $this->isbn13 = $this->isbn13 ?? $googleBook->isbn13;
+        $this->description = $this->description ?? $google_book->description;
+        $this->page_count = $this->page_count ?? $google_book->page_count;
+        $this->maturity_rating = $this->maturity_rating ?? $google_book->maturity_rating;
+        $this->isbn10 = $this->isbn10 ?? $google_book->isbn10;
+        $this->isbn13 = $this->isbn13 ?? $google_book->isbn13;
 
         // Set publisher
         if (! $this->publisher) {
-            $publisher_slug = Str::slug($googleBook->publisher, '-');
+            $publisher_slug = Str::slug($google_book->publisher, '-');
             $publisher = Publisher::whereSlug($publisher_slug)->first();
             if (! $publisher) {
                 $publisher = Publisher::firstOrCreate([
@@ -191,7 +191,7 @@ class Book extends Model implements HasMedia, GoogleBookable
         }
 
         // Set tags
-        foreach ($googleBook->categories as $category) {
+        foreach ($google_book->categories as $category) {
             TagConverter::setTag($category);
         }
 

@@ -31,9 +31,9 @@ class NameParser
      * Example: `La_Longue_Guerre.Terry_Pratchett&Stephen_Baxter.fr.La_Longue_Terre.2.Pocket.2017-02-09.9782266266284`
      * like `Original_Title.Author_Name&Other_Author_Name.Language.Serie_Title.Volume.Publisher.Date.Identifier`
      */
-    public static function parse(ParserEngine $parser): ParserEngine
+    public static function make(ParserEngine $parser_engine): ParserEngine
     {
-        $filename = pathinfo($parser->file_name, PATHINFO_FILENAME);
+        $filename = pathinfo($parser_engine->file_name, PATHINFO_FILENAME);
         $parsing = explode('.', $filename);
 
         if (is_array($parsing)) {
@@ -53,7 +53,7 @@ class NameParser
                 $data[$value] = NameParser::parseName($parsing, $key);
             }
 
-            $name_parser = new NameParser($parser);
+            $name_parser = new NameParser($parser_engine);
             $name_parser->title = NameParser::transformToString($data['title']);
             $name_parser->creators = NameParser::extractCreators($data['creators']);
             $name_parser->language = NameParser::nullValueCheck($data['language']);
@@ -63,17 +63,17 @@ class NameParser
             $name_parser->publisher = NameParser::nullValueCheck($data['publisher']);
             $name_parser->identifiers = NameParser::extractIdentifiers($data['identifiers']);
 
-            $parser->title = $name_parser->assignIfNull('title');
-            $parser->creators = $name_parser->assignIfNull('creators');
-            $parser->language = $name_parser->assignIfNull('language');
-            $parser->serie = $name_parser->assignIfNull('serie');
-            $parser->volume = $name_parser->assignIfNull('volume');
-            $parser->date = $name_parser->assignIfNull('date');
-            $parser->publisher = $name_parser->assignIfNull('publisher');
-            $parser->identifiers = $name_parser->assignIfNull('identifiers');
+            $parser_engine->title = $name_parser->assignIfNull('title');
+            $parser_engine->creators = $name_parser->assignIfNull('creators');
+            $parser_engine->language = $name_parser->assignIfNull('language');
+            $parser_engine->serie = $name_parser->assignIfNull('serie');
+            $parser_engine->volume = $name_parser->assignIfNull('volume');
+            $parser_engine->date = $name_parser->assignIfNull('date');
+            $parser_engine->publisher = $name_parser->assignIfNull('publisher');
+            $parser_engine->identifiers = $name_parser->assignIfNull('identifiers');
         }
 
-        return $parser;
+        return $parser_engine;
     }
 
     private function assignIfNull(string $property): mixed

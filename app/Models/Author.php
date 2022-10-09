@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Engines\ConverterEngine\EntityConverter;
+use App\Engines\ConverterEngine\WikipediaItemConverter;
 use App\Enums\AuthorRoleEnum;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
@@ -68,13 +68,13 @@ class Author extends Model implements HasMedia, Wikipediable
         'series',
     ];
 
-    public function wikipediaConvert(WikipediaItem $wikipediaItem, bool $default = true): Wikipediable
+    public function wikipediaConvert(WikipediaItem $wikipedia_item, bool $default = true): Wikipediable
     {
-        $converter = EntityConverter::make($wikipediaItem)
+        $converter_engine = WikipediaItemConverter::make($wikipedia_item)
             ->setWikipediaDescription()
         ;
         if (! $default) {
-            $converter->setWikipediaCover();
+            $converter_engine->setWikipediaCover();
         }
         $this->save();
 

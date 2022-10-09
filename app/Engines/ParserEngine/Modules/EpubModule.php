@@ -18,7 +18,7 @@ class EpubModule extends Module implements ModuleInterface, XmlInterface
     ) {
     }
 
-    public static function create(ParserEngine $engine): ParserEngine|false
+    public static function make(ParserEngine $engine): ParserEngine|false
     {
         $archive = new ArchiveParser($engine, new EpubModule(), 'opf');
 

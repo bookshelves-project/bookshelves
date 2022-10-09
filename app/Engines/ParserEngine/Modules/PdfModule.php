@@ -29,10 +29,10 @@ class PdfModule extends Module implements ModuleInterface
     ) {
     }
 
-    public static function create(ParserEngine $parser): ParserEngine|false
+    public static function make(ParserEngine $parser_engine): ParserEngine|false
     {
         $module = new PdfModule();
-        $module->engine = $parser;
+        $module->engine = $parser_engine;
 
         if (config('bookshelves.pdf.cover')) {
             $module = $module->getCover();
@@ -41,7 +41,7 @@ class PdfModule extends Module implements ModuleInterface
             $module = $module->getMetadata();
         }
 
-        return $parser;
+        return $parser_engine;
     }
 
     private function getCover(): static

@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@antfu/eslint-config': ^0.26.3
   '@awcodes/alpine-floating-ui': ^3.4.0
-  '@kiwilan/vite-plugin-laravel-steward': ^0.0.135
+  '@kiwilan/vite-plugin-laravel-steward': ^0.0.136
   '@tailwindcss/aspect-ratio': ^0.4.2
   '@tailwindcss/forms': ^0.5.3
   '@tailwindcss/line-clamp': ^0.4.2
@@ -23,7 +23,7 @@ specifiers:
 devDependencies:
   '@antfu/eslint-config': 0.26.3_irgkl5vooow2ydyo6aokmferha
   '@awcodes/alpine-floating-ui': 3.4.0
-  '@kiwilan/vite-plugin-laravel-steward': 0.0.135
+  '@kiwilan/vite-plugin-laravel-steward': 0.0.136
   '@tailwindcss/aspect-ratio': 0.4.2_tailwindcss@3.1.8
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.1.8
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.1.8
@@ -218,8 +218,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@kiwilan/vite-plugin-laravel-steward/0.0.135:
-    resolution: {integrity: sha512-AMJT1y5/lfLWi0DEF3mV/Kz2C4zLNaLBk3aSX7YkqNJ9ZGTS9JYzm9PyCD5KQt1Rkktx9jRGheEsJxuAQ1dQKg==}
+  /@kiwilan/vite-plugin-laravel-steward/0.0.136:
+    resolution: {integrity: sha512-xkBoduAGrXencI43HaV3T3y+ExK2RPhURFFsRm7c4LlA7W8YfqE1TWWWcH/rkzL4h+/qp/NJffSLRyCdM5/T2w==}
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:

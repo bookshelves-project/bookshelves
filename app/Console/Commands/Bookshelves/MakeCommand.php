@@ -3,8 +3,8 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\ConverterEngine;
-use App\Engines\ConverterEngine\CoverConverter;
 use App\Engines\ConverterEngine\EntityConverter;
+use App\Engines\ConverterEngine\Modules\CoverConverter;
 use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
 use App\Enums\BookFormatEnum;
@@ -68,7 +68,7 @@ class MakeCommand extends CommandProd
 
         $this->checkProd();
 
-        Artisan::call('bookshelves:clear', [], $this->getOutput());
+        Artisan::call('clear:all', [], $this->getOutput());
         $list = FilesTypeParser::parseDataFiles(limit: $limit);
 
         if ($fresh) {
@@ -114,8 +114,8 @@ class MakeCommand extends CommandProd
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($list as $file) {
-            $parser = ParserEngine::create($file, $debug);
-            ConverterEngine::create($parser, $default);
+            $parser = ParserEngine::make($file, $debug);
+            ConverterEngine::make($parser, $default);
 
             if (! $debug) {
                 $bar->advance();
@@ -147,8 +147,10 @@ class MakeCommand extends CommandProd
         $bar = $this->output->createProgressBar($model::count());
         $bar->start();
         foreach ($model::all() as $entity) {
-            EntityConverter::setTags($entity);
-            EntityConverter::parseJson($entity);
+            EntityConverter::make($entity)
+                ->setTags()
+                ->parseJson()
+            ;
             if (! $default) {
                 CoverConverter::setLocalCover($entity);
             }

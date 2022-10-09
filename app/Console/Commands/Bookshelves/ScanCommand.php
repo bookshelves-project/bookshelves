@@ -50,11 +50,11 @@ class ScanCommand extends CommandProd
             $bar->start();
         }
         foreach ($files as $key => $file) {
-            $parser = ParserEngine::create($file);
-            $converter = new ConverterEngine($parser);
-            $is_exist = $converter->bookIfExist();
+            $parser_engine = ParserEngine::make($file);
+            $converter_engine = new ConverterEngine($parser_engine);
+            $is_exist = $converter_engine->retrieveBook();
             if (! $is_exist) {
-                array_push($new_files, $parser);
+                array_push($new_files, $parser_engine);
             }
             if (! $verbose) {
                 $bar->advance();
@@ -71,9 +71,9 @@ class ScanCommand extends CommandProd
             $this->newLine();
             $this->info('New files detected');
             $this->newLine();
-            foreach ($new_files as $parser) {
-                if ($parser instanceof ParserEngine) {
-                    $this->info("- {$parser->title} from {$parser->file_name}");
+            foreach ($new_files as $parser_engine) {
+                if ($parser_engine instanceof ParserEngine) {
+                    $this->info("- {$parser_engine->title} from {$parser_engine->file_name}");
                 }
             }
         }

@@ -7,7 +7,7 @@ use Kiwilan\Steward\Traits\LazyEnum;
 /**
  * List of available formats.
  *
- * Check `ParserEngine::create()` if you want to add new format.
+ * Check `ParserEngine::make()` if you want to add new format.
  *
  * ```php
  * $engine = match ($engine->format) {

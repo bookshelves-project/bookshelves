@@ -7,5 +7,5 @@ use App\Engines\ParserEngine\Parsers\ArchiveParser;
 
 interface XmlInterface
 {
-    public static function parse(ArchiveParser $parser): ParserEngine;
+    public static function parse(ArchiveParser $parser_engine): ParserEngine;
 }
