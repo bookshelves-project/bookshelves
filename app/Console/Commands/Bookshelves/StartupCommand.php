@@ -97,7 +97,7 @@ class StartupCommand extends CommandProd
         }
 
         if (! $debug) {
-            Artisan::call('clear:full', [], $this->getOutput());
+            Artisan::call('clear:all', [], $this->getOutput());
         }
 
         /**

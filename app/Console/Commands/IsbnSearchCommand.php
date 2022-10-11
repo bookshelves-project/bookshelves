@@ -39,6 +39,10 @@ class IsbnSearchCommand extends CommandProd
 
         $this->info("Searching for ISBN: {$isbn}");
 
+        // TODO
+
+        $this->info('Done!');
+
         return Command::SUCCESS;
     }
 }

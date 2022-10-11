@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Kiwilan\Steward\Console\CommandProd;
 use Kiwilan\Steward\Services\DirectoryClearService;
 
-class ClearCommand extends CommandProd
+class ClearAllCommand extends CommandProd
 {
     /**
      * The name and signature of the console command.

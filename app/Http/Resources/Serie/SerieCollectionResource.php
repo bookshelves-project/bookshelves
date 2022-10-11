@@ -22,7 +22,7 @@ class SerieCollectionResource extends JsonResource
     {
         return [
             ...SerieRelationResource::make($this->resource)->toArray($request),
-            'type' => $this->resource->type,
+            'type' => $this->resource->type->locale(),
             'media' => $this->resource->cover_media,
             'language' => LanguageCollectionResource::make($this->resource->language),
             'authors' => AuthorRelationResource::collection($this->resource->authors),

@@ -44,6 +44,7 @@ class Author extends Model implements HasMedia, Wikipediable
 
     protected $query_default_sort = 'lastname';
     protected $query_allowed_sorts = ['id', 'firstname', 'lastname', 'name', 'role', 'books_count', 'series_count', 'created_at', 'updated_at'];
+    protected $query_limit = 32;
 
     protected $fillable = [
         'lastname',
