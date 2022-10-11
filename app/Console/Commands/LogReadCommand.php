@@ -31,7 +31,7 @@ class LogReadCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): bool
+    public function handle()
     {
         // $message = 'message';
 
@@ -77,6 +77,6 @@ class LogReadCommand extends Command
         // $this->info('info');
         // dump($logCollection);
 
-        return true;
+        return Command::SUCCESS;
     }
 }

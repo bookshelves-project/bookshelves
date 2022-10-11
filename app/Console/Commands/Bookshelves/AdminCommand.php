@@ -52,6 +52,6 @@ class AdminCommand extends CommandProd
             $this->info('Admin was created from `.env` variables with email '.config('app.admin.email'));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

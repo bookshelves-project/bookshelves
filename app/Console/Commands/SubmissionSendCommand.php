@@ -42,6 +42,6 @@ class SubmissionSendCommand extends Command
 
         $this->info('Notification sent.');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

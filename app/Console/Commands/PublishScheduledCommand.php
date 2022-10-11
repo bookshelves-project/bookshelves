@@ -56,6 +56,6 @@ class PublishScheduledCommand extends Command
             $this->info("Publish {$models_udpated->count()} {$model}");
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

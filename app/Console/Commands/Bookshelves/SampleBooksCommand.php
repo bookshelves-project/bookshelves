@@ -33,8 +33,10 @@ class SampleBooksCommand extends CommandProd
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
-    public function handle(): bool
+    public function handle()
     {
         $this->intro();
 
@@ -54,7 +56,7 @@ class SampleBooksCommand extends CommandProd
         }
         $this->newLine(2);
 
-        return true;
+        return Command::SUCCESS;
     }
 
     public function generate(string $booksRawPath, string $demoPath)

@@ -30,12 +30,14 @@ class LogClearCommand extends Command
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
-    public function handle(): bool
+    public function handle()
     {
         $logFileName = $this->argument('name');
         shell_exec("truncate -s 0 ./storage/logs/{$logFileName}.log");
 
-        return true;
+        return Command::SUCCESS;
     }
 }

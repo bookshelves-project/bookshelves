@@ -19548,6 +19548,16 @@
                         return $instance->auth($callback);
         }
                     /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function lazyScanChunkSize()
+        {
+                        /** @var \Opcodes\LogViewer\LogViewerService $instance */
+                        return $instance->lazyScanChunkSize();
+        }
+                    /**
          * Get the maximum number of bytes of the log that we should display.
          *
          * @return int 

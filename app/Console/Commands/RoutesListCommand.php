@@ -40,6 +40,6 @@ class RoutesListCommand extends Command
         $list = RouteService::getList();
         ConverterService::saveAsJson($list, 'routes');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

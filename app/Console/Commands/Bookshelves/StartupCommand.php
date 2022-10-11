@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Artisan;
+use Illuminate\Console\Command;
 use Kiwilan\Steward\Console\CommandProd;
 
 class StartupCommand extends CommandProd
@@ -123,5 +124,7 @@ class StartupCommand extends CommandProd
         $this->newLine();
 
         $this->info('Done!');
+
+        return Command::SUCCESS;
     }
 }

@@ -63,7 +63,7 @@ class DatabaseCommand extends CommandProd
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

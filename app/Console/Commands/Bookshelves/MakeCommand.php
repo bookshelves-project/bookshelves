@@ -12,6 +12,7 @@ use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\MediaExtended;
 use App\Models\Serie;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Kiwilan\Steward\Console\CommandProd;
@@ -53,7 +54,7 @@ class MakeCommand extends CommandProd
     /**
      * Execute the console command.
      *
-     * @return bool
+     * @return int
      */
     public function handle()
     {
@@ -86,7 +87,7 @@ class MakeCommand extends CommandProd
         if (! $list) {
             $this->alert('No files detected!');
 
-            return false;
+            return Command::FAILURE;
         }
         $this->comment('Files detected: '.count($list));
         $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie');
@@ -131,7 +132,7 @@ class MakeCommand extends CommandProd
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
         $this->info("Time in seconds: {$time_elapsed_secs}");
 
-        return true;
+        return Command::SUCCESS;
     }
 
     private function improveRelation(string $model)

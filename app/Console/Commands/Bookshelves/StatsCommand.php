@@ -37,6 +37,8 @@ class StatsCommand extends CommandProd
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
     public function handle()
     {
@@ -44,5 +46,7 @@ class StatsCommand extends CommandProd
             ['Books', 'Series', 'Authors', 'Languages', 'Publishers', 'Tags'],
             [[Book::count(), Serie::count(), Author::count(), Language::count(), Publisher::count(), Tag::count()]]
         );
+
+        return Command::SUCCESS;
     }
 }

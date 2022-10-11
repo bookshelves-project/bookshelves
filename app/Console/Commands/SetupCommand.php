@@ -100,6 +100,8 @@ class SetupCommand extends Command
         $this->info('Application is ready!');
 
         $this->goodbye();
+
+        return Command::SUCCESS;
     }
 
     /**

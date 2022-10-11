@@ -37,8 +37,10 @@ class SampleCommand extends CommandProd
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
-    public function handle(): bool
+    public function handle()
     {
         $this->intro();
 
@@ -78,7 +80,7 @@ class SampleCommand extends CommandProd
             // $this->info('Seeders ready!');
         }
 
-        return true;
+        return Command::SUCCESS;
     }
 
     public function clear()

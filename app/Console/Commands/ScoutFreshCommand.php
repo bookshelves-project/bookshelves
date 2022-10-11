@@ -59,7 +59,7 @@ class ScoutFreshCommand extends Command
             $this->error($th->getMessage());
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     public function getScoutName(string $model)

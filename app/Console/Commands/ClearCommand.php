@@ -63,6 +63,6 @@ class ClearCommand extends CommandProd
             Artisan::call('optimize', [], $this->getOutput());
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

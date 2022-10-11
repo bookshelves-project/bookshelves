@@ -35,8 +35,10 @@ class ScanCommand extends CommandProd
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
-    public function handle(): false|array
+    public function handle()
     {
         $this->intro('Scan storage data books directory');
 
@@ -93,6 +95,6 @@ class ScanCommand extends CommandProd
             [[count($new_files), Book::count()]]
         );
 
-        return $files;
+        return Command::SUCCESS;
     }
 }

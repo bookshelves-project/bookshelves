@@ -42,6 +42,8 @@ class RadGenerateCommand extends Command
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
     public function handle()
     {
@@ -93,6 +95,8 @@ class RadGenerateCommand extends Command
         $this->newLine();
 
         $this->info("{$this->model} created!");
+
+        return Command::SUCCESS;
     }
 
     public function toArray(): array

@@ -105,6 +105,6 @@ class MediaCleanCommand extends Command
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

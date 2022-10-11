@@ -39,7 +39,7 @@ class EntityConverter
         $subject = strtolower($subject->getShortName());
         $path = public_path("storage/data/{$subject}s/{$subject}s.json");
         if (! File::exists($path)) {
-            return $this->model;
+            return $this;
         }
 
         $json = json_decode(File::get($path));

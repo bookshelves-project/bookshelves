@@ -5,6 +5,7 @@ namespace App\Console\Commands\Bookshelves;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
+use Illuminate\Console\Command;
 use Kiwilan\Steward\Class\MetaClass;
 use Kiwilan\Steward\Console\CommandProd;
 use Kiwilan\Steward\Services\DirectoryClearService;
@@ -54,7 +55,7 @@ class ApiCommand extends CommandProd
     /**
      * Execute the console command.
      *
-     * @return bool
+     * @return int
      */
     public function handle()
     {
@@ -94,7 +95,8 @@ class ApiCommand extends CommandProd
                 ['title']
             );
         }
-        return true;
+
+        return Command::SUCCESS;
     }
 
     /**
