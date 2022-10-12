@@ -11,7 +11,9 @@ return [
     */
 
     'publishable' => [
-        // \App\Models\Example::class,
+        'models' => [
+            \App\Models\Post::class,
+        ],
     ],
 
     /*
@@ -24,34 +26,41 @@ return [
     */
 
     'scoutable' => [
-        // \App\Models\Example::class,
+        'models' => [
+            \App\Models\Book::class,
+            \App\Models\Serie::class,
+            \App\Models\Author::class,
+        ],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Steward scoutable
+    | Steward mediable
     |--------------------------------------------------------------------------
     |
-    | For `scout:fresh` command, set here all models with `Searchable` trait.
+    | For `media:clean` command, set here all models with `Mediable` trait.
     |
     */
 
     'mediable' => [
-        // \App\Models\Example::class,
+        'models' => [
+            \App\Models\Post::class,
+        ],
+        'default' => false,
+        'extensions' => ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'avif'],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Steward media
+    | Steward submission
     |--------------------------------------------------------------------------
     |
-    | Set extensions for `Mediable` trait and `media:clean` command.
+    | To manage Submission model.
     |
     */
 
-    'media' => [
-        'default' => false,
-        'extensions' => ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'avif'],
+    'submission' => [
+        'model' => \Kiwilan\Steward\Models\Submission::class,
     ],
 
     /*

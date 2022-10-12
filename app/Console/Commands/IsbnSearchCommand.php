@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Engines\IsbnEngine;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\CommandSteward;
 
@@ -38,6 +39,8 @@ class IsbnSearchCommand extends CommandSteward
         }
 
         $this->info("Searching for ISBN: {$isbn}");
+
+        IsbnEngine::make($isbn);
 
         // TODO
 

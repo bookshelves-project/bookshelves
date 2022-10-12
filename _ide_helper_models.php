@@ -42,6 +42,15 @@ namespace App\Models{
  * @property-read mixed $genres_list
  * @property-read bool $is_favorite
  * @property-read array $meta
+ * @property-read string $meta_class
+ * @property-read string $meta_class_name
+ * @property-read string $meta_class_name_plural
+ * @property-read string $meta_class_namespaced
+ * @property-read string $meta_class_slug
+ * @property-read string $meta_class_slug_plural
+ * @property-read string $meta_class_snake
+ * @property-read string $meta_class_snake_plural
+ * @property-read string $meta_first_char
  * @property-read string $opds_link
  * @property-read mixed $reviews_link
  * @property-read mixed $tags_list
@@ -128,6 +137,15 @@ namespace App\Models{
  * @property-read string|null $isbn
  * @property-read array $meta
  * @property-read string|null $meta_author
+ * @property-read string $meta_class
+ * @property-read string $meta_class_name
+ * @property-read string $meta_class_name_plural
+ * @property-read string $meta_class_namespaced
+ * @property-read string $meta_class_slug
+ * @property-read string $meta_class_slug_plural
+ * @property-read string $meta_class_snake
+ * @property-read string $meta_class_snake_plural
+ * @property-read string $meta_first_char
  * @property-read string $opds_link
  * @property-read mixed $reviews_link
  * @property-read mixed $tags_list
@@ -493,6 +511,15 @@ namespace App\Models{
  * @property-read bool $is_favorite
  * @property-read array $meta
  * @property-read string|null $meta_author
+ * @property-read string $meta_class
+ * @property-read string $meta_class_name
+ * @property-read string $meta_class_name_plural
+ * @property-read string $meta_class_namespaced
+ * @property-read string $meta_class_slug
+ * @property-read string $meta_class_slug_plural
+ * @property-read string $meta_class_snake
+ * @property-read string $meta_class_snake_plural
+ * @property-read string $meta_first_char
  * @property-read string $opds_link
  * @property-read mixed $reviews_link
  * @property-read mixed $tags_list
