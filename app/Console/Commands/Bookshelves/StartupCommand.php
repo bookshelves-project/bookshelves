@@ -4,9 +4,9 @@ namespace App\Console\Commands\Bookshelves;
 
 use Artisan;
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Commands\CommandSteward;
 
-class StartupCommand extends CommandProd
+class StartupCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.
@@ -43,7 +43,7 @@ class StartupCommand extends CommandProd
      */
     public function handle()
     {
-        $this->intro();
+        $this->title();
 
         $this->info('This command allow speed installation to group other bookshelves commands.');
         $this->newLine();
@@ -59,7 +59,7 @@ class StartupCommand extends CommandProd
 
         if ($fresh) {
             if (! $force) {
-                $this->checkProd();
+                $this->askOnProduction();
             }
 
             Artisan::call('migrate:fresh --force', [], $this->getOutput());

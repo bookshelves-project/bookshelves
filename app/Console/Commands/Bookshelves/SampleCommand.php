@@ -6,9 +6,9 @@ use App\Models\User;
 use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Commands\CommandSteward;
 
-class SampleCommand extends CommandProd
+class SampleCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.
@@ -42,13 +42,13 @@ class SampleCommand extends CommandProd
      */
     public function handle()
     {
-        $this->intro();
+        $this->title();
 
         $users = $this->option('users') ?? false;
         $cms = $this->option('cms') ?? false;
         $force = $this->option('force') ?? false;
 
-        $this->checkProd();
+        $this->askOnProduction();
 
         if ($users) {
             $this->comment('Run users seeders');

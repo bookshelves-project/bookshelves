@@ -74,6 +74,7 @@
     "pestphp/pest": "^1.21",
     "pestphp/pest-plugin-laravel": "^1.2",
     "phpunit/phpunit": "^9.5.10",
+    "rakutentech/laravel-request-docs": "^1.26",
     "spatie/laravel-ignition": "^1.0"
   },
   "autoload": {

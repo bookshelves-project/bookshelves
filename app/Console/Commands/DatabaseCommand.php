@@ -13,11 +13,11 @@ use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Commands\CommandSteward;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\Tag;
 
-class DatabaseCommand extends CommandProd
+class DatabaseCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.

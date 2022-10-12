@@ -5,9 +5,9 @@ namespace App\Console\Commands\Bookshelves;
 use Artisan;
 use File;
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Commands\CommandSteward;
 
-class SampleBooksCommand extends CommandProd
+class SampleBooksCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.
@@ -38,7 +38,7 @@ class SampleBooksCommand extends CommandProd
      */
     public function handle()
     {
-        $this->intro();
+        $this->title();
 
         $demoPath = database_path('seeders/demo-ebooks');
         $booksRawPath = storage_path('app/public/data/books');

@@ -4,10 +4,10 @@ namespace App\Console\Commands;
 
 use Artisan;
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Commands\CommandSteward;
 use Kiwilan\Steward\Services\DirectoryClearService;
 
-class ClearAllCommand extends CommandProd
+class ClearAllCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.

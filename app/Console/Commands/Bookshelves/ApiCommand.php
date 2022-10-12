@@ -7,7 +7,7 @@ use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Class\MetaClass;
-use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Commands\CommandSteward;
 use Kiwilan\Steward\Services\DirectoryClearService;
 use Kiwilan\Steward\Services\GoogleBookService;
 use Kiwilan\Steward\Services\GoogleBookService\GoogleBookable;
@@ -17,7 +17,7 @@ use Kiwilan\Steward\Services\WikipediaService\Wikipediable;
 /**
  * Extra data for Book, Author, Serie.
  */
-class ApiCommand extends CommandProd
+class ApiCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.
@@ -59,9 +59,9 @@ class ApiCommand extends CommandProd
      */
     public function handle()
     {
-        $this->intro();
+        $this->title();
 
-        $this->checkProd();
+        $this->askOnProduction();
 
         DirectoryClearService::make([storage_path('app/public/debug/wikipedia')]);
 

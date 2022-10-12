@@ -2,12 +2,12 @@
 
 namespace App\Console;
 
-use App\Console\Commands\MediaCleanCommand;
-use App\Console\Commands\PublishScheduledCommand;
-use App\Console\Commands\SubmissionRgpdVerificationCommand;
-use App\Console\Commands\TagCleanCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Kiwilan\Steward\Commands\MediaCleanCommand;
+use Kiwilan\Steward\Commands\PublishScheduledCommand;
+use Kiwilan\Steward\Commands\SubmissionRgpdVerificationCommand;
+use Kiwilan\Steward\Commands\TagCleanCommand;
 
 class Kernel extends ConsoleKernel
 {

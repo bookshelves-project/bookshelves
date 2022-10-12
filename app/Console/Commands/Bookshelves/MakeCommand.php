@@ -15,14 +15,14 @@ use App\Models\Serie;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Commands\CommandSteward;
 use ReflectionClass;
 use Spatie\Tags\Tag;
 
 /**
  * Main command of Bookshelves to generate Books with relations.
  */
-class MakeCommand extends CommandProd
+class MakeCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.
@@ -58,7 +58,7 @@ class MakeCommand extends CommandProd
      */
     public function handle()
     {
-        $this->intro('Books & relations');
+        $this->title(description: 'Books & relations');
 
         $force = $this->option('force') ?? false;
         $limit = str_replace('=', '', $this->option('limit'));
@@ -67,7 +67,7 @@ class MakeCommand extends CommandProd
         $debug = $this->option('debug') ?? false;
         $default = $this->option('default') ?? false;
 
-        $this->checkProd();
+        $this->askOnProduction();
 
         Artisan::call('clear:all', [], $this->getOutput());
         $list = FilesTypeParser::parseDataFiles(limit: $limit);

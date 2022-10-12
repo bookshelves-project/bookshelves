@@ -5,9 +5,9 @@ namespace App\Console\Commands\Bookshelves;
 use App\Models\User;
 use Artisan;
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Commands\CommandSteward;
 
-class AdminCommand extends CommandProd
+class AdminCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.
@@ -31,7 +31,7 @@ class AdminCommand extends CommandProd
      */
     public function handle()
     {
-        $this->intro();
+        $this->title();
 
         $allowed = false;
 

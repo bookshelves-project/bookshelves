@@ -7,9 +7,9 @@ use App\Engines\ParserEngine;
 use App\Engines\ParserEngine\Parsers\FilesTypeParser;
 use App\Models\Book;
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Commands\CommandSteward;
 
-class ScanCommand extends CommandProd
+class ScanCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.
@@ -40,7 +40,7 @@ class ScanCommand extends CommandProd
      */
     public function handle()
     {
-        $this->intro('Scan storage data books directory');
+        $this->title(description: 'Scan storage data books directory');
 
         $verbose = $this->option('verbose');
 

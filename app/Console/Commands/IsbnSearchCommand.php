@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Commands\CommandSteward;
 
-class IsbnSearchCommand extends CommandProd
+class IsbnSearchCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.
@@ -29,7 +29,7 @@ class IsbnSearchCommand extends CommandProd
     public function handle()
     {
         // Example: `isbn:search 9782075038362`
-        $this->intro();
+        $this->title();
 
         $isbn = $this->argument('isbn');
         if (! $isbn) {
@@ -41,6 +41,7 @@ class IsbnSearchCommand extends CommandProd
 
         // TODO
 
+        $this->newLine();
         $this->info('Done!');
 
         return Command::SUCCESS;

@@ -8,10 +8,10 @@ use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Console\CommandProd;
+use Kiwilan\Steward\Commands\CommandSteward;
 use Spatie\Tags\Tag;
 
-class StatsCommand extends CommandProd
+class StatsCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.
