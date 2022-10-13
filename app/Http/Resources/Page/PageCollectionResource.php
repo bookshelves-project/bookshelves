@@ -23,6 +23,7 @@ class PageCollectionResource extends JsonResource
             'title' => $this->resource->title,
             'slug' => $this->resource->slug,
             'language' => $this->resource->language,
+            'template' => $this->resource->template,
         ];
     }
 }

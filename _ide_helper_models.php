@@ -312,7 +312,7 @@ namespace App\Models{
  * @property string $title
  * @property string $slug
  * @property \Kiwilan\Steward\Enums\LanguageEnum $language
- * @property mixed|null $template
+ * @property \App\Enums\TemplateEnum $template
  * @property array|null $content
  * @property string|null $meta_title
  * @property string|null $meta_description
@@ -321,6 +321,7 @@ namespace App\Models{
  * @property-read array $meta
  * @property-read array $seo
  * @property-read string|null $show_route
+ * @property-read array $template_data
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\BuilderEnum;
+use App\Enums\TemplateEnum;
 use Illuminate\Database\Eloquent\Model;
 use Kiwilan\Steward\Enums\LanguageEnum;
 use Kiwilan\Steward\Traits\HasSeo;
@@ -23,12 +23,10 @@ class Page extends Model implements HasMedia
     protected $fillable = [
         'title',
         'language',
-        'content',
     ];
 
     protected $casts = [
-        'content' => 'array',
         'language' => LanguageEnum::class,
-        // 'builder' => BuilderEnum::class,
+        'template' => TemplateEnum::class, // TODO steward config
     ];
 }

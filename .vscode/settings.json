@@ -19,5 +19,6 @@
     "locales"
   ],
   "i18n-ally.keystyle": "nested",
-  "npm.packageManager": "pnpm"
+  "npm.packageManager": "pnpm",
+  "phpstan.enabled": true
 }

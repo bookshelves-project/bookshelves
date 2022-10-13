@@ -12,8 +12,8 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Kiwilan\Steward\Filament\FormHelper;
-use Kiwilan\Steward\Filament\LayoutHelper;
+use Kiwilan\Steward\Filament\StwFormConfig;
+use Kiwilan\Steward\Filament\StwLayoutConfig;
 
 class SerieResource extends Resource
 {
@@ -29,8 +29,8 @@ class SerieResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return LayoutHelper::container([
-            LayoutHelper::column(
+        return StwLayoutConfig::container([
+            StwLayoutConfig::column(
                 [
                     Forms\Components\TextInput::make('title')
                         ->label('Title'),
@@ -62,7 +62,7 @@ class SerieResource extends Resource
                         ->columnSpan(2),
                 ]
             ),
-            LayoutHelper::column(
+            StwLayoutConfig::column(
                 [
                     Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
                         ->collection('cover')
@@ -76,7 +76,7 @@ class SerieResource extends Resource
                         ->label('Type')
                         ->options(BookTypeEnum::toList())
                         ->default(BookTypeEnum::novel->value),
-                    FormHelper::getTimestamps(),
+                    StwFormConfig::getTimestamps(),
                 ],
                 width: 1
             ),

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Books;
 
 use App\Enums\AuthorRoleEnum;
-use App\Filament\LayoutHelper;
 use App\Filament\RelationManagers\BooksRelationManager;
 use App\Filament\RelationManagers\ReviewsRelationManager;
 use App\Filament\RelationManagers\SeriesRelationManager;
@@ -14,6 +13,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Kiwilan\Steward\Filament\StwLayoutConfig;
 
 class AuthorResource extends Resource
 {
@@ -27,8 +27,8 @@ class AuthorResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return LayoutHelper::columns($form, [
-            LayoutHelper::mainColumn(
+        return StwLayoutConfig::container([
+            StwLayoutConfig::column(
                 [
                     Forms\Components\TextInput::make('lastname')
                         ->label('Lastname'),
@@ -47,7 +47,7 @@ class AuthorResource extends Resource
                         ->columnSpan(2),
                 ]
             ),
-            LayoutHelper::sideColumn(
+            StwLayoutConfig::column(
                 [
                     Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
                         ->collection('cover')
@@ -58,7 +58,7 @@ class AuthorResource extends Resource
                         ->default(AuthorRoleEnum::aut->value),
                 ]
             ),
-        ]);
+        ], $form);
     }
 
     public static function table(Table $table): Table

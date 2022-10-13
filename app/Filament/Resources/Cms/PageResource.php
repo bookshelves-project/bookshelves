@@ -5,7 +5,7 @@ namespace App\Filament\Resources\Cms;
 use App\Enums\BuilderEnum;
 use App\Enums\TemplateEnum;
 use App\Filament\Resources\Cms\PageResource\Pages;
-use App\Filament\TemplateShortcutRepeater;
+use App\Filament\TemplateConfig;
 use App\Models\Page;
 use Closure;
 use Filament\Forms;
@@ -14,8 +14,8 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Kiwilan\Steward\Enums\LanguageEnum;
-use Kiwilan\Steward\Filament\FormHelper;
-use Kiwilan\Steward\Filament\LayoutHelper;
+use Kiwilan\Steward\Filament\StwFormConfig;
+use Kiwilan\Steward\Filament\StwLayoutConfig;
 
 class PageResource extends Resource
 {
@@ -31,18 +31,17 @@ class PageResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return LayoutHelper::container([
-            LayoutHelper::column(
+        return StwLayoutConfig::container([
+            StwLayoutConfig::column(
                 [
-                    FormHelper::getName('title'),
+                    StwFormConfig::getName('title'),
                     Forms\Components\TextInput::make('slug')
                         ->label('Metalink'),
-                    // TemplateShortcutRepeater::home(),
+                    // TemplateConfig::home(),
                     Forms\Components\Repeater::make('content')
                         ->schema(function (Closure $get) {
                             $method = $get('template');
-                            return TemplateShortcutRepeater::{$method}();
-                            // return TemplateShortcutRepeater::home();
+                            return TemplateConfig::{$method}();
                         })
                         ->label('Content')
                         ->columns(1)
@@ -51,7 +50,7 @@ class PageResource extends Resource
                         ->columnSpan(2),
                 ],
             ),
-            LayoutHelper::column(
+            StwLayoutConfig::column(
                 [
                     Forms\Components\Select::make('language')
                         ->options(LanguageEnum::toArray())
@@ -63,7 +62,7 @@ class PageResource extends Resource
                         ->options(TemplateEnum::toArray())
                         ->label('Template')
                         ->helperText('Select template type.')
-                        ->default(TemplateEnum::basic->value)
+                        ->default(TemplateEnum::about->value)
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(function (Closure $set) {
@@ -83,7 +82,6 @@ class PageResource extends Resource
                     ->label('Template')
                     ->colors([
                         'primary',
-                        'success' => TemplateEnum::basic,
                     ])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')

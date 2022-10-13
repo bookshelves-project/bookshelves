@@ -10,7 +10,8 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Kiwilan\Steward\Enums\PublishStatusEnum;
-use Kiwilan\Steward\Filament\FormHelper;
+use Kiwilan\Steward\Filament\FormConfig;
+use Kiwilan\Steward\Filament\StwFormConfig;
 
 class PostResource extends Resource
 {
@@ -56,14 +57,15 @@ class PostResource extends Resource
                 Tables\Columns\BadgeColumn::make('author.name')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\BooleanColumn::make('is_pinned')
+                Tables\Columns\IconColumn::make('is_pinned')
+                ->boolean()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('published_at')
                     ->date('d/m/Y')
                     ->sortable(),
             ])
             ->filters([
-                FormHelper::getDateFilter('published_at'),
+                StwFormConfig::getDateFilter('published_at'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

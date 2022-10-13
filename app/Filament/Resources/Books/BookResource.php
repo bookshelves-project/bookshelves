@@ -12,8 +12,8 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Kiwilan\Steward\Filament\FormHelper;
-use Kiwilan\Steward\Filament\LayoutHelper;
+use Kiwilan\Steward\Filament\StwFormConfig;
+use Kiwilan\Steward\Filament\StwLayoutConfig;
 
 class BookResource extends Resource
 {
@@ -34,8 +34,8 @@ class BookResource extends Resource
         //     ])
         // ;
 
-        return LayoutHelper::container([
-            LayoutHelper::column(
+        return StwLayoutConfig::container([
+            StwLayoutConfig::column(
                 [
                     Forms\Components\TextInput::make('title')
                         ->label('Title'),
@@ -90,7 +90,7 @@ class BookResource extends Resource
                         ->label('Rights'),
                 ]
             ),
-            LayoutHelper::column(
+            StwLayoutConfig::column(
                 [
                     Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
                         ->collection('cover')
@@ -119,7 +119,7 @@ class BookResource extends Resource
                         ->label('Page count'),
                     Forms\Components\TextInput::make('maturity_rating')
                         ->label('Rating'),
-                    FormHelper::getTimestamps(),
+                    StwFormConfig::getTimestamps(),
                 ],
                 [
                     Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::epub->value)
@@ -221,7 +221,7 @@ class BookResource extends Resource
                     ->toggledHiddenByDefault(),
             ])
             ->filters([
-                FormHelper::getDateFilter('released_on'),
+                StwFormConfig::getDateFilter('released_on'),
                 Tables\Filters\SelectFilter::make('type')
                     ->label('Type')
                     ->options(BookTypeEnum::toList()),

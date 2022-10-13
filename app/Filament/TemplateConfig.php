@@ -3,15 +3,15 @@
 namespace App\Filament;
 
 use Filament\Forms;
-use Kiwilan\Steward\Filament\BuilderHelper;
+use Kiwilan\Steward\Filament\StwBuilderConfig;
 
-class TemplateShortcutRepeater
+class TemplateConfig
 {
     public static function block(array $content = [], string $make = 'block', string $label = 'Block')
     {
         return Forms\Components\Repeater::make($make)
             ->schema([
-                BuilderHelper::display(),
+                StwBuilderConfig::display(),
                 ...$content,
             ])
             ->disableItemMovement()
@@ -25,7 +25,7 @@ class TemplateShortcutRepeater
     public static function home()
     {
         return [
-            TemplateShortcutRepeater::block([
+            TemplateConfig::block([
                 Forms\Components\TextInput::make('title')
                     ->label('Title')
                     ->columnSpan(1),
@@ -39,7 +39,7 @@ class TemplateShortcutRepeater
                     ->label('Media')
                     ->columnSpan(2),
             ], 'hero', 'Hero'),
-            TemplateShortcutRepeater::block([
+            TemplateConfig::block([
                 Forms\Components\TextInput::make('eyebrow')
                     ->label('Eyebrow')
                     ->columnSpan(2),
@@ -68,7 +68,7 @@ class TemplateShortcutRepeater
                     ->collapsible()
                     ->collapsed(),
             ], 'statistics', 'Statistics'),
-            TemplateShortcutRepeater::block([
+            TemplateConfig::block([
                 Forms\Components\TextInput::make('title')
                     ->label('title'),
                 Forms\Components\Repeater::make('list')
@@ -94,7 +94,7 @@ class TemplateShortcutRepeater
                     ->collapsible()
                     ->collapsed(),
             ], 'logos', 'Logos'),
-            TemplateShortcutRepeater::block([
+            TemplateConfig::block([
                 Forms\Components\TextInput::make('title')
                     ->label('title')
                     ->columnSpan(2),
@@ -123,7 +123,7 @@ class TemplateShortcutRepeater
                     ->collapsible()
                     ->collapsed(),
             ], 'features', 'Features'),
-            TemplateShortcutRepeater::block([
+            TemplateConfig::block([
                 Forms\Components\Repeater::make('list')
                     ->label('List')
                     ->schema([
@@ -175,10 +175,10 @@ class TemplateShortcutRepeater
         ];
     }
 
-    public static function basic()
+    public static function about()
     {
         return [
-            TemplateShortcutRepeater::block([
+            TemplateConfig::block([
                 Forms\Components\TextInput::make('title')
                     ->label('Title')
                     ->columnSpan(1),
