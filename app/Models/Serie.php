@@ -73,7 +73,7 @@ class Serie extends Model implements HasMedia, Wikipediable
     {
         // Get Books into Serie, by volume order.
         return $this->hasMany(Book::class)
-            ->where('is_disabled', false)
+            ->where('is_hidden', false)
             ->orderBy('volume')
         ;
     }

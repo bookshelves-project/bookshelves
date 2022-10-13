@@ -32,6 +32,7 @@ namespace App\Models{
  * @property-read array $cover
  * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_book
  * @property-read string|null $cover_color
+ * @property-read string|null $cover_filament
  * @property-read array $cover_full
  * @property-read array $cover_media
  * @property-read string|null $cover_og
@@ -106,7 +107,7 @@ namespace App\Models{
  * @property string|null $language_slug
  * @property int|null $page_count
  * @property string|null $maturity_rating
- * @property bool $is_disabled
+ * @property bool $is_hidden
  * @property \App\Enums\BookTypeEnum $type
  * @property string|null $isbn10
  * @property string|null $isbn13
@@ -122,6 +123,7 @@ namespace App\Models{
  * @property-read array $cover
  * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_book
  * @property-read string|null $cover_color
+ * @property-read string|null $cover_filament
  * @property-read array $cover_full
  * @property-read array $cover_media
  * @property-read string|null $cover_og
@@ -174,7 +176,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisallowSerie(string $has_not_serie)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifiers($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsDisabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsHidden($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn10($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn13($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguageSlug($value)
@@ -310,7 +312,7 @@ namespace App\Models{
  * @property string $title
  * @property string $slug
  * @property \Kiwilan\Steward\Enums\LanguageEnum $language
- * @property \stdClass|null $builder
+ * @property mixed|null $template
  * @property array|null $content
  * @property string|null $meta_title
  * @property string|null $meta_description
@@ -324,7 +326,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Page query()
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereBuilder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
@@ -332,6 +333,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereTemplate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
  */
@@ -500,6 +502,7 @@ namespace App\Models{
  * @property-read array $cover
  * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_book
  * @property-read string|null $cover_color
+ * @property-read string|null $cover_filament
  * @property-read array $cover_full
  * @property-read array $cover_media
  * @property-read string|null $cover_og

@@ -4,8 +4,6 @@ namespace App\Filament\Resources\Books;
 
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
-use App\Filament\FormHelper;
-use App\Filament\LayoutHelper;
 use App\Filament\Resources\Books\BookResource\Pages;
 use App\Forms\Components\SpatieMediaView;
 use App\Models\Book;
@@ -14,6 +12,8 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Kiwilan\Steward\Filament\FormHelper;
+use Kiwilan\Steward\Filament\LayoutHelper;
 
 class BookResource extends Resource
 {
@@ -29,15 +29,21 @@ class BookResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return LayoutHelper::columns($form, [
-            LayoutHelper::mainColumn(
+        // return $form
+        //     ->schema([
+        //     ])
+        // ;
+
+        return LayoutHelper::container([
+            LayoutHelper::column(
                 [
                     Forms\Components\TextInput::make('title')
                         ->label('Title'),
                     Forms\Components\Select::make('language')
                         ->relationship('language', 'name')
                         ->label('Language'),
-                    Forms\Components\MultiSelect::make('authors')
+                    Forms\Components\Select::make('authors')
+                        ->multiple()
                         ->relationship('authors', 'name')
                         ->label('Authors')
                         ->columnSpan(2),
@@ -84,7 +90,7 @@ class BookResource extends Resource
                         ->label('Rights'),
                 ]
             ),
-            LayoutHelper::sideColumn(
+            LayoutHelper::column(
                 [
                     Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
                         ->collection('cover')
@@ -98,12 +104,13 @@ class BookResource extends Resource
                         ->label('Type')
                         ->options(BookTypeEnum::toList())
                         ->default(BookTypeEnum::novel->value),
-                    Forms\Components\Toggle::make('is_disabled')
+                    Forms\Components\Toggle::make('is_hidden')
                         ->label('Disabled')
                         ->helperText('Prevent this book from being displayed in the public catalog.'),
                 ],
                 [
                     Forms\Components\Select::make('publisher')
+                        ->label('Publisher')
                         ->relationship('publisher', 'name'),
                     Forms\Components\DatePicker::make('released_on')
                         ->label('Released on'),
@@ -112,7 +119,7 @@ class BookResource extends Resource
                         ->label('Page count'),
                     Forms\Components\TextInput::make('maturity_rating')
                         ->label('Rating'),
-                    ...FormHelper::getTimestamps(),
+                    FormHelper::getTimestamps(),
                 ],
                 [
                     Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::epub->value)
@@ -132,9 +139,10 @@ class BookResource extends Resource
                     Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::pdf->value)
                         ->collection(BookFormatEnum::pdf->value)
                         ->label('PDF'),
-                ]
+                ],
+                width: 1
             ),
-        ]);
+        ], $form);
     }
 
     public static function table(Table $table): Table
@@ -146,13 +154,13 @@ class BookResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\SpatieMediaLibraryImageColumn::make('cover')
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('cover_filament')
                     ->collection('cover')
                     ->label('Cover')
                     ->rounded(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Title')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug_sort')
                     ->label('Sort by')
@@ -168,19 +176,17 @@ class BookResource extends Resource
                         'danger' => BookTypeEnum::audio,
                         'success' => BookTypeEnum::comic,
                     ])
-                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('author.name')
                     ->label('Authors')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('language.name')
                     ->label('Language')
-                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('serie.title')
                     ->label('Serie')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('volume')
                     ->label('Volume')
@@ -189,28 +195,27 @@ class BookResource extends Resource
                 Tables\Columns\SpatieTagsColumn::make('tags')
                     ->type('genre')
                     ->label('Genre')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\BooleanColumn::make('is_disabled')
+                Tables\Columns\IconColumn::make('is_hidden')
+                    ->boolean()
                     ->label('Disabled')
                     ->trueColor('danger')
                     ->falseColor('success')
                     ->trueIcon('heroicon-o-badge-check')
                     ->falseIcon('heroicon-o-x-circle')
-                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('publisher.name')
                     ->label('Publisher')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('released_on')
                     ->label('Released on')
                     ->date('Y-m-d')
-                    ->searchable()
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
@@ -260,7 +265,7 @@ class BookResource extends Resource
 
     protected static function getNavigationBadge(): ?string
     {
-        $count = Book::whereIsDisabled(true)->count();
+        $count = Book::whereIsHidden(true)->count();
         return "{$count}";
     }
 

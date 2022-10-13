@@ -68,7 +68,7 @@ class Book extends Model implements HasMedia, GoogleBookable
         'volume',
         'page_count',
         'maturity_rating',
-        'is_disabled',
+        'is_hidden',
         'type',
         'isbn10',
         'isbn13',
@@ -84,7 +84,7 @@ class Book extends Model implements HasMedia, GoogleBookable
 
     protected $casts = [
         'released_on' => 'datetime',
-        'is_disabled' => 'boolean',
+        'is_hidden' => 'boolean',
         'type' => BookTypeEnum::class,
         'identifiers' => 'array',
         'volume' => 'integer',
@@ -110,7 +110,7 @@ class Book extends Model implements HasMedia, GoogleBookable
      */
     public function scopeAvailable(Builder $query): Builder
     {
-        return $query->where('is_disabled', false);
+        return $query->where('is_hidden', false);
     }
 
     public function scopeWhereDisallowSerie(Builder $query, string $has_not_serie): Builder
@@ -183,7 +183,7 @@ class Book extends Model implements HasMedia, GoogleBookable
             $publisher = Publisher::whereSlug($publisher_slug)->first();
             if (! $publisher) {
                 $publisher = Publisher::firstOrCreate([
-                    'name' => $this->publisher,
+                    'name' => $google_book->publisher,
                     'slug' => $publisher_slug,
                 ]);
             }
@@ -221,7 +221,7 @@ class Book extends Model implements HasMedia, GoogleBookable
                     fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
                 )
             ),
-            AllowedFilter::exact('is_disabled'),
+            AllowedFilter::exact('is_hidden'),
             AllowedFilter::exact('released_on'),
             AllowedFilter::exact('type'),
             AllowedFilter::scope('types', 'whereTypesIs'),
@@ -243,7 +243,7 @@ class Book extends Model implements HasMedia, GoogleBookable
             AllowedFilter::scope('disallow_serie', 'whereDisallowSerie'),
             AllowedFilter::scope('language', 'whereLanguagesIs'),
             AllowedFilter::scope('published', 'publishedBetween'),
-            AllowedFilter::scope('is_disabled', 'whereIsDisabled'),
+            AllowedFilter::scope('is_hidden', 'whereIsHidden'),
             AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
             AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
             AllowedFilter::scope('tags', 'whereTagsIs'),

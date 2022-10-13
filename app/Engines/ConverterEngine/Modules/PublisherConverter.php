@@ -16,14 +16,15 @@ class PublisherConverter implements ConverterInterface
     {
         $publisher = false;
         if ($converter_engine->parser_engine->publisher && ! $converter_engine->book->publisher) {
-            $publisherIfExist = Publisher::whereSlug(Str::slug($converter_engine->parser_engine->publisher))->first();
-            if (! $publisherIfExist) {
+            $publisher_exist = Publisher::whereSlug(Str::slug($converter_engine->parser_engine->publisher))->first();
+            if (! $publisher_exist) {
+                $name = $converter_engine->parser_engine->publisher;
                 $publisher = Publisher::firstOrCreate([
-                    'name' => $converter_engine->parser_engine->publisher,
-                    'slug' => Str::slug($converter_engine->parser_engine->publisher),
+                    'name' => $name,
+                    'slug' => Str::slug($name),
                 ]);
             } else {
-                $publisher = $publisherIfExist;
+                $publisher = $publisher_exist;
             }
 
             $converter_engine->book->publisher()->associate($publisher);

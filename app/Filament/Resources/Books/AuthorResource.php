@@ -70,7 +70,7 @@ class AuthorResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\SpatieMediaLibraryImageColumn::make('cover')
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('cover_filament')
                     ->collection('cover')
                     ->label('Cover')
                     ->rounded(),

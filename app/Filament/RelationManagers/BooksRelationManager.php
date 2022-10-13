@@ -30,7 +30,7 @@ class BooksRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\SpatieMediaLibraryImageColumn::make('cover')
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('cover_filament')
                     ->collection('cover')
                     ->label('Cover')
                     ->rounded(),

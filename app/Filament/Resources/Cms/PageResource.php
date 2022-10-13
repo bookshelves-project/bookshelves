@@ -3,9 +3,11 @@
 namespace App\Filament\Resources\Cms;
 
 use App\Enums\BuilderEnum;
+use App\Enums\TemplateEnum;
 use App\Filament\Resources\Cms\PageResource\Pages;
-use App\Filament\TemplateShortcut;
+use App\Filament\TemplateShortcutRepeater;
 use App\Models\Page;
+use Closure;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -35,7 +37,18 @@ class PageResource extends Resource
                     FormHelper::getName('title'),
                     Forms\Components\TextInput::make('slug')
                         ->label('Metalink'),
-                    TemplateShortcut::home(),
+                    // TemplateShortcutRepeater::home(),
+                    Forms\Components\Repeater::make('content')
+                        ->schema(function (Closure $get) {
+                            $method = $get('template');
+                            return TemplateShortcutRepeater::{$method}();
+                            // return TemplateShortcutRepeater::home();
+                        })
+                        ->label('Content')
+                        ->columns(1)
+                        ->maxItems(1)
+                        ->orderable(fn () => false)
+                        ->columnSpan(2),
                 ],
             ),
             LayoutHelper::column(
@@ -43,9 +56,19 @@ class PageResource extends Resource
                     Forms\Components\Select::make('language')
                         ->options(LanguageEnum::toArray())
                         ->label('Language'),
-                    Forms\Components\Select::make('builder')
-                        ->options(BuilderEnum::toArray())
-                        ->label('Builder'),
+                    // Forms\Components\Select::make('builder')
+                    //     ->options(BuilderEnum::toArray())
+                    //     ->label('Builder'),
+                    Forms\Components\Select::make('template')
+                        ->options(TemplateEnum::toArray())
+                        ->label('Template')
+                        ->helperText('Select template type.')
+                        ->default(TemplateEnum::basic->value)
+                        ->required()
+                        ->reactive()
+                        ->afterStateUpdated(function (Closure $set) {
+                            $set('content', []);
+                        }),
                 ],
                 width: 1
             ),
@@ -60,7 +83,7 @@ class PageResource extends Resource
                     ->label('Template')
                     ->colors([
                         'primary',
-                        'success' => BuilderEnum::basic,
+                        'success' => TemplateEnum::basic,
                     ])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')

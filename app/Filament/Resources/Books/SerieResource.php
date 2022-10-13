@@ -3,8 +3,6 @@
 namespace App\Filament\Resources\Books;
 
 use App\Enums\BookTypeEnum;
-use App\Filament\FormHelper;
-use App\Filament\LayoutHelper;
 use App\Filament\RelationManagers\BooksRelationManager;
 use App\Filament\Resources\Books\SerieResource\Pages;
 use App\Models\Serie;
@@ -14,6 +12,8 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Kiwilan\Steward\Filament\FormHelper;
+use Kiwilan\Steward\Filament\LayoutHelper;
 
 class SerieResource extends Resource
 {
@@ -29,15 +29,16 @@ class SerieResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return LayoutHelper::columns($form, [
-            LayoutHelper::mainColumn(
+        return LayoutHelper::container([
+            LayoutHelper::column(
                 [
                     Forms\Components\TextInput::make('title')
                         ->label('Title'),
                     Forms\Components\Select::make('language')
                         ->relationship('language', 'name')
                         ->label('Language'),
-                    Forms\Components\MultiSelect::make('authors')
+                    Forms\Components\Select::make('authors')
+                        ->multiple()
                         ->relationship('authors', 'name')
                         ->label('Authors')
                         ->columnSpan(2),
@@ -61,7 +62,7 @@ class SerieResource extends Resource
                         ->columnSpan(2),
                 ]
             ),
-            LayoutHelper::sideColumn(
+            LayoutHelper::column(
                 [
                     Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
                         ->collection('cover')
@@ -75,10 +76,11 @@ class SerieResource extends Resource
                         ->label('Type')
                         ->options(BookTypeEnum::toList())
                         ->default(BookTypeEnum::novel->value),
-                    ...FormHelper::getTimestamps(),
-                ]
+                    FormHelper::getTimestamps(),
+                ],
+                width: 1
             ),
-        ]);
+        ], $form);
     }
 
     public static function table(Table $table): Table
@@ -90,7 +92,7 @@ class SerieResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\SpatieMediaLibraryImageColumn::make('cover')
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('cover_filament')
                     ->collection('cover')
                     ->label('Cover')
                     ->rounded(),

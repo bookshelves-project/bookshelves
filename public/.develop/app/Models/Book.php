@@ -55,7 +55,7 @@ class Book extends Model implements HasMedia
         'volume',
         'page_count',
         'maturity_rating',
-        'is_disabled',
+        'is_hidden',
         'type',
         'isbn10',
         'isbn13',
@@ -78,7 +78,7 @@ class Book extends Model implements HasMedia
 
     protected $casts = [
         'released_on' => 'datetime',
-        'is_disabled' => 'boolean',
+        'is_hidden' => 'boolean',
         'type' => BookTypeEnum::class,
         'identifiers' => 'array',
         'volume' => 'integer',
@@ -242,9 +242,9 @@ class Book extends Model implements HasMedia
         return $query;
     }
 
-    public function scopeWhereIsDisabled(Builder $query, $is_disabled): Builder
+    public function scopewhereIsHidden(Builder $query, $is_hidden): Builder
     {
-        return $query->where('is_disabled', '=', $is_disabled);
+        return $query->where('is_hidden', '=', $is_hidden);
     }
 
     public function searchableAs()

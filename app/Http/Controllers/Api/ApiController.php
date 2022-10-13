@@ -33,7 +33,7 @@ class ApiController extends Controller
 
         Route::bind('tag_slug', fn (string $param) => TagExtend::where('slug->en', $param)->firstOrFail());
 
-        Route::bind('cms_page_slug', fn (string $param) => Page::where('slug', $param)->firstOrFail());
+        Route::bind('page_slug', fn (string $param) => Page::where('slug', $param)->firstOrFail());
 
         Route::bind('post_slug', fn (string $param) => Post::where('slug', $param)->firstOrFail());
 

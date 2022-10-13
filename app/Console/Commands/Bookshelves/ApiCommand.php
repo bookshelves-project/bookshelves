@@ -161,17 +161,17 @@ class ApiCommand extends CommandSteward
     ): int {
         $meta = MetaClass::make($subject);
 
-        $this->comment("{$meta->class_name} (--{$meta->class_kebab_plural}|-{$meta->first_char} option)");
+        $this->comment("{$meta->meta_class_name} (--{$meta->meta_class_slug_plural}|-{$meta->meta_first_char} option)");
         if (! $this->default) {
             $this->info('- Picture from relation or Wikipedia (--default|-D to skip)');
         }
-        $this->info("  - Default picture can be JPG file with slug of {$meta->class_kebab} in `public/storage/data/{$meta->class_kebab_plural}`");
+        $this->info("  - Default picture can be JPG file with slug of {$meta->meta_class_slug} in `public/storage/data/{$meta->meta_class_slug_plural}`");
         $this->info('- Description from Wikipedia (--local|-L to skip)');
-        $this->info("  - Default description can be in `public/storage/data/{$meta->class_kebab_plural}/{$meta->class_kebab_plural}.json`");
+        $this->info("  - Default description can be in `public/storage/data/{$meta->meta_class_slug_plural}/{$meta->meta_class_slug_plural}.json`");
         $this->newLine();
 
         $list = $subject::all();
-        $this->comment($meta->class_name.': '.count($list));
+        $this->comment($meta->meta_class_name.': '.count($list));
 
         $start = microtime(true);
 

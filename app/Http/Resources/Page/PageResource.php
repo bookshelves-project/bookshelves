@@ -20,7 +20,7 @@ class PageResource extends JsonResource
     {
         return [
             ...PageCollectionResource::make($this->resource)->toArray($request),
-            'content' => $this->resource->builder,
+            'content' => $this->resource->template,
         ];
     }
 }

@@ -40,7 +40,7 @@ class BookFactory extends Factory
             'volume' => $this->faker->numberBetween(0, 8),
             'page_count' => $this->faker->randomDigit(),
             'maturity_rating' => null,
-            'is_disabled' => false,
+            'is_hidden' => false,
             'type' => $this->faker->randomElement(BookTypeEnum::toValues()),
             'isbn10' => $this->faker->isbn10(),
             'isbn13' => $this->faker->isbn13(),

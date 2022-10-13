@@ -1,0 +1,21 @@
+{
+  "title": "HomePage",
+  "slug": "homepage-en",
+  "language": "en",
+  "template": "home",
+  "meta_title": "HomePage",
+  "meta_description": "The home page",
+  "content": [
+    {
+      "hero": [
+        {
+          "title": "APP_NAME",
+          "hang": "your online library...",
+          "media": "cms/hero.svg",
+          "text": "If you have an eReader and are looking for plenty of books to take everywhere with you, you've come to the right place, hours of reading in perspective.",
+          "display": true
+        }
+      ]
+    }
+  ]
+}

@@ -40,7 +40,7 @@ class BookQuery extends BaseQuery
                         $query->where('name', 'like', "%{$value}%");
                     });
                 }),
-                AllowedFilter::exact('is_disabled'),
+                AllowedFilter::exact('is_hidden'),
                 AllowedFilter::exact('released_on'),
                 AllowedFilter::exact('type'),
                 AllowedFilter::scope('types', 'whereTypesIs'),
@@ -58,13 +58,13 @@ class BookQuery extends BaseQuery
                 AllowedFilter::scope('disallow_serie', 'whereDisallowSerie'),
                 AllowedFilter::scope('language', 'whereLanguagesIs'),
                 AllowedFilter::scope('published', 'publishedBetween'),
-                AllowedFilter::scope('is_disabled', 'whereIsDisabled'),
+                AllowedFilter::scope('is_hidden', 'whereIsHidden'),
                 AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
                 AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
                 AllowedFilter::scope('tags', 'whereTagsIs'),
                 AllowedFilter::scope('isbn', 'whereIsbnIs'),
             ])
-            ->allowedSorts(['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'isbn', 'publisher',  'released_on', 'created_at', 'updated_at'])
+            ->allowedSorts(['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'isbn', 'publisher', 'released_on', 'created_at', 'updated_at'])
             ->with($option->with)
             ->withCount('tags')
         ;

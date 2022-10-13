@@ -1,6 +1,5 @@
 <?php
 
-use App\Filament\Widgets\DocumentationAdminWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Http\Middleware\MirrorConfigToSubpackages;
@@ -142,8 +141,7 @@ return [
         'path' => app_path('Filament/Widgets'),
         'register' => [
             Widgets\AccountWidget::class,
-            // Widgets\FilamentInfoWidget::class,
-            DocumentationAdminWidget::class,
+            Widgets\FilamentInfoWidget::class,
         ],
     ],
 
@@ -311,7 +309,7 @@ return [
     | Middleware
     |--------------------------------------------------------------------------
     |
-    | You may customise the middleware stack that Filament uses to handle
+    | You may customize the middleware stack that Filament uses to handle
     | requests.
     |
     */

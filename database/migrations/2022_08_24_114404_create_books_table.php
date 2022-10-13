@@ -23,7 +23,7 @@ return new class() extends Migration {
             $table->integer('volume')->nullable();
             $table->integer('page_count')->nullable();
             $table->string('maturity_rating')->nullable();
-            $table->boolean('is_disabled')->default(0);
+            $table->boolean('is_hidden')->default(0);
             $table->string('type')->default('novel');
             $table->string('isbn10')->nullable();
             $table->string('isbn13')->nullable();

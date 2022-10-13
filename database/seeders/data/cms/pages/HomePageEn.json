@@ -1,190 +1,187 @@
 {
-  "title": "HomePage",
+  "title": "Home page",
   "slug": "homepage-en",
   "language": "en",
-  "builder": "home",
-  "meta_title": "HomePage",
+  "template": "home",
+  "meta_title": "Home page",
   "meta_description": "The home page",
   "content": [
     {
-      "data": {
-        "title": "APP_NAME",
-        "hang": "your online library...",
-        "media": "cms/hero.svg",
-        "text": "If you have an eReader and are looking for plenty of books to take everywhere with you, you've come to the right place, hours of reading in perspective.",
-        "display": true
-      },
-      "type": "hero"
-    },
-    {
-      "data": {
-        "display": true,
-        "eyebrow": "A quick tour of books count",
-        "title": "Lots of books for ever more insatiable readers",
-        "text": "More and more books for more and more reading, each day brings its own novelties (or almost). Don't hesitate to come back from time to time to discover the new books.",
-        "list": [
-          {
-            "label": "Books",
-            "model": "Book",
-            "modelWhere": null
-          },
-          {
-            "label": "Authors",
-            "model": "Author",
-            "modelWhere": null
-          },
-          {
-            "label": "Series",
-            "model": "Serie",
-            "modelWhere": null
-          },
-          {
-            "label": "Tags",
-            "model": "TagExtend",
-            "modelWhere": null
-          },
-          {
-            "label": "Publishers",
-            "model": "Publisher",
-            "modelWhere": null
-          },
-          {
-            "label": "Languages",
-            "model": "Language",
-            "modelWhere": null
-          }
-        ]
-      },
-      "type": "statistics"
-    },
-    {
-      "data": {
-        "display": true,
-        "title": "Special thanks to these softwares or websites because they help our work.",
-        "list": [
-          {
-            "label": "Calibre",
-            "slug": "calibre",
-            "link": "https://calibre-ebook.com",
-            "media": "cms/logo-calibre.webp"
-          },
-          {
-            "label": "Pandoc",
-            "slug": "pandoc",
-            "link": "https://pandoc.org",
-            "media": "cms/logo-pandoc.webp"
-          },
-          {
-            "label": "Team AlexandriZ",
-            "slug": "team-alexandriz",
-            "link": "https://twitter.com/teamalexandriz",
-            "media": "cms/logo-team-alexandriz.webp"
-          },
-          {
-            "label": "Kodoo",
-            "slug": "kodoo",
-            "link": "https://github.com/troyeguo/koodo-reader",
-            "media": "cms/logo-kodoo.webp"
-          },
-          {
-            "label": "Lulu",
-            "slug": "lulu",
-            "link": "https://www.lulu.com",
-            "media": "cms/logo-lulu.webp"
-          },
-          {
-            "label": "OPDS",
-            "slug": "opds",
-            "link": "https://opds.io",
-            "media": "cms/logo-opds.webp"
-          }
-        ]
-      },
-      "type": "logos"
-    },
-    {
-      "data": {
-        "display": true,
-        "title": "How to use Bookshelves",
-        "text": "Let Bookshelves guide you through hundreds of books and let yourself be tempted by vast universes directly accessible by your eReader.",
-        "list": [
-          {
-            "title": "Open formats",
-            "slug": "epub",
-            "text": "The available files are in open format, you can share and modify them.",
-            "media": "cms/feature-epub.svg"
-          },
-          {
-            "title": "Regardless of eReader",
-            "slug": "ereader",
-            "text": "Kobo, Bookeen, Vivlio or even Kindle (with Calibre), you can use books in EPUB format on many eReaders (for eBooks).",
-            "media": "cms/feature-ereader.svg"
-          },
-          {
-            "title": "Download & read",
-            "slug": "download",
-            "text": "Download a book and/or a serie of books add them to your eReader and start reading!",
-            "media": "cms/feature-download.svg"
-          },
-          {
-            "title": "Metadata",
-            "slug": "metadata",
-            "text": "All these informations that allows you to sort and find your books by author or series are integrated into each book.",
-            "media": "cms/feature-metadata.svg"
-          },
-          {
-            "title": "Multi languages",
-            "slug": "languages",
-            "text": "Books in several languages according to your preferences in order to reach a maximum number of readers.",
-            "media": "cms/feature-languages.svg"
-          },
-          {
-            "title": "OPDS, Catalog & Webreader",
-            "slug": "feed",
-            "text": "With OPDS feed, you can access content from any source, on any device and with Catalog you can download books from your eReader or read an eBook in your browser with Webreader.",
-            "media": "cms/feature-feed.svg"
-          }
-        ]
-      },
-      "type": "features"
-    },
-    {
-      "data": {
-        "display": true,
-        "list": [
-          {
-            "title": "Find the book that fits you!",
-            "slug": "books",
-            "text": "A selection of more than a hundred works, find the one that will strike a chord with your soul. And come back for ten more. Search by title, author or series then download all the books of an author or series if you wish!",
-            "media": "cms/highlight-books.svg",
-            "cta_text": "Discover all books",
-            "cta_link": "books",
-            "quote_text": "Maybe it's not quite legal but it's cool!",
-            "quote_author": "An enthusiastic reader"
-          },
-          {
-            "title": "Want to know your eReader?",
-            "slug": "guides",
-            "text": "Detailed guides are there to explain how to best manage your eReader but also to get to know the books better in order to modify them if you wish.",
-            "media": "cms/highlight-guides.svg",
-            "cta_text": "Discover guides",
-            "cta_link": "guides",
-            "quote_text": "The world of eReaders is so vast!",
-            "quote_author": "A novice user"
-          },
-          {
-            "title": "Features, read as you wish",
-            "slug": "features",
-            "text": "Features offer a lot of extra options to find and read books. You can download directly books from your eReader with Catalog or you can use OPDS (Open Publication Distribution System) feed to get all books on your favorite application. And if you want to read eBook directly in your browser with Webreader.",
-            "media": "cms/highlight-features.svg",
-            "cta_text": "Discover Features",
-            "cta_link": "features",
-            "quote_text": "I am only interested in OPDS feeds adapted to my eReader with Koreader OS.",
-            "quote_author": "A very experimented reader"
-          }
-        ]
-      },
-      "type": "highlights"
+      "hero": [
+        {
+          "title": "APP_NAME",
+          "hang": "your online library...",
+          "media": "cms/hero.svg",
+          "text": "If you have an eReader and are looking for plenty of books to take everywhere with you, you've come to the right place, hours of reading in perspective.",
+          "display": true
+        }
+      ],
+      "statistics": [
+        {
+          "display": true,
+          "eyebrow": "A quick tour of books count",
+          "title": "Lots of books for ever more insatiable readers",
+          "text": "More and more books for more and more reading, each day brings its own novelties (or almost). Don't hesitate to come back from time to time to discover the new books.",
+          "list": [
+            {
+              "label": "Books",
+              "model": "Book",
+              "modelWhere": null
+            },
+            {
+              "label": "Authors",
+              "model": "Author",
+              "modelWhere": null
+            },
+            {
+              "label": "Series",
+              "model": "Serie",
+              "modelWhere": null
+            },
+            {
+              "label": "Tags",
+              "model": "TagExtend",
+              "modelWhere": null
+            },
+            {
+              "label": "Publishers",
+              "model": "Publisher",
+              "modelWhere": null
+            },
+            {
+              "label": "Languages",
+              "model": "Language",
+              "modelWhere": null
+            }
+          ]
+        }
+      ],
+      "logos": [
+        {
+          "display": true,
+          "title": "Special thanks to these softwares or websites because they help our work.",
+          "list": [
+            {
+              "label": "Calibre",
+              "slug": "calibre",
+              "link": "https://calibre-ebook.com",
+              "media": "cms/logo-calibre.webp"
+            },
+            {
+              "label": "Pandoc",
+              "slug": "pandoc",
+              "link": "https://pandoc.org",
+              "media": "cms/logo-pandoc.webp"
+            },
+            {
+              "label": "Team AlexandriZ",
+              "slug": "team-alexandriz",
+              "link": "https://twitter.com/teamalexandriz",
+              "media": "cms/logo-team-alexandriz.webp"
+            },
+            {
+              "label": "Kodoo",
+              "slug": "kodoo",
+              "link": "https://github.com/troyeguo/koodo-reader",
+              "media": "cms/logo-kodoo.webp"
+            },
+            {
+              "label": "Lulu",
+              "slug": "lulu",
+              "link": "https://www.lulu.com",
+              "media": "cms/logo-lulu.webp"
+            },
+            {
+              "label": "OPDS",
+              "slug": "opds",
+              "link": "https://opds.io",
+              "media": "cms/logo-opds.webp"
+            }
+          ]
+        }
+      ],
+      "features": [
+        {
+          "display": true,
+          "title": "How to use Bookshelves",
+          "text": "Let Bookshelves guide you through hundreds of books and let yourself be tempted by vast universes directly accessible by your eReader.",
+          "list": [
+            {
+              "title": "Open formats",
+              "slug": "epub",
+              "text": "The available files are in open format, you can share and modify them.",
+              "media": "cms/feature-epub.svg"
+            },
+            {
+              "title": "Regardless of eReader",
+              "slug": "ereader",
+              "text": "Kobo, Bookeen, Vivlio or even Kindle (with Calibre), you can use books in EPUB format on many eReaders (for eBooks).",
+              "media": "cms/feature-ereader.svg"
+            },
+            {
+              "title": "Download & read",
+              "slug": "download",
+              "text": "Download a book and/or a serie of books add them to your eReader and start reading!",
+              "media": "cms/feature-download.svg"
+            },
+            {
+              "title": "Metadata",
+              "slug": "metadata",
+              "text": "All these informations that allows you to sort and find your books by author or series are integrated into each book.",
+              "media": "cms/feature-metadata.svg"
+            },
+            {
+              "title": "Multi languages",
+              "slug": "languages",
+              "text": "Books in several languages according to your preferences in order to reach a maximum number of readers.",
+              "media": "cms/feature-languages.svg"
+            },
+            {
+              "title": "OPDS, Catalog & Webreader",
+              "slug": "feed",
+              "text": "With OPDS feed, you can access content from any source, on any device and with Catalog you can download books from your eReader or read an eBook in your browser with Webreader.",
+              "media": "cms/feature-feed.svg"
+            }
+          ]
+        }
+      ],
+      "highlights": [
+        {
+          "display": true,
+          "list": [
+            {
+              "title": "Find the book that fits you!",
+              "slug": "books",
+              "text": "A selection of more than a hundred works, find the one that will strike a chord with your soul. And come back for ten more. Search by title, author or series then download all the books of an author or series if you wish!",
+              "media": "cms/highlight-books.svg",
+              "cta_text": "Discover all books",
+              "cta_link": "books",
+              "quote_text": "Maybe it's not quite legal but it's cool!",
+              "quote_author": "An enthusiastic reader"
+            },
+            {
+              "title": "Want to know your eReader?",
+              "slug": "guides",
+              "text": "Detailed guides are there to explain how to best manage your eReader but also to get to know the books better in order to modify them if you wish.",
+              "media": "cms/highlight-guides.svg",
+              "cta_text": "Discover guides",
+              "cta_link": "guides",
+              "quote_text": "The world of eReaders is so vast!",
+              "quote_author": "A novice user"
+            },
+            {
+              "title": "Features, read as you wish",
+              "slug": "features",
+              "text": "Features offer a lot of extra options to find and read books. You can download directly books from your eReader with Catalog or you can use OPDS (Open Publication Distribution System) feed to get all books on your favorite application. And if you want to read eBook directly in your browser with Webreader.",
+              "media": "cms/highlight-features.svg",
+              "cta_text": "Discover Features",
+              "cta_link": "features",
+              "quote_text": "I am only interested in OPDS feeds adapted to my eReader with Koreader OS.",
+              "quote_author": "A very experimented reader"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

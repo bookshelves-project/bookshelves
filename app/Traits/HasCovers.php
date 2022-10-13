@@ -63,6 +63,11 @@ trait HasCovers
         return $this->getMedia(MediaDiskEnum::cover->value)->first() ?? null;
     }
 
+    public function getCoverFilamentAttribute(): string|null
+    {
+        return $this->getCover('thumbnail');
+    }
+
     /**
      * Get cover thumbnail with `spatie/laravel-medialibrary`
      * With config/bookshelves define format.
