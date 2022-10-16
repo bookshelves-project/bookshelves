@@ -13,9 +13,9 @@ return new class() extends Migration {
         Schema::create('series', function (Blueprint $table) {
             $table->id();
 
-            $table->string('title')->nullable();
+            $table->string('title');
             $table->string('slug_sort')->nullable();
-            $table->string('slug')->unique()->index()->nullable();
+            $table->string('slug')->unique()->index();
             $table->string('type')->default('novel');
             $table->text('description')->nullable();
             $table->string('link')->nullable();

@@ -15,7 +15,7 @@ return new class() extends Migration {
 
             $table->string('title');
             $table->string('slug_sort')->nullable();
-            $table->string('slug')->unique()->index()->nullable();
+            $table->string('slug')->unique()->index();
             $table->string('contributor')->nullable();
             $table->text('description')->nullable();
             $table->dateTime('released_on')->nullable();

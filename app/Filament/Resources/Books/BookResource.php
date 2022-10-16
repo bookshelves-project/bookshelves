@@ -5,15 +5,14 @@ namespace App\Filament\Resources\Books;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Filament\Resources\Books\BookResource\Pages;
-use App\Forms\Components\SpatieMediaView;
 use App\Models\Book;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Kiwilan\Steward\Filament\StwFormConfig;
-use Kiwilan\Steward\Filament\StwLayoutConfig;
+use Kiwilan\Steward\Filament\Config\FilamentForm;
+use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class BookResource extends Resource
 {
@@ -34,9 +33,9 @@ class BookResource extends Resource
         //     ])
         // ;
 
-        return StwLayoutConfig::container([
-            StwLayoutConfig::column(
-                [
+        return FilamentLayout::make($form)
+            ->schema([
+                FilamentLayout::column([[
                     Forms\Components\TextInput::make('title')
                         ->label('Title'),
                     Forms\Components\Select::make('language')
@@ -54,95 +53,94 @@ class BookResource extends Resource
                         ->type('number')
                         ->label('Volume'),
                 ],
-                [
-                    Forms\Components\SpatieTagsInput::make('tags')
-                        ->type('tag')
-                        ->label('Tags')
-                        ->columnSpan(2),
-                    Forms\Components\SpatieTagsInput::make('tags_genre')
-                        ->type('genre')
-                        ->label('Genre')
-                        ->columnSpan(2),
-                ],
-                [
-                    Forms\Components\RichEditor::make('description')
-                        ->toolbarButtons([
-                            'bold',
-                            'italic',
-                            'redo',
-                            'strike',
-                            'undo',
-                        ])
-                        ->label('Description')
-                        ->columnSpan(2),
-                    Forms\Components\TextInput::make('isbn10')
-                        ->label('ISBN 10'),
-                    Forms\Components\TextInput::make('isbn13')
-                        ->helperText('ISBN 13 will be show instead of ISBN 10 if exists.')
-                        ->label('ISBN 13'),
-                    Forms\Components\KeyValue::make('identifiers')
-                        ->keyPlaceholder('Name')
-                        ->valuePlaceholder('Value')
-                        ->columnSpan(2),
-                    Forms\Components\TextInput::make('contributor')
-                        ->label('Contributor'),
-                    Forms\Components\TextInput::make('rights')
-                        ->label('Rights'),
-                ]
-            ),
-            StwLayoutConfig::column(
-                [
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
-                        ->collection('cover')
-                        ->label('Cover'),
-                    Forms\Components\TextInput::make('slug')
-                        ->label('Metalink'),
-                    Forms\Components\TextInput::make('slug_sort')
-                        ->label('Sort by')
-                        ->disabled(),
-                    Forms\Components\Select::make('type')
-                        ->label('Type')
-                        ->options(BookTypeEnum::toList())
-                        ->default(BookTypeEnum::novel->value),
-                    Forms\Components\Toggle::make('is_hidden')
-                        ->label('Disabled')
-                        ->helperText('Prevent this book from being displayed in the public catalog.'),
-                ],
-                [
-                    Forms\Components\Select::make('publisher')
-                        ->label('Publisher')
-                        ->relationship('publisher', 'name'),
-                    Forms\Components\DatePicker::make('released_on')
-                        ->label('Released on'),
-                    Forms\Components\TextInput::make('page_count')
-                        ->type('number')
-                        ->label('Page count'),
-                    Forms\Components\TextInput::make('maturity_rating')
-                        ->label('Rating'),
-                    StwFormConfig::getTimestamps(),
-                ],
-                [
-                    Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::epub->value)
-                        ->collection(BookFormatEnum::epub->value)
-                        ->label('EPUB'),
-                    // SpatieMediaView::make(BookFormatEnum::epub->value)
-                    //     ->path('formats')
-                    //     ->type(BookFormatEnum::epub->value)
-                    //     ->label(''),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::cbr->value)
-                        ->collection(BookFormatEnum::cbr->value)
-                        ->directory('formats')
-                        ->label('CBR'),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::cbz->value)
-                        ->collection(BookFormatEnum::cbz->value)
-                        ->label('CBZ'),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::pdf->value)
-                        ->collection(BookFormatEnum::pdf->value)
-                        ->label('PDF'),
-                ],
-                width: 1
-            ),
-        ], $form);
+                    [
+                        Forms\Components\SpatieTagsInput::make('tags')
+                            ->type('tag')
+                            ->label('Tags')
+                            ->columnSpan(2),
+                        Forms\Components\SpatieTagsInput::make('tags_genre')
+                            ->type('genre')
+                            ->label('Genre')
+                            ->columnSpan(2),
+                    ],
+                    [
+                        Forms\Components\RichEditor::make('description')
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'redo',
+                                'strike',
+                                'undo',
+                            ])
+                            ->label('Description')
+                            ->columnSpan(2),
+                        Forms\Components\TextInput::make('isbn10')
+                            ->label('ISBN 10'),
+                        Forms\Components\TextInput::make('isbn13')
+                            ->helperText('ISBN 13 will be show instead of ISBN 10 if exists.')
+                            ->label('ISBN 13'),
+                        Forms\Components\KeyValue::make('identifiers')
+                            ->keyPlaceholder('Name')
+                            ->valuePlaceholder('Value')
+                            ->columnSpan(2),
+                        Forms\Components\TextInput::make('contributor')
+                            ->label('Contributor'),
+                        Forms\Components\TextInput::make('rights')
+                            ->label('Rights'),
+                    ],
+                ])->get(),
+                FilamentLayout::column([
+                    [
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
+                            ->collection('cover')
+                            ->label('Cover'),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('Metalink'),
+                        Forms\Components\TextInput::make('slug_sort')
+                            ->label('Sort by')
+                            ->disabled(),
+                        Forms\Components\Select::make('type')
+                            ->label('Type')
+                            ->options(BookTypeEnum::toList())
+                            ->default(BookTypeEnum::novel->value),
+                        Forms\Components\Toggle::make('is_hidden')
+                            ->label('Hidden')
+                            ->helperText('Prevent this book from being displayed in the public catalog.'),
+                    ],
+                    [
+                        Forms\Components\Select::make('publisher')
+                            ->label('Publisher')
+                            ->relationship('publisher', 'name'),
+                        Forms\Components\DatePicker::make('released_on')
+                            ->label('Released on'),
+                        Forms\Components\TextInput::make('page_count')
+                            ->type('number')
+                            ->label('Page count'),
+                        Forms\Components\TextInput::make('maturity_rating')
+                            ->label('Rating'),
+                        FilamentForm::getTimestamps(),
+                    ],
+                    [
+                        Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::epub->value)
+                            ->collection(BookFormatEnum::epub->value)
+                            ->label('EPUB'),
+                        // SpatieMediaView::make(BookFormatEnum::epub->value)
+                        //     ->path('formats')
+                        //     ->type(BookFormatEnum::epub->value)
+                        //     ->label(''),
+                        Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::cbr->value)
+                            ->collection(BookFormatEnum::cbr->value)
+                            ->directory('formats')
+                            ->label('CBR'),
+                        Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::cbz->value)
+                            ->collection(BookFormatEnum::cbz->value)
+                            ->label('CBZ'),
+                        Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::pdf->value)
+                            ->collection(BookFormatEnum::pdf->value)
+                            ->label('PDF'),
+                    ],
+                ])->width(1)->get(),
+            ])->get();
     }
 
     public static function table(Table $table): Table
@@ -201,7 +199,7 @@ class BookResource extends Resource
                     ->toggledHiddenByDefault(),
                 Tables\Columns\IconColumn::make('is_hidden')
                     ->boolean()
-                    ->label('Disabled')
+                    ->label('Hidden')
                     ->trueColor('danger')
                     ->falseColor('success')
                     ->trueIcon('heroicon-o-badge-check')
@@ -221,7 +219,7 @@ class BookResource extends Resource
                     ->toggledHiddenByDefault(),
             ])
             ->filters([
-                StwFormConfig::getDateFilter('released_on'),
+                FilamentForm::getDateFilter('released_on'),
                 Tables\Filters\SelectFilter::make('type')
                     ->label('Type')
                     ->options(BookTypeEnum::toList()),

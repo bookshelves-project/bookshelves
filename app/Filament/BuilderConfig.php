@@ -3,17 +3,17 @@
 namespace App\Filament;
 
 use Filament\Forms;
-use Kiwilan\Steward\Filament\StwBuilderConfig;
-use Kiwilan\Steward\Filament\StwLayoutConfig;
+use Kiwilan\Steward\Filament\Config\FilamentBuilder;
+use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class BuilderConfig
 {
     public static function wordpress()
     {
-        return StwLayoutConfig::card([
-            StwBuilderConfig::container([
-                StwBuilderConfig::block([
-                    StwBuilderConfig::display(),
+        return FilamentLayout::card([
+            FilamentBuilder::container([
+                FilamentBuilder::block([
+                    FilamentBuilder::display(),
                     Forms\Components\TextInput::make('title')
                         ->label('Title')
                         ->columnSpan(1),

@@ -13,10 +13,10 @@ return new class() extends Migration {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
 
-            $table->string('slug')->unique()->index()->nullable();
+            $table->string('slug')->unique()->index();
             $table->string('lastname')->nullable();
             $table->string('firstname')->nullable();
-            $table->string('name')->nullable();
+            $table->string('name');
             $table->string('role')->nullable();
             $table->text('description')->nullable();
             $table->string('link')->nullable();

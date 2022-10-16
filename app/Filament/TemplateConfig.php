@@ -3,29 +3,14 @@
 namespace App\Filament;
 
 use Filament\Forms;
-use Kiwilan\Steward\Filament\StwBuilderConfig;
+use Kiwilan\Steward\Filament\Config\FilamentTemplate;
 
 class TemplateConfig
 {
-    public static function block(array $content = [], string $make = 'block', string $label = 'Block')
-    {
-        return Forms\Components\Repeater::make($make)
-            ->schema([
-                StwBuilderConfig::display(),
-                ...$content,
-            ])
-            ->disableItemMovement()
-            ->maxItems(1)
-            ->columnSpan(2)
-            ->label($label)
-            ->createItemButtonLabel("Add {$label}")
-        ;
-    }
-
     public static function home()
     {
         return [
-            TemplateConfig::block([
+            FilamentTemplate::block([
                 Forms\Components\TextInput::make('title')
                     ->label('Title')
                     ->columnSpan(1),
@@ -39,7 +24,7 @@ class TemplateConfig
                     ->label('Media')
                     ->columnSpan(2),
             ], 'hero', 'Hero'),
-            TemplateConfig::block([
+            FilamentTemplate::block([
                 Forms\Components\TextInput::make('eyebrow')
                     ->label('Eyebrow')
                     ->columnSpan(2),
@@ -68,7 +53,7 @@ class TemplateConfig
                     ->collapsible()
                     ->collapsed(),
             ], 'statistics', 'Statistics'),
-            TemplateConfig::block([
+            FilamentTemplate::block([
                 Forms\Components\TextInput::make('title')
                     ->label('title'),
                 Forms\Components\Repeater::make('list')
@@ -94,7 +79,7 @@ class TemplateConfig
                     ->collapsible()
                     ->collapsed(),
             ], 'logos', 'Logos'),
-            TemplateConfig::block([
+            FilamentTemplate::block([
                 Forms\Components\TextInput::make('title')
                     ->label('title')
                     ->columnSpan(2),
@@ -123,7 +108,7 @@ class TemplateConfig
                     ->collapsible()
                     ->collapsed(),
             ], 'features', 'Features'),
-            TemplateConfig::block([
+            FilamentTemplate::block([
                 Forms\Components\Repeater::make('list')
                     ->label('List')
                     ->schema([
@@ -178,7 +163,7 @@ class TemplateConfig
     public static function about()
     {
         return [
-            TemplateConfig::block([
+            FilamentTemplate::block([
                 Forms\Components\TextInput::make('title')
                     ->label('Title')
                     ->columnSpan(1),

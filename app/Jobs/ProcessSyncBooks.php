@@ -38,20 +38,20 @@ class ProcessSyncBooks implements ShouldQueue
      */
     public function handle()
     {
-        Log::info('SyncBooksProcess: start');
+        Log::info('ProcessSyncBooks: start');
 
         if ($this->fresh) {
             File::deleteDirectory(public_path('storage/covers'));
             File::deleteDirectory(public_path('storage/formats'));
         }
 
-        Log::debug('SyncBooksProcess: make');
+        Log::debug('ProcessSyncBooks: make');
         Artisan::call('bookshelves:make', [
             '--fresh' => $this->fresh,
             '--force' => true,
         ]);
 
-        Log::debug('SyncBooksProcess: api');
+        Log::debug('ProcessSyncBooks: api');
         Artisan::call('bookshelves:api', [
             '--books' => true,
             '--authors' => true,
@@ -60,7 +60,7 @@ class ProcessSyncBooks implements ShouldQueue
             '--force' => true,
         ]);
 
-        Log::info('SyncBooksProcess: end');
+        Log::info('ProcessSyncBooks: success');
 
         if ($this->recipient) {
             Notification::make()
@@ -78,7 +78,7 @@ class ProcessSyncBooks implements ShouldQueue
      */
     public function failed(Throwable $exception)
     {
-        Log::error('SyncBooksProcess: failed', [
+        Log::error('ProcessSyncBooks: failed', [
             'exception' => $exception,
         ]);
 

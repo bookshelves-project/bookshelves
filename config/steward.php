@@ -14,6 +14,10 @@ return [
         'models' => [
             \App\Models\Post::class,
         ],
+        // Default enum used for `status` field, available options `draft`, `scheduled`, `published`
+        'enum' => \Kiwilan\Steward\Enums\PublishStatusEnum::class,
+        'enum_published' => 'published',
+        'enum_draft' => 'draft',
     ],
 
     /*

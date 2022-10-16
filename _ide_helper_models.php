@@ -15,10 +15,10 @@ namespace App\Models{
  * App\Models\Author
  *
  * @property int $id
- * @property string|null $slug
+ * @property string $slug
  * @property string|null $lastname
  * @property string|null $firstname
- * @property string|null $name
+ * @property string $name
  * @property \App\Enums\AuthorRoleEnum|null $role
  * @property string|null $description
  * @property string|null $link
@@ -96,7 +96,7 @@ namespace App\Models{
  * @property int $id
  * @property string $title
  * @property string|null $slug_sort
- * @property string|null $slug
+ * @property string $slug
  * @property string|null $contributor
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $released_on
@@ -369,7 +369,7 @@ namespace App\Models{
  * @method static \Database\Factories\PostFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post published()
+ * @method static \Illuminate\Database\Eloquent\Builder|Post published(string $direction = 'desc')
  * @method static \Illuminate\Database\Eloquent\Builder|Post query()
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereAuthorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereBody($value)
@@ -483,9 +483,9 @@ namespace App\Models{
  * App\Models\Serie
  *
  * @property int $id
- * @property string|null $title
+ * @property string $title
  * @property string|null $slug_sort
- * @property string|null $slug
+ * @property string $slug
  * @property string|null $language_slug
  * @property \App\Enums\BookTypeEnum $type
  * @property string|null $description

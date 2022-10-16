@@ -13,7 +13,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Kiwilan\Steward\Filament\StwLayoutConfig;
+use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class AuthorResource extends Resource
 {
@@ -27,38 +27,41 @@ class AuthorResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return StwLayoutConfig::container([
-            StwLayoutConfig::column(
-                [
-                    Forms\Components\TextInput::make('lastname')
-                        ->label('Lastname'),
-                    Forms\Components\TextInput::make('firstname')
-                        ->label('Firstname'),
-                    Forms\Components\TextInput::make('name')
-                        ->disabled()
-                        ->label('Name'),
-                ],
-                [
-                    Forms\Components\TextInput::make('link')
-                        ->label('Link')
-                        ->columnSpan(2),
-                    Forms\Components\Textarea::make('note')
-                        ->label('Note')
-                        ->columnSpan(2),
-                ]
-            ),
-            StwLayoutConfig::column(
-                [
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
-                        ->collection('cover')
-                        ->label('Cover'),
-                    Forms\Components\Select::make('role')
-                        ->label('Role')
-                        ->options(AuthorRoleEnum::toList())
-                        ->default(AuthorRoleEnum::aut->value),
-                ]
-            ),
-        ], $form);
+        return FilamentLayout::make($form)
+            ->schema([
+                FilamentLayout::column([
+                    [
+                        Forms\Components\TextInput::make('lastname')
+                            ->label('Lastname'),
+                        Forms\Components\TextInput::make('firstname')
+                            ->label('Firstname'),
+                        Forms\Components\TextInput::make('name')
+                            ->disabled()
+                            ->label('Name'),
+                    ],
+                    [
+                        Forms\Components\TextInput::make('link')
+                            ->label('Link')
+                            ->columnSpan(2),
+                        Forms\Components\Textarea::make('note')
+                            ->label('Note')
+                            ->columnSpan(2),
+                    ],
+                ])->get(),
+                FilamentLayout::column([
+                    [
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
+                            ->collection('cover')
+                            ->label('Cover'),
+                        Forms\Components\Select::make('role')
+                            ->label('Role')
+                            ->options(AuthorRoleEnum::toList())
+                            ->default(AuthorRoleEnum::aut->value),
+                    ],
+                ])->width(1)->get(),
+            ])
+            ->get()
+        ;
     }
 
     public static function table(Table $table): Table

@@ -13,8 +13,8 @@ class CreatePublishersTable extends Migration
     {
         Schema::create('publishers', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->unique()->index()->nullable();
-            $table->string('name')->nullable();
+            $table->string('slug')->unique()->index();
+            $table->string('name');
         });
 
         Schema::table('books', function (Blueprint $table) {

@@ -12,8 +12,8 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Kiwilan\Steward\Filament\StwFormConfig;
-use Kiwilan\Steward\Filament\StwLayoutConfig;
+use Kiwilan\Steward\Filament\Config\FilamentForm;
+use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class SerieResource extends Resource
 {
@@ -29,58 +29,58 @@ class SerieResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return StwLayoutConfig::container([
-            StwLayoutConfig::column(
-                [
-                    Forms\Components\TextInput::make('title')
-                        ->label('Title'),
-                    Forms\Components\Select::make('language')
-                        ->relationship('language', 'name')
-                        ->label('Language'),
-                    Forms\Components\Select::make('authors')
-                        ->multiple()
-                        ->relationship('authors', 'name')
-                        ->label('Authors')
-                        ->columnSpan(2),
-                ],
-                [
-                    Forms\Components\SpatieTagsInput::make('tags')
-                        ->type('tag')
-                        ->label('Tags')
-                        ->columnSpan(2),
-                    Forms\Components\SpatieTagsInput::make('tags_genre')
-                        ->type('genre')
-                        ->label('Genre')
-                        ->columnSpan(2),
-                ],
-                [
-                    Forms\Components\RichEditor::make('description')
-                        ->label('Description')
-                        ->columnSpan(2),
-                    Forms\Components\TextInput::make('link')
-                        ->label('Link')
-                        ->columnSpan(2),
-                ]
-            ),
-            StwLayoutConfig::column(
-                [
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
-                        ->collection('cover')
-                        ->label('Cover'),
-                    Forms\Components\TextInput::make('slug')
-                        ->label('Metalink'),
-                    Forms\Components\TextInput::make('slug_sort')
-                        ->label('Sort by')
-                        ->disabled(),
-                    Forms\Components\Select::make('type')
-                        ->label('Type')
-                        ->options(BookTypeEnum::toList())
-                        ->default(BookTypeEnum::novel->value),
-                    StwFormConfig::getTimestamps(),
-                ],
-                width: 1
-            ),
-        ], $form);
+        return FilamentLayout::make($form)
+            ->schema([
+                FilamentLayout::column([
+                    [
+                        Forms\Components\TextInput::make('title')
+                            ->label('Title'),
+                        Forms\Components\Select::make('language')
+                            ->relationship('language', 'name')
+                            ->label('Language'),
+                        Forms\Components\Select::make('authors')
+                            ->multiple()
+                            ->relationship('authors', 'name')
+                            ->label('Authors')
+                            ->columnSpan(2),
+                    ],
+                    [
+                        Forms\Components\SpatieTagsInput::make('tags')
+                            ->type('tag')
+                            ->label('Tags')
+                            ->columnSpan(2),
+                        Forms\Components\SpatieTagsInput::make('tags_genre')
+                            ->type('genre')
+                            ->label('Genre')
+                            ->columnSpan(2),
+                    ],
+                    [
+                        Forms\Components\RichEditor::make('description')
+                            ->label('Description')
+                            ->columnSpan(2),
+                        Forms\Components\TextInput::make('link')
+                            ->label('Link')
+                            ->columnSpan(2),
+                    ],
+                ])->get(),
+                FilamentLayout::column([
+                    [
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
+                            ->collection('cover')
+                            ->label('Cover'),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('Metalink'),
+                        Forms\Components\TextInput::make('slug_sort')
+                            ->label('Sort by')
+                            ->disabled(),
+                        Forms\Components\Select::make('type')
+                            ->label('Type')
+                            ->options(BookTypeEnum::toList())
+                            ->default(BookTypeEnum::novel->value),
+                        FilamentForm::getTimestamps(),
+                    ],
+                ])->width(1)->get(),
+            ])->get();
     }
 
     public static function table(Table $table): Table

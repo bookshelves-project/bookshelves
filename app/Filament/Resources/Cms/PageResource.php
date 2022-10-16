@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Cms;
 
-use App\Enums\BuilderEnum;
 use App\Enums\TemplateEnum;
 use App\Filament\Resources\Cms\PageResource\Pages;
 use App\Filament\TemplateConfig;
@@ -14,14 +13,14 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Kiwilan\Steward\Enums\LanguageEnum;
-use Kiwilan\Steward\Filament\StwFormConfig;
-use Kiwilan\Steward\Filament\StwLayoutConfig;
+use Kiwilan\Steward\Filament\Config\FilamentForm;
+use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class PageResource extends Resource
 {
     protected static ?string $model = Page::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?string $modelLabel = 'Page';
 
@@ -31,47 +30,45 @@ class PageResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return StwLayoutConfig::container([
-            StwLayoutConfig::column(
-                [
-                    StwFormConfig::getName('title'),
-                    Forms\Components\TextInput::make('slug')
-                        ->label('Metalink'),
-                    // TemplateConfig::home(),
-                    Forms\Components\Repeater::make('content')
-                        ->schema(function (Closure $get) {
-                            $method = $get('template');
-                            return TemplateConfig::{$method}();
-                        })
-                        ->label('Content')
-                        ->columns(1)
-                        ->maxItems(1)
-                        ->orderable(fn () => false)
-                        ->columnSpan(2),
-                ],
-            ),
-            StwLayoutConfig::column(
-                [
-                    Forms\Components\Select::make('language')
-                        ->options(LanguageEnum::toArray())
-                        ->label('Language'),
-                    // Forms\Components\Select::make('builder')
-                    //     ->options(BuilderEnum::toArray())
-                    //     ->label('Builder'),
-                    Forms\Components\Select::make('template')
-                        ->options(TemplateEnum::toArray())
-                        ->label('Template')
-                        ->helperText('Select template type.')
-                        ->default(TemplateEnum::about->value)
-                        ->required()
-                        ->reactive()
-                        ->afterStateUpdated(function (Closure $set) {
-                            $set('content', []);
-                        }),
-                ],
-                width: 1
-            ),
-        ], $form);
+        return FilamentLayout::make($form)
+            ->width(2)
+            ->schema([
+                FilamentLayout::column([
+                    [
+                        FilamentForm::getName('title'),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('Metalink'),
+                        Forms\Components\Select::make('language')
+                            ->options(LanguageEnum::toArray())
+                            ->label('Language')
+                            ->columns(1),
+                        Forms\Components\Select::make('template')
+                            ->options(TemplateEnum::toArray())
+                            ->label('Template')
+                            ->helperText('Select template type.')
+                            ->default(TemplateEnum::about->value)
+                            ->required()
+                            ->reactive()
+                            ->afterStateUpdated(function (Closure $set) {
+                                $set('content', []);
+                            })
+                            ->columns(1),
+                    ],
+                    [
+                        Forms\Components\Repeater::make('content')
+                            ->schema(function (Closure $get) {
+                                $method = $get('template');
+                                return TemplateConfig::{$method}();
+                            })
+                            ->label('Content')
+                            ->maxItems(1)
+                            ->orderable(fn () => false)
+                            ->columnSpan(2),
+                    ],
+                ])->titles(['Meta'])->get(),
+            ])
+            ->get()
+        ;
     }
 
     public static function table(Table $table): Table

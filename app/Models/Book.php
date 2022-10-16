@@ -181,13 +181,15 @@ class Book extends Model implements HasMedia, GoogleBookable
         if (! $this->publisher) {
             $publisher_slug = Str::slug($google_book->publisher, '-');
             $publisher = Publisher::whereSlug($publisher_slug)->first();
-            if (! $publisher) {
+            if (! $publisher && $google_book->publisher) {
                 $publisher = Publisher::firstOrCreate([
                     'name' => $google_book->publisher,
                     'slug' => $publisher_slug,
                 ]);
             }
-            $this->publisher()->associate($publisher);
+            if ($publisher) {
+                $this->publisher()->associate($publisher);
+            }
         }
 
         // Set tags
