@@ -4,8 +4,10 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "type": "npm",
-      "script": "install",
+      "label": "composer install",
+      "type": "shell",
+      "command": "composer i",
+      "problemMatcher": []
     },
     {
       "label": "Helper",
@@ -41,6 +43,12 @@
       "label": "Routes",
       "type": "shell",
       "command": "php artisan route:list",
+      "problemMatcher": []
+    },
+    {
+      "label": "PNPM install",
+      "type": "shell",
+      "command": "pnpm i",
       "problemMatcher": []
     },
     {
