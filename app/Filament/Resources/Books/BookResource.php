@@ -118,7 +118,7 @@ class BookResource extends Resource
                             ->label('Page count'),
                         Forms\Components\TextInput::make('maturity_rating')
                             ->label('Rating'),
-                        FilamentForm::getTimestamps(),
+                        FilamentForm::meta(),
                     ],
                     [
                         Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::epub->value)
@@ -219,7 +219,7 @@ class BookResource extends Resource
                     ->toggledHiddenByDefault(),
             ])
             ->filters([
-                FilamentForm::getDateFilter('released_on'),
+                FilamentForm::dateFilter('released_on'),
                 Tables\Filters\SelectFilter::make('type')
                     ->label('Type')
                     ->options(BookTypeEnum::toList()),

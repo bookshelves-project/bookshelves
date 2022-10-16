@@ -77,7 +77,7 @@ class SerieResource extends Resource
                             ->label('Type')
                             ->options(BookTypeEnum::toList())
                             ->default(BookTypeEnum::novel->value),
-                        FilamentForm::getTimestamps(),
+                        FilamentForm::meta(),
                     ],
                 ])->width(1)->get(),
             ])->get();

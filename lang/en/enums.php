@@ -9,7 +9,7 @@ return [
         'handbook' => 'Handbook',
         'novel' => 'Novel',
     ],
-    'cms-post-category' => [
+    'post_category' => [
         'calibre' => 'Calibre',
         'ereader' => 'eReader',
     ],
@@ -21,7 +21,7 @@ return [
         'calibre' => 'Calibre',
         'ereader' => 'eReader',
     ],
-    'publish-status' => [
+    'publish_status' => [
         'draft' => 'Draft',
         'scheduled' => 'Scheduled',
         'published' => 'Published',

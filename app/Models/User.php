@@ -9,6 +9,7 @@ use App\Enums\UserRole;
 use App\Traits\HasAvatar;
 use App\Traits\HasUsername;
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -65,18 +66,26 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         return $this->is_editor || $this->is_admin || $this->is_super_admin && ! $this->is_blocked;
     }
 
+    public function scopeWhereHasBackEndAccess(Builder $query): Builder
+    {
+        return $query->where('role', '=', UserRole::editor)
+            ->orWhere('role', '=', UserRole::admin)
+            ->orWhere('role', '=', UserRole::super_admin)
+        ;
+    }
+
     protected function getIsEditorAttribute(): bool
     {
-        return $this->role->value === UserRole::editor->value;
+        return UserRole::editor === $this->role;
     }
 
     protected function getIsAdminAttribute(): bool
     {
-        return $this->role->value === UserRole::admin->value;
+        return UserRole::admin === $this->role;
     }
 
     protected function getIsSuperAdminAttribute(): bool
     {
-        return $this->role->value === UserRole::super_admin->value;
+        return UserRole::super_admin === $this->role;
     }
 }

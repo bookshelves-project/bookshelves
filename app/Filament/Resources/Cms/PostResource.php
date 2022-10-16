@@ -5,12 +5,15 @@ namespace App\Filament\Resources\Cms;
 use App\Enums\PostCategoryEnum;
 use App\Filament\Resources\Cms\PostResource\Pages;
 use App\Models\Post;
+use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Steward\Enums\PublishStatusEnum;
 use Kiwilan\Steward\Filament\Config\FilamentForm;
+use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class PostResource extends Resource
 {
@@ -26,10 +29,47 @@ class PostResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
+        return FilamentLayout::make($form)
             ->schema([
-                //
+                FilamentLayout::column([
+                    [
+                        Forms\Components\TextInput::make('title'),
+                        Forms\Components\Select::make('category')
+                            ->options(PostCategoryEnum::toArray())
+                            ->default(PostCategoryEnum::ereader->value),
+                        Forms\Components\Select::make('status')
+                            ->options(PublishStatusEnum::toArray())
+                            ->default(PublishStatusEnum::draft->value),
+                        Forms\Components\DatePicker::make('published_at')
+                            ->default(now()),
+                        Forms\Components\Select::make('author')
+                            ->relationship(
+                                'author',
+                                'name',
+                                fn (Builder $query) => $query->whereHasBackEndAccess()
+                            )
+                            ->label('Author'),
+                        Forms\Components\Textarea::make('summary')
+                            ->columnSpan(2),
+                    ],
+                    [
+                        Forms\Components\RichEditor::make('body')
+                            ->columnSpan(2),
+                    ],
+                ])->get(),
+                FilamentLayout::column([
+                    [
+                        Forms\Components\FileUpload::make('picture'),
+                        Forms\Components\Toggle::make('is_pinned')
+                            ->label('Pinned'),
+                    ],
+                    [
+                        FilamentForm::seo(),
+                        FilamentForm::meta(),
+                    ],
+                ])->width(1)->get(),
             ])
+            ->get()
         ;
     }
 
@@ -68,7 +108,7 @@ class PostResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                FilamentForm::getDateFilter('published_at'),
+                FilamentForm::dateFilter('published_at'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
