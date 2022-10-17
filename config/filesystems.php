@@ -64,6 +64,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'post' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/media/posts'),
+            'url' => env('APP_URL').'/storage/media/posts',
+            'visibility' => 'public',
+        ],
+
         'user' => [
             'driver' => 'local',
             'root' => storage_path('app/public/media/users'),

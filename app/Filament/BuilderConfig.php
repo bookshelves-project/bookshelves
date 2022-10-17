@@ -4,6 +4,7 @@ namespace App\Filament;
 
 use Filament\Forms;
 use Kiwilan\Steward\Filament\Config\FilamentBuilder;
+use Kiwilan\Steward\Filament\Config\FilamentForm;
 use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class BuilderConfig
@@ -13,7 +14,7 @@ class BuilderConfig
         return FilamentLayout::card([
             FilamentBuilder::container([
                 FilamentBuilder::block([
-                    FilamentBuilder::display(),
+                    FilamentForm::display(),
                     Forms\Components\TextInput::make('title')
                         ->label('Title')
                         ->columnSpan(1),

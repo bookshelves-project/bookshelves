@@ -12,6 +12,8 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Steward\Enums\PublishStatusEnum;
+use Kiwilan\Steward\Filament\Config\FilamentBuilder;
+use Kiwilan\Steward\Filament\Config\FilamentBuilder\Modules\WordpressBuilder;
 use Kiwilan\Steward\Filament\Config\FilamentForm;
 use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
@@ -53,8 +55,9 @@ class PostResource extends Resource
                             ->columnSpan(2),
                     ],
                     [
-                        Forms\Components\RichEditor::make('body')
-                            ->columnSpan(2),
+                        // Forms\Components\RichEditor::make('body')
+                        //     ->columnSpan(2),
+                        FilamentBuilder::make(WordpressBuilder::class)->get(),
                     ],
                 ])->get(),
                 FilamentLayout::column([

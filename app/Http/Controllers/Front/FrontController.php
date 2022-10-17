@@ -46,4 +46,12 @@ class FrontController extends Controller
 
         return view('front::pages.webreader');
     }
+
+    #[Get('/features/builder', name: 'builder')]
+    public function builder()
+    {
+        SEOTools::setTitle('Builder');
+
+        return view('front::pages.builder');
+    }
 }
