@@ -130,6 +130,10 @@
     "test:watch": [
       "Composer\\Config::disableProcessTimeout",
       "phpunit-watcher watch < /dev/tty"
+    ],
+    "queue": [
+      "Composer\\Config::disableProcessTimeout",
+      "php artisan queue:listen"
     ]
   },
   "extra": {
