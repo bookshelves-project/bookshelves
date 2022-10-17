@@ -27,7 +27,7 @@ class BuilderConfig
                     Forms\Components\FileUpload::make('media')
                         ->label('Media')
                         ->columnSpan(2),
-                ], 'hero'),
+                ])->name('hero'),
             ]),
         ]);
     }
