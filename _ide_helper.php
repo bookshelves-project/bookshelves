@@ -21453,6 +21453,105 @@
      
 }
 
+    namespace Spatie\MediaLibrary\MediaCollections\Models\Collections { 
+            /**
+     * 
+     *
+     * @template TKey of array-key
+     * @template TModel of \Spatie\MediaLibrary\MediaCollections\Models\Media
+     * @extends \Illuminate\Database\Eloquent\Collection<TKey, TModel>
+     */ 
+        class MediaCollection {
+         
+    }
+     
+}
+
+    namespace App\Http\Requests { 
+            /**
+     * 
+     *
+     */ 
+        class PasswordResetRequest {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class StorePageRequest {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class ProfileUpdate {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class UpdatePageRequest {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class LoginTokenRequest {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class ProfileDelete {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class LoginRequest {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class PasswordUpdateRequest {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class PasswordForgotRequest {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class SubmissionStoreRequest {
+         
+    }
+     
+}
+
+    namespace Illuminate\Foundation\Http { 
+            /**
+     * 
+     *
+     */ 
+        class FormRequest {
+         
+    }
+     
+}
+
     namespace Illuminate\View { 
             /**
      * 
@@ -21534,20 +21633,6 @@
         {
                         return \Illuminate\View\View::slot($slot);
         }
-         
-    }
-     
-}
-
-    namespace Spatie\MediaLibrary\MediaCollections\Models\Collections { 
-            /**
-     * 
-     *
-     * @template TKey of array-key
-     * @template TModel of \Spatie\MediaLibrary\MediaCollections\Models\Media
-     * @extends \Illuminate\Database\Eloquent\Collection<TKey, TModel>
-     */ 
-        class MediaCollection {
          
     }
      

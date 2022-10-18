@@ -33,6 +33,7 @@
     "filament/filament": "^2.0",
     "filament/notifications": "^2.0",
     "filament/spatie-laravel-media-library-plugin": "^2.0",
+    "filament/spatie-laravel-settings-plugin": "^2.0",
     "filament/spatie-laravel-tags-plugin": "^2.0",
     "filament/spatie-laravel-translatable-plugin": "^2.0",
     "guzzlehttp/guzzle": "^7.2",
@@ -54,6 +55,7 @@
     "spatie/laravel-medialibrary": "^10.0.0",
     "spatie/laravel-query-builder": "^5.0",
     "spatie/laravel-route-attributes": "^1.12",
+    "spatie/laravel-settings": "^2.4",
     "spatie/laravel-tags": "^4.3",
     "spatie/laravel-translatable": "^6.0",
     "stechstudio/filament-impersonate": "^2.5"

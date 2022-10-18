@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\MediaDiskEnum;
 use App\Enums\PostCategoryEnum;
 use App\Enums\UserRole;
 use App\Models\User;
@@ -22,7 +21,7 @@ class PostFactory extends Factory
      */
     public function definition()
     {
-        $factory = FactoryService::make(MediaDiskEnum::post);
+        $factory = FactoryService::make('posts');
 
         return [
             'title' => ucfirst($this->faker->words(5, true)),
@@ -30,7 +29,7 @@ class PostFactory extends Factory
             'status' => $this->faker->randomElement(PublishStatusEnum::toValues()),
             'is_pinned' => $this->faker->boolean(15),
             'category' => $this->faker->randomElement(PostCategoryEnum::toValues()),
-            'picture' => $factory->media->multiple(),
+            'picture' => $factory->media->single(),
             'body' => $factory->richBody($this->faker),
         ];
     }

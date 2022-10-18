@@ -66,6 +66,12 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         return $this->is_editor || $this->is_admin || $this->is_super_admin && ! $this->is_blocked;
     }
 
+    public function canManageSettings(): bool
+    {
+        // return $this->can('manage.settings');
+        return true;
+    }
+
     public function scopeWhereHasBackEndAccess(Builder $query): Builder
     {
         return $query->where('role', '=', UserRole::editor)
