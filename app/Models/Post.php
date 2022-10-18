@@ -6,6 +6,7 @@ use App\Enums\PostCategoryEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Kiwilan\Steward\Traits\HasBuilder;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSeo;
 use Kiwilan\Steward\Traits\HasShowRoute;
@@ -26,9 +27,11 @@ class Post extends Model
     use Queryable;
     use Mediable;
     use HasSearchableName;
+    use HasBuilder;
 
     protected $slug_with = 'title';
     protected $meta_title_from = 'title';
+    protected $meta_description_from = 'summary';
 
     protected $query_default_sort = 'published_at';
     protected $query_default_sort_direction = 'desc';
@@ -38,7 +41,6 @@ class Post extends Model
     protected $fillable = [
         'title',
         'summary',
-        'body',
         'is_pinned',
         'category',
         'picture',

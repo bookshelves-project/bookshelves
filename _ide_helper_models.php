@@ -349,7 +349,7 @@ namespace App\Models{
  * @property string $title
  * @property string $slug
  * @property string|null $summary
- * @property string|null $body
+ * @property array|null $content
  * @property bool $is_pinned
  * @property \App\Enums\PostCategoryEnum|null $category
  * @property string|null $picture
@@ -361,6 +361,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $author
+ * @property-read \stdClass|null $builder
  * @property-read object $mediable
  * @property-read array $mediables_list
  * @property-read array $meta
@@ -372,8 +373,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Post published(string $direction = 'desc')
  * @method static \Illuminate\Database\Eloquent\Builder|Post query()
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereAuthorId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereBody($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereCategory($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Post whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereIsPinned($value)

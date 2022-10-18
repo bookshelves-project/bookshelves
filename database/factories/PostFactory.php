@@ -7,6 +7,7 @@ use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Kiwilan\Steward\Enums\PublishStatusEnum;
+use Kiwilan\Steward\Filament\Config\FilamentBuilder\Modules\WordpressBuilder;
 use Kiwilan\Steward\Services\FactoryService;
 
 /**
@@ -30,7 +31,7 @@ class PostFactory extends Factory
             'is_pinned' => $this->faker->boolean(15),
             'category' => $this->faker->randomElement(PostCategoryEnum::toValues()),
             'picture' => $factory->media->single(),
-            'body' => $factory->richBody($this->faker),
+            'content' => $factory->builder(WordpressBuilder::class),
         ];
     }
 

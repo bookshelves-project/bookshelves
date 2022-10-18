@@ -17,7 +17,7 @@ return new class() extends Migration {
             $table->string('title');
             $table->string('slug');
             $table->text('summary')->nullable();
-            $table->longText('body')->nullable();
+            $table->json('content')->nullable();
             $table->boolean('is_pinned')->default(0);
             $table->string('category')->nullable();
             $table->string('picture')->nullable();

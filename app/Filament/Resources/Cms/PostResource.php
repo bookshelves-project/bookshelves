@@ -55,8 +55,6 @@ class PostResource extends Resource
                             ->columnSpan(2),
                     ],
                     [
-                        // Forms\Components\RichEditor::make('body')
-                        //     ->columnSpan(2),
                         FilamentBuilder::make(WordpressBuilder::class)->get(),
                     ],
                 ])->get(),
