@@ -11,7 +11,6 @@ namespace PHPSTORM_META {
     */
     override(new \Illuminate\Contracts\Container\Container, map([
         '' => '@',
-            'App\Settings\GeneralSettings' => \App\Settings\GeneralSettings::class,
             'Artesaos\SEOTools\Contracts\JsonLd' => \Artesaos\SEOTools\JsonLd::class,
             'Artesaos\SEOTools\Contracts\JsonLdMulti' => \Artesaos\SEOTools\JsonLdMulti::class,
             'Artesaos\SEOTools\Contracts\MetaTags' => \Artesaos\SEOTools\SEOMeta::class,
@@ -153,6 +152,7 @@ namespace PHPSTORM_META {
             'KitLoong\AppLogger\PerformanceLog\PerformanceLogWriter' => \KitLoong\AppLogger\PerformanceLog\LogWriter::class,
             'KitLoong\AppLogger\QueryLog\QueryLogProfile' => \KitLoong\AppLogger\QueryLog\LogProfile::class,
             'KitLoong\AppLogger\QueryLog\QueryLogWriter' => \KitLoong\AppLogger\QueryLog\LogWriter::class,
+            'Kiwilan\Steward\Settings\GeneralSettings' => \Kiwilan\Steward\Settings\GeneralSettings::class,
             'Knuckles\Scribe\Matching\RouteMatcherInterface' => \Knuckles\Scribe\Matching\RouteMatcher::class,
             'Lab404\Impersonate\Services\ImpersonateManager' => \Lab404\Impersonate\Services\ImpersonateManager::class,
             'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
@@ -275,7 +275,6 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Container\Container::makeWith(0), map([
         '' => '@',
-            'App\Settings\GeneralSettings' => \App\Settings\GeneralSettings::class,
             'Artesaos\SEOTools\Contracts\JsonLd' => \Artesaos\SEOTools\JsonLd::class,
             'Artesaos\SEOTools\Contracts\JsonLdMulti' => \Artesaos\SEOTools\JsonLdMulti::class,
             'Artesaos\SEOTools\Contracts\MetaTags' => \Artesaos\SEOTools\SEOMeta::class,
@@ -417,6 +416,7 @@ namespace PHPSTORM_META {
             'KitLoong\AppLogger\PerformanceLog\PerformanceLogWriter' => \KitLoong\AppLogger\PerformanceLog\LogWriter::class,
             'KitLoong\AppLogger\QueryLog\QueryLogProfile' => \KitLoong\AppLogger\QueryLog\LogProfile::class,
             'KitLoong\AppLogger\QueryLog\QueryLogWriter' => \KitLoong\AppLogger\QueryLog\LogWriter::class,
+            'Kiwilan\Steward\Settings\GeneralSettings' => \Kiwilan\Steward\Settings\GeneralSettings::class,
             'Knuckles\Scribe\Matching\RouteMatcherInterface' => \Knuckles\Scribe\Matching\RouteMatcher::class,
             'Lab404\Impersonate\Services\ImpersonateManager' => \Lab404\Impersonate\Services\ImpersonateManager::class,
             'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
@@ -539,7 +539,6 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::get(0), map([
         '' => '@',
-            'App\Settings\GeneralSettings' => \App\Settings\GeneralSettings::class,
             'Artesaos\SEOTools\Contracts\JsonLd' => \Artesaos\SEOTools\JsonLd::class,
             'Artesaos\SEOTools\Contracts\JsonLdMulti' => \Artesaos\SEOTools\JsonLdMulti::class,
             'Artesaos\SEOTools\Contracts\MetaTags' => \Artesaos\SEOTools\SEOMeta::class,
@@ -681,6 +680,7 @@ namespace PHPSTORM_META {
             'KitLoong\AppLogger\PerformanceLog\PerformanceLogWriter' => \KitLoong\AppLogger\PerformanceLog\LogWriter::class,
             'KitLoong\AppLogger\QueryLog\QueryLogProfile' => \KitLoong\AppLogger\QueryLog\LogProfile::class,
             'KitLoong\AppLogger\QueryLog\QueryLogWriter' => \KitLoong\AppLogger\QueryLog\LogWriter::class,
+            'Kiwilan\Steward\Settings\GeneralSettings' => \Kiwilan\Steward\Settings\GeneralSettings::class,
             'Knuckles\Scribe\Matching\RouteMatcherInterface' => \Knuckles\Scribe\Matching\RouteMatcher::class,
             'Lab404\Impersonate\Services\ImpersonateManager' => \Lab404\Impersonate\Services\ImpersonateManager::class,
             'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
@@ -803,7 +803,6 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
-            'App\Settings\GeneralSettings' => \App\Settings\GeneralSettings::class,
             'Artesaos\SEOTools\Contracts\JsonLd' => \Artesaos\SEOTools\JsonLd::class,
             'Artesaos\SEOTools\Contracts\JsonLdMulti' => \Artesaos\SEOTools\JsonLdMulti::class,
             'Artesaos\SEOTools\Contracts\MetaTags' => \Artesaos\SEOTools\SEOMeta::class,
@@ -945,6 +944,7 @@ namespace PHPSTORM_META {
             'KitLoong\AppLogger\PerformanceLog\PerformanceLogWriter' => \KitLoong\AppLogger\PerformanceLog\LogWriter::class,
             'KitLoong\AppLogger\QueryLog\QueryLogProfile' => \KitLoong\AppLogger\QueryLog\LogProfile::class,
             'KitLoong\AppLogger\QueryLog\QueryLogWriter' => \KitLoong\AppLogger\QueryLog\LogWriter::class,
+            'Kiwilan\Steward\Settings\GeneralSettings' => \Kiwilan\Steward\Settings\GeneralSettings::class,
             'Knuckles\Scribe\Matching\RouteMatcherInterface' => \Knuckles\Scribe\Matching\RouteMatcher::class,
             'Lab404\Impersonate\Services\ImpersonateManager' => \Lab404\Impersonate\Services\ImpersonateManager::class,
             'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
@@ -1067,7 +1067,6 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
-            'App\Settings\GeneralSettings' => \App\Settings\GeneralSettings::class,
             'Artesaos\SEOTools\Contracts\JsonLd' => \Artesaos\SEOTools\JsonLd::class,
             'Artesaos\SEOTools\Contracts\JsonLdMulti' => \Artesaos\SEOTools\JsonLdMulti::class,
             'Artesaos\SEOTools\Contracts\MetaTags' => \Artesaos\SEOTools\SEOMeta::class,
@@ -1209,6 +1208,7 @@ namespace PHPSTORM_META {
             'KitLoong\AppLogger\PerformanceLog\PerformanceLogWriter' => \KitLoong\AppLogger\PerformanceLog\LogWriter::class,
             'KitLoong\AppLogger\QueryLog\QueryLogProfile' => \KitLoong\AppLogger\QueryLog\LogProfile::class,
             'KitLoong\AppLogger\QueryLog\QueryLogWriter' => \KitLoong\AppLogger\QueryLog\LogWriter::class,
+            'Kiwilan\Steward\Settings\GeneralSettings' => \Kiwilan\Steward\Settings\GeneralSettings::class,
             'Knuckles\Scribe\Matching\RouteMatcherInterface' => \Knuckles\Scribe\Matching\RouteMatcher::class,
             'Lab404\Impersonate\Services\ImpersonateManager' => \Lab404\Impersonate\Services\ImpersonateManager::class,
             'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
@@ -1331,7 +1331,6 @@ namespace PHPSTORM_META {
         ]));
     override(\App::get(0), map([
         '' => '@',
-            'App\Settings\GeneralSettings' => \App\Settings\GeneralSettings::class,
             'Artesaos\SEOTools\Contracts\JsonLd' => \Artesaos\SEOTools\JsonLd::class,
             'Artesaos\SEOTools\Contracts\JsonLdMulti' => \Artesaos\SEOTools\JsonLdMulti::class,
             'Artesaos\SEOTools\Contracts\MetaTags' => \Artesaos\SEOTools\SEOMeta::class,
@@ -1473,6 +1472,7 @@ namespace PHPSTORM_META {
             'KitLoong\AppLogger\PerformanceLog\PerformanceLogWriter' => \KitLoong\AppLogger\PerformanceLog\LogWriter::class,
             'KitLoong\AppLogger\QueryLog\QueryLogProfile' => \KitLoong\AppLogger\QueryLog\LogProfile::class,
             'KitLoong\AppLogger\QueryLog\QueryLogWriter' => \KitLoong\AppLogger\QueryLog\LogWriter::class,
+            'Kiwilan\Steward\Settings\GeneralSettings' => \Kiwilan\Steward\Settings\GeneralSettings::class,
             'Knuckles\Scribe\Matching\RouteMatcherInterface' => \Knuckles\Scribe\Matching\RouteMatcher::class,
             'Lab404\Impersonate\Services\ImpersonateManager' => \Lab404\Impersonate\Services\ImpersonateManager::class,
             'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
@@ -1595,7 +1595,6 @@ namespace PHPSTORM_META {
         ]));
     override(\App::make(0), map([
         '' => '@',
-            'App\Settings\GeneralSettings' => \App\Settings\GeneralSettings::class,
             'Artesaos\SEOTools\Contracts\JsonLd' => \Artesaos\SEOTools\JsonLd::class,
             'Artesaos\SEOTools\Contracts\JsonLdMulti' => \Artesaos\SEOTools\JsonLdMulti::class,
             'Artesaos\SEOTools\Contracts\MetaTags' => \Artesaos\SEOTools\SEOMeta::class,
@@ -1737,6 +1736,7 @@ namespace PHPSTORM_META {
             'KitLoong\AppLogger\PerformanceLog\PerformanceLogWriter' => \KitLoong\AppLogger\PerformanceLog\LogWriter::class,
             'KitLoong\AppLogger\QueryLog\QueryLogProfile' => \KitLoong\AppLogger\QueryLog\LogProfile::class,
             'KitLoong\AppLogger\QueryLog\QueryLogWriter' => \KitLoong\AppLogger\QueryLog\LogWriter::class,
+            'Kiwilan\Steward\Settings\GeneralSettings' => \Kiwilan\Steward\Settings\GeneralSettings::class,
             'Knuckles\Scribe\Matching\RouteMatcherInterface' => \Knuckles\Scribe\Matching\RouteMatcher::class,
             'Lab404\Impersonate\Services\ImpersonateManager' => \Lab404\Impersonate\Services\ImpersonateManager::class,
             'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
@@ -1859,7 +1859,6 @@ namespace PHPSTORM_META {
         ]));
     override(\App::makeWith(0), map([
         '' => '@',
-            'App\Settings\GeneralSettings' => \App\Settings\GeneralSettings::class,
             'Artesaos\SEOTools\Contracts\JsonLd' => \Artesaos\SEOTools\JsonLd::class,
             'Artesaos\SEOTools\Contracts\JsonLdMulti' => \Artesaos\SEOTools\JsonLdMulti::class,
             'Artesaos\SEOTools\Contracts\MetaTags' => \Artesaos\SEOTools\SEOMeta::class,
@@ -2001,6 +2000,7 @@ namespace PHPSTORM_META {
             'KitLoong\AppLogger\PerformanceLog\PerformanceLogWriter' => \KitLoong\AppLogger\PerformanceLog\LogWriter::class,
             'KitLoong\AppLogger\QueryLog\QueryLogProfile' => \KitLoong\AppLogger\QueryLog\LogProfile::class,
             'KitLoong\AppLogger\QueryLog\QueryLogWriter' => \KitLoong\AppLogger\QueryLog\LogWriter::class,
+            'Kiwilan\Steward\Settings\GeneralSettings' => \Kiwilan\Steward\Settings\GeneralSettings::class,
             'Knuckles\Scribe\Matching\RouteMatcherInterface' => \Knuckles\Scribe\Matching\RouteMatcher::class,
             'Lab404\Impersonate\Services\ImpersonateManager' => \Lab404\Impersonate\Services\ImpersonateManager::class,
             'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
@@ -2123,7 +2123,6 @@ namespace PHPSTORM_META {
         ]));
     override(\app(0), map([
         '' => '@',
-            'App\Settings\GeneralSettings' => \App\Settings\GeneralSettings::class,
             'Artesaos\SEOTools\Contracts\JsonLd' => \Artesaos\SEOTools\JsonLd::class,
             'Artesaos\SEOTools\Contracts\JsonLdMulti' => \Artesaos\SEOTools\JsonLdMulti::class,
             'Artesaos\SEOTools\Contracts\MetaTags' => \Artesaos\SEOTools\SEOMeta::class,
@@ -2265,6 +2264,7 @@ namespace PHPSTORM_META {
             'KitLoong\AppLogger\PerformanceLog\PerformanceLogWriter' => \KitLoong\AppLogger\PerformanceLog\LogWriter::class,
             'KitLoong\AppLogger\QueryLog\QueryLogProfile' => \KitLoong\AppLogger\QueryLog\LogProfile::class,
             'KitLoong\AppLogger\QueryLog\QueryLogWriter' => \KitLoong\AppLogger\QueryLog\LogWriter::class,
+            'Kiwilan\Steward\Settings\GeneralSettings' => \Kiwilan\Steward\Settings\GeneralSettings::class,
             'Knuckles\Scribe\Matching\RouteMatcherInterface' => \Knuckles\Scribe\Matching\RouteMatcher::class,
             'Lab404\Impersonate\Services\ImpersonateManager' => \Lab404\Impersonate\Services\ImpersonateManager::class,
             'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
@@ -2387,7 +2387,6 @@ namespace PHPSTORM_META {
         ]));
     override(\resolve(0), map([
         '' => '@',
-            'App\Settings\GeneralSettings' => \App\Settings\GeneralSettings::class,
             'Artesaos\SEOTools\Contracts\JsonLd' => \Artesaos\SEOTools\JsonLd::class,
             'Artesaos\SEOTools\Contracts\JsonLdMulti' => \Artesaos\SEOTools\JsonLdMulti::class,
             'Artesaos\SEOTools\Contracts\MetaTags' => \Artesaos\SEOTools\SEOMeta::class,
@@ -2529,6 +2528,7 @@ namespace PHPSTORM_META {
             'KitLoong\AppLogger\PerformanceLog\PerformanceLogWriter' => \KitLoong\AppLogger\PerformanceLog\LogWriter::class,
             'KitLoong\AppLogger\QueryLog\QueryLogProfile' => \KitLoong\AppLogger\QueryLog\LogProfile::class,
             'KitLoong\AppLogger\QueryLog\QueryLogWriter' => \KitLoong\AppLogger\QueryLog\LogWriter::class,
+            'Kiwilan\Steward\Settings\GeneralSettings' => \Kiwilan\Steward\Settings\GeneralSettings::class,
             'Knuckles\Scribe\Matching\RouteMatcherInterface' => \Knuckles\Scribe\Matching\RouteMatcher::class,
             'Lab404\Impersonate\Services\ImpersonateManager' => \Lab404\Impersonate\Services\ImpersonateManager::class,
             'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
@@ -2651,7 +2651,6 @@ namespace PHPSTORM_META {
         ]));
     override(\Psr\Container\ContainerInterface::get(0), map([
         '' => '@',
-            'App\Settings\GeneralSettings' => \App\Settings\GeneralSettings::class,
             'Artesaos\SEOTools\Contracts\JsonLd' => \Artesaos\SEOTools\JsonLd::class,
             'Artesaos\SEOTools\Contracts\JsonLdMulti' => \Artesaos\SEOTools\JsonLdMulti::class,
             'Artesaos\SEOTools\Contracts\MetaTags' => \Artesaos\SEOTools\SEOMeta::class,
@@ -2793,6 +2792,7 @@ namespace PHPSTORM_META {
             'KitLoong\AppLogger\PerformanceLog\PerformanceLogWriter' => \KitLoong\AppLogger\PerformanceLog\LogWriter::class,
             'KitLoong\AppLogger\QueryLog\QueryLogProfile' => \KitLoong\AppLogger\QueryLog\LogProfile::class,
             'KitLoong\AppLogger\QueryLog\QueryLogWriter' => \KitLoong\AppLogger\QueryLog\LogWriter::class,
+            'Kiwilan\Steward\Settings\GeneralSettings' => \Kiwilan\Steward\Settings\GeneralSettings::class,
             'Knuckles\Scribe\Matching\RouteMatcherInterface' => \Knuckles\Scribe\Matching\RouteMatcher::class,
             'Lab404\Impersonate\Services\ImpersonateManager' => \Lab404\Impersonate\Services\ImpersonateManager::class,
             'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,

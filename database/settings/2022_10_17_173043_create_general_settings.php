@@ -15,6 +15,7 @@ class CreateGeneralSettings extends SettingsMigration
         $this->migrator->add('general.site_utc', '+00:00_utc');
         $this->migrator->add('general.site_favicon');
         $this->migrator->add('general.site_color', '#ffffff');
+        $this->migrator->add('general.default_image');
         $this->migrator->add('general.social', []);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Settings\GeneralSettings;
+use Kiwilan\Steward\Settings\GeneralSettings;
 
 return [
 
