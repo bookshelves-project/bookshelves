@@ -1,8 +1,12 @@
 <x-app>
   @push('head')
+    <meta
+      name="twitter:widgets:theme"
+      content="dark"
+    >
     @vite(['resources/front/css/app.css', 'resources/front/ts/app.ts'])
   @endpush
-  <div class="flex min-h-screen flex-col">
+  {{-- <div class="flex min-h-screen flex-col">
     <div @class(['mx-auto mt-6', $prose_class => $prose])>
       <a
         href="/"
@@ -27,5 +31,6 @@
       </main>
     </div>
     <x-footer class="mt-auto" />
-  </div>
+  </div> --}}
+  {{ $slot }}
 </x-app>
