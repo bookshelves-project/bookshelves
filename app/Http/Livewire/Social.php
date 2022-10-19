@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use Kiwilan\Steward\Enums\BuilderEnum\SocialEnum;
+use Kiwilan\Steward\Enums\SocialEnum;
 use Livewire\Component;
 
 class Social extends Component

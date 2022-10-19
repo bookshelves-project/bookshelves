@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Social;
 
-use Kiwilan\Steward\Enums\BuilderEnum\SocialEnum;
+use Kiwilan\Steward\Enums\SocialEnum;
 use Livewire\Component;
 
 class Iframe extends Component
