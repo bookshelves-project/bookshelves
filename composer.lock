@@ -2417,12 +2417,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/laravel-steward.git",
-                "reference": "35353c1fcd6dd53de9d2cdfdc557390bd76544b7"
+                "reference": "e1e2063a9fec3916f344a7148f50ca6855051226"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/laravel-steward/zipball/35353c1fcd6dd53de9d2cdfdc557390bd76544b7",
-                "reference": "35353c1fcd6dd53de9d2cdfdc557390bd76544b7",
+                "url": "https://api.github.com/repos/kiwilan/laravel-steward/zipball/e1e2063a9fec3916f344a7148f50ca6855051226",
+                "reference": "e1e2063a9fec3916f344a7148f50ca6855051226",
                 "shasum": ""
             },
             "require": {
@@ -2500,7 +2500,7 @@
                 "issues": "https://github.com/kiwilan/laravel-steward/issues",
                 "source": "https://github.com/kiwilan/laravel-steward/tree/main"
             },
-            "time": "2022-10-19T21:10:47+00:00"
+            "time": "2022-10-19T21:14:51+00:00"
         },
         {
             "name": "lab404/laravel-impersonate",

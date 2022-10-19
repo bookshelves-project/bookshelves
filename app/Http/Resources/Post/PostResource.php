@@ -13,7 +13,7 @@ class PostResource extends JsonResource
     {
         return [
             ...PostCollectionResource::make($this->resource)->toArray($request),
-            'body' => $this->resource->body,
+            'content' => $this->resource->builder_data,
         ];
     }
 }

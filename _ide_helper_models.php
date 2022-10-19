@@ -361,7 +361,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $author
- * @property-read \stdClass|null $builder
+ * @property-read \stdClass|null $builder_data
  * @property-read object $mediable
  * @property-read array $mediables_list
  * @property-read array $meta
