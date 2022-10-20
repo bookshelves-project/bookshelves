@@ -62,6 +62,18 @@
       "type": "shell",
       "command": "pnpm dev",
       "problemMatcher": []
+    },
+    {
+      "label": "MIGRATE",
+      "type": "shell",
+      "command": "php artisan migrate",
+      "problemMatcher": []
+    },
+    {
+      "label": "MIGRATE:fresh --seed",
+      "type": "shell",
+      "command": "php artisan migrate:fresh --seed",
+      "problemMatcher": []
     }
   ]
 }

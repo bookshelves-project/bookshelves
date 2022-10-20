@@ -11,7 +11,7 @@ class Iframe extends Component
     public string $height = '500';
     public bool $rounded = false;
     public string $url = '';
-    public string $video_id = '';
+    public string $media_id = '';
     public ?SocialEnum $origin = null;
     public string $title = '';
 

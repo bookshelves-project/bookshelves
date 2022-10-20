@@ -938,23 +938,23 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "2.0.5",
+            "version": "2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "ade2b3bbfb776f27f0558e26eed43b5d9fe1b392"
+                "reference": "d9d313a36c872fd6ee06d9a6cbcf713eaa40f024"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/ade2b3bbfb776f27f0558e26eed43b5d9fe1b392",
-                "reference": "ade2b3bbfb776f27f0558e26eed43b5d9fe1b392",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/d9d313a36c872fd6ee06d9a6cbcf713eaa40f024",
+                "reference": "d9d313a36c872fd6ee06d9a6cbcf713eaa40f024",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^9",
+                "doctrine/coding-standard": "^10",
                 "phpstan/phpstan": "^1.8",
                 "phpstan/phpstan-phpunit": "^1.1",
                 "phpstan/phpstan-strict-rules": "^1.3",
@@ -1009,7 +1009,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/inflector/issues",
-                "source": "https://github.com/doctrine/inflector/tree/2.0.5"
+                "source": "https://github.com/doctrine/inflector/tree/2.0.6"
             },
             "funding": [
                 {
@@ -1025,7 +1025,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-07T09:01:28+00:00"
+            "time": "2022-10-20T09:10:12+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -2345,16 +2345,16 @@
         },
         {
             "name": "itsgoingd/clockwork",
-            "version": "v5.1.8",
+            "version": "v5.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "74ee05a61296aa7298164ef5346f0a568aa6106e"
+                "reference": "8ceb38246028483750573c05dc4f9c17ddb65b7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/74ee05a61296aa7298164ef5346f0a568aa6106e",
-                "reference": "74ee05a61296aa7298164ef5346f0a568aa6106e",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/8ceb38246028483750573c05dc4f9c17ddb65b7b",
+                "reference": "8ceb38246028483750573c05dc4f9c17ddb65b7b",
                 "shasum": ""
             },
             "require": {
@@ -2401,7 +2401,7 @@
             ],
             "support": {
                 "issues": "https://github.com/itsgoingd/clockwork/issues",
-                "source": "https://github.com/itsgoingd/clockwork/tree/v5.1.8"
+                "source": "https://github.com/itsgoingd/clockwork/tree/v5.1.10"
             },
             "funding": [
                 {
@@ -2409,7 +2409,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-09-25T20:21:14+00:00"
+            "time": "2022-10-19T21:46:50+00:00"
         },
         {
             "name": "kiwilan/laravel-steward",
@@ -2417,12 +2417,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/laravel-steward.git",
-                "reference": "e1e2063a9fec3916f344a7148f50ca6855051226"
+                "reference": "00469adc8cfa065f2350c70d4d20634ad3cb5e66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/laravel-steward/zipball/e1e2063a9fec3916f344a7148f50ca6855051226",
-                "reference": "e1e2063a9fec3916f344a7148f50ca6855051226",
+                "url": "https://api.github.com/repos/kiwilan/laravel-steward/zipball/00469adc8cfa065f2350c70d4d20634ad3cb5e66",
+                "reference": "00469adc8cfa065f2350c70d4d20634ad3cb5e66",
                 "shasum": ""
             },
             "require": {
@@ -2500,7 +2500,7 @@
                 "issues": "https://github.com/kiwilan/laravel-steward/issues",
                 "source": "https://github.com/kiwilan/laravel-steward/tree/main"
             },
-            "time": "2022-10-19T21:14:51+00:00"
+            "time": "2022-10-20T16:19:34+00:00"
         },
         {
             "name": "lab404/laravel-impersonate",
@@ -2572,16 +2572,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v9.36.3",
+            "version": "v9.36.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "80ba0561b3682b96743e1c152fde0698bbdb2412"
+                "reference": "15ce569fd93124e8e2257c24e3ed85b9ef9951d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/80ba0561b3682b96743e1c152fde0698bbdb2412",
-                "reference": "80ba0561b3682b96743e1c152fde0698bbdb2412",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/15ce569fd93124e8e2257c24e3ed85b9ef9951d6",
+                "reference": "15ce569fd93124e8e2257c24e3ed85b9ef9951d6",
                 "shasum": ""
             },
             "require": {
@@ -2593,7 +2593,7 @@
                 "fruitcake/php-cors": "^1.2",
                 "laravel/serializable-closure": "^1.2.2",
                 "league/commonmark": "^2.2",
-                "league/flysystem": "^3.0.16",
+                "league/flysystem": "^3.8.0",
                 "monolog/monolog": "^2.0",
                 "nesbot/carbon": "^2.62.1",
                 "nunomaduro/termwind": "^1.13",
@@ -2754,7 +2754,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-10-19T13:23:53+00:00"
+            "time": "2022-10-20T16:11:03+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -4516,16 +4516,16 @@
         },
         {
             "name": "opcodesio/log-viewer",
-            "version": "v1.6.2",
+            "version": "v1.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opcodesio/log-viewer.git",
-                "reference": "d6e0a337aa2b4453f173179f3e0edb3a9ea94381"
+                "reference": "6f5031f62c41bc157e24fe32ef3fd3f58b12a99e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/d6e0a337aa2b4453f173179f3e0edb3a9ea94381",
-                "reference": "d6e0a337aa2b4453f173179f3e0edb3a9ea94381",
+                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/6f5031f62c41bc157e24fe32ef3fd3f58b12a99e",
+                "reference": "6f5031f62c41bc157e24fe32ef3fd3f58b12a99e",
                 "shasum": ""
             },
             "require": {
@@ -4585,9 +4585,9 @@
             ],
             "support": {
                 "issues": "https://github.com/opcodesio/log-viewer/issues",
-                "source": "https://github.com/opcodesio/log-viewer/tree/v1.6.2"
+                "source": "https://github.com/opcodesio/log-viewer/tree/v1.6.3"
             },
-            "time": "2022-10-13T14:26:27+00:00"
+            "time": "2022-10-20T09:14:05+00:00"
         },
         {
             "name": "php-http/client-common",
