@@ -1,9 +1,9 @@
 <x-app>
   @push('head')
-    <meta
+    {{-- <meta
       name="twitter:widgets:theme"
       content="dark"
-    >
+    > --}}
     @vite(['resources/front/css/app.css', 'resources/front/ts/app.ts'])
   @endpush
   {{-- <div class="flex min-h-screen flex-col">
