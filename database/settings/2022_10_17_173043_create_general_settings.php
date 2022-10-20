@@ -17,5 +17,6 @@ class CreateGeneralSettings extends SettingsMigration
         $this->migrator->add('general.site_color', '#ffffff');
         $this->migrator->add('general.default_image');
         $this->migrator->add('general.social', []);
+        $this->migrator->add('general.social_share', []);
     }
 }

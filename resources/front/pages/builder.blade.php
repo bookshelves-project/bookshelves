@@ -11,6 +11,10 @@
       height="300"
       url="https://open.spotify.com/track/3tlkmfnEvrEyL35tWnqHYl?si=96d4c52f62684f31"
     />
+    <livewire:builder.map
+      lat="48.117266"
+      lng="-1.6777926"
+    />
     {{-- <livewire:social.spotify /> --}}
   </div>
 </x-layout.front>
