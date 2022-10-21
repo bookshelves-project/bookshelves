@@ -1,3 +1,17 @@
+{{-- <iframe
+  id="instagram-embed-0"
+  data-instgrm-captioned
+  data-instgrm-permalink="https://www.instagram.com/reel/CjcnkEXMmSI/?utm_source=ig_embed&amp;utm_campaign=loading"
+  data-instgrm-version="14"
+  class="instagram-media instagram-media-rendered"
+  style="background: white; max-width: 658px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid #dbdbdb; box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;"
+  src="{{ $url }}/embed?utm_source=ig_embedembed"
+  scrolling="no"
+  data-instgrm-payload-id="instagram-media-payload-0"
+  height="750"
+  frameborder="0"
+></iframe> --}}
+
 @if ($basic)
   <iframe
     max-width="100%"

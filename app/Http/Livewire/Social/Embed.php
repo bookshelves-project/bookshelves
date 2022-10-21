@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Social;
 
 use Kiwilan\Steward\Enums\SocialEnum;
-use Kiwilan\Steward\Services\OpenGraphService\OpenGraphItem;
 use Kiwilan\Steward\Services\SocialService;
 use Livewire\Component;
 
@@ -14,10 +13,13 @@ class Embed extends Component
     public string $latitude = '';
     public string $longitude = '';
 
+    public bool $loaded = false;
+
     public string $width = '100%';
     public string $height = '450';
     public bool $rounded = false;
-    public string $allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    public string $allow = '';
+    public bool $is_mobile = false;
 
     public string $media_id = '';
     public string $title = '';
@@ -27,12 +29,16 @@ class Embed extends Component
     public bool $is_open_graph = false;
     public bool $is_embedded = false;
 
-    protected ?SocialEnum $type = null;
-    protected ?OpenGraphItem $openGraph = null;
+    public ?string $current_type = null;
 
-    public function getOpenGraph()
+    protected ?SocialEnum $type = null;
+
+    public function mount()
     {
-        return $this->openGraph;
+        if (preg_match('/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\\.browser|up\\.link|webos|wos)/i', $_SERVER['HTTP_USER_AGENT'])) {
+            $this->is_mobile = true;
+            $this->allow .= ' accelerometer; autoplay; encrypted-media; gyroscope; clipboard-write; picture-in-picture;';
+        }
     }
 
     public function render()
@@ -40,13 +46,15 @@ class Embed extends Component
         return view('livewire.social.embed');
     }
 
-    public function fetch()
+    public function fetchData()
     {
         if ($this->googleMap) {
             $this->setGoogleMap();
         } else {
             $this->setSocial();
         }
+
+        $this->loaded = true;
     }
 
     private function setGoogleMap()
@@ -69,6 +77,7 @@ class Embed extends Component
 
         if ($this->type) {
             $this->title = $this->type->locale();
+            $this->current_type = $this->type->value;
         }
 
         if ($social->getIsEmbedded()) {
@@ -78,7 +87,6 @@ class Embed extends Component
 
         if ($social->getIsUnknown()) {
             $this->is_open_graph = true;
-            $this->openGraph = $social->getOpenGraph();
         }
 
         if ($social->getIsFrame()) {
@@ -87,6 +95,10 @@ class Embed extends Component
 
             if (SocialEnum::spotify === $this->type) {
                 $this->height = '200';
+            }
+
+            if (SocialEnum::twitter === $this->type) {
+                $this->height = '350';
             }
         }
     }
