@@ -7,10 +7,10 @@ use Kiwilan\Steward\Services\OpenGraphService\OpenGraphItem;
 use Kiwilan\Steward\Services\SocialService;
 use Livewire\Component;
 
-class Embedded extends Component
+class Embed extends Component
 {
     public string $width = '100%';
-    public string $height = '500';
+    public string $height = '450';
     public bool $rounded = false;
     public string $url = '';
 
@@ -25,7 +25,16 @@ class Embedded extends Component
     public function mount()
     {
         $this->type = SocialEnum::find($this->url);
-        $social = SocialService::make($this->url);
+        $social = SocialService::make($this->url)
+            ->width($this->width)
+            ->height($this->height)
+            ->rounded($this->rounded)
+            ->get()
+        ;
+
+        if ($this->type) {
+            $this->title = $this->type->locale();
+        }
 
         $this->embedded = $social->getEmbedded();
         $this->is_unknown = $social->getIsUnknown();
@@ -41,6 +50,6 @@ class Embedded extends Component
 
     public function render()
     {
-        return view('livewire.embedded');
+        return view('livewire.embed');
     }
 }

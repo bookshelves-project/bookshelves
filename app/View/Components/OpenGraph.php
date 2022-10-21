@@ -14,6 +14,7 @@ class OpenGraph extends Component
     public function __construct(
         public ?OpenGraphItem $og = null,
         public ?string $url = null,
+        public bool $margin = true,
     ) {
     }
 
@@ -25,7 +26,6 @@ class OpenGraph extends Component
     public function render()
     {
         if ($this->url) {
-            // TODO twitter
             $this->og = OpenGraphService::make($this->url);
         }
 
