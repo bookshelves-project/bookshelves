@@ -84,6 +84,10 @@ class Embed extends Component
         if ($social->getIsFrame()) {
             $this->is_frame = true;
             $this->url = $social->getEmbedUrl();
+
+            if (SocialEnum::spotify === $this->type) {
+                $this->height = '200';
+            }
         }
     }
 }
