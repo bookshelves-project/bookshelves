@@ -24,4 +24,10 @@
   @if ($is_embedded)
     {!! $embedded !!}
   @endif
+
+  <script>
+    document.addEventListener('livewire:load', async () => {
+      await @this.fetch()
+    })
+  </script>
 </div>

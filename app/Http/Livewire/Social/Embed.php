@@ -37,7 +37,7 @@ class Embed extends Component
 
     public function render()
     {
-        return view('livewire.embed');
+        return view('livewire.social.embed');
     }
 
     public function fetch()
