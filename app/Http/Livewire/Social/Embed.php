@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Social;
 
 use Kiwilan\Steward\Enums\SocialEnum;
+use Kiwilan\Steward\Services\IframelyService;
 use Kiwilan\Steward\Services\SocialService;
 use Livewire\Component;
 
@@ -80,13 +81,18 @@ class Embed extends Component
     private function setSocial()
     {
         // $this->type = SocialEnum::find($this->url);
-        $social = SocialService::make($this->url);
+        // $social = SocialService::make($this->url);
+        $iframely = IframelyService::make();
+        $data = $iframely->get($this->url);
+        // dump($data);
 
-        if ($type = $social->getType()) {
-            $this->current_type = $type->value;
-        }
+        // if ($type = $social->getType()) {
+        //     $this->current_type = $type->value;
+        // }
 
-        $this->html = $social->module->getHtml();
+        // $this->html = $social->module->getHtml();
+        $this->html = $data['html'] ?? '';
+
         // dump($social);
         // dd($this);
 

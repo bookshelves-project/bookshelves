@@ -158,4 +158,9 @@ return [
         'pool_limit' => env('STEWARD_HTTP_POOL_LIMIT', 250),
         'async_allow' => env('STEWARD_HTTP_ASYNC_ALLOW', true),
     ],
+
+    'iframely' => [
+        'api' => env('STEWARD_IFRAMELY_API', 'https://iframely.com'),
+        'key' => env('STEWARD_IFRAMELY_KEY', null),
+    ],
 ];
