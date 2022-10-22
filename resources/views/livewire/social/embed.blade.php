@@ -1,5 +1,14 @@
 <div class="my-8">
-  {{-- @dump($this) --}}
+  {{-- @dump($html) --}}
+  {!! $html !!}
+  <script>
+    document.addEventListener('livewire:load', async () => {
+      await @this.fetchData()
+    })
+  </script>
+</div>
+
+{{-- <div class="my-8">
   @if ($loaded)
     @if ($is_frame)
       <div align="center">
@@ -40,4 +49,4 @@
       await @this.fetchData()
     })
   </script>
-</div>
+</div> --}}

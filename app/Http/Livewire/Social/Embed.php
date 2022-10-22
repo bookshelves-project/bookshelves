@@ -33,7 +33,7 @@ class Embed extends Component
 
     public ?string $current_type = null;
 
-    protected ?SocialEnum $type = null;
+    public ?string $html = null;
 
     public function mount()
     {
@@ -64,11 +64,14 @@ class Embed extends Component
     private function setGoogleMap()
     {
         $url = "https://maps.google.com/maps?q={$this->latitude},{$this->longitude}";
-        $url .= '&t=';
-        $url .= '&z=15';
-        $url .= '&ie=UTF8';
-        $url .= '&iwloc=';
-        $url .= '&output=embed';
+        $query = http_build_query([
+            't' => '',
+            'z' => 15,
+            'ie' => 'UTF8',
+            'iwloc' => '',
+            'output' => 'embed',
+        ]);
+        $url = "{$url}?{$query}";
 
         $this->url = $url;
         $this->is_frame = true;
@@ -76,40 +79,43 @@ class Embed extends Component
 
     private function setSocial()
     {
-        $this->type = SocialEnum::find($this->url);
+        // $this->type = SocialEnum::find($this->url);
         $social = SocialService::make($this->url);
 
-        if ($this->type) {
-            $this->title = $this->type->locale();
-            $this->current_type = $this->type->value;
+        if ($type = $social->getType()) {
+            $this->current_type = $type->value;
         }
 
-        if ($social->getIsCustom()) {
-            $this->is_custom = true;
-            $this->custom = "social.{$this->current_type}";
-            // $this->embedded = $social->getEmbedded();
-        }
+        $this->html = $social->module->getHtml();
+        // dump($social);
+        // dd($this);
 
-        if ($social->getIsUnknown()) {
-            $this->is_open_graph = true;
-        }
+        // if ($social->getIsCustom()) {
+        //     $this->is_custom = true;
+        //     $this->custom = "social.{$this->current_type}";
+        //     // $this->embedded = $social->getEmbedded();
+        // }
 
-        if ($social->getIsFrame()) {
-            $this->is_frame = true;
-            $this->url = $social->getEmbedUrl();
+        // if ($social->getIsUnknown()) {
+        //     $this->is_open_graph = true;
+        // }
 
-            if (SocialEnum::spotify === $this->type) {
-                $this->height = '200';
-            }
+        // if ($social->getIsFrame()) {
+        //     $this->is_frame = true;
+        //     $this->url = $social->getEmbedUrl();
 
-            if (SocialEnum::twitter === $this->type) {
-                $this->height = '350';
-            }
+        //     if (SocialEnum::spotify === $this->type) {
+        //         $this->height = '200';
+        //     }
 
-            if (SocialEnum::facebook === $this->type) {
-                $this->height = '591';
-                $this->width = '476';
-            }
-        }
+        //     if (SocialEnum::twitter === $this->type) {
+        //         $this->height = '350';
+        //     }
+
+        //     if (SocialEnum::facebook === $this->type) {
+        //         $this->height = '591';
+        //         $this->width = '476';
+        //     }
+        // }
     }
 }
