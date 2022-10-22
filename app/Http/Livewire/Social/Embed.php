@@ -27,7 +27,9 @@ class Embed extends Component
 
     public bool $is_frame = false;
     public bool $is_open_graph = false;
-    public bool $is_embedded = false;
+    public bool $is_custom = false;
+
+    public ?string $custom = null;
 
     public ?string $current_type = null;
 
@@ -43,6 +45,8 @@ class Embed extends Component
 
     public function render()
     {
+        // $this->fetchData();
+
         return view('livewire.social.embed');
     }
 
@@ -80,9 +84,10 @@ class Embed extends Component
             $this->current_type = $this->type->value;
         }
 
-        if ($social->getIsEmbedded()) {
-            $this->is_embedded = true;
-            $this->embedded = $social->getEmbedded();
+        if ($social->getIsCustom()) {
+            $this->is_custom = true;
+            $this->custom = "social.{$this->current_type}";
+            // $this->embedded = $social->getEmbedded();
         }
 
         if ($social->getIsUnknown()) {
@@ -99,6 +104,11 @@ class Embed extends Component
 
             if (SocialEnum::twitter === $this->type) {
                 $this->height = '350';
+            }
+
+            if (SocialEnum::facebook === $this->type) {
+                $this->height = '591';
+                $this->width = '476';
             }
         }
     }

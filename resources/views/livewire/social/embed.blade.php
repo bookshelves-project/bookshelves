@@ -1,17 +1,21 @@
 <div class="my-8">
+  {{-- @dump($this) --}}
   @if ($loaded)
     @if ($is_frame)
-      <iframe
-        src="{{ $url }}"
-        width="{{ $width }}"
-        height="{{ $height }}"
-        title="{{ $title }}"
-        allow="{{ $allow }}"
-        frameborder="0"
-        style="border: 0"
-        loading="lazy"
-        allowfullscreen
-      ></iframe>
+      <div align="center">
+        <iframe
+          src="{{ $url }}"
+          width="{{ $width }}"
+          height="{{ $height }}"
+          title="{{ $title }}"
+          style="border:none"
+          scrolling="no"
+          frameborder="0"
+          allowfullscreen
+          allow="{{ $allow }}"
+          loading="lazy"
+        ></iframe>
+      </div>
     @endif
 
     @if ($is_open_graph)
@@ -23,13 +27,14 @@
         />
       </div>
     @endif
+
+    @if ($is_custom)
+      <livewire:is
+        :component="$custom"
+        :url="$url"
+      >
+    @endif
   @endif
-
-
-  {{-- <script
-    async
-    src="https://www.instagram.com/embed.js"
-  ></script> --}}
   <script>
     document.addEventListener('livewire:load', async () => {
       await @this.fetchData()
