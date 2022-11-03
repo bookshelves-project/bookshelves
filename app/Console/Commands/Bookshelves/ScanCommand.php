@@ -16,20 +16,23 @@ class ScanCommand extends CommandSteward
      *
      * @var string
      */
-    protected $signature = 'bookshelves:scan';
+    protected $signature = 'bookshelves:scan
+                            {--p|parse : Parse with engine}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Scan directory public/storage/data/books to get all EPUB files.';
+    protected $description = 'Scan directory public/storage/data/books to get all BookFormatEnum files.';
 
     /**
      * Create a new command instance.
      */
-    public function __construct()
-    {
+    public function __construct(
+        public bool $verbose = false,
+        public bool $parse = false,
+    ) {
         parent::__construct();
     }
 
@@ -42,13 +45,61 @@ class ScanCommand extends CommandSteward
     {
         $this->title(description: 'Scan storage data books directory');
 
-        $verbose = $this->option('verbose');
+        $this->verbose = $this->option('verbose') ?? false;
+        $this->parse = $this->option('parse') ?? false;
 
-        $files = FilesTypeParser::parseDataFiles();
+        $files = FilesTypeParser::make();
 
+        $list = [];
+        if ($this->parse) {
+            $list = $this->parser($files);
+        } else {
+            $list = $this->basic($files);
+        }
+
+        $this->table(
+            ['New books', 'Books'],
+            [[count($list), Book::count()]]
+        );
+
+        return Command::SUCCESS;
+    }
+
+    /**
+     * @param FilesTypeParser[] $files
+     *
+     * @return FilesTypeParser[]
+     */
+    private function basic(array $files)
+    {
+        $books = Book::all()->map(fn (Book $book) => $book->physical_path)->toArray();
+
+        /** @var FilesTypeParser[] */
+        $list = [];
+        foreach ($files as $key => $file) {
+            if (! in_array($file->path, $books)) {
+                $list["{$key}"] = $file;
+                if ($this->verbose) {
+                    $this->info("New book: {$file->path}");
+                }
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * @param FilesTypeParser[] $files
+     *
+     * @return ParserEngine[]
+     */
+    private function parser(array $files)
+    {
+        /** @var ParserEngine[] */
         $new_files = [];
-        if (! $verbose) {
-            $bar = $this->output->createProgressBar(count($files));
+        $bar = $this->output->createProgressBar(count($files));
+
+        if (! $this->verbose) {
             $bar->start();
         }
         foreach ($files as $key => $file) {
@@ -56,15 +107,15 @@ class ScanCommand extends CommandSteward
             $converter_engine = new ConverterEngine($parser_engine);
             $is_exist = $converter_engine->retrieveBook();
             if (! $is_exist) {
-                array_push($new_files, $parser_engine);
+                $new_files[] = $parser_engine;
             }
-            if (! $verbose) {
+            if (! $this->verbose) {
                 $bar->advance();
             } else {
                 $this->info($key.' '.pathinfo($file->path, PATHINFO_FILENAME));
             }
         }
-        if (! $verbose) {
+        if (! $this->verbose) {
             $bar->finish();
             $this->newLine();
         }
@@ -90,11 +141,6 @@ class ScanCommand extends CommandSteward
         }
         $this->newLine();
 
-        $this->table(
-            ['New books', 'Books'],
-            [[count($new_files), Book::count()]]
-        );
-
-        return Command::SUCCESS;
+        return $new_files;
     }
 }

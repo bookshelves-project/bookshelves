@@ -76,6 +76,7 @@ class Book extends Model implements HasMedia, GoogleBookable
         'language_slug',
         'serie_id',
         'publisher_id',
+        'physical_path',
     ];
 
     protected $appends = [

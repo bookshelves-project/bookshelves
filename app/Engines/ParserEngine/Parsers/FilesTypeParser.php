@@ -5,7 +5,12 @@ namespace App\Engines\ParserEngine\Parsers;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use Kiwilan\Steward\Services\DirectoryParserService;
+use Kiwilan\Steward\Utils\Console;
 
+/**
+ * @property ?BookTypeEnum $type
+ * @property ?string       $path
+ */
 class FilesTypeParser
 {
     public function __construct(
@@ -19,32 +24,34 @@ class FilesTypeParser
      *
      * @return false|FilesTypeParser[]
      */
-    public static function parseDataFiles(int $limit = null)
+    public static function make(int $limit = null)
     {
-        $book_types = BookTypeEnum::toArray();
-        $formats = BookFormatEnum::toArray();
+        $types_enum = BookTypeEnum::toArray();
+        $formats_enum = BookFormatEnum::toArray();
 
-        $files = [];
-        foreach ($book_types as $type => $path) {
-            $path = storage_path("app/public/data/books/{$type}");
+        $list = [];
+        $i = 0;
+        foreach ($types_enum as $type => $type_value) {
+            $books_path = storage_path("app/public/data/books/{$type}");
 
-            $service = DirectoryParserService::make($path);
-            $files_list = $service->files;
+            $service = DirectoryParserService::make($books_path);
+            $files = $service->files;
 
-            foreach ($files_list as $file_path) {
-                if (array_key_exists('extension', pathinfo($file_path))) {
-                    $ext = pathinfo($file_path, PATHINFO_EXTENSION);
-                    if (array_key_exists($ext, $formats)) {
-                        array_push($files, new FilesTypeParser(BookTypeEnum::from($type), $file_path));
+            foreach ($files as $key => $path) {
+                if (array_key_exists('extension', pathinfo($path))) {
+                    $ext = pathinfo($path, PATHINFO_EXTENSION);
+                    if (array_key_exists($ext, $formats_enum)) {
+                        ++$i;
+                        $list["{$i}"] = new FilesTypeParser(BookTypeEnum::from($type), $path);
                     }
                 }
             }
         }
 
         if ($limit) {
-            return array_slice($files, 0, $limit);
+            return array_slice($list, 0, $limit);
         }
 
-        return $files;
+        return $list;
     }
 }

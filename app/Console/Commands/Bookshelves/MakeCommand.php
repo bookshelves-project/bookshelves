@@ -10,6 +10,7 @@ use App\Engines\ParserEngine\Parsers\FilesTypeParser;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\MediaExtended;
 use App\Models\Serie;
 use Illuminate\Console\Command;
@@ -46,8 +47,14 @@ class MakeCommand extends CommandSteward
     /**
      * Create a new command instance.
      */
-    public function __construct()
-    {
+    public function __construct(
+        public bool $debug = false,
+        public bool $default = false,
+        public bool $force = false,
+        public bool $fresh = false,
+        public int $limit = 0,
+        public array $books_current = [],
+    ) {
         parent::__construct();
     }
 
@@ -60,19 +67,19 @@ class MakeCommand extends CommandSteward
     {
         $this->title(description: 'Books & relations');
 
-        $force = $this->option('force') ?? false;
+        $this->force = $this->option('force') ?? false;
         $limit = str_replace('=', '', $this->option('limit'));
-        $limit = intval($limit);
-        $fresh = $this->option('fresh') ?? false;
-        $debug = $this->option('debug') ?? false;
-        $default = $this->option('default') ?? false;
+        $this->limit = intval($limit);
+        $this->fresh = $this->option('fresh') ?? false;
+        $this->debug = $this->option('debug') ?? false;
+        $this->default = $this->option('default') ?? false;
 
         $this->askOnProduction();
 
         Artisan::call('clear:all', [], $this->getOutput());
-        $list = FilesTypeParser::parseDataFiles(limit: $limit);
+        $list = FilesTypeParser::make(limit: $this->limit);
 
-        if ($fresh) {
+        if ($this->fresh) {
             MediaExtended::where('collection_name', MediaDiskEnum::cover)->delete();
             foreach (BookFormatEnum::toArray() as $format) {
                 MediaExtended::where('collection_name', $format)->delete();
@@ -80,7 +87,7 @@ class MakeCommand extends CommandSteward
             File::deleteDirectory(public_path('storage/media/covers'));
             File::deleteDirectory(public_path('storage/media/formats'));
             Artisan::call('database', [
-                '--books' => $fresh,
+                '--books' => $this->fresh,
             ], $this->getOutput());
         }
 
@@ -93,7 +100,7 @@ class MakeCommand extends CommandSteward
         $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie');
         $this->info('- Generate new EPUB file with standard name');
         $this->newLine();
-        if (! $default) {
+        if (! $this->default) {
             $format = config('bookshelves.cover_extension');
             $this->comment('Generate covers for books (--default|-D to skip)');
             $this->info('- Generate covers with differents dimensions');
@@ -112,13 +119,15 @@ class MakeCommand extends CommandSteward
 
         $start = microtime(true);
 
+        $this->books_current = Book::all()
+            ->map(fn (Book $book) => $book->physical_path)
+            ->toArray()
+        ;
         $bar = $this->output->createProgressBar(count($list));
         $bar->start();
         foreach ($list as $file) {
-            $parser = ParserEngine::make($file, $debug);
-            ConverterEngine::make($parser, $default);
-
-            if (! $debug) {
+            $this->convert($file);
+            if (! $this->debug) {
                 $bar->advance();
             }
         }
@@ -133,6 +142,19 @@ class MakeCommand extends CommandSteward
         $this->info("Time in seconds: {$time_elapsed_secs}");
 
         return Command::SUCCESS;
+    }
+
+    private function convert(FilesTypeParser $file)
+    {
+        if ($this->fresh) {
+            $parser = ParserEngine::make($file, $this->debug);
+            ConverterEngine::make($parser, $this->default);
+        } else {
+            if (! in_array($file->path, $this->books_current, true)) {
+                $parser = ParserEngine::make($file, $this->debug);
+                ConverterEngine::make($parser, $this->default);
+            }
+        }
     }
 
     private function improveRelation(string $model)
