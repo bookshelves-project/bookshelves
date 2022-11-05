@@ -13,8 +13,7 @@ class Twitter extends Component
     public function render()
     {
         $twitter = OpenGraphTwitter::make($this->url);
-        // dump($twitter);
-        $this->html = $twitter->getHtml();
+        // $this->html = $twitter->getHtml();
 
         return view('livewire.social.twitter');
     }

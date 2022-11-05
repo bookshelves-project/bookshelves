@@ -51,6 +51,7 @@ class BookConverter
                 'volume' => $parser_engine->serie ? $parser_engine->volume : null,
                 'type' => $parser_engine->type,
                 'page_count' => $parser_engine->page_count,
+                'physical_path' => $parser_engine->file_path,
             ]);
         }
         $book_converter->book = $book;
