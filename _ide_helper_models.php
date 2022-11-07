@@ -112,7 +112,6 @@ namespace App\Models{
  * @property string|null $isbn10
  * @property string|null $isbn13
  * @property array|null $identifiers
- * @property string|null $physical_path
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $authors
@@ -184,7 +183,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguagesIs(...$languages)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereMaturityRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePageCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book wherePhysicalPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePublisherId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereReleasedOn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereRights($value)
