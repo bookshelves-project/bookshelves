@@ -19,7 +19,13 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['http://localhost:3000'],
+    'allowed_origins' => explode(',', env('CORS_ALLOWED_ORIGINS', sprintf(
+        '%s%s',
+        'http://localhost,http://localhost:3000,http://127.0.0.1,http://127.0.0.1:8000,::1',
+        config('app.url'),
+        config('app.front_url'),
+    ))),
 
     'allowed_origins_patterns' => [],
 
@@ -29,6 +35,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];
