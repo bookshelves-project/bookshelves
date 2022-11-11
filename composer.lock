@@ -6723,16 +6723,16 @@
         },
         {
             "name": "spatie/laravel-route-attributes",
-            "version": "1.15.0",
+            "version": "1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-route-attributes.git",
-                "reference": "b9480f25c7d93e743fd86d5a93b613aee35c8be6"
+                "reference": "700b7f5794e6373ef9100d2dc4539c167109d26f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-route-attributes/zipball/b9480f25c7d93e743fd86d5a93b613aee35c8be6",
-                "reference": "b9480f25c7d93e743fd86d5a93b613aee35c8be6",
+                "url": "https://api.github.com/repos/spatie/laravel-route-attributes/zipball/700b7f5794e6373ef9100d2dc4539c167109d26f",
+                "reference": "700b7f5794e6373ef9100d2dc4539c167109d26f",
                 "shasum": ""
             },
             "require": {
@@ -6777,7 +6777,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-route-attributes/issues",
-                "source": "https://github.com/spatie/laravel-route-attributes/tree/1.15.0"
+                "source": "https://github.com/spatie/laravel-route-attributes/tree/1.16.0"
             },
             "funding": [
                 {
@@ -6789,7 +6789,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2022-10-01T10:39:27+00:00"
+            "time": "2022-11-11T10:48:15+00:00"
         },
         {
             "name": "spatie/laravel-settings",
@@ -10828,16 +10828,16 @@
         },
         {
             "name": "knuckleswtf/scribe",
-            "version": "4.2.1",
+            "version": "4.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knuckleswtf/scribe.git",
-                "reference": "2f5e6d34b4464f44c138f21e9242010f5d466c94"
+                "reference": "da89aed0e395663df6da628c5579d89ea4dfa226"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/2f5e6d34b4464f44c138f21e9242010f5d466c94",
-                "reference": "2f5e6d34b4464f44c138f21e9242010f5d466c94",
+                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/da89aed0e395663df6da628c5579d89ea4dfa226",
+                "reference": "da89aed0e395663df6da628c5579d89ea4dfa226",
                 "shasum": ""
             },
             "require": {
@@ -10911,7 +10911,7 @@
             ],
             "support": {
                 "issues": "https://github.com/knuckleswtf/scribe/issues",
-                "source": "https://github.com/knuckleswtf/scribe/tree/4.2.1"
+                "source": "https://github.com/knuckleswtf/scribe/tree/4.2.2"
             },
             "funding": [
                 {
@@ -10919,7 +10919,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-11-09T18:20:18+00:00"
+            "time": "2022-11-10T21:17:20+00:00"
         },
         {
             "name": "laravel/pint",
