@@ -7,7 +7,12 @@
       "label": "COMPOSER install",
       "type": "shell",
       "command": "composer i",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
     },
     {
       "label": "COMPOSER update",
@@ -19,25 +24,45 @@
       "label": "Helper",
       "type": "shell",
       "command": "composer helper",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
     },
     {
       "label": "Format",
       "type": "shell",
       "command": "composer format",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
     },
     {
       "label": "Analyse",
       "type": "shell",
       "command": "composer analyse",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
     },
     {
       "label": "Docs",
       "type": "shell",
       "command": "composer docs",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
     },
     {
       "label": "Tests",
@@ -55,19 +80,34 @@
       "label": "PNPM install",
       "type": "shell",
       "command": "pnpm i",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
     },
     {
       "label": "PNPM dev",
       "type": "shell",
       "command": "pnpm dev",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
     },
     {
       "label": "MIGRATE",
       "type": "shell",
       "command": "php artisan migrate",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
     },
     {
       "label": "MIGRATE:fresh --seed",
