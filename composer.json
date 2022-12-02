@@ -54,6 +54,7 @@
     "spatie/image": "^2.2",
     "spatie/laravel-medialibrary": "^10.0.0",
     "spatie/laravel-query-builder": "^5.0",
+    "spatie/laravel-ray": "^1.31",
     "spatie/laravel-route-attributes": "^1.12",
     "spatie/laravel-settings": "^2.4",
     "spatie/laravel-tags": "^4.3",

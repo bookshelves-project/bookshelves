@@ -85,6 +85,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAnyTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  */
 	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Kiwilan\Steward\Services\WikipediaService\Wikipediable {}
 }
@@ -202,6 +203,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAllTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  */
 	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Kiwilan\Steward\Services\GoogleBookService\GoogleBookable {}
 }
@@ -562,6 +564,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAnyTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  */
 	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Kiwilan\Steward\Services\WikipediaService\Wikipediable {}
 }
@@ -636,6 +639,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|TagExtend withAnyTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag withType(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagExtend withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  */
 	class TagExtend extends \Eloquent {}
 }
