@@ -7,7 +7,7 @@
     "lint:fix": "eslint . --ext .ts,.js --fix --ignore-path .gitignore"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.31.0",
+    "@antfu/eslint-config": "^0.33.1",
     "@awcodes/alpine-floating-ui": "^3.4.0",
     "@kiwilan/vite-plugin-laravel-steward": "^0.0.136",
     "@tailwindcss/aspect-ratio": "^0.4.2",
@@ -15,7 +15,7 @@
     "@tailwindcss/line-clamp": "^0.4.2",
     "@tailwindcss/typography": "^0.5.8",
     "@types/alpinejs": "^3.7.1",
-    "@types/node": "^18.11.9",
+    "@types/node": "^18.11.10",
     "alpinejs": "^3.10.5",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.28.0",
