@@ -28,7 +28,7 @@
     "ext-rar": "*"
   },
   "require": {
-    "php": "^8.1.0",
+    "php": "^8.2.0",
     "artesaos/seotools": "^1.0.0",
     "filament/filament": "^2.0",
     "filament/notifications": "^2.0",
@@ -47,7 +47,6 @@
     "livewire/livewire": "^2.10",
     "meilisearch/meilisearch-php": "^0.25",
     "opcodesio/log-viewer": "^1.4",
-    "psr/simple-cache": "^1.0",
     "pxlrbt/filament-excel": "^1.1",
     "smalot/pdfparser": "^2.2",
     "spatie/array-to-xml": "^3.1",
