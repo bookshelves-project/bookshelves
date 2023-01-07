@@ -19,8 +19,7 @@ class AuthorController extends ApiController
     {
         return HttpQuery::make(Author::class, $request)
             ->with(['media'])
-            ->collection()
-        ;
+            ->collection();
     }
 
     #[Get('/{author_slug}', name: 'authors.show')]
