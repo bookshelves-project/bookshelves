@@ -5,7 +5,6 @@ namespace App\Engines\ConverterEngine;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Serie;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Kiwilan\Steward\Class\WikipediaItem;
 use Kiwilan\Steward\Services\MediaService;
@@ -44,7 +43,7 @@ class WikipediaItemConverter
 
     public function setWikipediaDescription(): self
     {
-        if (! $this->model->description && ! $this->model->link) {
+        if (!$this->model->description && !$this->model->link) {
             // if ('' === $model->getTranslation('description', $model->language_slug)) {
             //     $model->setTranslation(
             //         'description',
@@ -75,8 +74,7 @@ class WikipediaItemConverter
                 $this->model->clearMediaCollection($disk->value);
                 MediaService::make($this->model, $this->model->slug, $disk)
                     ->setMedia($cover)
-                    ->setColor()
-                ;
+                    ->setColor();
             }
         }
 
