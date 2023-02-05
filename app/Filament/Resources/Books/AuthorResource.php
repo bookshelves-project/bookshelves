@@ -47,7 +47,7 @@ class AuthorResource extends Resource
                             ->label('Note')
                             ->columnSpan(2),
                     ],
-                ])->get(),
+                ]),
                 FilamentLayout::column([
                     [
                         Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
@@ -58,10 +58,8 @@ class AuthorResource extends Resource
                             ->options(AuthorRoleEnum::toList())
                             ->default(AuthorRoleEnum::aut->value),
                     ],
-                ])->width(1)->get(),
-            ])
-            ->get()
-        ;
+                ], 1),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -114,8 +112,7 @@ class AuthorResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ])
-            ->defaultSort('slug')
-        ;
+            ->defaultSort('slug');
     }
 
     public static function getRelations(): array

@@ -1,7 +1,7 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import laravel, { refreshPaths } from 'laravel-vite-plugin'
-import { Steward } from '@kiwilan/vite-plugin-laravel-steward'
+import { Steward } from '@kiwilan/vite-plugin-steward-laravel'
 
 export default defineConfig({
   resolve: {

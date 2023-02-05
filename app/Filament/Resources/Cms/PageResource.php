@@ -31,7 +31,6 @@ class PageResource extends Resource
     public static function form(Form $form): Form
     {
         return FilamentLayout::make($form)
-            ->width(2)
             ->schema([
                 FilamentLayout::column([
                     [
@@ -65,10 +64,8 @@ class PageResource extends Resource
                             ->orderable(fn () => false)
                             ->columnSpan(2),
                     ],
-                ])->titles(['Meta'])->get(),
-            ])
-            ->get()
-        ;
+                ]),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -100,8 +97,7 @@ class PageResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ])
-        ;
+            ]);
     }
 
     public static function getRelations(): array

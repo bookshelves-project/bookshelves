@@ -35,24 +35,25 @@ class BookResource extends Resource
 
         return FilamentLayout::make($form)
             ->schema([
-                FilamentLayout::column([[
-                    Forms\Components\TextInput::make('title')
-                        ->label('Title'),
-                    Forms\Components\Select::make('language')
-                        ->relationship('language', 'name')
-                        ->label('Language'),
-                    Forms\Components\Select::make('authors')
-                        ->multiple()
-                        ->relationship('authors', 'name')
-                        ->label('Authors')
-                        ->columnSpan(2),
-                    Forms\Components\Select::make('serie')
-                        ->relationship('serie', 'title')
-                        ->label('Serie'),
-                    Forms\Components\TextInput::make('volume')
-                        ->type('number')
-                        ->label('Volume'),
-                ],
+                FilamentLayout::column([
+                    [
+                        Forms\Components\TextInput::make('title')
+                            ->label('Title'),
+                        Forms\Components\Select::make('language')
+                            ->relationship('language', 'name')
+                            ->label('Language'),
+                        Forms\Components\Select::make('authors')
+                            ->multiple()
+                            ->relationship('authors', 'name')
+                            ->label('Authors')
+                            ->columnSpan(2),
+                        Forms\Components\Select::make('serie')
+                            ->relationship('serie', 'title')
+                            ->label('Serie'),
+                        Forms\Components\TextInput::make('volume')
+                            ->type('number')
+                            ->label('Volume'),
+                    ],
                     [
                         Forms\Components\SpatieTagsInput::make('tags')
                             ->type('tag')
@@ -88,7 +89,7 @@ class BookResource extends Resource
                         Forms\Components\TextInput::make('rights')
                             ->label('Rights'),
                     ],
-                ])->get(),
+                ]),
                 FilamentLayout::column([
                     [
                         Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
@@ -139,8 +140,8 @@ class BookResource extends Resource
                             ->collection(BookFormatEnum::pdf->value)
                             ->label('PDF'),
                     ],
-                ])->width(1)->get(),
-            ])->get();
+                ], 1),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -230,8 +231,7 @@ class BookResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ])
-            ->defaultSort('slug_sort')
-        ;
+            ->defaultSort('slug_sort');
     }
 
     public static function getRelations(): array

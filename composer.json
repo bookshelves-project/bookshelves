@@ -39,7 +39,7 @@
     "guzzlehttp/guzzle": "^7.2",
     "http-interop/http-factory-guzzle": "^1.2",
     "itsgoingd/clockwork": "^5.1",
-    "kiwilan/laravel-steward": "dev-main",
+    "kiwilan/steward-laravel": "dev-main",
     "laravel/framework": "^9.19",
     "laravel/sanctum": "^3.0",
     "laravel/scout": "^9.4",

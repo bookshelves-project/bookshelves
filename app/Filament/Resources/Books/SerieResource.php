@@ -62,7 +62,7 @@ class SerieResource extends Resource
                             ->label('Link')
                             ->columnSpan(2),
                     ],
-                ])->get(),
+                ]),
                 FilamentLayout::column([
                     [
                         Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
@@ -79,8 +79,8 @@ class SerieResource extends Resource
                             ->default(BookTypeEnum::novel->value),
                         FilamentForm::meta(),
                     ],
-                ])->width(1)->get(),
-            ])->get();
+                ], 1),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -138,8 +138,7 @@ class SerieResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ])
-            ->defaultSort('slug_sort')
-        ;
+            ->defaultSort('slug_sort');
     }
 
     public static function getRelations(): array

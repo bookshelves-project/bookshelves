@@ -6,6 +6,7 @@ use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Vite;
 use Illuminate\Support\ServiceProvider;
+use Kiwilan\Steward\Components\Field\FieldRichEditor;
 use Kiwilan\Steward\Http\Livewire\Editor;
 use Livewire;
 use Opcodes\LogViewer\Facades\LogViewer;
@@ -43,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        Livewire::component('editor', Editor::class);
+        Livewire::component('editor', FieldRichEditor::class);
 
         LogViewer::auth(function ($request) {
             /** @var User */

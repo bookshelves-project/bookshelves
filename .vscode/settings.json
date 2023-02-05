@@ -13,11 +13,9 @@
   },
   // "prettier.enable": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
+    "source.fixAll.eslint": true
   },
-  "i18n-ally.localesPaths": [
-    "locales"
-  ],
+  "i18n-ally.localesPaths": ["locales"],
   "i18n-ally.keystyle": "nested",
   "npm.packageManager": "pnpm",
   "phpstan.enabled": true

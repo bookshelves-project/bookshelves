@@ -57,7 +57,7 @@ class PostResource extends Resource
                     [
                         FilamentBuilder::make(WordpressBuilder::class)->get(),
                     ],
-                ])->get(),
+                ]),
                 FilamentLayout::column([
                     [
                         Forms\Components\FileUpload::make('picture'),
@@ -68,10 +68,8 @@ class PostResource extends Resource
                         FilamentForm::seo(),
                         FilamentForm::meta(),
                     ],
-                ])->width(1)->get(),
-            ])
-            ->get()
-        ;
+                ], 1),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -117,8 +115,7 @@ class PostResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ])
-            ->defaultSort('published_at', 'desc')
-        ;
+            ->defaultSort('published_at', 'desc');
     }
 
     public static function getRelations(): array
