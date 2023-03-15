@@ -14,7 +14,6 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Filament Path
@@ -199,14 +198,12 @@ return [
     */
 
     'broadcasting' => [
-
         // 'echo' => [
         //     'broadcaster' => 'pusher',
         //     'key' => env('VITE_PUSHER_APP_KEY'),
         //     'cluster' => env('VITE_PUSHER_APP_CLUSTER'),
         //     'forceTLS' => true,
         // ],
-
     ],
 
     /*
@@ -330,5 +327,4 @@ return [
             MirrorConfigToSubpackages::class,
         ],
     ],
-
 ];

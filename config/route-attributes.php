@@ -1,9 +1,7 @@
 <?php
 
 return [
-    /*
-     *  Automatic registration of routes will only happen if this setting is `true`
-     */
+    // Automatic registration of routes will only happen if this setting is `true`
     'enabled' => true,
 
     /*
@@ -22,10 +20,8 @@ return [
         */
     ],
 
-    /**
-     * This middleware will be applied to all routes.
-     */
+    // This middleware will be applied to all routes.
     'middleware' => [
-        \Illuminate\Routing\Middleware\SubstituteBindings::class
-    ]
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    ],
 ];

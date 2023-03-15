@@ -89,9 +89,10 @@ EOF
 composer require laravel/scout
 php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
 composer require meilisearch/meilisearch-php http-interop/http-factory-guzzle
+echo "" >> .env
 echo "SCOUT_DRIVER=collection # meilisearch/collection" >> .env
 echo "MEILISEARCH_HOST=http://127.0.0.1:7700 # meilisearch/collection" >> .env
-echo "MEILISEARCH_KEY= # meilisearch/collection" >> .env
+echo "MEILISEARCH_KEY=" >> .env
 ```
 
 ## Livewire

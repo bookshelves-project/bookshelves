@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42fe6419254d045ab60dd68f22853efd",
+    "content-hash": "b2698e0b02c17ada85f4256820307478",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -74,6 +74,68 @@
                 "source": "https://github.com/akaunting/laravel-money/tree/4.0.0"
             },
             "time": "2023-02-14T18:09:30+00:00"
+        },
+        {
+            "name": "anourvalar/eloquent-serialize",
+            "version": "1.2.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AnourValar/eloquent-serialize.git",
+                "reference": "f59423cf611e98a6316ed4e2beecb44304f0277f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AnourValar/eloquent-serialize/zipball/f59423cf611e98a6316ed4e2beecb44304f0277f",
+                "reference": "f59423cf611e98a6316ed4e2beecb44304f0277f",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "laravel/legacy-factories": "^1.1",
+                "orchestra/testbench": "~3.6.0|~3.7.0|~3.8.0|^4.0|^5.0|^6.0|^7.0|^8.0",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "EloquentSerialize": "AnourValar\\EloquentSerialize\\Facades\\EloquentSerializeFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AnourValar\\EloquentSerialize\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Laravel Query Builder (Eloquent) serialization",
+            "homepage": "https://github.com/AnourValar/eloquent-serialize",
+            "keywords": [
+                "anourvalar",
+                "builder",
+                "copy",
+                "eloquent",
+                "job",
+                "laravel",
+                "query",
+                "querybuilder",
+                "queue",
+                "serializable",
+                "serialization",
+                "serialize"
+            ],
+            "support": {
+                "issues": "https://github.com/AnourValar/eloquent-serialize/issues",
+                "source": "https://github.com/AnourValar/eloquent-serialize/tree/1.2.14"
+            },
+            "time": "2023-02-28T16:58:15+00:00"
         },
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -1478,6 +1540,43 @@
             "time": "2023-03-12T12:20:28+00:00"
         },
         {
+            "name": "filament/spatie-laravel-media-library-plugin",
+            "version": "v2.17.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filamentphp/spatie-laravel-media-library-plugin.git",
+                "reference": "ac07f3cfc0b2ad10e07f264d6fc03ea2cdb4c683"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filamentphp/spatie-laravel-media-library-plugin/zipball/ac07f3cfc0b2ad10e07f264d6fc03ea2cdb4c683",
+                "reference": "ac07f3cfc0b2ad10e07f264d6fc03ea2cdb4c683",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.6|^9.0|^10.0",
+                "php": "^8.0",
+                "spatie/laravel-medialibrary": "^9.0|^10.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Filament\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Filament support for `spatie/laravel-medialibrary`.",
+            "homepage": "https://github.com/filamentphp/filament",
+            "support": {
+                "issues": "https://github.com/filamentphp/filament/issues",
+                "source": "https://github.com/filamentphp/filament"
+            },
+            "time": "2023-03-15T10:54:50+00:00"
+        },
+        {
             "name": "filament/spatie-laravel-settings-plugin",
             "version": "v2.17.16",
             "source": {
@@ -1523,6 +1622,89 @@
                 "source": "https://github.com/filamentphp/filament"
             },
             "time": "2023-02-01T14:44:17+00:00"
+        },
+        {
+            "name": "filament/spatie-laravel-tags-plugin",
+            "version": "v2.17.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filamentphp/spatie-laravel-tags-plugin.git",
+                "reference": "a964dedc6405493992597e97127d942ff91437bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filamentphp/spatie-laravel-tags-plugin/zipball/a964dedc6405493992597e97127d942ff91437bc",
+                "reference": "a964dedc6405493992597e97127d942ff91437bc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^8.6|^9.0|^10.0",
+                "php": "^8.0",
+                "spatie/laravel-tags": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Filament\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Filament support for `spatie/laravel-tags`.",
+            "homepage": "https://github.com/filamentphp/filament",
+            "support": {
+                "issues": "https://github.com/filamentphp/filament/issues",
+                "source": "https://github.com/filamentphp/filament"
+            },
+            "time": "2023-01-25T18:16:12+00:00"
+        },
+        {
+            "name": "filament/spatie-laravel-translatable-plugin",
+            "version": "v2.17.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filamentphp/spatie-laravel-translatable-plugin.git",
+                "reference": "df2152448f65687696a3f37f8b3c2005e8692efe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filamentphp/spatie-laravel-translatable-plugin/zipball/df2152448f65687696a3f37f8b3c2005e8692efe",
+                "reference": "df2152448f65687696a3f37f8b3c2005e8692efe",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "filament/filament": "self.version",
+                "illuminate/support": "^8.6|^9.0|^10.0",
+                "php": "^8.0",
+                "spatie/laravel-translatable": "^5.0|^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Filament\\SpatieLaravelTranslatablePluginServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Filament\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Filament support for `spatie/laravel-translatable`.",
+            "homepage": "https://github.com/filamentphp/filament",
+            "support": {
+                "issues": "https://github.com/filamentphp/filament/issues",
+                "source": "https://github.com/filamentphp/filament"
+            },
+            "time": "2023-02-01T14:44:01+00:00"
         },
         {
             "name": "filament/support",
@@ -2322,16 +2504,16 @@
         },
         {
             "name": "kiwilan/steward-laravel",
-            "version": "0.10.02",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "5b789a00cd5000b3189ebe79d932cb5f4685afa8"
+                "reference": "2f4f6d67cfdb8b3e612c786e56813b8a9e78c29d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/5b789a00cd5000b3189ebe79d932cb5f4685afa8",
-                "reference": "5b789a00cd5000b3189ebe79d932cb5f4685afa8",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/2f4f6d67cfdb8b3e612c786e56813b8a9e78c29d",
+                "reference": "2f4f6d67cfdb8b3e612c786e56813b8a9e78c29d",
                 "shasum": ""
             },
             "require": {
@@ -2364,6 +2546,7 @@
                 "phpstan/phpstan-phpunit": "^1.0",
                 "spatie/laravel-ray": "^1.26"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -2403,9 +2586,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
-                "source": "https://github.com/kiwilan/steward-laravel/tree/0.10.02"
+                "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2023-03-15T18:34:55+00:00"
+            "time": "2023-03-15T19:40:08+00:00"
         },
         {
             "name": "laravel/framework",
@@ -4447,6 +4630,84 @@
             "time": "2023-02-08T01:06:31+00:00"
         },
         {
+            "name": "opcodesio/log-viewer",
+            "version": "v2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/opcodesio/log-viewer.git",
+                "reference": "8b996c75e532a46fe76bcd8bf32f517c4477a3ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/8b996c75e532a46fe76bcd8bf32f517c4477a3ea",
+                "reference": "8b996c75e532a46fe76bcd8bf32f517c4477a3ea",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.0|^9.0|^10.0",
+                "php": "^8.0"
+            },
+            "conflict": {
+                "arcanedev/log-viewer": "^8.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^7.2",
+                "itsgoingd/clockwork": "^5.1",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^6.0",
+                "orchestra/testbench": "^7.6|^8.0",
+                "pestphp/pest": "^1.21",
+                "pestphp/pest-plugin-laravel": "^1.1",
+                "phpunit/phpunit": "^9.5",
+                "spatie/test-time": "^1.3"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Required for multi-host support. ^7.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Opcodes\\LogViewer\\LogViewerServiceProvider"
+                    ],
+                    "aliases": {
+                        "LogViewer": "Opcodes\\LogViewer\\Facades\\LogViewer"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Opcodes\\LogViewer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arunas Skirius",
+                    "email": "arukomp@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Fast and easy-to-use log viewer for your Laravel application",
+            "homepage": "https://github.com/opcodesio/log-viewer",
+            "keywords": [
+                "arukompas",
+                "better-log-viewer",
+                "laravel",
+                "log viewer",
+                "logs",
+                "opcodesio"
+            ],
+            "support": {
+                "issues": "https://github.com/opcodesio/log-viewer/issues",
+                "source": "https://github.com/opcodesio/log-viewer/tree/v2.3.1"
+            },
+            "time": "2023-03-07T06:45:54+00:00"
+        },
+        {
             "name": "php-http/client-common",
             "version": "2.6.0",
             "source": {
@@ -5673,6 +5934,67 @@
             "time": "2023-01-29T21:24:40+00:00"
         },
         {
+            "name": "pxlrbt/filament-excel",
+            "version": "v1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pxlrbt/filament-excel.git",
+                "reference": "7d238b0e2a4ebf678aa7b9317e08439e62611d8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pxlrbt/filament-excel/zipball/7d238b0e2a4ebf678aa7b9317e08439e62611d8a",
+                "reference": "7d238b0e2a4ebf678aa7b9317e08439e62611d8a",
+                "shasum": ""
+            },
+            "require": {
+                "anourvalar/eloquent-serialize": "^1.2",
+                "filament/filament": "^2.0",
+                "maatwebsite/excel": "^3.1",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "pxlrbt\\FilamentExcel\\FilamentExcelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "pxlrbt\\FilamentExcel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dennis Koch",
+                    "email": "info@pixelarbeit.de"
+                }
+            ],
+            "description": "Supercharged Excel exports for Filament Resources",
+            "keywords": [
+                "PHPExcel",
+                "actions",
+                "filament",
+                "laravel",
+                "laravel-filament",
+                "phpspreadsheet"
+            ],
+            "support": {
+                "issues": "https://github.com/pxlrbt/filament-excel/issues",
+                "source": "https://github.com/pxlrbt/filament-excel/tree/v1.1.6"
+            },
+            "time": "2022-11-16T16:12:38+00:00"
+        },
+        {
             "name": "ralouphie/getallheaders",
             "version": "3.0.3",
             "source": {
@@ -5976,6 +6298,120 @@
             "time": "2023-02-14T16:54:54+00:00"
         },
         {
+            "name": "smalot/pdfparser",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smalot/pdfparser.git",
+                "reference": "70433d171a86dc881fc8c68fd6af4d60acb8313e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/70433d171a86dc881fc8c68fd6af4d60acb8313e",
+                "reference": "70433d171a86dc881fc8c68fd6af4d60acb8313e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "ext-zlib": "*",
+                "php": ">=7.1",
+                "symfony/polyfill-mbstring": "^1.18"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Smalot\\PdfParser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastien MALOT",
+                    "email": "sebastien@malot.fr"
+                }
+            ],
+            "description": "Pdf parser library. Can read and extract information from pdf file.",
+            "homepage": "https://www.pdfparser.org",
+            "keywords": [
+                "extract",
+                "parse",
+                "parser",
+                "pdf",
+                "text"
+            ],
+            "support": {
+                "issues": "https://github.com/smalot/pdfparser/issues",
+                "source": "https://github.com/smalot/pdfparser/tree/v2.3.0"
+            },
+            "time": "2022-12-21T16:52:55+00:00"
+        },
+        {
+            "name": "spatie/array-to-xml",
+            "version": "3.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/array-to-xml.git",
+                "reference": "13f76acef5362d15c71ae1ac6350cc3df5e25e43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/13f76acef5362d15c71ae1ac6350cc3df5e25e43",
+                "reference": "13f76acef5362d15c71ae1ac6350cc3df5e25e43",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.2",
+                "pestphp/pest": "^1.21",
+                "spatie/pest-plugin-snapshots": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ArrayToXml\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://freek.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Convert an array to xml",
+            "homepage": "https://github.com/spatie/array-to-xml",
+            "keywords": [
+                "array",
+                "convert",
+                "xml"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/array-to-xml/tree/3.1.5"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-24T13:43:51+00:00"
+        },
+        {
             "name": "spatie/backtrace",
             "version": "1.4.0",
             "source": {
@@ -6036,6 +6472,80 @@
                 }
             ],
             "time": "2023-03-04T08:57:24+00:00"
+        },
+        {
+            "name": "spatie/eloquent-sortable",
+            "version": "4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/eloquent-sortable.git",
+                "reference": "74994d10a17d15d2cdb319d6b2ad7cb6fa067c0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/eloquent-sortable/zipball/74994d10a17d15d2cdb319d6b2ad7cb6fa067c0a",
+                "reference": "74994d10a17d15d2cdb319d6b2ad7cb6fa067c0a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9.0|^10.0",
+                "illuminate/support": "^9.0|^10.0",
+                "nesbot/carbon": "^2.63",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.9"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.0|^8.0",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\EloquentSortable\\EloquentSortableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\EloquentSortable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be"
+                }
+            ],
+            "description": "Sortable behaviour for eloquent models",
+            "homepage": "https://github.com/spatie/eloquent-sortable",
+            "keywords": [
+                "behaviour",
+                "eloquent",
+                "laravel",
+                "model",
+                "sort",
+                "sortable"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/eloquent-sortable/issues",
+                "source": "https://github.com/spatie/eloquent-sortable/tree/4.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-01-23T08:34:14+00:00"
         },
         {
             "name": "spatie/image",
@@ -6226,6 +6736,115 @@
                 }
             ],
             "time": "2022-07-05T09:31:00+00:00"
+        },
+        {
+            "name": "spatie/laravel-medialibrary",
+            "version": "10.7.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-medialibrary.git",
+                "reference": "a992f2505f37abc49b0914c34d01a9dc7543cae1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/a992f2505f37abc49b0914c34d01a9dc7543cae1",
+                "reference": "a992f2505f37abc49b0914c34d01a9dc7543cae1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-exif": "*",
+                "ext-fileinfo": "*",
+                "ext-json": "*",
+                "illuminate/bus": "^9.18|^10.0",
+                "illuminate/conditionable": "9.18|^10.0",
+                "illuminate/console": "^9.18|^10.0",
+                "illuminate/database": "^9.18|^10.0",
+                "illuminate/pipeline": "^9.18|^10.0",
+                "illuminate/support": "^9.18|^10.0",
+                "intervention/image": "^2.7",
+                "maennchen/zipstream-php": "^2.0",
+                "php": "^8.0",
+                "spatie/image": "^2.2.2",
+                "spatie/temporary-directory": "^2.0",
+                "symfony/console": "^6.0"
+            },
+            "conflict": {
+                "php-ffmpeg/php-ffmpeg": "<0.6.1"
+            },
+            "require-dev": {
+                "aws/aws-sdk-php": "^3.133.11",
+                "doctrine/dbal": "^2.13",
+                "ext-imagick": "*",
+                "ext-pdo_sqlite": "*",
+                "ext-zip": "*",
+                "guzzlehttp/guzzle": "^7.4",
+                "league/flysystem-aws-s3-v3": "^3.0",
+                "mockery/mockery": "^1.4",
+                "nunomaduro/larastan": "^2.0",
+                "orchestra/testbench": "^7.0|^8.0",
+                "pestphp/pest": "^1.21",
+                "phpstan/extension-installer": "^1.1",
+                "spatie/laravel-ray": "^1.28",
+                "spatie/pdf-to-image": "^2.1",
+                "spatie/phpunit-snapshot-assertions": "^4.2"
+            },
+            "suggest": {
+                "league/flysystem-aws-s3-v3": "Required to use AWS S3 file storage",
+                "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails",
+                "spatie/pdf-to-image": "Required for generating thumbsnails of PDFs and SVGs"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\MediaLibrary\\MediaLibraryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\MediaLibrary\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Associate files with Eloquent models",
+            "homepage": "https://github.com/spatie/laravel-medialibrary",
+            "keywords": [
+                "cms",
+                "conversion",
+                "downloads",
+                "images",
+                "laravel",
+                "laravel-medialibrary",
+                "media",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-medialibrary/issues",
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/10.7.13"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-03-06T11:26:25+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
@@ -6602,6 +7221,157 @@
                 }
             ],
             "time": "2023-03-10T09:30:34+00:00"
+        },
+        {
+            "name": "spatie/laravel-tags",
+            "version": "4.3.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-tags.git",
+                "reference": "490a8828dc9396ddee60ed580f6b5924b7c497db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-tags/zipball/490a8828dc9396ddee60ed580f6b5924b7c497db",
+                "reference": "490a8828dc9396ddee60ed580f6b5924b7c497db",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.67|^9.0|^10.0",
+                "nesbot/carbon": "^2.63",
+                "php": "^8.0",
+                "spatie/eloquent-sortable": "^3.10|^4.0",
+                "spatie/laravel-package-tools": "^1.4",
+                "spatie/laravel-translatable": "^4.6|^5.0|^6.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.13|^7.0|^8.0",
+                "pestphp/pest": "^1.22",
+                "phpunit/phpunit": "^9.5.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Tags\\TagsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Tags\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add tags and taggable behaviour to your Laravel app",
+            "homepage": "https://github.com/spatie/laravel-tags",
+            "keywords": [
+                "laravel-tags",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-tags/issues",
+                "source": "https://github.com/spatie/laravel-tags/tree/4.3.7"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-01-25T09:12:48+00:00"
+        },
+        {
+            "name": "spatie/laravel-translatable",
+            "version": "6.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-translatable.git",
+                "reference": "b3f6fa43ce05d7640ca9eacf4fee9c0037fc84d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-translatable/zipball/b3f6fa43ce05d7640ca9eacf4fee9c0037fc84d2",
+                "reference": "b3f6fa43ce05d7640ca9eacf4fee9c0037fc84d2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9.0|^10.0",
+                "illuminate/support": "^9.0|^10.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.11"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^7.0|^8.0",
+                "pestphp/pest": "^1.20"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Translatable\\TranslatableServiceProvider"
+                    ]
+                },
+                "aliases": {
+                    "Translatable": "Spatie\\Translatable\\Facades\\Translatable"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Translatable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A trait to make an Eloquent model hold translations",
+            "homepage": "https://github.com/spatie/laravel-translatable",
+            "keywords": [
+                "eloquent",
+                "i8n",
+                "laravel-translatable",
+                "model",
+                "multilingual",
+                "spatie",
+                "translate"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-translatable/tree/6.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-01-14T20:57:45+00:00"
         },
         {
             "name": "spatie/macroable",
@@ -10015,6 +10785,56 @@
             "time": "2022-11-17T09:50:14+00:00"
         },
         {
+            "name": "erusev/parsedown",
+            "version": "1.7.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown.git",
+                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
+                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Parsedown": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
+                }
+            ],
+            "description": "Parser for Markdown.",
+            "homepage": "http://parsedown.org",
+            "keywords": [
+                "markdown",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/erusev/parsedown/issues",
+                "source": "https://github.com/erusev/parsedown/tree/1.7.x"
+            },
+            "time": "2019-12-30T22:54:17+00:00"
+        },
+        {
             "name": "fakerphp/faker",
             "version": "v1.21.0",
             "source": {
@@ -10280,6 +11100,101 @@
             "time": "2020-07-09T08:09:16+00:00"
         },
         {
+            "name": "knuckleswtf/scribe",
+            "version": "4.16.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/knuckleswtf/scribe.git",
+                "reference": "1df972a3f73dd3b98e1dcf038597606ba9bdb01f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/1df972a3f73dd3b98e1dcf038597606ba9bdb01f",
+                "reference": "1df972a3f73dd3b98e1dcf038597606ba9bdb01f",
+                "shasum": ""
+            },
+            "require": {
+                "erusev/parsedown": "1.7.4",
+                "ext-fileinfo": "*",
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "fakerphp/faker": "^1.9.1",
+                "illuminate/console": "^8.0|^9.0|^10.0",
+                "illuminate/routing": "^8.0|^9.0|^10.0",
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "league/flysystem": "^1.1.4|^2.1.1|^3.0",
+                "mpociot/reflection-docblock": "^1.0.1",
+                "nikic/php-parser": "^4.10",
+                "nunomaduro/collision": "^5.10|^6.0|^7.0",
+                "php": ">=8.0",
+                "ramsey/uuid": "^4.2.2",
+                "shalvah/clara": "^3.1.0",
+                "shalvah/upgrader": "^0.3.0",
+                "spatie/data-transfer-object": "^2.6|^3.0",
+                "symfony/var-exporter": "^5.4|^6.0",
+                "symfony/yaml": "^5.4|^6.0"
+            },
+            "replace": {
+                "mpociot/laravel-apidoc-generator": "*"
+            },
+            "require-dev": {
+                "brianium/paratest": "^6.0",
+                "dms/phpunit-arraysubset-asserts": "^0.4",
+                "laravel/legacy-factories": "^1.3.0",
+                "laravel/lumen-framework": "^8.0|^9.0",
+                "league/fractal": "^0.20",
+                "nikic/fast-route": "^1.3",
+                "orchestra/testbench": "^6.0|^7.0|^8.0",
+                "pestphp/pest": "^1.21",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^9.0|^10.0",
+                "symfony/css-selector": "^5.4|^6.0",
+                "symfony/dom-crawler": "^5.4|^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Knuckles\\Scribe\\ScribeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Knuckles\\Camel\\": "camel/",
+                    "Knuckles\\Scribe\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Shalvah"
+                }
+            ],
+            "description": "Generate API documentation for humans from your Laravel codebase.✍",
+            "homepage": "http://github.com/knuckleswtf/scribe",
+            "keywords": [
+                "api",
+                "dingo",
+                "documentation",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/knuckleswtf/scribe/issues",
+                "source": "https://github.com/knuckleswtf/scribe/tree/4.16.0"
+            },
+            "funding": [
+                {
+                    "url": "https://patreon.com/shalvah",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2023-02-16T18:51:12+00:00"
+        },
+        {
             "name": "laravel/pint",
             "version": "v1.6.0",
             "source": {
@@ -10481,6 +11396,59 @@
                 "source": "https://github.com/mockery/mockery/tree/1.5.1"
             },
             "time": "2022-09-07T15:32:08+00:00"
+        },
+        {
+            "name": "mpociot/reflection-docblock",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mpociot/reflection-docblock.git",
+                "reference": "c8b2e2b1f5cebbb06e2b5ccbf2958f2198867587"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mpociot/reflection-docblock/zipball/c8b2e2b1f5cebbb06e2b5ccbf2958f2198867587",
+                "reference": "c8b2e2b1f5cebbb06e2b5ccbf2958f2198867587",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "dflydev/markdown": "~1.0",
+                "erusev/parsedown": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Mpociot": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike van Riel",
+                    "email": "mike.vanriel@naenius.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/mpociot/reflection-docblock/issues",
+                "source": "https://github.com/mpociot/reflection-docblock/tree/master"
+            },
+            "time": "2016-06-20T20:53:12+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -12317,6 +13285,175 @@
             "time": "2023-02-07T11:34:05+00:00"
         },
         {
+            "name": "shalvah/clara",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shalvah/clara.git",
+                "reference": "d3ae9b277393d438edbfcf9ddb7ca42e958fa054"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shalvah/clara/zipball/d3ae9b277393d438edbfcf9ddb7ca42e958fa054",
+                "reference": "d3ae9b277393d438edbfcf9ddb7ca42e958fa054",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4",
+                "symfony/console": "^4.0|^5.0|^6.0"
+            },
+            "require-dev": {
+                "eloquent/phony-phpunit": "^7.0",
+                "phpunit/phpunit": "^9.1"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "helpers.php"
+                ],
+                "psr-4": {
+                    "Shalvah\\Clara\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "🔊 Simple, pretty, testable console output for CLI apps.",
+            "keywords": [
+                "cli",
+                "log",
+                "logging"
+            ],
+            "support": {
+                "issues": "https://github.com/shalvah/clara/issues",
+                "source": "https://github.com/shalvah/clara/tree/3.1.0"
+            },
+            "time": "2022-01-14T13:54:30+00:00"
+        },
+        {
+            "name": "shalvah/upgrader",
+            "version": "0.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shalvah/upgrader.git",
+                "reference": "c7f1cca8be5cd0114cd816d8bfff9c80565f7390"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shalvah/upgrader/zipball/c7f1cca8be5cd0114cd816d8bfff9c80565f7390",
+                "reference": "c7f1cca8be5cd0114cd816d8bfff9c80565f7390",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "nikic/php-parser": "^4.13",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "dms/phpunit-arraysubset-asserts": "^0.2.0",
+                "pestphp/pest": "^1.21",
+                "phpstan/phpstan": "^1.0",
+                "spatie/ray": "^1.33"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Shalvah\\Upgrader\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Shalvah",
+                    "email": "hello@shalvah.me"
+                }
+            ],
+            "description": "Create automatic upgrades for your package.",
+            "homepage": "http://github.com/shalvah/upgrader",
+            "keywords": [
+                "upgrade"
+            ],
+            "support": {
+                "issues": "https://github.com/shalvah/upgrader/issues",
+                "source": "https://github.com/shalvah/upgrader/tree/0.3.1"
+            },
+            "funding": [
+                {
+                    "url": "https://patreon.com/shalvah",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2023-02-06T01:20:37+00:00"
+        },
+        {
+            "name": "spatie/data-transfer-object",
+            "version": "3.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/data-transfer-object.git",
+                "reference": "1df0906c4e9e3aebd6c0506fd82c8b7d5548c1c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/data-transfer-object/zipball/1df0906c4e9e3aebd6c0506fd82c8b7d5548c1c8",
+                "reference": "1df0906c4e9e3aebd6c0506fd82c8b7d5548c1c8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "illuminate/collections": "^8.36",
+                "jetbrains/phpstorm-attributes": "^1.0",
+                "larapack/dd": "^1.1",
+                "phpunit/phpunit": "^9.5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\DataTransferObject\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Data transfer objects with batteries included",
+            "homepage": "https://github.com/spatie/data-transfer-object",
+            "keywords": [
+                "data-transfer-object",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/data-transfer-object/issues",
+                "source": "https://github.com/spatie/data-transfer-object/tree/3.9.1"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "abandoned": "spatie/laravel-data",
+            "time": "2022-09-16T13:34:38+00:00"
+        },
+        {
             "name": "spatie/flare-client-php",
             "version": "1.3.5",
             "source": {
@@ -12549,6 +13686,80 @@
             "time": "2023-01-24T07:20:39+00:00"
         },
         {
+            "name": "symfony/var-exporter",
+            "version": "v6.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-exporter.git",
+                "reference": "86062dd0103530e151588c8f60f5b85a139f1442"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/86062dd0103530e151588c8f60f5b85a139f1442",
+                "reference": "86062dd0103530e151588c8f60f5b85a139f1442",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "symfony/var-dumper": "^5.4|^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\VarExporter\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Allows exporting any serializable PHP data structure to plain PHP code",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "clone",
+                "construct",
+                "export",
+                "hydrate",
+                "instantiate",
+                "lazy loading",
+                "proxy",
+                "serialize"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/var-exporter/tree/v6.2.7"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-02-24T10:42:00+00:00"
+        },
+        {
             "name": "symfony/yaml",
             "version": "v6.2.7",
             "source": {
@@ -12675,11 +13886,13 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "kiwilan/steward-laravel": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1"
+        "php": "^8.2"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

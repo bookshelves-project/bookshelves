@@ -13,10 +13,10 @@ class EmptySeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        User::factory()->superAdmin()->create([
             'name' => 'Super Admin',
-            'email' => 'superadmin@example.com',
-            'password' => Hash::make('password'),
+            'email' => config('app.admin.email'),
+            'password' => Hash::make(config('app.admin.password')),
         ]);
     }
 }
