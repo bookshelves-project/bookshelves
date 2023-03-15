@@ -36,67 +36,6 @@ return [
             'throw' => false,
         ],
 
-        'cms' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/cms'),
-            'url' => env('APP_URL').'/storage/media/cms',
-            'visibility' => 'public',
-        ],
-
-        'cover' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/covers'),
-            'url' => env('APP_URL').'/storage/media/covers',
-            'visibility' => 'public',
-        ],
-
-        'format' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/formats'),
-            'url' => env('APP_URL').'/storage/media/formats',
-            'visibility' => 'public',
-        ],
-
-        'media' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/media'),
-            'url' => env('APP_URL').'/storage/media/media',
-            'visibility' => 'public',
-        ],
-
-        'post' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/posts'),
-            'url' => env('APP_URL').'/storage/media/posts',
-            'visibility' => 'public',
-        ],
-
-        'user' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/users'),
-            'url' => env('APP_URL').'/storage/media/users',
-            'visibility' => 'public',
-        ],
-
-        'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
-        ],
-
-        'media' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media'),
-            'url' => '/storage/media',
-        ],
-
-        'files' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/files'),
-            'url' => env('APP_URL').'/storage/files',
-        ],
-
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

@@ -1,56 +1,35 @@
 <?php
 
+use Kiwilan\Steward\Enums\Api\SeedsApiCategoryEnum;
+use Kiwilan\Steward\Enums\Api\SeedsApiSizeEnum;
+use Kiwilan\Steward\Enums\FactoryTextEnum;
+
 return [
     /*
     |--------------------------------------------------------------------------
-    | Steward publishable
+    | Steward Auth
     |--------------------------------------------------------------------------
     |
-    | For `publish:scheduled` command, set here all models with `Publishable` trait.
+    | Auth config.
     |
     */
 
-    'publishable' => [
-        'models' => [
-            \App\Models\Post::class,
-        ],
-        // Default enum used for `status` field, available options `draft`, `scheduled`, `published`
-        'enum' => \Kiwilan\Steward\Enums\PublishStatusEnum::class,
-        'enum_published' => 'published',
-        'enum_draft' => 'draft',
+    'auth' => [
+        'login_route' => 'login',
+        'register_route' => 'register',
+        'logout_route' => 'logout',
+        'home_route' => 'home',
     ],
 
     /*
-    |--------------------------------------------------------------------------
-    | Steward scoutable
-    |--------------------------------------------------------------------------
-    |
-    | For `scout:fresh` command, set here all models with `Searchable` trait.
-    |
-    */
-
-    'scoutable' => [
-        'models' => [
-            \App\Models\Book::class,
-            \App\Models\Serie::class,
-            \App\Models\Author::class,
-        ],
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Steward mediable
     |--------------------------------------------------------------------------
-    |
-    | For `media:clean` command, set here all models with `Mediable` trait.
-    |
     */
 
     'mediable' => [
-        'models' => [
-            \App\Models\Post::class,
-        ],
-        'default' => false,
+        'default' => 'https://raw.githubusercontent.com/kiwilan/steward-laravel/main/public/no-image-available.jpg',
         'extensions' => ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'avif'],
     ],
 
@@ -64,11 +43,11 @@ return [
     */
 
     'template' => [
-        'enum' => \App\Enums\TemplateEnum::class,
+        'enum' => \Kiwilan\Steward\Enums\TemplateEnum::class,
     ],
 
     'builder' => [
-        'enum' => \App\Enums\BuilderEnum::class,
+        'enum' => \Kiwilan\Steward\Enums\BuilderEnum::class,
     ],
 
     /*
@@ -155,12 +134,36 @@ return [
     */
 
     'http' => [
-        'pool_limit' => env('STEWARD_HTTP_POOL_LIMIT', 250),
+        'pool_limit' => env('STEWARD_HTTP_POOL_LIMIT', 200),
         'async_allow' => env('STEWARD_HTTP_ASYNC_ALLOW', true),
     ],
 
     'iframely' => [
         'api' => env('STEWARD_IFRAMELY_API', 'https://iframely.com'),
         'key' => env('STEWARD_IFRAMELY_KEY', null),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Steward components
+    |--------------------------------------------------------------------------
+    |
+    | To custom components.
+    |
+    */
+
+    'components' => [
+        'config' => [],
+    ],
+
+    'factory' => [
+        'text' => FactoryTextEnum::lorem,
+        'media_downloader' => [
+            'default_category' => SeedsApiCategoryEnum::all,
+            'default_size' => SeedsApiSizeEnum::medium,
+            'seeds' => [
+                'api' => 'https://seeds.git-projects.xyz',
+            ],
+        ],
     ],
 ];

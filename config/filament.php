@@ -87,8 +87,7 @@ return [
     'auth' => [
         'guard' => env('FILAMENT_AUTH_GUARD', 'web'),
         'pages' => [
-            // 'login' => \Filament\Http\Livewire\Auth\Login::class,
-            'login' => \App\Filament\Pages\Auth\Login::class,
+            'login' => \Filament\Http\Livewire\Auth\Login::class,
         ],
     ],
 
@@ -170,7 +169,7 @@ return [
     |
     */
 
-    'dark_mode' => true,
+    'dark_mode' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -183,7 +182,7 @@ return [
     */
 
     'database_notifications' => [
-        'enabled' => true,
+        'enabled' => false,
         'polling_interval' => '30s',
     ],
 
@@ -233,6 +232,7 @@ return [
         'forms' => [
             'actions' => [
                 'alignment' => 'left',
+                'are_sticky' => false,
             ],
             'have_inline_labels' => false,
         ],
@@ -245,7 +245,7 @@ return [
             'alignment' => 'right',
         ],
         'sidebar' => [
-            'is_collapsible_on_desktop' => true,
+            'is_collapsible_on_desktop' => false,
             'groups' => [
                 'are_collapsible' => true,
             ],
@@ -263,7 +263,7 @@ return [
     |
     */
 
-    'favicon' => '/favicon.ico',
+    'favicon' => null,
 
     /*
     |--------------------------------------------------------------------------

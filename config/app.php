@@ -58,15 +58,6 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
-    'front_url' => env('APP_FRONT_URL', 'http://localhost:3000'),
-
-    'legacy_api_url' => env('APP_LEGACY_API_URL', 'http://localhost:8000'),
-
-    'admin' => [
-        'email' => env('APP_ADMIN_EMAIL', 'superadmin@example.com'),
-        'password' => env('APP_ADMIN_PASSWORD', 'password'),
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -91,7 +82,7 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------

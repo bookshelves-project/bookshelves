@@ -1,90 +1,66 @@
-# **Bookshelves · Back** <!-- omit in toc -->
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-[![composer](https://img.shields.io/static/v1?label=Composer&message=v2.x&color=885630&style=flat-square&logo=composer&logoColor=ffffff)](https://getcomposer.org)
-[![php](https://img.shields.io/static/v1?label=PHP&message=v8.1&color=777bb4&style=flat-square&logo=php&logoColor=ffffff)](https://www.php.net)
-[![laravel](https://img.shields.io/static/v1?label=Laravel&message=v9.x&color=ff2d20&style=flat-square&logo=laravel&logoColor=ffffff)](https://laravel.com)
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-[![pnpm](https://img.shields.io/static/v1?label=pnpm&message=v7.x&color=F69220&style=flat-square&logo=pnpm&logoColor=ffffff)](https://pnpm.io)
-[![node](https://img.shields.io/static/v1?label=Node.js&message=v16.x&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
+## About Laravel
 
-[![mysql](https://img.shields.io/static/v1?label=MySQL&message=v8&color=4479A1&style=flat-square&logo=mysql&logoColor=ffffff)](https://www.mysql.com)
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-📀 [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository  
-💻 [**bookshelves.ink**](https://bookshelves.ink): demo  
-📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-doc)  
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-## **Setup**
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-Download dependencies
+## Learning Laravel
 
-```bash
-composer i
-pnpm i
-```
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-Execute `setup` and follow guide
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-```bash
-php artisan setup
-```
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-See [**documentation**](https://bookshelves-documentation.netlify.app) to know more about *Bookshelves*.
+## Laravel Sponsors
 
-## **Usage**
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app), if this link is broken, you have to refer to [**raw documentation**](https://github.com/bookshelves-project/bookshelves-doc) on repository.
+### Premium Partners
 
-## **Tests**
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[OP.GG](https://op.gg)**
+- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+- **[Lendio](https://lendio.com)**
 
-Run tests.
+## Contributing
 
-```bash
-composer test
-```
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-```bash
-cp .env.testing.example .env.testing
-```
+## Code of Conduct
 
-```bash
-php artisan migrate --env=testing
-```
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-```bash
-php artisan test
-```
+## Security Vulnerabilities
 
-```bash
-phpunit-watcher watch
-```
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-### Watch
+## License
 
-Install `spatie/phpunit-watcher` [GitHub](https://github.com/spatie/phpunit-watcher)
-
-```bash
-composer global require spatie/phpunit-watcher
-```
-
-And run tests.
-
-```bash
-composer test:watch
-```
-
-## Notes
-
-```php
-TextInput::make('title')
-  ->afterStateUpdated(function (string $context, Closure $set, $state) {
-      if ($context === 'edit') {
-          return;
-      }
-
-      $set('slug', Str::slug($state));
-  })
-```
-
-- Book genre => enum
-- placeholder timestamps only on edit mode
-- Book create only upload formats
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

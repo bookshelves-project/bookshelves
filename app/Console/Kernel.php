@@ -4,28 +4,21 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Kiwilan\Steward\Commands\MediaCleanCommand;
-use Kiwilan\Steward\Commands\Publish\PublishScheduledCommand;
-use Kiwilan\Steward\Commands\SubmissionRgpdVerificationCommand;
-use Kiwilan\Steward\Commands\TagCleanCommand;
 
 class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(PublishScheduledCommand::class)->everyFifteenMinutes();
-        $schedule->command(MediaCleanCommand::class)->daily();
-        $schedule->command(TagCleanCommand::class)->daily();
-        $schedule->command(SubmissionRgpdVerificationCommand::class)->daily();
+        // $schedule->command('inspire')->hourly();
     }
 
     /**
      * Register the commands for the application.
      */
-    protected function commands()
+    protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
 

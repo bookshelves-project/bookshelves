@@ -3,20 +3,20 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Hash;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class EmptySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run()
+    public function run(): void
     {
-        User::factory()->superAdmin()->create([
+        User::factory()->create([
             'name' => 'Super Admin',
-            'email' => config('app.admin.email'),
-            'password' => Hash::make(config('app.admin.password')),
+            'email' => 'superadmin@example.com',
+            'password' => Hash::make('password'),
         ]);
     }
 }

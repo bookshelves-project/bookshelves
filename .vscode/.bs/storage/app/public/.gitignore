@@ -1,0 +1,7 @@
+*
+!cache/
+!cms/
+!data/
+!debug/
+!media/
+!.gitignore
