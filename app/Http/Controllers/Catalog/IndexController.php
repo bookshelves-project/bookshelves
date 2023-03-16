@@ -11,7 +11,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 /**
  * @hideFromAPIDocumentation
  */
-class CatalogController extends Controller
+class IndexController extends Controller
 {
     #[Get('/', name: 'index')]
     public function index(Request $request)

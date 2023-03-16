@@ -13,7 +13,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('series')]
-class SerieController extends ApiController
+class SerieController extends Controller
 {
     #[Get('/', name: 'series.index')]
     public function index(Request $request)

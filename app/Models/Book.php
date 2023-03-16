@@ -54,6 +54,8 @@ class Book extends Model implements HasMedia, GoogleBookable
     use Queryable;
     use HasSearchableName;
 
+    protected $slug_with = 'title';
+
     protected $query_default_sort = 'slug_sort';
 
     protected $query_allowed_sorts = ['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'isbn', 'publisher', 'released_on', 'created_at', 'updated_at'];

@@ -18,7 +18,7 @@ use Spatie\Image\Manipulations;
 /**
  * @group User: Account
  */
-class ProfileController extends ApiController
+class ProfileController extends Controller
 {
     /**
      * GET Current user.

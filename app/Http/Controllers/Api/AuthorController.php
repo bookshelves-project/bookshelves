@@ -12,14 +12,15 @@ use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('authors')]
-class AuthorController extends ApiController
+class AuthorController extends Controller
 {
     #[Get('/', name: 'authors.index')]
     public function index(Request $request)
     {
         return HttpQuery::make(Author::class, $request)
             ->with(['media'])
-            ->collection();
+            ->collection()
+        ;
     }
 
     #[Get('/{author_slug}', name: 'authors.show')]

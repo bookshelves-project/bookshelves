@@ -13,7 +13,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
  * APIs for Creations.
  */
 #[Prefix('submissions')]
-class SubmissionController extends ApiController
+class SubmissionController extends Controller
 {
     /**
      * GET Service.

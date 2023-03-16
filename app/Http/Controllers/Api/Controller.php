@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller as BaseController;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Page;
@@ -14,13 +14,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Route;
 
-class ApiController extends Controller
+class Controller extends BaseController
 {
     public function __construct()
     {
-        Route::bind('book_slug', fn (string $param) => Book::where('slug', $param)
-            ->withCount('reviews')
-            ->firstOrFail());
+        Route::bind('book_slug',
+            fn (string $param) => Book::where('slug', $param)
+                ->withCount('reviews')
+                ->firstOrFail());
 
         Route::bind(
             'serie_slug',

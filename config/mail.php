@@ -101,6 +101,13 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'default' => [
+        'to' => [
+            'address' => env('MAIL_DEFAULT_TO_ADDRESS', 'hello@example.com'),
+            'name' => env('MAIL_DEFAULT_TO_NAME', 'Example'),
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings

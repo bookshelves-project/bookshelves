@@ -7,7 +7,7 @@ use App\Utils\FrontNavigation;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Spatie\RouteAttributes\Attributes\Get;
 
-class FrontController extends Controller
+class IndexController extends Controller
 {
     #[Get('/', name: 'index')]
     public function index()

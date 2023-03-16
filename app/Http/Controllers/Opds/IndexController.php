@@ -12,7 +12,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
  * @hideFromAPIDocumentation
  */
 #[Prefix('/')]
-class OpdsController extends Controller
+class IndexController extends Controller
 {
     #[Get('/', name: 'index')]
     public function index(Request $request)
@@ -21,7 +21,7 @@ class OpdsController extends Controller
             route('opds.version', ['version' => '1.2']),
         ];
 
-        return redirect($versions[sizeof($versions) - 1]);
+        return redirect($versions[count($versions) - 1]);
     }
 
     #[Get('/{version}', name: 'version')]

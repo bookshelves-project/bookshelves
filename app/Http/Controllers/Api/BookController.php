@@ -11,7 +11,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('books')]
-class BookController extends ApiController
+class BookController extends Controller
 {
     #[Get('/', name: 'books.index')]
     public function index(Request $request)

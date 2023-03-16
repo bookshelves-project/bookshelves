@@ -11,7 +11,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('publishers')]
-class PublisherController extends ApiController
+class PublisherController extends Controller
 {
     /**
      * GET Publisher[].
@@ -73,6 +73,7 @@ class PublisherController extends ApiController
     public function books(Request $request, Publisher $publisher)
     {
         $page = $request->get('size') ? $request->get('size') : 32;
+
         if (! is_numeric($page)) {
             return response()->json(
                 "Invalid 'size' query parameter, must be an int",

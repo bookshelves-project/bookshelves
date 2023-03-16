@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::get('/', [FrontController::class, 'index'])->name('front.index');
+Route::get('/login', fn () => redirect('/admin/login'))->name('login');

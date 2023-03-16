@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
  *
  * Endpoint to get Series data.
  */
-class SerieController extends ApiController
+class SerieController extends Controller
 {
     /**
      * GET Serie[].
@@ -73,7 +73,6 @@ class SerieController extends ApiController
      *
      * @queryParam next int
      * Volume to select next Book[] after. No-example
-     *
      * @queryParam first boolean
      * To select only first Book with `next`. No-example
      */

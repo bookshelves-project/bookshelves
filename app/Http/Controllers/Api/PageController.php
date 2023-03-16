@@ -9,7 +9,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('pages')]
-class PageController extends ApiController
+class PageController extends Controller
 {
     #[Get('/', name: 'pages.index')]
     public function index()

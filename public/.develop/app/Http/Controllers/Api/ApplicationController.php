@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 /**
  * @group Application
  */
-class ApplicationController extends ApiController
+class ApplicationController extends Controller
 {
     /**
      * GET Application.
@@ -48,6 +48,7 @@ class ApplicationController extends ApiController
         $grouped->all();
 
         $navigation = [];
+
         foreach (NavigationCategoryEnum::toValues() as $category) {
             $grouped = Navigation::whereCategory($category)->get();
             $navigation[$category] = NavigationResource::collection($grouped);
@@ -82,6 +83,7 @@ class ApplicationController extends ApiController
         if ($entities) {
             $models_raw = explode(',', $entities);
             $models = [];
+
             foreach ($models_raw as $key => $value) {
                 $models[$value] = 'App\Models\\'.ucfirst($value);
             }
@@ -94,6 +96,7 @@ class ApplicationController extends ApiController
 
         if ($languages) {
             $languages_raw = explode(',', $languages);
+
             foreach ($languages_raw as $key => $value) {
                 $count = Book::whereLanguageSlug($value)->count();
                 $count_languages[$value] = $count;

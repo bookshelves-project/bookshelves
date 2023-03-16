@@ -17,7 +17,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
  * Endpoint to get Pages data.
  */
 #[Prefix('pages')]
-class PageController extends ApiController
+class PageController extends Controller
 {
     /**
      * GET Page[].

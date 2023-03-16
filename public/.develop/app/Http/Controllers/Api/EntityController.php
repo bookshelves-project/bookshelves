@@ -19,7 +19,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *
  * Endpoint about data from main entities.
  */
-class EntityController extends ApiController
+class EntityController extends Controller
 {
     /**
      * GET Entity[] latest entries.

@@ -16,7 +16,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
  * Endpoint to get Authors data.
  */
 #[Prefix('/profile/favorites')]
-class FavoriteController extends ApiController
+class FavoriteController extends Controller
 {
     // #[Route("/api/favorites/{user}", methods: ["GET"])]
     /**
@@ -28,6 +28,7 @@ class FavoriteController extends ApiController
     public function me()
     {
         $user = Auth::user();
+
         if (! $user) {
             return abort(404);
         }
@@ -59,6 +60,7 @@ class FavoriteController extends ApiController
             $user = User::find($user);
 
             $favoriteExist = $model_name::find($entity->id)->favorites;
+
             if (count($favoriteExist) < 1) {
                 $entity->favorites()->save($user);
                 $favoriteExist = $model_name::find($entity->id)->favorites;

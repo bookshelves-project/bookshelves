@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
  *
  * Endpoint to get Languages data.
  */
-class LanguageController extends ApiController
+class LanguageController extends Controller
 {
     /**
      * GET Language[].

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 /**
  * @group User: Profile
  */
-class UserController extends ApiController
+class UserController extends Controller
 {
     /**
      * GET User[].

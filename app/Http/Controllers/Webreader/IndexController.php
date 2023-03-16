@@ -15,7 +15,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 /**
  * @hideFromAPIDocumentation
  */
-class WebreaderController extends Controller
+class IndexController extends Controller
 {
     #[Get('/{author}/{book}', name: 'reader')]
     public function reader(Request $request, string $author, string $book)
@@ -24,6 +24,7 @@ class WebreaderController extends Controller
         $book = Book::whereRelation('authors', 'name', '=', $author->name)->whereSlug($book)->firstOrFail();
         $book_next = null;
         $book_next_route = null;
+
         if ($book->serie) {
             $volume = $book->volume;
             $books = $book->serie->books->filter(fn ($book) => $book->volume > intval($volume));
@@ -82,11 +83,13 @@ class WebreaderController extends Controller
         if (BookFormatEnum::epub === $format) {
             return view('webreader::pages.epubjs', ['book' => $book]);
         }
+
         if (BookFormatEnum::pdf === $format) {
             $pdf = $book->getFirstMedia(BookFormatEnum::pdf->value);
 
             return response()->download($pdf->getPath(), $pdf->file_name);
         }
+
         if (BookFormatEnum::cbz === $format || BookFormatEnum::cbr === $format) {
             return view('webreader::pages.comic', ['book' => $book]);
         }

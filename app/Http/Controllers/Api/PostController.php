@@ -10,7 +10,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('posts')]
-class PostController extends ApiController
+class PostController extends Controller
 {
     #[Get('/', name: 'posts.index')]
     public function index(Request $request)

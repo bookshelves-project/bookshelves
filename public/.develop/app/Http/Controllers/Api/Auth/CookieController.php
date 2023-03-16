@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Auth;
@@ -14,7 +13,7 @@ use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('auth')]
-class CookieController extends ApiController
+class CookieController extends Controller
 {
     #[Post('/register', 'auth.register')]
     public function store(Request $request)

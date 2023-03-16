@@ -8,7 +8,7 @@ use App\Models\Cms\HomePage\HomePage;
 /**
  * @group CMS
  */
-class CmsController extends ApiController
+class CmsController extends Controller
 {
     /**
      * GET Home page.

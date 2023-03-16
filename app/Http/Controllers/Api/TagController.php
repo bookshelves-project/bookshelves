@@ -13,7 +13,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('tags')]
-class TagController extends ApiController
+class TagController extends Controller
 {
     #[Get('/', name: 'tags.index')]
     public function index(Request $request)

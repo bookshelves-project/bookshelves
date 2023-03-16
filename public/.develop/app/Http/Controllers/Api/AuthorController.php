@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
  *
  * Endpoint to get Authors data.
  */
-class AuthorController extends ApiController
+class AuthorController extends Controller
 {
     /**
      * GET Author[].

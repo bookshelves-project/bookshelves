@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 /**
  * @group Entity: Book
  */
-class BookController extends ApiController
+class BookController extends Controller
 {
     /**
      * GET Book[].
@@ -26,7 +26,6 @@ class BookController extends ApiController
      *
      * @queryParam filter[languages] string
      * Filter by language, `meta.slug` from languages' list, `null` by default. Example: en,fr
-     *
      * @queryParam sort string
      * Sorting `slug_sort` by default, available: `title`, `slug_sort`, `date`, `created_at`, you can use `-` before parameter to reverse like `-slug_sort`. Example: slug_sort
      *

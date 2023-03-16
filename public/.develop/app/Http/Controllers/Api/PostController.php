@@ -17,7 +17,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
  * Endpoint to get Posts data.
  */
 #[Prefix('posts')]
-class PostController extends ApiController
+class PostController extends Controller
 {
     /**
      * GET Post[].

@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 /**
  * @group User: Review
  */
-class ReviewController extends ApiController
+class ReviewController extends Controller
 {
     /**
      * GET Reviews for entity.
@@ -82,6 +82,7 @@ class ReviewController extends ApiController
         $userId = Auth::id();
 
         $review = Review::whereBookId($book->id)->whereUserId($userId)->firstOrFail();
+
         if (null == $review) {
             return response()->json(['error' => 'A review exist'], 401);
         }
@@ -100,6 +101,7 @@ class ReviewController extends ApiController
         $userId = Auth::id();
 
         $review = Review::whereBookId($book->id)->whereUserId($userId)->firstOrFail();
+
         if (null == $review) {
             return response()->json(['error' => "Review don't exist"], 401);
         }

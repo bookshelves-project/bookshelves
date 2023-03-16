@@ -13,7 +13,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('download')]
-class DownloadController extends ApiController
+class DownloadController extends Controller
 {
     /**
      * GET Book.
@@ -42,6 +42,7 @@ class DownloadController extends ApiController
         }
 
         $media = $book->files[$format];
+
         if (null === $media) {
             return response()->json([
                 'message' => "Have not {$format} format available.",
@@ -64,15 +65,19 @@ class DownloadController extends ApiController
     public function author(Author $author, ?string $format = null)
     {
         $files = [];
+
         foreach ($author->books as $book) {
             $format = $this->getFormat($book, $format);
+
             if ($format) {
                 $file = $book->getMedia($format)->first();
+
                 if ($file) {
                     array_push($files, $file);
                 }
             }
         }
+
         if (0 === count($files)) {
             return response()->json([
                 'message' => "Have not {$format} format available.",
@@ -98,15 +103,19 @@ class DownloadController extends ApiController
     public function serie(Author $author, Serie $serie, ?string $format = null)
     {
         $files = [];
+
         foreach ($serie->books as $book) {
             $format = $this->getFormat($book, $format);
+
             if ($format) {
                 $file = $book->getMedia($format)->first();
+
                 if ($file) {
                     array_push($files, $file);
                 }
             }
         }
+
         if (0 === count($files)) {
             return response()->json([
                 'message' => "Have not {$format} format available.",

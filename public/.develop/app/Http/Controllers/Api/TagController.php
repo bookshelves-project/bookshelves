@@ -16,7 +16,7 @@ use Spatie\Tags\Tag;
 /**
  * @group Relation: Tag
  */
-class TagController extends ApiController
+class TagController extends Controller
 {
     /**
      * GET Tag[].

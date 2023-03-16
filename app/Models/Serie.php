@@ -68,6 +68,10 @@ class Serie extends Model implements HasMedia, Wikipediable
         'books',
     ];
 
+    protected $with = [
+        'authors',
+    ];
+
     /**
      * Relationships.
      */

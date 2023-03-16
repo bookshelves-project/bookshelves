@@ -17,7 +17,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('entities')]
-class EntityController extends ApiController
+class EntityController extends Controller
 {
     /**
      * GET Entity[] latest entries.

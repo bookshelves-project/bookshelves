@@ -46,8 +46,10 @@ class SettingController extends Controller
             'key' => 'laravel_version',
             'value' => Application::VERSION,
         ]);
+
         foreach ($configuration_keys as $key) {
             $value = config($key);
+
             if (is_bool($value)) {
                 array_push($configuration, [
                     'key' => $key,

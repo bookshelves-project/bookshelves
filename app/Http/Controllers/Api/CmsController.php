@@ -15,7 +15,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
  * APIs for CMS.
  */
 #[Prefix('cms/pages')]
-class CmsController extends ApiController
+class CmsController extends Controller
 {
     /**
      * GET CMS[].
@@ -28,6 +28,7 @@ class CmsController extends ApiController
     public function index()
     {
         $pages = Page::all();
+
         return PageCollectionResource::collection($pages);
     }
 

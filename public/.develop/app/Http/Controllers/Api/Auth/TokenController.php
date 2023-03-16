@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Api\ApiController;
 use App\Models\User;
 use Auth;
 use Hash;
@@ -12,7 +11,7 @@ use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('auth/token')]
-class TokenController extends ApiController
+class TokenController extends Controller
 {
     #[Post('/register', 'auth.token.register')]
     public function register(Request $request)

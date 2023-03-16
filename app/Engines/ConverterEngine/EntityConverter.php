@@ -94,6 +94,8 @@ class EntityConverter
      */
     public function setTags(): self
     {
+        $this->model->with(['books']);
+
         $books = $this->model->books;
         $tags = [];
 

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Notification;
 /**
  * @group Submission
  */
-class SubmissionController extends ApiController
+class SubmissionController extends Controller
 {
     /**
      * POST Send submission.
