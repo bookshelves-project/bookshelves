@@ -106,17 +106,20 @@ class ApiCommand extends CommandSteward
     /**
      * Request Google Book API for each `$subject`.
      *
-     * @param  string  $subject     Class name, like `Book::class`
-     * @param  string[]  $isbn_fields Fields into `$subject` with ISBN, set more relevant first, like `['isbn13', 'isbn10']`
+     * @param  string  $className     Class name, like `Book::class`
+     * @param  string[]  $isbnFields Fields into `$subject` with ISBN, set more relevant first, like `['isbn13', 'isbn10']`
      * @return int Number of requests
      */
-    private function googleBookRequest(string $subject, array $isbn_fields): int
+    private function googleBookRequest(string $className, array $isbnFields): int
     {
-        $models = GoogleBookService::availableModels($subject, $isbn_fields);
+        $service = GoogleBookService::make($className::all())
+            ->setIsbnFields($isbnFields)
+            ->setDebug($this->debug)
+        ;
 
-        $count = $models->count();
-        $isbn_types = implode('/', $isbn_fields);
-        $this->comment("Need to have {$isbn_types}, on {$subject::count()} entities, {$count} entities can be scanned.");
+        $count = $service->count();
+        $isbn_types = implode('/', $isbnFields);
+        $this->comment("Need to have {$isbn_types}, on {$className::count()} entities, {$count} entities can be scanned.");
 
         if (0 === $count) {
             $this->warn('No entities to scan.');
@@ -125,19 +128,17 @@ class ApiCommand extends CommandSteward
         }
 
         $start = microtime(true); // register time
-        $service = GoogleBookService::make(Book::class, $this->debug)
-            ->setModels($models)
-            ->setIsbnFields($isbn_fields)
-            ->execute()
-        ;
+        $service = $service->execute();
 
-        $bar = $this->output->createProgressBar(count($service->google_books));
+        $bar = $this->output->createProgressBar(count($service->items()));
         $bar->start();
 
-        foreach ($service->google_books as $google_book) {
-            /** @var GoogleBookable */
-            $model = $google_book->model_name::find($google_book->model_id);
-            $model->googleBookConvert($google_book);
+        foreach ($service->items() as $id => $item) {
+            $model = $className::find($id);
+
+            if ($model instanceof GoogleBookable && $item) {
+                $model->googleBookConvert($item);
+            }
             $bar->advance();
         }
         $bar->finish();
@@ -151,19 +152,19 @@ class ApiCommand extends CommandSteward
     }
 
     /**
-     * Request Wikipedia API for each `$subject`.
+     * Request Wikipedia API for each `className`.
      *
-     * @param  string  $subject        like `Author::class`
+     * @param  string  $className        like `Author::class`
      * @param  string[]  $attributes     used to create Wikipedia query, like `['firstname', 'lastname']`
-     * @param  string  $language_field field into model which corresponding to Model language, like `language_slug`, default is `language_slug`
+     * @param  string  $languageField field into model which corresponding to Model language, like `language_slug`, default is `language_slug`
      * @return int Number of requests
      */
     private function wikipediaRequest(
-        string $subject,
+        string $className,
         array $attributes,
-        string $language_field = 'language_slug'
+        string $languageField = 'language_slug'
     ): int {
-        $meta = MetaClass::make($subject);
+        $meta = MetaClass::make($className);
 
         $this->comment("{$meta->className()} (--{$meta->classSlugPlural()}|-{$meta->firstChar()} option)");
 
@@ -175,25 +176,25 @@ class ApiCommand extends CommandSteward
         $this->info("  - Default description can be in `public/storage/data/{$meta->classSlugPlural()}/{$meta->classSlugPlural()}.json`");
         $this->newLine();
 
-        $list = $subject::all();
-        $this->comment($meta->className().': '.count($list));
-
-        $start = microtime(true);
-
-        $service = WikipediaService::make($subject, $this->debug)
+        $service = WikipediaService::make($className::all(), $languageField)
             ->setQueryAttributes($attributes)
-            ->setLanguageField($language_field)
-            ->execute()
+            ->setDebug($this->debug)
         ;
+
+        $this->comment($meta->className().': '.$service->count());
+        $start = microtime(true);
+        $service->execute();
         $this->newLine();
 
-        $bar = $this->output->createProgressBar(count($service->wikipedia_items));
+        $bar = $this->output->createProgressBar(count($service->items()));
         $bar->start();
 
-        foreach ($service->wikipedia_items as $wikipedia_item) {
-            /** @var Wikipediable */
-            $model = $wikipedia_item->model_name::find($wikipedia_item->model_id);
-            $model->wikipediaConvert($wikipedia_item, $this->default);
+        foreach ($service->items() as $id => $item) {
+            $model = $className::find($id);
+
+            if ($model instanceof Wikipediable && $item) {
+                $model->wikipediaConvert($item);
+            }
             $bar->advance();
         }
         $bar->finish();
@@ -204,6 +205,6 @@ class ApiCommand extends CommandSteward
 
         $this->newLine();
 
-        return count($list);
+        return $service->count();
     }
 }

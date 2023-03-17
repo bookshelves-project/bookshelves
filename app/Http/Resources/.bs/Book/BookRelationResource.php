@@ -18,10 +18,10 @@ class BookRelationResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'meta' => [
-                ...$this->resource->meta,
-                'entity' => $this->resource->entity,
-            ],
+            // 'meta' => [
+            //     ...$this->resource->meta,
+            //     'entity' => $this->resource->entity,
+            // ],
             'title' => $this->resource->title,
         ];
     }

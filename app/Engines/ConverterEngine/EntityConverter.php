@@ -21,59 +21,71 @@ class EntityConverter
     public const DISK = MediaDiskEnum::cover;
 
     public function __construct(
-        public mixed $model = null,
+        public Serie|Author $model,
+        public ReflectionClass $reflect,
+        public array $local = [],
+        public ?string $localPath = null,
     ) {
     }
 
     public static function make(Serie|Author $model): self
     {
-        return new EntityConverter($model);
+        $reflect = new ReflectionClass($model);
+
+        return new EntityConverter(
+            model: $model,
+            reflect: $reflect,
+        );
     }
 
     /**
      * Improve model with local data into JSON.
      */
-    public function parseJson(): self
+    public function parseLocalData(): self
     {
-        $subject = new ReflectionClass($this->model);
-        $subject = strtolower($subject->getShortName());
-        $path = public_path("storage/data/{$subject}s/{$subject}s.json");
+        $name = strtolower($this->reflect->getShortName());
+        $path = public_path("storage/data/{$name}s/{$name}s.json");
 
         if (! File::exists($path)) {
             return $this;
         }
 
-        $json = json_decode(File::get($path));
+        $this->localPath = $path;
+        $json = json_decode(File::get($this->localPath));
         $data = ConverterService::objectToArray($json);
 
-        $local = null;
-
         if (array_key_exists($this->model->slug, $data)) {
-            $local = $data[$this->model->slug];
+            $this->local = $data[$this->model->slug];
         }
 
         if (array_key_exists($this->model->slug_sort, $data)) {
-            $local = $data[$this->model->slug_sort];
+            $this->local = $data[$this->model->slug_sort];
         }
 
-        if (null !== $local) {
-            if (array_key_exists('description', $local)) {
-                $this->model->description = $local['description'];
-            }
-
-            if (array_key_exists('link', $local)) {
-                $this->model->link = $local['link'];
-            }
-
-            if (array_key_exists('note', $local)) {
-                $this->model->note = $local['note'];
-            }
-            $this->model->save();
+        if (null !== $this->local) {
+            return $this;
         }
+
+        $this->model->description = array_key_exists('description', $this->local)
+            ? $this->local['description']
+            : null;
+
+        $this->model->link = array_key_exists('link', $this->local)
+            ? $this->local['link']
+            : null;
+
+        $this->model->note = array_key_exists('note', $this->local)
+            ? $this->local['note']
+            : null;
+
+        $this->model->save();
 
         return $this;
     }
 
+    /**
+     * Set cover placeholder if no cover.
+     */
     public function setCoverPlaceholder(): self
     {
         if ($this->model->getMedia(MediaDiskEnum::cover->value)->isEmpty()) {
@@ -94,9 +106,7 @@ class EntityConverter
      */
     public function setTags(): self
     {
-        $this->model->with(['books']);
-
-        $books = $this->model->books;
+        $books = $this->model->load('books.tags')->books;
         $tags = [];
 
         foreach ($books as $key => $book) {

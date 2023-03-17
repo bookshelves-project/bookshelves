@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property \App\Models\Book $resource
  */
-class BookResource extends JsonResource
+class BookCollection extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,6 +19,7 @@ class BookResource extends JsonResource
     {
         return [
             'title' => $this->resource->title,
+            'author' => $this->resource->meta_author,
         ];
     }
 }

@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property \App\Models\Book $resource
+ * @property \App\Models\Serie $resource
  */
-class BookResource extends JsonResource
+class SerieCollection extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,6 +19,7 @@ class BookResource extends JsonResource
     {
         return [
             'title' => $this->resource->title,
+            'author' => $this->resource->meta_author,
         ];
     }
 }

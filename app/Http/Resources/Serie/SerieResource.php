@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources\Serie;
+namespace App\Http\Resources\Book;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -12,15 +13,12 @@ class SerieResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @return array<string, mixed>
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
         return [
-            ...SerieCollectionResource::make($this->resource)->toArray($request),
-            'description' => $this->resource->description,
-            'link' => $this->resource->link,
+            'title' => $this->resource->title,
         ];
     }
 }

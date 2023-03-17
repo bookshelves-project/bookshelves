@@ -22,12 +22,12 @@ class BookCollectionResource extends JsonResource
     {
         return [
             ...BookRelationResource::make($this->resource)->toArray($request),
-            'media' => $this->resource->cover_media,
-            'type' => $this->resource->type->locale(),
-            'volume' => $this->resource->volume,
-            'language' => LanguageCollectionResource::make($this->resource->language),
-            'authors' => AuthorRelationResource::collection($this->resource->authors),
-            'serie' => SerieRelationResource::make($this->resource->serie),
+            // 'media' => $this->resource->cover_media,
+            // 'type' => $this->resource->type->locale(),
+            // 'volume' => $this->resource->volume,
+            // 'language' => LanguageCollectionResource::make($this->resource->language),
+            // 'authors' => AuthorRelationResource::collection($this->resource->authors),
+            // 'serie' => SerieRelationResource::make($this->resource->serie),
         ];
     }
 }

@@ -30,37 +30,47 @@ class Controller extends BaseController
                 ->firstOrFail()
         );
 
-        Route::bind('author_slug', fn (string $param) => Author::where('slug', $param)->firstOrFail());
+        Route::bind('author_slug',
+            fn (string $param) => Author::where('slug', $param)
+                ->firstOrFail());
 
-        Route::bind('tag_slug', fn (string $param) => TagExtend::where('slug->en', $param)->firstOrFail());
+        Route::bind('tag_slug',
+            fn (string $param) => TagExtend::where('slug->en', $param)
+                ->firstOrFail());
 
-        Route::bind('page_slug', fn (string $param) => Page::where('slug', $param)->firstOrFail());
+        Route::bind('page_slug',
+            fn (string $param) => Page::where('slug', $param)
+                ->firstOrFail());
 
-        Route::bind('post_slug', fn (string $param) => Post::where('slug', $param)->firstOrFail());
+        Route::bind('post_slug',
+            fn (string $param) => Post::where('slug', $param)
+                ->firstOrFail());
 
-        Route::bind('publisher_slug', fn (string $param) => Publisher::where('slug', $param)->firstOrFail());
+        Route::bind('publisher_slug',
+            fn (string $param) => Publisher::where('slug', $param)
+                ->firstOrFail());
     }
 
-    protected function getLang(Request $request)
-    {
-        $lang = $request->lang ? $request->lang : config('app.locale');
-        App::setLocale($lang);
-    }
+    // protected function getLang(Request $request)
+    // {
+    //     $lang = $request->lang ? $request->lang : config('app.locale');
+    //     App::setLocale($lang);
+    // }
 
-    protected function getPaginationLimit(Request $request, int $default = 32): int
-    {
-        return $request->limit ? $request->limit : $default;
-    }
+    // protected function getPaginationLimit(Request $request, int $default = 32): int
+    // {
+    //     return $request->limit ? $request->limit : $default;
+    // }
 
-    protected function getFull(Request $request): bool
-    {
-        return $request->boolean('full');
-    }
+    // protected function getFull(Request $request): bool
+    // {
+    //     return $request->boolean('full');
+    // }
 
-    protected function getEntity(string $entity): string
-    {
-        $model_name = ucfirst($entity);
+    // protected function getEntity(string $entity): string
+    // {
+    //     $model_name = ucfirst($entity);
 
-        return "App\\Models\\{$model_name}";
-    }
+    //     return "App\\Models\\{$model_name}";
+    // }
 }

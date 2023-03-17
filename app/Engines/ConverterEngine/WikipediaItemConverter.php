@@ -6,39 +6,28 @@ use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Serie;
 use Illuminate\Support\Str;
-use Kiwilan\Steward\Class\WikipediaItem;
 use Kiwilan\Steward\Services\MediaService;
-use Kiwilan\Steward\Services\Wikipedia\WikipediaQuery;
+use Kiwilan\Steward\Services\Wikipedia\WikipediaItem;
 
 /**
- * Class to convert wikipedia_item data into Model data.
- *
- * @property WikipediaItem $wikipedia_item
- * @property Author|Serie  $model
+ * Class to convert item data into Model data.
  */
 class WikipediaItemConverter
 {
     public const DISK = MediaDiskEnum::cover;
 
     public function __construct(
-        public WikipediaItem $wikipedia_item,
-        public mixed $model = null,
+        public WikipediaItem $item,
+        public Author|Serie|null $model = null,
     ) {
     }
 
-    public static function make(WikipediaItem $wikipedia_item): self
+    public static function make(WikipediaItem $item, Author|Serie $model): self
     {
-        $wikipedia_item_converter = new WikipediaItemConverter($wikipedia_item);
-        $wikipedia_item_converter->setModel();
+        $self = new WikipediaItemConverter($item);
+        $self->model = $model;
 
-        return $wikipedia_item_converter;
-    }
-
-    public function setModel(): self
-    {
-        $this->model = $this->wikipedia_item->model_name::find($this->wikipedia_item->model_id);
-
-        return $this;
+        return $self;
     }
 
     public function setWikipediaDescription(): self
@@ -48,15 +37,15 @@ class WikipediaItemConverter
             //     $model->setTranslation(
             //         'description',
             //         $model->language_slug,
-            //         Str::limit($model->wikipedia_item->extract, 1000)
+            //         Str::limit($model->item->extract, 1000)
             //     );
             // }
-            $this->model->description = Str::limit($this->wikipedia_item->extract, 1000); // TODO translatable
-            $this->model->link = $this->wikipedia_item->page_url;
+            $this->model->description = Str::limit($this->item->extract(), 1000); // TODO translatable
+            $this->model->link = $this->item->fullUrl();
             $this->model->save();
         }
-        $entity_conveter = EntityConverter::make($this->model);
-        $entity_conveter->parseJson();
+        $entityConverter = EntityConverter::make($this->model);
+        $entityConverter->parseLocalData();
 
         return $this;
     }
@@ -69,7 +58,7 @@ class WikipediaItemConverter
             $cover = null;
 
             if ($this->model->link) {
-                $cover = WikipediaQuery::getPictureFile($this->wikipedia_item->picture_url);
+                $cover = WikipediaItem::fetchPicture($this->item->pictureUrl());
             }
 
             if ($cover && 'author-unknown' !== $this->model->slug) {

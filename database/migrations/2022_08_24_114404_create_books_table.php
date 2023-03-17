@@ -29,6 +29,7 @@ return new class() extends Migration
             $table->string('isbn10')->nullable();
             $table->string('isbn13')->nullable();
             $table->json('identifiers')->nullable();
+            $table->string('google_book_id')->nullable();
             $table->string('physical_path')->nullable();
 
             $table->timestamps();

@@ -20,8 +20,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Kiwilan\Steward\Class\GoogleBook;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
+use Kiwilan\Steward\Services\GoogleBook\GoogleBook;
 use Kiwilan\Steward\Services\GoogleBook\GoogleBookable;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
@@ -58,6 +58,8 @@ class Book extends Model implements HasMedia, GoogleBookable
 
     protected $query_default_sort = 'slug_sort';
 
+    protected $query_default_sort_direction = 'asc';
+
     protected $query_allowed_sorts = ['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'isbn', 'publisher', 'released_on', 'created_at', 'updated_at'];
 
     protected $query_limit = 32;
@@ -81,6 +83,7 @@ class Book extends Model implements HasMedia, GoogleBookable
         'serie_id',
         'publisher_id',
         'physical_path',
+        'google_book_id',
     ];
 
     protected $appends = [
@@ -170,26 +173,28 @@ class Book extends Model implements HasMedia, GoogleBookable
         ];
     }
 
-    public function googleBookConvert(GoogleBook $google_book): self
+    public function googleBookConvert(GoogleBook $gbook): self
     {
-        if ($google_book->published_date) {
-            $carbon = Carbon::instance($google_book->published_date);
+        $this->google_book_id = $gbook->bookId();
+
+        if ($gbook->publishedDate()) {
+            $carbon = Carbon::instance($gbook->publishedDate());
             $this->released_on = $this->released_on ?? $carbon->toDateTimeString();
         }
-        $this->description = $this->description ?? $google_book->description;
-        $this->page_count = $this->page_count ?? $google_book->page_count;
-        $this->maturity_rating = $this->maturity_rating ?? $google_book->maturity_rating;
-        $this->isbn10 = $this->isbn10 ?? $google_book->isbn10;
-        $this->isbn13 = $this->isbn13 ?? $google_book->isbn13;
+        $this->description = $this->description ?? $gbook->description();
+        $this->page_count = $this->page_count ?? $gbook->pageCount();
+        $this->maturity_rating = $this->maturity_rating ?? $gbook->maturityRating();
+        $this->isbn10 = $this->isbn10 ?? $gbook->isbn10();
+        $this->isbn13 = $this->isbn13 ?? $gbook->isbn13();
 
         // Set publisher
         if (! $this->publisher) {
-            $publisher_slug = Str::slug($google_book->publisher, '-');
+            $publisher_slug = Str::slug($gbook->publisher(), '-');
             $publisher = Publisher::whereSlug($publisher_slug)->first();
 
-            if (! $publisher && $google_book->publisher) {
+            if (! $publisher && $gbook->publisher()) {
                 $publisher = Publisher::firstOrCreate([
-                    'name' => $google_book->publisher,
+                    'name' => $gbook->publisher(),
                     'slug' => $publisher_slug,
                 ]);
             }
@@ -200,7 +205,7 @@ class Book extends Model implements HasMedia, GoogleBookable
         }
 
         // Set tags
-        foreach ($google_book->categories as $category) {
+        foreach ($gbook->categories() as $category) {
             TagConverter::setTag($category);
         }
 

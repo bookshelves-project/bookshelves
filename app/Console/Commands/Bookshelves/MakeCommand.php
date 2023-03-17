@@ -176,10 +176,11 @@ class MakeCommand extends CommandSteward
         $bar = $this->output->createProgressBar($model::count());
         $bar->start();
 
+        /** @var Serie|Author $entity */
         foreach ($model::all() as $entity) {
             EntityConverter::make($entity)
                 ->setTags()
-                ->parseJson()
+                ->parseLocalData()
             ;
 
             if (! $default) {

@@ -16,9 +16,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Kiwilan\Steward\Class\WikipediaItem;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
 use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
+use Kiwilan\Steward\Services\Wikipedia\WikipediaItem;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\Queryable;
@@ -106,9 +106,9 @@ class Serie extends Model implements HasMedia, Wikipediable
         ];
     }
 
-    public function wikipediaConvert(WikipediaItem $wikipedia_item, bool $default = false): Wikipediable
+    public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
     {
-        WikipediaItemConverter::make($wikipedia_item)
+        WikipediaItemConverter::make($item, $this)
             ->setWikipediaDescription()
         ;
         $this->save();

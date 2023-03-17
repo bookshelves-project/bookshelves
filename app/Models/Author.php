@@ -13,9 +13,9 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Kiwilan\Steward\Class\WikipediaItem;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
 use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
+use Kiwilan\Steward\Services\Wikipedia\WikipediaItem;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
@@ -71,9 +71,9 @@ class Author extends Model implements HasMedia, Wikipediable
         'series',
     ];
 
-    public function wikipediaConvert(WikipediaItem $wikipedia_item, bool $default = true): Wikipediable
+    public function wikipediaConvert(WikipediaItem $item, bool $default = true): Wikipediable
     {
-        $converter_engine = WikipediaItemConverter::make($wikipedia_item)
+        $converter_engine = WikipediaItemConverter::make($item, $this)
             ->setWikipediaDescription()
         ;
 
