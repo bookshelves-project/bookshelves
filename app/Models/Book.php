@@ -183,7 +183,7 @@ class Book extends Model implements HasMedia, GoogleBookable
         }
         $this->description = $this->description ?? $gbook->description();
         $this->page_count = $this->page_count ?? $gbook->pageCount();
-        $this->maturity_rating = $this->maturity_rating ?? $gbook->maturityRating();
+        $this->is_maturity_rating = $gbook->isMaturityRating();
         $this->isbn10 = $this->isbn10 ?? $gbook->isbn10();
         $this->isbn13 = $this->isbn13 ?? $gbook->isbn13();
 
