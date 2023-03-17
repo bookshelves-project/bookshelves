@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Front\Opds;
 
-use App\Engines\OpdsEngine;
 use App\Enums\EntityEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Author;

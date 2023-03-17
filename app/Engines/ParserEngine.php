@@ -2,13 +2,12 @@
 
 namespace App\Engines;
 
-use App\Engines\ParserEngine\Models\BookCreator;
-use App\Engines\ParserEngine\Models\BookIdentifier;
-use App\Engines\ParserEngine\Modules\CbzModule;
-use App\Engines\ParserEngine\Modules\EpubModule;
-use App\Engines\ParserEngine\Modules\NameModule;
-use App\Engines\ParserEngine\Modules\PdfModule;
-use App\Engines\ParserEngine\Parsers\FilesTypeParser;
+use App\Engines\Parser\Models\BookIdentifier;
+use App\Engines\Parser\Modules\CbzModule;
+use App\Engines\Parser\Modules\EpubModule;
+use App\Engines\Parser\Modules\NameModule;
+use App\Engines\Parser\Modules\PdfModule;
+use App\Engines\Parser\Parsers\FilesTypeParser;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use DateTime;
@@ -19,39 +18,50 @@ use Transliterator;
 
 /**
  * Parser engine for eBook.
- *
- * @property ?string          $title            title
- * @property ?string          $slug_sort        slug_sort
- * @property ?string          $title_serie_sort title_serie_sort
- * @property ?string          $slug             slug
- * @property ?string          $title_slug_lang  title_slug_lang
- * @property string[]         $contributor      contributor
- * @property ?string          $description      description
- * @property ?DateTime        $released_on      released_on
- * @property ?string          $date             date
- * @property ?string          $publisher        publisher
- * @property ?string          $language         language
- * @property ?string          $rights           rights
- * @property ?string          $serie            serie
- * @property ?string          $serie_slug       serie_slug
- * @property ?string          $serie_slug_lang  serie_slug_lang
- * @property ?string          $serie_sort       serie_sort
- * @property ?int             $volume           volume
- * @property ?int             $page_count       page_count
- * @property ?string          $file_name        file_name
- * @property ?string          $file_path        file_path
- * @property ?BookTypeEnum    $type             type
- * @property ?string          $cover_name       cover_name
- * @property ?string          $cover_extension  cover_extension
- * @property ?string          $cover_file       cover_file
- * @property ?bool            $debug            debug
- * @property BookCreator[]    $creators         creators
- * @property BookIdentifier[] $identifiers      identifiers
- * @property ?BookFormatEnum  $format           format
- * @property string[]         $tags             tags
  */
 class ParserEngine
 {
+    /** @var string[] */
+    protected array $contributor = [];
+
+    /** @var BookCreator[] */
+    protected array $creators = [];
+
+    /** @var BookIdentifier[] */
+    protected array $identifiers = [];
+
+    /** @var string[] */
+    protected array $tags = [];
+
+    protected function __construct(
+        protected ?string $title = null,
+        protected ?string $slugSort = null,
+        protected ?string $titleSerieSort = null,
+        protected ?string $slug = null,
+        protected ?string $titleSlugLang = null,
+        protected ?string $description = null,
+        protected ?DateTime $releasedOn = null,
+        protected ?string $date = null,
+        protected ?string $publisher = null,
+        protected ?string $language = null,
+        protected ?string $rights = null,
+        protected ?string $serie = null,
+        protected ?string $serieSlug = null,
+        protected ?string $serieSlugLang = null,
+        protected ?string $serieSort = null,
+        protected ?int $volume = null,
+        protected ?int $pageCount = null,
+        protected ?string $fileName = null,
+        protected ?string $filePath = null,
+        protected ?BookTypeEnum $type = null,
+        protected ?string $coverName = null,
+        protected ?string $coverExtension = null,
+        protected ?string $coverFile = null,
+        protected ?BookFormatEnum $format = null,
+        protected bool $debug = false,
+    ) {
+    }
+
     /** @var string[][] */
     public const DETERMINERS = [
         'en' => [
@@ -70,46 +80,13 @@ class ParserEngine
         ],
     ];
 
-    public function __construct(
-        public ?string $title = null,
-        public ?string $slug_sort = null,
-        public ?string $title_serie_sort = null,
-        public ?string $slug = null,
-        public ?string $title_slug_lang = null,
-        public array $contributor = [],
-        public ?string $description = null,
-        public ?DateTime $released_on = null,
-        public ?string $date = null,
-        public ?string $publisher = null,
-        public ?string $language = null,
-        public ?string $rights = null,
-        public ?string $serie = null,
-        public ?string $serie_slug = null,
-        public ?string $serie_slug_lang = null,
-        public ?string $serie_sort = null,
-        public ?int $volume = null,
-        public ?int $page_count = null,
-        public ?string $file_name = null,
-        public ?string $file_path = null,
-        public ?BookTypeEnum $type = null,
-        public ?string $cover_name = null,
-        public ?string $cover_extension = null,
-        public ?string $cover_file = null,
-        public ?bool $debug = false,
-        public array $creators = [],
-        public array $identifiers = [],
-        public ?BookFormatEnum $format = null,
-        public array $tags = [],
-    ) {
-    }
-
     /**
      * Transform OPF file to ParserEngine.
      */
     public static function make(FilesTypeParser $file, bool $debug = false): ?ParserEngine
     {
         $extension = pathinfo($file->path, PATHINFO_EXTENSION);
-        $file_name = pathinfo($file->path, PATHINFO_BASENAME);
+        $fileName = pathinfo($file->path, PATHINFO_BASENAME);
         $formats = BookFormatEnum::toNames();
         $console = Console::make();
 
@@ -119,86 +96,226 @@ class ParserEngine
             return null;
         }
 
-        $parser_engine = new ParserEngine();
+        $self = new ParserEngine();
 
-        $parser_engine->file_name = $file_name;
-        $parser_engine->file_path = $file->path;
-        $parser_engine->format = BookFormatEnum::tryFrom($extension);
-        $parser_engine->type = $file->type;
-        $parser_engine->debug = $debug;
+        $self->fileName = $fileName;
+        $self->filePath = $file->path;
+        $self->format = BookFormatEnum::tryFrom($extension);
+        $self->type = $file->type;
+        $self->debug = $debug;
 
-        $engine = match ($parser_engine->format) {
-            BookFormatEnum::cbz => CbzModule::make($parser_engine),
-            BookFormatEnum::epub => EpubModule::make($parser_engine),
-            BookFormatEnum::pdf => PdfModule::make($parser_engine),
-            BookFormatEnum::cbr => CbzModule::make($parser_engine, true),
+        $self = match ($self->format) {
+            BookFormatEnum::cbz => CbzModule::make($self),
+            BookFormatEnum::epub => EpubModule::make($self),
+            BookFormatEnum::pdf => PdfModule::make($self),
+            BookFormatEnum::cbr => CbzModule::make($self, true),
             default => false,
         };
 
-        if (! $engine || null === $engine->title) {
+        if (! $self || null === $self->title) {
             // $console->print('Try to get data from name');
-            $engine = NameModule::make($parser_engine);
+            $self = NameModule::make($self);
         }
 
-        if (! $engine) {
+        if (! $self) {
             $console->print("{$file->path} ParserEngine error: format {$extension} not recognized");
 
             return null;
         }
 
-        if (null === $engine->title) {
+        if (null === $self->title) {
             $console->print("{$file->path} ParserEngine error: can't get title {$extension}");
 
             return null;
         }
 
-        if (null === $engine->language) {
-            $engine->language = 'unknown';
+        if (null === $self->language) {
+            $self->language = 'unknown';
         }
 
-        $title = Str::limit($engine->title, 250);
-        $engine->title = Str::replace('`', '’', $title);
-        $engine->rights = Str::limit($engine->rights, 250);
+        $title = Str::limit($self->title, 250);
+        $self->title = Str::replace('`', '’', $title);
+        $self->rights = Str::limit($self->rights, 250);
 
-        $engine->slug_sort = ParserEngine::generateSortTitle($engine->title, $engine->language);
-        $engine->slug = Str::slug($engine->title);
-        $engine->title_slug_lang = ParserEngine::generateSlug($engine->title, $engine->type->value, $engine->language);
+        $self->slugSort = ParserEngine::generateSortTitle($self->title, $self->language);
+        $self->slug = Str::slug($self->title);
+        $self->titleSlugLang = ParserEngine::generateSlug($self->title, $self->type->value, $self->language);
 
-        $engine->serie_slug = Str::slug($engine->serie);
-        $engine->serie_slug_lang = $engine->serie ? ParserEngine::generateSlug($engine->serie, $engine->type->value, $engine->language) : null;
-        $engine->serie_sort = ParserEngine::generateSortTitle($engine->serie, $engine->language);
-        $engine->title_serie_sort = ParserEngine::generateSortSerie($engine->title, $engine->serie, $engine->volume, $engine->language);
+        $self->serieSlug = Str::slug($self->serie);
+        $self->serieSlugLang = $self->serie ? ParserEngine::generateSlug($self->serie, $self->type->value, $self->language) : null;
+        $self->serieSort = ParserEngine::generateSortTitle($self->serie, $self->language);
+        $self->titleSerieSort = ParserEngine::generateSortSerie($self->title, $self->serie, $self->volume, $self->language);
 
-        $engine->description = ParserEngine::htmlToText($engine->description);
+        $self->description = ParserEngine::htmlToText($self->description);
         $reset_creators = false;
 
-        foreach ($engine->creators as $creator) {
+        foreach ($self->creators as $creator) {
             if ('' === $creator->name) {
                 $reset_creators = true;
             }
         }
 
         if ($reset_creators) {
-            $engine->creators = [];
+            $self->creators = [];
         }
 
-        if ($engine->date && ! str_contains($engine->date, '0101')) {
+        if ($self->date && ! str_contains($self->date, '0101')) {
             try {
-                $engine->released_on = new DateTime($engine->date);
+                $self->releasedOn = new DateTime($self->date);
             } catch (\Throwable $th) {
                 // throw $th;
             }
         }
 
-        if ($engine->debug) {
-            $console->print("{$engine->title}");
-            $engine_print = clone $engine;
-            $engine_print->cover_file = $engine_print->cover_file
-                ? 'available (removed into this JSON)' : $engine_print->cover_file;
-            ParserEngine::printFile($engine_print, "{$engine->file_name}-parser.json");
+        if ($self->debug) {
+            $console->print("{$self->title}");
+            $self_print = clone $self;
+            $self_print->coverFile = $self_print->coverFile
+                ? 'available (removed into this JSON)' : $self_print->coverFile;
+            ParserEngine::printFile($self_print, "{$self->fileName}-parser.json");
         }
 
-        return $engine;
+        return $self;
+    }
+
+    public function title(): ?string
+    {
+        return $this->title;
+    }
+
+    public function slug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function slugSort(): ?string
+    {
+        return $this->slugSort;
+    }
+
+    public function titleSlugLang(): ?string
+    {
+        return $this->titleSlugLang;
+    }
+
+    public function titleSerieSort(): ?string
+    {
+        return $this->titleSerieSort;
+    }
+
+    public function serieSlug(): ?string
+    {
+        return $this->serieSlug;
+    }
+
+    public function serieSlugLang(): ?string
+    {
+        return $this->serieSlugLang;
+    }
+
+    public function serieSort(): ?string
+    {
+        return $this->serieSort;
+    }
+
+    public function serie(): ?string
+    {
+        return $this->serie;
+    }
+
+    public function volume(): ?int
+    {
+        return $this->volume;
+    }
+
+    public function description(): ?string
+    {
+        return $this->description;
+    }
+
+    public function language(): ?string
+    {
+        return $this->language;
+    }
+
+    public function rights(): ?string
+    {
+        return $this->rights;
+    }
+
+    public function date(): ?string
+    {
+        return $this->date;
+    }
+
+    public function releasedOn(): ?DateTime
+    {
+        return $this->releasedOn;
+    }
+
+    public function format(): ?BookFormatEnum
+    {
+        return $this->format;
+    }
+
+    public function type(): ?BookTypeEnum
+    {
+        return $this->type;
+    }
+
+    public function coverFile(): ?string
+    {
+        return $this->coverFile;
+    }
+
+    public function filePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    public function fileName(): ?string
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * Get the value of creators.
+     *
+     * @return BookCreator[]
+     */
+    public function creators(): array
+    {
+        return $this->creators;
+    }
+
+    /**
+     * Get the value of contributor.
+     *
+     * @return string[]
+     */
+    public function contributor(): array
+    {
+        return $this->contributor;
+    }
+
+    public function publisher(): ?string
+    {
+        return $this->publisher;
+    }
+
+    /**
+     * Get the value of identifiers.
+     *
+     * @return BookIdentifier[]
+     */
+    public function identifiers(): array
+    {
+        return $this->identifiers;
+    }
+
+    public function debug(): bool
+    {
+        return $this->debug;
     }
 
     /**
@@ -216,24 +333,24 @@ class ParserEngine
     public static function generateSortTitle(string|null $title, string $language): string|false
     {
         if ($title) {
-            $slug_sort = $title;
+            $slugSort = $title;
             $articles = self::DETERMINERS;
 
-            $articles_lang = $articles['en'];
+            $articlesLang = $articles['en'];
 
             if (array_key_exists($language, $articles)) {
-                $articles_lang = $articles[$language];
+                $articlesLang = $articles[$language];
             }
 
-            foreach ($articles_lang as $key => $value) {
-                $slug_sort = preg_replace('/^'.preg_quote($value, '/').'/i', '', $slug_sort);
+            foreach ($articlesLang as $key => $value) {
+                $slugSort = preg_replace('/^'.preg_quote($value, '/').'/i', '', $slugSort);
             }
 
             $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
-            $slug_sort = $transliterator->transliterate($slug_sort);
-            $slug_sort = strtolower($slug_sort);
+            $slugSort = $transliterator->transliterate($slugSort);
+            $slugSort = strtolower($slugSort);
 
-            return Str::slug(utf8_encode($slug_sort));
+            return Str::slug(mb_convert_encoding($slugSort, 'UTF-8'));
         }
 
         return false;
@@ -243,14 +360,14 @@ class ParserEngine
      * Generate full title sort.
      * Example: `miserables-01_fantine` from `Les Misérables, volume 01 : Fantine`.
      */
-    public static function generateSortSerie(string $title, string|null $serie_title, int|null $volume, string $language): string
+    public static function generateSortSerie(string $title, string|null $serieTitle, int|null $volume, string $language): string
     {
         $serie = null;
 
-        if ($serie_title) {
+        if ($serieTitle) {
             // @phpstan-ignore-next-line
             $volume = strlen($volume) < 2 ? '0'.$volume : $volume;
-            $serie = $serie_title.' '.$volume;
+            $serie = $serieTitle.' '.$volume;
             $serie = Str::slug(self::generateSortTitle($serie, $language)).'_';
         }
         $title = Str::slug(self::generateSortTitle($title, $language));
@@ -263,19 +380,18 @@ class ParserEngine
      */
     public static function htmlToText(?string $html, ?array $allow = ['br', 'p', 'ul', 'li']): ?string
     {
-        $text = null;
-
-        if ($html) {
-            $text = str_replace("\n", '', $html); // remove break line
-            $text = trim(strip_tags($text, $allow)); // remove html tags and trim
-
-            $regex = '@(https?://([-\\w\\.]+[-\\w])+(:\\d+)?(/([\\w/_\\.#-]*(\\?\\S+)?[^\\.\\s])?).*$)@';
-            $text = preg_replace($regex, ' ', $text); // remove links
-            $text = preg_replace('#(<[a-z ]*)(style=("|\')(.*?)("|\'))([a-z ]*>)#', '\\1\\6', $text); // remove style
-            $text = trim($text);
+        if (! $html) {
+            return null;
         }
 
-        return $text;
+        $text = str_replace("\n", '', $html); // remove break line
+        $text = trim(strip_tags($text, $allow)); // remove html tags and trim
+
+        $regex = '@(https?://([-\\w\\.]+[-\\w])+(:\\d+)?(/([\\w/_\\.#-]*(\\?\\S+)?[^\\.\\s])?).*$)@';
+        $text = preg_replace($regex, ' ', $text); // remove links
+        $text = preg_replace('#(<[a-z ]*)(style=("|\')(.*?)("|\'))([a-z ]*>)#', '\\1\\6', $text); // remove style
+
+        return trim($text);
     }
 
     public static function printFile(mixed $file, string $name, bool $raw = false): bool

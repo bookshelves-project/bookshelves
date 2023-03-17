@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\OpdsEngine;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;

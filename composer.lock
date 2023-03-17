@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc8184794e01794e3c228db85149360f",
+    "content-hash": "50767640b1fc7d8410705f050f768195",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2579,12 +2579,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "4fee6ae567fd601dd57343d677fdeb0e406aa6e7"
+                "reference": "9b665b766ceab22a2c6fa2f877828adf6977675f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/4fee6ae567fd601dd57343d677fdeb0e406aa6e7",
-                "reference": "4fee6ae567fd601dd57343d677fdeb0e406aa6e7",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/9b665b766ceab22a2c6fa2f877828adf6977675f",
+                "reference": "9b665b766ceab22a2c6fa2f877828adf6977675f",
                 "shasum": ""
             },
             "require": {
@@ -2659,7 +2659,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2023-03-17T17:27:33+00:00"
+            "time": "2023-03-17T19:03:41+00:00"
         },
         {
             "name": "laravel/framework",
@@ -13966,7 +13966,9 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "ext-imagick": "*",
+        "ext-rar": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

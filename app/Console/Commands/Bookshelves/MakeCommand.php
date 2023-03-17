@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Engines\Converter\EntityConverter;
+use App\Engines\Converter\Modules\CoverConverter;
 use App\Engines\ConverterEngine;
-use App\Engines\ConverterEngine\EntityConverter;
-use App\Engines\ConverterEngine\Modules\CoverConverter;
+use App\Engines\Parser\Parsers\FilesTypeParser;
 use App\Engines\ParserEngine;
-use App\Engines\ParserEngine\Parsers\FilesTypeParser;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;

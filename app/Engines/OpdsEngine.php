@@ -2,9 +2,9 @@
 
 namespace App\Engines;
 
-use App\Engines\OpdsEngine\Modules\Interface\ModuleInterface;
-use App\Engines\OpdsEngine\Modules\NotSupportedModule;
-use App\Engines\OpdsEngine\Modules\Version1_2Module;
+use App\Engines\Opds\Modules\Interface\ModuleInterface;
+use App\Engines\Opds\Modules\NotSupportedModule;
+use App\Engines\Opds\Modules\Version1_2Module;
 use Illuminate\Http\Request;
 use Kiwilan\Steward\Services\ConverterService;
 

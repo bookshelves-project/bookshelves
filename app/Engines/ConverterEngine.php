@@ -2,9 +2,9 @@
 
 namespace App\Engines;
 
-use App\Engines\ConverterEngine\BookConverter;
-use App\Engines\ConverterEngine\Modules\AuthorConverter;
-use App\Engines\ParserEngine\Models\BookCreator;
+use App\Engines\Converter\BookConverter;
+use App\Engines\Converter\Modules\AuthorConverter;
+use App\Engines\Parser\Models\BookCreator;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Builder;
 

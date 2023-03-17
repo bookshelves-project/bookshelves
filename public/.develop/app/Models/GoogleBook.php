@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Engines\ConverterEngine\TagConverter;
+use App\Engines\Converter\TagConverter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
@@ -41,6 +41,7 @@ class GoogleBook extends Model
         if (! $this->book->publisher && $this->publisher) {
             $publisher_slug = Str::slug($this->publisher, '-');
             $publisher = Publisher::whereSlug($publisher_slug)->first();
+
             if (! $publisher) {
                 $publisher = Publisher::firstOrCreate([
                     'name' => $this->publisher,
@@ -53,11 +54,13 @@ class GoogleBook extends Model
         if (empty($this->book->isbn10)) {
             $this->book->isbn10 = $this->isbn10;
         }
+
         if (empty($this->book->isbn13)) {
             $this->book->isbn13 = $this->isbn13;
         }
 
         $categories = json_decode($this->categories);
+
         if (is_array($categories)) {
             foreach ($categories as $key => $category) {
                 TagConverter::setTag($category);
