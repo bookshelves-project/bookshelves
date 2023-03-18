@@ -32,9 +32,9 @@ class AuthorConverter
 
         if (empty($entity->authors())) {
             $author = AuthorConverter::make(new BookEntityAuthor(
-                name: 'Anonymous',
+                name: 'Anonymous Anonymous',
                 role: 'aut'
-            ));
+            ))->create();
             $authors->push($author);
 
             return $authors;
