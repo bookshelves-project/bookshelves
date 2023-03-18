@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Engines\Converter\Modules\TagConverter;
+use App\Engines\Book\Converter\Modules\TagConverter;
 use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;

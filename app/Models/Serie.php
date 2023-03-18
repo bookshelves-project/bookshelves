@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Engines\Converter\WikipediaItemConverter;
+use App\Engines\Book\Converter\WikipediaItemConverter;
 use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasCovers;
