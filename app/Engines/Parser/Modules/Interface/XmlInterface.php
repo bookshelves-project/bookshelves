@@ -2,10 +2,12 @@
 
 namespace App\Engines\Parser\Modules\Interface;
 
-use App\Engines\Parser\Parsers\ArchiveParser;
-use App\Engines\ParserEngine;
-
 interface XmlInterface
 {
-    public static function parse(ArchiveParser $parser): ParserEngine;
+    /**
+     * Parse XML file to extract metadata.
+     *
+     * @param  array<string, mixed>  $metadata
+     */
+    public function parse(array $metadata): ParserModule;
 }

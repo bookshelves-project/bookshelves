@@ -2,100 +2,97 @@
 
 namespace App\Engines\Parser\Modules;
 
-use App\Engines\Parser\Models\BookCreator;
-use App\Engines\Parser\Modules\Interface\Module;
-use App\Engines\Parser\Modules\Interface\ModuleInterface;
+use App\Engines\Parser\Models\BookEntityAuthor;
+use App\Engines\Parser\Modules\Interface\ParserModule;
+use App\Engines\Parser\Modules\Interface\ParserModuleInterface;
 use App\Engines\Parser\Modules\Interface\XmlInterface;
 use App\Engines\Parser\Parsers\ArchiveParser;
 use App\Engines\ParserEngine;
 use Illuminate\Support\Carbon;
-use Kiwilan\Steward\Utils\Console;
 
-class CbzModule extends Module implements ModuleInterface, XmlInterface
+class CbzModule extends ParserModule implements ParserModuleInterface, XmlInterface
 {
     public function __construct(
         public ?string $type = null,
     ) {
     }
 
-    public static function make(ParserEngine $engine, ?bool $cbr = false): ParserEngine|false
+    public static function make(ParserEngine $parser, bool $debug = false): ParserModule
     {
-        $archive = new ArchiveParser($engine, new CbzModule());
-        $archive->is_rar = $cbr;
-        $archive->find_cover = true;
+        $self = ParserModule::create($parser, self::class, $debug);
 
-        return $archive->open();
+        return ArchiveParser::make($self)->execute();
     }
 
-    public static function parse(ArchiveParser $parser_engine): ParserEngine
+    public function parse(array $metadata): ParserModule
     {
-        /** @var CbzModule */
-        $module = $parser_engine->module;
+        $this->metadata = $metadata;
+        $this->type = $this->metadata['@root'];
 
-        $module->metadata = $parser_engine->metadata;
-        $module->engine = $parser_engine->engine;
-
-        $module->type = $module->metadata['@root'];
-
-        $is_supported = match ($module->type) {
-            'ComicInfo' => $module->comicInfo(),
+        $isSupported = match ($this->type) {
+            'ComicInfo' => $this->comicInfo(),
             default => false,
         };
 
-        if ($parser_engine->engine->debug()) {
-            ParserEngine::printFile($module->metadata, "{$parser_engine->engine->fileName()}-metadata.json");
+        if ($this->debug) {
+            ParserEngine::printFile($this->metadata, "{$this->file->name()}-metadata.json");
         }
 
-        if (! $is_supported) {
-            $console = Console::make();
-            $console->print("CbzModule {$module->type} not supported", 'red');
-            $console->newLine();
+        if (! $isSupported) {
+            $this->console->print("CbzModule {$this->type} not supported", 'red');
+            $this->console->newLine();
         }
 
-        return $parser_engine->engine;
+        return $this;
     }
 
     private function comicInfo(): static
     {
-        if ($this->metadata) {
-            $this->getRaw('Title', 'title');
-            $this->getRaw('Summary', 'description');
-            $this->getRaw('Series', 'serie');
-            $this->getRaw('Number', 'volume');
-            $this->getRaw('Publisher', 'publisher');
-            $this->getRaw('LanguageISO', 'language');
-            $this->getCreators('Writer', 'creators');
-            $this->getDate();
+        if (! $this->metadata) {
+            return $this;
         }
+
+        $this->title = $this->extract('Title');
+        $this->description = $this->extract('Summary');
+        $this->serie = $this->extract('Series');
+        $this->volume = $this->extract('Number');
+        $this->publisher = $this->extract('Publisher');
+        $this->language = $this->extract('LanguageISO');
+        $this->authors = $this->setCreators('Writer');
+        $this->date = $this->setDate();
 
         return $this;
     }
 
-    private function getRaw(string $extract_key, string $attribute): static
+    private function extract(string $extractKey): ?string
     {
-        if (array_key_exists($extract_key, $this->metadata)) {
-            $this->engine->{$attribute} = $this->metadata[$extract_key];
+        if (array_key_exists($extractKey, $this->metadata)) {
+            return $this->metadata[$extractKey];
         }
 
-        return $this;
+        return null;
     }
 
-    private function getCreators(string $extracted_key, string $attribute): static
+    private function setCreators(string $extractKey): array
     {
-        if (array_key_exists($extracted_key, $this->metadata)) {
-            $creators = explode(',', $this->metadata[$extracted_key]);
+        if (array_key_exists($extractKey, $this->metadata)) {
+            $items = [];
+            $creators = explode(',', $this->metadata[$extractKey]);
 
             foreach ($creators as $creator) {
-                $creator = new BookCreator(trim($creator), 'aut');
-                array_push($this->engine->{$attribute}, $creator);
+                $creator = new BookEntityAuthor(trim($creator), 'aut');
+                $items[] = $creator;
             }
+
+            return $items;
         }
 
-        return $this;
+        return [];
     }
 
-    private function getDate(): static
+    private function setDate(): ?string
     {
+        $date = null;
         $year = null;
         $month = null;
         $day = null;
@@ -114,9 +111,9 @@ class CbzModule extends Module implements ModuleInterface, XmlInterface
 
         if ($year || $month || $day) {
             $date = Carbon::createFromDate($year, $month, $day);
-            $this->engine->date = $date->format('Y-m-d');
+            $date = $date->format('Y-m-d');
         }
 
-        return $this;
+        return $date;
     }
 }

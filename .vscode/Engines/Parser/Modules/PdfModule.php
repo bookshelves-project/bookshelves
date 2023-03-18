@@ -2,7 +2,7 @@
 
 namespace App\Engines\Parser\Modules;
 
-use App\Engines\Parser\Models\BookCreator;
+use App\Engines\Parser\Models\BookEntityAuthor;
 use App\Engines\Parser\Modules\Interface\Module;
 use App\Engines\Parser\Modules\Interface\ModuleInterface;
 use App\Engines\ParserEngine;
@@ -110,7 +110,7 @@ class PdfModule extends Module implements ModuleInterface
     }
 
     /**
-     * @return BookCreator[]
+     * @return BookEntityAuthor[]
      */
     private function getCreators()
     {
@@ -129,7 +129,7 @@ class PdfModule extends Module implements ModuleInterface
             }
 
             foreach ($authors as $author) {
-                array_push($list, new BookCreator($author, 'aut'));
+                array_push($list, new BookEntityAuthor($author, 'aut'));
             }
         }
 

@@ -2,11 +2,11 @@
 
 namespace App\Engines\Parser\Models;
 
-class BookIdentifier
+class BookEntityIdentifier
 {
-    public function __construct(
-        public ?string $name = null,
-        public ?string $value = null,
+    protected function __construct(
+        protected ?string $name = null,
+        protected ?string $value = null,
     ) {
     }
 
@@ -15,7 +15,7 @@ class BookIdentifier
      *
      * @param  array  $data [id, value]
      */
-    public static function create(array $data): BookIdentifier|null
+    public static function create(array $data): ?BookEntityIdentifier
     {
         $name = strtolower($data['id']);
         $value = $data['value'];
@@ -25,20 +25,20 @@ class BookIdentifier
             $isbn_type = self::findIsbn($value);
 
             if (1 === $isbn_type) {
-                $identifier = new BookIdentifier(
+                $identifier = new BookEntityIdentifier(
                     name: 'isbn10',
                     value: $value
                 );
             }
 
             if (2 === $isbn_type) {
-                $identifier = new BookIdentifier(
+                $identifier = new BookEntityIdentifier(
                     name: 'isbn13',
                     value: $value
                 );
             }
         } else {
-            $identifier = new BookIdentifier(
+            $identifier = new BookEntityIdentifier(
                 name: $name,
                 value: $value
             );
@@ -47,7 +47,7 @@ class BookIdentifier
         return $identifier;
     }
 
-    public static function findIsbn($str)
+    public static function findIsbn($str): int|false
     {
         $regex = '/\b(?:ISBN(?:: ?| ))?((?:97[89])?\d{9}[\dx])\b/i';
 
@@ -58,5 +58,15 @@ class BookIdentifier
         }
 
         return false; // No valid ISBN found
+    }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function value(): string
+    {
+        return $this->value;
     }
 }

@@ -3,128 +3,145 @@
 namespace App\Engines\Converter;
 
 use App\Engines\Converter\Modules\AuthorConverter;
-use App\Engines\Converter\Modules\BookIdentifierConverter;
 use App\Engines\Converter\Modules\CoverConverter;
+use App\Engines\Converter\Modules\FileConverter;
+use App\Engines\Converter\Modules\IdentifiersConverter;
 use App\Engines\Converter\Modules\LanguageConverter;
 use App\Engines\Converter\Modules\PublisherConverter;
 use App\Engines\Converter\Modules\SerieConverter;
 use App\Engines\Converter\Modules\TagConverter;
-use App\Engines\Converter\Modules\TypeConverter;
-use App\Engines\ParserEngine;
+use App\Engines\Parser\Models\BookEntity;
 use App\Models\Book;
 use Illuminate\Support\Carbon;
 
 /**
- * Create or improve a `Book` and relations from `ConverterEngine`.
- *
- * @property ConverterEngine $converter_engine use to create/improve `Book`.
- * @property ?Book           $book             `Book` instance.
+ * Create or improve a `Book` and relations.
  */
 class BookConverter
 {
-    public function __construct(
-        protected ConverterEngine $converter_engine,
+    protected function __construct(
+        protected BookEntity $entity,
         protected ?Book $book = null,
     ) {
     }
 
     /**
-     * Generate Book from ParserEngine.
+     * Set Book from BookEntity.
      */
-    public static function make(ConverterEngine $converter_engine, ?Book $book = null): self
+    public static function make(BookEntity $entity, ?Book $book = null): self
     {
-        $book_converter = new BookConverter($converter_engine);
+        $self = new self($entity);
 
         if ($book) {
-            $book_converter->checkBook();
-        } else {
-            $parser_engine = $converter_engine->parser_engine;
-            $book = Book::firstOrCreate([
-                'title' => $parser_engine->title,
-                'slug' => $parser_engine->title_slug_lang,
-                'slug_sort' => $parser_engine->title_serie_sort,
-                'contributor' => implode(' ', $parser_engine->contributor),
-                'released_on' => $parser_engine->released_on ?? null,
-                'description' => $parser_engine->description,
-                'rights' => $parser_engine->rights,
-                'volume' => $parser_engine->serie ? $parser_engine->volume : null,
-                'type' => $parser_engine->type,
-                'page_count' => $parser_engine->page_count,
-                'physical_path' => $parser_engine->file_path,
+            $self->checkBook();
+        }
+
+        if (! $book) {
+            $self->book = Book::firstOrCreate([
+                'title' => $self->entity->title(),
+                'slug' => $self->entity->extra()->titleSlugLang(),
+                'slug_sort' => $self->entity->extra()->titleSerieSort(),
+                'contributor' => $self->entity->contributor(),
+                'released_on' => $self->entity->releasedOn(),
+                'description' => $self->entity->description(),
+                'rights' => $self->entity->rights(),
+                'volume' => $self->entity->volume(),
+                'type' => $self->entity->file()->type(),
+                'page_count' => $self->entity->pageCount(),
+                'physical_path' => $self->entity->file()->path(),
             ]);
         }
-        $book_converter->book = $book;
-        $book_converter->converter_engine->book = $book;
 
-        return $book_converter;
+        $self->setAuthors();
+        $self->setTags();
+        $self->setPublisher();
+        $self->setLanguage();
+        $self->setSerie();
+        $self->setIdentifiers();
+        $self->setCover();
+        $self->setFile();
+
+        return $self;
     }
 
-    public function getBook(): Book
+    public function book(): ?Book
     {
         return $this->book;
     }
 
-    public function authors(): self
+    private function setAuthors(): self
     {
-        AuthorConverter::make($this->converter_engine);
+        $authors = AuthorConverter::toCollection($this->entity);
+        $this->book->authors()->sync($authors->pluck('id'));
 
         return $this;
     }
 
-    public function bookIdentifiers(): self
+    private function setTags(): self
     {
-        BookIdentifierConverter::make($this->converter_engine);
+        $tags = TagConverter::toCollection($this->entity);
+
+        if ($tags) {
+            $this->book->tags()->sync($tags->pluck('id'));
+        }
 
         return $this;
     }
 
-    public function cover(): self
+    private function setPublisher(): self
     {
-        CoverConverter::make($this->converter_engine);
-
-        return $this;
-    }
-
-    public function language(): self
-    {
-        LanguageConverter::make($this->converter_engine);
-
-        return $this;
-    }
-
-    public function publisher(): self
-    {
-        PublisherConverter::make($this->converter_engine);
-
-        return $this;
-    }
-
-    public function serie(): self
-    {
-        SerieConverter::make($this->converter_engine);
-
-        return $this;
-    }
-
-    public function tags(): self
-    {
-        TagConverter::make($this->converter_engine);
-
-        return $this;
-    }
-
-    public function type(): self
-    {
-        TypeConverter::make($this->converter_engine);
-
-        return $this;
-    }
-
-    public function save(): self
-    {
+        $publisher = PublisherConverter::toModel($this->entity);
+        $this->book->publisher()->associate($publisher);
         $this->book->save();
 
         return $this;
+    }
+
+    private function setLanguage(): self
+    {
+        $language = LanguageConverter::toModel($this->entity);
+        $this->book->language()->associate($language);
+        $this->book->save();
+
+        return $this;
+    }
+
+    private function setSerie(): self
+    {
+        $serie = SerieConverter::toModel($this->entity)
+            ->associate($this->book)
+        ;
+
+        if ($serie) {
+            $this->book->serie()->associate($serie);
+            $this->book->save();
+        }
+
+        return $this;
+    }
+
+    private function setIdentifiers(): self
+    {
+        $identifiers = IdentifiersConverter::toCollection($this->entity);
+
+        $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
+        $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
+        $this->book->identifiers = $identifiers;
+        $this->book->save();
+
+        return $this;
+    }
+
+    private function setCover(): self
+    {
+        $cover = CoverConverter::make($this->entity, $this->book);
+
+        return $this;
+    }
+
+    private function setFile()
+    {
+        $file = FileConverter::make($this->entity, $this->book);
     }
 
     private function checkBook(): self
@@ -133,34 +150,32 @@ class BookConverter
             return $this;
         }
 
-        $parser_engine = $this->converter_engine->parser_engine;
-
-        if (! $this->book->slug_sort && $parser_engine->serie && ! $this->book->serie) {
-            $this->book->slug_sort = $parser_engine->title_serie_sort;
+        if (! $this->book->slug_sort && $this->entity->serie() && ! $this->book->serie) {
+            $this->book->slug_sort = $this->entity->extra()->titleSerieSort();
         }
 
         if (! $this->book->contributor) {
-            $this->book->contributor = implode(' ', $parser_engine->contributor);
+            $this->book->contributor = $this->entity->contributor();
         }
 
         if (! $this->book->released_on) {
-            $this->book->released_on = Carbon::parse($parser_engine->released_on);
+            $this->book->released_on = Carbon::parse($this->entity->releasedOn());
         }
 
         if (! $this->book->rights) {
-            $this->book->rights = $parser_engine->rights;
+            $this->book->rights = $this->entity->rights();
         }
 
         if (! $this->book->description) {
-            $this->book->description = $parser_engine->description;
+            $this->book->description = $this->entity->description();
         }
 
         if (! $this->book->volume) {
-            $this->book->volume = $parser_engine->serie ? $parser_engine->volume : null;
+            $this->book->volume = $this->entity->volume();
         }
 
         if (null === $this->book->type) {
-            $this->book->type = $parser_engine->type;
+            $this->book->type = $this->entity->file()->type();
         }
 
         return $this;

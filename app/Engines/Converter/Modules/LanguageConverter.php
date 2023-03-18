@@ -2,43 +2,34 @@
 
 namespace App\Engines\Converter\Modules;
 
-use App\Engines\Converter\Modules\Interface\ConverterInterface;
-use App\Engines\ParserEngine;
+use App\Engines\Parser\Models\BookEntity;
 use App\Models\Language;
 use Locale;
 
-class LanguageConverter implements ConverterInterface
+class LanguageConverter
 {
     /**
-     * Set Language from ParserEngine.
+     * Set Language from BookEntity.
      */
-    public static function make(ConverterEngine $converter_engine): Language
+    public static function toModel(BookEntity $entity): Language
     {
-        $lang_code = $converter_engine->parser_engine->language;
+        $availableLangs = config('bookshelves.langs');
+        $langCode = $entity->language();
 
-        if (! $converter_engine->book->language) {
-            $available_langs = config('bookshelves.langs');
+        $language = Language::whereSlug($langCode)->first();
 
-            $language = Language::whereSlug($lang_code)->first();
+        if (! $language) {
+            $langNames = [];
 
-            if (! $language) {
-                $lang_names = [];
-
-                foreach ($available_langs as $lang) {
-                    $lang_names[$lang] = ucfirst(Locale::getDisplayLanguage($lang_code, $lang));
-                }
-                $language = Language::firstOrCreate([
-                    'name' => $lang_names,
-                    'slug' => $lang_code,
-                ]);
+            foreach ($availableLangs as $lang) {
+                $langNames[$lang] = ucfirst(Locale::getDisplayLanguage($langCode, $lang));
             }
-
-            $converter_engine->book->language()->associate($language);
-            $converter_engine->book->save();
-
-            return $language;
+            $language = Language::firstOrCreate([
+                'name' => $langNames,
+                'slug' => $langCode,
+            ]);
         }
 
-        return $converter_engine->book->language;
+        return $language;
     }
 }

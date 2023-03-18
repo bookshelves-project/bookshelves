@@ -4,7 +4,7 @@ namespace App\Engines;
 
 use App\Engines\Opds\Modules\Interface\ModuleInterface;
 use App\Engines\Opds\Modules\NotSupportedModule;
-use App\Engines\Opds\Modules\Version1_2Module;
+use App\Engines\Opds\Modules\Version1Dot2Module;
 use Illuminate\Http\Request;
 use Kiwilan\Steward\Services\ConverterService;
 
@@ -43,7 +43,7 @@ class OpdsEngine
         $engine->feed = ConverterService::arrayToObject(self::FEED);
 
         return match ($request->version) {
-            '1.2' => Version1_2Module::create($engine),
+            '1.2' => Version1Dot2Module::create($engine),
             default => NotSupportedModule::create($engine),
         };
     }

@@ -2,7 +2,7 @@
 
 namespace App\Engines\Converter\Modules;
 
-use App\Engines\Converter\Modules\Interface\ConverterInterface;
+use App\Engines\Parser\Models\BookEntity;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
@@ -12,32 +12,32 @@ use Kiwilan\Steward\Services\MediaService;
 use Kiwilan\Steward\Utils\Console;
 use ReflectionClass;
 
-class CoverConverter implements ConverterInterface
+class CoverConverter
 {
     /**
      * Generate Book image from original cover string file.
      * Manage by spatie/laravel-medialibrary.
      */
-    public static function make(ConverterEngine $converter_engine): Book
+    public static function make(BookEntity $entity, Book $book): Book
     {
-        if (! $converter_engine->default
-            && ! $converter_engine->book->cover_book
-            && ! empty($converter_engine->parser_engine->cover_file)
-        ) {
-            try {
-                MediaService::make($converter_engine->book, $converter_engine->book->slug, MediaDiskEnum::cover)
-                    ->setMedia($converter_engine->parser_engine->cover_file)
-                    ->setColor()
-                ;
-            } catch (\Throwable $th) {
-                $console = Console::make();
-                $console->print(__METHOD__, 'red', $th);
-                $console->newLine();
-            }
-            $converter_engine->book->save();
-        }
+        // if (! $converter_engine->default
+        //     && ! $converter_engine->book->cover_book
+        //     && ! empty($converter_engine->parser_engine->cover_file)
+        // ) {
+        //     try {
+        //         MediaService::make($converter_engine->book, $converter_engine->book->slug, MediaDiskEnum::cover)
+        //             ->setMedia($converter_engine->parser_engine->cover_file)
+        //             ->setColor()
+        //         ;
+        //     } catch (\Throwable $th) {
+        //         $console = Console::make();
+        //         $console->print(__METHOD__, 'red', $th);
+        //         $console->newLine();
+        //     }
+        //     $converter_engine->book->save();
+        // }
 
-        return $converter_engine->book;
+        return $book;
     }
 
     /**
@@ -52,7 +52,7 @@ class CoverConverter implements ConverterInterface
         $cover = null;
 
         $service = DirectoryParserService::make($path);
-        $files = $service->files;
+        $files = $service->files();
 
         foreach ($files as $file) {
             if (pathinfo($file, PATHINFO_FILENAME) === $model->slug) {

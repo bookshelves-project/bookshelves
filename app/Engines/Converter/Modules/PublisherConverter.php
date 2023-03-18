@@ -2,37 +2,32 @@
 
 namespace App\Engines\Converter\Modules;
 
-use App\Engines\Converter\Modules\Interface\ConverterInterface;
+use App\Engines\Parser\Models\BookEntity;
 use App\Models\Publisher;
 use Illuminate\Support\Str;
 
-class PublisherConverter implements ConverterInterface
+class PublisherConverter
 {
     /**
-     * Generate Publisher for Book from ParserEngine.
+     * Set Publisher from BookEntity.
      */
-    public static function make(ConverterEngine $converter_engine): Publisher|false
+    public static function toModel(BookEntity $entity): ?Publisher
     {
-        $publisher = false;
-
-        if ($converter_engine->parser_engine->publisher && ! $converter_engine->book->publisher) {
-            $publisher_exist = Publisher::whereSlug(Str::slug($converter_engine->parser_engine->publisher))->first();
-
-            if (! $publisher_exist) {
-                $name = $converter_engine->parser_engine->publisher;
-                $publisher = Publisher::firstOrCreate([
-                    'name' => $name,
-                    'slug' => Str::slug($name),
-                ]);
-            } else {
-                $publisher = $publisher_exist;
-            }
-
-            $converter_engine->book->publisher()->associate($publisher);
-            $converter_engine->book->save();
+        if (! $entity->publisher()) {
+            return null;
         }
-        $converter_engine->book->refresh();
 
-        return $publisher;
+        $publisherExist = Publisher::whereSlug(Str::slug($entity->publisher()))->first();
+
+        if (! $publisherExist) {
+            $name = $entity->publisher();
+
+            return Publisher::firstOrCreate([
+                'name' => $name,
+                'slug' => Str::slug($name),
+            ]);
+        }
+
+        return $publisherExist;
     }
 }

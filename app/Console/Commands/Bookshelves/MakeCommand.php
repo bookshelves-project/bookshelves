@@ -5,7 +5,8 @@ namespace App\Console\Commands\Bookshelves;
 use App\Engines\Converter\EntityConverter;
 use App\Engines\Converter\Modules\CoverConverter;
 use App\Engines\ConverterEngine;
-use App\Engines\Parser\Parsers\FilesTypeParser;
+use App\Engines\Parser\Parsers\BookFile;
+use App\Engines\Parser\Parsers\BookFilesParser;
 use App\Engines\ParserEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
@@ -44,16 +45,21 @@ class MakeCommand extends CommandSteward
      */
     protected $description = 'Make Book model with all relationships, generate covers with different dimensions.';
 
+    /** @var BookFile[] */
+    protected array $files = [];
+
+    /** @var Book[] */
+    protected array $books = [];
+
     /**
      * Create a new command instance.
      */
     public function __construct(
-        public bool $debug = false,
-        public bool $default = false,
-        public bool $force = false,
-        public bool $fresh = false,
-        public int $limit = 0,
-        public array $books_current = [],
+        protected bool $debug = false,
+        protected bool $default = false,
+        protected bool $force = false,
+        protected bool $fresh = false,
+        protected int $limit = 0,
     ) {
         parent::__construct();
     }
@@ -67,37 +73,9 @@ class MakeCommand extends CommandSteward
     {
         $this->title(description: 'Books & relations');
 
-        $this->force = $this->option('force') ?? false;
-        $limit = str_replace('=', '', $this->option('limit'));
-        $this->limit = intval($limit);
-        $this->fresh = $this->option('fresh') ?? false;
-        $this->debug = $this->option('debug') ?? false;
-        $this->default = $this->option('default') ?? false;
+        $this->setupOptions();
 
-        $this->askOnProduction();
-
-        Artisan::call('clear:all', [], $this->getOutput());
-        $list = FilesTypeParser::make(limit: $this->limit);
-
-        if ($this->fresh) {
-            MediaExtended::where('collection_name', MediaDiskEnum::cover)->delete();
-
-            foreach (BookFormatEnum::toArray() as $format) {
-                MediaExtended::where('collection_name', $format)->delete();
-            }
-            File::deleteDirectory(public_path('storage/media/covers'));
-            File::deleteDirectory(public_path('storage/media/formats'));
-            Artisan::call('database', [
-                '--books' => $this->fresh,
-            ], $this->getOutput());
-        }
-
-        if (! $list) {
-            $this->alert('No files detected!');
-
-            return Command::FAILURE;
-        }
-        $this->comment('Files detected: '.count($list));
+        $this->comment('Files detected: '.count($this->files));
         $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie');
         $this->info('- Generate new EPUB file with standard name');
         $this->newLine();
@@ -115,22 +93,18 @@ class MakeCommand extends CommandSteward
             $this->newLine();
         }
 
-        $genres = config('bookshelves.tags.genres_list');
-
-        foreach ($genres as $genre) {
-            Tag::findOrCreate($genre, 'genre');
-        }
+        $this->setGenres();
 
         $start = microtime(true);
 
-        $this->books_current = Book::all()
+        $this->books = Book::all()
             ->map(fn (Book $book) => $book->physical_path)
             ->toArray()
         ;
-        $bar = $this->output->createProgressBar(count($list));
+        $bar = $this->output->createProgressBar(count($this->files));
         $bar->start();
 
-        foreach ($list as $file) {
+        foreach ($this->files as $file) {
             $this->convert($file);
 
             if (! $this->debug) {
@@ -140,8 +114,8 @@ class MakeCommand extends CommandSteward
         $bar->finish();
         $this->newLine();
 
-        $this->improveRelation(Author::class);
-        $this->improveRelation(Serie::class);
+        // $this->improveRelation(Author::class);
+        // $this->improveRelation(Serie::class);
 
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
@@ -150,16 +124,62 @@ class MakeCommand extends CommandSteward
         return Command::SUCCESS;
     }
 
-    private function convert(FilesTypeParser $file)
+    private function setupOptions()
+    {
+        $this->force = $this->option('force') ?? false;
+        $limit = str_replace('=', '', $this->option('limit'));
+        $this->limit = intval($limit);
+        $this->fresh = $this->option('fresh') ?? false;
+        $this->debug = $this->option('debug') ?? false;
+        $this->default = $this->option('default') ?? false;
+
+        $this->askOnProduction();
+
+        Artisan::call('clear:all', [], $this->getOutput());
+        $parser = BookFilesParser::make(limit: $this->limit);
+        $this->files = $parser->items();
+
+        if ($this->fresh) {
+            MediaExtended::where('collection_name', MediaDiskEnum::cover)->delete();
+
+            foreach (BookFormatEnum::toArray() as $format) {
+                MediaExtended::where('collection_name', $format)->delete();
+            }
+            File::deleteDirectory(public_path('storage/media/covers'));
+            File::deleteDirectory(public_path('storage/media/formats'));
+            Artisan::call('database', [
+                '--books' => $this->fresh,
+            ], $this->getOutput());
+        }
+
+        if (! $this->files) {
+            $this->alert('No files detected!');
+
+            return Command::FAILURE;
+        }
+    }
+
+    private function setGenres()
+    {
+        $genres = config('bookshelves.tags.genres_list');
+
+        foreach ($genres as $genre) {
+            Tag::findOrCreate($genre, 'genre');
+        }
+    }
+
+    private function convert(BookFile $file)
     {
         if ($this->fresh) {
-            $parser = ParserEngine::make($file, $this->debug);
-            ConverterEngine::make($parser, $this->default);
-        } else {
-            if (! in_array($file->path, $this->books_current, true)) {
-                $parser = ParserEngine::make($file, $this->debug);
-                ConverterEngine::make($parser, $this->default);
-            }
+            $entity = ParserEngine::make($file, $this->debug);
+            ConverterEngine::make($entity, $this->default);
+
+            return;
+        }
+
+        if (! in_array($file->path(), $this->books, true)) {
+            $entity = ParserEngine::make($file, $this->debug);
+            ConverterEngine::make($entity, $this->default);
         }
     }
 

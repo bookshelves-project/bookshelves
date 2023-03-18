@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Engines\ConverterEngine;
+use App\Engines\Parser\Parsers\BookFile;
+use App\Engines\Parser\Parsers\BookFilesParser;
 use App\Engines\Parser\Parsers\FilesTypeParser;
 use App\Engines\ParserEngine;
 use App\Models\Book;
@@ -47,14 +50,14 @@ class ScanCommand extends CommandSteward
         $this->verbose = $this->option('verbose') ?? false;
         $this->parse = $this->option('parse') ?? false;
 
-        $files = FilesTypeParser::make();
+        $files = BookFilesParser::make();
 
         $list = [];
 
         if ($this->parse) {
-            $list = $this->parser($files);
+            $list = $this->parser($files->items());
         } else {
-            $list = $this->basic($files);
+            $list = $this->basic($files->items());
         }
 
         $this->table(
@@ -66,8 +69,8 @@ class ScanCommand extends CommandSteward
     }
 
     /**
-     * @param  FilesTypeParser[]  $files
-     * @return FilesTypeParser[]
+     * @param  BookFile[]  $files
+     * @return BookFile[]
      */
     private function basic(array $files)
     {
@@ -77,11 +80,11 @@ class ScanCommand extends CommandSteward
         $list = [];
 
         foreach ($files as $key => $file) {
-            if (! in_array($file->path, $books)) {
+            if (! in_array($file->path(), $books)) {
                 $list["{$key}"] = $file;
 
                 if ($this->verbose) {
-                    $this->info("New book: {$file->path}");
+                    $this->info("New book: {$file->path()}");
                 }
             }
         }
@@ -131,7 +134,7 @@ class ScanCommand extends CommandSteward
 
             foreach ($new_files as $parser_engine) {
                 if ($parser_engine instanceof ParserEngine) {
-                    $this->info("- {$parser_engine->title} from {$parser_engine->file_name}");
+                    $this->info("- {$parser_engine->title()} from {$parser_engine->fileName()}");
                 }
             }
         }

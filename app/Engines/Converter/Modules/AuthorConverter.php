@@ -2,77 +2,76 @@
 
 namespace App\Engines\Converter\Modules;
 
-use App\Engines\Converter\Modules\Interface\ConverterInterface;
-use App\Engines\Parser\Models\BookCreator;
+use App\Engines\Parser\Models\BookEntity;
+use App\Engines\Parser\Models\BookEntityAuthor;
 use App\Enums\AuthorRoleEnum;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class AuthorConverter implements ConverterInterface
+class AuthorConverter
 {
     public const DISK = MediaDiskEnum::cover;
 
-    public function __construct(
-        public ?string $firstname,
-        public ?string $lastname,
-        public ?string $role,
+    protected function __construct(
+        protected ?string $firstname,
+        protected ?string $lastname,
+        protected ?string $role,
     ) {
     }
 
     /**
-     * Generate Author[] for Book from ParserEngine and sync with Book.
+     * Set Authors from BookEntity.
      *
-     * @return Collection<int,Author>
+     * @return Collection<int, Author>
      */
-    public static function make(ConverterEngine $converter_engine)
+    public static function toCollection(BookEntity $entity): Collection
     {
         $authors = collect([]);
-        // Anonymous author.
-        if (empty($converter_engine->parser_engine->creators)) {
-            $creator = new BookCreator(
+
+        if (empty($entity->authors())) {
+            $author = AuthorConverter::make(new BookEntityAuthor(
                 name: 'Anonymous',
                 role: 'aut'
-            );
-            $author_converter = AuthorConverter::convert($creator);
-            $author = AuthorConverter::generate($author_converter, $creator);
+            ));
             $authors->push($author);
-        } else {
-            foreach ($converter_engine->parser_engine->creators as $creator) {
-                $author_converter = AuthorConverter::convert($creator);
-                $author = null;
 
-                if (config('bookshelves.authors.detect_homonyms')) {
-                    $lastname = Author::whereFirstname($author_converter->lastname)->first();
-
-                    if ($lastname) {
-                        $author = Author::whereLastname($author_converter->firstname)->first();
-                    }
-                }
-
-                if (null === $author) {
-                    $author = AuthorConverter::generate($author_converter, $creator);
-                }
-                $authors->push($author);
-            }
+            return $authors;
         }
 
-        $converter_engine->book->authors()->sync($authors->pluck('id'));
-        $converter_engine->book->save();
+        foreach ($entity->authors() as $entityAuthor) {
+            $currentAuthor = AuthorConverter::make($entityAuthor);
+            $author = null;
 
-        return $converter_engine->book->authors;
+            if ($author && config('bookshelves.authors.detect_homonyms')) {
+                $lastname = Author::whereFirstname($currentAuthor->lastname)->first();
+
+                if ($lastname) {
+                    $author = Author::whereLastname($currentAuthor->firstname)->first();
+                }
+            }
+
+            if (null === $author) {
+                $currentAuthor = AuthorConverter::make($entityAuthor);
+                $author = $currentAuthor->create();
+            }
+
+            $authors->push($author);
+        }
+
+        return $authors;
     }
 
     /**
-     * Convert BookCreator to AuthorConverter from config order.
+     * Convert BookEntityAuthor to AuthorConverter from config order.
      */
-    public static function convert(BookCreator $creator): AuthorConverter
+    public static function make(BookEntityAuthor $author): ?self
     {
         $lastname = null;
         $firstname = null;
 
-        $author_name = explode(' ', $creator->name);
+        $author_name = explode(' ', $author->name());
 
         if (config('bookshelves.authors.order_natural')) {
             $lastname = $author_name[count($author_name) - 1];
@@ -83,27 +82,47 @@ class AuthorConverter implements ConverterInterface
             array_pop($author_name);
             $lastname = implode(' ', $author_name);
         }
-        $role = $creator->role;
+
+        $role = $author->role();
         $firstname = trim($firstname);
         $lastname = trim($lastname);
 
-        return new AuthorConverter($firstname, $lastname, $role);
+        if (empty($firstname) && empty($lastname)) {
+            return null;
+        }
+
+        return new self($firstname, $lastname, $role);
+    }
+
+    public function firstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function lastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function role(): ?string
+    {
+        return $this->role;
     }
 
     /**
      * Create Author if not exist.
      */
-    private static function generate(AuthorConverter $converter_engine, BookCreator $creator): Author
+    private function create(): Author
     {
-        $name = "{$converter_engine->lastname} {$converter_engine->firstname}";
+        $name = "{$this->lastname} {$this->firstname}";
         $name = trim($name);
 
         return Author::firstOrCreate([
-            'lastname' => $converter_engine->lastname,
-            'firstname' => $converter_engine->firstname,
+            'lastname' => $this->lastname,
+            'firstname' => $this->firstname,
             'name' => $name,
             'slug' => Str::slug($name, '-'),
-            'role' => AuthorRoleEnum::tryFrom($converter_engine->role),
+            'role' => AuthorRoleEnum::tryFrom($this->role),
         ]);
     }
 }

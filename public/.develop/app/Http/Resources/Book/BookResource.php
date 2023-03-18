@@ -20,6 +20,7 @@ class BookResource extends JsonResource
      * Transform the Book into an array.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @mixin Book
      */
     public function toArray($request): array
@@ -39,7 +40,7 @@ class BookResource extends JsonResource
             'media' => SpatieMediaResource::make($this->resource->media_primary),
             'media_social' => $this->resource->cover_simple,
             'description' => $this->resource->description,
-            'identifier' => BookIdentifierResource::make($this->resource),
+            'identifier' => BookEntityIdentifierResource::make($this->resource),
             'pageCount' => $this->resource->page_count,
             'maturityRating' => $this->resource->maturity_rating,
             'publisher' => PublisherLightResource::make($this->resource->publisher),

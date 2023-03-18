@@ -2,61 +2,65 @@
 
 namespace App\Engines\Converter\Modules;
 
-use App\Engines\Converter\Modules\Interface\ConverterInterface;
+use App\Engines\Parser\Models\BookEntity;
 use App\Enums\TagTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Collection;
 use Spatie\Tags\Tag;
 
-class TagConverter implements ConverterInterface
+class TagConverter
 {
     /**
-     * Generate Tag[] for Book from ParserEngine.
+     * Set Tags from BookEntity.
+     *
+     * @return Collection<int, Tag>
      */
-    public static function make(ConverterEngine $converter_engine): Collection
+    public static function toCollection(BookEntity $entity): Collection
     {
-        foreach ($converter_engine->parser_engine->tags as $key => $tag) {
-            $tag_model = TagConverter::setTag($tag);
+        $self = new self();
+        $items = collect([]);
 
-            if ($tag_model) {
-                $converter_engine->book->attachTag($tag_model);
+        foreach ($entity->tags() as $key => $tag) {
+            $model = $self->make($tag);
+
+            if ($model) {
+                $items->push($model);
             }
         }
-        $converter_engine->book->refresh();
 
-        return $converter_engine->book->tags;
+        return $items;
     }
 
     /**
      * Attach Tag to Book and define type from list of main tags.
      */
-    public static function setTag(string $tag): ?Tag
+    public static function make(string $tag): ?Tag
     {
-        $main_genres = config('bookshelves.tags.genres_list');
+        $mainGenres = config('bookshelves.tags.genres_list');
         $tag = str_replace(' and ', ' & ', $tag);
         $tag = str_replace('-', ' ', $tag);
-        $forbidden_tags = config('bookshelves.tags.forbidden');
-        $converted_tags = config('bookshelves.tags.converted');
+        $forbiddenTags = config('bookshelves.tags.forbidden');
+        $convertedTags = config('bookshelves.tags.converted');
 
-        foreach ($converted_tags as $key => $converted_tag) {
+        foreach ($convertedTags as $key => $convertedTag) {
             if ($tag === $key) {
-                $tag = $converted_tag;
+                $tag = $convertedTag;
             }
         }
 
-        $tag_model = null;
+        $model = null;
 
-        if (strlen($tag) > 1 && strlen($tag) < 30 && ! in_array($tag, $forbidden_tags)) {
+        if (strlen($tag) > 1 && strlen($tag) < 30 && ! in_array($tag, $forbiddenTags)) {
             $tag = strtolower($tag);
             $tag = ucfirst($tag);
 
-            if (in_array($tag, $main_genres)) {
-                $tag_model = Tag::findOrCreate($tag, TagTypeEnum::genre->value);
+            if (in_array($tag, $mainGenres)) {
+                $model = Tag::findOrCreate($tag, TagTypeEnum::genre->value);
             } else {
-                $tag_model = Tag::findOrCreate($tag, TagTypeEnum::tag->value);
+                $model = Tag::findOrCreate($tag, TagTypeEnum::tag->value);
             }
         }
 
-        return $tag_model;
+        return $model;
     }
 }

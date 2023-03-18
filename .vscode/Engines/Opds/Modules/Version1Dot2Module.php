@@ -13,11 +13,11 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Route;
 
-class Version1_2Module extends Module implements ModuleInterface
+class Version1Dot2Module extends Module implements ModuleInterface
 {
     public static function create(OpdsEngine $opds): ModuleInterface
     {
-        return new Version1_2Module($opds);
+        return new Version1Dot2Module($opds);
     }
 
     public function template(EntityEnum $entity, Collection|Model $data, ?string $title = null): string

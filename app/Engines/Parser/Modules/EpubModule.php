@@ -2,123 +2,134 @@
 
 namespace App\Engines\Parser\Modules;
 
-use App\Engines\Parser\Models\BookCreator;
-use App\Engines\Parser\Models\BookIdentifier;
-use App\Engines\Parser\Modules\Interface\Module;
-use App\Engines\Parser\Modules\Interface\ModuleInterface;
+use App\Engines\Parser\Models\BookEntityAuthor;
+use App\Engines\Parser\Models\BookEntityIdentifier;
+use App\Engines\Parser\Modules\Interface\ParserModule;
+use App\Engines\Parser\Modules\Interface\ParserModuleInterface;
 use App\Engines\Parser\Modules\Interface\XmlInterface;
 use App\Engines\Parser\Parsers\ArchiveParser;
 use App\Engines\ParserEngine;
-use Kiwilan\Steward\Utils\Console;
 
-class EpubModule extends Module implements ModuleInterface, XmlInterface
+class EpubModule extends ParserModule implements ParserModuleInterface, XmlInterface
 {
     public function __construct(
-        public ?float $version = null,
+        protected float $version = 2.0,
     ) {
     }
 
-    public static function make(ParserEngine $engine): ParserEngine|false
+    public static function make(ParserEngine $parser, bool $debug = false): ParserModule
     {
-        $archive = new ArchiveParser($engine, new EpubModule(), 'opf');
+        $self = ParserModule::create($parser, self::class, $debug);
 
-        return $archive->open();
+        return ArchiveParser::make($self)
+            ->setExtensionIndex('opf')
+            ->execute()
+        ;
     }
 
-    public static function parse(ArchiveParser $archive_parser): ParserEngine
+    public function parse(array $metadata): self
     {
-        /** @var EpubModule */
-        $module = $archive_parser->module;
+        $this->metadata = $metadata;
 
-        $module->metadata = $archive_parser->metadata;
-        $module->version = 2.0;
-
-        if ($module->metadata['@attributes'] && $version = $module->metadata['@attributes']['version']) {
-            $module->version = floatval($version);
+        if ($this->metadata['@attributes'] && $version = $this->metadata['@attributes']['version']) {
+            $this->version = floatval($version);
         }
-        $module->engine = $archive_parser->engine;
 
-        $is_supported = match ($module->version) {
-            2.0 => $module->version2(),
+        $isSupported = match ($this->version) {
+            2.0 => $this->version2(),
             default => false,
         };
 
-        if ($archive_parser->engine->debug()) {
-            ParserEngine::printFile($module->metadata, "{$archive_parser->engine->fileName()}-metadata.json");
+        if ($this->debug) {
+            ParserEngine::printFile($this->metadata, "{$this->file->name()}-metadata.json");
         }
 
-        if (! $is_supported) {
-            $console = Console::make();
-            $console->print("EpubModule {$module->version} not supported");
-        }
-
-        return $archive_parser->engine;
-    }
-
-    private function version2(): static
-    {
-        $this->getCover();
-
-        if ($this->metadata['metadata']) {
-            $this->metadata = $this->metadata['metadata'];
-
-            $this->getRaw('dc:title', 'title');
-            $this->getRaw('dc:description', 'description');
-            $this->getRaw('dc:date', 'date');
-            $this->getRaw('dc:publisher', 'publisher');
-            $this->getRaw('dc:language', 'language');
-            $this->getRaw('dc:rights', 'rights');
-            $this->getSubjects('dc:subject');
-            $this->getCreators('dc:creator');
-            $this->getContributor('dc:contributor');
-            $this->getIdentifiers('dc:identifier');
-            $this->getCalibreMeta('meta');
+        if (! $isSupported) {
+            $this->console->print("EpubModule {$this->version} not supported", 'red');
+            $this->console->newLine();
         }
 
         return $this;
     }
 
-    private function getRaw(string $extract_key, string $attribute): static
+    private function version2(): self
     {
-        if (array_key_exists($extract_key, $this->metadata)) {
-            $this->engine->{$attribute} = $this->metadata[$extract_key];
+        $this->findCover();
+
+        if (! array_key_exists('metadata', $this->metadata)) {
+            throw new \Exception("EpubModule {$this->file->name()} metadata not supported");
         }
 
+        $this->metadata = $this->metadata['metadata'];
+
+        $this->title = $this->extract('dc:title');
+        $this->description = $this->extract('dc:description');
+        $this->date = $this->extract('dc:date');
+        $this->publisher = $this->extract('dc:publisher');
+        $this->language = $this->extract('dc:language');
+        $this->rights = $this->extract('dc:rights');
+        $this->tags = $this->setSubjects('dc:subject');
+        $this->authors = $this->setCreators('dc:creator');
+        $this->contributor = $this->setContributor('dc:contributor');
+        $this->identifiers = $this->setIdentifiers('dc:identifier');
+        $meta = $this->setCalibreMeta('meta');
+        $this->serie = $meta['serie'];
+        $this->volume = $meta['volume'];
+
         return $this;
+    }
+
+    private function extract(string $extractKey): ?string
+    {
+        if (array_key_exists($extractKey, $this->metadata)) {
+            return $this->metadata[$extractKey];
+        }
+
+        return null;
     }
 
     /**
      * Get serie and volume.
+     *
+     * @return array<string, string|null>
      */
-    private function getCalibreMeta(string $extract_key): ParserEngine
+    private function setCalibreMeta(string $extractKey): array
     {
-        if (array_key_exists($extract_key, $this->metadata)) {
-            foreach ($this->metadata[$extract_key] as $value) {
+        $serie = null;
+        $volume = null;
+
+        if (array_key_exists($extractKey, $this->metadata)) {
+            foreach ($this->metadata[$extractKey] as $value) {
                 if ($value['@attributes'] && $value['@attributes']['name'] && 'calibre:series' === $value['@attributes']['name']) {
-                    $this->engine->serie = $value['@attributes']['content'];
+                    $serie = $value['@attributes']['content'];
                 }
 
                 if ($value['@attributes'] && $value['@attributes']['name'] && 'calibre:series_index' === $value['@attributes']['name']) {
-                    $this->engine->volume = $value['@attributes']['content'];
+                    $volume = $value['@attributes']['content'];
                 }
             }
         }
 
-        return $this->engine;
+        return [
+            'serie' => $serie,
+            'volume' => $volume,
+        ];
     }
 
     /**
      * Get identifiers like ISBN.
+     *
+     * @return BookEntityIdentifier[]
      */
-    private function getIdentifiers(string $extract_key): static
+    private function setIdentifiers(string $extractKey): array
     {
-        if (array_key_exists($extract_key, $this->metadata)) {
-            $this->engine->identifiers = [];
+        $identifiers = [];
 
-            foreach ($this->metadata[$extract_key] as $identifier_value) {
+        if (array_key_exists($extractKey, $this->metadata)) {
+            foreach ($this->metadata[$extractKey] as $identifier_value) {
                 array_push(
-                    $this->engine->identifiers,
-                    BookIdentifier::create([
+                    $identifiers,
+                    BookEntityIdentifier::create([
                         'id' => $identifier_value['@attributes']['scheme'],
                         'value' => $identifier_value['@content'],
                     ])
@@ -126,62 +137,71 @@ class EpubModule extends Module implements ModuleInterface, XmlInterface
             }
         }
 
-        return $this;
+        return $identifiers;
     }
 
     /**
      * Get contributor.
      */
-    private function getContributor(string $extract_key): static
+    private function setContributor(string $extractKey): string
     {
-        if (array_key_exists($extract_key, $this->metadata)) {
-            array_push($this->engine->contributor, $this->metadata[$extract_key]['@content']);
+        $contributor = [];
+
+        if (array_key_exists($extractKey, $this->metadata)) {
+            array_push($contributor, $this->metadata[$extractKey]['@content']);
         }
 
-        return $this;
+        return implode(', ', $contributor);
     }
 
     /**
      * Get *creators* which will be authors
-     * - use BookCreator to get name and role
+     * - use BookEntityAuthor to get name and role
      * - role can be 'aut' for author but it can be 'translator' for example.
+     *
+     * @return BookEntityAuthor[]
      */
-    private function getCreators(string $extract_key): static
+    private function setCreators(string $extractKey): array
     {
-        if (array_key_exists($extract_key, $this->metadata)) {
+        if (array_key_exists($extractKey, $this->metadata)) {
             $creators = [];
 
-            if (array_key_exists(0, $this->metadata[$extract_key])) {
-                foreach ($this->metadata[$extract_key] as $creator_value) {
+            if (array_key_exists(0, $this->metadata[$extractKey])) {
+                foreach ($this->metadata[$extractKey] as $creator_value) {
                     array_push($creators, $this->extractCreator($creator_value));
                 }
             } else {
-                array_push($creators, $this->extractCreator($this->metadata[$extract_key]));
+                array_push($creators, $this->extractCreator($this->metadata[$extractKey]));
             }
-            $creators = array_map('unserialize', array_unique(array_map('serialize', $creators)));
-            $this->engine->creators = $creators;
+
+            return array_map('unserialize', array_unique(array_map('serialize', $creators)));
         }
 
-        return $this;
+        return [];
     }
 
-    private function getSubjects(string $extract_key): static
+    /**
+     * Extract subjects from metadata.
+     *
+     * @return string[]
+     */
+    private function setSubjects(string $extractKey): array
     {
-        if (array_key_exists($extract_key, $this->metadata)) {
+        if (array_key_exists($extractKey, $this->metadata)) {
             $subjects = [];
 
-            if (is_string($this->metadata[$extract_key])) {
-                array_push($subjects, $this->metadata[$extract_key]);
+            if (is_string($this->metadata[$extractKey])) {
+                array_push($subjects, $this->metadata[$extractKey]);
             } else {
-                foreach ($this->metadata[$extract_key] as $subject) {
+                foreach ($this->metadata[$extractKey] as $subject) {
                     array_push($subjects, $subject);
                 }
             }
-            $subjects = array_map('unserialize', array_unique(array_map('serialize', $subjects)));
-            $this->engine->tags = $subjects;
+
+            return array_map('unserialize', array_unique(array_map('serialize', $subjects)));
         }
 
-        return $this;
+        return [];
     }
 
     /**
@@ -190,7 +210,7 @@ class EpubModule extends Module implements ModuleInterface, XmlInterface
      * - define cover path into EPUB/ZIP file
      * - define extension of cover.
      */
-    private function getCover(): static
+    private function findCover(): static
     {
         if ($this->metadata['manifest'] && $items = $this->metadata['manifest']['item']) {
             $cover = null;
@@ -218,21 +238,21 @@ class EpubModule extends Module implements ModuleInterface, XmlInterface
             }
 
             if (! empty($cover)) {
-                $this->engine->cover_name = $cover;
-                $this->engine->cover_extension = pathinfo($cover, PATHINFO_EXTENSION);
+                $this->setCover();
+                $this->setCoverName($cover);
+                $this->setCoverExtension(pathinfo($cover, PATHINFO_EXTENSION));
             } else {
-                $console = Console::make();
-                $console->print('No cover from EpubModule', 'red');
-                $console->newLine();
+                $this->console->print('No cover from EpubModule', 'red');
+                $this->console->newLine();
             }
         }
 
         return $this;
     }
 
-    private function extractCreator(array $creator): BookCreator
+    private function extractCreator(array $creator): BookEntityAuthor
     {
-        return new BookCreator(
+        return new BookEntityAuthor(
             name: $creator['@content'],
             role: $creator['@attributes']['role']
         );

@@ -2,57 +2,64 @@
 
 namespace App\Engines\Converter\Modules;
 
-use App\Engines\Converter\Modules\Interface\ConverterInterface;
-use App\Engines\ParserEngine;
+use App\Engines\Parser\Models\BookEntity;
 use App\Enums\MediaDiskEnum;
 use App\Models\Book;
 use App\Models\Serie;
 use File;
 use Kiwilan\Steward\Services\MediaService;
 
-class SerieConverter implements ConverterInterface
+class SerieConverter
 {
+    protected ?Serie $serie = null;
+
     public const DISK = MediaDiskEnum::cover;
 
     /**
-     * Generate Serie for Book from ParserEngine.
+     * Set Serie from BookEntity.
      */
-    public static function make(ConverterEngine $converter_engine): Serie|false
+    public static function toModel(BookEntity $entity): self
     {
-        if ($converter_engine->parser_engine->serie && ! $converter_engine->book->serie) {
-            $serie = Serie::whereSlug($converter_engine->parser_engine->serie_slug)->first();
+        $self = new self();
+        $serie = Serie::whereSlug($entity->extra()->serieSlug())->first();
 
-            if (! $serie) {
-                $serie = Serie::firstOrCreate([
-                    'title' => $converter_engine->parser_engine->serie,
-                    'slug_sort' => $converter_engine->parser_engine->serie_sort,
-                    'slug' => $converter_engine->parser_engine->serie_slug_lang,
-                    'type' => $converter_engine->parser_engine->type,
-                ]);
-                $serie->language()->associate($converter_engine->book->language);
-                $serie->save();
-            }
+        if (! $serie && $entity->serie()) {
+            $serie = Serie::firstOrCreate([
+                'title' => $entity->serie(),
+                'slug_sort' => $entity->extra()->serieSort(),
+                'slug' => $entity->extra()->serieSlugLang(),
+                'type' => $entity->file()->type(),
+            ]);
 
-            $authors_serie = [];
-
-            foreach ($serie->authors as $key => $author) {
-                array_push($authors_serie, $author->slug);
-            }
-            $book_authors = $converter_engine->book->authors;
-
-            foreach ($book_authors as $key => $author) {
-                if (! in_array($author->slug, $authors_serie)) {
-                    $serie->authors()->save($author);
-                }
-            }
-
-            $converter_engine->book->serie()->associate($serie);
-            $converter_engine->book->save();
-
-            return $serie;
+            $self->serie = $serie;
         }
 
-        return false;
+        return $self;
+    }
+
+    public function associate(Book $book): ?Serie
+    {
+        if (! $this->serie) {
+            return null;
+        }
+
+        $this->serie->language()->associate($book->language);
+
+        $authors = [];
+
+        foreach ($this->serie->authors as $author) {
+            $authors[] = $author->slug;
+        }
+
+        foreach ($book->authors as $key => $author) {
+            if (! in_array($author->slug, $authors)) {
+                $this->serie->authors()->save($author);
+            }
+        }
+
+        $this->serie->save();
+
+        return $this->serie;
     }
 
     /**

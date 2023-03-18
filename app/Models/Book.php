@@ -206,7 +206,7 @@ class Book extends Model implements HasMedia, GoogleBookable
 
         // Set tags
         foreach ($gbook->categories() as $category) {
-            TagConverter::setTag($category);
+            TagConverter::make($category);
         }
 
         $this->save();

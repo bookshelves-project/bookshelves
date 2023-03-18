@@ -4,68 +4,54 @@ namespace App\Engines;
 
 use App\Engines\Converter\BookConverter;
 use App\Engines\Converter\Modules\AuthorConverter;
-use App\Engines\Parser\Models\BookCreator;
+use App\Engines\Parser\Models\BookEntity;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Create a `Book` and relations from `ParserEngine`.
- *
- * @property ParserEngine $parser_engine use to create/improve `Book` from `ParserEngine`.
- * @property ?Book        $book          `Book` instance.
- * @property bool         $default       use default media instead of create new.
+ * Create a `Book` and relations.
  */
 class ConverterEngine
 {
-    public function __construct(
-        public ParserEngine $parser_engine,
-        public ?Book $book = null,
-        public ?bool $default = false
+    protected function __construct(
+        protected BookEntity $entity,
+        protected ?Book $book = null,
+        protected bool $isExist = false,
+        protected bool $default = false
     ) {
     }
 
     /**
-     * Create a `Book::class` and relations from `ParserEngine::class`.
-     * Rejected if `ParserEngine::class` is `null`.
+     * Create a `Book::class` and relations from `BookEntity::class`.
+     * Rejected if `BookEntity::class` is `null`.
      */
-    public static function make(?ParserEngine $parser_engine, bool $default = false): ?ConverterEngine
+    public static function make(?BookEntity $entity, bool $default = false): ?ConverterEngine
     {
-        if (! $parser_engine) {
+        if (! $entity) {
             return null;
         }
 
-        $converter_engine = new ConverterEngine($parser_engine);
-        $converter_engine->default = $default;
+        $self = new self($entity);
+        $self->default = $default;
+        $self->book = $self->retrieveBook();
 
-        $is_exist = $converter_engine->retrieveBook();
+        $bookConverter = BookConverter::make($self->entity, $self->book);
+        $self->book = $bookConverter->book();
 
-        $book_converter = BookConverter::make($converter_engine, $is_exist)
-            ->authors()
-            ->tags()
-            ->publisher()
-            ->language()
-            ->serie()
-            ->bookIdentifiers()
-            ->cover()
-            ->type()
-            ->save()
-        ;
-        $converter_engine->book = $book_converter->getBook();
-
-        return $converter_engine;
+        return $self;
     }
 
-    public function retrieveBook(): ?Book
+    private function retrieveBook(): ?Book
     {
-        $authors_name = [];
-        /** @var BookCreator $creator */
-        foreach ($this->parser_engine->creators as $creator) {
-            $author = AuthorConverter::convert($creator);
-            array_push($authors_name, "{$author->firstname} {$author->lastname}");
-            array_push($authors_name, "{$author->lastname} {$author->firstname}");
+        $names = [];
+
+        foreach ($this->entity->authors() as $author) {
+            $author = AuthorConverter::make($author);
+            $names[] = "{$author->firstname()} {$author->lastname()}";
+            $names[] = "{$author->lastname()} {$author->firstname()}";
         }
 
-        $book = Book::whereSlug($this->parser_engine->title_slug_lang);
+        $book = Book::whereSlug($this->entity->extra()->titleSlugLang());
 
         if (! empty($authors_name)) {
             $book = $book->whereHas(
@@ -74,8 +60,34 @@ class ConverterEngine
             );
         }
 
-        return $book->whereType($this->parser_engine->type)
+        $book = $book->whereType($this->entity->file()->type())
             ->first()
         ;
+
+        if ($book) {
+            $this->isExist = true;
+        }
+
+        return $book;
+    }
+
+    public function entity(): BookEntity
+    {
+        return $this->entity;
+    }
+
+    public function book(): ?Book
+    {
+        return $this->book;
+    }
+
+    public function isExist(): bool
+    {
+        return $this->isExist;
+    }
+
+    public function isDefault(): bool
+    {
+        return $this->default;
     }
 }

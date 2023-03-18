@@ -2,45 +2,49 @@
 
 namespace App\Engines\Parser\Parsers;
 
+use App\Engines\ParserEngine;
 use DOMDocument;
 use Kiwilan\Steward\Utils\Console;
+use ReflectionClass;
 
 /**
  * Parse XML string to array, have to implements `XmlInterface`.
  */
 class XmlParser
 {
-    /** @var array<string, mixed> */
-    protected array $xmlArray = [];
-
-    protected function __construct(
-        protected string $xmlString,
-        protected ?Console $console = null,
-    ) {
-        $this->console = Console::make();
-    }
-
-    /**
-     * Make a new instance of `XmlParser`.
-     *
-     * @return array<string, mixed>
-     */
-    public static function make(string $xmlString): ?array
+    public static function create(ArchiveParser $parser_engine): ArchiveParser|false
     {
-        $self = new self($xmlString);
+        $console = Console::make();
 
-        try {
-            return $self->xmlToArray();
-        } catch (\Throwable $th) {
-            $self->console->print(__METHOD__, 'red', $th);
-            $self->console->newLine();
+        if (! isset($parser_engine->xml_string)) {
+            if ($parser_engine->engine->debug) {
+                $class = new ReflectionClass($parser_engine->module);
+                $module_name = $class->getShortName();
+                $console->print("{$module_name}: can't get {$parser_engine->extension_index}", 'red');
+                $console->newLine();
+            }
+
+            return false;
         }
 
-        return null;
+        if ($parser_engine->engine->debug) {
+            ParserEngine::printFile($parser_engine->xml_string, "{$parser_engine->engine->file_name}.{$parser_engine->extension_index}", true);
+        }
+
+        try {
+            $xml_parser = new XmlParser();
+            $parser_engine->metadata = $xml_parser->xml_to_array($parser_engine->xml_string);
+            $parser_engine->engine = $parser_engine->module::parse($parser_engine);
+        } catch (\Throwable $th) {
+            $console->print(__METHOD__, 'red', $th);
+            $console->newLine();
+        }
+
+        return $parser_engine;
     }
 
     /**
-     * Convert xml string to php array - useful to get a serializable value.
+     * convert xml string to php array - useful to get a serializable value.
      * From: https://stackoverflow.com/a/30234924.
      *
      * @return array
@@ -49,18 +53,18 @@ class XmlParser
      *
      * @see http://gaarf.info/2009/08/13/xml-string-to-php-array/
      */
-    protected function xmlToArray()
+    public function xml_to_array(string $xml_string)
     {
         $doc = new DOMDocument();
-        $doc->loadXML($this->xmlString);
+        $doc->loadXML($xml_string);
         $root = $doc->documentElement;
-        $output = $this->domnodeToArray($root);
+        $output = $this->domnode_to_array($root);
         $output['@root'] = $root->tagName;
 
         return $output;
     }
 
-    protected function domnodeToArray(mixed $node)
+    public function domnode_to_array(mixed $node)
     {
         $output = [];
 
@@ -74,7 +78,7 @@ class XmlParser
             case XML_ELEMENT_NODE:
                 for ($i = 0, $m = $node->childNodes->length; $i < $m; $i++) {
                     $child = $node->childNodes->item($i);
-                    $v = $this->domnodeToArray($child);
+                    $v = $this->domnode_to_array($child);
 
                     if (isset($child->tagName)) {
                         $t = $child->tagName;
