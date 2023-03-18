@@ -18,8 +18,13 @@ class BookCollection extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'meta' => [
+                ...$this->resource->meta,
+                'entity' => $this->resource->entity,
+            ],
             'title' => $this->resource->title,
             'author' => $this->resource->meta_author,
+            'cover' => $this->resource->cover,
         ];
     }
 }

@@ -25,10 +25,7 @@ class CoverConverter
         //     && ! empty($converter_engine->parser_engine->cover_file)
         // ) {
         //     try {
-        //         MediaService::make($converter_engine->book, $converter_engine->book->slug, MediaDiskEnum::cover)
-        //             ->setMedia($converter_engine->parser_engine->cover_file)
-        //             ->setColor()
-        //         ;
+
         //     } catch (\Throwable $th) {
         //         $console = Console::make();
         //         $console->print(__METHOD__, 'red', $th);
@@ -36,6 +33,11 @@ class CoverConverter
         //     }
         //     $converter_engine->book->save();
         // }
+
+        MediaService::make($book, $book->slug, MediaDiskEnum::cover)
+            ->setMedia($entity->cover()?->file())
+            ->setColor()
+        ;
 
         return $book;
     }
