@@ -52,6 +52,12 @@ class BookConverter
             ]);
         }
 
+        if (empty($self->book?->title)) {
+            Book::destroy($self->book?->id);
+
+            return $self;
+        }
+
         $self->setAuthors();
         $self->setTags();
         $self->setPublisher();
@@ -72,7 +78,7 @@ class BookConverter
     private function setAuthors(): self
     {
         $authors = AuthorConverter::toCollection($this->entity);
-        $this->book->authors()->sync($authors->pluck('id'));
+        $this->book?->authors()->sync($authors->pluck('id'));
 
         return $this;
     }
@@ -82,7 +88,7 @@ class BookConverter
         $tags = TagConverter::toCollection($this->entity);
 
         if ($tags) {
-            $this->book->tags()->sync($tags->pluck('id'));
+            $this->book?->tags()->sync($tags->pluck('id'));
         }
 
         return $this;
@@ -91,8 +97,8 @@ class BookConverter
     private function setPublisher(): self
     {
         $publisher = PublisherConverter::toModel($this->entity);
-        $this->book->publisher()->associate($publisher);
-        $this->book->save();
+        $this->book?->publisher()->associate($publisher);
+        $this->book?->save();
 
         return $this;
     }
@@ -100,8 +106,8 @@ class BookConverter
     private function setLanguage(): self
     {
         $language = LanguageConverter::toModel($this->entity);
-        $this->book->language()->associate($language);
-        $this->book->save();
+        $this->book?->language()->associate($language);
+        $this->book?->save();
 
         return $this;
     }
@@ -113,8 +119,8 @@ class BookConverter
         ;
 
         if ($serie) {
-            $this->book->serie()->associate($serie);
-            $this->book->save();
+            $this->book?->serie()->associate($serie);
+            $this->book?->save();
         }
 
         return $this;

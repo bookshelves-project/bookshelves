@@ -4,7 +4,7 @@ namespace App\Engines\Parser\Models;
 
 class BookEntityIdentifier
 {
-    protected function __construct(
+    public function __construct(
         protected ?string $name = null,
         protected ?string $value = null,
     ) {

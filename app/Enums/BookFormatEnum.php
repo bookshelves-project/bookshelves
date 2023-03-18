@@ -23,9 +23,7 @@ enum BookFormatEnum: string
 
     case pdf = 'pdf';
 
-    case cbr = 'cbr';
-
-    case cbz = 'cbz';
+    case cba = 'cba';
 
     case epub = 'epub';
 }

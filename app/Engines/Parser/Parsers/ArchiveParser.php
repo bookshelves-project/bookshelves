@@ -3,6 +3,7 @@
 namespace App\Engines\Parser\Parsers;
 
 use App\Engines\Parser\Modules\Interface\ParserModule;
+use App\Engines\Parser\Modules\Interface\ParserModuleInterface;
 use App\Engines\Parser\Modules\Interface\XmlInterface;
 use App\Engines\ParserEngine;
 use File;
@@ -18,31 +19,31 @@ class ArchiveParser
     public const IMAGE_FORMATS = ['jpg', 'jpeg'];
 
     /** @var array<string, mixed> */
-    protected array $metadata = [];
+    protected ?array $metadata = [];
 
     /** @var array<string, mixed> */
     protected array $zipFiles = [];
 
     protected function __construct(
-        protected ParserModule&XmlInterface $module,
+        protected ParserModule&ParserModuleInterface $module,
         protected string $extensionIndex = 'xml',
         protected ?string $xmlString = null,
         protected bool $findCover = false,
-        protected bool $isRar = false,
+        protected string $type = 'zip',
     ) {
     }
 
     /**
      * Open Zip to find file with `extensionIndex`, convert it to `array` and parse it.
      */
-    public static function make(ParserModule&XmlInterface $module): ?self
+    public static function make(ParserModule&ParserModuleInterface $module): ?self
     {
         return new self($module);
     }
 
-    public function setIsRar(bool $isRar = true): self
+    public function setType(string $type = 'zip'): self
     {
-        $this->isRar = $isRar;
+        $this->type = $type;
 
         return $this;
     }
@@ -56,10 +57,12 @@ class ArchiveParser
 
     public function execute(): ParserModule
     {
-        if ($this->isRar) {
-            $this->openRar();
-        } else {
+        if ($this->type === 'zip') {
             $this->openZip();
+        }
+
+        if ($this->type === 'rar') {
+            $this->openRar();
         }
 
         $this->module->setPageCount(count($this->zipFiles));
@@ -69,54 +72,70 @@ class ArchiveParser
 
     private function openRar(): ?self
     {
-    //     if (! extension_loaded('rar')) {
-    //         $console = Console::make();
-    //         $console->print('.rar file: rar extension: is not installed', 'red');
+        if (! extension_loaded('rar')) {
+            $console = Console::make();
+            $console->print('.rar file: rar extension: is not installed', 'red');
 
-    //         return null;
-    //     }
+            return null;
+        }
 
-    //     $zip = RarArchive::open($this->engine->filePath());
-    //     $path = public_path('storage/cache');
+        $zip = RarArchive::open($this->module->file()->path());
+        $path = public_path('storage/cache');
 
-    //     $zipFiles = [];
+        $zipFiles = [];
 
-    //     foreach ($zip->getEntries() as $key => $entry) {
-    //         $name = $entry->getName();
-    //         $ext = pathinfo($name, PATHINFO_EXTENSION);
+        foreach ($zip->getEntries() as $key => $entry) {
+            $name = $entry->getName();
+            $ext = pathinfo($name, PATHINFO_EXTENSION);
 
-    //         if ($this->find_cover && $this->checkImageFormat($ext)) {
-    //             $zipFiles[] = $name;
-    //         }
+            if ($this->findCover && $this->checkImageFormat($ext)) {
+                $zipFiles[] = $name;
+            }
 
-    //         if ($ext === $this->extension_index) {
-    //             $xmlPath = "{$path}/{$this->engine->fileName()}.{$ext}";
-    //             $entry->extract($path, $xmlPath);
+            if ($ext !== $this->extensionIndex) {
+                continue;
+            }
 
-    //             $this->xmlString = File::get($xmlPath);
-    //             File::delete($xmlPath);
-    //         }
-    //     }
-    //     $this->sortFileList($zipFiles);
+            $name = "{$this->module->file()->name()}";
+            $xmlPath = "{$path}/{$name}.{$ext}";
+            $entry->extract($xmlPath, $entry->getName());
 
-    //     $this->parseXml();
+            $currentPath = base_path($entry->getName());
+            $currentPathDir = pathinfo($currentPath, PATHINFO_DIRNAME);
+            File::move($currentPath, $xmlPath);
 
-    //     if ($this->engine->coverName()) {
-    //         foreach ($zip->getEntries() as $key => $entry) {
-    //             if ($this->engine->coverName === $entry->getName()) {
-    //                 $extension = explode('.', $entry->getName());
-    //                 $extension = end($extension);
-    //                 $coverPath = "{$path}/{$this->engine->fileName()}.{$extension}";
-    //                 $entry->extract($path, $coverPath);
+            $this->xmlString = File::get($xmlPath);
+            File::delete($xmlPath);
+            File::deleteDirectory($currentPathDir);
+        }
 
-    //                 $cover = File::get($coverPath);
-    //                 $this->engine->coverFile = base64_encode($cover);
-    //                 File::delete($coverPath);
-    //             }
-    //         }
-    //     }
+        $this->zipFiles = $zipFiles;
+        $this->sortFileList($zipFiles);
+        $this->metadata = $this->parseXml();
 
-    //     $zip->close();
+        if (empty($this->metadata)) {
+            return $this;
+        }
+        $this->module = $this->module->parse($this->metadata);
+
+        if ($this->module->cover()?->name()) {
+            foreach ($zip->getEntries() as $key => $entry) {
+                if ($this->module->cover()->name() !== $entry->getName()) {
+                    continue;
+                }
+
+                $extension = explode('.', $entry->getName());
+                $extension = end($extension);
+                $coverPath = "{$path}/{$this->module->file()->path()}.{$extension}";
+                $entry->extract($path, $coverPath);
+
+                $cover = File::get($coverPath);
+                $this->module->setCoverFile(base64_encode($cover));
+                File::delete($coverPath);
+            }
+        }
+
+        $zip->close();
 
         return $this;
     }
@@ -142,10 +161,12 @@ class ArchiveParser
         }
 
         $this->zipFiles = $zipFiles;
-
         $this->sortFileList();
-
         $this->metadata = $this->parseXml();
+
+        if (empty($this->metadata)) {
+            return $this;
+        }
         $this->module = $this->module->parse($this->metadata);
 
         if ($this->module->cover()?->name()) {
@@ -189,15 +210,15 @@ class ArchiveParser
     /**
      * Parse XML file.
      *
-     * @return array<string, mixed>|null
+     * @return array<string, mixed>
      */
-    private function parseXml(): array
+    private function parseXml(): ?array
     {
         $console = Console::make();
 
         if (! $this->xmlString) {
-            $console->print("{$this->extensionIndex} is null, can't get {$this->module->file()->name()}", 'red');
-            $console->newLine();
+        //     $console->print("{$this->extensionIndex} is null, can't get {$this->module->file()->name()}", 'red');
+        //     $console->newLine();
 
             return null;
         }

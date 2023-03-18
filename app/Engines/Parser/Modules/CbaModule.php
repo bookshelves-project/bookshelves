@@ -5,12 +5,11 @@ namespace App\Engines\Parser\Modules;
 use App\Engines\Parser\Models\BookEntityAuthor;
 use App\Engines\Parser\Modules\Interface\ParserModule;
 use App\Engines\Parser\Modules\Interface\ParserModuleInterface;
-use App\Engines\Parser\Modules\Interface\XmlInterface;
 use App\Engines\Parser\Parsers\ArchiveParser;
 use App\Engines\ParserEngine;
 use Illuminate\Support\Carbon;
 
-class CbzModule extends ParserModule implements ParserModuleInterface, XmlInterface
+class CbaModule extends ParserModule implements ParserModuleInterface
 {
     public function __construct(
         public ?string $type = null,
@@ -21,11 +20,27 @@ class CbzModule extends ParserModule implements ParserModuleInterface, XmlInterf
     {
         $self = ParserModule::create($parser, self::class, $debug);
 
-        return ArchiveParser::make($self)->execute();
+        $type = match ($parser->file()->extension()) {
+            'cb7' => '7z',
+            'cba' => 'ace',
+            'cbr' => 'rar',
+            'cbt' => 'tar',
+            'cbz' => 'zip',
+            default => 'zip',
+        };
+
+        return ArchiveParser::make($self)
+            ->setType($type)
+            ->execute()
+        ;
     }
 
     public function parse(array $metadata): ParserModule
     {
+        if (empty($metadata)) {
+            return $this;
+        }
+
         $this->metadata = $metadata;
         $this->type = $this->metadata['@root'];
 

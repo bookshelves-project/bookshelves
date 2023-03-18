@@ -56,9 +56,9 @@ abstract class ParserModule
         $this->cover = new BookEntityCover();
     }
 
-    public static function create(ParserEngine $parser, string $className, bool $debug = false): ParserModule&XmlInterface
+    public static function create(ParserEngine $parser, string $className, bool $debug = false): ParserModule&ParserModuleInterface
     {
-        /** @var ParserModule&XmlInterface */
+        /** @var ParserModule&ParserModuleInterface */
         $module = new $className();
 
         $module->file = $parser->file();

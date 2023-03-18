@@ -13,6 +13,7 @@ class BookEntityFile
         protected ?string $filename = null,
         protected ?string $path = null,
         protected ?string $extension = null,
+        protected ?string $extensionFormat = null,
         protected ?BookTypeEnum $type = null,
         protected ?BookFormatEnum $format = null,
     ) {
@@ -38,6 +39,11 @@ class BookEntityFile
         return $this->extension;
     }
 
+    public function extensionFormat(): ?string
+    {
+        return $this->extensionFormat;
+    }
+
     public function type(): ?BookTypeEnum
     {
         return $this->type;
@@ -55,6 +61,7 @@ class BookEntityFile
             'filename' => $this->filename,
             'path' => $this->path,
             'extension' => $this->extension,
+            'extensionFormat' => $this->extensionFormat,
             'type' => $this->type,
             'format' => $this->format,
         ];
@@ -71,9 +78,10 @@ class BookEntityFile
         $name = pathinfo($file->path(), PATHINFO_FILENAME);
         $path = $file->path();
         $extension = pathinfo($file->path(), PATHINFO_EXTENSION);
+        $extensionFormat = $file->format()->value;
         $type = $file->type();
-        $format = BookFormatEnum::tryFrom($extension);
+        $format = $file->format();
 
-        return new self($name, $filename, $path, $extension, $type, $format);
+        return new self($name, $filename, $path, $extension, $extensionFormat, $type, $format);
     }
 }

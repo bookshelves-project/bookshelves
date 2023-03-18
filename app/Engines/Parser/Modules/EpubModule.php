@@ -6,11 +6,10 @@ use App\Engines\Parser\Models\BookEntityAuthor;
 use App\Engines\Parser\Models\BookEntityIdentifier;
 use App\Engines\Parser\Modules\Interface\ParserModule;
 use App\Engines\Parser\Modules\Interface\ParserModuleInterface;
-use App\Engines\Parser\Modules\Interface\XmlInterface;
 use App\Engines\Parser\Parsers\ArchiveParser;
 use App\Engines\ParserEngine;
 
-class EpubModule extends ParserModule implements ParserModuleInterface, XmlInterface
+class EpubModule extends ParserModule implements ParserModuleInterface
 {
     public function __construct(
         protected float $version = 2.0,

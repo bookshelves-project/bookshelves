@@ -37,9 +37,9 @@ class SerieConverter
         return $self;
     }
 
-    public function associate(Book $book): ?Serie
+    public function associate(?Book $book): ?Serie
     {
-        if (! $this->serie) {
+        if (! $this->serie || ! $book) {
             return null;
         }
 

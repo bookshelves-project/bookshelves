@@ -2,7 +2,6 @@
 
 namespace App\Engines\Parser\Models;
 
-use App\Engines\Parser\Modules\NameModule;
 use App\Engines\Parser\Parsers\BookFile;
 use App\Enums\BookFormatEnum;
 use DateTime;
@@ -13,13 +12,13 @@ use Kiwilan\Steward\Utils\Console;
 class BookEntity
 {
     /** @var BookEntityAuthor[] */
-    protected array $authors = [];
+    protected ?array $authors = [];
 
     /** @var BookEntityIdentifier[] */
-    protected array $identifiers = [];
+    protected ?array $identifiers = [];
 
     /** @var string[] */
-    protected array $tags = [];
+    protected ?array $tags = [];
 
     protected function __construct(
         protected ?BookEntityFile $file = null,
@@ -45,9 +44,8 @@ class BookEntity
         $self->setFile($file);
         $formats = BookFormatEnum::toNames();
 
-        $console = Console::make();
-
-        if (! array_key_exists($self->file->extension(), $formats)) {
+        if (! array_key_exists($self->file->extensionFormat(), $formats)) {
+            $console = Console::make();
             $console->print("{$file->path()} ParserEngine error: extension is not recognized");
 
             return null;
@@ -116,7 +114,7 @@ class BookEntity
      *
      * @return BookEntityAuthor[]
      */
-    public function authors(): array
+    public function authors(): ?array
     {
         return $this->authors;
     }
@@ -139,7 +137,7 @@ class BookEntity
      *
      * @return BookEntityIdentifier[]
      */
-    public function identifiers(): array
+    public function identifiers(): ?array
     {
         return $this->identifiers;
     }
@@ -149,7 +147,7 @@ class BookEntity
      *
      * @return string[]
      */
-    public function tags(): array
+    public function tags(): ?array
     {
         return $this->tags;
     }
@@ -162,9 +160,7 @@ class BookEntity
     public function setTitle(?string $title): self
     {
         if (! $title) {
-            // TODO: get title from name
-            // $console->print('Try to get data from name');
-            // $title = NameModule::make($self);
+            $title = $this->file->name();
         }
 
         $title = Str::limit($title, 250);
@@ -314,6 +310,10 @@ class BookEntity
      */
     public function setIdentifiers(array $identifiers): self
     {
+        if (empty($identifiers)) {
+            $identifiers = null;
+        }
+
         $this->identifiers = $identifiers;
 
         return $this;

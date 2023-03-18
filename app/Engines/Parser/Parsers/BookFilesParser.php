@@ -67,14 +67,25 @@ class BookFilesParser
     private function parseFile(string $type): void
     {
         foreach ($this->files as $key => $path) {
-            if (array_key_exists('extension', pathinfo($path))) {
-                $ext = pathinfo($path, PATHINFO_EXTENSION);
-
-                if (array_key_exists($ext, $this->formatsEnum)) {
-                    $this->i++;
-                    $this->items["{$this->i}"] = BookFile::make(BookTypeEnum::from($type), $path);
-                }
+            if (! array_key_exists('extension', pathinfo($path))) {
+                continue;
             }
+
+            $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+            if (in_array($extension, ['cb7', 'cba', 'cbr', 'cbt', 'cbz'])) {
+                $extension = 'cba';
+            }
+
+            if (! array_key_exists($extension, $this->formatsEnum)) {
+                continue;
+            }
+
+            $format = BookFormatEnum::tryFrom($extension);
+            $type = is_string($type) ? BookTypeEnum::from($type) : $type;
+
+            $this->i++;
+            $this->items["{$this->i}"] = BookFile::make($format, $type, $path);
         }
     }
 }
@@ -82,22 +93,28 @@ class BookFilesParser
 class BookFile
 {
     protected function __construct(
+        protected ?BookFormatEnum $format,
         protected ?BookTypeEnum $type,
         protected ?string $path,
     ) {
     }
 
-    public static function make(BookTypeEnum $type, string $path): self
+    public static function make(BookFormatEnum $format, BookTypeEnum $type, string $path): self
     {
-        return new self($type, $path);
+        return new self($format, $type, $path);
     }
 
-    public function type(): ?BookTypeEnum
+    public function format(): BookFormatEnum
+    {
+        return $this->format;
+    }
+
+    public function type(): BookTypeEnum
     {
         return $this->type;
     }
 
-    public function path(): ?string
+    public function path(): string
     {
         return $this->path;
     }

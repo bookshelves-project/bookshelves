@@ -3,8 +3,8 @@
 namespace App\Engines\Parser\Modules;
 
 use App\Engines\Parser\Models\BookEntityAuthor;
-use App\Engines\Parser\Modules\Interface\Module;
-use App\Engines\Parser\Modules\Interface\ModuleInterface;
+use App\Engines\Parser\Modules\Interface\ParserModule;
+use App\Engines\Parser\Modules\Interface\ParserModuleInterface;
 use App\Engines\ParserEngine;
 use DateTime;
 use Illuminate\Support\Facades\File;
@@ -15,7 +15,7 @@ use Smalot\PdfParser\Parser;
 /**
  * Parse PDF to extract cover with `ImageMagick` (if installed) and metadata.
  */
-class PdfModule extends Module implements ModuleInterface
+class PdfModule extends ParserModule implements ParserModuleInterface
 {
     public function __construct(
         public ?string $title = null,
@@ -29,20 +29,26 @@ class PdfModule extends Module implements ModuleInterface
     ) {
     }
 
-    public static function make(ParserEngine $parser): ParserEngine|false
+    public static function make(ParserEngine $parser, bool $debug = false): ParserModule
     {
-        $module = new PdfModule();
-        $module->engine = $parser;
+        return ParserModule::create($parser, self::class, $debug);
+        // $module = new PdfModule();
+        // $module->engine = $parser;
 
-        if (config('bookshelves.pdf.cover')) {
-            $module = $module->getCover();
-        }
+        // if (config('bookshelves.pdf.cover')) {
+        //     $module = $module->getCover();
+        // }
 
-        if (config('bookshelves.pdf.metadata')) {
-            $module = $module->getMetadata();
-        }
+        // if (config('bookshelves.pdf.metadata')) {
+        //     $module = $module->getMetadata();
+        // }
 
-        return $parser;
+        // return $parser;
+    }
+
+    public function parse(array $metadata): ParserModule
+    {
+        return $this;
     }
 
     private function getCover(): static

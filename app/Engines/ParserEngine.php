@@ -4,8 +4,9 @@ namespace App\Engines;
 
 use App\Engines\Parser\Models\BookEntity;
 use App\Engines\Parser\Models\BookEntityFile;
-use App\Engines\Parser\Modules\CbzModule;
+use App\Engines\Parser\Modules\CbaModule;
 use App\Engines\Parser\Modules\EpubModule;
+use App\Engines\Parser\Modules\NameModule;
 use App\Engines\Parser\Modules\PdfModule;
 use App\Engines\Parser\Parsers\BookFile;
 use App\Enums\BookFormatEnum;
@@ -30,34 +31,30 @@ class ParserEngine
     public static function make(BookFile $file, bool $debug = false): ?BookEntity
     {
         $self = new ParserEngine();
-
         $entity = BookEntity::make($file);
+
+        $self->exception(! $entity, 'entity is null');
         $self->file = $entity->file();
 
-        $module = match ($entity->file()->format()) {
-            BookFormatEnum::cbz => CbzModule::make($self, $debug),
+        $module = match ($entity->file()?->format()) {
+            BookFormatEnum::cba => CbaModule::make($self, $debug),
             BookFormatEnum::epub => EpubModule::make($self, $debug),
-            // BookFormatEnum::pdf => PdfModule::make($self),
-            BookFormatEnum::cbr => CbzModule::make($self, $debug),
+            BookFormatEnum::pdf => PdfModule::make($self, $debug),
             default => null,
         };
 
-        if (! $module) {
+        $self->exception(! $module, "{$self->file->format()->value} format is not supported");
+
+        if (empty($module->title())) {
             $self->console->newLine();
-            $self->console->print("ParserEngine error: format {$self->file->extension()} not recognized", 'red');
-            $self->console->print("{$file->path()}");
+            $self->console->print('Title is null, try to get title from filename', 'yellow');
+            $self->console->print("{$entity->file()->path()}");
             $self->console->newLine();
 
-            return null;
+            $module = NameModule::make($self, $debug);
         }
 
-        $entity = $module->toBookEntity($entity);
-
-        if (! $entity->title()) {
-            $self->console->print("{$file->path()} ParserEngine error: can't get title {$self->file->extension()}");
-
-            return null;
-        }
+        $entity = $module?->toBookEntity($entity);
 
         if ($debug) {
             $self->console->print("{$entity->title()}");
@@ -87,5 +84,15 @@ class ParserEngine
         }
 
         return false;
+    }
+
+    private function exception(bool $condition, ?string $message = null)
+    {
+        if ($condition) {
+            $this->console->newLine();
+            $this->console->print("ParserEngine error, {$message}", 'red');
+            $this->console->print("{$this->file?->path()}");
+            $this->console->newLine();
+        }
     }
 }
