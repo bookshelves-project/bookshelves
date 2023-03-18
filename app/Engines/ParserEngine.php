@@ -45,7 +45,7 @@ class ParserEngine
 
         $self->exception(! $module, "{$self->file->format()->value} format is not supported");
 
-        if (empty($module->title())) {
+        if (empty($module?->title())) {
             $self->console->newLine();
             $self->console->print('Title is null, try to get title from filename', 'yellow');
             $self->console->print("{$entity->file()->path()}");
