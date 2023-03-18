@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Class\DownloadFile as ClassDownloadFile;
-use App\Engines\ParserEngine;
+use App\Engines\Book\ParserEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Enums\MediaDiskEnum;
@@ -103,6 +103,7 @@ class Book extends Model implements HasMedia
     public function getFilesAttribute()
     {
         $files = [];
+
         foreach (BookFormatEnum::toValues() as $format) {
             $media = $this->getMedia($format)
                 ->first(null, MediaExtended::class)
@@ -122,6 +123,7 @@ class Book extends Model implements HasMedia
     public function getFilesType(BookFormatEnum $format)
     {
         $files = [];
+
         foreach (BookFormatEnum::toValues() as $format) {
             $media = $this->getMedia($format)
                 ->first(null, MediaExtended::class)
@@ -162,14 +164,17 @@ class Book extends Model implements HasMedia
     {
         $list = [];
         $formats = BookFormatEnum::toValues();
+
         foreach ($formats as $format) {
             $media = null;
+
             if (null !== $this->files[$format]) {
                 $route = route('api.download.book', [
                     'author_slug' => $this->meta_author,
                     'book_slug' => $this->slug,
                     'format' => $format,
                 ]);
+
                 /** @var MediaExtended $file */
                 $file = $this->files[$format];
                 $reader = route('webreader.reader', [
@@ -211,6 +216,7 @@ class Book extends Model implements HasMedia
     public function getSortNameAttribute(): string
     {
         $serie = null;
+
         if ($this->serie) {
             // @phpstan-ignore-next-line
             $volume = strlen($this->volume) < 2 ? '0'.$this->volume : $this->volume;

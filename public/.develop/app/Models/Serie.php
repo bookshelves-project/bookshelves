@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Engines\ParserEngine;
+use App\Engines\Book\ParserEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Enums\MediaDiskEnum;

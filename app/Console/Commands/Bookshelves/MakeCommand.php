@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Engines\Book\Parser\Parsers\BookFile;
+use App\Engines\Book\Parser\Parsers\BookFilesParser;
+use App\Engines\BookEngine;
 use App\Engines\Converter\EntityConverter;
 use App\Engines\Converter\Modules\CoverConverter;
-use App\Engines\ConverterEngine;
-use App\Engines\Parser\Parsers\BookFile;
-use App\Engines\Parser\Parsers\BookFilesParser;
-use App\Engines\ParserEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
@@ -114,8 +113,8 @@ class MakeCommand extends CommandSteward
         $bar->finish();
         $this->newLine();
 
-        // $this->improveRelation(Author::class);
-        // $this->improveRelation(Serie::class);
+        $this->improveRelation(Author::class);
+        $this->improveRelation(Serie::class);
 
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
@@ -171,15 +170,13 @@ class MakeCommand extends CommandSteward
     private function convert(BookFile $file)
     {
         if ($this->fresh) {
-            $entity = ParserEngine::make($file, $this->debug);
-            ConverterEngine::make($entity, $this->default);
+            BookEngine::make($file, $this->debug, $this->default);
 
             return;
         }
 
         if (! in_array($file->path(), $this->books, true)) {
-            $entity = ParserEngine::make($file, $this->debug);
-            ConverterEngine::make($entity, $this->default);
+            BookEngine::make($file, $this->debug, $this->default);
         }
     }
 

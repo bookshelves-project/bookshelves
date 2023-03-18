@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Engines\Book\Parser\Parsers\BookFile;
+use App\Engines\Book\Parser\Parsers\BookFilesParser;
+use App\Engines\Book\Parser\Parsers\FilesTypeParser;
+use App\Engines\Book\ParserEngine;
 use App\Engines\ConverterEngine;
-use App\Engines\Parser\Parsers\BookFile;
-use App\Engines\Parser\Parsers\BookFilesParser;
-use App\Engines\Parser\Parsers\FilesTypeParser;
-use App\Engines\ParserEngine;
 use App\Models\Book;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\CommandSteward;
