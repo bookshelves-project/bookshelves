@@ -26,6 +26,7 @@ class Controller extends BaseController
         Route::bind(
             'serie_slug',
             fn (string $param) => Serie::whereSlug($param)
+                ->with(['authors'])
                 ->withCount('books')
                 ->firstOrFail()
         );

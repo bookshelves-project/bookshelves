@@ -25,7 +25,7 @@ trait HasCovers
 {
     use InteractsWithMedia;
 
-    protected $cover_available = false;
+    protected bool $cover_available = false;
 
     /** @mixin \Spatie\Cover\Manipulations */
     public function registerMediaConversions(Media $media = null): void
@@ -155,19 +155,25 @@ trait HasCovers
         }
 
         $that = EntityService::entityOutput($this);
-        $class_name = $that->meta_class_snake_plural;
         // fix crash if conversion not exist in spatie/laravel-medialibrary
         $cover = null;
 
-        try {
-            $cover = $this->getFirstMediaUrl(MediaDiskEnum::cover->value, $collection);
+        $medias = $this->getMedia(MediaDiskEnum::cover->value);
+        $coverMedia = $medias->first();
 
-            if (! empty($cover)) {
-                $this->cover_available = true;
-            }
-        } catch (\Throwable $th) {
+        if ($coverMedia instanceof MediaExtended || $coverMedia instanceof Media) {
+            $this->cover_available = true;
+            // $cover = $coverMedia->getFirstMediaUrl(MediaDiskEnum::cover->value, $collection);
+            $cover = $coverMedia->getUrl();
         }
 
-        return $cover ? $cover : config('app.url').'/vendor/images/'.('authors' === $class_name ? 'no-author.webp' : 'no-cover.webp');
+        if (! $this->cover_available) {
+            $baseURL = config('app.url');
+            $image = 'authors' === $that->meta_class_snake_plural ? 'no-author' : 'no-cover';
+
+            return "{$baseURL}/vendor/images/{$image}.webp";
+        }
+
+        return $cover;
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\Author\AuthorRelationResource;
-use App\Http\Resources\Language\LanguageCollectionResource;
+use App\Http\Resources\Author\AuthorBase;
+use App\Http\Resources\Language\LanguageBase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -27,10 +27,10 @@ class EntityResource extends JsonResource
         return [
             'meta' => $this->resource->meta,
             'title' => $this->resource->title,
-            'type' => $this->resource->type->locale(),
-            'authors' => AuthorRelationResource::collection($this->resource->authors ?? []),
+            'type' => $this->resource->type?->locale(),
+            'authors' => AuthorBase::collection($this->resource->authors ?? []),
             'serie' => $this->resource->serie?->title,
-            'language' => LanguageCollectionResource::make($this->resource->language),
+            'language' => LanguageBase::make($this->resource->language),
             'volume' => $this->resource->volume ?? null,
             'count' => $this->resource->books_count,
             // 'media' => SpatieMediaResource::make($this->resource->media_primary),

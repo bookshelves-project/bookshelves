@@ -3,11 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Collection;
 use League\Glide\Urls\UrlBuilderFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
 class MediaExtended extends BaseMedia
 {
+    /**
+     * @param  Collection<int, ?BaseMedia>  $medias
+     * @return Collection<int, MediaExtended>
+     */
+    public static function fromMedias(Collection|array $medias): Collection
+    {
+        if (is_array($medias)) {
+            $medias = collect($medias);
+        }
+
+        return $medias->map(fn (?BaseMedia $media) => $media instanceof BaseMedia ? new self($media->attributes) : null);
+    }
+
     public function name(): Attribute
     {
         return new Attribute(

@@ -66,16 +66,18 @@ class EntityController extends Controller
     public function related(Request $request, Author $author, Book $book)
     {
         if ($book->tags->count() >= 1) {
-            $related_books = EntityService::filterRelated($book);
+            $relatedBooks = EntityService::filterRelated($book);
 
-            if ($related_books->isNotEmpty()) {
-                return EntityResource::collection(PaginatorHelper::paginate($related_books));
+            if ($relatedBooks->isNotEmpty()) {
+                return EntityResource::collection(PaginatorHelper::paginate($relatedBooks));
             }
         }
 
         return response()->json(
-            'No tags or no books related',
-            400
+            data: [
+                'data' => [],
+            ],
+            status: 200
         );
     }
 

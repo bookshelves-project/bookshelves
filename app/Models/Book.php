@@ -99,6 +99,12 @@ class Book extends Model implements HasMedia, GoogleBookable
         'page_count' => 'integer',
     ];
 
+    protected $with = [
+        'authors',
+        'serie',
+        'language',
+    ];
+
     protected $withCount = [
         'tags',
     ];

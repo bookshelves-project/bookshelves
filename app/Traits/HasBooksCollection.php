@@ -15,7 +15,11 @@ trait HasBooksCollection
             return null;
         }
 
-        return current(array_filter(array_reverse($this->files_list)));
+        return $this->files_list
+            ->reverse()
+            ->filter(fn ($file) => null !== $file)
+            ->first()
+        ;
     }
 
     public function getFilesListAttribute(): array

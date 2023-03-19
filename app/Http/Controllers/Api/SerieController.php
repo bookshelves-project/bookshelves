@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Book\BookCollectionResource;
+use App\Http\Resources\Book\BookCollection;
 use App\Http\Resources\EntityResource;
 use App\Http\Resources\Serie\SerieResource;
 use App\Models\Author;
@@ -41,23 +41,37 @@ class SerieController extends Controller
 
             if ($first) {
                 $nextBook = $books->first();
+                $nextBook?->load(['authors', 'media', 'language', 'serie']);
 
                 if ($nextBook) {
                     return EntityResource::make($nextBook);
                 }
-            } elseif ($books->isNotEmpty()) {
+            }
+
+            if ($books->isNotEmpty()) {
                 return EntityResource::collection($books);
             }
 
-            return abort(404);
+            // return abort(404);
+            return response()->json(
+                data: [
+                    'data' => [],
+                ],
+                status: 200,
+            );
         }
 
         $this->getLang($request);
 
-        $books = $serie->books();
+        $books = $serie->books()
+            ->with(['authors', 'media', 'language', 'serie'])
+            ->orderBy('volume')
+        ;
         $limit = $this->getPaginationLimit($request);
         $books = $this->getFull($request) ? $books->get() : $books->paginate($limit);
 
-        return BookCollectionResource::collection($books);
+        dd($books);
+
+        return BookCollection::collection($books);
     }
 }

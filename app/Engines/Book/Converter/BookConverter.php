@@ -138,16 +138,14 @@ class BookConverter
         return $this;
     }
 
-    private function setCover(): self
+    private function setCover(): void
     {
-        $cover = CoverConverter::make($this->entity, $this->book);
-
-        return $this;
+        CoverConverter::make($this->entity, $this->book);
     }
 
-    private function setFile()
+    private function setFile(): void
     {
-        $file = FileConverter::make($this->entity, $this->book);
+        FileConverter::make($this->entity, $this->book);
     }
 
     private function checkBook(): self

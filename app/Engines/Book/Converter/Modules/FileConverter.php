@@ -37,14 +37,13 @@ class FileConverter
         //         $console->newLine();
         //     }
         // }
-
         $file = File::get($entity->file()->path());
 
         MediaService::make(
             model: $book,
             name: $fileName,
             disk: self::DISK,
-            collection: $entity->file()->type()->value,
+            collection: $entity->file()->format()->value,
             extension: $entity->file()->extension(),
             method: SpatieMediaMethodEnum::addMediaFromString
         )

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Author\AuthorResource;
-use App\Http\Resources\Book\BookCollectionResource;
-use App\Http\Resources\Serie\SerieCollectionResource;
+use App\Http\Resources\Book\BookCollection;
+use App\Http\Resources\Serie\SerieCollection;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Kiwilan\Steward\Queries\HttpQuery;
@@ -32,12 +32,14 @@ class AuthorController extends Controller
     #[Get('/{author_slug}/books', name: 'authors.show.books')]
     public function books(Request $request, Author $author)
     {
-        return BookCollectionResource::collection($author->books);
+        $books = $author->books()->with(['language', 'serie'])->get();
+
+        return BookCollection::collection($books);
     }
 
     #[Get('/{author_slug}/series', name: 'authors.show.series')]
     public function series(Request $request, Author $author)
     {
-        return SerieCollectionResource::collection($author->series);
+        return SerieCollection::collection($author->series);
     }
 }

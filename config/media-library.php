@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\MediaExtended;
+
 return [
     /*
      * The disk on which to store added files and derived images by default. Choose
@@ -30,6 +32,7 @@ return [
 
     // The fully qualified class name of the media model.
     'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
+    // 'media_model' => MediaExtended::class,
 
     /*
      * The fully qualified class name of the model used for temporary uploads.

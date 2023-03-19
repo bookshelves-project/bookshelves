@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Enums\BookFormatEnum;
+use App\Models\Book;
 use App\Models\MediaExtended;
 use Illuminate\Support\Collection;
 use Kiwilan\Steward\Class\DownloadFile;
@@ -15,21 +16,23 @@ trait HasBookFiles
     /**
      * Manage files with spatie/laravel-medialibrary.
      *
-     * @return MediaExtended[]|null[]
+     * @return Collection<int, MediaExtended>
      */
-    public function getFilesAttribute()
+    public function getFilesAttribute(): Collection
     {
         $files = [];
 
+        /** @var Book */
+        $that = $this;
+
         foreach (BookFormatEnum::toValues() as $format) {
-            $media = $this->getMedia($format)
-                ->first(null, MediaExtended::class)
+            $media = $that->getMedia($format)
+                ->first()
             ;
             $files[$format] = is_string($media) ? null : $media;
         }
 
-        // @phpstan-ignore-next-line
-        return $files;
+        return MediaExtended::fromMedias($files);
     }
 
     /**
@@ -58,7 +61,11 @@ trait HasBookFiles
             return null;
         }
 
-        return current(array_filter(array_reverse($this->files_list)));
+        return $this->getFilesListAttribute()
+            ->reverse()
+            ->filter(fn ($file) => null !== $file)
+            ->first()
+        ;
     }
 
     public function filesListIsNull(): bool
@@ -96,12 +103,21 @@ trait HasBookFiles
                 $this->entity => $this->slug,
                 'format' => $format,
             ]);
+
+            $isZip = false;
+
+            if (str_contains($file->mime_type, 'zip')) {
+                $isZip = true;
+            }
+
             $media = new DownloadFile(
-                $file->file_name,
-                $file->size_human,
-                $route,
-                $reader,
-                $file->extension,
+                name: $file->file_name,
+                size: $file->size_human,
+                url: $route,
+                reader: $reader,
+                format: $file->extension,
+                // count: $this->files[$format]->count(),
+                isZip: $isZip,
             );
 
             $list[$format] = $media;
