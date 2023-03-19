@@ -1,3 +1,6 @@
 node_modules
-public/assets/dist
+public/build
+public/dist
 vendor
+*.svg
+*.html

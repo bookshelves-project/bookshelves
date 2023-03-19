@@ -2,67 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\BookQuery;
-use App\Http\Resources\Book\BookLightResource;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Queries\HttpQuery;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
-/**
- * @group Entity: Book
- */
-class BookController extends ApiController
+#[Prefix('books')]
+class BookController extends Controller
 {
-    /**
-     * GET Book[].
-     *
-     * <small class="badge badge-blue">WITH PAGINATION</small>
-     *
-     * Get all Books ordered by `title` & `serie_title`.
-     *
-     * @usesPagination
-     *
-     * @queryParam filter[languages] string
-     * Filter by language, `meta.slug` from languages' list, `null` by default. Example: en,fr
-     *
-     * @queryParam sort string
-     * Sorting `slug_sort` by default, available: `title`, `slug_sort`, `date`, `created_at`, you can use `-` before parameter to reverse like `-slug_sort`. Example: slug_sort
-     *
-     * @responseField data object[] List of books.
-     * @responseField links object Links to get other pages.
-     * @responseField meta object Metadata about pagination.
-     */
+    #[Get('/', name: 'books.index')]
     public function index(Request $request)
     {
-        // Examples
-        // - http://localhost:8000/api/books?size=32&filter[has_serie]=true&filter[languages]=fr,en&filter[published]=2018-06-07,2021-11-01
-        // - http://localhost:8000/api/books?size=32&filter[has_serie]=true&filter[title]=monde
-        // - http://localhost:8000/api/books?size=32&filter[author_like]=bottero
-
-        $this->getLang($request);
-
-        return app(BookQuery::class)
-            ->make(QueryOption::create(
-                request: $request,
-                resource: BookLightResource::class,
-                orderBy: 'slug_sort',
-                withExport: false,
-                sortAsc: true,
-                full: $this->getFull($request),
-            ))
-            ->paginateOrExport()
+        return HttpQuery::make(Book::class, $request)
+            ->with(['authors', 'media', 'language', 'serie'])
+            ->collection()
         ;
     }
 
-    /**
-     * GET Book.
-     */
+    #[Get('/{author_slug}/{book_slug}', name: 'books.show')]
     public function show(Request $request, Author $author, Book $book)
     {
-        $this->getLang($request);
-
         return BookResource::make($book);
     }
 }

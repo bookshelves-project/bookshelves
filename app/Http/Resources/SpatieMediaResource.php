@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -9,9 +10,15 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class SpatieMediaResource extends JsonResource
 {
-    public function toArray($request)
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
     {
         $color = $this->resource->getCustomProperty('color');
+
         return [
             'name' => $this->resource->getAttribute('name'),
             'url' => $this->resource->originalUrl,

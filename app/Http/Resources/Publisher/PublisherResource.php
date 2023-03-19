@@ -2,24 +2,23 @@
 
 namespace App\Http\Resources\Publisher;
 
-use App\Models\Publisher;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property Publisher $resource
+ * @property \App\Models\Publisher $resource
  */
 class PublisherResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
-        $resource = PublisherLightResource::make($this->resource)->toArray($request);
-
-        return array_merge($resource);
+        return [
+            ...PublisherCollection::make($this->resource)->toArray($request),
+        ];
     }
 }

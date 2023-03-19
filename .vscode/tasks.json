@@ -4,8 +4,116 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "type": "npm",
-      "script": "install",
+      "label": "COMPOSER install",
+      "type": "shell",
+      "command": "composer i",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
     },
+    {
+      "label": "COMPOSER update",
+      "type": "shell",
+      "command": "composer update",
+      "problemMatcher": []
+    },
+    {
+      "label": "Helper",
+      "type": "shell",
+      "command": "composer helper",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
+    },
+    {
+      "label": "Format",
+      "type": "shell",
+      "command": "composer format",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
+    },
+    {
+      "label": "Analyse",
+      "type": "shell",
+      "command": "composer analyse",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
+    },
+    {
+      "label": "Docs",
+      "type": "shell",
+      "command": "composer docs",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
+    },
+    {
+      "label": "Tests",
+      "type": "shell",
+      "command": "composer tests",
+      "problemMatcher": []
+    },
+    {
+      "label": "Routes",
+      "type": "shell",
+      "command": "php artisan route:list",
+      "problemMatcher": []
+    },
+    {
+      "label": "PNPM install",
+      "type": "shell",
+      "command": "pnpm i",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
+    },
+    {
+      "label": "PNPM dev",
+      "type": "shell",
+      "command": "pnpm dev",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
+    },
+    {
+      "label": "MIGRATE",
+      "type": "shell",
+      "command": "php artisan migrate",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
+    },
+    {
+      "label": "MIGRATE:fresh --seed",
+      "type": "shell",
+      "command": "php artisan migrate:fresh --seed",
+      "problemMatcher": []
+    }
   ]
 }

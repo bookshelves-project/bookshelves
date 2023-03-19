@@ -2,67 +2,33 @@
 
 namespace App\Models;
 
-use App\Enums\PostStatusEnum;
-use App\Models\Traits\HasPublishStatus;
-use App\Services\MarkdownToHtmlService;
-use App\Services\MediaService;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\TemplateEnum;
 use Illuminate\Database\Eloquent\Model;
+use Kiwilan\Steward\Enums\LanguageEnum;
+use Kiwilan\Steward\Traits\HasSeo;
+use Kiwilan\Steward\Traits\HasShowRoute;
+use Kiwilan\Steward\Traits\HasSlug;
+use Kiwilan\Steward\Traits\HasTemplate;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Page extends Model implements HasMedia
 {
-    use HasFactory;
-    use HasPublishStatus;
     use InteractsWithMedia;
+    use HasSlug;
+    use HasShowRoute;
+    use HasTemplate;
+    use HasSeo;
+
+    protected $slug_with = 'title';
 
     protected $fillable = [
         'title',
-        'slug',
-        'status',
-        'summary',
-        'body',
-        'published_at',
-        'meta_title',
-        'meta_description',
+        'language',
     ];
 
     protected $casts = [
-        'status' => PostStatusEnum::class,
-        'published_at' => 'datetime',
+        'language' => LanguageEnum::class,
+        'template' => TemplateEnum::class, // TODO steward config
     ];
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('featured-image')
-            ->singleFile()
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
-        ;
-
-        $this->addMediaCollection('page-images')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
-        ;
-    }
-
-    public function getCoverAttribute(): string
-    {
-        return MediaService::getFullUrl($this, 'featured-image');
-    }
-
-    public function getShowLinkAttribute(): string
-    {
-        return route('api.pages.show', [
-            'page_slug' => $this->slug,
-        ]);
-    }
-
-    public static function boot()
-    {
-        parent::boot();
-
-        self::updating(function (Page $page) {
-            $page->body = MarkdownToHtmlService::setHeadings($page);
-        });
-    }
 }

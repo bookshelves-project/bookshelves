@@ -2,15 +2,20 @@
 
 namespace App\Http\Resources;
 
-use App\Models\MediaExtended;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property MediaExtended $resource
+ * @property \App\Models\MediaExtended $resource
  */
 class MediaResource extends JsonResource
 {
-    public function toArray($request)
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
     {
         return null !== $this->resource ? [
             'name' => $this->resource->file_name,

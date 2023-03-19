@@ -2,78 +2,63 @@
 
 namespace Database\Factories;
 
-use App\Enums\GenderEnum;
-use App\Enums\RoleEnum;
-use App\Models\User;
-use Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Kiwilan\Steward\Enums\UserRoleEnum;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ */
 class UserFactory extends Factory
 {
     /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = User::class;
-
-    /**
      * Define the model's default state.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
-        $gender = $this->faker->randomElements(GenderEnum::toArray())[0];
-        $pronouns_options = ['she', 'he', 'they'];
-        $pronouns = 'they';
-        if ('WOMAN' === $gender) {
-            $pronouns = 'she';
-        } elseif ('MAN' === $gender) {
-            $pronouns = 'he';
-        } else {
-            $pronouns = $this->faker->randomElements($pronouns_options, $this->faker->numberBetween(1, 2));
-            $pronouns = implode(', ', $pronouns);
-        }
+        // $gender = $this->faker->randomElements(GenderEnum::toArray())[0];
+        // $pronouns_options = ['she', 'he', 'they'];
+        // $pronouns = 'they';
+        // if ('WOMAN' === $gender) {
+        //     $pronouns = 'she';
+        // } elseif ('MAN' === $gender) {
+        //     $pronouns = 'he';
+        // } else {
+        //     $pronouns = $this->faker->randomElements($pronouns_options, $this->faker->numberBetween(1, 2));
+        //     $pronouns = implode(', ', $pronouns);
+        // }
 
         return [
-            'name' => "{$this->faker->firstName()} {$this->faker->lastName()}",
-            'email' => $this->faker->unique()->safeEmail(),
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => Hash::make('password'),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'about' => $this->faker->text(),
-            'use_gravatar' => false,
-            'display_favorites' => $this->faker->boolean(),
-            'display_reviews' => $this->faker->boolean(),
-            'display_gender' => $this->faker->boolean(),
-            'role' => RoleEnum::user->name,
-            'gender' => $gender,
-            'pronouns' => $pronouns,
+
+            // 'about' => $this->faker->text(),
+            // 'use_gravatar' => false,
+            // 'display_favorites' => $this->faker->boolean(),
+            // 'display_reviews' => $this->faker->boolean(),
+            // 'display_gender' => $this->faker->boolean(),
+            'role' => UserRoleEnum::user->name,
+            // 'gender' => $gender,
+            // 'pronouns' => $pronouns,
         ];
     }
 
     /**
      * Indicate that the model's email address should be unverified.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function unverified()
+    public function unverified(): static
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'email_verified_at' => null,
-            ];
-        });
+        return $this->state(fn (array $attributes) => [
+            'email_verified_at' => null,
+        ]);
     }
 
-    /**
-     * Indicate that the model's is inactive.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function inactive()
+    public function inactive(): UserFactory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -82,30 +67,20 @@ class UserFactory extends Factory
         });
     }
 
-    /**
-     * Indicate that the model's role is super admin.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function superAdmin()
+    public function superAdmin(): UserFactory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role' => RoleEnum::super_admin->name,
+                'role' => UserRoleEnum::super_admin->value,
             ];
         });
     }
 
-    /**
-     * Indicate that the model's role is admin.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function admin()
+    public function admin(): UserFactory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role' => RoleEnum::admin->name,
+                'role' => UserRoleEnum::admin->name,
             ];
         });
     }

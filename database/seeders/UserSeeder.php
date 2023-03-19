@@ -3,12 +3,15 @@
 namespace Database\Seeders;
 
 use App\Enums\MediaDiskEnum;
-use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Models\User;
-use App\Services\MediaService;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use Kiwilan\Steward\Enums\Api\SeedsApiCategoryEnum;
+use Kiwilan\Steward\Services\FactoryService;
+use Kiwilan\Steward\Services\MediaService;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -23,48 +26,57 @@ class UserSeeder extends Seeder
     {
         // DatabaseSeeder::deleteRoles();
 
-        User::where('role', '!=', 'super_admin')
-            ->where('role', '!=', 'admin')
+        User::where('role', '!=', UserRole::super_admin->value)
+            ->where('role', '!=', UserRole::admin->value)
             ->delete()
         ;
 
         Storage::disk('public')->deleteDirectory('media/users');
         $faker = \Faker\Factory::create();
 
-        // $users = User::whereRelation('roles', 'name', '!==', RoleEnum::admin)->pluck('id')->toArray();
+        // $users = User::whereRelation('roles', 'name', '!==', UserRole::admin)->pluck('id')->toArray();
         // User::destroy($users);
-        $media = Media::where('collection_name', 'avatar')->pluck('id')->toArray();
-        Media::destroy($media);
+        // $media = Media::where('collection_name', 'avatar')->pluck('id')->toArray();
+        // Media::destroy($media);
 
         // if (! Role::exists()) {
         //     Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
         // }
 
+        /** @var Collection<int, User> */
         $users = User::factory()->count(20)->create();
+        $factory = FactoryService::make();
+        $factory->mediaDownloader()
+            ->config(
+                category: SeedsApiCategoryEnum::people,
+            )
+            ->associate(User::class, 'avatar')
+        ;
 
-        $output = new ConsoleOutput();
-        $progress = new ProgressBar($output, count($users));
-        $progress->start();
+        // $output = new ConsoleOutput();
+        // $progress = new ProgressBar($output, $users->count());
+        // $progress->start();
 
-        $users->each(function ($user) use ($progress, $faker) {
-            // $user->roles()->attach(Role::whereName(RoleEnum::user())->first());
+        // $users->each(function (User $user) use ($progress, $faker) {
+        // $user->roles()->attach(Role::whereName(UserRole::user())->first());
 
-            if ($faker->boolean(75)) {
-                MediaService::create($user, $user->slug, MediaDiskEnum::user, 'avatar')
-                    ->setMedia(DatabaseSeeder::generateAvatar())
-                    ->setColor()
-                ;
-            }
-            if ($faker->boolean()) {
-                MediaService::create($user, "{$user->slug}-banner", MediaDiskEnum::user, 'banner')
-                    ->setMedia(DatabaseSeeder::generateBanner())
-                    ->setColor()
-                ;
-            }
+        // if ($faker->boolean(75)) {
+            //     MediaService::make($user, $user->username, MediaDiskEnum::user, 'avatar')
+            //         ->setMedia(DatabaseSeeder::generateAvatar())
+            //         ->setColor()
+            //     ;
+        // }
 
-            $user->save();
-            $progress->advance();
-        });
-        $progress->finish();
+        // if ($faker->boolean()) {
+            //     MediaService::make($user, "{$user->username}-banner", MediaDiskEnum::user, 'banner')
+            //         ->setMedia(DatabaseSeeder::generateBanner())
+            //         ->setColor()
+            //     ;
+        // }
+
+        //     $user->save();
+        //     $progress->advance();
+        // });
+        // $progress->finish();
     }
 }

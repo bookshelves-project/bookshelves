@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Enums\PostStatusEnum;
+use App\Enums\MediaDiskEnum;
 use App\Models\Page;
-use App\Services\ConverterService;
-use App\Services\MarkdownToHtmlService;
-use DateTime;
+use File;
 use Illuminate\Database\Seeder;
+use Kiwilan\Steward\Services\ConverterService;
 
 class PageSeeder extends Seeder
 {
@@ -16,88 +15,40 @@ class PageSeeder extends Seeder
      */
     public function run()
     {
-        Page::query()->delete();
+        Page::query()
+            ->delete()
+        ;
 
-        foreach (Page::all() as $page) {
-            $page->clearMediaCollection('featured-image');
-            $page->clearMediaCollection('page-images');
-        }
-        Page::truncate();
+        $templates_path = database_path('seeders/data/cms/pages');
+        $media_disk = MediaDiskEnum::cms;
+        $media_path = database_path('seeders/media');
 
-        $list = [
-            [
-                'title' => 'About',
-                'slug' => 'about',
-                'summary' => 'About this project',
-                'status' => PostStatusEnum::published,
-                'name' => 'about',
-                'image' => 'about',
-            ],
-            [
-                'title' => 'FAQ',
-                'slug' => 'faq',
-                'summary' => 'Frequently Asked Questions',
-                'status' => PostStatusEnum::published,
-                'name' => 'faq',
-                'image' => 'faq',
-            ],
-            [
-                'title' => 'Features: OPDS, Catalog & more',
-                'slug' => 'features',
-                'summary' => 'On other ways',
-                'status' => PostStatusEnum::published,
-                'name' => 'features',
-                'image' => 'features',
-            ],
-            [
-                'title' => 'Legal',
-                'slug' => 'legal',
-                'summary' => 'About legal',
-                'status' => PostStatusEnum::published,
-                'name' => 'legal',
-                'image' => 'legal',
-            ],
-            [
-                'title' => 'More eBooks',
-                'slug' => 'more-ebooks',
-                'summary' => 'About more eBooks projects',
-                'status' => PostStatusEnum::published,
-                'name' => 'more-ebooks',
-                'image' => 'more-ebooks',
-            ],
-            [
-                'title' => 'Privacy',
-                'slug' => 'privacy',
-                'summary' => 'Your privacy & your data',
-                'status' => PostStatusEnum::published,
-                'name' => 'privacy',
-                'image' => 'privacy',
-            ],
-        ];
-        $list = ConverterService::arrayToObject($list);
+        $templates = File::allFiles($templates_path);
 
-        foreach ($list as $md) {
-            $this->getHtmlFromMd($md);
-        }
-    }
+        foreach ($templates as $file) {
+            $data = ConverterService::jsonToArray($file->getPathname());
+            $template = Page::create($data);
 
-    public static function getHtmlFromMd(object $md)
-    {
-        $service = MarkdownToHtmlService::create($md, 'pages');
+            $array = $template->toArray();
 
-        if ($service) {
-            $page = Page::create([
-                'title' => $md->title,
-                'slug' => $md->slug,
-                'status' => $md->status,
-                'summary' => $md->summary,
-                'body' => $service->html,
-                'published_at' => new DateTime(),
-                'meta_title' => $md->title,
-                'meta_description' => $md->summary,
-            ]);
+            $needles = ['media'];
+            $result = [];
+            array_walk_recursive(
+                $array,
+                function ($value, $key) use ($needles, &$result, $media_path, $media_disk) {
+                    if (
+                        in_array($key, $needles)
+                        && ! isset($result[$key])
+                    ) {
+                        $path = "{$media_path}/{$value}";
+                        $media = File::get($path);
+                        $pathinfo = pathinfo($value);
+                        $file = "{$pathinfo['filename']}.{$pathinfo['extension']}";
 
-            $service->setImages($page, 'featured-image', 'page-images');
+                        File::put(public_path("storage/{$media_disk->value}/{$file}"), $media);
+                    }
+                }
+            );
         }
     }
 }

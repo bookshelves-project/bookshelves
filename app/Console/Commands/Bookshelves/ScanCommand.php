@@ -2,67 +2,127 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
-use App\Engines\ConverterEngine;
-use App\Engines\ParserEngine;
-use App\Engines\ParserEngine\Parsers\FilesTypeParser;
+use App\Engines\Book\ConverterEngine;
+use App\Engines\Book\Parser\Parsers\BookFile;
+use App\Engines\Book\Parser\Parsers\BookFilesParser;
+use App\Engines\Book\Parser\Parsers\FilesTypeParser;
+use App\Engines\Book\ParserEngine;
 use App\Models\Book;
 use Illuminate\Console\Command;
+use Kiwilan\Steward\Commands\CommandSteward;
 
-class ScanCommand extends CommandProd
+class ScanCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:scan';
+    protected $signature = 'bookshelves:scan
+                            {--p|parse : Parse with engine}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Scan directory public/storage/data/books to get all EPUB files.';
+    protected $description = 'Scan directory public/storage/data/books to get all BookFormatEnum files.';
 
     /**
      * Create a new command instance.
      */
-    public function __construct()
-    {
+    public function __construct(
+        public bool $verbose = false,
+        public bool $parse = false,
+    ) {
         parent::__construct();
     }
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
-    public function handle(): false|array
+    public function handle()
     {
-        $this->intro('Scan storage data books directory');
+        $this->title(description: 'Scan storage data books directory');
 
-        $verbose = $this->option('verbose');
+        $this->verbose = $this->option('verbose') ?? false;
+        $this->parse = $this->option('parse') ?? false;
 
-        $files = FilesTypeParser::parseDataFiles();
+        $files = BookFilesParser::make();
 
+        $list = [];
+
+        if ($this->parse) {
+            $list = $this->parser($files->items());
+        } else {
+            $list = $this->basic($files->items());
+        }
+
+        $this->table(
+            ['New books', 'Books'],
+            [[count($list), Book::count()]]
+        );
+
+        return Command::SUCCESS;
+    }
+
+    /**
+     * @param  BookFile[]  $files
+     * @return BookFile[]
+     */
+    private function basic(array $files)
+    {
+        $books = Book::all()->map(fn (Book $book) => $book->physical_path)->toArray();
+
+        /** @var FilesTypeParser[] */
+        $list = [];
+
+        foreach ($files as $key => $file) {
+            if (! in_array($file->path(), $books)) {
+                $list["{$key}"] = $file;
+
+                if ($this->verbose) {
+                    $this->info("New book: {$file->path()}");
+                }
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * @param  FilesTypeParser[]  $files
+     * @return ParserEngine[]
+     */
+    private function parser(array $files)
+    {
+        /** @var ParserEngine[] */
         $new_files = [];
-        if (! $verbose) {
-            $bar = $this->output->createProgressBar(count($files));
+        $bar = $this->output->createProgressBar(count($files));
+
+        if (! $this->verbose) {
             $bar->start();
         }
+
         foreach ($files as $key => $file) {
-            $parser = ParserEngine::create($file);
-            $converter = new ConverterEngine($parser);
-            $is_exist = $converter->bookIfExist();
+            $parser_engine = ParserEngine::make($file);
+            $converter_engine = new ConverterEngine($parser_engine);
+            $is_exist = $converter_engine->retrieveBook();
+
             if (! $is_exist) {
-                array_push($new_files, $parser);
+                $new_files[] = $parser_engine;
             }
-            if (! $verbose) {
+
+            if (! $this->verbose) {
                 $bar->advance();
             } else {
                 $this->info($key.' '.pathinfo($file->path, PATHINFO_FILENAME));
             }
         }
-        if (! $verbose) {
+
+        if (! $this->verbose) {
             $bar->finish();
             $this->newLine();
         }
@@ -71,28 +131,26 @@ class ScanCommand extends CommandProd
             $this->newLine();
             $this->info('New files detected');
             $this->newLine();
-            foreach ($new_files as $parser) {
-                if ($parser instanceof ParserEngine) {
-                    $this->info("- {$parser->title} from {$parser->file_name}");
+
+            foreach ($new_files as $parser_engine) {
+                if ($parser_engine instanceof ParserEngine) {
+                    $this->info("- {$parser_engine->title()} from {$parser_engine->fileName()}");
                 }
             }
         }
 
         $this->newLine();
-        $this->warn(count(($files)).' files found');
+        $this->warn(count($files).' files found');
+
         if (count($new_files) > 0) {
-            $this->warn(count(($new_files)).' new files found, to add it to collection, you can use `bookshelves:generate`');
+            $this->warn(count($new_files).' new files found, to add it to collection, you can use `bookshelves:generate`');
         }
-        if (0 === count(($new_files)) && count(($files)) !== Book::count()) {
+
+        if (0 === count($new_files) && count($files) !== Book::count()) {
             $this->warn('Some duplicates detected!');
         }
         $this->newLine();
 
-        $this->table(
-            ['New books', 'Books'],
-            [[count($new_files), Book::count()]]
-        );
-
-        return $files;
+        return $new_files;
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Engines;
 
-use App\Engines\OpdsEngine\Modules\Interface\ModuleInterface;
-use App\Engines\OpdsEngine\Modules\NotSupportedModule;
-use App\Engines\OpdsEngine\Modules\Version1_2Module;
-use App\Services\ConverterService;
+use App\Engines\Opds\Modules\Interface\ModuleInterface;
+use App\Engines\Opds\Modules\NotSupportedModule;
+use App\Engines\Opds\Modules\Version1Dot2Module;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Services\ConverterService;
 
 class OpdsEngine
 {
@@ -17,7 +17,7 @@ class OpdsEngine
             'title' => 'Authors',
             'content' => 'Authors availables',
             'cover_thumbnail' => '',
-            'route' => 'front.opds.authors',
+            'route' => 'opds.authors.index',
         ],
         [
             'key' => 'series',
@@ -25,7 +25,7 @@ class OpdsEngine
             'title' => 'Series',
             'content' => 'Series availables',
             'cover_thumbnail' => '',
-            'route' => 'front.opds.series',
+            'route' => 'opds.series.index',
         ],
     ];
 
@@ -42,11 +42,9 @@ class OpdsEngine
         $engine->version = $request->version;
         $engine->feed = ConverterService::arrayToObject(self::FEED);
 
-        $module = match ($request->version) {
-            '1.2' => Version1_2Module::create($engine),
+        return match ($request->version) {
+            '1.2' => Version1Dot2Module::create($engine),
             default => NotSupportedModule::create($engine),
         };
-
-        return $module;
     }
 }

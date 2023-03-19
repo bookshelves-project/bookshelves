@@ -2,84 +2,38 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\SerieQuery;
-use App\Http\Resources\Book\BookLightResource;
+use App\Http\Resources\Book\BookCollection;
 use App\Http\Resources\EntityResource;
-use App\Http\Resources\Serie\SerieLightResource;
 use App\Http\Resources\Serie\SerieResource;
 use App\Models\Author;
 use App\Models\Serie;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Queries\HttpQuery;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
-/**
- * @group Entity: Serie
- *
- * Endpoint to get Series data.
- */
-class SerieController extends ApiController
+#[Prefix('series')]
+class SerieController extends Controller
 {
-    /**
-     * GET Serie[].
-     *
-     * <small class="badge badge-blue">WITH PAGINATION</small>
-     *
-     * Get all series ordered by `title` & `serie_title`.
-     *
-     * @usesPagination
-     *
-     * @queryParam filter[languages] string
-     * To select specific lang, `null` by default. Example: en,fr
-     *
-     * @responseField data object[] List of series.
-     * @responseField links object Links to get other pages.
-     * @responseField meta object Metadata about pagination.
-     */
+    #[Get('/', name: 'series.index')]
     public function index(Request $request)
     {
-        $this->getLang($request);
-
-        return app(SerieQuery::class)
-            ->make(QueryOption::create(
-                request: $request,
-                resource: SerieLightResource::class,
-                orderBy: 'slug_sort',
-                withExport: false,
-                sortAsc: true,
-                full: $this->getFull($request)
-            ))
-            ->paginateOrExport()
+        return HttpQuery::make(Serie::class, $request)
+            ->with(['media', 'authors', 'books', 'language'])
+            ->collection()
         ;
     }
 
-    /**
-     * GET Serie.
-     *
-     * Get details of Serie model, find by slug of serie and slug of author.
-     */
+    #[Get('/{author_slug}/{serie_slug}', name: 'series.show')]
     public function show(Request $request, Author $author, Serie $serie)
     {
-        $this->getLang($request);
-
         return SerieResource::make($serie);
     }
 
-    /**
-     * GET Book[] belongs to Serie.
-     *
-     * Books list from one Serie, find by slug.
-     *
-     * @usesPagination
-     *
-     * @queryParam next int
-     * Volume to select next Book[] after. No-example
-     *
-     * @queryParam first boolean
-     * To select only first Book with `next`. No-example
-     */
+    #[Get('/{author_slug}/{serie_slug}/books', name: 'series.show.books')]
     public function books(Request $request, Author $author, Serie $serie)
     {
-        $first = $request->parseBoolean('first');
+        $first = $request->boolean('first');
         $next = $request->get('next');
 
         if ($next) {
@@ -87,23 +41,37 @@ class SerieController extends ApiController
 
             if ($first) {
                 $nextBook = $books->first();
+                $nextBook?->load(['authors', 'media', 'language', 'serie']);
 
                 if ($nextBook) {
                     return EntityResource::make($nextBook);
                 }
-            } elseif ($books->isNotEmpty()) {
+            }
+
+            if ($books->isNotEmpty()) {
                 return EntityResource::collection($books);
             }
 
-            return abort(404);
+            // return abort(404);
+            return response()->json(
+                data: [
+                    'data' => [],
+                ],
+                status: 200,
+            );
         }
 
         $this->getLang($request);
 
-        $books = $serie->booksAvailable();
-        $size = $this->getPaginationSize($request);
-        $books = $this->getFull($request) ? $books->get() : $books->paginate($size);
+        $books = $serie->books()
+            ->with(['authors', 'media', 'language', 'serie'])
+            ->orderBy('volume')
+        ;
+        $limit = $this->getPaginationLimit($request);
+        $books = $this->getFull($request) ? $books->get() : $books->paginate($limit);
 
-        return BookLightResource::collection($books);
+        dd($books);
+
+        return BookCollection::collection($books);
     }
 }

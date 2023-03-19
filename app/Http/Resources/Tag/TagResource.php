@@ -2,22 +2,23 @@
 
 namespace App\Http\Resources\Tag;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Spatie\Tags\Tag;
 
 /**
- * @property Tag $resource
+ * @property \App\Models\TagExtend $resource
  */
 class TagResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
-        return TagLightResource::make($this->resource)->toArray($request);
+        return [
+            ...TagCollection::make($this->resource)->toArray($request),
+        ];
     }
 }

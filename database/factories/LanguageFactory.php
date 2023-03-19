@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Language;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -13,17 +12,12 @@ class LanguageFactory extends Factory
     /**
      * Define the model's default state.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function definition()
     {
-        $language = $this->faker->languageCode();
-        $is_exist = Language::whereSlug($language)->first();
-        if (! $is_exist) {
-            return [
-                'name' => $language,
-                'slug' => $language,
-            ];
-        }
+        return [
+            //
+        ];
     }
 }

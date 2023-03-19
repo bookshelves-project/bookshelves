@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Support\Collection;
@@ -9,57 +10,69 @@ use Illuminate\Support\Collection;
 class EntityService
 {
     /**
+     * Give an Entity output.
+     *
+     * @return Author|Book|Serie
+     */
+    public static function entityOutput(mixed $class)
+    {
+        /** @var Author|Book|Serie */
+        return $class;
+    }
+
+    /**
      * Get Book or Serie related to a Book from Tag[].
+     *
+     * @return Collection<int, Book|Serie>
      */
     public static function filterRelated(Book $book): Collection
     {
         // get related books by tags, same lang
-        $related_books = Book::withAllTags($book->tags)
+        $relatedBooks = Book::withAllTags($book->tags)
+            ->with(['serie'])
             ->whereLanguageSlug($book->language_slug)
             ->get()
         ;
 
         // get serie of current book
-        $serie_books = Serie::whereSlug($book->serie?->slug)->first();
+        $serieBooks = Serie::whereSlug($book->serie?->slug)->first();
         // get books of this serie
-        $serie_books = $serie_books?->books;
+        $serieBooks = $serieBooks?->books()->with(['serie'])->get();
 
         // if serie exist
-        if ($serie_books) {
+        if ($serieBooks) {
             // remove all books from this serie
-            $filtered = $related_books->filter(function ($book) use ($serie_books) {
-                foreach ($serie_books as $serie_book) {
-                    if ($book->serie) {
-                        return $book->serie->slug != $serie_book->serie->slug;
+            $filtered = $relatedBooks->filter(function (Book $relatedBook) use ($serieBooks) {
+                foreach ($serieBooks as $serieBook) {
+                    if ($relatedBook->serie) {
+                        return $relatedBook->serie->slug != $serieBook->serie->slug;
                     }
                 }
             });
-            $related_books = $filtered;
+            $relatedBooks = $filtered;
         }
         // remove current book
-        $related_books = $related_books->filter(function ($related_book) use ($book) {
-            return $related_book->slug != $book->slug;
-        });
+        $relatedBooks = $relatedBooks->filter(fn ($related_book) => $related_book->slug != $book->slug);
 
         // get series of related
-        $series_list = collect();
-        foreach ($related_books as $key => $book) {
+        $seriesList = collect();
+
+        foreach ($relatedBooks as $key => $book) {
             if ($book->serie) {
-                $series_list->add($book->serie);
+                $seriesList->add($book->serie);
             }
         }
         // remove all books of series
-        $related_books = $related_books->filter(function ($book) {
-            return null === $book->serie;
-        });
+        $relatedBooks = $relatedBooks->filter(fn ($book) => null === $book->serie);
 
         // unique on series
-        $series_list = $series_list->unique();
+        $seriesList = $seriesList->unique();
 
         // merge books and series
-        $related_books = $related_books->merge($series_list);
+        $relatedBooks = $relatedBooks->merge($seriesList);
+        $relatedBooks = $relatedBooks->load(['language']);
 
         // sort entities
-        return $related_books->sortBy('slug_sort');
+        return $relatedBooks->sortBy('slug_sort');
     }
 }

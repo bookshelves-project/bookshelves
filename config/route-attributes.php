@@ -7,9 +7,15 @@ return [
     /*
      * Controllers in these directories that have routing attributes
      * will automatically be registered.
+     *
+     * Optionally, you can specify group configuration by using key/values
      */
     'directories' => [
-        app_path('Http/Controllers/Admin'),
+        // app_path('Http/Controllers'),
+        // app_path('Http/Controllers/Api') => [
+        //    'prefix' => 'api',
+        //    'middleware' => 'api',
+        // ],
     ],
 
     // This middleware will be applied to all routes.

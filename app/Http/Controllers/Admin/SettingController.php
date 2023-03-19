@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Application;
-use Inertia\Inertia;
 use Spatie\RouteAttributes\Attributes\Get;
 
 class SettingController extends Controller
@@ -17,11 +16,11 @@ class SettingController extends Controller
             'app.env',
             'app.debug',
             'app.url',
-            'app.repository_url',
-            'app.documentation_url',
+            'bookshelves.repository_url',
+            'bookshelves.documentation_url',
             'app.front_url',
             'mail.from.address',
-            'mail.to.address',
+            'mail.default.to.address',
             'bookshelves.cover_extension',
             'bookshelves.authors.order_natural',
             'bookshelves.authors.detect_homonyms',
@@ -47,8 +46,10 @@ class SettingController extends Controller
             'key' => 'laravel_version',
             'value' => Application::VERSION,
         ]);
+
         foreach ($configuration_keys as $key) {
             $value = config($key);
+
             if (is_bool($value)) {
                 array_push($configuration, [
                     'key' => $key,
@@ -71,6 +72,6 @@ class SettingController extends Controller
             'configuration' => $configuration,
         ];
 
-        return Inertia::render('Settings', $data);
+        return view('admin::pages.settings', ['settings' => $data]);
     }
 }

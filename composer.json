@@ -28,57 +28,48 @@
     "ext-rar": "*"
   },
   "require": {
-    "php": "^8.0.2",
-    "artesaos/seotools": "^0.22.0",
-    "barryvdh/laravel-elfinder": "^0.5.1",
-    "fruitcake/laravel-cors": "^3.0",
-    "genl/matice": "^1.1",
-    "guzzlehttp/guzzle": "^7.4",
+    "php": "^8.2",
+    "artesaos/seotools": "^1.1",
+    "filament/filament": "^2.17",
+    "filament/notifications": "^2.17",
+    "filament/spatie-laravel-media-library-plugin": "^2.17",
+    "filament/spatie-laravel-settings-plugin": "^2.17",
+    "filament/spatie-laravel-tags-plugin": "^2.17",
+    "filament/spatie-laravel-translatable-plugin": "^2.17",
+    "guzzlehttp/guzzle": "^7.2",
     "http-interop/http-factory-guzzle": "^1.2",
-    "inertiajs/inertia-laravel": "^0.6.3",
-    "itsgoingd/clockwork": "^5.1",
-    "laravel/fortify": "^1.10",
-    "laravel/framework": "^9.1",
-    "laravel/octane": "^1.2",
-    "laravel/sanctum": "^3.0.1",
-    "laravel/scout": "^9.4",
-    "laravel/tinker": "^2.7",
-    "league/commonmark": "^2.2",
-    "league/glide-symfony": "^2.0",
-    "league/html-to-markdown": "^5.0",
-    "livewire/livewire": "^2.10",
-    "maatwebsite/excel": "^3.1",
-    "meilisearch/meilisearch-php": "^0.24.1",
-    "mobiledetect/mobiledetectlib": "^2.8",
-    "oscarotero/inline-svg": "^2.0",
-    "smalot/pdfparser": "^2.2",
+    "kiwilan/steward-laravel": "dev-main",
+    "laravel/framework": "^10.0",
+    "laravel/sanctum": "^3.2",
+    "laravel/scout": "^10.0",
+    "laravel/telescope": "^4.14",
+    "laravel/tinker": "^2.8",
+    "meilisearch/meilisearch-php": "^1.0",
+    "opcodesio/log-viewer": "^2.3",
+    "pxlrbt/filament-excel": "^1.1",
+    "smalot/pdfparser": "^2.3",
     "spatie/array-to-xml": "^3.1",
-    "spatie/eloquent-sortable": "^4.0",
-    "spatie/laravel-image-optimizer": "^1.7",
-    "spatie/laravel-medialibrary": "^10.0",
-    "spatie/laravel-query-builder": "^5.0",
-    "spatie/laravel-route-attributes": "^1.9",
-    "spatie/laravel-sluggable": "^3.3",
+    "spatie/image": "^2.2",
+    "spatie/laravel-medialibrary": "^10.7",
+    "spatie/laravel-query-builder": "^5.2",
+    "spatie/laravel-ray": "^1.32",
+    "spatie/laravel-route-attributes": "^1.18",
+    "spatie/laravel-settings": "^2.8",
     "spatie/laravel-tags": "^4.3",
-    "spatie/laravel-translatable": "^6.0.0",
-    "tightenco/ziggy": "^1.4"
+    "spatie/laravel-translatable": "^6.3"
   },
   "require-dev": {
-    "barryvdh/laravel-ide-helper": "^2.12",
-    "beyondcode/laravel-dump-server": "^1.8",
+    "barryvdh/laravel-ide-helper": "^2.13",
     "fakerphp/faker": "^1.9.1",
-    "knuckleswtf/scribe": "^3.23",
-    "laravel/pint": "^1.1.1",
-    "laravel/sail": "^1.0.1",
+    "fruitcake/laravel-telescope-toolbar": "^1.3",
+    "knuckleswtf/scribe": "^4.16",
+    "laravel/pint": "^1.0",
+    "laravel/sail": "^1.18",
     "mockery/mockery": "^1.4.4",
-    "nunomaduro/collision": "^6.1",
-    "nunomaduro/larastan": "^2.1.2",
-    "pestphp/pest": "^1.21",
-    "pestphp/pest-plugin-laravel": "^1.2",
-    "pestphp/pest-plugin-parallel": "^1.1",
-    "phpro/grumphp-shim": "^1.8",
-    "phpunit/phpunit": "^9.5.10",
-    "spatie/laravel-ignition": "^1.0"
+    "nunomaduro/collision": "^7.0",
+    "nunomaduro/larastan": "^2.0",
+    "phpunit/phpunit": "^10.0",
+    "spatie/laravel-ignition": "^2.0"
   },
   "autoload": {
     "psr-4": {
@@ -99,11 +90,13 @@
     ],
     "post-update-cmd": [
       "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-      "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+      "@php artisan filament:upgrade",
+      "@php artisan optimize:clear",
+      "./vendor/bin/pint --config vendor/kiwilan/steward-laravel/pint.json",
       "@php artisan ide-helper:generate",
       "@php artisan ide-helper:models --nowrite --reset",
-      "@php artisan ide-helper:eloquent",
-      "@php artisan matice:generate"
+      "php artisan ide-helper:meta",
+      "@php artisan ide-helper:eloquent"
     ],
     "post-root-package-install": [
       "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -112,30 +105,27 @@
       "@php artisan key:generate --ansi"
     ],
     "helper": [
-      "@php artisan optimize:clear",
+      "./vendor/bin/pint --config vendor/kiwilan/steward-laravel/pint.json",
       "@php artisan ide-helper:generate",
       "@php artisan ide-helper:models --nowrite --reset",
-      "@php artisan ide-helper:eloquent",
-      "@php artisan matice:generate",
-      "pint"
-    ],
-    "doc": [
-      "@php artisan view:clear",
-      "@php artisan optimize:clear",
-      "@php artisan scribe:generate --force"
+      "php artisan ide-helper:meta",
+      "@php artisan ide-helper:eloquent"
     ],
     "format": [
-      "pint"
+      "./vendor/bin/pint --config vendor/kiwilan/steward-laravel/pint.json"
     ],
     "analyse": [
       "phpstan analyse --ansi --memory-limit=4G"
+    ],
+    "insights": [
+      "php artisan insights --ansi --no-interaction"
     ],
     "serve": [
       "Composer\\Config::disableProcessTimeout",
       "php artisan serve"
     ],
     "test": [
-      "@php artisan test -p"
+      "@php artisan test"
     ],
     "test:filter": [
       "@php artisan test --filter"
@@ -147,6 +137,10 @@
     "test:filter:watch": [
       "Composer\\Config::disableProcessTimeout",
       "phpunit-watcher watch --filter"
+    ],
+    "queue:listen": [
+      "Composer\\Config::disableProcessTimeout",
+      "php artisan queue:listen --tries=3 --timeout=3600"
     ]
   },
   "extra": {
@@ -160,9 +154,9 @@
     "sort-packages": true,
     "allow-plugins": {
       "pestphp/pest-plugin": true,
-      "phpro/grumphp-shim": true
+      "php-http/discovery": true
     }
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true
 }

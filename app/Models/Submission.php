@@ -3,10 +3,17 @@
 namespace App\Models;
 
 use App\Enums\SubmissionReasonEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kiwilan\Steward\Traits\HasAttachment;
+use Kiwilan\Steward\Traits\Mediable;
 
 class Submission extends Model
 {
+    use HasFactory;
+    use HasAttachment;
+    use Mediable;
+
     protected $fillable = [
         'name',
         'email',
@@ -14,7 +21,18 @@ class Submission extends Model
         'message',
     ];
 
+    protected $appends = [
+        // 'attachment_file',
+    ];
+
     protected $casts = [
         'reason' => SubmissionReasonEnum::class,
     ];
+
+    // public function getAttachmentFileAttribute()
+    // {
+    //     return $this->cv
+    //         ? config('app.url')."/storage{$this->cv}"
+    //         : null;
+    // }
 }

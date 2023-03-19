@@ -2,16 +2,16 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
 use Illuminate\Console\Command;
+use Kiwilan\Steward\Commands\CommandSteward;
 use Spatie\Tags\Tag;
 
-class StatsCommand extends CommandProd
+class StatsCommand extends CommandSteward
 {
     /**
      * The name and signature of the console command.
@@ -37,6 +37,8 @@ class StatsCommand extends CommandProd
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
     public function handle()
     {
@@ -44,5 +46,7 @@ class StatsCommand extends CommandProd
             ['Books', 'Series', 'Authors', 'Languages', 'Publishers', 'Tags'],
             [[Book::count(), Serie::count(), Author::count(), Language::count(), Publisher::count(), Tag::count()]]
         );
+
+        return Command::SUCCESS;
     }
 }

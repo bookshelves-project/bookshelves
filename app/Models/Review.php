@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-/**
- * @property null|\App\Models\User                                 $user
- * @property \App\Models\Author|\App\Models\Book|\App\Models\Serie $reviewable
- */
 class Review extends Model
 {
     use HasFactory;
@@ -21,32 +20,30 @@ class Review extends Model
         'user_id',
     ];
 
-    protected $with = [
-        'user',
-        'reviewable',
-    ];
-
-    public function reviewable()
+    /**
+     * Relationships.
+     */
+    public function reviewable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function books()
+    public function books(): MorphToMany
     {
         return $this->morphedByMany(Book::class, 'reviewable', 'reviews', 'reviewable_id');
     }
 
-    public function series()
+    public function series(): MorphToMany
     {
         return $this->morphedByMany(Serie::class, 'reviewable', 'reviews', 'reviewable_id');
     }
 
-    public function authors()
+    public function authors(): MorphToMany
     {
         return $this->morphedByMany(Author::class, 'reviewable', 'reviews', 'reviewable_id');
     }

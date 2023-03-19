@@ -2,102 +2,58 @@
 
 namespace Database\Factories;
 
-use App\Enums\PostStatusEnum;
-use App\Faker\FakerHtmlProvider;
-use App\Models\Post;
+use App\Enums\PostCategoryEnum;
+use App\Enums\UserRole;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
+use Kiwilan\Steward\Enums\PublishStatusEnum;
+use Kiwilan\Steward\Filament\Config\FilamentBuilder\Modules\WordpressBuilder;
+use Kiwilan\Steward\Services\FactoryService;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
+ */
 class PostFactory extends Factory
 {
     /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = Post::class;
-
-    /**
      * Define the model's default state.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function definition()
     {
-        $this->faker->addProvider(new FakerHtmlProvider($this->faker));
-        $title = ucfirst($this->faker->words(3, true));
+        $factory = FactoryService::make('posts');
+        $timestamps = $factory->dateTime()->timestamps();
+        $created_at = $timestamps->getCreatedAt();
+        $update_at = $timestamps->getUpdatedAt();
+        $published_at = $timestamps->getCreatedAt();
 
         return [
-            'title' => $title,
-            'status' => $this->faker->randomElement(PostStatusEnum::toValues()),
+            'title' => ucfirst($this->faker->words(5, true)),
             'summary' => $this->faker->paragraph(),
-            'body' => $this->faker->htmlParagraphs(),
-            'published_at' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
-            'pin' => $this->faker->boolean(25),
-            'meta_title' => ucfirst($this->faker->words(3, true)),
-            'meta_description' => $this->faker->paragraph(),
+            'status' => $this->faker->randomElement(PublishStatusEnum::toValues()),
+            'is_pinned' => $this->faker->boolean(15),
+            'category' => $this->faker->randomElement(PostCategoryEnum::toValues()),
+            // 'picture' => $factory->media->single(),
+            // 'content' => $factory->builder(WordpressBuilder::class),
+            'created_at' => $created_at,
+            'updated_at' => $update_at,
+            'published_at' => $published_at,
         ];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function draft()
+    public function author(): PostFactory
     {
         return $this->state(function (array $attributes) {
-            return [
-                'status' => PostStatusEnum::draft,
-            ];
-        });
-    }
+            $users = User::whereIn('role', [
+                UserRole::super_admin,
+                UserRole::admin,
+                UserRole::editor,
+            ])->get();
+            $author = $users->random(1)->first();
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function scheduled()
-    {
-        return $this->state(function (array $attributes) {
             return [
-                'status' => PostStatusEnum::scheduled,
-                'published_at' => Carbon::today()->addWeek(),
-            ];
-        });
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function published()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'status' => PostStatusEnum::published,
-                'published_at' => Carbon::today()->subWeek(),
-            ];
-        });
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function withMeta()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'meta_title' => ucfirst($this->faker->words(3, true)),
-                'meta_description' => $this->faker->paragraph(),
-            ];
-        });
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function pinned()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'pin' => true,
+                'author_id' => $author->id,
             ];
         });
     }

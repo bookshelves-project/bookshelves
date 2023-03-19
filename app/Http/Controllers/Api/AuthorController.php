@@ -2,91 +2,44 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\AuthorQuery;
-use App\Http\Resources\Author\AuthorLightResource;
 use App\Http\Resources\Author\AuthorResource;
-use App\Http\Resources\Book\BookLightResource;
-use App\Http\Resources\Serie\SerieLightResource;
+use App\Http\Resources\Book\BookCollection;
+use App\Http\Resources\Serie\SerieCollection;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Queries\HttpQuery;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
-/**
- * @group Entity: Author
- *
- * Endpoint to get Authors data.
- */
-class AuthorController extends ApiController
+#[Prefix('authors')]
+class AuthorController extends Controller
 {
-    /**
-     * GET Author[].
-     *
-     * <small class="badge badge-blue">WITH PAGINATION</small>
-     *
-     * Get all authors ordered by `title` & `serie_title`.
-     *
-     * @usesPagination
-     *
-     * @responseField data object[] List of authors.
-     * @responseField links object Links to get other pages.
-     * @responseField meta object Metadata about pagination.
-     */
+    #[Get('/', name: 'authors.index')]
     public function index(Request $request)
     {
-        $this->getLang($request);
-
-        return app(AuthorQuery::class)
-            ->make(QueryOption::create(
-                request: $request,
-                resource: AuthorLightResource::class,
-                orderBy: 'lastname',
-                withExport: false,
-                sortAsc: true,
-                full: $this->getFull($request)
-            ))
-            ->paginateOrExport()
+        return HttpQuery::make(Author::class, $request)
+            ->with(['media'])
+            ->collection()
         ;
     }
 
-    /**
-     * GET Author.
-     *
-     * Details for one Author, find by slug.
-     */
+    #[Get('/{author_slug}', name: 'authors.show')]
     public function show(Request $request, Author $author)
     {
-        $this->getLang($request);
-
         return AuthorResource::make($author);
     }
 
-    /**
-     * GET Book[] belongs to Author.
-     *
-     * Books list from an author, find by `slug`.
-     *
-     * @usesPagination
-     */
+    #[Get('/{author_slug}/books', name: 'authors.show.books')]
     public function books(Request $request, Author $author)
     {
-        if ($request->parseBoolean('standalone')) {
-            $books = $author->booksAvailableStandalone();
-        } else {
-            $books = $author->booksAvailable();
-        }
+        $books = $author->books()->with(['language', 'serie'])->get();
 
-        return BookLightResource::collection($books->paginate(32));
+        return BookCollection::collection($books);
     }
 
-    /**
-     * GET Serie[] belongs to Author.
-     *
-     * Series list from an author, find by `slug`.
-     *
-     * @usesPagination
-     */
+    #[Get('/{author_slug}/series', name: 'authors.show.series')]
     public function series(Request $request, Author $author)
     {
-        return SerieLightResource::collection($author->series()->paginate(32));
+        return SerieCollection::collection($author->series);
     }
 }

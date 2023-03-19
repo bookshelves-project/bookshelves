@@ -42,6 +42,8 @@ class RadGenerateCommand extends Command
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
     public function handle()
     {
@@ -93,6 +95,8 @@ class RadGenerateCommand extends Command
         $this->newLine();
 
         $this->info("{$this->model} created!");
+
+        return Command::SUCCESS;
     }
 
     public function toArray(): array
@@ -116,6 +120,7 @@ class RadGenerateCommand extends Command
     {
         $destination = "{$destination_path}/{$name}.{$extension}";
         $type = str_replace($this->model, '', $name);
+
         if (! File::exists($destination) || $this->force) {
             if ($createDir) {
                 try {
@@ -201,11 +206,13 @@ class RadGenerateCommand extends Command
         $destination_path = resource_path('admin/features/helpers.ts');
 
         $file_part = $this->find($destination_path, "{$this->model_pascal}s: (model: {$this->model})");
+
         if (! $file_part) {
             /**
              * Add import.
              */
             $is_exist = $this->find($destination_path, "  {$this->model},");
+
             if (! $is_exist) {
                 $file_part = $this->find($destination_path, "} from '@admin/types'");
                 array_push($file_part['begin'], "  {$this->model},\n");
@@ -242,6 +249,7 @@ class RadGenerateCommand extends Command
 
         $entry = "'{$this->model_kebab}s' => [";
         $is_exist = $this->find($path, $entry);
+
         if (! $is_exist) {
             $stubs = [
                 "    {$entry}\n",
@@ -276,6 +284,7 @@ class RadGenerateCommand extends Command
 
         if ($file_part) {
             $is_exist = $this->find($path, "route('admin.{$this->model_kebab}s')");
+
             if (! $is_exist) {
                 $nav = [
                     "  {\n",
@@ -333,6 +342,7 @@ class RadGenerateCommand extends Command
     {
         $lines = file($path);
         $file_content = [];
+
         foreach ($lines as $number => $line) {
             array_push($file_content, $line);
         }
@@ -380,13 +390,16 @@ class RadGenerateCommand extends Command
         $begin = [];
         $end = [];
         $found = false;
+
         foreach ($lines as $number => $line) {
             if (! $found) {
                 array_push($begin, $line);
             }
+
             if (false !== strpos($line, $search)) {
                 $found = true;
             }
+
             if ($found) {
                 array_push($end, $line);
             }

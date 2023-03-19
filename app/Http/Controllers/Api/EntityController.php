@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Engines\SearchEngine;
-use App\Helpers\PaginationHelper;
 use App\Http\Resources\EntityResource;
 use App\Http\Resources\Review\ReviewResource;
 use App\Models\Author;
@@ -13,19 +12,19 @@ use App\Models\Selectionable;
 use App\Services\EntityService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Kiwilan\Steward\Utils\PaginatorHelper;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
-/**
- * @group Entities
- *
- * Endpoint about data from main entities.
- */
-class EntityController extends ApiController
+#[Prefix('entities')]
+class EntityController extends Controller
 {
     /**
      * GET Entity[] latest entries.
      *
      * Get all Books ordered by date `updated_at`, limited to `10` results (no pagination).
      */
+    #[Get('latest', name: 'entity.latest')]
     public function latest(Request $request): JsonResource
     {
         $books = Book::orderByDesc('updated_at')
@@ -41,6 +40,7 @@ class EntityController extends ApiController
      *
      * Get all entities `selected`, limited to `10` results (no pagination).
      */
+    #[Get('selection', name: 'entity.selection')]
     public function selection(Request $request): JsonResource
     {
         $request->relation = 'selectionable';
@@ -62,32 +62,36 @@ class EntityController extends ApiController
      *
      * @usesPagination
      */
+    #[Get('related/{author_slug}/{book_slug}', name: 'entity.related')]
     public function related(Request $request, Author $author, Book $book)
     {
         if ($book->tags->count() >= 1) {
-            $related_books = EntityService::filterRelated($book);
+            $relatedBooks = EntityService::filterRelated($book);
 
-            if ($related_books->isNotEmpty()) {
-                return EntityResource::collection(PaginationHelper::paginate($related_books));
+            if ($relatedBooks->isNotEmpty()) {
+                return EntityResource::collection(PaginatorHelper::paginate($relatedBooks));
             }
         }
 
         return response()->json(
-            'No tags or no books related',
-            400
+            data: [
+                'data' => [],
+            ],
+            status: 200
         );
     }
 
     /**
      * GET Entity Review[].
      */
+    #[Get('reviews/{author_slug}/{book_slug}', name: 'entity.reviews')]
     public function reviews(Request $request, string $entity, int $id)
     {
         $this->getLang($request);
 
         $reviews = Review::whereReviewableType($this->getEntity($entity))
             ->whereReviewableId($id)
-            ->paginate($this->getPaginationSize($request, 5))
+            ->paginate($this->getPaginationLimit($request, 5))
         ;
 
         return ReviewResource::collection($reviews);
@@ -98,12 +102,14 @@ class EntityController extends ApiController
      *
      * Search full-text into authors, books & series.
      */
+    #[Get('search', name: 'entity.search')]
     public function search(Request $request)
     {
         $q = $request->input('q');
         $relevant = $request->boolean('relevant');
         $types = $request->input('types');
 
+        // TODO export SearchEngine
         $engine = SearchEngine::create(
             q: $q,
             relevant: $relevant,

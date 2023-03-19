@@ -2,40 +2,40 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\SubmissionRequest;
+use App\Http\Requests\SubmissionStoreRequest;
 use App\Models\Submission;
-use App\Notifications\SubmissionNotification;
-use Illuminate\Support\Facades\Notification;
+use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
- * @group Submission
+ * @group Creations
+ *
+ * APIs for Creations.
  */
-class SubmissionController extends ApiController
+#[Prefix('submissions')]
+class SubmissionController extends Controller
 {
     /**
-     * POST Send submission.
-     *
-     * If `honeypot` is `true`, submission will be not sended.
+     * GET Service.
      */
-    public function create(SubmissionRequest $request)
+    #[Post('/create', name: 'api.submissions.create')]
+    public function create(SubmissionStoreRequest $request)
     {
-        $validated = $request->validated();
+        $success = false;
+        $submission = null;
 
-        if (! $validated['honeypot']) {
-            $submission = Submission::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'message' => $validated['message'],
-            ]);
+        if (! $request->boolean('honeypot')) {
+            $success = true;
 
-            Notification::route('mail', [config('mail.to.address') => config('mail.to.name')])
-                ->notify(new SubmissionNotification($submission))
-            ;
+            $submission = new Submission();
+            $submission->fill($request->validated());
+            $submission->save();
         }
 
         return response()->json([
-            'message' => 'Your mail was sended!',
-            'honeypot' => $validated['honeypot'],
-        ], 200);
+            'success' => $success,
+            'message' => $success ? 'Votre message a été envoyé' : "Votre message n'a pas pu être envoyé",
+            'submission' => $submission,
+        ], $success ? 200 : 422);
     }
 }

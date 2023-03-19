@@ -2,31 +2,25 @@
 
 namespace App\Http\Resources\Language;
 
-use App\Models\Language;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property Language $resource
+ * @property \App\Models\Language $resource
  */
 class LanguageResource extends JsonResource
 {
     /**
-     * Transform the Language into an array.
+     * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
-        $resource = (array) LanguageLightResource::make($this->resource)->toArray($request);
-
-        return array_merge($resource, [
-            'firstChar' => $this->resource->first_char,
+        return [
+            ...LanguageCollection::make($this->resource)->toArray($request),
+            // 'first_char' => $this->resource->first_char,
             'count' => $this->resource->books_count,
-            'meta' => [
-                'slug' => $this->resource->slug,
-                'show' => $this->resource->show_link,
-            ],
-        ]);
+        ];
     }
 }

@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Handlee;
+  src: url('./fonts/Handlee-Regular.ttf');
+}
+
+body {
+  @apply bg-white dark:bg-gray-900 text-black dark:text-white;
+}
+
+[x-cloak] {
+  display: none !important;
+}

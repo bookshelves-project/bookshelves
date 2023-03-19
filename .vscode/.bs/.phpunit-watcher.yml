@@ -1,0 +1,13 @@
+watch:
+  directories:
+    - app
+    - config
+    - tests
+  fileMask: '*.php'
+notifications:
+  passingTests: false
+  failingTests: false
+phpunit:
+  binaryPath: ./vendor/bin/pest
+  arguments: '--stop-on-failure'
+  timeout: 180

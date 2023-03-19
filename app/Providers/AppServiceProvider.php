@@ -2,81 +2,41 @@
 
 namespace App\Providers;
 
-use App\Support\LaravelViteManifest;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Blade;
+use Filament\Facades\Filament;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Spatie\Translatable\Facades\Translatable;
+use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->singleton('laravel-vite-manifest', function () {
-            return new LaravelViteManifest();
-        });
-
-        Builder::macro('whereLike', function (array $attributes, string $searchTerm) {
-            // @phpstan-ignore-next-line
-            $this->where(function (Builder $query) use ($attributes, $searchTerm) {
-                foreach (Arr::wrap($attributes) as $attribute) {
-                    $query->when(
-                        str_contains($attribute, '.'),
-                        function (Builder $query) use ($attribute, $searchTerm) {
-                            [$relationName, $relationAttribute] = explode('.', $attribute);
-
-                            $query->orWhereHas($relationName, function (Builder $query) use ($relationAttribute, $searchTerm) {
-                                $query->where($relationAttribute, 'LIKE', "%{$searchTerm}%");
-                            });
-                        },
-                        function (Builder $query) use ($attribute, $searchTerm) {
-                            $query->orWhere($attribute, 'LIKE', "%{$searchTerm}%");
-                        }
-                    );
-                }
-            });
-
-            return $this;
-        });
+        //
     }
 
     /**
      * Bootstrap any application services.
      */
-    public function boot()
+    public function boot(): void
     {
-        Translatable::fallback(
-            fallbackAny: true,
-        );
+        Model::preventLazyLoading(! app()->isProduction());
 
-        Blade::directive('vite', function ($expression) {
-            return '{!! App\Facades\ViteManifest::embed('.$expression.') !!}';
+        Filament::serving(function () {
+            Filament::registerViteTheme('resources/assets/css/filament.css');
         });
 
-        View::addNamespace('front', resource_path('front'));
-        View::addNamespace('admin', resource_path('admin'));
-        View::addNamespace('webreader', resource_path('webreader'));
+        // View::addNamespace('app', resource_path());
 
-        Request::macro('parseArray', function ($key): array {
-            if ($value = request()->get($key)) {
-                return is_array($value) ? $value : explode(',', $value);
-            }
+        if ('local' !== config('app.env')) {
+            LogViewer::auth(function ($request) {
+                $user = $request->user();
 
-            return [];
-        });
-
-        Request::macro('parseBoolean', function (string $key, bool $default = false): bool {
-            if ($value = request()->get($key)) {
-                return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-            }
-
-            return $default;
-        });
+                return $user->is_admin || $user->is_super_admin;
+            });
+        }
     }
 }

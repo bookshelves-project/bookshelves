@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.title {
+  color: cyan;
+  font-family: sans-serif;
+}
+
+body {
+  @apply bg-white dark:bg-gray-900 text-black dark:text-white;
+}
+
+[x-cloak] {
+  display: none;
+}
