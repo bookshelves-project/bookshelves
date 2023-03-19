@@ -17,13 +17,6 @@ abstract class BookParser
         protected string $path,
         protected ?string $cover = null,
         protected ?int $count = null,
-        // protected ArchiveParserEnum $type = ArchiveParserEnum::zip,
-        // protected string $indexExtension = 'xml',
-        // protected bool $indexIsFound = false,
-        // protected ?string $indexContent = null,
-        // protected ?int $count = null,
-        // protected ?string $extracted = null,
-        // protected ?string $cover = null,
     ) {
     }
 

@@ -31,26 +31,29 @@ class PdfParser extends BookParser
 
     public function extractCover(): self
     {
-        if (! extension_loaded('Imagick')) {
-            $console = Console::make();
-            $console->print(".pdf file: Imagick extension: is not installed (can't get cover)", 'red');
+        if (config('bookshelves.pdf.cover')) {
+            if (! extension_loaded('Imagick')) {
+                $console = Console::make();
+                $console->print(".pdf file: Imagick extension: is not installed (can't get cover)", 'red');
+                $console->print('Check this guide https://gist.github.com/ewilan-riviere/3f4efd752905abe24fd1cd44412d9db9', 'red');
 
-            return null;
+                return null;
+            }
+
+            $format = 'jpg';
+
+            $imagick = new Imagick($this->path);
+            $imagick->setFormat($format);
+
+            $name = $this->module->file()->name();
+            $path = public_path("storage/cache/{$name}.jpg");
+            $imagick->writeImage($path);
+
+            $this->cover = base64_encode(File::get($path));
+
+            $imagick->clear();
+            $imagick->destroy();
         }
-
-        $format = 'jpg';
-
-        $imagick = new Imagick($this->path);
-        $imagick->setFormat($format);
-
-        $name = $this->module->file()->name();
-        $path = public_path("storage/cache/{$name}.jpg");
-        $imagick->writeImage($path);
-
-        $this->cover = base64_encode(File::get($path));
-
-        $imagick->clear();
-        $imagick->destroy();
 
         return $this;
     }

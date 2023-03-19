@@ -53,6 +53,7 @@ class ArchiveParser extends BookParser
         if ($type === ArchiveParserEnum::rar && ! extension_loaded('rar')) {
             $console = Console::make();
             $console->print('.rar file: rar extension: is not installed', 'red');
+            $console->print('Check this guide https://gist.github.com/ewilan-riviere/3f4efd752905abe24fd1cd44412d9db9', 'red');
 
             return null;
         }

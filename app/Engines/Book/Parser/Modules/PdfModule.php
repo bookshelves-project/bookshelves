@@ -35,10 +35,6 @@ class PdfModule extends ParserModule implements ParserModuleInterface
 
     public function parse(array $metadata): Extractor
     {
-        // if (config('bookshelves.pdf.cover')) {
-        //     $this->extractCover();
-        // }
-
         if (empty($metadata)) {
             return $this;
         }
