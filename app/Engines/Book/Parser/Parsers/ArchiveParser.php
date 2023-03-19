@@ -17,26 +17,17 @@ use ZipArchive;
 /**
  * Parse archive to extract XML path and cover, implements `XmlInterface`.
  */
-class ArchiveParser
+class ArchiveParser extends BookParser
 {
-    public const IMAGE_FORMATS = ['jpg', 'jpeg'];
-
-    /** @var array<string, mixed> */
-    protected ?array $metadata = [];
-
     /** @var array<string, mixed> */
     protected array $archiveFiles = [];
 
     protected function __construct(
-        protected ParserModule $module,
-        protected string $path,
         protected ArchiveParserEnum $type = ArchiveParserEnum::zip,
         protected string $indexExtension = 'xml',
         protected bool $indexIsFound = false,
         protected ?string $indexContent = null,
-        protected ?int $count = null,
         protected ?string $extracted = null,
-        protected ?string $cover = null,
     ) {
     }
 
@@ -66,7 +57,10 @@ class ArchiveParser
             return null;
         }
 
-        return new self($module, $path, $type);
+        $self = new self($type);
+        $self->setup($module);
+
+        return $self;
     }
 
     /**

@@ -9,12 +9,9 @@ use Imagick;
 use Kiwilan\Steward\Utils\Console;
 use Smalot\PdfParser\Parser;
 
-class PdfParser
+class PdfParser extends BookParser
 {
     protected function __construct(
-        protected ParserModule $module,
-        protected string $path,
-        protected ?string $cover = null,
     ) {
     }
 
@@ -26,7 +23,10 @@ class PdfParser
      */
     public static function make(ParserModule $module): self
     {
-        return new self($module, $module->file()->path());
+        $self = new self();
+        $self->setup($module);
+
+        return $self;
     }
 
     public function extractCover(): self

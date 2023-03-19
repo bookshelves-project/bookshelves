@@ -2,30 +2,13 @@
 
 namespace App\Engines\Book\Parser\Parsers;
 
-use App\Engines\Book\Parser\Models\BookEntityAuthor;
-use App\Engines\Book\Parser\Models\BookEntityIdentifier;
 use App\Engines\Book\Parser\Modules\Extractor\NameExtractor;
 use App\Engines\Book\Parser\Modules\Interface\ParserModule;
 use Closure;
 
-class NameParser
+class NameParser extends BookParser
 {
-    protected array $data = [];
-
-    /** @var BookEntityAuthor[] */
-    protected ?array $creators = [];
-
-    /** @var BookEntityIdentifier[] */
-    protected ?array $identifiers = null;
-
     protected function __construct(
-        protected ParserModule $module,
-        protected ?string $title = null,
-        protected ?string $language = null,
-        protected ?string $serie = null,
-        protected ?int $volume = null,
-        protected ?string $date = null,
-        protected ?string $publisher = null,
     ) {
     }
 
@@ -37,7 +20,10 @@ class NameParser
      */
     public static function make(ParserModule $module): ?self
     {
-        return new self($module);
+        $self = new self();
+        $self->setup($module);
+
+        return $self;
     }
 
     /**
@@ -64,10 +50,10 @@ class NameParser
         ];
 
         foreach ($list as $key => $value) {
-            $this->data[$value] = $this->parseName($parsing, $key);
+            $this->metadata[$value] = $this->parseName($parsing, $key);
         }
 
-        $closure($this->data);
+        $closure($this->metadata);
 
         return $this->module;
     }
