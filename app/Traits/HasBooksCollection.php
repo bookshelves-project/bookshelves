@@ -9,14 +9,18 @@ use Kiwilan\Steward\Class\DownloadFile;
 
 trait HasBooksCollection
 {
-    public function getFileMainAttribute()
+    public function getFileMainAttribute(): ?DownloadFile
     {
+        if (empty($this->files_list)) {
+            return null;
+        }
+
         return current(array_filter(array_reverse($this->files_list)));
     }
 
     public function getFilesListAttribute(): array
     {
-        $entity = $this->meta_class_namespaced::whereSlug($this->slug)
+        $entity = $this->classNamespaced()::whereSlug($this->slug)
             ->with('books.media')
             ->first()
         ;

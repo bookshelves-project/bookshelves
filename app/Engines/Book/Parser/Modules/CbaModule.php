@@ -37,6 +37,8 @@ class CbaModule extends ParserModule implements ParserModuleInterface
 
     public function parse(array $metadata): ParserModule
     {
+        $this->setCover();
+
         if (empty($metadata)) {
             return $this;
         }
@@ -90,19 +92,19 @@ class CbaModule extends ParserModule implements ParserModuleInterface
 
     private function setCreators(string $extractKey): array
     {
-        if (array_key_exists($extractKey, $this->metadata)) {
-            $items = [];
-            $creators = explode(',', $this->metadata[$extractKey]);
-
-            foreach ($creators as $creator) {
-                $creator = new BookEntityAuthor(trim($creator), 'aut');
-                $items[] = $creator;
-            }
-
-            return $items;
+        if (! array_key_exists($extractKey, $this->metadata)) {
+            return [];
         }
 
-        return [];
+        $items = [];
+        $creators = explode(',', $this->metadata[$extractKey]);
+
+        foreach ($creators as $creator) {
+            $creator = new BookEntityAuthor(trim($creator), 'aut');
+            $items[] = $creator;
+        }
+
+        return $items;
     }
 
     private function setDate(): ?string
@@ -130,5 +132,11 @@ class CbaModule extends ParserModule implements ParserModuleInterface
         }
 
         return $date;
+    }
+
+    private function setCover()
+    {
+        $this->setCoverIsExists();
+        $this->setCoverIsFirst();
     }
 }

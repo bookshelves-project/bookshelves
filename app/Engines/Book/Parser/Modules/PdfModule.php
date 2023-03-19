@@ -59,7 +59,6 @@ class PdfModule extends ParserModule implements ParserModuleInterface
         $path = public_path("storage/cache/{$name}.jpg");
         $imagick->writeImage($path);
 
-        $this->setCover();
         $this->setCoverFile(base64_encode(File::get($path)));
 
         $imagick->clear();

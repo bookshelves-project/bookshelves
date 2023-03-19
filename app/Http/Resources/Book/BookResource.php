@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Book;
 
+use App\Http\Resources\Publisher\PublisherBase;
+use App\Http\Resources\Tag\TagBase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,15 +21,24 @@ class BookResource extends JsonResource
     {
         return [
             ...BookCollection::make($this->resource)->toArray($request),
-            'meta' => [
-                'entity' => $this->resource->entity,
-                'slug' => $this->resource->slug,
-                'author' => $this->resource->meta_author,
-                'show' => $this->resource->show_link,
-                // 'related' => $this->resource->related_link,
-                // 'reviews' => $this->resource->reviews_link,
-            ],
+            'contributor' => $this->resource->contributor,
+            'description' => $this->resource->description,
+            'released_on' => $this->resource->released_on,
+            'rights' => $this->resource->rights,
+            'page_count' => $this->resource->page_count,
+            'maturity_rating' => $this->resource->maturity_rating,
             'isbn' => $this->resource->isbn,
+            'identifiers' => IdentifierResource::make($this->resource),
+
+            'tags' => TagBase::collection($this->resource->tags_list),
+            'genres' => TagBase::collection($this->resource->genres_list),
+            'publisher' => PublisherBase::make($this->resource->publisher),
+
+            'download' => $this->resource->file_main,
+            'files' => $this->resource->files_list,
+
+            'isFavorite' => $this->resource->is_favorite,
+            'reviewsCount' => $this->resource->reviews_count,
         ];
     }
 }

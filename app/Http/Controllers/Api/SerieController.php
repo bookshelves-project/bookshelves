@@ -19,7 +19,7 @@ class SerieController extends Controller
     public function index(Request $request)
     {
         return HttpQuery::make(Serie::class, $request)
-            ->with(['media', 'authors', 'books'])
+            ->with(['media', 'authors', 'books', 'language'])
             ->collection()
         ;
     }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Serie;
 
+use App\Http\Resources\Author\AuthorBase;
+use App\Http\Resources\Language\LanguageBase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,8 +20,12 @@ class SerieCollection extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'title' => $this->resource->title,
-            'author' => $this->resource->meta_author,
+            ...SerieBase::make($this->resource)->toArray($request),
+            'type' => $this->resource->type->locale(),
+            'media' => $this->resource->cover_media,
+            'language' => LanguageBase::make($this->resource->language),
+            'authors' => AuthorBase::collection($this->resource->authors),
+            'count' => $this->resource->books_count,
         ];
     }
 }

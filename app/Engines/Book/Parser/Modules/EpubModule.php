@@ -2,12 +2,12 @@
 
 namespace App\Engines\Book\Parser\Modules;
 
-use App\Engines\Book\ParserEngine;
 use App\Engines\Book\Parser\Models\BookEntityAuthor;
 use App\Engines\Book\Parser\Models\BookEntityIdentifier;
 use App\Engines\Book\Parser\Modules\Interface\ParserModule;
 use App\Engines\Book\Parser\Modules\Interface\ParserModuleInterface;
 use App\Engines\Book\Parser\Parsers\ArchiveParser;
+use App\Engines\Book\ParserEngine;
 
 class EpubModule extends ParserModule implements ParserModuleInterface
 {
@@ -53,7 +53,7 @@ class EpubModule extends ParserModule implements ParserModuleInterface
 
     private function version2(): self
     {
-        $this->findCover();
+        $this->setCover();
 
         if (! array_key_exists('metadata', $this->metadata)) {
             throw new \Exception("EpubModule {$this->file->name()} metadata not supported");
@@ -97,15 +97,20 @@ class EpubModule extends ParserModule implements ParserModuleInterface
         $serie = null;
         $volume = null;
 
-        if (array_key_exists($extractKey, $this->metadata)) {
-            foreach ($this->metadata[$extractKey] as $value) {
-                if ($value['@attributes'] && $value['@attributes']['name'] && 'calibre:series' === $value['@attributes']['name']) {
-                    $serie = $value['@attributes']['content'];
-                }
+        if (! array_key_exists($extractKey, $this->metadata)) {
+            return [
+                'serie' => null,
+                'volume' => null,
+            ];
+        }
 
-                if ($value['@attributes'] && $value['@attributes']['name'] && 'calibre:series_index' === $value['@attributes']['name']) {
-                    $volume = $value['@attributes']['content'];
-                }
+        foreach ($this->metadata[$extractKey] as $value) {
+            if ($value['@attributes'] && $value['@attributes']['name'] && 'calibre:series' === $value['@attributes']['name']) {
+                $serie = $value['@attributes']['content'];
+            }
+
+            if ($value['@attributes'] && $value['@attributes']['name'] && 'calibre:series_index' === $value['@attributes']['name']) {
+                $volume = $value['@attributes']['content'];
             }
         }
 
@@ -122,18 +127,20 @@ class EpubModule extends ParserModule implements ParserModuleInterface
      */
     private function setIdentifiers(string $extractKey): array
     {
+        if (! array_key_exists($extractKey, $this->metadata)) {
+            return [];
+        }
+
         $identifiers = [];
 
-        if (array_key_exists($extractKey, $this->metadata)) {
-            foreach ($this->metadata[$extractKey] as $identifier_value) {
-                array_push(
-                    $identifiers,
-                    BookEntityIdentifier::create([
-                        'id' => $identifier_value['@attributes']['scheme'],
-                        'value' => $identifier_value['@content'],
-                    ])
-                );
-            }
+        foreach ($this->metadata[$extractKey] as $identifier_value) {
+            array_push(
+                $identifiers,
+                BookEntityIdentifier::create([
+                    'id' => $identifier_value['@attributes']['scheme'],
+                    'value' => $identifier_value['@content'],
+                ])
+            );
         }
 
         return $identifiers;
@@ -162,21 +169,21 @@ class EpubModule extends ParserModule implements ParserModuleInterface
      */
     private function setCreators(string $extractKey): array
     {
-        if (array_key_exists($extractKey, $this->metadata)) {
-            $creators = [];
-
-            if (array_key_exists(0, $this->metadata[$extractKey])) {
-                foreach ($this->metadata[$extractKey] as $creator_value) {
-                    array_push($creators, $this->extractCreator($creator_value));
-                }
-            } else {
-                array_push($creators, $this->extractCreator($this->metadata[$extractKey]));
-            }
-
-            return array_map('unserialize', array_unique(array_map('serialize', $creators)));
+        if (! array_key_exists($extractKey, $this->metadata)) {
+            return [];
         }
 
-        return [];
+        $creators = [];
+
+        if (array_key_exists(0, $this->metadata[$extractKey])) {
+            foreach ($this->metadata[$extractKey] as $creator_value) {
+                array_push($creators, $this->extractCreator($creator_value));
+            }
+        } else {
+            array_push($creators, $this->extractCreator($this->metadata[$extractKey]));
+        }
+
+        return array_map('unserialize', array_unique(array_map('serialize', $creators)));
     }
 
     /**
@@ -209,42 +216,59 @@ class EpubModule extends ParserModule implements ParserModuleInterface
      * - define cover path into EPUB/ZIP file
      * - define extension of cover.
      */
-    private function findCover(): static
+    private function setCover(): static
     {
-        if ($this->metadata['manifest'] && $items = $this->metadata['manifest']['item']) {
-            $cover = null;
+        $manifestExists = array_key_exists('manifest', $this->metadata);
+        $items = array_key_exists('manifest', $this->metadata)
+            ? $this->metadata['manifest']['item'] ?? null
+            : null;
 
-            foreach ($items as $node) {
-                $attributes = $node['@attributes'] ?? null;
+        if (! $manifestExists && ! $items) {
+            return $this;
+        }
 
-                $id = $attributes['id'] ?? null;
-                $type = $attributes['media-type'] ?? null;
-                $href = $attributes['href'] ?? null;
+        $cover = null;
 
-                if ($type && $id && $href && 'image/jpeg' === $type || 'image/png' === $type) {
-                    // Check if cover exist in images.
-                    if ('cover' === $id) {
-                        $cover = $href;
-                    } elseif (! $cover) {
-                        /**
-                         * If not, get first existing image
-                         * If EPUB is dirty, it's possible for cover to have another name
-                         * If you want to have right cover file, use a tool like Calibre to create new clean EPUB file.
-                         */
-                        $cover = $href;
-                    }
-                }
+        foreach ($items as $node) {
+            $attributes = $node['@attributes'] ?? null;
+
+            $id = $attributes['id'] ?? null;
+            $type = $attributes['media-type'] ?? null;
+            $href = $attributes['href'] ?? null;
+
+            if (! $type && ! $id && ! $href) {
+                continue;
             }
 
-            if (! empty($cover)) {
-                $this->setCover();
-                $this->setCoverName($cover);
-                $this->setCoverExtension(pathinfo($cover, PATHINFO_EXTENSION));
-            } else {
-                $this->console->print('No cover from EpubModule', 'red');
-                $this->console->newLine();
+            if ('image/jpeg' !== $type && 'image/png' !== $type) {
+                continue;
+            }
+
+            // Check if cover exist in images.
+            if ('cover' === $id) {
+                $cover = $href;
+            }
+
+            if (! $cover) {
+                /**
+                 * If not, get first existing image
+                 * If EPUB is dirty, it's possible for cover to have another name
+                 * If you want to have right cover file, use a tool like Calibre to create new clean EPUB file.
+                 */
+                $cover = $href;
             }
         }
+
+        if (empty($cover)) {
+            $this->console->print('No cover from EpubModule', 'red');
+            $this->console->newLine();
+
+            return $this;
+        }
+
+        $this->setCoverIsExists();
+        $this->setCoverName($cover);
+        $this->setCoverExtension(pathinfo($cover, PATHINFO_EXTENSION));
 
         return $this;
     }

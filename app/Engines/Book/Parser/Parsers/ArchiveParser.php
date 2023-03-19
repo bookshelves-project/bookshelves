@@ -2,10 +2,10 @@
 
 namespace App\Engines\Book\Parser\Parsers;
 
-use App\Engines\Book\ParserEngine;
 use App\Engines\Book\Parser\Modules\Interface\ParserModule;
 use App\Engines\Book\Parser\Modules\Interface\ParserModuleInterface;
 use App\Engines\Book\Parser\Modules\Interface\XmlInterface;
+use App\Engines\Book\ParserEngine;
 use File;
 use Kiwilan\Steward\Utils\Console;
 use RarArchive;
@@ -28,7 +28,6 @@ class ArchiveParser
         protected ParserModule&ParserModuleInterface $module,
         protected string $extensionIndex = 'xml',
         protected ?string $xmlString = null,
-        protected bool $findCover = false,
         protected string $type = 'zip',
     ) {
     }
@@ -88,7 +87,7 @@ class ArchiveParser
             $name = $entry->getName();
             $ext = pathinfo($name, PATHINFO_EXTENSION);
 
-            if ($this->findCover && $this->checkImageFormat($ext)) {
+            if ($this->module->cover()->isExists() && $this->checkImageFormat($ext)) {
                 $zipFiles[] = $name;
             }
 
@@ -118,7 +117,7 @@ class ArchiveParser
         }
         $this->module = $this->module->parse($this->metadata);
 
-        if ($this->module->cover()?->name()) {
+        if ($this->module->cover()->isExists()) {
             foreach ($zip->getEntries() as $key => $entry) {
                 if ($this->module->cover()->name() !== $entry->getName()) {
                     continue;
@@ -151,7 +150,7 @@ class ArchiveParser
             $file = $zip->statIndex($i);
             $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
-            if ($this->findCover && $this->checkImageFormat($ext)) {
+            if ($this->checkImageFormat($ext)) {
                 $zipFiles[] = $file['name'];
             }
 
@@ -169,12 +168,7 @@ class ArchiveParser
         }
         $this->module = $this->module->parse($this->metadata);
 
-        if ($this->module->cover()?->name()) {
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                $cover = $zip->getFromName($this->module->cover()->name());
-                $this->module->setCoverFile(base64_encode($cover));
-            }
-        }
+        $this->extractCover($zip);
 
         $zip->close();
 
@@ -197,7 +191,7 @@ class ArchiveParser
      */
     private function sortFileList()
     {
-        if ($this->findCover) {
+        if ($this->module->cover()->isExists()) {
             natsort($zipFiles);
             $this->zipFiles = array_values($zipFiles);
 
@@ -205,6 +199,36 @@ class ArchiveParser
                 $this->module->setCoverName($this->zipFiles[0]);
             }
         }
+    }
+
+    private function extractCover(ZipArchive $zip): self
+    {
+        $cover = null;
+
+        if (! $this->module->cover()->isExists()) {
+            return $this;
+        }
+
+        if ($this->module->cover()->isFirst()) {
+            $this->module->setCoverName($this->module->title());
+
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $file = $zip->statIndex($i);
+                $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+
+                if (! $cover && $this->checkImageFormat($ext)) {
+                    $cover = $zip->getFromName($file['name']);
+                    $this->module->setCoverFile(base64_encode($cover));
+                }
+            }
+        } else {
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $cover = $zip->getFromName($this->module->cover()->name());
+                $this->module->setCoverFile(base64_encode($cover));
+            }
+        }
+
+        return $this;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Enums\BookFormatEnum;
 use App\Models\MediaExtended;
+use Illuminate\Support\Collection;
 use Kiwilan\Steward\Class\DownloadFile;
 
 /**
@@ -51,44 +52,58 @@ trait HasBookFiles
         return $files;
     }
 
-    public function getFileMainAttribute(): DownloadFile
+    public function getFileMainAttribute(): ?DownloadFile
     {
+        if ($this->filesListIsNull()) {
+            return null;
+        }
+
         return current(array_filter(array_reverse($this->files_list)));
     }
 
-    /**
-     * @return DownloadFile[]
-     */
-    public function getFilesListAttribute()
+    public function filesListIsNull(): bool
     {
-        $list = [];
+        return $this->files_list->filter(fn ($file) => null !== $file)->isEmpty();
+    }
+
+    /**
+     * @return Collection<string, DownloadFile>
+     */
+    public function getFilesListAttribute(): Collection
+    {
+        $list = collect([]);
         $formats = BookFormatEnum::toValues();
 
         foreach ($formats as $format) {
             $media = null;
 
-            if (null !== $this->files[$format]) {
-                $route = route('api.download.book', [
-                    'author_slug' => $this->meta_author,
-                    'book_slug' => $this->slug,
-                    'format' => $format,
-                ]);
+            if (null === $this->files[$format]) {
+                $list[$format] = $media;
 
-                /** @var MediaExtended $file */
-                $file = $this->files[$format];
-                $reader = route('webreader.reader', [
-                    'author' => $this->meta_author,
-                    $this->entity => $this->slug,
-                    'format' => $format,
-                ]);
-                $media = new DownloadFile(
-                    $file->file_name,
-                    $file->size_human,
-                    $route,
-                    $reader,
-                    $file->extension,
-                );
+                continue;
             }
+
+            $route = route('api.download.book', [
+                'author_slug' => $this->meta_author,
+                'book_slug' => $this->slug,
+                'format' => $format,
+            ]);
+
+            /** @var MediaExtended $file */
+            $file = $this->files[$format];
+            $reader = route('webreader.reader', [
+                'author' => $this->meta_author,
+                $this->entity => $this->slug,
+                'format' => $format,
+            ]);
+            $media = new DownloadFile(
+                $file->file_name,
+                $file->size_human,
+                $route,
+                $reader,
+                $file->extension,
+            );
+
             $list[$format] = $media;
         }
 

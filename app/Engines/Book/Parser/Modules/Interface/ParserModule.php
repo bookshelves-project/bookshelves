@@ -2,10 +2,10 @@
 
 namespace App\Engines\Book\Parser\Modules\Interface;
 
-use App\Engines\Book\ParserEngine;
 use App\Engines\Book\Parser\Models\BookEntity;
 use App\Engines\Book\Parser\Models\BookEntityCover;
 use App\Engines\Book\Parser\Models\BookEntityFile;
+use App\Engines\Book\ParserEngine;
 use Kiwilan\Steward\Utils\Console;
 
 abstract class ParserModule
@@ -52,14 +52,14 @@ abstract class ParserModule
 
     protected function __construct(
     ) {
-        $this->console = Console::make();
-        $this->cover = new BookEntityCover();
     }
 
     public static function create(ParserEngine $parser, string $className, bool $debug = false): ParserModule&ParserModuleInterface
     {
         /** @var ParserModule&ParserModuleInterface */
         $module = new $className();
+        $module->console = Console::make();
+        $module->cover = new BookEntityCover();
 
         $module->file = $parser->file();
         $module->debug = $debug;
@@ -186,9 +186,16 @@ abstract class ParserModule
         return $this->identifiers;
     }
 
-    public function setCover(): static
+    public function setCoverIsExists(bool $isExists = true): static
     {
-        $this->cover = new BookEntityCover();
+        $this->cover->setIsExists($isExists);
+
+        return $this;
+    }
+
+    public function setCoverIsFirst(bool $isFirst = true): static
+    {
+        $this->cover->setIsFirst($isFirst);
 
         return $this;
     }

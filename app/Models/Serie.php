@@ -47,6 +47,8 @@ class Serie extends Model implements HasMedia, Wikipediable
 
     protected $query_default_sort = 'slug_sort';
 
+    protected $query_default_sort_direction = 'asc';
+
     protected $query_allowed_sorts = ['id', 'title', 'authors', 'books_count', 'language', 'created_at', 'updated_at', 'language'];
 
     protected $query_limit = 32;

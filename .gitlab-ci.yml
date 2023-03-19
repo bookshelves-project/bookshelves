@@ -7,14 +7,14 @@ stages:
   - deploy
 
 variables:
-  NODE_VERSION: '16.15.0'
-  PHP_VERSION: '8.1'
+  NODE_VERSION: "18.12.1"
+  PHP_VERSION: "8.2"
 
 deploy-job:
   stage: deploy
   image: alpine:latest
   before_script:
-    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - "command -v ssh-agent >/dev/null || ( apk add --update openssh )"
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh

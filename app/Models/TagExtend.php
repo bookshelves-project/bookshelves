@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TagTypeEnum;
-use App\Http\Resources\Tag\TagCollectionResource;
+use App\Http\Resources\Tag\TagCollection;
 use App\Models\TagExtend as ModelsTagExtend;
 use App\Traits\HasFirstChar;
 use App\Traits\HasNegligible;
@@ -32,7 +32,7 @@ class TagExtend extends \Spatie\Tags\Tag
 
     protected $query_full = true;
 
-    protected $query_resource = TagCollectionResource::class;
+    protected $query_resource = TagCollection::class;
 
     protected $table = 'tags';
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Serie;
+namespace App\Http\Resources\Book;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property \App\Models\Serie $resource
+ * @property \App\Models\Book $resource
  */
-class SerieResource extends JsonResource
+class BookBase extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,9 +18,11 @@ class SerieResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            ...SerieCollection::make($this->resource)->toArray($request),
-            'description' => $this->resource->description,
-            'link' => $this->resource->link,
+            'meta' => [
+                ...$this->resource->meta,
+                'entity' => $this->resource->entity,
+            ],
+            'title' => $this->resource->title,
         ];
     }
 }

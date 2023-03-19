@@ -16,9 +16,9 @@ trait HasFavorites
         $is_favorite = false;
 
         if (Auth::check()) {
-            $entity = $this->meta_class_namespaced::whereSlug($this->slug)->first();
+            $entity = $this->classNamespaced()::whereSlug($this->slug)->first();
 
-            $checkIfFavorite = $this->meta_class_namespaced::find($entity->id)->favorites;
+            $checkIfFavorite = $this->classNamespaced()::find($entity->id)->favorites;
 
             if (! count($checkIfFavorite) < 1) {
                 $is_favorite = true;

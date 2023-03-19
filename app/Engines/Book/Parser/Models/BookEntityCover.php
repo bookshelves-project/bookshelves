@@ -10,6 +10,10 @@ class BookEntityCover
 
     protected ?string $file = null;
 
+    protected bool $isExists = false;
+
+    protected bool $isFirst = false;
+
     public function __construct(
     ) {
     }
@@ -27,6 +31,16 @@ class BookEntityCover
     public function file(): ?string
     {
         return $this->file;
+    }
+
+    public function isExists(): bool
+    {
+        return $this->isExists;
+    }
+
+    public function isFirst(): bool
+    {
+        return $this->isFirst;
     }
 
     public function setName(?string $name): self
@@ -50,6 +64,20 @@ class BookEntityCover
         return $this;
     }
 
+    public function setIsExists(bool $isExists = true): self
+    {
+        $this->isExists = $isExists;
+
+        return $this;
+    }
+
+    public function setIsFirst(bool $isFirst = true): self
+    {
+        $this->isFirst = $isFirst;
+
+        return $this;
+    }
+
     public static function make(?string $name, ?string $extension, ?string $file): self
     {
         return new self($name, $extension, $file);
@@ -61,6 +89,8 @@ class BookEntityCover
             'name' => $this->name,
             'extension' => $this->extension,
             'file' => $this->file,
+            'isExists' => $this->isExists,
+            'isFirst' => $this->isFirst,
         ];
     }
 

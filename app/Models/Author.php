@@ -71,7 +71,7 @@ class Author extends Model implements HasMedia, Wikipediable
         'series',
     ];
 
-    public function wikipediaConvert(WikipediaItem $item, bool $default = true): Wikipediable
+    public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
     {
         $converter_engine = WikipediaItemConverter::make($item, $this)
             ->setWikipediaDescription()

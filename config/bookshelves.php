@@ -18,6 +18,9 @@ return [
         // false: two Author will be created
         'detect_homonyms' => env('BOOKSHELVES_AUTHOR_DETECT_HOMONYMS', true),
     ],
+    'parser' => [
+        'name' => env('BOOKSHELVES_PARSER_NAME', true),
+    ],
     'pdf' => [
         'cover' => env('BOOKSHELVES_PDF_COVER', true),
         'metadata' => env('BOOKSHELVES_PDF_METADATA', true),

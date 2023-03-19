@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources\Book;
 
+use App\Http\Resources\Author\AuthorBase;
+use App\Http\Resources\Language\LanguageBase;
+use App\Http\Resources\Serie\SerieBase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,13 +21,13 @@ class BookCollection extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'meta' => [
-                ...$this->resource->meta,
-                'entity' => $this->resource->entity,
-            ],
-            'title' => $this->resource->title,
-            'author' => $this->resource->meta_author,
-            'cover' => $this->resource->cover,
+            ...BookBase::make($this->resource)->toArray($request),
+            'media' => $this->resource->cover_media,
+            'type' => $this->resource->type->locale(),
+            'volume' => $this->resource->volume,
+            'language' => LanguageBase::make($this->resource->language),
+            'authors' => AuthorBase::collection($this->resource->authors),
+            'serie' => SerieBase::make($this->resource->serie),
         ];
     }
 }

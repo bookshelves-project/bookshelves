@@ -46,12 +46,19 @@ class ParserEngine
         $self->exception(! $module, "{$self->file->format()->value} format is not supported");
 
         if (empty($module?->title())) {
+            $parseName = config('bookshelves.parser.name');
+            $message = $parseName
+                ? 'Title is null, try to get title from filename'
+                : 'Title is null, skip';
+
             $self->console->newLine();
-            $self->console->print('Title is null, try to get title from filename', 'yellow');
+            $self->console->print($message, 'yellow');
             $self->console->print("{$entity->file()->path()}");
             $self->console->newLine();
 
-            $module = NameModule::make($self, $debug);
+            if ($parseName) {
+                $module = NameModule::make($self, $debug);
+            }
         }
 
         $entity = $module?->toBookEntity($entity);

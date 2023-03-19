@@ -54,20 +54,22 @@ class WikipediaItemConverter
     {
         $disk = MediaDiskEnum::cover;
 
-        if ($this->model->getMedia($disk->value)->isEmpty()) {
-            $cover = null;
+        if (! $this->model->getMedia($disk->value)->isEmpty()) {
+            return $this;
+        }
 
-            if ($this->model->link) {
-                $cover = WikipediaItem::fetchPicture($this->item->pictureUrl());
-            }
+        $cover = null;
 
-            if ($cover && 'author-unknown' !== $this->model->slug) {
-                $this->model->clearMediaCollection($disk->value);
-                MediaService::make($this->model, $this->model->slug, $disk)
-                    ->setMedia($cover)
-                    ->setColor()
-                ;
-            }
+        if ($this->model->link) {
+            $cover = WikipediaItem::fetchPicture($this->item->pictureUrl());
+        }
+
+        if ($cover && 'author-unknown' !== $this->model->slug) {
+            $this->model->clearMediaCollection($disk->value);
+            MediaService::make($this->model, $this->model->slug, $disk)
+                ->setMedia($cover)
+                ->setColor()
+            ;
         }
 
         return $this;

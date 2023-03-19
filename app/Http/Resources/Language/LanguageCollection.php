@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Serie;
+namespace App\Http\Resources\Language;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property \App\Models\Serie $resource
+ * @property \App\Models\Language $resource
  */
-class SerieResource extends JsonResource
+class LanguageCollection extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,9 +18,7 @@ class SerieResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            ...SerieCollection::make($this->resource)->toArray($request),
-            'description' => $this->resource->description,
-            'link' => $this->resource->link,
+            ...LanguageBase::make($this->resource)->toArray($request),
         ];
     }
 }
