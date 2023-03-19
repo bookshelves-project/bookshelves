@@ -19,10 +19,10 @@ class EntityResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // if ($request->relation) {
-        //     /** @var Author|Book|Serie */
-        //     $this->resource = $this->{$request->relation};
-        // }
+        if ($relation = $request->header('relation')) {
+            /** @var Author|Book|Serie */
+            $this->resource = $this->{$relation};
+        }
 
         return [
             'meta' => $this->resource->meta,

@@ -43,9 +43,10 @@ class EntityController extends Controller
     #[Get('selection', name: 'entity.selection')]
     public function selection(Request $request): JsonResource
     {
-        $request->relation = 'selectionable';
+        $request->headers->set('relation', 'selectionable');
 
         $selection = Selectionable::orderBy('updated_at')
+            ->with('selectionable')
             ->limit(10)
             ->get()
         ;

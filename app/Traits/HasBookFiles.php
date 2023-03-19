@@ -16,7 +16,7 @@ trait HasBookFiles
     /**
      * Manage files with spatie/laravel-medialibrary.
      *
-     * @return Collection<int, MediaExtended>
+     * @return Collection<int, ?MediaExtended>
      */
     public function getFilesAttribute(): Collection
     {
@@ -26,10 +26,9 @@ trait HasBookFiles
         $that = $this;
 
         foreach (BookFormatEnum::toValues() as $format) {
-            $media = $that->getMedia($format)
+            $files[$format] = $that->getMedia($format)
                 ->first()
             ;
-            $files[$format] = is_string($media) ? null : $media;
         }
 
         return MediaExtended::fromMedias($files);

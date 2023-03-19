@@ -26,7 +26,7 @@ class BookResource extends JsonResource
             'released_on' => $this->resource->released_on,
             'rights' => $this->resource->rights,
             'page_count' => $this->resource->page_count,
-            'maturity_rating' => $this->resource->maturity_rating,
+            'is_maturity_rating' => $this->resource->is_maturity_rating,
             'isbn' => $this->resource->isbn,
             'identifiers' => IdentifierResource::make($this->resource),
 

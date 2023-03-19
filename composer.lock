@@ -2579,12 +2579,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "b51cc549402dcc8cc20ab0260fbab295794f2ef0"
+                "reference": "984bd9126e6a447b8febea42c6a4d56f279c913c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/b51cc549402dcc8cc20ab0260fbab295794f2ef0",
-                "reference": "b51cc549402dcc8cc20ab0260fbab295794f2ef0",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/984bd9126e6a447b8febea42c6a4d56f279c913c",
+                "reference": "984bd9126e6a447b8febea42c6a4d56f279c913c",
                 "shasum": ""
             },
             "require": {
@@ -2659,7 +2659,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2023-03-19T07:41:21+00:00"
+            "time": "2023-03-19T12:30:48+00:00"
         },
         {
             "name": "laravel/framework",
@@ -4702,16 +4702,16 @@
         },
         {
             "name": "opcodesio/log-viewer",
-            "version": "v2.3.1",
+            "version": "v2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opcodesio/log-viewer.git",
-                "reference": "8b996c75e532a46fe76bcd8bf32f517c4477a3ea"
+                "reference": "938c3142339562d09293469f57053b31c54e92db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/8b996c75e532a46fe76bcd8bf32f517c4477a3ea",
-                "reference": "8b996c75e532a46fe76bcd8bf32f517c4477a3ea",
+                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/938c3142339562d09293469f57053b31c54e92db",
+                "reference": "938c3142339562d09293469f57053b31c54e92db",
                 "shasum": ""
             },
             "require": {
@@ -4774,9 +4774,9 @@
             ],
             "support": {
                 "issues": "https://github.com/opcodesio/log-viewer/issues",
-                "source": "https://github.com/opcodesio/log-viewer/tree/v2.3.1"
+                "source": "https://github.com/opcodesio/log-viewer/tree/v2.3.2"
             },
-            "time": "2023-03-07T06:45:54+00:00"
+            "time": "2023-03-19T11:03:34+00:00"
         },
         {
             "name": "php-http/client-common",

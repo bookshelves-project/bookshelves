@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use Artisan;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Kiwilan\Steward\Commands\CommandSteward;
 
 class StartupCommand extends CommandSteward

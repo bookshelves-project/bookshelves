@@ -3,8 +3,8 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Models\User;
-use Artisan;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Kiwilan\Steward\Commands\CommandSteward;
 

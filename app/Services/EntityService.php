@@ -23,7 +23,7 @@ class EntityService
     /**
      * Get Book or Serie related to a Book from Tag[].
      *
-     * @return Collection<int, Book|Serie>
+     * @return Collection<int, Book>
      */
     public static function filterRelated(Book $book): Collection
     {
@@ -63,7 +63,7 @@ class EntityService
             }
         }
         // remove all books of series
-        $relatedBooks = $relatedBooks->filter(fn ($book) => null === $book->serie);
+        $relatedBooks = $relatedBooks->filter(fn (Book $book) => null === $book->serie);
 
         // unique on series
         $seriesList = $seriesList->unique();

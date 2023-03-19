@@ -2,9 +2,12 @@
 
 namespace App\Traits;
 
+use App\Models\Author;
+use App\Models\Book;
+use App\Models\Serie;
 use App\Models\User;
-use Auth;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Manage favorites with `MorphToMany` `favoritables`.
@@ -15,10 +18,13 @@ trait HasFavorites
     {
         $is_favorite = false;
 
-        if (Auth::check()) {
-            $entity = $this->classNamespaced()::whereSlug($this->slug)->first();
+        /** @var Book|Author|Serie */
+        $that = $this;
 
-            $checkIfFavorite = $this->classNamespaced()::find($entity->id)->favorites;
+        if (Auth::check()) {
+            $entity = $that->meta_class_namespaced::whereSlug($this->slug)->first();
+
+            $checkIfFavorite = $that->meta_class_namespaced::find($entity->id)->favorites;
 
             if (! count($checkIfFavorite) < 1) {
                 $is_favorite = true;

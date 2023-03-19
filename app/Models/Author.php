@@ -27,6 +27,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 /**
  * @property null|int $books_count
  * @property null|int $series_count
+ * @property \App\Enums\BookTypeEnum|null $type
  */
 class Author extends Model implements HasMedia, Wikipediable
 {

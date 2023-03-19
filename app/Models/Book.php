@@ -33,6 +33,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 /**
  * @property null|int $reviews_count
+ * @property \App\Enums\BookTypeEnum|null $type
  */
 class Book extends Model implements HasMedia, GoogleBookable
 {

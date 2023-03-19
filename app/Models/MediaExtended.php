@@ -11,7 +11,7 @@ class MediaExtended extends BaseMedia
 {
     /**
      * @param  Collection<int, ?BaseMedia>  $medias
-     * @return Collection<int, MediaExtended>
+     * @return Collection<int, ?MediaExtended>
      */
     public static function fromMedias(Collection|array $medias): Collection
     {
