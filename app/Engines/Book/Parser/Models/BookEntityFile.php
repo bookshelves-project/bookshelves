@@ -2,7 +2,7 @@
 
 namespace App\Engines\Book\Parser\Models;
 
-use App\Engines\Book\Parser\Parsers\BookFile;
+use App\Engines\Book\Parser\Utils\BookFileReader;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 
@@ -72,7 +72,7 @@ class BookEntityFile
         return "{$this->name}.{$this->extension}";
     }
 
-    public static function make(BookFile $file): self
+    public static function make(BookFileReader $file): self
     {
         $filename = pathinfo($file->path(), PATHINFO_BASENAME);
         $name = pathinfo($file->path(), PATHINFO_FILENAME);

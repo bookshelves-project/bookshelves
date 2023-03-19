@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Engines\Book\Parser\Parsers;
+namespace App\Engines\Book\Parser\Utils;
 
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use Kiwilan\Steward\Services\DirectoryParserService;
 
-class BookFilesParser
+class BookFilesReader
 {
     /** @var string[] */
     protected mixed $files = [];
@@ -85,12 +85,12 @@ class BookFilesParser
             $type = is_string($type) ? BookTypeEnum::from($type) : $type;
 
             $this->i++;
-            $this->items["{$this->i}"] = BookFile::make($format, $type, $path);
+            $this->items["{$this->i}"] = BookFileReader::make($format, $type, $path);
         }
     }
 }
 
-class BookFile
+class BookFileReader
 {
     protected function __construct(
         protected ?BookFormatEnum $format,

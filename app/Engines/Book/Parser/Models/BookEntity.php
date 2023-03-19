@@ -2,7 +2,7 @@
 
 namespace App\Engines\Book\Parser\Models;
 
-use App\Engines\Book\Parser\Parsers\BookFile;
+use App\Engines\Book\Parser\Utils\BookFileReader;
 use App\Enums\BookFormatEnum;
 use DateTime;
 use DateTimeZone;
@@ -38,7 +38,7 @@ class BookEntity
     ) {
     }
 
-    public static function make(BookFile $file): ?self
+    public static function make(BookFileReader $file): ?self
     {
         $self = new self();
         $self->setFile($file);
@@ -245,7 +245,7 @@ class BookEntity
         return $this;
     }
 
-    public function setFile(BookFile $file): self
+    public function setFile(BookFileReader $file): self
     {
         $this->file = BookEntityFile::make($file);
 

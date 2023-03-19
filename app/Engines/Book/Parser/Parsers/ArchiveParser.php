@@ -5,6 +5,7 @@ namespace App\Engines\Book\Parser\Parsers;
 use App\Engines\Book\Parser\Modules\Extractor\Extractor;
 use App\Engines\Book\Parser\Modules\Interface\ParserModule;
 use App\Engines\Book\Parser\Modules\Interface\XmlInterface;
+use App\Engines\Book\Parser\Utils\XmlReader;
 use App\Engines\Book\ParserEngine;
 use Closure;
 use File;
@@ -280,7 +281,7 @@ class ArchiveParser
             ParserEngine::printFile($this->indexContent, "{$this->module->file()->name()}.{$this->indexExtension}", true);
         }
 
-        return XmlParser::make($this->indexContent);
+        return XmlReader::make($this->indexContent);
     }
 }
 

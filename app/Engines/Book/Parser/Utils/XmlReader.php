@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Engines\Book\Parser\Parsers;
+namespace App\Engines\Book\Parser\Utils;
 
 use DOMDocument;
 use Kiwilan\Steward\Utils\Console;
 
 /**
- * Parse XML string to array, have to implements `XmlInterface`.
+ * XML reader string to array.
  */
-class XmlParser
+class XmlReader
 {
     /** @var array<string, mixed> */
     protected array $xmlArray = [];

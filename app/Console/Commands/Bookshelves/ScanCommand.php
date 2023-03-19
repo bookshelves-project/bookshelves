@@ -4,8 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\Book\ConverterEngine;
 use App\Engines\Book\Parser\Parsers\BookFile;
-use App\Engines\Book\Parser\Parsers\BookFilesParser;
-use App\Engines\Book\Parser\Parsers\FilesTypeParser;
+use App\Engines\Book\Parser\Utils\BookFilesReader;
 use App\Engines\Book\ParserEngine;
 use App\Models\Book;
 use Illuminate\Console\Command;
@@ -50,7 +49,7 @@ class ScanCommand extends CommandSteward
         $this->verbose = $this->option('verbose') ?? false;
         $this->parse = $this->option('parse') ?? false;
 
-        $files = BookFilesParser::make();
+        $files = BookFilesReader::make();
 
         $list = [];
 
@@ -76,7 +75,7 @@ class ScanCommand extends CommandSteward
     {
         $books = Book::all()->map(fn (Book $book) => $book->physical_path)->toArray();
 
-        /** @var FilesTypeParser[] */
+        /** @var BookFilesReader[] */
         $list = [];
 
         foreach ($files as $key => $file) {
@@ -93,13 +92,13 @@ class ScanCommand extends CommandSteward
     }
 
     /**
-     * @param  FilesTypeParser[]  $files
+     * @param  BookFilesReader[]  $files
      * @return ParserEngine[]
      */
     private function parser(array $files)
     {
         /** @var ParserEngine[] */
-        $new_files = [];
+        $newFiles = [];
         $bar = $this->output->createProgressBar(count($files));
 
         if (! $this->verbose) {
@@ -107,12 +106,12 @@ class ScanCommand extends CommandSteward
         }
 
         foreach ($files as $key => $file) {
-            $parser_engine = ParserEngine::make($file);
-            $converter_engine = new ConverterEngine($parser_engine);
-            $is_exist = $converter_engine->retrieveBook();
+            $parser = ParserEngine::make($file);
+            $converter = new ConverterEngine($parser);
+            $isExist = $converter->retrieveBook();
 
-            if (! $is_exist) {
-                $new_files[] = $parser_engine;
+            if (! $isExist) {
+                $newFiles[] = $parser;
             }
 
             if (! $this->verbose) {
@@ -127,14 +126,14 @@ class ScanCommand extends CommandSteward
             $this->newLine();
         }
 
-        if (count($new_files) > 0) {
+        if (count($newFiles) > 0) {
             $this->newLine();
             $this->info('New files detected');
             $this->newLine();
 
-            foreach ($new_files as $parser_engine) {
-                if ($parser_engine instanceof ParserEngine) {
-                    $this->info("- {$parser_engine->title()} from {$parser_engine->fileName()}");
+            foreach ($newFiles as $parser) {
+                if ($parser instanceof ParserEngine) {
+                    $this->info("- {$parser->title()} from {$parser->fileName()}");
                 }
             }
         }
@@ -142,15 +141,15 @@ class ScanCommand extends CommandSteward
         $this->newLine();
         $this->warn(count($files).' files found');
 
-        if (count($new_files) > 0) {
-            $this->warn(count($new_files).' new files found, to add it to collection, you can use `bookshelves:generate`');
+        if (count($newFiles) > 0) {
+            $this->warn(count($newFiles).' new files found, to add it to collection, you can use `bookshelves:generate`');
         }
 
-        if (0 === count($new_files) && count($files) !== Book::count()) {
+        if (0 === count($newFiles) && count($files) !== Book::count()) {
             $this->warn('Some duplicates detected!');
         }
         $this->newLine();
 
-        return $new_files;
+        return $newFiles;
     }
 }

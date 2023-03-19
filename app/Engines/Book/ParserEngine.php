@@ -8,7 +8,7 @@ use App\Engines\Book\Parser\Modules\CbaModule;
 use App\Engines\Book\Parser\Modules\EpubModule;
 use App\Engines\Book\Parser\Modules\NameModule;
 use App\Engines\Book\Parser\Modules\PdfModule;
-use App\Engines\Book\Parser\Parsers\BookFile;
+use App\Engines\Book\Parser\Utils\BookFileReader;
 use App\Enums\BookFormatEnum;
 use Illuminate\Support\Facades\Storage;
 use Kiwilan\Steward\Utils\Console;
@@ -28,7 +28,7 @@ class ParserEngine
     /**
      * Transform OPF file to ParserEngine.
      */
-    public static function make(BookFile $file, bool $debug = false): ?BookEntity
+    public static function make(BookFileReader $file, bool $debug = false): ?BookEntity
     {
         $self = new ParserEngine();
         $entity = BookEntity::make($file);

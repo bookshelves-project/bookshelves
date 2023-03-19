@@ -4,8 +4,8 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\Book\Converter\EntityConverter;
 use App\Engines\Book\Converter\Modules\CoverConverter;
-use App\Engines\Book\Parser\Parsers\BookFile;
-use App\Engines\Book\Parser\Parsers\BookFilesParser;
+use App\Engines\Book\Parser\Utils\BookFileReader;
+use App\Engines\Book\Parser\Utils\BookFilesReader;
 use App\Engines\BookEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
@@ -135,7 +135,7 @@ class MakeCommand extends CommandSteward
         $this->askOnProduction();
 
         Artisan::call('clear:all', [], $this->getOutput());
-        $parser = BookFilesParser::make(limit: $this->limit);
+        $parser = BookFilesReader::make(limit: $this->limit);
         $this->files = $parser->items();
 
         if ($this->fresh) {
@@ -167,7 +167,7 @@ class MakeCommand extends CommandSteward
         }
     }
 
-    private function convert(BookFile $file)
+    private function convert(BookFileReader $file)
     {
         if ($this->fresh) {
             BookEngine::make($file, $this->debug, $this->default);
