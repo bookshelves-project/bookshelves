@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Page\PageCollectionResource;
+use App\Http\Resources\Page\PageCollection;
 use App\Http\Resources\Page\PageResource;
 use App\Models\Page;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -16,7 +16,7 @@ class PageController extends Controller
     {
         $pages = Page::all();
 
-        return PageCollectionResource::collection($pages);
+        return PageCollection::collection($pages);
     }
 
     #[Get('/{page_slug}', name: 'pages.show')]

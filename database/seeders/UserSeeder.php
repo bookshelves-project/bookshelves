@@ -9,6 +9,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use Kiwilan\Steward\Enums\Api\SeedsApiCategoryEnum;
+use Kiwilan\Steward\Services\FactoryService;
 use Kiwilan\Steward\Services\MediaService;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Role;
@@ -34,8 +36,8 @@ class UserSeeder extends Seeder
 
         // $users = User::whereRelation('roles', 'name', '!==', UserRole::admin)->pluck('id')->toArray();
         // User::destroy($users);
-        $media = Media::where('collection_name', 'avatar')->pluck('id')->toArray();
-        Media::destroy($media);
+        // $media = Media::where('collection_name', 'avatar')->pluck('id')->toArray();
+        // Media::destroy($media);
 
         // if (! Role::exists()) {
         //     Artisan::call('db:seed', ['--class' => 'RoleSeeder', '--force' => true]);
@@ -43,31 +45,38 @@ class UserSeeder extends Seeder
 
         /** @var Collection<int, User> */
         $users = User::factory()->count(20)->create();
+        $factory = FactoryService::make();
+        $factory->mediaDownloader()
+            ->config(
+                category: SeedsApiCategoryEnum::people,
+            )
+            ->associate(User::class, 'avatar')
+        ;
 
-        $output = new ConsoleOutput();
-        $progress = new ProgressBar($output, $users->count());
-        $progress->start();
+        // $output = new ConsoleOutput();
+        // $progress = new ProgressBar($output, $users->count());
+        // $progress->start();
 
-        $users->each(function (User $user) use ($progress, $faker) {
-            // $user->roles()->attach(Role::whereName(UserRole::user())->first());
+        // $users->each(function (User $user) use ($progress, $faker) {
+        // $user->roles()->attach(Role::whereName(UserRole::user())->first());
 
-            if ($faker->boolean(75)) {
-                MediaService::make($user, $user->username, MediaDiskEnum::user, 'avatar')
-                    ->setMedia(DatabaseSeeder::generateAvatar())
-                    ->setColor()
-                ;
-            }
+        // if ($faker->boolean(75)) {
+            //     MediaService::make($user, $user->username, MediaDiskEnum::user, 'avatar')
+            //         ->setMedia(DatabaseSeeder::generateAvatar())
+            //         ->setColor()
+            //     ;
+        // }
 
-            if ($faker->boolean()) {
-                MediaService::make($user, "{$user->username}-banner", MediaDiskEnum::user, 'banner')
-                    ->setMedia(DatabaseSeeder::generateBanner())
-                    ->setColor()
-                ;
-            }
+        // if ($faker->boolean()) {
+            //     MediaService::make($user, "{$user->username}-banner", MediaDiskEnum::user, 'banner')
+            //         ->setMedia(DatabaseSeeder::generateBanner())
+            //         ->setColor()
+            //     ;
+        // }
 
-            $user->save();
-            $progress->advance();
-        });
-        $progress->finish();
+        //     $user->save();
+        //     $progress->advance();
+        // });
+        // $progress->finish();
     }
 }

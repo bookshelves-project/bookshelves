@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             EmptySeeder::class,
             // FavoritableSeeder::class,
             // ReviewSeeder::class,
-            // CmsSeeder::class,
+            CmsSeeder::class,
             PostSeeder::class,
             PageSeeder::class,
         ]);

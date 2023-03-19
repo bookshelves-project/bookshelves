@@ -37,6 +37,7 @@ class CmsSeeder extends Seeder
             'cms_logos',
             'cms_features',
         ];
+
         foreach ($collections as $collection) {
             Media::where('collection_name', $collection)->delete();
         }
@@ -117,6 +118,7 @@ class CmsSeeder extends Seeder
     private function setHomePageStatistics()
     {
         $homePage = HomePage::first();
+
         foreach ($this->getJson('HomePageStatistic') as $raw) {
             $model = HomePageStatistic::create($raw);
             $model->homePage()->associate($homePage);
@@ -127,6 +129,7 @@ class CmsSeeder extends Seeder
     private function setHomePageLogos()
     {
         $homePage = HomePage::first();
+
         foreach ($this->getJson('HomePageLogo') as $raw) {
             $model = HomePageLogo::create($raw);
             $model->homePage()->associate($homePage);
@@ -143,32 +146,34 @@ class CmsSeeder extends Seeder
     private function setHomePageFeatures()
     {
         $homePage = HomePage::first();
+
         foreach ($this->getJson('HomePageFeature') as $raw) {
             $model = HomePageFeature::create($raw);
             $model->homePage()->associate($homePage);
             $model->save();
 
-            $logo = SvgService::setColor(database_path("seeders/media/cms/home-page/features/{$raw['slug']}.svg"), $raw['slug'], '#ffffff');
-            MediaService::make($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
-                ->setMedia($logo)
-                ->setColor()
-            ;
+            // $logo = SvgService::setColor(database_path("seeders/media/cms/home-page/features/{$raw['slug']}.svg"), $raw['slug'], '#ffffff');
+            // MediaService::make($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_features', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
+            //     ->setMedia($logo)
+            //     ->setColor()
+            // ;
         }
     }
 
     private function setHomePageHighlight()
     {
         $homePage = HomePage::first();
+
         foreach ($this->getJson('HomePageHighlight') as $raw) {
             $model = HomePageHighlight::create($raw);
             $model->homePage()->associate($homePage);
             $model->save();
 
-            $icon = SvgService::setColor(database_path("seeders/media/cms/home-page/highlight/icon-{$raw['slug']}.svg"), 'icon-'.$raw['slug'], '#564fcc');
-            MediaService::make($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_highlights_icons', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
-                ->setMedia($icon)
-                ->setColor()
-            ;
+            // $icon = SvgService::setColor(database_path("seeders/media/cms/home-page/highlight/icon-{$raw['slug']}.svg"), 'icon-'.$raw['slug'], '#564fcc');
+            // MediaService::make($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_highlights_icons', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)
+            //     ->setMedia($icon)
+            //     ->setColor()
+            // ;
 
             $picture = File::get(database_path("seeders/media/cms/home-page/highlight/{$raw['slug']}.svg"));
             MediaService::make($model, Str::slug($raw['slug']), self::DISK, collection: 'cms_highlights', extension: 'svg', method: SpatieMediaMethodEnum::addMediaFromString)

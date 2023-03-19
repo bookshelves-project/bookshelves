@@ -31,6 +31,7 @@ return new class extends Migration
             $table->boolean('display_favorites')->default(0);
             $table->boolean('display_reviews')->default(0);
             $table->boolean('display_gender')->default(0);
+            $table->string('avatar')->nullable();
 
             $table->timestamps();
         });

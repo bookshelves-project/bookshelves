@@ -41,6 +41,7 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         'about',
         'gender',
         'pronouns',
+        'avatar',
     ];
 
     /**
