@@ -238,16 +238,9 @@ class BookEntity
         return $this;
     }
 
-    public function makeCover(?BookEntityCover $cover): self
+    public function setCover(?BookEntityCover $cover): self
     {
         $this->cover = $cover;
-
-        return $this;
-    }
-
-    public function setCover(?string $name, ?string $extension, ?string $file): self
-    {
-        $this->cover = BookEntityCover::make($name, $extension, $file);
 
         return $this;
     }
@@ -271,8 +264,12 @@ class BookEntity
      *
      * @param  BookEntityAuthor[]  $authors
      */
-    public function setAuthors(array $authors): self
+    public function setAuthors(?array $authors): self
     {
+        if (empty($authors)) {
+            return $this;
+        }
+
         $items = [];
 
         foreach ($authors as $author) {
@@ -308,10 +305,10 @@ class BookEntity
      *
      * @param  BookEntityIdentifier[]  $identifiers
      */
-    public function setIdentifiers(array $identifiers): self
+    public function setIdentifiers(?array $identifiers): self
     {
         if (empty($identifiers)) {
-            $identifiers = null;
+            return $this;
         }
 
         $this->identifiers = $identifiers;
@@ -324,7 +321,7 @@ class BookEntity
      *
      * @param  string[]  $tags
      */
-    public function setTags(array $tags): self
+    public function setTags(?array $tags): self
     {
         $this->tags = $tags;
 

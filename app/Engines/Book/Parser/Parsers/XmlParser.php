@@ -25,18 +25,18 @@ class XmlParser
      *
      * @return array<string, mixed>
      */
-    public static function make(string $xmlString): ?array
+    public static function make(string $xmlString): array
     {
         $self = new self($xmlString);
 
         try {
-            return $self->xmlToArray();
+            return $self->parse();
         } catch (\Throwable $th) {
             $self->console->print(__METHOD__, 'red', $th);
             $self->console->newLine();
         }
 
-        return null;
+        return [];
     }
 
     /**
@@ -49,7 +49,7 @@ class XmlParser
      *
      * @see http://gaarf.info/2009/08/13/xml-string-to-php-array/
      */
-    protected function xmlToArray()
+    protected function parse()
     {
         $doc = new DOMDocument();
         $doc->loadXML($this->xmlString);

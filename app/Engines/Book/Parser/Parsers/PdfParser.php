@@ -3,14 +3,18 @@
 namespace App\Engines\Book\Parser\Parsers;
 
 use App\Engines\Book\Parser\Modules\Interface\ParserModule;
-use App\Engines\Book\Parser\Modules\Interface\ParserModuleInterface;
+use Closure;
+use Illuminate\Support\Facades\File;
+use Imagick;
+use Kiwilan\Steward\Utils\Console;
+use Smalot\PdfParser\Parser;
 
 class PdfParser
 {
-    protected array $data = [];
-
     protected function __construct(
-        protected ParserModule&ParserModuleInterface $module,
+        protected ParserModule $module,
+        protected string $path,
+        protected ?string $cover = null,
     ) {
     }
 
@@ -20,15 +24,53 @@ class PdfParser
      * Example: `La_Longue_Guerre.Terry_Pratchett&Stephen_Baxter.fr.La_Longue_Terre.2.Pocket.2017-02-09.9782266266284`
      * like `Original_Title.Author_Name&Other_Author_Name.Language.Serie_Title.Volume.Publisher.Date.Identifier`
      */
-    public static function make(ParserModule&ParserModuleInterface $module): ?self
+    public static function make(ParserModule $module): self
     {
-        return new self($module);
+        return new self($module, $module->file()->path());
     }
 
-    public function execute(): ParserModule
+    public function extractCover(): self
     {
-        $this->module->parse($this->data);
+        if (! extension_loaded('Imagick')) {
+            $console = Console::make();
+            $console->print(".pdf file: Imagick extension: is not installed (can't get cover)", 'red');
 
-        return $this->module;
+            return null;
+        }
+
+        $format = 'jpg';
+
+        $imagick = new Imagick($this->path);
+        $imagick->setFormat($format);
+
+        $name = $this->module->file()->name();
+        $path = public_path("storage/cache/{$name}.jpg");
+        $imagick->writeImage($path);
+
+        $this->cover = base64_encode(File::get($path));
+
+        $imagick->clear();
+        $imagick->destroy();
+
+        return $this;
+    }
+
+    public function cover(): ?string
+    {
+        return $this->cover;
+    }
+
+    /**
+     * @param Closure(array $metadata): void  $closure
+     */
+    public function parse(Closure $closure): self
+    {
+        $pdf = new Parser();
+        $doc = $pdf->parseFile($this->path);
+        $metadata = $doc->getDetails();
+
+        $closure($metadata);
+
+        return $this;
     }
 }

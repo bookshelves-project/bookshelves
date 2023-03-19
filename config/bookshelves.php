@@ -19,11 +19,10 @@ return [
         'detect_homonyms' => env('BOOKSHELVES_AUTHOR_DETECT_HOMONYMS', true),
     ],
     'parser' => [
-        'name' => env('BOOKSHELVES_PARSER_NAME', true),
+        'name' => env('BOOKSHELVES_PARSER_NAME', false),
     ],
     'pdf' => [
         'cover' => env('BOOKSHELVES_PDF_COVER', true),
-        'metadata' => env('BOOKSHELVES_PDF_METADATA', true),
     ],
     /*
      * Langs

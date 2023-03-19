@@ -45,7 +45,7 @@ class ParserEngine
 
         $self->exception(! $module, "{$self->file->format()->value} format is not supported");
 
-        if (empty($module?->title())) {
+        if (empty($module?->extractor()?->title())) {
             $parseName = config('bookshelves.parser.name');
             $message = $parseName
                 ? 'Title is null, try to get title from filename'
@@ -64,8 +64,8 @@ class ParserEngine
         $entity = $module?->toBookEntity($entity);
 
         if ($debug) {
-            $self->console->print("{$entity->title()}");
-            ParserEngine::printFile($entity->toArray(), "{$entity->file()->name()}-parser.json");
+            $self->console->print("{$entity?->title()}");
+            ParserEngine::printFile($entity?->toArray(), "{$entity?->file()->name()}-parser.json");
         }
 
         return $entity;
