@@ -11,7 +11,7 @@ class BookFilesReader
     /** @var string[] */
     protected mixed $files = [];
 
-    /** @var BookFile[] */
+    /** @var BookFileReader[] */
     protected array $items = [];
 
     protected function __construct(
@@ -54,16 +54,13 @@ class BookFilesReader
     }
 
     /**
-     * @return BookFile[]
+     * @return BookFileReader[]
      */
     public function items(): array
     {
         return $this->items;
     }
 
-    /**
-     * @param  string[]  $files
-     */
     private function parseFile(string $type): void
     {
         foreach ($this->files as $key => $path) {

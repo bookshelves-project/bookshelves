@@ -62,7 +62,7 @@ class EntityConverter
             $this->local = $data[$this->model->slug_sort];
         }
 
-        if (null !== $this->local) {
+        if (! $this->local) {
             return $this;
         }
 

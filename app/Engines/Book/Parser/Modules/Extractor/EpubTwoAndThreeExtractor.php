@@ -41,7 +41,8 @@ class EpubTwoAndThreeExtractor extends Extractor
 
         $meta = $this->setCalibreMeta('meta');
         $this->serie = $meta['serie'];
-        $this->volume = $meta['volume'];
+        $volume = $meta['volume'];
+        $this->volume = $volume ? (int) $volume : null;
         $this->cover = $this->setCover();
 
         return $this;

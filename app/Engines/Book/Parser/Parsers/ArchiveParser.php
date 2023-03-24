@@ -19,7 +19,7 @@ use ZipArchive;
  */
 class ArchiveParser extends BookParser
 {
-    /** @var array<string, mixed> */
+    /** @var array<string|int, mixed> */
     protected array $archiveFiles = [];
 
     protected function __construct(
@@ -196,8 +196,6 @@ class ArchiveParser extends BookParser
 
             return $content;
         }
-
-        throw new \Exception('Unknown archive type');
     }
 
     private function checkImageFormat(string $ext): bool
@@ -229,7 +227,7 @@ class ArchiveParser extends BookParser
         $first = null;
 
         if ($extractor->cover()->isFirst()) {
-            $images = array_filter($this->archiveFiles, function (string $file) use ($extractor) {
+            $images = array_filter($this->archiveFiles, function (string $file) {
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
 
                 if (in_array($ext, self::IMAGE_FORMATS, true)) {

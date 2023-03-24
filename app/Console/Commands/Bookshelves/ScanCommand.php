@@ -3,7 +3,8 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\Book\ConverterEngine;
-use App\Engines\Book\Parser\Parsers\BookFile;
+use App\Engines\Book\Parser\Models\BookEntity;
+use App\Engines\Book\Parser\Utils\BookFileReader;
 use App\Engines\Book\Parser\Utils\BookFilesReader;
 use App\Engines\Book\ParserEngine;
 use App\Models\Book;
@@ -68,8 +69,8 @@ class ScanCommand extends CommandSteward
     }
 
     /**
-     * @param  BookFile[]  $files
-     * @return BookFile[]
+     * @param  BookFileReader[]  $files
+     * @return BookFileReader[]
      */
     private function basic(array $files)
     {
@@ -92,12 +93,12 @@ class ScanCommand extends CommandSteward
     }
 
     /**
-     * @param  BookFilesReader[]  $files
-     * @return ParserEngine[]
+     * @param  BookFileReader[]  $files
+     * @return BookEntity[]
      */
     private function parser(array $files)
     {
-        /** @var ParserEngine[] */
+        /** @var BookEntity[] */
         $newFiles = [];
         $bar = $this->output->createProgressBar(count($files));
 
@@ -106,18 +107,18 @@ class ScanCommand extends CommandSteward
         }
 
         foreach ($files as $key => $file) {
-            $parser = ParserEngine::make($file);
-            $converter = new ConverterEngine($parser);
+            $entity = ParserEngine::make($file);
+            $converter = ConverterEngine::make($entity);
             $isExist = $converter->retrieveBook();
 
             if (! $isExist) {
-                $newFiles[] = $parser;
+                $newFiles[] = $entity;
             }
 
             if (! $this->verbose) {
                 $bar->advance();
             } else {
-                $this->info($key.' '.pathinfo($file->path, PATHINFO_FILENAME));
+                $this->info($key.' '.pathinfo($file->path(), PATHINFO_FILENAME));
             }
         }
 
@@ -132,8 +133,8 @@ class ScanCommand extends CommandSteward
             $this->newLine();
 
             foreach ($newFiles as $parser) {
-                if ($parser instanceof ParserEngine) {
-                    $this->info("- {$parser->title()} from {$parser->fileName()}");
+                if ($parser instanceof BookEntity) {
+                    $this->info("- {$parser->title()} from {$parser->file()->name()}");
                 }
             }
         }

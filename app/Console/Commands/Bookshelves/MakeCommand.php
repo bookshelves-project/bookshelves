@@ -44,7 +44,7 @@ class MakeCommand extends CommandSteward
      */
     protected $description = 'Make Book model with all relationships, generate covers with different dimensions.';
 
-    /** @var BookFile[] */
+    /** @var BookFileReader[] */
     protected array $files = [];
 
     /** @var Book[] */

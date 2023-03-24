@@ -30,48 +30,48 @@ class SerieController extends Controller
         return SerieResource::make($serie);
     }
 
-    #[Get('/{author_slug}/{serie_slug}/books', name: 'series.show.books')]
-    public function books(Request $request, Author $author, Serie $serie)
-    {
-        $first = $request->boolean('first');
-        $next = $request->get('next');
+    // #[Get('/{author_slug}/{serie_slug}/books', name: 'series.show.books')]
+    // public function books(Request $request, Author $author, Serie $serie)
+    // {
+    //     $first = $request->boolean('first');
+    //     $next = $request->get('next');
 
-        if ($next) {
-            $books = $serie->books->filter(fn ($book) => $book->volume > intval($next));
+    //     if ($next) {
+    //         $books = $serie->books->filter(fn ($book) => $book->volume > intval($next));
 
-            if ($first) {
-                $nextBook = $books->first();
-                $nextBook?->load(['authors', 'media', 'language', 'serie']);
+    //         if ($first) {
+    //             $nextBook = $books->first();
+    //             $nextBook?->load(['authors', 'media', 'language', 'serie']);
 
-                if ($nextBook) {
-                    return EntityResource::make($nextBook);
-                }
-            }
+    //             if ($nextBook) {
+    //                 return EntityResource::make($nextBook);
+    //             }
+    //         }
 
-            if ($books->isNotEmpty()) {
-                return EntityResource::collection($books);
-            }
+    //         if ($books->isNotEmpty()) {
+    //             return EntityResource::collection($books);
+    //         }
 
-            // return abort(404);
-            return response()->json(
-                data: [
-                    'data' => [],
-                ],
-                status: 200,
-            );
-        }
+    //         // return abort(404);
+    //         return response()->json(
+    //             data: [
+    //                 'data' => [],
+    //             ],
+    //             status: 200,
+    //         );
+    //     }
 
-        $this->getLang($request);
+    //     $this->getLang($request);
 
-        $books = $serie->books()
-            ->with(['authors', 'media', 'language', 'serie'])
-            ->orderBy('volume')
-        ;
-        $limit = $this->getPaginationLimit($request);
-        $books = $this->getFull($request) ? $books->get() : $books->paginate($limit);
+    //     $books = $serie->books()
+    //         ->with(['authors', 'media', 'language', 'serie'])
+    //         ->orderBy('volume')
+    //     ;
+    //     $limit = $this->getPaginationLimit($request);
+    //     $books = $this->getFull($request) ? $books->get() : $books->paginate($limit);
 
-        dd($books);
+    //     dd($books);
 
-        return BookCollection::collection($books);
-    }
+    //     return BookCollection::collection($books);
+    // }
 }

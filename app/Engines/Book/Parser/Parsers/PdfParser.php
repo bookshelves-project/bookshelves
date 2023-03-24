@@ -37,7 +37,7 @@ class PdfParser extends BookParser
                 $console->print(".pdf file: Imagick extension: is not installed (can't get cover)", 'red');
                 $console->print('Check this guide https://gist.github.com/ewilan-riviere/3f4efd752905abe24fd1cd44412d9db9', 'red');
 
-                return null;
+                throw new \Exception('Imagick extension is not installed');
             }
 
             $format = 'jpg';
@@ -64,7 +64,7 @@ class PdfParser extends BookParser
     }
 
     /**
-     * @param Closure(array $metadata): void  $closure
+     * @param Closure(array $metadata): mixed  $closure
      */
     public function parse(Closure $closure): self
     {

@@ -129,13 +129,10 @@ class BookResource extends Resource
                         //     ->path('formats')
                         //     ->type(BookFormatEnum::epub->value)
                         //     ->label(''),
-                        Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::cbr->value)
-                            ->collection(BookFormatEnum::cbr->value)
+                        Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::cba->value)
+                            ->collection(BookFormatEnum::cba->value)
                             ->directory('formats')
-                            ->label('CBR'),
-                        Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::cbz->value)
-                            ->collection(BookFormatEnum::cbz->value)
-                            ->label('CBZ'),
+                            ->label('CBA'),
                         Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::pdf->value)
                             ->collection(BookFormatEnum::pdf->value)
                             ->label('PDF'),

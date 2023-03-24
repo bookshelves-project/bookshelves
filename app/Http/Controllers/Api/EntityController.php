@@ -46,7 +46,7 @@ class EntityController extends Controller
         $request->headers->set('relation', 'selectionable');
 
         $selection = Selectionable::orderBy('updated_at')
-            ->with('selectionable')
+            ->with(['selectionable'])
             ->limit(10)
             ->get()
         ;
@@ -82,21 +82,21 @@ class EntityController extends Controller
         );
     }
 
-    /**
-     * GET Entity Review[].
-     */
-    #[Get('reviews/{author_slug}/{book_slug}', name: 'entity.reviews')]
-    public function reviews(Request $request, string $entity, int $id)
-    {
-        $this->getLang($request);
+    // /**
+    //  * GET Entity Review[].
+    //  */
+    // #[Get('reviews/{author_slug}/{book_slug}', name: 'entity.reviews')]
+    // public function reviews(Request $request, string $entity, int $id)
+    // {
+    //     $this->getLang($request);
 
-        $reviews = Review::whereReviewableType($this->getEntity($entity))
-            ->whereReviewableId($id)
-            ->paginate($this->getPaginationLimit($request, 5))
-        ;
+    //     $reviews = Review::whereReviewableType($this->getEntity($entity))
+    //         ->whereReviewableId($id)
+    //         ->paginate($this->getPaginationLimit($request, 5))
+    //     ;
 
-        return ReviewResource::collection($reviews);
-    }
+    //     return ReviewResource::collection($reviews);
+    // }
 
     /**
      * GET Search.

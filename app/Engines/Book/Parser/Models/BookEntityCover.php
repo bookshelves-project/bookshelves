@@ -80,7 +80,13 @@ class BookEntityCover
 
     public static function make(?string $name, ?string $extension, ?string $file): self
     {
-        return new self($name, $extension, $file);
+        $self = new self();
+
+        $self->setName($name);
+        $self->setExtension($extension);
+        $self->setFile($file);
+
+        return $self;
     }
 
     public function toArray(): array

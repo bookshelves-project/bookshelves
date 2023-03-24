@@ -27,7 +27,7 @@ class NameParser extends BookParser
     }
 
     /**
-     * @param Closure(array $metadata): void  $closure
+     * @param Closure(array $metadata): mixed  $closure
      */
     public function parse(Closure $closure): ParserModule
     {

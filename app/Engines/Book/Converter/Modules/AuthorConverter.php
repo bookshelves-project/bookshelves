@@ -44,7 +44,7 @@ class AuthorConverter
             $currentAuthor = AuthorConverter::make($entityAuthor);
             $author = null;
 
-            if ($author && config('bookshelves.authors.detect_homonyms')) {
+            if ($currentAuthor && config('bookshelves.authors.detect_homonyms')) {
                 $lastname = Author::whereFirstname($currentAuthor->lastname)->first();
 
                 if ($lastname) {

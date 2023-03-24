@@ -15,27 +15,27 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('submissions')]
 class SubmissionController extends Controller
 {
-    /**
-     * GET Service.
-     */
-    #[Post('/create', name: 'api.submissions.create')]
-    public function create(SubmissionStoreRequest $request)
-    {
-        $success = false;
-        $submission = null;
+    // /**
+    //  * GET Service.
+    //  */
+    // #[Post('/create', name: 'api.submissions.create')]
+    // public function create(SubmissionStoreRequest $request)
+    // {
+    //     $success = false;
+    //     $submission = null;
 
-        if (! $request->boolean('honeypot')) {
-            $success = true;
+    //     if (! $request->boolean('honeypot')) {
+    //         $success = true;
 
-            $submission = new Submission();
-            $submission->fill($request->validated());
-            $submission->save();
-        }
+    //         $submission = new Submission();
+    //         $submission->fill($request->validated());
+    //         $submission->save();
+    //     }
 
-        return response()->json([
-            'success' => $success,
-            'message' => $success ? 'Votre message a été envoyé' : "Votre message n'a pas pu être envoyé",
-            'submission' => $submission,
-        ], $success ? 200 : 422);
-    }
+    //     return response()->json([
+    //         'success' => $success,
+    //         'message' => $success ? 'Votre message a été envoyé' : "Votre message n'a pas pu être envoyé",
+    //         'submission' => $submission,
+    //     ], $success ? 200 : 422);
+    // }
 }

@@ -36,7 +36,7 @@ class PdfModule extends ParserModule implements ParserModuleInterface
     public function parse(array $metadata): Extractor
     {
         if (empty($metadata)) {
-            return $this;
+            return $this->extractor;
         }
 
         $this->extractor = PdfExtractor::make($metadata);

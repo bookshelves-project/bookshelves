@@ -87,7 +87,7 @@ class BookConverter
     {
         $tags = TagConverter::toCollection($this->entity);
 
-        if ($tags) {
+        if ($tags->isNotEmpty()) {
             $this->book?->tags()->sync($tags->pluck('id'));
         }
 

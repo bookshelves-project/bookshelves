@@ -28,7 +28,8 @@ class ComicInfoExtractor extends Extractor
         $this->title = $this->extract('Title');
         $this->description = $this->extract('Summary');
         $this->serie = $this->extract('Series');
-        $this->volume = $this->extract('Number');
+        $volume = $this->extract('Number');
+        $this->volume = $volume ? (int) $volume : null;
         $this->publisher = $this->extract('Publisher');
         $this->language = $this->extract('LanguageISO');
         $this->authors = $this->setCreators('Writer');

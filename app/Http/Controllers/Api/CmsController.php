@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Page\PageCollectionResource;
+use App\Http\Resources\Page\PageCollection;
 use App\Http\Resources\Page\PageResource;
 use App\Models\Page;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class CmsController extends Controller
     {
         $pages = Page::all();
 
-        return PageCollectionResource::collection($pages);
+        return PageCollection::collection($pages);
     }
 
     /**

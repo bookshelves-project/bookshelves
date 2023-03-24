@@ -54,7 +54,7 @@ class IndexController extends Controller
 
         SEOTools::setTitle($title);
         SEOTools::setDescription(Str::limit($book->description, 150).'...');
-        SEOTools::addImages($book->cover_simple);
+        SEOTools::addImages([$book->cover_simple]);
 
         /** @var MediaExtended $file */
         $file = $book->files[$format->value];
@@ -90,10 +90,10 @@ class IndexController extends Controller
             return response()->download($pdf->getPath(), $pdf->file_name);
         }
 
-        if (BookFormatEnum::cbz === $format || BookFormatEnum::cbr === $format) {
+        if (BookFormatEnum::cba === $format) {
             return view('webreader::pages.comic', ['book' => $book]);
         }
 
-        return view('webreader::pages.not-ready', ['url' => $url]);
+        // return view('webreader::pages.not-ready', ['url' => $url]);
     }
 }

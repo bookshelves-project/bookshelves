@@ -136,7 +136,7 @@ class ApiCommand extends CommandSteward
         foreach ($service->items() as $id => $item) {
             $model = $className::find($id);
 
-            if ($model instanceof GoogleBookable && $item) {
+            if ($model instanceof GoogleBookable) {
                 $model->googleBookConvert($item);
             }
             $bar->advance();
@@ -192,7 +192,7 @@ class ApiCommand extends CommandSteward
         foreach ($service->items() as $id => $item) {
             $model = $className::find($id);
 
-            if ($model instanceof Wikipediable && $item) {
+            if ($model instanceof Wikipediable) {
                 $model->wikipediaConvert($item);
             }
             $bar->advance();

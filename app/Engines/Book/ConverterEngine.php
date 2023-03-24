@@ -41,7 +41,7 @@ class ConverterEngine
         return $self;
     }
 
-    private function retrieveBook(): ?Book
+    public function retrieveBook(): ?Book
     {
         $names = [];
 
@@ -53,10 +53,10 @@ class ConverterEngine
 
         $book = Book::whereSlug($this->entity->extra()->titleSlugLang());
 
-        if (! empty($authors_name)) {
+        if (! empty($names)) {
             $book = $book->whereHas(
                 'authors',
-                fn (Builder $query) => $query->whereIn('name', $authors_name)
+                fn (Builder $query) => $query->whereIn('name', $names)
             );
         }
 
