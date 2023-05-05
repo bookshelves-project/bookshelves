@@ -4,6 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\Book\Converter\EntityConverter;
 use App\Engines\Book\Converter\Modules\CoverConverter;
+use App\Engines\Book\ConverterEngine;
 use App\Engines\Book\Parser\Utils\BookFileReader;
 use App\Engines\Book\Parser\Utils\BookFilesReader;
 use App\Engines\Book\ParserEngine;
@@ -114,8 +115,8 @@ class MakeCommand extends Commandable
         $bar->finish();
         $this->newLine();
 
-        // $this->improveRelation(Author::class);
-        // $this->improveRelation(Serie::class);
+        $this->improveRelation(Author::class);
+        $this->improveRelation(Serie::class);
 
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
@@ -172,7 +173,9 @@ class MakeCommand extends Commandable
     {
         if ($this->fresh) {
             $ebook = Ebook::read($file->path());
-            ray($ebook->filename());
+            $this->debug($ebook);
+
+            ConverterEngine::make($ebook, $file, $this->default);
 
             return;
         }
@@ -180,6 +183,8 @@ class MakeCommand extends Commandable
         if (! in_array($file->path(), $this->books, true)) {
             $ebook = Ebook::read($file->path());
             $this->debug($ebook);
+
+            ConverterEngine::make($ebook, $file, $this->default);
         }
     }
 

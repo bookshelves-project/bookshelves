@@ -2,11 +2,11 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
-use App\Engines\Book\Parser\Models\BookEntity;
 use App\Enums\MediaDiskEnum;
 use App\Models\Book;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Kiwilan\Ebook\Ebook;
 use Kiwilan\Steward\Enums\SpatieMediaMethodEnum;
 use Kiwilan\Steward\Services\MediaService;
 use Kiwilan\Steward\Utils\Console;
@@ -19,7 +19,7 @@ class FileConverter
      * Generate new file with standard name.
      * Managed by spatie/laravel-medialibrary.
      */
-    public static function make(BookEntity $entity, Book $book): void
+    public static function make(Ebook $ebook, Book $book): void
     {
         // $extension = pathinfo($converter->parser_engine->file_path, PATHINFO_EXTENSION);
 
@@ -37,14 +37,14 @@ class FileConverter
         //         $console->newLine();
         //     }
         // }
-        $file = File::get($entity->file()->path());
+        $file = File::get($ebook->path());
 
         MediaService::make(
             model: $book,
             name: $fileName,
             disk: self::DISK,
-            collection: $entity->file()->format()->value,
-            extension: $entity->file()->extension(),
+            collection: $ebook->format(),
+            extension: $ebook->extension(),
             method: SpatieMediaMethodEnum::addMediaFromString
         )
             ->setMedia($file)

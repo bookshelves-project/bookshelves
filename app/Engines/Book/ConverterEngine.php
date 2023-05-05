@@ -4,9 +4,10 @@ namespace App\Engines\Book;
 
 use App\Engines\Book\Converter\BookConverter;
 use App\Engines\Book\Converter\Modules\AuthorConverter;
-use App\Engines\Book\Parser\Models\BookEntity;
+use App\Engines\Book\Parser\Utils\BookFileReader;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Builder;
+use Kiwilan\Ebook\Ebook;
 
 /**
  * Create a `Book` and relations.
@@ -14,7 +15,8 @@ use Illuminate\Database\Eloquent\Builder;
 class ConverterEngine
 {
     protected function __construct(
-        protected BookEntity $entity,
+        protected Ebook $ebook,
+        protected BookFileReader $file,
         protected ?Book $book = null,
         protected bool $isExist = false,
         protected bool $default = false
@@ -22,36 +24,32 @@ class ConverterEngine
     }
 
     /**
-     * Create a `Book::class` and relations from `BookEntity::class`.
-     * Rejected if `BookEntity::class` is `null`.
+     * Create a `Book::class` and relations from `Ebook::class`.
      */
-    public static function make(?BookEntity $entity, bool $default = false): ?ConverterEngine
+    public static function make(Ebook $ebook, BookFileReader $file, bool $default = false): ?ConverterEngine
     {
-        if (! $entity) {
-            return null;
-        }
-
-        $self = new self($entity);
+        $self = new self($ebook, $file);
         $self->default = $default;
         $self->book = $self->retrieveBook();
 
-        $bookConverter = BookConverter::make($self->entity, $self->book);
-        $self->book = $bookConverter->book();
+        $converter = BookConverter::make($self->ebook, $file->type(), $self->book);
+        $self->book = $converter->book();
 
         return $self;
     }
 
     public function retrieveBook(): ?Book
     {
+        $book = null;
         $names = [];
 
-        foreach ($this->entity->authors() as $author) {
+        foreach ($this->ebook->book()->authors() as $author) {
             $author = AuthorConverter::make($author);
             $names[] = "{$author->firstname()} {$author->lastname()}";
             $names[] = "{$author->lastname()} {$author->firstname()}";
         }
 
-        $book = Book::whereSlug($this->entity->extra()->titleSlugLang());
+        $book = Book::whereSlug($this->ebook->book()->metaTitle()->slug());
 
         if (! empty($names)) {
             $book = $book->whereHas(
@@ -60,9 +58,7 @@ class ConverterEngine
             );
         }
 
-        $book = $book->whereType($this->entity->file()->type())
-            ->first()
-        ;
+        $book = $book->whereType($this->ebook->extension())->first();
 
         if ($book) {
             $this->isExist = true;
@@ -71,9 +67,9 @@ class ConverterEngine
         return $book;
     }
 
-    public function entity(): BookEntity
+    public function ebook(): Ebook
     {
-        return $this->entity;
+        return $this->ebook;
     }
 
     public function book(): ?Book

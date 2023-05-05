@@ -2,9 +2,9 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
-use App\Engines\Book\Parser\Models\BookEntity;
 use App\Models\Publisher;
 use Illuminate\Support\Str;
+use Kiwilan\Ebook\BookEntity;
 
 class PublisherConverter
 {

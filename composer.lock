@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b1c77b6124eebc8cd89570f520954ca",
+    "content-hash": "adbc23bed14a76ec028208c0a700a2da",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -1141,16 +1141,16 @@
         },
         {
             "name": "filament/filament",
-            "version": "v2.17.35",
+            "version": "v2.17.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/app.git",
-                "reference": "c38ff453abf759111945bb8ddd97e518f75072f7"
+                "reference": "c62290398a1d6b03351dbab8158115efd936deaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/app/zipball/c38ff453abf759111945bb8ddd97e518f75072f7",
-                "reference": "c38ff453abf759111945bb8ddd97e518f75072f7",
+                "url": "https://api.github.com/repos/filamentphp/app/zipball/c62290398a1d6b03351dbab8158115efd936deaa",
+                "reference": "c62290398a1d6b03351dbab8158115efd936deaa",
                 "shasum": ""
             },
             "require": {
@@ -1200,11 +1200,11 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2023-05-04T23:08:15+00:00"
+            "time": "2023-05-05T08:37:23+00:00"
         },
         {
             "name": "filament/forms",
-            "version": "v2.17.35",
+            "version": "v2.17.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/forms.git",
@@ -1262,7 +1262,7 @@
         },
         {
             "name": "filament/notifications",
-            "version": "v2.17.35",
+            "version": "v2.17.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/notifications.git",
@@ -1315,7 +1315,7 @@
         },
         {
             "name": "filament/spatie-laravel-media-library-plugin",
-            "version": "v2.17.35",
+            "version": "v2.17.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-media-library-plugin.git",
@@ -1352,7 +1352,7 @@
         },
         {
             "name": "filament/spatie-laravel-settings-plugin",
-            "version": "v2.17.35",
+            "version": "v2.17.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-settings-plugin.git",
@@ -1399,7 +1399,7 @@
         },
         {
             "name": "filament/spatie-laravel-tags-plugin",
-            "version": "v2.17.35",
+            "version": "v2.17.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-tags-plugin.git",
@@ -1436,7 +1436,7 @@
         },
         {
             "name": "filament/spatie-laravel-translatable-plugin",
-            "version": "v2.17.35",
+            "version": "v2.17.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-translatable-plugin.git",
@@ -1482,7 +1482,7 @@
         },
         {
             "name": "filament/support",
-            "version": "v2.17.35",
+            "version": "v2.17.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/support.git",
@@ -1532,7 +1532,7 @@
         },
         {
             "name": "filament/tables",
-            "version": "v2.17.35",
+            "version": "v2.17.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/tables.git",
@@ -2351,16 +2351,16 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "0.3.0",
+            "version": "0.3.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "ce6595ca5a5808e62acfbf4f10d2b80705fc0b06"
+                "reference": "ac4cb599a44027a9bd8b8d6da454f00803937b21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/ce6595ca5a5808e62acfbf4f10d2b80705fc0b06",
-                "reference": "ce6595ca5a5808e62acfbf4f10d2b80705fc0b06",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/ac4cb599a44027a9bd8b8d6da454f00803937b21",
+                "reference": "ac4cb599a44027a9bd8b8d6da454f00803937b21",
                 "shasum": ""
             },
             "require": {
@@ -2416,7 +2416,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/0.3.0"
+                "source": "https://github.com/kiwilan/php-ebook/tree/0.3.31"
             },
             "funding": [
                 {
@@ -2424,7 +2424,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-05T07:40:55+00:00"
+            "time": "2023-05-05T11:14:00+00:00"
         },
         {
             "name": "kiwilan/steward-laravel",

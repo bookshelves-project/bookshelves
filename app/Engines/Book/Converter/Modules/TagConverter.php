@@ -2,10 +2,10 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
-use App\Engines\Book\Parser\Models\BookEntity;
 use App\Enums\TagTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Collection;
+use Kiwilan\Ebook\BookEntity;
 use Spatie\Tags\Tag;
 
 class TagConverter

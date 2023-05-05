@@ -2,13 +2,13 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
-use App\Engines\Book\Parser\Models\BookEntity;
-use App\Engines\Book\Parser\Models\BookEntityAuthor;
 use App\Enums\AuthorRoleEnum;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Kiwilan\Ebook\Book\BookCreator;
+use Kiwilan\Ebook\BookEntity;
 
 class AuthorConverter
 {
@@ -26,12 +26,13 @@ class AuthorConverter
      *
      * @return Collection<int, Author>
      */
-    public static function toCollection(BookEntity $entity): Collection
+    public static function toCollection(BookEntity $native): Collection
     {
+        $nativeAuthors = $native->authors();
         $authors = collect([]);
 
-        if (empty($entity->authors())) {
-            $author = AuthorConverter::make(new BookEntityAuthor(
+        if (empty($nativeAuthors)) {
+            $author = AuthorConverter::make(new BookCreator(
                 name: 'Anonymous Anonymous',
                 role: 'aut'
             ))->create();
@@ -40,7 +41,7 @@ class AuthorConverter
             return $authors;
         }
 
-        foreach ($entity->authors() as $entityAuthor) {
+        foreach ($nativeAuthors as $entityAuthor) {
             $currentAuthor = AuthorConverter::make($entityAuthor);
             $author = null;
 
@@ -64,9 +65,9 @@ class AuthorConverter
     }
 
     /**
-     * Convert BookEntityAuthor to AuthorConverter from config order.
+     * Convert BookCreator to AuthorConverter from config order.
      */
-    public static function make(BookEntityAuthor $author): ?self
+    public static function make(BookCreator $author): ?self
     {
         $lastname = null;
         $firstname = null;

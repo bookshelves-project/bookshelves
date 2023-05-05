@@ -2,11 +2,11 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
-use App\Engines\Book\Parser\Models\BookEntity;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
+use Kiwilan\Ebook\Ebook;
 use Kiwilan\Steward\Services\DirectoryParserService;
 use Kiwilan\Steward\Services\MediaService;
 use Kiwilan\Steward\Utils\Console;
@@ -18,7 +18,7 @@ class CoverConverter
      * Generate Book image from original cover string file.
      * Manage by spatie/laravel-medialibrary.
      */
-    public static function make(BookEntity $entity, Book $book): Book
+    public static function make(Ebook $ebook, Book $book): Book
     {
         // if (! $converter_engine->default
         //     && ! $converter_engine->book->cover_book
@@ -35,7 +35,7 @@ class CoverConverter
         // }
 
         MediaService::make($book, $book->slug, MediaDiskEnum::cover)
-            ->setMedia($entity->cover()?->file())
+            ->setMedia($ebook->cover(false))
             ->setColor()
         ;
 

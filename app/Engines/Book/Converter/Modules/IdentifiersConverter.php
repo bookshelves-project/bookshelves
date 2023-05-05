@@ -2,8 +2,8 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
-use App\Engines\Book\Parser\Models\BookEntity;
 use Illuminate\Support\Collection;
+use Kiwilan\Ebook\BookEntity;
 
 class IdentifiersConverter
 {
@@ -22,7 +22,7 @@ class IdentifiersConverter
         }
 
         foreach ($entity->identifiers() as $bookIdentifier) {
-            $identifiers[$bookIdentifier->name()] = $bookIdentifier->value();
+            $identifiers[$bookIdentifier->type()] = $bookIdentifier->content();
         }
 
         return $identifiers;

@@ -2,11 +2,12 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
-use App\Engines\Book\Parser\Models\BookEntity;
+use App\Enums\BookTypeEnum;
 use App\Enums\MediaDiskEnum;
 use App\Models\Book;
 use App\Models\Serie;
 use File;
+use Kiwilan\Ebook\BookEntity;
 use Kiwilan\Steward\Services\MediaService;
 
 class SerieConverter
@@ -18,17 +19,17 @@ class SerieConverter
     /**
      * Set Serie from BookEntity.
      */
-    public static function toModel(BookEntity $entity): self
+    public static function toModel(BookEntity $entity, BookTypeEnum $type): self
     {
         $self = new self();
-        $serie = Serie::whereSlug($entity->extra()->serieSlug())->first();
+        $serie = Serie::whereSlug($entity->metaTitle()->serieSlug())->first();
 
-        if (! $serie && $entity->serie()) {
+        if (! $serie && $entity->series()) {
             $serie = Serie::firstOrCreate([
-                'title' => $entity->serie(),
-                'slug_sort' => $entity->extra()->serieSort(),
-                'slug' => $entity->extra()->serieSlugLang(),
-                'type' => $entity->file()->type(),
+                'title' => $entity->series(),
+                'slug_sort' => $entity->metaTitle()->serieSlugSort(),
+                'slug' => $entity->metaTitle()->serieSlugLang(),
+                'type' => $type,
             ]);
 
             $self->serie = $serie;

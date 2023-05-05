@@ -10,9 +10,11 @@ use App\Engines\Book\Converter\Modules\LanguageConverter;
 use App\Engines\Book\Converter\Modules\PublisherConverter;
 use App\Engines\Book\Converter\Modules\SerieConverter;
 use App\Engines\Book\Converter\Modules\TagConverter;
-use App\Engines\Book\Parser\Models\BookEntity;
+use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Carbon;
+use Kiwilan\Ebook\BookEntity;
+use Kiwilan\Ebook\Ebook;
 
 /**
  * Create or improve a `Book` and relations.
@@ -28,27 +30,28 @@ class BookConverter
     /**
      * Set Book from BookEntity.
      */
-    public static function make(BookEntity $entity, ?Book $book = null): self
+    public static function make(Ebook $ebook, BookTypeEnum $type, ?Book $book = null): self
     {
+        $entity = $ebook->book();
         $self = new self($entity);
 
         if ($book) {
-            $self->checkBook();
+            $self->checkBook($type);
         }
 
         if (! $book) {
             $self->book = Book::firstOrCreate([
                 'title' => $self->entity->title(),
-                'slug' => $self->entity->extra()->titleSlugLang(),
-                'slug_sort' => $self->entity->extra()->titleSerieSort(),
+                'slug' => $self->entity->metaTitle()->slugLang(),
+                'slug_sort' => $self->entity->metaTitle()->slugSortWithSerie(),
                 'contributor' => $self->entity->contributor(),
-                'released_on' => $self->entity->releasedOn(),
+                'released_on' => $self->entity->date(),
                 'description' => $self->entity->description(),
                 'rights' => $self->entity->rights(),
                 'volume' => $self->entity->volume(),
-                'type' => $self->entity->file()->type(),
+                'type' => $type,
                 'page_count' => $self->entity->pageCount(),
-                'physical_path' => $self->entity->file()->path(),
+                'physical_path' => $ebook->path(),
             ]);
         }
 
@@ -62,10 +65,10 @@ class BookConverter
         $self->setTags();
         $self->setPublisher();
         $self->setLanguage();
-        $self->setSerie();
+        $self->setSerie($type);
         $self->setIdentifiers();
-        $self->setCover();
-        $self->setFile();
+        $self->setCover($ebook);
+        $self->setFile($ebook);
 
         return $self;
     }
@@ -112,9 +115,9 @@ class BookConverter
         return $this;
     }
 
-    private function setSerie(): self
+    private function setSerie(BookTypeEnum $type): self
     {
-        $serie = SerieConverter::toModel($this->entity)
+        $serie = SerieConverter::toModel($this->entity, $type)
             ->associate($this->book)
         ;
 
@@ -138,24 +141,24 @@ class BookConverter
         return $this;
     }
 
-    private function setCover(): void
+    private function setCover(Ebook $ebook): void
     {
-        CoverConverter::make($this->entity, $this->book);
+        CoverConverter::make($ebook, $this->book);
     }
 
-    private function setFile(): void
+    private function setFile(Ebook $ebook): void
     {
-        FileConverter::make($this->entity, $this->book);
+        FileConverter::make($ebook, $this->book);
     }
 
-    private function checkBook(): self
+    private function checkBook(BookTypeEnum $type): self
     {
         if (! $this->book) {
             return $this;
         }
 
-        if (! $this->book->slug_sort && $this->entity->serie() && ! $this->book->serie) {
-            $this->book->slug_sort = $this->entity->extra()->titleSerieSort();
+        if (! $this->book->slug_sort && $this->entity->series() && ! $this->book->serie) {
+            $this->book->slug_sort = $this->entity->metaTitle()->serieSlugSort();
         }
 
         if (! $this->book->contributor) {
@@ -163,7 +166,7 @@ class BookConverter
         }
 
         if (! $this->book->released_on) {
-            $this->book->released_on = Carbon::parse($this->entity->releasedOn());
+            $this->book->released_on = Carbon::parse($this->entity->date());
         }
 
         if (! $this->book->rights) {
@@ -179,7 +182,7 @@ class BookConverter
         }
 
         if (null === $this->book->type) {
-            $this->book->type = $this->entity->file()->type();
+            $this->book->type = $type;
         }
 
         return $this;
