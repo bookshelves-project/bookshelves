@@ -13,11 +13,11 @@ use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Kiwilan\Steward\Commands\CommandSteward;
+use Kiwilan\Steward\Commands\Commandable;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\Tag;
 
-class DatabaseCommand extends CommandSteward
+class DatabaseCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
@@ -49,7 +49,7 @@ class DatabaseCommand extends CommandSteward
      */
     public function handle()
     {
-        $books = $this->option('books') ?? false;
+        $books = $this->option('books') ?: false;
 
         if ($books) {
             $this->fresh();

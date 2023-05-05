@@ -3,10 +3,10 @@
 namespace App\Console\Commands\Bookshelves;
 
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Commands\CommandSteward;
+use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Services\DirectoryClearService;
 
-class ClearCommand extends CommandSteward
+class ClearCommand extends Commandable
 {
     /**
      * The name and signature of the console command.

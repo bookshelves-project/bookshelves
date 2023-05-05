@@ -7,7 +7,7 @@ use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Class\MetaClass;
-use Kiwilan\Steward\Commands\CommandSteward;
+use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Services\DirectoryClearService;
 use Kiwilan\Steward\Services\GoogleBook\GoogleBookable;
 use Kiwilan\Steward\Services\GoogleBookService;
@@ -17,7 +17,7 @@ use Kiwilan\Steward\Services\WikipediaService;
 /**
  * Extra data for Book, Author, Serie.
  */
-class ApiCommand extends CommandSteward
+class ApiCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
@@ -67,13 +67,13 @@ class ApiCommand extends CommandSteward
 
         DirectoryClearService::make([storage_path('app/public/debug/wikipedia')]);
 
-        $authors = $this->option('authors') ?? false;
-        $series = $this->option('series') ?? false;
-        $books = $this->option('books') ?? false;
+        $authors = $this->option('authors') ?: false;
+        $series = $this->option('series') ?: false;
+        $books = $this->option('books') ?: false;
 
-        $this->fresh = $this->option('fresh') ?? false;
-        $this->debug = $this->option('debug') ?? false;
-        $this->default = $this->option('default') ?? false;
+        $this->fresh = $this->option('fresh') ?: false;
+        $this->debug = $this->option('debug') ?: false;
+        $this->default = $this->option('default') ?: false;
 
         if ($this->debug) {
             $this->newLine();

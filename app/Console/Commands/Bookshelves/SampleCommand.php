@@ -6,9 +6,9 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Kiwilan\Steward\Commands\CommandSteward;
+use Kiwilan\Steward\Commands\Commandable;
 
-class SampleCommand extends CommandSteward
+class SampleCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
@@ -44,9 +44,9 @@ class SampleCommand extends CommandSteward
     {
         $this->title();
 
-        $users = $this->option('users') ?? false;
-        $cms = $this->option('cms') ?? false;
-        $force = $this->option('force') ?? false;
+        $users = $this->option('users') ?: false;
+        $cms = $this->option('cms') ?: false;
+        $force = $this->option('force') ?: false;
 
         $this->askOnProduction();
 

@@ -61,17 +61,17 @@ class UserSeeder extends Seeder
         // $user->roles()->attach(Role::whereName(UserRole::user())->first());
 
         // if ($faker->boolean(75)) {
-            //     MediaService::make($user, $user->username, MediaDiskEnum::user, 'avatar')
-            //         ->setMedia(DatabaseSeeder::generateAvatar())
-            //         ->setColor()
-            //     ;
+        //     MediaService::make($user, $user->username, MediaDiskEnum::user, 'avatar')
+        //         ->setMedia(DatabaseSeeder::generateAvatar())
+        //         ->setColor()
+        //     ;
         // }
 
         // if ($faker->boolean()) {
-            //     MediaService::make($user, "{$user->username}-banner", MediaDiskEnum::user, 'banner')
-            //         ->setMedia(DatabaseSeeder::generateBanner())
-            //         ->setColor()
-            //     ;
+        //     MediaService::make($user, "{$user->username}-banner", MediaDiskEnum::user, 'banner')
+        //         ->setMedia(DatabaseSeeder::generateBanner())
+        //         ->setColor()
+        //     ;
         // }
 
         //     $user->save();

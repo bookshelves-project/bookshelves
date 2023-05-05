@@ -6,7 +6,7 @@ use App\Engines\Book\Converter\EntityConverter;
 use App\Engines\Book\Converter\Modules\CoverConverter;
 use App\Engines\Book\Parser\Utils\BookFileReader;
 use App\Engines\Book\Parser\Utils\BookFilesReader;
-use App\Engines\BookEngine;
+use App\Engines\Book\ParserEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
@@ -16,14 +16,15 @@ use App\Models\Serie;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use Kiwilan\Steward\Commands\CommandSteward;
+use Kiwilan\Ebook\Ebook;
+use Kiwilan\Steward\Commands\Commandable;
 use ReflectionClass;
 use Spatie\Tags\Tag;
 
 /**
  * Main command of Bookshelves to generate Books with relations.
  */
-class MakeCommand extends CommandSteward
+class MakeCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
@@ -113,8 +114,8 @@ class MakeCommand extends CommandSteward
         $bar->finish();
         $this->newLine();
 
-        $this->improveRelation(Author::class);
-        $this->improveRelation(Serie::class);
+        // $this->improveRelation(Author::class);
+        // $this->improveRelation(Serie::class);
 
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
@@ -125,12 +126,12 @@ class MakeCommand extends CommandSteward
 
     private function setupOptions()
     {
-        $this->force = $this->option('force') ?? false;
+        $this->force = $this->option('force') ?: false;
         $limit = str_replace('=', '', $this->option('limit'));
         $this->limit = intval($limit);
-        $this->fresh = $this->option('fresh') ?? false;
-        $this->debug = $this->option('debug') ?? false;
-        $this->default = $this->option('default') ?? false;
+        $this->fresh = $this->option('fresh') ?: false;
+        $this->debug = $this->option('debug') ?: false;
+        $this->default = $this->option('default') ?: false;
 
         $this->askOnProduction();
 
@@ -170,19 +171,29 @@ class MakeCommand extends CommandSteward
     private function convert(BookFileReader $file)
     {
         if ($this->fresh) {
-            BookEngine::make($file, $this->debug, $this->default);
+            $ebook = Ebook::read($file->path());
+            ray($ebook->filename());
 
             return;
         }
 
         if (! in_array($file->path(), $this->books, true)) {
-            BookEngine::make($file, $this->debug, $this->default);
+            $ebook = Ebook::read($file->path());
+            $this->debug($ebook);
+        }
+    }
+
+    private function debug(Ebook $ebook): void
+    {
+        if ($this->debug) {
+            $this->info("{$ebook->book()->title()}");
+            ParserEngine::printFile($ebook->book()->toArray(), "{$ebook->filename()}-parser.json");
         }
     }
 
     private function improveRelation(string $model)
     {
-        $default = $this->option('default') ?? false;
+        $default = $this->option('default') ?: false;
 
         $class = new ReflectionClass($model);
         $class = $class->getShortName();

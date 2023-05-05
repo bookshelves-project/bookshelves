@@ -4,10 +4,10 @@ namespace App\Console\Commands;
 
 use Artisan;
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Commands\CommandSteward;
+use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Services\DirectoryClearService;
 
-class ClearAllCommand extends CommandSteward
+class ClearAllCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
@@ -42,7 +42,7 @@ class ClearAllCommand extends CommandSteward
         $this->warn('Clear full');
         $this->newLine();
 
-        $prod = $this->option('production') ?? false;
+        $prod = $this->option('production') ?: false;
 
         DirectoryClearService::make([
             storage_path('app/public/cache'),

@@ -4,9 +4,9 @@ namespace App\Console\Commands\Bookshelves;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Kiwilan\Steward\Commands\CommandSteward;
+use Kiwilan\Steward\Commands\Commandable;
 
-class StartupCommand extends CommandSteward
+class StartupCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
@@ -48,14 +48,14 @@ class StartupCommand extends CommandSteward
         $this->info('This command allow speed installation to group other bookshelves commands.');
         $this->newLine();
 
-        $force = $this->option('force') ?? false;
-        $fresh = $this->option('fresh') ?? false;
-        $api = $this->option('api') ?? false;
-        $admin = $this->option('admin') ?? false;
-        $sample = $this->option('sample') ?? false;
+        $force = $this->option('force') ?: false;
+        $fresh = $this->option('fresh') ?: false;
+        $api = $this->option('api') ?: false;
+        $admin = $this->option('admin') ?: false;
+        $sample = $this->option('sample') ?: false;
         $limit = $this->option('limit') ? intval(str_replace('=', '', $this->option('limit'))) : false;
-        $debug = $this->option('debug') ?? false;
-        $default = $this->option('default') ?? false;
+        $debug = $this->option('debug') ?: false;
+        $default = $this->option('default') ?: false;
 
         if ($fresh) {
             if (! $force) {

@@ -5,9 +5,9 @@ namespace App\Console\Commands\Bookshelves;
 use App\Models\User;
 use Artisan;
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Commands\CommandSteward;
+use Kiwilan\Steward\Commands\Commandable;
 
-class AdminCommand extends CommandSteward
+class AdminCommand extends Commandable
 {
     /**
      * The name and signature of the console command.

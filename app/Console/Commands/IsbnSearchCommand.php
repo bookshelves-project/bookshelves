@@ -4,9 +4,9 @@ namespace App\Console\Commands;
 
 use App\Engines\IsbnEngine;
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Commands\CommandSteward;
+use Kiwilan\Steward\Commands\Commandable;
 
-class IsbnSearchCommand extends CommandSteward
+class IsbnSearchCommand extends Commandable
 {
     /**
      * The name and signature of the console command.

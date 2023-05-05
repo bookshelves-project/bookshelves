@@ -9,9 +9,9 @@ use App\Engines\Book\Parser\Utils\BookFilesReader;
 use App\Engines\Book\ParserEngine;
 use App\Models\Book;
 use Illuminate\Console\Command;
-use Kiwilan\Steward\Commands\CommandSteward;
+use Kiwilan\Steward\Commands\Commandable;
 
-class ScanCommand extends CommandSteward
+class ScanCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
@@ -47,8 +47,8 @@ class ScanCommand extends CommandSteward
     {
         $this->title(description: 'Scan storage data books directory');
 
-        $this->verbose = $this->option('verbose') ?? false;
-        $this->parse = $this->option('parse') ?? false;
+        $this->verbose = $this->option('verbose') ?: false;
+        $this->parse = $this->option('parse') ?: false;
 
         $files = BookFilesReader::make();
 
