@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Engines\Book\BookFileReader;
+use App\Engines\Book\BookFilesReader;
 use App\Engines\Book\Converter\EntityConverter;
 use App\Engines\Book\Converter\Modules\CoverConverter;
 use App\Engines\Book\ConverterEngine;
-use App\Engines\Book\Parser\Utils\BookFileReader;
-use App\Engines\Book\Parser\Utils\BookFilesReader;
-use App\Engines\Book\ParserEngine;
+use App\Engines\BookEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
@@ -169,30 +169,21 @@ class MakeCommand extends Commandable
         }
     }
 
-    private function convert(BookFileReader $file)
+    private function convert(BookFileReader $file): void
     {
         if ($this->fresh) {
-            $ebook = Ebook::read($file->path());
-            $this->debug($ebook);
-
-            ConverterEngine::make($ebook, $file, $this->default);
+            BookEngine::make($file, $this->debug, $this->default);
 
             return;
         }
 
         if (! in_array($file->path(), $this->books, true)) {
-            $ebook = Ebook::read($file->path());
-            $this->debug($ebook);
+            // $ebook = Ebook::read($file->path());
+            // $this->debug($ebook);
 
-            ConverterEngine::make($ebook, $file, $this->default);
-        }
-    }
+            // ConverterEngine::make($ebook, $file, $this->default);
 
-    private function debug(Ebook $ebook): void
-    {
-        if ($this->debug) {
-            $this->info("{$ebook->book()->title()}");
-            ParserEngine::printFile($ebook->book()->toArray(), "{$ebook->filename()}-parser.json");
+            BookEngine::make($file, $this->debug, $this->default);
         }
     }
 

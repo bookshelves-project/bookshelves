@@ -4,7 +4,6 @@ namespace App\Engines\Book;
 
 use App\Engines\Book\Converter\BookConverter;
 use App\Engines\Book\Converter\Modules\AuthorConverter;
-use App\Engines\Book\Parser\Utils\BookFileReader;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Ebook\Ebook;

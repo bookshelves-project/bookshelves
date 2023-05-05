@@ -2,13 +2,12 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Engines\Book\ConverterEngine;
-use App\Engines\Book\Parser\Models\BookEntity;
-use App\Engines\Book\Parser\Utils\BookFileReader;
-use App\Engines\Book\Parser\Utils\BookFilesReader;
-use App\Engines\Book\ParserEngine;
+use App\Engines\Book\BookFileReader;
+use App\Engines\Book\BookFilesReader;
+use App\Engines\BookEngine;
 use App\Models\Book;
 use Illuminate\Console\Command;
+use Kiwilan\Ebook\BookEntity;
 use Kiwilan\Steward\Commands\Commandable;
 
 class ScanCommand extends Commandable
@@ -107,12 +106,11 @@ class ScanCommand extends Commandable
         }
 
         foreach ($files as $key => $file) {
-            $entity = ParserEngine::make($file);
-            $converter = ConverterEngine::make($entity);
-            $isExist = $converter->retrieveBook();
+            $engine = BookEngine::make($file, $this->verbose);
+            $isExist = $engine->converter()->retrieveBook();
 
             if (! $isExist) {
-                $newFiles[] = $entity;
+                $newFiles[] = $engine->converter()->book();
             }
 
             if (! $this->verbose) {
@@ -134,7 +132,7 @@ class ScanCommand extends Commandable
 
             foreach ($newFiles as $parser) {
                 if ($parser instanceof BookEntity) {
-                    $this->info("- {$parser->title()} from {$parser->file()->name()}");
+                    $this->info("- {$parser->title()}");
                 }
             }
         }
