@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Models\Author;
 use ArrayAccess;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
@@ -33,19 +34,19 @@ trait HasAuthors
     }
 
     /**
-     * Get main Author of entity.
-     */
-    public function getAuthorAttribute(): Author
-    {
-        return $this->authors->first();
-    }
-
-    /**
      * Get Authors of entity.
      */
     public function authors(): MorphToMany
     {
         return $this->morphToMany(Author::class, 'authorable');
+    }
+
+    /**
+     * Get main Author of entity.
+     */
+    public function authorMain(): BelongsTo
+    {
+        return $this->belongsTo(Author::class, 'author_main_id');
     }
 
     public function getAuthorsNamesAttribute(): string

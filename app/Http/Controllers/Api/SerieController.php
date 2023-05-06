@@ -6,6 +6,7 @@ use App\Http\Resources\Book\BookCollection;
 use App\Http\Resources\EntityResource;
 use App\Http\Resources\Serie\SerieResource;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use Kiwilan\Steward\Queries\HttpQuery;
@@ -28,6 +29,19 @@ class SerieController extends Controller
     public function show(Request $request, Author $author, Serie $serie)
     {
         return SerieResource::make($serie);
+    }
+
+    #[Get('/{author_slug}/{serie_slug}/{volume}/next', name: 'series.next')]
+    public function next(Request $request, Author $author, Serie $serie, int $volume)
+    {
+        $book = Book::where('serie_id', $serie->id)
+            ->where('author_main_id', $author->id)
+            ->where('volume', '>', $volume)
+            ->orderBy('volume')
+            ->firstOrFail()
+        ;
+
+        return BookCollection::make($book);
     }
 
     // #[Get('/{author_slug}/{serie_slug}/books', name: 'series.show.books')]

@@ -26,42 +26,65 @@ class AuthorConverter
      *
      * @return Collection<int, Author>
      */
-    public static function toCollection(BookEntity $native): Collection
+    public static function toCollection(BookEntity $book): Collection
     {
-        $nativeAuthors = $native->authors();
-        $authors = collect([]);
+        $authors = $book->authors();
+        $items = collect([]);
 
-        if (empty($nativeAuthors)) {
-            $author = AuthorConverter::make(new BookCreator(
-                name: 'Anonymous Anonymous',
-                role: 'aut'
-            ))->create();
-            $authors->push($author);
+        if (empty($authors)) {
+            $author = AuthorConverter::make(
+                new BookCreator(
+                    name: 'Anonymous Anonymous',
+                    role: 'aut'
+                )
+            )->create();
+            $items->push($author);
 
-            return $authors;
+            return $items;
         }
 
-        foreach ($nativeAuthors as $entityAuthor) {
-            $currentAuthor = AuthorConverter::make($entityAuthor);
-            $author = null;
+        foreach ($authors as $author) {
+            $isExists = false;
+            $current = AuthorConverter::make($author);
+            $detectHomonyms = config('bookshelves.authors.detect_homonyms');
 
-            if ($currentAuthor && config('bookshelves.authors.detect_homonyms')) {
-                $lastname = Author::whereFirstname($currentAuthor->lastname)->first();
+            if (! $current) {
+                continue;
+            }
 
-                if ($lastname) {
-                    $author = Author::whereLastname($currentAuthor->firstname)->first();
+            // try to find homonyms in existing authors
+            if ($detectHomonyms) {
+                $existsAuthor = Author::whereFirstname($current->lastname)->first();
+
+                if ($existsAuthor) {
+                    $isExists = true;
+                    $author = Author::whereLastname($existsAuthor->firstname)->first();
                 }
             }
 
-            if (null === $author) {
-                $currentAuthor = AuthorConverter::make($entityAuthor);
-                $author = $currentAuthor->create();
+            // try to find in existing authors
+            if (! $isExists) {
+                $existsAuthor = Author::whereFirstname($current->firstname)
+                    ->whereLastname($current->lastname)
+                    ->first()
+                ;
+
+                if ($existsAuthor) {
+                    $isExists = true;
+                    $author = $existsAuthor;
+                }
             }
 
-            $authors->push($author);
+            // create author if not exists
+            if (! $isExists) {
+                $current = AuthorConverter::make($author);
+                $author = $current->create();
+            }
+
+            $items->push($author);
         }
 
-        return $authors;
+        return $items;
     }
 
     /**
@@ -72,16 +95,17 @@ class AuthorConverter
         $lastname = null;
         $firstname = null;
 
-        $author_name = explode(' ', $author->name());
+        $authorName = explode(' ', $author->name());
+        $isOrderNatural = config('bookshelves.authors.order_natural');
 
-        if (config('bookshelves.authors.order_natural')) {
-            $lastname = $author_name[count($author_name) - 1];
-            array_pop($author_name);
-            $firstname = implode(' ', $author_name);
+        if ($isOrderNatural) {
+            $lastname = $authorName[count($authorName) - 1];
+            array_pop($authorName);
+            $firstname = implode(' ', $authorName);
         } else {
-            $firstname = $author_name[count($author_name) - 1];
-            array_pop($author_name);
-            $lastname = implode(' ', $author_name);
+            $firstname = $authorName[count($authorName) - 1];
+            array_pop($authorName);
+            $lastname = implode(' ', $authorName);
         }
 
         $role = $author->role();

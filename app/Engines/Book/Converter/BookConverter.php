@@ -70,6 +70,9 @@ class BookConverter
         $self->setCover($ebook);
         $self->setFile($ebook);
 
+        $self->book->authorMain()->associate($self->book->authors->first());
+        $self->book->save();
+
         return $self;
     }
 

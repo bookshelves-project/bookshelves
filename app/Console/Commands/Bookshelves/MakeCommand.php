@@ -210,6 +210,12 @@ class MakeCommand extends Commandable
             if (! $default) {
                 CoverConverter::setLocalCover($entity);
             }
+
+            if ($entity instanceof Serie) {
+                $entity->authorMain()->associate($entity->authors->first());
+                $entity->save();
+            }
+
             $bar->advance();
         }
         $bar->finish();

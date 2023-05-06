@@ -25,6 +25,26 @@ return new class() extends Migration
 
             $table->timestamps();
         });
+
+        Schema::table('books', function (Blueprint $table) {
+            $table->foreignId('author_main_id')
+                ->index()
+                ->nullable()
+                ->after('serie_id')
+                ->constrained('authors')
+                ->nullOnDelete()
+            ;
+        });
+
+        Schema::table('series', function (Blueprint $table) {
+            $table->foreignId('author_main_id')
+                ->index()
+                ->nullable()
+                ->after('link')
+                ->constrained('authors')
+                ->nullOnDelete()
+            ;
+        });
     }
 
     /**
