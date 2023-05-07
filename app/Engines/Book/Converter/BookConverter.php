@@ -40,6 +40,7 @@ class BookConverter
         }
 
         if (! $book) {
+            $rights = $self->entity->rights();
             $self->book = Book::firstOrCreate([
                 'title' => $self->entity->title(),
                 'slug' => $self->entity->metaTitle()->slugLang(),
@@ -47,7 +48,7 @@ class BookConverter
                 'contributor' => $self->entity->contributor(),
                 'released_on' => $self->entity->date(),
                 'description' => $self->entity->description(),
-                'rights' => $self->entity->rights(),
+                'rights' => strlen($rights) > 255 ? substr($rights, 0, 255) : $rights,
                 'volume' => $self->entity->volume(),
                 'type' => $type,
                 'page_count' => $self->entity->pageCount(),
