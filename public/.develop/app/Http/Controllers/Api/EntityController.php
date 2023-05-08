@@ -104,7 +104,7 @@ class EntityController extends Controller
         $relevant = $request->boolean('relevant');
         $types = $request->input('types');
 
-        $engine = SearchEngine::create(
+        $engine = SearchEngine::make(
             q: $q,
             relevant: $relevant,
             types: $types

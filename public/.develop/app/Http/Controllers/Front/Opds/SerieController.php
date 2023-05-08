@@ -19,7 +19,7 @@ class SerieController extends Controller
     #[Get('/', name: 'front.opds.series')]
     public function index(Request $request)
     {
-        $engine = OpdsEngine::create($request);
+        $engine = OpdsEngine::make();
         $entities = Serie::with('books', 'authors', 'media')
             ->orderBy('slug_sort')
             ->get()
@@ -31,7 +31,7 @@ class SerieController extends Controller
     #[Get('/{author}/{serie}', name: 'front.opds.series.show')]
     public function show(Request $request, string $version, string $author_slug, string $serie_slug)
     {
-        $engine = OpdsEngine::create($request);
+        $engine = OpdsEngine::make();
         $entity = Author::with('series.books', 'series.books.authors', 'series.books.tags', 'series.books.media', 'series.books.serie', 'series.books.language')
             ->whereSlug($author_slug)
             ->firstOrFail()

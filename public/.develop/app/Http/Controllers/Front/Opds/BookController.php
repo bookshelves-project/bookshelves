@@ -19,7 +19,7 @@ class BookController extends Controller
     #[Get('/{author}/{book}', name: 'front.opds.books.show')]
     public function show(Request $request, string $version, string $author_slug, string $book_slug)
     {
-        $engine = OpdsEngine::create($request);
+        $engine = OpdsEngine::make();
         $author = Author::whereSlug($author_slug)->firstOrFail();
         $book = Book::whereSlug($book_slug)->firstOrFail();
 

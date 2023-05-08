@@ -28,6 +28,8 @@ class TagExtend extends \Spatie\Tags\Tag
 
     protected $query_default_sort = 'slug->en';
 
+    protected $query_default_sort_direction = 'asc';
+
     protected $query_allowed_sorts = ['id', 'name', 'slug', 'type', 'first_char', 'books_count', 'series_count', 'created_at', 'updated_at'];
 
     protected $query_full = true;

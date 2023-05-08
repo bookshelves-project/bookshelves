@@ -2,42 +2,75 @@
 
 namespace App\Http\Controllers\Opds;
 
+use App\Engines\Opds\Config\OpdsEntry;
+use App\Engines\OpdsConfig;
 use App\Engines\OpdsEngine;
-use App\Enums\EntityEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
-use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('{version}/authors')]
+#[Prefix('authors')]
 class AuthorController extends Controller
 {
     #[Get('/', name: 'authors.index')]
-    public function index(Request $request)
+    public function index()
     {
-        $engine = OpdsEngine::create($request);
-        $entities = Author::with('books', 'media')
-            ->orderBy('lastname')
-            ->get()
-        ;
+        $entries = OpdsConfig::cache('opds.authors.index', function () {
+            $items = Author::with('books', 'media')
+                ->orderBy('lastname')
+                ->get()
+            ;
 
-        return $engine->entities(EntityEnum::author, $entities);
+            $entries = [];
+
+            foreach ($items as $item) {
+                /** @var Author $item */
+                $description = $item->description;
+                $count = $item->books_count;
+
+                $entries[] = new OpdsEntry(
+                    id: $item->slug,
+                    title: "{$item->lastname} {$item->firstname}",
+                    route: route('opds.authors.show', ['author' => $item->slug]),
+                    summary: "{$count} books, {$description}",
+                    media: $item->cover_og,
+                    updated: $item->updated_at,
+                );
+            }
+
+            return $entries;
+        });
+
+        $module = OpdsEngine::make(
+            app: OpdsConfig::app(),
+            entries: (array) $entries,
+            title: 'Authors',
+        );
+
+        return $module->response();
     }
 
     #[Get('/{author}', name: 'authors.show')]
-    public function show(Request $request, string $version, string $author_slug)
+    public function show(string $author_slug)
     {
-        $engine = OpdsEngine::create($request);
-        $entity = Author::with('books.authors', 'books.tags', 'books.media', 'books.serie', 'books.language')
-            ->whereSlug($author_slug)
-            ->firstOrFail()
-        ;
-        $books = $entity->books;
+        $author = Author::whereSlug($author_slug)->firstOrFail();
 
-        return $engine->entities(EntityEnum::book, $books, "{$entity->lastname} {$entity->firstname}");
+        $entries = [];
+
+        foreach ($author->books as $book) {
+            $entries[] = OpdsConfig::bookToEntry($book);
+        }
+
+        $module = OpdsEngine::make(
+            app: OpdsConfig::app(),
+            entries: $entries,
+            title: "Author {$author->lastname} {$author->firstname}",
+        );
+
+        return $module->response();
     }
 }

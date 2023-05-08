@@ -44,6 +44,12 @@ class SerieController extends Controller
         return BookCollection::make($book);
     }
 
+    #[Get('/{author_slug}/{serie_slug}/books', name: 'series.show.books')]
+    public function books(Request $request, Author $author, Serie $serie)
+    {
+        return BookCollection::collection($serie->books);
+    }
+
     // #[Get('/{author_slug}/{serie_slug}/books', name: 'series.show.books')]
     // public function books(Request $request, Author $author, Serie $serie)
     // {

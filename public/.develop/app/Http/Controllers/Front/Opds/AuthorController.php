@@ -18,7 +18,7 @@ class AuthorController extends Controller
     #[Get('/', name: 'authors.index')]
     public function index(Request $request)
     {
-        $engine = OpdsEngine::create($request);
+        $engine = OpdsEngine::make();
         $entities = Author::with('books', 'media')
             ->orderBy('lastname')
             ->get()
@@ -30,7 +30,7 @@ class AuthorController extends Controller
     #[Get('/{author}', name: 'authors.show')]
     public function show(Request $request, string $version, string $author_slug)
     {
-        $engine = OpdsEngine::create($request);
+        $engine = OpdsEngine::make();
         $entity = Author::with('books.authors', 'books.tags', 'books.media', 'books.serie', 'books.language')
             ->whereSlug($author_slug)
             ->firstOrFail()

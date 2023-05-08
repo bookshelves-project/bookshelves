@@ -111,7 +111,7 @@ class EntityController extends Controller
         $types = $request->input('types');
 
         // TODO export SearchEngine
-        $engine = SearchEngine::create(
+        $engine = SearchEngine::make(
             q: $q,
             relevant: $relevant,
             types: $types

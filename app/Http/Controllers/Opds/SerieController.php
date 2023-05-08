@@ -2,44 +2,77 @@
 
 namespace App\Http\Controllers\Opds;
 
+use App\Engines\Opds\Config\OpdsEntry;
+use App\Engines\OpdsConfig;
 use App\Engines\OpdsEngine;
-use App\Enums\EntityEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Serie;
-use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
  * @hideFromAPIDocumentation
  */
-#[Prefix('{version}/series')]
+#[Prefix('series')]
 class SerieController extends Controller
 {
     #[Get('/', name: 'series.index')]
-    public function index(Request $request)
+    public function index()
     {
-        $engine = OpdsEngine::create($request);
-        $entities = Serie::with('books', 'authors', 'media')
-            ->orderBy('slug_sort')
-            ->get()
-        ;
+        $entries = OpdsConfig::cache('opds.series.index', function () {
+            $items = Serie::with('books', 'media')
+                ->orderBy('slug_sort')
+                ->get()
+            ;
 
-        return $engine->entities(EntityEnum::author, $entities);
+            $entries = [];
+
+            foreach ($items as $item) {
+                /** @var Serie $item */
+                $entries[] = new OpdsEntry(
+                    id: $item->slug,
+                    title: $item->title,
+                    route: route('opds.series.show', ['author' => $item->meta_author, 'serie' => $item->slug]),
+                    summary: $item->description,
+                    media: $item->cover_og,
+                    updated: $item->updated_at,
+                );
+            }
+
+            return $entries;
+        });
+
+        $module = OpdsEngine::make(
+            app: OpdsConfig::app(),
+            entries: (array) $entries,
+            title: 'Series',
+        );
+
+        return $module->response();
     }
 
     #[Get('/{author}/{serie}', name: 'series.show')]
-    public function show(Request $request, string $version, string $author_slug, string $serie_slug)
+    public function show(string $author_slug, string $serie_slug)
     {
-        $engine = OpdsEngine::create($request);
-        $entity = Author::with('series.books', 'series.books.authors', 'series.books.tags', 'series.books.media', 'series.books.serie', 'series.books.language')
-            ->whereSlug($author_slug)
+        $author = Author::whereSlug($author_slug)->firstOrFail();
+        $serie = Serie::whereAuthorMainId($author->id)
+            ->whereSlug($serie_slug)
             ->firstOrFail()
         ;
-        $serie = $entity->series->firstWhere('slug', $serie_slug);
-        $books = $serie->books;
 
-        return $engine->entities(EntityEnum::book, $books, "{$entity->lastname} {$entity->firstname}");
+        $entries = [];
+
+        foreach ($serie->books as $book) {
+            $entries[] = OpdsConfig::bookToEntry($book);
+        }
+
+        $module = OpdsEngine::make(
+            app: OpdsConfig::app(),
+            entries: (array) $entries,
+            title: "Serie {$serie->title}",
+        );
+
+        return $module->response();
     }
 }

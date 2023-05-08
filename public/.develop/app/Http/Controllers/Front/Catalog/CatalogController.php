@@ -27,6 +27,7 @@ class CatalogController extends Controller
         $content = $service->convertToHtml();
 
         $mobile = new MobileDetect();
+
         if (! $mobile->isMobile()) {
             return view('front::pages.catalog.index', compact('content'));
         }
@@ -38,7 +39,7 @@ class CatalogController extends Controller
     public function search(Request $request)
     {
         $q = $request->input('q');
-        $engine = SearchEngine::create(
+        $engine = SearchEngine::make(
             q: $q,
             relevant: true,
         );

@@ -52,7 +52,7 @@ class SearchEngine
     /**
      * Create an instance of SearchEngine from query.
      */
-    public static function create(?string $q = '', bool $relevant = false, bool $opds = false, string|array $types = null): self
+    public static function make(?string $q = '', bool $relevant = false, bool $opds = false, string|array $types = null): self
     {
         if ('string' === gettype($types)) {
             $types = explode(',', $types);

@@ -38,7 +38,7 @@ class OpdsController extends Controller
     #[Get('/{version}', name: 'front.opds.version')]
     public function version(Request $request)
     {
-        $engine = OpdsEngine::create($request);
+        $engine = OpdsEngine::make();
 
         return $engine->index();
     }
@@ -46,7 +46,7 @@ class OpdsController extends Controller
     #[Get('/{version}/search', name: 'opds.search')]
     public function search(Request $request)
     {
-        $engine = OpdsEngine::create($request);
+        $engine = OpdsEngine::make();
 
         return $engine->search();
     }

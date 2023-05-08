@@ -21,7 +21,7 @@ class SearchController extends Controller
         $q = $request->input('q');
         $types = $request->input('types');
 
-        $service = SearchEngine::create(
+        $service = SearchEngine::make(
             q: $q,
             types: $types
         );

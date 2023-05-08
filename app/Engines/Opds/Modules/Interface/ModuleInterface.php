@@ -2,20 +2,15 @@
 
 namespace App\Engines\Opds\Modules\Interface;
 
+use App\Engines\Opds\OpdsJsonResponse;
+use App\Engines\Opds\OpdsXmlResponse;
 use App\Engines\OpdsEngine;
-use App\Enums\EntityEnum;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
 
 interface ModuleInterface
 {
-    public static function create(OpdsEngine $opds): ModuleInterface;
+    public static function make(OpdsEngine $opds): ModuleInterface;
 
-    public function index(): Response|JsonResponse;
+    public function response(): OpdsXmlResponse|OpdsJsonResponse;
 
-    public function search(): Response|JsonResponse;
-
-    public function entities(EntityEnum $entity, Collection|Model $collection, ?string $title = null): Response|JsonResponse;
+    public function search(): OpdsXmlResponse|OpdsJsonResponse;
 }

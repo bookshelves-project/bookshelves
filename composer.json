@@ -38,7 +38,7 @@
     "filament/spatie-laravel-translatable-plugin": "^2.17",
     "guzzlehttp/guzzle": "^7.2",
     "http-interop/http-factory-guzzle": "^1.2",
-    "kiwilan/php-ebook": "^0.3.31",
+    "kiwilan/php-ebook": "^0.31.0",
     "kiwilan/steward-laravel": "dev-main",
     "laravel/framework": "^10.0",
     "laravel/sanctum": "^3.2",

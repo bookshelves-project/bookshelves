@@ -26,7 +26,7 @@ class IndexController extends Controller
     public function search(Request $request)
     {
         $q = $request->input('q');
-        $engine = SearchEngine::create(
+        $engine = SearchEngine::make(
             q: $q,
             relevant: true,
         );

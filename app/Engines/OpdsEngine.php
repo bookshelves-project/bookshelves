@@ -2,49 +2,76 @@
 
 namespace App\Engines;
 
+use App\Engines\Opds\Config\OpdsConfigApp;
+use App\Engines\Opds\Config\OpdsEntry;
+use App\Engines\Opds\Config\OpdsEntryBook;
 use App\Engines\Opds\Modules\Interface\ModuleInterface;
 use App\Engines\Opds\Modules\NotSupportedModule;
-use App\Engines\Opds\Modules\Version1Dot2Module;
-use Illuminate\Http\Request;
-use Kiwilan\Steward\Services\ConverterService;
+use App\Engines\Opds\Modules\VersionOneDotTwoModule;
 
 class OpdsEngine
 {
-    public const FEED = [
-        [
-            'key' => 'authors',
-            'model' => 'Author',
-            'title' => 'Authors',
-            'content' => 'Authors availables',
-            'cover_thumbnail' => '',
-            'route' => 'opds.authors.index',
-        ],
-        [
-            'key' => 'series',
-            'model' => 'Serie',
-            'title' => 'Series',
-            'content' => 'Series availables',
-            'cover_thumbnail' => '',
-            'route' => 'opds.series.index',
-        ],
-    ];
+    public string $url;
 
-    public Request $request;
+    public string $title = 'feed';
 
-    public string $version;
+    /**
+     * @var array<string, mixed>
+     */
+    public array $urlParts = [];
 
-    public object $feed;
+    /**
+     * @var array<string, mixed>
+     */
+    public array $query = [];
 
-    public static function create(Request $request): ModuleInterface
+    public string $version = '1.2';
+
+    public OpdsConfigApp $app;
+
+    /**
+     * @var OpdsEntry[]|OpdsEntryBook[]
+     */
+    public array $entries = [];
+
+    /**
+     * Create a new instance.
+     *
+     * @param  string|null  $url Can be null if you want to use the current URL.
+     */
+    public static function make(OpdsConfigApp $app, array $entries = [], string $title = 'feed', ?string $url = null): ModuleInterface
     {
         $engine = new OpdsEngine();
-        $engine->request = $request;
-        $engine->version = $request->version;
-        $engine->feed = ConverterService::arrayToObject(self::FEED);
 
-        return match ($request->version) {
-            '1.2' => Version1Dot2Module::create($engine),
-            default => NotSupportedModule::create($engine),
+        if ($url) {
+            $engine->url = $url;
+        } else {
+            $engine->url = self::currentUrl();
+        }
+
+        $engine->urlParts = parse_url($engine->url);
+
+        if (array_key_exists('query', $engine->urlParts)) {
+            parse_str($engine->urlParts['query'], $query);
+            $engine->query = $query;
+
+            if (array_key_exists('version', $query)) {
+                $engine->version = $query['version'];
+            }
+        }
+
+        $engine->title = $title;
+        $engine->app = $app;
+        $engine->entries = $entries;
+
+        return match ($engine->version) {
+            '1.2' => VersionOneDotTwoModule::make($engine),
+            default => NotSupportedModule::make($engine),
         };
+    }
+
+    public static function currentUrl(): string
+    {
+        return (empty($_SERVER['HTTPS']) ? 'http' : 'https')."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     }
 }
