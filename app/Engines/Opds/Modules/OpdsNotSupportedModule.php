@@ -2,16 +2,19 @@
 
 namespace App\Engines\Opds\Modules;
 
-use App\Engines\Opds\Modules\Interface\Module;
-use App\Engines\Opds\Modules\Interface\ModuleInterface;
 use App\Engines\Opds\OpdsJsonResponse;
 use App\Engines\OpdsEngine;
 
-class NotSupportedModule extends Module implements ModuleInterface
+class OpdsNotSupportedModule
 {
+    protected function __construct(
+        public OpdsEngine $opds,
+    ) {
+    }
+
     public static function response(OpdsEngine $opds): OpdsJsonResponse
     {
-        $self = new NotSupportedModule($opds);
+        $self = new OpdsNotSupportedModule($opds);
 
         return $self->responseNotSupported();
     }

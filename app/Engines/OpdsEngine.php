@@ -2,11 +2,11 @@
 
 namespace App\Engines;
 
-use App\Engines\Opds\Config\OpdsApp;
-use App\Engines\Opds\Config\OpdsEntry;
-use App\Engines\Opds\Config\OpdsEntryBook;
-use App\Engines\Opds\Modules\NotSupportedModule;
-use App\Engines\Opds\Modules\VersionOneDotTwoModule;
+use App\Engines\Opds\Models\OpdsApp;
+use App\Engines\Opds\Models\OpdsEntry;
+use App\Engines\Opds\Models\OpdsEntryBook;
+use App\Engines\Opds\Modules\OpdsNotSupportedModule;
+use App\Engines\Opds\Modules\OpdsVersionOneDotTwoModule;
 use App\Engines\Opds\OpdsJsonResponse;
 use App\Engines\Opds\OpdsXmlResponse;
 
@@ -40,7 +40,7 @@ class OpdsEngine
      *
      * @param  string|null  $url Can be null if you want to use the current URL.
      */
-    public static function response(OpdsApp $app, array $entries = [], string $title = 'feed', ?string $url = null): OpdsJsonResponse|OpdsXmlResponse
+    public static function response(OpdsApp $app = new OpdsApp(), array $entries = [], string $title = 'feed', ?string $url = null): OpdsJsonResponse|OpdsXmlResponse
     {
         $engine = new OpdsEngine();
 
@@ -66,8 +66,8 @@ class OpdsEngine
         $engine->entries = $entries;
 
         return match ($engine->version) {
-            '1.2' => VersionOneDotTwoModule::response($engine),
-            default => NotSupportedModule::response($engine),
+            '1.2' => OpdsVersionOneDotTwoModule::response($engine),
+            default => OpdsNotSupportedModule::response($engine),
         };
     }
 

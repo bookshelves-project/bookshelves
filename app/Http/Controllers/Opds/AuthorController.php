@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\Opds\Config\OpdsEntry;
+use App\Engines\Opds\Models\OpdsEntry;
 use App\Engines\OpdsConfig;
 use App\Engines\OpdsEngine;
 use App\Http\Controllers\Controller;

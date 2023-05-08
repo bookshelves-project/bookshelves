@@ -3,7 +3,6 @@
 namespace App\Engines\Opds\Modules;
 
 use App\Engines\Opds\Modules\Interface\Module;
-use App\Engines\Opds\Modules\Interface\ModuleInterface;
 use App\Engines\Opds\OpdsXmlConverter;
 use App\Engines\Opds\OpdsXmlResponse;
 use App\Engines\OpdsEngine;
@@ -13,11 +12,16 @@ use App\Engines\OpdsEngine;
  *
  * @docs https://specs.opds.io/opds-1.2
  */
-class VersionOneDotTwoModule extends Module implements ModuleInterface
+class OpdsVersionOneDotTwoModule
 {
+    protected function __construct(
+        public OpdsEngine $opds,
+    ) {
+    }
+
     public static function response(OpdsEngine $opds): OpdsXmlResponse
     {
-        $self = new VersionOneDotTwoModule($opds);
+        $self = new OpdsVersionOneDotTwoModule($opds);
         $xml = OpdsXmlConverter::make($self->opds->app, $self->opds->entries, $self->opds->title);
 
         return OpdsXmlResponse::make($xml);

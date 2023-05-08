@@ -2,9 +2,9 @@
 
 namespace App\Engines\Opds;
 
-use App\Engines\Opds\Config\OpdsApp;
-use App\Engines\Opds\Config\OpdsEntry;
-use App\Engines\Opds\Config\OpdsEntryBook;
+use App\Engines\Opds\Models\OpdsApp;
+use App\Engines\Opds\Models\OpdsEntry;
+use App\Engines\Opds\Models\OpdsEntryBook;
 use App\Engines\OpdsEngine;
 use DateTime;
 use Spatie\ArrayToXml\ArrayToXml;

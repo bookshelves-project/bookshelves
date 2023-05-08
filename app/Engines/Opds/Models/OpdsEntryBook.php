@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Engines\Opds\Config;
+namespace App\Engines\Opds\Models;
 
 use DateTime;
 
