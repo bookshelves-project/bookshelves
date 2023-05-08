@@ -4,7 +4,7 @@ namespace App\Engines\Opds\Config;
 
 use DateTime;
 
-class OpdsConfigApp
+class OpdsApp
 {
     public function __construct(
         public string $name,

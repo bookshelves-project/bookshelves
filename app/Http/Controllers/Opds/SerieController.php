@@ -43,13 +43,11 @@ class SerieController extends Controller
             return $entries;
         });
 
-        $module = OpdsEngine::make(
+        return OpdsEngine::response(
             app: OpdsConfig::app(),
             entries: (array) $entries,
             title: 'Series',
         );
-
-        return $module->response();
     }
 
     #[Get('/{author}/{serie}', name: 'series.show')]
@@ -67,12 +65,10 @@ class SerieController extends Controller
             $entries[] = OpdsConfig::bookToEntry($book);
         }
 
-        $module = OpdsEngine::make(
+        return OpdsEngine::response(
             app: OpdsConfig::app(),
             entries: (array) $entries,
             title: "Serie {$serie->title}",
         );
-
-        return $module->response();
     }
 }

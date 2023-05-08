@@ -9,22 +9,14 @@ use App\Engines\OpdsEngine;
 
 class NotSupportedModule extends Module implements ModuleInterface
 {
-    public static function make(OpdsEngine $opds): ModuleInterface
+    public static function response(OpdsEngine $opds): OpdsJsonResponse
     {
-        return new NotSupportedModule($opds);
+        $self = new NotSupportedModule($opds);
+
+        return $self->responseNotSupported();
     }
 
-    public function response(): OpdsJsonResponse
-    {
-        return $this->responseNotSupported();
-    }
-
-    public function search(): OpdsJsonResponse
-    {
-        return $this->responseNotSupported();
-    }
-
-    public function responseNotSupported(): OpdsJsonResponse
+    private function responseNotSupported(): OpdsJsonResponse
     {
         return OpdsJsonResponse::make([
             'message' => "Version {$this->opds->version} is not supported.",

@@ -25,14 +25,12 @@ class BookController extends Controller
             ->firstOrFail()
         ;
 
-        $module = OpdsEngine::make(
+        return OpdsEngine::response(
             app: OpdsConfig::app(),
             entries: [
                 OpdsConfig::bookToEntry($book),
             ],
             title: "Book {$book->title}",
         );
-
-        return $module->response();
     }
 }

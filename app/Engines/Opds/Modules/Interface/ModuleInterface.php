@@ -8,9 +8,5 @@ use App\Engines\OpdsEngine;
 
 interface ModuleInterface
 {
-    public static function make(OpdsEngine $opds): ModuleInterface;
-
-    public function response(): OpdsXmlResponse|OpdsJsonResponse;
-
-    public function search(): OpdsXmlResponse|OpdsJsonResponse;
+    public static function response(OpdsEngine $opds): OpdsXmlResponse|OpdsJsonResponse;
 }

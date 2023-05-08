@@ -2,7 +2,7 @@
 
 namespace App\Engines\Opds;
 
-use App\Engines\Opds\Config\OpdsConfigApp;
+use App\Engines\Opds\Config\OpdsApp;
 use App\Engines\Opds\Config\OpdsEntry;
 use App\Engines\Opds\Config\OpdsEntryBook;
 use App\Engines\OpdsEngine;
@@ -13,14 +13,14 @@ use Transliterator;
 class OpdsXmlConverter
 {
     protected function __construct(
-        protected OpdsConfigApp $app,
+        protected OpdsApp $app,
     ) {
     }
 
     /**
      * @param  array<OpdsEntry|OpdsEntryBook>  $entries
      */
-    public static function make(OpdsConfigApp $app, array $entries, string $title = 'feed'): string
+    public static function make(OpdsApp $app, array $entries, string $title = 'feed'): string
     {
         $self = new self($app);
 
@@ -203,7 +203,7 @@ class OpdsXmlConverter
         ];
     }
 
-    public static function search(OpdsConfigApp $app): string
+    public static function search(OpdsApp $app): string
     {
         $self = new self($app);
         $date = new DateTime();

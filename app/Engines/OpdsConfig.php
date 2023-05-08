@@ -2,7 +2,7 @@
 
 namespace App\Engines;
 
-use App\Engines\Opds\Config\OpdsConfigApp;
+use App\Engines\Opds\Config\OpdsApp;
 use App\Engines\Opds\Config\OpdsEntry;
 use App\Engines\Opds\Config\OpdsEntryBook;
 use App\Engines\Opds\Config\OpdsEntryBookAuthor;
@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Cache;
 
 class OpdsConfig
 {
-    public static function app(): OpdsConfigApp
+    public static function app(): OpdsApp
     {
-        return new OpdsConfigApp(
+        return new OpdsApp(
             name: config('app.name'),
             author: 'Bookshelves',
             authorUrl: config('app.url'),

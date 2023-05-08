@@ -15,21 +15,10 @@ use App\Engines\OpdsEngine;
  */
 class VersionOneDotTwoModule extends Module implements ModuleInterface
 {
-    public static function make(OpdsEngine $opds): ModuleInterface
+    public static function response(OpdsEngine $opds): OpdsXmlResponse
     {
-        return new VersionOneDotTwoModule($opds);
-    }
-
-    public function response(): OpdsXmlResponse
-    {
-        $xml = OpdsXmlConverter::make($this->opds->app, $this->opds->entries, $this->opds->title);
-
-        return OpdsXmlResponse::make($xml);
-    }
-
-    public function search(): OpdsXmlResponse
-    {
-        $xml = OpdsXmlConverter::make($this->opds->app, $this->opds->entries, $this->opds->title);
+        $self = new VersionOneDotTwoModule($opds);
+        $xml = OpdsXmlConverter::make($self->opds->app, $self->opds->entries, $self->opds->title);
 
         return OpdsXmlResponse::make($xml);
     }

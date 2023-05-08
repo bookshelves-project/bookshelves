@@ -17,12 +17,10 @@ class IndexController extends Controller
     #[Get('/', name: 'index')]
     public function index()
     {
-        $module = OpdsEngine::make(
+        return OpdsEngine::response(
             app: OpdsConfig::app(),
             entries: OpdsConfig::home(),
         );
-
-        return $module->response();
     }
 
     #[Get('/search', name: 'search')]
@@ -38,12 +36,10 @@ class IndexController extends Controller
             $entries[] = OpdsConfig::bookToEntry($result);
         }
 
-        $module = OpdsEngine::make(
+        return OpdsEngine::response(
             app: OpdsConfig::app(),
             entries: $entries,
             title: "Search for {$query}",
         );
-
-        return $module->search();
     }
 }

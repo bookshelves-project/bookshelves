@@ -45,13 +45,11 @@ class AuthorController extends Controller
             return $entries;
         });
 
-        $module = OpdsEngine::make(
+        return OpdsEngine::response(
             app: OpdsConfig::app(),
             entries: (array) $entries,
             title: 'Authors',
         );
-
-        return $module->response();
     }
 
     #[Get('/{author}', name: 'authors.show')]
@@ -65,12 +63,10 @@ class AuthorController extends Controller
             $entries[] = OpdsConfig::bookToEntry($book);
         }
 
-        $module = OpdsEngine::make(
+        return OpdsEngine::response(
             app: OpdsConfig::app(),
             entries: $entries,
             title: "Author {$author->lastname} {$author->firstname}",
         );
-
-        return $module->response();
     }
 }
