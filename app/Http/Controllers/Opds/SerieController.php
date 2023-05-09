@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\OpdsConfig;
+use App\Engines\MyOpds;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Serie;
-use Kiwilan\Opds\Models\OpdsEntry;
+use Kiwilan\Opds\Entries\OpdsEntry;
 use Kiwilan\Opds\Opds;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -20,8 +20,8 @@ class SerieController extends Controller
     #[Get('/', name: 'series.index')]
     public function index()
     {
-        $entries = OpdsConfig::cache('opds.series.index', function () {
-            $items = Serie::with('books', 'media')
+        $entries = MyOpds::cache('opds.series.index', function () {
+            $items = Serie::with('books', 'media', 'authorMain')
                 ->orderBy('slug_sort')
                 ->get()
             ;
@@ -33,7 +33,7 @@ class SerieController extends Controller
                 $entries[] = new OpdsEntry(
                     id: $item->slug,
                     title: $item->title,
-                    route: route('opds.series.show', ['author' => $item->meta_author, 'serie' => $item->slug]),
+                    route: route('opds.series.show', ['author' => $item->authorMain?->slug, 'serie' => $item->slug]),
                     summary: $item->description,
                     media: $item->cover_og,
                     updated: $item->updated_at,
@@ -44,7 +44,7 @@ class SerieController extends Controller
         });
 
         return Opds::response(
-            app: OpdsConfig::app(),
+            config: MyOpds::config(),
             entries: (array) $entries,
             title: 'Series',
         );
@@ -62,11 +62,11 @@ class SerieController extends Controller
         $entries = [];
 
         foreach ($serie->books as $book) {
-            $entries[] = OpdsConfig::bookToEntry($book);
+            $entries[] = MyOpds::bookToEntry($book);
         }
 
         return Opds::response(
-            app: OpdsConfig::app(),
+            config: MyOpds::config(),
             entries: (array) $entries,
             title: "Serie {$serie->title}",
         );

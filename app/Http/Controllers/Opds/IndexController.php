@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\OpdsConfig;
+use App\Engines\MyOpds;
 use App\Engines\SearchEngine;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
@@ -18,8 +18,8 @@ class IndexController extends Controller
     public function index()
     {
         return Opds::response(
-            app: OpdsConfig::app(),
-            entries: OpdsConfig::home(),
+            config: MyOpds::config(),
+            entries: MyOpds::home(),
         );
     }
 
@@ -34,12 +34,12 @@ class IndexController extends Controller
 
             foreach ($search->results_opds as $result) {
                 /** @var Book $result */
-                $entries[] = OpdsConfig::bookToEntry($result);
+                $entries[] = MyOpds::bookToEntry($result);
             }
         }
 
         return Opds::response(
-            app: OpdsConfig::app(),
+            config: MyOpds::config(),
             entries: $entries,
             title: "Search for {$query}",
             isSearch: true,

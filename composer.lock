@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "56192a55133f68a441f1eecb4358ebb5",
+    "content-hash": "584123dd87f13b4b5df0efba59c1fa8f",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -139,16 +139,16 @@
         },
         {
             "name": "artesaos/seotools",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artesaos/seotools.git",
-                "reference": "38b1153b7de3cc00b4b62cf39bc19c567cb7da5e"
+                "reference": "99744eaa8c3e21a2121914d8a7ca61284e5497a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artesaos/seotools/zipball/38b1153b7de3cc00b4b62cf39bc19c567cb7da5e",
-                "reference": "38b1153b7de3cc00b4b62cf39bc19c567cb7da5e",
+                "url": "https://api.github.com/repos/artesaos/seotools/zipball/99744eaa8c3e21a2121914d8a7ca61284e5497a4",
+                "reference": "99744eaa8c3e21a2121914d8a7ca61284e5497a4",
                 "shasum": ""
             },
             "require": {
@@ -159,7 +159,8 @@
             },
             "require-dev": {
                 "orchestra/testbench": "~3.8.4 || ^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
-                "phpspec/phpspec": "~5.1.1 || ^6.0 || ^7.0"
+                "phpspec/phpspec": "~5.1.1 || ^6.0 || ^7.0",
+                "phpunit/phpunit": "^9.0"
             },
             "type": "library",
             "extra": {
@@ -206,7 +207,7 @@
                 "issues": "https://github.com/artesaos/seotools/issues",
                 "source": "https://github.com/artesaos/seotools"
             },
-            "time": "2023-02-15T12:13:16+00:00"
+            "time": "2023-05-09T14:20:42+00:00"
         },
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -2428,16 +2429,16 @@
         },
         {
             "name": "kiwilan/php-opds",
-            "version": "0.1.21",
+            "version": "0.3.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-opds.git",
-                "reference": "db68abdc12e92e2097e57968cdb8cf4c9eb72fa6"
+                "reference": "636e1d8fcc00b2d38be4143abb4f51609a418858"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/db68abdc12e92e2097e57968cdb8cf4c9eb72fa6",
-                "reference": "db68abdc12e92e2097e57968cdb8cf4c9eb72fa6",
+                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/636e1d8fcc00b2d38be4143abb4f51609a418858",
+                "reference": "636e1d8fcc00b2d38be4143abb4f51609a418858",
                 "shasum": ""
             },
             "require": {
@@ -2479,7 +2480,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-opds/issues",
-                "source": "https://github.com/kiwilan/php-opds/tree/0.1.21"
+                "source": "https://github.com/kiwilan/php-opds/tree/0.3.12"
             },
             "funding": [
                 {
@@ -2487,7 +2488,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-09T09:28:16+00:00"
+            "time": "2023-05-09T14:56:15+00:00"
         },
         {
             "name": "kiwilan/steward-laravel",
@@ -2581,16 +2582,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.9.0",
+            "version": "v10.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "35078125f61ef0b125edf524de934f108d4b47fd"
+                "reference": "0da22a8d179f79b49d4e71f4822f759651f35012"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/35078125f61ef0b125edf524de934f108d4b47fd",
-                "reference": "35078125f61ef0b125edf524de934f108d4b47fd",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0da22a8d179f79b49d4e71f4822f759651f35012",
+                "reference": "0da22a8d179f79b49d4e71f4822f759651f35012",
                 "shasum": ""
             },
             "require": {
@@ -2777,7 +2778,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-04-25T13:47:18+00:00"
+            "time": "2023-05-09T13:08:05+00:00"
         },
         {
             "name": "laravel/sanctum",

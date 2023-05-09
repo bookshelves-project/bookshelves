@@ -7,19 +7,20 @@ use App\Models\Book;
 use App\Models\Serie;
 use Closure;
 use Illuminate\Support\Facades\Cache;
-use Kiwilan\Opds\Models\OpdsApp;
-use Kiwilan\Opds\Models\OpdsEntry;
-use Kiwilan\Opds\Models\OpdsEntryBook;
-use Kiwilan\Opds\Models\OpdsEntryBookAuthor;
+use Kiwilan\Opds\Entries\OpdsEntry;
+use Kiwilan\Opds\Entries\OpdsEntryBook;
+use Kiwilan\Opds\Entries\OpdsEntryBookAuthor;
+use Kiwilan\Opds\OpdsConfig;
 
-class OpdsConfig
+class MyOpds
 {
-    public static function app(): OpdsApp
+    public static function config(): OpdsConfig
     {
-        return new OpdsApp(
+        return new OpdsConfig(
             name: config('app.name'),
             author: 'Bookshelves',
             authorUrl: config('app.url'),
+            iconUrl: asset('favicon.ico'),
             startUrl: route('opds.index'),
             searchUrl: route('opds.search'),
             updated: Book::orderBy('updated_at', 'desc')->first()->updated_at,
@@ -75,8 +76,14 @@ class OpdsConfig
             $seriesTitle = $book->serie->title;
 
             $series = " ({$seriesTitle} vol. {$book->volume})";
-            $seriesContent = "<strong>Series {$seriesTitle} {$book->volume}</strong><br>";
+            $seriesContent = <<<HTML
+                <strong>Series {$seriesTitle} vol.{$book->volume}</strong><br>
+            HTML;
         }
+
+        $summary = <<<HTML
+            $seriesContent $book->description
+        HTML;
 
         $authors = [];
 
@@ -90,7 +97,8 @@ class OpdsConfig
         return new OpdsEntryBook(
             id: $book->slug,
             title: "{$book->title}{$series}",
-            summary: "{$seriesContent}{$book->description}",
+            summary: $summary,
+            content: $summary,
             route: route('opds.books.show', ['author' => $book->meta_author, 'book' => $book->slug]),
             updated: $book->updated_at,
             download: route('api.download.book', ['author_slug' => $book->meta_author, 'book_slug' => $book->slug]),

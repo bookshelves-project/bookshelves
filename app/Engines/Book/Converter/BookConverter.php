@@ -41,13 +41,19 @@ class BookConverter
 
         if (! $book) {
             $rights = $self->entity->rights();
+            $description = $self->entity->description();
+
+            if (strlen($description) > 2000) {
+                $description = substr($description, 0, 2000).'...';
+            }
+
             $self->book = Book::firstOrCreate([
                 'title' => $self->entity->title(),
                 'slug' => $self->entity->metaTitle()->slugLang(),
                 'slug_sort' => $self->entity->metaTitle()->slugSortWithSerie(),
                 'contributor' => $self->entity->contributor(),
                 'released_on' => $self->entity->date(),
-                'description' => $self->entity->description(),
+                'description' => $description,
                 'rights' => strlen($rights) > 255 ? substr($rights, 0, 255) : $rights,
                 'volume' => $self->entity->volume(),
                 'type' => $type,
@@ -73,6 +79,14 @@ class BookConverter
 
         $self->book->authorMain()->associate($self->book->authors->first());
         $self->book->save();
+
+        $serie = $self->book->serie;
+
+        if ($serie) {
+            $serie->authorMain()->associate($self->book->authorMain);
+            $serie->authors()->sync($self->book->authors->pluck('id'));
+            $serie->save();
+        }
 
         return $self;
     }

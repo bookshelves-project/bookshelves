@@ -16,6 +16,11 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  */
 trait HasAuthors
 {
+    public function initializeHasAuthors()
+    {
+        $this->with[] = 'authorMain';
+    }
+
     public function scopeWhereAuthorIsLike(Builder $query, string $author): Builder
     {
         return $query->whereHas('authors', function (Builder $query) use ($author) {
@@ -28,7 +33,7 @@ trait HasAuthors
      */
     public function getMetaAuthorAttribute(): string|null
     {
-        $author = $this->authors->first();
+        $author = $this->authorMain;
 
         return null !== $author ? $author->slug : 'unkown';
     }
