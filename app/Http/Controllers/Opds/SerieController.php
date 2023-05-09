@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\Opds\Models\OpdsEntry;
 use App\Engines\OpdsConfig;
-use App\Engines\OpdsEngine;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Serie;
+use Kiwilan\Opds\Models\OpdsEntry;
+use Kiwilan\Opds\Opds;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -43,7 +43,7 @@ class SerieController extends Controller
             return $entries;
         });
 
-        return OpdsEngine::response(
+        return Opds::response(
             app: OpdsConfig::app(),
             entries: (array) $entries,
             title: 'Series',
@@ -65,7 +65,7 @@ class SerieController extends Controller
             $entries[] = OpdsConfig::bookToEntry($book);
         }
 
-        return OpdsEngine::response(
+        return Opds::response(
             app: OpdsConfig::app(),
             entries: (array) $entries,
             title: "Serie {$serie->title}",

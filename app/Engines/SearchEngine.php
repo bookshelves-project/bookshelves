@@ -174,7 +174,8 @@ class SearchEngine
             $results = $model::search($this->q);
 
             if ($this->opds) {
-                $this->results[] = $results->get();
+                $items = $results->get();
+                $this->results[] = $items->splice(0, 20);
             } else {
                 $this->results[$key] = EntityResource::collection(
                     $results->get(),

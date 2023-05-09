@@ -39,6 +39,7 @@
     "guzzlehttp/guzzle": "^7.2",
     "http-interop/http-factory-guzzle": "^1.2",
     "kiwilan/php-ebook": "^0.31.0",
+    "kiwilan/php-opds": "^0.1.10",
     "kiwilan/steward-laravel": "dev-main",
     "laravel/framework": "^10.0",
     "laravel/sanctum": "^3.2",

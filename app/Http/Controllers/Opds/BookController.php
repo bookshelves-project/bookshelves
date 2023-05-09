@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Opds;
 
 use App\Engines\OpdsConfig;
-use App\Engines\OpdsEngine;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Book;
+use Kiwilan\Opds\Opds;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -25,7 +25,7 @@ class BookController extends Controller
             ->firstOrFail()
         ;
 
-        return OpdsEngine::response(
+        return Opds::response(
             app: OpdsConfig::app(),
             entries: [
                 OpdsConfig::bookToEntry($book),

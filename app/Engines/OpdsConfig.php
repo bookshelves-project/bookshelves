@@ -2,15 +2,15 @@
 
 namespace App\Engines;
 
-use App\Engines\Opds\Models\OpdsApp;
-use App\Engines\Opds\Models\OpdsEntry;
-use App\Engines\Opds\Models\OpdsEntryBook;
-use App\Engines\Opds\Models\OpdsEntryBookAuthor;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
 use Closure;
 use Illuminate\Support\Facades\Cache;
+use Kiwilan\Opds\Models\OpdsApp;
+use Kiwilan\Opds\Models\OpdsEntry;
+use Kiwilan\Opds\Models\OpdsEntryBook;
+use Kiwilan\Opds\Models\OpdsEntryBookAuthor;
 
 class OpdsConfig
 {
@@ -90,10 +90,10 @@ class OpdsConfig
         return new OpdsEntryBook(
             id: $book->slug,
             title: "{$book->title}{$series}",
-            content: "{$seriesContent}{$book->description}",
+            summary: "{$seriesContent}{$book->description}",
+            route: route('opds.books.show', ['author' => $book->meta_author, 'book' => $book->slug]),
             updated: $book->updated_at,
-            routeSelf: route('opds.books.show', ['author' => $book->meta_author, 'book' => $book->slug]),
-            routeDownload: route('api.download.book', ['author_slug' => $book->meta_author, 'book_slug' => $book->slug]),
+            download: route('api.download.book', ['author_slug' => $book->meta_author, 'book_slug' => $book->slug]),
             media: $book->cover_og,
             mediaThumbnail: $book->cover_thumbnail,
             categories: $book->tags->pluck('name')->toArray(),
