@@ -40,7 +40,7 @@ Bookshelves use [Meilisearch](https://www.meilisearch.com/docs) with `v0.27.0` v
 
 ```bash
 sudo docker run -d --rm \
-  -p 7701:7700 \
+  -p 7700:7700 \
   -v $(pwd)/meili_data:/meili_data \
   getmeili/meilisearch:v0.27.0
 meilisearch --master-key="MASTER_KEY" --env="production"
