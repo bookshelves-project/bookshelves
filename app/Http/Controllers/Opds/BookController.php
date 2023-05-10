@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\MyOpds;
+use App\Engines\OpdsApp;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Book;
@@ -26,9 +26,9 @@ class BookController extends Controller
         ;
 
         return Opds::response(
-            config: MyOpds::config(),
+            config: OpdsApp::config(),
             entries: [
-                MyOpds::bookToEntry($book),
+                OpdsApp::bookToEntry($book),
             ],
             title: "Book {$book->title}",
         );

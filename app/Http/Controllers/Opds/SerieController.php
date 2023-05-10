@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\MyOpds;
+use App\Engines\OpdsApp;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Serie;
@@ -20,7 +20,7 @@ class SerieController extends Controller
     #[Get('/', name: 'series.index')]
     public function index()
     {
-        $entries = MyOpds::cache('opds.series.index', function () {
+        $entries = OpdsApp::cache('opds.series.index', function () {
             $items = Serie::with('books', 'media', 'authorMain')
                 ->orderBy('slug_sort')
                 ->get()
@@ -44,7 +44,7 @@ class SerieController extends Controller
         });
 
         return Opds::response(
-            config: MyOpds::config(),
+            config: OpdsApp::config(),
             entries: (array) $entries,
             title: 'Series',
         );
@@ -62,11 +62,11 @@ class SerieController extends Controller
         $entries = [];
 
         foreach ($serie->books as $book) {
-            $entries[] = MyOpds::bookToEntry($book);
+            $entries[] = OpdsApp::bookToEntry($book);
         }
 
         return Opds::response(
-            config: MyOpds::config(),
+            config: OpdsApp::config(),
             entries: (array) $entries,
             title: "Serie {$serie->title}",
         );

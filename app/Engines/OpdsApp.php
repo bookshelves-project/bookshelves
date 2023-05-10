@@ -12,7 +12,7 @@ use Kiwilan\Opds\Entries\OpdsEntryBook;
 use Kiwilan\Opds\Entries\OpdsEntryBookAuthor;
 use Kiwilan\Opds\OpdsConfig;
 
-class MyOpds
+class OpdsApp
 {
     public static function config(): OpdsConfig
     {
@@ -37,6 +37,14 @@ class MyOpds
 
         return [
             new OpdsEntry(
+                id: 'latest',
+                title: 'Latest',
+                route: route('opds.latest'),
+                summary: 'Latest books',
+                media: asset('vendor/images/opds/books.png'),
+                updated: Book::orderBy('updated_at', 'desc')->first()->updated_at,
+            ),
+            new OpdsEntry(
                 id: 'authors',
                 title: 'Authors',
                 route: route('opds.authors.index'),
@@ -51,6 +59,14 @@ class MyOpds
                 summary: "Series, {$series->count()} available",
                 media: asset('vendor/images/opds/series.png'),
                 updated: Serie::orderBy('updated_at', 'desc')->first()->updated_at,
+            ),
+            new OpdsEntry(
+                id: 'random',
+                title: 'Random',
+                route: route('opds.random'),
+                summary: 'Random books',
+                media: asset('vendor/images/opds/books.png'),
+                updated: Book::orderBy('updated_at', 'desc')->first()->updated_at,
             ),
         ];
     }

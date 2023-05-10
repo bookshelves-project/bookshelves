@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\MyOpds;
+use App\Engines\OpdsApp;
 use App\Engines\SearchEngine;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
@@ -18,8 +18,40 @@ class IndexController extends Controller
     public function index()
     {
         return Opds::response(
-            config: MyOpds::config(),
-            entries: MyOpds::home(),
+            config: OpdsApp::config(),
+            entries: OpdsApp::home(),
+        );
+    }
+
+    #[Get('/latest', name: 'latest')]
+    public function latest()
+    {
+        $entries = [];
+
+        foreach (Book::orderBy('updated_at', 'desc')->limit(32)->get() as $book) {
+            $entries[] = OpdsApp::bookToEntry($book);
+        }
+
+        return Opds::response(
+            config: OpdsApp::config(),
+            entries: $entries,
+            title: 'Latest books',
+        );
+    }
+
+    #[Get('/random', name: 'random')]
+    public function random()
+    {
+        $entries = [];
+
+        foreach (Book::inRandomOrder()->limit(32)->get() as $book) {
+            $entries[] = OpdsApp::bookToEntry($book);
+        }
+
+        return Opds::response(
+            config: OpdsApp::config(),
+            entries: $entries,
+            title: 'Random books',
         );
     }
 
@@ -34,12 +66,12 @@ class IndexController extends Controller
 
             foreach ($search->results_opds as $result) {
                 /** @var Book $result */
-                $entries[] = MyOpds::bookToEntry($result);
+                $entries[] = OpdsApp::bookToEntry($result);
             }
         }
 
         return Opds::response(
-            config: MyOpds::config(),
+            config: OpdsApp::config(),
             entries: $entries,
             title: "Search for {$query}",
             isSearch: true,

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\MyOpds;
+use App\Engines\OpdsApp;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use Kiwilan\Opds\Entries\OpdsEntry;
@@ -19,7 +19,7 @@ class AuthorController extends Controller
     #[Get('/', name: 'authors.index')]
     public function index()
     {
-        $entries = MyOpds::cache('opds.authors.index', function () {
+        $entries = OpdsApp::cache('opds.authors.index', function () {
             $items = Author::with('books', 'media')
                 ->orderBy('lastname')
                 ->get()
@@ -46,7 +46,7 @@ class AuthorController extends Controller
         });
 
         return Opds::response(
-            config: MyOpds::config(),
+            config: OpdsApp::config(),
             entries: (array) $entries,
             title: 'Authors',
         );
@@ -60,11 +60,11 @@ class AuthorController extends Controller
         $entries = [];
 
         foreach ($author->books as $book) {
-            $entries[] = MyOpds::bookToEntry($book);
+            $entries[] = OpdsApp::bookToEntry($book);
         }
 
         return Opds::response(
-            config: MyOpds::config(),
+            config: OpdsApp::config(),
             entries: $entries,
             title: "Author {$author->lastname} {$author->firstname}",
         );
