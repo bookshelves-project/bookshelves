@@ -7,14 +7,14 @@ stages:
   - deploy
 
 variables:
-  NODE_VERSION: '16.15.0'
-  PHP_VERSION: '8.1'
+  NODE_VERSION: "16.15.0"
+  PHP_VERSION: "8.1"
 
 deploy-job:
   stage: deploy
   image: alpine:latest
   before_script:
-    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - "command -v ssh-agent >/dev/null || ( apk add --update openssh )"
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
@@ -23,7 +23,7 @@ deploy-job:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh $SSH_USER@$SSH_IP "
-      cd /home/ewilan/www/$CI_PROJECT_NAME &&
+      cd /home/ewilan/www/bookshelves-back &&
       git pull &&
       /usr/bin/php$PHP_VERSION /usr/local/bin/composer install &&
       php$PHP_VERSION artisan optimize:clear &&
