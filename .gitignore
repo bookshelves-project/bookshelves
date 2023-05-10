@@ -20,3 +20,5 @@ yarn-error.log
 /public/packages
 /public/assets/dist
 /public/build/.phpstan
+_ide_helper_models.php
+_ide_helper.php
