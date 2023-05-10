@@ -28,7 +28,7 @@
     "ext-rar": "*"
   },
   "require": {
-    "php": "^8.0.2",
+    "php": "^8.1",
     "artesaos/seotools": "^0.22.0",
     "barryvdh/laravel-elfinder": "^0.5.1",
     "fruitcake/laravel-cors": "^3.0",
@@ -160,7 +160,8 @@
     "sort-packages": true,
     "allow-plugins": {
       "pestphp/pest-plugin": true,
-      "phpro/grumphp-shim": true
+      "phpro/grumphp-shim": true,
+      "php-http/discovery": true
     }
   },
   "minimum-stability": "dev",
