@@ -3,17 +3,17 @@
 ## Linux
 
 ```bash
-sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/comic public/storage/data/books/comic/linked
+sudo ln -s /Users/ewilan/Documents/books/linked/comic public/storage/data/books/comic/linked
 
-sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/essay public/storage/data/books/essay/linked
+sudo ln -s /Users/ewilan/Documents/books/linked/essay public/storage/data/books/essay/linked
 
-sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/handbook public/storage/data/books/handbook/linked
+sudo ln -s /Users/ewilan/Documents/books/linked/handbook public/storage/data/books/handbook/linked
 
-sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/novel public/storage/data/books/novel/linked
+sudo ln -s /Users/ewilan/Documents/books/linked/novel public/storage/data/books/novel/linked
 
-sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/pictures-authors public/storage/data/authors/pictures
+sudo ln -s /Users/ewilan/Documents/books/linked/pictures-authors public/storage/data/authors/pictures
 
-sudo ln -s /Users/ewilan/Documents/WorkInProgress/ebooks/linked/pictures-series public/storage/data/series/pictures
+sudo ln -s /Users/ewilan/Documents/books/linked/pictures-series public/storage/data/series/pictures
 ```
 
 ## Windows
