@@ -1,83 +1,57 @@
 [
-    {
-        "title": {
-            "en": "Find the book that fits you!",
-            "fr": "Trouvez le livre qui vous convient !"
-        },
-        "slug": "books",
-        "text": {
-            "en": "A selection of more than a hundred works, find the one that will strike a chord with your soul. And come back for ten more. Search by title, author or series then download all the books of an author or series if you wish!",
-            "fr": "Une sélection de plus d'une centaine d'œuvres, trouvez celle qui touchera la corde sensible de votre âme. Et revenez en chercher dix autres. Recherchez par titre, auteur ou série puis téléchargez tous les livres d'un auteur ou d'une série si vous le souhaitez !"
-        },
-        "cta_text": {
-            "en": "Discover all books",
-            "fr": "Découvrez tous les livres"
-        },
-        "cta_link": {
-            "name": "books"
-        },
-        "quote_text": {
-            "en": "Maybe it's not quite legal but it's cool!",
-            "fr": "Ce n'est peut-être pas tout à fait légal mais c'est cool !"
-        },
-        "quote_author": {
-            "en": "An enthusiastic reader",
-            "fr": "Un lecteur enthousiaste"
-        }
+  {
+    "title": {
+      "en": "Find the book that fits you!",
+      "fr": "Trouvez le livre qui vous convient !"
     },
-    {
-        "title": {
-            "en": "Want to know your eReader?",
-            "fr": "Vous voulez connaître votre liseuse ?"
-        },
-        "slug": "guides",
-        "text": {
-            "en": "Detailed guides are there to explain how to best manage your eReader but also to get to know the books better in order to modify them if you wish.",
-            "fr": "Des guides détaillés sont là pour expliquer comment gérer au mieux votre liseuse mais aussi pour mieux connaître les books afin de les modifier si vous le souhaitez."
-        },
-        "cta_text": {
-            "en": "Discover guides",
-            "fr": "Découvrez les guides"
-        },
-        "cta_link": {
-            "name": "guides"
-        },
-        "quote_text": {
-            "en": "The world of eReaders is so vast!",
-            "fr": "Le monde des liseuses est si vaste !"
-        },
-        "quote_author": {
-            "en": "A novice user",
-            "fr": "Un utilisateur novice"
-        }
+    "slug": "books",
+    "text": {
+      "en": "A selection of more than a hundred works, find the one that will strike a chord with your soul. And come back for ten more. Search by title, author or series then download all the books of an author or series if you wish!",
+      "fr": "Une sélection de plus d'une centaine d'œuvres, trouvez celle qui touchera la corde sensible de votre âme. Et revenez en chercher dix autres. Recherchez par titre, auteur ou série puis téléchargez tous les livres d'un auteur ou d'une série si vous le souhaitez !"
     },
-    {
-        "title": {
-            "en": "Features, read as you wish",
-            "fr": "Features, lisez comme vous le souhaitez"
-        },
-        "slug": "features",
-        "text": {
-            "en": "Features offer a lot of extra options to find and read books. You can download directly books from your eReader with Catalog or you can use OPDS (Open Publication Distribution System) feed to get all books on your favorite application. And if you want to read eBook directly in your browser with Webreader.",
-            "fr": "Features offrent de nombreuses options supplémentaires pour trouver et lire des books. Vous pouvez télécharger directement les books de votre eReader avec Catalog ou vous pouvez utiliser le flux OPDS (Open Publication Distribution System) pour obtenir tous les books sur votre application préférée. Et si vous voulez lire un eBook directement dans votre navigateur avec Webreader."
-        },
-        "cta_text": {
-            "en": "Discover Features",
-            "fr": "Découvrir Features"
-        },
-        "cta_link": {
-            "name": "slug",
-            "params": {
-                "slug": "features"
-            }
-        },
-        "quote_text": {
-            "en": "I am only interested in OPDS feeds adapted to my eReader with Koreader OS.",
-            "fr": "Je m'intéresse uniquement aux flux OPDS adaptés à ma liseuse sous Koreader."
-        },
-        "quote_author": {
-            "en": "A very experimented reader",
-            "fr": "Un lecteur très expérimenté"
-        }
+    "cta_text": {
+      "en": "Discover all books",
+      "fr": "Découvrez tous les livres"
+    },
+    "cta_link": {
+      "name": "books"
+    },
+    "quote_text": {
+      "en": "It's so cool!",
+      "fr": "C'est tellement cool !"
+    },
+    "quote_author": {
+      "en": "An enthusiastic reader",
+      "fr": "Un lecteur enthousiaste"
     }
+  },
+  {
+    "title": {
+      "en": "Features, read as you wish",
+      "fr": "Features, lisez comme vous le souhaitez"
+    },
+    "slug": "features",
+    "text": {
+      "en": "Features offer a lot of extra options to find and read books. You can download directly books from your eReader with Catalog or you can use OPDS (Open Publication Distribution System) feed to get all books on your favorite application. And if you want to read eBook directly in your browser with Webreader.",
+      "fr": "Features offrent de nombreuses options supplémentaires pour trouver et lire des books. Vous pouvez télécharger directement les books de votre eReader avec Catalog ou vous pouvez utiliser le flux OPDS (Open Publication Distribution System) pour obtenir tous les books sur votre application préférée. Et si vous voulez lire un eBook directement dans votre navigateur avec Webreader."
+    },
+    "cta_text": {
+      "en": "Discover Features",
+      "fr": "Découvrir Features"
+    },
+    "cta_link": {
+      "name": "slug",
+      "params": {
+        "slug": "features"
+      }
+    },
+    "quote_text": {
+      "en": "I am only interested in OPDS feeds adapted to my eReader with Koreader OS.",
+      "fr": "Je m'intéresse uniquement aux flux OPDS adaptés à ma liseuse sous Koreader."
+    },
+    "quote_author": {
+      "en": "A very experimented reader",
+      "fr": "Un lecteur très expérimenté"
+    }
+  }
 ]
