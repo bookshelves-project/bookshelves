@@ -63,9 +63,9 @@ class ApiCommand extends CommandProd
         $service = new DirectoryClearService(storage_path('app/public/debug/wikipedia'));
         $service->clearDir();
 
-        $authors = $this->option('authors') ?? false;
-        $series = $this->option('series') ?? false;
-        $books = $this->option('books') ?? false;
+        $authors = $this->option('authors') ?: false;
+        $series = $this->option('series') ?: false;
+        $books = $this->option('books') ?: false;
 
         if ($books) {
             $this->googleBook();
@@ -86,8 +86,8 @@ class ApiCommand extends CommandProd
         $this->info('- GoogleBook: extract data to improve Book');
         $this->newLine();
 
-        $fresh = $this->option('fresh') ?? false;
-        $debug = $this->option('debug') ?? false;
+        $fresh = $this->option('fresh') ?: false;
+        $debug = $this->option('debug') ?: false;
 
         if ($fresh) {
             GoogleBook::query()->delete();
@@ -127,9 +127,9 @@ class ApiCommand extends CommandProd
 
     private function wikipediaRequest(Author|Serie $model_name, string $orderBy, array $attribute, string $language_attribute = 'language_slug')
     {
-        $debug = $this->option('debug') ?? false;
-        $default = $this->option('default') ?? false;
-        $fresh = $this->option('fresh') ?? false;
+        $debug = $this->option('debug') ?: false;
+        $default = $this->option('default') ?: false;
+        $fresh = $this->option('fresh') ?: false;
 
         $class = new ReflectionClass($model_name);
         $class = $class->getShortName();

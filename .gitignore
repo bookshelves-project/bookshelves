@@ -19,3 +19,4 @@ yarn-error.log
 /.phpstan
 /public/packages
 /public/assets/dist
+/public/build/.phpstan

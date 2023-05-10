@@ -47,7 +47,7 @@ class RadGenerateCommand extends Command
     {
         $model = $this->argument('model');
         $model = ucfirst($model);
-        $force = $this->option('force') ?? false;
+        $force = $this->option('force') ?: false;
         $this->force = $force;
         $this->attribute = $this->option('attribute') ? str_replace('=', '', $this->option('attribute')) : 'name';
 

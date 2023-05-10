@@ -59,12 +59,12 @@ class GenerateCommand extends CommandProd
     {
         $this->intro('Books & relations');
 
-        $force = $this->option('force') ?? false;
+        $force = $this->option('force') ?: false;
         $limit = str_replace('=', '', $this->option('limit'));
         $limit = intval($limit);
-        $fresh = $this->option('fresh') ?? false;
-        $debug = $this->option('debug') ?? false;
-        $default = $this->option('default') ?? false;
+        $fresh = $this->option('fresh') ?: false;
+        $debug = $this->option('debug') ?: false;
+        $default = $this->option('default') ?: false;
 
         $this->checkProd();
 
@@ -136,7 +136,7 @@ class GenerateCommand extends CommandProd
 
     private function improveRelation(string $model)
     {
-        $default = $this->option('default') ?? false;
+        $default = $this->option('default') ?: false;
 
         $class = new ReflectionClass($model);
         $class = $class->getShortName();

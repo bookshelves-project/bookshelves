@@ -32,7 +32,7 @@ class CommandProd extends Command
 
     public function checkProd()
     {
-        $force = $this->option('force') ?? false;
+        $force = $this->option('force') ?: false; // @phpstan-ignore-line
 
         if ('local' !== config('app.env') && ! $force) {
             if ($this->confirm('This command will erase some data, do you really want to continue?', true)) {

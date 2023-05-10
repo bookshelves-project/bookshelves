@@ -44,10 +44,10 @@ class SampleCommand extends CommandProd
     {
         $this->intro();
 
-        $admin = $this->option('admin') ?? false;
-        $users = $this->option('users') ?? false;
-        $cms = $this->option('cms') ?? false;
-        $force = $this->option('force') ?? false;
+        $admin = $this->option('admin') ?: false;
+        $users = $this->option('users') ?: false;
+        $cms = $this->option('cms') ?: false;
+        $force = $this->option('force') ?: false;
 
         $this->checkProd();
 

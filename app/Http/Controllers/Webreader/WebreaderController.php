@@ -55,7 +55,7 @@ class WebreaderController extends Controller
 
         SEOTools::setTitle($title);
         SEOTools::setDescription(Str::limit($book->description, 150).'...');
-        SEOTools::addImages($book->cover_simple);
+        SEOTools::addImages([$book->cover_simple]);
 
         /** @var MediaExtended $file */
         $file = $book->files[$format->value];
@@ -89,10 +89,11 @@ class WebreaderController extends Controller
 
             return response()->download($pdf->getPath(), $pdf->file_name);
         }
-        if (BookFormatEnum::cbz === $format || BookFormatEnum::cbr === $format) {
-            return view('webreader::pages.comic', compact('book'));
-        }
+        // if (BookFormatEnum::cbz === $format || BookFormatEnum::cbr === $format) {
+        //     return view('webreader::pages.comic', compact('book'));
+        // }
 
-        return view('webreader::pages.not-ready', compact('url'));
+        return view('webreader::pages.comic', compact('book'));
+        // return view('webreader::pages.not-ready', compact('url'));
     }
 }

@@ -46,13 +46,13 @@ class SetupCommand extends CommandProd
         $this->info('This command allow speed installation to group other bookshelves commands.');
         $this->newLine();
 
-        $force = $this->option('force') ?? false;
-        $fresh = $this->option('fresh') ?? false;
-        $api = $this->option('api') ?? false;
-        $sample = $this->option('sample') ?? false;
+        $force = $this->option('force') ?: false;
+        $fresh = $this->option('fresh') ?: false;
+        $api = $this->option('api') ?: false;
+        $sample = $this->option('sample') ?: false;
         $limit = $this->option('limit') ? intval(str_replace('=', '', $this->option('limit'))) : false;
-        $debug = $this->option('debug') ?? false;
-        $default = $this->option('default') ?? false;
+        $debug = $this->option('debug') ?: false;
+        $default = $this->option('default') ?: false;
 
         if ($fresh) {
             $this->checkProd();

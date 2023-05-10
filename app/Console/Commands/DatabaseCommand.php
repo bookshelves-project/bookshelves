@@ -51,7 +51,7 @@ class DatabaseCommand extends CommandProd
      */
     public function handle()
     {
-        $books = $this->option('books') ?? false;
+        $books = $this->option('books') ?: false;
 
         if ($books) {
             $this->fresh();
