@@ -23,17 +23,18 @@ deploy-job:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh $SSH_USER@$SSH_IP "
+      . ~/.zshrc &&
       cd /home/ewilan/www/bookshelves-back &&
       git pull &&
-      /usr/bin/php$PHP_VERSION /usr/local/bin/composer install &&
+      composer i &&
+      composer dump-autoload &&
       php$PHP_VERSION artisan optimize:clear &&
-      /usr/bin/php$PHP_VERSION /usr/local/bin/composer dump-autoload &&
       php$PHP_VERSION artisan bookshelves:clear &&
       php$PHP_VERSION artisan optimize &&
-      /usr/bin/php$PHP_VERSION /usr/local/bin/composer doc &&
+      composer doc &&
       php$PHP_VERSION artisan scout:fresh &&
       /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm i &&
       /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm build &&
-      discord-queerotronic.sh '$CI_PROJECT_TITLE'"
+      notify main 'Bookshelves deployed'"
   only:
     - main
