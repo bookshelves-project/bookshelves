@@ -10,10 +10,6 @@ If you want to participate to this project, you can [**contact us**](/contact), 
 
 If you want to download and read eBooks from any device which support OPDS, you can do this with [**APP_NAME OPDS**](/pages/features) (Open Publication Distribution System).
 
-## My books are on APP_NAME, I disagree
-
-If your are an author and you found your books here, you can ask us to remove it from APP_NAME, just [**contact us**](/contact).
-
 ## I want to host my APP_NAME app
 
 You can setup APP_NAME on your personal server from [**repositories**](APP_REPOSITORY_URL). You can consult [official Wiki](APP_DOCUMENTATION_URL) to know more about APP_NAME setup.
