@@ -10,9 +10,9 @@
 
 [![mysql](https://img.shields.io/static/v1?label=MySQL&message=v8&color=4479A1&style=flat-square&logo=mysql&logoColor=ffffff)](https://www.mysql.com)
 
-📀 [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository  
-💻 [**bookshelves.ink**](https://bookshelves.ink): demo  
-📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-doc)  
+📀 [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
+💻 [**bookshelves.ink**](https://bookshelves.ink): demo
+📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-doc)
 
 ## **Setup**
 
@@ -28,11 +28,23 @@ Execute `setup` and follow guide
 php artisan setup
 ```
 
-See [**documentation**](https://bookshelves-documentation.netlify.app) to know more about *Bookshelves*.
+See [**documentation**](https://bookshelves-documentation.netlify.app) to know more about _Bookshelves_.
 
 ## **Usage**
 
 To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app), if this link is broken, you have to refer to [**raw documentation**](https://github.com/bookshelves-project/bookshelves-doc) on repository.
+
+## Meilisearch
+
+Bookshelves use [Meilisearch](https://www.meilisearch.com/docs) with `v0.27.0` version.
+
+```bash
+sudo docker run -d --rm \
+  -p 7701:7700 \
+  -v $(pwd)/meili_data:/meili_data \
+  getmeili/meilisearch:v0.27.0
+meilisearch --master-key="MASTER_KEY" --env="production"
+```
 
 ## **Tests**
 
