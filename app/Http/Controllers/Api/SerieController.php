@@ -48,8 +48,7 @@ class SerieController extends ApiController
                 sortAsc: true,
                 full: $this->getFull($request)
             ))
-            ->paginateOrExport()
-        ;
+            ->paginateOrExport();
     }
 
     /**
@@ -73,7 +72,6 @@ class SerieController extends ApiController
      *
      * @queryParam next int
      * Volume to select next Book[] after. No-example
-     *
      * @queryParam first boolean
      * To select only first Book with `next`. No-example
      */

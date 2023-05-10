@@ -33,8 +33,7 @@ class LanguageController extends Controller
     public function index()
     {
         return app(LanguageQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('languages/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('languages/Index', $data));
     }
 
     #[Get('create', name: 'languages.create')]

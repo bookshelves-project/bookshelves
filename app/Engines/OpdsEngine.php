@@ -42,11 +42,9 @@ class OpdsEngine
         $engine->version = $request->version;
         $engine->feed = ConverterService::arrayToObject(self::FEED);
 
-        $module = match ($request->version) {
+        return match ($request->version) {
             '1.2' => Version1_2Module::create($engine),
             default => NotSupportedModule::create($engine),
         };
-
-        return $module;
     }
 }

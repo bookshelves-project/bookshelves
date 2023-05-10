@@ -33,8 +33,7 @@ class AuthorController extends Controller
     public function index()
     {
         return app(AuthorQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('authors/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('authors/Index', $data));
     }
 
     #[Get('create', name: 'authors.create')]

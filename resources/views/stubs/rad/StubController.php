@@ -33,8 +33,7 @@ class StubController extends Controller
     public function index()
     {
         return app(StubQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('stubsKebab/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('stubsKebab/Index', $data));
     }
 
     #[Get('create', name: 'stubsKebab.create')]

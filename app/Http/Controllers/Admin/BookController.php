@@ -34,8 +34,7 @@ class BookController extends Controller
     public function index()
     {
         return app(BookQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('books/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('books/Index', $data));
     }
 
     #[Get('create', name: 'books.create')]

@@ -34,8 +34,7 @@ class PostController extends Controller
     public function index()
     {
         return app(PostQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('posts/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('posts/Index', $data));
     }
 
     #[Get('create', name: 'posts.create')]

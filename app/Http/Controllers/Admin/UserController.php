@@ -36,8 +36,7 @@ class UserController extends Controller
     public function index()
     {
         return app(UserQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('users/Index', ['action' => 'list'] + $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('users/Index', ['action' => 'list'] + $data));
     }
 
     #[Get('create', name: 'users.create')]

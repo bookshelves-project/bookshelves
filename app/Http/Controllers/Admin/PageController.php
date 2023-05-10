@@ -32,8 +32,7 @@ class PageController extends Controller
     public function index()
     {
         return app(PageQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('pages/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('pages/Index', $data));
     }
 
     #[Get('create', name: 'pages.create')]

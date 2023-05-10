@@ -40,8 +40,7 @@ class TagController extends Controller
     public function index()
     {
         return app(TagQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('tags/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('tags/Index', $data));
     }
 
     #[Get('create', name: 'tags.create')]

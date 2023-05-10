@@ -110,19 +110,19 @@ class WikipediaQuery
                         break;
                     }
                     // if (0 < count(array_intersect(array_map('strtolower', explode(' ', $result->title)), $search_list))) {
-                //     $pageId = $result->pageid;
+                    //     $pageId = $result->pageid;
 
-                //     break;
+                    //     break;
                     // }
                     // if (str_contains($result->title, '(writer)')) {
-                //     $pageId = $result->pageid;
+                    //     $pageId = $result->pageid;
 
-                //     break;
+                    //     break;
                     // }
                     // if (str_contains($result->title, '(author)')) {
-                //     $pageId = $result->pageid;
+                    //     $pageId = $result->pageid;
 
-                //     break;
+                    //     break;
                     // }
                 }
 

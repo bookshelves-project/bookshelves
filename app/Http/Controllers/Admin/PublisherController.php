@@ -33,8 +33,7 @@ class PublisherController extends Controller
     public function index()
     {
         return app(PublisherQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('publishers/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('publishers/Index', $data));
     }
 
     #[Get('create', name: 'publishers.create')]

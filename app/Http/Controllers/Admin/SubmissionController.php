@@ -19,8 +19,7 @@ class SubmissionController extends Controller
     public function index()
     {
         return app(SubmissionQuery::class)->make(null)
-            ->paginateOrExport(fn ($data) => Inertia::render('submissions/Index', $data))
-        ;
+            ->paginateOrExport(fn ($data) => Inertia::render('submissions/Index', $data));
     }
 
     #[Get('submissions', name: 'submissions.create')]
