@@ -48,7 +48,7 @@
     "league/html-to-markdown": "^5.0",
     "livewire/livewire": "^2.10",
     "maatwebsite/excel": "^3.1",
-    "meilisearch/meilisearch-php": "^0.24.1",
+    "meilisearch/meilisearch-php": "^0.27.0",
     "mobiledetect/mobiledetectlib": "^2.8",
     "oscarotero/inline-svg": "^2.0",
     "smalot/pdfparser": "^2.2",
