@@ -44,6 +44,7 @@ sudo docker run -d --rm \
     -e MEILI_ENV='production'\
     -e MEILI_MASTER_KEY='MASTER_KEY'\
     -v $(pwd)/meili_data:/meili_data \
+    --name meilisearch-v0 \
     getmeili/meilisearch:v0.27.0
 ```
 
