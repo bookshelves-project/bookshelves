@@ -19,7 +19,6 @@ class StartupCommand extends Commandable
                             {--f|fresh : erase database and fresh installation, generate books and relations, all assets and selection books}
                             {--s|sample : fake users with comments/favorites and CMS with posts and pages}
                             {--l|limit= : limit epub files to generate, useful for debug}
-                            {--d|debug : generate metadata files into public/storage/debug for debug}
                             {--D|default : use default cover for all (skip covers step)}
                             {--F|force : skip confirm in prod}';
 
@@ -54,8 +53,7 @@ class StartupCommand extends Commandable
         $admin = $this->option('admin') ?: false;
         $sample = $this->option('sample') ?: false;
         $limit = $this->option('limit') ? intval(str_replace('=', '', $this->option('limit'))) : false;
-        $debug = $this->option('debug') ?: false;
-        $default = $this->option('default') ?: false;
+        $verbose = $this->option('verbose') ?: false;
 
         if ($fresh) {
             if (! $force) {
@@ -74,9 +72,8 @@ class StartupCommand extends Commandable
         Artisan::call('bookshelves:make', [
             '--fresh' => $fresh,
             '--limit' => $limit,
-            '--debug' => $debug,
+            '--verbose' => $verbose,
             '--force' => $force,
-            '--default' => $default,
         ], $this->getOutput());
         // API.
         if ($api) {
@@ -86,11 +83,11 @@ class StartupCommand extends Commandable
                 '--series' => true,
                 '--fresh' => $fresh,
                 '--force' => $force,
-                '--default' => $default,
+                '--verbose' => $verbose,
             ], $this->getOutput());
         }
 
-        if (! $debug) {
+        if (! $verbose) {
             Artisan::call('clear:all', [], $this->getOutput());
         }
 

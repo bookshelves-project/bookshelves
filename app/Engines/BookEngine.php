@@ -17,12 +17,12 @@ class BookEngine
     ) {
     }
 
-    public static function make(BookFileReader $file, bool $debug = false, bool $default = false): self
+    public static function make(BookFileReader $file, bool $verbose = false, bool $default = false): self
     {
         $ebook = Ebook::read($file->path());
 
-        if ($debug) {
-            BookEngine::debug($ebook);
+        if ($verbose) {
+            BookEngine::verbose($ebook);
         }
 
         $converter = ConverterEngine::make($ebook, $file, $default);
@@ -45,7 +45,7 @@ class BookEngine
         return $this->converter;
     }
 
-    private static function debug(Ebook $ebook): void
+    private static function verbose(Ebook $ebook): void
     {
         $console = Console::make();
         $console->print("{$ebook->book()->title()}");

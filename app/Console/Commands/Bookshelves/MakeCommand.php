@@ -35,7 +35,6 @@ class MakeCommand extends Commandable
     protected $signature = 'bookshelves:make
                             {--f|fresh : reset current books and relation, keep users}
                             {--l|limit= : limit epub files to generate, useful for debug}
-                            {--d|debug : generate metadata files into public/storage/debug for debug}
                             {--D|default : use default cover for all (skip covers step)}
                             {--F|force : skip confirm in prod}';
 
@@ -56,7 +55,7 @@ class MakeCommand extends Commandable
      * Create a new command instance.
      */
     public function __construct(
-        protected bool $debug = false,
+        protected bool $verbose = false,
         protected bool $default = false,
         protected bool $force = false,
         protected bool $fresh = false,
@@ -108,7 +107,7 @@ class MakeCommand extends Commandable
         foreach ($this->files as $file) {
             $this->convert($file);
 
-            if (! $this->debug) {
+            if (! $this->verbose) {
                 $bar->advance();
             }
         }
@@ -131,7 +130,7 @@ class MakeCommand extends Commandable
         $limit = str_replace('=', '', $this->option('limit'));
         $this->limit = intval($limit);
         $this->fresh = $this->option('fresh') ?: false;
-        $this->debug = $this->option('debug') ?: false;
+        $this->verbose = $this->option('verbose') ?: false;
         $this->default = $this->option('default') ?: false;
 
         $this->askOnProduction();
@@ -172,18 +171,18 @@ class MakeCommand extends Commandable
     private function convert(BookFileReader $file): void
     {
         if ($this->fresh) {
-            BookEngine::make($file, $this->debug, $this->default);
+            BookEngine::make($file, $this->verbose, $this->default);
 
             return;
         }
 
         if (! in_array($file->path(), $this->books, true)) {
             // $ebook = Ebook::read($file->path());
-            // $this->debug($ebook);
+            // $this->verbose($ebook);
 
             // ConverterEngine::make($ebook, $file, $this->default);
 
-            BookEngine::make($file, $this->debug, $this->default);
+            BookEngine::make($file, $this->verbose, $this->default);
         }
     }
 

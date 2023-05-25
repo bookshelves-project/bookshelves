@@ -29,7 +29,6 @@ class ApiCommand extends Commandable
                             {--a|authors : assets for authors}
                             {--s|series : assets for series}
                             {--f|fresh : refresh authors medias, `description` & `link`}
-                            {--d|debug : print log for debug}
                             {--D|default : use default cover for all (skip covers step)}
                             {--F|force : skip confirm in prod}';
 
@@ -42,7 +41,7 @@ class ApiCommand extends Commandable
 
     protected bool $fresh = false;
 
-    protected bool $debug = false;
+    protected bool $verbose = false;
 
     protected bool $default = false;
 
@@ -72,12 +71,12 @@ class ApiCommand extends Commandable
         $books = $this->option('books') ?: false;
 
         $this->fresh = $this->option('fresh') ?: false;
-        $this->debug = $this->option('debug') ?: false;
+        $this->verbose = $this->option('verbose') ?: false;
         $this->default = $this->option('default') ?: false;
 
-        if ($this->debug) {
+        if ($this->verbose) {
             $this->newLine();
-            $this->info('Debug mode');
+            $this->info('Verbose mode');
             $this->info('All requests will be printed as JSON into `public/storage/debug/wikipedia` directory.');
             $this->newLine();
         }
@@ -114,7 +113,7 @@ class ApiCommand extends Commandable
     {
         $service = GoogleBookService::make($className::all())
             ->setIsbnFields($isbnFields)
-            ->setDebug($this->debug)
+            ->setDebug($this->verbose)
         ;
 
         $count = $service->count();
@@ -178,7 +177,7 @@ class ApiCommand extends Commandable
 
         $service = WikipediaService::make($className::all(), $languageField)
             ->setQueryAttributes($attributes)
-            ->setDebug($this->debug)
+            ->setDebug($this->verbose)
         ;
 
         $this->comment($meta->className().': '.$service->count());
