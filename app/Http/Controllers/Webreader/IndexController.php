@@ -26,9 +26,43 @@ class IndexController extends Controller
             ->firstOrFail()
         ;
 
+        $media = $book->file_main;
+        $format = BookFormatEnum::from($media->format);
+
+        $title = $book->title;
+        $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';
+        $title .= ' by '.$book->authors_names;
+
+        /** @var MediaExtended $file */
+        $file = $book->files[$format->value];
+        $path = $file->getPath();
+        $path = explode('storage/app/public/', $path)[1];
+        $path = config('app.url')."/storage/{$path}";
+
+        $data = [
+            'title' => $book->title,
+            'titleFull' => $title,
+            'authors' => $book->authors_names,
+            'series' => $book->serie ? "{$book->serie->title}, vol. {$book->volume}" : null,
+            'volume' => $book->volume,
+            // 'book_next' => $book_next?->title,
+            // 'book_next_route' => $book_next_route,
+            'filename' => $file->file_name,
+            'url' => $file->download,
+            'path' => $path,
+            'downloadUrl' => route('api.download.book', [
+                'author_slug' => $author->slug,
+                'book_slug' => $book->slug,
+                'format' => $format->value,
+            ]),
+            'format' => $format->value,
+            'size' => $file->size_human,
+        ];
+        $book = json_encode($data);
+        // $book = json_decode($data);
+
         return view('webreader::pages.epub', [
             'book' => $book,
-            'url' => $book->file_main->url,
         ]);
         // $book_next = null;
         // $book_next_route = null;
@@ -56,37 +90,9 @@ class IndexController extends Controller
         //     $format = BookFormatEnum::from($media->format);
         // }
 
-        // $title = $book->title;
-        // $title .= $book->serie ? ' ('.$book->serie->title.', vol. '.$book->volume.')' : '';
-        // $title .= ' by '.$book->authors_names;
-
         // SEOTools::setTitle($title);
         // SEOTools::setDescription(Str::limit($book->description, 150).'...');
         // SEOTools::addImages([$book->cover_simple]);
-
-        // /** @var MediaExtended $file */
-        // $file = $book->files[$format->value];
-        // $data = [
-        //     'title' => $book->title,
-        //     'authors' => $book->authors_names,
-        //     'serie' => $book->serie ? "{$book->serie->title}, vol. {$book->volume}" : null,
-        //     'volume' => $book->volume,
-        //     'book_next' => $book_next?->title,
-        //     'book_next_route' => $book_next_route,
-        //     'full_title' => $title,
-        //     'filename' => $file->file_name,
-        //     'url' => $file->download,
-        //     'download' => route('api.download.book', [
-        //         'author_slug' => $author->slug,
-        //         'book_slug' => $book->slug,
-        //         'format' => $format->value,
-        //     ]),
-        //     'format' => $format->value,
-        //     'size_human' => $file->size_human,
-        // ];
-        // $url = $data['url'];
-        // $data = json_encode($data);
-        // $book = json_decode($data);
 
         // if (BookFormatEnum::epub === $format) {
         //     return view('webreader::pages.epubjs', ['book' => $book]);

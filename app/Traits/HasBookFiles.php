@@ -112,6 +112,7 @@ trait HasBookFiles
             $media = new DownloadFile(
                 name: $file->file_name,
                 size: $file->size_human,
+                path: $file->getPath(),
                 url: $route,
                 reader: $reader,
                 format: $file->extension,
