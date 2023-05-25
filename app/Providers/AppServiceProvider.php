@@ -70,6 +70,8 @@ class AppServiceProvider extends ServiceProvider
             return $user->is_admin || $user->is_super_admin;
         });
 
+        View::addNamespace('webreader', resource_path('webreader'));
+
         // Use `Refresh` button to refresh the page
         Health::checks([
             OptimizedAppCheck::new(),
