@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Engines\Book\Converter\WikipediaItemConverter;
 use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
+use App\Traits\HasBookFiles;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
@@ -45,6 +46,7 @@ class Serie extends Model implements HasMedia, Wikipediable
     use Searchable;
     use Queryable;
     use HasSearchableName;
+    use HasBookFiles;
 
     protected $query_default_sort = 'slug_sort';
 

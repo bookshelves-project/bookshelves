@@ -21,6 +21,9 @@ class SerieResource extends JsonResource
             ...SerieCollection::make($this->resource)->toArray($request),
             'description' => $this->resource->description,
             'link' => $this->resource->link,
+
+            'download' => $this->resource->file_main,
+            'files' => $this->resource->files_list,
         ];
     }
 }

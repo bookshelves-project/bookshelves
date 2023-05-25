@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Engines\Book\Converter\WikipediaItemConverter;
 use App\Enums\AuthorRoleEnum;
+use App\Traits\HasBookFiles;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasReviews;
@@ -42,6 +43,7 @@ class Author extends Model implements HasMedia, Wikipediable
     use Searchable;
     use Queryable;
     use HasSearchableName;
+    use HasBookFiles;
 
     protected $query_default_sort = 'lastname';
 
