@@ -8,20 +8,20 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.38.6",
+    "@antfu/eslint-config": "^0.39.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
     "@types/alpinejs": "^3.7.1",
-    "alpinejs": "^3.12.0",
+    "alpinejs": "^3.12.1",
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
-    "eslint": "^8.40.0",
-    "laravel-vite-plugin": "^0.7.5",
+    "eslint": "^8.41.0",
+    "laravel-vite-plugin": "^0.7.8",
     "postcss": "^8.4.23",
     "tailwindcss": "^3.3.2",
     "tippy.js": "^6.3.7",
     "typescript": "^5.0.4",
-    "vite": "^4.3.5"
+    "vite": "^4.3.8"
   }
 }
