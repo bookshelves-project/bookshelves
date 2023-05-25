@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Kiwilan\Steward\Enums\GenderEnum;
 use Kiwilan\Steward\Enums\UserRoleEnum;
 use Kiwilan\Steward\Traits\HasUsername;
+use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 
@@ -21,6 +22,7 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     use HasApiTokens, HasFactory, Notifiable;
     use HasUsername;
     use HasAvatar;
+    use HasProfilePhoto;
 
     /**
      * The attributes that are mass assignable.
