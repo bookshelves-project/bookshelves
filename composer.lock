@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "444c17652e92c4dc5cd2cd61c33f6df5",
+    "content-hash": "88a069fdfaa831246986110017d03e1f",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2588,16 +2588,16 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "0.31.0",
+            "version": "0.32.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "2830f7226264a29bd8fbbf3a285417aac5f19f2e"
+                "reference": "10e8844a2acd6e57af797fa614cbf3694ca43027"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/2830f7226264a29bd8fbbf3a285417aac5f19f2e",
-                "reference": "2830f7226264a29bd8fbbf3a285417aac5f19f2e",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/10e8844a2acd6e57af797fa614cbf3694ca43027",
+                "reference": "10e8844a2acd6e57af797fa614cbf3694ca43027",
                 "shasum": ""
             },
             "require": {
@@ -2653,7 +2653,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/0.31.0"
+                "source": "https://github.com/kiwilan/php-ebook/tree/0.32.0"
             },
             "funding": [
                 {
@@ -2661,7 +2661,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-08T13:55:15+00:00"
+            "time": "2023-05-25T07:25:19+00:00"
         },
         {
             "name": "kiwilan/php-opds",

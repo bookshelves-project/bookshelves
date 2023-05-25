@@ -1,8 +1,7 @@
 <?php
 
 return [
-
-	/*
+    /*
     |--------------------------------------------------------------------------
     | Pages
     |--------------------------------------------------------------------------
@@ -12,8 +11,7 @@ return [
     |
     */
 
-	'pages' => [
-		'health' => \ShuvroRoy\FilamentSpatieLaravelHealth\Pages\HealthCheckResults::class
+    'pages' => [
+        'health' => \ShuvroRoy\FilamentSpatieLaravelHealth\Pages\HealthCheckResults::class,
     ],
-
 ];
