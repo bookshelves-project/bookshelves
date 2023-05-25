@@ -19,3 +19,13 @@ Route::get('/', function () {
 
 // Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/login', fn () => redirect('/admin/login'))->name('login');
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

@@ -52,6 +52,8 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
     ];
 
     /**
@@ -73,6 +75,7 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         'is_editor',
         'is_super_admin',
         'is_admin',
+        'profile_photo_url',
     ];
 
     public function canAccessFilament(): bool
