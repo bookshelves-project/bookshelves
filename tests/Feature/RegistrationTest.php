@@ -8,6 +8,9 @@ use Laravel\Fortify\Features;
 use Laravel\Jetstream\Jetstream;
 use Tests\TestCase;
 
+/**
+ * @internal
+ */
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;

@@ -9,6 +9,9 @@ use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * @internal
+ */
 class CreateApiTokenTest extends TestCase
 {
     use RefreshDatabase;
@@ -31,7 +34,8 @@ class CreateApiTokenTest extends TestCase
                     'update',
                 ],
             ]])
-            ->call('createApiToken');
+            ->call('createApiToken')
+        ;
 
         $this->assertCount(1, $user->fresh()->tokens);
         $this->assertEquals('Test Token', $user->fresh()->tokens->first()->name);

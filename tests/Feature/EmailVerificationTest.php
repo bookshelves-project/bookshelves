@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\URL;
 use Laravel\Fortify\Features;
 use Tests\TestCase;
 
+/**
+ * @internal
+ */
 class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase;

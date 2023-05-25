@@ -10,6 +10,9 @@ use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * @internal
+ */
 class DeleteApiTokenTest extends TestCase
 {
     use RefreshDatabase;
@@ -32,7 +35,8 @@ class DeleteApiTokenTest extends TestCase
 
         Livewire::test(ApiTokenManager::class)
             ->set(['apiTokenIdBeingDeleted' => $token->id])
-            ->call('deleteApiToken');
+            ->call('deleteApiToken')
+        ;
 
         $this->assertCount(0, $user->fresh()->tokens);
     }

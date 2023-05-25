@@ -9,6 +9,9 @@ use Laravel\Jetstream\Http\Livewire\UpdatePasswordForm;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * @internal
+ */
 class UpdatePasswordTest extends TestCase
 {
     use RefreshDatabase;
@@ -23,7 +26,8 @@ class UpdatePasswordTest extends TestCase
                 'password' => 'new-password',
                 'password_confirmation' => 'new-password',
             ])
-            ->call('updatePassword');
+            ->call('updatePassword')
+        ;
 
         $this->assertTrue(Hash::check('new-password', $user->fresh()->password));
     }
@@ -39,7 +43,8 @@ class UpdatePasswordTest extends TestCase
                 'password_confirmation' => 'new-password',
             ])
             ->call('updatePassword')
-            ->assertHasErrors(['current_password']);
+            ->assertHasErrors(['current_password'])
+        ;
 
         $this->assertTrue(Hash::check('password', $user->fresh()->password));
     }
@@ -55,7 +60,8 @@ class UpdatePasswordTest extends TestCase
                 'password_confirmation' => 'wrong-password',
             ])
             ->call('updatePassword')
-            ->assertHasErrors(['password']);
+            ->assertHasErrors(['password'])
+        ;
 
         $this->assertTrue(Hash::check('password', $user->fresh()->password));
     }

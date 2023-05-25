@@ -8,6 +8,9 @@ use Laravel\Jetstream\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * @internal
+ */
 class BrowserSessionsTest extends TestCase
 {
     use RefreshDatabase;
@@ -19,6 +22,7 @@ class BrowserSessionsTest extends TestCase
         Livewire::test(LogoutOtherBrowserSessionsForm::class)
             ->set('password', 'password')
             ->call('logoutOtherBrowserSessions')
-            ->assertSuccessful();
+            ->assertSuccessful()
+        ;
     }
 }

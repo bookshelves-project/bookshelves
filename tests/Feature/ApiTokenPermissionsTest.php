@@ -10,6 +10,9 @@ use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
 use Livewire\Livewire;
 use Tests\TestCase;
 
+/**
+ * @internal
+ */
 class ApiTokenPermissionsTest extends TestCase
 {
     use RefreshDatabase;
@@ -38,7 +41,8 @@ class ApiTokenPermissionsTest extends TestCase
                     'missing-permission',
                 ],
             ]])
-            ->call('updateApiToken');
+            ->call('updateApiToken')
+        ;
 
         $this->assertTrue($user->fresh()->tokens->first()->can('delete'));
         $this->assertFalse($user->fresh()->tokens->first()->can('read'));

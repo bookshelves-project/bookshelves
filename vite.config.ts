@@ -7,7 +7,8 @@ export default defineConfig({
       input: [
         'resources/css/app.css',
         'resources/js/app.js',
-        'resources/admin/filament.css',
+        // https://filamentphp.com/docs/2.x/admin/appearance
+        'resources/css/filament.css',
       ],
       refresh: [
         ...refreshPaths,
