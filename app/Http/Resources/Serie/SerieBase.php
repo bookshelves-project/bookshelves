@@ -22,6 +22,7 @@ class SerieBase extends JsonResource
             'meta' => [
                 ...$this->resource->meta,
                 'entity' => $this->resource->entity,
+                'books' => $this->resource->books_link,
             ],
             'title' => $this->resource->title,
             'author' => AuthorBase::make($this->resource->authorMain),

@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Steward\Enums\SpatieMediaMethodEnum;
 use Kiwilan\Steward\Services\MediaService;
-use Kiwilan\Steward\Utils\Console;
 
 class FileConverter
 {
@@ -21,22 +20,8 @@ class FileConverter
      */
     public static function make(Ebook $ebook, Book $book): void
     {
-        // $extension = pathinfo($converter->parser_engine->file_path, PATHINFO_EXTENSION);
-
-        $fileName = Str::slug("{$book->meta_author}_{$book->slug_sort}_{$book->language_slug}");
-
-        // $result = false;
-
-        // if (pathinfo($converter->parser_engine->file_path, PATHINFO_BASENAME) !== $file_name) {
-        //     try {
-
-        //         $result = true;
-        //     } catch (\Throwable $th) {
-        //         $console = Console::make();
-        //         $console->print(__METHOD__, 'red', $th);
-        //         $console->newLine();
-        //     }
-        // }
+        $author = $book->authors->first()?->name ?? 'Unknown';
+        $fileName = Str::slug("{$author}_{$book->slug_sort}_{$book->language_slug}");
         $file = File::get($ebook->path());
 
         MediaService::make(

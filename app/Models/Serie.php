@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Engines\Book\Converter\WikipediaItemConverter;
+use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
-use App\Traits\HasBookFiles;
+use App\Traits\HasBooksCollection;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
@@ -46,7 +47,7 @@ class Serie extends Model implements HasMedia, Wikipediable
     use Searchable;
     use Queryable;
     use HasSearchableName;
-    use HasBookFiles;
+    use HasBooksCollection;
 
     protected $query_default_sort = 'slug_sort';
 
@@ -88,6 +89,25 @@ class Serie extends Model implements HasMedia, Wikipediable
             ->where('is_hidden', false)
             ->orderBy('volume')
         ;
+    }
+
+    public function getBooksLinkAttribute(): string
+    {
+        return route('api.series.show.books', [
+            'author_slug' => $this->meta_author,
+            'serie_slug' => $this->slug,
+        ]);
+    }
+
+    public function getDownloadLinkFormat(string $format): string
+    {
+        $format = BookFormatEnum::from($format)->value;
+
+        return route('api.download.serie', [
+            'author_slug' => $this->meta_author,
+            'serie_slug' => $this->slug,
+            'format' => $format,
+        ]);
     }
 
     /**

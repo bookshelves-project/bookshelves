@@ -18,6 +18,8 @@ class AuthorBase extends JsonResource
             'meta' => [
                 ...$this->resource->meta,
                 'entity' => $this->resource->entity,
+                'books' => $this->resource->books_link,
+                'series' => $this->resource->series_link,
             ],
             'name' => $this->resource->name,
         ];

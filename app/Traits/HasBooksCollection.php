@@ -11,11 +11,13 @@ trait HasBooksCollection
 {
     public function getFileMainAttribute(): ?DownloadFile
     {
-        if (empty($this->files_list)) {
+        $file_list = collect($this->files_list);
+
+        if ($file_list->isEmpty()) {
             return null;
         }
 
-        return $this->files_list
+        return $file_list
             ->reverse()
             ->filter(fn ($file) => null !== $file)
             ->first()
@@ -24,7 +26,7 @@ trait HasBooksCollection
 
     public function getFilesListAttribute(): array
     {
-        $entity = $this->classNamespaced()::whereSlug($this->slug)
+        $entity = $this->meta_class_namespaced::whereSlug($this->slug)
             ->with('books.media')
             ->first()
         ;
@@ -57,7 +59,11 @@ trait HasBooksCollection
         $list = [];
 
         foreach ($sizes as $format => $size) {
-            $route = $this->getDownloadLinkFormat($format);
+            $route = null;
+
+            if (method_exists($this, 'getDownloadLinkFormat')) {
+                $route = $this->getDownloadLinkFormat($format);
+            }
             $list[$format] = null;
 
             if ($size['size']) {

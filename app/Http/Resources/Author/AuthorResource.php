@@ -23,6 +23,9 @@ class AuthorResource extends JsonResource
             'description' => $this->resource->description,
             'link' => $this->resource->link,
             'note' => $this->resource->note,
+
+            'download' => $this->resource->file_main,
+            'files' => $this->resource->files_list,
         ];
     }
 }

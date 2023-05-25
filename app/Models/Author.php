@@ -4,7 +4,8 @@ namespace App\Models;
 
 use App\Engines\Book\Converter\WikipediaItemConverter;
 use App\Enums\AuthorRoleEnum;
-use App\Traits\HasBookFiles;
+use App\Enums\BookFormatEnum;
+use App\Traits\HasBooksCollection;
 use App\Traits\HasCovers;
 use App\Traits\HasFavorites;
 use App\Traits\HasReviews;
@@ -43,7 +44,7 @@ class Author extends Model implements HasMedia, Wikipediable
     use Searchable;
     use Queryable;
     use HasSearchableName;
-    use HasBookFiles;
+    use HasBooksCollection;
 
     protected $query_default_sort = 'lastname';
 
@@ -114,6 +115,30 @@ class Author extends Model implements HasMedia, Wikipediable
             ->orderBy('slug_sort')
             ->withCount('books')
         ;
+    }
+
+    public function getBooksLinkAttribute(): string
+    {
+        return route('api.authors.show.books', [
+            'author_slug' => $this->slug,
+        ]);
+    }
+
+    public function getSeriesLinkAttribute(): string
+    {
+        return route('api.authors.show.series', [
+            'author_slug' => $this->slug,
+        ]);
+    }
+
+    public function getDownloadLinkFormat(string $format): string
+    {
+        $format = BookFormatEnum::from($format)->value;
+
+        return route('api.download.author', [
+            'author_slug' => $this->slug,
+            'format' => $format,
+        ]);
     }
 
     /**
