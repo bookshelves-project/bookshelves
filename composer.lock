@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0e78e95c34e324bdb9930db4d2ce71f",
+    "content-hash": "d42560e1192f7c44b4c357666b9d1e48",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2737,16 +2737,16 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "1.0.01",
+            "version": "1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "3024d06ac0b997e3cbfdf28492965f5fe6b56903"
+                "reference": "3baab124f39f954f6aa23703ccbba3c4533d7030"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/3024d06ac0b997e3cbfdf28492965f5fe6b56903",
-                "reference": "3024d06ac0b997e3cbfdf28492965f5fe6b56903",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/3baab124f39f954f6aa23703ccbba3c4533d7030",
+                "reference": "3baab124f39f954f6aa23703ccbba3c4533d7030",
                 "shasum": ""
             },
             "require": {
@@ -2803,7 +2803,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/1.0.01"
+                "source": "https://github.com/kiwilan/php-ebook/tree/1.0.10"
             },
             "funding": [
                 {
@@ -2811,7 +2811,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-14T05:52:52+00:00"
+            "time": "2023-06-14T13:14:27+00:00"
         },
         {
             "name": "kiwilan/php-opds",
@@ -13177,16 +13177,16 @@
         },
         {
             "name": "nunomaduro/larastan",
-            "version": "v2.6.2",
+            "version": "v2.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/larastan.git",
-                "reference": "fd1b5c2560ccf4a2a0075a30524b63ebb142cd6c"
+                "reference": "73e5be5f5c732212ce6ca77ffd2753a136f36a23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/fd1b5c2560ccf4a2a0075a30524b63ebb142cd6c",
-                "reference": "fd1b5c2560ccf4a2a0075a30524b63ebb142cd6c",
+                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/73e5be5f5c732212ce6ca77ffd2753a136f36a23",
+                "reference": "73e5be5f5c732212ce6ca77ffd2753a136f36a23",
                 "shasum": ""
             },
             "require": {
@@ -13249,7 +13249,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nunomaduro/larastan/issues",
-                "source": "https://github.com/nunomaduro/larastan/tree/v2.6.2"
+                "source": "https://github.com/nunomaduro/larastan/tree/v2.6.3"
             },
             "funding": [
                 {
@@ -13269,7 +13269,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-06-10T17:23:14+00:00"
+            "time": "2023-06-13T21:39:27+00:00"
         },
         {
             "name": "phar-io/manifest",
