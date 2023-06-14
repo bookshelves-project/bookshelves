@@ -176,7 +176,9 @@ class MakeCommand extends Commandable
             return;
         }
 
-        if (! in_array($file->path(), $this->books, true)) {
+        $paths = array_map(fn (Book $book) => $book->physical_path, $this->books);
+
+        if (! in_array($file->path(), $paths, true)) {
             // $ebook = Ebook::read($file->path());
             // $this->verbose($ebook);
 
