@@ -3,18 +3,18 @@
 namespace App\Engines\Book\Converter\Modules;
 
 use App\Models\Language;
-use Kiwilan\Ebook\BookEntity;
+use Kiwilan\Ebook\Ebook;
 use Locale;
 
 class LanguageConverter
 {
     /**
-     * Set Language from BookEntity.
+     * Set Language from Ebook.
      */
-    public static function toModel(BookEntity $entity): Language
+    public static function toModel(Ebook $ebook): Language
     {
         $availableLangs = config('bookshelves.langs');
-        $langCode = $entity->language() ?? 'en';
+        $langCode = $ebook->language() ?? 'en';
 
         $language = Language::whereSlug($langCode)->first();
 

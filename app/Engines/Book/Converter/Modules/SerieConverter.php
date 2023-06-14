@@ -7,7 +7,7 @@ use App\Enums\MediaDiskEnum;
 use App\Models\Book;
 use App\Models\Serie;
 use File;
-use Kiwilan\Ebook\BookEntity;
+use Kiwilan\Ebook\Ebook;
 use Kiwilan\Steward\Services\MediaService;
 
 class SerieConverter
@@ -17,18 +17,18 @@ class SerieConverter
     public const DISK = MediaDiskEnum::cover;
 
     /**
-     * Set Serie from BookEntity.
+     * Set Serie from Ebook.
      */
-    public static function toModel(BookEntity $entity, BookTypeEnum $type): self
+    public static function toModel(Ebook $ebook, BookTypeEnum $type): self
     {
         $self = new self();
-        $serie = Serie::whereSlug($entity->metaTitle()->serieSlug())->first();
+        $serie = Serie::whereSlug($ebook->metaTitle()->serieSlug())->first();
 
-        if (! $serie && $entity->series()) {
+        if (! $serie && $ebook->series()) {
             $serie = Serie::firstOrCreate([
-                'title' => $entity->series(),
-                'slug_sort' => $entity->metaTitle()->serieSlugSort(),
-                'slug' => $entity->metaTitle()->serieSlugLang(),
+                'title' => $ebook->series(),
+                'slug_sort' => $ebook->metaTitle()->serieSlugSort(),
+                'slug' => $ebook->metaTitle()->serieSlugLang(),
                 'type' => $type,
             ]);
 

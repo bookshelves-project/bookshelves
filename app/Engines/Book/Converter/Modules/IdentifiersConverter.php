@@ -3,25 +3,25 @@
 namespace App\Engines\Book\Converter\Modules;
 
 use Illuminate\Support\Collection;
-use Kiwilan\Ebook\BookEntity;
+use Kiwilan\Ebook\Ebook;
 
 class IdentifiersConverter
 {
     /**
-     * Set Identifiers from BookEntity.
+     * Set Identifiers from Ebook.
      *
      *
      * @return Collection<string, string>
      */
-    public static function toCollection(BookEntity $entity): Collection
+    public static function toCollection(Ebook $ebook): Collection
     {
         $identifiers = collect([]);
 
-        if (! $entity->identifiers()) {
+        if (! $ebook->identifiers()) {
             return $identifiers;
         }
 
-        foreach ($entity->identifiers() as $bookIdentifier) {
+        foreach ($ebook->identifiers() as $bookIdentifier) {
             $identifiers[$bookIdentifier->type()] = $bookIdentifier->content();
         }
 

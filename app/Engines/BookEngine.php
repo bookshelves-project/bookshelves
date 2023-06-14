@@ -48,8 +48,8 @@ class BookEngine
     private static function verbose(Ebook $ebook): void
     {
         $console = Console::make();
-        $console->print("{$ebook->book()->title()}");
-        BookEngine::printFile($ebook->book()->toArray(), "{$ebook->filename()}-parser.json");
+        $console->print("{$ebook->title()}");
+        BookEngine::printFile($ebook->toArray(), "{$ebook->filename()}-parser.json");
     }
 
     public static function printFile(mixed $file, string $name, bool $raw = false): bool

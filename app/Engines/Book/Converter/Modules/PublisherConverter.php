@@ -4,23 +4,23 @@ namespace App\Engines\Book\Converter\Modules;
 
 use App\Models\Publisher;
 use Illuminate\Support\Str;
-use Kiwilan\Ebook\BookEntity;
+use Kiwilan\Ebook\Ebook;
 
 class PublisherConverter
 {
     /**
-     * Set Publisher from BookEntity.
+     * Set Publisher from Ebook.
      */
-    public static function toModel(BookEntity $entity): ?Publisher
+    public static function toModel(Ebook $ebook): ?Publisher
     {
-        if (! $entity->publisher()) {
+        if (! $ebook->publisher()) {
             return null;
         }
 
-        $publisherExist = Publisher::whereSlug(Str::slug($entity->publisher()))->first();
+        $publisherExist = Publisher::whereSlug(Str::slug($ebook->publisher()))->first();
 
         if (! $publisherExist) {
-            $name = $entity->publisher();
+            $name = $ebook->publisher();
 
             return Publisher::firstOrCreate([
                 'name' => $name,

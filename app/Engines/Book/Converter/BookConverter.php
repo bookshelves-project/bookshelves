@@ -13,7 +13,6 @@ use App\Engines\Book\Converter\Modules\TagConverter;
 use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Carbon;
-use Kiwilan\Ebook\BookEntity;
 use Kiwilan\Ebook\Ebook;
 
 /**
@@ -22,42 +21,41 @@ use Kiwilan\Ebook\Ebook;
 class BookConverter
 {
     protected function __construct(
-        protected BookEntity $entity,
+        protected Ebook $ebook,
         protected ?Book $book = null,
     ) {
     }
 
     /**
-     * Set Book from BookEntity.
+     * Set Book from Ebook.
      */
     public static function make(Ebook $ebook, BookTypeEnum $type, ?Book $book = null): self
     {
-        $entity = $ebook->book();
-        $self = new self($entity);
+        $self = new self($ebook);
 
         if ($book) {
             $self->checkBook($type);
         }
 
         if (! $book) {
-            $rights = $self->entity->rights();
-            $description = $self->entity->description();
+            $rights = $self->ebook->copyright();
+            $description = $self->ebook->description();
 
             if (strlen($description) > 2000) {
                 $description = substr($description, 0, 2000).'...';
             }
 
             $self->book = Book::firstOrCreate([
-                'title' => $self->entity->title(),
-                'slug' => $self->entity->metaTitle()->slugLang(),
-                'slug_sort' => $self->entity->metaTitle()->slugSortWithSerie(),
-                'contributor' => $self->entity->contributor(),
-                'released_on' => $self->entity->date(),
+                'title' => $self->ebook->title(),
+                'slug' => $self->ebook->metaTitle()->slugLang(),
+                'slug_sort' => $self->ebook->metaTitle()->slugSortWithSerie(),
+                'contributor' => $self->ebook->extrasExtract('contributor'),
+                'released_on' => $self->ebook->publishDate(),
                 'description' => $description,
                 'rights' => strlen($rights) > 255 ? substr($rights, 0, 255) : $rights,
-                'volume' => $self->entity->volume(),
+                'volume' => $self->ebook->volume(),
                 'type' => $type,
-                'page_count' => $self->entity->pageCount(),
+                'page_count' => $self->ebook->pagesCount(),
                 'physical_path' => $ebook->path(),
             ]);
         }
@@ -98,7 +96,7 @@ class BookConverter
 
     private function setAuthors(): self
     {
-        $authors = AuthorConverter::toCollection($this->entity);
+        $authors = AuthorConverter::toCollection($this->ebook);
         $this->book?->authors()->sync($authors->pluck('id'));
 
         return $this;
@@ -106,7 +104,7 @@ class BookConverter
 
     private function setTags(): self
     {
-        $tags = TagConverter::toCollection($this->entity);
+        $tags = TagConverter::toCollection($this->ebook);
 
         if ($tags->isNotEmpty()) {
             $this->book?->tags()->sync($tags->pluck('id'));
@@ -117,7 +115,7 @@ class BookConverter
 
     private function setPublisher(): self
     {
-        $publisher = PublisherConverter::toModel($this->entity);
+        $publisher = PublisherConverter::toModel($this->ebook);
         $this->book?->publisher()->associate($publisher);
         $this->book?->save();
 
@@ -126,7 +124,7 @@ class BookConverter
 
     private function setLanguage(): self
     {
-        $language = LanguageConverter::toModel($this->entity);
+        $language = LanguageConverter::toModel($this->ebook);
         $this->book?->language()->associate($language);
         $this->book?->save();
 
@@ -135,7 +133,7 @@ class BookConverter
 
     private function setSerie(BookTypeEnum $type): self
     {
-        $serie = SerieConverter::toModel($this->entity, $type)
+        $serie = SerieConverter::toModel($this->ebook, $type)
             ->associate($this->book)
         ;
 
@@ -149,7 +147,7 @@ class BookConverter
 
     private function setIdentifiers(): self
     {
-        $identifiers = IdentifiersConverter::toCollection($this->entity);
+        $identifiers = IdentifiersConverter::toCollection($this->ebook);
 
         $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
         $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
@@ -175,28 +173,28 @@ class BookConverter
             return $this;
         }
 
-        if (! $this->book->slug_sort && $this->entity->series() && ! $this->book->serie) {
-            $this->book->slug_sort = $this->entity->metaTitle()->serieSlugSort();
+        if (! $this->book->slug_sort && $this->ebook->series() && ! $this->book->serie) {
+            $this->book->slug_sort = $this->ebook->metaTitle()->serieSlugSort();
         }
 
         if (! $this->book->contributor) {
-            $this->book->contributor = $this->entity->contributor();
+            $this->book->contributor = $this->ebook->extrasExtract('contributor') ?? null;
         }
 
         if (! $this->book->released_on) {
-            $this->book->released_on = Carbon::parse($this->entity->date());
+            $this->book->released_on = Carbon::parse($this->ebook->publishDate());
         }
 
         if (! $this->book->rights) {
-            $this->book->rights = $this->entity->rights();
+            $this->book->rights = $this->ebook->copyright();
         }
 
         if (! $this->book->description) {
-            $this->book->description = $this->entity->description();
+            $this->book->description = $this->ebook->description();
         }
 
         if (! $this->book->volume) {
-            $this->book->volume = $this->entity->volume();
+            $this->book->volume = $this->ebook->volume();
         }
 
         if (null === $this->book->type) {

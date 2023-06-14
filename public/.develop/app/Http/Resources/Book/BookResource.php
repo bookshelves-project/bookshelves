@@ -40,7 +40,7 @@ class BookResource extends JsonResource
             'media' => SpatieMediaResource::make($this->resource->media_primary),
             'media_social' => $this->resource->cover_simple,
             'description' => $this->resource->description,
-            'identifier' => BookEntityIdentifierResource::make($this->resource),
+            'identifier' => BookIdentifierResource::make($this->resource),
             'pageCount' => $this->resource->page_count,
             'maturityRating' => $this->resource->maturity_rating,
             'publisher' => PublisherLightResource::make($this->resource->publisher),

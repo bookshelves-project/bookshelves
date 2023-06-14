@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property \App\Models\Book $resource
  */
-class BookEntityIdentifierResource extends JsonResource
+class BookIdentifierResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

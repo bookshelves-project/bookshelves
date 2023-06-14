@@ -7,7 +7,7 @@ use App\Engines\Book\BookFilesReader;
 use App\Engines\BookEngine;
 use App\Models\Book;
 use Illuminate\Console\Command;
-use Kiwilan\Ebook\BookEntity;
+use Kiwilan\Ebook\Ebook;
 use Kiwilan\Steward\Commands\Commandable;
 
 class ScanCommand extends Commandable
@@ -93,11 +93,11 @@ class ScanCommand extends Commandable
 
     /**
      * @param  BookFileReader[]  $files
-     * @return BookEntity[]
+     * @return Ebook[]
      */
     private function parser(array $files)
     {
-        /** @var BookEntity[] */
+        /** @var Ebook[] */
         $newFiles = [];
         $bar = $this->output->createProgressBar(count($files));
 
@@ -131,7 +131,7 @@ class ScanCommand extends Commandable
             $this->newLine();
 
             foreach ($newFiles as $parser) {
-                if ($parser instanceof BookEntity) {
+                if ($parser instanceof Ebook) {
                     $this->info("- {$parser->title()}");
                 }
             }

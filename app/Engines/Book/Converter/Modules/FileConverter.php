@@ -28,7 +28,7 @@ class FileConverter
             model: $book,
             name: $fileName,
             disk: self::DISK,
-            collection: $ebook->format(),
+            collection: $ebook->format()->value,
             extension: $ebook->extension(),
             method: SpatieMediaMethodEnum::addMediaFromString
         )

@@ -8,7 +8,8 @@ use App\Models\Author;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Kiwilan\Ebook\Book\BookCreator;
-use Kiwilan\Ebook\BookEntity;
+use Kiwilan\Ebook\Ebook;
+use Kiwilan\Ebook\Tools\BookAuthor;
 
 class AuthorConverter
 {
@@ -22,18 +23,18 @@ class AuthorConverter
     }
 
     /**
-     * Set Authors from BookEntity.
+     * Set Authors from Ebook.
      *
      * @return Collection<int, Author>
      */
-    public static function toCollection(BookEntity $book): Collection
+    public static function toCollection(Ebook $book): Collection
     {
         $authors = $book->authors();
         $items = collect([]);
 
         if (empty($authors)) {
             $author = AuthorConverter::make(
-                new BookCreator(
+                new BookAuthor(
                     name: 'Anonymous Anonymous',
                     role: 'aut'
                 )
@@ -90,7 +91,7 @@ class AuthorConverter
     /**
      * Convert BookCreator to AuthorConverter from config order.
      */
-    public static function make(BookCreator $author): ?self
+    public static function make(BookAuthor $author): ?self
     {
         $lastname = null;
         $firstname = null;

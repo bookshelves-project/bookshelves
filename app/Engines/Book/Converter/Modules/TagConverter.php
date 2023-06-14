@@ -5,22 +5,22 @@ namespace App\Engines\Book\Converter\Modules;
 use App\Enums\TagTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Collection;
-use Kiwilan\Ebook\BookEntity;
+use Kiwilan\Ebook\Ebook;
 use Spatie\Tags\Tag;
 
 class TagConverter
 {
     /**
-     * Set Tags from BookEntity.
+     * Set Tags from Ebook.
      *
      * @return Collection<int, Tag>
      */
-    public static function toCollection(BookEntity $entity): Collection
+    public static function toCollection(Ebook $ebook): Collection
     {
         $self = new self();
         $items = collect([]);
 
-        foreach ($entity->tags() as $key => $tag) {
+        foreach ($ebook->tags() as $key => $tag) {
             $model = $self->make($tag);
 
             if ($model) {

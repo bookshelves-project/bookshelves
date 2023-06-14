@@ -34,8 +34,12 @@ class CoverConverter
         //     $converter_engine->book->save();
         // }
 
+        if (! $ebook->cover() || ! $ebook->cover()->content()) {
+            return $book;
+        }
+
         MediaService::make($book, $book->slug, MediaDiskEnum::cover)
-            ->setMedia($ebook->cover(false))
+            ->setMedia($ebook->cover()->content(true))
             ->setColor()
         ;
 
