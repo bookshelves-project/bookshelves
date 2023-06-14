@@ -48,7 +48,7 @@ class MakeCommand extends Commandable
     /** @var BookFileReader[] */
     protected array $files = [];
 
-    /** @var Book[] */
+    /** @var string[] */
     protected array $books = [];
 
     /**
@@ -176,9 +176,7 @@ class MakeCommand extends Commandable
             return;
         }
 
-        $paths = array_map(fn (Book $book) => $book->physical_path, $this->books);
-
-        if (! in_array($file->path(), $paths, true)) {
+        if (! in_array($file->path(), $this->books, true)) {
             // $ebook = Ebook::read($file->path());
             // $this->verbose($ebook);
 
