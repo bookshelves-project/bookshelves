@@ -6,7 +6,6 @@ use App\Engines\Book\BookFileReader;
 use App\Engines\Book\BookFilesReader;
 use App\Engines\Book\Converter\EntityConverter;
 use App\Engines\Book\Converter\Modules\CoverConverter;
-use App\Engines\Book\ConverterEngine;
 use App\Engines\BookEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
@@ -17,7 +16,6 @@ use App\Models\Serie;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use Kiwilan\Ebook\Ebook;
 use Kiwilan\Steward\Commands\Commandable;
 use ReflectionClass;
 use Spatie\Tags\Tag;
@@ -177,11 +175,6 @@ class MakeCommand extends Commandable
         }
 
         if (! in_array($file->path(), $this->books, true)) {
-            // $ebook = Ebook::read($file->path());
-            // $this->verbose($ebook);
-
-            // ConverterEngine::make($ebook, $file, $this->default);
-
             BookEngine::make($file, $this->verbose, $this->default);
         }
     }
