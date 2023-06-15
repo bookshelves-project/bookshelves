@@ -19,3 +19,5 @@ yarn-error.log
 
 .DS_Store
 _ide_helper*.php
+.scribe
+public/docs

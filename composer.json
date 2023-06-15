@@ -117,6 +117,9 @@
       "php artisan ide-helper:meta",
       "@php artisan ide-helper:eloquent"
     ],
+    "docs": [
+      "php artisan scribe:generate --ansi"
+    ],
     "format": [
       "./vendor/bin/pint --config vendor/kiwilan/steward-laravel/pint.json"
     ],
