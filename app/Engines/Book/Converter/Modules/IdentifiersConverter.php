@@ -22,7 +22,7 @@ class IdentifiersConverter
         }
 
         foreach ($ebook->identifiers() as $bookIdentifier) {
-            $identifiers[$bookIdentifier->type()] = $bookIdentifier->content();
+            $identifiers[$bookIdentifier->scheme()] = $bookIdentifier->value();
         }
 
         return $identifiers;
