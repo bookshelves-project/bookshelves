@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c0ff51fcf919b7701270c59faf2e0e9",
+    "content-hash": "030136a7f1812ff0edbc8487668181bf",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -1246,16 +1246,16 @@
         },
         {
             "name": "filament/filament",
-            "version": "v2.17.48",
+            "version": "v2.17.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/panels.git",
-                "reference": "dd3655e315e825aaed5c98aaf16ed17f37a7b3db"
+                "reference": "ed790092c1df259acb9abf9b131f6afc01aa5224"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/panels/zipball/dd3655e315e825aaed5c98aaf16ed17f37a7b3db",
-                "reference": "dd3655e315e825aaed5c98aaf16ed17f37a7b3db",
+                "url": "https://api.github.com/repos/filamentphp/panels/zipball/ed790092c1df259acb9abf9b131f6afc01aa5224",
+                "reference": "ed790092c1df259acb9abf9b131f6afc01aa5224",
                 "shasum": ""
             },
             "require": {
@@ -1304,20 +1304,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2023-06-12T14:24:42+00:00"
+            "time": "2023-06-18T13:30:27+00:00"
         },
         {
             "name": "filament/forms",
-            "version": "v2.17.48",
+            "version": "v2.17.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/forms.git",
-                "reference": "96a4e3ba9ab42d13e8630f0d37f8b83e8cff9eb2"
+                "reference": "40f4c132489cbb3ce5e5b1c60a327634e2b28862"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/forms/zipball/96a4e3ba9ab42d13e8630f0d37f8b83e8cff9eb2",
-                "reference": "96a4e3ba9ab42d13e8630f0d37f8b83e8cff9eb2",
+                "url": "https://api.github.com/repos/filamentphp/forms/zipball/40f4c132489cbb3ce5e5b1c60a327634e2b28862",
+                "reference": "40f4c132489cbb3ce5e5b1c60a327634e2b28862",
                 "shasum": ""
             },
             "require": {
@@ -1362,11 +1362,11 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2023-06-12T14:24:44+00:00"
+            "time": "2023-06-18T13:29:57+00:00"
         },
         {
             "name": "filament/notifications",
-            "version": "v2.17.48",
+            "version": "v2.17.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/notifications.git",
@@ -1419,7 +1419,7 @@
         },
         {
             "name": "filament/spatie-laravel-media-library-plugin",
-            "version": "v2.17.48",
+            "version": "v2.17.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-media-library-plugin.git",
@@ -1456,7 +1456,7 @@
         },
         {
             "name": "filament/spatie-laravel-settings-plugin",
-            "version": "v2.17.48",
+            "version": "v2.17.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-settings-plugin.git",
@@ -1503,7 +1503,7 @@
         },
         {
             "name": "filament/spatie-laravel-tags-plugin",
-            "version": "v2.17.48",
+            "version": "v2.17.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-tags-plugin.git",
@@ -1540,7 +1540,7 @@
         },
         {
             "name": "filament/spatie-laravel-translatable-plugin",
-            "version": "v2.17.48",
+            "version": "v2.17.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-translatable-plugin.git",
@@ -1586,7 +1586,7 @@
         },
         {
             "name": "filament/support",
-            "version": "v2.17.48",
+            "version": "v2.17.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/support.git",
@@ -1637,16 +1637,16 @@
         },
         {
             "name": "filament/tables",
-            "version": "v2.17.48",
+            "version": "v2.17.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/tables.git",
-                "reference": "88aef59b52b2643a6536a251794abd3a043e0fc7"
+                "reference": "22507f0b8e338526d41f9e593bd9f91ad46e2d47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/tables/zipball/88aef59b52b2643a6536a251794abd3a043e0fc7",
-                "reference": "88aef59b52b2643a6536a251794abd3a043e0fc7",
+                "url": "https://api.github.com/repos/filamentphp/tables/zipball/22507f0b8e338526d41f9e593bd9f91ad46e2d47",
+                "reference": "22507f0b8e338526d41f9e593bd9f91ad46e2d47",
                 "shasum": ""
             },
             "require": {
@@ -1689,7 +1689,7 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2023-06-12T14:25:06+00:00"
+            "time": "2023-06-18T13:30:19+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -2737,21 +2737,22 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "1.2.0",
+            "version": "1.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "fe0fe95ab29537cb4d48440d905484aeceb4dd7a"
+                "reference": "bc99c220f0d83acbd2fa70af800d6b93bd367d76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/fe0fe95ab29537cb4d48440d905484aeceb4dd7a",
-                "reference": "fe0fe95ab29537cb4d48440d905484aeceb4dd7a",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/bc99c220f0d83acbd2fa70af800d6b93bd367d76",
+                "reference": "bc99c220f0d83acbd2fa70af800d6b93bd367d76",
                 "shasum": ""
             },
             "require": {
                 "kiwilan/php-archive": "^1.4.02",
                 "kiwilan/php-audio": "^2.0.0",
+                "kiwilan/php-xml-reader": "^0.1.10",
                 "php": "^8.1"
             },
             "require-dev": {
@@ -2803,7 +2804,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/1.2.0"
+                "source": "https://github.com/kiwilan/php-ebook/tree/1.3.10"
             },
             "funding": [
                 {
@@ -2811,7 +2812,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-16T15:52:01+00:00"
+            "time": "2023-06-19T15:56:52+00:00"
         },
         {
             "name": "kiwilan/php-opds",
@@ -2877,17 +2878,77 @@
             "time": "2023-05-09T14:56:15+00:00"
         },
         {
+            "name": "kiwilan/php-xml-reader",
+            "version": "0.1.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kiwilan/php-xml-reader.git",
+                "reference": "05c82f75b7d545f417abaa13b5d944148a5ca053"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kiwilan/php-xml-reader/zipball/05c82f75b7d545f417abaa13b5d944148a5ca053",
+                "reference": "05c82f75b7d545f417abaa13b5d944148a5ca053",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.2",
+                "pestphp/pest": "^1.20",
+                "phpstan/phpstan": "^1.10",
+                "spatie/ray": "^1.28"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kiwilan\\XmlReader\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ewilan Rivière",
+                    "email": "ewilan.riviere@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP package to read XML with nice API.",
+            "homepage": "https://github.com/kiwilan/php-xml-reader",
+            "keywords": [
+                "kiwilan",
+                "php",
+                "reader",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/kiwilan/php-xml-reader/issues",
+                "source": "https://github.com/kiwilan/php-xml-reader/tree/0.1.10"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/kiwilan",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-06-19T14:53:14+00:00"
+        },
+        {
             "name": "kiwilan/steward-laravel",
             "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "cfcb51dad7bfe50ecc9e2af04ff2dd917e6ab354"
+                "reference": "7b1ca6c63067e39d4da2c52213b334eb1fdd0219"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/cfcb51dad7bfe50ecc9e2af04ff2dd917e6ab354",
-                "reference": "cfcb51dad7bfe50ecc9e2af04ff2dd917e6ab354",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/7b1ca6c63067e39d4da2c52213b334eb1fdd0219",
+                "reference": "7b1ca6c63067e39d4da2c52213b334eb1fdd0219",
                 "shasum": ""
             },
             "require": {
@@ -2960,7 +3021,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2023-06-14T06:45:29+00:00"
+            "time": "2023-06-18T10:54:45+00:00"
         },
         {
             "name": "laravel/fortify",
@@ -5404,16 +5465,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.18.1",
+            "version": "1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "f258b3a1d16acb7b21f3b42d7a2494a733365237"
+                "reference": "1856a119a0b0ba8da8b5c33c080aa7af8fac25b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/f258b3a1d16acb7b21f3b42d7a2494a733365237",
-                "reference": "f258b3a1d16acb7b21f3b42d7a2494a733365237",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/1856a119a0b0ba8da8b5c33c080aa7af8fac25b4",
+                "reference": "1856a119a0b0ba8da8b5c33c080aa7af8fac25b4",
                 "shasum": ""
             },
             "require": {
@@ -5476,9 +5537,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.18.1"
+                "source": "https://github.com/php-http/discovery/tree/1.19.0"
             },
-            "time": "2023-05-17T08:53:10+00:00"
+            "time": "2023-06-19T08:45:36+00:00"
         },
         {
             "name": "php-http/httplug",
