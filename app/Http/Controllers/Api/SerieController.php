@@ -35,8 +35,7 @@ class SerieController extends Controller
     public function next(Request $request, Author $author, Serie $serie, int $volume)
     {
         $book = Book::where('serie_id', $serie->id)
-            ->where('author_main_id', $author->id)
-            ->where('volume', '>', $volume)
+            ->where('volume', '=', $volume + 1)
             ->orderBy('volume')
             ->firstOrFail()
         ;

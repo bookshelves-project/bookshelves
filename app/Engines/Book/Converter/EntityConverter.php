@@ -5,7 +5,6 @@ namespace App\Engines\Book\Converter;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Serie;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Kiwilan\Steward\Services\ConverterService;
 use Kiwilan\Steward\Services\MediaService;

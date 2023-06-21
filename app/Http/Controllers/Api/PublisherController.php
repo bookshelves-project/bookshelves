@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Book\BookBase;
+use App\Http\Resources\Book\BookCollection;
 use App\Http\Resources\Publisher\PublisherResource;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
@@ -85,6 +85,6 @@ class PublisherController extends Controller
         // $pub = Publisher::whereSlug($publisher_slug)->firstOrFail();
         $books = $publisher->books()->paginate($page);
 
-        return BookBase::collection($books);
+        return BookCollection::collection($books);
     }
 }

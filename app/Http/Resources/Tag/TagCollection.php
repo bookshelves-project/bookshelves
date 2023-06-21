@@ -21,7 +21,7 @@ class TagCollection extends JsonResource
             ...TagBase::make($this->resource)->toArray($request),
             'type' => $this->resource->type,
             'count' => $this->resource->books_count,
-            'first_char' => $this->resource->first_char,
+            'firstChar' => $this->resource->first_char,
         ];
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "030136a7f1812ff0edbc8487668181bf",
+    "content-hash": "293e0141dc35ed05ecbccf5d122eed57",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2737,22 +2737,22 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "1.3.10",
+            "version": "1.3.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "bc99c220f0d83acbd2fa70af800d6b93bd367d76"
+                "reference": "cef6d57a9eee63b8161bbd50ea3536e65a8314a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/bc99c220f0d83acbd2fa70af800d6b93bd367d76",
-                "reference": "bc99c220f0d83acbd2fa70af800d6b93bd367d76",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/cef6d57a9eee63b8161bbd50ea3536e65a8314a6",
+                "reference": "cef6d57a9eee63b8161bbd50ea3536e65a8314a6",
                 "shasum": ""
             },
             "require": {
                 "kiwilan/php-archive": "^1.4.02",
                 "kiwilan/php-audio": "^2.0.0",
-                "kiwilan/php-xml-reader": "^0.1.10",
+                "kiwilan/php-xml-reader": "^0.2.10",
                 "php": "^8.1"
             },
             "require-dev": {
@@ -2804,7 +2804,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/1.3.10"
+                "source": "https://github.com/kiwilan/php-ebook/tree/1.3.30"
             },
             "funding": [
                 {
@@ -2812,7 +2812,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-19T15:56:52+00:00"
+            "time": "2023-06-20T12:47:05+00:00"
         },
         {
             "name": "kiwilan/php-opds",
@@ -2879,16 +2879,16 @@
         },
         {
             "name": "kiwilan/php-xml-reader",
-            "version": "0.1.10",
+            "version": "0.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-xml-reader.git",
-                "reference": "05c82f75b7d545f417abaa13b5d944148a5ca053"
+                "reference": "519c94d0ad8293d29744c3e434ff5e9efd3f2ad7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-xml-reader/zipball/05c82f75b7d545f417abaa13b5d944148a5ca053",
-                "reference": "05c82f75b7d545f417abaa13b5d944148a5ca053",
+                "url": "https://api.github.com/repos/kiwilan/php-xml-reader/zipball/519c94d0ad8293d29744c3e434ff5e9efd3f2ad7",
+                "reference": "519c94d0ad8293d29744c3e434ff5e9efd3f2ad7",
                 "shasum": ""
             },
             "require": {
@@ -2920,14 +2920,12 @@
             "description": "PHP package to read XML with nice API.",
             "homepage": "https://github.com/kiwilan/php-xml-reader",
             "keywords": [
-                "kiwilan",
                 "php",
-                "reader",
                 "xml"
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-xml-reader/issues",
-                "source": "https://github.com/kiwilan/php-xml-reader/tree/0.1.10"
+                "source": "https://github.com/kiwilan/php-xml-reader/tree/0.2.10"
             },
             "funding": [
                 {
@@ -2935,7 +2933,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-19T14:53:14+00:00"
+            "time": "2023-06-20T07:30:31+00:00"
         },
         {
             "name": "kiwilan/steward-laravel",
@@ -2943,12 +2941,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "7b1ca6c63067e39d4da2c52213b334eb1fdd0219"
+                "reference": "675131e28ecc499ab0107b67bb7badfd5c0f9c78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/7b1ca6c63067e39d4da2c52213b334eb1fdd0219",
-                "reference": "7b1ca6c63067e39d4da2c52213b334eb1fdd0219",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/675131e28ecc499ab0107b67bb7badfd5c0f9c78",
+                "reference": "675131e28ecc499ab0107b67bb7badfd5c0f9c78",
                 "shasum": ""
             },
             "require": {
@@ -3021,20 +3019,20 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2023-06-18T10:54:45+00:00"
+            "time": "2023-06-20T14:39:55+00:00"
         },
         {
             "name": "laravel/fortify",
-            "version": "v1.17.3",
+            "version": "v1.17.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/fortify.git",
-                "reference": "e99f7cb135bb6e05e4c49e9224c9c9a33c27cfa0"
+                "reference": "110dd0d09b70461d651218240120e24ba8d8cbe1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/fortify/zipball/e99f7cb135bb6e05e4c49e9224c9c9a33c27cfa0",
-                "reference": "e99f7cb135bb6e05e4c49e9224c9c9a33c27cfa0",
+                "url": "https://api.github.com/repos/laravel/fortify/zipball/110dd0d09b70461d651218240120e24ba8d8cbe1",
+                "reference": "110dd0d09b70461d651218240120e24ba8d8cbe1",
                 "shasum": ""
             },
             "require": {
@@ -3085,7 +3083,7 @@
                 "issues": "https://github.com/laravel/fortify/issues",
                 "source": "https://github.com/laravel/fortify"
             },
-            "time": "2023-06-02T12:58:20+00:00"
+            "time": "2023-06-18T09:17:00+00:00"
         },
         {
             "name": "laravel/framework",
@@ -3289,16 +3287,16 @@
         },
         {
             "name": "laravel/jetstream",
-            "version": "v3.2.2",
+            "version": "v3.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/jetstream.git",
-                "reference": "6ca907084102b567645b59a7114889b0a0a992cf"
+                "reference": "c65656cc4743b3b87837777e24f6caffdc9ce3f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/jetstream/zipball/6ca907084102b567645b59a7114889b0a0a992cf",
-                "reference": "6ca907084102b567645b59a7114889b0a0a992cf",
+                "url": "https://api.github.com/repos/laravel/jetstream/zipball/c65656cc4743b3b87837777e24f6caffdc9ce3f3",
+                "reference": "c65656cc4743b3b87837777e24f6caffdc9ce3f3",
                 "shasum": ""
             },
             "require": {
@@ -3354,7 +3352,7 @@
                 "issues": "https://github.com/laravel/jetstream/issues",
                 "source": "https://github.com/laravel/jetstream"
             },
-            "time": "2023-05-30T14:24:35+00:00"
+            "time": "2023-06-07T13:20:25+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -3559,16 +3557,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v4.14.6",
+            "version": "v4.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "8067e857ca3733f738666994f0b5cd305fa0ed59"
+                "reference": "572a19b4c9b09295848de9a2352737a756a0fb05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/8067e857ca3733f738666994f0b5cd305fa0ed59",
-                "reference": "8067e857ca3733f738666994f0b5cd305fa0ed59",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/572a19b4c9b09295848de9a2352737a756a0fb05",
+                "reference": "572a19b4c9b09295848de9a2352737a756a0fb05",
                 "shasum": ""
             },
             "require": {
@@ -3624,9 +3622,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/telescope/issues",
-                "source": "https://github.com/laravel/telescope/tree/v4.14.6"
+                "source": "https://github.com/laravel/telescope/tree/v4.15.0"
             },
-            "time": "2023-06-03T02:57:12+00:00"
+            "time": "2023-06-08T13:57:22+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -12761,16 +12759,16 @@
         },
         {
             "name": "laravel/pint",
-            "version": "v1.10.2",
+            "version": "v1.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "f78de1a1bbab7aa41a6ea211c5962b0530d1a301"
+                "reference": "c472786bca01e4812a9bb7933b23edfc5b6877b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/f78de1a1bbab7aa41a6ea211c5962b0530d1a301",
-                "reference": "f78de1a1bbab7aa41a6ea211c5962b0530d1a301",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/c472786bca01e4812a9bb7933b23edfc5b6877b7",
+                "reference": "c472786bca01e4812a9bb7933b23edfc5b6877b7",
                 "shasum": ""
             },
             "require": {
@@ -12781,7 +12779,7 @@
                 "php": "^8.1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.17.0",
+                "friendsofphp/php-cs-fixer": "^3.18.0",
                 "illuminate/view": "^10.5.1",
                 "laravel-zero/framework": "^10.0.2",
                 "mockery/mockery": "^1.5.1",
@@ -12823,20 +12821,20 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2023-06-12T10:50:04+00:00"
+            "time": "2023-06-20T15:55:03+00:00"
         },
         {
             "name": "laravel/sail",
-            "version": "v1.22.0",
+            "version": "v1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "923e1e112b6a8598664dbb0ee79dd3137f1c9d56"
+                "reference": "a2e046f748e87d3ef8b2b381e0e5c5a11f34e46b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/923e1e112b6a8598664dbb0ee79dd3137f1c9d56",
-                "reference": "923e1e112b6a8598664dbb0ee79dd3137f1c9d56",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/a2e046f748e87d3ef8b2b381e0e5c5a11f34e46b",
+                "reference": "a2e046f748e87d3ef8b2b381e0e5c5a11f34e46b",
                 "shasum": ""
             },
             "require": {
@@ -12888,7 +12886,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2023-05-04T14:52:56+00:00"
+            "time": "2023-06-16T21:20:12+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -13472,16 +13470,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.19",
+            "version": "1.10.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "af5a296ff02610c1bfb4ddfac9fd4a08657b9046"
+                "reference": "c4c8adb56313fbd59ff5a5f4a496bbed1a6b8803"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/af5a296ff02610c1bfb4ddfac9fd4a08657b9046",
-                "reference": "af5a296ff02610c1bfb4ddfac9fd4a08657b9046",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c4c8adb56313fbd59ff5a5f4a496bbed1a6b8803",
+                "reference": "c4c8adb56313fbd59ff5a5f4a496bbed1a6b8803",
                 "shasum": ""
             },
             "require": {
@@ -13530,7 +13528,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-06-14T15:26:58+00:00"
+            "time": "2023-06-20T12:07:40+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

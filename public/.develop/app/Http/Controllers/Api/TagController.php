@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\PaginationHelper;
 use App\Http\Queries\Addon\QueryOption;
 use App\Http\Queries\TagQuery;
 use App\Http\Resources\EntityResource;
@@ -11,6 +10,7 @@ use App\Http\Resources\Tag\TagResource;
 use App\Models\Book;
 use App\Models\TagExtend;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Queries\HttpQuery;
 use Spatie\Tags\Tag;
 
 /**
@@ -35,16 +35,20 @@ class TagController extends Controller
         //     return $alpha;
         // }
 
-        return app(TagQuery::class)
-            ->make(QueryOption::create(
-                request: $request,
-                resource: TagLightResource::class,
-                orderBy: 'slug->en',
-                withExport: false,
-                sortAsc: true,
-                full: $this->getFull($request),
-            ))
-            ->paginateOrExport()
+        // return app(TagQuery::class)
+        //     ->make(QueryOption::create(
+        //         request: $request,
+        //         resource: TagLightResource::class,
+        //         orderBy: 'slug->en',
+        //         withExport: false,
+        //         sortAsc: true,
+        //         full: $this->getFull($request),
+        //     ))
+        //     ->paginateOrExport()
+        // ;
+
+        return HttpQuery::make(Tag::class, $request)
+            ->collection()
         ;
     }
 
@@ -79,6 +83,6 @@ class TagController extends Controller
         $books = $books_standalone->merge($series);
         $books = $books->sortBy('slug_sort');
 
-        return EntityResource::collection(PaginationHelper::paginate($books, 32));
+        return EntityResource::collection($this->paginate($books, 32));
     }
 }

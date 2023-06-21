@@ -11,6 +11,9 @@ use App\Models\Publisher;
 use App\Models\Serie;
 use App\Models\TagExtend;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Route;
 
@@ -74,4 +77,12 @@ class Controller extends BaseController
 
     //     return "App\\Models\\{$model_name}";
     // }
+
+    public function paginate(iterable $items, int $size = 15, int $page = 1, array $options = []): LengthAwarePaginator
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+
+        return new LengthAwarePaginator($items->forPage($page, $size), $items->count(), $size, $page, $options);
+    }
 }

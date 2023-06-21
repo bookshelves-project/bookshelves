@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use App\Enums\MediaDiskEnum;
-use App\Models\Book;
 use App\Models\MediaExtended;
 use App\Services\EntityService;
 use Spatie\Image\Manipulations;
