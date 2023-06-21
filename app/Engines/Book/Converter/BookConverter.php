@@ -31,6 +31,7 @@ class BookConverter
      */
     public static function make(Ebook $ebook, BookTypeEnum $type, ?Book $book = null): self
     {
+        ray($ebook);
         $self = new self($ebook);
 
         if ($book) {
@@ -97,7 +98,10 @@ class BookConverter
     private function setAuthors(): self
     {
         $authors = AuthorConverter::toCollection($this->ebook);
-        $this->book?->authors()->sync($authors->pluck('id'));
+
+        if ($authors->isNotEmpty()) {
+            $this->book?->authors()->sync($authors->pluck('id'));
+        }
 
         return $this;
     }

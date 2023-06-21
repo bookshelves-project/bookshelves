@@ -35,7 +35,7 @@ class AuthorConverter
         if (empty($authors)) {
             $author = AuthorConverter::make(
                 new BookAuthor(
-                    name: 'Anonymous Anonymous',
+                    name: 'Anonymous',
                     role: 'aut'
                 )
             )->create();
@@ -45,44 +45,30 @@ class AuthorConverter
         }
 
         foreach ($authors as $author) {
-            $isExists = false;
             $current = AuthorConverter::make($author);
+
             $detectHomonyms = config('bookshelves.authors.detect_homonyms');
+            $existing = Author::whereFirstname($current->firstname)
+                ->whereLastname($current->lastname)
+                ->first()
+            ;
 
-            if (! $current) {
-                continue;
-            }
-
-            // try to find homonyms in existing authors
-            if ($detectHomonyms) {
-                $existsAuthor = Author::whereFirstname($current->lastname)->first();
-
-                if ($existsAuthor) {
-                    $isExists = true;
-                    $author = Author::whereLastname($existsAuthor->firstname)->first();
-                }
-            }
-
-            // try to find in existing authors
-            if (! $isExists) {
-                $existsAuthor = Author::whereFirstname($current->firstname)
-                    ->whereLastname($current->lastname)
+            if ($detectHomonyms && ! $existing) {
+                $existing = Author::whereFirstname($current->lastname)
+                    ->whereLastname($current->firstname)
                     ->first()
                 ;
-
-                if ($existsAuthor) {
-                    $isExists = true;
-                    $author = $existsAuthor;
-                }
             }
 
-            // create author if not exists
-            if (! $isExists) {
-                $current = AuthorConverter::make($author);
+            if ($existing) {
+                $author = $existing;
+            } else {
                 $author = $current->create();
             }
 
-            $items->push($author);
+            if ($author !== null) {
+                $items->push($author);
+            }
         }
 
         return $items;
