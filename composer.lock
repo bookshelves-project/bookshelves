@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "293e0141dc35ed05ecbccf5d122eed57",
+    "content-hash": "b3f6677cb19541b3663ca2cd2a9d8583",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2737,16 +2737,16 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "1.3.30",
+            "version": "1.3.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "cef6d57a9eee63b8161bbd50ea3536e65a8314a6"
+                "reference": "b00a2a9c0a68eb2863ecbf1857eadebab4458248"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/cef6d57a9eee63b8161bbd50ea3536e65a8314a6",
-                "reference": "cef6d57a9eee63b8161bbd50ea3536e65a8314a6",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/b00a2a9c0a68eb2863ecbf1857eadebab4458248",
+                "reference": "b00a2a9c0a68eb2863ecbf1857eadebab4458248",
                 "shasum": ""
             },
             "require": {
@@ -2804,7 +2804,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/1.3.30"
+                "source": "https://github.com/kiwilan/php-ebook/tree/1.3.34"
             },
             "funding": [
                 {
@@ -2812,7 +2812,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-20T12:47:05+00:00"
+            "time": "2023-06-22T15:37:17+00:00"
         },
         {
             "name": "kiwilan/php-opds",
@@ -2941,12 +2941,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "e4bb4d10c688297ffda9c12cb04a2e976b571d39"
+                "reference": "0b6b6d044eb27cd7ca68c5bfa17a569fb64df9b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/e4bb4d10c688297ffda9c12cb04a2e976b571d39",
-                "reference": "e4bb4d10c688297ffda9c12cb04a2e976b571d39",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/0b6b6d044eb27cd7ca68c5bfa17a569fb64df9b8",
+                "reference": "0b6b6d044eb27cd7ca68c5bfa17a569fb64df9b8",
                 "shasum": ""
             },
             "require": {
@@ -3019,7 +3019,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2023-06-22T11:16:35+00:00"
+            "time": "2023-06-22T14:48:56+00:00"
         },
         {
             "name": "laravel/fortify",

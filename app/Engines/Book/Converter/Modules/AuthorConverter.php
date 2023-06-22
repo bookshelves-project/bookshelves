@@ -79,6 +79,55 @@ class AuthorConverter
      */
     public static function make(BookAuthor $author): ?self
     {
+        $data = AuthorConverter::convertName($author);
+
+        return new self(
+            firstname: $data['firstname'],
+            lastname: $data['lastname'],
+            role: $data['role'],
+        );
+    }
+
+    public function firstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function lastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function role(): ?string
+    {
+        return $this->role;
+    }
+
+    /**
+     * Create Author if not exist.
+     */
+    private function create(): Author
+    {
+        $name = AuthorConverter::toName($this->lastname, $this->firstname);
+
+        return Author::firstOrCreate([
+            'lastname' => $this->lastname,
+            'firstname' => $this->firstname,
+            'name' => $name,
+            'slug' => Str::slug($name, '-'),
+            'role' => AuthorRoleEnum::tryFrom($this->role),
+        ]);
+    }
+
+    public static function toName(?string $lastname, ?string $firstname): ?string
+    {
+        $name = "{$lastname} {$firstname}";
+
+        return trim($name);
+    }
+
+    public static function convertName(BookAuthor $author): ?array
+    {
         $lastname = null;
         $firstname = null;
 
@@ -103,38 +152,41 @@ class AuthorConverter
             return null;
         }
 
-        return new self($firstname, $lastname, $role);
+        return [
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'role' => $role,
+        ];
     }
 
-    public function firstname(): ?string
+    public static function makeAuthor(BookAuthor $author): Author
     {
-        return $this->firstname;
-    }
+        $data = AuthorConverter::convertName($author);
+        $name = AuthorConverter::toName($data['lastname'], $data['firstname']);
 
-    public function lastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function role(): ?string
-    {
-        return $this->role;
+        return new Author([
+            'lastname' => $data['lastname'],
+            'firstname' => $data['firstname'],
+            'name' => $name,
+            'slug' => Str::slug($name, '-'),
+            'role' => AuthorRoleEnum::tryFrom($data['role']),
+        ]);
     }
 
     /**
-     * Create Author if not exist.
+     * Convert data to Authors.
+     *
+     * @param  BookAuthor[]  $authors
+     * @return Author[]
      */
-    private function create(): Author
+    public static function toAuthors(array $authors): array
     {
-        $name = "{$this->lastname} {$this->firstname}";
-        $name = trim($name);
+        $items = [];
 
-        return Author::firstOrCreate([
-            'lastname' => $this->lastname,
-            'firstname' => $this->firstname,
-            'name' => $name,
-            'slug' => Str::slug($name, '-'),
-            'role' => AuthorRoleEnum::tryFrom($this->role),
-        ]);
+        foreach ($authors as $author) {
+            $items[] = AuthorConverter::makeAuthor($author);
+        }
+
+        return $items;
     }
 }

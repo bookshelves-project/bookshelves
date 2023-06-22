@@ -10,10 +10,12 @@ use App\Engines\Book\Converter\Modules\LanguageConverter;
 use App\Engines\Book\Converter\Modules\PublisherConverter;
 use App\Engines\Book\Converter\Modules\SerieConverter;
 use App\Engines\Book\Converter\Modules\TagConverter;
+use App\Engines\Book\IndexationEngine;
 use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Carbon;
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Steward\Services\ConverterService;
 
 /**
  * Create or improve a `Book` and relations.
@@ -32,69 +34,7 @@ class BookConverter
     public static function make(Ebook $ebook, BookTypeEnum $type, ?Book $book = null): self
     {
         $self = new self($ebook);
-
-        if ($book) {
-            $self->checkBook($type);
-        }
-
-        if (! $book) {
-            $rights = $self->ebook->copyright();
-            $description = $self->ebook->description();
-
-            if (strlen($description) > 2000) {
-                $description = substr($description, 0, 2000).'...';
-            }
-
-            $self->book = Book::firstOrCreate([
-                'title' => $self->ebook->title(),
-                'slug' => $self->ebook->metaTitle()->slugLang(),
-                'slug_sort' => $self->ebook->metaTitle()->slugSortWithSerie(),
-                'contributor' => $self->ebook->extrasExtract('contributor'),
-                'released_on' => $self->ebook->publishDate(),
-                'description' => $description,
-                'rights' => strlen($rights) > 255 ? substr($rights, 0, 255) : $rights,
-                'volume' => $self->ebook->volume(),
-                'type' => $type,
-                'page_count' => $self->ebook->pagesCount(),
-                'physical_path' => $ebook->path(),
-            ]);
-        }
-
-        if (empty($self->book?->title)) {
-            Book::destroy($self->book?->id);
-
-            return $self;
-        }
-
-        $self->setAuthors();
-        $self->setTags();
-        $self->setPublisher();
-        $self->setLanguage();
-        $self->setSerie($type);
-        $self->setIdentifiers();
-        $self->setCover($ebook);
-
-        $currentMemory = ini_get('memory_limit');
-        $filesize = filesize($ebook->path());
-        $filesizeMB = $filesize / 1048576;
-        $limit = intval($filesizeMB + 200);
-
-        if (intval($limit) > intval($currentMemory)) {
-            ini_set('memory_limit', $limit.'M');
-        }
-        $self->setFile($ebook);
-        ini_restore('memory_limit');
-
-        $self->book->authorMain()->associate($self->book->authors->first());
-        $self->book->save();
-
-        $serie = $self->book->serie;
-
-        if ($serie) {
-            $serie->authorMain()->associate($self->book->authorMain);
-            $serie->authors()->sync($self->book->authors->pluck('id'));
-            $serie->save();
-        }
+        $self->parse($type, $book);
 
         return $self;
     }
@@ -104,13 +44,96 @@ class BookConverter
         return $this->book;
     }
 
+    private function parse(BookTypeEnum $type, ?Book $book): self
+    {
+        // if ($book) {
+        //     $this->checkBook($type);
+        // }
+
+        $identifiers = IdentifiersConverter::toCollection($this->ebook);
+
+        if (! $book) {
+            $this->book = new Book([
+                'title' => $this->ebook->title(),
+                'slug' => $this->ebook->metaTitle()->slugLang(),
+                'slug_sort' => $this->ebook->metaTitle()->slugSortWithSerie(),
+                'contributor' => $this->ebook->extrasExtract('contributor'),
+                'released_on' => $this->ebook->publishDate()?->format('Y-m-d'),
+                'description' => $this->ebook->description(2000),
+                'rights' => $this->ebook->copyright(255),
+                'volume' => $this->ebook->volume(),
+                'type' => $type,
+                // 'page_count' => $this->ebook->pagesCount(),
+                'physical_path' => $this->ebook->path(),
+                'isbn10' => $identifiers->get('isbn10') ?? null,
+                'isbn13' => $identifiers->get('isbn13') ?? null,
+                'identifiers' => json_encode($identifiers),
+            ]);
+        }
+
+        if (empty($this->book?->title)) {
+            $this->book = null;
+
+            return $this;
+        }
+
+        $data = $this->book->toArray();
+        unset($data['isbn']);
+
+        $relations = [];
+        $relations['authors'] = AuthorConverter::toAuthors($this->ebook->authors());
+        // $relations['authors'] = AuthorConverter::toCollection($this->ebook);
+        // $relations['tags'] = TagConverter::toCollection($this->ebook);
+        // $relations['publisher'] = PublisherConverter::toModel($this->ebook);
+        // $relations['language'] = LanguageConverter::toModel($this->ebook);
+        // $relations['serie'] = SerieConverter::toModel($this->ebook, $type);
+        $data['relations'] = $relations;
+
+        IndexationEngine::save($this->ebook->metaTitle()->uniqueFilename(), $data);
+
+        // $this->setAuthors();
+        // $this->setTags();
+        // $this->setPublisher();
+        // $this->setLanguage();
+        // $this->setSerie($type);
+        // $this->setIdentifiers();
+        // $this->setCover($ebook);
+
+        // $currentMemory = ini_get('memory_limit');
+        // $filesize = filesize($ebook->path());
+        // $filesizeMB = $filesize / 1048576;
+        // $limit = intval($filesizeMB + 200);
+
+        // if (intval($limit) > intval($currentMemory)) {
+        //     ini_set('memory_limit', $limit.'M');
+        // }
+        // $this->setFile($ebook);
+        // ini_restore('memory_limit');
+
+        // $this->book->authorMain()->associate($this->book->authors->first());
+        // $this->book->save();
+
+        // $serie = $this->book->serie;
+
+        // if ($serie) {
+        //     $serie->authorMain()->associate($this->book->authorMain);
+        //     $serie->authors()->sync($this->book->authors->pluck('id'));
+        //     $serie->save();
+        // }
+
+        // ConverterService::saveAsJson($data, $this->book->slug, false);
+
+        return $this;
+    }
+
     private function setAuthors(): self
     {
         $authors = AuthorConverter::toCollection($this->ebook);
+        dump($authors);
 
-        if ($authors->isNotEmpty()) {
-            $this->book?->authors()->sync($authors->pluck('id'));
-        }
+        // if ($authors->isNotEmpty()) {
+        //     $this->book?->authors()->sync($authors->pluck('id'));
+        // }
 
         return $this;
     }

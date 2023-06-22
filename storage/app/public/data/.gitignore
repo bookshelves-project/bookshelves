@@ -1,6 +1,7 @@
 *
 !/books
 !/authors
+!/cache
 !/series
 !README.md
 !.gitignore

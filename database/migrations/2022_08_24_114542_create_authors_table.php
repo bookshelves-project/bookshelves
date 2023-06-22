@@ -14,7 +14,7 @@ return new class() extends Migration
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
 
-            $table->string('slug')->unique()->index();
+            $table->string('slug')->index();
             $table->string('lastname')->nullable();
             $table->string('firstname')->nullable();
             $table->string('name');
