@@ -5,11 +5,12 @@
 ### Set Books path
 
 ```bash
-sudo ln -s /Users/ewilan/Documents/books/linked/audio public/storage/data/books/audio/linked
-sudo ln -s /Users/ewilan/Documents/books/linked/comic public/storage/data/books/comic/linked
-sudo ln -s /Users/ewilan/Documents/books/linked/essay public/storage/data/books/essay/linked
-sudo ln -s /Users/ewilan/Documents/books/linked/handbook public/storage/data/books/handbook/linked
-sudo ln -s /Users/ewilan/Documents/books/linked/novel public/storage/data/books/novel/linked
+rm public/storage/data/books/audio/linked
+rm public/storage/data/books/comic/linked
+rm public/storage/data/books/novel/linked
+sudo ln -s /Users/ewilan/Documents/books/storage/output/audio public/storage/data/books/audio/linked
+sudo ln -s /Users/ewilan/Documents/books/storage/output/comics public/storage/data/books/comic/linked
+sudo ln -s /Users/ewilan/Documents/books/storage/output/novels public/storage/data/books/novel/linked
 ```
 
 ### Set Authors and series path

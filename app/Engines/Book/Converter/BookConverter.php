@@ -31,7 +31,6 @@ class BookConverter
      */
     public static function make(Ebook $ebook, BookTypeEnum $type, ?Book $book = null): self
     {
-        ray($ebook);
         $self = new self($ebook);
 
         if ($book) {
@@ -74,7 +73,17 @@ class BookConverter
         $self->setSerie($type);
         $self->setIdentifiers();
         $self->setCover($ebook);
+
+        $currentMemory = ini_get('memory_limit');
+        $filesize = filesize($ebook->path());
+        $filesizeMB = $filesize / 1048576;
+        $limit = intval($filesizeMB + 200);
+
+        if (intval($limit) > intval($currentMemory)) {
+            ini_set('memory_limit', $limit.'M');
+        }
         $self->setFile($ebook);
+        ini_restore('memory_limit');
 
         $self->book->authorMain()->associate($self->book->authors->first());
         $self->book->save();
