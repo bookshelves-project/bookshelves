@@ -93,13 +93,13 @@ class StartupCommand extends Commandable
         }
 
         // Sample users.
-        if ($sample) {
-            Artisan::call('bookshelves:sample', [
-                '--users' => true,
-                '--cms' => true,
-                '--force' => $force,
-            ], $this->getOutput());
-        }
+        // if ($sample) {
+        //     Artisan::call('bookshelves:sample', [
+        //         '--users' => true,
+        //         '--cms' => true,
+        //         '--force' => $force,
+        //     ], $this->getOutput());
+        // }
 
         // Scout.
         ScoutFreshProcess::dispatch();
