@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\ContactSubjectEnum;
 use Kiwilan\Steward\Enums\PublishStatusEnum;
-use Kiwilan\Steward\Services\RouteService;
 use Spatie\RouteAttributes\Attributes\Get;
 use Str;
 
@@ -13,8 +12,6 @@ class IndexController extends Controller
     #[Get('/', name: 'index')]
     public function index()
     {
-        $list = RouteService::getList();
-
         return response()->json([
             'name' => config('app.name').' API',
             'version' => 'v1',
@@ -28,7 +25,6 @@ class IndexController extends Controller
                 // 'api-doc' => $this->getRouteData(route('scribe'), 'API documentation to use data on others applications', false),
                 'repository' => $this->getRouteData(config('bookshelves.repository_url'), 'Repository of this application', false),
             ],
-            'api' => $list,
         ], 200);
     }
 

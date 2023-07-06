@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Books\BookResource\Pages;
 
 use App\Filament\Resources\Books\BookResource;
-use App\Jobs\ProcessSyncBooks;
+use App\Jobs\SyncBooks;
 use Filament\Notifications\Notification;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -24,7 +24,7 @@ class ListBooks extends ListRecords
                 ->modalSubheading("It will parse books files to find new books and update existing ones with assets and relations. It's will be take some time, you can close this page, you will receive a notification on notification panel when it's done.")
                 ->modalButton('Sync')
                 ->action(function () {
-                    ProcessSyncBooks::dispatch(recipient: auth()->user());
+                    SyncBooks::dispatch(recipient: auth()->user());
                     Notification::make()
                         ->title('Sync is started')
                         ->body('Books and relations will be updated in background, you can close this window.')
@@ -42,7 +42,7 @@ class ListBooks extends ListRecords
                 ->modalSubheading('Same action than sync but all books will be deleted and re-recreated (favorites and reviews will be deleted).')
                 ->modalButton('Sync')
                 ->action(function () {
-                    ProcessSyncBooks::dispatch(fresh: true, recipient: auth()->user());
+                    SyncBooks::dispatch(fresh: true, recipient: auth()->user());
                     Notification::make()
                         ->title('Sync fresh is started')
                         ->body('Books and relations will be deleted and refreshed in background, you can close this window.')

@@ -8,6 +8,18 @@ use Kiwilan\Ebook\Ebook;
 
 class PublisherConverter
 {
+    public static function make(?string $publisher): ?Publisher
+    {
+        if (! $publisher) {
+            return null;
+        }
+
+        return new Publisher([
+            'name' => $publisher,
+            'slug' => Str::slug($publisher),
+        ]);
+    }
+
     /**
      * Set Publisher from Ebook.
      */

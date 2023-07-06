@@ -57,7 +57,7 @@ class BookConverter
                 'title' => $this->ebook->title(),
                 'slug' => $this->ebook->metaTitle()->slugLang(),
                 'slug_sort' => $this->ebook->metaTitle()->slugSortWithSerie(),
-                'contributor' => $this->ebook->extrasExtract('contributor'),
+                'contributor' => $this->ebook->extra('contributor'),
                 'released_on' => $this->ebook->publishDate()?->format('Y-m-d'),
                 'description' => $this->ebook->description(2000),
                 'rights' => $this->ebook->copyright(255),
@@ -77,16 +77,16 @@ class BookConverter
             return $this;
         }
 
-        $data = $this->book->toArray();
-        unset($data['isbn']);
+        $data['id'] = uniqid();
+        $data['book'] = $this->book->toArray();
 
         $relations = [];
         $relations['authors'] = AuthorConverter::toAuthors($this->ebook->authors());
-        // $relations['authors'] = AuthorConverter::toCollection($this->ebook);
-        // $relations['tags'] = TagConverter::toCollection($this->ebook);
-        // $relations['publisher'] = PublisherConverter::toModel($this->ebook);
-        // $relations['language'] = LanguageConverter::toModel($this->ebook);
-        // $relations['serie'] = SerieConverter::toModel($this->ebook, $type);
+        $relations['tags'] = TagConverter::toTags($this->ebook->tags());
+        $relations['publisher'] = PublisherConverter::make($this->ebook->publisher());
+        $relations['language'] = LanguageConverter::make($this->ebook->language());
+        $relations['serie'] = SerieConverter::make($this->ebook->series(), $this->ebook->metaTitle(), $type);
+        $relations['cover'] = $this->ebook->cover()->content(true);
         $data['relations'] = $relations;
 
         IndexationEngine::save($this->ebook->metaTitle()->uniqueFilename(), $data);
@@ -126,119 +126,119 @@ class BookConverter
         return $this;
     }
 
-    private function setAuthors(): self
-    {
-        $authors = AuthorConverter::toCollection($this->ebook);
-        dump($authors);
+    // private function setAuthors(): self
+    // {
+    //     $authors = AuthorConverter::toCollection($this->ebook);
+    //     dump($authors);
 
-        // if ($authors->isNotEmpty()) {
-        //     $this->book?->authors()->sync($authors->pluck('id'));
-        // }
+    //     // if ($authors->isNotEmpty()) {
+    //     //     $this->book?->authors()->sync($authors->pluck('id'));
+    //     // }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    private function setTags(): self
-    {
-        $tags = TagConverter::toCollection($this->ebook);
+    // private function setTags(): self
+    // {
+    //     $tags = TagConverter::toCollection($this->ebook);
 
-        if ($tags->isNotEmpty()) {
-            $this->book?->tags()->sync($tags->pluck('id'));
-        }
+    //     if ($tags->isNotEmpty()) {
+    //         $this->book?->tags()->sync($tags->pluck('id'));
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    private function setPublisher(): self
-    {
-        $publisher = PublisherConverter::toModel($this->ebook);
-        $this->book?->publisher()->associate($publisher);
-        $this->book?->save();
+    // private function setPublisher(): self
+    // {
+    //     $publisher = PublisherConverter::toModel($this->ebook);
+    //     $this->book?->publisher()->associate($publisher);
+    //     $this->book?->save();
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    private function setLanguage(): self
-    {
-        $language = LanguageConverter::toModel($this->ebook);
-        $this->book?->language()->associate($language);
-        $this->book?->save();
+    // private function setLanguage(): self
+    // {
+    //     $language = LanguageConverter::toModel($this->ebook);
+    //     $this->book?->language()->associate($language);
+    //     $this->book?->save();
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    private function setSerie(BookTypeEnum $type): self
-    {
-        $serie = SerieConverter::toModel($this->ebook, $type)
-            ->associate($this->book)
-        ;
+    // private function setSerie(BookTypeEnum $type): self
+    // {
+    //     $serie = SerieConverter::toModel($this->ebook, $type)
+    //         ->associate($this->book)
+    //     ;
 
-        if ($serie) {
-            $this->book?->serie()->associate($serie);
-            $this->book?->save();
-        }
+    //     if ($serie) {
+    //         $this->book?->serie()->associate($serie);
+    //         $this->book?->save();
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    private function setIdentifiers(): self
-    {
-        $identifiers = IdentifiersConverter::toCollection($this->ebook);
+    // private function setIdentifiers(): self
+    // {
+    //     $identifiers = IdentifiersConverter::toCollection($this->ebook);
 
-        $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
-        $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
-        $this->book->identifiers = $identifiers;
-        $this->book->save();
+    //     $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
+    //     $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
+    //     $this->book->identifiers = $identifiers;
+    //     $this->book->save();
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    private function setCover(Ebook $ebook): void
-    {
-        CoverConverter::make($ebook, $this->book);
-    }
+    // private function setCover(Ebook $ebook): void
+    // {
+    //     CoverConverter::make($ebook, $this->book);
+    // }
 
-    private function setFile(Ebook $ebook): void
-    {
-        FileConverter::make($ebook, $this->book);
-    }
+    // private function setFile(Ebook $ebook): void
+    // {
+    //     FileConverter::make($ebook, $this->book);
+    // }
 
-    private function checkBook(BookTypeEnum $type): self
-    {
-        if (! $this->book) {
-            return $this;
-        }
+    // private function checkBook(BookTypeEnum $type): self
+    // {
+    //     if (! $this->book) {
+    //         return $this;
+    //     }
 
-        if (! $this->book->slug_sort && $this->ebook->series() && ! $this->book->serie) {
-            $this->book->slug_sort = $this->ebook->metaTitle()->serieSlugSort();
-        }
+    //     if (! $this->book->slug_sort && $this->ebook->series() && ! $this->book->serie) {
+    //         $this->book->slug_sort = $this->ebook->metaTitle()->serieSlugSort();
+    //     }
 
-        if (! $this->book->contributor) {
-            $this->book->contributor = $this->ebook->extrasExtract('contributor') ?? null;
-        }
+    //     if (! $this->book->contributor) {
+    //         $this->book->contributor = $this->ebook->extra('contributor') ?? null;
+    //     }
 
-        if (! $this->book->released_on) {
-            $this->book->released_on = Carbon::parse($this->ebook->publishDate());
-        }
+    //     if (! $this->book->released_on) {
+    //         $this->book->released_on = Carbon::parse($this->ebook->publishDate());
+    //     }
 
-        if (! $this->book->rights) {
-            $this->book->rights = $this->ebook->copyright();
-        }
+    //     if (! $this->book->rights) {
+    //         $this->book->rights = $this->ebook->copyright();
+    //     }
 
-        if (! $this->book->description) {
-            $this->book->description = $this->ebook->description();
-        }
+    //     if (! $this->book->description) {
+    //         $this->book->description = $this->ebook->description();
+    //     }
 
-        if (! $this->book->volume) {
-            $this->book->volume = $this->ebook->volume();
-        }
+    //     if (! $this->book->volume) {
+    //         $this->book->volume = $this->ebook->volume();
+    //     }
 
-        if (null === $this->book->type) {
-            $this->book->type = $type;
-        }
+    //     if (null === $this->book->type) {
+    //         $this->book->type = $type;
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     // public static function setDescription(Book $book, ?string $language_slug, ?string $description): Book
     // {

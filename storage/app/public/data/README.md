@@ -8,9 +8,9 @@
 rm public/storage/data/books/audio/linked
 rm public/storage/data/books/comic/linked
 rm public/storage/data/books/novel/linked
-sudo ln -s /Users/ewilan/Documents/books/storage/output/audio public/storage/data/books/audio/linked
-sudo ln -s /Users/ewilan/Documents/books/storage/output/comics public/storage/data/books/comic/linked
-sudo ln -s /Users/ewilan/Documents/books/storage/output/novels public/storage/data/books/novel/linked
+sudo ln -s /Users/ewilan/Documents/books/output/audio public/storage/data/books/audio/linked
+sudo ln -s /Users/ewilan/Documents/books/output/comics public/storage/data/books/comic/linked
+sudo ln -s /Users/ewilan/Documents/books/output/novels public/storage/data/books/novel/linked
 ```
 
 ### Set Authors and series path

@@ -10,16 +10,15 @@ use App\Engines\Book\IndexationEngine;
 use App\Engines\BookEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
+use App\Jobs\ParseBookIndex;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\MediaExtended;
 use App\Models\Serie;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Kiwilan\Steward\Commands\Commandable;
-use Kiwilan\Steward\Services\DirectoryClearService;
 use Kiwilan\Steward\Services\ProcessService;
 use ReflectionClass;
 use Spatie\Tags\Tag;
@@ -123,60 +122,14 @@ class MakeCommand extends Commandable
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
         $this->info("Time in seconds: {$time_elapsed_secs}");
 
-        ProcessService::executionTime(function () {
-            $this->insert();
-        });
+        dump('ParseBookIndex::dispatch();');
+        ParseBookIndex::dispatch();
+
+        // ProcessService::executionTime(function () {
+        //     $this->insert();
+        // });
 
         return Command::SUCCESS;
-    }
-
-    private function insert()
-    {
-        if (! File::exists(IndexationEngine::getIndexPath())) {
-            $this->error('No index file found!');
-
-            return;
-        }
-
-        $index = IndexationEngine::getIndex();
-        $data = [];
-
-        foreach ($index as $value) {
-            $item = json_decode(File::get($value), true);
-            $item = $this->setTimestamps($item);
-            unset($item['relations']);
-            $data[] = $item;
-        }
-
-        $success = Book::insert($data);
-        $this->info('Books inserted!');
-        $this->info("Success: {$success}");
-
-        $authors = [];
-
-        foreach ($index as $value) {
-            $item = json_decode(File::get($value), true);
-            $relations = $item['relations'];
-            $authors[] = $relations['authors'];
-        }
-
-        $authors = call_user_func_array('array_merge', $authors);
-        $authors = array_map('json_decode', array_unique(array_map('json_encode', $authors)));
-        $authors = json_decode(json_encode($authors), true);
-
-        foreach ($authors as $author) {
-            unset($author['title']);
-            Author::insert($author);
-        }
-        // dump($authors);
-    }
-
-    private function setTimestamps(array $data): array
-    {
-        $data['created_at'] = Carbon::now();
-        $data['updated_at'] = Carbon::now();
-
-        return $data;
     }
 
     private function setupOptions()
@@ -191,9 +144,7 @@ class MakeCommand extends Commandable
         $this->askOnProduction();
 
         Artisan::call('clear:all', [], $this->getOutput());
-        DirectoryClearService::make([
-            public_path('storage/data/cache'),
-        ]);
+        IndexationEngine::clean();
         $parser = BookFilesReader::make(limit: $this->limit);
         $this->files = $parser->items();
 
@@ -239,33 +190,33 @@ class MakeCommand extends Commandable
         }
     }
 
-    private function improveRelation(string $model)
-    {
-        $default = $this->option('default') ?: false;
+    // private function improveRelation(string $model)
+    // {
+    //     $default = $this->option('default') ?: false;
 
-        $class = new ReflectionClass($model);
-        $class = $class->getShortName();
+    //     $class = new ReflectionClass($model);
+    //     $class = $class->getShortName();
 
-        $this->newLine();
-        $this->warn("Set relation {$class}s...");
-        $this->newLine();
-        $bar = $this->output->createProgressBar($model::count());
-        $bar->start();
+    //     $this->newLine();
+    //     $this->warn("Set relation {$class}s...");
+    //     $this->newLine();
+    //     $bar = $this->output->createProgressBar($model::count());
+    //     $bar->start();
 
-        /** @var Serie|Author $entity */
-        foreach ($model::all() as $entity) {
-            EntityConverter::make($entity)
-                ->setTags()
-                ->parseLocalData()
-            ;
+    //     /** @var Serie|Author $entity */
+    //     foreach ($model::all() as $entity) {
+    //         EntityConverter::make($entity)
+    //             ->setTags()
+    //             ->parseLocalData()
+    //         ;
 
-            if (! $default) {
-                CoverConverter::setLocalCover($entity);
-            }
+    //         if (! $default) {
+    //             CoverConverter::setLocalCover($entity);
+    //         }
 
-            $bar->advance();
-        }
-        $bar->finish();
-        $this->newLine();
-    }
+    //         $bar->advance();
+    //     }
+    //     $bar->finish();
+    //     $this->newLine();
+    // }
 }

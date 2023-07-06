@@ -8,6 +8,27 @@ use Locale;
 
 class LanguageConverter
 {
+    public static function make(?string $language): ?Language
+    {
+        $availableLangs = config('bookshelves.langs');
+        $langCode = $language ?? 'en';
+
+        if (! $language) {
+            return null;
+        }
+
+        $langNames = [];
+
+        foreach ($availableLangs as $lang) {
+            $langNames[$lang] = ucfirst(Locale::getDisplayLanguage($langCode, $lang));
+        }
+
+        return new Language([
+            'name' => $langNames,
+            'slug' => $langCode,
+        ]);
+    }
+
     /**
      * Set Language from Ebook.
      */

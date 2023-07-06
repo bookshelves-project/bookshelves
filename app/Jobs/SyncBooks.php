@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-class ProcessSyncBooks implements ShouldQueue
+class SyncBooks implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -39,20 +39,20 @@ class ProcessSyncBooks implements ShouldQueue
      */
     public function handle()
     {
-        Log::info('ProcessSyncBooks: start');
+        Log::info('SyncBooks: start');
 
         if ($this->fresh) {
             File::deleteDirectory(public_path('storage/covers'));
             File::deleteDirectory(public_path('storage/formats'));
         }
 
-        Log::debug('ProcessSyncBooks: make');
+        Log::debug('SyncBooks: make');
         Artisan::call('bookshelves:make', [
             '--fresh' => $this->fresh,
             '--force' => true,
         ]);
 
-        Log::debug('ProcessSyncBooks: api');
+        Log::debug('SyncBooks: api');
         Artisan::call('bookshelves:api', [
             '--books' => true,
             '--authors' => true,
@@ -61,7 +61,7 @@ class ProcessSyncBooks implements ShouldQueue
             '--force' => true,
         ]);
 
-        Log::info('ProcessSyncBooks: success');
+        Log::info('SyncBooks: success');
 
         if ($this->recipient) {
             Notification::make()
@@ -79,7 +79,7 @@ class ProcessSyncBooks implements ShouldQueue
      */
     public function failed(Throwable $exception)
     {
-        Log::error('ProcessSyncBooks: failed', [
+        Log::error('SyncBooks: failed', [
             'exception' => $exception,
         ]);
 

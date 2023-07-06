@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\Serie;
 use File;
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Ebook\Tools\MetaTitle;
 use Kiwilan\Steward\Services\MediaService;
 
 class SerieConverter
@@ -15,6 +16,20 @@ class SerieConverter
     protected ?Serie $serie = null;
 
     public const DISK = MediaDiskEnum::cover;
+
+    public static function make(?string $serie, MetaTitle $meta, BookTypeEnum $type): ?Serie
+    {
+        if (! $serie) {
+            return null;
+        }
+
+        return new Serie([
+            'title' => $serie,
+            'slug_sort' => $meta->serieSlugSort(),
+            'slug' => $meta->serieSlugLang(),
+            'type' => $type,
+        ]);
+    }
 
     /**
      * Set Serie from Ebook.
