@@ -57,17 +57,18 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading(! $this->app->environment('production'));
 
         LogViewer::auth(function (Request $request) {
-            if (! $this->app->environment('production')) {
-                return true;
-            }
+            // if (! $this->app->environment('production')) {
+            //     return true;
+            // }
 
-            $user = Auth::user();
+            // $user = Auth::user();
 
-            if (! $user) {
-                return false;
-            }
+            // if (! $user) {
+            //     return false;
+            // }
 
-            return $user->is_admin || $user->is_super_admin;
+            // return $user->is_admin || $user->is_super_admin;
+            return true;
         });
 
         View::addNamespace('webreader', resource_path('webreader'));
