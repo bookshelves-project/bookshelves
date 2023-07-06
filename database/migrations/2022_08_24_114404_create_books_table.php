@@ -16,6 +16,7 @@ return new class() extends Migration
             $table->id();
 
             $table->string('title');
+            $table->string('uuid')->unique();
             $table->string('slug_sort')->nullable();
             $table->string('slug')->index();
             $table->string('contributor')->nullable();

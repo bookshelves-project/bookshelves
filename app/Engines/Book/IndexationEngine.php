@@ -85,7 +85,10 @@ class IndexationEngine
 
     public function item(string $value): IndexItem
     {
-        return IndexItem::make(json_decode(file_get_contents($value), true));
+        $contents = file_get_contents($value);
+        $contents = json_decode($contents, true);
+
+        return IndexItem::make($contents);
     }
 
     public function flattenAndUnique(array $data): array
@@ -141,7 +144,7 @@ class IndexationEngine
 class IndexItem
 {
     protected function __construct(
-        protected string $id,
+        protected string $uuid,
         protected array $book,
         protected array $relations,
         protected ?array $authors = [],
@@ -149,6 +152,7 @@ class IndexItem
         protected ?array $publisher = null,
         protected ?array $language = null,
         protected ?array $serie = null,
+        protected ?string $cover = null,
     ) {
     }
 
@@ -174,9 +178,10 @@ class IndexItem
         $language = $relations['language'] ?? null;
         $serie = $relations['serie'] ?? null;
         unset($serie['authors']);
+        $cover = $relations['cover'] ?? null;
 
         return new self(
-            id: $data['id'],
+            uuid: $book['uuid'],
             book: $book,
             relations: $relations,
             authors: $authors,
@@ -184,6 +189,7 @@ class IndexItem
             publisher: $publisher,
             language: $language,
             serie: $serie,
+            cover: $cover,
         );
     }
 
@@ -195,9 +201,9 @@ class IndexItem
         return $data;
     }
 
-    public function id(): string
+    public function uuid(): string
     {
-        return $this->id;
+        return $this->uuid;
     }
 
     public function book(): array
@@ -233,5 +239,10 @@ class IndexItem
     public function serie(): ?array
     {
         return $this->serie;
+    }
+
+    public function cover(): ?string
+    {
+        return $this->cover;
     }
 }

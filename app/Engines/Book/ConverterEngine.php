@@ -32,7 +32,7 @@ class ConverterEngine
         $self->book = $self->retrieveBook();
 
         $converter = BookConverter::make($self->ebook, $file->type(), $self->book);
-        // $self->book = $converter->book();
+        $self->book = $converter->book();
 
         return $self;
     }

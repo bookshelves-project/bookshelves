@@ -6,11 +6,9 @@ use App\Engines\Book\BookFileReader;
 use App\Engines\Book\BookFilesReader;
 use App\Engines\Book\Converter\EntityConverter;
 use App\Engines\Book\Converter\Modules\CoverConverter;
-use App\Engines\Book\IndexationEngine;
 use App\Engines\BookEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
-use App\Jobs\ParseBookIndex;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\MediaExtended;
@@ -19,7 +17,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Kiwilan\Steward\Commands\Commandable;
-use Kiwilan\Steward\Services\ProcessService;
 use ReflectionClass;
 use Spatie\Tags\Tag;
 
@@ -122,13 +119,6 @@ class MakeCommand extends Commandable
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
         $this->info("Time in seconds: {$time_elapsed_secs}");
 
-        dump('ParseBookIndex::dispatch();');
-        ParseBookIndex::dispatch();
-
-        // ProcessService::executionTime(function () {
-        //     $this->insert();
-        // });
-
         return Command::SUCCESS;
     }
 
@@ -144,7 +134,6 @@ class MakeCommand extends Commandable
         $this->askOnProduction();
 
         Artisan::call('clear:all', [], $this->getOutput());
-        IndexationEngine::clean();
         $parser = BookFilesReader::make(limit: $this->limit);
         $this->files = $parser->items();
 
