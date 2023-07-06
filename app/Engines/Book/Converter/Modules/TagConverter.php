@@ -24,6 +24,7 @@ class TagConverter
             $model = $self->make($tag);
 
             if ($model) {
+                $model = $model->create($model->toArray());
                 $items->push($model);
             }
         }
@@ -80,12 +81,12 @@ class TagConverter
 
         $model = null;
 
-        if (strlen($tag) > 1 && strlen($tag) < 30 && ! in_array($tag, $forbiddenTags)) {
+        if ($tag !== null && strlen($tag) > 1 && strlen($tag) < 30 && ! in_array($tag, $forbiddenTags)) {
             $tag = strtolower($tag);
             $tag = ucfirst($tag);
 
             $model = new Tag([
-                $tag,
+                'name' => $tag,
             ]);
 
             if (in_array($tag, $mainGenres)) {

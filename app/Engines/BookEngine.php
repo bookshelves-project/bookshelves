@@ -3,7 +3,7 @@
 namespace App\Engines;
 
 use App\Engines\Book\BookFileReader;
-use App\Jobs\ParseBook;
+use App\Engines\Book\ConverterEngine;
 use Illuminate\Support\Facades\Storage;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Steward\Utils\Console;
@@ -13,6 +13,7 @@ class BookEngine
     protected function __construct(
         protected Ebook $ebook,
         protected BookFileReader $file,
+        protected ConverterEngine $converter,
     ) {
     }
 
@@ -24,9 +25,9 @@ class BookEngine
             BookEngine::verbose($ebook);
         }
 
-        ParseBook::dispatch($ebook, $file, $default);
+        $converter = ConverterEngine::make($ebook, $file, $default);
 
-        return new self($ebook, $file);
+        return new self($ebook, $file, $converter);
     }
 
     public function ebook(): Ebook
@@ -37,6 +38,11 @@ class BookEngine
     public function file(): BookFileReader
     {
         return $this->file;
+    }
+
+    public function converter(): ConverterEngine
+    {
+        return $this->converter;
     }
 
     private static function verbose(Ebook $ebook): void

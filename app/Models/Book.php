@@ -67,6 +67,7 @@ class Book extends Model implements HasMedia, GoogleBookable
 
     protected $fillable = [
         'title',
+        'uuid',
         'slug_sort',
         'contributor',
         'description',

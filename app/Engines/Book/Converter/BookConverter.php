@@ -10,12 +10,10 @@ use App\Engines\Book\Converter\Modules\LanguageConverter;
 use App\Engines\Book\Converter\Modules\PublisherConverter;
 use App\Engines\Book\Converter\Modules\SerieConverter;
 use App\Engines\Book\Converter\Modules\TagConverter;
-use App\Engines\Book\IndexationEngine;
 use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Carbon;
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Steward\Services\ConverterService;
 
 /**
  * Create or improve a `Book` and relations.
@@ -53,7 +51,7 @@ class BookConverter
         $identifiers = IdentifiersConverter::toCollection($this->ebook);
 
         if (! $book) {
-            $this->book = new Book([
+            $this->book = Book::create([
                 'title' => $this->ebook->title(),
                 'uuid' => uniqid(),
                 'slug' => $this->ebook->metaTitle()->slugLang(),
@@ -78,49 +76,14 @@ class BookConverter
             return $this;
         }
 
-        // $relations = [];
-        // $relations['authors'] = AuthorConverter::toAuthors($this->ebook->authors());
-        // $relations['tags'] = TagConverter::toTags($this->ebook->tags());
-        // $relations['publisher'] = PublisherConverter::make($this->ebook->publisher());
-        // $relations['language'] = LanguageConverter::make($this->ebook->language());
-        // $relations['serie'] = SerieConverter::make($this->ebook->series(), $this->ebook->metaTitle(), $type);
-        // $relations['cover'] = $this->ebook->cover()->content(true);
-        // $data['relations'] = $relations;
-
-        // IndexationEngine::save($this->ebook->metaTitle()->uniqueFilename(), $data);
-
-        // $this->syncAuthors();
-        // $this->syncTags();
-        // $this->syncPublisher();
-        // $this->syncLanguage();
-        // $this->syncSerie($type);
-        // $this->syncIdentifiers();
-        // $this->syncCover($this->ebook);
-        // $this->syncFile($this->ebook);
-
-        // $currentMemory = ini_get('memory_limit');
-        // $filesize = filesize($ebook->path());
-        // $filesizeMB = $filesize / 1048576;
-        // $limit = intval($filesizeMB + 200);
-
-        // if (intval($limit) > intval($currentMemory)) {
-        //     ini_set('memory_limit', $limit.'M');
-        // }
-        // $this->setFile($ebook);
-        // ini_restore('memory_limit');
-
-        // $this->book->authorMain()->associate($this->book->authors->first());
-        // $this->book->save();
-
-        // $serie = $this->book->serie;
-
-        // if ($serie) {
-        //     $serie->authorMain()->associate($this->book->authorMain);
-        //     $serie->authors()->sync($this->book->authors->pluck('id'));
-        //     $serie->save();
-        // }
-
-        // ConverterService::saveAsJson($data, $this->book->slug, false);
+        $this->syncAuthors();
+        $this->syncTags();
+        $this->syncPublisher();
+        $this->syncLanguage();
+        $this->syncSerie($type);
+        $this->syncIdentifiers();
+        $this->syncCover($this->ebook);
+        $this->syncFile($this->ebook);
 
         return $this;
     }

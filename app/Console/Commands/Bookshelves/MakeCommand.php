@@ -4,20 +4,16 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\Book\BookFileReader;
 use App\Engines\Book\BookFilesReader;
-use App\Engines\Book\Converter\EntityConverter;
-use App\Engines\Book\Converter\Modules\CoverConverter;
-use App\Engines\BookEngine;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
-use App\Models\Author;
+use App\Jobs\BookParserProcess;
+use App\Jobs\BookRelationsParserProcess;
 use App\Models\Book;
 use App\Models\MediaExtended;
-use App\Models\Serie;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Kiwilan\Steward\Commands\Commandable;
-use ReflectionClass;
 use Spatie\Tags\Tag;
 
 /**
@@ -99,6 +95,7 @@ class MakeCommand extends Commandable
             ->map(fn (Book $book) => $book->physical_path)
             ->toArray()
         ;
+
         $bar = $this->output->createProgressBar(count($this->files));
         $bar->start();
 
@@ -112,8 +109,7 @@ class MakeCommand extends Commandable
         $bar->finish();
         $this->newLine();
 
-        // $this->improveRelation(Author::class);
-        // $this->improveRelation(Serie::class);
+        $this->parseRelations();
 
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
@@ -169,43 +165,18 @@ class MakeCommand extends Commandable
     private function convert(BookFileReader $file): void
     {
         if ($this->fresh) {
-            BookEngine::make($file, $this->verbose, $this->default);
+            BookParserProcess::dispatch($file, $this->verbose, $this->default);
 
             return;
         }
 
         if (! in_array($file->path(), $this->books, true)) {
-            BookEngine::make($file, $this->verbose, $this->default);
+            BookParserProcess::dispatch($file, $this->verbose, $this->default);
         }
     }
 
-    // private function improveRelation(string $model)
-    // {
-    //     $default = $this->option('default') ?: false;
-
-    //     $class = new ReflectionClass($model);
-    //     $class = $class->getShortName();
-
-    //     $this->newLine();
-    //     $this->warn("Set relation {$class}s...");
-    //     $this->newLine();
-    //     $bar = $this->output->createProgressBar($model::count());
-    //     $bar->start();
-
-    //     /** @var Serie|Author $entity */
-    //     foreach ($model::all() as $entity) {
-    //         EntityConverter::make($entity)
-    //             ->setTags()
-    //             ->parseLocalData()
-    //         ;
-
-    //         if (! $default) {
-    //             CoverConverter::setLocalCover($entity);
-    //         }
-
-    //         $bar->advance();
-    //     }
-    //     $bar->finish();
-    //     $this->newLine();
-    // }
+    private function parseRelations()
+    {
+        BookRelationsParserProcess::dispatch();
+    }
 }

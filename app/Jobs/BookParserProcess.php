@@ -3,15 +3,14 @@
 namespace App\Jobs;
 
 use App\Engines\Book\BookFileReader;
-use App\Engines\Book\ConverterEngine;
+use App\Engines\BookEngine;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Kiwilan\Ebook\Ebook;
 
-class ParseBook implements ShouldQueue
+class BookParserProcess implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -19,8 +18,8 @@ class ParseBook implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        protected Ebook $ebook,
         protected BookFileReader $file,
+        protected bool $verbose = false,
         protected bool $default = false,
     ) {
     }
@@ -30,6 +29,6 @@ class ParseBook implements ShouldQueue
      */
     public function handle(): void
     {
-        $converter = ConverterEngine::make($this->ebook, $this->file, $this->default);
+        BookEngine::make($this->file, $this->verbose, $this->default);
     }
 }
