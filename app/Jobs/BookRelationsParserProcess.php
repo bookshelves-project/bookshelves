@@ -29,8 +29,8 @@ class BookRelationsParserProcess implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->parseRelation(Serie::class);
         $this->parseRelation(Author::class);
+        $this->parseRelation(Serie::class);
     }
 
     private function parseRelation(string $model)

@@ -2,6 +2,7 @@
 !/books
 !/authors
 !/cache
+!/logs
 !/series
 !README.md
 !.gitignore

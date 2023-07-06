@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Engines\Book\BookFileReader;
 use App\Engines\BookEngine;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -30,5 +31,32 @@ class BookParserProcess implements ShouldQueue
     public function handle(): void
     {
         BookEngine::make($this->file, $this->verbose, $this->default);
+    }
+
+    private function createLog(Exception $exception): void
+    {
+        $path = public_path('storage/data/logs/exceptions-parser.json');
+
+        if (! file_exists($path)) {
+            file_put_contents($path, json_encode([]));
+        }
+
+        $json = json_decode(file_get_contents($path), true);
+        $content = [
+            'path' => $this->file->path(),
+            'exception' => $exception->getMessage(),
+        ];
+        $json[] = $content;
+        file_put_contents($path, json_encode($json));
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @return void
+     */
+    public function failed(Exception $exception)
+    {
+        $this->createLog($exception);
     }
 }

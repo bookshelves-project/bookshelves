@@ -73,6 +73,7 @@ class SerieConverter
             }
         }
 
+        $this->serie->authorMain()->associate($book->authorMain);
         $this->serie->save();
 
         return $this->serie;

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Jobs\ScoutFreshProcess;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Kiwilan\Steward\Commands\Commandable;
@@ -101,12 +102,11 @@ class StartupCommand extends Commandable
         }
 
         // Scout.
-        Artisan::call('scout:fresh', [], $this->getOutput());
-        $this->newLine();
+        ScoutFreshProcess::dispatch();
 
         // Stats.
-        Artisan::call('bookshelves:stats', [], $this->getOutput());
-        $this->newLine();
+        // Artisan::call('bookshelves:stats', [], $this->getOutput());
+        // $this->newLine();
 
         $this->info('Done!');
 

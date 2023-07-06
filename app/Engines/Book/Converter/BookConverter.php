@@ -93,6 +93,7 @@ class BookConverter
         $authors = AuthorConverter::toCollection($this->ebook);
 
         if ($authors->isNotEmpty()) {
+            $this->book->authorMain()->associate($authors->first());
             $this->book?->authors()->sync($authors->pluck('id'));
         }
 
