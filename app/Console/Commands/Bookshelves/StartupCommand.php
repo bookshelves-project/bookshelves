@@ -64,6 +64,8 @@ class StartupCommand extends Commandable
             Artisan::call('migrate:fresh --force', [], $this->getOutput());
         }
 
+        Artisan::call('optimize:clear', [], $this->getOutput());
+
         // Admin.
         Artisan::call('bookshelves:admin', [
             '--force' => $force,
@@ -107,6 +109,8 @@ class StartupCommand extends Commandable
         // Stats.
         // Artisan::call('bookshelves:stats', [], $this->getOutput());
         // $this->newLine();
+
+        Artisan::call('optimize:fresh', [], $this->getOutput());
 
         $this->info('Done!');
 

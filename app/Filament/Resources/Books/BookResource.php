@@ -28,11 +28,6 @@ class BookResource extends Resource
 
     public static function form(Form $form): Form
     {
-        // return $form
-        //     ->schema([
-        //     ])
-        // ;
-
         return FilamentLayout::make($form)
             ->schema([
                 FilamentLayout::column([

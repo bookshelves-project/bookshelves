@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class BookParserProcess implements ShouldQueue
 {
@@ -33,7 +34,7 @@ class BookParserProcess implements ShouldQueue
         BookEngine::make($this->file, $this->verbose, $this->default);
     }
 
-    private function createLog(Exception $exception): void
+    private function createLog(string $message, bool $success = false): void
     {
         $path = public_path('storage/data/logs/exceptions-parser.json');
 
@@ -44,10 +45,17 @@ class BookParserProcess implements ShouldQueue
         $json = json_decode(file_get_contents($path), true);
         $content = [
             'path' => $this->file->path(),
-            'exception' => $exception->getMessage(),
+            'message' => $message,
+            'status' => $success ? 'success' : 'failed',
         ];
         $json[] = $content;
         file_put_contents($path, json_encode($json));
+
+        if ($success) {
+            Log::info('BookParserProcess', $content);
+        } else {
+            Log::error('BookParserProcess', $content);
+        }
     }
 
     /**
@@ -57,6 +65,6 @@ class BookParserProcess implements ShouldQueue
      */
     public function failed(Exception $exception)
     {
-        $this->createLog($exception);
+        $this->createLog($exception->getMessage());
     }
 }

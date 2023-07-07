@@ -7,7 +7,10 @@ use Filament\Navigation\NavigationItem;
 use Health;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
@@ -72,6 +75,38 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::addNamespace('webreader', resource_path('webreader'));
+
+        Queue::after(function (JobProcessed $event) {
+            $payload = $event->job->payload();
+            $uuid = $payload['uuid'] ?? null;
+            $data = $payload['data'] ?? null;
+
+            $commandName = null;
+            $command = null;
+
+            if ($data) {
+                $commandName = $data['commandName'] ?? null;
+                $command = $data['command'] ?? null;
+            }
+
+            if ($event->job->hasFailed()) {
+                Log::warning('Job failed', [
+                    'uuid' => $uuid,
+                    'data' => [
+                        'commandName' => $commandName,
+                        'command' => $command,
+                    ],
+                ]);
+            } else {
+                Log::info('Job processed', [
+                    'uuid' => $uuid,
+                    'data' => [
+                        'commandName' => $commandName,
+                        'command' => $command,
+                    ],
+                ]);
+            }
+        });
 
         // Use `Refresh` button to refresh the page
         Health::checks([
