@@ -52,6 +52,15 @@ class DownloadController extends Controller
         return response()->download($media->getPath(), $media->file_name, disposition: 'inline');
     }
 
+    #[Get('/book/direct/{author_slug}/{book_slug}', name: 'download.direct')]
+    public function direct(Request $request, Author $author, Book $book)
+    {
+        $path = $book->physical_path;
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        return response()->download($path, "{$book->slug_sort}.{$extension}", disposition: 'inline');
+    }
+
     /**
      * GET Book[] belongs to Author.
      *

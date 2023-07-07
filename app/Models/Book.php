@@ -116,6 +116,14 @@ class Book extends Model implements HasMedia, GoogleBookable
         $this->addMediaCollection('epub');
     }
 
+    public function getDirectDownloadUrlAttribute(): string
+    {
+        return route('api.download.direct', [
+            'author_slug' => $this->authors->first()?->slug,
+            'book_slug' => $this->slug,
+        ]);
+    }
+
     public function getIsbnAttribute(): ?string
     {
         return $this->isbn13 ?? $this->isbn10;

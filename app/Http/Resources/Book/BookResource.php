@@ -34,6 +34,7 @@ class BookResource extends JsonResource
             'genres' => TagBase::collection($this->resource->genres_list),
             'publisher' => PublisherBase::make($this->resource->publisher),
 
+            'directDownloadUrl' => $this->resource->direct_download_url,
             'download' => $this->resource->file_main,
             'files' => $this->resource->files_list,
 

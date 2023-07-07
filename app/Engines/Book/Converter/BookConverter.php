@@ -83,7 +83,7 @@ class BookConverter
         $this->syncSerie($type);
         $this->syncIdentifiers();
         $this->syncCover($this->ebook);
-        $this->syncFile($this->ebook);
+        // $this->syncFile($this->ebook);
 
         return $this;
     }
