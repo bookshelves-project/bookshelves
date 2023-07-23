@@ -24,7 +24,7 @@ class TagController extends Controller
     }
 
     #[Get('/{tag_slug}', name: 'tags.show')]
-    public function show(Request $request, TagExtend $tag)
+    public function show(TagExtend $tag)
     {
         return TagResource::make($tag);
     }

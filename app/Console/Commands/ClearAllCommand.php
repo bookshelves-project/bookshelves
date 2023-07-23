@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Artisan;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Kiwilan\Steward\Commands\Commandable;
-use Kiwilan\Steward\Services\DirectoryClearService;
+use Kiwilan\Steward\Services\DirectoryService;
 
 class ClearAllCommand extends Commandable
 {
@@ -44,11 +44,13 @@ class ClearAllCommand extends Commandable
 
         $prod = $this->option('production') ?: false;
 
-        DirectoryClearService::make([
-            storage_path('app/public/cache'),
-            storage_path('app/public/debug'),
-            'bootstrap/cache',
-        ]);
+        DirectoryService::make()
+            ->clear([
+                storage_path('app/public/cache'),
+                storage_path('app/public/debug'),
+                'bootstrap/cache',
+            ])
+        ;
 
         Artisan::call('cache:clear', [], $this->getOutput());
         Artisan::call('route:clear', [], $this->getOutput());

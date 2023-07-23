@@ -29,7 +29,7 @@ class BookConverter
     /**
      * Set Book from Ebook.
      */
-    public static function make(Ebook $ebook, BookTypeEnum $type, ?Book $book = null): self
+    public static function make(Ebook $ebook, BookTypeEnum $type, Book $book = null): self
     {
         $self = new self($ebook);
         $self->parse($type, $book);
@@ -51,7 +51,7 @@ class BookConverter
         $identifiers = IdentifiersConverter::toCollection($this->ebook);
 
         if (! $book) {
-            $this->book = Book::create([
+            $this->book = new Book([
                 'title' => $this->ebook->title(),
                 'uuid' => uniqid(),
                 'slug' => $this->ebook->metaTitle()->slugLang(),
@@ -68,6 +68,7 @@ class BookConverter
                 'isbn13' => $identifiers->get('isbn13') ?? null,
                 'identifiers' => json_encode($identifiers),
             ]);
+            $this->book->save();
         }
 
         if (empty($this->book?->title)) {
@@ -160,10 +161,10 @@ class BookConverter
         CoverConverter::make($ebook, $this->book);
     }
 
-    private function syncFile(Ebook $ebook): void
-    {
-        FileConverter::make($ebook, $this->book);
-    }
+    // private function syncFile(Ebook $ebook): void
+    // {
+    //     FileConverter::make($ebook, $this->book);
+    // }
 
     private function checkBook(BookTypeEnum $type): self
     {

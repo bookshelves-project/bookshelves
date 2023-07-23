@@ -82,7 +82,6 @@ class TagExtend extends \Spatie\Tags\Tag
 
     public function books(): MorphToMany
     {
-        // return $this->morphToMany(Book::class, 'taggable');
         return $this->morphToMany(
             related: Book::class,
             name: 'taggable',
@@ -97,7 +96,6 @@ class TagExtend extends \Spatie\Tags\Tag
 
     public function series(): MorphToMany
     {
-        // return $this->morphToMany(Serie::class, 'taggable');
         return $this->morphToMany(
             related: Serie::class,
             name: 'taggable',

@@ -4,6 +4,7 @@ namespace App\Engines\Book\Converter\Modules;
 
 use App\Enums\TagTypeEnum;
 use App\Models\Book;
+use App\Models\TagExtend;
 use Illuminate\Support\Collection;
 use Kiwilan\Ebook\Ebook;
 use Spatie\Tags\Tag;
@@ -24,8 +25,12 @@ class TagConverter
             $model = $self->make($tag);
 
             if ($model) {
-                $model = $model->create($model->toArray());
-                $items->push($model);
+                $isExists = TagExtend::where('name->en', $model->name)->first();
+
+                if (! $isExists) {
+                    $isExists = $model->create($model->toArray());
+                }
+                $items->push($isExists);
             }
         }
 

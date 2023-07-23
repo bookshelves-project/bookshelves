@@ -16,5 +16,6 @@ trait HasNegligible
         $negligible = filter_var($negligible, FILTER_VALIDATE_BOOLEAN);
 
         return $negligible ? $query : $query->whereHas('books', count: 3);
+        // return $query;
     }
 }

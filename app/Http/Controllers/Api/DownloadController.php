@@ -71,7 +71,7 @@ class DownloadController extends Controller
      * @header Content-Type application/octet-stream
      */
     #[Get('/author/{author_slug}/{format?}', 'download.author')]
-    public function author(Author $author, ?string $format = null)
+    public function author(Author $author, string $format = null)
     {
         $files = [];
 
@@ -109,7 +109,7 @@ class DownloadController extends Controller
      * @header Content-Type application/octet-stream
      */
     #[Get('/serie/{author_slug}/{serie_slug}/{format?}', 'download.serie')]
-    public function serie(Author $author, Serie $serie, ?string $format = null)
+    public function serie(Author $author, Serie $serie, string $format = null)
     {
         $files = [];
 
@@ -137,7 +137,7 @@ class DownloadController extends Controller
         return MediaStream::create("{$dirname}.zip")->addMedia($files);
     }
 
-    private static function getFormat(Book $book, ?string $format = null): ?string
+    private static function getFormat(Book $book, string $format = null): ?string
     {
         if (null !== $format) {
             $format = BookFormatEnum::tryFrom($format)->name;

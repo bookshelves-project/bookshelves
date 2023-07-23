@@ -8,7 +8,7 @@ use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
-use Kiwilan\Steward\Services\DirectoryClearService;
+use Kiwilan\Steward\Services\DirectoryService;
 
 /**
  * Extra data for Book, Author, Serie.
@@ -60,7 +60,9 @@ class ApiCommand extends Commandable
 
         $this->askOnProduction();
 
-        DirectoryClearService::make([storage_path('app/public/debug/wikipedia')]);
+        DirectoryService::make()
+            ->clear([storage_path('app/public/debug/wikipedia')])
+        ;
 
         $authors = $this->option('authors') ?: false;
         $series = $this->option('series') ?: false;

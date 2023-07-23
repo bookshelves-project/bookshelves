@@ -4,11 +4,10 @@ namespace App\Engines\Book;
 
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
-use Kiwilan\Steward\Services\DirectoryParserService;
+use Kiwilan\Steward\Services\DirectoryService;
 
 class BookFilesReader
 {
-    /** @var string[] */
     protected mixed $files = [];
 
     /** @var BookFileReader[] */
@@ -29,14 +28,11 @@ class BookFilesReader
      */
     public static function make(int $limit = null): self
     {
-        $self = new self(
-            path: storage_path('app/public/data/books'),
-        );
+        $self = new self(storage_path('app/public/data/books'));
 
         foreach ($self->typesEnum as $type => $typeValue) {
             $path = "{$self->path}/{$type}";
-            $service = DirectoryParserService::make($path);
-            $self->files = $service->files();
+            $self->files = DirectoryService::make()->parse($path);
 
             $self->parseFile($type);
         }

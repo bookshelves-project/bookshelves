@@ -67,6 +67,8 @@ class SerieConverter
             $authors[] = $author->slug;
         }
 
+        $book->load('authors');
+
         foreach ($book->authors as $key => $author) {
             if (! in_array($author->slug, $authors)) {
                 $this->serie->authors()->save($author);

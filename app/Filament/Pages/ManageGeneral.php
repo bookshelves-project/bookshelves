@@ -8,6 +8,6 @@ class ManageGeneral extends BasePage
 {
     public function mount(): void
     {
-        parent::mount();
+        // parent::mount();
     }
 }

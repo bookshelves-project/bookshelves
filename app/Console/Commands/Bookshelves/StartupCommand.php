@@ -67,9 +67,11 @@ class StartupCommand extends Commandable
         Artisan::call('optimize:clear', [], $this->getOutput());
 
         // Admin.
-        Artisan::call('bookshelves:admin', [
-            '--force' => $force,
-        ], $this->getOutput());
+        if ($admin) {
+            Artisan::call('bookshelves:admin', [
+                '--force' => $force,
+            ], $this->getOutput());
+        }
 
         // Make.
         Artisan::call('bookshelves:make', [
@@ -78,6 +80,7 @@ class StartupCommand extends Commandable
             '--verbose' => $verbose,
             '--force' => $force,
         ], $this->getOutput());
+
         // API.
         if ($api) {
             Artisan::call('bookshelves:api', [

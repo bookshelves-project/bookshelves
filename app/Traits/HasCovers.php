@@ -62,7 +62,7 @@ trait HasCovers
         return $this->getMedia(MediaDiskEnum::cover->value)->first() ?? null;
     }
 
-    public function getCoverFilamentAttribute(): string|null
+    public function getCoverFilamentAttribute(): ?string
     {
         return $this->getCover('thumbnail');
     }
@@ -71,7 +71,7 @@ trait HasCovers
      * Get cover thumbnail with `spatie/laravel-medialibrary`
      * With config/bookshelves define format.
      */
-    public function getCoverThumbnailAttribute(): string|null
+    public function getCoverThumbnailAttribute(): ?string
     {
         return $this->getCover('thumbnail');
     }
@@ -80,7 +80,7 @@ trait HasCovers
      * Get cover OpenGraph with `spatie/laravel-medialibrary`
      * With JPG format for social.
      */
-    public function getCoverOgAttribute(): string|null
+    public function getCoverOgAttribute(): ?string
     {
         return $this->getCover('og');
     }
@@ -89,7 +89,7 @@ trait HasCovers
      * Get cover simple with `spatie/laravel-medialibrary`
      * With JPG format for Catalog.
      */
-    public function getCoverSimpleAttribute(): string|null
+    public function getCoverSimpleAttribute(): ?string
     {
         return $this->getCover('simple');
     }
@@ -98,7 +98,7 @@ trait HasCovers
      * Get cover original with `spatie/laravel-medialibrary`
      * With config/bookshelves define format.
      */
-    public function getCoverOriginalAttribute(): string|null
+    public function getCoverOriginalAttribute(): ?string
     {
         return $this->getCover();
     }
@@ -107,7 +107,7 @@ trait HasCovers
      * Get cover main color with `spatie/laravel-medialibrary`
      * Use for placeholder during cover loading.
      */
-    public function getCoverColorAttribute(): string|null
+    public function getCoverColorAttribute(): ?string
     {
         /** @var Media $media */
         $media = $this->getFirstMedia(MediaDiskEnum::cover->value);

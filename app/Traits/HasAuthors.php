@@ -31,7 +31,7 @@ trait HasAuthors
     /**
      * Get first Author of entity, used for URL like `...author-slug/entity-slug`.
      */
-    public function getMetaAuthorAttribute(): string|null
+    public function getMetaAuthorAttribute(): ?string
     {
         $author = $this->authorMain;
 

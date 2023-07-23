@@ -40,12 +40,12 @@ trait HasAvatar
      * Get cover thumbnail with `spatie/laravel-medialibrary`
      * With config/bookshelves define format.
      */
-    public function getAvatarThumbnailAttribute(): string|null
+    public function getAvatarThumbnailAttribute(): ?string
     {
         return $this->getAvatar('thumbnail');
     }
 
-    public function getColorAttribute(): string|null
+    public function getColorAttribute(): ?string
     {
         /** @var Media $media */
         $media = $this->getFirstMedia('avatar');

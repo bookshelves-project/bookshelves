@@ -7,7 +7,7 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Steward\Services\DirectoryParserService;
+use Kiwilan\Steward\Services\DirectoryService;
 use Kiwilan\Steward\Services\MediaService;
 use Kiwilan\Steward\Utils\Console;
 use ReflectionClass;
@@ -57,8 +57,7 @@ class CoverConverter
         $path = storage_path("app/public/data/{$model_name}s");
         $cover = null;
 
-        $service = DirectoryParserService::make($path);
-        $files = $service->files();
+        $files = DirectoryService::make()->parse($path);
 
         foreach ($files as $file) {
             if (pathinfo($file, PATHINFO_FILENAME) === $model->slug) {

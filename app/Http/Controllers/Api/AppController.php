@@ -6,24 +6,28 @@ use App\Enums\NavigationCategoryEnum;
 use App\Http\Resources\Api\Cms\NavigationResource;
 use App\Http\Resources\Cms\ApplicationResource;
 use App\Http\Resources\Language\LanguageResource;
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Cms\Application;
 use App\Models\Cms\Navigation;
 use App\Models\Language;
+use App\Models\Publisher;
+use App\Models\Serie;
 use App\Services\EnumService;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
+use Spatie\Tags\Tag;
 
-#[Prefix('application')]
-class ApplicationController extends Controller
+#[Prefix('app')]
+class AppController extends Controller
 {
     /**
      * GET Application.
      *
      * Useful for CMS at front-end init with `enums`, `languages` and `application`.
      */
-    #[Get('/', name: 'application.index')]
+    #[Get('/', name: 'app.index')]
     public function application()
     {
         return response()->json([
@@ -63,6 +67,23 @@ class ApplicationController extends Controller
     //     ]);
     // }
 
+    #[Get('/stats', name: 'app.stats')]
+    public function stats()
+    {
+        $stats = [
+            'books' => Book::count(),
+            'authors' => Author::count(),
+            'series' => Serie::count(),
+            'tags' => Tag::count(),
+            'publishers' => Publisher::count(),
+            'languages' => Language::count(),
+        ];
+
+        return response()->json([
+            'data' => $stats,
+        ]);
+    }
+
     /**
      * GET Count.
      *
@@ -71,6 +92,7 @@ class ApplicationController extends Controller
      * @queryParam entities required `key` of enums.models' list. Example: author,book,serie
      * @queryParam languages required `slug` of languages' list `meta.slug`. Example: fr,en
      */
+    #[Get('/count', name: 'app.count')]
     public function count(Request $request)
     {
         // http://localhost:8000/api/v1/count?entities=book,author,serie&languages=fr,en

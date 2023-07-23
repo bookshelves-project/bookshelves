@@ -29,17 +29,17 @@ class MediaExtended extends BaseMedia
         );
     }
 
-    public function getSizeHumanAttribute(): string|null
+    public function getSizeHumanAttribute(): ?string
     {
         return $this->humanFilesize($this->size);
     }
 
-    public function getFullExtensionAttribute(): string|null
+    public function getFullExtensionAttribute(): ?string
     {
         return $this->getTypeFromExtension();
     }
 
-    public function getDownloadAttribute(): string|null
+    public function getDownloadAttribute(): ?string
     {
         return $this->getUrl();
     }

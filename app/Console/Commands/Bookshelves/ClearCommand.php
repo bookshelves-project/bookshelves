@@ -4,7 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
-use Kiwilan\Steward\Services\DirectoryClearService;
+use Kiwilan\Steward\Services\DirectoryService;
 
 class ClearCommand extends Commandable
 {
@@ -31,14 +31,16 @@ class ClearCommand extends Commandable
     {
         $this->title();
 
-        DirectoryClearService::make([
-            public_path('storage/cache'),
-            public_path('storage/cms'),
-            public_path('storage/debug'),
-            public_path('storage/media'),
-            public_path('storage/posts'),
-            public_path('storage/settings'),
-        ]);
+        DirectoryService::make()
+            ->clear([
+                public_path('storage/cache'),
+                public_path('storage/cms'),
+                public_path('storage/debug'),
+                public_path('storage/media'),
+                public_path('storage/posts'),
+                public_path('storage/settings'),
+            ])
+        ;
 
         return Command::SUCCESS;
     }

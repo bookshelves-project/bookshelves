@@ -147,7 +147,7 @@
       "Composer\\Config::disableProcessTimeout",
       "phpunit-watcher watch --filter"
     ],
-    "queue:listen": [
+    "queue": [
       "Composer\\Config::disableProcessTimeout",
       "php artisan queue:listen --tries=3 --timeout=3600"
     ]
