@@ -18,7 +18,6 @@ class StartupCommand extends Commandable
                             {--a|api : use external API for more data}
                             {--A|admin : generate admin, replace if exist}
                             {--f|fresh : erase database and fresh installation, generate books and relations, all assets and selection books}
-                            {--s|sample : fake users with comments/favorites and CMS with posts and pages}
                             {--l|limit= : limit epub files to generate, useful for debug}
                             {--D|default : use default cover for all (skip covers step)}
                             {--F|force : skip confirm in prod}';
@@ -52,7 +51,6 @@ class StartupCommand extends Commandable
         $fresh = $this->option('fresh') ?: false;
         $api = $this->option('api') ?: false;
         $admin = $this->option('admin') ?: false;
-        $sample = $this->option('sample') ?: false;
         $limit = $this->option('limit') ? intval(str_replace('=', '', $this->option('limit'))) : false;
         $verbose = $this->option('verbose') ?: false;
 
@@ -67,7 +65,7 @@ class StartupCommand extends Commandable
         Artisan::call('optimize:clear', [], $this->getOutput());
 
         // Admin.
-        if ($admin) {
+        if ($admin || $fresh) {
             Artisan::call('bookshelves:admin', [
                 '--force' => $force,
             ], $this->getOutput());

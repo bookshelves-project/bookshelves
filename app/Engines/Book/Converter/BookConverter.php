@@ -4,7 +4,6 @@ namespace App\Engines\Book\Converter;
 
 use App\Engines\Book\Converter\Modules\AuthorConverter;
 use App\Engines\Book\Converter\Modules\CoverConverter;
-use App\Engines\Book\Converter\Modules\FileConverter;
 use App\Engines\Book\Converter\Modules\IdentifiersConverter;
 use App\Engines\Book\Converter\Modules\LanguageConverter;
 use App\Engines\Book\Converter\Modules\PublisherConverter;
@@ -14,6 +13,7 @@ use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Carbon;
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Steward\Services\ProcessService;
 
 /**
  * Create or improve a `Book` and relations.
@@ -83,8 +83,7 @@ class BookConverter
         $this->syncLanguage();
         $this->syncSerie($type);
         $this->syncIdentifiers();
-        $this->syncCover($this->ebook);
-        // $this->syncFile($this->ebook);
+        $this->syncCover();
 
         return $this;
     }
@@ -156,15 +155,12 @@ class BookConverter
         return $this;
     }
 
-    private function syncCover(Ebook $ebook): void
+    private function syncCover(): void
     {
-        CoverConverter::make($ebook, $this->book);
+        ProcessService::memoryPeek(function () {
+            CoverConverter::make($this->ebook, $this->book);
+        }, maxMemory: 3);
     }
-
-    // private function syncFile(Ebook $ebook): void
-    // {
-    //     FileConverter::make($ebook, $this->book);
-    // }
 
     private function checkBook(BookTypeEnum $type): self
     {
