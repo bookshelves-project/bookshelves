@@ -45,7 +45,7 @@
     "laravel/jetstream": "^3.2",
     "laravel/sanctum": "^3.2",
     "laravel/scout": "^10.0",
-    "laravel/telescope": "^4.14",
+    "laravel/telescope": "^4.15",
     "laravel/tinker": "^2.8",
     "livewire/livewire": "^2.11",
     "meilisearch/meilisearch-php": "^1.0",
