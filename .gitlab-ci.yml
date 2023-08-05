@@ -7,7 +7,7 @@ stages:
   - deploy
 
 variables:
-  NODE_VERSION: "18.12.1"
+  NODE_VERSION: "18.17.0"
   PHP_VERSION: "8.2"
 
 deploy-job:
@@ -24,7 +24,7 @@ deploy-job:
   script:
     - ssh $SSH_USER@$SSH_IP "
       . ~/.zshrc &&
-      cd /home/ewilan/www/$CI_PROJECT_NAME &&
+      cd /home/$SSH_USER/www/$CI_PROJECT_NAME &&
       git pull &&
       composer install &&
       php$PHP_VERSION artisan optimize:clear &&
@@ -33,8 +33,8 @@ deploy-job:
       php$PHP_VERSION artisan optimize &&
       composer doc &&
       php$PHP_VERSION artisan scout:fresh &&
-      /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm i &&
-      /home/ewilan/.nvm/versions/node/v$NODE_VERSION/bin/pnpm build &&
+      /home/$SSH_USER/.nvm/versions/node/v$NODE_VERSION/bin/pnpm i &&
+      /home/$SSH_USER/.nvm/versions/node/v$NODE_VERSION/bin/pnpm build &&
       supervisorctl restart bookshelves-worker:bookshelves-worker_00 &&
       notify main '$CI_PROJECT_TITLE'"
   only:
