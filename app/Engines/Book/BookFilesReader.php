@@ -19,7 +19,6 @@ class BookFilesReader
         protected array $typesEnum = [],
         protected array $formatsEnum = [],
     ) {
-        // $this->typesEnum = BookTypeEnum::toArray();
         $this->formatsEnum = BookFormatEnum::toArray();
     }
 
@@ -28,7 +27,12 @@ class BookFilesReader
      */
     public static function make(int $limit = null): self
     {
-        $self = new self(config('bookshelves.directory'));
+        $path = config('bookshelves.directory');
+
+        if (! str_starts_with($path, '/')) {
+            $path = base_path($path);
+        }
+        $self = new self($path);
         $self->files = DirectoryService::make()->parse($self->path);
         $self->parseFiles();
 
