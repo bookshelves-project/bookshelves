@@ -41,4 +41,10 @@ return [
             'Action & Adventure' => 'Action & adventures',
         ],
     ],
+
+    'directory' => env('BOOKSHELVES_DIRECTORY', 'public/storage/data/books'),
+    'local' => [
+        'copy' => env('BOOKSHELVES_LOCAL_COPY', false),
+        'cover' => env('BOOKSHELVES_LOCAL_COVER', true),
+    ],
 ];

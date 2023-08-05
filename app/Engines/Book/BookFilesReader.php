@@ -19,7 +19,7 @@ class BookFilesReader
         protected array $typesEnum = [],
         protected array $formatsEnum = [],
     ) {
-        $this->typesEnum = BookTypeEnum::toArray();
+        // $this->typesEnum = BookTypeEnum::toArray();
         $this->formatsEnum = BookFormatEnum::toArray();
     }
 
@@ -28,14 +28,9 @@ class BookFilesReader
      */
     public static function make(int $limit = null): self
     {
-        $self = new self(storage_path('app/public/data/books'));
-
-        foreach ($self->typesEnum as $type => $typeValue) {
-            $path = "{$self->path}/{$type}";
-            $self->files = DirectoryService::make()->parse($path);
-
-            $self->parseFile($type);
-        }
+        $self = new self(config('bookshelves.directory'));
+        $self->files = DirectoryService::make()->parse($self->path);
+        $self->parseFiles();
 
         if ($limit) {
             $self->items = array_slice($self->items, 0, $limit);
@@ -57,7 +52,7 @@ class BookFilesReader
         return $this->items;
     }
 
-    private function parseFile(string $type): void
+    private function parseFiles(): void
     {
         foreach ($this->files as $key => $path) {
             if (! array_key_exists('extension', pathinfo($path))) {
@@ -65,9 +60,21 @@ class BookFilesReader
             }
 
             $extension = pathinfo($path, PATHINFO_EXTENSION);
+            $type = BookTypeEnum::unknown;
 
             if (in_array($extension, ['cb7', 'cba', 'cbr', 'cbt', 'cbz'])) {
                 $extension = 'cba';
+                $type = BookTypeEnum::comic;
+            }
+
+            if (in_array($extension, ['epub'])) {
+                $extension = 'cba';
+                $type = BookTypeEnum::novel;
+            }
+
+            if (in_array($extension, ['pdf'])) {
+                $extension = 'cba';
+                $type = BookTypeEnum::comic;
             }
 
             if (! array_key_exists($extension, $this->formatsEnum)) {
@@ -75,7 +82,6 @@ class BookFilesReader
             }
 
             $format = BookFormatEnum::tryFrom($extension);
-            $type = is_string($type) ? BookTypeEnum::from($type) : $type;
 
             $this->i++;
             $this->items["{$this->i}"] = BookFileReader::make($format, $type, $path);

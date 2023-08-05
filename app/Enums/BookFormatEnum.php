@@ -21,6 +21,8 @@ enum BookFormatEnum: string
 {
     use LazyEnum;
 
+    case audio = 'audio';
+
     case pdf = 'pdf';
 
     case cba = 'cba';

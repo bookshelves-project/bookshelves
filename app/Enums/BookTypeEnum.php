@@ -12,9 +12,7 @@ enum BookTypeEnum: string
 
     case comic = 'comic';
 
-    // case essay = 'essay';
-
-    // case handbook = 'handbook';
-
     case novel = 'novel';
+
+    case unknown = 'unknown';
 }

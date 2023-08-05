@@ -4,6 +4,7 @@ namespace App\Engines\Book\Converter;
 
 use App\Engines\Book\Converter\Modules\AuthorConverter;
 use App\Engines\Book\Converter\Modules\CoverConverter;
+use App\Engines\Book\Converter\Modules\FileConverter;
 use App\Engines\Book\Converter\Modules\IdentifiersConverter;
 use App\Engines\Book\Converter\Modules\LanguageConverter;
 use App\Engines\Book\Converter\Modules\PublisherConverter;
@@ -85,6 +86,10 @@ class BookConverter
         $this->syncIdentifiers();
         $this->syncCover();
 
+        if (config('bookshelves.local.copy')) {
+            $this->copyFile();
+        }
+
         return $this;
     }
 
@@ -160,6 +165,11 @@ class BookConverter
         ProcessService::memoryPeek(function () {
             CoverConverter::make($this->ebook, $this->book);
         }, maxMemory: 3);
+    }
+
+    private function copyFile(): void
+    {
+        FileConverter::make($this->ebook, $this->book);
     }
 
     private function checkBook(BookTypeEnum $type): self
