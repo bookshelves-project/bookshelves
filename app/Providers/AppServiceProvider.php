@@ -109,52 +109,52 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Use `Refresh` button to refresh the page
-        Health::checks([
-            OptimizedAppCheck::new(),
-            DebugModeCheck::new(),
-            EnvironmentCheck::new(),
-            CacheCheck::new(),
-            DatabaseCheck::new(),
-            MeiliSearchCheck::new(),
-            PingCheck::new()->url(config('app.url')),
-            QueueCheck::new(),
-            // RedisCheck::new(),
-            ScheduleCheck::new(),
-            UsedDiskSpaceCheck::new(),
-            // HorizonCheck::new(),
-            // SecurityAdvisoriesCheck::new(), // composer require spatie/security-advisories-health-check
-            // CpuLoadCheck::new() // composer require spatie/cpu-load-health-check
-            //     ->failWhenLoadIsHigherInTheLast5Minutes(2.0)
-            //     ->failWhenLoadIsHigherInTheLast15Minutes(1.5),
-            // DatabaseConnectionCountCheck::new() // composer require doctrine/dbal
-            //     ->failWhenMoreConnectionsThan(100)
-            // DatabaseTableSizeCheck::new() // composer require doctrine/dbal
-            //     ->table('your_table_name', maxSizeInMb: 1_000)
-            //     ->table('another_table_name', maxSizeInMb: 2_000),
-        ]);
+        // Health::checks([
+        //     OptimizedAppCheck::new(),
+        //     DebugModeCheck::new(),
+        //     EnvironmentCheck::new(),
+        //     CacheCheck::new(),
+        //     DatabaseCheck::new(),
+        //     MeiliSearchCheck::new(),
+        //     PingCheck::new()->url(config('app.url')),
+        //     QueueCheck::new(),
+        //     // RedisCheck::new(),
+        //     ScheduleCheck::new(),
+        //     UsedDiskSpaceCheck::new(),
+        //     // HorizonCheck::new(),
+        //     // SecurityAdvisoriesCheck::new(), // composer require spatie/security-advisories-health-check
+        //     // CpuLoadCheck::new() // composer require spatie/cpu-load-health-check
+        //     //     ->failWhenLoadIsHigherInTheLast5Minutes(2.0)
+        //     //     ->failWhenLoadIsHigherInTheLast15Minutes(1.5),
+        //     // DatabaseConnectionCountCheck::new() // composer require doctrine/dbal
+        //     //     ->failWhenMoreConnectionsThan(100)
+        //     // DatabaseTableSizeCheck::new() // composer require doctrine/dbal
+        //     //     ->table('your_table_name', maxSizeInMb: 1_000)
+        //     //     ->table('another_table_name', maxSizeInMb: 2_000),
+        // ]);
 
         Filament::serving(function () {
-            Filament::registerViteTheme('resources/css/filament.css');
-            Filament::registerNavigationItems([
-                NavigationItem::make('Analytics')
-                    ->url('https://matomo.git-projects.xyz', shouldOpenInNewTab: true)
-                    ->icon('heroicon-o-presentation-chart-line')
-                    ->activeIcon('heroicon-s-presentation-chart-line')
-                    ->group('Settings')
-                    ->sort(1),
-                NavigationItem::make('Documentation')
-                    ->url('/docs', shouldOpenInNewTab: true)
-                    ->icon('heroicon-o-information-circle')
-                    ->activeIcon('heroicon-s-information-circle')
-                    ->group('Settings')
-                    ->sort(1),
-                NavigationItem::make('Log viewer')
-                    ->url('/log-viewer', shouldOpenInNewTab: true)
-                    ->icon('heroicon-o-chat')
-                    ->activeIcon('heroicon-s-chat')
-                    ->group('Settings')
-                    ->sort(1),
-            ]);
+            // Filament::registerViteTheme('resources/css/filament.css');
+            // Filament::registerNavigationItems([
+            //     NavigationItem::make('Analytics')
+            //         ->url('https://matomo.git-projects.xyz', shouldOpenInNewTab: true)
+            //         ->icon('heroicon-o-presentation-chart-line')
+            //         ->activeIcon('heroicon-s-presentation-chart-line')
+            //         ->group('Settings')
+            //         ->sort(1),
+            //     NavigationItem::make('Documentation')
+            //         ->url('/docs', shouldOpenInNewTab: true)
+            //         ->icon('heroicon-o-information-circle')
+            //         ->activeIcon('heroicon-s-information-circle')
+            //         ->group('Settings')
+            //         ->sort(1),
+            //     NavigationItem::make('Log viewer')
+            //         ->url('/log-viewer', shouldOpenInNewTab: true)
+            //         ->icon('heroicon-o-chat')
+            //         ->activeIcon('heroicon-s-chat')
+            //         ->group('Settings')
+            //         ->sort(1),
+            // ]);
         });
     }
 }

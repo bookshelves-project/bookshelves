@@ -3443,12 +3443,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "d242a1ed4dd53c05fbbfefa23e06a48be5c3dbc7"
+                "reference": "907bc4dd2a630e4250f068abaa7a00b6599e1c79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/d242a1ed4dd53c05fbbfefa23e06a48be5c3dbc7",
-                "reference": "d242a1ed4dd53c05fbbfefa23e06a48be5c3dbc7",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/907bc4dd2a630e4250f068abaa7a00b6599e1c79",
+                "reference": "907bc4dd2a630e4250f068abaa7a00b6599e1c79",
                 "shasum": ""
             },
             "require": {
@@ -3522,7 +3522,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2023-08-11T13:31:31+00:00"
+            "time": "2023-08-11T13:41:38+00:00"
         },
         {
             "name": "laravel/fortify",

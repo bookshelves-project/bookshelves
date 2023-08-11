@@ -12,9 +12,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Kiwilan\Steward\Filament\Components\DateFilter;
 use Kiwilan\Steward\Filament\Components\MetaBlock;
 use Kiwilan\Steward\Filament\Config\FilamentLayout;
+use Kiwilan\Steward\Filament\Filters\DateFilter;
 
 class BookResource extends Resource
 {

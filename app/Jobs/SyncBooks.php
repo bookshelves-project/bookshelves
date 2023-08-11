@@ -66,7 +66,7 @@ class SyncBooks implements ShouldQueue
         if ($this->recipient) {
             Notification::make()
                 ->title('Sync is finished')
-                ->icon('heroicon-o-refresh')
+                ->icon('heroicon-o-arrow-path')
                 ->iconColor('success')
                 ->body($this->fresh ? 'All books are deleted and re-created.' : 'All books are sync with assets and relations.')
                 ->sendToDatabase($this->recipient)
@@ -85,7 +85,7 @@ class SyncBooks implements ShouldQueue
 
         Notification::make()
             ->title('Sync error')
-            ->icon('heroicon-o-refresh')
+            ->icon('heroicon-o-arrow-path')
             ->iconColor('danger')
             ->body("Sync process failed with error: {$exception->getMessage()}")
             ->sendToDatabase($this->recipient)

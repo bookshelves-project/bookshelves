@@ -13,11 +13,11 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Steward\Enums\PublishStatusEnum;
-use Kiwilan\Steward\Filament\Components\DateFilter;
 use Kiwilan\Steward\Filament\Config\FilamentBuilder;
 use Kiwilan\Steward\Filament\Config\FilamentBuilder\Modules\WordpressBuilder;
 use Kiwilan\Steward\Filament\Config\FilamentForm;
 use Kiwilan\Steward\Filament\Config\FilamentLayout;
+use Kiwilan\Steward\Filament\Filters\DateFilter;
 
 class PostResource extends Resource
 {

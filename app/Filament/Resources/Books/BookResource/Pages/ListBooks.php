@@ -4,8 +4,8 @@ namespace App\Filament\Resources\Books\BookResource\Pages;
 
 use App\Filament\Resources\Books\BookResource;
 use App\Jobs\SyncBooks;
+use Filament\Actions;
 use Filament\Notifications\Notification;
-use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 
 class ListBooks extends ListRecords
@@ -17,7 +17,7 @@ class ListBooks extends ListRecords
         return [
             // Actions\CreateAction::make(),
             Actions\Action::make('sync')
-                ->icon('heroicon-o-refresh')
+                ->icon('heroicon-o-arrow-path')
                 ->label('Sync')
                 ->requiresConfirmation()
                 ->modalHeading('Sync books')
@@ -28,13 +28,13 @@ class ListBooks extends ListRecords
                     Notification::make()
                         ->title('Sync is started')
                         ->body('Books and relations will be updated in background, you can close this window.')
-                        ->icon('heroicon-o-refresh')
+                        ->icon('heroicon-o-arrow-path')
                         ->iconColor('success')
                         ->send()
                     ;
                 }),
             Actions\Action::make('sync-fresh')
-                ->icon('heroicon-o-refresh')
+                ->icon('heroicon-o-arrow-path')
                 ->label('Sync (fresh)')
                 ->color('danger')
                 ->requiresConfirmation()
@@ -46,7 +46,7 @@ class ListBooks extends ListRecords
                     Notification::make()
                         ->title('Sync fresh is started')
                         ->body('Books and relations will be deleted and refreshed in background, you can close this window.')
-                        ->icon('heroicon-o-refresh')
+                        ->icon('heroicon-o-arrow-path')
                         ->iconColor('danger')
                         ->send()
                     ;
