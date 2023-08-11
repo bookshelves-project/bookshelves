@@ -42,13 +42,13 @@ class ConverterEngine
         $book = null;
         $names = [];
 
-        foreach ($this->ebook->authors() as $author) {
+        foreach ($this->ebook->getAuthors() as $author) {
             $author = AuthorConverter::make($author);
             $names[] = "{$author->firstname()} {$author->lastname()}";
             $names[] = "{$author->lastname()} {$author->firstname()}";
         }
 
-        $book = Book::whereSlug($this->ebook->metaTitle()->slug());
+        $book = Book::whereSlug($this->ebook->getMetaTitle()->getSlug());
 
         if (! empty($names)) {
             $book = $book->whereHas(
@@ -57,7 +57,7 @@ class ConverterEngine
             );
         }
 
-        $book = $book->whereType($this->ebook->extension())->first();
+        $book = $book->whereType($this->ebook->getExtension())->first();
 
         if ($book) {
             $this->isExist = true;

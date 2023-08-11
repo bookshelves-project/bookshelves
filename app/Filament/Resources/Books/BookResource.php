@@ -7,11 +7,13 @@ use App\Enums\BookTypeEnum;
 use App\Filament\Resources\Books\BookResource\Pages;
 use App\Models\Book;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
-use Kiwilan\Steward\Filament\Config\FilamentForm;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Kiwilan\Steward\Filament\Components\DateFilter;
+use Kiwilan\Steward\Filament\Components\MetaBlock;
 use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class BookResource extends Resource
@@ -114,7 +116,7 @@ class BookResource extends Resource
                             ->label('Page count'),
                         Forms\Components\TextInput::make('maturity_rating')
                             ->label('Rating'),
-                        FilamentForm::meta(),
+                        MetaBlock::make(),
                     ],
                     [
                         Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::epub->value)
@@ -149,7 +151,7 @@ class BookResource extends Resource
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('cover_filament')
                     ->collection('cover')
                     ->label('Cover')
-                    ->rounded(),
+                    ->circular(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Title')
                     ->searchable(isIndividual: true)
@@ -160,9 +162,9 @@ class BookResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\BadgeColumn::make('type')
+                TextColumn::make('type')
                     ->label('Type')
-                    ->enum(BookTypeEnum::toArray())
+                    ->badge()
                     ->colors([
                         'primary',
                         'danger' => BookTypeEnum::audio,
@@ -213,7 +215,7 @@ class BookResource extends Resource
                     ->toggledHiddenByDefault(),
             ])
             ->filters([
-                FilamentForm::dateFilter('released_on'),
+                DateFilter::make('released_on'),
                 Tables\Filters\SelectFilter::make('type')
                     ->label('Type')
                     ->options(BookTypeEnum::toList()),
@@ -255,16 +257,11 @@ class BookResource extends Resource
         return ['title', 'authors.name', 'serie.title'];
     }
 
-    protected static function getNavigationBadge(): ?string
+    public static function getNavigationBadge(): ?string
     {
         $count = Book::whereIsHidden(true)->count();
 
         return "{$count}";
-    }
-
-    protected function getTableFiltersLayout(): ?string
-    {
-        return Tables\Filters\Layout::AboveContent;
     }
 
     protected function shouldPersistTableFiltersInSession(): bool

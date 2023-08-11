@@ -191,26 +191,26 @@ class Book extends Model implements HasMedia, GoogleBookable
 
     public function googleBookConvert(GoogleBook $gbook): self
     {
-        $this->google_book_id = $gbook->bookId();
+        $this->google_book_id = $gbook->getBookId();
 
-        if ($gbook->publishedDate()) {
-            $carbon = Carbon::instance($gbook->publishedDate());
+        if ($gbook->getPublishedDate()) {
+            $carbon = Carbon::instance($gbook->getPublishedDate());
             $this->released_on = $this->released_on ?? $carbon->toDateTimeString();
         }
-        $this->description = $this->description ?? $gbook->description();
-        $this->page_count = $this->page_count ?? $gbook->pageCount();
+        $this->description = $this->description ?? $gbook->getDescription();
+        $this->page_count = $this->page_count ?? $gbook->getPageCount();
         $this->is_maturity_rating = $gbook->isMaturityRating();
-        $this->isbn10 = $this->isbn10 ?? $gbook->isbn10();
-        $this->isbn13 = $this->isbn13 ?? $gbook->isbn13();
+        $this->isbn10 = $this->isbn10 ?? $gbook->getIsbn10();
+        $this->isbn13 = $this->isbn13 ?? $gbook->getIsbn13();
 
         // Set publisher
         if (! $this->publisher) {
-            $publisher_slug = Str::slug($gbook->publisher(), '-');
+            $publisher_slug = Str::slug($gbook->getPublisher(), '-');
             $publisher = Publisher::whereSlug($publisher_slug)->first();
 
-            if (! $publisher && $gbook->publisher()) {
+            if (! $publisher && $gbook->getPublisher()) {
                 $publisher = Publisher::firstOrCreate([
-                    'name' => $gbook->publisher(),
+                    'name' => $gbook->getPublisher(),
                     'slug' => $publisher_slug,
                 ]);
             }
@@ -221,7 +221,7 @@ class Book extends Model implements HasMedia, GoogleBookable
         }
 
         // Set tags
-        foreach ($gbook->categories() as $category) {
+        foreach ($gbook->getCategories() as $category) {
             TagConverter::make($category);
         }
 

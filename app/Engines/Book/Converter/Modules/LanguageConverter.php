@@ -35,7 +35,7 @@ class LanguageConverter
     public static function toModel(Ebook $ebook): Language
     {
         $availableLangs = config('bookshelves.langs');
-        $langCode = $ebook->language() ?? 'en';
+        $langCode = $ebook->getLanguage() ?? 'en';
 
         $language = Language::whereSlug($langCode)->first();
 

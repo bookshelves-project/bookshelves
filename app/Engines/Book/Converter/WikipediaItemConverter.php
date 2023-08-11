@@ -40,8 +40,8 @@ class WikipediaItemConverter
             //         Str::limit($model->item->extract, 1000)
             //     );
             // }
-            $this->model->description = Str::limit($this->item->extract(), 1000); // TODO translatable
-            $this->model->link = $this->item->fullUrl();
+            $this->model->description = Str::limit($this->item->getExtract(), 1000); // TODO translatable
+            $this->model->link = $this->item->getFullUrl();
             $this->model->save();
         }
         $entityConverter = EntityConverter::make($this->model);
@@ -61,7 +61,7 @@ class WikipediaItemConverter
         $cover = null;
 
         if ($this->model->link) {
-            $cover = WikipediaItem::fetchPicture($this->item->pictureUrl());
+            $cover = WikipediaItem::fetchPicture($this->item->getPictureUrl());
         }
 
         if ($cover && 'author-unknown' !== $this->model->slug) {

@@ -4,10 +4,10 @@ namespace App\Filament\RelationManagers;
 
 use App\Models\Book;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Table;
 
 class BooksRelationManager extends RelationManager
 {
@@ -15,7 +15,7 @@ class BooksRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -26,14 +26,14 @@ class BooksRelationManager extends RelationManager
         ;
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('cover_filament')
                     ->collection('cover')
                     ->label('Cover')
-                    ->rounded(),
+                    ->circular(),
                 Tables\Columns\TextColumn::make('volume'),
                 Tables\Columns\TextColumn::make('title'),
                 Tables\Columns\TextColumn::make('authors.name'),

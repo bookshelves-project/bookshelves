@@ -6,7 +6,7 @@ use App\Engines\Book\BookFileReader;
 use App\Engines\Book\ConverterEngine;
 use Illuminate\Support\Facades\Storage;
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Steward\Utils\Console;
+use Kiwilan\HttpPool\Utils\PrintConsole;
 
 class BookEngine
 {
@@ -47,14 +47,14 @@ class BookEngine
 
     private static function verbose(Ebook $ebook): void
     {
-        $console = Console::make();
-        $console->print("{$ebook->title()}");
-        BookEngine::printFile($ebook->toArray(), "{$ebook->filename()}-parser.json");
+        $console = PrintConsole::make();
+        $console->print("{$ebook->getTitle()}");
+        BookEngine::printFile($ebook->toArray(), "{$ebook->getFilename()}-parser.json");
     }
 
     public static function printFile(mixed $file, string $name, bool $raw = false): bool
     {
-        $console = Console::make();
+        $console = PrintConsole::make();
 
         try {
             $file = $raw

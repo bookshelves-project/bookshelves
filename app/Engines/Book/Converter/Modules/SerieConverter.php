@@ -25,8 +25,8 @@ class SerieConverter
 
         return new Serie([
             'title' => $serie,
-            'slug_sort' => $meta->serieSlugSort(),
-            'slug' => $meta->serieSlugLang(),
+            'slug_sort' => $meta->getSerieSlugSort(),
+            'slug' => $meta->getSerieSlugLang(),
             'type' => $type,
         ]);
     }
@@ -37,13 +37,13 @@ class SerieConverter
     public static function toModel(Ebook $ebook, BookTypeEnum $type): self
     {
         $self = new self();
-        $serie = Serie::whereSlug($ebook->metaTitle()->serieSlug())->first();
+        $serie = Serie::whereSlug($ebook->getMetaTitle()->getSerieSlug())->first();
 
-        if (! $serie && $ebook->series()) {
+        if (! $serie && $ebook->getSeries()) {
             $serie = Serie::firstOrCreate([
-                'title' => $ebook->series(),
-                'slug_sort' => $ebook->metaTitle()->serieSlugSort(),
-                'slug' => $ebook->metaTitle()->serieSlugLang(),
+                'title' => $ebook->getSeries(),
+                'slug_sort' => $ebook->getMetaTitle()->getSerieSlugSort(),
+                'slug' => $ebook->getMetaTitle()->getSerieSlugLang(),
                 'type' => $type,
             ]);
 

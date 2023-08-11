@@ -22,14 +22,14 @@ class FileConverter
     {
         $author = $book->authors->first()?->name ?? 'Unknown';
         $fileName = Str::slug("{$author}_{$book->slug_sort}_{$book->language_slug}");
-        $file = File::get($ebook->path());
+        $file = File::get($ebook->getPath());
 
         MediaService::make(
             model: $book,
             name: $fileName,
             disk: self::DISK,
-            collection: $ebook->format()->value,
-            extension: $ebook->extension(),
+            collection: $ebook->getFormat()->value,
+            extension: $ebook->getExtension(),
             method: SpatieMediaMethodEnum::addMediaFromString
         )
             ->setMedia($file)

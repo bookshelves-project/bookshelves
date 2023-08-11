@@ -9,10 +9,10 @@ use App\Filament\RelationManagers\SeriesRelationManager;
 use App\Filament\Resources\Books\AuthorResource\Pages;
 use App\Models\Author;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Table;
 use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class AuthorResource extends Resource

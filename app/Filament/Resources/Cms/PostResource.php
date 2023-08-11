@@ -6,12 +6,14 @@ use App\Enums\PostCategoryEnum;
 use App\Filament\Resources\Cms\PostResource\Pages;
 use App\Models\Post;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Steward\Enums\PublishStatusEnum;
+use Kiwilan\Steward\Filament\Components\DateFilter;
 use Kiwilan\Steward\Filament\Config\FilamentBuilder;
 use Kiwilan\Steward\Filament\Config\FilamentBuilder\Modules\WordpressBuilder;
 use Kiwilan\Steward\Filament\Config\FilamentForm;
@@ -78,14 +80,15 @@ class PostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('picture')
-                    ->rounded()
+                    ->circular()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\BadgeColumn::make('status')
-                    ->enum(PublishStatusEnum::toArray())
+                TextColumn::make('status')
+                    ->badge()
+                    // ->enum(PublishStatusEnum::toArray())
                     ->colors([
                         'primary',
                         'danger' => PublishStatusEnum::draft->value,
@@ -93,8 +96,9 @@ class PostResource extends Resource
                         'success' => PublishStatusEnum::published->value,
                     ])
                     ->sortable(),
-                Tables\Columns\BadgeColumn::make('category')
-                    ->enum(PostCategoryEnum::toArray())
+                TextColumn::make('category')
+                    ->badge()
+                    // ->enum(PostCategoryEnum::toArray())
                     ->sortable()
                     ->searchable(),
                 // Tables\Columns\BadgeColumn::make('author.name')
@@ -108,7 +112,7 @@ class PostResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                FilamentForm::dateFilter('published_at'),
+                DateFilter::make('published_at'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

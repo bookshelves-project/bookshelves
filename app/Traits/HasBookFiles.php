@@ -6,7 +6,7 @@ use App\Enums\BookFormatEnum;
 use App\Models\Book;
 use App\Models\MediaExtended;
 use Illuminate\Support\Collection;
-use Kiwilan\Steward\Class\DownloadFile;
+use Kiwilan\Steward\Utils\DownloadFile;
 
 /**
  * Manager multiple formats for a book.

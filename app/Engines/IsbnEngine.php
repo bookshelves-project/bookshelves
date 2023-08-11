@@ -2,7 +2,7 @@
 
 namespace App\Engines;
 
-use Kiwilan\Steward\Services\HttpService;
+use Kiwilan\HttpPool\HttpPool;
 
 /**
  * @property string[] $api_list
@@ -27,11 +27,11 @@ class IsbnEngine
             'google_book' => "https://www.googleapis.com/books/v1/volumes?q=isbn:{$isbn}", // https://developers.google.com/books/docs/v1/using
         ];
 
-        $http = HttpService::pool($engine->api_list)
+        $http = HttpPool::make($engine->api_list)
             ->execute()
         ;
 
-        foreach ($http->responses() as $origin => $response) {
+        foreach ($http->getResponses() as $origin => $response) {
             dump($response);
         }
 

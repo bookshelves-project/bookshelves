@@ -5,7 +5,7 @@ namespace App\Traits;
 use App\Enums\BookFormatEnum;
 use App\Models\Author;
 use App\Models\Serie;
-use Kiwilan\Steward\Class\DownloadFile;
+use Kiwilan\Steward\Utils\DownloadFile;
 
 trait HasBooksCollection
 {

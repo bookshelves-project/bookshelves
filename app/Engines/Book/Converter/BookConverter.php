@@ -53,18 +53,18 @@ class BookConverter
 
         if (! $book) {
             $this->book = new Book([
-                'title' => $this->ebook->title(),
+                'title' => $this->ebook->getTitle(),
                 'uuid' => uniqid(),
-                'slug' => $this->ebook->metaTitle()->slugLang(),
-                'slug_sort' => $this->ebook->metaTitle()->slugSortWithSerie(),
-                'contributor' => $this->ebook->extra('contributor'),
-                'released_on' => $this->ebook->publishDate()?->format('Y-m-d'),
-                'description' => $this->ebook->description(2000),
-                'rights' => $this->ebook->copyright(255),
-                'volume' => $this->ebook->volume(),
+                'slug' => $this->ebook->getMetaTitle()->getSlugLang(),
+                'slug_sort' => $this->ebook->getMetaTitle()->getSlugSortWithSerie(),
+                'contributor' => $this->ebook->getExtra('contributor'),
+                'released_on' => $this->ebook->getPublishDate()?->format('Y-m-d'),
+                'description' => $this->ebook->getDescription(2000),
+                'rights' => $this->ebook->getCopyright(255),
+                'volume' => $this->ebook->getVolume(),
                 'type' => $type,
-                'page_count' => $this->ebook->pagesCount(),
-                'physical_path' => $this->ebook->path(),
+                'page_count' => $this->ebook->getPagesCount(),
+                'physical_path' => $this->ebook->getPath(),
                 'isbn10' => $identifiers->get('isbn10') ?? null,
                 'isbn13' => $identifiers->get('isbn13') ?? null,
                 'identifiers' => json_encode($identifiers),
@@ -178,28 +178,28 @@ class BookConverter
             return $this;
         }
 
-        if (! $this->book->slug_sort && $this->ebook->series() && ! $this->book->serie) {
-            $this->book->slug_sort = $this->ebook->metaTitle()->serieSlugSort();
+        if (! $this->book->slug_sort && $this->ebook->getSeries() && ! $this->book->serie) {
+            $this->book->slug_sort = $this->ebook->getMetaTitle()->getSerieSlugSort();
         }
 
         if (! $this->book->contributor) {
-            $this->book->contributor = $this->ebook->extra('contributor') ?? null;
+            $this->book->contributor = $this->ebook->getExtra('contributor') ?? null;
         }
 
         if (! $this->book->released_on) {
-            $this->book->released_on = Carbon::parse($this->ebook->publishDate());
+            $this->book->released_on = Carbon::parse($this->ebook->getPublishDate());
         }
 
         if (! $this->book->rights) {
-            $this->book->rights = $this->ebook->copyright();
+            $this->book->rights = $this->ebook->getCopyright();
         }
 
         if (! $this->book->description) {
-            $this->book->description = $this->ebook->description();
+            $this->book->description = $this->ebook->getDescription();
         }
 
         if (! $this->book->volume) {
-            $this->book->volume = $this->ebook->volume();
+            $this->book->volume = $this->ebook->getVolume();
         }
 
         if (null === $this->book->type) {

@@ -17,12 +17,12 @@ class IdentifiersConverter
     {
         $identifiers = collect([]);
 
-        if (! $ebook->identifiers()) {
+        if (! $ebook->getIdentifiers()) {
             return $identifiers;
         }
 
-        foreach ($ebook->identifiers() as $bookIdentifier) {
-            $identifiers[$bookIdentifier->scheme()] = $bookIdentifier->value();
+        foreach ($ebook->getIdentifiers() as $bookIdentifier) {
+            $identifiers[$bookIdentifier->getScheme()] = $bookIdentifier->getValue();
         }
 
         return $identifiers;

@@ -10,11 +10,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Kiwilan\Steward\Class\MetaClass;
 use Kiwilan\Steward\Services\GoogleBook\GoogleBookable;
 use Kiwilan\Steward\Services\GoogleBookService;
 use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
 use Kiwilan\Steward\Services\WikipediaService;
+use Kiwilan\Steward\Utils\MetaClass;
 
 class ExternalApiProcess implements ShouldQueue
 {
@@ -69,7 +69,7 @@ class ExternalApiProcess implements ShouldQueue
             ->setDebug($this->verbose)
         ;
 
-        $count = $service->count();
+        $count = $service->getCount();
         $isbn_types = implode('/', $isbnFields);
         // $this->comment("Need to have {$isbn_types}, on {$className::count()} entities, {$count} entities can be scanned.");
 
@@ -84,7 +84,7 @@ class ExternalApiProcess implements ShouldQueue
 
         // $bar = $this->output->createProgressBar(count($service->items()));
 
-        foreach ($service->items() as $id => $item) {
+        foreach ($service->getItems() as $id => $item) {
             $model = $className::find($id);
 
             if ($model instanceof GoogleBookable) {
@@ -122,7 +122,8 @@ class ExternalApiProcess implements ShouldQueue
         // $this->info('- Description from Wikipedia (--local|-L to skip)');
         // $this->info("  - Default description can be in `public/storage/data/{$meta->classSlugPlural()}/{$meta->classSlugPlural()}.json`");
 
-        $service = WikipediaService::make($className::all(), $languageField)
+        $service = WikipediaService::make($className::all())
+            ->setLanguageAttribute($languageField)
             ->setQueryAttributes($attributes)
             ->setDebug($this->verbose)
         ;
@@ -132,7 +133,7 @@ class ExternalApiProcess implements ShouldQueue
 
         // $bar = $this->output->createProgressBar(count($service->items()));
 
-        foreach ($service->items() as $id => $item) {
+        foreach ($service->getItems() as $id => $item) {
             $model = $className::find($id);
 
             if ($model instanceof Wikipediable) {
@@ -142,6 +143,6 @@ class ExternalApiProcess implements ShouldQueue
 
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
 
-        return $service->count();
+        return $service->getCount();
     }
 }

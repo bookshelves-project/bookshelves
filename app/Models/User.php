@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Traits\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -80,7 +81,7 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         'profile_photo_url',
     ];
 
-    public function canAccessFilament(): bool
+    public function canAccessPanel(Panel $panel): bool
     {
         return $this->is_editor || $this->is_admin || $this->is_super_admin && ! $this->is_blocked;
     }

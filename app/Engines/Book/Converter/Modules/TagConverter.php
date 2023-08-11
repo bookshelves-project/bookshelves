@@ -21,7 +21,7 @@ class TagConverter
         $self = new self();
         $items = collect([]);
 
-        foreach ($ebook->tags() as $key => $tag) {
+        foreach ($ebook->getTags() as $key => $tag) {
             $model = $self->make($tag);
 
             if ($model) {

@@ -25,14 +25,14 @@ class PublisherConverter
      */
     public static function toModel(Ebook $ebook): ?Publisher
     {
-        if (! $ebook->publisher()) {
+        if (! $ebook->getPublisher()) {
             return null;
         }
 
-        $publisherExist = Publisher::whereSlug(Str::slug($ebook->publisher()))->first();
+        $publisherExist = Publisher::whereSlug(Str::slug($ebook->getPublisher()))->first();
 
         if (! $publisherExist) {
-            $name = $ebook->publisher();
+            $name = $ebook->getPublisher();
 
             return Publisher::firstOrCreate([
                 'name' => $name,

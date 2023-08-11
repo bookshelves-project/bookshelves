@@ -132,7 +132,7 @@ class ScanCommand extends Commandable
 
             foreach ($newFiles as $parser) {
                 if ($parser instanceof Ebook) {
-                    $this->info("- {$parser->title()}");
+                    $this->info("- {$parser->getTitle()}");
                 }
             }
         }

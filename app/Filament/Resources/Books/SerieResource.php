@@ -7,11 +7,11 @@ use App\Filament\RelationManagers\BooksRelationManager;
 use App\Filament\Resources\Books\SerieResource\Pages;
 use App\Models\Serie;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
-use Filament\Resources\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Table;
 use Kiwilan\Steward\Filament\Config\FilamentForm;
 use Kiwilan\Steward\Filament\Config\FilamentLayout;
 

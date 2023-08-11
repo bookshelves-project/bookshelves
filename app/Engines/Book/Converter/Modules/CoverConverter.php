@@ -32,7 +32,7 @@ class CoverConverter
             return $book;
         }
 
-        $content = $ebook->cover()->content();
+        $content = $ebook->getCover()->getContent();
         $temp_file = $self->resize($content);
 
         if (file_exists($temp_file)) {

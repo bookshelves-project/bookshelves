@@ -29,7 +29,7 @@ class AuthorConverter
      */
     public static function toCollection(Ebook $book): Collection
     {
-        $authors = $book->authors();
+        $authors = $book->getAuthors();
         $items = collect([]);
 
         if (empty($authors)) {
@@ -131,7 +131,7 @@ class AuthorConverter
         $lastname = null;
         $firstname = null;
 
-        $authorName = explode(' ', $author->name());
+        $authorName = explode(' ', $author->getName());
         $isOrderNatural = config('bookshelves.authors.order_natural');
 
         if ($isOrderNatural) {
@@ -144,7 +144,7 @@ class AuthorConverter
             $lastname = implode(' ', $authorName);
         }
 
-        $role = $author->role();
+        $role = $author->getRole();
         $firstname = trim($firstname);
         $lastname = trim($lastname);
 
