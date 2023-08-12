@@ -2,7 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\ExternalApiProcess;
+use App\Jobs\GoogleBookProcess;
+use App\Jobs\WikipediaProcess;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
@@ -79,7 +80,10 @@ class ApiCommand extends Commandable
             $this->newLine();
         }
 
-        ExternalApiProcess::dispatch($books, $authors, $series, $this->verbose);
+        if ($books) {
+            GoogleBookProcess::dispatch($this->verbose);
+        }
+        WikipediaProcess::dispatch($authors, $series, $this->verbose);
 
         return Command::SUCCESS;
     }
