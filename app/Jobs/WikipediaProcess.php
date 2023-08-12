@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Kiwilan\HttpPool\Utils\PrintConsole;
 use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
 use Kiwilan\Steward\Services\WikipediaService;
 use Kiwilan\Steward\Utils\MetaClass;
@@ -58,15 +59,16 @@ class WikipediaProcess implements ShouldQueue
     private function wikipediaRequest(string $className, array $attributes, string $languageField = 'language_slug'): int
     {
         $meta = MetaClass::make($className);
+        $console = PrintConsole::make();
 
-        // $this->comment("{$meta->className()} (--{$meta->classSlugPlural()}|-{$meta->firstChar()} option)");
+        $console->print("{$meta->className()} (--{$meta->classSlugPlural()}|-{$meta->firstChar()} option)");
 
         // if (! $this->default) {
-        //     $this->info('- Picture from relation or Wikipedia (--default|-D to skip)');
+        //     $console->print('- Picture from relation or Wikipedia (--default|-D to skip)');
         // }
-        // $this->info("  - Default picture can be JPG file with slug of {$meta->classSlug()} in `public/storage/data/{$meta->classSlugPlural()}`");
-        // $this->info('- Description from Wikipedia (--local|-L to skip)');
-        // $this->info("  - Default description can be in `public/storage/data/{$meta->classSlugPlural()}/{$meta->classSlugPlural()}.json`");
+        // $console->print("  - Default picture can be JPG file with slug of {$meta->classSlug()} in `public/storage/data/{$meta->classSlugPlural()}`");
+        // $console->print('- Description from Wikipedia (--local|-L to skip)');
+        // $console->print("  - Default description can be in `public/storage/data/{$meta->classSlugPlural()}/{$meta->classSlugPlural()}.json`");
 
         $service = WikipediaService::make($className::all())
             ->setLanguageAttribute($languageField)
@@ -88,6 +90,7 @@ class WikipediaProcess implements ShouldQueue
         }
 
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
+        $console->print("Time in seconds: {$time_elapsed_secs}");
 
         return $service->getCount();
     }

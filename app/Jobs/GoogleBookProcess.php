@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Kiwilan\HttpPool\Utils\PrintConsole;
 use Kiwilan\Steward\Services\GoogleBook\GoogleBookable;
 use Kiwilan\Steward\Services\GoogleBookService;
 
@@ -34,17 +35,19 @@ class GoogleBookProcess implements ShouldQueue
             ->setDebug($this->verbose)
         ;
 
+        $console = PrintConsole::make();
         $count = $service->getCount();
+        $booksCount = Book::count();
         $isbn_types = implode('/', ['isbn13', 'isbn10']);
-        // $this->comment("Need to have {$isbn_types}, on {$className::count()} entities, {$count} entities can be scanned.");
+        $console->print("Need to have {$isbn_types}, on {$booksCount} entities, {$count} entities can be scanned.");
 
-        // if (0 === $count) {
-        //     $this->warn('No entities to scan.');
+        if (0 === $count) {
+            $console->print('No entities to scan.', 'red');
 
-        //     return $count;
-        // }
+            return;
+        }
 
-        $start = microtime(true); // register time
+        $start = microtime(true);
         $service = $service->execute();
 
         // $bar = $this->output->createProgressBar(count($service->items()));
@@ -58,6 +61,6 @@ class GoogleBookProcess implements ShouldQueue
         }
 
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
-        // $this->info("Time in seconds: {$time_elapsed_secs}"); // display time
+        $console->print("Time in seconds: {$time_elapsed_secs}");
     }
 }
