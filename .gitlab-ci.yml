@@ -26,6 +26,7 @@ deploy-job:
       . ~/.zshrc &&
       cd /home/$SSH_USER/www/$CI_PROJECT_NAME &&
       git pull &&
+      supervisorctl stop bookshelves-worker:bookshelves-worker_00 &&
       composer install &&
       php$PHP_VERSION artisan optimize:clear &&
       composer dump-autoload &&
@@ -35,7 +36,7 @@ deploy-job:
       php$PHP_VERSION artisan scout:fresh &&
       /home/$SSH_USER/.nvm/versions/node/v$NODE_VERSION/bin/pnpm i &&
       /home/$SSH_USER/.nvm/versions/node/v$NODE_VERSION/bin/pnpm build &&
-      supervisorctl restart bookshelves-worker:bookshelves-worker_00 &&
+      supervisorctl start bookshelves-worker:bookshelves-worker_00 &&
       notify main '$CI_PROJECT_TITLE'"
   only:
     - main

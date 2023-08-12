@@ -10,9 +10,6 @@ export default defineConfig({
 
         'resources/webreader/css/app.css',
         'resources/webreader/ts/app.ts',
-
-        // https://filamentphp.com/docs/2.x/admin/appearance
-        'resources/css/filament.css',
       ],
       refresh: [
         ...refreshPaths,
