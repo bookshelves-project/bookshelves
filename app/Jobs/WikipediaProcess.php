@@ -37,13 +37,15 @@ class WikipediaProcess implements ShouldQueue
             $this->wikipediaRequest(
                 Author::class,
                 ['firstname', 'lastname'],
+                ['author', 'auteur']
             );
         }
 
         if ($this->series) {
             $this->wikipediaRequest(
                 Serie::class,
-                ['title']
+                ['title'],
+                ['series', 'série']
             );
         }
     }
@@ -53,10 +55,9 @@ class WikipediaProcess implements ShouldQueue
      *
      * @param  string  $className        like `Author::class`
      * @param  string[]  $attributes     used to create Wikipedia query, like `['firstname', 'lastname']`
-     * @param  string  $languageField field into model which corresponding to Model language, like `language_slug`, default is `language_slug`
      * @return int Number of requests
      */
-    private function wikipediaRequest(string $className, array $attributes, string $languageField = 'language_slug'): int
+    private function wikipediaRequest(string $className, array $attributes, array $precision = null): int
     {
         $meta = MetaClass::make($className);
         $console = PrintConsole::make();
@@ -71,10 +72,14 @@ class WikipediaProcess implements ShouldQueue
         // $console->print("  - Default description can be in `public/storage/data/{$meta->classSlugPlural()}/{$meta->classSlugPlural()}.json`");
 
         $service = WikipediaService::make($className::all())
-            ->setLanguageAttribute($languageField)
+            ->setLanguageAttribute('language_slug')
             ->setQueryAttributes($attributes)
             ->setDebug($this->verbose)
         ;
+
+        if ($precision) {
+            $service->setPrecisionQuery($precision);
+        }
 
         $start = microtime(true);
         $service->execute();
