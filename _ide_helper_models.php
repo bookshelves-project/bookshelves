@@ -384,11 +384,14 @@ namespace App\Models{
  * @property-read array $meta
  * @property-read array<string, string> $seo
  * @property-read string|null $show_route
+ * @method static \Illuminate\Database\Eloquent\Builder|Post drafted()
  * @method static \Database\Factories\PostFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post published(string $direction = 'desc')
+ * @method static \Illuminate\Database\Eloquent\Builder|Post published()
  * @method static \Illuminate\Database\Eloquent\Builder|Post query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Post scheduled()
+ * @method static \Illuminate\Database\Eloquent\Builder|Post shouldBePublished()
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereAuthorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereContent($value)

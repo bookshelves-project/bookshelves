@@ -21,7 +21,7 @@ class SpatieMediaResource extends JsonResource
 
         return [
             'name' => $this->resource->getAttribute('name'),
-            'url' => $this->resource->originalUrl,
+            'url' => $this->resource->getUrl(),
             'color' => $color ? "#{$color}" : '#ffffff',
         ];
     }

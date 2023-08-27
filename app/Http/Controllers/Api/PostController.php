@@ -15,7 +15,7 @@ class PostController extends Controller
     #[Get('/', name: 'posts.index')]
     public function index(Request $request)
     {
-        return HttpQuery::make(Post::class, $request)
+        return HttpQuery::for(Post::class, $request)
             ->collection()
         ;
     }

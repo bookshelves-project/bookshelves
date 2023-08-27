@@ -10,9 +10,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Kiwilan\HttpPool\Utils\PrintConsole;
+use Kiwilan\Steward\Services\ClassParser\MetaClassItem;
 use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
 use Kiwilan\Steward\Services\WikipediaService;
-use Kiwilan\Steward\Utils\MetaClass;
 
 class WikipediaProcess implements ShouldQueue
 {
@@ -59,10 +59,10 @@ class WikipediaProcess implements ShouldQueue
      */
     private function wikipediaRequest(string $className, array $attributes, array $precision = null): int
     {
-        $meta = MetaClass::make($className);
+        $meta = MetaClassItem::make($className);
         $console = PrintConsole::make();
 
-        $console->print("{$meta->className()} (--{$meta->classSlugPlural()}|-{$meta->firstChar()} option)");
+        $console->print("{$meta->getClassName()} (--{$meta->getClassSlugPlural()}|-{$meta->getFirstChar()} option)");
 
         // if (! $this->default) {
         //     $console->print('- Picture from relation or Wikipedia (--default|-D to skip)');

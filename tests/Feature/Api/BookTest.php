@@ -3,7 +3,12 @@
 use function Pest\Laravel\get;
 
 it('can list books', function () {
-    get('/api/books')->assertStatus(200);
+    get('/api/books')->assertStatus(200)
+        ->assertJsonCount(32, 'data')
+        ->assertSee('{"data":[', escape: false)
+        ->assertSee('"links":{', escape: false)
+        ->assertSee('"meta":{', escape: false)
+    ;
 
     expect(true)->toBeTrue();
 });

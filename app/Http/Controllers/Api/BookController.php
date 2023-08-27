@@ -16,9 +16,7 @@ class BookController extends Controller
     #[Get('/', name: 'books.index')]
     public function index(Request $request)
     {
-        ray(Book::count());
-
-        return HttpQuery::make(Book::class, $request)
+        return HttpQuery::for(Book::class, $request)
             ->with(['authors', 'media', 'language', 'serie'])
             ->collection()
         ;

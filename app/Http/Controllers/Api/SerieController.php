@@ -19,7 +19,7 @@ class SerieController extends Controller
     #[Get('/', name: 'series.index')]
     public function index(Request $request)
     {
-        return HttpQuery::make(Serie::class, $request)
+        return HttpQuery::for(Serie::class, $request)
             ->with(['media', 'authors', 'language'])
             ->collection()
         ;

@@ -17,7 +17,7 @@ class AuthorController extends Controller
     #[Get('/', name: 'authors.index')]
     public function index(Request $request)
     {
-        return HttpQuery::make(Author::class, $request)
+        return HttpQuery::for(Author::class, $request)
             ->with(['media'])
             ->collection()
         ;

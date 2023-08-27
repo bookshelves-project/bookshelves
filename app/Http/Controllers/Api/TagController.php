@@ -18,7 +18,7 @@ class TagController extends Controller
     #[Get('/', name: 'tags.index')]
     public function index(Request $request)
     {
-        return HttpQuery::make(TagExtend::class, $request)
+        return HttpQuery::for(TagExtend::class, $request)
             ->collection()
         ;
     }

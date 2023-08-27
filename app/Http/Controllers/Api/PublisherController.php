@@ -43,7 +43,7 @@ class PublisherController extends Controller
         //     ->paginateOrExport()
         // ;
 
-        return HttpQuery::make(Publisher::class, $request)
+        return HttpQuery::for(Publisher::class, $request)
             ->collection()
         ;
     }
