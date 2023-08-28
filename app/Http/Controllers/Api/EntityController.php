@@ -27,7 +27,8 @@ class EntityController extends Controller
     #[Get('latest', name: 'entity.latest')]
     public function latest(Request $request): JsonResource
     {
-        $books = Book::orderByDesc('updated_at')
+        $books = Book::query()
+            ->orderByDesc('updated_at')
             ->limit(10)
             ->get()
         ;
@@ -45,7 +46,8 @@ class EntityController extends Controller
     {
         $request->headers->set('relation', 'selectionable');
 
-        $selection = Selectionable::orderBy('updated_at')
+        $selection = Selectionable::query()
+            ->orderBy('updated_at')
             ->with(['selectionable'])
             ->limit(10)
             ->get()

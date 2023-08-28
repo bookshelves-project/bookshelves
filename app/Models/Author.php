@@ -92,10 +92,6 @@ class Author extends Model implements HasMedia, Wikipediable
     }
 
     /**
-     * Relationships.
-     */
-
-    /**
      * Get all of the books that are assigned this author.
      */
     public function books(): MorphToMany

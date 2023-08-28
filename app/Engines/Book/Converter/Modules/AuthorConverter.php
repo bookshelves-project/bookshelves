@@ -110,13 +110,15 @@ class AuthorConverter
     {
         $name = AuthorConverter::toName($this->lastname, $this->firstname);
 
-        return Author::firstOrCreate([
-            'lastname' => $this->lastname,
-            'firstname' => $this->firstname,
-            'name' => $name,
-            'slug' => Str::slug($name, '-'),
-            'role' => AuthorRoleEnum::tryFrom($this->role),
-        ]);
+        return Author::query()
+            ->firstOrCreate([
+                'lastname' => $this->lastname,
+                'firstname' => $this->firstname,
+                'name' => $name,
+                'slug' => Str::slug($name, '-'),
+                'role' => AuthorRoleEnum::tryFrom($this->role),
+            ])
+        ;
     }
 
     public static function toName(?string $lastname, ?string $firstname): ?string
