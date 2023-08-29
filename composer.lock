@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f3b65aec5048c2f5a21486adf3105db",
+    "content-hash": "2ca384e9b98a7c2e061ee292fe59a890",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3440,12 +3440,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "e2ea516b08a00125dda346e8bc6346b6aa115558"
+                "reference": "5d6a1fd5f22f195e0c87dd4269079a4ce8e56112"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/e2ea516b08a00125dda346e8bc6346b6aa115558",
-                "reference": "e2ea516b08a00125dda346e8bc6346b6aa115558",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/5d6a1fd5f22f195e0c87dd4269079a4ce8e56112",
+                "reference": "5d6a1fd5f22f195e0c87dd4269079a4ce8e56112",
                 "shasum": ""
             },
             "require": {
@@ -3455,7 +3455,7 @@
                 "illuminate/support": "^9.0 || ^10.0",
                 "kiwilan/php-http-pool": "^0.3.0",
                 "league/html-to-markdown": "^5.1",
-                "livewire/livewire": "^3@beta",
+                "livewire/livewire": "^3.0.1",
                 "php": "^8.1",
                 "spatie/image": "^2.2",
                 "spatie/laravel-package-tools": "^1.14.0",
@@ -3463,11 +3463,11 @@
                 "spatie/laravel-settings": "^2.6 || ^3"
             },
             "require-dev": {
-                "filament/filament": "^3.0-stable",
+                "filament/filament": "^3.0.36",
                 "knuckleswtf/scribe": "^4.16",
                 "laravel/pint": "^1.0",
                 "maatwebsite/excel": "^3.1",
-                "nunomaduro/collision": "^7.9",
+                "nunomaduro/collision": "^7.8.1",
                 "nunomaduro/larastan": "^2.0.1",
                 "nunomaduro/laravel-mojito": "^0.2.10",
                 "orchestra/testbench": "^8.0",
@@ -3520,7 +3520,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2023-08-24T07:16:17+00:00"
+            "time": "2023-08-29T06:54:28+00:00"
         },
         {
             "name": "laravel/fortify",
@@ -16825,10 +16825,9 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": {
-        "kiwilan/steward-laravel": 20,
-        "livewire/livewire": 10
+        "kiwilan/steward-laravel": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

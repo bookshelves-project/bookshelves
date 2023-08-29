@@ -30,12 +30,12 @@
   "require": {
     "php": "^8.2",
     "artesaos/seotools": "^1.1",
-    "filament/filament": "^3.0-stable",
-    "filament/notifications": "^3.0-stable",
-    "filament/spatie-laravel-media-library-plugin": "^3.0-stable",
-    "filament/spatie-laravel-settings-plugin": "^3.0-stable",
-    "filament/spatie-laravel-tags-plugin": "^3.0-stable",
-    "filament/spatie-laravel-translatable-plugin": "^3.0-stable",
+    "filament/filament": "^3.0.36",
+    "filament/notifications": "^3.0.36",
+    "filament/spatie-laravel-media-library-plugin": "^3.0.36",
+    "filament/spatie-laravel-settings-plugin": "^3.0.36",
+    "filament/spatie-laravel-tags-plugin": "^3.0.36",
+    "filament/spatie-laravel-translatable-plugin": "^3.0.36",
     "guzzlehttp/guzzle": "^7.2",
     "http-interop/http-factory-guzzle": "^1.2",
     "kiwilan/php-ebook": "^2.0.12",
@@ -47,7 +47,7 @@
     "laravel/scout": "^10.0",
     "laravel/telescope": "^4.15",
     "laravel/tinker": "^2.8",
-    "livewire/livewire": "^3.0@beta",
+    "livewire/livewire": "^3.0.1",
     "meilisearch/meilisearch-php": "^1.0",
     "opcodesio/log-viewer": "^2.3",
     "pxlrbt/filament-excel": "^1.1",
@@ -169,6 +169,6 @@
       "php-http/discovery": true
     }
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true
 }
