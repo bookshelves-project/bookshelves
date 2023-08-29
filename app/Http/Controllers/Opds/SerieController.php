@@ -20,32 +20,32 @@ class SerieController extends Controller
     #[Get('/', name: 'series.index')]
     public function index()
     {
-        $entries = OpdsApp::cache('opds.series.index', function () {
-            $items = Serie::with('books', 'media', 'authorMain')
+        $feeds = OpdsApp::cache('opds.series.index', function () {
+            $items = Serie::with('media')
                 ->orderBy('slug_sort')
                 ->get()
             ;
 
-            $entries = [];
+            $feeds = [];
 
             foreach ($items as $item) {
                 /** @var Serie $item */
-                $entries[] = new OpdsEntry(
+                $feeds[] = new OpdsEntry(
                     id: $item->slug,
                     title: $item->title,
-                    route: route('opds.series.show', ['author' => $item->authorMain?->slug, 'serie' => $item->slug]),
+                    route: route('opds.series.show', ['author' => $item->meta_author, 'serie' => $item->slug]),
                     summary: $item->description,
                     media: $item->cover_og,
                     updated: $item->updated_at,
                 );
             }
 
-            return $entries;
+            return $feeds;
         });
 
-        return Opds::response(
+        return Opds::make(
             config: OpdsApp::config(),
-            entries: (array) $entries,
+            feeds: (array) $feeds,
             title: 'Series',
         );
     }
@@ -59,15 +59,15 @@ class SerieController extends Controller
             ->firstOrFail()
         ;
 
-        $entries = [];
+        $feeds = [];
 
         foreach ($serie->books as $book) {
-            $entries[] = OpdsApp::bookToEntry($book);
+            $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        return Opds::response(
+        return Opds::make(
             config: OpdsApp::config(),
-            entries: (array) $entries,
+            feeds: (array) $feeds,
             title: "Serie {$serie->title}",
         );
     }

@@ -74,6 +74,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author query()
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstCharacterIs(string $character)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)

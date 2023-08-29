@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ca384e9b98a7c2e061ee292fe59a890",
+    "content-hash": "8d614f7692791171c953c93f44f80a53",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3171,16 +3171,16 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "2.1.0",
+            "version": "2.1.01",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "4ecb1ec2443de7c100bd628fe7fe74eb9ad66f09"
+                "reference": "9068cb8d7e1108852a5d587cc5d5913079de7e8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/4ecb1ec2443de7c100bd628fe7fe74eb9ad66f09",
-                "reference": "4ecb1ec2443de7c100bd628fe7fe74eb9ad66f09",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/9068cb8d7e1108852a5d587cc5d5913079de7e8b",
+                "reference": "9068cb8d7e1108852a5d587cc5d5913079de7e8b",
                 "shasum": ""
             },
             "require": {
@@ -3238,7 +3238,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/v2.1.0"
+                "source": "https://github.com/kiwilan/php-ebook/tree/v2.1.01"
             },
             "funding": [
                 {
@@ -3246,7 +3246,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-28T16:43:32+00:00"
+            "time": "2023-08-29T07:02:06+00:00"
         },
         {
             "name": "kiwilan/php-http-pool",
@@ -3315,16 +3315,16 @@
         },
         {
             "name": "kiwilan/php-opds",
-            "version": "0.3.12",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-opds.git",
-                "reference": "636e1d8fcc00b2d38be4143abb4f51609a418858"
+                "reference": "0784308a0188b313cd456d64a5f7a6a3c4aa9703"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/636e1d8fcc00b2d38be4143abb4f51609a418858",
-                "reference": "636e1d8fcc00b2d38be4143abb4f51609a418858",
+                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/0784308a0188b313cd456d64a5f7a6a3c4aa9703",
+                "reference": "0784308a0188b313cd456d64a5f7a6a3c4aa9703",
                 "shasum": ""
             },
             "require": {
@@ -3332,11 +3332,13 @@
                 "spatie/array-to-xml": "^3.1"
             },
             "require-dev": {
+                "kiwilan/php-xml-reader": "^1.0",
                 "laravel/pint": "^1.2",
                 "pestphp/pest": "^1.20",
                 "phpstan/phpstan": "^1.10",
                 "spatie/ray": "^1.28"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -3366,7 +3368,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-opds/issues",
-                "source": "https://github.com/kiwilan/php-opds/tree/0.3.12"
+                "source": "https://github.com/kiwilan/php-opds/tree/main"
             },
             "funding": [
                 {
@@ -3374,7 +3376,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-09T14:56:15+00:00"
+            "time": "2023-08-29T10:30:44+00:00"
         },
         {
             "name": "kiwilan/php-xml-reader",
@@ -12850,16 +12852,16 @@
         },
         {
             "name": "brianium/paratest",
-            "version": "v7.2.5",
+            "version": "v7.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "4d7ad5b6564f63baa1b948ecad05439f22880942"
+                "reference": "7f372b5bb59b4271adedc67d3129df29b84c4173"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/4d7ad5b6564f63baa1b948ecad05439f22880942",
-                "reference": "4d7ad5b6564f63baa1b948ecad05439f22880942",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/7f372b5bb59b4271adedc67d3129df29b84c4173",
+                "reference": "7f372b5bb59b4271adedc67d3129df29b84c4173",
                 "shasum": ""
             },
             "require": {
@@ -12873,19 +12875,19 @@
                 "phpunit/php-code-coverage": "^10.1.3",
                 "phpunit/php-file-iterator": "^4.0.2",
                 "phpunit/php-timer": "^6.0",
-                "phpunit/phpunit": "^10.3.1",
+                "phpunit/phpunit": "^10.3.2",
                 "sebastian/environment": "^6.0.1",
-                "symfony/console": "^6.3.2",
-                "symfony/process": "^6.3.2"
+                "symfony/console": "^6.3.4",
+                "symfony/process": "^6.3.4"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^12.0.0",
                 "ext-pcov": "*",
                 "ext-posix": "*",
                 "infection/infection": "^0.27.0",
-                "phpstan/phpstan": "^1.10.26",
-                "phpstan/phpstan-deprecation-rules": "^1.1.3",
-                "phpstan/phpstan-phpunit": "^1.3.13",
+                "phpstan/phpstan": "^1.10.32",
+                "phpstan/phpstan-deprecation-rules": "^1.1.4",
+                "phpstan/phpstan-phpunit": "^1.3.14",
                 "phpstan/phpstan-strict-rules": "^1.5.1",
                 "squizlabs/php_codesniffer": "^3.7.2",
                 "symfony/filesystem": "^6.3.1"
@@ -12929,7 +12931,7 @@
             ],
             "support": {
                 "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/v7.2.5"
+                "source": "https://github.com/paratestphp/paratest/tree/v7.2.6"
             },
             "funding": [
                 {
@@ -12941,7 +12943,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2023-08-08T13:23:59+00:00"
+            "time": "2023-08-29T07:47:39+00:00"
         },
         {
             "name": "composer/class-map-generator",
@@ -14136,24 +14138,24 @@
         },
         {
             "name": "pestphp/pest",
-            "version": "v2.16.0",
+            "version": "v2.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest.git",
-                "reference": "cbd6a650576714c673dbb0575989663f7f5c8b6d"
+                "reference": "55b92666482b7d4320b7869c4eea7333d35c5631"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pestphp/pest/zipball/cbd6a650576714c673dbb0575989663f7f5c8b6d",
-                "reference": "cbd6a650576714c673dbb0575989663f7f5c8b6d",
+                "url": "https://api.github.com/repos/pestphp/pest/zipball/55b92666482b7d4320b7869c4eea7333d35c5631",
+                "reference": "55b92666482b7d4320b7869c4eea7333d35c5631",
                 "shasum": ""
             },
             "require": {
-                "brianium/paratest": "^7.2.5",
+                "brianium/paratest": "^7.2.6",
                 "nunomaduro/collision": "^7.8.1",
                 "nunomaduro/termwind": "^1.15.1",
-                "pestphp/pest-plugin": "^2.0.1",
-                "pestphp/pest-plugin-arch": "^2.3.1",
+                "pestphp/pest-plugin": "^2.1.1",
+                "pestphp/pest-plugin-arch": "^2.3.3",
                 "php": "^8.1.0",
                 "phpunit/phpunit": "^10.3.2"
             },
@@ -14163,8 +14165,8 @@
             },
             "require-dev": {
                 "pestphp/pest-dev-tools": "^2.16.0",
-                "pestphp/pest-plugin-type-coverage": "^2.0.0",
-                "symfony/process": "^6.3.2"
+                "pestphp/pest-plugin-type-coverage": "^2.2.0",
+                "symfony/process": "^6.3.4"
             },
             "bin": [
                 "bin/pest"
@@ -14222,7 +14224,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pestphp/pest/issues",
-                "source": "https://github.com/pestphp/pest/tree/v2.16.0"
+                "source": "https://github.com/pestphp/pest/tree/v2.16.1"
             },
             "funding": [
                 {
@@ -14234,7 +14236,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-21T08:42:07+00:00"
+            "time": "2023-08-29T09:30:36+00:00"
         },
         {
             "name": "pestphp/pest-plugin",
@@ -16827,6 +16829,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "kiwilan/php-opds": 20,
         "kiwilan/steward-laravel": 20
     },
     "prefer-stable": true,

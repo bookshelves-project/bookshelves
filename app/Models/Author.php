@@ -11,6 +11,7 @@ use App\Traits\HasFavorites;
 use App\Traits\HasReviews;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -137,9 +138,11 @@ class Author extends Model implements HasMedia, Wikipediable
         ]);
     }
 
-    /**
-     * Scout.
-     */
+    public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
+    {
+        return $query->where('lastname', 'like', "{$character}%");
+    }
+
     public function searchableAs()
     {
         return $this->searchableNameAs();

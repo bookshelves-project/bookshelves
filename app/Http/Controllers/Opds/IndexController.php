@@ -17,64 +17,64 @@ class IndexController extends Controller
     #[Get('/', name: 'index')]
     public function index()
     {
-        return Opds::response(
+        return Opds::make(
             config: OpdsApp::config(),
-            entries: OpdsApp::home(),
-        );
+            feeds: OpdsApp::home(),
+        )->response();
     }
 
     #[Get('/latest', name: 'latest')]
     public function latest()
     {
-        $entries = [];
+        $feeds = [];
 
-        foreach (Book::orderBy('updated_at', 'desc')->limit(32)->get() as $book) {
-            $entries[] = OpdsApp::bookToEntry($book);
+        foreach (Book::query()->orderBy('updated_at', 'desc')->limit(32)->get() as $book) {
+            $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        return Opds::response(
+        return Opds::make(
             config: OpdsApp::config(),
-            entries: $entries,
+            feeds: $feeds,
             title: 'Latest books',
-        );
+        )->response();
     }
 
     #[Get('/random', name: 'random')]
     public function random()
     {
-        $entries = [];
+        $feeds = [];
 
-        foreach (Book::inRandomOrder()->limit(32)->get() as $book) {
-            $entries[] = OpdsApp::bookToEntry($book);
+        foreach (Book::query()->inRandomOrder()->limit(32)->get() as $book) {
+            $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        return Opds::response(
+        return Opds::make(
             config: OpdsApp::config(),
-            entries: $entries,
+            feeds: $feeds,
             title: 'Random books',
-        );
+        )->response();
     }
 
     #[Get('/search', name: 'search')]
     public function search(Request $request)
     {
         $query = $request->input('q');
-        $entries = [];
+        $feeds = [];
 
         if ($query) {
             $search = SearchEngine::make(q: $query, relevant: false, opds: true, types: ['books']);
 
             foreach ($search->results_opds as $result) {
                 /** @var Book $result */
-                $entries[] = OpdsApp::bookToEntry($result);
+                $feeds[] = OpdsApp::bookToEntry($result);
             }
         }
 
-        return Opds::response(
+        return Opds::make(
             config: OpdsApp::config(),
-            entries: $entries,
+            feeds: $feeds,
             title: "Search for {$query}",
-            isSearch: true,
-        );
+            // isSearch: true,
+        )->response();
     }
 }

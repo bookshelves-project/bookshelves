@@ -75,7 +75,7 @@ class Serie extends Model implements HasMedia, Wikipediable
     ];
 
     protected $with = [
-        'authors',
+        // 'authors',
         'language',
     ];
 

@@ -14,16 +14,32 @@ use Kiwilan\Opds\OpdsConfig;
 
 class OpdsApp
 {
-    public static function config(): OpdsConfig
+    public static function config(OpdsConfig $config = null): OpdsConfig
     {
-        return new OpdsConfig(
+        $default = new OpdsConfig(
             name: config('app.name'),
             author: 'Bookshelves',
             authorUrl: config('app.url'),
             iconUrl: asset('favicon.ico'),
             startUrl: route('opds.index'),
             searchUrl: route('opds.search'),
-            updated: Book::orderBy('updated_at', 'desc')->first()->updated_at,
+            updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
+        );
+
+        if (! $config) {
+            return $default;
+        }
+
+        return new OpdsConfig(
+            name: $config->name ?? $default->name,
+            author: $config->author ?? $default->author,
+            authorUrl: $config->authorUrl ?? $default->authorUrl,
+            iconUrl: $config->iconUrl ?? $default->iconUrl,
+            startUrl: $config->startUrl ?? $default->startUrl,
+            searchUrl: $config->searchUrl ?? $default->searchUrl,
+            updated: $config->updated ?? $default->updated,
+            usePagination: $config->usePagination ?? $default->usePagination,
+            maxItemsPerPage: $config->maxItemsPerPage ?? $default->maxItemsPerPage,
         );
     }
 
@@ -32,8 +48,10 @@ class OpdsApp
      */
     public static function home(): array
     {
-        $authors = self::cache('opds.authors', fn () => Author::all());
-        $series = self::cache('opds.series', fn () => Serie::all());
+        // $authors = self::cache('opds.authors', fn () => Author::all());
+        // $series = self::cache('opds.series', fn () => Serie::all());
+        $authorsCount = Author::query()->count();
+        $seriesCount = Serie::query()->count();
 
         return [
             new OpdsEntry(
@@ -42,23 +60,23 @@ class OpdsApp
                 route: route('opds.latest'),
                 summary: 'Latest books',
                 media: asset('vendor/images/opds/books.png'),
-                updated: Book::orderBy('updated_at', 'desc')->first()->updated_at,
+                updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
             ),
             new OpdsEntry(
                 id: 'authors',
                 title: 'Authors',
                 route: route('opds.authors.index'),
-                summary: "Authors, {$authors->count()} available",
+                summary: "Authors, {$authorsCount} available",
                 media: asset('vendor/images/opds/authors.png'),
-                updated: Author::orderBy('updated_at', 'desc')->first()->updated_at,
+                updated: Author::query()->orderBy('updated_at', 'desc')->first()->updated_at,
             ),
             new OpdsEntry(
                 id: 'series',
                 title: 'Series',
                 route: route('opds.series.index'),
-                summary: "Series, {$series->count()} available",
+                summary: "Series, {$seriesCount} available",
                 media: asset('vendor/images/opds/series.png'),
-                updated: Serie::orderBy('updated_at', 'desc')->first()->updated_at,
+                updated: Serie::query()->orderBy('updated_at', 'desc')->first()->updated_at,
             ),
             new OpdsEntry(
                 id: 'random',
@@ -66,7 +84,7 @@ class OpdsApp
                 route: route('opds.random'),
                 summary: 'Random books',
                 media: asset('vendor/images/opds/books.png'),
-                updated: Book::orderBy('updated_at', 'desc')->first()->updated_at,
+                updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
             ),
         ];
     }
@@ -84,7 +102,7 @@ class OpdsApp
 
     public static function bookToEntry(Book $book): OpdsEntryBook
     {
-        $book = $book->load('authors', 'serie', 'tags');
+        $book = $book->load('tags');
         $series = null;
         $seriesContent = null;
 
@@ -106,7 +124,7 @@ class OpdsApp
         foreach ($book->authors as $author) {
             $authors[] = new OpdsEntryBookAuthor(
                 name: $author->name,
-                uri: route('opds.authors.show', ['author' => $author->slug]),
+                uri: route('opds.authors.show', ['character' => $author->meta_first_char, 'author' => $author->slug]),
             );
         }
 
