@@ -9,7 +9,7 @@ use Closure;
 use Illuminate\Support\Facades\Cache;
 use Kiwilan\Opds\Entries\OpdsEntryBook;
 use Kiwilan\Opds\Entries\OpdsEntryBookAuthor;
-use Kiwilan\Opds\Entries\OpdsNavigationEntry;
+use Kiwilan\Opds\Entries\OpdsEntryNavigation;
 use Kiwilan\Opds\OpdsConfig;
 
 class OpdsApp
@@ -23,6 +23,8 @@ class OpdsApp
             iconUrl: asset('favicon.ico'),
             startUrl: route('opds.index'),
             searchUrl: route('opds.search'),
+            version1Dot2Url: route('opds.index'),
+            version2Dot0Url: route('opds.index', ['version' => '2.0']),
             updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
         );
 
@@ -44,7 +46,7 @@ class OpdsApp
     }
 
     /**
-     * @return array<OpdsNavigationEntry>
+     * @return array<OpdsEntryNavigation>
      */
     public static function home(): array
     {
@@ -52,7 +54,7 @@ class OpdsApp
         $seriesCount = Serie::query()->count();
 
         return [
-            new OpdsNavigationEntry(
+            new OpdsEntryNavigation(
                 id: 'latest',
                 title: 'Latest',
                 route: route('opds.latest'),
@@ -60,7 +62,7 @@ class OpdsApp
                 media: asset('vendor/images/opds/books.png'),
                 updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
             ),
-            new OpdsNavigationEntry(
+            new OpdsEntryNavigation(
                 id: 'authors',
                 title: 'Authors',
                 route: route('opds.authors.index'),
@@ -68,7 +70,7 @@ class OpdsApp
                 media: asset('vendor/images/opds/authors.png'),
                 updated: Author::query()->orderBy('updated_at', 'desc')->first()->updated_at,
             ),
-            new OpdsNavigationEntry(
+            new OpdsEntryNavigation(
                 id: 'series',
                 title: 'Series',
                 route: route('opds.series.index'),
@@ -76,7 +78,7 @@ class OpdsApp
                 media: asset('vendor/images/opds/series.png'),
                 updated: Serie::query()->orderBy('updated_at', 'desc')->first()->updated_at,
             ),
-            new OpdsNavigationEntry(
+            new OpdsEntryNavigation(
                 id: 'random',
                 title: 'Random',
                 route: route('opds.random'),

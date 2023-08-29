@@ -3319,12 +3319,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-opds.git",
-                "reference": "b164398bfb00af84061894453cccd3327cde7b92"
+                "reference": "8bca225b659627f84b5f51a1ffe269ebd6589d47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/b164398bfb00af84061894453cccd3327cde7b92",
-                "reference": "b164398bfb00af84061894453cccd3327cde7b92",
+                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/8bca225b659627f84b5f51a1ffe269ebd6589d47",
+                "reference": "8bca225b659627f84b5f51a1ffe269ebd6589d47",
                 "shasum": ""
             },
             "require": {
@@ -3376,7 +3376,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-29T15:45:14+00:00"
+            "time": "2023-08-29T17:43:53+00:00"
         },
         {
             "name": "kiwilan/php-xml-reader",

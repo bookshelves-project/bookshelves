@@ -14,14 +14,6 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('/')]
 class IndexController extends Controller
 {
-    #[Get('/', name: 'opds.json')]
-    public function json()
-    {
-        return Opds::make(OpdsApp::config())
-            ->response()
-        ;
-    }
-
     #[Get('/', name: 'opds.index')]
     public function index()
     {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Opds;
 use App\Engines\OpdsApp;
 use App\Http\Controllers\Controller;
 use App\Models\Serie;
-use Kiwilan\Opds\Entries\OpdsNavigationEntry;
+use Kiwilan\Opds\Entries\OpdsEntryNavigation;
 use Kiwilan\Opds\Opds;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -30,7 +30,7 @@ class SerieController extends Controller
                     ->whereFirstCharacterIs($char)
                     ->count()
                 ;
-                $feeds[] = new OpdsNavigationEntry(
+                $feeds[] = new OpdsEntryNavigation(
                     id: $id,
                     title: $char,
                     route: route('opds.series.character', ['character' => $id]),
@@ -66,7 +66,7 @@ class SerieController extends Controller
                 $description = $serie->description;
                 $count = $serie->books_count;
 
-                $feeds[] = new OpdsNavigationEntry(
+                $feeds[] = new OpdsEntryNavigation(
                     id: $serie->slug,
                     title: "{$serie->title} ({$serie->type->name})",
                     route: route('opds.series.show', ['character' => $character, 'serie' => $serie->slug]),

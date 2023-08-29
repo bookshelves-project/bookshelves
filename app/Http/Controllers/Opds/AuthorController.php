@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Opds;
 use App\Engines\OpdsApp;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
-use Kiwilan\Opds\Entries\OpdsNavigationEntry;
+use Kiwilan\Opds\Entries\OpdsEntryNavigation;
 use Kiwilan\Opds\Opds;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -30,7 +30,7 @@ class AuthorController extends Controller
                     ->whereFirstCharacterIs($char)
                     ->count()
                 ;
-                $feeds[] = new OpdsNavigationEntry(
+                $feeds[] = new OpdsEntryNavigation(
                     id: $id,
                     title: $char,
                     route: route('opds.authors.character', ['character' => $id]),
@@ -66,7 +66,7 @@ class AuthorController extends Controller
                 $description = $author->description;
                 $count = $author->books_count;
 
-                $feeds[] = new OpdsNavigationEntry(
+                $feeds[] = new OpdsEntryNavigation(
                     id: $author->slug,
                     title: "{$author->lastname} {$author->firstname}",
                     route: route('opds.authors.show', ['character' => $character, 'author' => $author->slug]),
