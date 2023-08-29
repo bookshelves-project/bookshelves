@@ -24,7 +24,7 @@ class EntityController extends Controller
      *
      * Get all Books ordered by date `updated_at`, limited to `10` results (no pagination).
      */
-    #[Get('latest', name: 'entity.latest')]
+    #[Get('latest', name: 'api.entity.latest')]
     public function latest(Request $request): JsonResource
     {
         $books = Book::query()
@@ -41,7 +41,7 @@ class EntityController extends Controller
      *
      * Get all entities `selected`, limited to `10` results (no pagination).
      */
-    #[Get('selection', name: 'entity.selection')]
+    #[Get('selection', name: 'api.entity.selection')]
     public function selection(Request $request): JsonResource
     {
         $request->headers->set('relation', 'selectionable');
@@ -65,7 +65,7 @@ class EntityController extends Controller
      *
      * @usesPagination
      */
-    #[Get('related/{author_slug}/{book_slug}', name: 'entity.related')]
+    #[Get('related/{author_slug}/{book_slug}', name: 'api.entity.related')]
     public function related(Request $request, Author $author, Book $book)
     {
         if ($book->tags->count() >= 1) {
@@ -87,7 +87,7 @@ class EntityController extends Controller
     // /**
     //  * GET Entity Review[].
     //  */
-    // #[Get('reviews/{author_slug}/{book_slug}', name: 'entity.reviews')]
+    // #[Get('reviews/{author_slug}/{book_slug}', name: 'api.entity.reviews')]
     // public function reviews(Request $request, string $entity, int $id)
     // {
     //     $this->getLang($request);
@@ -105,7 +105,7 @@ class EntityController extends Controller
      *
      * Search full-text into authors, books & series.
      */
-    #[Get('search', name: 'entity.search')]
+    #[Get('search', name: 'api.entity.search')]
     public function search(Request $request)
     {
         $q = $request->input('q');

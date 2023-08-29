@@ -24,7 +24,7 @@ class PublisherController extends Controller
      * @queryParam full boolean Disable pagination. No-example
      * @queryParam page int The page number, '1' by default. No-example
      */
-    #[Get('/', name: 'publishers.index')]
+    #[Get('/', name: 'api.publishers.index')]
     public function index(Request $request)
     {
         // if ($alpha = $this->chunkByAlpha($request, Publisher::class, PublisherLightResource::class)) {
@@ -53,7 +53,7 @@ class PublisherController extends Controller
      *
      * Details for one Publisher, find by slug.
      */
-    #[Get('/{publisher_slug}', name: 'publishers.show')]
+    #[Get('/{publisher_slug}', name: 'api.publishers.show')]
     public function show(Publisher $publisher)
     {
         return PublisherResource::make($publisher);
@@ -69,7 +69,7 @@ class PublisherController extends Controller
      * @queryParam size int Entities per page, '32' by default. No-example
      * @queryParam page int The page number, '1' by default. No-example
      */
-    #[Get('/{publisher_slug}/books', name: 'publishers.books')]
+    #[Get('/{publisher_slug}/books', name: 'api.publishers.books')]
     public function books(Request $request, Publisher $publisher)
     {
         $page = $request->get('size') ? $request->get('size') : 32;

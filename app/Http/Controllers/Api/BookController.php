@@ -13,7 +13,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('books')]
 class BookController extends Controller
 {
-    #[Get('/', name: 'books.index')]
+    #[Get('/', name: 'api.books.index')]
     public function index(Request $request)
     {
         return HttpQuery::for(Book::class, $request)
@@ -22,7 +22,7 @@ class BookController extends Controller
         ;
     }
 
-    #[Get('/{author_slug}/{book_slug}', name: 'books.show')]
+    #[Get('/{author_slug}/{book_slug}', name: 'api.books.show')]
     public function show(Request $request, Author $author, Book $book)
     {
         return BookResource::make($book);

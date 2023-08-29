@@ -13,7 +13,7 @@ use Spatie\RouteAttributes\Attributes\Get;
  */
 class IndexController extends Controller
 {
-    #[Get('/', name: 'index')]
+    #[Get('/', name: 'catalog.index')]
     public function index(Request $request)
     {
         SEOTools::setTitle('Catalog');
@@ -22,7 +22,7 @@ class IndexController extends Controller
         return redirect(route('catalog.search'));
     }
 
-    #[Get('/search', name: 'search')]
+    #[Get('/search', name: 'catalog.search')]
     public function search(Request $request)
     {
         $q = $request->input('q');

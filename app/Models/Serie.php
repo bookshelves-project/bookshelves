@@ -75,7 +75,6 @@ class Serie extends Model implements HasMedia, Wikipediable
     ];
 
     protected $with = [
-        // 'authors',
         'language',
     ];
 
@@ -110,9 +109,11 @@ class Serie extends Model implements HasMedia, Wikipediable
         ]);
     }
 
-    /**
-     * Scout.
-     */
+    public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
+    {
+        return $query->where('slug_sort', 'like', "{$character}%");
+    }
+
     public function searchableAs()
     {
         return $this->searchableNameAs();

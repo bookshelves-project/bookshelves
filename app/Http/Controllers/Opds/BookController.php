@@ -16,7 +16,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('books')]
 class BookController extends Controller
 {
-    #[Get('/{author}/{book}', name: 'books.show')]
+    #[Get('/{author}/{book}', name: 'opds.books.show')]
     public function show(string $author_slug, string $book_slug)
     {
         $author = Author::whereSlug($author_slug)->firstOrFail();
@@ -25,12 +25,10 @@ class BookController extends Controller
             ->firstOrFail()
         ;
 
-        return Opds::make(
-            config: OpdsApp::config(),
-            feeds: [
-                OpdsApp::bookToEntry($book),
-            ],
-            title: "Book {$book->title}",
-        );
+        return Opds::make(OpdsApp::config())
+            ->title("Book {$book->title}")
+            ->feeds(OpdsApp::bookToEntry($book))
+            ->response()
+        ;
     }
 }

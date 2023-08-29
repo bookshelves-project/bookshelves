@@ -7,9 +7,9 @@ use App\Models\Book;
 use App\Models\Serie;
 use Closure;
 use Illuminate\Support\Facades\Cache;
-use Kiwilan\Opds\Entries\OpdsEntry;
 use Kiwilan\Opds\Entries\OpdsEntryBook;
 use Kiwilan\Opds\Entries\OpdsEntryBookAuthor;
+use Kiwilan\Opds\Entries\OpdsNavigationEntry;
 use Kiwilan\Opds\OpdsConfig;
 
 class OpdsApp
@@ -18,7 +18,7 @@ class OpdsApp
     {
         $default = new OpdsConfig(
             name: config('app.name'),
-            author: 'Bookshelves',
+            author: config('app.name'),
             authorUrl: config('app.url'),
             iconUrl: asset('favicon.ico'),
             startUrl: route('opds.index'),
@@ -44,17 +44,15 @@ class OpdsApp
     }
 
     /**
-     * @return array<OpdsEntry>
+     * @return array<OpdsNavigationEntry>
      */
     public static function home(): array
     {
-        // $authors = self::cache('opds.authors', fn () => Author::all());
-        // $series = self::cache('opds.series', fn () => Serie::all());
         $authorsCount = Author::query()->count();
         $seriesCount = Serie::query()->count();
 
         return [
-            new OpdsEntry(
+            new OpdsNavigationEntry(
                 id: 'latest',
                 title: 'Latest',
                 route: route('opds.latest'),
@@ -62,7 +60,7 @@ class OpdsApp
                 media: asset('vendor/images/opds/books.png'),
                 updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
             ),
-            new OpdsEntry(
+            new OpdsNavigationEntry(
                 id: 'authors',
                 title: 'Authors',
                 route: route('opds.authors.index'),
@@ -70,7 +68,7 @@ class OpdsApp
                 media: asset('vendor/images/opds/authors.png'),
                 updated: Author::query()->orderBy('updated_at', 'desc')->first()->updated_at,
             ),
-            new OpdsEntry(
+            new OpdsNavigationEntry(
                 id: 'series',
                 title: 'Series',
                 route: route('opds.series.index'),
@@ -78,7 +76,7 @@ class OpdsApp
                 media: asset('vendor/images/opds/series.png'),
                 updated: Serie::query()->orderBy('updated_at', 'desc')->first()->updated_at,
             ),
-            new OpdsEntry(
+            new OpdsNavigationEntry(
                 id: 'random',
                 title: 'Random',
                 route: route('opds.random'),
@@ -135,7 +133,6 @@ class OpdsApp
             content: $summary,
             route: route('opds.books.show', ['author' => $book->meta_author, 'book' => $book->slug]),
             updated: $book->updated_at,
-            // download: route('api.download.book', ['author_slug' => $book->meta_author, 'book_slug' => $book->slug]),
             download: route('api.download.direct', ['author_slug' => $book->meta_author, 'book_slug' => $book->slug]),
             media: $book->cover_og,
             mediaThumbnail: $book->cover_thumbnail,

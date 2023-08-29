@@ -40,22 +40,11 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         Route::prefix('api')
-            ->name('api.')
             ->group(
                 fn () => (new RouteRegistrar(app(Router::class)))
                     ->useRootNamespace(app()->getNamespace())
                     ->useMiddleware(['api'])
                     ->registerDirectory(app_path('Http/Controllers/Api'))
-            )
-        ;
-
-        Route::prefix('admin')
-            ->name('admin.')
-            ->group(
-                fn () => (new RouteRegistrar(app(Router::class)))
-                    ->useRootNamespace(app()->getNamespace())
-                    ->useMiddleware(['web', 'auth'])
-                    ->registerDirectory(app_path('Http/Controllers/Admin'))
             )
         ;
 
@@ -69,7 +58,6 @@ class RouteServiceProvider extends ServiceProvider
         ;
 
         Route::prefix('catalog')
-            ->name('catalog.')
             ->group(
                 fn () => (new RouteRegistrar(app(Router::class)))
                     ->useRootNamespace(app()->getNamespace())
@@ -79,7 +67,6 @@ class RouteServiceProvider extends ServiceProvider
         ;
 
         Route::prefix('opds')
-            ->name('opds.')
             ->group(
                 fn () => (new RouteRegistrar(app(Router::class)))
                     ->useRootNamespace(app()->getNamespace())
@@ -89,7 +76,6 @@ class RouteServiceProvider extends ServiceProvider
         ;
 
         Route::prefix('webreader')
-            ->name('webreader.')
             ->group(
                 fn () => (new RouteRegistrar(app(Router::class)))
                     ->useRootNamespace(app()->getNamespace())

@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Opds;
 use App\Engines\OpdsApp;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
-use Kiwilan\Opds\Entries\OpdsEntry;
+use Kiwilan\Opds\Entries\OpdsNavigationEntry;
 use Kiwilan\Opds\Opds;
-use Kiwilan\Opds\OpdsConfig;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -17,44 +16,40 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('authors')]
 class AuthorController extends Controller
 {
-    #[Get('/', name: 'authors.index')]
+    #[Get('/', name: 'opds.authors.index')]
     public function index()
     {
         $feeds = OpdsApp::cache('opds.authors.index', function () {
             $alphabet = range('A', 'Z');
-            //     $items = Author::with('media')
-            //         ->orderBy('lastname')
-            //         ->get()
-            //     ;
-
             $feeds = [];
 
             foreach ($alphabet as $char) {
                 $id = strtolower($char);
-                $feeds[] = new OpdsEntry(
+                $count = Author::query()
+                    ->orderBy('lastname')
+                    ->whereFirstCharacterIs($char)
+                    ->count()
+                ;
+                $feeds[] = new OpdsNavigationEntry(
                     id: $id,
                     title: $char,
                     route: route('opds.authors.character', ['character' => $id]),
-                    // id: $item->slug,
-                    // title: "{$item->lastname} {$item->firstname}",
-                    // route: route('opds.authors.show', ['author' => $item->slug]),
-                    // summary: "{$count} books, {$description}",
-                    // media: $item->cover_og,
-                    // updated: $item->updated_at,
+                    summary: "{$count} authors beginning with {$char}",
+                    media: asset('vendor/images/no-author.jpg'),
                 );
             }
 
             return $feeds;
         });
 
-        return Opds::make(
-            config: OpdsApp::config(),
-            feeds: (array) $feeds,
-            title: 'Authors',
-        )->response();
+        return Opds::make(OpdsApp::config())
+            ->title('Authors')
+            ->feeds($feeds)
+            ->response()
+        ;
     }
 
-    #[Get('/{character}', name: 'authors.character')]
+    #[Get('/{character}', name: 'opds.authors.character')]
     public function character(string $character)
     {
         $lower = strtolower($character);
@@ -71,7 +66,7 @@ class AuthorController extends Controller
                 $description = $author->description;
                 $count = $author->books_count;
 
-                $feeds[] = new OpdsEntry(
+                $feeds[] = new OpdsNavigationEntry(
                     id: $author->slug,
                     title: "{$author->lastname} {$author->firstname}",
                     route: route('opds.authors.show', ['character' => $character, 'author' => $author->slug]),
@@ -84,16 +79,14 @@ class AuthorController extends Controller
             return $feeds;
         });
 
-        return Opds::make(
-            config: OpdsApp::config(new OpdsConfig(
-                usePagination: false
-            )),
-            feeds: $feeds,
-            title: "Authors with {$character}",
-        )->response();
+        return Opds::make(OpdsApp::config())
+            ->title("Authors with {$character}")
+            ->feeds($feeds)
+            ->response()
+        ;
     }
 
-    #[Get('/{character}/{author}', name: 'authors.show')]
+    #[Get('/{character}/{author}', name: 'opds.authors.show')]
     public function show(string $character, string $author_slug)
     {
         $author = Author::whereSlug($author_slug)->firstOrFail();
@@ -103,10 +96,10 @@ class AuthorController extends Controller
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        return Opds::make(
-            config: OpdsApp::config(),
-            feeds: $feeds,
-            title: "Author {$author->lastname} {$author->firstname}",
-        )->response();
+        return Opds::make(OpdsApp::config())
+            ->title("Author {$author->lastname} {$author->firstname}")
+            ->feeds($feeds)
+            ->response()
+        ;
     }
 }

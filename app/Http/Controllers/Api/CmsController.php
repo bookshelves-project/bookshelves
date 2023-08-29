@@ -24,7 +24,7 @@ class CmsController extends Controller
      *
      * @responseField data CMS[] List of pages.
      */
-    #[Get('/', name: 'pages.index')]
+    #[Get('/', name: 'api.pages.index')]
     public function index()
     {
         $pages = Page::all();
@@ -39,7 +39,7 @@ class CmsController extends Controller
      *
      * @responseField data CMS[] List of pages.
      */
-    #[Get('/{cms_page_slug}', name: 'pages.show')]
+    #[Get('/{cms_page_slug}', name: 'api.pages.show')]
     public function show(Request $request, Page $page)
     {
         return PageResource::make($page);

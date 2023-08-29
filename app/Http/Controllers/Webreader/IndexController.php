@@ -17,7 +17,7 @@ use Spatie\RouteAttributes\Attributes\Get;
  */
 class IndexController extends Controller
 {
-    #[Get('/{author}/{book}', name: 'reader')]
+    #[Get('/{author}/{book}', name: 'webreader.reader')]
     public function reader(Request $request, string $author, string $book)
     {
         $author = Author::whereSlug($author)->firstOrFail();

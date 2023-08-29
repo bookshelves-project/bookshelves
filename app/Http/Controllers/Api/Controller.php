@@ -15,43 +15,50 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Route;
+use Illuminate\Support\Facades\Route;
 
 class Controller extends BaseController
 {
     public function __construct()
     {
         Route::bind('book_slug',
-            fn (string $param) => Book::where('slug', $param)
+            fn (string $param) => Book::query()
+                ->where('slug', $param)
                 ->withCount('reviews')
                 ->firstOrFail());
 
         Route::bind(
             'serie_slug',
-            fn (string $param) => Serie::whereSlug($param)
+            fn (string $param) => Serie::query()
+                ->whereSlug($param)
                 ->with(['authors'])
                 ->withCount('books')
                 ->firstOrFail()
         );
 
         Route::bind('author_slug',
-            fn (string $param) => Author::where('slug', $param)
+            fn (string $param) => Author::query()
+                ->where('slug', $param)
                 ->firstOrFail());
 
         Route::bind('tag_slug',
-            fn (string $param) => TagExtend::where('slug->en', $param)
+            fn (string $param) => TagExtend::query()
+                ->where('slug->en', $param)
                 ->firstOrFail());
 
         Route::bind('page_slug',
-            fn (string $param) => Page::where('slug', $param)
+            fn (string $param) => Page::query()
+                ->where('slug', $param)
                 ->firstOrFail());
 
         Route::bind('post_slug',
-            fn (string $param) => Post::where('slug', $param)
+            fn (string $param) => Post::query()
+                ->where('slug', $param)
                 ->firstOrFail());
 
         Route::bind('publisher_slug',
-            fn (string $param) => Publisher::where('slug', $param)
+            fn (string $param) => Publisher::query()
+                ->where('slug', $param)
                 ->firstOrFail());
     }
 

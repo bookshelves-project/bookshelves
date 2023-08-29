@@ -572,6 +572,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereAuthorMainId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereFirstCharacterIs(string $character)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguageSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguagesIs(...$languages)

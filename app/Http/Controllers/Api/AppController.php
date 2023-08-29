@@ -27,7 +27,7 @@ class AppController extends Controller
      *
      * Useful for CMS at front-end init with `enums`, `languages` and `application`.
      */
-    #[Get('/', name: 'app.index')]
+    #[Get('/', name: 'api.app.index')]
     public function application()
     {
         return response()->json([
@@ -67,7 +67,7 @@ class AppController extends Controller
     //     ]);
     // }
 
-    #[Get('/stats', name: 'app.stats')]
+    #[Get('/stats', name: 'api.app.stats')]
     public function stats()
     {
         $stats = [
@@ -92,7 +92,7 @@ class AppController extends Controller
      * @queryParam entities required `key` of enums.models' list. Example: author,book,serie
      * @queryParam languages required `slug` of languages' list `meta.slug`. Example: fr,en
      */
-    #[Get('/count', name: 'app.count')]
+    #[Get('/count', name: 'api.app.count')]
     public function count(Request $request)
     {
         // http://localhost:8000/api/v1/count?entities=book,author,serie&languages=fr,en

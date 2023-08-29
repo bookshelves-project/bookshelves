@@ -14,16 +14,24 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('/')]
 class IndexController extends Controller
 {
-    #[Get('/', name: 'index')]
-    public function index()
+    #[Get('/', name: 'opds.json')]
+    public function json()
     {
-        return Opds::make(
-            config: OpdsApp::config(),
-            feeds: OpdsApp::home(),
-        )->response();
+        return Opds::make(OpdsApp::config())
+            ->response()
+        ;
     }
 
-    #[Get('/latest', name: 'latest')]
+    #[Get('/', name: 'opds.index')]
+    public function index()
+    {
+        return Opds::make(OpdsApp::config())
+            ->feeds(OpdsApp::home())
+            ->response()
+        ;
+    }
+
+    #[Get('/latest', name: 'opds.latest')]
     public function latest()
     {
         $feeds = [];
@@ -32,14 +40,14 @@ class IndexController extends Controller
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        return Opds::make(
-            config: OpdsApp::config(),
-            feeds: $feeds,
-            title: 'Latest books',
-        )->response();
+        return Opds::make(OpdsApp::config())
+            ->title('Latest books')
+            ->feeds($feeds)
+            ->response()
+        ;
     }
 
-    #[Get('/random', name: 'random')]
+    #[Get('/random', name: 'opds.random')]
     public function random()
     {
         $feeds = [];
@@ -48,14 +56,14 @@ class IndexController extends Controller
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        return Opds::make(
-            config: OpdsApp::config(),
-            feeds: $feeds,
-            title: 'Random books',
-        )->response();
+        return Opds::make(OpdsApp::config())
+            ->title('Random books')
+            ->feeds($feeds)
+            ->response()
+        ;
     }
 
-    #[Get('/search', name: 'search')]
+    #[Get('/search', name: 'opds.search')]
     public function search(Request $request)
     {
         $query = $request->input('q');
@@ -70,11 +78,11 @@ class IndexController extends Controller
             }
         }
 
-        return Opds::make(
-            config: OpdsApp::config(),
-            feeds: $feeds,
-            title: "Search for {$query}",
-            // isSearch: true,
-        )->response();
+        return Opds::make(OpdsApp::config())
+            ->title(title: "Search for {$query}")
+            ->isSearch()
+            ->feeds($feeds)
+            ->response()
+        ;
     }
 }

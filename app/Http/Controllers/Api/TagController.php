@@ -15,7 +15,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('tags')]
 class TagController extends Controller
 {
-    #[Get('/', name: 'tags.index')]
+    #[Get('/', name: 'api.tags.index')]
     public function index(Request $request)
     {
         return HttpQuery::for(TagExtend::class, $request)
@@ -23,13 +23,13 @@ class TagController extends Controller
         ;
     }
 
-    #[Get('/{tag_slug}', name: 'tags.show')]
+    #[Get('/{tag_slug}', name: 'api.tags.show')]
     public function show(TagExtend $tag)
     {
         return TagResource::make($tag);
     }
 
-    #[Get('/{tag_slug}/books', name: 'tags.show.books')]
+    #[Get('/{tag_slug}/books', name: 'api.tags.show.books')]
     public function books(TagExtend $tag)
     {
         $books_standalone = Book::withAllTags([$tag])

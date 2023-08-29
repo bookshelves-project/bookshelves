@@ -16,7 +16,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('series')]
 class SerieController extends Controller
 {
-    #[Get('/', name: 'series.index')]
+    #[Get('/', name: 'api.series.index')]
     public function index(Request $request)
     {
         return HttpQuery::for(Serie::class, $request)
@@ -25,13 +25,13 @@ class SerieController extends Controller
         ;
     }
 
-    #[Get('/{author_slug}/{serie_slug}', name: 'series.show')]
+    #[Get('/{author_slug}/{serie_slug}', name: 'api.series.show')]
     public function show(Request $request, Author $author, Serie $serie)
     {
         return SerieResource::make($serie);
     }
 
-    #[Get('/{author_slug}/{serie_slug}/{volume}/next', name: 'series.next')]
+    #[Get('/{author_slug}/{serie_slug}/{volume}/next', name: 'api.series.next')]
     public function next(Request $request, Author $author, Serie $serie, int $volume)
     {
         $book = Book::where('serie_id', $serie->id)
@@ -43,13 +43,13 @@ class SerieController extends Controller
         return BookCollection::make($book);
     }
 
-    #[Get('/{author_slug}/{serie_slug}/books', name: 'series.show.books')]
+    #[Get('/{author_slug}/{serie_slug}/books', name: 'api.series.show.books')]
     public function books(Request $request, Author $author, Serie $serie)
     {
         return BookCollection::collection($serie->books);
     }
 
-    // #[Get('/{author_slug}/{serie_slug}/books', name: 'series.show.books')]
+    // #[Get('/{author_slug}/{serie_slug}/books', name: 'api.series.show.books')]
     // public function books(Request $request, Author $author, Serie $serie)
     // {
     //     $first = $request->boolean('first');

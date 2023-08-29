@@ -12,7 +12,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('posts')]
 class PostController extends Controller
 {
-    #[Get('/', name: 'posts.index')]
+    #[Get('/', name: 'api.posts.index')]
     public function index(Request $request)
     {
         return HttpQuery::for(Post::class, $request)
@@ -20,7 +20,7 @@ class PostController extends Controller
         ;
     }
 
-    #[Get('/{post_slug}', name: 'posts.show')]
+    #[Get('/{post_slug}', name: 'api.posts.show')]
     public function show(Request $request, Post $post)
     {
         return PostResource::make($post);

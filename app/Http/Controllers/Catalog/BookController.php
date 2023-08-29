@@ -16,7 +16,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('books')]
 class BookController extends Controller
 {
-    #[Get('/{author}/{book}', name: 'books.show')]
+    #[Get('/{author}/{book}', name: 'catalog.books.show')]
     public function show(Request $request, string $author, string $slug)
     {
         $author = Author::whereSlug($author)->firstOrFail();

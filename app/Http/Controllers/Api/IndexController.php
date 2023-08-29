@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\ContactSubjectEnum;
+use Illuminate\Support\Str;
 use Kiwilan\Steward\Enums\PublishStatusEnum;
 use Spatie\RouteAttributes\Attributes\Get;
-use Str;
 
 class IndexController extends Controller
 {
-    #[Get('/', name: 'index')]
+    #[Get('/', name: 'api.index')]
     public function index()
     {
         return response()->json([
@@ -33,7 +33,7 @@ class IndexController extends Controller
      *
      * Get all enums.
      */
-    #[Get('/enums', name: 'enums')]
+    #[Get('/enums', name: 'api.enums')]
     public function enums()
     {
         $contact_sujects = ContactSubjectEnum::toArray();

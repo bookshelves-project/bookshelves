@@ -14,7 +14,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('authors')]
 class AuthorController extends Controller
 {
-    #[Get('/', name: 'authors.index')]
+    #[Get('/', name: 'api.authors.index')]
     public function index(Request $request)
     {
         return HttpQuery::for(Author::class, $request)
@@ -23,13 +23,13 @@ class AuthorController extends Controller
         ;
     }
 
-    #[Get('/{author_slug}', name: 'authors.show')]
+    #[Get('/{author_slug}', name: 'api.authors.show')]
     public function show(Request $request, Author $author)
     {
         return AuthorResource::make($author);
     }
 
-    #[Get('/{author_slug}/books', name: 'authors.show.books')]
+    #[Get('/{author_slug}/books', name: 'api.authors.show.books')]
     public function books(Request $request, Author $author)
     {
         $books = $author->books()->with(['language', 'serie'])->get();
@@ -37,7 +37,7 @@ class AuthorController extends Controller
         return BookCollection::collection($books);
     }
 
-    #[Get('/{author_slug}/series', name: 'authors.show.series')]
+    #[Get('/{author_slug}/series', name: 'api.authors.show.series')]
     public function series(Request $request, Author $author)
     {
         return SerieCollection::collection($author->series);

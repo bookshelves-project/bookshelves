@@ -24,7 +24,7 @@ class DownloadController extends Controller
      *
      * @header Content-Type application/epub+zip
      */
-    #[Get('/book/{author_slug}/{book_slug}', name: 'download.book')]
+    #[Get('/book/{author_slug}/{book_slug}', name: 'api.download.book')]
     public function index(Request $request, Author $author, Book $book)
     {
         if ($format = $request->get('format')) {
@@ -52,7 +52,7 @@ class DownloadController extends Controller
         return response()->download($media->getPath(), $media->file_name, disposition: 'inline');
     }
 
-    #[Get('/book/direct/{author_slug}/{book_slug}', name: 'download.direct')]
+    #[Get('/book/direct/{author_slug}/{book_slug}', name: 'api.download.direct')]
     public function direct(Request $request, Author $author, Book $book)
     {
         $path = $book->physical_path;

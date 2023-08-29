@@ -18,7 +18,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('series')]
 class SerieController extends Controller
 {
-    #[Get('/', name: 'series')]
+    #[Get('/', name: 'catalog.series')]
     public function index(Request $request)
     {
         $series = Serie::with(['authors', 'media'])->get();
@@ -27,7 +27,7 @@ class SerieController extends Controller
         return view('catalog::pages.series.index', compact('series'));
     }
 
-    #[Get('/{character}', name: 'series.character')]
+    #[Get('/{character}', name: 'catalog.series.character')]
     public function character(Request $request)
     {
         $character = $request->character;
@@ -44,7 +44,7 @@ class SerieController extends Controller
         return view('catalog::pages.series.characters', compact('series', 'character'));
     }
 
-    #[Get('/{author}/{serie}', name: 'series.show')]
+    #[Get('/{author}/{serie}', name: 'catalog.series.show')]
     public function show(Request $request, string $author, string $slug)
     {
         $author = Author::whereSlug($author)->firstOrFail();
