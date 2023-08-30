@@ -45,7 +45,7 @@ class AuthorController extends Controller
         return Opds::make(OpdsApp::config())
             ->title('Authors')
             ->feeds($feeds)
-            ->response()
+            ->get()
         ;
     }
 
@@ -82,7 +82,7 @@ class AuthorController extends Controller
         return Opds::make(OpdsApp::config())
             ->title("Authors with {$character}")
             ->feeds($feeds)
-            ->response()
+            ->get()
         ;
     }
 
@@ -99,7 +99,7 @@ class AuthorController extends Controller
         return Opds::make(OpdsApp::config())
             ->title("Author {$author->lastname} {$author->firstname}")
             ->feeds($feeds)
-            ->response()
+            ->get()
         ;
     }
 }

@@ -16,32 +16,14 @@ class OpdsApp
 {
     public static function config(OpdsConfig $config = null): OpdsConfig
     {
-        $default = new OpdsConfig(
+        return new OpdsConfig(
             name: config('app.name'),
             author: config('app.name'),
             authorUrl: config('app.url'),
             iconUrl: asset('favicon.ico'),
             startUrl: route('opds.index'),
             searchUrl: route('opds.search'),
-            version1Dot2Url: route('opds.index'),
-            version2Dot0Url: route('opds.index', ['version' => '2.0']),
             updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
-        );
-
-        if (! $config) {
-            return $default;
-        }
-
-        return new OpdsConfig(
-            name: $config->name ?? $default->name,
-            author: $config->author ?? $default->author,
-            authorUrl: $config->authorUrl ?? $default->authorUrl,
-            iconUrl: $config->iconUrl ?? $default->iconUrl,
-            startUrl: $config->startUrl ?? $default->startUrl,
-            searchUrl: $config->searchUrl ?? $default->searchUrl,
-            updated: $config->updated ?? $default->updated,
-            usePagination: $config->usePagination ?? $default->usePagination,
-            maxItemsPerPage: $config->maxItemsPerPage ?? $default->maxItemsPerPage,
         );
     }
 
@@ -102,7 +84,7 @@ class OpdsApp
 
     public static function bookToEntry(Book $book): OpdsEntryBook
     {
-        $book = $book->load('tags');
+        $book = $book->load('tags', 'publisher');
         $series = null;
         $seriesContent = null;
 
@@ -131,8 +113,8 @@ class OpdsApp
         return new OpdsEntryBook(
             id: $book->slug,
             title: "{$book->title}{$series}",
-            summary: $summary,
-            content: $summary,
+            summary: trim($summary),
+            content: trim($summary),
             route: route('opds.books.show', ['author' => $book->meta_author, 'book' => $book->slug]),
             updated: $book->updated_at,
             download: route('api.download.direct', ['author_slug' => $book->meta_author, 'book_slug' => $book->slug]),
@@ -144,6 +126,8 @@ class OpdsApp
             volume: $book->volume,
             serie: $book->serie?->title,
             language: $book->language?->name, // @phpstan-ignore-line
+            isbn: $book->isbn,
+            publisher: $book->publisher->name,
         );
     }
 }
