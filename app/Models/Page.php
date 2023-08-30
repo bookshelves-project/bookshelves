@@ -14,11 +14,11 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Page extends Model implements HasMedia
 {
-    use InteractsWithMedia;
-    use HasSlug;
-    use HasShowRoute;
-    use HasTemplate;
     use HasSeo;
+    use HasShowRoute;
+    use HasSlug;
+    use HasTemplate;
+    use InteractsWithMedia;
 
     protected $slug_with = 'title';
 

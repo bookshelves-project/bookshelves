@@ -45,7 +45,7 @@ class SerieController extends Controller
         return Opds::make(OpdsApp::config())
             ->title('Series')
             ->feeds($feeds)
-            ->get()
+            ->response()
         ;
     }
 
@@ -82,7 +82,7 @@ class SerieController extends Controller
         return Opds::make(OpdsApp::config())
             ->title("Series with {$character}")
             ->feeds($feeds)
-            ->get()
+            ->response()
         ;
     }
 
@@ -99,7 +99,7 @@ class SerieController extends Controller
         return Opds::make(OpdsApp::config())
             ->title("Serie {$serie->title}")
             ->feeds($feeds)
-            ->get()
+            ->response()
         ;
     }
 }

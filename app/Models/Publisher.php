@@ -15,9 +15,9 @@ use Kiwilan\Steward\Traits\HasSlug;
 class Publisher extends Model
 {
     use HasFactory;
-    use HasSlug;
     use HasFirstChar;
     use HasShowRoute;
+    use HasSlug;
 
     protected $fillable = [
         'name',

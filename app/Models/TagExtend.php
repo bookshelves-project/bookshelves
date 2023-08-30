@@ -20,10 +20,10 @@ use Spatie\Tags\HasTags;
  */
 class TagExtend extends \Spatie\Tags\Tag
 {
-    use HasTags;
     use HasFirstChar;
     use HasNegligible;
     use HasShowRoute;
+    use HasTags;
     use Queryable;
 
     protected $query_default_sort = 'slug->en';

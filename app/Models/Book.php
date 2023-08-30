@@ -35,25 +35,25 @@ use Spatie\QueryBuilder\AllowedFilter;
  * @property null|int $reviews_count
  * @property \App\Enums\BookTypeEnum|null $type
  */
-class Book extends Model implements HasMedia, GoogleBookable
+class Book extends Model implements GoogleBookable, HasMedia
 {
-    use HasFactory;
     use HasAuthors;
-    use HasSlug;
-    use IsEntity;
-    use HasFavorites;
-    use HasReviews;
-    use HasLanguage;
-    use HasSelections;
-    use HasTagsAndGenres;
+    use HasBookFiles;
     use HasBookType;
     use HasCovers;
-    use HasSelections;
+    use HasFactory;
+    use HasFavorites;
+    use HasLanguage;
     use HasMetaClass;
-    use HasBookFiles;
-    use Searchable;
-    use Queryable;
+    use HasReviews;
     use HasSearchableName;
+    use HasSelections;
+    use HasSelections;
+    use HasSlug;
+    use HasTagsAndGenres;
+    use IsEntity;
+    use Queryable;
+    use Searchable;
 
     protected $slug_with = 'title';
 

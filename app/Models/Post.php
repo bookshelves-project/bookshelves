@@ -18,16 +18,16 @@ use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
-    use HasFactory;
-    use HasSlug;
-    use HasShowRoute;
-    use Publishable;
-    use HasSeo;
-    use Searchable;
-    use Queryable;
-    use Mediable;
-    use HasSearchableName;
     use HasBuilder;
+    use HasFactory;
+    use HasSearchableName;
+    use HasSeo;
+    use HasShowRoute;
+    use HasSlug;
+    use Mediable;
+    use Publishable;
+    use Queryable;
+    use Searchable;
 
     protected $slug_with = 'title';
 

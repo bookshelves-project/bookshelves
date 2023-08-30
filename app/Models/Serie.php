@@ -34,20 +34,20 @@ use Spatie\QueryBuilder\AllowedFilter;
  */
 class Serie extends Model implements HasMedia, Wikipediable
 {
-    use HasFactory;
     use HasAuthors;
-    use IsEntity;
-    use HasFavorites;
-    use HasReviews;
-    use HasLanguage;
-    use HasTagsAndGenres;
-    use HasCovers;
-    use HasSelections;
-    use HasMetaClass;
-    use Searchable;
-    use Queryable;
-    use HasSearchableName;
     use HasBooksCollection;
+    use HasCovers;
+    use HasFactory;
+    use HasFavorites;
+    use HasLanguage;
+    use HasMetaClass;
+    use HasReviews;
+    use HasSearchableName;
+    use HasSelections;
+    use HasTagsAndGenres;
+    use IsEntity;
+    use Queryable;
+    use Searchable;
 
     protected $query_default_sort = 'slug_sort';
 

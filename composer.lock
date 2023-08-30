@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d614f7692791171c953c93f44f80a53",
+    "content-hash": "9ac75a9f8f51b16c752dc37697422e03",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3012,16 +3012,16 @@
         },
         {
             "name": "kiwilan/php-archive",
-            "version": "2.1.0",
+            "version": "2.1.01",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-archive.git",
-                "reference": "04b2fba86df1aef38319e7ee04174bd6a6999ed4"
+                "reference": "e43ca65d1f57e895a6ea2bdfc24951daee36e084"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-archive/zipball/04b2fba86df1aef38319e7ee04174bd6a6999ed4",
-                "reference": "04b2fba86df1aef38319e7ee04174bd6a6999ed4",
+                "url": "https://api.github.com/repos/kiwilan/php-archive/zipball/e43ca65d1f57e895a6ea2bdfc24951daee36e084",
+                "reference": "e43ca65d1f57e895a6ea2bdfc24951daee36e084",
                 "shasum": ""
             },
             "require": {
@@ -3077,7 +3077,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-archive/issues",
-                "source": "https://github.com/kiwilan/php-archive/tree/v2.1.0"
+                "source": "https://github.com/kiwilan/php-archive/tree/v2.1.01"
             },
             "funding": [
                 {
@@ -3085,7 +3085,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-28T16:24:51+00:00"
+            "time": "2023-08-30T11:28:56+00:00"
         },
         {
             "name": "kiwilan/php-audio",
@@ -3171,20 +3171,20 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "2.1.01",
+            "version": "2.1.02",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "9068cb8d7e1108852a5d587cc5d5913079de7e8b"
+                "reference": "5917e47a9a6a88884cfed433a7d7264a58c0e2ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/9068cb8d7e1108852a5d587cc5d5913079de7e8b",
-                "reference": "9068cb8d7e1108852a5d587cc5d5913079de7e8b",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/5917e47a9a6a88884cfed433a7d7264a58c0e2ac",
+                "reference": "5917e47a9a6a88884cfed433a7d7264a58c0e2ac",
                 "shasum": ""
             },
             "require": {
-                "kiwilan/php-archive": "^2.1.0",
+                "kiwilan/php-archive": "^2.1.01",
                 "kiwilan/php-audio": "^3.0.0",
                 "kiwilan/php-xml-reader": "^1.0.1",
                 "php": "^8.1"
@@ -3238,7 +3238,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/v2.1.01"
+                "source": "https://github.com/kiwilan/php-ebook/tree/v2.1.02"
             },
             "funding": [
                 {
@@ -3246,7 +3246,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-29T07:02:06+00:00"
+            "time": "2023-08-30T11:40:15+00:00"
         },
         {
             "name": "kiwilan/php-http-pool",
@@ -3315,16 +3315,16 @@
         },
         {
             "name": "kiwilan/php-opds",
-            "version": "dev-main",
+            "version": "1.0.0-alpha.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-opds.git",
-                "reference": "4830894b479d05f35c5178c3b31ce526f35bf6e4"
+                "reference": "4171078e323db25781a26e07df1cf66f1104daae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/4830894b479d05f35c5178c3b31ce526f35bf6e4",
-                "reference": "4830894b479d05f35c5178c3b31ce526f35bf6e4",
+                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/4171078e323db25781a26e07df1cf66f1104daae",
+                "reference": "4171078e323db25781a26e07df1cf66f1104daae",
                 "shasum": ""
             },
             "require": {
@@ -3338,7 +3338,6 @@
                 "phpstan/phpstan": "^1.10",
                 "spatie/ray": "^1.28"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -3368,7 +3367,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-opds/issues",
-                "source": "https://github.com/kiwilan/php-opds/tree/main"
+                "source": "https://github.com/kiwilan/php-opds/tree/v1.0.0-alpha.2"
             },
             "funding": [
                 {
@@ -3376,7 +3375,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-30T06:47:10+00:00"
+            "time": "2023-08-30T11:59:01+00:00"
         },
         {
             "name": "kiwilan/php-xml-reader",
@@ -13622,16 +13621,16 @@
         },
         {
             "name": "laravel/pint",
-            "version": "v1.11.0",
+            "version": "v1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "88e835bf922b94017778bde89ef8f215e1ea40db"
+                "reference": "08bcf51e520a5e5aea458fc600ac4869f6934a66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/88e835bf922b94017778bde89ef8f215e1ea40db",
-                "reference": "88e835bf922b94017778bde89ef8f215e1ea40db",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/08bcf51e520a5e5aea458fc600ac4869f6934a66",
+                "reference": "08bcf51e520a5e5aea458fc600ac4869f6934a66",
                 "shasum": ""
             },
             "require": {
@@ -13644,7 +13643,7 @@
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.21.1",
                 "illuminate/view": "^10.5.1",
-                "laravel-zero/framework": "^10.1.1",
+                "laravel-zero/framework": "^10.1.2",
                 "mockery/mockery": "^1.5.1",
                 "nunomaduro/larastan": "^2.5.1",
                 "nunomaduro/termwind": "^1.15.1",
@@ -13684,7 +13683,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2023-08-15T15:30:00+00:00"
+            "time": "2023-08-30T07:53:32+00:00"
         },
         {
             "name": "laravel/sail",
@@ -16830,7 +16829,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "kiwilan/php-opds": 20,
+        "kiwilan/php-opds": 15,
         "kiwilan/steward-laravel": 20
     },
     "prefer-stable": true,

@@ -18,12 +18,12 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 
-class User extends Authenticatable implements HasMedia, FilamentUser
+class User extends Authenticatable implements FilamentUser, HasMedia
 {
     use HasApiTokens, HasFactory, Notifiable;
-    use HasUsername;
     use HasAvatar;
     use HasProfilePhoto;
+    use HasUsername;
 
     /**
      * The attributes that are mass assignable.

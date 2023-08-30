@@ -49,6 +49,7 @@ trait HasBooksCollection
                 $media = $book->files[$format];
                 // @phpstan-ignore-next-line
                 $sizes[$format]['size'] += $media?->size;
+
                 // @phpstan-ignore-next-line
                 if ($media?->size) {
                     $sizes[$format]['count']++;

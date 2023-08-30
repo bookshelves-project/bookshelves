@@ -217,7 +217,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAnyTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Book withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  */
-	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Kiwilan\Steward\Services\GoogleBook\GoogleBookable {}
+	class Book extends \Eloquent implements \Kiwilan\Steward\Services\GoogleBook\GoogleBookable, \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -737,6 +737,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUseGravatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  */
-	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Filament\Models\Contracts\FilamentUser {}
+	class User extends \Eloquent implements \Filament\Models\Contracts\FilamentUser, \Spatie\MediaLibrary\HasMedia {}
 }
 

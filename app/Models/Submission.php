@@ -10,8 +10,8 @@ use Kiwilan\Steward\Traits\Mediable;
 
 class Submission extends Model
 {
-    use HasFactory;
     use HasAttachment;
+    use HasFactory;
     use Mediable;
 
     protected $fillable = [

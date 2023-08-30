@@ -357,6 +357,7 @@ class RadGenerateCommand extends Command
     {
         // clear file
         file_put_contents($path, '');
+
         // rewrite file
         foreach ($file_content as $key => $value) {
             file_put_contents($path, $value, FILE_APPEND | LOCK_EX);

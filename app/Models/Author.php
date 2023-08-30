@@ -34,18 +34,18 @@ use Spatie\QueryBuilder\AllowedFilter;
  */
 class Author extends Model implements HasMedia, Wikipediable
 {
-    use HasFactory;
-    use HasSlug;
-    use IsEntity;
-    use HasFavorites;
-    use HasReviews;
-    use HasTagsAndGenres;
-    use HasCovers;
-    use HasMetaClass;
-    use Searchable;
-    use Queryable;
-    use HasSearchableName;
     use HasBooksCollection;
+    use HasCovers;
+    use HasFactory;
+    use HasFavorites;
+    use HasMetaClass;
+    use HasReviews;
+    use HasSearchableName;
+    use HasSlug;
+    use HasTagsAndGenres;
+    use IsEntity;
+    use Queryable;
+    use Searchable;
 
     protected $query_default_sort = 'lastname';
 

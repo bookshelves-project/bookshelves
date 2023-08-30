@@ -110,6 +110,7 @@ class SearchEngine
     public function getRelevantResults()
     {
         $list = collect();
+
         /** @var string $model */
         foreach ($this->results as $model => $results) {
             /** @var AnonymousResourceCollection $collection */
@@ -130,6 +131,7 @@ class SearchEngine
     public function getOpdsResults()
     {
         $list = collect();
+
         /** @var string $model */
         foreach ($this->results as $model => $results) {
             /** @var Collection<int, Entity> $collection */
