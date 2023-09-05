@@ -36,6 +36,6 @@ deploy-job:
       /home/$SSH_USER/.nvm/versions/node/v$NODE_VERSION/bin/pnpm i &&
       /home/$SSH_USER/.nvm/versions/node/v$NODE_VERSION/bin/pnpm build &&
       supervisorctl start bookshelves-worker:bookshelves-worker_00 &&
-      notify main '$CI_PROJECT_TITLE'"
+      notifier '$CI_PROJECT_TITLE'"
   only:
     - main
