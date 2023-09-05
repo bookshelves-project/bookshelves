@@ -7,9 +7,9 @@
 [![pnpm](https://img.shields.io/static/v1?label=pnpm&message=v8.x&color=F69220&style=flat-square&logo=pnpm&logoColor=ffffff)](https://pnpm.io)
 [![node](https://img.shields.io/static/v1?label=Node.js&message=v18.x&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
 
-📀 [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
-💻 [**bookshelves.ink**](https://bookshelves.ink): demo
-📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-doc)
+- 📀 [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
+- 💻 [**bookshelves.ink**](https://bookshelves.ink): demo
+- 📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-doc)
 
 ## **Setup**
 
