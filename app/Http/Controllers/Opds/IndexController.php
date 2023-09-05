@@ -28,7 +28,7 @@ class IndexController extends Controller
     {
         $feeds = [];
 
-        foreach (Book::query()->orderBy('updated_at', 'desc')->limit(32)->get() as $book) {
+        foreach (Book::query()->orderBy('updated_at', 'desc')->limit(16)->get() as $book) {
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
@@ -44,7 +44,7 @@ class IndexController extends Controller
     {
         $feeds = [];
 
-        foreach (Book::query()->inRandomOrder()->limit(32)->get() as $book) {
+        foreach (Book::query()->inRandomOrder()->limit(16)->get() as $book) {
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
@@ -71,7 +71,7 @@ class IndexController extends Controller
         }
 
         return Opds::make(OpdsApp::config())
-            ->title(title: "Search for {$query}")
+            ->title("Search for {$query}")
             ->isSearch()
             ->feeds($feeds)
             ->response()
