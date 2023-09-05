@@ -70,7 +70,7 @@ class DownloadController extends Controller
      *
      * @header Content-Type application/octet-stream
      */
-    #[Get('/author/{author_slug}/{format?}', 'download.author')]
+    #[Get('/author/{author_slug}/{format?}', 'api.download.author')]
     public function author(Author $author, string $format = null)
     {
         $files = [];
@@ -108,7 +108,7 @@ class DownloadController extends Controller
      *
      * @header Content-Type application/octet-stream
      */
-    #[Get('/serie/{author_slug}/{serie_slug}/{format?}', 'download.serie')]
+    #[Get('/serie/{author_slug}/{serie_slug}/{format?}', 'api.download.serie')]
     public function serie(Author $author, Serie $serie, string $format = null)
     {
         $files = [];
