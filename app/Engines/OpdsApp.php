@@ -127,7 +127,7 @@ class OpdsApp
             serie: $book->serie?->title,
             language: $book->language?->name, // @phpstan-ignore-line
             isbn: $book->isbn,
-            publisher: $book->publisher->name,
+            publisher: $book->publisher?->name,
         );
     }
 }
