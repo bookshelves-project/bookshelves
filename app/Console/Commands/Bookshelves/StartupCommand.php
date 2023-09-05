@@ -81,7 +81,7 @@ class StartupCommand extends Commandable
 
         // API.
         if ($api) {
-            Artisan::call('bookshelves:api', [
+            Artisan::call('bookshelves:extras', [
                 '--books' => true,
                 '--authors' => true,
                 '--series' => true,

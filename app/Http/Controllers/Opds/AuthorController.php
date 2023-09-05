@@ -42,7 +42,7 @@ class AuthorController extends Controller
             return $feeds;
         });
 
-        return Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::config())
             ->title('Authors')
             ->feeds($feeds)
             ->response()
@@ -79,7 +79,7 @@ class AuthorController extends Controller
             return $feeds;
         });
 
-        return Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::config())
             ->title("Authors with {$character}")
             ->feeds($feeds)
             ->response()
@@ -96,7 +96,7 @@ class AuthorController extends Controller
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        return Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::config())
             ->title("Author {$author->lastname} {$author->firstname}")
             ->feeds($feeds)
             ->response()

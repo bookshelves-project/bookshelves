@@ -25,7 +25,7 @@ class BookController extends Controller
             ->firstOrFail()
         ;
 
-        return Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::config())
             ->title("Book {$book->title}")
             ->feeds(OpdsApp::bookToEntry($book))
             ->response()

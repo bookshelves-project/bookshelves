@@ -14,14 +14,14 @@ use Kiwilan\Steward\Services\DirectoryService;
 /**
  * Extra data for Book, Author, Serie.
  */
-class ApiCommand extends Commandable
+class ExtrasCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:api
+    protected $signature = 'bookshelves:extras
                             {--b|books : assets for books}
                             {--a|authors : assets for authors}
                             {--s|series : assets for series}

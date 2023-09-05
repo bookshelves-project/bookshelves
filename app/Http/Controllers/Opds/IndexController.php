@@ -17,7 +17,7 @@ class IndexController extends Controller
     #[Get('/', name: 'opds.index')]
     public function index()
     {
-        return Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::config())
             ->feeds(OpdsApp::home())
             ->response()
         ;
@@ -32,7 +32,7 @@ class IndexController extends Controller
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        return Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::config())
             ->title('Latest books')
             ->feeds($feeds)
             ->response()
@@ -48,7 +48,7 @@ class IndexController extends Controller
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        return Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::config())
             ->title('Random books')
             ->feeds($feeds)
             ->response()
@@ -70,7 +70,7 @@ class IndexController extends Controller
             }
         }
 
-        return Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::config())
             ->title("Search for {$query}")
             ->isSearch()
             ->feeds($feeds)

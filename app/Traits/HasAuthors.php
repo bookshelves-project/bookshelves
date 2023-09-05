@@ -56,6 +56,7 @@ trait HasAuthors
 
     public function getAuthorsNamesAttribute(): string
     {
+        $this->loadMissing('authors');
         $authors = [];
 
         foreach ($this->authors as $key => $author) {
