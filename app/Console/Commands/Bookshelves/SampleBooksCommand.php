@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
 use Artisan;
 use File;
 use Illuminate\Console\Command;
+use Kiwilan\Steward\Commands\Commandable;
 
-class SampleBooksCommand extends CommandProd
+class SampleBooksCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
@@ -33,10 +33,12 @@ class SampleBooksCommand extends CommandProd
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
-    public function handle(): bool
+    public function handle()
     {
-        $this->intro();
+        $this->title();
 
         $demoPath = database_path('seeders/demo-ebooks');
         $booksRawPath = storage_path('app/public/data/books');
@@ -44,6 +46,7 @@ class SampleBooksCommand extends CommandProd
 
         if ($booksRawPathExist) {
             $this->warn('storage/app/public/data/books path exists!');
+
             if ($this->confirm('Do you want to erase raw/books directory to replace it with demo ebooks?', false)) {
                 $this->generate($booksRawPath, $demoPath);
             } else {
@@ -54,7 +57,7 @@ class SampleBooksCommand extends CommandProd
         }
         $this->newLine(2);
 
-        return true;
+        return Command::SUCCESS;
     }
 
     public function generate(string $booksRawPath, string $demoPath)

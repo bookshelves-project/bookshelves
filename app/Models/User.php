@@ -2,37 +2,41 @@
 
 namespace App\Models;
 
-use App\Enums\RoleEnum;
-use App\Models\Traits\HasAvatar;
-use App\Models\Traits\HasImpersonate;
-use App\Models\Traits\HasUserSlug;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\HasAvatar;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
+use Kiwilan\Steward\Enums\GenderEnum;
+use Kiwilan\Steward\Enums\UserRoleEnum;
+use Kiwilan\Steward\Traits\HasUsername;
+use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 
-/**
- * @property \App\Models\Favoritable[]|\Illuminate\Database\Eloquent\Collection $favorites
- */
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements FilamentUser, HasMedia
 {
-    use HasFactory;
-    use Notifiable;
-    use HasImpersonate;
-    use HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
     use HasAvatar;
-    use HasUserSlug;
+    use HasProfilePhoto;
+    use HasUsername;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'active',
+
+        'is_blocked',
         'role',
-        'slug',
         'use_gravatar',
         'display_favorites',
         'display_reviews',
@@ -40,99 +44,74 @@ class User extends Authenticatable implements HasMedia
         'about',
         'gender',
         'pronouns',
+        'avatar',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'active' => 'boolean',
-        'role' => RoleEnum::class,
-        'last_login_at' => 'datetime',
+        'is_blocked' => 'boolean',
+        'role' => UserRoleEnum::class,
+        'display_favorites' => 'boolean',
+        'display_reviews' => 'boolean',
+        'display_gender' => 'boolean',
+        'gender' => GenderEnum::class,
     ];
 
-    public static function boot()
-    {
-        static::creating(function (User $user) {
-            $user->slug = self::generateSlug($user, 'name', true);
-        });
+    protected $appends = [
+        'is_editor',
+        'is_super_admin',
+        'is_admin',
+        'profile_photo_url',
+    ];
 
-        parent::boot();
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->is_editor || $this->is_admin || $this->is_super_admin && ! $this->is_blocked;
     }
 
-    public function setPasswordAttribute($password)
+    public function canManageSettings(): bool
     {
-        if ($password) {
-            $this->attributes['password'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
-        }
+        // return $this->can('manage.settings');
+        return true;
     }
 
-    public function hasAdminAccess()
+    public function scopeWhereHasBackEndAccess(Builder $query): Builder
     {
-        return $this->role->equals(RoleEnum::super_admin, RoleEnum::admin);
-    }
-
-    public function canUpdate(User $user)
-    {
-        if ($this->role->equals(RoleEnum::admin)) {
-            return ! $user->role->equals(RoleEnum::super_admin);
-        }
-
-        return $this->role->equals(RoleEnum::super_admin);
-    }
-
-    public function getShowLinkAttribute(): string
-    {
-        return route('api.users.show', [
-            'user_slug' => $this->slug,
-        ]);
-    }
-
-    public function getShowLinkReviewsAttribute(): string
-    {
-        return route('api.users.reviews', [
-            'user_slug' => $this->slug,
-        ]);
-    }
-
-    public function getShowLinkFavoritesAttribute(): string
-    {
-        return route('api.users.favorites', [
-            'user_slug' => $this->slug,
-        ]);
-    }
-
-    public function hasRole(RoleEnum $role): bool
-    {
-        // $roles = [];
-        // foreach ($this->roles as $key => $role) {
-        //     array_push($roles, $role->name->value);
-        // }
-
-        // if (in_array($role_to_verify->value, $roles)) {
-        //     return true;
-        // }
-
-        return $this->role == $role->value;
-    }
-
-    public function favorites()
-    {
-        return $this->hasMany(Favoritable::class)
-            ->orderBy('created_at')
+        return $query->where('role', '=', UserRoleEnum::editor)
+            ->orWhere('role', '=', UserRoleEnum::admin)
+            ->orWhere('role', '=', UserRoleEnum::super_admin)
         ;
     }
 
-    // public function roles(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Role::class);
-    // }
-
-    public function reviews(): HasMany
+    protected function getIsEditorAttribute(): bool
     {
-        return $this->hasMany(Review::class);
+        return UserRoleEnum::editor === $this->role;
+    }
+
+    protected function getIsAdminAttribute(): bool
+    {
+        return UserRoleEnum::admin === $this->role;
+    }
+
+    protected function getIsSuperAdminAttribute(): bool
+    {
+        return UserRoleEnum::super_admin === $this->role;
     }
 }

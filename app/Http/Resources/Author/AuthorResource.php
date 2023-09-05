@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Author;
 
-use App\Http\Resources\Review\ReviewResource;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -13,26 +13,19 @@ class AuthorResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
-        return array_merge(AuthorLightResource::make($this->resource)->toArray($request), [
-            'meta' => [
-                'entity' => $this->resource->getClassName(),
-                'slug' => $this->resource->slug,
-                'show' => $this->resource->show_link,
-                'books' => $this->resource->books_link,
-                'series' => $this->resource->series_link,
-                'reviews' => $this->resource->reviews_link,
-            ],
+        return [
+            ...AuthorCollection::make($this->resource)->toArray($request),
+            'role' => $this->resource->role,
             'description' => $this->resource->description,
             'link' => $this->resource->link,
+            'note' => $this->resource->note,
+
             'download' => $this->resource->file_main,
             'files' => $this->resource->files_list,
-            'isFavorite' => $this->resource->is_favorite,
-            'reviews' => ReviewResource::collection($this->resource->reviews),
-        ]);
+        ];
     }
 }

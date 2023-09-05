@@ -2,73 +2,49 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\PaginationHelper;
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\TagQuery;
 use App\Http\Resources\EntityResource;
-use App\Http\Resources\Tag\TagLightResource;
 use App\Http\Resources\Tag\TagResource;
 use App\Models\Book;
 use App\Models\TagExtend;
 use Illuminate\Http\Request;
-use Spatie\Tags\Tag;
+use Kiwilan\Steward\Queries\HttpQuery;
+use Kiwilan\Steward\Utils\PaginatorHelper;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
-/**
- * @group Relation: Tag
- */
-class TagController extends ApiController
+#[Prefix('tags')]
+class TagController extends Controller
 {
-    /**
-     * GET Tag[].
-     *
-     * Get all Tags ordered by 'name'.
-     *
-     * @queryParam filters[type] Filter by type like `tag` or `genre`. No-example
-     * @queryParam full boolean Disable pagination. No-example
-     * @queryParam alpha boolean Chunk by first character. No-example
-     *
-     * @responseField name string Tag's name.
-     */
+    #[Get('/', name: 'api.tags.index')]
     public function index(Request $request)
     {
-        // if ($alpha = $this->chunkByAlpha($request, TagExtend::class, TagLightResource::class)) {
-        //     return $alpha;
-        // }
-
-        return app(TagQuery::class)
-            ->make(QueryOption::create(
-                request: $request,
-                resource: TagLightResource::class,
-                orderBy: 'slug->en',
-                withExport: false,
-                sortAsc: true,
-                full: $this->getFull($request),
-            ))
-            ->paginateOrExport();
+        return HttpQuery::for(TagExtend::class, $request)
+            ->collection()
+        ;
     }
 
-    /**
-     * GET Tag.
-     *
-     * Get Tag details.
-     *
-     * @queryParam filters[type] Filter by type like `tag` or `genre`. No-example
-     */
-    public function show(Tag $tag)
+    #[Get('/{tag_slug}', name: 'api.tags.show')]
+    public function show(TagExtend $tag)
     {
         return TagResource::make($tag);
     }
 
-    /**
-     * GET Entity[] belongs to Tag.
-     *
-     * Get all Books and Series of selected Tag.
-     */
-    public function books(Tag $tag)
+    #[Get('/{tag_slug}/books', name: 'api.tags.show.books')]
+    public function books(TagExtend $tag)
     {
-        $books_standalone = Book::withAllTags([$tag])->with(['serie', 'authors', 'media'])->orderBy('slug_sort')->doesntHave('serie')->get();
+        $books_standalone = Book::withAllTags([$tag])
+            ->with(['serie', 'authors', 'media'])
+            ->orderBy('slug_sort')
+            ->doesntHave('serie')
+            ->get()
+        ;
 
-        $books_series = Book::withAllTags([$tag])->with(['serie', 'authors', 'media', 'serie.media', 'serie.authors'])->has('serie')->orderBy('slug_sort')->get();
+        $books_series = Book::withAllTags([$tag])
+            ->with(['serie', 'authors', 'media', 'serie.media', 'serie.authors'])
+            ->has('serie')
+            ->orderBy('slug_sort')
+            ->get()
+        ;
         $series = collect();
         $books_series->each(function ($book) use ($series) {
             $series->add($book->serie);
@@ -78,6 +54,6 @@ class TagController extends ApiController
         $books = $books_standalone->merge($series);
         $books = $books->sortBy('slug_sort');
 
-        return EntityResource::collection(PaginationHelper::paginate($books, 32));
+        return EntityResource::collection(PaginatorHelper::paginate($books, 32));
     }
 }

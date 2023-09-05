@@ -2,111 +2,74 @@
 
 namespace App\Models;
 
-use App\Enums\PostStatusEnum;
-use App\Models\Traits\HasPublishStatus;
-use App\Services\MarkdownToHtmlService;
-use App\Services\MediaService;
+use App\Enums\PostCategoryEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Kiwilan\Steward\Traits\HasBuilder;
+use Kiwilan\Steward\Traits\HasSearchableName;
+use Kiwilan\Steward\Traits\HasSeo;
+use Kiwilan\Steward\Traits\HasShowRoute;
+use Kiwilan\Steward\Traits\HasSlug;
+use Kiwilan\Steward\Traits\Mediable;
+use Kiwilan\Steward\Traits\Publishable;
+use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
-use Spatie\Tags\HasTags;
 
-/**
- * @property null|\App\Models\PostCategory $category
- */
-class Post extends Model implements HasMedia
+class Post extends Model
 {
+    use HasBuilder;
     use HasFactory;
+    use HasSearchableName;
+    use HasSeo;
+    use HasShowRoute;
     use HasSlug;
-    use HasTags;
-    use HasPublishStatus;
-    use InteractsWithMedia;
+    use Mediable;
+    use Publishable;
+    use Queryable;
     use Searchable;
+
+    protected $slug_with = 'title';
+
+    protected $meta_title_from = 'title';
+
+    protected $meta_description_from = 'summary';
+
+    protected $query_default_sort = 'published_at';
+
+    protected $query_default_sort_direction = 'desc';
+
+    protected $query_allowed_filters = ['title', 'slug'];
+
+    protected $query_allowed_sorts = ['slug'];
 
     protected $fillable = [
         'title',
-        'slug',
-        'status',
-        'category_id',
-        'user_id',
         'summary',
-        'body',
-        'published_at',
-        'pin',
-        'meta_title',
-        'meta_description',
+        'is_pinned',
+        'category',
+        'picture',
     ];
 
     protected $casts = [
-        'status' => PostStatusEnum::class,
-        'pin' => 'boolean',
-        'published_at' => 'datetime',
+        'is_pinned' => 'boolean',
+        'category' => PostCategoryEnum::class,
     ];
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('featured-image')
-            ->singleFile()
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
-        ;
+    protected $with = [
+        'author',
+    ];
 
-        $this->addMediaCollection('post-images')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
-        ;
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     /**
-     * Get the options for generating the slug.
+     * Scout.
      */
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('title')
-            ->saveSlugsTo('slug')
-            ->doNotGenerateSlugsOnUpdate()
-        ;
-    }
-
-    public function getCoverAttribute(): string
-    {
-        return MediaService::getFullUrl($this, 'featured-image');
-    }
-
-    public function getShowLinkAttribute(): string
-    {
-        return route('api.posts.show', [
-            'post_slug' => $this->slug,
-        ]);
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(PostCategory::class, 'category_id');
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function searchableAs()
     {
-        $app = config('bookshelves.name');
-
-        return "{$app}_post";
-    }
-
-    public static function boot()
-    {
-        parent::boot();
-
-        self::updating(function (Post $post) {
-            $post->body = MarkdownToHtmlService::setHeadings($post);
-        });
+        return $this->searchableNameAs();
     }
 }

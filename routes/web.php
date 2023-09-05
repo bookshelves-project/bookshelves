@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Knuckles\Scribe\Http\Controller as ScribeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -9,18 +8,24 @@ use Knuckles\Scribe\Http\Controller as ScribeController;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
 |
 */
 
-// Route::get('cache/resolve/{method}/{size}/{path}', [ImageController::class, 'thumbnail'])->where('path', '.*');
+Route::get('/', function () {
+    return view('welcome');
+});
 
-$prefix = config('scribe.laravel.docs_url');
-$middleware = config('scribe.laravel.middleware');
+// Route::get('/', [FrontController::class, 'index'])->name('front.index');
+Route::get('/login', fn () => redirect('/admin/login'))->name('login');
 
-Route::middleware($middleware)->group(function () use ($prefix) {
-    Route::get($prefix, [ScribeController::class, 'webpage'])->name('scribe');
-    Route::get("{$prefix}.postman", [ScribeController::class, 'postman'])->name('scribe.postman');
-    Route::get("{$prefix}.openapi", [ScribeController::class, 'openapi'])->name('scribe.openapi');
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 });

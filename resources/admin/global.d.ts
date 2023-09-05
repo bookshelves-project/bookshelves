@@ -1,13 +1,12 @@
-interface Window {
-  tinymce: any
+import type { Alpine as AlpineType } from 'alpinejs'
+
+/**
+ * From https://bobbyhadz.com/blog/typescript-make-types-global
+ */
+declare global {
+  interface Window {
+    Alpine: AlpineType
+  }
 }
 
-declare interface EditorButton {
-  title?: string
-  icon?: string
-  action?: string
-  method?: string
-  custom?: any
-  params?: object
-  seperator?: boolean
-}
+export { }

@@ -2,15 +2,19 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\EnumMethods;
+use Kiwilan\Steward\Traits\LazyEnum;
 
 enum SubmissionReasonEnum: string
 {
-    use EnumMethods;
+    use LazyEnum;
 
     case idea = 'idea';
+
     case issue = 'issue';
+
     case book_problem = 'book_problem';
+
     case book_adding = 'book_adding';
+
     case other = 'other';
 }

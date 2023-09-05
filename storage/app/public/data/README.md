@@ -1,33 +1,40 @@
-# Link files
+# Commands
 
 ## Linux
 
+### Set Books path
+
 ```bash
-sudo ln -s /Users/ewilan/Documents/books/linked/comic public/storage/data/books/comic/linked
+rm public/storage/data/books/audio/linked
+rm public/storage/data/books/comic/linked
+rm public/storage/data/books/novel/linked
+sudo ln -s /Users/ewilan/Documents/books/output/audio public/storage/data/books/audio/linked
+sudo ln -s /Users/ewilan/Documents/books/output/comics public/storage/data/books/comic/linked
+sudo ln -s /Users/ewilan/Documents/books/output/novels public/storage/data/books/novel/linked
+```
 
-sudo ln -s /Users/ewilan/Documents/books/linked/essay public/storage/data/books/essay/linked
+### Set Authors and series path
 
-sudo ln -s /Users/ewilan/Documents/books/linked/handbook public/storage/data/books/handbook/linked
-
-sudo ln -s /Users/ewilan/Documents/books/linked/novel public/storage/data/books/novel/linked
-
+```bash
 sudo ln -s /Users/ewilan/Documents/books/linked/pictures-authors public/storage/data/authors/pictures
-
 sudo ln -s /Users/ewilan/Documents/books/linked/pictures-series public/storage/data/series/pictures
 ```
 
 ## Windows
 
-```bash
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\books\comic\linked" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\linked\comic"
+### Set Books path
 
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\books\essay\linked" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\linked\essay"
+```ps1
+New-Item -ItemType Junction -Path "C:\workspace\bookshelves-back\public\storage\data\books\audio\linked" -Target "C:\Users\ewila\wip\ebooks\linked\audio"
+New-Item -ItemType Junction -Path "C:\workspace\bookshelves-back\public\storage\data\books\comic\linked" -Target "C:\Users\ewila\wip\ebooks\linked\comic"
+New-Item -ItemType Junction -Path "C:\workspace\bookshelves-back\public\storage\data\books\essay\linked" -Target "C:\Users\ewila\wip\ebooks\linked\essay"
+New-Item -ItemType Junction -Path "C:\workspace\bookshelves-back\public\storage\data\books\handbook\linked" -Target "C:\Users\ewila\wip\ebooks\linked\handbook"
+New-Item -ItemType Junction -Path "C:\workspace\bookshelves-back\public\storage\data\books\novel\linked" -Target "C:\Users\ewila\wip\ebooks\linked\novel"
+```
 
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\books\handbook\linked" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\linked\handbook"
+### Set Authors and series path
 
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\books\novel\linked" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\linked\novel"
-
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\authors\pictures" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\linked\pictures-authors"
-
-New-Item -ItemType Junction -Path "C:\workspace\current\bookshelves-back\public\storage\data\series\pictures" -Target "C:\Users\ewila\OneDrive\Documents\WorkInProgress\ebooks\linked\pictures-series"
+```ps1
+New-Item -ItemType Junction -Path "C:\workspace\bookshelves-back\public\storage\data\authors\pictures" -Target "C:\Users\ewila\wip\ebooks\linked\pictures-authors"
+New-Item -ItemType Junction -Path "C:\workspace\bookshelves-back\public\storage\data\series\pictures" -Target "C:\Users\ewila\wip\ebooks\linked\pictures-series"
 ```

@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\EnumMethods;
+use Kiwilan\Steward\Traits\LazyEnum;
 
 /**
  * List of available formats.
  *
- * Check `ParserEngine::create()` if you want to add new format.
+ * Check `ParserEngine::make()` if you want to add new format.
  *
  * ```php
  * $engine = match ($engine->format) {
@@ -19,10 +19,13 @@ use App\Enums\Traits\EnumMethods;
  */
 enum BookFormatEnum: string
 {
-    use EnumMethods;
+    use LazyEnum;
+
+    case audio = 'audio';
 
     case pdf = 'pdf';
-    case cbr = 'cbr';
-    case cbz = 'cbz';
+
+    case cba = 'cba';
+
     case epub = 'epub';
 }

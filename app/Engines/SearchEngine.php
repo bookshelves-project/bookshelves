@@ -2,10 +2,10 @@
 
 namespace App\Engines;
 
+use App\Class\Entity;
 use App\Http\Resources\EntityResource;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Entity;
 use App\Models\Serie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -15,14 +15,19 @@ use Str;
 
 /**
  * Search Engine with laravel/scout
- * - https://laravel.com/docs/9.x/scout.
+ * - https://laravel.com/docs/10.x/scout.
  */
 class SearchEngine
 {
+    /**
+     * List of searchable entities.
+     *
+     * @var array<class-string, array<string>>
+     */
     public const LIST = [
-        Author::class,
-        Serie::class,
-        Book::class,
+        Author::class => [],
+        Serie::class => ['authors', 'language'],
+        Book::class => ['authors', 'language', 'serie'],
     ];
 
     public array $results = [];
@@ -47,9 +52,9 @@ class SearchEngine
     /**
      * Create an instance of SearchEngine from query.
      */
-    public static function create(?string $q = '', bool $relevant = false, bool $opds = false, string|array $types = null): SearchEngine
+    public static function make(?string $q = '', bool $relevant = false, bool $opds = false, string|array $types = null): self
     {
-        if (gettype($types) === 'string') {
+        if ('string' === gettype($types)) {
             $types = explode(',', $types);
         }
 
@@ -60,7 +65,8 @@ class SearchEngine
                 'books',
             ];
         }
-        $engine = new SearchEngine(q: $q, relevant: $relevant, opds: $opds, types: $types);
+        $engine = new self(q: $q, relevant: $relevant, opds: $opds, types: $types);
+
         return $engine->searchEngine();
     }
 
@@ -101,45 +107,10 @@ class SearchEngine
         return $this;
     }
 
-    /**
-     * Search Entity[].
-     */
-    private function search(): SearchEngine
-    {
-        foreach (self::LIST as $value) {
-            $this->entitySearch($value);
-        }
-
-        return $this;
-    }
-
-    private function entitySearch(string $model)
-    {
-        $instance = new $model();
-        $class = new ReflectionClass($instance);
-        $static = $class->getName();
-        $name = $class->getShortName();
-        $key = Str::plural($name);
-
-        $slug = preg_split('/(?=[A-Z])/', $name);
-        $slug = implode('-', $slug);
-        $key = Str::plural(Str::slug($slug));
-
-        if (in_array($key, $this->types)) {
-            if ($this->opds) {
-                array_push($this->results, $static::search($this->q)->get()); // @phpstan-ignore-line
-            } else {
-                $this->results[$key] = EntityResource::collection(
-                    $static::search($this->q) // @phpstan-ignore-line
-                        ->get(),
-                );
-            }
-        }
-    }
-
     public function getRelevantResults()
     {
         $list = collect();
+
         /** @var string $model */
         foreach ($this->results as $model => $results) {
             /** @var AnonymousResourceCollection $collection */
@@ -160,6 +131,7 @@ class SearchEngine
     public function getOpdsResults()
     {
         $list = collect();
+
         /** @var string $model */
         foreach ($this->results as $model => $results) {
             /** @var Collection<int, Entity> $collection */
@@ -168,5 +140,49 @@ class SearchEngine
         }
 
         return $list;
+    }
+
+    /**
+     * Search Entity[].
+     */
+    private function search(): SearchEngine
+    {
+        foreach (self::LIST as $model => $relations) {
+            $this->entitySearch($model, $relations);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Search Entity[].
+     *
+     * @param  array<string>  $relations
+     */
+    private function entitySearch(string $model, array $relations)
+    {
+        $instance = new $model();
+        $class = new ReflectionClass($instance);
+        $static = $class->getName();
+        $name = $class->getShortName();
+        $key = Str::plural($name);
+
+        $slug = preg_split('/(?=[A-Z])/', $name);
+        $slug = implode('-', $slug);
+        $key = Str::plural(Str::slug($slug));
+
+        if (in_array($key, $this->types)) {
+            /** @var \Laravel\Scout\Builder */
+            $results = $model::search($this->q);
+
+            if ($this->opds) {
+                $items = $results->get();
+                $this->results[] = $items->splice(0, 20);
+            } else {
+                $this->results[$key] = EntityResource::collection(
+                    $results->get(),
+                );
+            }
+        }
     }
 }

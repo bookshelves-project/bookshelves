@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources\Serie;
 
-use App\Http\Resources\Review\ReviewResource;
-use App\Http\Resources\SpatieMediaResource;
-use App\Http\Resources\Tag\TagLightResource;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -15,30 +13,17 @@ class SerieResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
-        return array_merge(SerieLightResource::make($this->resource)->toArray($request), [
-            'meta' => [
-                'entity' => $this->resource->getClassName(),
-                'slug' => $this->resource->slug,
-                'author' => $this->resource->meta_author,
-                'show' => $this->resource->show_link,
-                'books' => $this->resource->books_link,
-                'reviews' => $this->resource->reviews_link,
-            ],
+        return [
+            ...SerieCollection::make($this->resource)->toArray($request),
             'description' => $this->resource->description,
             'link' => $this->resource->link,
-            'media' => SpatieMediaResource::make($this->resource->media_primary),
-            'media_social' => $this->resource->cover_simple,
-            'tags' => TagLightResource::collection($this->resource->tags_list),
-            'genres' => TagLightResource::collection($this->resource->genres_list),
+
             'download' => $this->resource->file_main,
             'files' => $this->resource->files_list,
-            'isFavorite' => $this->resource->is_favorite,
-            'reviews' => ReviewResource::collection($this->resource->reviews),
-        ]);
+        ];
     }
 }

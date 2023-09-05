@@ -2,24 +2,22 @@
 
 namespace App\Console\Commands;
 
-use App\Console\CommandProd;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\GoogleBook;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Review;
 use App\Models\Serie;
-use App\Models\WikipediaItem;
 use Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Kiwilan\Steward\Commands\Commandable;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\Tag;
 
-class DatabaseCommand extends CommandProd
+class DatabaseCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
@@ -57,6 +55,7 @@ class DatabaseCommand extends CommandProd
             $this->fresh();
         } else {
             $this->info('Database migration...');
+
             if ($this->confirm('Do you want to migrate fresh database? /* THIS WILL ERASE ALL DATA */', false)) {
                 Artisan::call('migrate:fresh --force', [], $this->getOutput());
 
@@ -65,7 +64,7 @@ class DatabaseCommand extends CommandProd
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
@@ -155,10 +154,6 @@ class DatabaseCommand extends CommandProd
         Language::truncate();
         $this->info('Truncate reviews table');
         Review::truncate();
-        $this->info('Truncate google_books table');
-        GoogleBook::truncate();
-        $this->info('Truncate wikipedia_items table');
-        WikipediaItem::truncate();
         $this->info('Truncate tags table');
         Tag::truncate();
 

@@ -2,51 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Queries\Addon\QueryOption;
-use App\Http\Queries\PostQuery;
-use App\Http\Resources\Api\Post\PostCollectionResource;
-use App\Http\Resources\Api\Post\PostResource;
+use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Queries\HttpQuery;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
-/**
- * @group CMS: Post
- *
- * Endpoint to get Posts data.
- */
 #[Prefix('posts')]
-class PostController extends ApiController
+class PostController extends Controller
 {
-    /**
-     * GET Post[].
-     */
-    #[Get('/', name: 'posts.index')]
+    #[Get('/', name: 'api.posts.index')]
     public function index(Request $request)
     {
-        $this->getLang($request);
-
-        return app(PostQuery::class)
-            ->make(QueryOption::create(
-                request: $request,
-                resource: PostCollectionResource::class,
-                orderBy: 'published_at',
-                withExport: false,
-                sortAsc: false,
-                full: $this->getFull($request),
-            ))
-            ->paginateOrExport();
+        return HttpQuery::for(Post::class, $request)
+            ->collection()
+        ;
     }
 
-    /**
-     * GET Post.
-     */
-    #[Get('/{post_slug}', name: 'posts.show')]
+    #[Get('/{post_slug}', name: 'api.posts.show')]
     public function show(Request $request, Post $post)
     {
-        $this->getLang($request);
-
         return PostResource::make($post);
     }
 }

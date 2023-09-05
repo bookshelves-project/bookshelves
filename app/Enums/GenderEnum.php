@@ -2,16 +2,21 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\EnumMethods;
+use Kiwilan\Steward\Traits\LazyEnum;
 
 enum GenderEnum: string
 {
-    use EnumMethods;
+    use LazyEnum;
 
     case unknown = 'unknown';
+
     case woman = 'woman';
+
     case nonbinary = 'nonbinary';
+
     case genderfluid = 'genderfluid';
+
     case agender = 'agender';
+
     case man = 'man';
 }

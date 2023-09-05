@@ -1,11 +1,8 @@
 {
   "recommendations": [
-    "voorjaar.windicss-intellisense",
     "Vue.volar",
-    "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "shufo.vscode-blade-formatter",
-    "junstyle.php-cs-fixer",
     "bmewburn.vscode-intelephense-client",
     "swordev.phpstan",
     "usernamehw.errorlens"

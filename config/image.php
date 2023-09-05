@@ -15,7 +15,7 @@ return [
   */
 
     'driver' => env('IMAGE_DRIVER', 'gd'),
-    'format' => 'webp',
+    'format' => env('IMAGE_FORMAT', 'webp'),
 
     // For Book, Serie, Author.
     'covers' => [

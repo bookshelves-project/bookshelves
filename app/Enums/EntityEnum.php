@@ -2,15 +2,19 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\EnumMethods;
+use Kiwilan\Steward\Traits\LazyEnum;
 
 enum EntityEnum: string
 {
-    use EnumMethods;
+    use LazyEnum;
 
     case book = 'book';
+
     case author = 'author';
+
     case serie = 'serie';
+
     case entity = 'entity';
+
     case feed = 'feed';
 }

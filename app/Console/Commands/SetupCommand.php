@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use File;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
@@ -53,14 +52,13 @@ class SetupCommand extends Command
 
         $this->info('Config .env...');
         $requestCreateEnv = $this->createEnvFile();
+
         if ($requestCreateEnv) {
             $credentials = $this->requestDatabaseCredentials();
             $this->updateEnvironmentFile($credentials);
             Artisan::call('key:generate', [], $this->getOutput());
             $this->cleaningDev();
         }
-
-        Artisan::call('elfinder:publish', [], $this->getOutput());
 
         if ($this->confirm('Do you want setup this app in production?', false)) {
             $prod = true;
@@ -77,6 +75,7 @@ class SetupCommand extends Command
 
         $this->info('Node.js dependencies installation...');
         exec('pnpm i');
+
         if ($prod) {
             $this->info('Run Vite production mode...');
             exec('pnpm build');
@@ -85,6 +84,7 @@ class SetupCommand extends Command
         }
 
         $this->info('Cleaning...');
+
         if ($prod) {
             $this->cleaningProd();
         } else {
@@ -100,6 +100,8 @@ class SetupCommand extends Command
         $this->info('Application is ready!');
 
         $this->goodbye();
+
+        return Command::SUCCESS;
     }
 
     /**

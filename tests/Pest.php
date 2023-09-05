@@ -11,7 +11,10 @@
 |
 */
 
-uses(Tests\TestCase::class)->in('Feature');
+uses(
+    Tests\TestCase::class,
+    // Illuminate\Foundation\Testing\RefreshDatabase::class,
+)->in('Feature');
 
 /*
 |--------------------------------------------------------------------------
@@ -39,9 +42,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function filterAsQuery(array $filter)
+function something()
 {
-    return http_build_query(collect($filter)->mapWithKeys(function ($value, $key) {
-        return ["filter[{$key}]" => $value];
-    })->all());
+    // ..
 }

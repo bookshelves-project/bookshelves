@@ -1,5 +1,3 @@
 <?php
 
-test('example', function () {
-    expect(true)->toBeTrue();
-});
+it('true can be true')->assertTrue(true);

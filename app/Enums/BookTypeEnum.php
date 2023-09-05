@@ -2,15 +2,17 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\EnumMethods;
+use Kiwilan\Steward\Traits\LazyEnum;
 
 enum BookTypeEnum: string
 {
-    use EnumMethods;
+    use LazyEnum;
 
     case audio = 'audio';
+
     case comic = 'comic';
-    case essay = 'essay';
-    case handbook = 'handbook';
+
     case novel = 'novel';
+
+    case unknown = 'unknown';
 }

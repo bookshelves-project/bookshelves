@@ -3,12 +3,9 @@
 use Illuminate\Support\Str;
 
 return [
-    'name' => Str::slug(env('APP_NAME', 'Bookshelves')),
-    // Authentication.
-    'admin' => [
-        'email' => env('BOOKSHELVES_ADMIN_EMAIL', 'admin@mail.com'),
-        'password' => env('BOOKSHELVES_ADMIN_PASSWORD', 'password'),
-    ],
+    'slug' => Str::slug(env('APP_NAME', 'Bookshelves')),
+    'repository_url' => env('BOOKSHELVES_REPOSITORY_URL', 'https://github.com/bookshelves-project'),
+    'documentation_url' => env('BOOKSHELVES_DOCUMENTATION_URL', 'https://bookshelves-documentation.netlify.app'),
     // General.
     'cover_extension' => env('BOOKSHELVES_COVER_FORMAT', 'webp'),
     // Authors.
@@ -21,9 +18,11 @@ return [
         // false: two Author will be created
         'detect_homonyms' => env('BOOKSHELVES_AUTHOR_DETECT_HOMONYMS', true),
     ],
+    'parser' => [
+        'name' => env('BOOKSHELVES_PARSER_NAME', false),
+    ],
     'pdf' => [
         'cover' => env('BOOKSHELVES_PDF_COVER', true),
-        'metadata' => env('BOOKSHELVES_PDF_METADATA', true),
     ],
     /*
      * Langs
@@ -42,66 +41,10 @@ return [
             'Action & Adventure' => 'Action & adventures',
         ],
     ],
-    // Navigation.
-    'navigation' => [
-        'features' => [
-            [
-                'route' => 'front.opds',
-                'href' => false,
-                'title' => 'OPDS',
-                'description' => 'Open Publication Distribution System allow you to connect an application with OPDS feature to current feed. You can have all Ebooks on your own app!',
-                'icon' => 'feed',
-                'external' => false,
-            ],
-            [
-                'route' => 'front.catalog',
-                'href' => false,
-                'title' => 'Catalog',
-                'description' => 'With a very basic interface to allow an eReader browser to dowload any eBook without computer. Easy download & read when you travel.',
-                'icon' => 'catalog',
-                'external' => false,
-            ],
-            [
-                'route' => 'front.webreader',
-                'href' => false,
-                'title' => 'Webreader',
-                'description' => 'Read an eBook directly into your browser, works on desktop or smartphone. Useful to discover a new book!',
-                'icon' => 'ereader',
-                'external' => false,
-            ],
-        ],
-        'footer' => [
-            [
-                'route' => 'admin.login',
-                'href' => false,
-                'title' => 'Admin',
-                'description' => '',
-                // 'icon' => 'lock-open',
-                'external' => true,
-            ],
-            [
-                'route' => 'scribe',
-                'href' => false,
-                'title' => 'API documentation',
-                // 'icon' => 'api',
-                'external' => true,
-            ],
-            [
-                'route' => false,
-                'href' => config('app.documentation_url'),
-                'title' => 'Documentation',
-                'description' => '',
-                // 'icon' => 'wiki',
-                'external' => true,
-            ],
-            [
-                'route' => false,
-                'href' => config('app.repository_url'),
-                'title' => 'Git',
-                'description' => '',
-                // 'icon' => 'git',
-                'external' => true,
-            ],
-        ],
+
+    'directory' => env('BOOKSHELVES_DIRECTORY', 'public/storage/data/books'),
+    'local' => [
+        'copy' => env('BOOKSHELVES_LOCAL_COPY', false),
+        'cover' => env('BOOKSHELVES_LOCAL_COVER', true),
     ],
 ];

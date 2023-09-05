@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Console\CommandProd;
-use App\Services\DirectoryClearService;
-use Artisan;
 use Illuminate\Console\Command;
+use Kiwilan\Steward\Commands\Commandable;
+use Kiwilan\Steward\Services\DirectoryService;
 
-class ClearCommand extends CommandProd
+class ClearCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
@@ -21,15 +20,7 @@ class ClearCommand extends CommandProd
      *
      * @var string
      */
-    protected $description = 'Clear temporary files from Bookshelves';
-
-    /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $description = 'Clear Bookshelves data.';
 
     /**
      * Execute the console command.
@@ -38,23 +29,19 @@ class ClearCommand extends CommandProd
      */
     public function handle()
     {
-        $this->warn('Bookshelves Clear');
-        $this->newLine();
+        $this->title();
 
-        $cache = new DirectoryClearService(storage_path('app/public/cache'));
-        $debug = new DirectoryClearService(storage_path('app/public/debug'));
+        DirectoryService::make()
+            ->clear([
+                public_path('storage/cache'),
+                public_path('storage/cms'),
+                public_path('storage/debug'),
+                public_path('storage/media'),
+                public_path('storage/posts'),
+                public_path('storage/settings'),
+            ])
+        ;
 
-        $cache->clearDir();
-        $debug->clearDir();
-
-        Artisan::call('cache:clear', [], $this->getOutput());
-        Artisan::call('route:clear', [], $this->getOutput());
-        Artisan::call('config:clear', [], $this->getOutput());
-        Artisan::call('view:clear', [], $this->getOutput());
-        Artisan::call('optimize:clear', [], $this->getOutput());
-        $clear = new DirectoryClearService('bootstrap/cache');
-        $clear->clearDir();
-
-        return 0;
+        return Command::SUCCESS;
     }
 }

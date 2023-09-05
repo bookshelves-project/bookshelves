@@ -57,18 +57,10 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
-    'front_url' => env('APP_FRONT_URL', 'http://localhost:3000'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | App repository
-    |--------------------------------------------------------------------------
-    |
-    */
-
-    'repository_url' => env('APP_REPOSITORY_URL', 'https://github.com/bookshelves-project'),
-
-    'documentation_url' => env('APP_DOCUMENTATION_URL', 'https://bookshelves-documentation.netlify.app'),
+    'admin' => [
+        'email' => env('APP_ADMIN_EMAIL', 'superadmin@example.com'),
+        'password' => env('APP_ADMIN_PASSWORD', 'password'),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -94,7 +86,7 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -139,6 +131,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Maintenance Mode Driver
+    |--------------------------------------------------------------------------
+    |
+    | These configuration options determine the driver used to determine and
+    | manage Laravel's "maintenance mode" status. The "cache" driver will
+    | allow maintenance mode to be controlled across multiple machines.
+    |
+    | Supported drivers: "file", "cache"
+    |
+    */
+
+    'maintenance' => [
+        'driver' => 'file',
+        // 'store'  => 'redis',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
@@ -180,9 +190,11 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
-        // App\Providers\JetstreamServiceProvider::class,
+        App\Providers\JetstreamServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
     ],
 
     /*
@@ -197,6 +209,6 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
+        // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 ];

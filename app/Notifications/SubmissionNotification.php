@@ -15,7 +15,7 @@ class SubmissionNotification extends Notification
      * Create a new notification instance.
      */
     public function __construct(
-        public Submission $submission,
+        public Submission $submission
     ) {
     }
 
@@ -39,13 +39,21 @@ class SubmissionNotification extends Notification
     public function toMail($notifiable)
     {
         $appName = config('app.name');
-        $subject = "[{$appName}] Contact from ".$this->submission->name;
 
         return (new MailMessage())
-            ->subject($subject)
-            ->markdown('views.emails.submission', [
-                'submission' => $this->submission,
+            ->subject("[{$appName}] {$this->submission->reason->value} - {$this->submission->name}")
+            ->greeting('Hello,')
+            ->line("You have a new message from {$this->submission->name}.")
+            ->lines([
+                "Name: {$this->submission->name}",
+                "Email: {$this->submission->email}",
+                "Reason: {$this->submission->reason->value}",
+                'Message:',
+                $this->submission->message,
             ])
+            ->action('Check on dashboard', route('filament.resources.submissions.index'))
+            ->line('Regards,')
+            ->salutation("{$appName} team")
         ;
     }
 
@@ -58,7 +66,7 @@ class SubmissionNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'submission' => $this->submission,
+            'submission' => $this->submission->toArray(),
         ];
     }
 }

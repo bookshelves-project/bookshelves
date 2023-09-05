@@ -2,99 +2,116 @@
 
 namespace App\Models;
 
+use App\Engines\Book\Converter\WikipediaItemConverter;
+use App\Enums\AuthorRoleEnum;
 use App\Enums\BookFormatEnum;
-use App\Enums\MediaDiskEnum;
-use App\Models\Traits\HasBooksCollection;
-use App\Models\Traits\HasClassName;
-use App\Models\Traits\HasCovers;
-use App\Models\Traits\HasFavorites;
-use App\Models\Traits\HasReviews;
-use App\Models\Traits\HasSelections;
-use App\Models\Traits\HasWikipediaItem;
+use App\Traits\HasBooksCollection;
+use App\Traits\HasCovers;
+use App\Traits\HasFavorites;
+use App\Traits\HasReviews;
+use App\Traits\HasTagsAndGenres;
+use App\Traits\IsEntity;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
+use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
+use Kiwilan\Steward\Services\Wikipedia\WikipediaItem;
+use Kiwilan\Steward\Traits\HasMetaClass;
+use Kiwilan\Steward\Traits\HasSearchableName;
+use Kiwilan\Steward\Traits\HasSlug;
+use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
-use Spatie\Tags\HasTags;
-use Spatie\Translatable\HasTranslations;
+use Spatie\QueryBuilder\AllowedFilter;
 
 /**
  * @property null|int $books_count
  * @property null|int $series_count
+ * @property \App\Enums\BookTypeEnum|null $type
  */
-class Author extends Model implements HasMedia
+class Author extends Model implements HasMedia, Wikipediable
 {
-    use HasFactory;
-    use HasTags;
-    use HasClassName;
-    use HasCovers;
-    use HasFavorites;
-    use HasReviews;
-    use HasSelections;
-    use Searchable;
-    use HasWikipediaItem;
-    use HasSlug;
     use HasBooksCollection;
-    use HasTranslations;
+    use HasCovers;
+    use HasFactory;
+    use HasFavorites;
+    use HasMetaClass;
+    use HasReviews;
+    use HasSearchableName;
+    use HasSlug;
+    use HasTagsAndGenres;
+    use IsEntity;
+    use Queryable;
+    use Searchable;
 
-    public $translatable = [
-        'description',
-        'note',
-    ];
+    protected $query_default_sort = 'lastname';
+
+    protected $query_default_sort_direction = 'asc';
+
+    protected $query_allowed_sorts = ['id', 'firstname', 'lastname', 'name', 'role', 'books_count', 'series_count', 'created_at', 'updated_at'];
+
+    protected $query_limit = 32;
 
     protected $fillable = [
         'lastname',
         'firstname',
         'name',
-        'slug',
         'role',
         'description',
         'link',
         'note',
     ];
 
-    protected $with = [
-        'media',
+    protected $casts = [
+        'role' => AuthorRoleEnum::class,
     ];
 
-    public function getMediaPrimaryAttribute(): ?Media
+    protected $appends = [
+        'title',
+    ];
+
+    protected $withCount = [
+        'books',
+        'series',
+    ];
+
+    public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
     {
-        return $this->getFirstMedia(MediaDiskEnum::cover->value);
+        $converter_engine = WikipediaItemConverter::make($item, $this)
+            ->setWikipediaDescription()
+        ;
+
+        if (! $default) {
+            $converter_engine->setWikipediaCover();
+        }
+        $this->save();
+
+        return $this;
     }
 
     /**
-     * Get the options for generating the slug.
+     * Get all of the books that are assigned this author.
      */
-    public function getSlugOptions(): SlugOptions
+    public function books(): MorphToMany
     {
-        return SlugOptions::create()
-            ->generateSlugsFrom(['lastname', 'firstname'])
-            ->saveSlugsTo('slug')
+        return $this->morphedByMany(Book::class, 'authorable')
+            ->orderBy('slug_sort')
+            ->orderBy('volume')
         ;
     }
 
-    public function getShowLinkAttribute(): string
+    /**
+     * Get all of the series that are assigned this author.
+     */
+    public function series(): MorphToMany
     {
-        return route('api.authors.show', [
-            'author_slug' => $this->slug,
-        ]);
-    }
-
-    public function getOpdsLinkAttribute(): string
-    {
-        return route('front.opds.authors.show', [
-            'version' => '1.2',
-            'author' => $this->slug,
-        ]);
-    }
-
-    public function getContentOpdsAttribute(): string
-    {
-        return $this->books->count().' books';
+        return $this->morphedByMany(Serie::class, 'authorable')
+            ->orderBy('slug_sort')
+            ->withCount('books')
+        ;
     }
 
     public function getBooksLinkAttribute(): string
@@ -121,11 +138,14 @@ class Author extends Model implements HasMedia
         ]);
     }
 
+    public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
+    {
+        return $query->where('lastname', 'like', "{$character}%");
+    }
+
     public function searchableAs()
     {
-        $app = config('bookshelves.name');
-
-        return "{$app}_authors";
+        return $this->searchableNameAs();
     }
 
     public function toSearchableArray()
@@ -135,74 +155,27 @@ class Author extends Model implements HasMedia
             'name' => $this->name,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
-            'picture' => $this->cover_thumbnail,
+            'cover' => $this->cover_thumbnail,
             'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
     }
 
-    public function getFirstCharAttribute(): string
+    public function setQueryAllowedFilters(): array
     {
-        return strtolower($this->lastname[0]);
+        return [
+            AllowedFilter::custom('q', new GlobalSearchFilter(['firstname', 'lastname', 'name'])),
+            AllowedFilter::partial('firstname'),
+            AllowedFilter::partial('lastname'),
+            AllowedFilter::exact('role'),
+        ];
     }
 
-    public function getLanguageSlugAttribute(): string
+    protected function title(): Attribute
     {
-        $languages = [];
-        foreach ($this->books as $book) {
-            array_push($languages, $book->language_slug);
-        }
-        $languages = array_count_values($languages);
-        asort($languages);
-
-        return array_key_first($languages);
-    }
-
-    /**
-     * Get all of the books that are assigned this author.
-     */
-    public function books(): MorphToMany
-    {
-        return $this->morphedByMany(Book::class, 'authorable')
-            ->orderBy('slug_sort')
-            ->orderBy('volume')
-        ;
-    }
-
-    /**
-     * Get all available books that are assigned this author.
-     */
-    public function booksAvailable(): MorphToMany
-    {
-        return $this->morphedByMany(Book::class, 'authorable')
-            ->where('disabled', false)
-            ->orderBy('slug_sort')
-            ->orderBy('volume')
-        ;
-    }
-
-    /**
-     * Get books without series that are assigned this author.
-     */
-    public function booksAvailableStandalone(): MorphToMany
-    {
-        return $this->morphedByMany(Book::class, 'authorable')
-            ->where('disabled', false)
-            ->whereDoesntHave('serie')
-            ->orderBy('slug_sort')
-            ->orderBy('volume')
-        ;
-    }
-
-    /**
-     * Get all of the series that are assigned this author.
-     */
-    public function series(): MorphToMany
-    {
-        return $this->morphedByMany(Serie::class, 'authorable')
-            ->orderBy('slug_sort')
-            ->withCount('books')
-        ;
+        return Attribute::make(
+            get: fn () => $this->name,
+        );
     }
 }

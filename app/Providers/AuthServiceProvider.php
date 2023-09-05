@@ -2,16 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\User;
-use Illuminate\Cache\RateLimiting\Limit;
+// use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\RateLimiter;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * The policy mappings for the application.
+     * The model to policy mappings for the application.
      *
      * @var array<class-string, class-string>
      */
@@ -22,20 +19,8 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register any authentication / authorization services.
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->registerPolicies();
-
-        RateLimiter::for('login', function () {
-            Limit::perMinute(5);
-        });
-
-        Gate::define('access-admin', function (User $auth) {
-            return $auth->hasAdminAccess();
-        });
-
-        Gate::define('modify-user', function (User $auth, User $user) {
-            return $auth->canUpdate($user);
-        });
+        //
     }
 }

@@ -2,52 +2,60 @@
 
 namespace App\Models;
 
-use App\Engines\ParserEngine;
+use App\Engines\Book\Converter\WikipediaItemConverter;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
-use App\Enums\MediaDiskEnum;
-use App\Models\Traits\HasAuthors;
-use App\Models\Traits\HasBooksCollection;
-use App\Models\Traits\HasBookType;
-use App\Models\Traits\HasClassName;
-use App\Models\Traits\HasCovers;
-use App\Models\Traits\HasFavorites;
-use App\Models\Traits\HasLanguage;
-use App\Models\Traits\HasReviews;
-use App\Models\Traits\HasSelections;
-use App\Models\Traits\HasTagsAndGenres;
-use App\Models\Traits\HasWikipediaItem;
+use App\Traits\HasAuthors;
+use App\Traits\HasBooksCollection;
+use App\Traits\HasCovers;
+use App\Traits\HasFavorites;
+use App\Traits\HasLanguage;
+use App\Traits\HasReviews;
+use App\Traits\HasSelections;
+use App\Traits\HasTagsAndGenres;
+use App\Traits\IsEntity;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
+use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
+use Kiwilan\Steward\Services\Wikipedia\WikipediaItem;
+use Kiwilan\Steward\Traits\HasMetaClass;
+use Kiwilan\Steward\Traits\HasSearchableName;
+use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Translatable\HasTranslations;
+use Spatie\QueryBuilder\AllowedFilter;
 
 /**
  * @property null|int $books_count
+ * @property \App\Enums\BookTypeEnum|null $type
  */
-class Serie extends Model implements HasMedia
+class Serie extends Model implements HasMedia, Wikipediable
 {
-    use HasFactory;
-    use HasClassName;
-    use HasCovers;
     use HasAuthors;
-    use HasFavorites;
-    use HasReviews;
-    use HasSelections;
-    use HasLanguage;
-    use HasTagsAndGenres;
-    use HasBookType;
-    use Searchable;
-    use HasWikipediaItem;
     use HasBooksCollection;
-    use HasTranslations;
+    use HasCovers;
+    use HasFactory;
+    use HasFavorites;
+    use HasLanguage;
+    use HasMetaClass;
+    use HasReviews;
+    use HasSearchableName;
+    use HasSelections;
+    use HasTagsAndGenres;
+    use IsEntity;
+    use Queryable;
+    use Searchable;
 
-    public $translatable = [
-        'description',
-    ];
+    protected $query_default_sort = 'slug_sort';
+
+    protected $query_default_sort_direction = 'asc';
+
+    protected $query_allowed_sorts = ['id', 'title', 'authors', 'books_count', 'language', 'created_at', 'updated_at', 'language'];
+
+    protected $query_limit = 32;
 
     protected $fillable = [
         'title',
@@ -62,33 +70,24 @@ class Serie extends Model implements HasMedia
         'type' => BookTypeEnum::class,
     ];
 
-    protected $with = [
-        'language',
-        'authors',
-        'media',
-    ];
-
     protected $withCount = [
         'books',
     ];
 
-    public function getMediaPrimaryAttribute(): ?Media
-    {
-        return $this->getFirstMedia(MediaDiskEnum::cover->value);
-    }
+    protected $with = [
+        'language',
+    ];
 
-    public function getOpdsLinkAttribute(): string
+    /**
+     * Relationships.
+     */
+    public function books(): HasMany
     {
-        return route('front.opds.series.show', [
-            'version' => '1.2',
-            'author' => $this->meta_author,
-            'serie' => $this->slug,
-        ]);
-    }
-
-    public function getContentOpdsAttribute(): string
-    {
-        return $this->books->count().' books';
+        // Get Books into Serie, by volume order.
+        return $this->hasMany(Book::class)
+            ->where('is_hidden', false)
+            ->orderBy('volume')
+        ;
     }
 
     public function getBooksLinkAttribute(): string
@@ -110,11 +109,14 @@ class Serie extends Model implements HasMedia
         ]);
     }
 
+    public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
+    {
+        return $query->where('slug_sort', 'like', "{$character}%");
+    }
+
     public function searchableAs()
     {
-        $app = config('bookshelves.name');
-
-        return "{$app}_series";
+        return $this->searchableNameAs();
     }
 
     public function toSearchableArray()
@@ -122,7 +124,7 @@ class Serie extends Model implements HasMedia
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'picture' => $this->cover_thumbnail,
+            // 'picture' => $this->cover_thumbnail,
             'author' => $this->authors_names,
             'description' => $this->description,
             'tags' => $this->tags_string,
@@ -131,29 +133,33 @@ class Serie extends Model implements HasMedia
         ];
     }
 
-    /**
-     * Get Books into Serie, by volume order.
-     */
-    public function books(): HasMany
+    public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
     {
-        return $this->hasMany(Book::class)->orderBy('volume');
-    }
-
-    /**
-     * Get available Books into Serie, by volume order.
-     */
-    public function booksAvailable(): HasMany
-    {
-        return $this->hasMany(Book::class)
-            ->where('disabled', false)
-            ->orderBy('volume')
+        WikipediaItemConverter::make($item, $this)
+            ->setWikipediaDescription()
         ;
+        $this->save();
+
+        return $this;
     }
 
-    public function updateSlug()
+    protected function setQueryAllowedFilters(): array
     {
-        $this->slug = ParserEngine::generateSlug($this->title, $this->type->value, $this->language_slug);
-        $this->slug_sort = ParserEngine::generateSortTitle($this->title, $this->language_slug);
-        $this->save();
+        return [
+            AllowedFilter::custom('q', new GlobalSearchFilter(['title'])),
+            AllowedFilter::partial('title'),
+            AllowedFilter::partial('authors'),
+            AllowedFilter::exact('type'),
+            AllowedFilter::scope('types', 'whereTypesIs'),
+            AllowedFilter::callback(
+                'language',
+                fn (Builder $query, $value) => $query->whereHas(
+                    'language',
+                    fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
+                )
+            ),
+            AllowedFilter::scope('languages', 'whereLanguagesIs'),
+            AllowedFilter::scope('language', 'whereLanguagesIs'),
+        ];
     }
 }

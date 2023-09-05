@@ -2,25 +2,46 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Cms\HomePageResource;
-use App\Models\Cms\HomePage\HomePage;
+use App\Http\Resources\Page\PageCollection;
+use App\Http\Resources\Page\PageResource;
+use App\Models\Page;
+use Illuminate\Http\Request;
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
 /**
  * @group CMS
+ *
+ * APIs for CMS.
  */
-class CmsController extends ApiController
+#[Prefix('cms/pages')]
+class CmsController extends Controller
 {
     /**
-     * GET Home page.
+     * GET CMS[].
+     *
+     * Get all Pages ordered by `key`.
+     *
+     * @responseField data CMS[] List of pages.
      */
-    public function home()
+    #[Get('/', name: 'api.pages.index')]
+    public function index()
     {
-        if (null !== HomePage::first()) {
-            return HomePageResource::make(
-                HomePage::first()
-            );
-        }
+        $pages = Page::all();
 
-        return abort(404);
+        return PageCollection::collection($pages);
+    }
+
+    /**
+     * GET CMS[].
+     *
+     * Get all Pages ordered by `key`.
+     *
+     * @responseField data CMS[] List of pages.
+     */
+    #[Get('/{cms_page_slug}', name: 'api.pages.show')]
+    public function show(Request $request, Page $page)
+    {
+        return PageResource::make($page);
     }
 }
