@@ -10,7 +10,9 @@ class PageController extends Controller
 {
     public function index()
     {
-        return PageCollection::collection(Page::all());
+        $pages = Page::all();
+
+        return PageCollection::collection($pages);
     }
 
     public function show(Page $page)

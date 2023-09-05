@@ -67,6 +67,8 @@ class MakeCommand extends Commandable
     {
         $this->title(description: 'Books & relations');
 
+        $this->setupOptions();
+
         $this->comment('Files detected: '.count($this->files));
         $this->info('- Generate Book model with relationships: Author, Tag, Publisher, Language, Serie');
         $this->info('- Generate new EPUB file with standard name');

@@ -50,7 +50,6 @@ class StartupCommand extends Commandable
         $force = $this->option('force') ?: false;
         $fresh = $this->option('fresh') ?: false;
         $api = $this->option('api') ?: false;
-
         $admin = $this->option('admin') ?: false;
         $limit = $this->option('limit') ? intval(str_replace('=', '', $this->option('limit'))) : false;
         $verbose = $this->option('verbose') ?: false;

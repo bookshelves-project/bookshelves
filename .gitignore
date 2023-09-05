@@ -18,12 +18,6 @@ yarn-error.log
 /.idea
 
 .DS_Store
-/.phpstan
-/public/packages
-/public/assets/dist
-/public/build/.phpstan
-_ide_helper_models.php
-_ide_helper.php
 _ide_helper.php
 .scribe
 public/docs

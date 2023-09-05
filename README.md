@@ -32,20 +32,6 @@ See [**documentation**](https://bookshelves-documentation.netlify.app) to know m
 
 To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app), if this link is broken, you have to refer to [**raw documentation**](https://github.com/bookshelves-project/bookshelves-doc) on repository.
 
-## Meilisearch
-
-Bookshelves use [Meilisearch](https://www.meilisearch.com/docs) with `v0.27.0` version.
-
-```bash
-sudo docker run -d --rm \
-    -p 7700:7700 \
-    -e MEILI_ENV='production'\
-    -e MEILI_MASTER_KEY='MASTER_KEY'\
-    -v $(pwd)/meili_data:/meili_data \
-    --name meilisearch-v0 \
-    getmeili/meilisearch:v0.27.0
-```
-
 ## **Tests**
 
 Run tests.

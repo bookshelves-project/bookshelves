@@ -32,6 +32,7 @@ deploy-job:
       composer dump-autoload &&
       php$PHP_VERSION artisan clear:all &&
       php$PHP_VERSION artisan optimize &&
+      composer doc &&
       php$PHP_VERSION artisan scout:fresh &&
       /home/$SSH_USER/.nvm/versions/node/v$NODE_VERSION/bin/pnpm i &&
       /home/$SSH_USER/.nvm/versions/node/v$NODE_VERSION/bin/pnpm build &&

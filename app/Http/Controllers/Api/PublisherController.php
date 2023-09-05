@@ -31,6 +31,18 @@ class PublisherController extends Controller
         //     return $alpha;
         // }
 
+        // return app(PublisherQuery::class)
+        //     ->make(QueryOption::create(
+        //         request: $request,
+        //         resource: PublisherLightResource::class,
+        //         orderBy: 'name',
+        //         withExport: false,
+        //         sortAsc: true,
+        //         full: $this->getFull($request)
+        //     ))
+        //     ->paginateOrExport()
+        // ;
+
         return HttpQuery::for(Publisher::class, $request)
             ->collection()
         ;
