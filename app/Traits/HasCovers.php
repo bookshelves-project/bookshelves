@@ -33,7 +33,7 @@ trait HasCovers
         $formatStandard = config('image.covers.og');
         $formatSimple = config('image.covers.simple');
 
-        if ('local' !== config('app.env')) {
+        if (config('app.env') !== 'local') {
             $this->addMediaConversion('thumbnail')
                 ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
                 ->format(config('bookshelves.cover_extension'))
@@ -168,7 +168,7 @@ trait HasCovers
 
         if (! $this->cover_available) {
             $baseURL = config('app.url');
-            $image = 'authors' === $that->meta_class_snake_plural ? 'no-author' : 'no-cover';
+            $image = $that->meta_class_snake_plural === 'authors' ? 'no-author' : 'no-cover';
 
             return "{$baseURL}/vendor/images/{$image}.webp";
         }

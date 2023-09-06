@@ -54,7 +54,7 @@ class SearchEngine
      */
     public static function make(?string $q = '', bool $relevant = false, bool $opds = false, string|array $types = null): self
     {
-        if ('string' === gettype($types)) {
+        if (gettype($types) === 'string') {
             $types = explode(',', $types);
         }
 

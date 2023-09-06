@@ -202,7 +202,7 @@ class BookConverter
             $this->book->volume = $this->ebook->getVolume();
         }
 
-        if (null === $this->book->type) {
+        if ($this->book->type === null) {
             $this->book->type = $type;
         }
 

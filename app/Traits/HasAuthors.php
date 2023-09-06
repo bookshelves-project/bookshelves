@@ -35,7 +35,7 @@ trait HasAuthors
     {
         $author = $this->authorMain;
 
-        return null !== $author ? $author->slug : 'unkown';
+        return $author !== null ? $author->slug : 'unkown';
     }
 
     /**

@@ -81,7 +81,7 @@ class MakeCommand extends Commandable
             $this->info("- Main format: {$format} (original from EPUB, thumbnail)");
             $this->info('- OpenGraph, Simple format: JPG (social, Catalog)');
 
-            if ('local' === config('app.env')) {
+            if (config('app.env') === 'local') {
                 $this->info('You are in local, conversions are generate only in production');
             }
             $this->newLine();

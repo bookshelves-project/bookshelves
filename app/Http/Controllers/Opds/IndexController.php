@@ -19,7 +19,7 @@ class IndexController extends Controller
     {
         Opds::make(OpdsApp::config())
             ->feeds(OpdsApp::home())
-            ->response()
+            ->send()
         ;
     }
 
@@ -35,7 +35,7 @@ class IndexController extends Controller
         Opds::make(OpdsApp::config())
             ->title('Latest books')
             ->feeds($feeds)
-            ->response()
+            ->send()
         ;
     }
 
@@ -51,14 +51,14 @@ class IndexController extends Controller
         Opds::make(OpdsApp::config())
             ->title('Random books')
             ->feeds($feeds)
-            ->response()
+            ->send()
         ;
     }
 
     #[Get('/search', name: 'opds.search')]
     public function search(Request $request)
     {
-        $query = $request->input('q');
+        $query = $request->input('q') ?? $request->input('query');
         $feeds = [];
 
         if ($query) {
@@ -74,7 +74,7 @@ class IndexController extends Controller
             ->title("Search for {$query}")
             ->isSearch()
             ->feeds($feeds)
-            ->response()
+            ->send()
         ;
     }
 }

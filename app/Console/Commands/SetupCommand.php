@@ -272,7 +272,7 @@ class SetupCommand extends Command
         foreach ($credentials as $key => $value) {
             $configKey = strtolower(str_replace('DB_', '', $key));
 
-            if ('password' === $configKey && 'null' == $value) {
+            if ($configKey === 'password' && $value == 'null') {
                 config(["database.connections.mysql.{$configKey}" => '']);
 
                 continue;

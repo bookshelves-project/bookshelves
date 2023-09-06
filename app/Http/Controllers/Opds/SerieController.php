@@ -32,9 +32,9 @@ class SerieController extends Controller
                 ;
                 $feeds[] = new OpdsEntryNavigation(
                     id: $id,
-                    title: $char,
+                    title: "{$char} ({$count} entries)",
                     route: route('opds.series.character', ['character' => $id]),
-                    summary: "{$count} series beginning with {$char}",
+                    summary: "Series beginning with {$char}",
                     media: asset('vendor/images/no-cover.jpg'),
                 );
             }
@@ -45,7 +45,7 @@ class SerieController extends Controller
         Opds::make(OpdsApp::config())
             ->title('Series')
             ->feeds($feeds)
-            ->response()
+            ->send()
         ;
     }
 
@@ -82,7 +82,7 @@ class SerieController extends Controller
         Opds::make(OpdsApp::config())
             ->title("Series with {$character}")
             ->feeds($feeds)
-            ->response()
+            ->send()
         ;
     }
 
@@ -99,7 +99,7 @@ class SerieController extends Controller
         Opds::make(OpdsApp::config())
             ->title("Serie {$serie->title}")
             ->feeds($feeds)
-            ->response()
+            ->send()
         ;
     }
 }

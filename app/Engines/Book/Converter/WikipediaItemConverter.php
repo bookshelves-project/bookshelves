@@ -64,7 +64,7 @@ class WikipediaItemConverter
             $cover = WikipediaItem::fetchPicture($this->item->getPictureUrl());
         }
 
-        if ($cover && 'author-unknown' !== $this->model->slug) {
+        if ($cover && $this->model->slug !== 'author-unknown') {
             $this->model->clearMediaCollection($disk->value);
             MediaService::make($this->model, $this->model->slug, $disk)
                 ->setMedia($cover)

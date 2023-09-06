@@ -102,16 +102,16 @@ class User extends Authenticatable implements FilamentUser, HasMedia
 
     protected function getIsEditorAttribute(): bool
     {
-        return UserRoleEnum::editor === $this->role;
+        return $this->role === UserRoleEnum::editor;
     }
 
     protected function getIsAdminAttribute(): bool
     {
-        return UserRoleEnum::admin === $this->role;
+        return $this->role === UserRoleEnum::admin;
     }
 
     protected function getIsSuperAdminAttribute(): bool
     {
-        return UserRoleEnum::super_admin === $this->role;
+        return $this->role === UserRoleEnum::super_admin;
     }
 }

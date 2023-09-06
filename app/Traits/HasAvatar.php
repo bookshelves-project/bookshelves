@@ -19,7 +19,7 @@ trait HasAvatar
         $avatar = config('image.user.avatar');
         $banner = config('image.user.banner');
 
-        if ('local' !== config('app.env')) {
+        if (config('app.env') !== 'local') {
             $this->addMediaConversion('avatar')
                 ->crop(Manipulations::CROP_TOP, $avatar['width'], $avatar['height'])
                 ->format(config('bookshelves.cover_extension'))

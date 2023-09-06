@@ -32,9 +32,9 @@ class AuthorController extends Controller
                 ;
                 $feeds[] = new OpdsEntryNavigation(
                     id: $id,
-                    title: $char,
+                    title: "{$char} ({$count} entries)",
                     route: route('opds.authors.character', ['character' => $id]),
-                    summary: "{$count} authors beginning with {$char}",
+                    summary: "Authors beginning with {$char}",
                     media: asset('vendor/images/no-author.jpg'),
                 );
             }
@@ -45,7 +45,7 @@ class AuthorController extends Controller
         Opds::make(OpdsApp::config())
             ->title('Authors')
             ->feeds($feeds)
-            ->response()
+            ->send()
         ;
     }
 
@@ -82,7 +82,7 @@ class AuthorController extends Controller
         Opds::make(OpdsApp::config())
             ->title("Authors with {$character}")
             ->feeds($feeds)
-            ->response()
+            ->send()
         ;
     }
 
@@ -96,10 +96,10 @@ class AuthorController extends Controller
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::config()->usePagination())
             ->title("Author {$author->lastname} {$author->firstname}")
             ->feeds($feeds)
-            ->response()
+            ->send()
         ;
     }
 }

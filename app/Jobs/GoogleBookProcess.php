@@ -41,7 +41,7 @@ class GoogleBookProcess implements ShouldQueue
         $isbn_types = implode('/', ['isbn13', 'isbn10']);
         $console->print("Need to have {$isbn_types}, on {$booksCount} entities, {$count} entities can be scanned.");
 
-        if (0 === $count) {
+        if ($count === 0) {
             $console->print('No entities to scan.', 'red');
 
             return;

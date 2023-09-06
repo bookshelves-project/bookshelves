@@ -397,7 +397,7 @@ class RadGenerateCommand extends Command
                 array_push($begin, $line);
             }
 
-            if (false !== strpos($line, $search)) {
+            if (strpos($line, $search) !== false) {
                 $found = true;
             }
 

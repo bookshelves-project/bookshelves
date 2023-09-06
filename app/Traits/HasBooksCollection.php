@@ -19,7 +19,7 @@ trait HasBooksCollection
 
         return $file_list
             ->reverse()
-            ->filter(fn ($file) => null !== $file)
+            ->filter(fn ($file) => $file !== null)
             ->first()
         ;
     }

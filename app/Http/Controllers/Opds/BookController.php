@@ -28,7 +28,7 @@ class BookController extends Controller
         Opds::make(OpdsApp::config())
             ->title("Book {$book->title}")
             ->feeds(OpdsApp::bookToEntry($book))
-            ->response()
+            ->send()
         ;
     }
 }

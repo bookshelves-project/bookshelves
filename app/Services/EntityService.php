@@ -63,7 +63,7 @@ class EntityService
             }
         }
         // remove all books of series
-        $relatedBooks = $relatedBooks->filter(fn (Book $book) => null === $book->serie);
+        $relatedBooks = $relatedBooks->filter(fn (Book $book) => $book->serie === null);
 
         // unique on series
         $seriesList = $seriesList->unique();

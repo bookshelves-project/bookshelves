@@ -144,7 +144,7 @@ class ScanCommand extends Commandable
             $this->warn(count($newFiles).' new files found, to add it to collection, you can use `bookshelves:generate`');
         }
 
-        if (0 === count($newFiles) && count($files) !== Book::count()) {
+        if (count($newFiles) === 0 && count($files) !== Book::count()) {
             $this->warn('Some duplicates detected!');
         }
         $this->newLine();

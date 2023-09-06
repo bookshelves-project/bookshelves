@@ -62,14 +62,14 @@ trait HasBookFiles
 
         return $this->getFilesListAttribute()
             ->reverse()
-            ->filter(fn ($file) => null !== $file)
+            ->filter(fn ($file) => $file !== null)
             ->first()
         ;
     }
 
     public function filesListIsNull(): bool
     {
-        return $this->files_list->filter(fn ($file) => null !== $file)->isEmpty();
+        return $this->files_list->filter(fn ($file) => $file !== null)->isEmpty();
     }
 
     /**
@@ -83,7 +83,7 @@ trait HasBookFiles
         foreach ($formats as $format) {
             $media = null;
 
-            if (null === $this->files[$format]) {
+            if ($this->files[$format] === null) {
                 $list[$format] = $media;
 
                 continue;

@@ -10,7 +10,7 @@ class Login extends BasePage
     {
         parent::mount();
 
-        if ('local' === config('app.env')) {
+        if (config('app.env') === 'local') {
             $this->form->fill([
                 'email' => config('app.admin.email'),
                 'password' => config('app.admin.password'),

@@ -17,7 +17,7 @@ class MediaResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return null !== $this->resource ? [
+        return $this->resource !== null ? [
             'name' => $this->resource->file_name,
             'size' => $this->resource->size_human,
             'download' => $this->resource->download,

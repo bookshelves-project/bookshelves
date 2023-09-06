@@ -35,7 +35,7 @@ class DownloadController extends Controller
         }
         $format = $this->getFormat($book, $format->value);
 
-        if (null === $format) {
+        if ($format === null) {
             return response()->json([
                 'message' => 'Have not any format available.',
             ], 404);
@@ -43,7 +43,7 @@ class DownloadController extends Controller
 
         $media = $book->files[$format];
 
-        if (null === $media) {
+        if ($media === null) {
             return response()->json([
                 'message' => "Have not {$format} format available.",
             ], 404);
@@ -87,7 +87,7 @@ class DownloadController extends Controller
             }
         }
 
-        if (0 === count($files)) {
+        if (count($files) === 0) {
             return response()->json([
                 'message' => "Have not {$format} format available.",
             ], 404);
@@ -125,7 +125,7 @@ class DownloadController extends Controller
             }
         }
 
-        if (0 === count($files)) {
+        if (count($files) === 0) {
             return response()->json([
                 'message' => "Have not {$format} format available.",
             ], 404);
@@ -139,11 +139,11 @@ class DownloadController extends Controller
 
     private static function getFormat(Book $book, string $format = null): ?string
     {
-        if (null !== $format) {
+        if ($format !== null) {
             $format = BookFormatEnum::tryFrom($format)->name;
         } else {
             foreach ($book->files as $format_name => $media) {
-                if (null !== $media) {
+                if ($media !== null) {
                     $format = $format_name;
                 }
             }
