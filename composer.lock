@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5fba0dfc83fc70a5e3b16ebe6b6aca87",
+    "content-hash": "33d00ece1da73ac59b01f3880c7a6734",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3315,16 +3315,16 @@
         },
         {
             "name": "kiwilan/php-opds",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-opds.git",
-                "reference": "21bb8fc0ac375cbc84c9bdaa5d6df71871570d46"
+                "reference": "2528134e0151430c3c81fb0e716e221ea8dba3e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/21bb8fc0ac375cbc84c9bdaa5d6df71871570d46",
-                "reference": "21bb8fc0ac375cbc84c9bdaa5d6df71871570d46",
+                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/2528134e0151430c3c81fb0e716e221ea8dba3e7",
+                "reference": "2528134e0151430c3c81fb0e716e221ea8dba3e7",
                 "shasum": ""
             },
             "require": {
@@ -3367,7 +3367,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-opds/issues",
-                "source": "https://github.com/kiwilan/php-opds/tree/v1.0.0"
+                "source": "https://github.com/kiwilan/php-opds/tree/v1.0.1"
             },
             "funding": [
                 {
@@ -3375,7 +3375,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-06T15:19:40+00:00"
+            "time": "2023-09-07T07:20:03+00:00"
         },
         {
             "name": "kiwilan/php-xml-reader",
@@ -4967,29 +4967,29 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "2e426e8d47e03c4777334ec0c8397341bcfa15f3"
+                "reference": "daa88b5a6203c0e60f0a9bf8a8b5ac1394708ddc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/2e426e8d47e03c4777334ec0c8397341bcfa15f3",
-                "reference": "2e426e8d47e03c4777334ec0c8397341bcfa15f3",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/daa88b5a6203c0e60f0a9bf8a8b5ac1394708ddc",
+                "reference": "daa88b5a6203c0e60f0a9bf8a8b5ac1394708ddc",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "^10.0|^11.0",
-                "illuminate/support": "^10.0|^11.0",
-                "illuminate/validation": "^10.0|^11.0",
+                "illuminate/database": "^10.0",
+                "illuminate/support": "^10.0",
+                "illuminate/validation": "^10.0",
                 "league/mime-type-detection": "^1.9",
                 "php": "^8.1",
                 "symfony/http-kernel": "^5.0|^6.0"
             },
             "require-dev": {
                 "calebporzio/sushi": "^2.1",
-                "laravel/framework": "^10.0|^11.0",
+                "laravel/framework": "^10.0",
                 "mockery/mockery": "^1.3.1",
                 "orchestra/testbench": "^7.0|^8.0",
                 "orchestra/testbench-dusk": "^7.0|^8.0",
@@ -5028,7 +5028,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v3.0.1"
+                "source": "https://github.com/livewire/livewire/tree/v3.0.2"
             },
             "funding": [
                 {
@@ -5036,7 +5036,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-25T18:13:03+00:00"
+            "time": "2023-09-06T16:02:17+00:00"
         },
         {
             "name": "maatwebsite/excel",
