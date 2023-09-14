@@ -21,7 +21,7 @@ class OpdsApp
             author: config('app.name'),
             authorUrl: config('app.url'),
             iconUrl: asset('favicon.ico'),
-            startUrl: route('opds.index'),
+            // startUrl: route('opds.index'),
             searchUrl: route('opds.search'),
             updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
         );
