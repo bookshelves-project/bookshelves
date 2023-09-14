@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "276791e03eb9ce02f0e012ebed2d72e9",
+    "content-hash": "8d614f7692791171c953c93f44f80a53",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3315,16 +3315,16 @@
         },
         {
             "name": "kiwilan/php-opds",
-            "version": "1.0.2",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-opds.git",
-                "reference": "9a8181ed4583867ba1cad98111118d5bfc000e91"
+                "reference": "21b539b8f0df8635ffc2f58202d6ab1bd1ebb3c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/9a8181ed4583867ba1cad98111118d5bfc000e91",
-                "reference": "9a8181ed4583867ba1cad98111118d5bfc000e91",
+                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/21b539b8f0df8635ffc2f58202d6ab1bd1ebb3c5",
+                "reference": "21b539b8f0df8635ffc2f58202d6ab1bd1ebb3c5",
                 "shasum": ""
             },
             "require": {
@@ -3338,6 +3338,7 @@
                 "phpstan/phpstan": "^1.10",
                 "spatie/ray": "^1.28"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -3367,7 +3368,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-opds/issues",
-                "source": "https://github.com/kiwilan/php-opds/tree/v1.0.2"
+                "source": "https://github.com/kiwilan/php-opds/tree/main"
             },
             "funding": [
                 {
@@ -3375,7 +3376,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-14T14:36:31+00:00"
+            "time": "2023-09-14T15:19:54+00:00"
         },
         {
             "name": "kiwilan/php-xml-reader",
@@ -16836,6 +16837,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "kiwilan/php-opds": 20,
         "kiwilan/steward-laravel": 20
     },
     "prefer-stable": true,

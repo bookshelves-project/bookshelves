@@ -39,7 +39,7 @@ class OpdsApp
             new OpdsEntryNavigation(
                 id: 'latest',
                 title: 'Latest',
-                route: '/opds/latest',
+                route: route('opds.latest'),
                 summary: 'Latest books',
                 media: asset('vendor/images/opds/books.png'),
                 updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
