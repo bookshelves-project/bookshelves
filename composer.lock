@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab266340fa11d16a444e82eaecaa0a6a",
+    "content-hash": "35c903bccf4a6c7fa4f72853d71a64e0",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3315,16 +3315,16 @@
         },
         {
             "name": "kiwilan/php-opds",
-            "version": "1.0.21",
+            "version": "1.0.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-opds.git",
-                "reference": "19cb3ae2ad26e64aa5171518c423b67695956fe6"
+                "reference": "f735885011e918463e7fcd601ca3ef6bea0bac8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/19cb3ae2ad26e64aa5171518c423b67695956fe6",
-                "reference": "19cb3ae2ad26e64aa5171518c423b67695956fe6",
+                "url": "https://api.github.com/repos/kiwilan/php-opds/zipball/f735885011e918463e7fcd601ca3ef6bea0bac8c",
+                "reference": "f735885011e918463e7fcd601ca3ef6bea0bac8c",
                 "shasum": ""
             },
             "require": {
@@ -3367,7 +3367,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-opds/issues",
-                "source": "https://github.com/kiwilan/php-opds/tree/v1.0.21"
+                "source": "https://github.com/kiwilan/php-opds/tree/v1.0.22"
             },
             "funding": [
                 {
@@ -3375,7 +3375,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-14T15:22:45+00:00"
+            "time": "2023-09-14T15:43:42+00:00"
         },
         {
             "name": "kiwilan/php-xml-reader",
