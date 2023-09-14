@@ -17,14 +17,10 @@ class IndexController extends Controller
     #[Get('/', name: 'opds.index')]
     public function index()
     {
-        $opds = Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::config())
             ->feeds(OpdsApp::home())
-            ->get()
+            ->send()
         ;
-
-        return response($opds->getResponse()->getContents(), 200, [
-            ...$opds->getResponse()->getHeaders(),
-        ]);
     }
 
     #[Get('/latest', name: 'opds.latest')]
@@ -36,15 +32,11 @@ class IndexController extends Controller
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        $opds = Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::config())
             ->title('Latest books')
             ->feeds($feeds)
-            ->get()
+            ->send()
         ;
-
-        return response($opds->getResponse()->getContents(), 200, [
-            ...$opds->getResponse()->getHeaders(),
-        ]);
     }
 
     #[Get('/random', name: 'opds.random')]
