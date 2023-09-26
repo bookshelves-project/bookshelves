@@ -12,7 +12,7 @@
 Bookshelves is a web application to handle eBooks, comics and audiobooks. Powered by Laravel.
 
 - [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
-- [**bookshelves.ink**](https://bookshelves.ink): demo
+- [**bookshelves.ink**](https://bookshelves.ink): demo (front uses [`bookshelves-front`](https://github.com/bookshelves-project/bookshelves-front))
 - [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-docs)
 
 ## Features
