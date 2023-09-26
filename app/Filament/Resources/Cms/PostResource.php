@@ -71,8 +71,7 @@ class PostResource extends Resource
                         FilamentForm::meta(),
                     ],
                 ], 1),
-            ])
-        ;
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -120,8 +119,7 @@ class PostResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ])
-            ->defaultSort('published_at', 'desc')
-        ;
+            ->defaultSort('published_at', 'desc');
     }
 
     public static function getRelations(): array

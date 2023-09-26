@@ -18,8 +18,7 @@ class BookController extends Controller
     {
         return HttpQuery::for(Book::class, $request)
             ->with(['authors', 'media', 'language', 'serie'])
-            ->collection()
-        ;
+            ->collection();
     }
 
     #[Get('/{author_slug}/{book_slug}', name: 'api.books.show')]

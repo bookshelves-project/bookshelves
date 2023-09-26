@@ -21,8 +21,7 @@ class ReviewsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('user_id')
                     ->required()
                     ->maxLength(255),
-            ])
-        ;
+            ]);
     }
 
     public function table(Table $table): Table
@@ -43,7 +42,6 @@ class ReviewsRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ])
-        ;
+            ]);
     }
 }

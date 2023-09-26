@@ -23,8 +23,7 @@ class IndexController extends Controller
         $author = Author::whereSlug($author)->firstOrFail();
         $book = Book::whereAuthorMainId($author->id)
             ->whereSlug($book)
-            ->firstOrFail()
-        ;
+            ->firstOrFail();
 
         $media = $book->file_main;
         $format = BookFormatEnum::from($media->format);

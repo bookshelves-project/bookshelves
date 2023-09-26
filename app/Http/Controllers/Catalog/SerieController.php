@@ -50,8 +50,7 @@ class SerieController extends Controller
         $author = Author::whereSlug($author)->firstOrFail();
         $serie = Serie::whereRelation('authors', fn ($query) => $query->where('author_id', '=', $author->id))
             ->whereSlug($slug)
-            ->firstOrFail()
-        ;
+            ->firstOrFail();
 
         $books = EntityResource::collection($serie->books->where('is_hidden', false));
 

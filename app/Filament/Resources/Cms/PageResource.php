@@ -66,8 +66,7 @@ class PageResource extends Resource
                             ->columnSpan(2),
                     ],
                 ]),
-            ])
-        ;
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -99,8 +98,7 @@ class PageResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ])
-        ;
+            ]);
     }
 
     public static function getRelations(): array

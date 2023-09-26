@@ -49,8 +49,7 @@ class ClearAllCommand extends Commandable
                 storage_path('app/public/cache'),
                 storage_path('app/public/debug'),
                 'bootstrap/cache',
-            ])
-        ;
+            ]);
 
         Artisan::call('cache:clear', [], $this->getOutput());
         Artisan::call('route:clear', [], $this->getOutput());

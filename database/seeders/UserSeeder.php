@@ -28,8 +28,7 @@ class UserSeeder extends Seeder
 
         User::where('role', '!=', UserRole::super_admin->value)
             ->where('role', '!=', UserRole::admin->value)
-            ->delete()
-        ;
+            ->delete();
 
         Storage::disk('public')->deleteDirectory('media/users');
         $faker = \Faker\Factory::create();
@@ -50,8 +49,7 @@ class UserSeeder extends Seeder
             ->config(
                 category: SeedsApiCategoryEnum::people,
             )
-            ->associate(User::class, 'avatar')
-        ;
+            ->associate(User::class, 'avatar');
 
         // $output = new ConsoleOutput();
         // $progress = new ProgressBar($output, $users->count());

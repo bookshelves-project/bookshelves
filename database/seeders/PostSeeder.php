@@ -15,7 +15,6 @@ class PostSeeder extends Seeder
         Post::factory()
             ->author()
             ->count(20)
-            ->create()
-        ;
+            ->create();
     }
 }

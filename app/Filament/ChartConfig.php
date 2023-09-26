@@ -24,8 +24,7 @@ class ChartConfig
             ->selectRaw("
                 count(id) as total,
                 date_format({$field}, '%Y') as year
-            ")
-        ;
+            ");
 
         if ($published) {
             $models_db = $models_db->where('status', '=', PublishStatusEnum::published->value);
@@ -37,8 +36,7 @@ class ChartConfig
 
         $models_db = $models_db->groupBy('year')
             ->get()
-            ->keyBy('year')
-        ;
+            ->keyBy('year');
 
         $models_db = $models_db->toArray();
         ksort($models_db);
@@ -64,8 +62,7 @@ class ChartConfig
             ->selectRaw("
                 count(id) as total,
                 {$field} as year
-            ")
-        ;
+            ");
 
         if ($published) {
             $models_db = $models_db->where('status', '=', PublishStatusEnum::published->value);
@@ -77,8 +74,7 @@ class ChartConfig
 
         $models_db = $models_db->groupBy('year')
             ->get()
-            ->keyBy('year')
-        ;
+            ->keyBy('year');
 
         $models_db = $models_db->toArray();
         ksort($models_db);
@@ -112,8 +108,7 @@ class ChartConfig
             ->whereYear('published_at', '=', $year)
             ->groupBy('period')
             ->get()
-            ->keyBy('period')
-        ;
+            ->keyBy('period');
 
         $periods = collect([]);
 
@@ -141,8 +136,7 @@ class ChartConfig
             ')
             ->get()
             ->map(fn ($row) => $row->presentation_year)
-            ->sort()
-        ;
+            ->sort();
         $current_year = date('Y');
         $limit_year = $current_year - 20;
 
@@ -155,8 +149,7 @@ class ChartConfig
             // ->whereYear('published_at', '=', $year)
             ->groupBy('period')
             ->get()
-            ->keyBy('period')
-        ;
+            ->keyBy('period');
 
         $periods = collect([]);
 

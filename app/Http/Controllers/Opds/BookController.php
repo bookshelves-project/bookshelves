@@ -22,13 +22,11 @@ class BookController extends Controller
         $author = Author::whereSlug($author_slug)->firstOrFail();
         $book = Book::whereAuthorMainId($author->id)
             ->whereSlug($book_slug)
-            ->firstOrFail()
-        ;
+            ->firstOrFail();
 
         Opds::make(OpdsApp::config())
             ->title("Book {$book->title}")
             ->feeds(OpdsApp::bookToEntry($book))
-            ->send()
-        ;
+            ->send();
     }
 }

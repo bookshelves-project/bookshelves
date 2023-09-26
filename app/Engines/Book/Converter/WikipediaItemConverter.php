@@ -68,8 +68,7 @@ class WikipediaItemConverter
             $this->model->clearMediaCollection($disk->value);
             MediaService::make($this->model, $this->model->slug, $disk)
                 ->setMedia($cover)
-                ->setColor()
-            ;
+                ->setColor();
         }
 
         return $this;

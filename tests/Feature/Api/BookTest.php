@@ -7,8 +7,7 @@ it('can list books', function () {
         ->assertJsonCount(32, 'data')
         ->assertSee('{"data":[', escape: false)
         ->assertSee('"links":{', escape: false)
-        ->assertSee('"meta":{', escape: false)
-    ;
+        ->assertSee('"meta":{', escape: false);
 
     expect(true)->toBeTrue();
 });

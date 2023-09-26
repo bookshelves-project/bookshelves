@@ -16,8 +16,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         return HttpQuery::for(Post::class, $request)
-            ->collection()
-        ;
+            ->collection();
     }
 
     #[Get('/{post_slug}', name: 'api.posts.show')]

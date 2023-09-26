@@ -39,8 +39,7 @@ class BookRelationsParserProcess implements ShouldQueue
         foreach ($model::all() as $entity) {
             EntityConverter::make($entity)
                 ->setTags()
-                ->parseLocalData()
-            ;
+                ->parseLocalData();
 
             if (! $this->default) {
                 CoverConverter::setLocalCover($entity);

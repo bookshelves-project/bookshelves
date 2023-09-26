@@ -21,8 +21,7 @@ class SeriesRelationManager extends RelationManager
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-            ])
-        ;
+            ]);
     }
 
     public function table(Table $table): Table
@@ -43,7 +42,6 @@ class SeriesRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ])
-        ;
+            ]);
     }
 }

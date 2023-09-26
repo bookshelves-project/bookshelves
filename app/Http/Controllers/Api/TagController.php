@@ -19,8 +19,7 @@ class TagController extends Controller
     public function index(Request $request)
     {
         return HttpQuery::for(TagExtend::class, $request)
-            ->collection()
-        ;
+            ->collection();
     }
 
     #[Get('/{tag_slug}', name: 'api.tags.show')]
@@ -36,15 +35,13 @@ class TagController extends Controller
             ->with(['serie', 'authors', 'media'])
             ->orderBy('slug_sort')
             ->doesntHave('serie')
-            ->get()
-        ;
+            ->get();
 
         $books_series = Book::withAllTags([$tag])
             ->with(['serie', 'authors', 'media', 'serie.media', 'serie.authors'])
             ->has('serie')
             ->orderBy('slug_sort')
-            ->get()
-        ;
+            ->get();
         $series = collect();
         $books_series->each(function ($book) use ($series) {
             $series->add($book->serie);

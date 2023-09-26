@@ -27,8 +27,7 @@ trait HasBookFiles
 
         foreach (BookFormatEnum::toValues() as $format) {
             $files[$format] = $that->getMedia($format)
-                ->first()
-            ;
+                ->first();
         }
 
         return MediaExtended::fromMedias($files);
@@ -45,8 +44,7 @@ trait HasBookFiles
 
         foreach (BookFormatEnum::toValues() as $format) {
             $media = $this->getMedia($format)
-                ->first(null, MediaExtended::class)
-            ;
+                ->first(null, MediaExtended::class);
             $files[$format] = is_string($media) ? null : $media;
         }
 
@@ -63,8 +61,7 @@ trait HasBookFiles
         return $this->getFilesListAttribute()
             ->reverse()
             ->filter(fn ($file) => $file !== null)
-            ->first()
-        ;
+            ->first();
     }
 
     public function filesListIsNull(): bool

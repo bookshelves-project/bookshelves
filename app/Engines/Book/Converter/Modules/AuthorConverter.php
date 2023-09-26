@@ -50,14 +50,12 @@ class AuthorConverter
             $detectHomonyms = config('bookshelves.authors.detect_homonyms');
             $existing = Author::whereFirstname($current->firstname)
                 ->whereLastname($current->lastname)
-                ->first()
-            ;
+                ->first();
 
             if ($detectHomonyms && ! $existing) {
                 $existing = Author::whereFirstname($current->lastname)
                     ->whereLastname($current->firstname)
-                    ->first()
-                ;
+                    ->first();
             }
 
             if ($existing) {
@@ -117,8 +115,7 @@ class AuthorConverter
                 'name' => $name,
                 'slug' => Str::slug($name, '-'),
                 'role' => AuthorRoleEnum::tryFrom($this->role),
-            ])
-        ;
+            ]);
     }
 
     public static function toName(?string $lastname, ?string $firstname): ?string

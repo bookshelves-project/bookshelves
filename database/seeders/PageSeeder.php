@@ -16,8 +16,7 @@ class PageSeeder extends Seeder
     public function run()
     {
         Page::query()
-            ->delete()
-        ;
+            ->delete();
 
         $templates_path = database_path('seeders/data/cms/pages');
         $media_disk = MediaDiskEnum::cms;

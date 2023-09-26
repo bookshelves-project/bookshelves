@@ -38,8 +38,7 @@ class CoverConverter
         if (file_exists($temp_file)) {
             MediaService::make($book, $book->slug, MediaDiskEnum::cover, method: SpatieMediaMethodEnum::addMediaFromString)
                 ->setMedia(file_get_contents($temp_file))
-                ->setColor()
-            ;
+                ->setColor();
 
             unlink($temp_file);
         }
@@ -66,8 +65,7 @@ class CoverConverter
 
         Image::load($temp_file) // @phpstan-ignore-line
             ->height($newHeight)
-            ->save($resize_file)
-        ;
+            ->save($resize_file);
 
         unlink($temp_file);
 
@@ -139,8 +137,7 @@ class CoverConverter
             $model->clearMediaCollection($disk->value);
             MediaService::make($model, $model->slug, $disk)
                 ->setMedia($local_cover)
-                ->setColor()
-            ;
+                ->setColor();
 
             $model->save();
         }

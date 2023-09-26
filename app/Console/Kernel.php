@@ -29,17 +29,14 @@ class Kernel extends ConsoleKernel
                     $name = config('app.name');
                     NotifyService::make()
                         ->message("[{$name}] The backup failed to run. Please check the logs.")
-                        ->send()
-                    ;
+                        ->send();
                 })
                 ->onSuccess(function () {
                     $name = config('app.name');
                     NotifyService::make()
                         ->message("[{$name}] The backup successfully ran.")
-                        ->send()
-                    ;
-                })
-            ;
+                        ->send();
+                });
         }
     }
 

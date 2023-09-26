@@ -81,8 +81,7 @@ class Author extends Model implements HasMedia, Wikipediable
     public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
     {
         $converter_engine = WikipediaItemConverter::make($item, $this)
-            ->setWikipediaDescription()
-        ;
+            ->setWikipediaDescription();
 
         if (! $default) {
             $converter_engine->setWikipediaCover();
@@ -99,8 +98,7 @@ class Author extends Model implements HasMedia, Wikipediable
     {
         return $this->morphedByMany(Book::class, 'authorable')
             ->orderBy('slug_sort')
-            ->orderBy('volume')
-        ;
+            ->orderBy('volume');
     }
 
     /**
@@ -110,8 +108,7 @@ class Author extends Model implements HasMedia, Wikipediable
     {
         return $this->morphedByMany(Serie::class, 'authorable')
             ->orderBy('slug_sort')
-            ->withCount('books')
-        ;
+            ->withCount('books');
     }
 
     public function getBooksLinkAttribute(): string

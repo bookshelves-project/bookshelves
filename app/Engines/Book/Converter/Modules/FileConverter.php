@@ -32,7 +32,6 @@ class FileConverter
             extension: $ebook->getExtension(),
             method: SpatieMediaMethodEnum::addMediaFromString
         )
-            ->setMedia($file)
-        ;
+            ->setMedia($file);
     }
 }

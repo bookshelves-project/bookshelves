@@ -45,7 +45,6 @@ class Publisher extends Model
     {
         return $this->hasMany(Book::class)
             ->orderBy('serie_id')
-            ->orderBy('volume')
-        ;
+            ->orderBy('volume');
     }
 }

@@ -59,8 +59,7 @@ class AuthorResource extends Resource
                             ->default(AuthorRoleEnum::aut->value),
                     ],
                 ], 1),
-            ])
-        ;
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -113,8 +112,7 @@ class AuthorResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ])
-            ->defaultSort('slug')
-        ;
+            ->defaultSort('slug');
     }
 
     public static function getRelations(): array

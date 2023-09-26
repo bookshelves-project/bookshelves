@@ -20,16 +20,14 @@ trait HasBooksCollection
         return $file_list
             ->reverse()
             ->filter(fn ($file) => $file !== null)
-            ->first()
-        ;
+            ->first();
     }
 
     public function getFilesListAttribute(): array
     {
         $entity = $this->meta_class_namespaced::whereSlug($this->slug)
             ->with('books.media')
-            ->first()
-        ;
+            ->first();
 
         return $this->getSizesList($entity);
     }

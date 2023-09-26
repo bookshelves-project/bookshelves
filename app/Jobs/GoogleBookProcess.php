@@ -32,8 +32,7 @@ class GoogleBookProcess implements ShouldQueue
         $books = Book::all();
         $service = GoogleBookService::make($books)
             ->setIsbnFields(['isbn13', 'isbn10'])
-            ->setDebug($this->verbose)
-        ;
+            ->setDebug($this->verbose);
 
         $console = PrintConsole::make();
         $count = $service->getCount();

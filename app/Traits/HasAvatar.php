@@ -22,12 +22,10 @@ trait HasAvatar
         if (config('app.env') !== 'local') {
             $this->addMediaConversion('avatar')
                 ->crop(Manipulations::CROP_TOP, $avatar['width'], $avatar['height'])
-                ->format(config('bookshelves.cover_extension'))
-            ;
+                ->format(config('bookshelves.cover_extension'));
             $this->addMediaConversion('banner')
                 ->crop(Manipulations::CROP_TOP, $banner['width'], $banner['height'])
-                ->format(config('bookshelves.cover_extension'))
-            ;
+                ->format(config('bookshelves.cover_extension'));
         }
     }
 
