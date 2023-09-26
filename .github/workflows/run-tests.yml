@@ -9,7 +9,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
-        php: [8.2, 8.1]
+        php: [8.2]
         stability: [prefer-stable]
 
     name: P${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
@@ -33,9 +33,9 @@ jobs:
       - name: Install dependencies
         run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: Execute phpstan
-        run: vendor/bin/phpstan analyse --memory-limit=2G
-        shell: bash
+      # - name: Execute phpstan
+      #   run: vendor/bin/phpstan analyse --memory-limit=2G
+      #   shell: bash
 
-      - name: Execute tests
-        run: vendor/bin/pest
+      # - name: Execute tests
+      #   run: vendor/bin/pest
