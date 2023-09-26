@@ -9,26 +9,23 @@
 [![license][license-src]][license-href]
 [![tests][tests-src]][tests-href]
 
-[laravel-version-src]: https://img.shields.io/badge/dynamic/json?label=Laravel&query=require[%27laravel/framework%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/composer.json&color=777bb4&logo=laravel&logoColor=ffffff&labelColor=18181b
-[laravel-version-href]: https://laravel.com/
-[php-version-src]: https://img.shields.io/badge/dynamic/json?label=PHP&query=require[%27php%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/composer.json&color=777bb4&logo=&logoColor=ffffff&labelColor=18181b
-[php-version-href]: https://www.php.net/
-[node-version-src]: https://img.shields.io/badge/dynamic/json?label=Node.js&query=engines[%27node%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/package.json&color=777bb4&labelColor=18181b
-[node-version-href]: https://nodejs.org/en
-[filament-version-src]: https://img.shields.io/badge/dynamic/json?label=Filament&query=require[%27filament/filament%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/composer.json&color=777bb4&logoColor=ffffff&labelColor=18181b
-[filament-version-href]: https://filamentphp.com/
-[tests-src]: https://img.shields.io/github/actions/workflow/status/bookshelves-project/bookshelves/ci.yml?branch=main&label=tests&style=flat-square&colorA=18181B
-[tests-href]: https://github.com/bookshelves-project/bookshelves/actions/workflows/ci.yml
-[license-src]: https://img.shields.io/github/license/bookshelves-project/bookshelves.svg?style=flat&colorA=18181B&colorB=777bb4
-[license-href]: https://github.com/bookshelves-project/bookshelves/blob/main/LICENSE
+Bookshelves is a web application to handle eBooks, comics and audiobooks. Powered by Laravel.
 
+- [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
+- [**bookshelves.ink**](https://bookshelves.ink): demo
+- [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-docs)
 
+## Features
 
-- 📀 [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
-- 💻 [**bookshelves.ink**](https://bookshelves.ink): demo
-- 📚 [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-doc)
+// TODO
 
-## **Setup**
+### Roadmap
+
+- [ ] Add Docker installation option
+- [ ] Add Plex-like solution
+- [ ] Add tests
+
+## Installation
 
 Download dependencies
 
@@ -43,46 +40,40 @@ Execute `setup` and follow guide
 php artisan setup
 ```
 
-See [**documentation**](https://bookshelves-documentation.netlify.app) to know more about _Bookshelves_.
+## Usage
 
-## **Usage**
+To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app).
 
-To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app), if this link is broken, you have to refer to [**raw documentation**](https://github.com/bookshelves-project/bookshelves-doc) on repository.
-
-## **Tests**
+## Tests
 
 Run tests.
 
 ```bash
 composer test
 ```
+## Environment
 
-```bash
-cp .env.testing.example .env.testing
-```
+Bookshelves is powered by [`laravel`](https://laravel.com/) and administrator panel was built with [`filament`](https://filamentphp.com/).
 
-```bash
-php artisan migrate --env=testing
-```
+Search engine uses [`meilisearch`](https://www.meilisearch.com/) with [`laravel/scout`](https://laravel.com/docs/master/scout).
 
-```bash
-php artisan test
-```
+EBooks, comics and audiobooks are handled by [`kiwilan/php-ebook`](https://github.com/kiwilan/php-ebook) and OPDS feature built by [`kiwilan/php-opds`](https://github.com/kiwilan/php-opds).
 
-```bash
-phpunit-watcher watch
-```
+A lot of amazing [`spatie`](https://spatie.be/) packages are used in this project.
 
-### Watch
+## License
 
-Install `spatie/phpunit-watcher` [GitHub](https://github.com/spatie/phpunit-watcher)
+The Bookshelves is open-sourced software licensed under the [BSD 2-Clause License](https://opensource.org/license/bsd-2-clause).
 
-```bash
-composer global require spatie/phpunit-watcher
-```
-
-And run tests.
-
-```bash
-composer test:watch
-```
+[laravel-version-src]: https://img.shields.io/badge/dynamic/json?label=Laravel&query=require[%27laravel/framework%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/composer.json&color=777bb4&logo=laravel&logoColor=ffffff&labelColor=18181b
+[laravel-version-href]: https://laravel.com/
+[php-version-src]: https://img.shields.io/badge/dynamic/json?label=PHP&query=require[%27php%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/composer.json&color=777bb4&logo=&logoColor=ffffff&labelColor=18181b
+[php-version-href]: https://www.php.net/
+[node-version-src]: https://img.shields.io/badge/dynamic/json?label=Node.js&query=engines[%27node%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/package.json&color=777bb4&labelColor=18181b
+[node-version-href]: https://nodejs.org/en
+[filament-version-src]: https://img.shields.io/badge/dynamic/json?label=Filament&query=require[%27filament/filament%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/composer.json&color=777bb4&logoColor=ffffff&labelColor=18181b
+[filament-version-href]: https://filamentphp.com/
+[tests-src]: https://img.shields.io/github/actions/workflow/status/bookshelves-project/bookshelves/ci.yml?branch=main&label=tests&style=flat-square&colorA=18181B
+[tests-href]: https://github.com/bookshelves-project/bookshelves/actions/workflows/ci.yml
+[license-src]: https://img.shields.io/github/license/bookshelves-project/bookshelves.svg?style=flat&colorA=18181B&colorB=777bb4
+[license-href]: https://github.com/bookshelves-project/bookshelves/blob/main/LICENSE
