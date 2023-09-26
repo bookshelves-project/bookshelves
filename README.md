@@ -13,9 +13,19 @@ Bookshelves is a web application to handle eBooks, comics and audiobooks. Powere
 
 - [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
 - [**bookshelves.ink**](https://bookshelves.ink): demo
-- [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-doc)
+- [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-docs)
 
-## **Setup**
+## Features
+
+// TODO
+
+### Roadmap
+
+- [ ] Add Docker installation option
+- [ ] Add Plex-like solution
+- [ ] Add tests
+
+## Installation
 
 Download dependencies
 
@@ -30,55 +40,30 @@ Execute `setup` and follow guide
 php artisan setup
 ```
 
-See [**documentation**](https://bookshelves-documentation.netlify.app) to know more about _Bookshelves_.
+## Usage
 
-## **Usage**
+To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app).
 
-To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app), if this link is broken, you have to refer to [**raw documentation**](https://github.com/bookshelves-project/bookshelves-doc) on repository.
-
-## **Tests**
+## Tests
 
 Run tests.
 
 ```bash
 composer test
 ```
-
-```bash
-cp .env.testing.example .env.testing
-```
-
-```bash
-php artisan migrate --env=testing
-```
-
-```bash
-php artisan test
-```
-
-```bash
-phpunit-watcher watch
-```
-
-### Watch
-
-Install `spatie/phpunit-watcher` [GitHub](https://github.com/spatie/phpunit-watcher)
-
-```bash
-composer global require spatie/phpunit-watcher
-```
-
-And run tests.
-
-```bash
-composer test:watch
-```
-
 ## Environment
+
+Bookshelves is powered by [`laravel`](https://laravel.com/) and administrator panel was built with [`filament`](https://filamentphp.com/).
+
+Search engine uses [`meilisearch`](https://www.meilisearch.com/) with [`laravel/scout`](https://laravel.com/docs/master/scout).
+
+EBooks, comics and audiobooks are handled by [`kiwilan/php-ebook`](https://github.com/kiwilan/php-ebook) and OPDS feature built by [`kiwilan/php-opds`](https://github.com/kiwilan/php-opds).
+
+A lot of amazing [`spatie`](https://spatie.be/) packages are used in this project.
 
 ## License
 
-The Bookshelves is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Bookshelves is open-sourced software licensed under the [BSD 2-Clause License](https://opensource.org/license/bsd-2-clause).
 
 [laravel-version-src]: https://img.shields.io/badge/dynamic/json?label=Laravel&query=require[%27laravel/framework%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/composer.json&color=777bb4&logo=laravel&logoColor=ffffff&labelColor=18181b
 [laravel-version-href]: https://laravel.com/
