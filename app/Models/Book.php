@@ -147,8 +147,7 @@ class Book extends Model implements GoogleBookable, HasMedia
     public function scopePublishedBetween(Builder $query, string $startDate, string $endDate): Builder
     {
         return $query
-            ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)])
-        ;
+            ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)]);
     }
 
     /**

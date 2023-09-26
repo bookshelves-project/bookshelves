@@ -31,8 +31,7 @@ class EntityService
         $relatedBooks = Book::withAllTags($book->tags)
             ->with(['serie'])
             ->whereLanguageSlug($book->language_slug)
-            ->get()
-        ;
+            ->get();
 
         // get serie of current book
         $serieBooks = Serie::whereSlug($book->serie?->slug)->first();

@@ -86,8 +86,7 @@ class Serie extends Model implements HasMedia, Wikipediable
         // Get Books into Serie, by volume order.
         return $this->hasMany(Book::class)
             ->where('is_hidden', false)
-            ->orderBy('volume')
-        ;
+            ->orderBy('volume');
     }
 
     public function getBooksLinkAttribute(): string
@@ -136,8 +135,7 @@ class Serie extends Model implements HasMedia, Wikipediable
     public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
     {
         WikipediaItemConverter::make($item, $this)
-            ->setWikipediaDescription()
-        ;
+            ->setWikipediaDescription();
         $this->save();
 
         return $this;

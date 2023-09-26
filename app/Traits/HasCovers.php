@@ -36,18 +36,15 @@ trait HasCovers
         if (config('app.env') !== 'local') {
             $this->addMediaConversion('thumbnail')
                 ->crop(Manipulations::CROP_TOP, $formatThumbnail['width'], $formatThumbnail['height'])
-                ->format(config('bookshelves.cover_extension'))
-            ;
+                ->format(config('bookshelves.cover_extension'));
 
             $this->addMediaConversion('og')
                 ->crop(Manipulations::CROP_CENTER, $formatStandard['width'], $formatStandard['height'])
-                ->format('jpg')
-            ;
+                ->format('jpg');
 
             $this->addMediaConversion('simple')
                 ->crop(Manipulations::CROP_CENTER, $formatSimple['width'], $formatSimple['height'])
-                ->format('jpg')
-            ;
+                ->format('jpg');
         }
     }
 

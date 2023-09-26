@@ -28,8 +28,7 @@ class AuthorController extends Controller
                 $count = Author::query()
                     ->orderBy('lastname')
                     ->whereFirstCharacterIs($char)
-                    ->count()
-                ;
+                    ->count();
                 $feeds[] = new OpdsEntryNavigation(
                     id: $id,
                     title: "{$char} ({$count} entries)",
@@ -45,8 +44,7 @@ class AuthorController extends Controller
         Opds::make(OpdsApp::config())
             ->title('Authors')
             ->feeds($feeds)
-            ->send()
-        ;
+            ->send();
     }
 
     #[Get('/{character}', name: 'opds.authors.character')]
@@ -57,8 +55,7 @@ class AuthorController extends Controller
             $authors = Author::query()
                 ->orderBy('lastname')
                 ->whereFirstCharacterIs($character)
-                ->get()
-            ;
+                ->get();
 
             $feeds = [];
 
@@ -82,8 +79,7 @@ class AuthorController extends Controller
         Opds::make(OpdsApp::config())
             ->title("Authors with {$character}")
             ->feeds($feeds)
-            ->send()
-        ;
+            ->send();
     }
 
     #[Get('/{character}/{author}', name: 'opds.authors.show')]
@@ -99,7 +95,6 @@ class AuthorController extends Controller
         Opds::make(OpdsApp::config()->usePagination())
             ->title("Author {$author->lastname} {$author->firstname}")
             ->feeds($feeds)
-            ->send()
-        ;
+            ->send();
     }
 }

@@ -96,8 +96,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia
     {
         return $query->where('role', '=', UserRoleEnum::editor)
             ->orWhere('role', '=', UserRoleEnum::admin)
-            ->orWhere('role', '=', UserRoleEnum::super_admin)
-        ;
+            ->orWhere('role', '=', UserRoleEnum::super_admin);
     }
 
     protected function getIsEditorAttribute(): bool

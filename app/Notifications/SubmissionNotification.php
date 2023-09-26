@@ -53,8 +53,7 @@ class SubmissionNotification extends Notification
             ])
             ->action('Check on dashboard', route('filament.resources.submissions.index'))
             ->line('Regards,')
-            ->salutation("{$appName} team")
-        ;
+            ->salutation("{$appName} team");
     }
 
     /**

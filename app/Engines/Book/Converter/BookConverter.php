@@ -137,8 +137,7 @@ class BookConverter
     private function syncSerie(BookTypeEnum $type): self
     {
         $serie = SerieConverter::toModel($this->ebook, $type)
-            ->associate($this->book)
-        ;
+            ->associate($this->book);
 
         if ($serie) {
             $this->book?->serie()->associate($serie);

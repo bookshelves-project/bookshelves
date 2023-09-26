@@ -69,8 +69,7 @@ class SyncBooks implements ShouldQueue
                 ->icon('heroicon-o-arrow-path')
                 ->iconColor('success')
                 ->body($this->fresh ? 'All books are deleted and re-created.' : 'All books are sync with assets and relations.')
-                ->sendToDatabase($this->recipient)
-            ;
+                ->sendToDatabase($this->recipient);
         }
     }
 
@@ -88,7 +87,6 @@ class SyncBooks implements ShouldQueue
             ->icon('heroicon-o-arrow-path')
             ->iconColor('danger')
             ->body("Sync process failed with error: {$exception->getMessage()}")
-            ->sendToDatabase($this->recipient)
-        ;
+            ->sendToDatabase($this->recipient);
     }
 }

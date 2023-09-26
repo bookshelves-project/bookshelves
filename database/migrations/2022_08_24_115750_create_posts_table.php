@@ -33,8 +33,7 @@ return new class() extends Migration
             $table->foreign('author_id')
                 ->references('id')
                 ->on('users')
-                ->nullOnDelete()
-            ;
+                ->nullOnDelete();
 
             $table->timestamps();
         });

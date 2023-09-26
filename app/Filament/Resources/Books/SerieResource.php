@@ -80,8 +80,7 @@ class SerieResource extends Resource
                         FilamentForm::meta(),
                     ],
                 ], 1),
-            ])
-        ;
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -139,8 +138,7 @@ class SerieResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ])
-            ->defaultSort('slug_sort')
-        ;
+            ->defaultSort('slug_sort');
     }
 
     public static function getRelations(): array

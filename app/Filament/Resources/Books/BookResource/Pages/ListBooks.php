@@ -30,8 +30,7 @@ class ListBooks extends ListRecords
                         ->body('Books and relations will be updated in background, you can close this window.')
                         ->icon('heroicon-o-arrow-path')
                         ->iconColor('success')
-                        ->send()
-                    ;
+                        ->send();
                 }),
             Actions\Action::make('sync-fresh')
                 ->icon('heroicon-o-arrow-path')
@@ -48,8 +47,7 @@ class ListBooks extends ListRecords
                         ->body('Books and relations will be deleted and refreshed in background, you can close this window.')
                         ->icon('heroicon-o-arrow-path')
                         ->iconColor('danger')
-                        ->send()
-                    ;
+                        ->send();
                 }),
             Actions\Action::make('upload')
                 ->label('Upload new books')

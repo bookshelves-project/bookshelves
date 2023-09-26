@@ -74,8 +74,7 @@ class WikipediaProcess implements ShouldQueue
         $service = WikipediaService::make($className::all())
             ->setLanguageAttribute('language_slug')
             ->setQueryAttributes($attributes)
-            ->setDebug($this->verbose)
-        ;
+            ->setDebug($this->verbose);
 
         if ($precision) {
             $service->setPrecisionQuery($precision);

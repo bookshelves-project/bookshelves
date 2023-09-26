@@ -93,8 +93,7 @@ class MakeCommand extends Commandable
 
         $this->books = Book::all()
             ->map(fn (Book $book) => $book->physical_path)
-            ->toArray()
-        ;
+            ->toArray();
 
         $bar = $this->output->createProgressBar(count($this->files));
         $bar->start();

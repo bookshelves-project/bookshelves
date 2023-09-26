@@ -30,8 +30,7 @@ class EntityController extends Controller
         $books = Book::query()
             ->orderByDesc('updated_at')
             ->limit(10)
-            ->get()
-        ;
+            ->get();
 
         return EntityResource::collection($books);
     }
@@ -50,8 +49,7 @@ class EntityController extends Controller
             ->orderBy('updated_at')
             ->with(['selectionable'])
             ->limit(10)
-            ->get()
-        ;
+            ->get();
 
         return EntityResource::collection($selection);
     }

@@ -28,8 +28,7 @@ class SerieController extends Controller
                 $count = Serie::query()
                     ->orderBy('title')
                     ->whereFirstCharacterIs($char)
-                    ->count()
-                ;
+                    ->count();
                 $feeds[] = new OpdsEntryNavigation(
                     id: $id,
                     title: "{$char} ({$count} entries)",
@@ -45,8 +44,7 @@ class SerieController extends Controller
         Opds::make(OpdsApp::config())
             ->title('Series')
             ->feeds($feeds)
-            ->send()
-        ;
+            ->send();
     }
 
     #[Get('/{character}', name: 'opds.series.character')]
@@ -57,8 +55,7 @@ class SerieController extends Controller
             $series = Serie::query()
                 ->orderBy('title')
                 ->whereFirstCharacterIs($character)
-                ->get()
-            ;
+                ->get();
 
             $feeds = [];
 
@@ -82,8 +79,7 @@ class SerieController extends Controller
         Opds::make(OpdsApp::config())
             ->title("Series with {$character}")
             ->feeds($feeds)
-            ->send()
-        ;
+            ->send();
     }
 
     #[Get('/{character}/{serie}', name: 'opds.series.show')]
@@ -99,7 +95,6 @@ class SerieController extends Controller
         Opds::make(OpdsApp::config())
             ->title("Serie {$serie->title}")
             ->feeds($feeds)
-            ->send()
-        ;
+            ->send();
     }
 }

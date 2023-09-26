@@ -32,8 +32,7 @@ return new class() extends Migration
                 ->nullable()
                 ->after('serie_id')
                 ->constrained('authors')
-                ->nullOnDelete()
-            ;
+                ->nullOnDelete();
         });
 
         Schema::table('series', function (Blueprint $table) {
@@ -42,8 +41,7 @@ return new class() extends Migration
                 ->nullable()
                 ->after('link')
                 ->constrained('authors')
-                ->nullOnDelete()
-            ;
+                ->nullOnDelete();
         });
     }
 

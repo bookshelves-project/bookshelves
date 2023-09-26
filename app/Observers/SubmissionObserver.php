@@ -17,7 +17,6 @@ class SubmissionObserver
             config('mail.recipients.default.address') => config('mail.recipients.default.name'),
         ];
         Notification::route('mail', $recipient)
-            ->notify(new SubmissionNotification($submission))
-        ;
+            ->notify(new SubmissionNotification($submission));
     }
 }

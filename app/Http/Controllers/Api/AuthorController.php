@@ -19,8 +19,7 @@ class AuthorController extends Controller
     {
         return HttpQuery::for(Author::class, $request)
             ->with(['media'])
-            ->collection()
-        ;
+            ->collection();
     }
 
     #[Get('/{author_slug}', name: 'api.authors.show')]

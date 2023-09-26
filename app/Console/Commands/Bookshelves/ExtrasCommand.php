@@ -62,8 +62,7 @@ class ExtrasCommand extends Commandable
         $this->askOnProduction();
 
         DirectoryService::make()
-            ->clear([storage_path('app/public/debug/wikipedia')])
-        ;
+            ->clear([storage_path('app/public/debug/wikipedia')]);
 
         $authors = $this->option('authors') ?: false;
         $series = $this->option('series') ?: false;

@@ -44,8 +44,7 @@ class PublisherController extends Controller
         // ;
 
         return HttpQuery::for(Publisher::class, $request)
-            ->collection()
-        ;
+            ->collection();
     }
 
     /**

@@ -29,8 +29,7 @@ return new class() extends Migration
             $table->foreign('serie_id')
                 ->references('id')
                 ->on('series')
-                ->nullOnDelete()
-            ;
+                ->nullOnDelete();
         });
     }
 

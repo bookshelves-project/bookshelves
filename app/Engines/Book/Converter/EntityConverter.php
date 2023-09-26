@@ -93,8 +93,7 @@ class EntityConverter
             $this->model->clearMediaCollection($disk->value);
             MediaService::make($this->model, $this->model->slug, $disk)
                 ->setMedia(base64_encode(File::get($placeholder)))
-                ->setColor()
-            ;
+                ->setColor();
         }
 
         return $this;

@@ -22,8 +22,7 @@ class BooksRelationManager extends RelationManager
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-            ])
-        ;
+            ]);
     }
 
     public function table(Table $table): Table
@@ -49,7 +48,6 @@ class BooksRelationManager extends RelationManager
                     ->url(fn (Book $record): string => route('filament.resources.books.edit', ['record' => $record->id]))
                     ->icon('heroicon-o-pencil'),
             ])
-            ->defaultSort('volume')
-        ;
+            ->defaultSort('volume');
     }
 }

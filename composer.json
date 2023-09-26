@@ -1,9 +1,9 @@
 {
-  "name": "bookshelves/back",
+  "name": "bookshelves/bookshelves",
   "type": "project",
-  "description": "Back of Bookshelves application.",
+  "description": "Bookshelves core application.",
   "license": "BSD 2-Clause",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "homepage": "https://github.com/bookshelves-project",
   "authors": [
     {
@@ -39,7 +39,7 @@
     "guzzlehttp/guzzle": "^7.2",
     "http-interop/http-factory-guzzle": "^1.2",
     "kiwilan/php-ebook": "^2.0.12",
-    "kiwilan/php-opds": "^1.0.23",
+    "kiwilan/php-opds": "^1.0.30",
     "kiwilan/steward-laravel": "dev-main",
     "laravel/framework": "^10.0",
     "laravel/jetstream": "^3.2",
@@ -101,7 +101,7 @@
       "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
       "@php artisan filament:upgrade",
       "@php artisan optimize:clear",
-      "./vendor/bin/pint --config vendor/kiwilan/steward-laravel/pint.json",
+      "./vendor/bin/pint",
       "@php artisan ide-helper:generate",
       "@php artisan ide-helper:models --nowrite --reset",
       "php artisan ide-helper:meta",
@@ -114,7 +114,7 @@
       "@php artisan key:generate --ansi"
     ],
     "helper": [
-      "./vendor/bin/pint --config vendor/kiwilan/steward-laravel/pint.json",
+      "./vendor/bin/pint",
       "@php artisan ide-helper:generate",
       "@php artisan ide-helper:models --nowrite --reset",
       "php artisan ide-helper:meta",

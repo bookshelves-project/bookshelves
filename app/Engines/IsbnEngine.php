@@ -28,8 +28,7 @@ class IsbnEngine
         ];
 
         $http = HttpPool::make($engine->api_list)
-            ->execute()
-        ;
+            ->execute();
 
         foreach ($http->getResponses() as $origin => $response) {
             dump($response);

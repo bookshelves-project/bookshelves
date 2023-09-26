@@ -21,8 +21,7 @@ class SerieController extends Controller
     {
         return HttpQuery::for(Serie::class, $request)
             ->with(['media', 'authors', 'language'])
-            ->collection()
-        ;
+            ->collection();
     }
 
     #[Get('/{author_slug}/{serie_slug}', name: 'api.series.show')]
@@ -37,8 +36,7 @@ class SerieController extends Controller
         $book = Book::where('serie_id', $serie->id)
             ->where('volume', '=', $volume + 1)
             ->orderBy('volume')
-            ->firstOrFail()
-        ;
+            ->firstOrFail();
 
         return BookCollection::make($book);
     }

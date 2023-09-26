@@ -39,8 +39,7 @@ class ClearCommand extends Commandable
                 public_path('storage/media'),
                 public_path('storage/posts'),
                 public_path('storage/settings'),
-            ])
-        ;
+            ]);
 
         return Command::SUCCESS;
     }
