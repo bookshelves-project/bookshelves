@@ -1,27 +1,27 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
-        "moduleResolution": "node",
-        "strict": true,
-        "jsx": "preserve",
-        "sourceMap": true,
-        "resolveJsonModule": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "noImplicitAny": false,
-        "lib": ["esnext", "dom"],
-        "types": ["vite/client"],
-        "typeRoots": ["./node_modules/@types", "resources/**/*.d.ts"],
-        "paths": {
-            "@/*": ["./resources/js/*"],
-            "@": ["./resources/js"]
-        }
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "jsx": "preserve",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "paths": {
+      "@/*": ["./resources/js/*"],
+      "@": ["./resources/js"]
     },
-    "include": [
-        "resources/**/*.ts",
-        "resources/**/*.{js,jsx,ts,tsx,vue}",
-        "components.d.ts",
-        "auto-imports.d.ts"
-    ]
+    "typeRoots": ["./node_modules/@types", "resources/**/*.d.ts"],
+    "types": ["vite/client"],
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true
+  },
+  "include": [
+    "resources/**/*.ts",
+    "resources/**/*.{js,jsx,ts,tsx,vue}",
+    "components.d.ts",
+    "auto-imports.d.ts"
+  ]
 }

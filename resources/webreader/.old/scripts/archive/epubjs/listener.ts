@@ -7,11 +7,11 @@
  * Listen for clicks and convert them to actions based on the location of the
  * click on the page.
  * @param {Document} document - The document to add event listeners to.
- * @param {Object} rendition - EPUBJS rendition
- * @param {function} fn - The listener function.
+ * @param {object} rendition - EPUBJS rendition
+ * @param {Function} fn - The listener function.
  */
 
-const mouseListener = (document, rendition, fn) => {
+function mouseListener(document, rendition, fn) {
   document.addEventListener(
     'click',
     (event) => {
@@ -45,10 +45,10 @@ const mouseListener = (document, rendition, fn) => {
 /**
  * Listen for key press
  * @param {HTMLElement} el - The element to add event listeners to.
- * @param {function} fn - The listener function.
+ * @param {Function} fn - The listener function.
  */
 
-const keyListener = (el, fn) => {
+function keyListener(el, fn) {
   el.addEventListener(
     'keyup',
     (e) => {
@@ -66,10 +66,10 @@ const keyListener = (el, fn) => {
 
 /**
  * @param {Document} document - The document object to add event
- * @param {Object} rendition - The EPUBJS rendition
+ * @param {object} rendition - The EPUBJS rendition
  * @param {Function} fb - The listener function
  */
-const selectListener = (document, rendition, fn) => {
+function selectListener(document, rendition, fn) {
   document.addEventListener('mousedown', () => {
     document.getSelection().removeAllRanges()
     fn('cleared')
@@ -113,9 +113,9 @@ const selectListener = (document, rendition, fn) => {
 /**
  * Listen for swipes convert them to actions.
  * @param {Document} document - The document to add event listeners to.
- * @param {function} fn - The listener function.
+ * @param {Function} fn - The listener function.
  */
-const swipListener = (document, fn) => {
+function swipListener(document, fn) {
   // Defaults: 100, 350, 100
   // Required min distance traveled to be considered swipe
   const threshold = 50
@@ -189,10 +189,10 @@ const swipListener = (document, fn) => {
 /**
  * Listen for wheel and convert them to next or prev action based on direction.
  * @param {HTMLElement} el - The element to add event listeners to.
- * @param {function} fn - The listener function.
+ * @param {Function} fn - The listener function.
  */
 
-const wheelListener = (el, fn) => {
+function wheelListener(el, fn) {
   // Required min distance traveled to be considered swipe
   const threshold = 750
   // Maximum time allowed to travel that distance

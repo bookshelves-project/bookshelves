@@ -180,7 +180,7 @@ const webreader: IWebreader = {
     }
     if (localStorage.getItem(this.bookData.filename) !== null) {
       const currentPage = localStorage.getItem(this.bookData.filename)!
-      this.currentPage = parseInt(currentPage)
+      this.currentPage = Number.parseInt(currentPage)
     }
     this.switchSize(config.size!)
     this.navigationIsLock = config.locked!
