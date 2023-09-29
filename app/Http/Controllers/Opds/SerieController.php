@@ -41,7 +41,7 @@ class SerieController extends Controller
             return $feeds;
         });
 
-        Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::options())
             ->title('Series')
             ->feeds($feeds)
             ->send();
@@ -76,7 +76,7 @@ class SerieController extends Controller
             return $feeds;
         });
 
-        Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::options())
             ->title("Series with {$character}")
             ->feeds($feeds)
             ->send();
@@ -92,7 +92,7 @@ class SerieController extends Controller
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::options())
             ->title("Serie {$serie->title}")
             ->feeds($feeds)
             ->send();

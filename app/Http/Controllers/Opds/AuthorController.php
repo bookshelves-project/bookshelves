@@ -41,7 +41,7 @@ class AuthorController extends Controller
             return $feeds;
         });
 
-        Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::options())
             ->title('Authors')
             ->feeds($feeds)
             ->send();
@@ -76,7 +76,7 @@ class AuthorController extends Controller
             return $feeds;
         });
 
-        Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::options())
             ->title("Authors with {$character}")
             ->feeds($feeds)
             ->send();
@@ -92,7 +92,7 @@ class AuthorController extends Controller
             $feeds[] = OpdsApp::bookToEntry($book);
         }
 
-        Opds::make(OpdsApp::config()->usePagination())
+        Opds::make(OpdsApp::options()->usePagination())
             ->title("Author {$author->lastname} {$author->firstname}")
             ->feeds($feeds)
             ->send();

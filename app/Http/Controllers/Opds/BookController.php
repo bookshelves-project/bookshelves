@@ -24,7 +24,7 @@ class BookController extends Controller
             ->whereSlug($book_slug)
             ->firstOrFail();
 
-        Opds::make(OpdsApp::config())
+        Opds::make(OpdsApp::options())
             ->title("Book {$book->title}")
             ->feeds(OpdsApp::bookToEntry($book))
             ->send();

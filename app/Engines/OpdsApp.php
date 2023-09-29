@@ -14,7 +14,7 @@ use Kiwilan\Opds\OpdsConfig;
 
 class OpdsApp
 {
-    public static function config(): OpdsConfig
+    public static function options(): OpdsConfig
     {
         return new OpdsConfig(
             name: config('app.name'),
