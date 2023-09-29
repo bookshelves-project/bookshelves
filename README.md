@@ -2,8 +2,8 @@
 
 ![banner](https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/public/vendor/images/banner-github.png)
 
-[![laravel][laravel-version-src]][laravel-version-href]
 [![php][php-version-src]][php-version-href]
+[![laravel][laravel-version-src]][laravel-version-href]
 [![filament][filament-version-src]][filament-version-href]
 [![node][node-version-src]][node-version-href]
 [![license][license-src]][license-href]

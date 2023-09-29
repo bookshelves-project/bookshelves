@@ -4,5 +4,6 @@
   },
   "laravel-pint.configPath": "vendor/kiwilan/steward-laravel/pint.json",
   "dotenv.enableAutocloaking": false,
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.experimental.useFlatConfig": true
 }
