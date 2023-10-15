@@ -38,12 +38,13 @@
     "filament/spatie-laravel-translatable-plugin": "^3.0.36",
     "guzzlehttp/guzzle": "^7.2",
     "http-interop/http-factory-guzzle": "^1.2",
+    "inertiajs/inertia-laravel": "^0.6.8",
     "kiwilan/php-ebook": "^2.0.12",
     "kiwilan/php-opds": "^1.0.30",
     "kiwilan/steward-laravel": "dev-main",
     "kiwilan/typescriptable-laravel": "^1.11",
     "laravel/framework": "^10.0",
-    "laravel/jetstream": "^3.2",
+    "laravel/jetstream": "^4.0",
     "laravel/sanctum": "^3.2",
     "laravel/scout": "^10.0",
     "laravel/telescope": "^4.15",
@@ -63,7 +64,8 @@
     "spatie/laravel-route-attributes": "^1.18",
     "spatie/laravel-settings": "^2.8",
     "spatie/laravel-tags": "^4.3",
-    "spatie/laravel-translatable": "^6.3"
+    "spatie/laravel-translatable": "^6.3",
+    "tightenco/ziggy": "^1.0"
   },
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^2.13",
@@ -75,9 +77,9 @@
     "mockery/mockery": "^1.4.4",
     "nunomaduro/collision": "^7.0",
     "nunomaduro/larastan": "^2.0",
-    "pestphp/pest": "^2.13",
+    "pestphp/pest": "^2.0",
     "pestphp/pest-plugin-faker": "^2.0",
-    "pestphp/pest-plugin-laravel": "^2.2",
+    "pestphp/pest-plugin-laravel": "^2.0",
     "spatie/laravel-ignition": "^2.0"
   },
   "autoload": {

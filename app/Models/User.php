@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Traits\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -14,16 +12,21 @@ use Illuminate\Notifications\Notifiable;
 use Kiwilan\Steward\Enums\GenderEnum;
 use Kiwilan\Steward\Enums\UserRoleEnum;
 use Kiwilan\Steward\Traits\HasUsername;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 
 class User extends Authenticatable implements FilamentUser, HasMedia
 {
+    use HasApiTokens;
     use HasApiTokens, HasFactory, Notifiable;
     use HasAvatar;
+    use HasFactory;
     use HasProfilePhoto;
     use HasUsername;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.

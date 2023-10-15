@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import laravel, { refreshPaths } from 'laravel-vite-plugin'
+import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [
@@ -11,10 +12,19 @@ export default defineConfig({
         'resources/webreader/css/app.css',
         'resources/webreader/ts/app.ts',
       ],
-      refresh: [
-        ...refreshPaths,
-        'app/Http/Livewire/**',
-      ],
+      // refresh: [
+      //   ...refreshPaths,
+      //   'app/Http/Livewire/**',
+      // ],
+      refresh: true,
+    }),
+    vue({
+      template: {
+        transformAssetUrls: {
+          base: null,
+          includeAbsolute: false,
+        },
+      },
     }),
   ],
 })

@@ -9,7 +9,8 @@
       "@/*": ["./resources/js/*"],
       "@": ["./resources/js"]
     },
-    "typeRoots": ["./node_modules/@types", "resources/**/*.d.ts"],
+    "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types", "./**/*.d.ts"],
     "types": ["vite/client"],
     "resolveJsonModule": true,
     "sourceMap": true,
@@ -18,10 +19,8 @@
     "noImplicitAny": false,
     "skipLibCheck": true
   },
-  "include": [
-    "resources/**/*.ts",
-    "resources/**/*.{js,jsx,ts,tsx,vue}",
-    "components.d.ts",
-    "auto-imports.d.ts"
+  "exclude": [
+    "node_modules",
+    "public"
   ]
 }

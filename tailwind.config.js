@@ -1,8 +1,12 @@
-const plugin = require('tailwindcss/plugin')
-const colors = require('tailwindcss/colors')
+import forms from '@tailwindcss/forms'
+import typography from '@tailwindcss/typography'
+import aspectRatio from '@tailwindcss/aspect-ratio'
+import plugin from 'tailwindcss/plugin'
+import colors from 'tailwindcss/colors'
+import defaultTheme from 'tailwindcss/defaultTheme'
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   safelist: [
     'w-6', // svg
     'h-6', // svg
@@ -21,6 +25,7 @@ module.exports = {
       fontFamily: {
         quicksand: ['Quicksand'],
         handlee: ['Handlee, cursive'],
+        sans: ['Figtree', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         danger: colors.rose,
@@ -46,23 +51,23 @@ module.exports = {
       addComponents({
         '.main-container': {
           '@apply container mx-auto max-w-7xl px-4 md:px-6':
-          {},
+              {},
         },
         '.center': {
           '@apply absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2':
-          {},
+              {},
         },
         '.debug-screens': {
           '@apply before:bottom-0 before:left-0 before:fixed before:px-1 before:text-sm before:bg-black before:text-white before:shadow-xl before:content-["screen:_"] sm:before:content-["screen:sm"] md:before:content-["screen:md"] lg:before:content-["screen:lg"] xl:before:content-["screen:xl"] 2xl:before:content-["screen:2xl"]':
-            {},
+                {},
           '&:before': {
             'z-index': '2147483647',
           },
         },
       })
     }),
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/aspect-ratio'),
+    forms,
+    typography,
+    aspectRatio,
   ],
 }

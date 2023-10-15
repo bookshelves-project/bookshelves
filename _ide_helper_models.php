@@ -686,23 +686,18 @@ namespace App\Models{
  * @property int|null $current_team_id
  * @property string|null $profile_photo_path
  * @property string $username
- * @property bool $is_blocked
+ * @property int $is_blocked
  * @property string|null $about
- * @property \Kiwilan\Steward\Enums\GenderEnum $gender
- * @property \Kiwilan\Steward\Enums\UserRoleEnum $role
+ * @property string $gender
+ * @property string $role
  * @property string|null $pronouns
  * @property int $use_gravatar
- * @property bool $display_favorites
- * @property bool $display_reviews
- * @property bool $display_gender
- * @property string $avatar
+ * @property int $display_favorites
+ * @property int $display_reviews
+ * @property int $display_gender
+ * @property string|null $avatar
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read string|null $avatar_thumbnail
- * @property-read string $banner
- * @property-read string|null $color
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
@@ -721,7 +716,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereGender($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereHasBackEndAccess()
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereIsBlocked($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
@@ -737,6 +731,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUseGravatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  */
-	class User extends \Eloquent implements \Filament\Models\Contracts\FilamentUser, \Spatie\MediaLibrary\HasMedia {}
+	class User extends \Eloquent {}
 }
 
