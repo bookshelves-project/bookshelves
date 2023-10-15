@@ -33,7 +33,7 @@ class BookResource extends Resource
         return FilamentLayout::make($form)
             ->schema([
                 FilamentLayout::column([
-                    [
+                    FilamentLayout::section([
                         Forms\Components\TextInput::make('title')
                             ->label('Title'),
                         Forms\Components\Select::make('language')
@@ -50,8 +50,8 @@ class BookResource extends Resource
                         Forms\Components\TextInput::make('volume')
                             ->type('number')
                             ->label('Volume'),
-                    ],
-                    [
+                    ]),
+                    FilamentLayout::section([
                         Forms\Components\SpatieTagsInput::make('tags')
                             ->type('tag')
                             ->label('Tags')
@@ -60,8 +60,8 @@ class BookResource extends Resource
                             ->type('genre')
                             ->label('Genre')
                             ->columnSpan(2),
-                    ],
-                    [
+                    ]),
+                    FilamentLayout::section([
                         Forms\Components\RichEditor::make('description')
                             ->toolbarButtons([
                                 'bold',
@@ -85,10 +85,10 @@ class BookResource extends Resource
                             ->label('Contributor'),
                         Forms\Components\TextInput::make('rights')
                             ->label('Rights'),
-                    ],
+                    ]),
                 ]),
                 FilamentLayout::column([
-                    [
+                    FilamentLayout::section([
                         Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
                             ->collection('cover')
                             ->label('Cover'),
@@ -104,8 +104,8 @@ class BookResource extends Resource
                         Forms\Components\Toggle::make('is_hidden')
                             ->label('Hidden')
                             ->helperText('Prevent this book from being displayed in the public catalog.'),
-                    ],
-                    [
+                    ]),
+                    FilamentLayout::section([
                         Forms\Components\Select::make('publisher')
                             ->label('Publisher')
                             ->relationship('publisher', 'name'),
@@ -117,8 +117,8 @@ class BookResource extends Resource
                         Forms\Components\TextInput::make('maturity_rating')
                             ->label('Rating'),
                         MetaBlock::make(),
-                    ],
-                    [
+                    ]),
+                    FilamentLayout::section([
                         Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::epub->value)
                             ->collection(BookFormatEnum::epub->value)
                             ->label('EPUB'),
@@ -133,7 +133,7 @@ class BookResource extends Resource
                         Forms\Components\SpatieMediaLibraryFileUpload::make(BookFormatEnum::pdf->value)
                             ->collection(BookFormatEnum::pdf->value)
                             ->label('PDF'),
-                    ],
+                    ]),
                 ], 1),
             ]);
     }

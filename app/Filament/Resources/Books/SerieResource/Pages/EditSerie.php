@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Books\SerieResource\Pages;
 
 use App\Filament\Resources\Books\SerieResource;
-use Filament\Pages\Actions;
+use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
 class EditSerie extends EditRecord

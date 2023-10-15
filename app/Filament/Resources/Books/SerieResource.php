@@ -12,7 +12,7 @@ use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Kiwilan\Steward\Filament\Config\FilamentForm;
+use Kiwilan\Steward\Filament\Components\MetaBlock;
 use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class SerieResource extends Resource
@@ -32,7 +32,7 @@ class SerieResource extends Resource
         return FilamentLayout::make($form)
             ->schema([
                 FilamentLayout::column([
-                    [
+                    FilamentLayout::section([
                         Forms\Components\TextInput::make('title')
                             ->label('Title'),
                         Forms\Components\Select::make('language')
@@ -43,8 +43,8 @@ class SerieResource extends Resource
                             ->relationship('authors', 'name')
                             ->label('Authors')
                             ->columnSpan(2),
-                    ],
-                    [
+                    ]),
+                    FilamentLayout::section([
                         Forms\Components\SpatieTagsInput::make('tags')
                             ->type('tag')
                             ->label('Tags')
@@ -53,18 +53,18 @@ class SerieResource extends Resource
                             ->type('genre')
                             ->label('Genre')
                             ->columnSpan(2),
-                    ],
-                    [
+                    ]),
+                    FilamentLayout::section([
                         Forms\Components\RichEditor::make('description')
                             ->label('Description')
                             ->columnSpan(2),
                         Forms\Components\TextInput::make('link')
                             ->label('Link')
                             ->columnSpan(2),
-                    ],
+                    ]),
                 ]),
                 FilamentLayout::column([
-                    [
+                    FilamentLayout::section([
                         Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
                             ->collection('cover')
                             ->label('Cover'),
@@ -77,8 +77,8 @@ class SerieResource extends Resource
                             ->label('Type')
                             ->options(BookTypeEnum::toList())
                             ->default(BookTypeEnum::novel->value),
-                        FilamentForm::meta(),
-                    ],
+                        MetaBlock::make(),
+                    ]),
                 ], 1),
             ]);
     }
@@ -95,7 +95,7 @@ class SerieResource extends Resource
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('cover_filament')
                     ->collection('cover')
                     ->label('Cover')
-                    ->rounded(),
+                    ->circular(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Title')
                     ->searchable()
@@ -106,8 +106,9 @@ class SerieResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\BadgeColumn::make('type')
+                Tables\Columns\TextColumn::make('type')
                     ->label('Type')
+                    ->badge()
                     ->colors([
                         'primary',
                         'danger' => BookTypeEnum::audio,

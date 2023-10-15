@@ -3,10 +3,17 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
+use App\Filament\Resources\Books\AuthorResource;
+use App\Filament\Resources\Books\BookResource;
+use App\Filament\Resources\Books\SerieResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationBuilder;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
+use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -25,7 +32,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('adminfilament')
+            ->id('admin')
             ->path('admin')
             ->login(Login::class)
             ->colors([
@@ -54,6 +61,44 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
+                return $builder->groups([
+                    NavigationGroup::make()
+                        ->items([
+                            NavigationItem::make('Dashboard')
+                                ->icon('heroicon-o-home')
+                                ->isActiveWhen(fn (): bool => request()->routeIs('filament.admin.pages.dashboard'))
+                                ->url(fn (): string => Dashboard::getUrl()),
+                            ...AuthorResource::getNavigationItems(),
+                            ...BookResource::getNavigationItems(),
+                            ...SerieResource::getNavigationItems(),
+                            // ...SubmissionResource::getNavigationItems(),
+                            // ...ManageGeneral::getNavigationItems(),
+                        ]),
+                    // NavigationGroup::make('Podcast')
+                    //     ->items([
+                    //         ...FeedResource::getNavigationItems(),
+                    //         ...PodcastResource::getNavigationItems(),
+                    //         ...SeasonResource::getNavigationItems(),
+                    //         ...ChronicleResource::getNavigationItems(),
+                    //     ]),
+                    // NavigationGroup::make('Blog')
+                    //     ->items([
+                    //         ...PostResource::getNavigationItems(),
+                    //         ...TagResource::getNavigationItems(),
+                    //         ...GalleryItemResource::getNavigationItems(),
+                    //         ...CommentResource::getNavigationItems(),
+                    //     ]),
+                    // NavigationGroup::make('Pages')
+                    //     ->items([
+                    //         ...ManageHome::getNavigationItems(),
+                    //         ...ManageChronicles::getNavigationItems(),
+                    //         ...ManagePqd2p::getNavigationItems(),
+                    //         ...ManageSubmission::getNavigationItems(),
+                    //         ...PageResource::getNavigationItems(),
+                    //     ]),
+                ]);
+            });
     }
 }

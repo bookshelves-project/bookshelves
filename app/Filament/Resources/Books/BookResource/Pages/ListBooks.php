@@ -18,11 +18,12 @@ class ListBooks extends ListRecords
             // Actions\CreateAction::make(),
             Actions\Action::make('sync')
                 ->icon('heroicon-o-arrow-path')
-                ->label('Sync')
+                ->label('Synchronize')
+                ->outlined()
                 ->requiresConfirmation()
                 ->modalHeading('Sync books')
-                ->modalSubheading("It will parse books files to find new books and update existing ones with assets and relations. It's will be take some time, you can close this page, you will receive a notification on notification panel when it's done.")
-                ->modalButton('Sync')
+                ->modalDescription("It will parse books files to find new books and update existing ones with assets and relations. It's will be take some time, you can close this page, you will receive a notification on notification panel when it's done.")
+                ->modalSubmitActionLabel('Sync')
                 ->action(function () {
                     SyncBooks::dispatch(recipient: auth()->user());
                     Notification::make()
@@ -34,12 +35,13 @@ class ListBooks extends ListRecords
                 }),
             Actions\Action::make('sync-fresh')
                 ->icon('heroicon-o-arrow-path')
-                ->label('Sync (fresh)')
+                ->label('Synchronize (refresh)')
                 ->color('danger')
+                ->outlined()
                 ->requiresConfirmation()
                 ->modalHeading('Sync fresh books')
-                ->modalSubheading('Same action than sync but all books will be deleted and re-recreated (favorites and reviews will be deleted).')
-                ->modalButton('Sync')
+                ->modalDescription('Same action than sync but all books will be deleted and re-recreated (favorites and reviews will be deleted).')
+                ->modalSubmitActionLabel('Sync')
                 ->action(function () {
                     SyncBooks::dispatch(fresh: true, recipient: auth()->user());
                     Notification::make()
@@ -49,10 +51,10 @@ class ListBooks extends ListRecords
                         ->iconColor('danger')
                         ->send();
                 }),
-            Actions\Action::make('upload')
-                ->label('Upload new books')
-                ->url(route('admin.upload'))
-                ->openUrlInNewTab(),
+            // Actions\Action::make('upload')
+            //     ->label('Upload new books')
+            //     ->url(route('admin.upload'))
+            //     ->openUrlInNewTab(),
         ];
     }
 

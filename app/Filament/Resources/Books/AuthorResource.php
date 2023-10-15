@@ -30,7 +30,7 @@ class AuthorResource extends Resource
         return FilamentLayout::make($form)
             ->schema([
                 FilamentLayout::column([
-                    [
+                    FilamentLayout::section([
                         Forms\Components\TextInput::make('lastname')
                             ->label('Lastname'),
                         Forms\Components\TextInput::make('firstname')
@@ -38,18 +38,18 @@ class AuthorResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->disabled()
                             ->label('Name'),
-                    ],
-                    [
+                    ]),
+                    FilamentLayout::section([
                         Forms\Components\TextInput::make('link')
                             ->label('Link')
                             ->columnSpan(2),
                         Forms\Components\Textarea::make('note')
                             ->label('Note')
                             ->columnSpan(2),
-                    ],
+                    ]),
                 ]),
                 FilamentLayout::column([
-                    [
+                    FilamentLayout::section([
                         Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
                             ->collection('cover')
                             ->label('Cover'),
@@ -57,7 +57,7 @@ class AuthorResource extends Resource
                             ->label('Role')
                             ->options(AuthorRoleEnum::toList())
                             ->default(AuthorRoleEnum::aut->value),
-                    ],
+                    ]),
                 ], 1),
             ]);
     }
@@ -74,7 +74,7 @@ class AuthorResource extends Resource
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('cover_filament')
                     ->collection('cover')
                     ->label('Cover')
-                    ->rounded(),
+                    ->circular(),
                 Tables\Columns\TextColumn::make('lastname')
                     ->label('Lastname')
                     ->sortable(),

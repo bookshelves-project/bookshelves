@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Books\BookResource\Pages;
 
 use App\Filament\Resources\Books\BookResource;
-use Filament\Pages\Actions;
+use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
 class EditBook extends EditRecord

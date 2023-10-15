@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Books\AuthorResource\Pages;
 
 use App\Filament\Resources\Books\AuthorResource;
-use Filament\Pages\Actions;
+use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
 class ListAuthors extends ListRecords
