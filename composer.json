@@ -41,6 +41,7 @@
     "kiwilan/php-ebook": "^2.0.12",
     "kiwilan/php-opds": "^1.0.30",
     "kiwilan/steward-laravel": "dev-main",
+    "kiwilan/typescriptable-laravel": "^1.11",
     "laravel/framework": "^10.0",
     "laravel/jetstream": "^3.2",
     "laravel/sanctum": "^3.2",
