@@ -3,9 +3,9 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
-use App\Filament\Resources\Books\AuthorResource;
-use App\Filament\Resources\Books\BookResource;
-use App\Filament\Resources\Books\SerieResource;
+use App\Filament\Resources\AuthorResource;
+use App\Filament\Resources\BookResource;
+use App\Filament\Resources\SerieResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;

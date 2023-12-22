@@ -30,7 +30,7 @@ class BookConverter
     /**
      * Set Book from Ebook.
      */
-    public static function make(Ebook $ebook, BookTypeEnum $type, Book $book = null): self
+    public static function make(Ebook $ebook, BookTypeEnum $type, ?Book $book = null): self
     {
         $self = new self($ebook);
         $self->parse($type, $book);

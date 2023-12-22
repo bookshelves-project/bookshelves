@@ -25,7 +25,7 @@ class BookFilesReader
     /**
      * Get all files from `storage/data/books`.
      */
-    public static function make(int $limit = null): self
+    public static function make(?int $limit = null): self
     {
         $path = config('bookshelves.directory');
 

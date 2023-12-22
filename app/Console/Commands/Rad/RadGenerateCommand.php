@@ -116,7 +116,7 @@ class RadGenerateCommand extends Command
     /**
      * Generate new file from `stubs` for new model.
      */
-    protected function generateFromStub(string $name, string $destination_path, string $extension, string $stub_path = null, ?bool $createDir = false): bool
+    protected function generateFromStub(string $name, string $destination_path, string $extension, ?string $stub_path = null, ?bool $createDir = false): bool
     {
         $destination = "{$destination_path}/{$name}.{$extension}";
         $type = str_replace($this->model, '', $name);

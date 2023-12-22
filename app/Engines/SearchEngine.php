@@ -10,8 +10,8 @@ use App\Models\Serie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use ReflectionClass;
-use Str;
 
 /**
  * Search Engine with laravel/scout
@@ -52,7 +52,7 @@ class SearchEngine
     /**
      * Create an instance of SearchEngine from query.
      */
-    public static function make(?string $q = '', bool $relevant = false, bool $opds = false, string|array $types = null): self
+    public static function make(?string $q = '', bool $relevant = false, bool $opds = false, string|array|null $types = null): self
     {
         if (gettype($types) === 'string') {
             $types = explode(',', $types);
@@ -163,7 +163,6 @@ class SearchEngine
     {
         $instance = new $model();
         $class = new ReflectionClass($instance);
-        $static = $class->getName();
         $name = $class->getShortName();
         $key = Str::plural($name);
 

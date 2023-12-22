@@ -27,7 +27,7 @@ trait HasCovers
     protected bool $cover_available = false;
 
     /** @mixin \Spatie\Cover\Manipulations */
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $formatThumbnail = config('image.covers.thumbnail');
         $formatStandard = config('image.covers.og');

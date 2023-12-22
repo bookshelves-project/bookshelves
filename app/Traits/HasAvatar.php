@@ -14,7 +14,7 @@ trait HasAvatar
     use InteractsWithMedia;
 
     /** @mixin \Spatie\Cover\Manipulations */
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $avatar = config('image.user.avatar');
         $banner = config('image.user.banner');

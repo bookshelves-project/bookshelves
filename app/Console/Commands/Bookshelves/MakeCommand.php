@@ -133,10 +133,10 @@ class MakeCommand extends Commandable
         $this->files = $parser->items();
 
         if ($this->fresh) {
-            MediaExtended::where('collection_name', MediaDiskEnum::cover)->delete();
+            MediaExtended::query()->where('collection_name', MediaDiskEnum::cover)->delete();
 
             foreach (BookFormatEnum::toArray() as $format) {
-                MediaExtended::where('collection_name', $format)->delete();
+                MediaExtended::query()->where('collection_name', $format)->delete();
             }
             File::deleteDirectory(public_path('storage/media/covers'));
             File::deleteDirectory(public_path('storage/media/formats'));

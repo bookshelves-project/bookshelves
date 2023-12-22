@@ -37,44 +37,58 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
 
-        Route::prefix('api')
-            ->group(
-                fn () => (new RouteRegistrar(app(Router::class)))
-                    ->useRootNamespace(app()->getNamespace())
-                    ->useMiddleware(['api'])
-                    ->registerDirectory(app_path('Http/Controllers/Api'))
-            );
+        $this->registerRoutes('Http/Controllers/Api', '/api');
+        $this->registerRoutes('Http/Controllers/Front');
+        $this->registerRoutes('Http/Controllers/Catalog', '/catalog');
+        $this->registerRoutes('Http/Controllers/Opds', '/opds');
+        $this->registerRoutes('Http/Controllers/Webreader', '/webreader');
 
-        Route::name('front.')
-            ->group(
-                fn () => (new RouteRegistrar(app(Router::class)))
-                    ->useRootNamespace(app()->getNamespace())
-                    ->useMiddleware(['web'])
-                    ->registerDirectory(app_path('Http/Controllers/Front'))
-            );
+        // Route::prefix('api')
+        //     ->group(
+        //         fn () => (new RouteRegistrar(app(Router::class)))
+        //             ->useRootNamespace(app()->getNamespace())
+        //             ->useMiddleware(['api'])
+        //             ->registerDirectory(app_path('Http/Controllers/Api'))
+        //     );
 
-        Route::prefix('catalog')
-            ->group(
-                fn () => (new RouteRegistrar(app(Router::class)))
-                    ->useRootNamespace(app()->getNamespace())
-                    ->useMiddleware(['web'])
-                    ->registerDirectory(app_path('Http/Controllers/Catalog'))
-            );
+        // Route::group(fn () => (new RouteRegistrar(app(Router::class)))
+        //     ->useRootNamespace(app()->getNamespace())
+        //     ->useMiddleware(['web'])
+        //     ->registerDirectory(app_path('Http/Controllers/Front'))
+        // );
 
-        Route::prefix('opds')
-            ->group(
-                fn () => (new RouteRegistrar(app(Router::class)))
-                    ->useRootNamespace(app()->getNamespace())
-                    ->useMiddleware(['web'])
-                    ->registerDirectory(app_path('Http/Controllers/Opds'))
-            );
+        // Route::prefix('catalog')
+        //     ->group(
+        //         fn () => (new RouteRegistrar(app(Router::class)))
+        //             ->useRootNamespace(app()->getNamespace())
+        //             ->useMiddleware(['web'])
+        //             ->registerDirectory(app_path('Http/Controllers/Catalog'))
+        //     );
 
-        Route::prefix('webreader')
-            ->group(
-                fn () => (new RouteRegistrar(app(Router::class)))
-                    ->useRootNamespace(app()->getNamespace())
-                    ->useMiddleware(['web'])
-                    ->registerDirectory(app_path('Http/Controllers/Webreader'))
+        // Route::prefix('opds')
+        //     ->group(
+        //         fn () => (new RouteRegistrar(app(Router::class)))
+        //             ->useRootNamespace(app()->getNamespace())
+        //             ->useMiddleware(['web'])
+        //             ->registerDirectory(app_path('Http/Controllers/Opds'))
+        //     );
+
+        // Route::prefix('webreader')
+        //     ->group(
+        //         fn () => (new RouteRegistrar(app(Router::class)))
+        //             ->useRootNamespace(app()->getNamespace())
+        //             ->useMiddleware(['web'])
+        //             ->registerDirectory(app_path('Http/Controllers/Webreader'))
+        //     );
+    }
+
+    private function registerRoutes(string $appPath, string $prefix = ''): void
+    {
+        Route::prefix($prefix)
+            ->group(fn () => (new RouteRegistrar(app(Router::class)))
+                ->useRootNamespace(app()->getNamespace())
+                ->useMiddleware(['web'])
+                ->registerDirectory(app_path($appPath))
             );
     }
 

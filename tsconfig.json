@@ -1,22 +1,22 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["esnext", "dom"],
     "jsx": "preserve",
+    "lib": ["esnext", "dom"],
+    "baseUrl": ".",
     "module": "esnext",
     "moduleResolution": "node",
     "paths": {
       "@/*": ["./resources/js/*"],
       "@": ["./resources/js"]
     },
-    "baseUrl": ".",
+    "resolveJsonModule": true,
     "typeRoots": ["./node_modules/@types", "./**/*.d.ts"],
     "types": ["vite/client"],
-    "resolveJsonModule": true,
-    "sourceMap": true,
-    "esModuleInterop": true,
     "strict": true,
     "noImplicitAny": false,
+    "sourceMap": true,
+    "esModuleInterop": true,
     "skipLibCheck": true
   },
   "exclude": [

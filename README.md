@@ -1,4 +1,4 @@
-# **Bookshelves** <!-- omit in toc -->
+# **Bookshelves**
 
 ![banner](https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/public/vendor/images/banner-github.png)
 

@@ -57,7 +57,7 @@ class WikipediaProcess implements ShouldQueue
      * @param  string[]  $attributes     used to create Wikipedia query, like `['firstname', 'lastname']`
      * @return int Number of requests
      */
-    private function wikipediaRequest(string $className, array $attributes, array $precision = null): int
+    private function wikipediaRequest(string $className, array $attributes, ?array $precision = null): int
     {
         $meta = MetaClassItem::make($className);
         $console = PrintConsole::make();

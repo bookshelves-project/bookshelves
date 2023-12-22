@@ -5,3 +5,7 @@
 [x-cloak] {
     display: none;
 }
+
+body {
+    @apply bg-gray-900 text-white;
+}
