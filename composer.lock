@@ -3276,16 +3276,16 @@
         },
         {
             "name": "kiwilan/php-http-pool",
-            "version": "0.3.1",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-http-pool.git",
-                "reference": "c2fabafa03be3355858436c4561d40f7baa6ccb3"
+                "reference": "35bef50e4941b4e36d3b7d42a57c94be1cdab4c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-http-pool/zipball/c2fabafa03be3355858436c4561d40f7baa6ccb3",
-                "reference": "c2fabafa03be3355858436c4561d40f7baa6ccb3",
+                "url": "https://api.github.com/repos/kiwilan/php-http-pool/zipball/35bef50e4941b4e36d3b7d42a57c94be1cdab4c8",
+                "reference": "35bef50e4941b4e36d3b7d42a57c94be1cdab4c8",
                 "shasum": ""
             },
             "require": {
@@ -3329,7 +3329,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-http-pool/issues",
-                "source": "https://github.com/kiwilan/php-http-pool/tree/v0.3.1"
+                "source": "https://github.com/kiwilan/php-http-pool/tree/v0.3.2"
             },
             "funding": [
                 {
@@ -3337,7 +3337,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-25T18:34:50+00:00"
+            "time": "2023-12-23T12:21:20+00:00"
         },
         {
             "name": "kiwilan/php-opds",
@@ -3469,12 +3469,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "b41153c3f56429aaebe59aea4657b890f0d7b1f5"
+                "reference": "9b7f19f9cdb201bbc105b61625f8652cca35c5f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/b41153c3f56429aaebe59aea4657b890f0d7b1f5",
-                "reference": "b41153c3f56429aaebe59aea4657b890f0d7b1f5",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/9b7f19f9cdb201bbc105b61625f8652cca35c5f9",
+                "reference": "9b7f19f9cdb201bbc105b61625f8652cca35c5f9",
                 "shasum": ""
             },
             "require": {
@@ -3482,7 +3482,7 @@
                 "illuminate/contracts": "^9.0 || ^10.0",
                 "illuminate/database": "^9.0 || ^10.0",
                 "illuminate/support": "^9.0 || ^10.0",
-                "kiwilan/php-http-pool": "^0.3.0",
+                "kiwilan/php-http-pool": "^0.3.2",
                 "league/html-to-markdown": "^5.1",
                 "livewire/livewire": "^3.0.1",
                 "php": "^8.1",
@@ -3494,10 +3494,10 @@
             "require-dev": {
                 "filament/filament": "^3.0.36",
                 "knuckleswtf/scribe": "^4.16",
+                "larastan/larastan": "^2.7.0",
                 "laravel/pint": "^1.0",
                 "maatwebsite/excel": "^3.1",
                 "nunomaduro/collision": "^7.8.1",
-                "nunomaduro/larastan": "^2.0.1",
                 "nunomaduro/laravel-mojito": "^0.2.10",
                 "orchestra/testbench": "^8.0",
                 "pestphp/pest": "^2.0",
@@ -3549,7 +3549,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2023-12-20T10:55:04+00:00"
+            "time": "2023-12-23T12:25:36+00:00"
         },
         {
             "name": "kiwilan/typescriptable-laravel",
