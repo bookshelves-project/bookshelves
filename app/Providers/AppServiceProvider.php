@@ -98,13 +98,7 @@ class AppServiceProvider extends ServiceProvider
                     ],
                 ]);
             } else {
-                Log::info('Job processed', [
-                    'uuid' => $uuid,
-                    'data' => [
-                        'commandName' => $commandName,
-                        'command' => $command,
-                    ],
-                ]);
+                Log::info("Job processed: {$commandName}");
             }
         });
 
