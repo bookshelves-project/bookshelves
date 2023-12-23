@@ -21,6 +21,7 @@ class BookRelationsParserProcess implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
+        protected bool $fresh = false,
         protected bool $default = false,
     ) {
     }

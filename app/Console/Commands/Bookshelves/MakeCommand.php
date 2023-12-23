@@ -7,7 +7,6 @@ use App\Engines\Book\BookFilesReader;
 use App\Enums\BookFormatEnum;
 use App\Enums\MediaDiskEnum;
 use App\Jobs\BookParserProcess;
-use App\Jobs\BookRelationsParserProcess;
 use App\Models\Book;
 use App\Models\MediaExtended;
 use Illuminate\Console\Command;
@@ -109,8 +108,6 @@ class MakeCommand extends Commandable
         $bar->finish();
         $this->newLine();
 
-        $this->parseRelations();
-
         $this->newLine();
         $time_elapsed_secs = number_format(microtime(true) - $start, 2);
         $this->info("Time in seconds: {$time_elapsed_secs}");
@@ -180,10 +177,5 @@ class MakeCommand extends Commandable
             Log::info("Parse file: {$file->path()}");
             BookParserProcess::dispatch($file, $this->verbose, $this->default);
         }
-    }
-
-    private function parseRelations()
-    {
-        BookRelationsParserProcess::dispatch();
     }
 }

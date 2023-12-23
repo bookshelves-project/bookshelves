@@ -79,6 +79,10 @@ class StartupCommand extends Commandable
             '--force' => $force,
         ], $this->getOutput());
 
+        Artisan::call('bookshelves:relations', [
+            '--fresh' => $fresh,
+        ], $this->getOutput());
+
         // API.
         if ($api) {
             Artisan::call('bookshelves:extras', [

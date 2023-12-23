@@ -36,17 +36,14 @@ class ExtrasCommand extends Commandable
      */
     protected $description = 'Generate data for Books, Authors, Series from public API.';
 
-    protected bool $fresh = false;
-
-    protected bool $verbose = false;
-
-    protected bool $default = false;
-
     /**
      * Create a new command instance.
      */
-    public function __construct()
-    {
+    public function __construct(
+        protected bool $fresh = false,
+        protected bool $verbose = false,
+        protected bool $default = false,
+    ) {
         parent::__construct();
     }
 
