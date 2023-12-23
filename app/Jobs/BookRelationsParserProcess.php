@@ -40,6 +40,7 @@ class BookRelationsParserProcess implements ShouldQueue
 
         /** @var Serie|Author $entity */
         foreach ($model::all() as $entity) {
+            Log::info("BookRelationsParserProcess: {$model} {$entity->id}");
             EntityConverter::make($entity)
                 ->setTags()
                 ->parseLocalData();
