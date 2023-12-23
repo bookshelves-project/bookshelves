@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Kiwilan\HttpPool\Utils\PrintConsole;
 use Kiwilan\Steward\Services\GoogleBook\GoogleBookable;
 use Kiwilan\Steward\Services\GoogleBookService;
@@ -29,6 +30,8 @@ class GoogleBookProcess implements ShouldQueue
      */
     public function handle(): void
     {
+        Log::info('GoogleBookProcess');
+
         $books = Book::all();
         $service = GoogleBookService::make($books)
             ->setIsbnFields(['isbn13', 'isbn10'])
@@ -36,7 +39,7 @@ class GoogleBookProcess implements ShouldQueue
 
         $console = PrintConsole::make();
         $count = $service->getCount();
-        $booksCount = Book::count();
+        $booksCount = Book::query()->count();
         $isbn_types = implode('/', ['isbn13', 'isbn10']);
         $console->print("Need to have {$isbn_types}, on {$booksCount} entities, {$count} entities can be scanned.");
 
@@ -52,7 +55,8 @@ class GoogleBookProcess implements ShouldQueue
         // $bar = $this->output->createProgressBar(count($service->items()));
 
         foreach ($service->getItems() as $id => $item) {
-            $model = Book::find($id);
+            Log::info("GoogleBookProcess: {$id}");
+            $model = Book::query()->find($id);
 
             if ($model instanceof GoogleBookable) {
                 $model->googleBookConvert($item);

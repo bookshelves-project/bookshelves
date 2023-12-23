@@ -13,6 +13,7 @@ use App\Models\MediaExtended;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Kiwilan\Steward\Commands\Commandable;
 use Spatie\Tags\Tag;
 
@@ -132,7 +133,11 @@ class MakeCommand extends Commandable
         $parser = BookFilesReader::make(limit: $this->limit);
         $this->files = $parser->items();
 
+        Log::info('Files detected: '.count($this->files));
+
         if ($this->fresh) {
+            Log::info('Fresh mode enabled, delete all books and relations');
+
             MediaExtended::query()->where('collection_name', MediaDiskEnum::cover)->delete();
 
             foreach (BookFormatEnum::toArray() as $format) {
@@ -154,6 +159,7 @@ class MakeCommand extends Commandable
 
     private function setGenres()
     {
+        Log::info('Set genres');
         $genres = config('bookshelves.tags.genres_list');
 
         foreach ($genres as $genre) {
@@ -164,12 +170,14 @@ class MakeCommand extends Commandable
     private function convert(BookFileReader $file): void
     {
         if ($this->fresh) {
+            Log::info("Parse file: {$file->path()}");
             BookParserProcess::dispatch($file, $this->verbose, $this->default);
 
             return;
         }
 
         if (! in_array($file->path(), $this->books, true)) {
+            Log::info("Parse file: {$file->path()}");
             BookParserProcess::dispatch($file, $this->verbose, $this->default);
         }
     }

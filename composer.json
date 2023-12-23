@@ -45,6 +45,7 @@
     "kiwilan/typescriptable-laravel": "^1.11",
     "laravel/framework": "^10.0",
     "laravel/jetstream": "^4.0",
+    "laravel/pail": "^1.0",
     "laravel/sanctum": "^3.2",
     "laravel/scout": "^10.0",
     "laravel/telescope": "^4.15",
@@ -134,6 +135,10 @@
     ],
     "insights": [
       "php artisan insights --ansi --no-interaction"
+    ],
+    "pail": [
+      "Composer\\Config::disableProcessTimeout",
+      "php artisan pail -v"
     ],
     "serve": [
       "Composer\\Config::disableProcessTimeout",

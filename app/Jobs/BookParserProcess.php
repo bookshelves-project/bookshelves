@@ -31,7 +31,12 @@ class BookParserProcess implements ShouldQueue
      */
     public function handle(): void
     {
-        BookEngine::make($this->file, $this->verbose, $this->default);
+        $engine = BookEngine::make($this->file, $this->verbose, $this->default);
+        $title = $engine->ebook()->getTitle();
+        if (! $title) {
+            $title = $this->file->path();
+        }
+        Log::info("BookParserProcess: {$title}");
     }
 
     private function createLog(string $message, bool $success = false): void

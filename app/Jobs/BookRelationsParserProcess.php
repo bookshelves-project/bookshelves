@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class BookRelationsParserProcess implements ShouldQueue
 {
@@ -35,6 +36,8 @@ class BookRelationsParserProcess implements ShouldQueue
 
     private function parseRelation(string $model)
     {
+        Log::info("BookRelationsParserProcess: {$model}");
+
         /** @var Serie|Author $entity */
         foreach ($model::all() as $entity) {
             EntityConverter::make($entity)

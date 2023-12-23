@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Kiwilan\HttpPool\Utils\PrintConsole;
 use Kiwilan\Steward\Services\ClassParser\MetaClassItem;
 use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
@@ -33,6 +34,8 @@ class WikipediaProcess implements ShouldQueue
      */
     public function handle(): void
     {
+        Log::info('WikipediaProcess');
+
         if ($this->authors) {
             $this->wikipediaRequest(
                 Author::class,
@@ -59,6 +62,8 @@ class WikipediaProcess implements ShouldQueue
      */
     private function wikipediaRequest(string $className, array $attributes, ?array $precision = null): int
     {
+        Log::info("WikipediaProcess: {$className}");
+
         $meta = MetaClassItem::make($className);
         $console = PrintConsole::make();
 
@@ -86,6 +91,7 @@ class WikipediaProcess implements ShouldQueue
         // $bar = $this->output->createProgressBar(count($service->items()));
 
         foreach ($service->getItems() as $id => $item) {
+            Log::info("WikipediaProcess: {$id}");
             $model = $className::find($id);
 
             if ($model instanceof Wikipediable) {
