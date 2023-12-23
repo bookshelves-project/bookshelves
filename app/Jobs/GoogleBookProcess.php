@@ -44,6 +44,7 @@ class GoogleBookProcess implements ShouldQueue
         $console->print("Need to have {$isbn_types}, on {$booksCount} entities, {$count} entities can be scanned.");
 
         if ($count === 0) {
+            Log::info('GoogleBookProcess: No entities to scan.');
             $console->print('No entities to scan.', 'red');
 
             return;
@@ -51,8 +52,6 @@ class GoogleBookProcess implements ShouldQueue
 
         $start = microtime(true);
         $service = $service->execute();
-
-        // $bar = $this->output->createProgressBar(count($service->items()));
 
         foreach ($service->getItems() as $id => $item) {
             Log::info("GoogleBookProcess: {$id}");
