@@ -76,6 +76,7 @@ class WikipediaProcess implements ShouldQueue
         // $console->print('- Description from Wikipedia (--local|-L to skip)');
         // $console->print("  - Default description can be in `public/storage/data/{$meta->classSlugPlural()}/{$meta->classSlugPlural()}.json`");
 
+        Log::info('WikipediaProcess: execute requests...');
         $service = WikipediaService::make($className::all())
             ->setLanguageAttribute('language_slug')
             ->setQueryAttributes($attributes)

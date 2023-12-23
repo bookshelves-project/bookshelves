@@ -33,6 +33,8 @@ class GoogleBookProcess implements ShouldQueue
         Log::info('GoogleBookProcess');
 
         $books = Book::all();
+
+        Log::info('GoogleBookProcess: execute requests...');
         $service = GoogleBookService::make($books)
             ->setIsbnFields(['isbn13', 'isbn10'])
             ->setDebug($this->verbose);
