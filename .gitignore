@@ -21,3 +21,8 @@ yarn-error.log
 _ide_helper.php
 .scribe
 public/docs
+resources/js/routes.ts
+resources/js/types-inertia-global.d.ts
+resources/js/types-inertia.d.ts
+resources/js/types-models.d.ts
+resources/js/types-routes.d.ts
