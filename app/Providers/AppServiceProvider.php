@@ -97,8 +97,6 @@ class AppServiceProvider extends ServiceProvider
                         'command' => $command,
                     ],
                 ]);
-            } else {
-                Log::info("Job processed: {$commandName}");
             }
         });
 
