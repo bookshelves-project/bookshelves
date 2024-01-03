@@ -1,4 +1,5 @@
 /.phpunit.cache
+/bootstrap/ssr
 /node_modules
 /public/build
 /public/hot
@@ -16,4 +17,6 @@ npm-debug.log
 yarn-error.log
 /.fleet
 /.idea
-/.vscode
+_ide_helper.php
+resources/js/routes.ts
+resources/js/types-*.d.ts

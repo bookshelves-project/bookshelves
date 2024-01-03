@@ -59,6 +59,11 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'admin' => [
+        'email' => env('APP_ADMIN_EMAIL', 'superadmin@example.com'),
+        'password' => env('APP_ADMIN_PASSWORD', 'password'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -70,7 +75,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Paris',
 
     /*
     |--------------------------------------------------------------------------
@@ -167,7 +172,11 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\FortifyServiceProvider::class,
+        App\Providers\JetstreamServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
     ])->toArray(),
 
     /*
