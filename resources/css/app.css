@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-[x-cloak] {
+:root {
+    --toastify-color-light: theme("backgroundColor.gray.800") !important;
+    --toastify-text-color-light: theme("colors.gray.100") !important;
+    --toastify-color-progress-light: theme("colors.gray.400") !important;
+}
+
+[v-cloak] {
     display: none;
+}
+
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
+}
+
+body {
+    @apply bg-gray-900 text-white;
+    scrollbar-width: thin;
+}
+
+.badge {
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
 }

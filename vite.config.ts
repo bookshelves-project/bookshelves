@@ -40,7 +40,7 @@ export default defineConfig({
       directoryAsNamespace: true,
       dirs: [
         'resources/js/Components',
-        'resources/js/Layout',
+        'resources/js/Layouts',
       ],
     }),
     AutoImport({

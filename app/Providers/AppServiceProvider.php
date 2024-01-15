@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind('bookshelves', fn () => new \App\Bookshelves());
     }
 
     /**
@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            return $user->is_admin || $user->is_super_admin;
+            return $user->isAdmin() || $user->isSuperAdmin();
         });
     }
 }

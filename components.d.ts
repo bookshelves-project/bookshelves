@@ -7,6 +7,15 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    App: typeof import('./resources/js/Layouts/App.vue')['default']
+    AppButton: typeof import('./resources/js/Components/App/Button.vue')['default']
+    AppCarousel: typeof import('./resources/js/Components/App/Carousel.vue')['default']
+    AppDialog: typeof import('./resources/js/Components/App/Dialog.vue')['default']
+    AppImg: typeof import('./resources/js/Components/App/Img.vue')['default']
+    AppLayout: typeof import('./resources/js/Layouts/AppLayout.vue')['default']
+    AppLoading: typeof import('./resources/js/Components/App/Loading.vue')['default']
+    AppProse: typeof import('./resources/js/Components/App/Prose.vue')['default']
+    AppSlideOver: typeof import('./resources/js/Components/App/SlideOver.vue')['default']
     JetstreamActionMessage: typeof import('./resources/js/Components/Jetstream/ActionMessage.vue')['default']
     JetstreamActionSection: typeof import('./resources/js/Components/Jetstream/ActionSection.vue')['default']
     JetstreamApplicationLogo: typeof import('./resources/js/Components/Jetstream/ApplicationLogo.vue')['default']
@@ -33,5 +42,15 @@ declare module 'vue' {
     JetstreamSectionTitle: typeof import('./resources/js/Components/Jetstream/SectionTitle.vue')['default']
     JetstreamTextInput: typeof import('./resources/js/Components/Jetstream/TextInput.vue')['default']
     JetstreamWelcome: typeof import('./resources/js/Components/Jetstream/Welcome.vue')['default']
+    LayoutFooter: typeof import('./resources/js/Components/Layout/Footer.vue')['default']
+    LayoutHeader: typeof import('./resources/js/Components/Layout/Header.vue')['default']
+    LayoutMain: typeof import('./resources/js/Components/Layout/Main.vue')['default']
+    LayoutProfile: typeof import('./resources/js/Components/Layout/Profile.vue')['default']
+    LayoutSidebar: typeof import('./resources/js/Components/Layout/Sidebar.vue')['default']
+    LayoutSidebarLink: typeof import('./resources/js/Components/Layout/SidebarLink.vue')['default']
+    LayoutSidebarStatic: typeof import('./resources/js/Components/Layout/SidebarStatic.vue')['default']
+    Logo: typeof import('./resources/js/Components/Logo.vue')['default']
+    SearchBar: typeof import('./resources/js/Components/Search/Bar.vue')['default']
+    SearchResults: typeof import('./resources/js/Components/Search/Results.vue')['default']
   }
 }

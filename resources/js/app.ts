@@ -11,7 +11,7 @@ import './icons'
 import './routes'
 
 createInertiaApp({
-  title: title => `${title} · Kiwiflix`,
+  title: title => `${title} · Bookshelves`,
   resolve: name => resolve(name, import.meta.glob('./Pages/**/*.vue')),
   setup({ el, App, props, plugin }) {
     const app = createApp({ render: () => h(App, props) })
