@@ -1,0 +1,130 @@
+<?php
+
+namespace App\Engines\Book\Converter\Modules;
+
+use App\Enums\TagTypeEnum;
+use App\Models\Book;
+use App\Models\TagExtend;
+use Illuminate\Support\Collection;
+use Kiwilan\Ebook\Ebook;
+use Spatie\Tags\Tag;
+
+class TagConverter
+{
+    /**
+     * Set Tags from Ebook.
+     *
+     * @return Collection<int, Tag>
+     */
+    public static function toCollection(Ebook $ebook): Collection
+    {
+        $self = new self();
+        $items = collect([]);
+
+        foreach ($ebook->getTags() as $key => $tag) {
+            $model = $self->make($tag);
+
+            if ($model) {
+                $isExists = TagExtend::where('name->en', $model->name)->first();
+
+                if (! $isExists) {
+                    $isExists = $model->create($model->toArray());
+                }
+                $items->push($isExists);
+            }
+        }
+
+        return $items;
+    }
+
+    /**
+     * Attach Tag to Book and define type from list of main tags.
+     */
+    // public static function make(string $tag): ?Tag
+    // {
+    //     $mainGenres = config('bookshelves.tags.genres_list');
+    //     $tag = str_replace(' and ', ' & ', $tag);
+    //     $tag = str_replace('-', ' ', $tag);
+    //     $forbiddenTags = config('bookshelves.tags.forbidden');
+    //     $convertedTags = config('bookshelves.tags.converted');
+
+    //     foreach ($convertedTags as $key => $convertedTag) {
+    //         if ($tag === $key) {
+    //             $tag = $convertedTag;
+    //         }
+    //     }
+
+    //     $model = null;
+
+    //     if (strlen($tag) > 1 && strlen($tag) < 30 && ! in_array($tag, $forbiddenTags)) {
+    //         $tag = strtolower($tag);
+    //         $tag = ucfirst($tag);
+
+    //         if (in_array($tag, $mainGenres)) {
+    //             $model = Tag::findOrCreate($tag, TagTypeEnum::genre->value);
+    //         } else {
+    //             $model = Tag::findOrCreate($tag, TagTypeEnum::tag->value);
+    //         }
+    //     }
+
+    //     return $model;
+    // }
+
+    public static function make(string $tag): ?Tag
+    {
+        $mainGenres = config('bookshelves.tags.genres_list');
+        $tag = str_replace(' and ', ' & ', $tag);
+        $tag = str_replace('-', ' ', $tag);
+        $forbiddenTags = config('bookshelves.tags.forbidden');
+        $convertedTags = config('bookshelves.tags.converted');
+
+        foreach ($convertedTags as $key => $convertedTag) {
+            if ($tag === $key) {
+                $tag = $convertedTag;
+            }
+        }
+
+        $model = null;
+
+        if ($tag !== null && strlen($tag) > 1 && strlen($tag) < 30 && ! in_array($tag, $forbiddenTags)) {
+            $tag = strtolower($tag);
+            $tag = ucfirst($tag);
+
+            $model = new Tag([
+                'name' => $tag,
+            ]);
+
+            if (in_array($tag, $mainGenres)) {
+                $model->type = TagTypeEnum::genre->value;
+            } else {
+                $model->type = TagTypeEnum::tag->value;
+            }
+        }
+
+        return $model;
+    }
+
+    /**
+     * @param  string[]  $tags
+     * @return Collection<int, Tag>
+     */
+    public static function toTags(?array $tags): Collection
+    {
+        if (! $tags) {
+            return collect([]);
+        }
+
+        $self = new self();
+        $items = collect([]);
+
+        foreach ($tags as $tag) {
+            $model = $self->make($tag);
+
+            if ($model) {
+                $items->push($model);
+            }
+        }
+
+        return $items;
+    }
+}

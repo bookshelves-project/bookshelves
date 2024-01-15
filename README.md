@@ -1,66 +1,124 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# **Bookshelves**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![banner](https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/public/vendor/images/banner-github.png)
 
-## About Laravel
+[![php][php-version-src]][php-version-href]
+[![laravel][laravel-version-src]][laravel-version-href]
+[![filament][filament-version-src]][filament-version-href]
+[![node][node-version-src]][node-version-href]
+[![license][license-src]][license-href]
+[![tests][tests-src]][tests-href]
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Bookshelves is a web application to handle eBooks, comics and audiobooks. Powered by Laravel.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
+-   [**bookshelves.ink**](https://bookshelves.ink): demo (front uses [`bookshelves-front`](https://github.com/bookshelves-project/bookshelves-front))
+-   [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-docs)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Features
 
-## Learning Laravel
+// TODO
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Roadmap
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+-   [ ] Add Docker installation option
+-   [ ] Add Plex-like solution
+-   [ ] Add tests
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+Download dependencies
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+composer i
+pnpm i
+```
 
-### Premium Partners
+Create `.env` file
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```bash
+cp .env.example .env
+```
 
-## Contributing
+Generate application key
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+php artisan key:generate
+```
 
-## Code of Conduct
+Create symbolic link for storage
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan storage:link
+```
 
-## Security Vulnerabilities
+Migrate database with seeders
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan migrate:fresh --seed
+```
+
+Build assets
+
+```bash
+pnpm dev
+```
+
+### Create symbolic links
+
+For books
+
+```bash
+sudo ln -s /Volumes/data/books/books storage/app/data/books
+```
+
+For comics
+
+```bash
+sudo ln -s /Volumes/data/books/comics storage/app/data/comics
+```
+
+For audiobooks
+
+```bash
+sudo ln -s /Volumes/data/books/audiobooks storage/app/data/audiobooks
+```
+
+## Usage
+
+To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app).
+
+## Tests
+
+Run tests.
+
+```bash
+composer test
+```
+
+## Environment
+
+Bookshelves is powered by [`laravel`](https://laravel.com/) and administrator panel was built with [`filament`](https://filamentphp.com/).
+
+Search engine uses [`meilisearch`](https://www.meilisearch.com/) with [`laravel/scout`](https://laravel.com/docs/master/scout).
+
+EBooks, comics and audiobooks are handled by [`kiwilan/php-ebook`](https://github.com/kiwilan/php-ebook) and OPDS feature built by [`kiwilan/php-opds`](https://github.com/kiwilan/php-opds).
+
+A lot of amazing [`spatie`](https://spatie.be/) packages are used in this project.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Bookshelves is open-sourced software licensed under the [BSD 2-Clause License](https://opensource.org/license/bsd-2-clause).
+
+[laravel-version-src]: https://img.shields.io/badge/dynamic/json?label=Laravel&query=require[%27laravel/framework%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/composer.json&color=777bb4&logo=laravel&logoColor=ffffff&labelColor=18181b
+[laravel-version-href]: https://laravel.com/
+[php-version-src]: https://img.shields.io/badge/dynamic/json?label=PHP&query=require[%27php%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/composer.json&color=777bb4&logo=&logoColor=ffffff&labelColor=18181b
+[php-version-href]: https://www.php.net/
+[node-version-src]: https://img.shields.io/badge/dynamic/json?label=Node.js&query=engines[%27node%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/package.json&color=777bb4&labelColor=18181b
+[node-version-href]: https://nodejs.org/en
+[filament-version-src]: https://img.shields.io/badge/dynamic/json?label=Filament&query=require[%27filament/filament%27]&url=https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/composer.json&color=777bb4&logoColor=ffffff&labelColor=18181b
+[filament-version-href]: https://filamentphp.com/
+[tests-src]: https://img.shields.io/github/actions/workflow/status/bookshelves-project/bookshelves/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B
+[tests-href]: https://github.com/bookshelves-project/bookshelves/actions/workflows/ci.yml
+[license-src]: https://img.shields.io/github/license/bookshelves-project/bookshelves.svg?style=flat&colorA=18181B&colorB=777bb4
+[license-href]: https://github.com/bookshelves-project/bookshelves/blob/main/LICENSE

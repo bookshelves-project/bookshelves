@@ -19,7 +19,6 @@
     "kiwilan/typescriptable-laravel": "*",
     "laravel/framework": "^10.10",
     "laravel/jetstream": "^4.2",
-    "laravel/pulse": "*",
     "laravel/sanctum": "^3.3",
     "laravel/scout": "*",
     "laravel/telescope": "*",
@@ -127,6 +126,6 @@
       "php-http/discovery": true
     }
   },
-  "minimum-stability": "beta",
+  "minimum-stability": "stable",
   "prefer-stable": true
 }
