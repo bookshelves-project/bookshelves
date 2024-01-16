@@ -8,7 +8,7 @@ use ReflectionClass;
 
 /**
  * @property string $entity
- * @property array  $meta
+ * @property array $meta
  * @property string $opds_link
  */
 trait IsEntity
