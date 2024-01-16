@@ -8,10 +8,7 @@ use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBooksCollection;
 use App\Traits\HasCovers;
-use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
-use App\Traits\HasReviews;
-use App\Traits\HasSelections;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,6 +23,7 @@ use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\QueryBuilder\AllowedFilter;
 
 /**
@@ -38,22 +36,30 @@ class Serie extends Model implements HasMedia, Wikipediable
     use HasBooksCollection;
     use HasCovers;
     use HasFactory;
-    use HasFavorites;
     use HasLanguage;
     use HasMetaClass;
-    use HasReviews;
-    use HasSearchableName;
-    use HasSelections;
+    use HasSearchableName, Searchable {
+        HasSearchableName::searchableAs insteadof Searchable;
+    }
     use HasTagsAndGenres;
+    use InteractsWithMedia;
     use IsEntity;
     use Queryable;
-    use Searchable;
 
     protected $query_default_sort = 'slug_sort';
 
     protected $query_default_sort_direction = 'asc';
 
-    protected $query_allowed_sorts = ['id', 'title', 'authors', 'books_count', 'language', 'created_at', 'updated_at', 'language'];
+    protected $query_allowed_sorts = [
+        'id',
+        'title',
+        'authors',
+        'books_count',
+        'language',
+        'created_at',
+        'updated_at',
+        'language',
+    ];
 
     protected $query_limit = 32;
 
@@ -112,11 +118,6 @@ class Serie extends Model implements HasMedia, Wikipediable
     public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
     {
         return $query->where('slug_sort', 'like', "{$character}%");
-    }
-
-    public function searchableAs()
-    {
-        return $this->searchableNameAs();
     }
 
     public function toSearchableArray()

@@ -15,7 +15,7 @@ class SerieConverter
 {
     protected ?Serie $serie = null;
 
-    public const DISK = MediaDiskEnum::cover;
+    // public const DISK = MediaDiskEnum::cover;
 
     public static function make(?string $serie, MetaTitle $meta, BookTypeEnum $type): ?Serie
     {
@@ -40,7 +40,7 @@ class SerieConverter
         $serie = Serie::whereSlug($ebook->getMetaTitle()->getSerieSlug())->first();
 
         if (! $serie && $ebook->getSeries()) {
-            $serie = Serie::firstOrCreate([
+            $serie = Serie::query()->firstOrCreate([
                 'title' => $ebook->getSeries(),
                 'slug_sort' => $ebook->getMetaTitle()->getSerieSlugSort(),
                 'slug' => $ebook->getMetaTitle()->getSerieSlugLang(),

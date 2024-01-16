@@ -34,20 +34,13 @@ class LanguageConverter
      */
     public static function toModel(Ebook $ebook): Language
     {
-        $availableLangs = config('bookshelves.langs');
         $langCode = $ebook->getLanguage() ?? 'en';
-
-        $language = Language::whereSlug($langCode)->first();
+        $language = Language::query()->where('slug', $langCode)->first();
 
         if (! $language) {
-            $langNames = [];
-
-            foreach ($availableLangs as $lang) {
-                $langNames[$lang] = ucfirst(Locale::getDisplayLanguage($langCode, $lang));
-            }
-
-            $language = Language::firstOrCreate([
-                'name' => $langNames,
+            $langName = ucfirst(Locale::getDisplayLanguage($langCode, 'en'));
+            $language = Language::query()->firstOrCreate([
+                'name' => $langName,
                 'slug' => $langCode,
             ]);
         }

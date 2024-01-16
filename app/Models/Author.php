@@ -3,19 +3,13 @@
 namespace App\Models;
 
 use App\Engines\Book\Converter\WikipediaItemConverter;
-use App\Enums\AuthorRoleEnum;
-use App\Enums\BookFormatEnum;
 use App\Traits\HasBooksCollection;
 use App\Traits\HasCovers;
-use App\Traits\HasFavorites;
-use App\Traits\HasReviews;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
 use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
 use Kiwilan\Steward\Services\Wikipedia\WikipediaItem;
@@ -25,6 +19,7 @@ use Kiwilan\Steward\Traits\HasSlug;
 use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\QueryBuilder\AllowedFilter;
 
 /**
@@ -37,23 +32,15 @@ class Author extends Model implements HasMedia, Wikipediable
     use HasBooksCollection;
     use HasCovers;
     use HasFactory;
-    use HasFavorites;
     use HasMetaClass;
-    use HasReviews;
-    use HasSearchableName;
+    use HasSearchableName, Searchable {
+        HasSearchableName::searchableAs insteadof Searchable;
+    }
     use HasSlug;
     use HasTagsAndGenres;
+    use InteractsWithMedia;
     use IsEntity;
     use Queryable;
-    use Searchable;
-
-    protected $query_default_sort = 'lastname';
-
-    protected $query_default_sort_direction = 'asc';
-
-    protected $query_allowed_sorts = ['id', 'firstname', 'lastname', 'name', 'role', 'books_count', 'series_count', 'created_at', 'updated_at'];
-
-    protected $query_limit = 32;
 
     protected $fillable = [
         'lastname',
@@ -65,9 +52,23 @@ class Author extends Model implements HasMedia, Wikipediable
         'note',
     ];
 
-    protected $casts = [
-        'role' => AuthorRoleEnum::class,
+    protected $query_default_sort = 'lastname';
+
+    protected $query_default_sort_direction = 'asc';
+
+    protected $query_allowed_sorts = [
+        'id',
+        'firstname',
+        'lastname',
+        'name',
+        'role',
+        'books_count',
+        'series_count',
+        'created_at',
+        'updated_at',
     ];
+
+    protected $query_limit = 32;
 
     protected $appends = [
         'title',
@@ -77,6 +78,11 @@ class Author extends Model implements HasMedia, Wikipediable
         'books',
         'series',
     ];
+
+    public function getTitleAttribute(): string
+    {
+        return $this->name;
+    }
 
     public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
     {
@@ -94,7 +100,7 @@ class Author extends Model implements HasMedia, Wikipediable
     /**
      * Get all of the books that are assigned this author.
      */
-    public function books(): MorphToMany
+    public function books(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Book::class, 'authorable')
             ->orderBy('slug_sort')
@@ -104,45 +110,16 @@ class Author extends Model implements HasMedia, Wikipediable
     /**
      * Get all of the series that are assigned this author.
      */
-    public function series(): MorphToMany
+    public function series(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Serie::class, 'authorable')
             ->orderBy('slug_sort')
             ->withCount('books');
     }
 
-    public function getBooksLinkAttribute(): string
-    {
-        return route('api.authors.show.books', [
-            'author_slug' => $this->slug,
-        ]);
-    }
-
-    public function getSeriesLinkAttribute(): string
-    {
-        return route('api.authors.show.series', [
-            'author_slug' => $this->slug,
-        ]);
-    }
-
-    public function getDownloadLinkFormat(string $format): string
-    {
-        $format = BookFormatEnum::from($format)->value;
-
-        return route('api.download.author', [
-            'author_slug' => $this->slug,
-            'format' => $format,
-        ]);
-    }
-
     public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
     {
         return $query->where('lastname', 'like', "{$character}%");
-    }
-
-    public function searchableAs()
-    {
-        return $this->searchableNameAs();
     }
 
     public function toSearchableArray()
@@ -167,12 +144,5 @@ class Author extends Model implements HasMedia, Wikipediable
             AllowedFilter::partial('lastname'),
             AllowedFilter::exact('role'),
         ];
-    }
-
-    protected function title(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->name,
-        );
     }
 }

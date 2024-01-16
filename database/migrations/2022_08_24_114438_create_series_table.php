@@ -21,6 +21,9 @@ return new class() extends Migration
             $table->text('description')->nullable();
             $table->string('link')->nullable();
 
+            $table->string('cover')->nullable();
+            $table->string('cover_color')->nullable();
+
             $table->timestamps();
         });
 

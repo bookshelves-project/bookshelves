@@ -2,7 +2,7 @@
 
 namespace App\Engines;
 
-use App\Engines\Book\BookFileReader;
+use App\Engines\Book\BookFileItem;
 use App\Engines\Book\ConverterEngine;
 use Illuminate\Support\Facades\Storage;
 use Kiwilan\Ebook\Ebook;
@@ -12,20 +12,18 @@ class BookEngine
 {
     protected function __construct(
         protected Ebook $ebook,
-        protected BookFileReader $file,
+        protected BookFileItem $file,
         protected ConverterEngine $converter,
     ) {
     }
 
-    public static function make(BookFileReader $file, bool $verbose = false, bool $default = false): self
+    public static function make(BookFileItem $file): self
     {
         $ebook = Ebook::read($file->path());
-
-        if ($verbose) {
-            BookEngine::verbose($ebook);
+        if (config('bookshelves.analyzer.debug')) {
+            BookEngine::printFile($ebook->toArray(), "{$ebook->getFilename()}-parser.json");
         }
-
-        $converter = ConverterEngine::make($ebook, $file, $default);
+        $converter = ConverterEngine::make($ebook, $file);
 
         return new self($ebook, $file, $converter);
     }
@@ -35,7 +33,7 @@ class BookEngine
         return $this->ebook;
     }
 
-    public function file(): BookFileReader
+    public function file(): BookFileItem
     {
         return $this->file;
     }
@@ -43,13 +41,6 @@ class BookEngine
     public function converter(): ConverterEngine
     {
         return $this->converter;
-    }
-
-    private static function verbose(Ebook $ebook): void
-    {
-        $console = PrintConsole::make();
-        $console->print("{$ebook->getTitle()}");
-        BookEngine::printFile($ebook->toArray(), "{$ebook->getFilename()}-parser.json");
     }
 
     public static function printFile(mixed $file, string $name, bool $raw = false): bool

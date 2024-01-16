@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Kiwilan\Steward\Enums\UserRoleEnum;
 
 class EmptySeeder extends Seeder
 {
@@ -15,8 +16,9 @@ class EmptySeeder extends Seeder
     {
         User::factory()->create([
             'name' => 'Super Admin',
-            'email' => config('app.admin.email'),
-            'password' => Hash::make(config('app.admin.password')),
+            'email' => config('bookshelves.super_admin.email'),
+            'password' => Hash::make(config('bookshelves.super_admin.password')),
+            'role' => UserRoleEnum::super_admin,
         ]);
     }
 }

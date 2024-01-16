@@ -21,7 +21,9 @@ return new class() extends Migration
             $table->string('role')->nullable();
             $table->text('description')->nullable();
             $table->string('link')->nullable();
-            $table->json('note')->nullable();
+
+            $table->string('cover')->nullable();
+            $table->string('cover_color')->nullable();
 
             $table->timestamps();
         });

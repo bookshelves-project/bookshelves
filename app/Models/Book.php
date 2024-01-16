@@ -8,10 +8,7 @@ use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
 use App\Traits\HasBookType;
 use App\Traits\HasCovers;
-use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
-use App\Traits\HasReviews;
-use App\Traits\HasSelections;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,6 +26,7 @@ use Kiwilan\Steward\Traits\HasSlug;
 use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\QueryBuilder\AllowedFilter;
 
 /**
@@ -42,18 +40,16 @@ class Book extends Model implements GoogleBookable, HasMedia
     use HasBookType;
     use HasCovers;
     use HasFactory;
-    use HasFavorites;
     use HasLanguage;
     use HasMetaClass;
-    use HasReviews;
-    use HasSearchableName;
-    use HasSelections;
-    use HasSelections;
+    use HasSearchableName, Searchable {
+        HasSearchableName::searchableAs insteadof Searchable;
+    }
     use HasSlug;
     use HasTagsAndGenres;
+    use InteractsWithMedia;
     use IsEntity;
     use Queryable;
-    use Searchable;
 
     protected $slug_with = 'title';
 
@@ -61,7 +57,20 @@ class Book extends Model implements GoogleBookable, HasMedia
 
     protected $query_default_sort_direction = 'asc';
 
-    protected $query_allowed_sorts = ['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'isbn', 'publisher', 'released_on', 'created_at', 'updated_at'];
+    protected $query_allowed_sorts = [
+        'id',
+        'title',
+        'slug_sort',
+        'type',
+        'serie',
+        'authors',
+        'volume',
+        'isbn',
+        'publisher',
+        'released_on',
+        'created_at',
+        'updated_at',
+    ];
 
     protected $query_limit = 32;
 
@@ -108,21 +117,21 @@ class Book extends Model implements GoogleBookable, HasMedia
     ];
 
     protected $withCount = [
-        'tags',
+        // 'tags',
     ];
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('epub');
-    }
+    // public function registerMediaCollections(): void
+    // {
+    //     $this->addMediaCollection('epub');
+    // }
 
-    public function getDirectDownloadUrlAttribute(): string
-    {
-        return route('api.download.direct', [
-            'author_slug' => $this->authors->first()?->slug,
-            'book_slug' => $this->slug,
-        ]);
-    }
+    // public function getDirectDownloadUrlAttribute(): string
+    // {
+    //     return route('api.download.direct', [
+    //         'author_slug' => $this->authors->first()?->slug,
+    //         'book_slug' => $this->slug,
+    //     ]);
+    // }
 
     public function getIsbnAttribute(): ?string
     {
@@ -161,14 +170,6 @@ class Book extends Model implements GoogleBookable, HasMedia
     public function serie(): BelongsTo
     {
         return $this->belongsTo(Serie::class);
-    }
-
-    /**
-     * Scout.
-     */
-    public function searchableAs()
-    {
-        return $this->searchableNameAs();
     }
 
     public function toSearchableArray()

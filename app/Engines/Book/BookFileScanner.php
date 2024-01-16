@@ -5,12 +5,14 @@ namespace App\Engines\Book;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use Kiwilan\Steward\Services\DirectoryService;
+use Kiwilan\Steward\Utils\BashCommand;
+use Kiwilan\Steward\Utils\Json;
 
-class BookFilesReader
+class BookFileScanner
 {
     protected mixed $files = [];
 
-    /** @var BookFileReader[] */
+    /** @var BookFileItem[] */
     protected array $items = [];
 
     protected function __construct(
@@ -18,6 +20,7 @@ class BookFilesReader
         protected int $i = 0,
         protected array $typesEnum = [],
         protected array $formatsEnum = [],
+        protected int $count = 0,
     ) {
         $this->formatsEnum = BookFormatEnum::toArray();
     }
@@ -33,12 +36,15 @@ class BookFilesReader
             $path = base_path($path);
         }
         $self = new self($path);
-        $self->files = DirectoryService::make()->parse($self->path);
+        $self->files = $self->scan();
         $self->parseFiles();
 
         if ($limit) {
             $self->items = array_slice($self->items, 0, $limit);
         }
+
+        $self->items = array_values($self->items);
+        $self->count = count($self->items);
 
         return $self;
     }
@@ -49,11 +55,38 @@ class BookFilesReader
     }
 
     /**
-     * @return BookFileReader[]
+     * @return BookFileItem[]
      */
     public function items(): array
     {
         return $this->items;
+    }
+
+    public function count(): int
+    {
+        return $this->count;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function scan(): array
+    {
+        $name = 'books';
+        $scan_path = "{$this->path}/{$name}";
+
+        if (config('bookshelves.analyzer.engine') === 'native') {
+            return DirectoryService::make()->parse($scan_path);
+        }
+
+        $path = storage_path('app/data');
+        $books_path = "{$path}/{$name}.json";
+        $process = new BashCommand('scanner', ['parse', "-o={$books_path}", $scan_path]);
+        $process->execute();
+
+        $json = new Json($books_path);
+
+        return $json->toArray();
     }
 
     private function parseFiles(): void
@@ -64,20 +97,21 @@ class BookFilesReader
             }
 
             $extension = pathinfo($path, PATHINFO_EXTENSION);
+            $format = BookFormatEnum::unknown;
             $type = BookTypeEnum::unknown;
 
             if (in_array($extension, ['cb7', 'cba', 'cbr', 'cbt', 'cbz'])) {
-                $extension = 'cba';
+                $format = BookFormatEnum::cba;
                 $type = BookTypeEnum::comic;
             }
 
             if (in_array($extension, ['epub'])) {
-                $extension = 'cba';
+                $format = BookFormatEnum::epub;
                 $type = BookTypeEnum::novel;
             }
 
             if (in_array($extension, ['pdf'])) {
-                $extension = 'cba';
+                $format = BookFormatEnum::pdf;
                 $type = BookTypeEnum::comic;
             }
 
@@ -85,40 +119,8 @@ class BookFilesReader
                 continue;
             }
 
-            $format = BookFormatEnum::tryFrom($extension);
-
             $this->i++;
-            $this->items["{$this->i}"] = BookFileReader::make($format, $type, $path);
+            $this->items["{$this->i}"] = BookFileItem::make($format, $type, $path);
         }
-    }
-}
-
-class BookFileReader
-{
-    protected function __construct(
-        protected ?BookFormatEnum $format,
-        protected ?BookTypeEnum $type,
-        protected ?string $path,
-    ) {
-    }
-
-    public static function make(BookFormatEnum $format, BookTypeEnum $type, string $path): self
-    {
-        return new self($format, $type, $path);
-    }
-
-    public function format(): BookFormatEnum
-    {
-        return $this->format;
-    }
-
-    public function type(): BookTypeEnum
-    {
-        return $this->type;
-    }
-
-    public function path(): string
-    {
-        return $this->path;
     }
 }

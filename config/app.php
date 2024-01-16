@@ -59,11 +59,6 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
-    'admin' => [
-        'email' => env('APP_ADMIN_EMAIL', 'superadmin@example.com'),
-        'password' => env('APP_ADMIN_PASSWORD', 'password'),
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

@@ -2,7 +2,6 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
-use App\Enums\MediaDiskEnum;
 use App\Models\Book;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -12,8 +11,6 @@ use Kiwilan\Steward\Services\MediaService;
 
 class FileConverter
 {
-    public const DISK = MediaDiskEnum::format;
-
     /**
      * Generate new file with standard name.
      * Managed by spatie/laravel-medialibrary.

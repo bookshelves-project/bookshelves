@@ -15,7 +15,7 @@ class ConverterEngine
 {
     protected function __construct(
         protected Ebook $ebook,
-        protected BookFileReader $file,
+        protected BookFileItem $file,
         protected ?Book $book = null,
         protected bool $isExist = false,
         protected bool $default = false
@@ -25,7 +25,7 @@ class ConverterEngine
     /**
      * Create a `Book::class` and relations from `Ebook::class`.
      */
-    public static function make(Ebook $ebook, BookFileReader $file, bool $default = false): ?ConverterEngine
+    public static function make(Ebook $ebook, BookFileItem $file, bool $default = false): ?ConverterEngine
     {
         $self = new self($ebook, $file);
         $self->default = $default;

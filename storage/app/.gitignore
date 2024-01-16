@@ -1,4 +1,5 @@
 *
+!cache/
 !data/
 !public/
 !.gitignore

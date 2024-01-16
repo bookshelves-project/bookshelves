@@ -2,8 +2,6 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
-use App\Enums\AuthorRoleEnum;
-use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -13,8 +11,6 @@ use Kiwilan\Ebook\Tools\BookAuthor;
 
 class AuthorConverter
 {
-    public const DISK = MediaDiskEnum::cover;
-
     protected function __construct(
         protected ?string $firstname,
         protected ?string $lastname,
@@ -114,7 +110,7 @@ class AuthorConverter
                 'firstname' => $this->firstname,
                 'name' => $name,
                 'slug' => Str::slug($name, '-'),
-                'role' => AuthorRoleEnum::tryFrom($this->role),
+                'role' => $this->role,
             ]);
     }
 
@@ -168,7 +164,7 @@ class AuthorConverter
             'firstname' => $data['firstname'],
             'name' => $name,
             'slug' => Str::slug($name, '-'),
-            'role' => AuthorRoleEnum::tryFrom($data['role']),
+            'role' => $data['role'],
         ]);
     }
 
