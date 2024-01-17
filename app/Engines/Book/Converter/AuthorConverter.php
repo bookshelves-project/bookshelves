@@ -12,8 +12,6 @@ use Kiwilan\Steward\Services\MediaService;
  */
 class AuthorConverter
 {
-    // public const DISK = MediaDiskEnum::cover;
-
     public function __construct(
         public Author $author,
     ) {

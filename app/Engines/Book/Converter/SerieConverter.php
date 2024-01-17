@@ -2,6 +2,7 @@
 
 namespace App\Engines\Book\Converter;
 
+use App\Engines\Book\Converter\Modules\SerieModule;
 use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Serie;
@@ -13,8 +14,6 @@ use Kiwilan\Steward\Services\MediaService;
  */
 class SerieConverter
 {
-    // public const DISK = MediaDiskEnum::cover;
-
     public function __construct(
         public Serie $serie,
     ) {
@@ -24,6 +23,7 @@ class SerieConverter
     {
         $self = new SerieConverter($serie);
         $self->setTags();
+        $self->setCover();
 
         return $self;
     }
@@ -45,6 +45,13 @@ class SerieConverter
     //     return $this;
     // }
 
+    private function setCover(): self
+    {
+        SerieModule::setBookCover($this->serie);
+
+        return $this;
+    }
+
     /**
      * Generate Serie tags from Books relationship tags.
      */
@@ -53,11 +60,13 @@ class SerieConverter
         $books = $this->serie->load('books.tags')->books;
         $tags = [];
 
-        foreach ($books as $key => $book) {
-            foreach ($book->tags as $key => $tag) {
-                array_push($tags, $tag);
+        foreach ($books as $book) {
+            foreach ($book->tags as $tag) {
+                $tags[] = $tag->id;
             }
         }
+
+        $tags = array_unique($tags);
 
         $this->serie->tags()->sync($tags);
         $this->serie->save();

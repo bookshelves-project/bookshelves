@@ -4,7 +4,14 @@ namespace App\Console\Commands\Bookshelves;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Kiwilan\Steward\Commands\Commandable;
+use Kiwilan\Steward\Commands\Jobs\JobsClearCommand;
+use Kiwilan\Steward\Commands\Log\LogClearCommand;
+use Kiwilan\Steward\Services\DirectoryService;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Main command of Bookshelves to generate Books with relations.
@@ -51,7 +58,7 @@ class ParseCommand extends Commandable
         $this->fresh = $this->option('fresh') ?: false;
 
         if ($this->fresh) {
-            Artisan::call('migrate:fresh', ['--seed' => true]);
+            $this->clear();
         }
 
         $this->info('Parsing books...');
@@ -79,5 +86,32 @@ class ParseCommand extends Commandable
         $this->info('Done!');
 
         return Command::SUCCESS;
+    }
+
+    private function clear(): void
+    {
+        $msg = 'Fresh mode enabled, reset database.';
+        $this->info($msg);
+        Log::info($msg);
+
+        Artisan::call('migrate:fresh', ['--seed' => true]);
+        $this->comment('Database reset!');
+
+        // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        // \App\Models\Author::query()->truncate();
+        // \App\Models\Serie::query()->truncate();
+        // \App\Models\Book::query()->truncate();
+        // \App\Models\Tag::query()->truncate();
+        // \App\Models\Language::query()->truncate();
+        // \App\Models\Publisher::query()->truncate();
+        // Media::query()->truncate();
+        // DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        Artisan::call(JobsClearCommand::class);
+        Artisan::call(LogClearCommand::class);
+        DirectoryService::make()->clearDirectory(storage_path('app/cache'));
+        File::deleteDirectory(storage_path('app/public'));
+
+        $this->newLine();
     }
 }

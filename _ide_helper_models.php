@@ -195,6 +195,60 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\MediaExtended
+ *
+ * @property int $id
+ * @property string $model_type
+ * @property string $model_id
+ * @property string|null $uuid
+ * @property string $collection_name
+ * @property string $name
+ * @property string $file_name
+ * @property string|null $mime_type
+ * @property string $disk
+ * @property string|null $conversions_disk
+ * @property int $size
+ * @property array $manipulations
+ * @property array $custom_properties
+ * @property array $generated_conversions
+ * @property array $responsive_images
+ * @property int|null $order_column
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $download
+ * @property-read string|null $full_extension
+ * @property-read string|null $size_human
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $model
+ * @method static \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, static> all($columns = ['*'])
+ * @method static \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, static> get($columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Media ordered()
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended query()
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereCollectionName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereConversionsDisk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereCustomProperties($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereDisk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereFileName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereGeneratedConversions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereManipulations($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereMimeType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereModelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereModelType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereOrderColumn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereResponsiveImages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MediaExtended whereUuid($value)
+ */
+	class MediaExtended extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Publisher
  *
  * @property string $id

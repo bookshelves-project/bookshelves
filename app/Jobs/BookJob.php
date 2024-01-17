@@ -35,7 +35,7 @@ class BookJob implements ShouldQueue
         if (! $title) {
             $title = $this->file->path();
         }
-        Log::info("BookParserProcess: {$this->number} {$title}");
+        Log::info("BookJob: {$this->number} {$title}");
     }
 
     private function log(string $message, bool $success = false): void
@@ -56,9 +56,9 @@ class BookJob implements ShouldQueue
         file_put_contents($path, json_encode($json));
 
         if ($success) {
-            Log::info('BookParserProcess', $content);
+            Log::info('BookJob', $content);
         } else {
-            Log::error('BookParserProcess', $content);
+            Log::error('BookJob', $content);
         }
     }
 

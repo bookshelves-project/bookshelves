@@ -87,27 +87,27 @@ class SerieModule
      */
     public static function setBookCover(Serie $serie): Serie
     {
-        $disk = self::DISK;
+        // $disk = self::DISK;
 
-        if ($serie->getMedia($disk->value)->isEmpty()) {
-            $book = Book::whereVolume(1)->whereSerieId($serie->id)->first();
+        // if ($serie->getMedia($disk->value)->isEmpty()) {
+        //     $book = Book::whereVolume(1)->whereSerieId($serie->id)->first();
 
-            if (! $book) {
-                $book = Book::whereSerieId($serie->id)->first();
-            }
+        //     if (! $book) {
+        //         $book = Book::whereSerieId($serie->id)->first();
+        //     }
 
-            /** @var Book $book */
-            $cover_exist = File::exists($book->cover_book?->getPath());
+        //     /** @var Book $book */
+        //     $cover_exist = File::exists($book->cover_book?->getPath());
 
-            if ($cover_exist) {
-                $cover = base64_encode(File::get($book->cover_book->getPath()));
-                MediaService::make($serie, $serie->slug, $disk)
-                    ->setMedia($cover)
-                    ->setColor();
-            }
+        //     if ($cover_exist) {
+        //         $cover = base64_encode(File::get($book->cover_book->getPath()));
+        //         MediaService::make($serie, $serie->slug, $disk)
+        //             ->setMedia($cover)
+        //             ->setColor();
+        //     }
 
-            $serie->save();
-        }
+        //     $serie->save();
+        // }
 
         return $serie;
     }

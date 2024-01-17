@@ -5,22 +5,11 @@ namespace App\Console\Commands\Bookshelves;
 use App\Engines\Book\BookFileItem;
 use App\Engines\Book\BookFileScanner;
 use App\Jobs\BookJob;
-use App\Models\Author;
 use App\Models\Book;
-use App\Models\Language;
-use App\Models\Publisher;
-use App\Models\Serie;
 use App\Models\Tag;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Kiwilan\Steward\Commands\Commandable;
-use Kiwilan\Steward\Commands\Jobs\JobsClearCommand;
-use Kiwilan\Steward\Commands\Log\LogClearCommand;
-use Kiwilan\Steward\Services\DirectoryService;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Main command of Bookshelves to generate Books with relations.
@@ -68,10 +57,6 @@ class BooksCommand extends Commandable
         $limit = str_replace('=', '', $this->option('limit'));
         $this->limit = intval($limit);
         $this->fresh = $this->option('fresh') ?: false;
-
-        if ($this->fresh) {
-            $this->clear();
-        }
 
         $this->info('Scanning books...');
         $parser = BookFileScanner::make(limit: $this->limit);
@@ -130,29 +115,5 @@ class BooksCommand extends Commandable
                 'type' => 'genre',
             ]);
         }
-    }
-
-    private function clear(): void
-    {
-        $msg = 'Fresh mode enabled, delete books, relations and jobs.';
-        $this->info($msg);
-        Log::info($msg);
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Author::query()->truncate();
-        Serie::query()->truncate();
-        Book::query()->truncate();
-        Tag::query()->truncate();
-        Language::query()->truncate();
-        Publisher::query()->truncate();
-        Media::query()->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        Artisan::call(JobsClearCommand::class);
-        Artisan::call(LogClearCommand::class);
-        DirectoryService::make()->clearDirectory(storage_path('app/cache'));
-        File::deleteDirectory(storage_path('app/public'));
-
-        $this->newLine();
     }
 }

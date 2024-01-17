@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\AuthorJob;
-use App\Models\Author;
+use App\Jobs\AuthorWrapperJob;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
@@ -32,10 +31,6 @@ class AuthorsCommand extends Commandable
         $this->title();
 
         $fresh = $this->option('fresh') ?: false;
-
-        $authors = Author::all();
-        foreach ($authors as $author) {
-            AuthorJob::dispatch($author, $fresh);
-        }
+        AuthorWrapperJob::dispatch($fresh);
     }
 }
