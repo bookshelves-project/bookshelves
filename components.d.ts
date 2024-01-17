@@ -16,6 +16,7 @@ declare module 'vue' {
     AppLoading: typeof import('./resources/js/Components/App/Loading.vue')['default']
     AppProse: typeof import('./resources/js/Components/App/Prose.vue')['default']
     AppSlideOver: typeof import('./resources/js/Components/App/SlideOver.vue')['default']
+    CardBook: typeof import('./resources/js/Components/Card/Book.vue')['default']
     JetstreamActionMessage: typeof import('./resources/js/Components/Jetstream/ActionMessage.vue')['default']
     JetstreamActionSection: typeof import('./resources/js/Components/Jetstream/ActionSection.vue')['default']
     JetstreamApplicationLogo: typeof import('./resources/js/Components/Jetstream/ApplicationLogo.vue')['default']

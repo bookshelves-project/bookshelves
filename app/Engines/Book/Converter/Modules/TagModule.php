@@ -8,7 +8,7 @@ use App\Models\Tag;
 use Illuminate\Support\Collection;
 use Kiwilan\Ebook\Ebook;
 
-class TagConverter
+class TagModule
 {
     /**
      * Set Tags from Ebook.

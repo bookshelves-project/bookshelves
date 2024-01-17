@@ -6,7 +6,7 @@ use App\Models\Language;
 use Kiwilan\Ebook\Ebook;
 use Locale;
 
-class LanguageConverter
+class LanguageModule
 {
     public static function make(?string $language): ?Language
     {

@@ -12,7 +12,7 @@ return new class() extends Migration
     public function up()
     {
         Schema::create('series', function (Blueprint $table) {
-            $table->id();
+            $table->ulid('id')->primary();
 
             $table->string('title');
             $table->string('slug_sort')->nullable();
@@ -21,14 +21,11 @@ return new class() extends Migration
             $table->text('description')->nullable();
             $table->string('link')->nullable();
 
-            $table->string('cover')->nullable();
-            $table->string('cover_color')->nullable();
-
             $table->timestamps();
         });
 
         Schema::table('books', function (Blueprint $table) {
-            $table->foreignId('serie_id')->index()->nullable()->after('rights');
+            $table->foreignUlid('serie_id')->index()->nullable()->after('rights');
             $table->foreign('serie_id')
                 ->references('id')
                 ->on('series')

@@ -9,7 +9,7 @@ use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Tools\BookAuthor;
 
-class AuthorConverter
+class AuthorModule
 {
     protected function __construct(
         protected ?string $firstname,
@@ -29,7 +29,7 @@ class AuthorConverter
         $items = collect([]);
 
         if (empty($authors)) {
-            $author = AuthorConverter::make(
+            $author = AuthorModule::make(
                 new BookAuthor(
                     name: 'Anonymous',
                     role: 'aut'
@@ -41,7 +41,7 @@ class AuthorConverter
         }
 
         foreach ($authors as $author) {
-            $current = AuthorConverter::make($author);
+            $current = AuthorModule::make($author);
 
             $detectHomonyms = config('bookshelves.authors.detect_homonyms');
             $existing = Author::whereFirstname($current->firstname)
@@ -73,7 +73,7 @@ class AuthorConverter
      */
     public static function make(BookAuthor $author): ?self
     {
-        $data = AuthorConverter::convertName($author);
+        $data = AuthorModule::convertName($author);
 
         return new self(
             firstname: $data['firstname'],
@@ -102,7 +102,7 @@ class AuthorConverter
      */
     private function create(): Author
     {
-        $name = AuthorConverter::toName($this->lastname, $this->firstname);
+        $name = AuthorModule::toName($this->lastname, $this->firstname);
 
         return Author::query()
             ->firstOrCreate([
@@ -156,8 +156,8 @@ class AuthorConverter
 
     public static function makeAuthor(BookAuthor $author): Author
     {
-        $data = AuthorConverter::convertName($author);
-        $name = AuthorConverter::toName($data['lastname'], $data['firstname']);
+        $data = AuthorModule::convertName($author);
+        $name = AuthorModule::toName($data['lastname'], $data['firstname']);
 
         return new Author([
             'lastname' => $data['lastname'],
@@ -179,7 +179,7 @@ class AuthorConverter
         $items = [];
 
         foreach ($authors as $author) {
-            $items[] = AuthorConverter::makeAuthor($author);
+            $items[] = AuthorModule::makeAuthor($author);
         }
 
         return $items;

@@ -8,6 +8,7 @@ use App\Traits\HasCovers;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
@@ -19,7 +20,6 @@ use Kiwilan\Steward\Traits\HasSlug;
 use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\QueryBuilder\AllowedFilter;
 
 /**
@@ -38,7 +38,7 @@ class Author extends Model implements HasMedia, Wikipediable
     }
     use HasSlug;
     use HasTagsAndGenres;
-    use InteractsWithMedia;
+    use HasUlids;
     use IsEntity;
     use Queryable;
 

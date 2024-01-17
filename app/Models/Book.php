@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Engines\Book\Converter\Modules\TagConverter;
+use App\Engines\Book\Converter\Modules\TagModule;
 use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
@@ -12,6 +12,7 @@ use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,13 +27,8 @@ use Kiwilan\Steward\Traits\HasSlug;
 use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\QueryBuilder\AllowedFilter;
 
-/**
- * @property null|int $reviews_count
- * @property \App\Enums\BookTypeEnum|null $type
- */
 class Book extends Model implements GoogleBookable, HasMedia
 {
     use HasAuthors;
@@ -47,7 +43,7 @@ class Book extends Model implements GoogleBookable, HasMedia
     }
     use HasSlug;
     use HasTagsAndGenres;
-    use InteractsWithMedia;
+    use HasUlids;
     use IsEntity;
     use Queryable;
 
@@ -120,10 +116,10 @@ class Book extends Model implements GoogleBookable, HasMedia
         // 'tags',
     ];
 
-    // public function registerMediaCollections(): void
-    // {
-    //     $this->addMediaCollection('epub');
-    // }
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('epub');
+    }
 
     // public function getDirectDownloadUrlAttribute(): string
     // {
@@ -138,9 +134,6 @@ class Book extends Model implements GoogleBookable, HasMedia
         return $this->isbn13 ?? $this->isbn10;
     }
 
-    /**
-     * Scope.
-     */
     public function scopeAvailable(Builder $query): Builder
     {
         return $query->where('is_hidden', false);
@@ -159,9 +152,6 @@ class Book extends Model implements GoogleBookable, HasMedia
             ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)]);
     }
 
-    /**
-     * Relationships.
-     */
     public function publisher(): BelongsTo
     {
         return $this->belongsTo(Publisher::class);
@@ -177,7 +167,7 @@ class Book extends Model implements GoogleBookable, HasMedia
         return [
             'id' => $this->id,
             'title' => $this->title,
-            // 'picture' => $this->cover_thumbnail,
+            'picture' => $this->cover_thumbnail,
             'released_on' => $this->released_on,
             'author' => $this->authors_names,
             'serie' => $this->serie?->title,
@@ -222,7 +212,7 @@ class Book extends Model implements GoogleBookable, HasMedia
 
         // Set tags
         foreach ($gbook->getCategories() as $category) {
-            TagConverter::make($category);
+            TagModule::make($category);
         }
 
         $this->save();

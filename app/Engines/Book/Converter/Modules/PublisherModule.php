@@ -6,7 +6,7 @@ use App\Models\Publisher;
 use Illuminate\Support\Str;
 use Kiwilan\Ebook\Ebook;
 
-class PublisherConverter
+class PublisherModule
 {
     public static function make(?string $publisher): ?Publisher
     {

@@ -26,8 +26,6 @@ return [
     'slug' => \Illuminate\Support\Str::slug(env('APP_NAME', 'Bookshelves')),
     'repository_url' => env('BOOKSHELVES_REPOSITORY_URL', 'https://github.com/bookshelves-project'),
     'documentation_url' => env('BOOKSHELVES_DOCUMENTATION_URL', 'https://bookshelves-documentation.netlify.app'),
-    // General.
-    'cover_extension' => env('BOOKSHELVES_COVER_FORMAT', 'webp'),
     // Authors.
     'authors' => [
         // Depends of your order of sort for authors
@@ -66,5 +64,25 @@ return [
     'local' => [
         'copy' => env('BOOKSHELVES_LOCAL_COPY', false),
         'cover' => env('BOOKSHELVES_LOCAL_COVER', true),
+    ],
+
+    'image' => [
+        'driver' => env('BOOKSHELVES_IMAGE_DRIVER', 'gd'),
+        'format' => env('BOOKSHELVES_IMAGE_FORMAT', 'avif'),
+        'conversion' => env('BOOKSHELVES_IMAGE_CONVERSION', true),
+        'cover' => [
+            'standard' => [
+                'width' => 100,
+                'height' => 160,
+            ],
+            'thumbnail' => [
+                'width' => 200,
+                'height' => 320,
+            ],
+            'social' => [
+                'width' => 600,
+                'height' => 300,
+            ],
+        ],
     ],
 ];

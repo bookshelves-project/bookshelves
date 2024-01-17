@@ -16,12 +16,13 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug')->nullable()->unique();
             $table->string('type')->default('genre');
+            $table->integer('order_column')->nullable();
             $table->timestamps();
         });
 
         Schema::create('taggables', function (Blueprint $table) {
             $table->foreignId('tag_id')->constrained()->cascadeOnDelete();
-            $table->morphs('taggable');
+            $table->ulidMorphs('taggable');
             $table->unique(['tag_id', 'taggable_id', 'taggable_type']);
         });
     }

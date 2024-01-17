@@ -9,7 +9,7 @@ use Kiwilan\Ebook\Ebook;
 use Kiwilan\Steward\Utils\SpatieMedia;
 use Spatie\Image\Image;
 
-class CoverConverter
+class CoverModule
 {
     /**
      * Generate Book image from original cover string file.
@@ -24,7 +24,7 @@ class CoverConverter
 
         SpatieMedia::make($book)
             ->addMediaFromString($ebook->getCover()->getContents())
-            ->extension('avif')
+            ->extension(config('bookshelves.image.format'))
             ->collection('covers')
             ->disk('covers_original')
             ->color()

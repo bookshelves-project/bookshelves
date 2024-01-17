@@ -3,7 +3,7 @@
 namespace App\Engines\Book;
 
 use App\Engines\Book\Converter\BookConverter;
-use App\Engines\Book\Converter\Modules\AuthorConverter;
+use App\Engines\Book\Converter\Modules\AuthorModule;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Ebook\Ebook;
@@ -43,7 +43,7 @@ class ConverterEngine
         $names = [];
 
         foreach ($this->ebook->getAuthors() as $author) {
-            $author = AuthorConverter::make($author);
+            $author = AuthorModule::make($author);
             $names[] = "{$author->firstname()} {$author->lastname()}";
             $names[] = "{$author->lastname()} {$author->firstname()}";
         }

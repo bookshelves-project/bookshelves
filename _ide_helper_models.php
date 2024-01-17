@@ -14,7 +14,7 @@ namespace App\Models{
 /**
  * App\Models\Author
  *
- * @property int $id
+ * @property string $id
  * @property string $slug
  * @property string|null $lastname
  * @property string|null $firstname
@@ -22,13 +22,10 @@ namespace App\Models{
  * @property string|null $role
  * @property string|null $description
  * @property string|null $link
- * @property string|null $cover
- * @property string|null $cover_color
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
  * @property-read int|null $books_count
- * @property-read string $cover_path
  * @property-read string $entity
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read array $files_list
@@ -56,8 +53,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Author query()
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereCover($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereCoverColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstCharacterIs(string $character)
@@ -79,7 +74,7 @@ namespace App\Models{
 /**
  * App\Models\Book
  *
- * @property int $id
+ * @property string $id
  * @property string $title
  * @property string $uuid
  * @property string|null $slug_sort
@@ -88,10 +83,10 @@ namespace App\Models{
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $released_on
  * @property string|null $rights
- * @property int|null $serie_id
- * @property int|null $author_main_id
+ * @property string|null $serie_id
+ * @property string|null $author_main_id
  * @property int|null $volume
- * @property int|null $publisher_id
+ * @property string|null $publisher_id
  * @property string|null $language_slug
  * @property int|null $page_count
  * @property int $is_maturity_rating
@@ -102,15 +97,12 @@ namespace App\Models{
  * @property array|null $identifiers
  * @property string|null $google_book_id
  * @property string|null $physical_path
- * @property string|null $cover
- * @property string|null $cover_color
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Author|null $authorMain
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Author> $authors
  * @property-read int|null $authors_count
  * @property-read string $authors_names
- * @property-read string $cover_path
  * @property-read string $entity
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read \App\Models\Collection<int, ?MediaExtended> $files
@@ -146,8 +138,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereAuthorIsLike(string $author)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereAuthorMainId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereContributor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereCover($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereCoverColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisallowSerie(string $has_not_serie)
@@ -207,7 +197,7 @@ namespace App\Models{
 /**
  * App\Models\Publisher
  *
- * @property int $id
+ * @property string $id
  * @property string|null $slug
  * @property string|null $name
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -234,7 +224,7 @@ namespace App\Models{
 /**
  * App\Models\Serie
  *
- * @property int $id
+ * @property string $id
  * @property string $title
  * @property string|null $slug_sort
  * @property string $slug
@@ -242,9 +232,7 @@ namespace App\Models{
  * @property \App\Enums\BookTypeEnum $type
  * @property string|null $description
  * @property string|null $link
- * @property int|null $author_main_id
- * @property string|null $cover
- * @property string|null $cover_color
+ * @property string|null $author_main_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Author|null $authorMain
@@ -254,7 +242,6 @@ namespace App\Models{
  * @property-read int|null $books_count
  * @property-read string $authors_names
  * @property-read string $books_link
- * @property-read string $cover_path
  * @property-read string $entity
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read array $files_list
@@ -283,8 +270,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie query()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereAuthorIsLike(string $author)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereAuthorMainId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie whereCover($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie whereCoverColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereFirstCharacterIs(string $character)
@@ -311,6 +296,7 @@ namespace App\Models{
  * @property string $name
  * @property string|null $slug
  * @property \App\Enums\TagTypeEnum $type
+ * @property int|null $order_column
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $first_char
@@ -321,6 +307,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereIsNegligible(string $negligible)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereOrderColumn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)

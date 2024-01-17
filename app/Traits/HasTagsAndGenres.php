@@ -72,10 +72,11 @@ trait HasTagsAndGenres
         $tags_list = collect();
 
         foreach ($tags as $name) {
-            $tag = Tag::where('name', $name)->first();
+            $tag = Tag::query()->where('name', $name)
+                ->first();
 
             if (! $tag) {
-                $tag = Tag::create([
+                $tag = Tag::query()->create([
                     'name' => $name,
                 ]);
             }

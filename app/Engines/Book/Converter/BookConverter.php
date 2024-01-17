@@ -2,19 +2,19 @@
 
 namespace App\Engines\Book\Converter;
 
-use App\Engines\Book\Converter\Modules\AuthorConverter;
-use App\Engines\Book\Converter\Modules\CoverConverter;
-use App\Engines\Book\Converter\Modules\FileConverter;
-use App\Engines\Book\Converter\Modules\IdentifiersConverter;
-use App\Engines\Book\Converter\Modules\LanguageConverter;
-use App\Engines\Book\Converter\Modules\PublisherConverter;
-use App\Engines\Book\Converter\Modules\SerieConverter;
-use App\Engines\Book\Converter\Modules\TagConverter;
+use App\Engines\Book\Converter\Modules\AuthorModule;
+use App\Engines\Book\Converter\Modules\CoverModule;
+use App\Engines\Book\Converter\Modules\FileModule;
+use App\Engines\Book\Converter\Modules\IdentifierModule;
+use App\Engines\Book\Converter\Modules\LanguageModule;
+use App\Engines\Book\Converter\Modules\PublisherModule;
+use App\Engines\Book\Converter\Modules\SerieModule;
+use App\Engines\Book\Converter\Modules\TagModule;
 use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Carbon;
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Steward\Services\ProcessService;
+use Kiwilan\Steward\Utils\Process;
 
 /**
  * Create or improve a `Book` and relations.
@@ -49,7 +49,7 @@ class BookConverter
             $this->checkBook($type);
         }
 
-        $identifiers = IdentifiersConverter::toCollection($this->ebook);
+        $identifiers = IdentifierModule::toCollection($this->ebook);
 
         if (! $book) {
             $this->book = new Book([
@@ -95,7 +95,7 @@ class BookConverter
 
     private function syncAuthors(): self
     {
-        $authors = AuthorConverter::toCollection($this->ebook);
+        $authors = AuthorModule::toCollection($this->ebook);
 
         if ($authors->isNotEmpty()) {
             $this->book->authorMain()->associate($authors->first());
@@ -107,7 +107,7 @@ class BookConverter
 
     private function syncTags(): self
     {
-        $tags = TagConverter::toCollection($this->ebook);
+        $tags = TagModule::toCollection($this->ebook);
 
         if ($tags->isNotEmpty()) {
             $this->book?->tags()->sync($tags->pluck('id'));
@@ -118,7 +118,7 @@ class BookConverter
 
     private function syncPublisher(): self
     {
-        $publisher = PublisherConverter::toModel($this->ebook);
+        $publisher = PublisherModule::toModel($this->ebook);
         $this->book?->publisher()->associate($publisher);
         $this->book?->save();
 
@@ -127,7 +127,7 @@ class BookConverter
 
     private function syncLanguage(): self
     {
-        $language = LanguageConverter::toModel($this->ebook);
+        $language = LanguageModule::toModel($this->ebook);
         $this->book?->language()->associate($language);
         $this->book?->save();
 
@@ -136,7 +136,7 @@ class BookConverter
 
     private function syncSerie(BookTypeEnum $type): self
     {
-        $serie = SerieConverter::toModel($this->ebook, $type)
+        $serie = SerieModule::toModel($this->ebook, $type)
             ->associate($this->book);
 
         if ($serie) {
@@ -149,7 +149,7 @@ class BookConverter
 
     private function syncIdentifiers(): self
     {
-        $identifiers = IdentifiersConverter::toCollection($this->ebook);
+        $identifiers = IdentifierModule::toCollection($this->ebook);
 
         $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
         $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
@@ -161,14 +161,14 @@ class BookConverter
 
     private function syncCover(): void
     {
-        ProcessService::memoryPeek(function () {
-            CoverConverter::make($this->ebook, $this->book);
+        Process::memoryPeek(function () {
+            CoverModule::make($this->ebook, $this->book);
         }, maxMemory: 3);
     }
 
     private function copyFile(): void
     {
-        FileConverter::make($this->ebook, $this->book);
+        FileModule::make($this->ebook, $this->book);
     }
 
     private function checkBook(BookTypeEnum $type): self

@@ -12,6 +12,7 @@ use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,7 +24,6 @@ use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\Queryable;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\QueryBuilder\AllowedFilter;
 
 /**
@@ -42,7 +42,7 @@ class Serie extends Model implements HasMedia, Wikipediable
         HasSearchableName::searchableAs insteadof Searchable;
     }
     use HasTagsAndGenres;
-    use InteractsWithMedia;
+    use HasUlids;
     use IsEntity;
     use Queryable;
 
@@ -85,17 +85,6 @@ class Serie extends Model implements HasMedia, Wikipediable
         'language',
     ];
 
-    /**
-     * Relationships.
-     */
-    public function books(): HasMany
-    {
-        // Get Books into Serie, by volume order.
-        return $this->hasMany(Book::class)
-            ->where('is_hidden', false)
-            ->orderBy('volume');
-    }
-
     public function getBooksLinkAttribute(): string
     {
         return route('api.series.show.books', [
@@ -118,6 +107,14 @@ class Serie extends Model implements HasMedia, Wikipediable
     public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
     {
         return $query->where('slug_sort', 'like', "{$character}%");
+    }
+
+    public function books(): HasMany
+    {
+        // Get Books into Serie, by volume order.
+        return $this->hasMany(Book::class)
+            ->where('is_hidden', false)
+            ->orderBy('volume');
     }
 
     public function toSearchableArray()

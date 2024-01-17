@@ -12,7 +12,7 @@ return new class() extends Migration
     public function up()
     {
         Schema::create('publishers', function (Blueprint $table) {
-            $table->id();
+            $table->ulid('id')->primary();
 
             $table->string('slug')->unique()->index()->nullable();
             $table->string('name')->nullable();
@@ -21,7 +21,7 @@ return new class() extends Migration
         });
 
         Schema::table('books', function (Blueprint $table) {
-            $table->foreignId('publisher_id')->index()->nullable()->after('volume');
+            $table->foreignUlid('publisher_id')->index()->nullable()->after('volume');
             $table->foreign('publisher_id')
                 ->references('id')
                 ->on('publishers')

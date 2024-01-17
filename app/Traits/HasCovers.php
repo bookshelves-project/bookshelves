@@ -6,6 +6,7 @@ use App\Enums\MediaDiskEnum;
 use App\Models\MediaExtended;
 use App\Services\EntityService;
 use Spatie\Image\Enums\CropPosition;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Manage cover with conversions with `spatie/laravel-medialibrary`.
@@ -20,25 +21,27 @@ use Spatie\Image\Enums\CropPosition;
  */
 trait HasCovers
 {
+    use InteractsWithMedia;
+
     // protected bool $cover_available = false;
 
     public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
     {
-        $formatThumbnail = config('image.covers.thumbnail');
-        $formatStandard = config('image.covers.og');
-        $formatSimple = config('image.covers.simple');
+        $formatThumbnail = config('bookshelves.image.cover.thumbnail');
+        $formatStandard = config('bookshelves.image.cover.standard');
+        $formatSocial = config('bookshelves.image.cover.social');
 
-        if (config('app.env') !== 'local') {
+        if (config('bookshelves.image.conversion')) {
             $this->addMediaConversion('thumbnail')
                 ->crop($formatThumbnail['width'], $formatThumbnail['height'], CropPosition::Top)
-                ->format(config('bookshelves.cover_extension'));
+                ->format(config('bookshelves.image.format'));
 
-            $this->addMediaConversion('og')
+            $this->addMediaConversion('simple')
                 ->crop($formatStandard['width'], $formatStandard['height'], CropPosition::Center)
                 ->format('jpg');
 
-            $this->addMediaConversion('simple')
-                ->crop($formatSimple['width'], $formatSimple['height'], CropPosition::Center)
+            $this->addMediaConversion('social')
+                ->crop($formatSocial['width'], $formatSocial['height'], CropPosition::Center)
                 ->format('jpg');
         }
     }
@@ -50,7 +53,6 @@ trait HasCovers
     //  */
     // public function getCoverBookAttribute()
     // {
-    //     // @phpstan-ignore-next-line
     //     return $this->getMedia(MediaDiskEnum::cover->value)->first() ?? null;
     // }
 
@@ -142,7 +144,7 @@ trait HasCovers
     // private function getCover(string $collection = '', string $extension = ''): string
     // {
     //     if (! $extension) {
-    //         $extension = config('bookshelves.cover_extension');
+    //         $extension = config('bookshelves.image.format');
     //     }
 
     //     $that = EntityService::entityOutput($this);

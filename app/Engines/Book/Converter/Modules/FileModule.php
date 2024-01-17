@@ -9,7 +9,7 @@ use Kiwilan\Ebook\Ebook;
 use Kiwilan\Steward\Enums\SpatieMediaMethodEnum;
 use Kiwilan\Steward\Services\MediaService;
 
-class FileConverter
+class FileModule
 {
     /**
      * Generate new file with standard name.

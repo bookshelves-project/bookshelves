@@ -5,7 +5,7 @@ namespace App\Engines\Book\Converter\Modules;
 use Illuminate\Support\Collection;
 use Kiwilan\Ebook\Ebook;
 
-class IdentifiersConverter
+class IdentifierModule
 {
     /**
      * Set Identifiers from Ebook.

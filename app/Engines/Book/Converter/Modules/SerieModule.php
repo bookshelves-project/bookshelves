@@ -11,7 +11,7 @@ use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Tools\MetaTitle;
 use Kiwilan\Steward\Services\MediaService;
 
-class SerieConverter
+class SerieModule
 {
     protected ?Serie $serie = null;
 
