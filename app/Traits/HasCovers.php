@@ -5,7 +5,7 @@ namespace App\Traits;
 use App\Enums\MediaDiskEnum;
 use App\Models\MediaExtended;
 use App\Services\EntityService;
-use Spatie\Image\Enums\CropPosition;
+use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
@@ -13,8 +13,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  *
  * @property string $cover_book
  * @property string $cover_thumbnail
- * @property string $cover_og
- * @property string $cover_simple
+ * @property string $cover_social
+ * @property string $cover_standard
  * @property string $cover_original
  * @property string $cover_color
  * @property string $cover
@@ -33,15 +33,24 @@ trait HasCovers
 
         if (config('bookshelves.image.conversion')) {
             $this->addMediaConversion('thumbnail')
-                ->crop($formatThumbnail['width'], $formatThumbnail['height'], CropPosition::Top)
+                ->performOnCollections('covers')
+                ->fit(Fit::Crop, $formatThumbnail['width'], $formatThumbnail['height'])
+                ->sharpen(10)
+                ->optimize()
                 ->format(config('bookshelves.image.format'));
 
-            $this->addMediaConversion('simple')
-                ->crop($formatStandard['width'], $formatStandard['height'], CropPosition::Center)
-                ->format('jpg');
+            $this->addMediaConversion('standard')
+                ->performOnCollections('covers')
+                ->fit(Fit::Crop, $formatStandard['width'], $formatStandard['height'])
+                ->sharpen(10)
+                ->optimize()
+                ->format(config('bookshelves.image.format'));
 
             $this->addMediaConversion('social')
-                ->crop($formatSocial['width'], $formatSocial['height'], CropPosition::Center)
+                ->performOnCollections('covers')
+                ->fit(Fit::Crop, $formatSocial['width'], $formatSocial['height'])
+                ->sharpen(10)
+                ->optimize()
                 ->format('jpg');
         }
     }
@@ -80,12 +89,12 @@ trait HasCovers
     // }
 
     // /**
-    //  * Get cover simple with `spatie/laravel-medialibrary`
+    //  * Get cover standard with `spatie/laravel-medialibrary`
     //  * With JPG format for Catalog.
     //  */
-    // public function getCoverSimpleAttribute(): ?string
+    // public function getCoverStandardAttribute(): ?string
     // {
-    //     return $this->getCover('simple');
+    //     return $this->getCover('standard');
     // }
 
     // /**
@@ -135,8 +144,8 @@ trait HasCovers
     // {
     //     return [
     //         'cover' => $this->cover,
-    //         'og' => $this->cover_og,
-    //         'simple' => $this->cover_simple,
+    //         'social' => $this->cover_social,
+    //         'standard' => $this->cover_standard,
     //         'original' => $this->cover_original,
     //     ];
     // }

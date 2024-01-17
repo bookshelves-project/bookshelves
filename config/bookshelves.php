@@ -72,16 +72,16 @@ return [
         'conversion' => env('BOOKSHELVES_IMAGE_CONVERSION', true),
         'cover' => [
             'standard' => [
-                'width' => 100,
-                'height' => 160,
+                'width' => 533,
+                'height' => 800,
             ],
             'thumbnail' => [
                 'width' => 200,
-                'height' => 320,
+                'height' => 300,
             ],
             'social' => [
-                'width' => 600,
-                'height' => 300,
+                'width' => 1200,
+                'height' => 600,
             ],
         ],
     ],

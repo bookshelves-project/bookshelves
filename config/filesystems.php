@@ -44,9 +44,9 @@ return [
             'throw' => false,
         ],
 
-        'covers_original' => [
+        'covers' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/covers/original'),
+            'root' => storage_path('app/public/covers'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],

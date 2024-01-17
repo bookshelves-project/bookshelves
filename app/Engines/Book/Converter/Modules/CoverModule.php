@@ -26,7 +26,7 @@ class CoverModule
             ->addMediaFromString($ebook->getCover()->getContents())
             ->extension(config('bookshelves.image.format'))
             ->collection('covers')
-            ->disk('covers_original')
+            ->disk('covers')
             ->color()
             ->save();
 
