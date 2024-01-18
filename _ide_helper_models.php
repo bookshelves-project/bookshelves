@@ -26,6 +26,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
  * @property-read int|null $books_count
+ * @property-read string|null $cover
+ * @property-read string|null $cover_social
+ * @property-read string|null $cover_standard
+ * @property-read string|null $cover_thumbnail
  * @property-read string $entity
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read array $files_list
@@ -103,6 +107,10 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Author> $authors
  * @property-read int|null $authors_count
  * @property-read string $authors_names
+ * @property-read string|null $cover
+ * @property-read string|null $cover_social
+ * @property-read string|null $cover_standard
+ * @property-read string|null $cover_thumbnail
  * @property-read string $entity
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read \App\Models\Collection<int, ?MediaExtended> $files
@@ -296,6 +304,10 @@ namespace App\Models{
  * @property-read int|null $books_count
  * @property-read string $authors_names
  * @property-read string $books_link
+ * @property-read string|null $cover
+ * @property-read string|null $cover_social
+ * @property-read string|null $cover_standard
+ * @property-read string|null $cover_thumbnail
  * @property-read string $entity
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read array $files_list

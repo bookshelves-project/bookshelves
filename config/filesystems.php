@@ -47,7 +47,7 @@ return [
         'covers' => [
             'driver' => 'local',
             'root' => storage_path('app/public/covers'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL').'/storage/covers',
             'visibility' => 'public',
         ],
 

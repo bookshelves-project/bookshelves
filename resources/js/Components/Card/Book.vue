@@ -8,7 +8,7 @@ console.log(props.book)
 <template>
   <div>
     <img
-      src="/android-chrome-512x512.png"
+      :src="book.cover_standard"
       loading="lazy"
       :alt="book.title"
     >

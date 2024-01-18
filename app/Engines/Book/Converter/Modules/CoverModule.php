@@ -24,6 +24,7 @@ class CoverModule
 
         SpatieMedia::make($book)
             ->addMediaFromString($ebook->getCover()->getContents())
+            ->name($book->slug)
             ->extension(config('bookshelves.image.format'))
             ->collection('covers')
             ->disk('covers')
