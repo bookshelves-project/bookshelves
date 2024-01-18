@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Enums\MediaDiskEnum;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\MediaExtended;
@@ -15,25 +14,16 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * Manage cover with conversions with `spatie/laravel-medialibrary`.
  *
  * @property string $cover_standard
- * @property string $cover_original
+ * @property string $cover_thumbnail
+ * @property string $cover_social
  * @property string $cover_color
- * @property string $cover
+ * @property mixed $cover_item_thumbnail
+ * @property mixed $cover_item_standard
+ * @property MediaExtended|Media|null $cover_media
  */
 trait HasCovers
 {
     use InteractsWithMedia;
-
-    protected bool $cover_available = false;
-
-    public function initializeHasCovers()
-    {
-        // $this->fillable[] = $this->getSlugColumn();
-
-        $this->appends[] = 'cover_standard';
-        $this->appends[] = 'cover_thumbnail';
-        $this->appends[] = 'cover_social';
-        $this->appends[] = 'cover';
-    }
 
     public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
     {
@@ -65,24 +55,18 @@ trait HasCovers
         }
     }
 
-    // /**
-    //  * Manage EPUB files with spatie/laravel-medialibrary.
-    //  *
-    //  * @return null|Media|MediaExtended
-    //  */
-    // public function getCoverBookAttribute()
-    // {
-    //     return $this->getMedia(MediaDiskEnum::cover->value)->first() ?? null;
-    // }
-
-    // public function getCoverFilamentAttribute(): ?string
-    // {
-    //     return $this->getCover('thumbnail');
-    // }
+    /**
+     * Get cover Media with `spatie/laravel-medialibrary`.
+     *
+     * @return null|Media|MediaExtended
+     */
+    public function getCoverMediaAttribute()
+    {
+        return $this->getMedia('covers')->first() ?? null;
+    }
 
     /**
-     * Get cover thumbnail with `spatie/laravel-medialibrary`
-     * With `config/bookshelves` define format.
+     * Get cover original with `spatie/laravel-medialibrary`
      */
     public function getCoverAttribute(): ?string
     {
@@ -90,8 +74,7 @@ trait HasCovers
     }
 
     /**
-     * Get cover thumbnail with `spatie/laravel-medialibrary`
-     * With `config/bookshelves` define format.
+     * Get cover standard with `spatie/laravel-medialibrary`
      */
     public function getCoverStandardAttribute(): ?string
     {
@@ -100,7 +83,6 @@ trait HasCovers
 
     /**
      * Get cover thumbnail with `spatie/laravel-medialibrary`
-     * With `config/bookshelves` define format.
      */
     public function getCoverThumbnailAttribute(): ?string
     {
@@ -108,75 +90,44 @@ trait HasCovers
     }
 
     /**
-     * Get cover OpenGraph with `spatie/laravel-medialibrary`
-     * With JPG format for social.
+     * Get cover social with `spatie/laravel-medialibrary`
      */
     public function getCoverSocialAttribute(): ?string
     {
         return $this->getCover('social');
     }
 
-    // /**
-    //  * Get cover standard with `spatie/laravel-medialibrary`
-    //  * With JPG format for Catalog.
-    //  */
-    // public function getCoverStandardAttribute(): ?string
-    // {
-    //     return $this->getCover('standard');
-    // }
+    /**
+     * Get cover main color with `spatie/laravel-medialibrary`
+     */
+    public function getCoverColorAttribute(): ?string
+    {
+        /** @var ?Media $media */
+        $media = $this->getFirstMedia('covers');
 
-    // /**
-    //  * Get cover original with `spatie/laravel-medialibrary`
-    //  * With config/bookshelves define format.
-    //  */
-    // public function getCoverOriginalAttribute(): ?string
-    // {
-    //     return $this->getCover();
-    // }
+        if ($color = $media?->getCustomProperty('color')) {
+            return $color;
+        }
 
-    // /**
-    //  * Get cover main color with `spatie/laravel-medialibrary`
-    //  * Use for placeholder during cover loading.
-    //  */
-    // public function getCoverColorAttribute(): ?string
-    // {
-    //     /** @var Media $media */
-    //     $media = $this->getFirstMedia(MediaDiskEnum::cover->value);
+        return '#ffffff';
+    }
 
-    //     // @phpstan-ignore-next-line
-    //     if ($color = $media?->getCustomProperty('color')) {
-    //         return "#{$color}";
-    //     }
+    public function getCoverItemThumbnailAttribute(): mixed
+    {
+        return [
+            'thumbnail' => $this->cover_thumbnail,
+            'color' => $this->cover_color,
+        ];
+    }
 
-    //     return '#ffffff';
-    // }
-
-    // public function getCoverMediaAttribute(): array
-    // {
-    //     return [
-    //         'url' => $this->cover_thumbnail,
-    //         'color' => $this->cover_color,
-    //         'available' => $this->cover_available,
-    //     ];
-    // }
-
-    // public function getCoverAttribute(): array
-    // {
-    //     return [
-    //         'thumbnail' => $this->cover_thumbnail,
-    //         'color' => $this->cover_color,
-    //     ];
-    // }
-
-    // public function getCoverFullAttribute(): array
-    // {
-    //     return [
-    //         'cover' => $this->cover,
-    //         'social' => $this->cover_social,
-    //         'standard' => $this->cover_standard,
-    //         'original' => $this->cover_original,
-    //     ];
-    // }
+    public function getCoverItemStandardAttribute(): mixed
+    {
+        return [
+            'standard' => $this->cover_standard,
+            'social' => $this->cover_social,
+            'color' => $this->cover_color,
+        ];
+    }
 
     private function getCover(string $conversion = ''): string
     {
@@ -187,18 +138,13 @@ trait HasCovers
         $coverMedia = $medias->first();
 
         if ($coverMedia instanceof MediaExtended || $coverMedia instanceof Media) {
-            $this->cover_available = true;
-            $cover = $coverMedia->getUrl($conversion);
+            return $coverMedia->getUrl($conversion);
         }
 
-        if (! $this->cover_available) {
-            /** @var Book|Author|Serie $that */
-            $that = $this;
-            $image = $that->meta_class_snake_plural === 'authors' ? 'no-author' : 'no-cover';
+        /** @var Book|Author|Serie $that */
+        $that = $this;
+        $image = $that->meta_class_snake_plural === 'authors' ? 'no-author' : 'no-cover';
 
-            return config('app.url')."/vendor/images/{$image}.webp";
-        }
-
-        return $cover;
+        return config('app.url')."/vendor/images/{$image}.webp";
     }
 }

@@ -8,7 +8,7 @@ console.log(props.book)
 <template>
   <div>
     <img
-      :src="book.cover_standard"
+      :src="book.cover_item_thumbnail?.thumbnail"
       loading="lazy"
       :alt="book.title"
     >

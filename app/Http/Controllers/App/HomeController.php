@@ -13,7 +13,8 @@ class HomeController extends Controller
     {
         $books = Book::with(['authors', 'serie', 'tags', 'media'])
             ->orderBy('title')
-            ->get();
+            ->get()
+            ->append(['cover_item_thumbnail']);
 
         return inertia('Home', [
             'books' => $books->random(10),
