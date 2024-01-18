@@ -17,8 +17,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string $cover_thumbnail
  * @property string $cover_social
  * @property string $cover_color
- * @property mixed $cover_item_thumbnail
- * @property mixed $cover_item_standard
  * @property MediaExtended|Media|null $cover_media
  */
 trait HasCovers
@@ -110,23 +108,6 @@ trait HasCovers
         }
 
         return '#ffffff';
-    }
-
-    public function getCoverItemThumbnailAttribute(): mixed
-    {
-        return [
-            'thumbnail' => $this->cover_thumbnail,
-            'color' => $this->cover_color,
-        ];
-    }
-
-    public function getCoverItemStandardAttribute(): mixed
-    {
-        return [
-            'standard' => $this->cover_standard,
-            'social' => $this->cover_social,
-            'color' => $this->cover_color,
-        ];
     }
 
     private function getCover(string $conversion = ''): string
