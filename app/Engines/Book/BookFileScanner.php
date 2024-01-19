@@ -16,6 +16,7 @@ class BookFileScanner
     protected array $items = [];
 
     protected function __construct(
+        protected BookTypeEnum $type,
         protected string $path,
         protected int $i = 0,
         protected array $typesEnum = [],
@@ -26,18 +27,18 @@ class BookFileScanner
     }
 
     /**
-     * Get all files from `storage/data/books`.
+     * Get all files.
      */
-    public static function make(?int $limit = null): self
+    public static function make(BookTypeEnum $type, ?int $limit = null): ?self
     {
-        $path = config('bookshelves.directory');
-
-        if (! str_starts_with($path, '/')) {
-            $path = base_path($path);
+        $path = $type->path();
+        if (! $path) {
+            return null;
         }
-        $self = new self($path);
+
+        $self = new self($type, $path);
         $self->files = $self->scan();
-        $self->parseFiles();
+        $self->items = $self->parseFiles();
 
         if ($limit) {
             $self->items = array_slice($self->items, 0, $limit);
@@ -72,8 +73,8 @@ class BookFileScanner
      */
     private function scan(): array
     {
-        $name = 'books';
-        $scan_path = "{$this->path}/{$name}";
+        $name = "{$this->type->value}s";
+        $scan_path = "{$this->path}";
 
         if (config('bookshelves.analyzer.engine') === 'native') {
             return DirectoryService::make()->parse($scan_path);
@@ -89,8 +90,12 @@ class BookFileScanner
         return $json->toArray();
     }
 
-    private function parseFiles(): void
+    /**
+     * @return BookFileItem[]
+     */
+    private function parseFiles(): array
     {
+        $items = [];
         foreach ($this->files as $key => $path) {
             if (! array_key_exists('extension', pathinfo($path))) {
                 continue;
@@ -98,21 +103,17 @@ class BookFileScanner
 
             $extension = pathinfo($path, PATHINFO_EXTENSION);
             $format = BookFormatEnum::unknown;
-            $type = BookTypeEnum::unknown;
 
             if (in_array($extension, ['cb7', 'cba', 'cbr', 'cbt', 'cbz'])) {
                 $format = BookFormatEnum::cba;
-                $type = BookTypeEnum::comic;
             }
 
             if (in_array($extension, ['epub'])) {
                 $format = BookFormatEnum::epub;
-                $type = BookTypeEnum::novel;
             }
 
             if (in_array($extension, ['pdf'])) {
                 $format = BookFormatEnum::pdf;
-                $type = BookTypeEnum::comic;
             }
 
             if (! array_key_exists($extension, $this->formatsEnum)) {
@@ -120,7 +121,9 @@ class BookFileScanner
             }
 
             $this->i++;
-            $this->items["{$this->i}"] = BookFileItem::make($format, $type, $path);
+            $items["{$this->i}"] = BookFileItem::make($format, $this->type, $path);
         }
+
+        return $items;
     }
 }

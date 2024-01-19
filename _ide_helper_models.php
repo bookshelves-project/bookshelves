@@ -27,6 +27,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
  * @property-read int|null $books_count
  * @property-read string|null $cover
+ * @property-read string|null $cover_color
+ * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_media
  * @property-read string|null $cover_social
  * @property-read string|null $cover_standard
  * @property-read string|null $cover_thumbnail
@@ -95,7 +97,7 @@ namespace App\Models{
  * @property int|null $page_count
  * @property int $is_maturity_rating
  * @property bool $is_hidden
- * @property \App\Enums\BookTypeEnum $type
+ * @property \App\Enums\BookTypeEnum|null $type
  * @property string|null $isbn10
  * @property string|null $isbn13
  * @property array|null $identifiers
@@ -108,6 +110,8 @@ namespace App\Models{
  * @property-read int|null $authors_count
  * @property-read string $authors_names
  * @property-read string|null $cover
+ * @property-read string|null $cover_color
+ * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_media
  * @property-read string|null $cover_social
  * @property-read string|null $cover_standard
  * @property-read string|null $cover_thumbnail
@@ -305,6 +309,8 @@ namespace App\Models{
  * @property-read string $authors_names
  * @property-read string $books_link
  * @property-read string|null $cover
+ * @property-read string|null $cover_color
+ * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_media
  * @property-read string|null $cover_social
  * @property-read string|null $cover_standard
  * @property-read string|null $cover_thumbnail

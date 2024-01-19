@@ -2,17 +2,25 @@
 
 namespace App\Enums;
 
+use App\Bookshelves;
 use Kiwilan\Steward\Traits\LazyEnum;
 
 enum BookTypeEnum: string
 {
     use LazyEnum;
 
-    case audio = 'audio';
+    case audiobook = 'audiobook';
+
+    case book = 'book';
 
     case comic = 'comic';
 
-    case novel = 'novel';
+    case manga = 'manga';
 
-    case unknown = 'unknown';
+    public function path(): ?string
+    {
+        $name = "{$this->value}s";
+
+        return app(Bookshelves::class)->library()[$name];
+    }
 }

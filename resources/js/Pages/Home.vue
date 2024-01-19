@@ -7,7 +7,7 @@ defineProps<{
 <template>
   <App>
     home
-    <section class="main-container grid grid-cols-5 gap-6">
+    <section class="main-container video-list">
       <CardBook
         v-for="book in books"
         :key="book.id"

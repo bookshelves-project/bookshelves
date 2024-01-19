@@ -2,13 +2,9 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Engines\Book\BookFileItem;
-use App\Engines\Book\BookFileScanner;
-use App\Jobs\BookJob;
-use App\Models\Book;
-use App\Models\Tag;
+use App\Facades\Bookshelves;
+use App\Jobs\BookWrapperJob;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use Kiwilan\Steward\Commands\Commandable;
 
 /**
@@ -34,13 +30,10 @@ class BooksCommand extends Commandable
 
     /**
      * Create a new command instance.
-     *
-     * @param  BookFileItem[]  $files
      */
     public function __construct(
         protected bool $fresh = false,
-        protected int $limit = 0,
-        protected array $files = [],
+        protected ?int $limit = null,
     ) {
         parent::__construct();
     }
@@ -54,66 +47,12 @@ class BooksCommand extends Commandable
     {
         $this->title();
 
-        $limit = str_replace('=', '', $this->option('limit'));
-        $this->limit = intval($limit);
+        $this->limit = $this->optionInt('limit');
         $this->fresh = $this->option('fresh') ?: false;
 
         $this->info('Scanning books...');
-        $parser = BookFileScanner::make(limit: $this->limit);
-        $this->files = $parser->items();
-
-        if (! $this->files) {
-            $msg = 'No files detected!';
-            $this->alert($msg);
-            Log::warning($msg);
-
-            return Command::FAILURE;
-        }
-
-        $count = count($this->files);
-        $msg = "Files detected: {$count}";
-        $this->comment($msg);
-        Log::info($msg);
-
-        $this->setGenres();
-
-        $current_books = Book::all()
-            ->map(fn (Book $book) => $book->physical_path)
-            ->toArray();
-
-        $this->newLine();
-        $bar = $this->output->createProgressBar($count);
-        $bar->start();
-        $i = 0;
-
-        foreach ($this->files as $file) {
-            $i++;
-            if (! $this->fresh && in_array($file->path(), $current_books, true)) {
-                $bar->advance();
-
-                continue;
-            }
-
-            BookJob::dispatch($file, "{$i}/{$count}");
-            $bar->advance();
-        }
-        $bar->finish();
-        $this->newLine(2);
-
-        $this->info('Done!');
+        BookWrapperJob::dispatch($this->fresh, $this->limit);
 
         return Command::SUCCESS;
-    }
-
-    private function setGenres(): void
-    {
-        $genres = config('bookshelves.tags.genres_list');
-
-        foreach ($genres as $genre) {
-            Tag::query()->firstOrCreate([
-                'name' => $genre,
-                'type' => 'genre',
-            ]);
-        }
     }
 }

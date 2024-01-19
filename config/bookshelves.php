@@ -60,10 +60,11 @@ return [
         ],
     ],
 
-    'directory' => env('BOOKSHELVES_DIRECTORY', 'storage/app/data'),
-    'local' => [
-        'copy' => env('BOOKSHELVES_LOCAL_COPY', false),
-        'cover' => env('BOOKSHELVES_LOCAL_COVER', true),
+    'library' => [
+        'books' => env('BOOKSHELVES_LIBRARY_BOOKS', false),
+        'comics' => env('BOOKSHELVES_LIBRARY_COMICS', false),
+        'mangas' => env('BOOKSHELVES_LIBRARY_MANGAS', false),
+        'audiobooks' => env('BOOKSHELVES_LIBRARY_AUDIOBOOKS', false),
     ],
 
     'image' => [

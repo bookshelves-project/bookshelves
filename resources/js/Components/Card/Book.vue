@@ -8,6 +8,7 @@ console.log(props.book)
 <template>
   <div>
     <img
+      class="poster h-64 mx-auto"
       :src="book.cover_thumbnail"
       loading="lazy"
       :alt="book.title"

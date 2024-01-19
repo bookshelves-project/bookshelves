@@ -18,6 +18,21 @@ class Bookshelves
         return $appVersion;
     }
 
+    /**
+     * @return array{books: string|false, comics: string|false, mangas: string|false, audiobooks: string|false}
+     */
+    public function library(): array
+    {
+        $library = config('bookshelves.library');
+
+        return [
+            'books' => $library['books'],
+            'comics' => $library['comics'],
+            'mangas' => $library['mangas'],
+            'audiobooks' => $library['audiobooks'],
+        ];
+    }
+
     // public function tmdbApiKey(): string
     // {
     //     $key = config('bookshelves.tmdb.api_key');

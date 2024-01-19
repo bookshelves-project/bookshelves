@@ -112,20 +112,28 @@ trait HasCovers
 
     private function getCover(string $conversion = ''): string
     {
-        // fix crash if conversion not exist in spatie/laravel-medialibrary
-        $cover = null;
-
-        $medias = $this->getMedia('covers');
-        $coverMedia = $medias->first();
-
-        if ($coverMedia instanceof MediaExtended || $coverMedia instanceof Media) {
-            return $coverMedia->getUrl($conversion);
-        }
-
         /** @var Book|Author|Serie $that */
         $that = $this;
         $image = $that->meta_class_snake_plural === 'authors' ? 'no-author' : 'no-cover';
+        $default = config('app.url')."/vendor/images/{$image}.webp";
 
-        return config('app.url')."/vendor/images/{$image}.webp";
+        $medias = $this->getMedia('covers');
+        if ($medias->isEmpty()) {
+            return $default;
+        }
+
+        $media = $medias->first();
+        $path = $media->getPath($conversion);
+
+        if (file_exists($path)) {
+            return $media->getUrl($conversion);
+        } else {
+            $path = $media->getPath();
+            if (file_exists($path)) {
+                return $media->getUrl();
+            }
+        }
+
+        return $default;
     }
 }
