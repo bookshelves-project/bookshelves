@@ -20,7 +20,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
 use Kiwilan\Steward\Services\GoogleBook\GoogleBook;
-use Kiwilan\Steward\Services\GoogleBook\GoogleBookable;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
@@ -29,7 +28,7 @@ use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\QueryBuilder\AllowedFilter;
 
-class Book extends Model implements GoogleBookable, HasMedia
+class Book extends Model implements HasMedia
 {
     use HasAuthors;
     use HasBookFiles;
@@ -179,46 +178,46 @@ class Book extends Model implements GoogleBookable, HasMedia
         ];
     }
 
-    public function googleBookConvert(GoogleBook $gbook): self
-    {
-        $this->google_book_id = $gbook->getBookId();
+    // public function googleBookConvert(GoogleBook $gbook): self
+    // {
+    //     $this->google_book_id = $gbook->getBookId();
 
-        if ($gbook->getPublishedDate()) {
-            $carbon = Carbon::instance($gbook->getPublishedDate());
-            $this->released_on = $this->released_on ?? $carbon->toDateTimeString();
-        }
-        $this->description = $this->description ?? $gbook->getDescription();
-        $this->page_count = $this->page_count ?? $gbook->getPageCount();
-        $this->is_maturity_rating = $gbook->isMaturityRating();
-        $this->isbn10 = $this->isbn10 ?? $gbook->getIsbn10();
-        $this->isbn13 = $this->isbn13 ?? $gbook->getIsbn13();
+    //     if ($gbook->getPublishedDate()) {
+    //         $carbon = Carbon::instance($gbook->getPublishedDate());
+    //         $this->released_on = $this->released_on ?? $carbon->toDateTimeString();
+    //     }
+    //     $this->description = $this->description ?? $gbook->getDescription();
+    //     $this->page_count = $this->page_count ?? $gbook->getPageCount();
+    //     $this->is_maturity_rating = $gbook->isMaturityRating();
+    //     $this->isbn10 = $this->isbn10 ?? $gbook->getIsbn10();
+    //     $this->isbn13 = $this->isbn13 ?? $gbook->getIsbn13();
 
-        // Set publisher
-        if (! $this->publisher) {
-            $publisher_slug = Str::slug($gbook->getPublisher(), '-');
-            $publisher = Publisher::whereSlug($publisher_slug)->first();
+    //     // Set publisher
+    //     if (! $this->publisher) {
+    //         $publisher_slug = Str::slug($gbook->getPublisher(), '-');
+    //         $publisher = Publisher::whereSlug($publisher_slug)->first();
 
-            if (! $publisher && $gbook->getPublisher()) {
-                $publisher = Publisher::firstOrCreate([
-                    'name' => $gbook->getPublisher(),
-                    'slug' => $publisher_slug,
-                ]);
-            }
+    //         if (! $publisher && $gbook->getPublisher()) {
+    //             $publisher = Publisher::firstOrCreate([
+    //                 'name' => $gbook->getPublisher(),
+    //                 'slug' => $publisher_slug,
+    //             ]);
+    //         }
 
-            if ($publisher) {
-                $this->publisher()->associate($publisher);
-            }
-        }
+    //         if ($publisher) {
+    //             $this->publisher()->associate($publisher);
+    //         }
+    //     }
 
-        // Set tags
-        foreach ($gbook->getCategories() as $category) {
-            TagModule::make($category);
-        }
+    //     // Set tags
+    //     foreach ($gbook->getCategories() as $category) {
+    //         TagModule::make($category);
+    //     }
 
-        $this->save();
+    //     $this->save();
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     protected function setQueryAllowedFilters(): array
     {

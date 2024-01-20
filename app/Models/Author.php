@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Engines\Book\Converter\WikipediaItemConverter;
 use App\Traits\HasBooksCollection;
 use App\Traits\HasCovers;
 use App\Traits\HasTagsAndGenres;
@@ -12,8 +11,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
-use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
-use Kiwilan\Steward\Services\Wikipedia\WikipediaItem;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
@@ -27,7 +24,7 @@ use Spatie\QueryBuilder\AllowedFilter;
  * @property null|int $series_count
  * @property \App\Enums\BookTypeEnum|null $type
  */
-class Author extends Model implements HasMedia, Wikipediable
+class Author extends Model implements HasMedia
 {
     use HasBooksCollection;
     use HasCovers;
@@ -82,19 +79,6 @@ class Author extends Model implements HasMedia, Wikipediable
     public function getTitleAttribute(): string
     {
         return $this->name;
-    }
-
-    public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
-    {
-        $converter_engine = WikipediaItemConverter::make($item, $this)
-            ->setWikipediaDescription();
-
-        if (! $default) {
-            $converter_engine->setWikipediaCover();
-        }
-        $this->save();
-
-        return $this;
     }
 
     /**

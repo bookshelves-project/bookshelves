@@ -73,7 +73,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
  */
-	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Kiwilan\Steward\Services\Wikipedia\Wikipediable {}
+	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -179,7 +179,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereVolume($value)
  */
-	class Book extends \Eloquent implements \Kiwilan\Steward\Services\GoogleBook\GoogleBookable, \Spatie\MediaLibrary\HasMedia {}
+	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -357,7 +357,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
  */
-	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Kiwilan\Steward\Services\Wikipedia\Wikipediable {}
+	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{

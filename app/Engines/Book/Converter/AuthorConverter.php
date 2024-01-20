@@ -2,10 +2,10 @@
 
 namespace App\Engines\Book\Converter;
 
-use App\Enums\MediaDiskEnum;
 use App\Models\Author;
-use Illuminate\Support\Facades\File;
-use Kiwilan\Steward\Services\MediaService;
+use Illuminate\Support\Facades\Log;
+use Kiwilan\Steward\Utils\SpatieMedia;
+use Kiwilan\Steward\Utils\Wikipedia;
 
 /**
  * Improve Author with additional data.
@@ -20,24 +20,37 @@ class AuthorConverter
     public static function make(Author $author): self
     {
         $self = new AuthorConverter($author);
+        $self->wikipedia();
 
         return $self;
     }
 
-    // /**
-    //  * Set cover placeholder if no cover.
-    //  */
-    // public function setCoverPlaceholder(): self
-    // {
-    //     if ($this->model->getMedia(MediaDiskEnum::cover->value)->isEmpty()) {
-    //         $placeholder = public_path('vendor/images/no-author.webp');
-    //         $disk = self::DISK;
-    //         $this->model->clearMediaCollection($disk->value);
-    //         MediaService::make($this->model, $this->model->slug, $disk)
-    //             ->setMedia(base64_encode(File::get($placeholder)))
-    //             ->setColor();
-    //     }
+    private function wikipedia(): self
+    {
+        Log::info("Wikipedia: author {$this->author->name}");
+        $wikipedia = Wikipedia::make($this->author->name)
+            ->withImage()
+            ->get();
+        $item = $wikipedia->getItem();
 
-    //     return $this;
-    // }
+        if (! $item) {
+            return $this;
+        }
+
+        $this->author->description = $item->getExtract();
+        $this->author->link = $item->getFullUrl();
+        $this->author->save();
+
+        $picture = $item->getPictureBase64();
+        if ($picture) {
+            $this->author->clearMediaCollection('covers');
+            SpatieMedia::make($this->author)
+                ->addMediaFromBase64($picture)
+                ->disk('covers')
+                ->collection('covers')
+                ->save();
+        }
+
+        return $this;
+    }
 }

@@ -30,7 +30,7 @@ use Spatie\QueryBuilder\AllowedFilter;
  * @property null|int $books_count
  * @property \App\Enums\BookTypeEnum|null $type
  */
-class Serie extends Model implements HasMedia, Wikipediable
+class Serie extends Model implements HasMedia
 {
     use HasAuthors;
     use HasBooksCollection;
@@ -131,14 +131,14 @@ class Serie extends Model implements HasMedia, Wikipediable
         ];
     }
 
-    public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
-    {
-        WikipediaItemConverter::make($item, $this)
-            ->setWikipediaDescription();
-        $this->save();
+    // public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
+    // {
+    //     WikipediaItemConverter::make($item, $this)
+    //         ->setWikipediaDescription();
+    //     $this->save();
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     protected function setQueryAllowedFilters(): array
     {

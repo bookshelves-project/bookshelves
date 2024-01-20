@@ -77,8 +77,8 @@ return [
                 'height' => 800,
             ],
             'thumbnail' => [
-                'width' => 200,
-                'height' => 300,
+                'width' => 266,
+                'height' => 400,
             ],
             'social' => [
                 'width' => 1200,

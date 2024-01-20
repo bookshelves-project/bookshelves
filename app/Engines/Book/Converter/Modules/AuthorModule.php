@@ -69,7 +69,7 @@ class AuthorModule
     }
 
     /**
-     * Convert BookCreator to AuthorConverter from config order.
+     * Convert BookCreator to AuthorModule from config order.
      */
     public static function make(BookAuthor $author): ?self
     {

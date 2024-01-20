@@ -115,7 +115,7 @@ trait HasCovers
         /** @var Book|Author|Serie $that */
         $that = $this;
         $image = $that->meta_class_snake_plural === 'authors' ? 'no-author' : 'no-cover';
-        $default = config('app.url')."/vendor/images/{$image}.webp";
+        $default = config('app.url')."/images/{$image}.webp";
 
         $medias = $this->getMedia('covers');
         if ($medias->isEmpty()) {

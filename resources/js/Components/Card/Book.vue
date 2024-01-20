@@ -17,6 +17,9 @@ console.log(props.book)
       <p class="line-clamp-2 text-center">
         {{ book.title }}
       </p>
+      <p>
+        {{ book.authors?.map((author) => author.name).join(', ') }}
+      </p>
     </div>
   </div>
 </template>

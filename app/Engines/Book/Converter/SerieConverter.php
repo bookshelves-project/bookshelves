@@ -3,11 +3,9 @@
 namespace App\Engines\Book\Converter;
 
 use App\Engines\Book\Converter\Modules\SerieModule;
-use App\Enums\MediaDiskEnum;
-use App\Models\Author;
 use App\Models\Serie;
-use Illuminate\Support\Facades\File;
-use Kiwilan\Steward\Services\MediaService;
+use Illuminate\Support\Facades\Log;
+use Kiwilan\Steward\Utils\Wikipedia;
 
 /**
  * Improve Serie with additional data.
@@ -24,26 +22,29 @@ class SerieConverter
         $self = new SerieConverter($serie);
         $self->setTags();
         $self->setCover();
+        $self->wikipedia();
 
         return $self;
     }
 
-    // /**
-    //  * Set cover placeholder if no cover.
-    //  */
-    // public function setCoverPlaceholder(): self
-    // {
-    //     if ($this->model->getMedia(MediaDiskEnum::cover->value)->isEmpty()) {
-    //         $placeholder = public_path('vendor/images/no-author.webp');
-    //         $disk = self::DISK;
-    //         $this->model->clearMediaCollection($disk->value);
-    //         MediaService::make($this->model, $this->model->slug, $disk)
-    //             ->setMedia(base64_encode(File::get($placeholder)))
-    //             ->setColor();
-    //     }
+    private function wikipedia(): self
+    {
+        Log::info("Wikipedia: serie {$this->serie->title}");
+        $wikipedia = Wikipedia::make($this->serie->title)
+            ->withImage()
+            ->get();
+        $item = $wikipedia->getItem();
 
-    //     return $this;
-    // }
+        if (! $item) {
+            return $this;
+        }
+
+        $this->serie->description = $item->getExtract();
+        $this->serie->link = $item->getFullUrl();
+        $this->serie->save();
+
+        return $this;
+    }
 
     private function setCover(): self
     {

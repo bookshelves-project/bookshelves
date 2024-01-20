@@ -118,14 +118,14 @@ class OpdsApp
             route: route('opds.books.show', ['author' => $book->meta_author, 'book' => $book->slug]),
             updated: $book->updated_at,
             download: route('api.download.direct', ['author_slug' => $book->meta_author, 'book_slug' => $book->slug]),
-            media: $book->cover_og,
+            media: $book->cover_social,
             mediaThumbnail: $book->cover_thumbnail,
             categories: $book->tags->pluck('name')->toArray(),
             authors: $authors,
             published: $book->released_on,
             volume: $book->volume,
             serie: $book->serie?->title,
-            language: $book->language?->name, // @phpstan-ignore-line
+            language: $book->language?->name,
             isbn: $book->isbn,
             publisher: $book->publisher?->name,
         );
