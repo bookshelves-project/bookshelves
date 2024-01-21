@@ -28,19 +28,13 @@ class CleanJob implements ShouldQueue
     public function handle(): void
     {
         $enums = BookTypeEnum::cases();
-        $current_books = Book::all()
-            ->map(fn (Book $book) => $book->physical_path)
-            ->toArray();
 
         foreach ($enums as $enum) {
-            $this->deleteOrphanBooks($enum, $current_books);
+            $this->deleteOrphanBooks($enum);
         }
     }
 
-    /**
-     * @param  string[]  $current_books
-     */
-    private function deleteOrphanBooks(BookTypeEnum $enum, array $current_books)
+    private function deleteOrphanBooks(BookTypeEnum $enum)
     {
         $path = $enum->jsonPath();
         $contents = file_get_contents($path);
