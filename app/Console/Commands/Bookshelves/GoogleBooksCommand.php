@@ -2,7 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\SerieWrapperJob;
+use App\Jobs\GoogleBookJob;
+use App\Models\Book;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
@@ -29,6 +30,14 @@ class GoogleBooksCommand extends Commandable
     {
         $this->title();
 
-        SerieWrapperJob::dispatch();
+        $books = Book::query()
+            ->where('google_book_parsed_at', null)
+            ->where('isbn10', '!=', null)
+            ->orWhere('isbn13', '!=', null)
+            ->get();
+
+        foreach ($books as $book) {
+            GoogleBookJob::dispatch($book);
+        }
     }
 }

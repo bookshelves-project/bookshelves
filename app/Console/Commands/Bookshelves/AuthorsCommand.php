@@ -2,7 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\AuthorWrapperJob;
+use App\Jobs\AuthorJob;
+use App\Models\Author;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
@@ -21,7 +22,7 @@ class AuthorsCommand extends Commandable
      *
      * @var string
      */
-    protected $description = 'Parse authors relations.';
+    protected $description = 'Improve authors.';
 
     /**
      * Execute the console command.
@@ -31,6 +32,10 @@ class AuthorsCommand extends Commandable
         $this->title();
 
         $fresh = $this->option('fresh') ?: false;
-        AuthorWrapperJob::dispatch($fresh);
+
+        $authors = Author::all();
+        foreach ($authors as $author) {
+            AuthorJob::dispatch($author, $fresh);
+        }
     }
 }

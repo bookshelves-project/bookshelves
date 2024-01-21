@@ -2,24 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Support\Collection;
 
 class EntityService
 {
-    /**
-     * Give an Entity output.
-     *
-     * @return Author|Book|Serie
-     */
-    public static function entityOutput(mixed $class)
-    {
-        /** @var Author|Book|Serie */
-        return $class;
-    }
-
     /**
      * Get Book or Serie related to a Book from Tag[].
      *
@@ -28,9 +16,10 @@ class EntityService
     public static function filterRelated(Book $book): Collection
     {
         // get related books by tags, same lang
-        $relatedBooks = Book::withAllTags($book->tags)
+        $relatedBooks = Book::query()
+            ->where('language_slug', $book->language_slug)
+            ->withAllTags($book->tags)
             ->with(['serie'])
-            ->whereLanguageSlug($book->language_slug)
             ->get();
 
         // get serie of current book

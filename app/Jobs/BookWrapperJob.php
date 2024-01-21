@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Engines\Book\BookFileScanner;
+use App\Engines\Book\BookFileItem;
 use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use Illuminate\Bus\Queueable;
@@ -10,7 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
 class BookWrapperJob implements ShouldQueue
 {
@@ -31,33 +30,35 @@ class BookWrapperJob implements ShouldQueue
     public function handle(): void
     {
         $enums = BookTypeEnum::cases();
-
-        foreach ($enums as $enum) {
-            $this->parseFiles($enum);
-        }
-    }
-
-    private function parseFiles(BookTypeEnum $enum)
-    {
-        $parser = BookFileScanner::make($enum, limit: $this->limit);
-
-        if (! $parser) {
-            Log::warning("BookWrapperJob: {$enum->value} no files detected");
-
-            return;
-        }
-
-        $files = $parser->items();
-        $count = count($files);
-        Log::info("BookWrapperJob: {$enum->value} files detected: {$count}");
-
         $current_books = Book::all()
             ->map(fn (Book $book) => $book->physical_path)
             ->toArray();
 
+        foreach ($enums as $enum) {
+            $this->parseFiles($enum, $current_books);
+        }
+
+        ExtrasJob::dispatch();
+    }
+
+    /**
+     * @param  string[]  $current_books
+     */
+    private function parseFiles(BookTypeEnum $enum, array $current_books)
+    {
+        $path = $enum->jsonPath();
+        $contents = file_get_contents($path);
+        $files = (array) json_decode($contents, true);
+        if ($this->limit) {
+            $files = array_slice($files, 0, $this->limit);
+        }
+        $count = count($files);
+
         $i = 0;
         foreach ($files as $file) {
             $i++;
+
+            $file = BookFileItem::fromArray($file);
             if (! $this->fresh && in_array($file->path(), $current_books, true)) {
                 continue;
             }

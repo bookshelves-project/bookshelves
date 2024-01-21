@@ -29,6 +29,7 @@ class AuthorConverter
     {
         Log::info("Wikipedia: author {$this->author->name}");
         $wikipedia = Wikipedia::make($this->author->name)
+            ->exact()
             ->withImage()
             ->get();
         $item = $wikipedia->getItem();

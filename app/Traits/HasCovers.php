@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Facades\Bookshelves;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\MediaExtended;
@@ -29,7 +30,7 @@ trait HasCovers
         $formatStandard = config('bookshelves.image.cover.standard');
         $formatSocial = config('bookshelves.image.cover.social');
 
-        if (config('bookshelves.image.conversion')) {
+        if (Bookshelves::convertCovers()) {
             $this->addMediaConversion('thumbnail')
                 ->performOnCollections('covers')
                 ->fit(Fit::Crop, $formatThumbnail['width'], $formatThumbnail['height'])

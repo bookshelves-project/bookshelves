@@ -72,6 +72,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsAllIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTags(...$tags)
  */
 	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
@@ -95,13 +96,13 @@ namespace App\Models{
  * @property string|null $publisher_id
  * @property string|null $language_slug
  * @property int|null $page_count
- * @property int $is_maturity_rating
+ * @property bool $is_maturity_rating
  * @property bool $is_hidden
  * @property \App\Enums\BookTypeEnum|null $type
  * @property string|null $isbn10
  * @property string|null $isbn13
  * @property array|null $identifiers
- * @property string|null $google_book_id
+ * @property \Illuminate\Support\Carbon|null $google_book_parsed_at
  * @property string|null $physical_path
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -153,7 +154,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisallowSerie(string $has_not_serie)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookParsedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifiers($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsHidden($value)
@@ -178,6 +179,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereVolume($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book withAllTags(...$tags)
  */
 	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
@@ -356,6 +358,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(...$tags)
  */
 	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }

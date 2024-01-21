@@ -31,6 +31,7 @@ class SerieConverter
     {
         Log::info("Wikipedia: serie {$this->serie->title}");
         $wikipedia = Wikipedia::make($this->serie->title)
+            ->exact()
             ->withImage()
             ->get();
         $item = $wikipedia->getItem();

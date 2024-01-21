@@ -2,23 +2,26 @@
 
 namespace App\Jobs;
 
-use App\Models\Serie;
+use App\Console\Commands\Bookshelves\AuthorsCommand;
+use App\Console\Commands\Bookshelves\GoogleBooksCommand;
+use App\Console\Commands\Bookshelves\SeriesCommand;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Artisan;
 
-class SerieWrapperJob implements ShouldQueue
+class ExtrasJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(
-        public bool $fresh = false,
-    ) {
+    public function __construct()
+    {
+        //
     }
 
     /**
@@ -26,9 +29,8 @@ class SerieWrapperJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $series = Serie::all();
-        foreach ($series as $serie) {
-            SerieJob::dispatch($serie, $this->fresh);
-        }
+        Artisan::call(AuthorsCommand::class);
+        Artisan::call(SeriesCommand::class);
+        Artisan::call(GoogleBooksCommand::class);
     }
 }

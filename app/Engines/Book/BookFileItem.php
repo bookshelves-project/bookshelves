@@ -22,6 +22,14 @@ class BookFileItem
         return new self($basename, $format, $type, $path);
     }
 
+    public static function fromArray(array $array): self
+    {
+        $format = BookFormatEnum::tryFrom($array['format']);
+        $type = BookTypeEnum::tryFrom($array['type']);
+
+        return new self($array['basename'], $format, $type, $array['path']);
+    }
+
     public function basename(): string
     {
         return $this->basename;
@@ -40,5 +48,15 @@ class BookFileItem
     public function path(): string
     {
         return $this->path;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'basename' => $this->basename,
+            'format' => $this->format->value,
+            'type' => $this->type->value,
+            'path' => $this->path,
+        ];
     }
 }

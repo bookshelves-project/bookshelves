@@ -10,6 +10,29 @@ use Illuminate\Support\Facades\DB;
 
 trait HasTagsAndGenres
 {
+    public function scopeWithAllTags(Builder $query, ...$tags)
+    {
+        $tags_ids = [];
+
+        foreach ($tags as $tag) {
+            $tag_model = Tag::query()->where('slug', $tag)->first();
+            $id = $tag_model?->id;
+
+            if ($id) {
+                array_push($tags_ids, $id);
+            }
+        }
+
+        return $query->whereHas(
+            'tags',
+            function (Builder $query) use ($tags_ids) {
+                $query->select(DB::raw('count(distinct id)'))->whereIn('id', $tags_ids);
+            },
+            '=',
+            count($tags_ids)
+        );
+    }
+
     public function scopeWhereTagsAllIs(Builder $query, ...$tags)
     {
         $tags_ids = [];

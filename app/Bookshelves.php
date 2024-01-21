@@ -33,6 +33,11 @@ class Bookshelves
         ];
     }
 
+    public function convertCovers(): bool
+    {
+        return config('bookshelves.image.conversion');
+    }
+
     // public function tmdbApiKey(): string
     // {
     //     $key = config('bookshelves.tmdb.api_key');

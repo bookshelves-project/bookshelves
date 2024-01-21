@@ -79,7 +79,7 @@ class Book extends Model implements HasMedia
         'rights',
         'volume',
         'page_count',
-        'maturity_rating',
+        'is_maturity_rating',
         'is_hidden',
         'type',
         'isbn10',
@@ -89,7 +89,7 @@ class Book extends Model implements HasMedia
         'serie_id',
         'publisher_id',
         'physical_path',
-        'google_book_id',
+        'google_book_parsed_at',
     ];
 
     protected $appends = [
@@ -103,6 +103,8 @@ class Book extends Model implements HasMedia
         'identifiers' => 'array',
         'volume' => 'integer',
         'page_count' => 'integer',
+        'is_maturity_rating' => 'boolean',
+        'google_book_parsed_at' => 'datetime',
     ];
 
     protected $with = [

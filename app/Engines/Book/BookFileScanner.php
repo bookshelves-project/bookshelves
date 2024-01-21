@@ -4,9 +4,10 @@ namespace App\Engines\Book;
 
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
-use Kiwilan\Steward\Services\DirectoryService;
+use Illuminate\Support\Facades\File;
 use Kiwilan\Steward\Utils\BashCommand;
 use Kiwilan\Steward\Utils\Json;
+use SplFileInfo;
 
 class BookFileScanner
 {
@@ -29,9 +30,9 @@ class BookFileScanner
     /**
      * Get all files.
      */
-    public static function make(BookTypeEnum $type, ?int $limit = null): ?self
+    public static function make(BookTypeEnum $type): ?self
     {
-        $path = $type->path();
+        $path = $type->libraryPath();
         if (! $path) {
             return null;
         }
@@ -39,10 +40,6 @@ class BookFileScanner
         $self = new self($type, $path);
         $self->files = $self->scan();
         $self->items = $self->parseFiles();
-
-        if ($limit) {
-            $self->items = array_slice($self->items, 0, $limit);
-        }
 
         $self->items = array_values($self->items);
         $self->count = count($self->items);
@@ -77,7 +74,9 @@ class BookFileScanner
         $scan_path = "{$this->path}";
 
         if (config('bookshelves.analyzer.engine') === 'native') {
-            return DirectoryService::make()->parse($scan_path);
+            $files = File::allFiles($scan_path);
+
+            return array_map(fn (SplFileInfo $file) => $file->getPathname(), $files);
         }
 
         $path = storage_path('app/data');

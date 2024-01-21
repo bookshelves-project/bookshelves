@@ -50,7 +50,6 @@ class BooksCommand extends Commandable
         $this->limit = $this->optionInt('limit');
         $this->fresh = $this->option('fresh') ?: false;
 
-        $this->info('Scanning books...');
         BookWrapperJob::dispatch($this->fresh, $this->limit);
 
         return Command::SUCCESS;

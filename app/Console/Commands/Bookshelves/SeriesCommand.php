@@ -2,7 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\SerieWrapperJob;
+use App\Jobs\SerieJob;
+use App\Models\Serie;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
@@ -21,7 +22,7 @@ class SeriesCommand extends Commandable
      *
      * @var string
      */
-    protected $description = 'Parse series relations.';
+    protected $description = 'Improve series.';
 
     /**
      * Execute the console command.
@@ -31,6 +32,10 @@ class SeriesCommand extends Commandable
         $this->title();
 
         $fresh = $this->option('fresh') ?: false;
-        SerieWrapperJob::dispatch($fresh);
+
+        $series = Serie::all();
+        foreach ($series as $serie) {
+            SerieJob::dispatch($serie, $fresh);
+        }
     }
 }
