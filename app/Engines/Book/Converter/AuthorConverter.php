@@ -32,9 +32,13 @@ class AuthorConverter
             ->exact()
             ->withImage()
             ->get();
+
         $item = $wikipedia->getItem();
+        $this->author->wikipedia_parsed_at = now();
 
         if (! $item) {
+            $this->author->save();
+
             return $this;
         }
 

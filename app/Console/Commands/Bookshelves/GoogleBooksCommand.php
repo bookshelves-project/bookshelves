@@ -32,8 +32,10 @@ class GoogleBooksCommand extends Commandable
 
         $books = Book::query()
             ->where('google_book_parsed_at', null)
-            ->where('isbn10', '!=', null)
-            ->orWhere('isbn13', '!=', null)
+            ->where(function ($query) {
+                $query->where('isbn10', '!=', null)
+                    ->orWhere('isbn13', '!=', null);
+            })
             ->get();
 
         foreach ($books as $book) {

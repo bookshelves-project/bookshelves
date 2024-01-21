@@ -34,14 +34,19 @@ class SerieConverter
             ->exact()
             ->withImage()
             ->get();
+
         $item = $wikipedia->getItem();
+        $this->serie->wikipedia_parsed_at = now();
 
         if (! $item) {
+            $this->serie->save();
+
             return $this;
         }
 
         $this->serie->description = $item->getExtract();
         $this->serie->link = $item->getFullUrl();
+
         $this->serie->save();
 
         return $this;

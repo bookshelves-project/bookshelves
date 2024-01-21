@@ -33,10 +33,13 @@ class AuthorsCommand extends Commandable
 
         $fresh = $this->option('fresh') ?: false;
 
-        $authors = Author::query()
-            ->where('wikipedia_parsed_at', null)
-            ->orWhere('wikipedia_parsed_at', '>', now()->subYear())
-            ->get();
+        if ($fresh) {
+            $authors = Author::all();
+        } else {
+            $authors = Author::query()
+                ->where('wikipedia_parsed_at', null)
+                ->get();
+        }
 
         foreach ($authors as $author) {
             AuthorJob::dispatch($author, $fresh);

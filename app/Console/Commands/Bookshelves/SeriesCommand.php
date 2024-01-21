@@ -33,10 +33,13 @@ class SeriesCommand extends Commandable
 
         $fresh = $this->option('fresh') ?: false;
 
-        $series = Serie::query()
-            ->where('wikipedia_parsed_at', null)
-            ->orWhere('wikipedia_parsed_at', '>', now()->subYear())
-            ->get();
+        if ($fresh) {
+            $series = Serie::all();
+        } else {
+            $series = Serie::query()
+                ->where('wikipedia_parsed_at', null)
+                ->get();
+        }
 
         foreach ($series as $serie) {
             SerieJob::dispatch($serie, $fresh);
