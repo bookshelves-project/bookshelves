@@ -28,11 +28,14 @@ class ParserJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Log::info('ParserJob: start');
         $enums = BookTypeEnum::cases();
 
         foreach ($enums as $enum) {
             $this->parseFiles($enum);
         }
+
+        Log::info('ParserJob: done');
     }
 
     private function parseFiles(BookTypeEnum $enum)

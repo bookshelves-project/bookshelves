@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Kiwilan\Steward\Utils\GoogleBook;
 
 class GoogleBookJob implements ShouldQueue
@@ -30,6 +31,8 @@ class GoogleBookJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Log::info("GoogleBookJob: {$this->book->title}");
+
         $isbn = $this->book->isbn13 ?? $this->book->isbn10;
 
         $googleBook = GoogleBook::make($isbn)->get();
