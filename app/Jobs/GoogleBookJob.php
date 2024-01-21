@@ -37,6 +37,10 @@ class GoogleBookJob implements ShouldQueue
 
         $this->book->google_book_parsed_at = now();
 
+        if (! $item) {
+            return;
+        }
+
         if (! $this->book->description) {
             $this->book->description = $item->getDescription();
         }
