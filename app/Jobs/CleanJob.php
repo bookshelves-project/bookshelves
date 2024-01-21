@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class CleanJob implements ShouldQueue
 {
@@ -44,16 +45,23 @@ class CleanJob implements ShouldQueue
         $path = $enum->jsonPath();
         $contents = file_get_contents($path);
         $files = (array) json_decode($contents, true);
-        $count = count($files);
 
-        $i = 0;
-        foreach ($files as $file) {
-            $i++;
+        $books = Book::query()
+            ->where('type', $enum->value)
+            ->get()
+            ->map(fn (Book $book) => $book->physical_path)
+            ->toArray();
+        $files = array_map(fn ($file) => $file['path'], $files);
 
-            if (! in_array($file['path'], $current_books)) {
-                // $this->deleteBook($file['path']);
-                ray($file['path']);
-            }
+        $orphans = array_diff($books, $files);
+        $books = Book::query()
+            ->whereIn('physical_path', $orphans)
+            ->get();
+
+        Log::info("Clean: {$enum->value} {$books->count()}");
+
+        foreach ($books as $book) {
+            $book->delete();
         }
     }
 }
