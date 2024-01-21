@@ -124,6 +124,9 @@ trait HasCovers
         }
 
         $media = $medias->first();
+        if (! Bookshelves::convertCovers()) {
+            return $media->getUrl();
+        }
         $path = $media->getPath($conversion);
 
         if (file_exists($path)) {
