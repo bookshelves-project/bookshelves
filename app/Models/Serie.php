@@ -70,10 +70,12 @@ class Serie extends Model implements HasMedia
         'type',
         'description',
         'link',
+        'wikipedia_parsed_at',
     ];
 
     protected $casts = [
         'type' => BookTypeEnum::class,
+        'wikipedia_parsed_at' => 'datetime',
     ];
 
     protected $withCount = [

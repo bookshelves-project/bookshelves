@@ -21,6 +21,7 @@ return new class() extends Migration
             $table->string('role')->nullable();
             $table->text('description')->nullable();
             $table->string('link')->nullable();
+            $table->dateTime('wikipedia_parsed_at')->nullable();
 
             $table->timestamps();
         });

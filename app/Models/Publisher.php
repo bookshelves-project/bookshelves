@@ -21,6 +21,8 @@ class Publisher extends Model
     use HasSlug;
     use HasUlids;
 
+    protected $slugWith = 'name';
+
     protected $fillable = [
         'name',
     ];

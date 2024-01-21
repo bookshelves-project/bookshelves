@@ -20,6 +20,7 @@ return new class() extends Migration
             $table->string('type')->default('novel');
             $table->text('description')->nullable();
             $table->string('link')->nullable();
+            $table->dateTime('wikipedia_parsed_at')->nullable();
 
             $table->timestamps();
         });

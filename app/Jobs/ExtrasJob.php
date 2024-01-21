@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Console\Commands\Bookshelves\AuthorsCommand;
+use App\Console\Commands\Bookshelves\CleanCommand;
 use App\Console\Commands\Bookshelves\GoogleBooksCommand;
 use App\Console\Commands\Bookshelves\SeriesCommand;
 use Illuminate\Bus\Queueable;
@@ -21,7 +22,7 @@ class ExtrasJob implements ShouldQueue
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -32,5 +33,6 @@ class ExtrasJob implements ShouldQueue
         Artisan::call(AuthorsCommand::class);
         Artisan::call(SeriesCommand::class);
         Artisan::call(GoogleBooksCommand::class);
+        Artisan::call(CleanCommand::class);
     }
 }

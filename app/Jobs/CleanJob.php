@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Engines\Book\BookFileItem;
 use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use Illuminate\Bus\Queueable;
@@ -11,17 +10,15 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class BookWrapperJob implements ShouldQueue
+class CleanJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(
-        public bool $fresh = false,
-        public ?int $limit = null,
-    ) {
+    public function __construct()
+    {
     }
 
     /**
@@ -35,38 +32,27 @@ class BookWrapperJob implements ShouldQueue
             ->toArray();
 
         foreach ($enums as $enum) {
-            $this->parseFiles($enum, $current_books);
+            $this->deleteOrphanBooks($enum, $current_books);
         }
-
-        ExtrasJob::dispatch();
     }
 
     /**
      * @param  string[]  $current_books
      */
-    private function parseFiles(BookTypeEnum $enum, array $current_books)
+    private function deleteOrphanBooks(BookTypeEnum $enum, array $current_books)
     {
         $path = $enum->jsonPath();
         $contents = file_get_contents($path);
         $files = (array) json_decode($contents, true);
-        if ($this->limit) {
-            $files = array_slice($files, 0, $this->limit);
-        }
         $count = count($files);
 
         $i = 0;
         foreach ($files as $file) {
             $i++;
 
-            $file = BookFileItem::fromArray($file);
-            if ($this->fresh) {
-                BookJob::dispatch($file, "{$i}/{$count}");
-            } else {
-                if (in_array($file->path(), $current_books, true)) {
-                    continue;
-                }
-
-                BookJob::dispatch($file, "{$i}/{$count}");
+            if (! in_array($file['path'], $current_books)) {
+                // $this->deleteBook($file['path']);
+                ray($file['path']);
             }
         }
     }

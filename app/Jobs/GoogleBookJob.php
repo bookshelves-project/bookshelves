@@ -12,6 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Kiwilan\Steward\Utils\GoogleBook;
 
 class GoogleBookJob implements ShouldQueue
@@ -41,6 +42,8 @@ class GoogleBookJob implements ShouldQueue
         $this->book->google_book_parsed_at = now();
 
         if (! $item) {
+            $this->book->save();
+
             return;
         }
 
@@ -66,6 +69,7 @@ class GoogleBookJob implements ShouldQueue
             $publisher = $item->getPublisher();
             $publisher = Publisher::firstOrCreate([
                 'name' => $publisher,
+                'slug' => Str::slug($publisher),
             ]);
             $this->book->publisher()->associate($publisher);
         }
@@ -74,6 +78,7 @@ class GoogleBookJob implements ShouldQueue
         foreach ($tags as $tag) {
             $tag = Tag::firstOrCreate([
                 'name' => $tag,
+                'slug' => Str::slug($tag),
             ]);
             $this->book->tags()->syncWithoutDetaching($tag);
         }
