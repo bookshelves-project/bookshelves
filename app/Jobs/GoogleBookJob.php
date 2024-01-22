@@ -12,7 +12,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Kiwilan\Steward\Utils\GoogleBook;
 
 class GoogleBookJob implements ShouldQueue
@@ -47,27 +46,26 @@ class GoogleBookJob implements ShouldQueue
             return;
         }
 
-        if (! $this->book->description) {
+        if (! $this->book->description && $item->getDescription()) {
             $this->book->description = $item->getDescription();
         }
 
-        if (! $this->book->page_count) {
+        if (! $this->book->page_count && $item->getPageCount()) {
             $this->book->page_count = $item->getPageCount();
         }
 
         $this->book->is_maturity_rating = $item->isMaturityRating();
 
-        if (! $this->book->isbn10) {
+        if (! $this->book->isbn10 && $item->getIsbn10()) {
             $this->book->isbn10 = $item->getIsbn10();
         }
 
-        if (! $this->book->isbn13) {
+        if (! $this->book->isbn13 && $item->getIsbn13()) {
             $this->book->isbn13 = $item->getIsbn13();
         }
 
-        if (! $this->book->publisher) {
+        if (! $this->book->publisher && $item->getPublisher()) {
             $publisher = $item->getPublisher();
-            ray($publisher)->purple();
             $publisher = Publisher::firstOrCreate([
                 'name' => $publisher,
             ]);
@@ -75,15 +73,16 @@ class GoogleBookJob implements ShouldQueue
         }
 
         $tags = $item->getCategories();
-        foreach ($tags as $tag) {
-            $tag = Tag::firstOrCreate([
-                'name' => $tag,
-                'slug' => Str::slug($tag),
-            ]);
-            $this->book->tags()->syncWithoutDetaching($tag);
+        if ($tags) {
+            foreach ($tags as $tag) {
+                $tag = Tag::firstOrCreate([
+                    'name' => $tag,
+                ]);
+                $this->book->tags()->syncWithoutDetaching($tag);
+            }
         }
 
-        if (! $this->book->language) {
+        if (! $this->book->language && $item->getLanguage()) {
             $language = $item->getLanguage();
             $language = Language::firstOrCreate([
                 'slug' => $language,
