@@ -3075,12 +3075,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "2bb50819dc817cab6a3096693663eea629d32930"
+                "reference": "e454ea2c9af641f83fedac8a641e347f618383e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/2bb50819dc817cab6a3096693663eea629d32930",
-                "reference": "2bb50819dc817cab6a3096693663eea629d32930",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/e454ea2c9af641f83fedac8a641e347f618383e8",
+                "reference": "e454ea2c9af641f83fedac8a641e347f618383e8",
                 "shasum": ""
             },
             "require": {
@@ -3156,7 +3156,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2024-01-22T13:41:35+00:00"
+            "time": "2024-01-22T17:08:34+00:00"
         },
         {
             "name": "kiwilan/typescriptable-laravel",
@@ -7880,16 +7880,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "11.0.5",
+            "version": "11.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "fded7c97489d1d0d0dac8111a108253b22a5c247"
+                "reference": "7db2555b7f0bbd48b5451e3460f71739d50a0b5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/fded7c97489d1d0d0dac8111a108253b22a5c247",
-                "reference": "fded7c97489d1d0d0dac8111a108253b22a5c247",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/7db2555b7f0bbd48b5451e3460f71739d50a0b5f",
+                "reference": "7db2555b7f0bbd48b5451e3460f71739d50a0b5f",
                 "shasum": ""
             },
             "require": {
@@ -7973,7 +7973,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.0.5"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.1.0"
             },
             "funding": [
                 {
@@ -7985,7 +7985,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-01-11T09:52:19+00:00"
+            "time": "2024-01-22T15:53:37+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
