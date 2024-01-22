@@ -22,6 +22,7 @@ namespace App\Models{
  * @property string|null $role
  * @property string|null $description
  * @property string|null $link
+ * @property \Illuminate\Support\Carbon|null $wikipedia_parsed_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
@@ -72,6 +73,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsAllIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereWikipediaParsedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTags(...$tags)
  */
 	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
@@ -301,6 +303,7 @@ namespace App\Models{
  * @property string|null $description
  * @property string|null $link
  * @property string|null $author_main_id
+ * @property \Illuminate\Support\Carbon|null $wikipedia_parsed_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Author|null $authorMain
@@ -358,6 +361,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereWikipediaParsedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(...$tags)
  */
 	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}

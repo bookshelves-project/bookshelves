@@ -67,9 +67,9 @@ class GoogleBookJob implements ShouldQueue
 
         if (! $this->book->publisher) {
             $publisher = $item->getPublisher();
+            ray($publisher)->purple();
             $publisher = Publisher::firstOrCreate([
                 'name' => $publisher,
-                'slug' => Str::slug($publisher),
             ]);
             $this->book->publisher()->associate($publisher);
         }

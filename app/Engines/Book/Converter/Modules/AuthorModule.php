@@ -5,7 +5,6 @@ namespace App\Engines\Book\Converter\Modules;
 use App\Models\Author;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Tools\BookAuthor;
 
@@ -14,6 +13,7 @@ class AuthorModule
     protected function __construct(
         protected ?string $firstname,
         protected ?string $lastname,
+        protected ?string $name,
         protected ?string $role,
     ) {
     }
@@ -23,9 +23,9 @@ class AuthorModule
      *
      * @return Collection<int, Author>
      */
-    public static function toCollection(Ebook $book): Collection
+    public static function toCollection(Ebook $ebook): Collection
     {
-        $authors = $book->getAuthors();
+        $authors = $ebook->getAuthors();
         $items = collect([]);
 
         if (empty($authors)) {
@@ -78,6 +78,7 @@ class AuthorModule
         return new self(
             firstname: $data['firstname'],
             lastname: $data['lastname'],
+            name: $author->getName(),
             role: $data['role'],
         );
     }
@@ -102,68 +103,57 @@ class AuthorModule
      */
     private function create(): Author
     {
-        $name = AuthorModule::toName($this->lastname, $this->firstname);
-
         return Author::query()
             ->firstOrCreate([
                 'lastname' => $this->lastname,
                 'firstname' => $this->firstname,
-                'name' => $name,
-                'slug' => Str::slug($name, '-'),
+                'name' => $this->name,
+                'slug' => Str::slug($this->name, '-'),
                 'role' => $this->role,
             ]);
     }
 
-    public static function toName(?string $lastname, ?string $firstname): ?string
-    {
-        $name = "{$lastname} {$firstname}";
-
-        return trim($name);
-    }
-
+    /**
+     * @return array{firstname: string|null, lastname: string|null, role: string|null}
+     */
     public static function convertName(BookAuthor $author): ?array
     {
-        $lastname = null;
-        $firstname = null;
-
-        $authorName = explode(' ', $author->getName());
-        $isOrderNatural = config('bookshelves.authors.order_natural');
-
-        if ($isOrderNatural) {
-            $lastname = $authorName[count($authorName) - 1];
-            array_pop($authorName);
-            $firstname = implode(' ', $authorName);
-        } else {
-            $firstname = $authorName[count($authorName) - 1];
-            array_pop($authorName);
-            $lastname = implode(' ', $authorName);
-        }
-
-        $role = $author->getRole();
-        $firstname = trim($firstname);
-        $lastname = trim($lastname);
-
-        if (empty($firstname) && empty($lastname)) {
-            return null;
-        }
-
-        return [
-            'firstname' => $firstname,
-            'lastname' => $lastname,
-            'role' => $role,
+        $a = [
+            'firstname' => null,
+            'lastname' => null,
+            'role' => null,
         ];
+
+        $pattern = '/(?<firstname>[A-Z][a-z.-]+(?: [A-Z][a-z.-]+)*)\s+(?<lastname>[A-Z][a-z.-]+(?: [A-Z][a-z.-]+)*)/';
+        preg_match($pattern, $author->getName(), $matches);
+
+        $a = [
+            'firstname' => isset($matches['firstname']) ? $matches['firstname'] : null,
+            'lastname' => isset($matches['lastname']) ? $matches['lastname'] : null,
+            'role' => $author->getRole(),
+        ];
+
+        $isOrderNatural = config('bookshelves.authors.order_natural');
+        if (! $isOrderNatural) {
+            $a = [
+                'firstname' => isset($matches['lastname']) ? $matches['lastname'] : null,
+                'lastname' => isset($matches['firstname']) ? $matches['firstname'] : null,
+                'role' => $author->getRole(),
+            ];
+        }
+
+        return $a;
     }
 
     public static function makeAuthor(BookAuthor $author): Author
     {
         $data = AuthorModule::convertName($author);
-        $name = AuthorModule::toName($data['lastname'], $data['firstname']);
 
         return new Author([
             'lastname' => $data['lastname'],
             'firstname' => $data['firstname'],
-            'name' => $name,
-            'slug' => Str::slug($name, '-'),
+            'name' => $author->getName(),
+            'slug' => Str::slug($author->getName(), '-'),
             'role' => $data['role'],
         ]);
     }
