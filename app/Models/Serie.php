@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Engines\Book\Converter\WikipediaItemConverter;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
@@ -17,8 +16,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
-use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
-use Kiwilan\Steward\Services\Wikipedia\WikipediaItem;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\Queryable;
@@ -121,26 +118,17 @@ class Serie extends Model implements HasMedia
 
     public function toSearchableArray()
     {
+        $this->loadMissing(['authors', 'tags']);
+
         return [
             'id' => $this->id,
             'title' => $this->title,
-            // 'picture' => $this->cover_thumbnail,
+            'picture' => $this->cover_thumbnail,
             'author' => $this->authors_names,
             'description' => $this->description,
             'tags' => $this->tags_string,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
-
-    // public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
-    // {
-    //     WikipediaItemConverter::make($item, $this)
-    //         ->setWikipediaDescription();
-    //     $this->save();
-
-    //     return $this;
-    // }
 
     protected function setQueryAllowedFilters(): array
     {

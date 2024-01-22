@@ -6,10 +6,10 @@ use App\Enums\BookTypeEnum;
 use App\Enums\MediaDiskEnum;
 use App\Models\Book;
 use App\Models\Serie;
-use File;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Tools\MetaTitle;
-use Kiwilan\Steward\Services\MediaService;
+use Kiwilan\Steward\Utils\SpatieMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class SerieModule
 {
@@ -40,12 +40,14 @@ class SerieModule
         $serie = Serie::whereSlug($ebook->getMetaTitle()->getSerieSlug())->first();
 
         if (! $serie && $ebook->getSeries()) {
-            $serie = Serie::query()->firstOrCreate([
-                'title' => $ebook->getSeries(),
-                'slug_sort' => $ebook->getMetaTitle()->getSerieSlugSort(),
-                'slug' => $ebook->getMetaTitle()->getSerieSlugLang(),
-                'type' => $type,
-            ]);
+            $serie = Serie::withoutSyncingToSearch(function () use ($ebook, $type) {
+                return Serie::query()->firstOrCreate([
+                    'title' => $ebook->getSeries(),
+                    'slug_sort' => $ebook->getMetaTitle()->getSerieSlugSort(),
+                    'slug' => $ebook->getMetaTitle()->getSerieSlugLang(),
+                    'type' => $type,
+                ]);
+            });
 
             $self->serie = $serie;
         }
@@ -59,24 +61,26 @@ class SerieModule
             return null;
         }
 
-        $this->serie->language()->associate($book->language);
+        Serie::withoutSyncingToSearch(function () use ($book) {
+            $this->serie->language()->associate($book->language);
 
-        $authors = [];
+            $authors = [];
 
-        foreach ($this->serie->authors as $author) {
-            $authors[] = $author->slug;
-        }
-
-        $book->load('authors');
-
-        foreach ($book->authors as $key => $author) {
-            if (! in_array($author->slug, $authors)) {
-                $this->serie->authors()->save($author);
+            foreach ($this->serie->authors as $author) {
+                $authors[] = $author->slug;
             }
-        }
 
-        $this->serie->authorMain()->associate($book->authorMain);
-        $this->serie->save();
+            $book->load('authors');
+
+            foreach ($book->authors as $key => $author) {
+                if (! in_array($author->slug, $authors)) {
+                    $this->serie->authors()->save($author);
+                }
+            }
+
+            $this->serie->authorMain()->associate($book->authorMain);
+            $this->serie->save();
+        });
 
         return $this->serie;
     }
@@ -87,27 +91,28 @@ class SerieModule
      */
     public static function setBookCover(Serie $serie): Serie
     {
-        // $disk = self::DISK;
+        $book = Book::whereVolume(1)
+            ->where('serie_id', $serie->id)
+            ->first();
 
-        // if ($serie->getMedia($disk->value)->isEmpty()) {
-        //     $book = Book::whereVolume(1)->whereSerieId($serie->id)->first();
+        if (! $book) {
+            $book = Book::where('serie_id', $serie->id)->first();
+        }
 
-        //     if (! $book) {
-        //         $book = Book::whereSerieId($serie->id)->first();
-        //     }
+        /** @var Media|null $media */
+        $media = $book->cover_media;
+        if (! $media) {
+            return $serie;
+        }
 
-        //     /** @var Book $book */
-        //     $cover_exist = File::exists($book->cover_book?->getPath());
-
-        //     if ($cover_exist) {
-        //         $cover = base64_encode(File::get($book->cover_book->getPath()));
-        //         MediaService::make($serie, $serie->slug, $disk)
-        //             ->setMedia($cover)
-        //             ->setColor();
-        //     }
-
-        //     $serie->save();
-        // }
+        Serie::withoutSyncingToSearch(function () use ($serie, $media) {
+            $file = $media->getPath();
+            SpatieMedia::make($serie)
+                ->addMediaFromString(file_get_contents($file))
+                ->disk('covers')
+                ->collection('covers')
+                ->save();
+        });
 
         return $serie;
     }

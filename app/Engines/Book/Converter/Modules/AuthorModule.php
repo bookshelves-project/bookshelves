@@ -49,7 +49,9 @@ class AuthorModule
             if ($existing) {
                 $author = $existing;
             } else {
-                $author = $current->create();
+                $author = Author::withoutSyncingToSearch(function () use ($current) {
+                    return $current->create();
+                });
             }
 
             if ($author !== null) {
@@ -100,14 +102,16 @@ class AuthorModule
      */
     private function create(): Author
     {
-        return Author::query()
-            ->firstOrCreate([
-                'name' => $this->name,
-                'firstname' => $this->firstname,
-                'lastname' => $this->lastname,
-                'slug' => Str::slug($this->name, '-'),
-                'role' => $this->role,
-            ]);
+        return Author::withoutSyncingToSearch(function () {
+            return Author::query()
+                ->firstOrCreate([
+                    'name' => $this->name,
+                    'firstname' => $this->firstname,
+                    'lastname' => $this->lastname,
+                    'slug' => Str::slug($this->name, '-'),
+                    'role' => $this->role,
+                ]);
+        });
     }
 
     /**

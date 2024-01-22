@@ -59,7 +59,7 @@ trait HasCovers
      *
      * @return null|Media|MediaExtended
      */
-    public function getCoverMediaAttribute()
+    public function getCoverMediaAttribute(): ?Media
     {
         return $this->getMedia('covers')->first() ?? null;
     }

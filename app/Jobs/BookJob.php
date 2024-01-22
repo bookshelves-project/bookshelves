@@ -38,7 +38,7 @@ class BookJob implements ShouldQueue
         Log::info("BookJob: {$this->number} {$title}");
     }
 
-    private function log(string $message, bool $success = false): void
+    private function log(string $message): void
     {
         $path = storage_path('app/exceptions-parser.json');
 
@@ -50,16 +50,12 @@ class BookJob implements ShouldQueue
         $content = [
             'path' => $this->file->path(),
             'message' => $message,
-            'status' => $success ? 'success' : 'failed',
+            'status' => 'failed',
         ];
         $json[] = $content;
         file_put_contents($path, json_encode($json));
 
-        if ($success) {
-            Log::info('BookJob', $content);
-        } else {
-            Log::error('BookJob', $content);
-        }
+        Log::error('BookJob', $content);
     }
 
     /**

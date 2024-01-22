@@ -23,14 +23,16 @@ class TagModule
         foreach ($ebook->getTags() as $key => $tag) {
             $model = $self->make($tag);
 
-            if ($model) {
-                $isExists = Tag::where('name', $model->name)->first();
-
-                if (! $isExists) {
-                    $isExists = $model->create($model->toArray());
-                }
-                $items->push($isExists);
+            if (! $model) {
+                continue;
             }
+
+            $isExists = Tag::where('name', $model->name)->first();
+
+            if (! $isExists) {
+                $isExists = $model->create($model->toArray());
+            }
+            $items->push($isExists);
         }
 
         return $items;

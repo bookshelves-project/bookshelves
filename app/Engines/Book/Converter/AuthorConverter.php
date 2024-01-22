@@ -47,9 +47,11 @@ class AuthorConverter
             return $this;
         }
 
-        $this->author->description = $item->getExtract();
-        $this->author->link = $item->getFullUrl();
-        $this->author->save();
+        Author::withoutSyncingToSearch(function () use ($item) {
+            $this->author->description = $item->getExtract();
+            $this->author->link = $item->getFullUrl();
+            $this->author->save();
+        });
 
         $picture = $item->getPictureBase64();
         if ($picture) {

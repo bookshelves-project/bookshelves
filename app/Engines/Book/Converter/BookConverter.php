@@ -4,7 +4,6 @@ namespace App\Engines\Book\Converter;
 
 use App\Engines\Book\Converter\Modules\AuthorModule;
 use App\Engines\Book\Converter\Modules\CoverModule;
-use App\Engines\Book\Converter\Modules\FileModule;
 use App\Engines\Book\Converter\Modules\IdentifierModule;
 use App\Engines\Book\Converter\Modules\LanguageModule;
 use App\Engines\Book\Converter\Modules\PublisherModule;
@@ -69,7 +68,10 @@ class BookConverter
                 'isbn13' => $identifiers->get('isbn13') ?? null,
                 'identifiers' => json_encode($identifiers),
             ]);
-            $this->book->save();
+
+            Book::withoutSyncingToSearch(function () {
+                $this->book->save();
+            });
         }
 
         if (empty($this->book?->title)) {
@@ -86,21 +88,20 @@ class BookConverter
         $this->syncIdentifiers();
         $this->syncCover();
 
-        if (config('bookshelves.local.copy')) {
-            $this->copyFile();
-        }
-
         return $this;
     }
 
     private function syncAuthors(): self
     {
         $authors = AuthorModule::toCollection($this->ebook);
+        if ($authors->isEmpty()) {
+            return $this;
+        }
 
-        if ($authors->isNotEmpty()) {
+        Book::withoutSyncingToSearch(function () use ($authors) {
             $this->book->authorMain()->associate($authors->first());
             $this->book?->authors()->sync($authors->pluck('id'));
-        }
+        });
 
         return $this;
     }
@@ -108,10 +109,13 @@ class BookConverter
     private function syncTags(): self
     {
         $tags = TagModule::toCollection($this->ebook);
-
-        if ($tags->isNotEmpty()) {
-            $this->book?->tags()->sync($tags->pluck('id'));
+        if ($tags->isEmpty()) {
+            return $this;
         }
+
+        Book::withoutSyncingToSearch(function () use ($tags) {
+            $this->book?->tags()->sync($tags->pluck('id'));
+        });
 
         return $this;
     }
@@ -119,8 +123,14 @@ class BookConverter
     private function syncPublisher(): self
     {
         $publisher = PublisherModule::toModel($this->ebook);
-        $this->book?->publisher()->associate($publisher);
-        $this->book?->save();
+        if (! $publisher) {
+            return $this;
+        }
+
+        Book::withoutSyncingToSearch(function () use ($publisher) {
+            $this->book?->publisher()->associate($publisher);
+            $this->book?->save();
+        });
 
         return $this;
     }
@@ -128,21 +138,26 @@ class BookConverter
     private function syncLanguage(): self
     {
         $language = LanguageModule::toModel($this->ebook);
-        $this->book?->language()->associate($language);
-        $this->book?->save();
+
+        Book::withoutSyncingToSearch(function () use ($language) {
+            $this->book?->language()->associate($language);
+            $this->book?->save();
+        });
 
         return $this;
     }
 
     private function syncSerie(BookTypeEnum $type): self
     {
-        $serie = SerieModule::toModel($this->ebook, $type)
-            ->associate($this->book);
+        $serie = SerieModule::toModel($this->ebook, $type)->associate($this->book);
+        if (! $serie) {
+            return $this;
+        }
 
-        if ($serie) {
+        Book::withoutSyncingToSearch(function () use ($serie) {
             $this->book?->serie()->associate($serie);
             $this->book?->save();
-        }
+        });
 
         return $this;
     }
@@ -150,11 +165,16 @@ class BookConverter
     private function syncIdentifiers(): self
     {
         $identifiers = IdentifierModule::toCollection($this->ebook);
+        if ($identifiers->isEmpty()) {
+            return $this;
+        }
 
-        $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
-        $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
-        $this->book->identifiers = $identifiers;
-        $this->book->save();
+        Book::withoutSyncingToSearch(function () use ($identifiers) {
+            $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
+            $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
+            $this->book->identifiers = json_encode($identifiers);
+            $this->book->save();
+        });
 
         return $this;
     }
@@ -164,11 +184,6 @@ class BookConverter
         Process::memoryPeek(function () {
             CoverModule::make($this->ebook, $this->book);
         }, maxMemory: 3);
-    }
-
-    private function copyFile(): void
-    {
-        FileModule::make($this->ebook, $this->book);
     }
 
     private function checkBook(BookTypeEnum $type): self
@@ -207,13 +222,4 @@ class BookConverter
 
         return $this;
     }
-
-    // public static function setDescription(Book $book, ?string $language_slug, ?string $description): Book
-    // {
-    //     if (null !== $description && null !== $language_slug && '' === $book->getTranslation('description', $language_slug)) {
-    //         $book->setTranslation('description', $language_slug, $description);
-    //     }
-
-    //     return $book;
-    // }
 }

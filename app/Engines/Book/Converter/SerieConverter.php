@@ -64,19 +64,21 @@ class SerieConverter
      */
     private function setTags(): self
     {
-        $books = $this->serie->load('books.tags')->books;
-        $tags = [];
+        Serie::withoutSyncingToSearch(function () {
+            $books = $this->serie->load('books.tags')->books;
+            $tags = [];
 
-        foreach ($books as $book) {
-            foreach ($book->tags as $tag) {
-                $tags[] = $tag->id;
+            foreach ($books as $book) {
+                foreach ($book->tags as $tag) {
+                    $tags[] = $tag->id;
+                }
             }
-        }
 
-        $tags = array_unique($tags);
+            $tags = array_unique($tags);
 
-        $this->serie->tags()->sync($tags);
-        $this->serie->save();
+            $this->serie->tags()->sync($tags);
+            $this->serie->save();
+        });
 
         return $this;
     }
