@@ -6,6 +6,7 @@ use App\Models\Book;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Steward\Utils\Picture;
 use Kiwilan\Steward\Utils\SpatieMedia;
 use Spatie\Image\Image;
 
@@ -16,21 +17,47 @@ class CoverModule
      */
     public static function make(Ebook $ebook, Book $book): Book
     {
+        $self = new self();
+
         if (! $ebook->hasCover()) {
             Log::warning("No cover for {$book->title}");
 
             return $book;
         }
 
+        $name = uniqid().'.jpg';
+        $path = storage_path("app/cache/{$name}");
+        $contents = $ebook->getCover()->getContents();
+
+        File::put($path, $contents);
+        $self->resize($path);
+        $contents = File::get($path);
+
         SpatieMedia::make($book)
-            ->addMediaFromString($ebook->getCover()->getContents())
-            ->name($book->slug)
+            ->addMediaFromString($contents)
+            ->name($book->slug_sort)
             ->extension(config('bookshelves.image.format'))
             ->collection('covers')
             ->disk('covers')
             ->color()
             ->save();
 
+        unlink($path);
+
         return $book;
+    }
+
+    private function resize(string $path): void
+    {
+        $maxHeight = 1600;
+
+        $media = Picture::load($path);
+        $height = $media->getHeight();
+
+        if ($height > $maxHeight) {
+            $media->height($maxHeight)
+                ->optimize()
+                ->save();
+        }
     }
 }
