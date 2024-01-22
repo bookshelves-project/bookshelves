@@ -163,6 +163,26 @@ class Book extends Model implements HasMedia
             ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)]);
     }
 
+    public function scopeWhereIsAudiobook(Builder $query): Builder
+    {
+        return $query->where('type', BookTypeEnum::audiobook);
+    }
+
+    public function scopeWhereIsBook(Builder $query): Builder
+    {
+        return $query->where('type', BookTypeEnum::book);
+    }
+
+    public function scopeWhereIsComic(Builder $query): Builder
+    {
+        return $query->where('type', BookTypeEnum::comic);
+    }
+
+    public function scopeWhereIsManga(Builder $query): Builder
+    {
+        return $query->where('type', BookTypeEnum::manga);
+    }
+
     public function publisher(): BelongsTo
     {
         return $this->belongsTo(Publisher::class);

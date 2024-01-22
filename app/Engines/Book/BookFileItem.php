@@ -18,16 +18,18 @@ class BookFileItem
     public static function make(BookFormatEnum $format, BookTypeEnum $type, string $path): self
     {
         $basename = pathinfo($path, PATHINFO_BASENAME);
+        $self = new self($basename, $format, $type, $path);
 
-        return new self($basename, $format, $type, $path);
+        return $self;
     }
 
     public static function fromArray(array $array): self
     {
         $format = BookFormatEnum::tryFrom($array['format']);
         $type = BookTypeEnum::tryFrom($array['type']);
+        $self = new self($array['basename'], $format, $type, $array['path']);
 
-        return new self($array['basename'], $format, $type, $array['path']);
+        return $self;
     }
 
     public function basename(): string

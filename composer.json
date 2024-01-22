@@ -15,6 +15,7 @@
     "http-interop/http-factory-guzzle": "^1.2.0",
     "inertiajs/inertia-laravel": "^0.6.8",
     "itsgoingd/clockwork": "^5.1.12",
+    "kiwilan/php-audio": "^3.0",
     "kiwilan/php-ebook": "^2.2.01",
     "kiwilan/php-opds": "^1.0.30",
     "kiwilan/steward-laravel": "dev-main",

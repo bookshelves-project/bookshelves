@@ -42,17 +42,9 @@ class AuthorModule
 
         foreach ($authors as $author) {
             $current = AuthorModule::make($author);
-
-            $detectHomonyms = config('bookshelves.authors.detect_homonyms');
-            $existing = Author::whereFirstname($current->firstname)
-                ->whereLastname($current->lastname)
+            $existing = Author::query()
+                ->where('name', $current->name)
                 ->first();
-
-            if ($detectHomonyms && ! $existing) {
-                $existing = Author::whereFirstname($current->lastname)
-                    ->whereLastname($current->firstname)
-                    ->first();
-            }
 
             if ($existing) {
                 $author = $existing;
@@ -76,11 +68,16 @@ class AuthorModule
         $data = AuthorModule::convertName($author);
 
         return new self(
+            name: $author->getName(),
             firstname: $data['firstname'],
             lastname: $data['lastname'],
-            name: $author->getName(),
-            role: $data['role'],
+            role: $author->getRole(),
         );
+    }
+
+    public function name(): ?string
+    {
+        return $this->name;
     }
 
     public function firstname(): ?string
@@ -105,9 +102,9 @@ class AuthorModule
     {
         return Author::query()
             ->firstOrCreate([
-                'lastname' => $this->lastname,
-                'firstname' => $this->firstname,
                 'name' => $this->name,
+                'firstname' => $this->firstname,
+                'lastname' => $this->lastname,
                 'slug' => Str::slug($this->name, '-'),
                 'role' => $this->role,
             ]);
@@ -147,14 +144,10 @@ class AuthorModule
 
     public static function makeAuthor(BookAuthor $author): Author
     {
-        $data = AuthorModule::convertName($author);
-
         return new Author([
-            'lastname' => $data['lastname'],
-            'firstname' => $data['firstname'],
             'name' => $author->getName(),
             'slug' => Str::slug($author->getName(), '-'),
-            'role' => $data['role'],
+            'role' => $author->getRole(),
         ]);
     }
 

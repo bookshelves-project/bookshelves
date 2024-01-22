@@ -14,8 +14,6 @@ return new class() extends Migration
         Schema::create('authorables', function (Blueprint $table) {
             $table->foreignUlid('author_id');
             $table->ulidMorphs('authorable');
-            // $table->bigInteger('authorable_id')->nullable();
-            // $table->string('authorable_type')->nullable();
         });
     }
 

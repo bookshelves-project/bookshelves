@@ -4,6 +4,7 @@ namespace App\Engines\Book;
 
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
+use App\Facades\Bookshelves;
 use Illuminate\Support\Facades\File;
 use Kiwilan\Steward\Utils\BashCommand;
 use Kiwilan\Steward\Utils\Json;
@@ -73,7 +74,7 @@ class BookFileScanner
         $name = "{$this->type->value}s";
         $scan_path = "{$this->path}";
 
-        if (config('bookshelves.analyzer.engine') === 'native') {
+        if (Bookshelves::analyzerEngine() === 'native') {
             $files = File::allFiles($scan_path);
 
             return array_map(fn (SplFileInfo $file) => $file->getPathname(), $files);
@@ -115,7 +116,7 @@ class BookFileScanner
                 $format = BookFormatEnum::pdf;
             }
 
-            if (! array_key_exists($extension, $this->formatsEnum)) {
+            if (! array_key_exists($format->value, $this->formatsEnum)) {
                 continue;
             }
 

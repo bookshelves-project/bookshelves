@@ -16,9 +16,9 @@ namespace App\Models{
  *
  * @property string $id
  * @property string $slug
- * @property string|null $lastname
- * @property string|null $firstname
  * @property string $name
+ * @property string|null $firstname
+ * @property string|null $lastname
  * @property string|null $role
  * @property string|null $description
  * @property string|null $link
@@ -62,7 +62,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author query()
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstCharacterIs(string $character)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
@@ -138,6 +137,7 @@ namespace App\Models{
  * @property-read string $opds_link
  * @property-read mixed $tags_list
  * @property-read string $tags_string
+ * @property-read string|null $volume_pad
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
@@ -159,7 +159,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookParsedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifiers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsAudiobook()
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsBook()
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsComic()
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsHidden($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsManga()
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsMaturityRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn10($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn13($value)

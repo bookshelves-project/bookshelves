@@ -25,10 +25,6 @@ class BookEngine
             BookEngine::printFile($ebook->toArray(), "{$ebook->getFilename()}-parser.json");
         }
         $converter = ConverterEngine::make($ebook, $file);
-        if (str_contains($converter->book()->serie?->title, 'Association')) {
-            ray($converter->ebook())->purple();
-            ray($converter->book())->purple();
-        }
 
         return new self($ebook, $file, $converter);
     }

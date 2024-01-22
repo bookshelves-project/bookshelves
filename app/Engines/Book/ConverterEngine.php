@@ -44,11 +44,11 @@ class ConverterEngine
 
         foreach ($this->ebook->getAuthors() as $author) {
             $author = AuthorModule::make($author);
-            $names[] = "{$author->firstname()} {$author->lastname()}";
-            $names[] = "{$author->lastname()} {$author->firstname()}";
+            $names[] = $author->name();
         }
 
-        $book = Book::whereSlug($this->ebook->getMetaTitle()->getSlug());
+        $book = Book::query()
+            ->where('slug', $this->ebook->getMetaTitle()->getSlug());
 
         if (! empty($names)) {
             $book = $book->whereHas(
@@ -57,7 +57,7 @@ class ConverterEngine
             );
         }
 
-        $book = $book->whereType($this->ebook->getExtension())->first();
+        $book = $book->where('type', $this->ebook->getExtension())->first();
 
         if ($book) {
             $this->isExist = true;

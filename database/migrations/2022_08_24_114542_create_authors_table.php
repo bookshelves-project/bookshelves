@@ -15,9 +15,9 @@ return new class() extends Migration
             $table->ulid('id')->primary();
 
             $table->string('slug')->index();
-            $table->string('lastname')->nullable();
-            $table->string('firstname')->nullable();
             $table->string('name');
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
             $table->string('role')->nullable();
             $table->text('description')->nullable();
             $table->string('link')->nullable();

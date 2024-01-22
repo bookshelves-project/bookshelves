@@ -6,12 +6,12 @@ defineProps<{
 
 <template>
   <ILink :href="$route('books.show', { book_slug: book.slug })">
-    <img
+    <AppImg
       class="poster h-64 mx-auto"
       :src="book.cover_thumbnail"
-      loading="lazy"
+      :color="book.cover_color"
       :alt="book.title"
-    >
+    />
     <div class="mt-3">
       <p class="line-clamp-2 text-center">
         {{ book.title }}

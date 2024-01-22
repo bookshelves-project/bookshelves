@@ -6,7 +6,6 @@ use App\Traits\HasBooksCollection;
 use App\Traits\HasCovers;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,9 +39,9 @@ class Author extends Model implements HasMedia
     use Queryable;
 
     protected $fillable = [
-        'lastname',
-        'firstname',
         'name',
+        'firstname',
+        'lastname',
         'role',
         'description',
         'link',
@@ -53,14 +52,12 @@ class Author extends Model implements HasMedia
         'wikipedia_parsed_at' => 'datetime',
     ];
 
-    protected $query_default_sort = 'lastname';
+    protected $query_default_sort = 'name';
 
     protected $query_default_sort_direction = 'asc';
 
     protected $query_allowed_sorts = [
         'id',
-        'firstname',
-        'lastname',
         'name',
         'role',
         'books_count',
@@ -105,18 +102,11 @@ class Author extends Model implements HasMedia
             ->withCount('books');
     }
 
-    public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
-    {
-        return $query->where('lastname', 'like', "{$character}%");
-    }
-
     public function toSearchableArray()
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
             'cover' => $this->cover_thumbnail,
             'description' => $this->description,
             'created_at' => $this->created_at,
@@ -127,9 +117,8 @@ class Author extends Model implements HasMedia
     public function setQueryAllowedFilters(): array
     {
         return [
-            AllowedFilter::custom('q', new GlobalSearchFilter(['firstname', 'lastname', 'name'])),
-            AllowedFilter::partial('firstname'),
-            AllowedFilter::partial('lastname'),
+            AllowedFilter::custom('q', new GlobalSearchFilter(['name'])),
+            AllowedFilter::partial('name'),
             AllowedFilter::exact('role'),
         ];
     }

@@ -40,7 +40,7 @@ class BookJob implements ShouldQueue
 
     private function log(string $message, bool $success = false): void
     {
-        $path = public_path('storage/data/logs/exceptions-parser.json');
+        $path = storage_path('app/exceptions-parser.json');
 
         if (! file_exists($path)) {
             file_put_contents($path, json_encode([]));

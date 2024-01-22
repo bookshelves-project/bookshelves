@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57f3eea3d0293b2c7b949f1176b11727",
+    "content-hash": "80ef77854f51274e5437e2d4acd6c014",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -1338,7 +1338,7 @@
         },
         {
             "name": "filament/actions",
-            "version": "v3.2.9",
+            "version": "v3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/actions.git",
@@ -1391,16 +1391,16 @@
         },
         {
             "name": "filament/filament",
-            "version": "v3.2.9",
+            "version": "v3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/panels.git",
-                "reference": "a830f2d38073d3a4cdbe3798c957b69be50d39c3"
+                "reference": "cca8654535f53a6258616311f20649f2ea403e47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/panels/zipball/a830f2d38073d3a4cdbe3798c957b69be50d39c3",
-                "reference": "a830f2d38073d3a4cdbe3798c957b69be50d39c3",
+                "url": "https://api.github.com/repos/filamentphp/panels/zipball/cca8654535f53a6258616311f20649f2ea403e47",
+                "reference": "cca8654535f53a6258616311f20649f2ea403e47",
                 "shasum": ""
             },
             "require": {
@@ -1452,20 +1452,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2024-01-21T14:44:57+00:00"
+            "time": "2024-01-22T13:23:44+00:00"
         },
         {
             "name": "filament/forms",
-            "version": "v3.2.9",
+            "version": "v3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/forms.git",
-                "reference": "fc37c620f66a2e13e160b516cc4d0e5ad8ae9425"
+                "reference": "580fd49eb62bbe22cf2123825da4ebd80fa1d7a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/forms/zipball/fc37c620f66a2e13e160b516cc4d0e5ad8ae9425",
-                "reference": "fc37c620f66a2e13e160b516cc4d0e5ad8ae9425",
+                "url": "https://api.github.com/repos/filamentphp/forms/zipball/580fd49eb62bbe22cf2123825da4ebd80fa1d7a6",
+                "reference": "580fd49eb62bbe22cf2123825da4ebd80fa1d7a6",
                 "shasum": ""
             },
             "require": {
@@ -1508,11 +1508,11 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2024-01-21T14:44:57+00:00"
+            "time": "2024-01-22T13:23:21+00:00"
         },
         {
             "name": "filament/infolists",
-            "version": "v3.2.9",
+            "version": "v3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/infolists.git",
@@ -1563,7 +1563,7 @@
         },
         {
             "name": "filament/notifications",
-            "version": "v3.2.9",
+            "version": "v3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/notifications.git",
@@ -1615,7 +1615,7 @@
         },
         {
             "name": "filament/support",
-            "version": "v3.2.9",
+            "version": "v3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/support.git",
@@ -1672,7 +1672,7 @@
         },
         {
             "name": "filament/tables",
-            "version": "v3.2.9",
+            "version": "v3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/tables.git",
@@ -1725,7 +1725,7 @@
         },
         {
             "name": "filament/widgets",
-            "version": "v3.2.9",
+            "version": "v3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/widgets.git",
@@ -2798,25 +2798,25 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "2.2.01",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "4e8d0e41d6b4a0a618abab661dc9583a9f2a7421"
+                "reference": "383e87b63be658d896edaba55a0f5c12373cbd80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/4e8d0e41d6b4a0a618abab661dc9583a9f2a7421",
-                "reference": "4e8d0e41d6b4a0a618abab661dc9583a9f2a7421",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/383e87b63be658d896edaba55a0f5c12373cbd80",
+                "reference": "383e87b63be658d896edaba55a0f5c12373cbd80",
                 "shasum": ""
             },
             "require": {
                 "kiwilan/php-archive": "^2.2.0",
-                "kiwilan/php-audio": "^3.0.01",
                 "kiwilan/php-xml-reader": "^1.0.11",
                 "php": "^8.1"
             },
             "require-dev": {
+                "kiwilan/php-audio": "^3.0.01",
                 "laravel/pint": "^1.7",
                 "pestphp/pest": "^1.20",
                 "pestphp/pest-plugin-parallel": "^1.2",
@@ -2870,7 +2870,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/v2.2.01"
+                "source": "https://github.com/kiwilan/php-ebook/tree/v2.3.0"
             },
             "funding": [
                 {
@@ -2878,7 +2878,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-12-06T09:42:10+00:00"
+            "time": "2024-01-22T15:42:54+00:00"
         },
         {
             "name": "kiwilan/php-http-pool",
@@ -3075,12 +3075,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "3f31db51fe43ecdae02d4265b1cd1166073be048"
+                "reference": "2bb50819dc817cab6a3096693663eea629d32930"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/3f31db51fe43ecdae02d4265b1cd1166073be048",
-                "reference": "3f31db51fe43ecdae02d4265b1cd1166073be048",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/2bb50819dc817cab6a3096693663eea629d32930",
+                "reference": "2bb50819dc817cab6a3096693663eea629d32930",
                 "shasum": ""
             },
             "require": {
@@ -3156,7 +3156,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2024-01-22T09:32:22+00:00"
+            "time": "2024-01-22T13:41:35+00:00"
         },
         {
             "name": "kiwilan/typescriptable-laravel",

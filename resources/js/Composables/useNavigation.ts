@@ -10,6 +10,7 @@ const mainLinks: Link[] = [
   { label: 'Dashboard', icon: 'home', route: { name: 'home' } },
   // { label: 'Dropzone', icon: 'dropzone', route: { name: 'dropzone' } },
   { label: 'Books', icon: 'book', route: { name: 'books.index' } },
+  { label: 'Comics', icon: 'comic', route: { name: 'comics.index' } },
   // { label: 'Animation', icon: 'movie', route: { name: 'movies.animation' } },
   // { label: 'TV shows', icon: 'tv', route: { name: 'tv-shows.index' } },
   // { label: 'TV shows (Animation)', icon: 'tv', route: { name: 'tv-shows.animation' } },
