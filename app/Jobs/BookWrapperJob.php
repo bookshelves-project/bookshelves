@@ -49,7 +49,7 @@ class BookWrapperJob implements ShouldQueue
         $path = $enum->jsonPath();
         $contents = file_get_contents($path);
         $files = (array) json_decode($contents, true);
-        if ($this->limit) {
+        if ($this->limit && count($files) > $this->limit) {
             $files = array_slice($files, 0, $this->limit);
         }
         $count = count($files);

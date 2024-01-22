@@ -35,6 +35,11 @@ return [
         // true: `Victor Hugo` and `Hugo Victor` will be merge
         // false: two Author will be created
         'detect_homonyms' => env('BOOKSHELVES_AUTHOR_DETECT_HOMONYMS', true),
+        // When you create a new Author, Bookshelves will try to find informations from Wikipedia
+        // By default, it will search with full name like `Victor Hugo`
+        // If `BOOKSHELVES_AUTHOR_WIKIPEDIA_EXACT` is true, Bookshelves will accept only results where Wikipedia title page is exactly the same as Author name
+        // If `BOOKSHELVES_AUTHOR_WIKIPEDIA_EXACT` is false, Bookshelves will accept results where Wikipedia title page is not exactly the same as Author name
+        'wikipedia_exact' => env('BOOKSHELVES_AUTHOR_WIKIPEDIA_EXACT', true),
     ],
     'parser' => [
         'name' => env('BOOKSHELVES_PARSER_NAME', false),

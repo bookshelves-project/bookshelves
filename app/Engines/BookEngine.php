@@ -4,9 +4,10 @@ namespace App\Engines;
 
 use App\Engines\Book\BookFileItem;
 use App\Engines\Book\ConverterEngine;
-use Illuminate\Support\Facades\Storage;
+use App\Facades\Bookshelves;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\HttpPool\Utils\PrintConsole;
 
 class BookEngine
 {
@@ -20,10 +21,14 @@ class BookEngine
     public static function make(BookFileItem $file): self
     {
         $ebook = Ebook::read($file->path());
-        if (config('bookshelves.analyzer.debug')) {
+        if (Bookshelves::analyzerDebug()) {
             BookEngine::printFile($ebook->toArray(), "{$ebook->getFilename()}-parser.json");
         }
         $converter = ConverterEngine::make($ebook, $file);
+        if (str_contains($converter->book()->serie?->title, 'Association')) {
+            ray($converter->ebook())->purple();
+            ray($converter->book())->purple();
+        }
 
         return new self($ebook, $file, $converter);
     }
@@ -45,16 +50,14 @@ class BookEngine
 
     public static function printFile(mixed $file, string $name, bool $raw = false): bool
     {
-        $console = PrintConsole::make();
-
         try {
             $file = $raw
                 ? $file
                 : json_encode($file, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
-            return Storage::disk('public')->put("/debug/{$name}", $file);
+            return File::put(storage_path("app/debug/{$name}"), $file);
         } catch (\Throwable $th) {
-            $console->print(__METHOD__, $th);
+            Log::error(__METHOD__, [$th->getMessage()]);
         }
 
         return false;

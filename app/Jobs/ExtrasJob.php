@@ -32,7 +32,7 @@ class ExtrasJob implements ShouldQueue
     {
         Artisan::call(AuthorsCommand::class);
         Artisan::call(SeriesCommand::class);
-        Artisan::call(GoogleBooksCommand::class);
+        // Artisan::call(GoogleBooksCommand::class);
         Artisan::call(CleanCommand::class);
     }
 }

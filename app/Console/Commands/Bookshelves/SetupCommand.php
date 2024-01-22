@@ -82,6 +82,8 @@ class SetupCommand extends Commandable
         Artisan::call(JobsClearCommand::class);
         Artisan::call(LogClearCommand::class);
         DirectoryService::make()->clearDirectory(storage_path('app/cache'));
+        DirectoryService::make()->clearDirectory(storage_path('app/data'));
+        DirectoryService::make()->clearDirectory(storage_path('app/debug'));
         File::deleteDirectory(storage_path('app/public'));
 
         $this->newLine();

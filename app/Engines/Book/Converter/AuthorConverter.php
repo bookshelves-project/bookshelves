@@ -2,6 +2,7 @@
 
 namespace App\Engines\Book\Converter;
 
+use App\Facades\Bookshelves;
 use App\Models\Author;
 use Illuminate\Support\Facades\Log;
 use Kiwilan\Steward\Utils\SpatieMedia;
@@ -28,9 +29,13 @@ class AuthorConverter
     private function wikipedia(): self
     {
         Log::info("Wikipedia: author {$this->author->name}");
-        $wikipedia = Wikipedia::make($this->author->name)
-            ->exact()
-            ->withImage()
+        $wikipedia = Wikipedia::make($this->author->name);
+
+        if (Bookshelves::authorWikipediaExact()) {
+            $wikipedia->exact();
+        }
+
+        $wikipedia->withImage()
             ->get();
 
         $item = $wikipedia->getItem();

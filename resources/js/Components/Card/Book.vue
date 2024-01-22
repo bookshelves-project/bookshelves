@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-const props = defineProps<{
+defineProps<{
   book: App.Models.Book
 }>()
-console.log(props.book)
 </script>
 
 <template>
-  <div>
+  <ILink :href="$route('books.show', { book_slug: book.slug })">
     <img
       class="poster h-64 mx-auto"
       :src="book.cover_thumbnail"
@@ -18,8 +17,11 @@ console.log(props.book)
         {{ book.title }}
       </p>
       <p>
+        {{ book.serie?.title }} {{ book.volume_pad }}
+      </p>
+      <p>
         {{ book.authors?.map((author) => author.name).join(', ') }}
       </p>
     </div>
-  </div>
+  </ILink>
 </template>

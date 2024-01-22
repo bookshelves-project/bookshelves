@@ -94,6 +94,7 @@ class Book extends Model implements HasMedia
 
     protected $appends = [
         'isbn',
+        'volume_pad',
     ];
 
     protected $casts = [
@@ -133,6 +134,15 @@ class Book extends Model implements HasMedia
     public function getIsbnAttribute(): ?string
     {
         return $this->isbn13 ?? $this->isbn10;
+    }
+
+    public function getVolumePadAttribute(): ?string
+    {
+        if (! $this->volume) {
+            return null;
+        }
+
+        return str_pad(strval($this->volume), 2, '0', STR_PAD_LEFT);
     }
 
     public function scopeAvailable(Builder $query): Builder

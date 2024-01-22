@@ -18,6 +18,21 @@ class Bookshelves
         return $appVersion;
     }
 
+    public function analyzerEngine(): string
+    {
+        return config('bookshelves.analyzer.engine');
+    }
+
+    public function analyzerDebug(): bool
+    {
+        return config('bookshelves.analyzer.debug');
+    }
+
+    public function authorWikipediaExact(): bool
+    {
+        return config('bookshelves.authors.wikipedia_exact');
+    }
+
     /**
      * @return array{books: string|false, comics: string|false, mangas: string|false, audiobooks: string|false}
      */
