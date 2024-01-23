@@ -4,6 +4,7 @@ namespace App\Engines\Book\Converter\Modules;
 
 use App\Enums\BookTypeEnum;
 use App\Enums\MediaDiskEnum;
+use App\Facades\Bookshelves;
 use App\Models\Book;
 use App\Models\Serie;
 use Kiwilan\Ebook\Ebook;
@@ -96,7 +97,9 @@ class SerieModule
             ->first();
 
         if (! $book) {
-            $book = Book::where('serie_id', $serie->id)->first();
+            $book = Book::query()
+                ->where('serie_id', $serie->id)
+                ->first();
         }
 
         /** @var Media|null $media */
@@ -109,8 +112,9 @@ class SerieModule
             $file = $media->getPath();
             SpatieMedia::make($serie)
                 ->addMediaFromString(file_get_contents($file))
-                ->disk('covers')
-                ->collection('covers')
+                ->collection(Bookshelves::imageCollection())
+                ->disk(Bookshelves::imageDisk())
+                ->color()
                 ->save();
         });
 

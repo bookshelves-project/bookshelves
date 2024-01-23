@@ -2,6 +2,7 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
+use App\Facades\Bookshelves;
 use App\Models\Book;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -25,7 +26,7 @@ class CoverModule
             return $book;
         }
 
-        $name = uniqid().'.jpg';
+        $name = uniqid().'.avif';
         $path = storage_path("app/cache/{$name}");
         $contents = $ebook->getCover()->getContents();
 
@@ -33,14 +34,16 @@ class CoverModule
         $self->resize($path);
         $contents = File::get($path);
 
-        SpatieMedia::make($book)
-            ->addMediaFromString($contents)
-            ->name($book->slug_sort)
-            ->extension(config('bookshelves.image.format'))
-            ->collection('covers')
-            ->disk('covers')
-            ->color()
-            ->save();
+        Book::withoutSyncingToSearch(function () use ($book, $contents) {
+            SpatieMedia::make($book)
+                ->addMediaFromString($contents)
+                ->name($book->slug_sort)
+                ->extension(Bookshelves::imageFormat())
+                ->collection(Bookshelves::imageCollection())
+                ->disk(Bookshelves::imageDisk())
+                ->color()
+                ->save();
+        });
 
         unlink($path);
 

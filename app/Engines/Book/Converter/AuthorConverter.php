@@ -13,14 +13,15 @@ use Kiwilan\Steward\Utils\Wikipedia;
  */
 class AuthorConverter
 {
-    public function __construct(
-        public Author $author,
+    protected function __construct(
+        protected Author $author,
+        protected bool $fresh = false,
     ) {
     }
 
-    public static function make(Author $author): self
+    public static function make(Author $author, bool $fresh = false): self
     {
-        $self = new AuthorConverter($author);
+        $self = new AuthorConverter($author, $fresh);
         $self->wikipedia();
 
         return $self;
@@ -29,7 +30,9 @@ class AuthorConverter
     private function wikipedia(): self
     {
         Log::info("Wikipedia: author {$this->author->name}");
-        $wikipedia = Wikipedia::make($this->author->name);
+
+        $lang = BookConverter::selectLang($this->author->books);
+        $wikipedia = Wikipedia::make($this->author->name)->language($lang);
 
         if (Bookshelves::authorWikipediaExact()) {
             $wikipedia->exact();
@@ -55,11 +58,12 @@ class AuthorConverter
 
         $picture = $item->getPictureBase64();
         if ($picture) {
-            $this->author->clearMediaCollection('covers');
+            $this->author->clearMediaCollection(Bookshelves::imageCollection());
             SpatieMedia::make($this->author)
                 ->addMediaFromBase64($picture)
-                ->disk('covers')
-                ->collection('covers')
+                ->collection(Bookshelves::imageCollection())
+                ->disk(Bookshelves::imageDisk())
+                ->color()
                 ->save();
         }
 

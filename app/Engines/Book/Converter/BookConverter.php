@@ -12,6 +12,7 @@ use App\Engines\Book\Converter\Modules\TagModule;
 use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Steward\Utils\Process;
 
@@ -35,6 +36,30 @@ class BookConverter
         $self->parse($type, $book);
 
         return $self;
+    }
+
+    /**
+     * Select the most used language in the author books.
+     *
+     * @param  Collection<int, \App\Models\Book>  $books
+     */
+    public static function selectLang(Collection $books): string
+    {
+        $languages = [];
+        foreach ($books as $book) {
+            if (array_key_exists($book->language->slug, $languages)) {
+                $languages[$book->language->slug]++;
+            } else {
+                $languages[$book->language->slug] = 1;
+            }
+        }
+
+        $lang = 'en';
+        if (count($languages) > 0) {
+            $lang = array_search(max($languages), $languages);
+        }
+
+        return $lang;
     }
 
     public function book(): ?Book

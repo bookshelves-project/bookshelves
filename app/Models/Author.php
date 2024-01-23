@@ -104,6 +104,8 @@ class Author extends Model implements HasMedia
 
     public function toSearchableArray()
     {
+        $this->loadMissing(['media']);
+
         return [
             'id' => $this->id,
             'name' => $this->name,

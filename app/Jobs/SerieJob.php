@@ -30,6 +30,6 @@ class SerieJob implements ShouldQueue
     public function handle(): void
     {
         Log::info("SerieJob: {$this->serie->title}");
-        SerieConverter::make($this->serie);
+        SerieConverter::make($this->serie, $this->fresh);
     }
 }

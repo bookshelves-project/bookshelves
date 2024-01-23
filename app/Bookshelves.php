@@ -53,6 +53,60 @@ class Bookshelves
         return config('bookshelves.image.conversion');
     }
 
+    public function imageDisk(): string
+    {
+        return config('bookshelves.image.disk');
+    }
+
+    public function imageCollection(): string
+    {
+        return config('bookshelves.image.collection');
+    }
+
+    public function imageDriver(): string
+    {
+        return config('bookshelves.image.driver');
+    }
+
+    public function imageFormat(): string
+    {
+        return config('bookshelves.image.format');
+    }
+
+    public function imageMaxHeight(): int
+    {
+        return config('bookshelves.image.max_height');
+    }
+
+    public function imageConversion(): bool
+    {
+        return config('bookshelves.image.conversion');
+    }
+
+    /**
+     * @return array{width: int, height: int}
+     */
+    public function imageCoverStandard(): array
+    {
+        return config('bookshelves.image.cover.standard');
+    }
+
+    /**
+     * @return array{width: int, height: int}
+     */
+    public function imageCoverThumbnail(): array
+    {
+        return config('bookshelves.image.cover');
+    }
+
+    /**
+     * @return array{width: int, height: int}
+     */
+    public function imageCoverSocial(): array
+    {
+        return config('bookshelves.image.cover.social');
+    }
+
     // public function tmdbApiKey(): string
     // {
     //     $key = config('bookshelves.tmdb.api_key');

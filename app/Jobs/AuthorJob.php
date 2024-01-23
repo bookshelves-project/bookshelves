@@ -30,6 +30,6 @@ class AuthorJob implements ShouldQueue
     public function handle(): void
     {
         Log::info("AuthorJob: {$this->author->name}");
-        AuthorConverter::make($this->author);
+        AuthorConverter::make($this->author, $this->fresh);
     }
 }

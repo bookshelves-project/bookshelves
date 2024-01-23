@@ -24,29 +24,35 @@ trait HasCovers
 {
     use InteractsWithMedia;
 
+    private const CONVERSION_STANDARD = 'standard';
+
+    private const CONVERSION_THUMBNAIL = 'thumbnail';
+
+    private const CONVERSION_SOCIAL = 'social';
+
     public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
     {
-        $formatThumbnail = config('bookshelves.image.cover.thumbnail');
-        $formatStandard = config('bookshelves.image.cover.standard');
-        $formatSocial = config('bookshelves.image.cover.social');
+        $formatThumbnail = Bookshelves::imageCoverThumbnail();
+        $formatStandard = Bookshelves::imageCoverStandard();
+        $formatSocial = Bookshelves::imageCoverSocial();
 
         if (Bookshelves::convertCovers()) {
-            $this->addMediaConversion('thumbnail')
-                ->performOnCollections('covers')
+            $this->addMediaConversion(self::CONVERSION_THUMBNAIL)
+                ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatThumbnail['width'], $formatThumbnail['height'])
                 ->sharpen(10)
                 ->optimize()
-                ->format(config('bookshelves.image.format'));
+                ->format(Bookshelves::imageFormat());
 
-            $this->addMediaConversion('standard')
-                ->performOnCollections('covers')
+            $this->addMediaConversion(self::CONVERSION_STANDARD)
+                ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatStandard['width'], $formatStandard['height'])
                 ->sharpen(10)
                 ->optimize()
-                ->format(config('bookshelves.image.format'));
+                ->format(Bookshelves::imageFormat());
 
-            $this->addMediaConversion('social')
-                ->performOnCollections('covers')
+            $this->addMediaConversion(self::CONVERSION_SOCIAL)
+                ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatSocial['width'], $formatSocial['height'])
                 ->sharpen(10)
                 ->optimize()
@@ -61,7 +67,7 @@ trait HasCovers
      */
     public function getCoverMediaAttribute(): ?Media
     {
-        return $this->getMedia('covers')->first() ?? null;
+        return $this->getMedia(Bookshelves::imageCollection())->first() ?? null;
     }
 
     /**
@@ -77,7 +83,7 @@ trait HasCovers
      */
     public function getCoverStandardAttribute(): ?string
     {
-        return $this->getCover('standard');
+        return $this->getCover(self::CONVERSION_STANDARD);
     }
 
     /**
@@ -85,7 +91,7 @@ trait HasCovers
      */
     public function getCoverThumbnailAttribute(): ?string
     {
-        return $this->getCover('thumbnail');
+        return $this->getCover(self::CONVERSION_THUMBNAIL);
     }
 
     /**
@@ -93,7 +99,7 @@ trait HasCovers
      */
     public function getCoverSocialAttribute(): ?string
     {
-        return $this->getCover('social');
+        return $this->getCover(self::CONVERSION_SOCIAL);
     }
 
     /**
@@ -102,7 +108,7 @@ trait HasCovers
     public function getCoverColorAttribute(): ?string
     {
         /** @var ?Media $media */
-        $media = $this->getFirstMedia('covers');
+        $media = $this->getFirstMedia(Bookshelves::imageCollection());
 
         if ($color = $media?->getCustomProperty('color')) {
             return $color;
@@ -118,7 +124,7 @@ trait HasCovers
         $image = $that->meta_class_snake_plural === 'authors' ? 'no-author' : 'no-cover';
         $default = config('app.url')."/images/{$image}.webp";
 
-        $medias = $this->getMedia('covers');
+        $medias = $this->getMedia(Bookshelves::imageCollection());
         if ($medias->isEmpty()) {
             return $default;
         }

@@ -12,14 +12,15 @@ use Kiwilan\Steward\Utils\Wikipedia;
  */
 class SerieConverter
 {
-    public function __construct(
-        public Serie $serie,
+    protected function __construct(
+        protected Serie $serie,
+        protected bool $fresh = false,
     ) {
     }
 
-    public static function make(Serie $serie): self
+    public static function make(Serie $serie, bool $fresh = false): self
     {
-        $self = new SerieConverter($serie);
+        $self = new SerieConverter($serie, $fresh);
         $self->setTags();
         $self->setCover();
         $self->wikipedia();
@@ -30,7 +31,10 @@ class SerieConverter
     private function wikipedia(): self
     {
         Log::info("Wikipedia: serie {$this->serie->title}");
+
+        $lang = BookConverter::selectLang($this->serie->books);
         $wikipedia = Wikipedia::make($this->serie->title)
+            ->language($lang)
             ->exact()
             ->withImage()
             ->get();
