@@ -19,6 +19,8 @@ trait HasAuthors
     public function initializeHasAuthors()
     {
         $this->with[] = 'authorMain';
+
+        $this->appends[] = 'authors_names';
     }
 
     public function scopeWhereAuthorIsLike(Builder $query, string $author): Builder
@@ -56,6 +58,10 @@ trait HasAuthors
 
     public function getAuthorsNamesAttribute(): string
     {
+        if (! $this->relationLoaded('authors')) {
+            return '';
+        }
+
         $this->loadMissing('authors');
         $authors = [];
 

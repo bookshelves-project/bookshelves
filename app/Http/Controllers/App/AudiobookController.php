@@ -4,6 +4,7 @@ namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -11,25 +12,17 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 class AudiobookController extends Controller
 {
     #[Get('/', name: 'audiobooks.index')]
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::query()
-            ->with(['authors', 'serie', 'tags', 'media'])
-            ->whereIsAudiobook()
-            ->orderBy('slug_sort')
-            ->get()
-            ->append(['cover_thumbnail', 'cover_color']);
-
-        return inertia('Books/Index', [
-            'books' => $books,
-        ]);
+        return $this->getQueryForBooks($request, Book::whereIsAudiobook(), 'Audiobooks', [
+            ['label' => 'Audiobooks', 'route' => ['name' => 'audiobooks.index']],
+        ], squareCovers: true);
     }
 
-    #[Get('/{audiobook_slug}', name: 'audiobooks.show')]
+    #[Get('/{book_slug}', name: 'audiobooks.show')]
     public function show(Book $book)
     {
-        $book->load(['authors', 'serie', 'tags', 'media'])
-            ->append(['cover_standard', 'cover_social', 'cover_color']);
+        $book->load(['authors', 'serie', 'tags', 'media']);
 
         return inertia('Books/Show', [
             'book' => $book,

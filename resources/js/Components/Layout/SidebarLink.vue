@@ -28,23 +28,32 @@ const href = computed(() => {
 
 <template>
   <li>
-    <component
-      :is="link.url ? 'a' : 'ILink'"
-      v-if="!link.restrictedRoles || link.restrictedRoles.includes(user.role ?? '')"
-      :href="href"
-      :target="link.url ? '_blank' : null"
-      :rel="link.url ? 'noopener noreferrer' : null"
-      :class="[
-        href === currentRoute?.path ? active : '',
-        hover,
-      ]"
-      class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 dark:text-gray-400 dark:hover:text-white"
+    <div
+      v-if="link.isSeperator"
+      class="py-2"
     >
-      <SvgIcon
-        class="h-6 w-6 shrink-0"
-        :name="link.icon"
-      />
-      {{ link.label }}
-    </component>
+      <hr class="border-gray-200 dark:border-gray-700">
+    </div>
+    <div v-else>
+      <component
+        :is="link.url ? 'a' : 'ILink'"
+        v-if="!link.restrictedRoles || link.restrictedRoles.includes(user.role ?? '')"
+        :href="href"
+        :target="link.url ? '_blank' : null"
+        :rel="link.url ? 'noopener noreferrer' : null"
+        :class="[
+          href === currentRoute?.path ? active : '',
+          hover,
+        ]"
+        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 dark:text-gray-400 dark:hover:text-white"
+      >
+        <SvgIcon
+          v-if="link.icon"
+          class="h-6 w-6 shrink-0"
+          :name="link.icon"
+        />
+        {{ link.label }}
+      </component>
+    </div>
   </li>
 </template>

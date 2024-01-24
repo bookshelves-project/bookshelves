@@ -27,6 +27,7 @@ export default {
       },
       aspectRatio: {
         poster: '2 / 3',
+        album: '1 / 1',
       },
     },
   },
@@ -36,6 +37,9 @@ export default {
       addComponents({
         '.poster': {
           '@apply aspect-poster rounded-md object-cover': {},
+        },
+        '.album': {
+          '@apply aspect-album rounded-md object-cover': {},
         },
         '.video-list': {
           '@apply grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6':

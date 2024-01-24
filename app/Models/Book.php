@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
 use App\Traits\HasBookType;
@@ -29,6 +28,7 @@ class Book extends Model implements HasMedia
 {
     use HasAuthors;
     use HasBookFiles;
+    use HasBookType;
     use HasBookType;
     use HasCovers;
     use HasFactory;
@@ -79,7 +79,6 @@ class Book extends Model implements HasMedia
         'page_count',
         'is_maturity_rating',
         'is_hidden',
-        'type',
         'isbn10',
         'isbn13',
         'identifiers',
@@ -99,7 +98,6 @@ class Book extends Model implements HasMedia
         'released_on' => 'datetime',
         'narrators' => 'array',
         'is_hidden' => 'boolean',
-        'type' => BookTypeEnum::class,
         'identifiers' => 'array',
         'volume' => 'integer',
         'page_count' => 'integer',
@@ -160,26 +158,6 @@ class Book extends Model implements HasMedia
     {
         return $query
             ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)]);
-    }
-
-    public function scopeWhereIsAudiobook(Builder $query): Builder
-    {
-        return $query->where('type', BookTypeEnum::audiobook);
-    }
-
-    public function scopeWhereIsBook(Builder $query): Builder
-    {
-        return $query->where('type', BookTypeEnum::book);
-    }
-
-    public function scopeWhereIsComic(Builder $query): Builder
-    {
-        return $query->where('type', BookTypeEnum::comic);
-    }
-
-    public function scopeWhereIsManga(Builder $query): Builder
-    {
-        return $query->where('type', BookTypeEnum::manga);
     }
 
     public function publisher(): BelongsTo

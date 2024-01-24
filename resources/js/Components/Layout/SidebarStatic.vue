@@ -2,7 +2,6 @@
 import { useInertia } from '@kiwilan/typescriptable-laravel'
 import { useNavigation } from '@/Composables/useNavigation'
 
-const { page } = useInertia()
 const { mainLinks, secondaryLinks } = useNavigation()
 </script>
 
@@ -11,7 +10,7 @@ const { mainLinks, secondaryLinks } = useNavigation()
     <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-black/10 px-6 ring-1 ring-white/5">
       <ILink
-        class="flex h-16 shrink-0 items-center space-x-4"
+        class="flex h-16 shrink-0 items-center space-x-2"
         href="/"
       >
         <Logo class="h-10 w-auto" />

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 defineProps<{
-  query: App.Paginate<App.Models.Book>
+  query: App.Paginate<App.Models.Serie>
   breadcrumbs?: any[]
   title?: string
   square?: boolean
@@ -28,10 +28,10 @@ defineProps<{
       >
         <Breadcrumbs :breadcrumbs="breadcrumbs" />
       </template>
-      <CardBook
-        v-for="book in query.data"
-        :key="book.id"
-        :book="book"
+      <CardSerie
+        v-for="serie in query.data"
+        :key="serie.id"
+        :serie="serie"
         :square="square"
       />
     </Listing>

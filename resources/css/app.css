@@ -6,6 +6,7 @@
     --toastify-color-light: theme("backgroundColor.gray.800") !important;
     --toastify-text-color-light: theme("colors.gray.100") !important;
     --toastify-color-progress-light: theme("colors.gray.400") !important;
+    --card-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
 [v-cloak] {

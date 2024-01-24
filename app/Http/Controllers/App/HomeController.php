@@ -11,13 +11,13 @@ class HomeController extends Controller
     #[Get('/', name: 'home')]
     public function index()
     {
-        $books = Book::with(['authors', 'serie', 'tags', 'media'])
-            ->orderBy('title')
-            ->get()
-            ->append(['cover_thumbnail', 'cover_color']);
+        // $books = Book::with(['authors', 'serie', 'tags', 'media'])
+        //     ->orderBy('title')
+        //     ->get()
+        //     ->append(['cover_thumbnail', 'cover_color']);
 
         return inertia('Home', [
-            'books' => $books->random(10),
+            // 'books' => $books->random(10),
         ]);
     }
 }

@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-
+defineProps<{
+  book: App.Models.Book
+}>()
 </script>
 
 <template>
   <App>
-    home
+    <pre>{{ book }}</pre>
   </App>
 </template>

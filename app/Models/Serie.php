@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Enums\BookFormatEnum;
-use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBooksCollection;
+use App\Traits\HasBookType;
 use App\Traits\HasCovers;
 use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
@@ -31,6 +31,7 @@ class Serie extends Model implements HasMedia
 {
     use HasAuthors;
     use HasBooksCollection;
+    use HasBookType;
     use HasCovers;
     use HasFactory;
     use HasLanguage;
@@ -64,14 +65,12 @@ class Serie extends Model implements HasMedia
         'title',
         'slug_sort',
         'slug',
-        'type',
         'description',
         'link',
         'wikipedia_parsed_at',
     ];
 
     protected $casts = [
-        'type' => BookTypeEnum::class,
         'wikipedia_parsed_at' => 'datetime',
     ];
 

@@ -13,7 +13,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
-use Kiwilan\Steward\Commands\Scout\ScoutFreshCommand;
 
 class ExtrasJob implements ShouldQueue
 {
@@ -37,6 +36,6 @@ class ExtrasJob implements ShouldQueue
         Artisan::call(SeriesCommand::class);
         // Artisan::call(GoogleBooksCommand::class);
         Artisan::call(CleanCommand::class);
-        Artisan::call(ScoutFreshCommand::class);
+        ScoutWrapperJob::dispatch();
     }
 }

@@ -56,7 +56,7 @@ onMounted(() => {
         name="search"
         type="search"
         autocomplete="off"
-        placeholder="Search movie, TV show, collection..."
+        placeholder="Search book, book series, author..."
         @input="event => searching(event)"
       >
       <button

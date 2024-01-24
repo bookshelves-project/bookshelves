@@ -1,27 +1,25 @@
 export interface Link {
   label: string
-  icon: SvgName
+  icon?: SvgName
   route?: App.Route.RouteConfig<App.Route.Name>
   url?: string
+  isSeperator?: boolean
   restrictedRoles?: string[]
 }
 
 const mainLinks: Link[] = [
   { label: 'Dashboard', icon: 'home', route: { name: 'home' } },
-  // { label: 'Dropzone', icon: 'dropzone', route: { name: 'dropzone' } },
+  { label: 'Authors', icon: 'quill', route: { name: 'authors.index' } },
+  { label: 'Seperator', isSeperator: true },
   { label: 'Audiobooks', icon: 'audible', route: { name: 'audiobooks.index' } },
   { label: 'Books', icon: 'ereader', route: { name: 'books.index' } },
   { label: 'Comics', icon: 'comic', route: { name: 'comics.index' } },
   { label: 'Mangas', icon: 'manga', route: { name: 'mangas.index' } },
-  { label: 'Authors', icon: 'quill', route: { name: 'authors.index' } },
-  // { label: 'Animation', icon: 'movie', route: { name: 'movies.animation' } },
-  // { label: 'TV shows', icon: 'tv', route: { name: 'tv-shows.index' } },
-  // { label: 'TV shows (Animation)', icon: 'tv', route: { name: 'tv-shows.animation' } },
-  // { label: 'Movie collections', icon: 'stack', route: { name: 'collections.index' } },
-  // { label: 'Documentaries', icon: 'movie', route: { name: 'movies.documentaries' } },
-  // { label: 'Shows', icon: 'movie', route: { name: 'movies.shows' } },
-  // { label: 'Genres', icon: 'tag', route: { name: 'genres.index' } },
-  // { label: 'Networks', icon: 'network', route: { name: 'networks.index' } },
+  { label: 'Seperator', isSeperator: true },
+  { label: 'Audiobook series', icon: 'audible', route: { name: 'series.audiobooks.index' } },
+  { label: 'Book series', icon: 'ereader', route: { name: 'series.books.index' } },
+  { label: 'Comic series', icon: 'comic', route: { name: 'series.comics.index' } },
+  { label: 'Manga series', icon: 'manga', route: { name: 'series.mangas.index' } },
 ]
 
 const secondaryLinks: Link[] = [

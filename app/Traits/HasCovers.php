@@ -30,6 +30,16 @@ trait HasCovers
 
     private const CONVERSION_SOCIAL = 'social';
 
+    public function initializeHasCovers(): void
+    {
+        $this->appends = array_merge($this->appends, [
+            'cover_standard',
+            'cover_thumbnail',
+            'cover_social',
+            'cover_color',
+        ]);
+    }
+
     public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
     {
         $formatThumbnail = Bookshelves::imageCoverThumbnail();
@@ -107,6 +117,10 @@ trait HasCovers
      */
     public function getCoverColorAttribute(): ?string
     {
+        if (! $this->relationLoaded('media')) {
+            return '#ffffff';
+        }
+
         /** @var ?Media $media */
         $media = $this->getFirstMedia(Bookshelves::imageCollection());
 
@@ -123,6 +137,10 @@ trait HasCovers
         $that = $this;
         $image = $that->meta_class_snake_plural === 'authors' ? 'no-author' : 'no-cover';
         $default = config('app.url')."/images/{$image}.webp";
+
+        if (! $that->relationLoaded('media')) {
+            return $default;
+        }
 
         $medias = $this->getMedia(Bookshelves::imageCollection());
         if ($medias->isEmpty()) {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use App\Models\Author;
+use Illuminate\Http\Request;
+use Kiwilan\Steward\Queries\HttpQuery;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -11,15 +13,19 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 class AuthorController extends Controller
 {
     #[Get('/', name: 'authors.index')]
-    public function index()
+    public function index(Request $request)
     {
-        $authors = Author::with(['media'])
-            ->orderBy('slug')
-            ->get()
-            ->append(['cover_thumbnail', 'cover_color']);
+        $query = HttpQuery::for(Author::class, $request)
+            ->with(['media'])
+            ->defaultSort('slug')
+            ->inertia();
 
         return inertia('Authors/Index', [
-            'authors' => $authors,
+            'title' => 'Authors',
+            'query' => $query,
+            'breadcrumbs' => [
+                ['label' => 'Authors', 'route' => ['name' => 'authors.index']],
+            ],
         ]);
     }
 

@@ -8,18 +8,18 @@ use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
-#[Prefix('comics')]
-class ComicController extends Controller
+#[Prefix('tags')]
+class TagController extends Controller
 {
-    #[Get('/', name: 'comics.index')]
+    #[Get('/', name: 'tags.index')]
     public function index(Request $request)
     {
-        return $this->getQueryForBooks($request, Book::whereIsComic(), 'Comics', [
-            ['label' => 'Comics', 'route' => ['name' => 'comics.index']],
-        ]);
+        return $this->getQueryForBooks($request, Book::whereIsAudiobook(), 'Audiobooks', [
+            ['label' => 'Audiobooks', 'route' => ['name' => 'audiobooks.index']],
+        ], squareCovers: true);
     }
 
-    #[Get('/{book_slug}', name: 'comics.show')]
+    #[Get('/{tag_slug}', name: 'tags.show')]
     public function show(Book $book)
     {
         $book->load(['authors', 'serie', 'tags', 'media']);
