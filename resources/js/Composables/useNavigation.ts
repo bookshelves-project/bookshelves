@@ -12,6 +12,7 @@ const mainLinks: Link[] = [
   { label: 'Audiobooks', icon: 'audible', route: { name: 'audiobooks.index' } },
   { label: 'Books', icon: 'ereader', route: { name: 'books.index' } },
   { label: 'Comics', icon: 'comic', route: { name: 'comics.index' } },
+  { label: 'Mangas', icon: 'manga', route: { name: 'mangas.index' } },
   { label: 'Authors', icon: 'quill', route: { name: 'authors.index' } },
   // { label: 'Animation', icon: 'movie', route: { name: 'movies.animation' } },
   // { label: 'TV shows', icon: 'tv', route: { name: 'tv-shows.index' } },
