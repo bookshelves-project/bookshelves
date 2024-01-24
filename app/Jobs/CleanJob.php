@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Kiwilan\Steward\Services\DirectoryService;
 
 class CleanJob implements ShouldQueue
 {
@@ -32,6 +33,8 @@ class CleanJob implements ShouldQueue
         foreach ($enums as $enum) {
             $this->deleteOrphanBooks($enum);
         }
+
+        DirectoryService::make()->clearDirectory(storage_path('app/cache'));
     }
 
     private function deleteOrphanBooks(BookTypeEnum $enum)

@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\AuthorJob;
-use App\Models\Author;
+use App\Jobs\AuthorWrapperJob;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
@@ -32,17 +31,6 @@ class AuthorsCommand extends Commandable
         $this->title();
 
         $fresh = $this->option('fresh') ?: false;
-
-        if ($fresh) {
-            $authors = Author::all();
-        } else {
-            $authors = Author::query()
-                ->where('wikipedia_parsed_at', null)
-                ->get();
-        }
-
-        foreach ($authors as $author) {
-            AuthorJob::dispatch($author, $fresh);
-        }
+        AuthorWrapperJob::dispatch($fresh);
     }
 }

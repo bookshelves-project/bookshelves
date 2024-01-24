@@ -22,6 +22,7 @@ return new class() extends Migration
             $table->string('contributor')->nullable();
             $table->text('description')->nullable();
             $table->dateTime('released_on')->nullable();
+            $table->json('narrators')->nullable();
             $table->string('rights')->nullable();
             $table->integer('volume')->nullable();
             $table->integer('page_count')->nullable();

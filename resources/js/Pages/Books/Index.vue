@@ -6,7 +6,6 @@ defineProps<{
 
 <template>
   <App>
-    home
     <section class="main-container video-list">
       <CardBook
         v-for="book in books"

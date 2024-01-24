@@ -116,7 +116,15 @@ class BookFileScanner
                 $format = BookFormatEnum::pdf;
             }
 
+            if (in_array($extension, ['mp3', 'm4b'])) {
+                $format = BookFormatEnum::audio;
+            }
+
             if (! array_key_exists($format->value, $this->formatsEnum)) {
+                continue;
+            }
+
+            if ($format->value === BookFormatEnum::unknown->value) {
                 continue;
             }
 

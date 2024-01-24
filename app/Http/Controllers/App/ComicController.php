@@ -13,7 +13,8 @@ class ComicController extends Controller
     #[Get('/', name: 'comics.index')]
     public function index()
     {
-        $books = Book::with(['authors', 'serie', 'tags', 'media'])
+        $books = Book::query()
+            ->with(['authors', 'serie', 'tags', 'media'])
             ->whereIsComic()
             ->orderBy('slug_sort')
             ->get()
@@ -24,7 +25,7 @@ class ComicController extends Controller
         ]);
     }
 
-    #[Get('/{book_slug}', name: 'comics.show')]
+    #[Get('/{comic_slug}', name: 'comics.show')]
     public function show(Book $book)
     {
         $book->load(['authors', 'serie', 'tags', 'media'])

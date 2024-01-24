@@ -12,6 +12,7 @@ class BookFileItem
         protected ?BookFormatEnum $format,
         protected ?BookTypeEnum $type,
         protected ?string $path,
+        protected bool $isAudio = false,
     ) {
     }
 
@@ -20,6 +21,10 @@ class BookFileItem
         $basename = pathinfo($path, PATHINFO_BASENAME);
         $self = new self($basename, $format, $type, $path);
 
+        if ($format === BookFormatEnum::audio) {
+            $self->isAudio = true;
+        }
+
         return $self;
     }
 
@@ -27,7 +32,7 @@ class BookFileItem
     {
         $format = BookFormatEnum::tryFrom($array['format']);
         $type = BookTypeEnum::tryFrom($array['type']);
-        $self = new self($array['basename'], $format, $type, $array['path']);
+        $self = BookFileItem::make($format, $type, $array['path']);
 
         return $self;
     }
@@ -50,6 +55,11 @@ class BookFileItem
     public function path(): string
     {
         return $this->path;
+    }
+
+    public function isAudio(): bool
+    {
+        return $this->isAudio;
     }
 
     public function toArray(): array

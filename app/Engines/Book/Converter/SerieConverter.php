@@ -40,6 +40,7 @@ class SerieConverter
             ->get();
 
         $item = $wikipedia->getItem();
+        $this->setBookDescription();
         $this->serie->wikipedia_parsed_at = now();
 
         if (! $item) {
@@ -54,6 +55,14 @@ class SerieConverter
         $this->serie->save();
 
         return $this;
+    }
+
+    private function setBookDescription(): void
+    {
+        if (! $this->serie->description) {
+            $books = $this->serie->load('books')->books;
+            $this->serie->description = $books->first()->description;
+        }
     }
 
     private function setCover(): self

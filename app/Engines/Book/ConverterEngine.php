@@ -7,6 +7,7 @@ use App\Engines\Book\Converter\Modules\AuthorModule;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Ebook\Enums\EbookFormatEnum;
 
 /**
  * Create a `Book` and relations.
@@ -29,15 +30,39 @@ class ConverterEngine
     {
         $self = new self($ebook, $file);
         $self->default = $default;
-        $self->book = $self->retrieveBook();
 
-        $converter = BookConverter::make($self->ebook, $file->type(), $self->book);
-        $self->book = $converter->book();
+        if ($ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
+            $converter = BookConverter::make($self->ebook, $file->type(), $self->book);
+        } else {
+            $self->book = $self->retrieveBook();
+            $converter = BookConverter::make($self->ebook, $file->type(), $self->book);
+            $self->book = $converter->book();
+        }
 
         return $self;
     }
 
-    public function retrieveBook(): ?Book
+    public function ebook(): Ebook
+    {
+        return $this->ebook;
+    }
+
+    public function book(): ?Book
+    {
+        return $this->book;
+    }
+
+    public function isExist(): bool
+    {
+        return $this->isExist;
+    }
+
+    public function isDefault(): bool
+    {
+        return $this->default;
+    }
+
+    private function retrieveBook(): ?Book
     {
         $book = null;
         $names = [];
@@ -64,25 +89,5 @@ class ConverterEngine
         }
 
         return $book;
-    }
-
-    public function ebook(): Ebook
-    {
-        return $this->ebook;
-    }
-
-    public function book(): ?Book
-    {
-        return $this->book;
-    }
-
-    public function isExist(): bool
-    {
-        return $this->isExist;
-    }
-
-    public function isDefault(): bool
-    {
-        return $this->default;
     }
 }

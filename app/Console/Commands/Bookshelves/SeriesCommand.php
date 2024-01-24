@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\SerieJob;
-use App\Models\Serie;
+use App\Jobs\SerieWrapperJob;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
@@ -32,17 +31,6 @@ class SeriesCommand extends Commandable
         $this->title();
 
         $fresh = $this->option('fresh') ?: false;
-
-        if ($fresh) {
-            $series = Serie::all();
-        } else {
-            $series = Serie::query()
-                ->where('wikipedia_parsed_at', null)
-                ->get();
-        }
-
-        foreach ($series as $serie) {
-            SerieJob::dispatch($serie, $fresh);
-        }
+        SerieWrapperJob::dispatch($fresh);
     }
 }

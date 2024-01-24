@@ -12,6 +12,82 @@
 
 namespace App\Models{
 /**
+ * App\Models\Audiobook
+ *
+ * @property int $id
+ * @property string|null $title
+ * @property string|null $slug
+ * @property string|null $slug_sort
+ * @property string|null $author_main
+ * @property array|null $authors
+ * @property array|null $narrators
+ * @property string|null $description
+ * @property string|null $publisher
+ * @property string|null $publish_date
+ * @property string|null $language
+ * @property array|null $tags
+ * @property string|null $serie
+ * @property int|null $volume
+ * @property string|null $path
+ * @property string|null $filename
+ * @property string|null $basename
+ * @property string|null $extension
+ * @property string|null $format
+ * @property string|null $track_number
+ * @property string|null $comment
+ * @property string|null $creation_date
+ * @property string|null $composer
+ * @property string|null $disc_number
+ * @property bool|null $is_compilation
+ * @property string|null $encoding
+ * @property string|null $lyrics
+ * @property string|null $stik
+ * @property float|null $duration
+ * @property string|null $book_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Book|null $book
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereAuthorMain($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereAuthors($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereBasename($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereBookId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereComposer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereCreationDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereDiscNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereEncoding($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereExtension($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereFilename($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereFormat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereIsCompilation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereLyrics($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereNarrators($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook wherePublishDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook wherePublisher($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereSerie($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereSlugSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereStik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereTags($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereTrackNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereVolume($value)
+ */
+	class Audiobook extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Author
  *
  * @property string $id
@@ -90,6 +166,7 @@ namespace App\Models{
  * @property string|null $contributor
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $released_on
+ * @property array|null $narrators
  * @property string|null $rights
  * @property string|null $serie_id
  * @property string|null $author_main_id
@@ -107,6 +184,8 @@ namespace App\Models{
  * @property string|null $physical_path
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Audiobook> $audiobooks
+ * @property-read int|null $audiobooks_count
  * @property-read \App\Models\Author|null $authorMain
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Author> $authors
  * @property-read int|null $authors_count
@@ -169,6 +248,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn13($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguageSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguagesIs(...$languages)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereNarrators($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePageCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePhysicalPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePublisherId($value)

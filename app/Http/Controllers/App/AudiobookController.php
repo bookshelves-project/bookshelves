@@ -7,15 +7,15 @@ use App\Models\Book;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
-#[Prefix('books')]
-class BookController extends Controller
+#[Prefix('audiobooks')]
+class AudiobookController extends Controller
 {
-    #[Get('/', name: 'books.index')]
+    #[Get('/', name: 'audiobooks.index')]
     public function index()
     {
         $books = Book::query()
             ->with(['authors', 'serie', 'tags', 'media'])
-            ->whereIsBook()
+            ->whereIsAudiobook()
             ->orderBy('slug_sort')
             ->get()
             ->append(['cover_thumbnail', 'cover_color']);
@@ -25,7 +25,7 @@ class BookController extends Controller
         ]);
     }
 
-    #[Get('/{book_slug}', name: 'books.show')]
+    #[Get('/{audiobook_slug}', name: 'audiobooks.show')]
     public function show(Book $book)
     {
         $book->load(['authors', 'serie', 'tags', 'media'])

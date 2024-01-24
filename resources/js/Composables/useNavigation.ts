@@ -9,6 +9,7 @@ export interface Link {
 const mainLinks: Link[] = [
   { label: 'Dashboard', icon: 'home', route: { name: 'home' } },
   // { label: 'Dropzone', icon: 'dropzone', route: { name: 'dropzone' } },
+  { label: 'Audiobooks', icon: 'audible', route: { name: 'audiobooks.index' } },
   { label: 'Books', icon: 'ereader', route: { name: 'books.index' } },
   { label: 'Comics', icon: 'comic', route: { name: 'comics.index' } },
   { label: 'Authors', icon: 'quill', route: { name: 'authors.index' } },

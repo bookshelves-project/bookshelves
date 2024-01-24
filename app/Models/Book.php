@@ -73,6 +73,7 @@ class Book extends Model implements HasMedia
         'contributor',
         'description',
         'released_on',
+        'narrators',
         'rights',
         'volume',
         'page_count',
@@ -96,6 +97,7 @@ class Book extends Model implements HasMedia
 
     protected $casts = [
         'released_on' => 'datetime',
+        'narrators' => 'array',
         'is_hidden' => 'boolean',
         'type' => BookTypeEnum::class,
         'identifiers' => 'array',
@@ -188,6 +190,11 @@ class Book extends Model implements HasMedia
     public function serie(): BelongsTo
     {
         return $this->belongsTo(Serie::class);
+    }
+
+    public function audiobooks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Audiobook::class);
     }
 
     public function toSearchableArray()

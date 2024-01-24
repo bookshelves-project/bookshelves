@@ -10,10 +10,12 @@ use App\Engines\Book\Converter\Modules\PublisherModule;
 use App\Engines\Book\Converter\Modules\SerieModule;
 use App\Engines\Book\Converter\Modules\TagModule;
 use App\Enums\BookTypeEnum;
+use App\Models\Audiobook;
 use App\Models\Book;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\Steward\Utils\Process;
 
 /**
@@ -24,6 +26,7 @@ class BookConverter
     protected function __construct(
         protected Ebook $ebook,
         protected ?Book $book = null,
+        protected ?Audiobook $audiobook = null,
     ) {
     }
 
@@ -33,7 +36,12 @@ class BookConverter
     public static function make(Ebook $ebook, BookTypeEnum $type, ?Book $book = null): self
     {
         $self = new self($ebook);
-        $self->parse($type, $book);
+
+        if ($ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
+            $self->parseAudiobook();
+        } else {
+            $self->parseBook($type, $book);
+        }
 
         return $self;
     }
@@ -47,6 +55,9 @@ class BookConverter
     {
         $languages = [];
         foreach ($books as $book) {
+            if (! $book->language) {
+                continue;
+            }
             if (array_key_exists($book->language->slug, $languages)) {
                 $languages[$book->language->slug]++;
             } else {
@@ -67,7 +78,7 @@ class BookConverter
         return $this->book;
     }
 
-    private function parse(BookTypeEnum $type, ?Book $book): self
+    private function parseBook(BookTypeEnum $type, ?Book $book): self
     {
         if ($book) {
             $this->checkBook($type);
@@ -114,6 +125,65 @@ class BookConverter
         $this->syncCover();
 
         return $this;
+    }
+
+    private function parseAudiobook(): self
+    {
+        $parser = $this->ebook->getParser()?->getAudiobook()?->getAudio();
+        $authors = [];
+        if (str_contains($this->ebook->getPublisher(), ',')) {
+            $authors = explode(',', $this->ebook->getPublisher());
+        } elseif (str_contains($this->ebook->getPublisher(), ' & ')) {
+            $authors = explode(' & ', $this->ebook->getPublisher());
+        } else {
+            $authors[] = $this->ebook->getPublisher();
+        }
+        $authors = array_map(fn ($author) => trim($author), $authors);
+
+        $this->audiobook = Audiobook::query()->create([
+            'title' => $this->ebook->getTitle(),
+            'slug' => $this->ebook->getMetaTitle()->getSerieSlug(),
+            'slug_sort' => $this->ebook->getMetaTitle()->getSerieSlugSort(),
+            'authors' => $authors,
+            'author_main' => $authors[0] ?? null,
+            'narrators' => array_map(fn ($author) => $author->getName(), $this->ebook->getAuthors()),
+            'description' => $this->ebook->getDescription(),
+            'publish_date' => $this->ebook->getPublishDate(),
+            'language' => $this->ebook->getLanguage(),
+            'tags' => $this->ebook->getTags(),
+            'serie' => $this->ebook->getSeries(),
+            'volume' => $this->ebook->getVolume(),
+            'path' => $this->ebook->getPath(),
+            'filename' => $this->ebook->getFilename(),
+            'basename' => $this->ebook->getBasename(),
+            'extension' => $this->ebook->getExtension(),
+            'format' => $this->ebook->getFormat(),
+            'track_number' => $parser['trackNumber'] ?? null,
+            'comment' => $parser['comment'] ?? null,
+            'creation_date' => $parser['creationDate'] ?? null,
+            'composer' => $parser['composer'] ?? null,
+            'disc_number' => $parser['discNumber'] ?? null,
+            'is_compilation' => $parser['isCompilation'] ?? null,
+            'encoding' => $parser['encoding'] ?? null,
+            'lyrics' => $parser['lyrics'] ?? null,
+            'stik' => $parser['stik'] ?? null,
+            'duration' => $parser['duration'] ?? null,
+        ]);
+
+        $cover = $this->ebook->getCover()->getContents();
+        if ($cover) {
+            $path = BookConverter::audiobookCoverPath($this->audiobook);
+            file_put_contents($path, $cover);
+        }
+
+        return $this;
+    }
+
+    public static function audiobookCoverPath(Audiobook $audiobook): string
+    {
+        $name = "audiobook-{$audiobook->id}.jpg";
+
+        return storage_path("app/cache/{$name}");
     }
 
     private function syncAuthors(): self

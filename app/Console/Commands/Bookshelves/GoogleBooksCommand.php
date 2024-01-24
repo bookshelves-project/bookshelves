@@ -31,6 +31,7 @@ class GoogleBooksCommand extends Commandable
         $this->title();
 
         $books = Book::query()
+            ->whereIsBook()
             ->where('google_book_parsed_at', null)
             ->where(function ($query) {
                 $query->where('isbn10', '!=', null)

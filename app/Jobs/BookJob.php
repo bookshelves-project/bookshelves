@@ -35,6 +35,7 @@ class BookJob implements ShouldQueue
         if (! $title) {
             $title = $this->file->path();
         }
+
         Log::info("BookJob: {$this->number} {$title}");
     }
 
