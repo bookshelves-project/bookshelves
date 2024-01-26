@@ -19,6 +19,7 @@ class EmptySeeder extends Seeder
             'email' => config('bookshelves.super_admin.email'),
             'password' => Hash::make(config('bookshelves.super_admin.password')),
             'role' => UserRoleEnum::super_admin,
+            'is_blocked' => false,
         ]);
     }
 }

@@ -26,10 +26,6 @@ return new class extends Migration
             $table->json('tags')->nullable();
             $table->string('serie')->nullable();
             $table->integer('volume')->nullable();
-            $table->string('path')->nullable();
-            $table->string('filename')->nullable();
-            $table->string('basename')->nullable();
-            $table->string('extension')->nullable();
             $table->string('format')->nullable();
 
             $table->string('track_number')->nullable();
@@ -42,6 +38,11 @@ return new class extends Migration
             $table->string('lyrics')->nullable();
             $table->string('stik')->nullable();
             $table->float('duration')->nullable();
+
+            $table->string('physical_path')->nullable();
+            $table->string('basename')->nullable();
+            $table->string('extension')->nullable();
+            $table->string('mime_type')->nullable();
 
             $table->foreignUlid('book_id')
                 ->nullable()

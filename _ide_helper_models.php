@@ -28,10 +28,6 @@ namespace App\Models{
  * @property array|null $tags
  * @property string|null $serie
  * @property int|null $volume
- * @property string|null $path
- * @property string|null $filename
- * @property string|null $basename
- * @property string|null $extension
  * @property string|null $format
  * @property string|null $track_number
  * @property string|null $comment
@@ -43,6 +39,10 @@ namespace App\Models{
  * @property string|null $lyrics
  * @property string|null $stik
  * @property float|null $duration
+ * @property string|null $physical_path
+ * @property string|null $basename
+ * @property string|null $extension
+ * @property string|null $mime_type
  * @property string|null $book_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -63,14 +63,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereEncoding($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereExtension($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereFilename($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereFormat($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereIsCompilation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereLanguage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereLyrics($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereMimeType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereNarrators($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Audiobook wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook wherePhysicalPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook wherePublishDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook wherePublisher($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereSerie($value)
@@ -160,7 +160,6 @@ namespace App\Models{
  *
  * @property string $id
  * @property string $title
- * @property string $uuid
  * @property string|null $slug_sort
  * @property string $slug
  * @property string|null $contributor
@@ -182,6 +181,8 @@ namespace App\Models{
  * @property array|null $identifiers
  * @property \Illuminate\Support\Carbon|null $google_book_parsed_at
  * @property string|null $physical_path
+ * @property string|null $extension
+ * @property string|null $mime_type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Audiobook> $audiobooks
@@ -196,6 +197,7 @@ namespace App\Models{
  * @property-read string|null $cover_social
  * @property-read string|null $cover_standard
  * @property-read string|null $cover_thumbnail
+ * @property-read string $download_link
  * @property-read string $entity
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read \App\Models\Collection<int, ?MediaExtended> $files
@@ -235,6 +237,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisallowSerie(string $has_not_serie)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereExtension($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookParsedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifiers($value)
@@ -248,6 +251,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIsbn13($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguageSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguagesIs(...$languages)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereMimeType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereNarrators($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePageCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePhysicalPath($value)
@@ -263,7 +267,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTypesIs(...$types)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereUuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereVolume($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAllTags(...$tags)
  */

@@ -4,6 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Jobs\ParserJob;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Kiwilan\Steward\Commands\Commandable;
 
 /**
@@ -42,6 +43,7 @@ class ParseCommand extends Commandable
     {
         $this->title();
 
+        Log::info('ParseCommand: parsing files...');
         ParserJob::dispatch();
 
         return Command::SUCCESS;

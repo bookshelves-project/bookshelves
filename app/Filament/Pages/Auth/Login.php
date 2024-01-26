@@ -11,8 +11,8 @@ class Login extends BasePage
         parent::mount();
 
         $this->form->fill([
-            'email' => config('app.admin.email'),
-            'password' => config('app.admin.password'),
+            'email' => config('bookshelves.super_admin.email'),
+            'password' => config('bookshelves.super_admin.password'),
             'remember' => true,
         ]);
     }

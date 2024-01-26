@@ -16,7 +16,6 @@ return new class() extends Migration
             $table->ulid('id')->primary();
 
             $table->string('title');
-            $table->string('uuid')->unique();
             $table->string('slug_sort')->nullable();
             $table->string('slug')->index();
             $table->string('contributor')->nullable();
@@ -34,6 +33,8 @@ return new class() extends Migration
             $table->json('identifiers')->nullable();
             $table->dateTime('google_book_parsed_at')->nullable();
             $table->string('physical_path')->nullable();
+            $table->string('extension')->nullable();
+            $table->string('mime_type')->nullable();
 
             $table->timestamps();
         });

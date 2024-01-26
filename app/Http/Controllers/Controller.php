@@ -16,6 +16,7 @@ class Controller extends BaseController
 
     public function __construct()
     {
+        Route::bind('book_id', fn (string $id) => \App\Models\Book::query()->find($id));
         Route::bind('book_slug', fn (string $slug) => \App\Models\Book::query()->where('slug', $slug)->firstOrFail());
         Route::bind('author_slug', fn (string $slug) => \App\Models\Author::query()->where('slug', $slug)->firstOrFail());
     }

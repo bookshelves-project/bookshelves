@@ -5,8 +5,8 @@ namespace App\Console;
 use App\Console\Commands\Bookshelves\SetupCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\Log;
 use Kiwilan\Steward\Commands\Scout\ScoutFreshCommand;
+use Kiwilan\Steward\Utils\Journal;
 
 class Kernel extends ConsoleKernel
 {
@@ -19,20 +19,20 @@ class Kernel extends ConsoleKernel
             ->at('01:00')
             ->mondays()
             ->onSuccess(function () {
-                Log::info('ScoutFreshCommand executed successfully');
+                Journal::info('ScoutFreshCommand executed successfully');
             })
             ->onFailure(function () {
-                Log::error('ScoutFreshCommand failed');
+                Journal::error('ScoutFreshCommand failed')->toDatabase();
             });
 
         $schedule->command(SetupCommand::class)
             ->at('02:00')
             ->daily()
             ->onSuccess(function () {
-                Log::info('SetupCommand executed successfully');
+                Journal::info('SetupCommand executed successfully');
             })
             ->onFailure(function () {
-                Log::error('SetupCommand failed');
+                Journal::error('SetupCommand failed')->toDatabase();
             });
     }
 

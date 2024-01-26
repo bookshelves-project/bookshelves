@@ -11,6 +11,7 @@
   "require": {
     "php": "^8.2",
     "filament/filament": "^3.1",
+    "filament/notifications": "^3.2",
     "guzzlehttp/guzzle": "^7.2",
     "http-interop/http-factory-guzzle": "^1.2.0",
     "inertiajs/inertia-laravel": "^0.6.8",
@@ -27,6 +28,7 @@
     "laravel/scout": "^10.7.0",
     "laravel/telescope": "^4.17.3",
     "laravel/tinker": "^2.8",
+    "maennchen/zipstream-php": "^3.1",
     "meilisearch/meilisearch-php": "^1.6.0",
     "opcodesio/log-viewer": "^3.1.11",
     "spatie/laravel-medialibrary": "^11.0.0",

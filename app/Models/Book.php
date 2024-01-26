@@ -68,7 +68,6 @@ class Book extends Model implements HasMedia
 
     protected $fillable = [
         'title',
-        'uuid',
         'slug_sort',
         'contributor',
         'description',
@@ -86,12 +85,15 @@ class Book extends Model implements HasMedia
         'serie_id',
         'publisher_id',
         'physical_path',
+        'extension',
+        'mime_type',
         'google_book_parsed_at',
     ];
 
     protected $appends = [
         'isbn',
         'volume_pad',
+        'download_link',
     ];
 
     protected $casts = [
@@ -115,18 +117,12 @@ class Book extends Model implements HasMedia
         // 'tags',
     ];
 
-    public function registerMediaCollections(): void
+    public function getDownloadLinkAttribute(): string
     {
-        $this->addMediaCollection('epub');
+        return route('downloads.show', [
+            'book_id' => $this->id,
+        ]);
     }
-
-    // public function getDirectDownloadUrlAttribute(): string
-    // {
-    //     return route('api.download.direct', [
-    //         'author_slug' => $this->authors->first()?->slug,
-    //         'book_slug' => $this->slug,
-    //     ]);
-    // }
 
     public function getIsbnAttribute(): ?string
     {
@@ -198,18 +194,14 @@ class Book extends Model implements HasMedia
             AllowedFilter::custom('q', new GlobalSearchFilter(['title', 'serie'])),
             AllowedFilter::exact('id'),
             AllowedFilter::partial('title'),
-            AllowedFilter::callback(
-                'serie',
-                fn (Builder $query, $value) => $query->whereHas(
-                    'serie',
+            AllowedFilter::callback('serie',
+                fn (Builder $query, $value) => $query->whereHas('serie',
                     fn (Builder $query) => $query->where('title', 'like', "%{$value}%")
                 )
             ),
             AllowedFilter::partial('volume'),
-            AllowedFilter::callback(
-                'authors',
-                fn (Builder $query, $value) => $query->whereHas(
-                    'authors',
+            AllowedFilter::callback('authors',
+                fn (Builder $query, $value) => $query->whereHas('authors',
                     fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
                 )
             ),
@@ -217,18 +209,14 @@ class Book extends Model implements HasMedia
             AllowedFilter::exact('released_on'),
             AllowedFilter::exact('type'),
             AllowedFilter::scope('types', 'whereTypesIs'),
-            AllowedFilter::callback(
-                'language',
-                fn (Builder $query, $value) => $query->whereHas(
-                    'language',
+            AllowedFilter::callback('language',
+                fn (Builder $query, $value) => $query->whereHas('language',
                     fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
                 )
             ),
             AllowedFilter::scope('languages', 'whereLanguagesIs'),
-            AllowedFilter::callback(
-                'publisher',
-                fn (Builder $query, $value) => $query->whereHas(
-                    'publisher',
+            AllowedFilter::callback('publisher',
+                fn (Builder $query, $value) => $query->whereHas('publisher',
                     fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
                 )
             ),

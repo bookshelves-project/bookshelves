@@ -23,10 +23,6 @@ class Audiobook extends Model
         'tags',
         'serie',
         'volume',
-        'path',
-        'filename',
-        'basename',
-        'extension',
         'format',
         'track_number',
         'comment',
@@ -38,6 +34,10 @@ class Audiobook extends Model
         'lyrics',
         'stik',
         'duration',
+        'physical_path',
+        'basename',
+        'extension',
+        'mime_type',
     ];
 
     protected $casts = [

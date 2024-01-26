@@ -6,6 +6,7 @@ use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Facades\Bookshelves;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Kiwilan\Steward\Utils\BashCommand;
 use Kiwilan\Steward\Utils\Json;
 use SplFileInfo;
@@ -73,6 +74,12 @@ class BookFileScanner
     {
         $name = "{$this->type->value}s";
         $scan_path = "{$this->path}";
+
+        if (! file_exists($scan_path)) {
+            Log::warning("BookFileScanner: {$name} path not found: {$scan_path}");
+
+            return [];
+        }
 
         if (Bookshelves::analyzerEngine() === 'native') {
             $files = File::allFiles($scan_path);

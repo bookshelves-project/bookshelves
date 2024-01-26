@@ -110,20 +110,13 @@ const props = defineProps<DetailsMedia>()
           </div>
         </div>
         <div class="mb-6 mt-8 flex items-center space-x-3">
-          <!-- <AppButton
-            v-if="!isGuest && file"
-            :href="file.download_url"
-            icon="download"
-            download
-          >
-            <span>Download</span>
-            <span class="ml-1">({{ bytesToHuman(file.size) }})</span>
-          </AppButton> -->
           <AppButton
+            :href="downloadUrl"
             icon="download"
             download
           >
             <span>Download</span>
+            <!-- <span class="ml-1">({{ bytesToHuman(file.size) }})</span> -->
           </AppButton>
           <slot name="buttons" />
         </div>

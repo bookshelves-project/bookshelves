@@ -50,7 +50,6 @@ class AudiobookJob implements ShouldQueue
 
         $book = new Book([
             'title' => $this->bookTitle,
-            'uuid' => uniqid(),
             'slug' => $first->slug,
             'slug_sort' => $first->slug_sort,
             'contributor' => $first->encoding,

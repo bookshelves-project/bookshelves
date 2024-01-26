@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Support\Facades\Log;
+use Kiwilan\Steward\Utils\Journal;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -25,7 +25,7 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            Log::error($e->getMessage());
+            Journal::handler($e);
         });
     }
 }

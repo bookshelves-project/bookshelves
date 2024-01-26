@@ -45,6 +45,7 @@ function ucfirst(string?: string) {
         book.isbn13 ? `ISBN-13: ${book.isbn13}` : undefined,
         book.language ? `${book.language.name}` : undefined,
       ]"
+      :download-url="book.download_link"
     >
       <template #breadcrumbs>
         <Breadcrumbs

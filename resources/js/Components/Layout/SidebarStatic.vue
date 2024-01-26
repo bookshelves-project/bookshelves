@@ -13,11 +13,11 @@ const { mainLinks, secondaryLinks } = useNavigation()
         class="flex h-16 shrink-0 items-center space-x-2"
         href="/"
       >
-        <Logo class="h-10 w-auto" />
+        <Logo class="h-8 w-auto" />
         <div class="relative">
           <SvgIcon
             name="logo-text"
-            class="h-8 w-auto"
+            class="h-7 w-auto"
           />
         </div>
       </ILink>

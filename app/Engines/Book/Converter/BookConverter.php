@@ -89,7 +89,6 @@ class BookConverter
         if (! $book) {
             $this->book = new Book([
                 'title' => $this->ebook->getTitle(),
-                'uuid' => uniqid(),
                 'slug' => $this->ebook->getMetaTitle()->getSlugLang(),
                 'slug_sort' => $this->ebook->getMetaTitle()->getSlugSortWithSerie(),
                 'contributor' => $this->ebook->getExtra('contributor'),
@@ -100,9 +99,11 @@ class BookConverter
                 'type' => $type,
                 'page_count' => $this->ebook->getPagesCount(),
                 'physical_path' => $this->ebook->getPath(),
+                'extension' => $this->ebook->getExtension(),
+                'mime_type' => mime_content_type($this->ebook->getPath()),
                 'isbn10' => $identifiers->get('isbn10') ?? null,
                 'isbn13' => $identifiers->get('isbn13') ?? null,
-                'identifiers' => json_encode($identifiers),
+                'identifiers' => $identifiers->toArray(),
             ]);
 
             Book::withoutSyncingToSearch(function () {
@@ -153,10 +154,6 @@ class BookConverter
             'tags' => $this->ebook->getTags(),
             'serie' => $this->ebook->getSeries(),
             'volume' => $this->ebook->getVolume(),
-            'path' => $this->ebook->getPath(),
-            'filename' => $this->ebook->getFilename(),
-            'basename' => $this->ebook->getBasename(),
-            'extension' => $this->ebook->getExtension(),
             'format' => $this->ebook->getFormat(),
             'track_number' => $parser['trackNumber'] ?? null,
             'comment' => $parser['comment'] ?? null,
@@ -168,6 +165,10 @@ class BookConverter
             'lyrics' => $parser['lyrics'] ?? null,
             'stik' => $parser['stik'] ?? null,
             'duration' => $parser['duration'] ?? null,
+            'physical_path' => $this->ebook->getPath(),
+            'basename' => $this->ebook->getBasename(),
+            'extension' => $this->ebook->getExtension(),
+            'mime_type' => mime_content_type($this->ebook->getPath()),
         ]);
 
         $cover = $this->ebook->getCover()->getContents();
@@ -267,7 +268,7 @@ class BookConverter
         Book::withoutSyncingToSearch(function () use ($identifiers) {
             $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
             $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
-            $this->book->identifiers = json_encode($identifiers);
+            $this->book->identifiers = $identifiers->toArray();
             $this->book->save();
         });
 
@@ -312,7 +313,7 @@ class BookConverter
         }
 
         if ($this->book->type === null) {
-            $this->book->type = $type;
+            $this->book->type = $type->value;
         }
 
         return $this;
