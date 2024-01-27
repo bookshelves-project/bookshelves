@@ -17,7 +17,6 @@ namespace App\Models{
  * @property int $id
  * @property string|null $title
  * @property string|null $slug
- * @property string|null $slug_sort
  * @property string|null $author_main
  * @property array|null $authors
  * @property array|null $narrators
@@ -75,7 +74,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook wherePublisher($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereSerie($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereSlugSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereStik($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereTags($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereTitle($value)
@@ -160,7 +158,6 @@ namespace App\Models{
  *
  * @property string $id
  * @property string $title
- * @property string|null $slug_sort
  * @property string $slug
  * @property string|null $contributor
  * @property string|null $description
@@ -260,7 +257,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereRights($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlugSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsAllIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
@@ -383,7 +379,6 @@ namespace App\Models{
  *
  * @property string $id
  * @property string $title
- * @property string|null $slug_sort
  * @property string $slug
  * @property string|null $language_slug
  * @property \App\Enums\BookTypeEnum $type
@@ -446,7 +441,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguagesIs(...$languages)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie whereSlugSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsAllIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsIs(...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)

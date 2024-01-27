@@ -51,7 +51,6 @@ class AudiobookJob implements ShouldQueue
         $book = new Book([
             'title' => $this->bookTitle,
             'slug' => $first->slug,
-            'slug_sort' => $first->slug_sort,
             'contributor' => $first->encoding,
             'released_on' => $first->publish_date,
             'description' => $first->description,
@@ -90,7 +89,7 @@ class AudiobookJob implements ShouldQueue
 
         SpatieMedia::make($book)
             ->addMediaFromString($contents)
-            ->name($book->slug_sort)
+            ->name($book->slug)
             ->extension(Bookshelves::imageFormat())
             ->collection(Bookshelves::imageCollection())
             ->disk(Bookshelves::imageDisk())

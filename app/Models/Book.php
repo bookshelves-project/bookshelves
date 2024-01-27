@@ -29,7 +29,6 @@ class Book extends Model implements HasMedia
     use HasAuthors;
     use HasBookFiles;
     use HasBookType;
-    use HasBookType;
     use HasCovers;
     use HasFactory;
     use HasLanguage;
@@ -45,14 +44,13 @@ class Book extends Model implements HasMedia
 
     protected $slug_with = 'title';
 
-    protected $query_default_sort = 'slug_sort';
+    protected $query_default_sort = 'slug';
 
     protected $query_default_sort_direction = 'asc';
 
     protected $query_allowed_sorts = [
         'id',
         'title',
-        'slug_sort',
         'type',
         'serie',
         'authors',
@@ -68,7 +66,6 @@ class Book extends Model implements HasMedia
 
     protected $fillable = [
         'title',
-        'slug_sort',
         'contributor',
         'description',
         'released_on',

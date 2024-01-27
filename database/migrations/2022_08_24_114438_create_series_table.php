@@ -15,7 +15,6 @@ return new class() extends Migration
             $table->ulid('id')->primary();
 
             $table->string('title');
-            $table->string('slug_sort')->nullable();
             $table->string('slug')->unique()->index();
             $table->string('type')->default('novel');
             $table->text('description')->nullable();

@@ -56,6 +56,7 @@ class SetupCommand extends Commandable
         $this->limit = $this->optionInt('limit');
 
         if ($this->fresh) {
+            Artisan::call(LogClearCommand::class);
             $this->clear();
             $this->setGenres();
         }

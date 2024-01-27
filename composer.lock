@@ -2798,16 +2798,16 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "2.3.0",
+            "version": "2.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "383e87b63be658d896edaba55a0f5c12373cbd80"
+                "reference": "2a6cfc47cdac44895e84b44b4f0c22aed7cbda5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/383e87b63be658d896edaba55a0f5c12373cbd80",
-                "reference": "383e87b63be658d896edaba55a0f5c12373cbd80",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/2a6cfc47cdac44895e84b44b4f0c22aed7cbda5a",
+                "reference": "2a6cfc47cdac44895e84b44b4f0c22aed7cbda5a",
                 "shasum": ""
             },
             "require": {
@@ -2870,7 +2870,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/v2.3.0"
+                "source": "https://github.com/kiwilan/php-ebook/tree/v2.3.11"
             },
             "funding": [
                 {
@@ -2878,7 +2878,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-01-22T15:42:54+00:00"
+            "time": "2024-01-27T17:32:18+00:00"
         },
         {
             "name": "kiwilan/php-http-pool",
@@ -3075,12 +3075,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "8e9ea2f4278d5eb4bd7f89a8a8c79117721678b9"
+                "reference": "d43bd826a359068440ba68cc9fa4647c6eb3d797"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/8e9ea2f4278d5eb4bd7f89a8a8c79117721678b9",
-                "reference": "8e9ea2f4278d5eb4bd7f89a8a8c79117721678b9",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/d43bd826a359068440ba68cc9fa4647c6eb3d797",
+                "reference": "d43bd826a359068440ba68cc9fa4647c6eb3d797",
                 "shasum": ""
             },
             "require": {
@@ -3156,7 +3156,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2024-01-26T17:12:08+00:00"
+            "time": "2024-01-27T10:03:41+00:00"
         },
         {
             "name": "kiwilan/typescriptable-laravel",
@@ -4331,16 +4331,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.23.0",
+            "version": "3.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "d4ad81e2b67396e33dc9d7e54ec74ccf73151dcc"
+                "reference": "199e1aebbe3e62bd39f4d4fc8c61ce0b3786197e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/d4ad81e2b67396e33dc9d7e54ec74ccf73151dcc",
-                "reference": "d4ad81e2b67396e33dc9d7e54ec74ccf73151dcc",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/199e1aebbe3e62bd39f4d4fc8c61ce0b3786197e",
+                "reference": "199e1aebbe3e62bd39f4d4fc8c61ce0b3786197e",
                 "shasum": ""
             },
             "require": {
@@ -4405,7 +4405,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.23.0"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.23.1"
             },
             "funding": [
                 {
@@ -4417,20 +4417,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-12-04T10:16:17+00:00"
+            "time": "2024-01-26T18:42:03+00:00"
         },
         {
             "name": "league/flysystem-local",
-            "version": "3.23.0",
+            "version": "3.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-local.git",
-                "reference": "5cf046ba5f059460e86a997c504dd781a39a109b"
+                "reference": "b884d2bf9b53bb4804a56d2df4902bb51e253f00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/5cf046ba5f059460e86a997c504dd781a39a109b",
-                "reference": "5cf046ba5f059460e86a997c504dd781a39a109b",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/b884d2bf9b53bb4804a56d2df4902bb51e253f00",
+                "reference": "b884d2bf9b53bb4804a56d2df4902bb51e253f00",
                 "shasum": ""
             },
             "require": {
@@ -4465,7 +4465,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem-local/issues",
-                "source": "https://github.com/thephpleague/flysystem-local/tree/3.23.0"
+                "source": "https://github.com/thephpleague/flysystem-local/tree/3.23.1"
             },
             "funding": [
                 {
@@ -4477,7 +4477,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-12-04T10:14:46+00:00"
+            "time": "2024-01-26T18:25:23+00:00"
         },
         {
             "name": "league/html-to-markdown",

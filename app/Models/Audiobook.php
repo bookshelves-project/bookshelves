@@ -4,15 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kiwilan\Steward\Traits\HasSlug;
 
 class Audiobook extends Model
 {
     use HasFactory;
+    use HasSlug;
+
+    protected $slugWith = 'title';
 
     protected $fillable = [
         'title',
-        'slug',
-        'slug_sort',
         'author_main',
         'authors',
         'narrators',

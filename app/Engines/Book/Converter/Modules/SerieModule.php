@@ -26,8 +26,7 @@ class SerieModule
 
         return new Serie([
             'title' => $serie,
-            'slug_sort' => $meta->getSerieSlugSort(),
-            'slug' => $meta->getSerieSlugLang(),
+            'slug' => $meta->getSeriesSlug(),
             'type' => $type,
         ]);
     }
@@ -38,14 +37,13 @@ class SerieModule
     public static function toModel(Ebook $ebook, BookTypeEnum $type): self
     {
         $self = new self();
-        $serie = Serie::whereSlug($ebook->getMetaTitle()->getSerieSlug())->first();
+        $serie = Serie::whereSlug($ebook->getMetaTitle()->getSeriesSlug())->first();
 
         if (! $serie && $ebook->getSeries()) {
             $serie = Serie::withoutSyncingToSearch(function () use ($ebook, $type) {
                 return Serie::query()->firstOrCreate([
                     'title' => $ebook->getSeries(),
-                    'slug_sort' => $ebook->getMetaTitle()->getSerieSlugSort(),
-                    'slug' => $ebook->getMetaTitle()->getSerieSlugLang(),
+                    'slug' => $ebook->getMetaTitle()->getSeriesSlug(),
                     'type' => $type,
                 ]);
             });

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->string('slug')->nullable();
-            $table->string('slug_sort')->nullable();
             $table->string('author_main')->nullable();
             $table->json('authors')->nullable();
             $table->json('narrators')->nullable();

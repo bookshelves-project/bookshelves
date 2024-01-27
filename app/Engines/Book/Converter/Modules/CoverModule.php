@@ -37,7 +37,7 @@ class CoverModule
         Book::withoutSyncingToSearch(function () use ($book, $contents) {
             SpatieMedia::make($book)
                 ->addMediaFromString($contents)
-                ->name($book->slug_sort)
+                ->name($book->slug)
                 ->extension(Bookshelves::imageFormat())
                 ->collection(Bookshelves::imageCollection())
                 ->disk(Bookshelves::imageDisk())

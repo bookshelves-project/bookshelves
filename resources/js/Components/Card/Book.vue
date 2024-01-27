@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useFetch, useRouter } from '@kiwilan/typescriptable-laravel'
+
 interface Props {
   book: App.Models.Book
   square: boolean
@@ -32,7 +34,7 @@ withDefaults(defineProps<Props>(), {
         v-if="book.serie"
         class="text-xs text-gray-200 line-clamp-1"
       >
-        {{ book.serie.title }} {{ book.volume_pad }}
+        {{ book.serie.title }} #{{ book.volume_pad }}
       </p>
       <p class="line-clamp-1 text-sm text-gray-400">
         {{ book.authors?.map((author) => author.name).join(', ') }}

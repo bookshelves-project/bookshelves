@@ -44,7 +44,7 @@ class Serie extends Model implements HasMedia
     use IsEntity;
     use Queryable;
 
-    protected $query_default_sort = 'slug_sort';
+    protected $query_default_sort = 'slug';
 
     protected $query_default_sort_direction = 'asc';
 
@@ -63,7 +63,6 @@ class Serie extends Model implements HasMedia
 
     protected $fillable = [
         'title',
-        'slug_sort',
         'slug',
         'description',
         'link',
@@ -104,7 +103,7 @@ class Serie extends Model implements HasMedia
 
     public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
     {
-        return $query->where('slug_sort', 'like', "{$character}%");
+        return $query->where('slug', 'like', "{$character}%");
     }
 
     public function books(): HasMany

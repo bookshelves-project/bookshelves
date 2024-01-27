@@ -61,6 +61,6 @@ class EntityService
         $relatedBooks = $relatedBooks->load(['language']);
 
         // sort entities
-        return $relatedBooks->sortBy('slug_sort');
+        return $relatedBooks->sortBy('slug');
     }
 }

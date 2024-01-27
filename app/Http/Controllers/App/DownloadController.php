@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Audiobook;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Kiwilan\Steward\Utils\Downloader\Downloader;
 use Kiwilan\Steward\Utils\Downloader\DownloaderZipStreamItem;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -18,18 +19,26 @@ class DownloadController extends Controller
     #[Get('/{book_id}', name: 'downloads.show')]
     public function show(Request $request, Book $book)
     {
-        ray(file_exists($book->physical_path));
+        /** @var ?BookTypeEnum $type */
+        $type = $book->type;
 
-        return response()
-            ->download($book->physical_path, "{$book->slug_sort}.{$book->extension}");
+        $serie = $book->serie?->name ?? '';
+        $volume = $book->volume ?? '';
+        if ($serie) {
+            $serie = Str::slug("{$serie}-{$volume}");
+        }
+        $author = $book->authorMain?->name ?? '';
+        $name = Str::slug("{$serie}-{$book->slug}-{$author}-{$type->value}");
 
-        if ($book->type !== BookTypeEnum::audiobook) {
-            return response()
-                ->download($book->physical_path, "{$book->slug_sort}.{$book->extension}");
-            // Downloader::direct($book->physical_path)
-            //     ->mimeType($book->mime_type)
-            //     ->name("{$book->slug_sort}.{$book->extension}")
-            //     ->get();
+        ray($book->type);
+        ray(BookTypeEnum::audiobook);
+        if ($type !== BookTypeEnum::audiobook) {
+            Downloader::direct($book->physical_path)
+                ->mimeType($book->mime_type)
+                ->name("{$name}.{$book->extension}")
+                ->get();
+
+            return;
         }
 
         $audiobooks = $book->audiobooks;
@@ -37,7 +46,7 @@ class DownloadController extends Controller
             ->map(fn (Audiobook $audiobook) => new DownloaderZipStreamItem($audiobook->basename, $audiobook->physical_path))
             ->toArray();
 
-        Downloader::stream($audiobooks->first()->physical_path)
+        Downloader::stream($name)
             ->files($files)
             ->get();
     }
@@ -45,9 +54,21 @@ class DownloadController extends Controller
     #[Get('/size/{book_id}', name: 'downloads.size')]
     public function size(Request $request, Book $book)
     {
-        ray($book);
-        // return $this->getQueryForBooks($request, Book::whereIsBook(), 'Books', [
-        //     ['label' => 'Books', 'route' => ['name' => 'books.index']],
-        // ]);
+        /** @var ?BookTypeEnum $type */
+        $type = $book->type;
+
+        if ($type !== BookTypeEnum::audiobook) {
+            $size = filesize($book->physical_path);
+        } else {
+            $audiobooks = $book->audiobooks;
+            $size = $audiobooks
+                ->map(fn (Audiobook $audiobook) => filesize($audiobook->physical_path))
+                ->sum();
+        }
+
+        return response()->json([
+            'extension' => $type === BookTypeEnum::audiobook ? 'zip' : $book->extension,
+            'size' => $size,
+        ]);
     }
 }

@@ -89,8 +89,7 @@ class BookConverter
         if (! $book) {
             $this->book = new Book([
                 'title' => $this->ebook->getTitle(),
-                'slug' => $this->ebook->getMetaTitle()->getSlugLang(),
-                'slug_sort' => $this->ebook->getMetaTitle()->getSlugSortWithSerie(),
+                'slug' => $this->ebook->getMetaTitle()->getSlug(),
                 'contributor' => $this->ebook->getExtra('contributor'),
                 'released_on' => $this->ebook->getPublishDate()?->format('Y-m-d'),
                 'description' => $this->ebook->getDescription(2000),
@@ -143,8 +142,7 @@ class BookConverter
 
         $this->audiobook = Audiobook::query()->create([
             'title' => $this->ebook->getTitle(),
-            'slug' => $this->ebook->getMetaTitle()->getSerieSlug(),
-            'slug_sort' => $this->ebook->getMetaTitle()->getSerieSlugSort(),
+            'slug' => $this->ebook->getMetaTitle()->getSeriesSlug(),
             'authors' => $authors,
             'author_main' => $authors[0] ?? null,
             'narrators' => array_map(fn ($author) => $author->getName(), $this->ebook->getAuthors()),
@@ -288,8 +286,8 @@ class BookConverter
             return $this;
         }
 
-        if (! $this->book->slug_sort && $this->ebook->getSeries() && ! $this->book->serie) {
-            $this->book->slug_sort = $this->ebook->getMetaTitle()->getSerieSlugSort();
+        if (! $this->book->slug && $this->ebook->getSeries() && ! $this->book->serie) {
+            $this->book->slug = $this->ebook->getMetaTitle()->getSlug();
         }
 
         if (! $this->book->contributor) {

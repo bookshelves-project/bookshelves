@@ -16,29 +16,19 @@ export interface DetailsMedia {
   badges?: Array<string | number | undefined>
   tags?: App.Models.Tag[]
   downloadUrl?: string
+  downloadSize?: string
+  download?: {
+    url?: string
+    size?: string
+    extension?: string
+  }
+  breadcrumbs?: any[]
 }
 
 const props = defineProps<DetailsMedia>()
 
 type Display = 'media' | 'crew' | 'metadata'
 const display = ref<Display>('media')
-const tabs: { name: Display, label?: string, displayed: boolean }[] = [
-  {
-    name: 'media',
-    label: props.type,
-    displayed: true,
-  },
-  // {
-  //   name: 'crew',
-  //   label: 'Crew & production',
-  //   displayed: (props.model?.members && props.model?.members.length > 0) ?? false,
-  // },
-  // {
-  //   name: 'metadata',
-  //   label: 'Metadata',
-  //   displayed: (props.file !== undefined && props.file.metadata !== null) ?? false,
-  // },
-]
 </script>
 
 <template>
@@ -50,31 +40,10 @@ const tabs: { name: Display, label?: string, displayed: boolean }[] = [
     />
     <div class="main-container relative z-10 py-6">
       <slot name="breadcrumbs" />
-      <div class="block mt-6">
-        <div class="border-b border-gray-600">
-          <nav
-            class="-mb-px flex space-x-8"
-            aria-label="Tabs"
-          >
-            <div
-              v-for="tab in tabs"
-              :key="tab.label"
-            >
-              <button
-                v-if="tab.displayed"
-                :class="{
-                  'tab-active': display === tab.name,
-                  'tab-inactive': display !== tab.name,
-                }"
-                class="tab"
-                @click="display = tab.name"
-              >
-                {{ tab.label }}
-              </button>
-            </div>
-          </nav>
-        </div>
-      </div>
+      <Breadcrumbs
+        v-if="breadcrumbs"
+        :breadcrumbs="breadcrumbs"
+      />
       <Transition
         name="fade"
         mode="out-in"

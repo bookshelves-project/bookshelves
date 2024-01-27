@@ -1,18 +1,16 @@
 <script lang="ts" setup>
-import { useDate, useInertia } from '@kiwilan/typescriptable-laravel'
 import type { DetailsMedia } from './Container.vue'
 
-// import type { DetailsMedia } from '../Index.vue'
-// import { useUtils } from '@/Composables/useUtils'
-// import { useMembers } from '@/Composables/useMembers'
-
 const props = defineProps<DetailsMedia>()
-
-// const { page } = useInertia()
-// const { popularityFormat, bytesToHuman } = useUtils()
-// const { actors } = useMembers(props.model?.members)
-
-// const isGuest = page.props.auth.user.role === 'guest'
+const propertiesList = computed(() => {
+  return props.properties?.filter(property => property)
+})
+const badgesList = computed(() => {
+  return props.badges?.filter(badge => badge)
+})
+const tagsList = computed(() => {
+  return props.tags?.filter(tag => tag)
+})
 </script>
 
 <template>
@@ -47,24 +45,27 @@ const props = defineProps<DetailsMedia>()
               <slot name="undertitle" />
               {{ undertitle }}
             </div>
-            <div class="mt-4 text-sm">
+            <div
+              v-if="propertiesList?.length || badgesList?.length"
+              class="mt-4 text-sm"
+            >
               <div
-                v-if="properties"
+                v-if="propertiesList"
                 class="flex flex-wrap gap-3"
               >
                 <span
-                  v-for="property in properties.filter(property => property)"
+                  v-for="property in propertiesList"
                   :key="property"
                 >
                   {{ property }}
                 </span>
               </div>
               <div
-                v-if="badges"
+                v-if="badgesList"
                 class="mt-3 flex flex-wrap gap-3"
               >
                 <AppBadge
-                  v-for="badge in badges.filter(badge => badge)"
+                  v-for="badge in badgesList"
                   :key="badge"
                 >
                   {{ badge }}
@@ -72,10 +73,10 @@ const props = defineProps<DetailsMedia>()
               </div>
             </div>
             <div
-              v-if="tags"
+              v-if="tagsList?.length"
               class="mt-3 text-sm"
             >
-              <ShowTags :tags="tags" />
+              <ShowTags :tags="tagsList" />
             </div>
             <div class="mt-5 flex items-center space-x-3 text-sm">
               <!-- <a
@@ -91,32 +92,22 @@ const props = defineProps<DetailsMedia>()
                   class="h-4 w-4 text-green-500"
                 />
                 <span>{{ popularityFormat(popularity) }} on TMDB</span>
-              </a>
-              <a
-                v-if="imdbId"
-                class="flex items-center space-x-2 link"
-                title="IMDB"
-                :href="`https://www.imdb.com/title/${imdbId}`"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <SvgIcon
-                  name="imdb"
-                  class="w-6"
-                />
-                <span>IMDB</span>
               </a> -->
             </div>
           </div>
         </div>
-        <div class="mb-6 mt-8 flex items-center space-x-3">
+        <div
+          v-if="download && download?.url"
+          class="mb-6 mt-8 flex items-center space-x-3"
+        >
           <AppButton
-            :href="downloadUrl"
+            :href="download.url"
             icon="download"
             download
           >
             <span>Download</span>
-            <!-- <span class="ml-1">({{ bytesToHuman(file.size) }})</span> -->
+            <span class="uppercase ml-1">{{ download.extension }}</span>
+            <span class="ml-1">({{ download.size }})</span>
           </AppButton>
           <slot name="buttons" />
         </div>

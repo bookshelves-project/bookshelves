@@ -88,7 +88,7 @@ class Author extends Model implements HasMedia
     public function books(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Book::class, 'authorable')
-            ->orderBy('slug_sort')
+            ->orderBy('slug')
             ->orderBy('volume');
     }
 
@@ -98,7 +98,7 @@ class Author extends Model implements HasMedia
     public function series(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Serie::class, 'authorable')
-            ->orderBy('slug_sort')
+            ->orderBy('slug')
             ->withCount('books');
     }
 

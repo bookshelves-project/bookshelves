@@ -25,7 +25,7 @@ class Controller extends BaseController
     {
         $query = HttpQuery::for($model, $request)
             ->with(['authors', 'serie', 'tags', 'media'])
-            ->defaultSort('slug_sort')
+            ->defaultSort('slug')
             ->inertia();
 
         return inertia('Books/Index', [
@@ -40,7 +40,7 @@ class Controller extends BaseController
     {
         $query = HttpQuery::for($model, $request)
             ->with(['authors', 'tags', 'media'])
-            ->defaultSort('slug_sort')
+            ->defaultSort('slug')
             ->inertia();
 
         return inertia('Series/Index', [

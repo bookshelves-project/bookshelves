@@ -23,16 +23,9 @@ const mainLinks: Link[] = [
 ]
 
 const secondaryLinks: Link[] = [
-  // { label: 'Help', icon: 'info', route: { name: 'pages.help' } },
-  // { label: 'Ask Movie/TV show', icon: 'question-mark', route: { name: 'form.demand' } },
-  // { label: 'Bug report', icon: 'bug', route: { name: 'form.message' } },
 ]
 
 const profileLinks: Link[] = [
-  // { label: 'Profile', icon: 'user', route: { name: 'profile.show' } },
-  // { label: 'Pulse', icon: 'pulse', url: '/pulse', restrictedRoles: ['super_admin'] },
-  // { label: 'Logs', icon: 'log', url: '/log-viewer', restrictedRoles: ['super_admin'] },
-  // { label: 'Admin', icon: 'lock', url: '/admin', restrictedRoles: ['super_admin'] },
 ]
 
 export function useNavigation() {
