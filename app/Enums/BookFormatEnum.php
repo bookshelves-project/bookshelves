@@ -2,6 +2,9 @@
 
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
+use Filament\Support\Contracts\HasLabel;
 use Kiwilan\Steward\Traits\LazyEnum;
 
 /**
@@ -17,7 +20,7 @@ use Kiwilan\Steward\Traits\LazyEnum;
  * ```
  * For `download` link, the last value will be the first possibility.
  */
-enum BookFormatEnum: string
+enum BookFormatEnum: string implements HasColor, HasIcon, HasLabel
 {
     use LazyEnum;
 
@@ -30,4 +33,44 @@ enum BookFormatEnum: string
     case cba = 'cba';
 
     case epub = 'epub';
+
+    public static function fromExtension(string $extension): static
+    {
+        return match ($extension) {
+            'mp3', 'm4b' => self::audio,
+            'pdf' => self::pdf,
+            'cb7', 'cba', 'cbr', 'cbt', 'cbz' => self::cba,
+            'epub' => self::epub,
+            default => self::unknown,
+        };
+    }
+
+    public function getColor(): string|array|null
+    {
+        return match ($this) {
+            self::audio => 'info',
+            self::cba => 'warning',
+            self::epub => 'success',
+            self::pdf => 'danger',
+            default => 'primary',
+        };
+    }
+
+    public function getLabel(): ?string
+    {
+        return match ($this) {
+            default => ucfirst($this->value),
+        };
+    }
+
+    public function getIcon(): ?string
+    {
+        return match ($this) {
+            self::audio => 'heroicon-o-musical-note',
+            self::cba => 'heroicon-o-document',
+            self::epub => 'heroicon-o-book-open',
+            self::pdf => 'heroicon-o-document',
+            default => 'heroicon-o-document',
+        };
+    }
 }

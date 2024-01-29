@@ -22,7 +22,7 @@ namespace App\Models{
  * @property array|null $narrators
  * @property string|null $description
  * @property string|null $publisher
- * @property string|null $publish_date
+ * @property \Illuminate\Support\Carbon|null $publish_date
  * @property string|null $language
  * @property array|null $tags
  * @property string|null $serie
@@ -42,6 +42,7 @@ namespace App\Models{
  * @property string|null $basename
  * @property string|null $extension
  * @property string|null $mime_type
+ * @property \Illuminate\Support\Carbon|null $added_at
  * @property string|null $book_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -49,6 +50,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereAddedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereAuthorMain($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereAuthors($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereBasename($value)
@@ -162,7 +164,8 @@ namespace App\Models{
  * @property string|null $contributor
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $released_on
- * @property array|null $narrators
+ * @property array|null $audiobook_narrators
+ * @property array|null $audiobook_chapters
  * @property string|null $rights
  * @property string|null $serie_id
  * @property string|null $author_main_id
@@ -173,6 +176,7 @@ namespace App\Models{
  * @property bool $is_maturity_rating
  * @property bool $is_hidden
  * @property \App\Enums\BookTypeEnum|null $type
+ * @property \App\Enums\BookFormatEnum|null $format
  * @property string|null $isbn10
  * @property string|null $isbn13
  * @property array|null $identifiers
@@ -180,6 +184,7 @@ namespace App\Models{
  * @property string|null $physical_path
  * @property string|null $extension
  * @property string|null $mime_type
+ * @property \Illuminate\Support\Carbon|null $added_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Audiobook> $audiobooks
@@ -228,6 +233,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Book publishedBetween(string $startDate, string $endDate)
  * @method static \Illuminate\Database\Eloquent\Builder|Book query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereAddedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereAudiobookChapters($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereAudiobookNarrators($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereAuthorIsLike(string $author)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereAuthorMainId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereContributor($value)
@@ -235,6 +243,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereDisallowSerie(string $has_not_serie)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereExtension($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereFormat($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereGoogleBookParsedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereIdentifiers($value)
@@ -249,7 +258,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguageSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereLanguagesIs(...$languages)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereMimeType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereNarrators($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePageCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePhysicalPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePublisherId($value)

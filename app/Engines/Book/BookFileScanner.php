@@ -109,23 +109,7 @@ class BookFileScanner
             }
 
             $extension = pathinfo($path, PATHINFO_EXTENSION);
-            $format = BookFormatEnum::unknown;
-
-            if (in_array($extension, ['cb7', 'cba', 'cbr', 'cbt', 'cbz'])) {
-                $format = BookFormatEnum::cba;
-            }
-
-            if (in_array($extension, ['epub'])) {
-                $format = BookFormatEnum::epub;
-            }
-
-            if (in_array($extension, ['pdf'])) {
-                $format = BookFormatEnum::pdf;
-            }
-
-            if (in_array($extension, ['mp3', 'm4b'])) {
-                $format = BookFormatEnum::audio;
-            }
+            $format = BookFormatEnum::fromExtension($extension);
 
             if (! array_key_exists($format->value, $this->formatsEnum)) {
                 continue;

@@ -54,10 +54,12 @@ class AudiobookJob implements ShouldQueue
             'contributor' => $first->encoding,
             'released_on' => $first->publish_date,
             'description' => $first->description,
-            'narrators' => $first->narrators,
+            'audiobook_narrators' => $first->narrators,
+            'audiobook_chapters' => count($audiobooks),
             'rights' => $first->stik,
             'volume' => $this->bookVolume,
             'type' => BookTypeEnum::audiobook,
+            'added_at' => $first->comment,
         ]);
 
         Book::withoutSyncingToSearch(function () use ($book, $audiobooks) {

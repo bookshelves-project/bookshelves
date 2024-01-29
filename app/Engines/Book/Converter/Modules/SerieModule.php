@@ -8,7 +8,7 @@ use App\Facades\Bookshelves;
 use App\Models\Book;
 use App\Models\Serie;
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Ebook\Tools\MetaTitle;
+use Kiwilan\Ebook\Models\MetaTitle;
 use Kiwilan\Steward\Utils\SpatieMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 

@@ -40,6 +40,7 @@ class Audiobook extends Model
         'basename',
         'extension',
         'mime_type',
+        'added_at',
     ];
 
     protected $casts = [
@@ -49,6 +50,8 @@ class Audiobook extends Model
         'volume' => 'integer',
         'is_compilation' => 'boolean',
         'duration' => 'float',
+        'publish_date' => 'date',
+        'added_at' => 'datetime',
     ];
 
     public function book(): \Illuminate\Database\Eloquent\Relations\HasOne

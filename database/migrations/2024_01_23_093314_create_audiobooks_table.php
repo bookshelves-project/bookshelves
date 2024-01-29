@@ -20,7 +20,7 @@ return new class extends Migration
             $table->json('narrators')->nullable();
             $table->text('description')->nullable();
             $table->string('publisher')->nullable();
-            $table->string('publish_date')->nullable();
+            $table->date('publish_date')->nullable();
             $table->string('language')->nullable();
             $table->json('tags')->nullable();
             $table->string('serie')->nullable();
@@ -42,6 +42,7 @@ return new class extends Migration
             $table->string('basename')->nullable();
             $table->string('extension')->nullable();
             $table->string('mime_type')->nullable();
+            $table->dateTime('added_at')->nullable();
 
             $table->foreignUlid('book_id')
                 ->nullable()

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BookFormatEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
 use App\Traits\HasBookType;
@@ -69,12 +70,14 @@ class Book extends Model implements HasMedia
         'contributor',
         'description',
         'released_on',
-        'narrators',
+        'audiobook_narrators',
+        'audiobook_chapters',
         'rights',
         'volume',
         'page_count',
         'is_maturity_rating',
         'is_hidden',
+        'format',
         'isbn10',
         'isbn13',
         'identifiers',
@@ -85,6 +88,7 @@ class Book extends Model implements HasMedia
         'extension',
         'mime_type',
         'google_book_parsed_at',
+        'added_at',
     ];
 
     protected $appends = [
@@ -94,14 +98,17 @@ class Book extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'released_on' => 'datetime',
-        'narrators' => 'array',
+        'released_on' => 'date',
+        'audiobook_narrators' => 'array',
+        'audiobook_chapters' => 'array',
         'is_hidden' => 'boolean',
+        'format' => BookFormatEnum::class,
         'identifiers' => 'array',
         'volume' => 'integer',
         'page_count' => 'integer',
         'is_maturity_rating' => 'boolean',
         'google_book_parsed_at' => 'datetime',
+        'added_at' => 'datetime',
     ];
 
     protected $with = [

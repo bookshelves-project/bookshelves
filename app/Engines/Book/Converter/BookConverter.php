@@ -9,6 +9,7 @@ use App\Engines\Book\Converter\Modules\LanguageModule;
 use App\Engines\Book\Converter\Modules\PublisherModule;
 use App\Engines\Book\Converter\Modules\SerieModule;
 use App\Engines\Book\Converter\Modules\TagModule;
+use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Models\Audiobook;
 use App\Models\Book;
@@ -95,6 +96,7 @@ class BookConverter
                 'description' => $this->ebook->getDescription(2000),
                 'rights' => $this->ebook->getCopyright(255),
                 'volume' => $this->ebook->getVolume(),
+                'format' => BookFormatEnum::fromExtension($this->ebook->getExtension()),
                 'type' => $type,
                 'page_count' => $this->ebook->getPagesCount(),
                 'physical_path' => $this->ebook->getPath(),
@@ -103,6 +105,7 @@ class BookConverter
                 'isbn10' => $identifiers->get('isbn10') ?? null,
                 'isbn13' => $identifiers->get('isbn13') ?? null,
                 'identifiers' => $identifiers->toArray(),
+                'added_at' => $this->ebook->getCreatedAt(),
             ]);
 
             Book::withoutSyncingToSearch(function () {
@@ -129,7 +132,6 @@ class BookConverter
 
     private function parseAudiobook(): self
     {
-        $parser = $this->ebook->getParser()?->getAudiobook()?->getAudio();
         $authors = [];
         if (str_contains($this->ebook->getPublisher(), ',')) {
             $authors = explode(',', $this->ebook->getPublisher());
@@ -153,20 +155,21 @@ class BookConverter
             'serie' => $this->ebook->getSeries(),
             'volume' => $this->ebook->getVolume(),
             'format' => $this->ebook->getFormat(),
-            'track_number' => $parser['trackNumber'] ?? null,
-            'comment' => $parser['comment'] ?? null,
-            'creation_date' => $parser['creationDate'] ?? null,
-            'composer' => $parser['composer'] ?? null,
-            'disc_number' => $parser['discNumber'] ?? null,
-            'is_compilation' => $parser['isCompilation'] ?? null,
-            'encoding' => $parser['encoding'] ?? null,
-            'lyrics' => $parser['lyrics'] ?? null,
-            'stik' => $parser['stik'] ?? null,
-            'duration' => $parser['duration'] ?? null,
+            'track_number' => $this->ebook->getExtra('trackNumber'),
+            'comment' => $this->ebook->getExtra('comment'),
+            'creation_date' => $this->ebook->getExtra('creationDate'),
+            'composer' => $this->ebook->getExtra('composer'),
+            'disc_number' => $this->ebook->getExtra('discNumber'),
+            'is_compilation' => $this->ebook->getExtra('isCompilation'),
+            'encoding' => $this->ebook->getExtra('encoding'),
+            'lyrics' => $this->ebook->getExtra('lyrics'),
+            'stik' => $this->ebook->getExtra('stik'),
+            'duration' => $this->ebook->getExtra('duration'),
             'physical_path' => $this->ebook->getPath(),
             'basename' => $this->ebook->getBasename(),
             'extension' => $this->ebook->getExtension(),
             'mime_type' => mime_content_type($this->ebook->getPath()),
+            'added_at' => $this->ebook->getCreatedAt(),
         ]);
 
         $cover = $this->ebook->getCover()->getContents();
