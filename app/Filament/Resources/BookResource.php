@@ -66,28 +66,43 @@ class BookResource extends Resource
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('serie.title')
                     ->suffix(fn (Book $record) => " #{$record->volume_pad}")
+                    ->sortable()
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->sortable()
                     ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('format')
                     ->badge()
+                    ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('extension')
+                    ->badge()
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('released_on')
                     ->dateTime('d/m/Y')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->limit(50)
                     ->searchable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('isbn')
+                Tables\Columns\TextColumn::make('isbn10')
+                    ->badge()
+                    ->searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('isbn13')
                     ->badge()
                     ->searchable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('language.name')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('publisher.name')
                     ->searchable()
@@ -118,6 +133,11 @@ class BookResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 
     public static function getPages(): array

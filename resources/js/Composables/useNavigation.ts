@@ -23,6 +23,7 @@ const mainLinks: Link[] = [
 ]
 
 const secondaryLinks: Link[] = [
+  { label: 'Help', icon: 'info', route: { name: 'pages.help' } },
 ]
 
 const profileLinks: Link[] = [

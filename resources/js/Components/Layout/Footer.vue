@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { useInertia, useRouter } from '@kiwilan/typescriptable-laravel'
 
-const beginYear = 2023
+const beginYear = 2021
 const currentYear = new Date().getFullYear()
 
 const year = currentYear > beginYear ? `${beginYear} - ${currentYear}` : beginYear
 
 const { page } = useInertia()
-const { route } = useRouter()
 </script>
 
 <template>

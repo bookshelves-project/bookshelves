@@ -3,7 +3,6 @@
 namespace App\Engines\Book\Converter\Modules;
 
 use App\Enums\BookTypeEnum;
-use App\Enums\MediaDiskEnum;
 use App\Facades\Bookshelves;
 use App\Models\Book;
 use App\Models\Serie;
@@ -15,8 +14,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class SerieModule
 {
     protected ?Serie $serie = null;
-
-    // public const DISK = MediaDiskEnum::cover;
 
     public static function make(?string $serie, MetaTitle $meta, BookTypeEnum $type): ?Serie
     {
@@ -37,9 +34,18 @@ class SerieModule
     public static function toModel(Ebook $ebook, BookTypeEnum $type): self
     {
         $self = new self();
-        $serie = Serie::whereSlug($ebook->getMetaTitle()->getSeriesSlug())->first();
+        $serie = Serie::query()
+            ->where('slug', $ebook->getMetaTitle()->getSeriesSlug())
+            ->where('type', $type)
+            ->first();
 
-        if (! $serie && $ebook->getSeries()) {
+        if ($serie) {
+            $self->serie = $serie;
+
+            return $self;
+        }
+
+        if ($ebook->getSeries()) {
             $serie = Serie::withoutSyncingToSearch(function () use ($ebook, $type) {
                 return Serie::query()->firstOrCreate([
                     'title' => $ebook->getSeries(),

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Engines\Book\Converter\BookConverter;
+use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Facades\Bookshelves;
 use App\Models\Audiobook;
@@ -59,6 +60,7 @@ class AudiobookJob implements ShouldQueue
             'rights' => $first->stik,
             'volume' => $this->bookVolume,
             'type' => BookTypeEnum::audiobook,
+            'format' => BookFormatEnum::fromExtension($first->extension),
             'added_at' => $first->comment,
         ]);
 

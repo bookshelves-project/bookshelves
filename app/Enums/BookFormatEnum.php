@@ -59,7 +59,11 @@ enum BookFormatEnum: string implements HasColor, HasIcon, HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            default => ucfirst($this->value),
+            self::audio => 'AUDIO',
+            self::cba => 'CBA',
+            self::epub => 'EPUB',
+            self::pdf => 'PDF',
+            default => 'Unknown',
         };
     }
 
@@ -67,8 +71,8 @@ enum BookFormatEnum: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::audio => 'heroicon-o-musical-note',
-            self::cba => 'heroicon-o-document',
-            self::epub => 'heroicon-o-book-open',
+            self::cba => 'heroicon-o-archive-box',
+            self::epub => 'heroicon-o-archive-box',
             self::pdf => 'heroicon-o-document',
             default => 'heroicon-o-document',
         };

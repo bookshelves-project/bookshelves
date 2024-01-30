@@ -47,6 +47,11 @@ return [
     'pdf' => [
         'cover' => env('BOOKSHELVES_PDF_COVER', true),
     ],
+
+    'notification' => [
+        'discord_webhook' => env('BOOKSHELVES_NOTIFICATION_DISCORD_WEBHOOK', false),
+    ],
+
     /*
      * Langs
      * ParserEngine will create Language with translations from Locale

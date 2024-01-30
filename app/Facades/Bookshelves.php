@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array{width: int, height: int} imageCoverStandard()
  * @method static array{width: int, height: int} imageCoverThumbnail()
  * @method static array{width: int, height: int} imageCoverSocial()
+ * @method static ?string notificationDiscordWebhook()
  */
 class Bookshelves extends Facade
 {
