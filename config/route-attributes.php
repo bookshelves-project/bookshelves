@@ -13,6 +13,12 @@ return [
      * Optionally, you can specify group configuration by using key/values
      */
     'directories' => [
+        app_path('Http/Controllers/Api') => [
+            'prefix' => 'api',
+            'middleware' => [
+                'api',
+            ],
+        ],
         app_path('Http/Controllers/App') => [
             'middleware' => [
                 // 'maintenance',
@@ -21,6 +27,12 @@ return [
                 // config('jetstream.auth_session'),
                 // 'verified',
                 // 'user.blocked',
+            ],
+        ],
+        app_path('Http/Controllers/Opds') => [
+            'prefix' => 'opds',
+            'middleware' => [
+                'api',
             ],
         ],
         // app_path('Http/Controllers/Api') => [

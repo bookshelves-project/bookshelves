@@ -6,59 +6,51 @@ description: How to use Bookshelves
 
 ## Download
 
-On Bookshelves, you can download books, comics and audiobooks. A movie can be downloaded directly from the movie page but for TV shows, you need to go to the season page and download each episode. Be reasonable and download only what you need to avoid overloading the bandwidth you share with other users.
-
-If you encounter an error, if you don't understand any aspect of the platform or if you have any suggestions, don't hesitate to use the [bug report form](/bug-form).
-
-If you're interested in a movie or TV shows that isn't on the platform, please use the [ask form](/ask-form). Of course, if you'd like a movie (or TV shows) that's already available to be offered in better quality (maximum limit 1080p) or in a different language, the same form can be used.
+On Bookshelves, you can download books, comics and audiobooks. If you encounter an error, if you don't understand any aspect of the platform or if you have any suggestions, don't hesitate to use the [contact form](/form/message).
 
 ## Read file
 
-Bookshelves files use often the `.mkv` extension. This is a container format that can hold multiple video and audio tracks, subtitles and metadata. It is a free and open standard, so it is widely supported on all platforms.
+Bookshelves files use `.epub` format for eBooks, `.cbz` for comics and `.m4b` for audiobooks. You can read these files with different softwares.
 
-To read `.mkv` files, you can use different software:
+### EPUB
 
--   [VLC media player](https://www.videolan.org/) : VLC is a free and open source cross-platform multimedia player and framework that plays most multimedia files as well as DVDs, Audio CDs, VCDs, and various streaming protocols. _For Windows, macOS, Linux, Android, iOS and more._
--   [IINA](https://iina.io/) : The modern media player for macOS. _For macOS only._
+-   [koreader/koreader](https://github.com/koreader/koreader): An ebook reader application supporting PDF, DjVu, EPUB, FB2 and many more formats, running on Kindle, Kobo, PocketBook, Ubuntu Touch and Android devices.
+-   [edrlab/thorium-reader](https://github.com/edrlab/thorium-reader): A cross-platform desktop ebook reader.
+-   [koodo-reader/koodo-reader](https://github.com/koodo-reader/koodo-reader): A simple ebook reader for desktop built with Vue.js and Electron.
+-   Android: [ReadEra](https://play.google.com/store/apps/details?id=org.readera)
 
-Of course, you can use advanced software like [Plex](https://www.plex.tv/) to manage your media library.
+### CBZ
 
-## Quality
+-   [yacreader](https://www.yacreader.com/downloads): YACReader is a cross-platform comic reader developed using Qt4 with support for multiple comic files and image formats. YACReader comes with YACReaderLibrary, an application for browsing and managing your comic collections with various smooth transition effects.
+-   Android: [ComicScreen](https://play.google.com/store/apps/details?id=com.viewer.comicscreen), [CDisplayEx](https://play.google.com/store/apps/details?id=com.progdigy.cdisplay.free)
 
-All movies and TV shows available on Bookshelves aren't available in the same quality. The quality depends on the source of the file. The best quality is 4K. The worst quality is 720p. The quality is indicated on the movie or TV shows episode page into **Metadata** and with a badge on the movie or TV shows episode card.
+### M4B
 
-## Compression
+-   Android: [Smart AudioBook Player](https://play.google.com/store/apps/details?id=ak.alizandro.smartaudiobookplayer)
 
-A media file can be compressed to reduce its size. Bookshelves use the [HEVC](https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding) codec and the [AVC](https://en.wikipedia.org/wiki/Advanced_Video_Coding) codec to compress files. The compression is indicated on the movie or TV shows episode page into **Metadata** and with a badge on the movie or TV shows episode card.
+## DRM
 
-Best compression is HEVC, but AVC is more compatible with old devices.
+All books, comics and audiobooks on Bookshelves are DRM-free. You can read more about DRM on [Wikipedia](https://en.wikipedia.org/wiki/Digital_rights_management).
 
-## Audio tracks
+## OPDS
 
-Bookshelves offers audio tracks in different audio languages directly embedded in the video file. You can activate them in your video player.
+Official website: [opds.io](https://opds.io/)
 
-To know if a movie or TV shows has audio tracks, you can check the audio section on the movie or TV shows episode page into **Metadata**.
+OPDS is like RSS feeds but adapted for eBooks, it's a standard to share eBooks between libraries, bookstores, publishers, and readers. Developed by Hadrien Gardeur and Leonard Richardson.
 
-## Subtitle tracks
+_The Open Publication Distribution System (OPDS) catalog format is a syndication format for electronic publications based on Atom and HTTP. OPDS catalogs enable the aggregation, distribution, discovery, and acquisition of electronic publications. OPDS catalogs use existing or emergent open standards and conventions, with a priority on simplicity. The Open Publication Distribution System specification is prepared by an informal grouping of partners, combining Internet Archive, O'Reilly Media, Feedbooks, OLPC, and others._
 
-Bookshelves offers subtitles in different languages directly embedded in the video file. You can activate them in your video player. If you want to download subtitles separately, you can use [Subscene](https://subscene.com/) or [OpenSubtitles](https://www.opensubtitles.org/).
+Bookshelves offers an OPDS feed **for eBooks only**, audiobooks and comics are not supported, powered by [kiwilan/php-opds](https://github.com/kiwilan/php-opds).
 
-To know if a movie or TV shows has subtitles, you can check the subtitles section on the movie or TV shows episode page into **Metadata**.
+To read the OPDS feed, you can use different softwares:
 
-## Any questions?
+-   [koreader/koreader](https://github.com/koreader/koreader): An ebook reader application supporting PDF, DjVu, EPUB, FB2 and many more formats, running on Kindle, Kobo, PocketBook, Ubuntu Touch and Android devices.
+-   [edrlab/thorium-reader](https://github.com/edrlab/thorium-reader): A cross-platform desktop ebook reader.
 
-If you have any questions, don't hesitate to use the [bug report form](/bug-form).
+## Calibre
 
-## Legal
+Official website: [calibre-ebook.com](https://calibre-ebook.com/)
 
-You can download legally one movie or one TV show if you own the physical media support download. Of course, you can consider that if you download media that doesn't meet these criteria, it's simply a mistake on your part. So why not watch it now you've got it?
+Calibre is a free and open-source e-book manager. It can view, convert and catalog e-books in most of the major e-book formats. It can also talk to many e-book reader devices. It can go out to the Internet and fetch metadata for your books. It can download newspapers and convert them into e-books for convenient reading. It is cross-platform, running on Linux, Windows and macOS.
 
-You can get a media with different methods:
-
--   Peer-to-peer sharing
--   Streaming
--   Direct download
-
-The safe usage of Bookshelves depends on the rules in force in your country. Bookshelves works with a **direct download** system.
-
--   France: Arcom (ex-CSA and Hadopi) only tracks **illegal peer-to-peer** use. ✅ Bookshelves is safe
+You can use Calibre to manage your library, convert eBooks to other formats, edit metadata, etc.

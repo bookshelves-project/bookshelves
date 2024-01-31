@@ -112,6 +112,7 @@ namespace App\Models{
  * @property-read string $entity
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read array $files_list
+ * @property-read mixed $first_char
  * @property-read mixed $genres_list
  * @property-read array $meta
  * @property-read string $meta_class
@@ -138,7 +139,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author query()
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstChar(string $char)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereFirstname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereHasBooks()
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereLastname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereLink($value)
@@ -373,6 +376,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher query()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereFirstChar(string $char)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereSlug($value)
@@ -412,6 +416,7 @@ namespace App\Models{
  * @property-read string $entity
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read array $files_list
+ * @property-read mixed $first_char
  * @property-read mixed $genres_list
  * @property-read array $meta
  * @property-read string|null $meta_author
@@ -439,7 +444,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereAuthorMainId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereFirstChar(string $char)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereFirstCharacterIs(string $character)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereHasBooks()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereIsAudiobook()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereIsBook()
@@ -477,6 +484,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag query()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereFirstChar(string $char)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereIsNegligible(string $negligible)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereName($value)

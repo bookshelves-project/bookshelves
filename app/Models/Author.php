@@ -6,9 +6,11 @@ use App\Traits\HasBooksCollection;
 use App\Traits\HasCovers;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
@@ -80,6 +82,16 @@ class Author extends Model implements HasMedia
     public function getTitleAttribute(): string
     {
         return $this->name;
+    }
+
+    public function getFirstCharAttribute()
+    {
+        return strtoupper(substr(Str::slug($this->name), 0, 1));
+    }
+
+    public function scopeWhereFirstChar(Builder $query, string $char): Builder
+    {
+        return $query->whereRaw('UPPER(SUBSTR(name, 1, 1)) = ?', [strtoupper($char)]);
     }
 
     /**

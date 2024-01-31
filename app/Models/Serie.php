@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
@@ -101,9 +102,14 @@ class Serie extends Model implements HasMedia
         ]);
     }
 
-    public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
+    public function getFirstCharAttribute()
     {
-        return $query->where('slug', 'like', "{$character}%");
+        return strtoupper(substr(Str::slug($this->title), 0, 1));
+    }
+
+    public function scopeWhereFirstChar(Builder $query, string $char): Builder
+    {
+        return $query->whereRaw('UPPER(SUBSTR(slug, 1, 1)) = ?', [strtoupper($char)]);
     }
 
     public function books(): HasMany

@@ -3,6 +3,7 @@ export interface Link {
   icon?: SvgName
   route?: App.Route.RouteConfig<App.Route.Name>
   url?: string
+  isExternal?: boolean
   isSeperator?: boolean
   restrictedRoles?: string[]
 }
@@ -24,6 +25,8 @@ const mainLinks: Link[] = [
 
 const secondaryLinks: Link[] = [
   { label: 'Help', icon: 'info', route: { name: 'pages.help' } },
+  { label: 'Message', icon: 'mail', route: { name: 'form.message' } },
+  { label: 'OPDS', icon: 'opds', route: { name: 'opds.index' }, isExternal: true },
 ]
 
 const profileLinks: Link[] = [

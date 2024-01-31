@@ -19,10 +19,14 @@ const { page } = useInertia()
 const user = ref<App.Models.User>(page.props.auth?.user)
 
 const href = computed(() => {
-  if (props.link.route)
-    return route(props.link.route.name, props.link.route.params)
+  const link = props.link
+  if (!link.route)
+    link.isExternal = true
 
-  return props.link.url
+  if (link.route)
+    return route(link.route.name, link.route.params)
+
+  return link.url
 })
 </script>
 
@@ -36,11 +40,11 @@ const href = computed(() => {
     </div>
     <div v-else>
       <component
-        :is="link.url ? 'a' : 'ILink'"
+        :is="link.isExternal ? 'a' : 'ILink'"
         v-if="!link.restrictedRoles || link.restrictedRoles.includes(user.role ?? '')"
         :href="href"
-        :target="link.url ? '_blank' : null"
-        :rel="link.url ? 'noopener noreferrer' : null"
+        :target="link.isExternal ? '_blank' : null"
+        :rel="link.isExternal ? 'noopener noreferrer' : null"
         :class="[
           href === currentRoute?.path ? active : '',
           hover,

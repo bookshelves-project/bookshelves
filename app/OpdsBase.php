@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Engines;
+namespace App;
 
+use App\Facades\OpdsBase as FacadesOpdsBase;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
@@ -10,11 +11,17 @@ use Illuminate\Support\Facades\Cache;
 use Kiwilan\Opds\Entries\OpdsEntryBook;
 use Kiwilan\Opds\Entries\OpdsEntryBookAuthor;
 use Kiwilan\Opds\Entries\OpdsEntryNavigation;
+use Kiwilan\Opds\Opds;
 use Kiwilan\Opds\OpdsConfig;
 
-class OpdsApp
+class OpdsBase
 {
-    public static function options(): OpdsConfig
+    public function app(): Opds
+    {
+        return Opds::make(FacadesOpdsBase::config());
+    }
+
+    public function config(): OpdsConfig
     {
         return new OpdsConfig(
             name: config('app.name'),
@@ -30,7 +37,7 @@ class OpdsApp
     /**
      * @return array<OpdsEntryNavigation>
      */
-    public static function home(): array
+    public function home(): array
     {
         $authorsCount = Author::query()->count();
         $seriesCount = Serie::query()->count();
@@ -71,7 +78,7 @@ class OpdsApp
         ];
     }
 
-    public static function cache(string $name, Closure $closure): mixed
+    public function cache(string $name, Closure $closure): mixed
     {
         if (config('app.env') === 'local') {
             Cache::forget($name);
@@ -82,7 +89,7 @@ class OpdsApp
         return Cache::remember($name, $cache, $closure);
     }
 
-    public static function bookToEntry(Book $book): OpdsEntryBook
+    public function bookToEntry(Book $book): OpdsEntryBook
     {
         $book = $book->load('tags', 'publisher');
         $series = null;
@@ -115,9 +122,9 @@ class OpdsApp
             title: "{$book->title}{$series}",
             summary: trim($summary),
             content: trim($summary),
-            route: route('opds.books.show', ['author' => $book->meta_author, 'book' => $book->slug]),
+            route: route('opds.books.show', ['book' => $book->slug]),
             updated: $book->updated_at,
-            download: route('api.download.direct', ['author_slug' => $book->meta_author, 'book_slug' => $book->slug]),
+            download: route('api.downloads.show', ['book_id' => $book->id]),
             media: $book->cover_social,
             mediaThumbnail: $book->cover_thumbnail,
             categories: $book->tags->pluck('name')->toArray(),

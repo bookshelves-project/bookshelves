@@ -24,6 +24,8 @@ declare module 'vue' {
     CardSerie: typeof import('./resources/js/Components/Card/Serie.vue')['default']
     copy: typeof import('./resources/js/Components/Show/Authors copy.vue')['default']
     Details: typeof import('./resources/js/Components/Details/Index.vue')['default']
+    FormLayout: typeof import('./resources/js/Components/Form/Layout.vue')['default']
+    FormMessage: typeof import('./resources/js/Components/Form/Message.vue')['default']
     JetstreamActionMessage: typeof import('./resources/js/Components/Jetstream/ActionMessage.vue')['default']
     JetstreamActionSection: typeof import('./resources/js/Components/Jetstream/ActionSection.vue')['default']
     JetstreamApplicationLogo: typeof import('./resources/js/Components/Jetstream/ApplicationLogo.vue')['default']

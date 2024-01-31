@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Enums\TagTypeEnum;
-use App\Traits\HasFirstChar;
 use App\Traits\HasNegligible;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
 use Kiwilan\Steward\Traits\HasSlug;
 use Kiwilan\Steward\Traits\Queryable;
@@ -15,7 +15,6 @@ use Spatie\QueryBuilder\AllowedFilter;
 class Tag extends Model
 {
     use HasFactory;
-    use HasFirstChar;
     use HasNegligible;
     use HasSlug;
     use Queryable;
@@ -29,7 +28,6 @@ class Tag extends Model
         'name',
         'slug',
         'type',
-        'first_char',
         'books_count',
         'series_count',
         'created_at',
@@ -56,7 +54,6 @@ class Tag extends Model
     ];
 
     protected $appends = [
-        'first_char',
     ];
 
     // public function getShowLinkAttribute(): string
@@ -73,33 +70,33 @@ class Tag extends Model
     //     ]);
     // }
 
-    // public function books(): MorphToMany
-    // {
-    //     return $this->morphToMany(
-    //         related: Book::class,
-    //         name: 'taggable',
-    //         table: 'taggables',
-    //         foreignPivotKey: 'tag_id',
-    //         relatedPivotKey: 'taggable_id',
-    //         parentKey: 'id',
-    //         relatedKey: 'id',
-    //         inverse: true
-    //     );
-    // }
+    public function books(): MorphToMany
+    {
+        return $this->morphToMany(
+            related: Book::class,
+            name: 'taggable',
+            table: 'taggables',
+            foreignPivotKey: 'tag_id',
+            relatedPivotKey: 'taggable_id',
+            parentKey: 'id',
+            relatedKey: 'id',
+            inverse: true
+        );
+    }
 
-    // public function series(): MorphToMany
-    // {
-    //     return $this->morphToMany(
-    //         related: Serie::class,
-    //         name: 'taggable',
-    //         table: 'taggables',
-    //         foreignPivotKey: 'tag_id',
-    //         relatedPivotKey: 'taggable_id',
-    //         parentKey: 'id',
-    //         relatedKey: 'id',
-    //         inverse: true
-    //     );
-    // }
+    public function series(): MorphToMany
+    {
+        return $this->morphToMany(
+            related: Serie::class,
+            name: 'taggable',
+            table: 'taggables',
+            foreignPivotKey: 'tag_id',
+            relatedPivotKey: 'taggable_id',
+            parentKey: 'id',
+            relatedKey: 'id',
+            inverse: true
+        );
+    }
 
     protected function setQueryAllowedFilters(): array
     {
@@ -109,7 +106,6 @@ class Tag extends Model
             AllowedFilter::partial('type'),
             AllowedFilter::partial('books_count'),
             AllowedFilter::partial('series_count'),
-            AllowedFilter::partial('first_char'),
             AllowedFilter::scope('negligible', 'whereIsNegligible')->default(true),
             AllowedFilter::scope('type', 'whereTypeIs'),
         ];

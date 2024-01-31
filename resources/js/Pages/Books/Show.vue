@@ -40,7 +40,7 @@ function ucfirst(string?: string) {
 
 const { laravel } = useFetch()
 async function getSize(): Promise<{ size: number, extension: string }> {
-  const response = await laravel.get('downloads.size', { book_id: props.book.id })
+  const response = await laravel.get('api.downloads.size', { book_id: props.book.id })
   const body = await response.json()
 
   return body

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\App;
+namespace App\Http\Controllers\Api;
 
 use App\Enums\BookTypeEnum;
 use App\Http\Controllers\Controller;
@@ -16,7 +16,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('downloads')]
 class DownloadController extends Controller
 {
-    #[Get('/{book_id}', name: 'downloads.show')]
+    #[Get('/{book_id}', name: 'api.downloads.show')]
     public function show(Request $request, Book $book)
     {
         /** @var ?BookTypeEnum $type */
@@ -51,7 +51,7 @@ class DownloadController extends Controller
             ->get();
     }
 
-    #[Get('/size/{book_id}', name: 'downloads.size')]
+    #[Get('/size/{book_id}', name: 'api.downloads.size')]
     public function size(Request $request, Book $book)
     {
         /** @var ?BookTypeEnum $type */
