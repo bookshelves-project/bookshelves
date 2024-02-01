@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-import { useFetch, useRouter } from '@kiwilan/typescriptable-laravel'
-
 interface Props {
   book: App.Models.Book
-  square: boolean
+  square?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
@@ -19,7 +17,7 @@ withDefaults(defineProps<Props>(), {
     <AppImg
       :class="{
         'poster ': !square,
-        'album': square,
+        'album ': square,
       }"
       class="w-full"
       :src="book.cover_thumbnail"

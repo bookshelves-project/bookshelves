@@ -102,6 +102,18 @@ onMounted(async () => {
         </ILink>
         #{{ props.book.volume_pad }}
       </template>
+      <template #swipers>
+        <AppCarousel
+          v-if="book.serie"
+          :title="`${book.serie?.title} series`"
+        >
+          <CardBook
+            v-for="b in book.serie?.books"
+            :key="b.id"
+            :book="b"
+          />
+        </AppCarousel>
+      </template>
     </ShowContainer>
   </App>
 </template>

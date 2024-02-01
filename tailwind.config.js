@@ -36,7 +36,7 @@ export default {
     plugin(({ addComponents }) => {
       addComponents({
         '.poster': {
-          '@apply aspect-poster rounded-md object-cover': {},
+          '@apply aspect-poster rounded-md object-cover h-64': {},
         },
         '.album': {
           '@apply aspect-album rounded-md object-cover': {},

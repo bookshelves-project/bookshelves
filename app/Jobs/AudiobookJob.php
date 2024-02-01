@@ -61,7 +61,7 @@ class AudiobookJob implements ShouldQueue
             'volume' => $this->bookVolume,
             'type' => BookTypeEnum::audiobook,
             'format' => BookFormatEnum::fromExtension($first->extension),
-            'added_at' => $first->comment,
+            'added_at' => $first->added_at,
         ]);
 
         Book::withoutSyncingToSearch(function () use ($book, $audiobooks) {

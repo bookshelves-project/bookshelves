@@ -25,6 +25,8 @@ class BookController extends Controller
         $book->load([
             'authors',
             'serie',
+            'serie.books',
+            'serie.books.media',
             'tags',
             'media',
             'publisher',

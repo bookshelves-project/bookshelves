@@ -14,19 +14,30 @@ Bookshelves files use `.epub` format for eBooks, `.cbz` for comics and `.m4b` fo
 
 ### EPUB
 
--   [koreader/koreader](https://github.com/koreader/koreader): An ebook reader application supporting PDF, DjVu, EPUB, FB2 and many more formats, running on Kindle, Kobo, PocketBook, Ubuntu Touch and Android devices.
--   [edrlab/thorium-reader](https://github.com/edrlab/thorium-reader): A cross-platform desktop ebook reader.
--   [koodo-reader/koodo-reader](https://github.com/koodo-reader/koodo-reader): A simple ebook reader for desktop built with Vue.js and Electron.
--   Android: [ReadEra](https://play.google.com/store/apps/details?id=org.readera)
+-   eReader:
+    -   [koreader/koreader](https://github.com/koreader/koreader): An ebook reader application supporting PDF, DjVu, EPUB, FB2 and many more formats, running on Kindle, Kobo, PocketBook, Ubuntu Touch and Android devices.
+-   Desktop:
+    -   [edrlab/thorium-reader](https://github.com/edrlab/thorium-reader): A cross-platform desktop ebook reader.
+    -   [koodo-reader/koodo-reader](https://github.com/koodo-reader/koodo-reader): A simple ebook reader for desktop built with Vue.js and Electron.
+-   Android:
+    -   [ReadEra](https://play.google.com/store/apps/details?id=org.readera)
 
 ### CBZ
 
--   [yacreader](https://www.yacreader.com/downloads): YACReader is a cross-platform comic reader developed using Qt4 with support for multiple comic files and image formats. YACReader comes with YACReaderLibrary, an application for browsing and managing your comic collections with various smooth transition effects.
--   Android: [ComicScreen](https://play.google.com/store/apps/details?id=com.viewer.comicscreen), [CDisplayEx](https://play.google.com/store/apps/details?id=com.progdigy.cdisplay.free)
+-   Desktop:
+    -   [yacreader](https://www.yacreader.com/downloads): YACReader is a cross-platform comic reader developed using Qt4 with support for multiple comic files and image formats. YACReader comes with YACReaderLibrary, an application for browsing and managing your comic collections with various smooth transition effects.
+-   Android:
+    -   [ComicScreen](https://play.google.com/store/apps/details?id=com.viewer.comicscreen)
+    -   [CDisplayEx](https://play.google.com/store/apps/details?id=com.progdigy.cdisplay.free)
 
 ### M4B
 
--   Android: [Smart AudioBook Player](https://play.google.com/store/apps/details?id=ak.alizandro.smartaudiobookplayer)
+-   Desktop :
+    -   [VLC](https://www.videolan.org/) for any OS
+    -   [IINA](https://iina.io/) for macOS
+-   Android:
+    -   [Smart AudioBook Player](https://play.google.com/store/apps/details?id=ak.alizandro.smartaudiobookplayer): The app is designed specially for playing audio books. Assumed that you have audiobooks and already copied them to your phone.
+    -   [Pulsar Music Player](https://play.google.com/store/apps/details?id=com.rhmsoft.pulsar): Pulsar is intuitive, lightweight and full featured music player for Android, you can use it as an audiobook player.
 
 ## DRM
 

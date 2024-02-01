@@ -369,14 +369,12 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
  * @property-read int|null $books_count
  * @property-read mixed $books_route
- * @property-read mixed $first_char
  * @property-read array $meta
  * @property-read string|null $show_route
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher query()
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereFirstChar(string $char)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Publisher whereSlug($value)
@@ -445,7 +443,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereFirstChar(string $char)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie whereFirstCharacterIs(string $character)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereHasBooks()
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereIsAudiobook()
@@ -479,12 +476,14 @@ namespace App\Models{
  * @property int|null $order_column
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read mixed $first_char
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
+ * @property-read int|null $books_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Serie> $series
+ * @property-read int|null $series_count
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag query()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Tag whereFirstChar(string $char)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereIsNegligible(string $negligible)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereName($value)

@@ -30,8 +30,6 @@ class DownloadController extends Controller
         $author = $book->authorMain?->name ?? '';
         $name = Str::slug("{$serie}-{$book->slug}-{$author}-{$type->value}");
 
-        ray($book->type);
-        ray(BookTypeEnum::audiobook);
         if ($type !== BookTypeEnum::audiobook) {
             Downloader::direct($book->physical_path)
                 ->mimeType($book->mime_type)
