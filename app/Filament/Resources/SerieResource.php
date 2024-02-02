@@ -40,7 +40,9 @@ class SerieResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('authors.name')
                     ->limit(50)
                     ->tooltip(fn (Serie $record) => $record->authors->pluck('name')->join(', '))
