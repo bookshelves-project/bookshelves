@@ -78,22 +78,6 @@ const tagsList = computed(() => {
             >
               <ShowTags :tags="tagsList" />
             </div>
-            <div class="mt-5 flex items-center space-x-3 text-sm">
-              <!-- <a
-                v-if="popularity"
-                class="flex items-center space-x-2 link"
-                title="TMDB popularity"
-                :href="tmdbUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <SvgIcon
-                  name="tmdb"
-                  class="h-4 w-4 text-green-500"
-                />
-                <span>{{ popularityFormat(popularity) }} on TMDB</span>
-              </a> -->
-            </div>
           </div>
         </div>
         <div

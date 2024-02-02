@@ -9,7 +9,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     App: typeof import('./resources/js/Layouts/App.vue')['default']
     AppBadge: typeof import('./resources/js/Components/App/Badge.vue')['default']
-    AppBreadcrumbs: typeof import('./resources/js/Components/App/Breadcrumbs.vue')['default']
     AppButton: typeof import('./resources/js/Components/App/Button.vue')['default']
     AppCarousel: typeof import('./resources/js/Components/App/Carousel.vue')['default']
     AppDialog: typeof import('./resources/js/Components/App/Dialog.vue')['default']
@@ -22,8 +21,6 @@ declare module 'vue' {
     CardAuthor: typeof import('./resources/js/Components/Card/Author.vue')['default']
     CardBook: typeof import('./resources/js/Components/Card/Book.vue')['default']
     CardSerie: typeof import('./resources/js/Components/Card/Serie.vue')['default']
-    copy: typeof import('./resources/js/Components/Show/Authors copy.vue')['default']
-    Details: typeof import('./resources/js/Components/Details/Index.vue')['default']
     FormLayout: typeof import('./resources/js/Components/Form/Layout.vue')['default']
     FormMessage: typeof import('./resources/js/Components/Form/Message.vue')['default']
     JetstreamActionMessage: typeof import('./resources/js/Components/Jetstream/ActionMessage.vue')['default']
@@ -65,10 +62,8 @@ declare module 'vue' {
     Logo: typeof import('./resources/js/Components/Logo.vue')['default']
     SearchBar: typeof import('./resources/js/Components/Search/Bar.vue')['default']
     SearchResults: typeof import('./resources/js/Components/Search/Results.vue')['default']
-    Show: typeof import('./resources/js/Components/Show/Index.vue')['default']
     ShowAuthors: typeof import('./resources/js/Components/Show/Authors.vue')['default']
     ShowContainer: typeof import('./resources/js/Components/Show/Container.vue')['default']
-    ShowGenres: typeof import('./resources/js/Components/Show/Genres.vue')['default']
     ShowMedia: typeof import('./resources/js/Components/Show/Media.vue')['default']
     ShowTags: typeof import('./resources/js/Components/Show/Tags.vue')['default']
   }
