@@ -106,15 +106,4 @@ class Bookshelves
     {
         return config('bookshelves.image.cover.social');
     }
-
-    public function notificationDiscordWebhook(): ?string
-    {
-        $webhook = config('bookshelves.notification.discord_webhook');
-
-        if (! $webhook) {
-            return null;
-        }
-
-        return $webhook;
-    }
 }

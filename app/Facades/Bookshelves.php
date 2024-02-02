@@ -5,6 +5,8 @@ namespace App\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
+ * @see \App\Bookshelves
+ *
  * @method static string appVersion()
  * @method static string analyzerEngine()
  * @method static string analyzerDebug()
@@ -20,12 +22,11 @@ use Illuminate\Support\Facades\Facade;
  * @method static array{width: int, height: int} imageCoverStandard()
  * @method static array{width: int, height: int} imageCoverThumbnail()
  * @method static array{width: int, height: int} imageCoverSocial()
- * @method static ?string notificationDiscordWebhook()
  */
 class Bookshelves extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'bookshelves';
+        return \App\Bookshelves::class;
     }
 }
