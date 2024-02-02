@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\App;
 
-use App\Facades\Bookshelves;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MessagePostRequest;
-use Kiwilan\Steward\Utils\Notifier;
+use Kiwilan\Notifier\Facades\Notifier;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 
@@ -20,7 +19,7 @@ class FormController extends Controller
     #[Post('/form/message', name: 'form.message.post')]
     public function messageSubmit(MessagePostRequest $request)
     {
-        Notifier::discord(Bookshelves::notificationDiscordWebhook())
+        Notifier::discord()
             ->username('Bookshelves')
             ->message([
                 '**Kiwiflix Message**',

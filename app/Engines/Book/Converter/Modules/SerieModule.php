@@ -36,7 +36,7 @@ class SerieModule
         $self = new self();
         $serie = Serie::query()
             ->where('slug', $ebook->getMetaTitle()->getSeriesSlug())
-            ->where('type', $type)
+            ->where('type', $type->value)
             ->first();
 
         if ($serie) {

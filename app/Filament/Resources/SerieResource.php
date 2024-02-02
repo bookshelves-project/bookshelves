@@ -38,6 +38,9 @@ class SerieResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('slug')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('authors.name')
                     ->limit(50)
                     ->tooltip(fn (Serie $record) => $record->authors->pluck('name')->join(', '))

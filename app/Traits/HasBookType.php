@@ -10,13 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 trait HasBookType
 {
-    public function initializeHasBookType(): void
-    {
-        $this->fillable[] = 'type';
-
-        $this->casts['type'] = BookTypeEnum::class;
-    }
-
     public function scopeWhereTypesIs(Builder $query, ...$types): Builder
     {
         return $query->whereIn('type', $types);

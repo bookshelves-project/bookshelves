@@ -2,6 +2,7 @@
 interface Props {
   book: App.Models.Book
   square?: boolean
+  carousel?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
@@ -18,6 +19,8 @@ withDefaults(defineProps<Props>(), {
       :class="{
         'poster ': !square,
         'album ': square,
+        'h-[20rem]': carousel && !square,
+        'h-[10rem]': carousel && square,
       }"
       class="w-full"
       :src="book.cover_thumbnail"

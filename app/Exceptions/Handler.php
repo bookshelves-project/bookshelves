@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Kiwilan\Steward\Utils\Journal;
+use Kiwilan\Notifier\Facades\Journal;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -25,7 +25,7 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            Journal::handler($e);
+            Journal::handler($e, toDatabase: true, toNotifier: 'discord');
         });
     }
 }

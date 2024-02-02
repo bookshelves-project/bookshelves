@@ -314,7 +314,7 @@ class BookConverter
         }
 
         if ($this->book->type === null) {
-            $this->book->type = $type->value;
+            $this->book->type = $type;
         }
 
         return $this;

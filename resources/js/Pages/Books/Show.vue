@@ -3,6 +3,7 @@ import { useDate, useFetch } from '@kiwilan/typescriptable-laravel'
 
 const props = defineProps<{
   book: App.Models.Book
+  square?: boolean
 }>()
 
 const size = ref<string>()
@@ -59,6 +60,7 @@ onMounted(async () => {
     icon="ereader"
   >
     <ShowContainer
+      class="pb-24"
       :model="book"
       :type="ucfirst(book.type)"
       :title="book.title"
@@ -111,6 +113,8 @@ onMounted(async () => {
             v-for="b in book.serie?.books"
             :key="b.id"
             :book="b"
+            :square="square"
+            carousel
           />
         </AppCarousel>
       </template>

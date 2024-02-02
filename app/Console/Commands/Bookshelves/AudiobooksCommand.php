@@ -37,6 +37,7 @@ class AudiobooksCommand extends Commandable
             ->map(fn (Audiobook $audiobook) => $audiobook->serie)
             ->unique()
             ->values();
+
         foreach ($series as $serie) {
             AudiobookJob::dispatch($serie, $fresh);
         }

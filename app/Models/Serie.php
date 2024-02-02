@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\BookFormatEnum;
+use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBooksCollection;
 use App\Traits\HasBookType;
@@ -55,6 +56,7 @@ class Serie extends Model implements HasMedia
         'authors',
         'books_count',
         'language',
+        'type',
         'created_at',
         'updated_at',
         'language',
@@ -65,6 +67,7 @@ class Serie extends Model implements HasMedia
     protected $fillable = [
         'title',
         'slug',
+        'type',
         'description',
         'link',
         'wikipedia_parsed_at',
@@ -72,6 +75,7 @@ class Serie extends Model implements HasMedia
 
     protected $casts = [
         'wikipedia_parsed_at' => 'datetime',
+        'type' => BookTypeEnum::class,
     ];
 
     protected $withCount = [

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\BookFormatEnum;
+use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
 use App\Traits\HasBookType;
@@ -78,6 +79,7 @@ class Book extends Model implements HasMedia
         'is_maturity_rating',
         'is_hidden',
         'format',
+        'type',
         'isbn10',
         'isbn13',
         'identifiers',
@@ -109,6 +111,7 @@ class Book extends Model implements HasMedia
         'is_maturity_rating' => 'boolean',
         'google_book_parsed_at' => 'datetime',
         'added_at' => 'datetime',
+        'type' => BookTypeEnum::class,
     ];
 
     protected $with = [

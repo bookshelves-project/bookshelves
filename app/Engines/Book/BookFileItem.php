@@ -66,8 +66,8 @@ class BookFileItem
     {
         return [
             'basename' => $this->basename,
-            'format' => $this->format->value,
-            'type' => $this->type->value,
+            'format' => $this->format,
+            'type' => $this->type,
             'path' => $this->path,
         ];
     }

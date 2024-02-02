@@ -80,9 +80,10 @@ class AudiobookJob implements ShouldQueue
 
         $serie = null;
         if ($this->bookSerie) {
+            $slug = Str::slug($this->bookSerie.' '.BookTypeEnum::audiobook->value.' '.$book->language);
             $serie = Serie::query()->firstOrCreate([
                 'title' => $this->bookSerie,
-                'slug' => Str::slug($this->bookSerie),
+                'slug' => $slug,
                 'type' => BookTypeEnum::audiobook,
             ]);
             $serie->books()->save($book);
@@ -115,7 +116,7 @@ class AudiobookJob implements ShouldQueue
 
     private function parseTitle(string $text): void
     {
-        $regex = '/^(?:(?P<serie>.+?)\s(?P<volume>\d{2})\s-\s)?(?P<title>.+)$/';
+        $regex = '/^(?:(?P<serie>.+?)\s(?P<volume>\d{2})\s[-:]\s)?(?P<title>.+)$/';
         $matches = [];
 
         if (preg_match($regex, $text, $matches)) {

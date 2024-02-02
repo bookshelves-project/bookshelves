@@ -2676,6 +2676,90 @@
             "time": "2023-12-07T10:44:41+00:00"
         },
         {
+            "name": "kiwilan/notifier-laravel",
+            "version": "0.1.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kiwilan/notifier-laravel.git",
+                "reference": "a72f8109e30d6f31ea5a10923151e1fc5d295989"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kiwilan/notifier-laravel/zipball/a72f8109e30d6f31ea5a10923151e1fc5d295989",
+                "reference": "a72f8109e30d6f31ea5a10923151e1fc5d295989",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.14.0",
+                "symfony/mailer": "^6.4"
+            },
+            "require-dev": {
+                "filament/notifications": "^3.2",
+                "larastan/larastan": "^2.0.1",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.8",
+                "orchestra/testbench": "^8.8",
+                "pestphp/pest": "^2.20",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Kiwilan\\Notifier\\NotifierServiceProvider"
+                    ],
+                    "aliases": {
+                        "Notifier": "Kiwilan\\Notifier\\Facades\\Notifier"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kiwilan\\Notifier\\": "src/",
+                    "Kiwilan\\Notifier\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ewilan Rivière",
+                    "email": "ewilan.riviere@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Notifier for Laravel is a package to add some useful classes to send notifications and logging.",
+            "homepage": "https://github.com/kiwilan/notifier-laravel",
+            "keywords": [
+                "discord",
+                "laravel",
+                "logging",
+                "mail",
+                "notifier",
+                "slack"
+            ],
+            "support": {
+                "issues": "https://github.com/kiwilan/notifier-laravel/issues",
+                "source": "https://github.com/kiwilan/notifier-laravel/tree/v0.1.12"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Kiwilan",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-02-02T15:46:16+00:00"
+        },
+        {
             "name": "kiwilan/php-archive",
             "version": "2.2.0",
             "source": {
@@ -3112,12 +3196,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "1fee46ad2cacc77030b400356bec99cc97f58261"
+                "reference": "8821e754cd424f9ffe64118437a383813be13963"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/1fee46ad2cacc77030b400356bec99cc97f58261",
-                "reference": "1fee46ad2cacc77030b400356bec99cc97f58261",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/8821e754cd424f9ffe64118437a383813be13963",
+                "reference": "8821e754cd424f9ffe64118437a383813be13963",
                 "shasum": ""
             },
             "require": {
@@ -3125,6 +3209,7 @@
                 "illuminate/contracts": "^9.0 || ^10.0",
                 "illuminate/database": "^9.0 || ^10.0",
                 "illuminate/support": "^9.0 || ^10.0",
+                "kiwilan/notifier-laravel": "^0.1.12",
                 "kiwilan/php-http-pool": "^0.3.2",
                 "league/html-to-markdown": "^5.1",
                 "livewire/livewire": "^3.0.1",
@@ -3193,7 +3278,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2024-01-30T18:03:10+00:00"
+            "time": "2024-02-02T15:47:10+00:00"
         },
         {
             "name": "kiwilan/typescriptable-laravel",
@@ -4092,16 +4177,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.4.1",
+            "version": "2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "3669d6d5f7a47a93c08ddff335e6d945481a1dd5"
+                "reference": "91c24291965bd6d7c46c46a12ba7492f83b1cadf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/3669d6d5f7a47a93c08ddff335e6d945481a1dd5",
-                "reference": "3669d6d5f7a47a93c08ddff335e6d945481a1dd5",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/91c24291965bd6d7c46c46a12ba7492f83b1cadf",
+                "reference": "91c24291965bd6d7c46c46a12ba7492f83b1cadf",
                 "shasum": ""
             },
             "require": {
@@ -4114,7 +4199,7 @@
             },
             "require-dev": {
                 "cebe/markdown": "^1.0",
-                "commonmark/cmark": "0.30.0",
+                "commonmark/cmark": "0.30.3",
                 "commonmark/commonmark.js": "0.30.0",
                 "composer/package-versions-deprecated": "^1.8",
                 "embed/embed": "^4.4",
@@ -4124,10 +4209,10 @@
                 "michelf/php-markdown": "^1.4 || ^2.0",
                 "nyholm/psr7": "^1.5",
                 "phpstan/phpstan": "^1.8.2",
-                "phpunit/phpunit": "^9.5.21",
+                "phpunit/phpunit": "^9.5.21 || ^10.5.9 || ^11.0.0",
                 "scrutinizer/ocular": "^1.8.1",
-                "symfony/finder": "^5.3 | ^6.0",
-                "symfony/yaml": "^2.3 | ^3.0 | ^4.0 | ^5.0 | ^6.0",
+                "symfony/finder": "^5.3 | ^6.0 || ^7.0",
+                "symfony/yaml": "^2.3 | ^3.0 | ^4.0 | ^5.0 | ^6.0 || ^7.0",
                 "unleashedtech/php-coding-standard": "^3.1.1",
                 "vimeo/psalm": "^4.24.0 || ^5.0.0"
             },
@@ -4194,7 +4279,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-30T16:55:00+00:00"
+            "time": "2024-02-02T11:59:32+00:00"
         },
         {
             "name": "league/config",
@@ -11943,16 +12028,16 @@
         },
         {
             "name": "brianium/paratest",
-            "version": "v7.3.1",
+            "version": "v7.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "551f46f52a93177d873f3be08a1649ae886b4a30"
+                "reference": "4ffc52ebbce2f259d6a15c1ddaf4ad837eef6703"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/551f46f52a93177d873f3be08a1649ae886b4a30",
-                "reference": "551f46f52a93177d873f3be08a1649ae886b4a30",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/4ffc52ebbce2f259d6a15c1ddaf4ad837eef6703",
+                "reference": "4ffc52ebbce2f259d6a15c1ddaf4ad837eef6703",
                 "shasum": ""
             },
             "require": {
@@ -11960,28 +12045,27 @@
                 "ext-pcre": "*",
                 "ext-reflection": "*",
                 "ext-simplexml": "*",
-                "fidry/cpu-core-counter": "^0.5.1 || ^1.0.0",
+                "fidry/cpu-core-counter": "^1.0.0",
                 "jean85/pretty-package-versions": "^2.0.5",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
-                "phpunit/php-code-coverage": "^10.1.7",
-                "phpunit/php-file-iterator": "^4.1.0",
-                "phpunit/php-timer": "^6.0",
-                "phpunit/phpunit": "^10.4.2",
-                "sebastian/environment": "^6.0.1",
-                "symfony/console": "^6.3.4 || ^7.0.0",
-                "symfony/process": "^6.3.4 || ^7.0.0"
+                "php": "~8.2.0 || ~8.3.0",
+                "phpunit/php-code-coverage": "^10.1.11 || ^11.0.0",
+                "phpunit/php-file-iterator": "^4.1.0 || ^5.0.0",
+                "phpunit/php-timer": "^6.0.0 || ^7.0.0",
+                "phpunit/phpunit": "^10.5.9 || ^11.0.0",
+                "sebastian/environment": "^6.0.1 || ^7.0.0",
+                "symfony/console": "^6.4.3 || ^7.0.3",
+                "symfony/process": "^6.4.3 || ^7.0.3"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^12.0.0",
                 "ext-pcov": "*",
                 "ext-posix": "*",
-                "infection/infection": "^0.27.6",
-                "phpstan/phpstan": "^1.10.40",
+                "phpstan/phpstan": "^1.10.57",
                 "phpstan/phpstan-deprecation-rules": "^1.1.4",
                 "phpstan/phpstan-phpunit": "^1.3.15",
                 "phpstan/phpstan-strict-rules": "^1.5.2",
-                "squizlabs/php_codesniffer": "^3.7.2",
-                "symfony/filesystem": "^6.3.1 || ^7.0.0"
+                "squizlabs/php_codesniffer": "^3.8.1",
+                "symfony/filesystem": "^6.4.3 || ^7.0.3"
             },
             "bin": [
                 "bin/paratest",
@@ -12022,7 +12106,7 @@
             ],
             "support": {
                 "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/v7.3.1"
+                "source": "https://github.com/paratestphp/paratest/tree/v7.4.0"
             },
             "funding": [
                 {
@@ -12034,7 +12118,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2023-10-31T09:24:17+00:00"
+            "time": "2024-02-02T09:37:18+00:00"
         },
         {
             "name": "composer/class-map-generator",

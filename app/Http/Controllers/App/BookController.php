@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\App;
 
+use App\Enums\BookTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ class BookController extends Controller
 
         return inertia('Books/Show', [
             'book' => $book,
+            'square' => $book->type === BookTypeEnum::audiobook,
         ]);
     }
 }

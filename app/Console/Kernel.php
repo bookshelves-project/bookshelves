@@ -5,8 +5,8 @@ namespace App\Console;
 use App\Console\Commands\Bookshelves\SetupCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Kiwilan\Notifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Scout\ScoutFreshCommand;
-use Kiwilan\Steward\Utils\Journal;
 
 class Kernel extends ConsoleKernel
 {

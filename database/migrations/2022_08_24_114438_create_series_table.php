@@ -16,7 +16,7 @@ return new class() extends Migration
 
             $table->string('title');
             $table->string('slug')->unique()->index();
-            $table->string('type')->default('novel');
+            $table->string('type')->default('book');
             $table->text('description')->nullable();
             $table->string('link')->nullable();
             $table->dateTime('wikipedia_parsed_at')->nullable();

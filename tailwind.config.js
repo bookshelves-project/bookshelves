@@ -36,10 +36,10 @@ export default {
     plugin(({ addComponents }) => {
       addComponents({
         '.poster': {
-          '@apply aspect-poster rounded-md object-cover h-64': {},
+          '@apply aspect-poster rounded-md object-cover': {},
         },
         '.album': {
-          '@apply aspect-album rounded-md object-cover': {},
+          '@apply aspect-album rounded-md object-cover !w-44': {},
         },
         '.video-list': {
           '@apply grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6':
