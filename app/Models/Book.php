@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
@@ -176,6 +177,56 @@ class Book extends Model implements HasMedia
     public function audiobooks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Audiobook::class);
+    }
+
+    public function getRelated(): Collection
+    {
+        // get related books by tags, same lang
+        $relatedBooks = Book::withAllTags($this->tags)
+            ->with(['serie', 'media', 'language'])
+            ->whereLanguageSlug($this->language_slug)
+            ->get();
+
+        // get serie of current book
+        $serieBooks = Serie::query()->where('slug', $this->serie?->slug)->first();
+        // get books of this serie
+        $serieBooks = $serieBooks?->books()->with(['serie', 'media'])->get();
+
+        // if serie exist
+        if ($serieBooks) {
+            // remove all books from this serie
+            $filtered = $relatedBooks->filter(function (Book $relatedBook) use ($serieBooks) {
+                foreach ($serieBooks as $serieBook) {
+                    if ($relatedBook->serie) {
+                        return $relatedBook->serie->slug != $serieBook->serie->slug;
+                    }
+                }
+            });
+            $relatedBooks = $filtered;
+        }
+        // remove current book
+        $relatedBooks = $relatedBooks->filter(fn ($related_book) => $related_book->slug != $this->slug);
+
+        // get series of related
+        $seriesList = collect();
+
+        foreach ($relatedBooks as $key => $book) {
+            if ($book->serie) {
+                $seriesList->add($book->serie);
+            }
+        }
+        // remove all books of series
+        $relatedBooks = $relatedBooks->filter(fn (Book $book) => $book->serie === null);
+
+        // unique on series
+        $seriesList = $seriesList->unique();
+
+        // merge books and series
+        $relatedBooks = $relatedBooks->merge($seriesList);
+        $relatedBooks = $relatedBooks->loadMissing(['language', 'media']);
+
+        // sort entities
+        return $relatedBooks->sortBy('slug_sort');
     }
 
     public function toSearchableArray()

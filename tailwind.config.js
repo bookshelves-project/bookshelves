@@ -16,7 +16,7 @@ export default {
   theme: {
     extend: {
       screens: {
-        'sm': '500px', // 640px
+        'sm': '400px',
         'md': '768px',
         'lg': '1024px',
         'xl': '1280px',
@@ -41,8 +41,8 @@ export default {
         '.album': {
           '@apply aspect-album rounded-md object-cover !w-44': {},
         },
-        '.video-list': {
-          '@apply grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6':
+        '.books-list': {
+          '@apply grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6':
               {},
         },
         '.main-container': {

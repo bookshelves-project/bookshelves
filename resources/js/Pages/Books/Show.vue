@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useDate, useFetch } from '@kiwilan/typescriptable-laravel'
+import type { Entity } from '@/Types'
 
 const props = defineProps<{
   book: App.Models.Book
@@ -7,6 +8,7 @@ const props = defineProps<{
 }>()
 
 const size = ref<string>()
+const related = ref<Entity[]>()
 const extension = ref<string>()
 const { dateString } = useDate()
 
@@ -47,10 +49,19 @@ async function getSize(): Promise<{ size: number, extension: string }> {
   return body
 }
 
+async function getRelatedBooks(): Promise<Entity[]> {
+  const response = await laravel.get('api.books.related', { book_slug: props.book.slug })
+  const body = await response.json()
+
+  return body.data
+}
+
 onMounted(async () => {
   const sizeApi = await getSize()
   size.value = bytesToHuman(sizeApi.size)
   extension.value = sizeApi.extension
+
+  related.value = await getRelatedBooks()
 })
 </script>
 
@@ -60,7 +71,6 @@ onMounted(async () => {
     icon="ereader"
   >
     <ShowContainer
-      class="pb-24"
       :model="book"
       :type="ucfirst(book.type)"
       :title="book.title"
@@ -113,6 +123,18 @@ onMounted(async () => {
             v-for="b in book.serie?.books"
             :key="b.id"
             :book="b"
+            :square="square"
+            carousel
+          />
+        </AppCarousel>
+        <AppCarousel
+          v-if="related?.length"
+          :title="`${book.title} related`"
+        >
+          <CardEntity
+            v-for="r in related"
+            :key="r.slug"
+            :entity="r"
             :square="square"
             carousel
           />

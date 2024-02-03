@@ -88,7 +88,7 @@ const pagination = [10, 25, 50, 100]
         No elements
       </div>
     </div>
-    <div class="video-list mt-6">
+    <div class="books-list mt-6">
       <slot />
       <ILink
         v-if="nextPageLink"

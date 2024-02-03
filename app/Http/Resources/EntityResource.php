@@ -22,21 +22,27 @@ class EntityResource extends JsonResource
         }
 
         return [
-            'meta' => $this->resource->meta,
             'title' => $this->resource->title,
+            'slug' => $this->resource->slug,
             'type' => $this->resource->type?->locale(),
             'authors' => $this->toAuthors(),
             'serie' => $this->toSerie(),
             'language' => $this->toLanguage(),
             'volume' => $this->resource->volume ?? null,
             'count' => $this->resource->books_count,
-            'media' => $this->resource->cover_thumbnail,
+            'cover_thumbnail' => $this->resource->cover_thumbnail,
+            'cover_color' => $this->resource->cover_color,
+            'route' => $this->resource->meta_route,
             // 'first_char' => $this->resource->first_char ?? null,
         ];
     }
 
-    private function toAuthors(): array
+    private function toAuthors(): ?array
     {
+        if ($this->resource->authors->isEmpty()) {
+            return null;
+        }
+
         return $this->resource->authors->map(fn ($author) => [
             'id' => $author->id,
             'name' => $author->name,
@@ -45,8 +51,12 @@ class EntityResource extends JsonResource
         ])->toArray();
     }
 
-    private function toSerie(): array
+    private function toSerie(): ?array
     {
+        if (! $this->resource->serie) {
+            return null;
+        }
+
         return [
             'id' => $this->resource->serie->id,
             'name' => $this->resource->serie->title,
@@ -55,8 +65,12 @@ class EntityResource extends JsonResource
         ];
     }
 
-    private function toLanguage(): array
+    private function toLanguage(): ?array
     {
+        if (! $this->resource->language) {
+            return null;
+        }
+
         return [
             'name' => $this->resource->language->name,
             'slug' => $this->resource->language->slug,

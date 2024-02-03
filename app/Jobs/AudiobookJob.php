@@ -9,6 +9,7 @@ use App\Facades\Bookshelves;
 use App\Models\Audiobook;
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\Language;
 use App\Models\Serie;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -68,6 +69,13 @@ class AudiobookJob implements ShouldQueue
             $book->save();
             $book->audiobooks()->saveMany($audiobooks);
         });
+
+        if ($first->comment) {
+            $language = Language::query()->firstOrCreate([
+                'name' => $first->comment,
+            ]);
+            $book->language()->associate($language);
+        }
 
         if ($first->authors) {
             foreach ($first->authors as $author) {

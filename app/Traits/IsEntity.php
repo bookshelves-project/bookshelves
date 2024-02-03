@@ -3,6 +3,8 @@
 namespace App\Traits;
 
 use App\Models\Author;
+use App\Models\Book;
+use App\Models\Serie;
 use Closure;
 use ReflectionClass;
 
@@ -24,25 +26,6 @@ trait IsEntity
         $short_name = $class->getShortName();
 
         return strtolower($short_name);
-    }
-
-    public function getShowRouteEntity(): string
-    {
-        $entity = $this->getEntity();
-        $route = null;
-
-        if ($this instanceof Author) {
-            $route = route("api.{$entity}s.show", [
-                "{$entity}_slug" => $this->slug,
-            ]);
-        } else {
-            $route = route("api.{$entity}s.show", [
-                'author_slug' => $this->meta_author,
-                "{$entity}_slug" => $this->slug,
-            ]);
-        }
-
-        return $route;
     }
 
     public function isAuthorEntity(Closure $isAuthor, Closure $isNotAuthor)
@@ -77,25 +60,26 @@ trait IsEntity
         return $route;
     }
 
-    public function getMetaAttribute(): array
+    public function getMetaRouteAttribute(): ?string
     {
-        $meta = [
-            'entity' => $this->getEntity(),
-            'show' => $this->getShowRouteEntity(),
-            'slug' => $this->slug,
-        ];
-
-        if (! $this instanceof Author) {
-            $meta['author'] = $this->meta_author;
-        } else {
-            $meta['books'] = route('api.authors.show.books', [
-                'author_slug' => $this->slug,
-            ]);
-            $meta['series'] = route('api.authors.show.series', [
+        /** @var Author|Book|Serie */
+        $instance = $this;
+        if ($instance instanceof Author) {
+            return route('authors.books', [
                 'author_slug' => $this->slug,
             ]);
         }
 
-        return $meta;
+        if ($instance instanceof Book) {
+            return route("{$this->type->value}.show", [
+                'book_slug' => $this->slug,
+            ]);
+        }
+
+        if ($instance instanceof Serie) {
+            return route("series.{$this->type->value}s.show", [
+                'serie_slug' => $this->slug,
+            ]);
+        }
     }
 }

@@ -23,7 +23,7 @@ function scrollRight() {
 </script>
 
 <template>
-  <div class="h-96 relative">
+  <div>
     <div class="flex items-center">
       <div
         v-if="title"

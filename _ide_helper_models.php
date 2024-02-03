@@ -114,7 +114,6 @@ namespace App\Models{
  * @property-read array $files_list
  * @property-read mixed $first_char
  * @property-read mixed $genres_list
- * @property-read array $meta
  * @property-read string $meta_class
  * @property-read string $meta_class_name
  * @property-read string $meta_class_name_plural
@@ -124,6 +123,7 @@ namespace App\Models{
  * @property-read string $meta_class_snake
  * @property-read string $meta_class_snake_plural
  * @property-read string $meta_first_char
+ * @property-read string $meta_route
  * @property-read string $opds_link
  * @property-read mixed $tags_list
  * @property-read string $tags_string
@@ -209,7 +209,6 @@ namespace App\Models{
  * @property-read \App\Models\Collection<string, DownloadFile> $files_list
  * @property-read mixed $genres_list
  * @property-read string|null $isbn
- * @property-read array $meta
  * @property-read string|null $meta_author
  * @property-read string $meta_class
  * @property-read string $meta_class_name
@@ -220,6 +219,7 @@ namespace App\Models{
  * @property-read string $meta_class_snake
  * @property-read string $meta_class_snake_plural
  * @property-read string $meta_first_char
+ * @property-read string $meta_route
  * @property-read string $opds_link
  * @property-read mixed $tags_list
  * @property-read string $tags_string
@@ -416,7 +416,6 @@ namespace App\Models{
  * @property-read array $files_list
  * @property-read mixed $first_char
  * @property-read mixed $genres_list
- * @property-read array $meta
  * @property-read string|null $meta_author
  * @property-read string $meta_class
  * @property-read string $meta_class_name
@@ -427,6 +426,7 @@ namespace App\Models{
  * @property-read string $meta_class_snake
  * @property-read string $meta_class_snake_plural
  * @property-read string $meta_first_char
+ * @property-read string $meta_route
  * @property-read string $opds_link
  * @property-read mixed $tags_list
  * @property-read string $tags_string
