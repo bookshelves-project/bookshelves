@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { usePaginate, useQuery } from '@kiwilan/typescriptable-laravel'
+import { usePagination, useQuery } from '@kiwilan/typescriptable-laravel'
 
 const props = defineProps<{
   query: App.Paginate<any>
   sortable?: { label: string, value: string }[]
 }>()
 
-const { sortBy, sortReverse, isReversed, limitTo, request } = useQuery<App.Models.Book>(props.query)
-const { nextPage } = usePaginate(props.query)
+const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<App.Models.Book>(props.query)
+const { nextPageLink } = usePagination(props.query)
 const pagination = [10, 25, 50, 100]
 </script>
 
@@ -76,10 +76,10 @@ const pagination = [10, 25, 50, 100]
         </button>
       </div>
       <div
-        v-if="request?.total"
+        v-if="total"
         class="text-gray-400"
       >
-        {{ request.total }} elements
+        {{ total }} elements
       </div>
       <div
         v-else
@@ -91,8 +91,8 @@ const pagination = [10, 25, 50, 100]
     <div class="video-list mt-6">
       <slot />
       <ILink
-        v-if="nextPage"
-        :href="nextPage"
+        v-if="nextPageLink"
+        :href="nextPageLink"
         class="poster flex bg-gray-800 hover:bg-gray-700 h-full w-full relative"
       >
         <SvgIcon

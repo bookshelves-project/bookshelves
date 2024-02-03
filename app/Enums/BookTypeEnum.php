@@ -12,13 +12,13 @@ enum BookTypeEnum: string implements HasColor, HasIcon, HasLabel
 {
     use LazyEnum;
 
-    case audiobook = 'audiobook';
-
     case book = 'book';
 
     case comic = 'comic';
 
     case manga = 'manga';
+
+    case audiobook = 'audiobook';
 
     public function libraryPath(): ?string
     {

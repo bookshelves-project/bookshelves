@@ -12,8 +12,8 @@ devDependencies:
     specifier: ^1.0.14
     version: 1.0.14(vue@3.4.15)
   '@kiwilan/typescriptable-laravel':
-    specifier: ^2.4.20
-    version: 2.4.20(laravel-vite-plugin@1.0.1)(vite@5.0.12)(vue@3.4.15)
+    specifier: ^2.4.21
+    version: 2.4.21(laravel-vite-plugin@1.0.1)(vite@5.0.12)(vue@3.4.15)
   '@tailwindcss/aspect-ratio':
     specifier: ^0.4.2
     version: 0.4.2(tailwindcss@3.4.1)
@@ -582,8 +582,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@kiwilan/typescriptable-laravel@2.4.20(laravel-vite-plugin@1.0.1)(vite@5.0.12)(vue@3.4.15):
-    resolution: {integrity: sha512-fcFandh5DmbWBo+fmhyMk6sM0om4m7UtakWYN0OoWO4Kz6FOVBCYjWTFA/11IiDk0bdzpZ3B+4lBiK46ZZ3UZg==}
+  /@kiwilan/typescriptable-laravel@2.4.21(laravel-vite-plugin@1.0.1)(vite@5.0.12)(vue@3.4.15):
+    resolution: {integrity: sha512-ZXzDiSzwCTEdfkCYFxNsLkAguaj73KfTD8q/3lZJ26JN2sV7/ZBOP9uHVzkJSu505RHtjk9Ihl1WbW0YXMroXA==}
     peerDependencies:
       laravel-vite-plugin: '*'
       vite: ^4.x.x || ^5.x.x
