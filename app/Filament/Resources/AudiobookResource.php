@@ -30,6 +30,15 @@ class AudiobookResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('serie')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('narrators')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('authors')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('volume')
                     ->sortable(),
             ])

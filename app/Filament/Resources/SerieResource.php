@@ -57,7 +57,8 @@ class SerieResource extends Resource
                     ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('type')
                     ->badge()
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('language.name')
                     ->searchable(),
             ])
