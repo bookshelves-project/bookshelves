@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBooksCollection;
@@ -73,6 +72,10 @@ class Serie extends Model implements HasMedia
         'wikipedia_parsed_at',
     ];
 
+    protected $appends = [
+        'download_link',
+    ];
+
     protected $casts = [
         'wikipedia_parsed_at' => 'datetime',
         'type' => BookTypeEnum::class,
@@ -85,6 +88,7 @@ class Serie extends Model implements HasMedia
     protected $with = [
         'authors', // for search
         'language',
+        'media',
     ];
 
     public function getBooksLinkAttribute(): string
@@ -95,14 +99,10 @@ class Serie extends Model implements HasMedia
         ]);
     }
 
-    public function getDownloadLinkFormat(string $format): string
+    public function getDownloadLinkAttribute(): string
     {
-        $format = BookFormatEnum::from($format)->value;
-
-        return route('api.download.serie', [
-            'author_slug' => $this->meta_author,
-            'serie_slug' => $this->slug,
-            'format' => $format,
+        return route('api.downloads.serie', [
+            'serie_id' => $this->id,
         ]);
     }
 

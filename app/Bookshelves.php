@@ -4,6 +4,31 @@ namespace App;
 
 class Bookshelves
 {
+    public function apiGoogleBooks(): bool
+    {
+        return config('bookshelves.api.google_books', false);
+    }
+
+    public function apiOpenLibrary(): bool
+    {
+        return config('bookshelves.api.open_library', false);
+    }
+
+    public function apiComicVine(): bool
+    {
+        return config('bookshelves.api.comic_vine', false);
+    }
+
+    public function apiIsbn(): bool
+    {
+        return config('bookshelves.api.isbn', false);
+    }
+
+    public function apiWikipedia(): bool
+    {
+        return config('bookshelves.api.wikipedia', false);
+    }
+
     public function appVersion(): string
     {
         $cache = 'app-version';

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Serie;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -17,6 +18,8 @@ class Controller extends BaseController
     public function __construct()
     {
         Route::bind('book_id', fn (string $id) => \App\Models\Book::query()->find($id));
+        Route::bind('serie_id', fn (string $id) => \App\Models\Serie::query()->find($id));
+
         Route::bind('book_slug', fn (string $slug) => \App\Models\Book::query()->where('slug', $slug)->firstOrFail());
         Route::bind('author_slug', fn (string $slug) => \App\Models\Author::query()->where('slug', $slug)->firstOrFail());
         Route::bind('serie_slug', fn (string $slug) => \App\Models\Serie::query()->where('slug', $slug)->firstOrFail());
@@ -49,6 +52,16 @@ class Controller extends BaseController
             'query' => $query,
             'breadcrumbs' => $breadcrumbs,
             'square' => $squareCovers,
+        ]);
+    }
+
+    public function getSerie(Serie $serie, bool $square = false)
+    {
+        $serie->load(['authors', 'books', 'tags', 'media', 'books.media']);
+
+        return inertia('Series/Show', [
+            'serie' => $serie,
+            'square' => $square,
         ]);
     }
 }

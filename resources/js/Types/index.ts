@@ -9,5 +9,5 @@ export interface Entity {
   count?: string
   cover_thumbnail?: string
   cover_color?: string
-  route: string
+  meta_route: string
 }

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useDate, useFetch } from '@kiwilan/typescriptable-laravel'
 import type { Entity } from '@/Types'
+import { useUtils } from '@/Composables/useUtils'
 
 const props = defineProps<{
   book: App.Models.Book
@@ -10,23 +11,10 @@ const props = defineProps<{
 const size = ref<string>()
 const related = ref<Entity[]>()
 const extension = ref<string>()
+
+const { laravel } = useFetch()
+const { bytesToHuman, ucfirst, getSize } = useUtils()
 const { dateString } = useDate()
-
-/**
- * Transform bytes to human readable format.
- */
-function bytesToHuman(bytes?: number): string {
-  if (!bytes)
-    return 'N/A'
-
-  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
-
-  let i = 0
-  for (; bytes > 1024; i++)
-    bytes /= 1024
-
-  return `${bytes.toFixed(2)} ${units[i]}`
-}
 
 const titlePage = computed(() => {
   if (props.book.serie)
@@ -35,31 +23,15 @@ const titlePage = computed(() => {
   return props.book.title
 })
 
-function ucfirst(string?: string) {
-  if (!string)
-    return ''
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
-
-const { laravel } = useFetch()
-async function getSize(): Promise<{ size: number, extension: string }> {
-  const response = await laravel.get('api.downloads.size', { book_id: props.book.id })
-  const body = await response.json()
-
-  return body
-}
-
 async function getRelatedBooks(): Promise<Entity[]> {
   const response = await laravel.get('api.books.related', { book_slug: props.book.slug })
-  const body = await response.json()
-
-  return body.data
+  return (await response.json()).data
 }
 
 onMounted(async () => {
-  const sizeApi = await getSize()
-  size.value = bytesToHuman(sizeApi.size)
-  extension.value = sizeApi.extension
+  const api = await getSize('book', props.book.id)
+  size.value = bytesToHuman(api.size)
+  extension.value = api.extension
 
   related.value = await getRelatedBooks()
 })
@@ -107,7 +79,7 @@ onMounted(async () => {
         #undertitle
       >
         <ILink
-          :href="$route('series.books.show', { serie_slug: book.serie.slug })"
+          :href="$route(`series.${book.type}s.show` as any, { serie_slug: book.serie.slug })"
           class="link"
         >
           {{ book.serie.title }}

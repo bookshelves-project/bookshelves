@@ -11,6 +11,7 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
 use App\Models\Serie;
+use App\Models\Tag;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -46,7 +47,6 @@ class AudiobookJob implements ShouldQueue
         $audiobooks = Audiobook::query()
             ->where('serie', $this->serieName)
             ->get();
-
         $first = $audiobooks->first();
         $this->parseTitle($first->serie);
 
@@ -58,7 +58,7 @@ class AudiobookJob implements ShouldQueue
             'description' => $first->description,
             'audiobook_narrators' => $first->narrators,
             'audiobook_chapters' => count($audiobooks),
-            'rights' => $first->stik,
+            'rights' => $first->encoding,
             'volume' => $this->bookVolume,
             'type' => BookTypeEnum::audiobook,
             'format' => BookFormatEnum::fromExtension($first->extension),
@@ -69,6 +69,17 @@ class AudiobookJob implements ShouldQueue
             $book->save();
             $book->audiobooks()->saveMany($audiobooks);
         });
+
+        if ($first->tags) {
+            $tags = collect();
+            foreach ($first->tags as $tag) {
+                $tag = Tag::query()->firstOrCreate([
+                    'name' => $tag,
+                ]);
+                $tags->push($tag);
+            }
+            $book->tags()->syncWithoutDetaching($tags->pluck('id'));
+        }
 
         if ($first->comment) {
             $language = Language::query()->firstOrCreate([
@@ -88,7 +99,7 @@ class AudiobookJob implements ShouldQueue
 
         $serie = null;
         if ($this->bookSerie) {
-            $slug = Str::slug($this->bookSerie.' '.BookTypeEnum::audiobook->value.' '.$book->language);
+            $slug = Str::slug($this->bookSerie.' '.BookTypeEnum::audiobook->value.' '.$book->language?->name);
             $serie = Serie::query()->firstOrCreate([
                 'title' => $this->bookSerie,
                 'slug' => $slug,
@@ -110,13 +121,15 @@ class AudiobookJob implements ShouldQueue
             ->save();
 
         Book::withoutSyncingToSearch(function () use ($book, $serie) {
-            $book->save();
-
             $book->authorMain()->associate($book->authors[0] ?? null);
             $book->save();
+
             if ($serie) {
-                $serie->authors()->saveMany($book->authors);
-                $serie->authorMain()->associate($book->authorMain);
+                /** @var Serie $serie */
+                $serie->authors()->syncWithoutDetaching($book->authors->pluck('id'));
+                if (! $serie->authorMain) {
+                    $serie->authorMain()->associate($book->authorMain);
+                }
                 $serie->save();
             }
         });

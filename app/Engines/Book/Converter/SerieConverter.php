@@ -3,6 +3,7 @@
 namespace App\Engines\Book\Converter;
 
 use App\Engines\Book\Converter\Modules\SerieModule;
+use App\Facades\Bookshelves;
 use App\Models\Serie;
 use Illuminate\Support\Facades\Log;
 use Kiwilan\Steward\Utils\Wikipedia;
@@ -23,7 +24,11 @@ class SerieConverter
         $self = new SerieConverter($serie, $fresh);
         $self->setTags();
         $self->setCover();
-        $self->wikipedia();
+        if (Bookshelves::apiWikipedia()) {
+            $self->wikipedia();
+        }
+
+        $self->setBookDescription();
 
         return $self;
     }
@@ -40,7 +45,6 @@ class SerieConverter
             ->get();
 
         $item = $wikipedia->getItem();
-        $this->setBookDescription();
         $this->serie->wikipedia_parsed_at = now();
 
         if (! $item) {
@@ -62,6 +66,7 @@ class SerieConverter
         if (! $this->serie->description) {
             $books = $this->serie->load('books')->books;
             $this->serie->description = $books->first()->description;
+            $this->serie->save();
         }
     }
 

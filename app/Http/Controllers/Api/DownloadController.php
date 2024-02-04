@@ -6,6 +6,7 @@ use App\Enums\BookTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Audiobook;
 use App\Models\Book;
+use App\Models\Serie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Kiwilan\Steward\Utils\Downloader\Downloader;
@@ -16,21 +17,18 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('downloads')]
 class DownloadController extends Controller
 {
-    #[Get('/{book_id}', name: 'api.downloads.show')]
-    public function show(Request $request, Book $book)
+    #[Get('/book/{book_id}', name: 'api.downloads.book')]
+    public function book(Request $request, Book $book)
     {
-        /** @var ?BookTypeEnum $type */
-        $type = $book->type;
-
         $serie = $book->serie?->name ?? '';
         $volume = $book->volume ?? '';
         if ($serie) {
             $serie = Str::slug("{$serie}-{$volume}");
         }
         $author = $book->authorMain?->name ?? '';
-        $name = Str::slug("{$serie}-{$book->slug}-{$author}-{$type->value}");
+        $name = Str::slug("{$serie}-{$book->slug}-{$author}-{$book->type->value}");
 
-        if ($type !== BookTypeEnum::audiobook) {
+        if ($book->type !== BookTypeEnum::audiobook) {
             Downloader::direct($book->physical_path)
                 ->mimeType($book->mime_type)
                 ->name("{$name}.{$book->extension}")
@@ -49,24 +47,36 @@ class DownloadController extends Controller
             ->get();
     }
 
-    #[Get('/size/{book_id}', name: 'api.downloads.size')]
-    public function size(Request $request, Book $book)
+    #[Get('/serie/{serie_id}', name: 'api.downloads.serie')]
+    public function serie(Request $request, Serie $serie)
     {
-        /** @var ?BookTypeEnum $type */
-        $type = $book->type;
+        $files = [];
+        $serie->load('books');
 
-        if ($type !== BookTypeEnum::audiobook) {
-            $size = filesize($book->physical_path);
+        if ($serie->type !== BookTypeEnum::audiobook) {
+            $files = $serie->books
+                ->map(fn (Book $book) => new DownloaderZipStreamItem("{$book->slug}.{$book->extension}", $book->physical_path))
+                ->toArray();
         } else {
-            $audiobooks = $book->audiobooks;
-            $size = $audiobooks
-                ->map(fn (Audiobook $audiobook) => filesize($audiobook->physical_path))
-                ->sum();
+            foreach ($serie->books as $book) {
+                $book->load('audiobooks');
+                $audiobooks = $book->audiobooks;
+                $files = array_merge(
+                    $files,
+                    $audiobooks
+                        ->map(function (Audiobook $audiobook) use ($book) {
+                            $name = Str::slug("{$book->title}").'.'.$audiobook->basename;
+
+                            return new DownloaderZipStreamItem($name, $audiobook->physical_path);
+                        })
+                        ->toArray()
+                );
+            }
         }
 
-        return response()->json([
-            'extension' => $type === BookTypeEnum::audiobook ? 'zip' : $book->extension,
-            'size' => $size,
-        ]);
+        $name = Str::slug("{$serie->slug}-".$serie->books->count().'-books');
+        Downloader::stream($name)
+            ->files($files)
+            ->get();
     }
 }

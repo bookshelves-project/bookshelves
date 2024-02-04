@@ -66,6 +66,14 @@ return [
         ],
     ],
 
+    'api' => [
+        'google_books' => env('BOOKSHELVES_API_GOOGLE_BOOKS', false),
+        'open_library' => env('BOOKSHELVES_API_OPEN_LIBRARY', false),
+        'comic_vine' => env('BOOKSHELVES_API_ISBN', false),
+        'isbn' => env('BOOKSHELVES_API_COMIC_VINE', false),
+        'wikipedia' => env('BOOKSHELVES_API_WIKIPEDIA', false),
+    ],
+
     'library' => [
         'books' => env('BOOKSHELVES_LIBRARY_BOOKS', false),
         'comics' => env('BOOKSHELVES_LIBRARY_COMICS', false),

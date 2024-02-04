@@ -22,7 +22,9 @@ class AuthorConverter
     public static function make(Author $author, bool $fresh = false): self
     {
         $self = new AuthorConverter($author, $fresh);
-        $self->wikipedia();
+        if (Bookshelves::apiWikipedia()) {
+            $self->wikipedia();
+        }
 
         return $self;
     }

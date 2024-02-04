@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
-#[Prefix('series/mangas')]
+#[Prefix('series-mangas')]
 class SerieMangaController extends Controller
 {
     #[Get('/', name: 'series.mangas.index')]
@@ -22,10 +22,6 @@ class SerieMangaController extends Controller
     #[Get('/{serie_slug}', name: 'series.mangas.show')]
     public function show(Serie $serie)
     {
-        $serie->load(['authors', 'books', 'tags', 'media']);
-
-        return inertia('Series/Show', [
-            'serie' => $serie,
-        ]);
+        return $this->getSerie($serie);
     }
 }

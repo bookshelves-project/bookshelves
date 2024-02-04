@@ -2,31 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Engines\SearchEngine;
 use App\Http\Controllers\Controller;
+use App\Utils\Searching;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
-/**
- * @group Search
- *
- * APIs for Search.
- */
 #[Prefix('search')]
 class SearchController extends Controller
 {
     #[Get('/', name: 'api.search.index')]
     public function index(Request $request)
     {
-        $q = $request->input('q');
-        $types = $request->input('types');
+        $searchInput = $request->input('search');
+        $limitInput = $request->input('limit', false);
+        if (! $searchInput) {
+            return [];
+        }
+        $search = Searching::search($searchInput, $limitInput);
 
-        $service = SearchEngine::make(
-            q: $q,
-            types: $types
-        );
-
-        return $service->json();
+        return $search->results();
     }
 }

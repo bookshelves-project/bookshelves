@@ -56,7 +56,7 @@ const seeResults = computed(() => {
     >
       <ILink
         class="block md:flex items-center rounded-md px-2 py-1 text-base hover:bg-slate-700 justify-between"
-        :href="result.show_route"
+        :href="result.meta_route"
       >
         <div class="flex items-center justify-between w-full">
           <div class="flex items-center">

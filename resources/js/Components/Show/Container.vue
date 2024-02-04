@@ -71,18 +71,6 @@ const display = ref<Display>('media')
             <slot name="swipers" />
           </template>
         </ShowMedia>
-        <!-- <ShowCrew
-          v-else-if="display === 'crew'"
-          :title="title"
-          :model="model"
-          :type="type"
-          class="mt-6"
-        /> -->
-        <!-- <ShowMetadata
-          v-else-if="file?.metadata && display === 'metadata'"
-          :path="file?.relative_path"
-          :metadata="file?.metadata"
-        /> -->
       </Transition>
     </div>
   </div>

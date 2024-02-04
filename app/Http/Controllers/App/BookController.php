@@ -39,15 +39,4 @@ class BookController extends Controller
             'square' => $book->type === BookTypeEnum::audiobook,
         ]);
     }
-
-    #[Get('/related/{book_slug}', name: 'books.related')]
-    public function related(Book $book)
-    {
-        $related = $book->getRelated();
-
-        return inertia('Books/Show', [
-            'book' => $book,
-            'square' => $book->type === BookTypeEnum::audiobook,
-        ]);
-    }
 }

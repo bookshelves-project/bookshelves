@@ -14,7 +14,7 @@ withDefaults(defineProps<Props>(), {
 
 <template>
   <ILink
-    :href="entity.route"
+    :href="entity.meta_route"
     :title="entity.title"
   >
     <AppImg

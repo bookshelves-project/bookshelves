@@ -124,7 +124,7 @@ class OpdsBase
             content: trim($summary),
             route: route('opds.books.show', ['book' => $book->slug]),
             updated: $book->updated_at,
-            download: route('api.downloads.show', ['book_id' => $book->id]),
+            download: route('api.downloads.book', ['book_id' => $book->id]),
             media: $book->cover_social,
             mediaThumbnail: $book->cover_thumbnail,
             categories: $book->tags->pluck('name')->toArray(),

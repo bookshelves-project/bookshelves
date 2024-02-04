@@ -32,7 +32,7 @@ class EntityResource extends JsonResource
             'count' => $this->resource->books_count,
             'cover_thumbnail' => $this->resource->cover_thumbnail,
             'cover_color' => $this->resource->cover_color,
-            'route' => $this->resource->meta_route,
+            'meta_route' => $this->resource->meta_route,
             // 'first_char' => $this->resource->first_char ?? null,
         ];
     }

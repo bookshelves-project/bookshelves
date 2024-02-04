@@ -15,6 +15,12 @@ use ReflectionClass;
  */
 trait IsEntity
 {
+    public function initializeIsEntity()
+    {
+        $this->appends[] = 'entity';
+        $this->appends[] = 'meta_route';
+    }
+
     public function getEntityAttribute(): string
     {
         return $this->getEntity();
@@ -62,16 +68,16 @@ trait IsEntity
 
     public function getMetaRouteAttribute(): ?string
     {
-        /** @var Author|Book|Serie */
+        /** @var Author|Book|Serie|mixed */
         $instance = $this;
         if ($instance instanceof Author) {
-            return route('authors.books', [
+            return route('authors.show', [
                 'author_slug' => $this->slug,
             ]);
         }
 
         if ($instance instanceof Book) {
-            return route("{$this->type->value}.show", [
+            return route("{$this->type->value}s.show", [
                 'book_slug' => $this->slug,
             ]);
         }
@@ -81,5 +87,7 @@ trait IsEntity
                 'serie_slug' => $this->slug,
             ]);
         }
+
+        return route('home');
     }
 }

@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \App\Bookshelves
  *
+ * @method static bool apiGoogleBooks()
+ * @method static bool apiOpenLibrary()
+ * @method static bool apiComicVine()
+ * @method static bool apiIsbn()
+ * @method static bool apiWikipedia()
  * @method static string appVersion()
  * @method static string analyzerEngine()
  * @method static string analyzerDebug()

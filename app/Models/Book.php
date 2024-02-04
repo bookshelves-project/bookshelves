@@ -56,6 +56,7 @@ class Book extends Model implements HasMedia
         'title',
         'type',
         'serie',
+        'slug',
         'authors',
         'volume',
         'isbn',
@@ -119,6 +120,7 @@ class Book extends Model implements HasMedia
         'authors',
         'serie',
         'language',
+        'media',
     ];
 
     protected $withCount = [
@@ -127,7 +129,7 @@ class Book extends Model implements HasMedia
 
     public function getDownloadLinkAttribute(): string
     {
-        return route('api.downloads.show', [
+        return route('api.downloads.book', [
             'book_id' => $this->id,
         ]);
     }

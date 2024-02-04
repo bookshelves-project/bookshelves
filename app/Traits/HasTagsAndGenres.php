@@ -3,14 +3,40 @@
 namespace App\Traits;
 
 use App\Models\Tag;
-use ArrayAccess;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 trait HasTagsAndGenres
 {
-    public function scopeWithAllTags(Builder $query, ...$tags)
+    /**
+     * Scope a query to only include records with any of the given tags.
+     */
+    public function scopeWithAllTags(Builder $query, iterable ...$tags): Builder
+    {
+        $ids = [];
+
+        foreach ($tags as $tag) {
+            $tag = Tag::query()->where('slug', $tag)->first();
+            if ($tag && is_int($tag->id)) {
+                $ids[] = $tag->id;
+            }
+        }
+
+        return $query->whereHas(
+            'tags',
+            function (Builder $query) use ($ids) {
+                $query->select(DB::raw('count(distinct id)'))->whereIn('id', $ids);
+            },
+            '=',
+            count($ids)
+        );
+    }
+
+    /**
+     * Scope a query to only include records with all of the given tags.
+     */
+    public function scopeWhereTagsAllIs(Builder $query, iterable ...$tags): Builder
     {
         $tags_ids = [];
 
@@ -33,36 +59,19 @@ trait HasTagsAndGenres
         );
     }
 
-    public function scopeWhereTagsAllIs(Builder $query, ...$tags)
-    {
-        $tags_ids = [];
-
-        foreach ($tags as $tag) {
-            $tag_model = Tag::query()->where('slug', $tag)->first();
-            $id = $tag_model?->id;
-
-            if ($id) {
-                array_push($tags_ids, $id);
-            }
-        }
-
-        return $query->whereHas(
-            'tags',
-            function (Builder $query) use ($tags_ids) {
-                $query->select(DB::raw('count(distinct id)'))->whereIn('id', $tags_ids);
-            },
-            '=',
-            count($tags_ids)
-        );
-    }
-
-    public function scopeWhereTagsIs(Builder $query, ...$tags)
+    /**
+     * Scope a query to only include records with any of the given tags.
+     */
+    public function scopeWhereTagsIs(Builder $query, iterable ...$tags): Builder
     {
         return $query->whereHas('tags', function (Builder $q) use ($tags) {
             $q->whereIn('slug', $tags);
         });
     }
 
+    /**
+     * Get tags as string.
+     */
     public function getTagsStringAttribute(): string
     {
         $tags = $this->tags()->get();
@@ -73,26 +82,39 @@ trait HasTagsAndGenres
         return implode(', ', $tag_names);
     }
 
-    public function getTagsListAttribute()
+    /**
+     * Get only tags.
+     *
+     * @return Collection<int, Tag>
+     */
+    public function getTagsListAttribute(): Collection
     {
         return $this->tags()->whereType('tag')->get();
     }
 
-    public function getGenresListAttribute()
+    /**
+     * Get only genres.
+     *
+     * @return Collection<int, Tag>
+     */
+    public function getGenresListAttribute(): Collection
     {
         return $this->tags()->whereType('genre')->get();
     }
 
-    public function tags(): MorphToMany
+    public function tags(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this
             ->morphToMany(Tag::class, 'taggable', 'taggables', null, 'tag_id')
             ->orderBy('order_column');
     }
 
-    public function syncTagsList(array|ArrayAccess $tags): static
+    /**
+     * Sync tags list.
+     */
+    public function syncTagsList(iterable $tags): static
     {
-        $tags_list = collect();
+        $items = collect();
 
         foreach ($tags as $name) {
             $tag = Tag::query()->where('name', $name)
@@ -103,10 +125,10 @@ trait HasTagsAndGenres
                     'name' => $name,
                 ]);
             }
-            $tags_list->add($tag);
+            $items->add($tag);
         }
 
-        $this->tags()->sync($tags_list->pluck('id')->toArray());
+        $this->tags()->sync($items->pluck('id')->toArray());
 
         return $this;
     }

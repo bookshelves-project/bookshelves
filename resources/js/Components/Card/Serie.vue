@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 interface Props {
   serie: App.Models.Serie
-  square: boolean
+  square?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
@@ -10,7 +10,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <ILink :href="$route('series.books.show', { serie_slug: serie.slug })">
+  <ILink :href="$route(`series.${serie.type}s.show` as any, { serie_slug: serie.slug })">
     <AppImg
       :class="{
         'poster h-64': !square,
