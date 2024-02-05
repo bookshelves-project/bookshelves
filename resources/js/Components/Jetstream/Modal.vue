@@ -21,7 +21,6 @@ const emit = defineEmits(['close'])
 watch(() => props.show, () => {
   if (props.show)
     document.body.style.overflow = 'hidden'
-
   else
     document.body.style.overflow = null
 })
@@ -75,7 +74,7 @@ const maxWidthClass = computed(() => {
             class="fixed inset-0 transform transition-all"
             @click="close"
           >
-            <div class="absolute inset-0 bg-gray-500 opacity-75" />
+            <div class="absolute inset-0 bg-gray-500 dark:bg-gray-900 opacity-75" />
           </div>
         </transition>
 
@@ -89,7 +88,7 @@ const maxWidthClass = computed(() => {
         >
           <div
             v-show="show"
-            class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto"
+            class="mb-6 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto"
             :class="maxWidthClass"
           >
             <slot v-if="show" />

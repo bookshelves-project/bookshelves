@@ -7,9 +7,9 @@ use App\Models\Book;
 use App\Models\Language;
 use App\Models\Publisher;
 use App\Models\Serie;
+use App\Models\Tag;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
-use Spatie\Tags\Tag;
 
 class StatsCommand extends Commandable
 {
@@ -44,7 +44,7 @@ class StatsCommand extends Commandable
     {
         $this->table(
             ['Books', 'Series', 'Authors', 'Languages', 'Publishers', 'Tags'],
-            [[Book::count(), Serie::count(), Author::count(), Language::count(), Publisher::count(), Tag::count()]]
+            [[Book::query()->count(), Serie::query()->count(), Author::query()->count(), Language::query()->count(), Publisher::query()->count(), Tag::query()->count()]]
         );
 
         return Command::SUCCESS;

@@ -10,12 +10,10 @@ class Login extends BasePage
     {
         parent::mount();
 
-        if (config('app.env') === 'local') {
-            $this->form->fill([
-                'email' => config('app.admin.email'),
-                'password' => config('app.admin.password'),
-                'remember' => true,
-            ]);
-        }
+        $this->form->fill([
+            'email' => config('bookshelves.super_admin.email'),
+            'password' => config('bookshelves.super_admin.password'),
+            'remember' => true,
+        ]);
     }
 }

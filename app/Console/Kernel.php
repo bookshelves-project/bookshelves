@@ -2,13 +2,11 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Bookshelves\SetupCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Kiwilan\Steward\Commands\Publish\PublishScheduledCommand;
-use Kiwilan\Steward\Services\NotifyService;
-use Spatie\Health\Commands\DispatchQueueCheckJobsCommand;
-use Spatie\Health\Commands\RunHealthChecksCommand;
-use Spatie\Health\Commands\ScheduleCheckHeartbeatCommand;
+use Kiwilan\Notifier\Facades\Journal;
+use Kiwilan\Steward\Commands\Scout\ScoutFreshCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -17,27 +15,25 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(RunHealthChecksCommand::class)->everyMinute();
-        $schedule->command(ScheduleCheckHeartbeatCommand::class)->everyMinute();
-        $schedule->command(PublishScheduledCommand::class)->everyMinute();
-        $schedule->command(DispatchQueueCheckJobsCommand::class)->everyMinute();
+        $schedule->command(ScoutFreshCommand::class)
+            ->at('01:00')
+            ->mondays()
+            ->onSuccess(function () {
+                Journal::info('ScoutFreshCommand executed successfully');
+            })
+            ->onFailure(function () {
+                Journal::error('ScoutFreshCommand failed')->toDatabase();
+            });
 
-        if (config('app.backup')) {
-            $schedule->command('backup:clean')->daily()->at('01:00');
-            $schedule->command('backup:run')->daily()->at('01:30')
-                ->onFailure(function () {
-                    $name = config('app.name');
-                    NotifyService::make()
-                        ->message("[{$name}] The backup failed to run. Please check the logs.")
-                        ->send();
-                })
-                ->onSuccess(function () {
-                    $name = config('app.name');
-                    NotifyService::make()
-                        ->message("[{$name}] The backup successfully ran.")
-                        ->send();
-                });
-        }
+        $schedule->command(SetupCommand::class)
+            ->at('02:00')
+            ->daily()
+            ->onSuccess(function () {
+                Journal::info('SetupCommand executed successfully');
+            })
+            ->onFailure(function () {
+                Journal::error('SetupCommand failed')->toDatabase();
+            });
     }
 
     /**

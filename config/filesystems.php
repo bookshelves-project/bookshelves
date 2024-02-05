@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
@@ -28,47 +29,6 @@ return [
     */
 
     'disks' => [
-        'cms' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/cms'),
-            'url' => env('APP_URL').'/storage/media/cms',
-            'visibility' => 'public',
-        ],
-
-        'cover' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/covers'),
-            'url' => env('APP_URL').'/storage/media/covers',
-            'visibility' => 'public',
-        ],
-
-        'format' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/formats'),
-            'url' => env('APP_URL').'/storage/media/formats',
-            'visibility' => 'public',
-        ],
-
-        'media' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/media'),
-            'url' => env('APP_URL').'/storage/media/media',
-            'visibility' => 'public',
-        ],
-
-        'post' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/posts'),
-            'url' => env('APP_URL').'/storage/media/posts',
-            'visibility' => 'public',
-        ],
-
-        'user' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/users'),
-            'url' => env('APP_URL').'/storage/media/users',
-            'visibility' => 'public',
-        ],
 
         'local' => [
             'driver' => 'local',
@@ -84,6 +44,13 @@ return [
             'throw' => false,
         ],
 
+        'covers' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/covers'),
+            'url' => env('APP_URL').'/storage/covers',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -95,6 +62,7 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
+
     ],
 
     /*
@@ -111,4 +79,5 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
+
 ];

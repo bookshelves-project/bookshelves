@@ -11,9 +11,9 @@
 
 Bookshelves is a web application to handle eBooks, comics and audiobooks. Powered by Laravel.
 
-- [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
-- [**bookshelves.ink**](https://bookshelves.ink): demo (front uses [`bookshelves-front`](https://github.com/bookshelves-project/bookshelves-front))
-- [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-docs)
+-   [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
+-   [**bookshelves.ink**](https://bookshelves.ink): demo (front uses [`bookshelves-front`](https://github.com/bookshelves-project/bookshelves-front))
+-   [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-docs)
 
 ## Features
 
@@ -21,9 +21,9 @@ Bookshelves is a web application to handle eBooks, comics and audiobooks. Powere
 
 ### Roadmap
 
-- [ ] Add Docker installation option
-- [ ] Add Plex-like solution
-- [ ] Add tests
+-   [ ] Add Docker installation option
+-   [ ] Add Plex-like solution
+-   [ ] Add tests
 
 ## Installation
 
@@ -34,10 +34,54 @@ composer i
 pnpm i
 ```
 
-Execute `setup` and follow guide
+Create `.env` file
 
 ```bash
-php artisan setup
+cp .env.example .env
+```
+
+Generate application key
+
+```bash
+php artisan key:generate
+```
+
+Create symbolic link for storage
+
+```bash
+php artisan storage:link
+```
+
+Migrate database with seeders
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+Build assets
+
+```bash
+pnpm dev
+```
+
+### Create symbolic links
+
+For books
+
+```bash
+sudo ln -s /Volumes/data/books/books storage/app/data/books
+```
+
+For comics
+
+```bash
+sudo ln -s /Volumes/data/books/comics storage/app/data/comics
+```
+
+For audiobooks
+
+```bash
+sudo ln -s /Volumes/data/books/audiobooks storage/app/data/audiobooks
 ```
 
 ## Usage
@@ -51,6 +95,7 @@ Run tests.
 ```bash
 composer test
 ```
+
 ## Environment
 
 Bookshelves is powered by [`laravel`](https://laravel.com/) and administrator panel was built with [`filament`](https://filamentphp.com/).

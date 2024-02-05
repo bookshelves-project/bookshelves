@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3'
+import { useTypescriptable } from '@kiwilan/typescriptable-laravel'
 import AuthenticationCard from '@/Components/Jetstream/AuthenticationCard.vue'
 import AuthenticationCardLogo from '@/Components/Jetstream/AuthenticationCardLogo.vue'
 import Checkbox from '@/Components/Jetstream/Checkbox.vue'
@@ -13,18 +14,13 @@ defineProps({
   status: String,
 })
 
-const isDev = process.env.NODE_ENV === 'development'
-const form = useForm({
-  email: '',
-  password: '',
-  remember: false,
-})
+const { isDev } = useTypescriptable()
 
-if (isDev) {
-  form.email = 'superadmin@example.com'
-  form.password = 'password'
-  form.remember = true
-}
+const form = useForm({
+  email: isDev.value ? 'superadmin@example.com' : '',
+  password: isDev.value ? 'password' : '',
+  remember: !!isDev.value,
+})
 
 function submit() {
   form.transform(data => ({
@@ -46,7 +42,7 @@ function submit() {
 
     <div
       v-if="status"
-      class="mb-4 font-medium text-sm text-green-600"
+      class="mb-4 font-medium text-sm text-green-600 dark:text-green-400"
     >
       {{ status }}
     </div>
@@ -97,7 +93,7 @@ function submit() {
             v-model:checked="form.remember"
             name="remember"
           />
-          <span class="ml-2 text-sm text-gray-600">Remember me</span>
+          <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Remember me</span>
         </label>
       </div>
 
@@ -105,13 +101,13 @@ function submit() {
         <Link
           v-if="canResetPassword"
           :href="route('password.request')"
-          class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
         >
           Forgot your password?
         </Link>
 
         <PrimaryButton
-          class="ml-4"
+          class="ms-4"
           :class="{ 'opacity-25': form.processing }"
           :disabled="form.processing"
         >

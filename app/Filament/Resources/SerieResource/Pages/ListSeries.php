@@ -8,15 +8,12 @@ use Filament\Resources\Pages\ListRecords;
 
 class ListSeries extends ListRecords
 {
-    // use ListRecords\Concerns\Translatable;
-
     protected static string $resource = SerieResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make(),
-            Actions\LocaleSwitcher::make(),
         ];
     }
 }

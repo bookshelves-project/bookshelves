@@ -2,27 +2,23 @@
 
 namespace App\Models;
 
-use App\Engines\Book\Converter\Modules\TagConverter;
+use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
 use App\Traits\HasBookType;
 use App\Traits\HasCovers;
-use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
-use App\Traits\HasReviews;
-use App\Traits\HasSelections;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
-use Kiwilan\Steward\Services\GoogleBook\GoogleBook;
-use Kiwilan\Steward\Services\GoogleBook\GoogleBookable;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
@@ -31,52 +27,60 @@ use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\QueryBuilder\AllowedFilter;
 
-/**
- * @property null|int $reviews_count
- * @property \App\Enums\BookTypeEnum|null $type
- */
-class Book extends Model implements GoogleBookable, HasMedia
+class Book extends Model implements HasMedia
 {
     use HasAuthors;
     use HasBookFiles;
     use HasBookType;
     use HasCovers;
     use HasFactory;
-    use HasFavorites;
     use HasLanguage;
     use HasMetaClass;
-    use HasReviews;
-    use HasSearchableName;
-    use HasSelections;
-    use HasSelections;
+    use HasSearchableName, Searchable {
+        HasSearchableName::searchableAs insteadof Searchable;
+    }
     use HasSlug;
     use HasTagsAndGenres;
+    use HasUlids;
     use IsEntity;
     use Queryable;
-    use Searchable;
 
     protected $slug_with = 'title';
 
-    protected $query_default_sort = 'slug_sort';
+    protected $query_default_sort = 'slug';
 
     protected $query_default_sort_direction = 'asc';
 
-    protected $query_allowed_sorts = ['id', 'title', 'slug_sort', 'type', 'serie', 'authors', 'volume', 'isbn', 'publisher', 'released_on', 'created_at', 'updated_at'];
+    protected $query_allowed_sorts = [
+        'id',
+        'title',
+        'type',
+        'serie',
+        'slug',
+        'authors',
+        'volume',
+        'isbn',
+        'publisher',
+        'released_on',
+        'created_at',
+        'updated_at',
+    ];
 
     protected $query_limit = 32;
 
     protected $fillable = [
         'title',
-        'uuid',
-        'slug_sort',
         'contributor',
         'description',
         'released_on',
+        'audiobook_narrators',
+        'audiobook_chapters',
         'rights',
         'volume',
         'page_count',
-        'maturity_rating',
+        'is_maturity_rating',
         'is_hidden',
+        'format',
         'type',
         'isbn10',
         'isbn13',
@@ -85,42 +89,48 @@ class Book extends Model implements GoogleBookable, HasMedia
         'serie_id',
         'publisher_id',
         'physical_path',
-        'google_book_id',
+        'extension',
+        'mime_type',
+        'google_book_parsed_at',
+        'added_at',
     ];
 
     protected $appends = [
         'isbn',
+        'volume_pad',
+        'download_link',
     ];
 
     protected $casts = [
-        'released_on' => 'datetime',
+        'released_on' => 'date',
+        'audiobook_narrators' => 'array',
+        'audiobook_chapters' => 'array',
         'is_hidden' => 'boolean',
-        'type' => BookTypeEnum::class,
+        'format' => BookFormatEnum::class,
         'identifiers' => 'array',
         'volume' => 'integer',
         'page_count' => 'integer',
+        'is_maturity_rating' => 'boolean',
+        'google_book_parsed_at' => 'datetime',
+        'added_at' => 'datetime',
+        'type' => BookTypeEnum::class,
     ];
 
     protected $with = [
         'authors',
         'serie',
         'language',
+        'media',
     ];
 
     protected $withCount = [
-        'tags',
+        // 'tags',
     ];
 
-    public function registerMediaCollections(): void
+    public function getDownloadLinkAttribute(): string
     {
-        $this->addMediaCollection('epub');
-    }
-
-    public function getDirectDownloadUrlAttribute(): string
-    {
-        return route('api.download.direct', [
-            'author_slug' => $this->authors->first()?->slug,
-            'book_slug' => $this->slug,
+        return route('api.downloads.book', [
+            'book_id' => $this->id,
         ]);
     }
 
@@ -129,9 +139,15 @@ class Book extends Model implements GoogleBookable, HasMedia
         return $this->isbn13 ?? $this->isbn10;
     }
 
-    /**
-     * Scope.
-     */
+    public function getVolumePadAttribute(): ?string
+    {
+        if (! $this->volume) {
+            return null;
+        }
+
+        return str_pad(strval($this->volume), 2, '0', STR_PAD_LEFT);
+    }
+
     public function scopeAvailable(Builder $query): Builder
     {
         return $query->where('is_hidden', false);
@@ -150,9 +166,6 @@ class Book extends Model implements GoogleBookable, HasMedia
             ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)]);
     }
 
-    /**
-     * Relationships.
-     */
     public function publisher(): BelongsTo
     {
         return $this->belongsTo(Publisher::class);
@@ -163,70 +176,76 @@ class Book extends Model implements GoogleBookable, HasMedia
         return $this->belongsTo(Serie::class);
     }
 
-    /**
-     * Scout.
-     */
-    public function searchableAs()
+    public function audiobooks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->searchableNameAs();
+        return $this->hasMany(Audiobook::class);
+    }
+
+    public function getRelated(): Collection
+    {
+        // get related books by tags, same lang
+        $relatedBooks = Book::withAllTags($this->tags)
+            ->with(['serie', 'media', 'language'])
+            ->whereLanguageSlug($this->language_slug)
+            ->get();
+
+        // get serie of current book
+        $serieBooks = Serie::query()->where('slug', $this->serie?->slug)->first();
+        // get books of this serie
+        $serieBooks = $serieBooks?->books()->with(['serie', 'media'])->get();
+
+        // if serie exist
+        if ($serieBooks) {
+            // remove all books from this serie
+            $filtered = $relatedBooks->filter(function (Book $relatedBook) use ($serieBooks) {
+                foreach ($serieBooks as $serieBook) {
+                    if ($relatedBook->serie) {
+                        return $relatedBook->serie->slug != $serieBook->serie->slug;
+                    }
+                }
+            });
+            $relatedBooks = $filtered;
+        }
+        // remove current book
+        $relatedBooks = $relatedBooks->filter(fn ($related_book) => $related_book->slug != $this->slug);
+
+        // get series of related
+        $seriesList = collect();
+
+        foreach ($relatedBooks as $key => $book) {
+            if ($book->serie) {
+                $seriesList->add($book->serie);
+            }
+        }
+        // remove all books of series
+        $relatedBooks = $relatedBooks->filter(fn (Book $book) => $book->serie === null);
+
+        // unique on series
+        $seriesList = $seriesList->unique();
+
+        // merge books and series
+        $relatedBooks = $relatedBooks->merge($seriesList);
+        $relatedBooks = $relatedBooks->loadMissing(['language', 'media']);
+
+        // sort entities
+        return $relatedBooks->sortBy('slug_sort');
     }
 
     public function toSearchableArray()
     {
+        $this->loadMissing(['serie', 'authors', 'tags']);
+
         return [
             'id' => $this->id,
             'title' => $this->title,
-            // 'picture' => $this->cover_thumbnail,
+            'picture' => $this->cover_thumbnail,
             'released_on' => $this->released_on,
             'author' => $this->authors_names,
             'serie' => $this->serie?->title,
             'isbn10' => $this->isbn10,
             'isbn13' => $this->isbn13,
             'tags' => $this->tags_string,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
-    }
-
-    public function googleBookConvert(GoogleBook $gbook): self
-    {
-        $this->google_book_id = $gbook->getBookId();
-
-        if ($gbook->getPublishedDate()) {
-            $carbon = Carbon::instance($gbook->getPublishedDate());
-            $this->released_on = $this->released_on ?? $carbon->toDateTimeString();
-        }
-        $this->description = $this->description ?? $gbook->getDescription();
-        $this->page_count = $this->page_count ?? $gbook->getPageCount();
-        $this->is_maturity_rating = $gbook->isMaturityRating();
-        $this->isbn10 = $this->isbn10 ?? $gbook->getIsbn10();
-        $this->isbn13 = $this->isbn13 ?? $gbook->getIsbn13();
-
-        // Set publisher
-        if (! $this->publisher) {
-            $publisher_slug = Str::slug($gbook->getPublisher(), '-');
-            $publisher = Publisher::whereSlug($publisher_slug)->first();
-
-            if (! $publisher && $gbook->getPublisher()) {
-                $publisher = Publisher::firstOrCreate([
-                    'name' => $gbook->getPublisher(),
-                    'slug' => $publisher_slug,
-                ]);
-            }
-
-            if ($publisher) {
-                $this->publisher()->associate($publisher);
-            }
-        }
-
-        // Set tags
-        foreach ($gbook->getCategories() as $category) {
-            TagConverter::make($category);
-        }
-
-        $this->save();
-
-        return $this;
     }
 
     protected function setQueryAllowedFilters(): array
@@ -235,18 +254,14 @@ class Book extends Model implements GoogleBookable, HasMedia
             AllowedFilter::custom('q', new GlobalSearchFilter(['title', 'serie'])),
             AllowedFilter::exact('id'),
             AllowedFilter::partial('title'),
-            AllowedFilter::callback(
-                'serie',
-                fn (Builder $query, $value) => $query->whereHas(
-                    'serie',
+            AllowedFilter::callback('serie',
+                fn (Builder $query, $value) => $query->whereHas('serie',
                     fn (Builder $query) => $query->where('title', 'like', "%{$value}%")
                 )
             ),
             AllowedFilter::partial('volume'),
-            AllowedFilter::callback(
-                'authors',
-                fn (Builder $query, $value) => $query->whereHas(
-                    'authors',
+            AllowedFilter::callback('authors',
+                fn (Builder $query, $value) => $query->whereHas('authors',
                     fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
                 )
             ),
@@ -254,18 +269,14 @@ class Book extends Model implements GoogleBookable, HasMedia
             AllowedFilter::exact('released_on'),
             AllowedFilter::exact('type'),
             AllowedFilter::scope('types', 'whereTypesIs'),
-            AllowedFilter::callback(
-                'language',
-                fn (Builder $query, $value) => $query->whereHas(
-                    'language',
+            AllowedFilter::callback('language',
+                fn (Builder $query, $value) => $query->whereHas('language',
                     fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
                 )
             ),
             AllowedFilter::scope('languages', 'whereLanguagesIs'),
-            AllowedFilter::callback(
-                'publisher',
-                fn (Builder $query, $value) => $query->whereHas(
-                    'publisher',
+            AllowedFilter::callback('publisher',
+                fn (Builder $query, $value) => $query->whereHas('publisher',
                     fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
                 )
             ),

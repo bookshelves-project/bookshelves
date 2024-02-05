@@ -31,6 +31,7 @@ return [
     'mediable' => [
         'default' => 'https://raw.githubusercontent.com/kiwilan/steward-laravel/main/public/no-image-available.jpg',
         'extensions' => ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'avif'],
+        'format' => env('STEWARD_MEDIABLE_FORMAT', 'webp'),
     ],
 
     /*
@@ -118,10 +119,9 @@ return [
     */
 
     'query' => [
-        'default_sort' => 'id',
-        'default_sort_direction' => 'asc',
-        'limit' => 15,
-        'full' => false,
+        'default_sort' => 'id', // You could use any field name, reverse with `-id`
+        'pagination' => 15,
+        'no_paginate' => false,
     ],
 
     /*
@@ -163,6 +163,38 @@ return [
             'default_size' => SeedsApiSizeEnum::medium,
             'seeds' => [
                 'api' => 'https://seeds.git-projects.xyz',
+            ],
+        ],
+        'max_handle' => env('STEWARD_FACTORY_MAX_HANDLE', 1000),
+        'verbose' => env('STEWARD_FACTORY_VERBOSE', false),
+    ],
+
+    'gdpr' => [
+        'service' => env('STEWARD_GDPR_SERVICE', 'orestbida/cookieconsent'), // https://github.com/orestbida/cookieconsent
+        'cookie_name' => env('STEWARD_GDPR_COOKIE_NAME', 'cc_cookie'),
+        'cookie_lifetime' => env('STEWARD_GDPR_COOKIE_LIFETIME', 182),
+        'matomo' => [
+            'enabled' => env('STEWARD_GDPR_MATOMO_ENABLED', true),
+            'url' => env('STEWARD_GDPR_MATOMO_URL'),
+            'site_id' => env('STEWARD_GDPR_MATOMO_SITE_ID'),
+        ],
+    ],
+
+    'notify' => [
+        'default' => env('STEWARD_NOTIFY_DEFAULT', 'discord'), // `discord`, `slack`
+        'discord' => env('STEWARD_NOTIFY_DISCORD'), // STEWARD_NOTIFY_DISCORD=ID:TOKEN
+        'slack' => env('STEWARD_NOTIFY_SLACK'), // STEWARD_NOTIFY_SLACK=ID:TOKEN:CHANNEL
+    ],
+
+    'livewire' => [
+        'pagination' => [
+            'theme' => 'tailwind',
+            'default' => 20,
+            'options' => [
+                10,
+                20,
+                50,
+                100,
             ],
         ],
     ],

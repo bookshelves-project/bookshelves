@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\MediaExtended;
-
 return [
+
     /*
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
@@ -13,7 +12,7 @@ return [
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
      */
-    'max_file_size' => 1024 * 1024 * 1000, // 1000MB
+    'max_file_size' => 1024 * 1024 * 100, // 10MB
 
     /*
      * This queue connection will be used to generate derived and responsive images.
@@ -27,19 +26,30 @@ return [
      */
     'queue_name' => '',
 
-    // By default all conversions will be performed on a queue.
+    /*
+     * By default all conversions will be performed on a queue.
+     */
     'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', true),
 
-    // The fully qualified class name of the media model.
+    /*
+     * The fully qualified class name of the media model.
+     */
     'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
-    // 'media_model' => MediaExtended::class,
+
+    /*
+     * When enabled, media collections will be serialised using the default
+     * laravel model serialization behaviour.
+     *
+     * Keep this option disabled if using Media Library Pro components (https://medialibrary.pro)
+     */
+    'use_default_collection_serialization' => false,
 
     /*
      * The fully qualified class name of the model used for temporary uploads.
      *
      * This model is only used in Media Library Pro (https://medialibrary.pro)
      */
-    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+    // 'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
 
     /*
      * When enabled, Media Library Pro will only process temporary uploads that were uploaded
@@ -48,16 +58,29 @@ return [
      */
     'enable_temporary_uploads_session_affinity' => true,
 
-    // When enabled, Media Library pro will generate thumbnails for uploaded file.
+    /*
+     * When enabled, Media Library pro will generate thumbnails for uploaded file.
+     */
     'generate_thumbnails_for_temporary_uploads' => true,
 
-    // This is the class that is responsible for naming generated files.
+    /*
+     * This is the class that is responsible for naming generated files.
+     */
     'file_namer' => Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class,
 
-    // The class that contains the strategy for determining a media file's path.
+    /*
+     * The class that contains the strategy for determining a media file's path.
+     */
     'path_generator' => Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class,
 
-    // Here you can specify which path generator should be used for the given class.
+    /*
+     * The class that contains the strategy for determining how to remove files.
+     */
+    'file_remover_class' => Spatie\MediaLibrary\Support\FileRemover\DefaultFileRemover::class,
+
+    /*
+     * Here you can specify which path generator should be used for the given class.
+     */
     'custom_path_generators' => [
         // Model::class => PathGenerator::class
         // or
@@ -115,12 +138,25 @@ return [
             '-mt', // multithreading for some speed improvements.
             '-q 90', //quality factor that brings the least noticeable changes.
         ],
+        Spatie\ImageOptimizer\Optimizers\Avifenc::class => [
+            '-a cq-level=23', // constant quality level, lower values mean better quality and greater file size (0-63).
+            '-j all', // number of jobs (worker threads, "all" uses all available cores).
+            '--min 0', // min quantizer for color (0-63).
+            '--max 63', // max quantizer for color (0-63).
+            '--minalpha 0', // min quantizer for alpha (0-63).
+            '--maxalpha 63', // max quantizer for alpha (0-63).
+            '-a end-usage=q', // rate control mode set to Constant Quality mode.
+            '-a tune=ssim', // SSIM as tune the encoder for distortion metric.
+        ],
     ],
 
-    // These generators will be used to create an image of media files.
+    /*
+     * These generators will be used to create an image of media files.
+     */
     'image_generators' => [
         Spatie\MediaLibrary\Conversions\ImageGenerators\Image::class,
         Spatie\MediaLibrary\Conversions\ImageGenerators\Webp::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Avif::class,
         Spatie\MediaLibrary\Conversions\ImageGenerators\Pdf::class,
         Spatie\MediaLibrary\Conversions\ImageGenerators\Svg::class,
         Spatie\MediaLibrary\Conversions\ImageGenerators\Video::class,

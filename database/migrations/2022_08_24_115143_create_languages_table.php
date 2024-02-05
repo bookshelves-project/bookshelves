@@ -13,7 +13,7 @@ return new class() extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             $table->string('slug')->unique()->index();
-            $table->json('name')->nullable();
+            $table->string('name')->nullable();
             $table->timestamps();
         });
 

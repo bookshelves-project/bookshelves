@@ -3,24 +3,33 @@
     "target": "esnext",
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
-    "baseUrl": ".",
     "module": "esnext",
     "moduleResolution": "node",
     "paths": {
       "@/*": ["./resources/js/*"],
-      "@": ["./resources/js"]
+      "@": ["./resources/js"],
+      "~": ["./"],
+      "~/*": ["./*"]
     },
     "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types", "./**/*.d.ts"],
-    "types": ["vite/client"],
+    "types": ["vite/client", "resources/**/*.d.ts"],
+    "allowJs": true,
     "strict": true,
     "noImplicitAny": false,
     "sourceMap": true,
     "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "exclude": [
-    "node_modules",
-    "public"
+  "include": [
+    "resources/**/*.tsx",
+    "resources/**/*.vue",
+    "resources/**/*.d.ts",
+    "resources/**/*.ts",
+    "resources/**/*.tsx",
+    "resources/**/*.vue",
+    "*.d.ts",
+    "components.d.ts",
+    "auto-imports.d.ts",
+    "global.d.ts"
   ]
 }

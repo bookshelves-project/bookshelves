@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\OpdsApp;
+use App\Facades\OpdsBase;
 use App\Http\Controllers\Controller;
 use App\Models\Serie;
 use Kiwilan\Opds\Entries\OpdsEntryNavigation;
@@ -19,7 +19,7 @@ class SerieController extends Controller
     #[Get('/', name: 'opds.series.index')]
     public function index()
     {
-        $feeds = OpdsApp::cache('opds.series.index', function () {
+        $feeds = OpdsBase::cache('opds.series.index', function () {
             $alphabet = range('A', 'Z');
             $feeds = [];
 
@@ -27,8 +27,10 @@ class SerieController extends Controller
                 $id = strtolower($char);
                 $count = Serie::query()
                     ->orderBy('title')
-                    ->whereFirstCharacterIs($char)
+                    ->whereFirstChar($char)
+                    ->whereHasBooks()
                     ->count();
+
                 $feeds[] = new OpdsEntryNavigation(
                     id: $id,
                     title: "{$char} ({$count} entries)",
@@ -41,7 +43,7 @@ class SerieController extends Controller
             return $feeds;
         });
 
-        Opds::make(OpdsApp::options())
+        Opds::make(OpdsBase::config())
             ->title('Series')
             ->feeds($feeds)
             ->send();
@@ -51,10 +53,11 @@ class SerieController extends Controller
     public function character(string $character)
     {
         $lower = strtolower($character);
-        $feeds = OpdsApp::cache("opds.series.character.{$lower}", function () use ($character) {
+        $feeds = OpdsBase::cache("opds.series.character.{$lower}", function () use ($character) {
             $series = Serie::query()
                 ->orderBy('title')
-                ->whereFirstCharacterIs($character)
+                ->whereFirstChar($character)
+                ->whereHasBooks()
                 ->get();
 
             $feeds = [];
@@ -68,7 +71,7 @@ class SerieController extends Controller
                     title: "{$serie->title} ({$serie->type->name})",
                     route: route('opds.series.show', ['character' => $character, 'serie' => $serie->slug]),
                     summary: "{$count} books, {$description}",
-                    media: $serie->cover_og,
+                    media: $serie->cover_social,
                     updated: $serie->updated_at,
                 );
             }
@@ -76,23 +79,23 @@ class SerieController extends Controller
             return $feeds;
         });
 
-        Opds::make(OpdsApp::options())
+        OpdsBase::app()
             ->title("Series with {$character}")
             ->feeds($feeds)
             ->send();
     }
 
     #[Get('/{character}/{serie}', name: 'opds.series.show')]
-    public function show(string $character, string $serie_slug)
+    public function show(string $character, string $serie)
     {
-        $serie = Serie::whereSlug($serie_slug)->firstOrFail();
+        $serie = Serie::where('slug', $serie)->firstOrFail();
         $feeds = [];
 
         foreach ($serie->books as $book) {
-            $feeds[] = OpdsApp::bookToEntry($book);
+            $feeds[] = OpdsBase::bookToEntry($book);
         }
 
-        Opds::make(OpdsApp::options())
+        OpdsBase::app()
             ->title("Serie {$serie->title}")
             ->feeds($feeds)
             ->send();

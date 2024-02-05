@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\HasFirstChar;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,16 +15,17 @@ use Kiwilan\Steward\Traits\HasSlug;
 class Publisher extends Model
 {
     use HasFactory;
-    use HasFirstChar;
     use HasShowRoute;
     use HasSlug;
+    use HasUlids;
+
+    protected $slugWith = 'name';
 
     protected $fillable = [
         'name',
     ];
 
     protected $appends = [
-        'first_char',
     ];
 
     protected $withCount = [

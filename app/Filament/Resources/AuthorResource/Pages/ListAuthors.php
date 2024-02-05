@@ -10,7 +10,7 @@ class ListAuthors extends ListRecords
 {
     protected static string $resource = AuthorResource::class;
 
-    protected function getActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make(),
