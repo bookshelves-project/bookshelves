@@ -68,10 +68,11 @@ class ScanCommand extends Commandable
 
         if ($verbose) {
             $this->table(
-                ['Basename', 'Format'],
+                ['Basename', 'Format', 'Type'],
                 array_map(fn (BookFileItem $file) => [
                     $file->basename(),
                     $file->format()->value,
+                    $file->type()->libraryPath(),
                 ], $parser->items())
             );
         }
