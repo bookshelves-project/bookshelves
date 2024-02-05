@@ -2677,16 +2677,16 @@
         },
         {
             "name": "kiwilan/notifier-laravel",
-            "version": "0.1.13",
+            "version": "0.1.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/notifier-laravel.git",
-                "reference": "3e5d29c48263a3439df7186b770ba39f4f4003a6"
+                "reference": "740134f2b4e6f2057614ee3b5e09cae8976bbd1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/notifier-laravel/zipball/3e5d29c48263a3439df7186b770ba39f4f4003a6",
-                "reference": "3e5d29c48263a3439df7186b770ba39f4f4003a6",
+                "url": "https://api.github.com/repos/kiwilan/notifier-laravel/zipball/740134f2b4e6f2057614ee3b5e09cae8976bbd1b",
+                "reference": "740134f2b4e6f2057614ee3b5e09cae8976bbd1b",
                 "shasum": ""
             },
             "require": {
@@ -2749,7 +2749,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/notifier-laravel/issues",
-                "source": "https://github.com/kiwilan/notifier-laravel/tree/v0.1.13"
+                "source": "https://github.com/kiwilan/notifier-laravel/tree/v0.1.14"
             },
             "funding": [
                 {
@@ -2757,7 +2757,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-05T09:49:03+00:00"
+            "time": "2024-02-05T10:04:43+00:00"
         },
         {
             "name": "kiwilan/php-archive",
