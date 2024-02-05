@@ -183,19 +183,23 @@ class Book extends Model implements HasMedia
 
     public function getRelated(): Collection
     {
+        if ($this->tags->count() === 0) {
+            return collect();
+        }
+
         // get related books by tags, same lang
         $relatedBooks = Book::withAllTags($this->tags)
-            ->with(['serie', 'media', 'language'])
-            ->whereLanguageSlug($this->language_slug)
+            ->with(['authors', 'serie', 'media', 'language'])
             ->get();
 
-        // get serie of current book
-        $serieBooks = Serie::query()->where('slug', $this->serie?->slug)->first();
-        // get books of this serie
-        $serieBooks = $serieBooks?->books()->with(['serie', 'media'])->get();
+        ray($relatedBooks);
 
-        // if serie exist
-        if ($serieBooks) {
+        if ($this->serie) {
+            // get serie of current book
+            $serie = Serie::query()->where('slug', $this->serie->slug)->first();
+            // get books of this serie
+            $serieBooks = $serie->books()->with(['serie', 'media'])->get();
+
             // remove all books from this serie
             $filtered = $relatedBooks->filter(function (Book $relatedBook) use ($serieBooks) {
                 foreach ($serieBooks as $serieBook) {
@@ -206,6 +210,7 @@ class Book extends Model implements HasMedia
             });
             $relatedBooks = $filtered;
         }
+
         // remove current book
         $relatedBooks = $relatedBooks->filter(fn ($related_book) => $related_book->slug != $this->slug);
 
@@ -217,9 +222,9 @@ class Book extends Model implements HasMedia
                 $seriesList->add($book->serie);
             }
         }
+
         // remove all books of series
         $relatedBooks = $relatedBooks->filter(fn (Book $book) => $book->serie === null);
-
         // unique on series
         $seriesList = $seriesList->unique();
 

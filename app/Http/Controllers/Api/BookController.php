@@ -15,6 +15,8 @@ class BookController extends Controller
     #[Get('/related/{book_slug}', name: 'api.books.related')]
     public function related(Book $book)
     {
+        $book->loadMissing('tags');
+
         if ($book->tags->count() >= 1) {
             $related = $book->getRelated();
 

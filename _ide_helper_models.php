@@ -153,7 +153,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsIs(iterable ...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereWikipediaParsedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTags(iterable ...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTags(\Illuminate\Support\Collection $tags)
  */
 	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
@@ -276,7 +276,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTypesIs(...$types)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereVolume($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book withAllTags(iterable ...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book withAllTags(\Illuminate\Support\Collection $tags)
  */
 	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
@@ -462,7 +462,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTypesIs(...$types)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereWikipediaParsedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(iterable ...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(\Illuminate\Support\Collection $tags)
  */
 	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
