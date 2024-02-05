@@ -81,9 +81,9 @@ class AudiobookJob implements ShouldQueue
             $book->tags()->syncWithoutDetaching($tags->pluck('id'));
         }
 
-        if ($first->comment) {
+        if ($first->language && $first->comment) {
             $language = Language::query()->firstOrCreate([
-                'name' => $first->comment,
+                'name' => $first->language ?? $first->comment,
             ]);
             $book->language()->associate($language);
         }

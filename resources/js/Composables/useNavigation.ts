@@ -11,6 +11,7 @@ export interface Link {
 const mainLinks: Link[] = [
   { label: 'Dashboard', icon: 'home', route: { name: 'home' } },
   { label: 'Authors', icon: 'quill', route: { name: 'authors.index' } },
+  { label: 'Tags', icon: 'tag', route: { name: 'tags.index' } },
   { label: 'Seperator', isSeperator: true },
   { label: 'Audiobooks', icon: 'audible', route: { name: 'audiobooks.index' } },
   { label: 'Books', icon: 'ereader', route: { name: 'books.index' } },

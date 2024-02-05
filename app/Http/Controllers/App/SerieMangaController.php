@@ -16,7 +16,7 @@ class SerieMangaController extends Controller
     {
         return $this->getQueryForSeries($request, Serie::whereIsManga(), 'Manga series', [
             ['label' => 'Manga series', 'route' => ['name' => 'series.mangas.index']],
-        ], squareCovers: true);
+        ]);
     }
 
     #[Get('/{serie_slug}', name: 'series.mangas.show')]

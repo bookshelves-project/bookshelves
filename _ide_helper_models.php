@@ -113,7 +113,7 @@ namespace App\Models{
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read array $files_list
  * @property-read mixed $first_char
- * @property-read mixed $genres_list
+ * @property-read \App\Models\Collection<int, Tag> $genres_list
  * @property-read string $meta_class
  * @property-read string $meta_class_name
  * @property-read string $meta_class_name_plural
@@ -123,9 +123,9 @@ namespace App\Models{
  * @property-read string $meta_class_snake
  * @property-read string $meta_class_snake_plural
  * @property-read string $meta_first_char
- * @property-read string $meta_route
+ * @property-read string|null $meta_route
  * @property-read string $opds_link
- * @property-read mixed $tags_list
+ * @property-read \App\Models\Collection<int, Tag> $tags_list
  * @property-read string $tags_string
  * @property-read string $title
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
@@ -148,11 +148,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsAllIs(...$tags)
- * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsIs(...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsAllIs(iterable ...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author whereTagsIs(iterable ...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Author whereWikipediaParsedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTags(...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Author withAllTags(iterable ...$tags)
  */
 	class Author extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
@@ -207,7 +207,7 @@ namespace App\Models{
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read \App\Models\Collection<int, ?MediaExtended> $files
  * @property-read \App\Models\Collection<string, DownloadFile> $files_list
- * @property-read mixed $genres_list
+ * @property-read \App\Models\Collection<int, Tag> $genres_list
  * @property-read string|null $isbn
  * @property-read string|null $meta_author
  * @property-read string $meta_class
@@ -219,9 +219,9 @@ namespace App\Models{
  * @property-read string $meta_class_snake
  * @property-read string $meta_class_snake_plural
  * @property-read string $meta_first_char
- * @property-read string $meta_route
+ * @property-read string|null $meta_route
  * @property-read string $opds_link
- * @property-read mixed $tags_list
+ * @property-read \App\Models\Collection<int, Tag> $tags_list
  * @property-read string $tags_string
  * @property-read string|null $volume_pad
  * @property-read \App\Models\Language|null $language
@@ -268,14 +268,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereRights($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsAllIs(...$tags)
- * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsIs(...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsAllIs(iterable ...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsIs(iterable ...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTypesIs(...$types)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereVolume($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Book withAllTags(...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book withAllTags(iterable ...$tags)
  */
 	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
@@ -411,11 +411,12 @@ namespace App\Models{
  * @property-read string|null $cover_social
  * @property-read string|null $cover_standard
  * @property-read string|null $cover_thumbnail
+ * @property-read string $download_link
  * @property-read string $entity
  * @property-read \Kiwilan\Steward\Utils\DownloadFile|null $file_main
  * @property-read array $files_list
  * @property-read mixed $first_char
- * @property-read mixed $genres_list
+ * @property-read \App\Models\Collection<int, Tag> $genres_list
  * @property-read string|null $meta_author
  * @property-read string $meta_class
  * @property-read string $meta_class_name
@@ -426,9 +427,9 @@ namespace App\Models{
  * @property-read string $meta_class_snake
  * @property-read string $meta_class_snake_plural
  * @property-read string $meta_first_char
- * @property-read string $meta_route
+ * @property-read string|null $meta_route
  * @property-read string $opds_link
- * @property-read mixed $tags_list
+ * @property-read \App\Models\Collection<int, Tag> $tags_list
  * @property-read string $tags_string
  * @property-read \App\Models\Language|null $language
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
@@ -453,14 +454,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLanguagesIs(...$languages)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsAllIs(...$tags)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsIs(...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsAllIs(iterable ...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTagsIs(iterable ...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereTypesIs(...$types)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Serie whereWikipediaParsedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(...$tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|Serie withAllTags(iterable ...$tags)
  */
 	class Serie extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }

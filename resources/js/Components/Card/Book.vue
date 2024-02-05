@@ -31,9 +31,15 @@ withDefaults(defineProps<Props>(), {
     <div class="absolute bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-white/0 h-20 w-full top-0 z-10" />
     <div
       v-if="book.language"
-      class="absolute top-2 left-2 text-sm italic text-gray-200 z-20 drop-shadow-md font-semibold"
+      class="info left-2 text-shadow"
     >
       {{ book.language.name }}
+    </div>
+    <div
+      v-if="book.extension"
+      class="info right-2 uppercase text-shadow"
+    >
+      {{ book.extension }}
     </div>
     <div class="mt-3">
       <p class="line-clamp-1">
@@ -51,3 +57,12 @@ withDefaults(defineProps<Props>(), {
     </div>
   </ILink>
 </template>
+
+<style lang="css" scoped>
+.info {
+  @apply absolute top-2 text-sm italic text-gray-200 z-20 font-semibold;
+}
+.text-shadow {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
+}
+</style>

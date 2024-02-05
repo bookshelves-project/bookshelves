@@ -62,8 +62,8 @@ const seeResults = computed(() => {
           <div class="flex items-center">
             <AppImg
               class="mr-2 aspect-poster h-14 w-auto rounded-md object-cover"
-              :src="result.poster_url"
-              :color="result.poster_color"
+              :src="result.cover_thumbnail"
+              :color="result.cover_color"
             />
             <div>
               <div>

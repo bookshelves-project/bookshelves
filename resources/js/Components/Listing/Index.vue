@@ -91,7 +91,7 @@ const pagination = [10, 25, 50, 100]
     <div class="books-list mt-6">
       <slot />
       <ILink
-        v-if="nextPageLink"
+        v-if="request?.current_page !== request?.last_page"
         :href="nextPageLink"
         class="poster flex bg-gray-800 hover:bg-gray-700 h-full w-full relative"
       >
