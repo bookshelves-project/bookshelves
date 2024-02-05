@@ -55,8 +55,7 @@ function submit() {
           :options="[
             { label: 'Bug', value: 'bug' },
             { label: 'Feedback', value: 'feedback' },
-            { label: 'Movie', value: 'movie' },
-            { label: 'TV show', value: 'tv-show' },
+            { label: 'Books', value: 'book' },
           ]"
           required
           :error="form.errors.type"

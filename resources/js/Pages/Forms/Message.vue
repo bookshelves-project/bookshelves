@@ -4,8 +4,8 @@
 
 <template>
   <App
-    title="Bug report"
-    icon="bug"
+    title="Message"
+    icon="mail"
   >
     <FormLayout>
       <template #list>

@@ -30,4 +30,19 @@ class BookController extends Controller
             status: 200
         );
     }
+
+    #[Get('/latest', name: 'api.books.latest')]
+    public function latest()
+    {
+        $latest = Book::with(['authors', 'serie', 'media'])
+            ->orderBy('added_at', 'desc')
+            ->limit(20)
+            ->get();
+
+        return response()->json(
+            data: [
+                'data' => $latest,
+            ],
+        );
+    }
 }
