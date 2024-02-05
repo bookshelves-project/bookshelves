@@ -77,7 +77,7 @@ class SetupCommand extends Commandable
         $this->info($msg);
         Log::info($msg);
 
-        Artisan::call('migrate:fresh', ['--seed' => true]);
+        Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
         $this->comment('Database reset!');
 
         Artisan::call(JobsClearCommand::class);

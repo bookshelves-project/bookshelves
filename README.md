@@ -64,27 +64,30 @@ Build assets
 pnpm dev
 ```
 
-### Create symbolic links
+### Add librairies
 
 For books
 
 ```bash
-sudo ln -s /Volumes/data/books/books storage/app/data/books
-```
-
-For comics
-
-```bash
-sudo ln -s /Volumes/data/books/comics storage/app/data/comics
-```
-
-For audiobooks
-
-```bash
-sudo ln -s /Volumes/data/books/audiobooks storage/app/data/audiobooks
+BOOKSHELVES_LIBRARY_BOOKS=/path/to/books
+BOOKSHELVES_LIBRARY_COMICS=/path/to/comics
+BOOKSHELVES_LIBRARY_MANGAS=/path/to/mangas
+BOOKSHELVES_LIBRARY_AUDIOBOOKS=/path/to/audiobooks
 ```
 
 ## Usage
+
+Execute scan command to check if books are available, `-v` option for verbose mode
+
+```bash
+php artisan bookshelves:scan
+```
+
+And execute setup command to scan books and create database entries, `-f` option for fresh mode
+
+```bash
+php artisan bookshelves:setup -f
+```
 
 To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app).
 

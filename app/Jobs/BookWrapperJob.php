@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Kiwilan\Notifier\Facades\Journal;
 
 class BookWrapperJob implements ShouldQueue
 {
@@ -29,6 +30,11 @@ class BookWrapperJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Journal::info('BookWrapperJob: create BookJob for each item...', [
+            'fresh' => $this->fresh,
+            'limit' => $this->limit,
+        ]);
+
         $enums = BookTypeEnum::cases();
         $current_books = Book::all()
             ->map(fn (Book $book) => $book->physical_path)

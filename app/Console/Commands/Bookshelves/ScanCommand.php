@@ -5,6 +5,7 @@ namespace App\Console\Commands\Bookshelves;
 use App\Engines\Book\BookFileItem;
 use App\Engines\Book\BookFileScanner;
 use App\Enums\BookTypeEnum;
+use App\Facades\Bookshelves;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
@@ -44,6 +45,10 @@ class ScanCommand extends Commandable
 
         $verbose = $this->option('verbose');
         $enums = BookTypeEnum::cases();
+        $engine = Bookshelves::analyzerEngine();
+
+        $this->info("Engine: {$engine}.");
+        $this->newLine();
 
         foreach ($enums as $enum) {
             $this->parseFiles($enum, $verbose);
@@ -64,14 +69,16 @@ class ScanCommand extends Commandable
             return;
         }
 
-        $this->info("{$enum->value} {$parser->count()} files.");
+        $library = $enum->libraryPath();
+        $this->info("{$enum->value} {$parser->count()} files in {$library}.");
 
         if ($verbose) {
             $this->table(
-                ['Basename', 'Format'],
+                ['Basename', 'Format', 'Type'],
                 array_map(fn (BookFileItem $file) => [
                     $file->basename(),
                     $file->format()->value,
+                    $file->type()->libraryPath(),
                 ], $parser->items())
             );
         }

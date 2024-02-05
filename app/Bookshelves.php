@@ -4,6 +4,16 @@ namespace App;
 
 class Bookshelves
 {
+    public function superAdminEmail(): string
+    {
+        return config('bookshelves.super_admin.email');
+    }
+
+    public function superAdminPassword(): string
+    {
+        return config('bookshelves.super_admin.password');
+    }
+
     public function apiGoogleBooks(): bool
     {
         return config('bookshelves.api.google_books', false);
