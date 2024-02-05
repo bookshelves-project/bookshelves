@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Facades\Bookshelves;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -16,8 +17,8 @@ class EmptySeeder extends Seeder
     {
         User::factory()->create([
             'name' => 'Super Admin',
-            'email' => config('bookshelves.super_admin.email'),
-            'password' => Hash::make(config('bookshelves.super_admin.password')),
+            'email' => Bookshelves::superAdminEmail(),
+            'password' => Hash::make(Bookshelves::superAdminPassword()),
             'role' => UserRoleEnum::super_admin,
             'is_blocked' => false,
         ]);

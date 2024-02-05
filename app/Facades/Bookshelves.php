@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \App\Bookshelves
  *
+ * @method static string superAdminEmail()
+ * @method static string superAdminPassword()
  * @method static bool apiGoogleBooks()
  * @method static bool apiOpenLibrary()
  * @method static bool apiComicVine()
