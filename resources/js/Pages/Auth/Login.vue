@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3'
-import { useTypescriptable } from '@kiwilan/typescriptable-laravel'
+import { useInertia } from '@kiwilan/typescriptable-laravel'
 import AuthenticationCard from '@/Components/Jetstream/AuthenticationCard.vue'
 import AuthenticationCardLogo from '@/Components/Jetstream/AuthenticationCardLogo.vue'
 import Checkbox from '@/Components/Jetstream/Checkbox.vue'
@@ -14,7 +14,7 @@ defineProps({
   status: String,
 })
 
-const { isDev } = useTypescriptable()
+const { isDev } = useInertia()
 
 const form = useForm({
   email: isDev.value ? 'superadmin@example.com' : '',
