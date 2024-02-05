@@ -1133,27 +1133,27 @@
         },
         {
             "name": "doctrine/lexer",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/lexer.git",
-                "reference": "84a527db05647743d50373e0ec53a152f2cde568"
+                "reference": "31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/lexer/zipball/84a527db05647743d50373e0ec53a152f2cde568",
-                "reference": "84a527db05647743d50373e0ec53a152f2cde568",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd",
+                "reference": "31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.1"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^10",
-                "phpstan/phpstan": "^1.9",
-                "phpunit/phpunit": "^9.5",
+                "doctrine/coding-standard": "^12",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.5",
                 "psalm/plugin-phpunit": "^0.18.3",
-                "vimeo/psalm": "^5.0"
+                "vimeo/psalm": "^5.21"
             },
             "type": "library",
             "autoload": {
@@ -1190,7 +1190,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/lexer/issues",
-                "source": "https://github.com/doctrine/lexer/tree/3.0.0"
+                "source": "https://github.com/doctrine/lexer/tree/3.0.1"
             },
             "funding": [
                 {
@@ -1206,7 +1206,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-15T16:57:16+00:00"
+            "time": "2024-02-05T11:56:58+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -2919,16 +2919,16 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "2.3.6",
+            "version": "2.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "fdd111076e392f909e13e5ee106f47e92d09c077"
+                "reference": "1eed7324e18549a2ea7d0cafb69edc1e195cbc1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/fdd111076e392f909e13e5ee106f47e92d09c077",
-                "reference": "fdd111076e392f909e13e5ee106f47e92d09c077",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/1eed7324e18549a2ea7d0cafb69edc1e195cbc1a",
+                "reference": "1eed7324e18549a2ea7d0cafb69edc1e195cbc1a",
                 "shasum": ""
             },
             "require": {
@@ -2991,7 +2991,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/v2.3.6"
+                "source": "https://github.com/kiwilan/php-ebook/tree/v2.3.7"
             },
             "funding": [
                 {
@@ -2999,7 +2999,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-04T12:05:46+00:00"
+            "time": "2024-02-05T12:12:38+00:00"
         },
         {
             "name": "kiwilan/php-http-pool",
@@ -7568,16 +7568,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.19.7",
+            "version": "0.19.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "53f16f413e74e92059981801ba82576064b3181a"
+                "reference": "de3b3bb159abd704b144aa86fb244f7f1f4ac947"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/53f16f413e74e92059981801ba82576064b3181a",
-                "reference": "53f16f413e74e92059981801ba82576064b3181a",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/de3b3bb159abd704b144aa86fb244f7f1f4ac947",
+                "reference": "de3b3bb159abd704b144aa86fb244f7f1f4ac947",
                 "shasum": ""
             },
             "require": {
@@ -7612,7 +7612,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.19.7"
+                "source": "https://github.com/rectorphp/rector/tree/0.19.8"
             },
             "funding": [
                 {
@@ -7620,7 +7620,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-04T23:23:09+00:00"
+            "time": "2024-02-05T10:59:13+00:00"
         },
         {
             "name": "ryangjchandler/blade-capture-directive",

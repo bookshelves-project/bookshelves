@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('disc_number')->nullable();
             $table->boolean('is_compilation')->nullable();
             $table->string('encoding')->nullable();
-            $table->string('lyrics')->nullable();
+            $table->text('lyrics')->nullable();
             $table->string('stik')->nullable();
             $table->float('duration')->nullable();
 

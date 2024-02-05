@@ -26,6 +26,7 @@ class AuthorModule
     public static function toCollection(Ebook $ebook): Collection
     {
         $authors = $ebook->getAuthors();
+        $authors = array_filter($authors, fn (BookAuthor $author) => $author->getName() !== null);
         $items = collect([]);
 
         if (empty($authors)) {
