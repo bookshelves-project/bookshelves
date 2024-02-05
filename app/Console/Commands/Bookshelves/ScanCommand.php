@@ -48,6 +48,7 @@ class ScanCommand extends Commandable
         $engine = Bookshelves::analyzerEngine();
 
         $this->info("Engine: {$engine}.");
+        $this->newLine();
 
         foreach ($enums as $enum) {
             $this->parseFiles($enum, $verbose);
