@@ -2677,16 +2677,16 @@
         },
         {
             "name": "kiwilan/notifier-laravel",
-            "version": "0.1.12",
+            "version": "0.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/notifier-laravel.git",
-                "reference": "a72f8109e30d6f31ea5a10923151e1fc5d295989"
+                "reference": "3e5d29c48263a3439df7186b770ba39f4f4003a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/notifier-laravel/zipball/a72f8109e30d6f31ea5a10923151e1fc5d295989",
-                "reference": "a72f8109e30d6f31ea5a10923151e1fc5d295989",
+                "url": "https://api.github.com/repos/kiwilan/notifier-laravel/zipball/3e5d29c48263a3439df7186b770ba39f4f4003a6",
+                "reference": "3e5d29c48263a3439df7186b770ba39f4f4003a6",
                 "shasum": ""
             },
             "require": {
@@ -2749,7 +2749,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/notifier-laravel/issues",
-                "source": "https://github.com/kiwilan/notifier-laravel/tree/v0.1.12"
+                "source": "https://github.com/kiwilan/notifier-laravel/tree/v0.1.13"
             },
             "funding": [
                 {
@@ -2757,7 +2757,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-02T15:46:16+00:00"
+            "time": "2024-02-05T09:49:03+00:00"
         },
         {
             "name": "kiwilan/php-archive",
@@ -3196,12 +3196,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "c098a43a1786e9b49f148cb210bea88721f92aac"
+                "reference": "2b047766ebfb2ffd77327165e5fcf032a22f91f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/c098a43a1786e9b49f148cb210bea88721f92aac",
-                "reference": "c098a43a1786e9b49f148cb210bea88721f92aac",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/2b047766ebfb2ffd77327165e5fcf032a22f91f9",
+                "reference": "2b047766ebfb2ffd77327165e5fcf032a22f91f9",
                 "shasum": ""
             },
             "require": {
@@ -3209,7 +3209,7 @@
                 "illuminate/contracts": "^9.0 || ^10.0",
                 "illuminate/database": "^9.0 || ^10.0",
                 "illuminate/support": "^9.0 || ^10.0",
-                "kiwilan/notifier-laravel": "^0.1.12",
+                "kiwilan/notifier-laravel": "^0.1.13",
                 "kiwilan/php-http-pool": "^0.3.2",
                 "league/html-to-markdown": "^5.1",
                 "livewire/livewire": "^3.0.1",
@@ -3278,7 +3278,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2024-02-05T08:44:08+00:00"
+            "time": "2024-02-05T09:58:16+00:00"
         },
         {
             "name": "kiwilan/typescriptable-laravel",
