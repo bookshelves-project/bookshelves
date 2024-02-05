@@ -2,23 +2,16 @@
 
 namespace App\Models;
 
-use App\Engines\Book\Converter\WikipediaItemConverter;
-use App\Enums\AuthorRoleEnum;
-use App\Enums\BookFormatEnum;
 use App\Traits\HasBooksCollection;
 use App\Traits\HasCovers;
-use App\Traits\HasFavorites;
-use App\Traits\HasReviews;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Str;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
-use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
-use Kiwilan\Steward\Services\Wikipedia\WikipediaItem;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
@@ -32,45 +25,57 @@ use Spatie\QueryBuilder\AllowedFilter;
  * @property null|int $series_count
  * @property \App\Enums\BookTypeEnum|null $type
  */
-class Author extends Model implements HasMedia, Wikipediable
+class Author extends Model implements HasMedia
 {
     use HasBooksCollection;
     use HasCovers;
     use HasFactory;
-    use HasFavorites;
     use HasMetaClass;
-    use HasReviews;
-    use HasSearchableName;
+    use HasSearchableName, Searchable {
+        HasSearchableName::searchableAs insteadof Searchable;
+    }
     use HasSlug;
     use HasTagsAndGenres;
+    use HasUlids;
     use IsEntity;
     use Queryable;
-    use Searchable;
-
-    protected $query_default_sort = 'lastname';
-
-    protected $query_default_sort_direction = 'asc';
-
-    protected $query_allowed_sorts = ['id', 'firstname', 'lastname', 'name', 'role', 'books_count', 'series_count', 'created_at', 'updated_at'];
-
-    protected $query_limit = 32;
 
     protected $fillable = [
-        'lastname',
-        'firstname',
         'name',
+        'firstname',
+        'lastname',
         'role',
         'description',
         'link',
-        'note',
+        'wikipedia_parsed_at',
     ];
 
     protected $casts = [
-        'role' => AuthorRoleEnum::class,
+        'wikipedia_parsed_at' => 'datetime',
     ];
+
+    protected $query_default_sort = 'name';
+
+    protected $query_default_sort_direction = 'asc';
+
+    protected $query_allowed_sorts = [
+        'id',
+        'name',
+        'role',
+        'books_count',
+        'series_count',
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $query_limit = 32;
 
     protected $appends = [
         'title',
+    ];
+
+    protected $with = [
+        'media',
     ];
 
     protected $withCount = [
@@ -78,101 +83,59 @@ class Author extends Model implements HasMedia, Wikipediable
         'series',
     ];
 
-    public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
+    public function getTitleAttribute(): string
     {
-        $converter_engine = WikipediaItemConverter::make($item, $this)
-            ->setWikipediaDescription();
+        return $this->name;
+    }
 
-        if (! $default) {
-            $converter_engine->setWikipediaCover();
-        }
-        $this->save();
+    public function getFirstCharAttribute()
+    {
+        return strtoupper(substr(Str::slug($this->name), 0, 1));
+    }
 
-        return $this;
+    public function scopeWhereFirstChar(Builder $query, string $char): Builder
+    {
+        return $query->whereRaw('UPPER(SUBSTR(name, 1, 1)) = ?', [strtoupper($char)]);
     }
 
     /**
      * Get all of the books that are assigned this author.
      */
-    public function books(): MorphToMany
+    public function books(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Book::class, 'authorable')
-            ->orderBy('slug_sort')
+            ->orderBy('slug')
             ->orderBy('volume');
     }
 
     /**
      * Get all of the series that are assigned this author.
      */
-    public function series(): MorphToMany
+    public function series(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Serie::class, 'authorable')
-            ->orderBy('slug_sort')
+            ->orderBy('slug')
             ->withCount('books');
-    }
-
-    public function getBooksLinkAttribute(): string
-    {
-        return route('api.authors.show.books', [
-            'author_slug' => $this->slug,
-        ]);
-    }
-
-    public function getSeriesLinkAttribute(): string
-    {
-        return route('api.authors.show.series', [
-            'author_slug' => $this->slug,
-        ]);
-    }
-
-    public function getDownloadLinkFormat(string $format): string
-    {
-        $format = BookFormatEnum::from($format)->value;
-
-        return route('api.download.author', [
-            'author_slug' => $this->slug,
-            'format' => $format,
-        ]);
-    }
-
-    public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
-    {
-        return $query->where('lastname', 'like', "{$character}%");
-    }
-
-    public function searchableAs()
-    {
-        return $this->searchableNameAs();
     }
 
     public function toSearchableArray()
     {
+        $this->loadMissing(['media']);
+
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
             'cover' => $this->cover_thumbnail,
             'description' => $this->description,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 
     public function setQueryAllowedFilters(): array
     {
         return [
-            AllowedFilter::custom('q', new GlobalSearchFilter(['firstname', 'lastname', 'name'])),
-            AllowedFilter::partial('firstname'),
-            AllowedFilter::partial('lastname'),
+            AllowedFilter::custom('q', new GlobalSearchFilter(['name'])),
+            AllowedFilter::partial('name'),
             AllowedFilter::exact('role'),
         ];
-    }
-
-    protected function title(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->name,
-        );
     }
 }

@@ -2,28 +2,47 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Book\BookResource;
-use App\Models\Author;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\EntityResource;
 use App\Models\Book;
-use Illuminate\Http\Request;
-use Kiwilan\Steward\Queries\HttpQuery;
+use Kiwilan\Steward\Utils\PaginatorHelper;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('books')]
 class BookController extends Controller
 {
-    #[Get('/', name: 'api.books.index')]
-    public function index(Request $request)
+    #[Get('/related/{book_slug}', name: 'api.books.related')]
+    public function related(Book $book)
     {
-        return HttpQuery::for(Book::class, $request)
-            ->with(['authors', 'media', 'language', 'serie'])
-            ->collection();
+        if ($book->tags->count() >= 1) {
+            $related = $book->getRelated();
+
+            if ($related->isNotEmpty()) {
+                return EntityResource::collection(PaginatorHelper::paginate($related));
+            }
+        }
+
+        return response()->json(
+            data: [
+                'data' => [],
+            ],
+            status: 200
+        );
     }
 
-    #[Get('/{author_slug}/{book_slug}', name: 'api.books.show')]
-    public function show(Request $request, Author $author, Book $book)
+    #[Get('/latest', name: 'api.books.latest')]
+    public function latest()
     {
-        return BookResource::make($book);
+        $latest = Book::with(['authors', 'serie', 'media'])
+            ->orderBy('added_at', 'desc')
+            ->limit(20)
+            ->get();
+
+        return response()->json(
+            data: [
+                'data' => $latest,
+            ],
+        );
     }
 }

@@ -2,30 +2,29 @@
 
 namespace App\Engines;
 
-use App\Engines\Book\BookFileReader;
+use App\Engines\Book\BookFileItem;
 use App\Engines\Book\ConverterEngine;
-use Illuminate\Support\Facades\Storage;
+use App\Facades\Bookshelves;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\HttpPool\Utils\PrintConsole;
 
 class BookEngine
 {
     protected function __construct(
         protected Ebook $ebook,
-        protected BookFileReader $file,
+        protected BookFileItem $file,
         protected ConverterEngine $converter,
     ) {
     }
 
-    public static function make(BookFileReader $file, bool $verbose = false, bool $default = false): self
+    public static function make(BookFileItem $file): self
     {
         $ebook = Ebook::read($file->path());
-
-        if ($verbose) {
-            BookEngine::verbose($ebook);
+        if (Bookshelves::analyzerDebug()) {
+            BookEngine::printFile($ebook->toArray(), "{$ebook->getFilename()}-parser.json");
         }
-
-        $converter = ConverterEngine::make($ebook, $file, $default);
+        $converter = ConverterEngine::make($ebook, $file);
 
         return new self($ebook, $file, $converter);
     }
@@ -35,7 +34,7 @@ class BookEngine
         return $this->ebook;
     }
 
-    public function file(): BookFileReader
+    public function file(): BookFileItem
     {
         return $this->file;
     }
@@ -45,25 +44,16 @@ class BookEngine
         return $this->converter;
     }
 
-    private static function verbose(Ebook $ebook): void
-    {
-        $console = PrintConsole::make();
-        $console->print("{$ebook->getTitle()}");
-        BookEngine::printFile($ebook->toArray(), "{$ebook->getFilename()}-parser.json");
-    }
-
     public static function printFile(mixed $file, string $name, bool $raw = false): bool
     {
-        $console = PrintConsole::make();
-
         try {
             $file = $raw
                 ? $file
                 : json_encode($file, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
-            return Storage::disk('public')->put("/debug/{$name}", $file);
+            return File::put(storage_path("app/debug/{$name}"), $file);
         } catch (\Throwable $th) {
-            $console->print(__METHOD__, $th);
+            Log::error(__METHOD__, [$th->getMessage()]);
         }
 
         return false;

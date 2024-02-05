@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\OpdsApp;
 use App\Engines\SearchEngine;
+use App\Facades\OpdsBase;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
-use Kiwilan\Opds\Opds;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -17,8 +16,8 @@ class IndexController extends Controller
     #[Get('/', name: 'opds.index')]
     public function index()
     {
-        Opds::make(OpdsApp::config())
-            ->feeds(OpdsApp::home())
+        OpdsBase::app()
+            ->feeds(OpdsBase::home())
             ->send();
     }
 
@@ -27,11 +26,17 @@ class IndexController extends Controller
     {
         $feeds = [];
 
-        foreach (Book::query()->orderBy('updated_at', 'desc')->limit(16)->get() as $book) {
-            $feeds[] = OpdsApp::bookToEntry($book);
+        $entries = Book::query()
+            ->whereIsBook()
+            ->orderBy('updated_at', 'desc')
+            ->limit(16)
+            ->get();
+
+        foreach ($entries as $book) {
+            $feeds[] = OpdsBase::bookToEntry($book);
         }
 
-        Opds::make(OpdsApp::config())
+        OpdsBase::app()
             ->title('Latest books')
             ->feeds($feeds)
             ->send();
@@ -42,11 +47,17 @@ class IndexController extends Controller
     {
         $feeds = [];
 
-        foreach (Book::query()->inRandomOrder()->limit(16)->get() as $book) {
-            $feeds[] = OpdsApp::bookToEntry($book);
+        $entries = Book::query()
+            ->inRandomOrder()
+            ->whereIsBook()
+            ->limit(16)
+            ->get();
+
+        foreach ($entries as $book) {
+            $feeds[] = OpdsBase::bookToEntry($book);
         }
 
-        Opds::make(OpdsApp::config())
+        OpdsBase::app()
             ->title('Random books')
             ->feeds($feeds)
             ->send();
@@ -63,11 +74,11 @@ class IndexController extends Controller
 
             foreach ($search->results_opds as $result) {
                 /** @var Book $result */
-                $feeds[] = OpdsApp::bookToEntry($result);
+                $feeds[] = OpdsBase::bookToEntry($result);
             }
         }
 
-        Opds::make(OpdsApp::config())
+        OpdsBase::app()
             ->title("Search for {$query}")
             ->isSearch()
             ->feeds($feeds)

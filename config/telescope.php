@@ -4,6 +4,7 @@ use Laravel\Telescope\Http\Middleware\Authorize;
 use Laravel\Telescope\Watchers;
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Telescope Domain
@@ -15,7 +16,7 @@ return [
     |
     */
 
-    'domain' => env('TELESCOPE_DOMAIN', null),
+    'domain' => env('TELESCOPE_DOMAIN'),
 
     /*
     |--------------------------------------------------------------------------
@@ -95,7 +96,9 @@ return [
     ],
 
     'ignore_paths' => [
+        'livewire*',
         'nova-api*',
+        'pulse*',
     ],
 
     'ignore_commands' => [

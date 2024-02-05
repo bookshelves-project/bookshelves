@@ -21,7 +21,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Helper",
+      "label": "COMPOSER Helper",
       "type": "shell",
       "command": "composer helper",
       "problemMatcher": [],
@@ -32,7 +32,7 @@
       }
     },
     {
-      "label": "Format",
+      "label": "COMPOSER Format",
       "type": "shell",
       "command": "composer format",
       "problemMatcher": [],
@@ -43,7 +43,7 @@
       }
     },
     {
-      "label": "Analyse",
+      "label": "COMPOSER Analyse",
       "type": "shell",
       "command": "composer analyse",
       "problemMatcher": [],
@@ -54,26 +54,9 @@
       }
     },
     {
-      "label": "Docs",
-      "type": "shell",
-      "command": "composer docs",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem",
-        "close": true
-      }
-    },
-    {
-      "label": "Tests",
+      "label": "COMPOSER Tests",
       "type": "shell",
       "command": "composer tests",
-      "problemMatcher": []
-    },
-    {
-      "label": "Routes",
-      "type": "shell",
-      "command": "php artisan route:list",
       "problemMatcher": []
     },
     {
@@ -97,23 +80,6 @@
         "revealProblems": "onProblem",
         "close": true
       }
-    },
-    {
-      "label": "MIGRATE",
-      "type": "shell",
-      "command": "php artisan migrate",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "silent",
-        "revealProblems": "onProblem",
-        "close": true
-      }
-    },
-    {
-      "label": "MIGRATE:fresh --seed",
-      "type": "shell",
-      "command": "php artisan migrate:fresh --seed",
-      "problemMatcher": []
     }
   ]
 }

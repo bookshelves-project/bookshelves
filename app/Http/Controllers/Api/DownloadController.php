@@ -2,153 +2,81 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\BookFormatEnum;
-use App\Models\Author;
+use App\Enums\BookTypeEnum;
+use App\Http\Controllers\Controller;
+use App\Models\Audiobook;
 use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Support\MediaStream;
+use Kiwilan\Steward\Utils\Downloader\Downloader;
+use Kiwilan\Steward\Utils\Downloader\DownloaderZipStreamItem;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
-#[Prefix('download')]
+#[Prefix('downloads')]
 class DownloadController extends Controller
 {
-    /**
-     * GET Book.
-     *
-     * <small class="badge badge-green">Content-Type application/epub+zip</small>
-     *
-     * Download Book format like `epub` or `cbz`.
-     *
-     * @header Content-Type application/epub+zip
-     */
-    #[Get('/book/{author_slug}/{book_slug}', name: 'api.download.book')]
-    public function index(Request $request, Author $author, Book $book)
+    #[Get('/book/{book_id}', name: 'api.downloads.book')]
+    public function book(Request $request, Book $book)
     {
-        if ($format = $request->get('format')) {
-            $format = BookFormatEnum::from($format);
-        } else {
-            $media = $book->file_main;
-            $format = BookFormatEnum::from($media->format);
+        $serie = $book->serie?->name ?? '';
+        $volume = $book->volume ?? '';
+        if ($serie) {
+            $serie = Str::slug("{$serie}-{$volume}");
         }
-        $format = $this->getFormat($book, $format->value);
+        $author = $book->authorMain?->name ?? '';
+        $name = Str::slug("{$serie}-{$book->slug}-{$author}-{$book->type->value}");
 
-        if ($format === null) {
-            return response()->json([
-                'message' => 'Have not any format available.',
-            ], 404);
-        }
+        if ($book->type !== BookTypeEnum::audiobook) {
+            Downloader::direct($book->physical_path)
+                ->mimeType($book->mime_type)
+                ->name("{$name}.{$book->extension}")
+                ->get();
 
-        $media = $book->files[$format];
-
-        if ($media === null) {
-            return response()->json([
-                'message' => "Have not {$format} format available.",
-            ], 404);
+            return;
         }
 
-        return response()->download($media->getPath(), $media->file_name, disposition: 'inline');
+        $audiobooks = $book->audiobooks;
+        $files = $audiobooks
+            ->map(fn (Audiobook $audiobook) => new DownloaderZipStreamItem($audiobook->basename, $audiobook->physical_path))
+            ->toArray();
+
+        Downloader::stream($name)
+            ->files($files)
+            ->get();
     }
 
-    #[Get('/book/direct/{author_slug}/{book_slug}', name: 'api.download.direct')]
-    public function direct(Request $request, Author $author, Book $book)
-    {
-        $path = $book->physical_path;
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
-
-        return response()->download($path, "{$book->slug_sort}.{$extension}", disposition: 'inline');
-    }
-
-    /**
-     * GET Book[] belongs to Author.
-     *
-     * <small class="badge badge-green">Content-Type application/octet-stream</small>
-     *
-     * Download Author ZIP.
-     *
-     * @header Content-Type application/octet-stream
-     */
-    #[Get('/author/{author_slug}/{format?}', 'api.download.author')]
-    public function author(Author $author, string $format = null)
+    #[Get('/serie/{serie_id}', name: 'api.downloads.serie')]
+    public function serie(Request $request, Serie $serie)
     {
         $files = [];
+        $serie->load('books');
 
-        foreach ($author->books as $book) {
-            $format = $this->getFormat($book, $format);
-
-            if ($format) {
-                $file = $book->getMedia($format)->first();
-
-                if ($file) {
-                    array_push($files, $file);
-                }
-            }
-        }
-
-        if (count($files) === 0) {
-            return response()->json([
-                'message' => "Have not {$format} format available.",
-            ], 404);
-        }
-
-        $token = Str::slug(Str::random(8));
-        $dirname = "{$author->slug}-{$token}";
-
-        return MediaStream::create("{$dirname}.zip")->addMedia($files);
-    }
-
-    /**
-     * GET Book[] belongs to Serie.
-     *
-     * <small class="badge badge-green">Content-Type application/octet-stream</small>
-     *
-     * Download Serie ZIP.
-     *
-     * @header Content-Type application/octet-stream
-     */
-    #[Get('/serie/{author_slug}/{serie_slug}/{format?}', 'api.download.serie')]
-    public function serie(Author $author, Serie $serie, string $format = null)
-    {
-        $files = [];
-
-        foreach ($serie->books as $book) {
-            $format = $this->getFormat($book, $format);
-
-            if ($format) {
-                $file = $book->getMedia($format)->first();
-
-                if ($file) {
-                    array_push($files, $file);
-                }
-            }
-        }
-
-        if (count($files) === 0) {
-            return response()->json([
-                'message' => "Have not {$format} format available.",
-            ], 404);
-        }
-
-        $token = Str::slug(Str::random(8));
-        $dirname = "{$serie->meta_author}-{$serie->slug}-{$token}";
-
-        return MediaStream::create("{$dirname}.zip")->addMedia($files);
-    }
-
-    private static function getFormat(Book $book, string $format = null): ?string
-    {
-        if ($format !== null) {
-            $format = BookFormatEnum::tryFrom($format)->name;
+        if ($serie->type !== BookTypeEnum::audiobook) {
+            $files = $serie->books
+                ->map(fn (Book $book) => new DownloaderZipStreamItem("{$book->slug}.{$book->extension}", $book->physical_path))
+                ->toArray();
         } else {
-            foreach ($book->files as $format_name => $media) {
-                if ($media !== null) {
-                    $format = $format_name;
-                }
+            foreach ($serie->books as $book) {
+                $book->load('audiobooks');
+                $audiobooks = $book->audiobooks;
+                $files = array_merge(
+                    $files,
+                    $audiobooks
+                        ->map(function (Audiobook $audiobook) use ($book) {
+                            $name = Str::slug("{$book->title}").'.'.$audiobook->basename;
+
+                            return new DownloaderZipStreamItem($name, $audiobook->physical_path);
+                        })
+                        ->toArray()
+                );
             }
         }
 
-        return $format;
+        $name = Str::slug("{$serie->slug}-".$serie->books->count().'-books');
+        Downloader::stream($name)
+            ->files($files)
+            ->get();
     }
 }

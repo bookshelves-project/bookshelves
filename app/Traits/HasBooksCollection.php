@@ -3,12 +3,21 @@
 namespace App\Traits;
 
 use App\Enums\BookFormatEnum;
+use App\Enums\BookTypeEnum;
 use App\Models\Author;
 use App\Models\Serie;
+use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Steward\Utils\DownloadFile;
 
 trait HasBooksCollection
 {
+    public function scopeWhereHasBooks(Builder $query): Builder
+    {
+        return $query->whereHas('books', function (Builder $query) {
+            $query->where('type', BookTypeEnum::book);
+        });
+    }
+
     public function getFileMainAttribute(): ?DownloadFile
     {
         $file_list = collect($this->files_list);

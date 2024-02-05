@@ -4,26 +4,24 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Traits\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Kiwilan\Steward\Enums\GenderEnum;
-use Kiwilan\Steward\Enums\UserRoleEnum;
-use Kiwilan\Steward\Traits\HasUsername;
+use Kiwilan\Steward\Traits\HasRole;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\MediaLibrary\HasMedia;
 
-class User extends Authenticatable implements FilamentUser, HasMedia
+class User extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    use HasAvatar;
+    use HasApiTokens;
+    use HasFactory;
     use HasProfilePhoto;
-    use HasUsername;
+    use HasRole;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -34,17 +32,6 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         'name',
         'email',
         'password',
-
-        'is_blocked',
-        'role',
-        'use_gravatar',
-        'display_favorites',
-        'display_reviews',
-        'display_gender',
-        'about',
-        'gender',
-        'pronouns',
-        'avatar',
     ];
 
     /**
@@ -66,51 +53,19 @@ class User extends Authenticatable implements FilamentUser, HasMedia
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_blocked' => 'boolean',
-        'role' => UserRoleEnum::class,
-        'display_favorites' => 'boolean',
-        'display_reviews' => 'boolean',
-        'display_gender' => 'boolean',
-        'gender' => GenderEnum::class,
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
     protected $appends = [
-        'is_editor',
-        'is_super_admin',
-        'is_admin',
         'profile_photo_url',
     ];
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->is_editor || $this->is_admin || $this->is_super_admin && ! $this->is_blocked;
-    }
-
-    public function canManageSettings(): bool
-    {
-        // return $this->can('manage.settings');
-        return true;
-    }
-
-    public function scopeWhereHasBackEndAccess(Builder $query): Builder
-    {
-        return $query->where('role', '=', UserRoleEnum::editor)
-            ->orWhere('role', '=', UserRoleEnum::admin)
-            ->orWhere('role', '=', UserRoleEnum::super_admin);
-    }
-
-    protected function getIsEditorAttribute(): bool
-    {
-        return $this->role === UserRoleEnum::editor;
-    }
-
-    protected function getIsAdminAttribute(): bool
-    {
-        return $this->role === UserRoleEnum::admin;
-    }
-
-    protected function getIsSuperAdminAttribute(): bool
-    {
-        return $this->role === UserRoleEnum::super_admin;
+        return $this->isSuperAdmin() && ! $this->is_blocked;
     }
 }

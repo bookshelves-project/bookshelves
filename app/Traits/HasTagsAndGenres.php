@@ -2,27 +2,46 @@
 
 namespace App\Traits;
 
-use App\Models\TagExtend;
-use ArrayAccess;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Spatie\Tags\HasTags;
-use Spatie\Tags\Tag;
 
-/**
- * Manage tags and genres with `spatie/laravel-tags`.
- */
 trait HasTagsAndGenres
 {
-    use HasTags;
+    /**
+     * Scope a query to only include records with any of the given tags.
+     */
+    public function scopeWithAllTags(Builder $query, iterable ...$tags): Builder
+    {
+        $ids = [];
 
-    public function scopeWhereTagsAllIs(Builder $query, ...$tags)
+        foreach ($tags as $tag) {
+            $tag = Tag::query()->where('slug', $tag)->first();
+            if ($tag && is_int($tag->id)) {
+                $ids[] = $tag->id;
+            }
+        }
+
+        return $query->whereHas(
+            'tags',
+            function (Builder $query) use ($ids) {
+                $query->select(DB::raw('count(distinct id)'))->whereIn('id', $ids);
+            },
+            '=',
+            count($ids)
+        );
+    }
+
+    /**
+     * Scope a query to only include records with all of the given tags.
+     */
+    public function scopeWhereTagsAllIs(Builder $query, iterable ...$tags): Builder
     {
         $tags_ids = [];
 
         foreach ($tags as $tag) {
-            $tag_model = Tag::where('slug->en', $tag)->first();
+            $tag_model = Tag::query()->where('slug', $tag)->first();
             $id = $tag_model?->id;
 
             if ($id) {
@@ -40,59 +59,76 @@ trait HasTagsAndGenres
         );
     }
 
-    public function scopeWhereTagsIs(Builder $query, ...$tags)
+    /**
+     * Scope a query to only include records with any of the given tags.
+     */
+    public function scopeWhereTagsIs(Builder $query, iterable ...$tags): Builder
     {
         return $query->whereHas('tags', function (Builder $q) use ($tags) {
-            $q->whereIn('slug->en', $tags);
+            $q->whereIn('slug', $tags);
         });
     }
 
+    /**
+     * Get tags as string.
+     */
     public function getTagsStringAttribute(): string
     {
         $tags = $this->tags()->get();
 
         /** @var string[] $tag_names */
-        $tag_names = $tags->map(function ($tag, $key) {
-            /** @var Tag $tag */
-            return $tag->getTranslation('name', 'en');
-        })->toArray();
+        $tag_names = $tags->map(fn (Tag $tag) => $tag->name)->toArray();
 
         return implode(', ', $tag_names);
     }
 
-    public function getTagsListAttribute()
+    /**
+     * Get only tags.
+     *
+     * @return Collection<int, Tag>
+     */
+    public function getTagsListAttribute(): Collection
     {
         return $this->tags()->whereType('tag')->get();
     }
 
-    public function getGenresListAttribute()
+    /**
+     * Get only genres.
+     *
+     * @return Collection<int, Tag>
+     */
+    public function getGenresListAttribute(): Collection
     {
         return $this->tags()->whereType('genre')->get();
     }
 
-    public function tags(): MorphToMany
+    public function tags(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this
-            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
+            ->morphToMany(Tag::class, 'taggable', 'taggables', null, 'tag_id')
             ->orderBy('order_column');
     }
 
-    public function syncTagsList(array|ArrayAccess $tags): static
+    /**
+     * Sync tags list.
+     */
+    public function syncTagsList(iterable $tags): static
     {
-        $tags_list = collect();
+        $items = collect();
 
         foreach ($tags as $name) {
-            $tag = TagExtend::whereNameEnIs($name)->first();
+            $tag = Tag::query()->where('name', $name)
+                ->first();
 
             if (! $tag) {
-                $tag = TagExtend::create([
+                $tag = Tag::query()->create([
                     'name' => $name,
                 ]);
             }
-            $tags_list->add($tag);
+            $items->add($tag);
         }
 
-        $this->tags()->sync($tags_list->pluck('id')->toArray());
+        $this->tags()->sync($items->pluck('id')->toArray());
 
         return $this;
     }

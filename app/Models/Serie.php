@@ -2,25 +2,21 @@
 
 namespace App\Models;
 
-use App\Engines\Book\Converter\WikipediaItemConverter;
-use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBooksCollection;
+use App\Traits\HasBookType;
 use App\Traits\HasCovers;
-use App\Traits\HasFavorites;
 use App\Traits\HasLanguage;
-use App\Traits\HasReviews;
-use App\Traits\HasSelections;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 use Kiwilan\Steward\Queries\Filter\GlobalSearchFilter;
-use Kiwilan\Steward\Services\Wikipedia\Wikipediable;
-use Kiwilan\Steward\Services\Wikipedia\WikipediaItem;
 use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\Queryable;
@@ -32,41 +28,56 @@ use Spatie\QueryBuilder\AllowedFilter;
  * @property null|int $books_count
  * @property \App\Enums\BookTypeEnum|null $type
  */
-class Serie extends Model implements HasMedia, Wikipediable
+class Serie extends Model implements HasMedia
 {
     use HasAuthors;
     use HasBooksCollection;
+    use HasBookType;
     use HasCovers;
     use HasFactory;
-    use HasFavorites;
     use HasLanguage;
     use HasMetaClass;
-    use HasReviews;
-    use HasSearchableName;
-    use HasSelections;
+    use HasSearchableName, Searchable {
+        HasSearchableName::searchableAs insteadof Searchable;
+    }
     use HasTagsAndGenres;
+    use HasUlids;
     use IsEntity;
     use Queryable;
-    use Searchable;
 
-    protected $query_default_sort = 'slug_sort';
+    protected $query_default_sort = 'slug';
 
     protected $query_default_sort_direction = 'asc';
 
-    protected $query_allowed_sorts = ['id', 'title', 'authors', 'books_count', 'language', 'created_at', 'updated_at', 'language'];
+    protected $query_allowed_sorts = [
+        'id',
+        'title',
+        'authors',
+        'books_count',
+        'language',
+        'type',
+        'created_at',
+        'updated_at',
+        'language',
+    ];
 
     protected $query_limit = 32;
 
     protected $fillable = [
         'title',
-        'slug_sort',
         'slug',
         'type',
         'description',
         'link',
+        'wikipedia_parsed_at',
+    ];
+
+    protected $appends = [
+        'download_link',
     ];
 
     protected $casts = [
+        'wikipedia_parsed_at' => 'datetime',
         'type' => BookTypeEnum::class,
     ];
 
@@ -75,19 +86,10 @@ class Serie extends Model implements HasMedia, Wikipediable
     ];
 
     protected $with = [
+        'authors', // for search
         'language',
+        'media',
     ];
-
-    /**
-     * Relationships.
-     */
-    public function books(): HasMany
-    {
-        // Get Books into Serie, by volume order.
-        return $this->hasMany(Book::class)
-            ->where('is_hidden', false)
-            ->orderBy('volume');
-    }
 
     public function getBooksLinkAttribute(): string
     {
@@ -97,48 +99,43 @@ class Serie extends Model implements HasMedia, Wikipediable
         ]);
     }
 
-    public function getDownloadLinkFormat(string $format): string
+    public function getDownloadLinkAttribute(): string
     {
-        $format = BookFormatEnum::from($format)->value;
-
-        return route('api.download.serie', [
-            'author_slug' => $this->meta_author,
-            'serie_slug' => $this->slug,
-            'format' => $format,
+        return route('api.downloads.serie', [
+            'serie_id' => $this->id,
         ]);
     }
 
-    public function scopeWhereFirstCharacterIs(Builder $query, string $character): Builder
+    public function getFirstCharAttribute()
     {
-        return $query->where('slug_sort', 'like', "{$character}%");
+        return strtoupper(substr(Str::slug($this->title), 0, 1));
     }
 
-    public function searchableAs()
+    public function scopeWhereFirstChar(Builder $query, string $char): Builder
     {
-        return $this->searchableNameAs();
+        return $query->whereRaw('UPPER(SUBSTR(slug, 1, 1)) = ?', [strtoupper($char)]);
+    }
+
+    public function books(): HasMany
+    {
+        // Get Books into Serie, by volume order.
+        return $this->hasMany(Book::class)
+            ->where('is_hidden', false)
+            ->orderBy('volume');
     }
 
     public function toSearchableArray()
     {
+        $this->loadMissing(['authors', 'tags']);
+
         return [
             'id' => $this->id,
             'title' => $this->title,
-            // 'picture' => $this->cover_thumbnail,
+            'picture' => $this->cover_thumbnail,
             'author' => $this->authors_names,
             'description' => $this->description,
             'tags' => $this->tags_string,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
-    }
-
-    public function wikipediaConvert(WikipediaItem $item, bool $default = false): Wikipediable
-    {
-        WikipediaItemConverter::make($item, $this)
-            ->setWikipediaDescription();
-        $this->save();
-
-        return $this;
     }
 
     protected function setQueryAllowedFilters(): array
