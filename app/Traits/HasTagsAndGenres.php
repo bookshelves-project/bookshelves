@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Models\Serie;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -23,34 +22,6 @@ trait HasTagsAndGenres
         }
         $ids = array_unique($ids);
         $ids = array_values($ids);
-        ray($ids);
-
-        // return $query->whereHas(
-        //     'tags',
-        //     function (Builder $query) use ($ids) {
-        //         $query->select(DB::raw('count(distinct id)'))->whereIn('id', $ids);
-        //     },
-        //     '=',
-        //     count($ids)
-        // );
-
-        // return $query->where(function (Builder $query) use ($tags) {
-        //     foreach ($tags as $tag) {
-        //         $query->whereHas('tags', function (Builder $query) use ($tag) {
-        //             $query->where('slug', $tag);
-        //         });
-        //     }
-        // });
-
-        // if ($this->has('serie')) {
-        //     // get serie of current book
-        //     // get books of this serie
-        //     $serieBooks = $this->serie?->books()->with(['serie', 'media'])->get();
-        // }
-
-        $query->whereHas('tags', function (Builder $q) use ($ids) {
-            $q->whereIn('id', $ids);
-        });
 
         return $query->whereHas(
             'tags',
