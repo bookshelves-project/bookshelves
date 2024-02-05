@@ -64,7 +64,8 @@ class ScanCommand extends Commandable
             return;
         }
 
-        $this->info("{$enum->value} {$parser->count()} files.");
+        $library = $enum->libraryPath();
+        $this->info("{$enum->value} {$parser->count()} files in {$library}.");
 
         if ($verbose) {
             $this->table(
