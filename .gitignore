@@ -22,3 +22,4 @@ resources/js/routes.ts
 resources/js/types-*.d.ts
 icons.d.ts
 .DS_Store
+components.d.ts
