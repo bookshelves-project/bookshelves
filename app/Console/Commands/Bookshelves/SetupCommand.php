@@ -6,7 +6,7 @@ use App\Models\Tag;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
+use Kiwilan\Notifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Commands\Jobs\JobsClearCommand;
 use Kiwilan\Steward\Commands\Log\LogClearCommand;
@@ -75,7 +75,7 @@ class SetupCommand extends Commandable
     {
         $msg = 'Fresh mode enabled, reset database.';
         $this->info($msg);
-        Log::info($msg);
+        Journal::info($msg);
 
         Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
         $this->comment('Database reset!');

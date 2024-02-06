@@ -6,8 +6,8 @@ use App\Engines\Book\BookFileItem;
 use App\Engines\Book\ConverterEngine;
 use App\Facades\Bookshelves;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Notifier\Facades\Journal;
 
 class BookEngine
 {
@@ -53,7 +53,7 @@ class BookEngine
 
             return File::put(storage_path("app/debug/{$name}"), $file);
         } catch (\Throwable $th) {
-            Log::error(__METHOD__, [$th->getMessage()]);
+            Journal::error(__METHOD__, [$th->getMessage()]);
         }
 
         return false;

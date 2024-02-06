@@ -4,7 +4,7 @@ namespace App\Engines\Book\Converter;
 
 use App\Facades\Bookshelves;
 use App\Models\Author;
-use Illuminate\Support\Facades\Log;
+use Kiwilan\Notifier\Facades\Journal;
 use Kiwilan\Steward\Utils\SpatieMedia;
 use Kiwilan\Steward\Utils\Wikipedia;
 
@@ -31,7 +31,7 @@ class AuthorConverter
 
     private function wikipedia(): self
     {
-        Log::info("Wikipedia: author {$this->author->name}");
+        Journal::info("Wikipedia: author {$this->author->name}");
 
         $lang = BookConverter::selectLang($this->author->books);
         $wikipedia = Wikipedia::make($this->author->name)->language($lang);

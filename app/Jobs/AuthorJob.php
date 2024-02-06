@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+use Kiwilan\Notifier\Facades\Journal;
 
 class AuthorJob implements ShouldQueue
 {
@@ -29,7 +29,7 @@ class AuthorJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info("AuthorJob: {$this->author->name}");
+        Journal::info("AuthorJob: {$this->author->name}");
         AuthorConverter::make($this->author, $this->fresh);
     }
 }

@@ -5,7 +5,7 @@ namespace App\Engines\Book\Converter;
 use App\Engines\Book\Converter\Modules\SerieModule;
 use App\Facades\Bookshelves;
 use App\Models\Serie;
-use Illuminate\Support\Facades\Log;
+use Kiwilan\Notifier\Facades\Journal;
 use Kiwilan\Steward\Utils\Wikipedia;
 
 /**
@@ -35,7 +35,7 @@ class SerieConverter
 
     private function wikipedia(): self
     {
-        Log::info("Wikipedia: serie {$this->serie->title}");
+        Journal::info("Wikipedia: serie {$this->serie->title}");
 
         $lang = BookConverter::selectLang($this->serie->books);
         $wikipedia = Wikipedia::make($this->serie->title)

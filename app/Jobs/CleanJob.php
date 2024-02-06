@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+use Kiwilan\Notifier\Facades\Journal;
 use Kiwilan\Steward\Services\DirectoryService;
 
 class CleanJob implements ShouldQueue
@@ -55,7 +55,7 @@ class CleanJob implements ShouldQueue
             ->whereIn('physical_path', $orphans)
             ->get();
 
-        Log::info("Clean: {$enum->value} {$books->count()}");
+        Journal::info("Clean: {$enum->value} {$books->count()}");
 
         foreach ($books as $book) {
             $book->delete();

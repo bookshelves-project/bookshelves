@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+use Kiwilan\Notifier\Facades\Journal;
 use Kiwilan\Steward\Utils\Converter;
 
 class ParserJob implements ShouldQueue
@@ -45,7 +45,7 @@ class ParserJob implements ShouldQueue
         }
 
         if (! $parser) {
-            Log::warning("ParserJob: {$enum->value} no files detected");
+            Journal::warning("ParserJob: {$enum->value} no files detected");
             file_put_contents($jsonPath, '[]');
 
             return;
@@ -53,7 +53,7 @@ class ParserJob implements ShouldQueue
 
         $files = $parser->items();
         $count = count($files);
-        Log::info("ParserJob: {$enum->value} files detected: {$count}");
+        Journal::info("ParserJob: {$enum->value} files detected: {$count}");
 
         $items = [];
         foreach ($files as $file) {

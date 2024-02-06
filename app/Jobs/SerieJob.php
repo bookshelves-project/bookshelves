@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+use Kiwilan\Notifier\Facades\Journal;
 
 class SerieJob implements ShouldQueue
 {
@@ -29,7 +29,7 @@ class SerieJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info("SerieJob: {$this->serie->title}");
+        Journal::info("SerieJob: {$this->serie->title}");
         SerieConverter::make($this->serie, $this->fresh);
     }
 }

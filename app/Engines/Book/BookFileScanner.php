@@ -6,7 +6,7 @@ use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Facades\Bookshelves;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
+use Kiwilan\Notifier\Facades\Journal;
 use Kiwilan\Steward\Utils\BashCommand;
 use Kiwilan\Steward\Utils\Json;
 use SplFileInfo;
@@ -76,7 +76,7 @@ class BookFileScanner
         $scan_path = "{$this->path}";
 
         if (! file_exists($scan_path)) {
-            Log::warning("BookFileScanner: {$name} path not found: {$scan_path}");
+            Journal::warning("BookFileScanner: {$name} path not found: {$scan_path}");
 
             return [];
         }

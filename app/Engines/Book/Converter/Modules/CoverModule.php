@@ -5,8 +5,8 @@ namespace App\Engines\Book\Converter\Modules;
 use App\Facades\Bookshelves;
 use App\Models\Book;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Notifier\Facades\Journal;
 use Kiwilan\Steward\Utils\Picture;
 use Kiwilan\Steward\Utils\SpatieMedia;
 use Spatie\Image\Image;
@@ -21,7 +21,7 @@ class CoverModule
         $self = new self();
 
         if (! $ebook->hasCover()) {
-            Log::warning("No cover for {$book->title}");
+            Journal::warning("No cover for {$book->title}");
 
             return $book;
         }

@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+use Kiwilan\Notifier\Facades\Journal;
 
 class BookJob implements ShouldQueue
 {
@@ -36,7 +36,7 @@ class BookJob implements ShouldQueue
             $title = $this->file->path();
         }
 
-        Log::info("BookJob: {$this->number} {$title}");
+        Journal::debug("BookJob: {$this->number} {$title}");
     }
 
     private function log(string $message): void
@@ -56,7 +56,7 @@ class BookJob implements ShouldQueue
         $json[] = $content;
         file_put_contents($path, json_encode($json));
 
-        Log::error('BookJob', $content);
+        Journal::error('BookJob', $content);
     }
 
     /**
