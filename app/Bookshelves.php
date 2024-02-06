@@ -131,7 +131,7 @@ class Bookshelves
      */
     public function imageCoverThumbnail(): array
     {
-        return config('bookshelves.image.cover');
+        return config('bookshelves.image.cover.thumbnail');
     }
 
     /**
