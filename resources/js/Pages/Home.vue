@@ -7,15 +7,17 @@
     title="Welcome on Bookshelves"
     icon="home"
   >
-    <SwiperHome
-      endpoint="api.books.latest"
-      title="Books recently added"
-      type="book"
-    />
-    <SwiperHome
-      endpoint="api.series.latest"
-      title="Series recently added"
-      type="serie"
-    />
+    <div class="pt-10 space-y-6">
+      <SwiperHome
+        endpoint="api.books.latest"
+        title="Books recently added"
+        type="book"
+      />
+      <SwiperHome
+        endpoint="api.series.latest"
+        title="Series recently added"
+        type="serie"
+      />
+    </div>
   </App>
 </template>
