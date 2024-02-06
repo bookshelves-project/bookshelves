@@ -47,4 +47,10 @@ class BookController extends Controller
             ],
         );
     }
+
+    #[Get('/error', name: 'api.books.error')]
+    public function error()
+    {
+        return throw new \Exception('Error');
+    }
 }
