@@ -25,12 +25,9 @@ class BookController extends Controller
             }
         }
 
-        return response()->json(
-            data: [
-                'data' => [],
-            ],
-            status: 200
-        );
+        return response()->json([
+            'data' => [],
+        ]);
     }
 
     #[Get('/latest', name: 'api.books.latest')]
@@ -41,11 +38,9 @@ class BookController extends Controller
             ->limit(20)
             ->get();
 
-        return response()->json(
-            data: [
-                'data' => $latest,
-            ],
-        );
+        return response()->json([
+            'data' => $latest,
+        ]);
     }
 
     #[Get('/error', name: 'api.books.error')]
