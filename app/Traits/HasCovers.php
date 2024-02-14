@@ -7,6 +7,7 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\MediaExtended;
 use App\Models\Serie;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -47,6 +48,8 @@ trait HasCovers
         $formatSocial = Bookshelves::imageCoverSocial();
 
         if (Bookshelves::convertCovers()) {
+            Journal::debug("Covers: register media conversions for {$this->id}");
+
             $this->addMediaConversion(self::CONVERSION_THUMBNAIL)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatThumbnail['width'], $formatThumbnail['height'])
