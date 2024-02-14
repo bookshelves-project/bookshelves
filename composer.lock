@@ -2677,16 +2677,16 @@
         },
         {
             "name": "kiwilan/notifier-laravel",
-            "version": "0.3.0",
+            "version": "0.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/notifier-laravel.git",
-                "reference": "ea67f2b2869411dc042ca406f83bac57ee31c316"
+                "reference": "bd57f77c218c22c73ba9b3a01a59d3e09c83a0aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/notifier-laravel/zipball/ea67f2b2869411dc042ca406f83bac57ee31c316",
-                "reference": "ea67f2b2869411dc042ca406f83bac57ee31c316",
+                "url": "https://api.github.com/repos/kiwilan/notifier-laravel/zipball/bd57f77c218c22c73ba9b3a01a59d3e09c83a0aa",
+                "reference": "bd57f77c218c22c73ba9b3a01a59d3e09c83a0aa",
                 "shasum": ""
             },
             "require": {
@@ -2750,7 +2750,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/notifier-laravel/issues",
-                "source": "https://github.com/kiwilan/notifier-laravel/tree/v0.3.0"
+                "source": "https://github.com/kiwilan/notifier-laravel/tree/v0.3.10"
             },
             "funding": [
                 {
@@ -2758,7 +2758,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-14T11:10:56+00:00"
+            "time": "2024-02-14T11:31:38+00:00"
         },
         {
             "name": "kiwilan/php-archive",
@@ -5842,16 +5842,16 @@
         },
         {
             "name": "opcodesio/log-viewer",
-            "version": "v3.3.0",
+            "version": "v3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opcodesio/log-viewer.git",
-                "reference": "12a845dda022c4507e9847f2703582cbd581d121"
+                "reference": "79bfe719c45f585d6cc10f54ff24dc9c1cd70430"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/12a845dda022c4507e9847f2703582cbd581d121",
-                "reference": "12a845dda022c4507e9847f2703582cbd581d121",
+                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/79bfe719c45f585d6cc10f54ff24dc9c1cd70430",
+                "reference": "79bfe719c45f585d6cc10f54ff24dc9c1cd70430",
                 "shasum": ""
             },
             "require": {
@@ -5914,7 +5914,7 @@
             ],
             "support": {
                 "issues": "https://github.com/opcodesio/log-viewer/issues",
-                "source": "https://github.com/opcodesio/log-viewer/tree/v3.3.0"
+                "source": "https://github.com/opcodesio/log-viewer/tree/v3.3.1"
             },
             "funding": [
                 {
@@ -5926,7 +5926,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-14T05:40:34+00:00"
+            "time": "2024-02-14T11:25:23+00:00"
         },
         {
             "name": "opcodesio/mail-parser",
@@ -11919,39 +11919,39 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-ide-helper",
-            "version": "v2.14.0",
+            "version": "v2.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "485c756f6cff408d6b273274c5e86112c3973d98"
+                "reference": "dca3ebe81ea385632651791cb8b3db42153c380c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/485c756f6cff408d6b273274c5e86112c3973d98",
-                "reference": "485c756f6cff408d6b273274c5e86112c3973d98",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/dca3ebe81ea385632651791cb8b3db42153c380c",
+                "reference": "dca3ebe81ea385632651791cb8b3db42153c380c",
                 "shasum": ""
             },
             "require": {
                 "barryvdh/reflection-docblock": "^2.0.6",
                 "composer/class-map-generator": "^1.0",
-                "doctrine/dbal": "^2.6 || ^3",
+                "doctrine/dbal": "^2.6 || ^3.1.4",
                 "ext-json": "*",
-                "illuminate/console": "^8 || ^9 || ^10",
-                "illuminate/filesystem": "^8 || ^9 || ^10",
-                "illuminate/support": "^8 || ^9 || ^10",
+                "illuminate/console": "^9 || ^10",
+                "illuminate/filesystem": "^9 || ^10",
+                "illuminate/support": "^9 || ^10",
                 "nikic/php-parser": "^4.18 || ^5",
-                "php": "^7.3 || ^8.0",
+                "php": "^8.0",
                 "phpdocumentor/type-resolver": "^1.1.0"
             },
             "require-dev": {
                 "ext-pdo_sqlite": "*",
-                "friendsofphp/php-cs-fixer": "^2",
-                "illuminate/config": "^8 || ^9 || ^10",
-                "illuminate/view": "^8 || ^9 || ^10",
+                "friendsofphp/php-cs-fixer": "^3",
+                "illuminate/config": "^9 || ^10",
+                "illuminate/view": "^9 || ^10",
                 "mockery/mockery": "^1.4",
-                "orchestra/testbench": "^6 || ^7 || ^8",
-                "phpunit/phpunit": "^8.5 || ^9",
-                "spatie/phpunit-snapshot-assertions": "^3 || ^4",
+                "orchestra/testbench": "^7 || ^8",
+                "phpunit/phpunit": "^9",
+                "spatie/phpunit-snapshot-assertions": "^4",
                 "vimeo/psalm": "^5.4"
             },
             "suggest": {
@@ -11960,7 +11960,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.14-dev"
+                    "dev-master": "2.15-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -11997,7 +11997,7 @@
             ],
             "support": {
                 "issues": "https://github.com/barryvdh/laravel-ide-helper/issues",
-                "source": "https://github.com/barryvdh/laravel-ide-helper/tree/v2.14.0"
+                "source": "https://github.com/barryvdh/laravel-ide-helper/tree/v2.15.0"
             },
             "funding": [
                 {
@@ -12009,7 +12009,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-05T08:16:36+00:00"
+            "time": "2024-02-14T11:19:26+00:00"
         },
         {
             "name": "barryvdh/reflection-docblock",
