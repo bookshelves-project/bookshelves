@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Kiwilan\Notifier\Facades\Journal;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class AuthorJob implements ShouldQueue
 {

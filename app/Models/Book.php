@@ -117,10 +117,10 @@ class Book extends Model implements HasMedia
     ];
 
     protected $with = [
-        'authors',
-        'serie',
-        'language',
-        'media',
+        // 'authors',
+        // 'serie',
+        // 'language',
+        // 'media',
     ];
 
     protected $withCount = [

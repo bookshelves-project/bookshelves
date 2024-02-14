@@ -82,13 +82,13 @@ class Serie extends Model implements HasMedia
     ];
 
     protected $withCount = [
-        'books',
+        // 'books',
     ];
 
     protected $with = [
-        'authors', // for search
-        'language',
-        'media',
+        // 'authors', // for search
+        // 'language',
+        // 'media',
     ];
 
     public function getBooksLinkAttribute(): string

@@ -4,7 +4,7 @@ namespace App\Engines\Book\Converter;
 
 use App\Facades\Bookshelves;
 use App\Models\Author;
-use Kiwilan\Notifier\Facades\Journal;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\SpatieMedia;
 use Kiwilan\Steward\Utils\Wikipedia;
 

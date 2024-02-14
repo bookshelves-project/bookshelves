@@ -6,7 +6,7 @@ use App\Facades\Bookshelves;
 use App\Models\Book;
 use Illuminate\Support\Facades\File;
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Notifier\Facades\Journal;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\Picture;
 use Kiwilan\Steward\Utils\SpatieMedia;
 use Spatie\Image\Image;

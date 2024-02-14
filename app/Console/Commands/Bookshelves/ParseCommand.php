@@ -4,7 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Jobs\ParserJob;
 use Illuminate\Console\Command;
-use Kiwilan\Notifier\Facades\Journal;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
 
 /**

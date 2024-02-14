@@ -6,7 +6,7 @@ use App\Models\Tag;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use Kiwilan\Notifier\Facades\Journal;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Commands\Jobs\JobsClearCommand;
 use Kiwilan\Steward\Commands\Log\LogClearCommand;

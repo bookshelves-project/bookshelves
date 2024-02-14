@@ -6,7 +6,7 @@ use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Facades\Bookshelves;
 use Illuminate\Support\Facades\File;
-use Kiwilan\Notifier\Facades\Journal;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\BashCommand;
 use Kiwilan\Steward\Utils\Json;
 use SplFileInfo;

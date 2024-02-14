@@ -11,7 +11,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Contracts\TranslatableContentDriver;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\Artisan;
-use Kiwilan\Notifier\Facades\Journal;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class InfoWidget extends Widget implements HasActions, HasForms
 {

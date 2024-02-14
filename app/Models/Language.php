@@ -25,8 +25,8 @@ class Language extends Model
     ];
 
     protected $withCount = [
-        'books',
-        'series',
+        // 'books',
+        // 'series',
     ];
 
     /**

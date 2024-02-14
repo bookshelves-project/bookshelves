@@ -5,7 +5,7 @@ namespace App\Engines\Book\Converter;
 use App\Engines\Book\Converter\Modules\SerieModule;
 use App\Facades\Bookshelves;
 use App\Models\Serie;
-use Kiwilan\Notifier\Facades\Journal;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\Wikipedia;
 
 /**

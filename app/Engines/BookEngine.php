@@ -7,7 +7,7 @@ use App\Engines\Book\ConverterEngine;
 use App\Facades\Bookshelves;
 use Illuminate\Support\Facades\File;
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Notifier\Facades\Journal;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class BookEngine
 {
