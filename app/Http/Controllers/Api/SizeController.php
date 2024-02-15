@@ -21,11 +21,11 @@ class SizeController extends Controller
         $type = $book->type;
 
         if ($type !== BookTypeEnum::audiobook) {
-            $size = filesize($book->physical_path);
+            $size = $book->size;
         } else {
             $audiobooks = $book->audiobooks;
             $size = $audiobooks
-                ->map(fn (Audiobook $audiobook) => filesize($audiobook->physical_path))
+                ->map(fn (Audiobook $audiobook) => $audiobook->size)
                 ->sum();
         }
 
@@ -42,12 +42,12 @@ class SizeController extends Controller
         $serie->load('books');
         foreach ($serie->books as $book) {
             if ($book->type !== BookTypeEnum::audiobook) {
-                $size += filesize($book->physical_path);
+                $size += $book->size;
             } else {
                 $book->load('audiobooks');
                 $audiobooks = $book->audiobooks;
                 $size += $audiobooks
-                    ->map(fn (Audiobook $audiobook) => filesize($audiobook->physical_path))
+                    ->map(fn (Audiobook $audiobook) => $audiobook->size)
                     ->sum();
             }
         }
