@@ -43,6 +43,7 @@ namespace App\Models{
  * @property string|null $basename
  * @property string|null $extension
  * @property string|null $mime_type
+ * @property int|null $size
  * @property \Illuminate\Support\Carbon|null $added_at
  * @property string|null $book_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -76,6 +77,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook wherePublishDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook wherePublisher($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereSerie($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereSize($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereStik($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Audiobook whereTags($value)
@@ -188,6 +190,7 @@ namespace App\Models{
  * @property string|null $physical_path
  * @property string|null $extension
  * @property string|null $mime_type
+ * @property int|null $size
  * @property \Illuminate\Support\Carbon|null $added_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -268,6 +271,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereReleasedOn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereRights($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSerieId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Book whereSize($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsAllIs(iterable ...$tags)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereTagsIs(iterable ...$tags)
@@ -279,6 +283,34 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book withAllTags(\Illuminate\Support\Collection $tags)
  */
 	class Book extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Download
+ *
+ * @property int $id
+ * @property string|null $ip
+ * @property string|null $user_agent
+ * @property string|null $name
+ * @property string|null $type
+ * @property int|null $user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Download newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Download newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Download query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Download whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Download whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Download whereIp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Download whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Download whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Download whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Download whereUserAgent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Download whereUserId($value)
+ */
+	class Download extends \Eloquent {}
 }
 
 namespace App\Models{

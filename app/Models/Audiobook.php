@@ -40,6 +40,7 @@ class Audiobook extends Model
         'basename',
         'extension',
         'mime_type',
+        'size',
         'added_at',
     ];
 
@@ -52,6 +53,7 @@ class Audiobook extends Model
         'duration' => 'float',
         'publish_date' => 'date',
         'added_at' => 'datetime',
+        'size' => 'integer',
     ];
 
     public function book(): \Illuminate\Database\Eloquent\Relations\HasOne

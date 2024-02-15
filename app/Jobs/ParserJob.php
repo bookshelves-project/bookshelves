@@ -53,7 +53,9 @@ class ParserJob implements ShouldQueue
 
         $files = $parser->items();
         $count = count($files);
-        Journal::info("ParserJob: {$enum->value} files detected: {$count}");
+        Journal::info("ParserJob: {$enum->value} files detected: {$count}", [
+            'method' => __METHOD__,
+        ]);
 
         $items = [];
         foreach ($files as $file) {

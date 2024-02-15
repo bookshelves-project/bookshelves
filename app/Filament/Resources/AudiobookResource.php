@@ -15,6 +15,8 @@ class AudiobookResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-musical-note';
 
+    protected static ?string $navigationGroup = 'Books';
+
     public static function form(Form $form): Form
     {
         return $form

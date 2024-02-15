@@ -35,6 +35,7 @@ return new class() extends Migration
             $table->string('physical_path')->nullable();
             $table->string('extension')->nullable();
             $table->string('mime_type')->nullable();
+            $table->integer('size')->nullable();
             $table->dateTime('added_at')->nullable();
 
             $table->timestamps();

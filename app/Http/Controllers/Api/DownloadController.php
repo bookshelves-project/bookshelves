@@ -6,6 +6,7 @@ use App\Enums\BookTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Audiobook;
 use App\Models\Book;
+use App\Models\Download;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -20,14 +21,23 @@ class DownloadController extends Controller
     #[Get('/book/{book_id}', name: 'api.downloads.book')]
     public function book(Request $request, Book $book)
     {
+        $name = '';
         $serie = $book->serie?->name ?? '';
         $volume = $book->volume ?? '';
         if ($serie) {
             $serie = Str::slug("{$serie}-{$volume}");
+            $name = $serie;
         }
         $author = $book->authorMain?->name ?? '';
-        $name = Str::slug("{$serie}-{$book->slug}-{$author}-{$book->type->value}");
 
+        Download::query()->create([
+            'ip' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+            'name' => $book->serie ? "{$book->serie->title} {$book->volume} {$book->title} {$author} ({$book->type->value})" : "{$book->title} {$author} ({$book->type->value})",
+            'type' => 'App\Models\Book',
+        ]);
+
+        $name = Str::slug("{$name} {$book->slug} {$author} {$book->type->value}");
         if ($book->type !== BookTypeEnum::audiobook) {
             Downloader::direct($book->physical_path)
                 ->mimeType($book->mime_type)
@@ -73,6 +83,13 @@ class DownloadController extends Controller
                 );
             }
         }
+
+        Download::query()->create([
+            'ip' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+            'name' => "{$serie->title} ({$serie->type->value})",
+            'type' => 'App\Models\Serie',
+        ]);
 
         $name = Str::slug("{$serie->slug}-".$serie->books->count().'-books');
         Downloader::stream($name)

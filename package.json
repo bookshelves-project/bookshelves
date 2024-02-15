@@ -29,7 +29,7 @@
     "unplugin-auto-import": "^0.17.5",
     "unplugin-svg-transformer": "^1.0.32",
     "unplugin-vue-components": "^0.26.0",
-    "vite": "^5.1.1",
+    "vite": "^5.1.3",
     "vue": "^3.4.19",
     "vue3-toastify": "^0.2.1"
   }

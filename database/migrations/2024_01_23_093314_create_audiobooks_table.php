@@ -42,6 +42,7 @@ return new class extends Migration
             $table->string('basename')->nullable();
             $table->string('extension')->nullable();
             $table->string('mime_type')->nullable();
+            $table->integer('size')->nullable();
             $table->dateTime('added_at')->nullable();
 
             $table->foreignUlid('book_id')

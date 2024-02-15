@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Engines\Book\BookFileItem;
 use App\Engines\BookEngine;
+use App\Facades\Bookshelves;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -41,12 +42,7 @@ class BookJob implements ShouldQueue
 
     private function log(string $message): void
     {
-        $path = storage_path('app/exceptions-parser.json');
-
-        if (! file_exists($path)) {
-            file_put_contents($path, json_encode([]));
-        }
-
+        $path = Bookshelves::exceptionParserLog();
         $json = json_decode(file_get_contents($path), true);
         $content = [
             'path' => $this->file->path(),

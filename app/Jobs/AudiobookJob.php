@@ -3,13 +3,13 @@
 namespace App\Jobs;
 
 use App\Engines\Book\Converter\BookConverter;
+use App\Engines\Book\Converter\Modules\LanguageModule;
 use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Facades\Bookshelves;
 use App\Models\Audiobook;
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\Language;
 use App\Models\Serie;
 use App\Models\Tag;
 use Illuminate\Bus\Queueable;
@@ -62,6 +62,7 @@ class AudiobookJob implements ShouldQueue
             'volume' => $this->bookVolume,
             'type' => BookTypeEnum::audiobook,
             'format' => BookFormatEnum::fromExtension($first->extension),
+            'size' => $audiobooks->sum('size'),
             'added_at' => $first->added_at,
         ]);
 
@@ -81,10 +82,10 @@ class AudiobookJob implements ShouldQueue
             $book->tags()->syncWithoutDetaching($tags->pluck('id'));
         }
 
-        if ($first->language && $first->comment) {
-            $language = Language::query()->firstOrCreate([
-                'name' => $first->language ?? $first->comment,
-            ]);
+        $lang = $first->language ?? $first->comment;
+        if ($lang) {
+            $lang = $this->parseLang($lang);
+            $language = LanguageModule::make($lang);
             $book->language()->associate($language);
         }
 
@@ -149,5 +150,23 @@ class AudiobookJob implements ShouldQueue
         }
 
         $this->bookTitle = $text;
+    }
+
+    private function parseLang(string $lang): string
+    {
+        $lang = strtolower($lang);
+
+        return match ($lang) {
+            'english' => 'en',
+            'spanish' => 'es',
+            'french' => 'fr',
+            'german' => 'de',
+            'italian' => 'it',
+            'portuguese' => 'pt',
+            'russian' => 'ru',
+            'japanese' => 'ja',
+            'chinese' => 'zh',
+            default => 'en',
+        };
     }
 }

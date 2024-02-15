@@ -56,6 +56,7 @@ class BookConverter
     {
         $languages = [];
         foreach ($books as $book) {
+            $book->load('language');
             if (! $book->language) {
                 continue;
             }
@@ -102,6 +103,7 @@ class BookConverter
                 'physical_path' => $this->ebook->getPath(),
                 'extension' => $this->ebook->getExtension(),
                 'mime_type' => mime_content_type($this->ebook->getPath()),
+                'size' => $this->ebook->getSize(),
                 'isbn10' => $identifiers->get('isbn10') ?? null,
                 'isbn13' => $identifiers->get('isbn13') ?? null,
                 'identifiers' => $identifiers->toArray(),
@@ -169,6 +171,7 @@ class BookConverter
             'basename' => $this->ebook->getBasename(),
             'extension' => $this->ebook->getExtension(),
             'mime_type' => mime_content_type($this->ebook->getPath()),
+            'size' => $this->ebook->getSize(),
             'added_at' => $this->ebook->getCreatedAt(),
         ]);
 
@@ -234,7 +237,7 @@ class BookConverter
 
     private function syncLanguage(): self
     {
-        $language = LanguageModule::toModel($this->ebook);
+        $language = LanguageModule::make($this->ebook->getLanguage());
 
         Book::withoutSyncingToSearch(function () use ($language) {
             $this->book?->language()->associate($language);

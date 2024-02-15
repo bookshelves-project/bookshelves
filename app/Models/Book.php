@@ -92,6 +92,7 @@ class Book extends Model implements HasMedia
         'extension',
         'mime_type',
         'google_book_parsed_at',
+        'size',
         'added_at',
     ];
 
@@ -114,6 +115,7 @@ class Book extends Model implements HasMedia
         'google_book_parsed_at' => 'datetime',
         'added_at' => 'datetime',
         'type' => BookTypeEnum::class,
+        'size' => 'integer',
     ];
 
     protected $with = [

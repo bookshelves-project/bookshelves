@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Facades\Bookshelves;
 use App\Models\Tag;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -56,9 +57,8 @@ class SetupCommand extends Commandable
         $this->limit = $this->optionInt('limit');
 
         if ($this->fresh) {
-            Artisan::call(LogClearCommand::class);
             $this->clear();
-            $this->setGenres();
+            $this->genres();
         }
 
         $this->call(ParseCommand::class);
@@ -73,9 +73,6 @@ class SetupCommand extends Commandable
 
     private function clear(): void
     {
-        $msg = 'Fresh mode enabled, reset database.';
-        $this->info($msg);
-        Journal::info($msg);
 
         Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
         $this->comment('Database reset!');
@@ -87,10 +84,17 @@ class SetupCommand extends Commandable
         DirectoryService::make()->clearDirectory(storage_path('app/debug'));
         File::deleteDirectory(storage_path('app/public'));
 
+        $path = Bookshelves::exceptionParserLog();
+        File::put($path, json_encode([]));
+
+        $this->newLine();
+        $this->info('Fresh mode enabled, reset database.');
+        Journal::info('Fresh mode enabled, reset database.');
+
         $this->newLine();
     }
 
-    private function setGenres(): void
+    private function genres(): void
     {
         $genres = config('bookshelves.tags.genres_list');
 

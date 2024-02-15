@@ -83,6 +83,16 @@ class Bookshelves
         ];
     }
 
+    public function exceptionParserLog(): string
+    {
+        $path = storage_path('app/exceptions-parser.json');
+        if (! file_exists($path)) {
+            file_put_contents($path, json_encode([]));
+        }
+
+        return $path;
+    }
+
     public function convertCovers(): bool
     {
         return config('bookshelves.image.conversion');
