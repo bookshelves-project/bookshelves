@@ -23,6 +23,8 @@ class OpdsBase
 
     public function config(): OpdsConfig
     {
+        $updated = Book::query()->orderBy('updated_at', 'desc')->first()?->updated_at;
+
         return new OpdsConfig(
             name: config('app.name'),
             author: config('app.name'),
@@ -30,7 +32,7 @@ class OpdsBase
             iconUrl: asset('favicon.ico'),
             startUrl: route('opds.index'),
             searchUrl: route('opds.search'),
-            updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
+            updated: $updated ?: now(),
         );
     }
 
@@ -49,7 +51,7 @@ class OpdsBase
                 route: route('opds.latest'),
                 summary: 'Latest books',
                 media: asset('vendor/images/opds/books.png'),
-                updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
+                updated: Book::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),
             new OpdsEntryNavigation(
                 id: 'authors',
@@ -57,7 +59,7 @@ class OpdsBase
                 route: route('opds.authors.index'),
                 summary: "Authors, {$authorsCount} available",
                 media: asset('vendor/images/opds/authors.png'),
-                updated: Author::query()->orderBy('updated_at', 'desc')->first()->updated_at,
+                updated: Author::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),
             new OpdsEntryNavigation(
                 id: 'series',
@@ -65,7 +67,7 @@ class OpdsBase
                 route: route('opds.series.index'),
                 summary: "Series, {$seriesCount} available",
                 media: asset('vendor/images/opds/series.png'),
-                updated: Serie::query()->orderBy('updated_at', 'desc')->first()->updated_at,
+                updated: Serie::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),
             new OpdsEntryNavigation(
                 id: 'random',
@@ -73,7 +75,7 @@ class OpdsBase
                 route: route('opds.random'),
                 summary: 'Random books',
                 media: asset('vendor/images/opds/books.png'),
-                updated: Book::query()->orderBy('updated_at', 'desc')->first()->updated_at,
+                updated: Book::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),
         ];
     }
@@ -91,7 +93,7 @@ class OpdsBase
 
     public function bookToEntry(Book $book): OpdsEntryBook
     {
-        $book = $book->load('tags', 'publisher');
+        $book = $book->load('tags', 'publisher', 'serie', 'authors', 'language', 'media');
         $series = null;
         $seriesContent = null;
 

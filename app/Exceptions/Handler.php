@@ -25,7 +25,7 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            Journal::handler($e, toDatabase: true, toNotifier: 'discord');
+            // Journal::handler($e, toDatabase: true, toNotifier: 'discord');
         });
     }
 }

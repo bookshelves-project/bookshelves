@@ -55,6 +55,8 @@ class SerieController extends Controller
         $lower = strtolower($character);
         $feeds = OpdsBase::cache("opds.series.character.{$lower}", function () use ($character) {
             $series = Serie::query()
+                ->with(['media'])
+                ->withCount(['books'])
                 ->orderBy('title')
                 ->whereFirstChar($character)
                 ->whereHasBooks()
@@ -88,7 +90,9 @@ class SerieController extends Controller
     #[Get('/{character}/{serie}', name: 'opds.series.show')]
     public function show(string $character, string $serie)
     {
-        $serie = Serie::where('slug', $serie)->firstOrFail();
+        $serie = Serie::query()
+            ->where('slug', $serie)
+            ->firstOrFail();
         $feeds = [];
 
         foreach ($serie->books as $book) {

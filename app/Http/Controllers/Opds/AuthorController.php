@@ -56,6 +56,7 @@ class AuthorController extends Controller
         $feeds = OpdsBase::cache("opds.authors.character.{$lower}", function () use ($character) {
             $authors = Author::query()
                 ->with(['media'])
+                ->withCount('books')
                 ->orderBy('name')
                 ->whereFirstChar($character)
                 ->whereHasBooks()
