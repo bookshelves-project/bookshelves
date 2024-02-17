@@ -51,7 +51,7 @@ trait HasCovers
         $formatOpds = Bookshelves::imageCoverOpds();
 
         if (Bookshelves::convertCovers()) {
-            Journal::debug("Covers: register media conversions for {$this->id}");
+            Journal::debug('Covers: register media conversions...');
 
             $this->addMediaConversion(self::CONVERSION_THUMBNAIL)
                 ->performOnCollections(Bookshelves::imageCollection())
