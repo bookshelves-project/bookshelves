@@ -97,9 +97,10 @@ class AuthorController extends Controller
             $feeds[] = OpdsBase::bookToEntry($book);
         }
 
-        Opds::make(OpdsBase::config()->usePagination())
+        Opds::make(OpdsBase::config())
             ->title("Author {$author->lastname} {$author->firstname}")
             ->feeds($feeds)
+            ->paginate()
             ->send();
     }
 }

@@ -102,6 +102,7 @@ class SerieController extends Controller
         OpdsBase::app()
             ->title("Serie {$serie->title}")
             ->feeds($feeds)
+            ->paginate()
             ->send();
     }
 }
