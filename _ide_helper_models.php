@@ -109,6 +109,7 @@ namespace App\Models{
  * @property-read string|null $cover
  * @property-read string|null $cover_color
  * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_media
+ * @property-read string|null $cover_opds
  * @property-read string|null $cover_social
  * @property-read string|null $cover_standard
  * @property-read string|null $cover_thumbnail
@@ -203,6 +204,7 @@ namespace App\Models{
  * @property-read string|null $cover
  * @property-read string|null $cover_color
  * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_media
+ * @property-read string|null $cover_opds
  * @property-read string|null $cover_social
  * @property-read string|null $cover_standard
  * @property-read string|null $cover_thumbnail
@@ -446,6 +448,7 @@ namespace App\Models{
  * @property-read string|null $cover
  * @property-read string|null $cover_color
  * @property-read null|\App\Models\Media|\App\Models\MediaExtended $cover_media
+ * @property-read string|null $cover_opds
  * @property-read string|null $cover_social
  * @property-read string|null $cover_standard
  * @property-read string|null $cover_thumbnail

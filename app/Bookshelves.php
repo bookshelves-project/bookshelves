@@ -151,4 +151,12 @@ class Bookshelves
     {
         return config('bookshelves.image.cover.social');
     }
+
+    /**
+     * @return array{width: int, height: int}
+     */
+    public function imageCoverOpds(): array
+    {
+        return config('bookshelves.image.cover.opds');
+    }
 }

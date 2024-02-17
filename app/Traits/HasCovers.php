@@ -31,6 +31,8 @@ trait HasCovers
 
     private const CONVERSION_SOCIAL = 'social';
 
+    private const CONVERSION_OPDS = 'opds';
+
     public function initializeHasCovers(): void
     {
         $this->appends = array_merge($this->appends, [
@@ -46,6 +48,7 @@ trait HasCovers
         $formatThumbnail = Bookshelves::imageCoverThumbnail();
         $formatStandard = Bookshelves::imageCoverStandard();
         $formatSocial = Bookshelves::imageCoverSocial();
+        $formatOpds = Bookshelves::imageCoverOpds();
 
         if (Bookshelves::convertCovers()) {
             Journal::debug("Covers: register media conversions for {$this->id}");
@@ -67,6 +70,13 @@ trait HasCovers
             $this->addMediaConversion(self::CONVERSION_SOCIAL)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatSocial['width'], $formatSocial['height'])
+                ->sharpen(10)
+                ->optimize()
+                ->format('jpg');
+
+            $this->addMediaConversion(self::CONVERSION_OPDS)
+                ->performOnCollections(Bookshelves::imageCollection())
+                ->fit(Fit::Crop, $formatOpds['width'], $formatOpds['height'])
                 ->sharpen(10)
                 ->optimize()
                 ->format('jpg');
@@ -113,6 +123,14 @@ trait HasCovers
     public function getCoverSocialAttribute(): ?string
     {
         return $this->getCover(self::CONVERSION_SOCIAL);
+    }
+
+    /**
+     * Get cover opds with `spatie/laravel-medialibrary`
+     */
+    public function getCoverOpdsAttribute(): ?string
+    {
+        return $this->getCover(self::CONVERSION_OPDS);
     }
 
     /**

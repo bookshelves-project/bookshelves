@@ -101,6 +101,10 @@ return [
                 'width' => 1200,
                 'height' => 600,
             ],
+            'opds' => [
+                'width' => 266,
+                'height' => 400,
+            ],
         ],
     ],
 ];
