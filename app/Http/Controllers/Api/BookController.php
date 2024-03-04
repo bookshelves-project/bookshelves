@@ -33,7 +33,7 @@ class BookController extends Controller
     #[Get('/latest', name: 'api.books.latest')]
     public function latest()
     {
-        $latest = Book::with(['authors', 'serie', 'media'])
+        $latest = Book::with(['authors', 'serie', 'media', 'language'])
             ->orderBy('added_at', 'desc')
             ->limit(20)
             ->get();

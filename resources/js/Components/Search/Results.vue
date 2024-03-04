@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useDate, useRouter } from '@kiwilan/typescriptable-laravel'
+import { useUtils } from '@/Composables/useUtils'
 
 const props = defineProps<{
   results: any[]
@@ -9,6 +10,7 @@ const props = defineProps<{
 
 const { route } = useRouter()
 const { formatDate } = useDate()
+const { ucfirst } = useUtils()
 
 function name(item: any) {
   return item.title ?? item.name
@@ -68,10 +70,14 @@ const seeResults = computed(() => {
             <div>
               <div>
                 {{ name(result) }} {{ year(result) }}
+                ({{ result.entity_type }})
               </div>
               <div class="text-sm text-gray-400 flex items-center space-x-1">
                 <div>
-                  {{ result.type }}
+                  {{ ucfirst(result.type) }}
+                  <span v-if="result.language">
+                    ({{ result.language.name }})
+                  </span>
                 </div>
                 <div v-if="extra(result)">
                   ·
@@ -82,7 +88,10 @@ const seeResults = computed(() => {
               </div>
             </div>
           </div>
-          <div class="text-sm text-gray-400">
+          <div
+            v-if="result.added_at"
+            class="text-sm text-gray-400"
+          >
             Added at {{ formatDate(result.added_at) }}
           </div>
         </div>

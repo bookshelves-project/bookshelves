@@ -126,7 +126,7 @@ class Serie extends Model implements HasMedia
 
     public function toSearchableArray()
     {
-        $this->loadMissing(['authors', 'tags']);
+        $this->loadMissing(['authors', 'tags', 'media']);
 
         return [
             'id' => $this->id,

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useUtils } from '@/Composables/useUtils'
+
 interface Props {
   book: App.Models.Book
   square?: boolean
@@ -8,6 +10,8 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   square: false,
 })
+
+const { ucfirst } = useUtils()
 </script>
 
 <template>
@@ -29,11 +33,11 @@ withDefaults(defineProps<Props>(), {
       :alt="book.title"
     />
     <div class="absolute bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-white/0 h-20 w-full top-0 z-10" />
-    <div
-      v-if="book.language"
-      class="info left-2 text-shadow"
-    >
-      {{ book.language.name }}
+    <div class="info left-2 text-shadow">
+      {{ ucfirst(book.type) }}
+      <span v-if="book.language">
+        ({{ book.language.name }})
+      </span>
     </div>
     <div
       v-if="book.extension"

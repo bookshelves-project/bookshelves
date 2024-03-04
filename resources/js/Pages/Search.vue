@@ -10,7 +10,6 @@ const { convertResults } = useSearch(false)
 const items = ref<any[]>([])
 
 items.value = convertResults(props.results)
-console.log(items.value)
 </script>
 
 <template>

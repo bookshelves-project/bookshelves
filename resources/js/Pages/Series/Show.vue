@@ -38,6 +38,7 @@ onMounted(async () => {
       :badges="[
         `${serie.books_count} books`,
         serie.language ? `${serie.language.name}` : undefined,
+        ucfirst(serie.type),
       ]"
       :download="{
         url: serie.download_link,

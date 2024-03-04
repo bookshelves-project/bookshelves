@@ -13,7 +13,8 @@ class SerieController extends Controller
     #[Get('/latest', name: 'api.series.latest')]
     public function latest()
     {
-        $latest = Serie::with(['authors', 'media'])
+        $latest = Serie::with(['authors', 'media', 'language'])
+            ->withCount(['books'])
             ->orderBy('updated_at', 'desc')
             ->limit(20)
             ->get();

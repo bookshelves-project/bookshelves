@@ -22,9 +22,9 @@ class Searching
 
         $results = collect([]);
 
-        $books = $self->searchModel(\App\Models\Book::class);
-        $series = $self->searchModel(\App\Models\Serie::class);
-        $authors = $self->searchModel(\App\Models\Author::class);
+        $books = $self->searchModel(\App\Models\Book::class, 'Book');
+        $series = $self->searchModel(\App\Models\Serie::class, 'Serie');
+        $authors = $self->searchModel(\App\Models\Author::class, 'Author');
 
         $results = $results->merge($books);
         $results = $results->merge($series);
@@ -41,7 +41,7 @@ class Searching
         return $this->results;
     }
 
-    private function searchModel(string $model)
+    private function searchModel(string $model, string $type)
     {
         /** @var Builder */
         $results = $model::search($this->value);
@@ -50,6 +50,17 @@ class Searching
             $results = $results->take($this->limit);
         }
 
-        return $results->get();
+        $items = collect();
+        $results->get()->each(function ($item) use ($items, $model, $type) {
+            $item->loadMissing(['media']);
+            if ($model === \App\Models\Book::class || $model === \App\Models\Serie::class) {
+                $item->loadMissing(['authors', 'language']);
+            }
+
+            $item->entity_type = $type; // @phpstan-ignore-line
+            $items->push($item);
+        });
+
+        return $items;
     }
 }

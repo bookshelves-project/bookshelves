@@ -58,7 +58,16 @@ class Controller extends BaseController
 
     public function getSerie(Serie $serie, bool $square = false)
     {
-        $serie->load(['authors', 'books', 'tags', 'media', 'books.media']);
+        $serie->load([
+            'authors',
+            'books',
+            'tags',
+            'media',
+            'books.media',
+            'books.language',
+            'language',
+        ])
+            ->loadCount('books');
 
         return inertia('Series/Show', [
             'serie' => $serie,
