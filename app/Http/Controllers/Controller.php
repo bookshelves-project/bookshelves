@@ -65,6 +65,7 @@ class Controller extends BaseController
             'media',
             'books.media',
             'books.language',
+            'books.serie',
             'language',
         ])
             ->loadCount('books');
