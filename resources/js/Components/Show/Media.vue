@@ -105,7 +105,7 @@ const tagsList = computed(() => {
           v-if="overview"
           class="mt-3"
         >
-          <p>{{ overview }}</p>
+          <CardText :text="overview" />
         </div>
         <div class="mt-6">
           <slot name="bottom" />
