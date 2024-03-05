@@ -8,7 +8,7 @@ const expanded = ref(false)
 
 function spliceText() {
   if (props.text) {
-    excerpt.value = props.text?.slice(0, 1000)
+    excerpt.value = props.text?.slice(0, 600)
     if (props.text.length > 1000)
       excerpt.value += '...'
   }
