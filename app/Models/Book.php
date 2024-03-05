@@ -194,8 +194,6 @@ class Book extends Model implements HasMedia
             ->with(['authors', 'serie', 'media', 'language'])
             ->get();
 
-        ray($relatedBooks);
-
         if ($this->serie) {
             // get serie of current book
             $serie = Serie::query()->where('slug', $this->serie->slug)->first();
