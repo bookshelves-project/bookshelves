@@ -29,7 +29,7 @@ class Controller extends BaseController
     public function getQueryForBooks(Request $request, Builder $model, string $title = 'Books', array $breadcrumbs = [], bool $squareCovers = false)
     {
         $query = HttpQuery::for($model, $request)
-            ->with(['authors', 'serie', 'tags', 'media'])
+            ->with(['authors', 'serie', 'tags', 'media', 'language'])
             ->defaultSort('slug')
             ->inertia();
 
