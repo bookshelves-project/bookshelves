@@ -7,7 +7,7 @@ defineProps<{
 <template>
   <ILink :href="$route('authors.show', { author_slug: author.slug })">
     <AppImg
-      class="poster h-64 w-full"
+      class="poster h-[20rem] w-full"
       :src="author.cover_thumbnail"
       :color="author.cover_color"
       :alt="author.name"

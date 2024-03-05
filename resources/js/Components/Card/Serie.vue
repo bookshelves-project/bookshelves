@@ -20,7 +20,7 @@ const { ucfirst } = useUtils()
   >
     <AppImg
       :class="{
-        'poster h-64': !square,
+        'poster h-[20rem]': !square,
         'album': square,
       }"
       class="w-full"
