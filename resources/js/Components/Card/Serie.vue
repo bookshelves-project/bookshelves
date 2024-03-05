@@ -23,7 +23,7 @@ const { ucfirst } = useUtils()
         'poster h-64': !square,
         'album': square,
       }"
-      class="mx-auto"
+      class="w-full"
       :src="serie.cover_thumbnail"
       :color="serie.cover_color"
       :alt="serie.title"
