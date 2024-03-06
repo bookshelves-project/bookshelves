@@ -22,7 +22,7 @@ class Searching
 
         $results = collect([]);
 
-        $books = $self->searchModel(\App\Models\Book::class, 'Book');
+        $books = $self->searchModel(\App\Models\Book::class, 'Novel');
         $series = $self->searchModel(\App\Models\Serie::class, 'Serie');
         $authors = $self->searchModel(\App\Models\Author::class, 'Author');
 

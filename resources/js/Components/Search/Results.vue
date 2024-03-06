@@ -70,13 +70,27 @@ const seeResults = computed(() => {
             <div>
               <div>
                 {{ name(result) }} {{ year(result) }}
-                ({{ result.entity_type }})
+                <span
+                  v-if="result.entity_type === 'Serie'"
+                  class="text-gray-400 italic"
+                >
+                  (serie)
+                </span>
               </div>
               <div class="text-sm text-gray-400 flex items-center space-x-1">
                 <div>
-                  {{ ucfirst(result.type) }}
-                  <span v-if="result.language">
-                    ({{ result.language.name }})
+                  <span v-if="result.type">
+                    <span>{{ ucfirst(result.type) }}</span>
+                    <span>
+                      ·
+                    </span>
+                  </span>
+                  <span>
+                    {{ result.entity_type }}
+                    <span v-if="result.language">
+                      in
+                      {{ result.language.name }}
+                    </span>
                   </span>
                 </div>
                 <div v-if="extra(result)">

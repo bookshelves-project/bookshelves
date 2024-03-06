@@ -17,10 +17,10 @@ export default {
     extend: {
       screens: {
         'sm': '400px',
-        'md': '768px',
-        'lg': '1024px',
+        'md': '650px',
+        'lg': '1000px',
         'xl': '1280px',
-        '2xl': '1536px',
+        '2xl': '1400px',
       },
       fontFamily: {
         sans: ['Figtree', ...defaultTheme.fontFamily.sans],
@@ -42,7 +42,7 @@ export default {
           '@apply aspect-album rounded-md object-cover !w-44': {},
         },
         '.books-list': {
-          '@apply grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6':
+          '@apply grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6':
               {},
         },
         '.main-container': {
