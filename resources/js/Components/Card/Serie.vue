@@ -40,12 +40,15 @@ const { ucfirst } = useUtils()
         {{ serie.title }}
       </p>
       <p
-        v-if="serie.books_count"
+        v-if="serie.authors_names"
         class="text-xs text-gray-200 line-clamp-1"
       >
         {{ serie.authors_names }}
       </p>
-      <p class="line-clamp-1 text-sm text-gray-400">
+      <p
+        v-if="serie.books_count"
+        class="line-clamp-1 text-sm text-gray-400"
+      >
         {{ serie.books_count }} books
       </p>
     </div>

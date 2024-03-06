@@ -44,7 +44,13 @@ class Controller extends BaseController
     public function getQueryForSeries(Request $request, Builder $model, string $title = 'Series', array $breadcrumbs = [], bool $squareCovers = false)
     {
         $query = HttpQuery::for($model, $request)
-            ->with(['authors', 'tags', 'media', 'language'])
+            ->with([
+                'authors',
+                'tags',
+                'media',
+                'language',
+            ])
+            ->withCount(['books'])
             ->defaultSort('slug')
             ->inertia();
 
