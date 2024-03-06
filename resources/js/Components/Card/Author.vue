@@ -12,11 +12,6 @@ defineProps<{
       :color="author.cover_color"
       :alt="author.name"
     />
-    <!-- <div class="mt-3">
-      <p class="line-clamp-2">
-        {{ author.name }}
-      </p>
-    </div> -->
     <div class="mt-3">
       <p class="line-clamp-1">
         {{ author.name }}
