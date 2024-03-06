@@ -41,7 +41,8 @@ class AuthorController extends Controller
             'books.serie',
             'series.media',
             'series.language',
-        ]);
+        ])
+            ->withCount(['books', 'series']);
 
         return inertia('Authors/Show', [
             'author' => $author,
