@@ -18,6 +18,7 @@ spliceText()
 function readMore() {
   if (expanded.value) {
     spliceText()
+    expanded.value = false
     return
   }
   excerpt.value = props.text
