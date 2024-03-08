@@ -37,7 +37,7 @@
     "inertiajs/inertia-laravel": "^0.6.8",
     "itsgoingd/clockwork": "^5.1.12",
     "kiwilan/php-audio": "^3.0",
-    "kiwilan/php-ebook": "^2.2.01",
+    "kiwilan/php-ebook": "^2.3.8",
     "kiwilan/php-opds": "^2.0.0",
     "kiwilan/steward-laravel": "dev-main",
     "kiwilan/typescriptable-laravel": "^1.11.36",
