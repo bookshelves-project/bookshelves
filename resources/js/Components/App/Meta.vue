@@ -38,6 +38,17 @@ const descriptionContent = computed(() => {
 
 <template>
   <Head :title="props.title">
+    <meta
+      head-key="description"
+      name="description"
+      content="This is the default description"
+    >
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon.svg"
+    >
+
     <!-- HTML Meta Tags -->
     <meta
       name="description"
