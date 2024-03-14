@@ -9,7 +9,7 @@ export interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   title: 'Bookshelves',
-  description: 'For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you.',
+  description: undefined,
   image: `${window.location.origin}/images/default.jpg`,
 })
 
