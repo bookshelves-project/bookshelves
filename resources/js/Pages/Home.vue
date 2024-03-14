@@ -14,6 +14,11 @@
         type="book"
       />
       <SwiperHome
+        endpoint="api.books.released"
+        title="Books recently released"
+        type="book"
+      />
+      <SwiperHome
         endpoint="api.series.latest"
         title="Series recently added"
         type="serie"

@@ -8,7 +8,7 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.8.0",
+    "@antfu/eslint-config": "^2.8.2",
     "@inertiajs/vue3": "^1.0.15",
     "@kiwilan/typescriptable-laravel": "^2.4.25",
     "@tailwindcss/aspect-ratio": "^0.4.2",
@@ -18,7 +18,6 @@
     "@vue/server-renderer": "^3.4.21",
     "@vueuse/core": "^10.9.0",
     "autoprefixer": "^10.4.18",
-    "axios": "^1.6.7",
     "eslint": "^8.57.0",
     "laravel-vite-plugin": "^1.0.2",
     "nprogress": "^0.2.0",
@@ -29,7 +28,7 @@
     "unplugin-auto-import": "^0.17.5",
     "unplugin-svg-transformer": "^1.0.32",
     "unplugin-vue-components": "^0.26.0",
-    "vite": "^5.1.5",
+    "vite": "^5.1.6",
     "vue": "^3.4.21",
     "vue3-toastify": "^0.2.1"
   }

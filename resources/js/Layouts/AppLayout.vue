@@ -29,7 +29,7 @@ function logout() {
 
 <template>
   <div>
-    <Head :title="title" />
+    <AppMeta :title="title" />
 
     <Banner />
 

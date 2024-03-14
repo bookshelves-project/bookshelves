@@ -8,6 +8,8 @@ defineProps<{
 <template>
   <App
     :title="author.name"
+    :description="author.description"
+    :image="author.cover_social"
     icon="quill"
   >
     <ShowContainer

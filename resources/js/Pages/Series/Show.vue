@@ -24,6 +24,8 @@ onMounted(async () => {
 <template>
   <App
     :title="titlePage"
+    :description="serie.description"
+    :image="serie.cover_social"
     icon="catalog"
   >
     <ShowContainer

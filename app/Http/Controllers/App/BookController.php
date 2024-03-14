@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Prefix;
 
+#[Prefix('books')]
 class BookController extends Controller
 {
     // #[Get('/audiobooks', name: 'books.audiobooks')]
@@ -18,7 +20,7 @@ class BookController extends Controller
     //     ]);
     // }
 
-    #[Get('/books', name: 'books.index')]
+    #[Get('/', name: 'books.index')]
     public function index(Request $request)
     {
         return $this->getQueryForBooks($request, Book::whereIsBook(), 'Books', [

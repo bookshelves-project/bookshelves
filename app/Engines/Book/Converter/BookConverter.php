@@ -13,6 +13,7 @@ use App\Enums\BookFormatEnum;
 use App\Enums\BookTypeEnum;
 use App\Models\Audiobook;
 use App\Models\Book;
+use DateTime;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Kiwilan\Ebook\Ebook;
@@ -88,7 +89,19 @@ class BookConverter
 
         $identifiers = IdentifierModule::toCollection($this->ebook);
 
+        // split sliders books, audiobooks, comics, manga and series split at home
+        // find duplicate authors
+        // find duplicates series like A comme Association (multiple authors)
         if (! $book) {
+            $isEpub = $this->ebook->getParser()->isEpub();
+            $timestamp = $this->ebook->getCreatedAt();
+            if ($isEpub) {
+                $calibre_timestamp = $this->ebook->getParser()->getEpub()?->getOpf()?->getMetaItem('calibre:timestamp');
+                if ($calibre_timestamp) {
+                    $timestamp = new DateTime($calibre_timestamp->getContents());
+                }
+            }
+
             $this->book = new Book([
                 'title' => $this->ebook->getTitle(),
                 'slug' => $this->ebook->getMetaTitle()->getSlug(),
@@ -107,7 +120,7 @@ class BookConverter
                 'isbn10' => $identifiers->get('isbn10') ?? null,
                 'isbn13' => $identifiers->get('isbn13') ?? null,
                 'identifiers' => $identifiers->toArray(),
-                'added_at' => $this->ebook->getCreatedAt(),
+                'added_at' => $timestamp,
             ]);
 
             Book::withoutSyncingToSearch(function () {

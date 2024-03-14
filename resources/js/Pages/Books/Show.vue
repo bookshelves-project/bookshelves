@@ -18,9 +18,9 @@ const { dateString } = useDate()
 
 const titlePage = computed(() => {
   if (props.book.serie)
-    return `${props.book.serie.title} #${props.book.volume_pad} - ${props.book.title}`
+    return `${props.book.serie.title} #${props.book.volume_pad} - ${props.book.title} by ${props.book.authors_names}`
 
-  return props.book.title
+  return `${props.book.title} by ${props.book.authors_names}`
 })
 
 async function getRelatedBooks(): Promise<Entity[]> {
@@ -40,6 +40,8 @@ onMounted(async () => {
 <template>
   <App
     :title="titlePage"
+    :description="props.book.description"
+    :image="props.book.cover_social"
     icon="ereader"
   >
     <ShowContainer

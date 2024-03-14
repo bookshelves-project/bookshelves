@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 defineProps<{
   title?: string
+  description?: string
+  image?: string
   back?: string
   icon?: SvgName
 }>()
@@ -8,7 +10,11 @@ defineProps<{
 
 <template>
   <div>
-    <IHead :title="title" />
+    <AppMeta
+      :title="title"
+      :description="description"
+      :image="image"
+    />
     <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
     <LayoutSidebar />
     <!-- Static sidebar for desktop -->
