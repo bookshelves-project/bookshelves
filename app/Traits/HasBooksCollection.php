@@ -8,6 +8,7 @@ use App\Models\Author;
 use App\Models\Serie;
 use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Steward\Utils\DownloadFile;
+use Kiwilan\Steward\Utils\FileSize;
 
 trait HasBooksCollection
 {
@@ -75,7 +76,7 @@ trait HasBooksCollection
             $list[$format] = null;
 
             if ($size['size']) {
-                $size_human = $size['size'] > 0 ? $this->humanFilesize($size['size']) : null;
+                $size_human = $size['size'] > 0 ? FileSize::humanReadable($size['size']) : null;
                 $download = new DownloadFile(
                     name: $entity->slug,
                     size: $size_human,
@@ -89,20 +90,5 @@ trait HasBooksCollection
         }
 
         return $list;
-    }
-
-    public function humanFilesize(string|int $bytes, ?int $decimals = 2): string
-    {
-        $sz = [
-            'B',
-            'Ko',
-            'Mo',
-            'Go',
-            'To',
-            'Po',
-        ];
-        $factor = floor((strlen($bytes) - 1) / 3);
-
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).' '.@$sz[$factor];
     }
 }

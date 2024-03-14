@@ -74,14 +74,9 @@ class Author extends Model implements HasMedia
         'title',
     ];
 
-    protected $with = [
-        // 'media',
-    ];
+    protected $with = [];
 
-    protected $withCount = [
-        // 'books',
-        // 'series',
-    ];
+    protected $withCount = [];
 
     public function getTitleAttribute(): string
     {

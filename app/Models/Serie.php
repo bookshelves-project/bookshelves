@@ -81,15 +81,9 @@ class Serie extends Model implements HasMedia
         'type' => BookTypeEnum::class,
     ];
 
-    protected $withCount = [
-        // 'books',
-    ];
+    protected $with = [];
 
-    protected $with = [
-        // 'authors', // for search
-        // 'language',
-        // 'media',
-    ];
+    protected $withCount = [];
 
     public function getBooksLinkAttribute(): string
     {

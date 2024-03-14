@@ -23,6 +23,7 @@ use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
 use Kiwilan\Steward\Traits\Queryable;
+use Kiwilan\Steward\Utils\FileSize;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -100,6 +101,7 @@ class Book extends Model implements HasMedia
         'isbn',
         'volume_pad',
         'download_link',
+        'size_human',
     ];
 
     protected $casts = [
@@ -118,16 +120,9 @@ class Book extends Model implements HasMedia
         'size' => 'integer',
     ];
 
-    protected $with = [
-        // 'authors',
-        // 'serie',
-        // 'language',
-        // 'media',
-    ];
+    protected $with = [];
 
-    protected $withCount = [
-        // 'tags',
-    ];
+    protected $withCount = [];
 
     public function getDownloadLinkAttribute(): string
     {
@@ -148,6 +143,11 @@ class Book extends Model implements HasMedia
         }
 
         return str_pad(strval($this->volume), 2, '0', STR_PAD_LEFT);
+    }
+
+    public function getSizeHumanAttribute(): ?string
+    {
+        return FileSize::humanReadable($this->size);
     }
 
     public function scopeAvailable(Builder $query): Builder
