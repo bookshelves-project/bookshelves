@@ -33,13 +33,16 @@ class BookController extends Controller
     #[Get('/latest', name: 'api.books.latest')]
     public function latest()
     {
-        $latest = Book::with(['authors', 'serie', 'media', 'language'])
-            ->orderBy('added_at', 'desc')
-            ->limit(20)
-            ->get();
-
         return response()->json([
-            'data' => $latest,
+            'data' => $this->getBooks('added_at', true, 20),
+        ]);
+    }
+
+    #[Get('/released', name: 'api.books.released')]
+    public function released()
+    {
+        return response()->json([
+            'data' => $this->getBooks('released_on', true, 20),
         ]);
     }
 

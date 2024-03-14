@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -80,5 +81,18 @@ class Controller extends BaseController
             'serie' => $serie,
             'square' => $square,
         ]);
+    }
+
+    public function getBooks(string $column, bool $desc = false, int $limit = 20)
+    {
+        return Book::with([
+            'authors',
+            'serie',
+            'media',
+            'language',
+        ])
+            ->orderBy($column, $desc ? 'desc' : 'asc')
+            ->limit($limit)
+            ->get();
     }
 }
