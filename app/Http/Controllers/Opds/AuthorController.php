@@ -46,7 +46,7 @@ class AuthorController extends Controller
         OpdsBase::app()
             ->title('Authors')
             ->feeds($feeds)
-            ->send();
+            ->send(config('app.env') === 'local');
     }
 
     #[Get('/{character}', name: 'opds.authors.character')]
@@ -84,7 +84,7 @@ class AuthorController extends Controller
         OpdsBase::app()
             ->title("Authors with {$character}")
             ->feeds($feeds)
-            ->send();
+            ->send(config('app.env') === 'local');
     }
 
     #[Get('/{character}/{author}', name: 'opds.authors.show')]
@@ -101,6 +101,6 @@ class AuthorController extends Controller
             ->title("Author {$author->lastname} {$author->firstname}")
             ->feeds($feeds)
             ->paginate()
-            ->send();
+            ->send(config('app.env') === 'local');
     }
 }

@@ -24,6 +24,6 @@ class BookController extends Controller
         OpdsBase::app()
             ->title("Book {$book->title}")
             ->feeds(OpdsBase::bookToEntry($book))
-            ->send();
+            ->send(config('app.env') === 'local');
     }
 }
