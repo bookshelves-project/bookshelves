@@ -40,6 +40,7 @@
         async
         src="{{ config('app.umami.url') }}"
         data-website-id="{{ config('app.umami.id') }}"
+        defer
       ></script>
     @endif
   </x-slot>
