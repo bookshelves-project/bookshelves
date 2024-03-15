@@ -75,7 +75,7 @@ const { mainLinks, secondaryLinks } = useNavigation()
           >
             <img
               class="h-8 w-auto"
-              src="/bookshelves.svg"
+              src="/favicon.svg"
               alt="Bookshelves"
             >
           </ILink>

@@ -27,11 +27,11 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->favicon(config('app.url').'/bookshelves.svg')
+            ->favicon(config('app.url').'/favicon.svg')
             ->colors([
                 'primary' => Color::Purple,
             ])
-            ->brandLogo(asset('bookshelves.svg'))
+            ->brandLogo(asset('favicon.svg'))
             ->brandName('Bookshelves')
             ->brandLogoHeight('2.2rem')
             ->homeUrl('/')

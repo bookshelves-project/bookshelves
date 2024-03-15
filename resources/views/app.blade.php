@@ -2,11 +2,6 @@
   <x-slot name="head">
     <title inertia>{{ config('app.name', 'Bookshelves') }}</title>
 
-    <link
-      href="{{ asset('bookshelves.svg') }}"
-      rel="icon"
-    >
-
     <meta
       name="description"
       content="{{ session('meta_description', 'Default Description') }}"
