@@ -63,7 +63,7 @@ class BookController extends Controller
             'square' => $book->type === BookTypeEnum::audiobook,
             'event' => [
                 'title' => $book->title,
-                'image' => $book->cover_social,
+                // 'image' => $book->cover_social,
                 'description' => $book->description,
             ],
         ]);

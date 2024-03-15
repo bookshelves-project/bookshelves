@@ -42,7 +42,7 @@
       />
       <meta
         property="og:image"
-        content="{{ isset($page['props']['event']['image']) ? $page['props']['event']['image'] : asset('/img/logo.png') }}"
+        content="{{ isset($page['props']['event']['image']) ? $page['props']['event']['image'] : asset('/default.jpg') }}"
       />
     @endif
     <meta
