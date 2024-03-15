@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Database\Eloquent\Builder;
@@ -94,5 +95,33 @@ class Controller extends BaseController
             ->orderBy($column, $desc ? 'desc' : 'asc')
             ->limit($limit)
             ->get();
+    }
+
+    public function loadBook(Book $book)
+    {
+        $book->load([
+            'authors',
+            'serie',
+            'serie.books',
+            'serie.books.serie',
+            'serie.books.media',
+            'tags',
+            'media',
+            'publisher',
+            'language',
+        ]);
+
+        ray($book->title);
+        session()->put('title', $book->title);
+
+        return inertia('Books/Show', [
+            'book' => $book,
+            'square' => $book->type === BookTypeEnum::audiobook,
+            'meta' => [
+                'title' => $book->title,
+                'image' => $book->cover_social,
+                'description' => $book->description,
+            ],
+        ]);
     }
 }

@@ -22,10 +22,6 @@ class AudiobookController extends Controller
     #[Get('/{book_slug}', name: 'audiobooks.show')]
     public function show(Book $book)
     {
-        $book->load(['authors', 'serie', 'tags', 'media']);
-
-        return inertia('Books/Show', [
-            'book' => $book,
-        ]);
+        return $this->loadBook($book);
     }
 }

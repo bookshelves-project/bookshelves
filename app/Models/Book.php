@@ -230,7 +230,7 @@ class Book extends Model implements HasMedia
 
         // merge books and series
         $relatedBooks = $relatedBooks->merge($seriesList);
-        $relatedBooks = $relatedBooks->loadMissing(['language', 'media']);
+        $relatedBooks = $relatedBooks->loadMissing(['language', 'media', 'authors']);
 
         // sort entities
         return $relatedBooks->sortBy('slug_sort');

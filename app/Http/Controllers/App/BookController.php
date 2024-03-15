@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\App;
 
-use App\Enums\BookTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -47,25 +46,6 @@ class BookController extends Controller
     #[Get('/{book_slug}', name: 'books.show')]
     public function show(Book $book)
     {
-        $book->load([
-            'authors',
-            'serie',
-            'serie.books',
-            'serie.books.media',
-            'tags',
-            'media',
-            'publisher',
-            'language',
-        ]);
-
-        return inertia('Books/Show', [
-            'book' => $book,
-            'square' => $book->type === BookTypeEnum::audiobook,
-            'event' => [
-                'title' => $book->title,
-                // 'image' => $book->cover_social,
-                'description' => $book->description,
-            ],
-        ]);
+        return $this->loadBook($book);
     }
 }

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useDate, useFetch } from '@kiwilan/typescriptable-laravel'
+import { useDate, useFetch, useInertia } from '@kiwilan/typescriptable-laravel'
 import type { Entity } from '@/Types'
 import { useUtils } from '@/Composables/useUtils'
 

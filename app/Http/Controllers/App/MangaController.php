@@ -22,10 +22,6 @@ class MangaController extends Controller
     #[Get('/{book_slug}', name: 'mangas.show')]
     public function show(Book $book)
     {
-        $book->load(['authors', 'serie', 'tags', 'media']);
-
-        return inertia('Books/Show', [
-            'book' => $book,
-        ]);
+        return $this->loadBook($book);
     }
 }

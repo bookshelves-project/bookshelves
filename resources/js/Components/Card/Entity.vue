@@ -39,8 +39,11 @@ withDefaults(defineProps<Props>(), {
       >
         <!-- {{ entity.serie.title }} #{{ entity.volume_pad }} -->
       </p>
-      <p class="line-clamp-1 text-sm text-gray-400">
-        <!-- {{ entity.authors?.map((author) => author.name).join(', ') }} -->
+      <p
+        v-if="entity.authors"
+        class="line-clamp-1 text-sm text-gray-400"
+      >
+        {{ entity.authors?.map((author) => author.name).join(', ') }}
       </p>
     </div>
   </ILink>

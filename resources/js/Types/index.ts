@@ -2,7 +2,7 @@ export interface Entity {
   title?: string
   slug?: string
   type?: string
-  authors?: string
+  authors?: App.Models.Author[]
   serie?: string
   language?: string
   volume?: string
