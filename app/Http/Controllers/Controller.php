@@ -121,6 +121,7 @@ class Controller extends BaseController
                 'title' => $book->title,
                 'image' => $book->cover_social,
                 'description' => $book->description,
+                'color' => $book->cover_color,
             ],
         ]);
     }
