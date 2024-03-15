@@ -2,7 +2,8 @@
   <x-slot name="head">
     <title inertia>{{ config('app.name', 'Bookshelves') }}</title>
 
-    <meta
+    <x-stw-meta-tags />
+    {{-- <meta
       name="description"
       content="{{ session('meta_description', 'Default Description') }}"
     >
@@ -21,7 +22,7 @@
     <meta
       property="og:url"
       content="{{ session('meta_url', 'Default URL') }}"
-    >
+    > --}}
 
     @routes
     @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
