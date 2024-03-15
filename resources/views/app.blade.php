@@ -3,6 +3,22 @@
     <title inertia>{{ config('app.name', 'Bookshelves') }}</title>
 
     <x-stw-meta-tags />
+
+    <meta
+      inertia
+      property="og:title"
+      content="{{ config('app.name', 'Bookshelves') }}"
+    >
+    <meta
+      inertia
+      property="og:description"
+      content="For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you."
+    >
+    <meta
+      inertia
+      property="og:image"
+      content="{{ config('app.url') . '/default.jpg' }}"
+    >
     {{-- <meta
       name="description"
       content="{{ session('meta_description', 'Default Description') }}"

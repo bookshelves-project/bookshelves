@@ -38,41 +38,36 @@ const descriptionContent = computed(() => {
 
 <template>
   <Head :title="props.title">
-    <meta
-      head-key="description"
-      name="description"
-      content="This is the default description"
-    >
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/favicon.svg"
-    >
-
     <!-- HTML Meta Tags -->
     <meta
+      head-key="description"
       name="description"
       :content="descriptionContent"
     >
 
     <!-- Facebook Meta Tags -->
     <meta
+      head-key="og:url"
       property="og:url"
       :content="currentUrl"
     >
     <meta
+      head-key="og:type"
       property="og:type"
       content="website"
     >
     <meta
+      head-key="og:title"
       property="og:title"
       :content="titleContent"
     >
     <meta
+      head-key="og:description"
       property="og:description"
       :content="descriptionContent"
     >
     <meta
+      head-key="og:image"
       property="og:image"
       :content="image"
     >
