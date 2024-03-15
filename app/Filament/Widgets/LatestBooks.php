@@ -43,7 +43,7 @@ class LatestBooks extends BaseWidget
                     ->sortable(),
                 Tables\Columns\TextColumn::make('size_human')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('last_modified_at')
+                Tables\Columns\TextColumn::make('added_at')
                     ->dateTime('Y/m/d')
                     ->searchable()
                     ->sortable(),
