@@ -3266,12 +3266,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "1dcb883fb2957ce9d4f49276ce56313517d865ea"
+                "reference": "7fdd0cd474723212de698b875b05c8a61c18ac21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/1dcb883fb2957ce9d4f49276ce56313517d865ea",
-                "reference": "1dcb883fb2957ce9d4f49276ce56313517d865ea",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/7fdd0cd474723212de698b875b05c8a61c18ac21",
+                "reference": "7fdd0cd474723212de698b875b05c8a61c18ac21",
                 "shasum": ""
             },
             "require": {
@@ -3348,7 +3348,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2024-03-14T17:13:09+00:00"
+            "time": "2024-03-15T11:20:46+00:00"
         },
         {
             "name": "kiwilan/typescriptable-laravel",
@@ -3499,16 +3499,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.48.2",
+            "version": "v10.48.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "32a8bb151d748b579c3794dea53b56bd40dfbbd3"
+                "reference": "5791c052b41c6b593556adc687076bfbdd13c501"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/32a8bb151d748b579c3794dea53b56bd40dfbbd3",
-                "reference": "32a8bb151d748b579c3794dea53b56bd40dfbbd3",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/5791c052b41c6b593556adc687076bfbdd13c501",
+                "reference": "5791c052b41c6b593556adc687076bfbdd13c501",
                 "shasum": ""
             },
             "require": {
@@ -3702,7 +3702,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-03-12T16:35:43+00:00"
+            "time": "2024-03-15T10:17:07+00:00"
         },
         {
             "name": "laravel/jetstream",
@@ -5850,16 +5850,16 @@
         },
         {
             "name": "opcodesio/log-viewer",
-            "version": "v3.5.0",
+            "version": "v3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opcodesio/log-viewer.git",
-                "reference": "65d945fc36ab12a2a7588539bac3c367c6b41e16"
+                "reference": "eeb391baaadba693a6713a343ec22d6d8e8db449"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/65d945fc36ab12a2a7588539bac3c367c6b41e16",
-                "reference": "65d945fc36ab12a2a7588539bac3c367c6b41e16",
+                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/eeb391baaadba693a6713a343ec22d6d8e8db449",
+                "reference": "eeb391baaadba693a6713a343ec22d6d8e8db449",
                 "shasum": ""
             },
             "require": {
@@ -5922,7 +5922,7 @@
             ],
             "support": {
                 "issues": "https://github.com/opcodesio/log-viewer/issues",
-                "source": "https://github.com/opcodesio/log-viewer/tree/v3.5.0"
+                "source": "https://github.com/opcodesio/log-viewer/tree/v3.6.0"
             },
             "funding": [
                 {
@@ -5934,7 +5934,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-01T18:01:18+00:00"
+            "time": "2024-03-15T05:25:17+00:00"
         },
         {
             "name": "opcodesio/mail-parser",
@@ -7337,16 +7337,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.12.0",
+            "version": "v0.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "750bf031a48fd07c673dbe3f11f72362ea306d0d"
+                "reference": "39621c73e0754328252f032c6997b983afc50431"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/750bf031a48fd07c673dbe3f11f72362ea306d0d",
-                "reference": "750bf031a48fd07c673dbe3f11f72362ea306d0d",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/39621c73e0754328252f032c6997b983afc50431",
+                "reference": "39621c73e0754328252f032c6997b983afc50431",
                 "shasum": ""
             },
             "require": {
@@ -7410,9 +7410,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.12.0"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.1"
             },
-            "time": "2023-12-20T15:28:09+00:00"
+            "time": "2024-03-15T03:22:57+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -13158,16 +13158,16 @@
         },
         {
             "name": "pestphp/pest",
-            "version": "v2.34.2",
+            "version": "v2.34.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest.git",
-                "reference": "853f6efce6bc86636f48a0e921a44ccee9a66cf3"
+                "reference": "6a1161ead830294ef8e21fab83c0bd118b0df7cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pestphp/pest/zipball/853f6efce6bc86636f48a0e921a44ccee9a66cf3",
-                "reference": "853f6efce6bc86636f48a0e921a44ccee9a66cf3",
+                "url": "https://api.github.com/repos/pestphp/pest/zipball/6a1161ead830294ef8e21fab83c0bd118b0df7cc",
+                "reference": "6a1161ead830294ef8e21fab83c0bd118b0df7cc",
                 "shasum": ""
             },
             "require": {
@@ -13177,10 +13177,10 @@
                 "pestphp/pest-plugin": "^2.1.1",
                 "pestphp/pest-plugin-arch": "^2.7.0",
                 "php": "^8.1.0",
-                "phpunit/phpunit": "^10.5.12"
+                "phpunit/phpunit": "^10.5.13"
             },
             "conflict": {
-                "phpunit/phpunit": ">10.5.12",
+                "phpunit/phpunit": ">10.5.13",
                 "sebastian/exporter": "<5.1.0",
                 "webmozart/assert": "<1.11.0"
             },
@@ -13250,7 +13250,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pestphp/pest/issues",
-                "source": "https://github.com/pestphp/pest/tree/v2.34.2"
+                "source": "https://github.com/pestphp/pest/tree/v2.34.4"
             },
             "funding": [
                 {
@@ -13262,7 +13262,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-11T18:05:47+00:00"
+            "time": "2024-03-14T19:44:18+00:00"
         },
         {
             "name": "pestphp/pest-plugin",
@@ -14065,16 +14065,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.12",
+            "version": "10.5.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "41a9886b85ac7bf3929853baf96b95361cd69d2b"
+                "reference": "20a63fc1c6db29b15da3bd02d4b6cf59900088a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/41a9886b85ac7bf3929853baf96b95361cd69d2b",
-                "reference": "41a9886b85ac7bf3929853baf96b95361cd69d2b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/20a63fc1c6db29b15da3bd02d4b6cf59900088a7",
+                "reference": "20a63fc1c6db29b15da3bd02d4b6cf59900088a7",
                 "shasum": ""
             },
             "require": {
@@ -14146,7 +14146,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.12"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.13"
             },
             "funding": [
                 {
@@ -14162,7 +14162,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-09T12:04:07+00:00"
+            "time": "2024-03-12T15:37:41+00:00"
         },
         {
             "name": "sebastian/cli-parser",

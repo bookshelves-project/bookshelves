@@ -227,6 +227,7 @@ namespace App\Models{
  * @property-read string $meta_first_char
  * @property-read string|null $meta_route
  * @property-read string $opds_link
+ * @property-read string|null $size_human
  * @property-read \App\Models\Collection<int, Tag> $tags_list
  * @property-read string $tags_string
  * @property-read string|null $volume_pad
