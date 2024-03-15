@@ -1,7 +1,10 @@
 <x-stw-app>
   <x-slot name="head">
     <title inertia>{{ config('app.name', 'Bookshelves') }}</title>
-    <x-stw-meta-tags :props="$page['props']" />
+    <x-stw-meta-tags
+      :props="$page['props']"
+      description="For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you."
+    />
 
     @routes
     @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
