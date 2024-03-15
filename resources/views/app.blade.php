@@ -1,6 +1,28 @@
 <x-stw-app>
   <x-slot name="head">
     <title inertia>{{ config('app.name', 'Bookshelves') }}</title>
+
+    <meta
+      name="description"
+      content="{{ session('meta_description', 'Default Description') }}"
+    >
+    <meta
+      property="og:title"
+      content="{{ session('meta_title', 'Default Title') }}"
+    >
+    <meta
+      property="og:description"
+      content="{{ session('meta_description', 'Default Description') }}"
+    >
+    <meta
+      property="og:image"
+      content="{{ session('meta_image', 'Default Image URL') }}"
+    >
+    <meta
+      property="og:url"
+      content="{{ session('meta_url', 'Default URL') }}"
+    >
+
     @routes
     @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
