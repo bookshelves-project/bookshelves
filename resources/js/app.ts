@@ -18,7 +18,10 @@ createInertiaApp({
       .use(plugin)
       .use(VueTypescriptable)
       .use(SvgTransformerPlugin)
-      .use(ZiggyVue)
+      .use(ZiggyVue, {
+        ...page.props.ziggy,
+        location: new URL(page.props.ziggy.url),
+      })
 
     router.on('start', () => NProgress.start())
     router.on('finish', () => NProgress.done())

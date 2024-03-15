@@ -20,9 +20,13 @@ createServer(page => createInertiaApp({
       .use(plugin)
       .use(VueTypescriptable)
       .use(SvgTransformerPlugin)
+      // .use(ZiggyVue, {
+      //   ...(page.props.ziggy as any),
+      //   location: new URL((page.props.ziggy as any).location),
+      // })
       .use(ZiggyVue, {
-        ...(page.props.ziggy as any),
-        location: new URL((page.props.ziggy as any).location),
+        ...page.props.ziggy,
+        location: new URL(page.props.ziggy.url),
       })
 
     app.mount(el)
