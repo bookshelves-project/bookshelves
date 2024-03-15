@@ -111,9 +111,6 @@ class Controller extends BaseController
             'language',
         ]);
 
-        ray($book->title);
-        session()->put('title', $book->title);
-
         return inertia('Books/Show', [
             'book' => $book,
             'square' => $book->type === BookTypeEnum::audiobook,
