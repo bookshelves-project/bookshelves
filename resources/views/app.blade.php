@@ -4,7 +4,7 @@
 
     {{-- <x-stw-meta-tags /> --}}
 
-    <meta
+    {{-- <meta
       inertia
       property="og:title"
       content="{{ config('app.name', 'Bookshelves') }}"
@@ -18,7 +18,37 @@
       inertia
       property="og:image"
       content="{{ config('app.url') . '/default.jpg' }}"
-    >
+    > --}}
+    <meta
+      name="author"
+      content="author name"
+    />
+    @if (isset($page['props']['event']))
+      <meta
+        name="twitter:card"
+        content="{{ isset($page['props']['event']['card']) ? $page['props']['event']['card'] : 'summary' }}"
+      />
+      <meta
+        name="twitter:site"
+        content="@sitename"
+      />
+      <meta
+        property="og:title"
+        content="{{ isset($page['props']['event']['title']) ? 'My Website | ' . $page['props']['event']['title'] : 'My Website | Page' }}"
+      />
+      <meta
+        property="og:description"
+        content="{{ isset($page['props']['event']['description']) ? $page['props']['event']['description'] : '' }}"
+      />
+      <meta
+        property="og:image"
+        content="{{ isset($page['props']['event']['image']) ? $page['props']['event']['image'] : asset('/img/logo.png') }}"
+      />
+    @endif
+    <meta
+      property="og:url"
+      content="{{ url()->current() }}"
+    />
     {{-- <meta
       name="description"
       content="{{ session('meta_description', 'Default Description') }}"

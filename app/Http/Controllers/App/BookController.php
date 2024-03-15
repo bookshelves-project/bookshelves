@@ -61,6 +61,11 @@ class BookController extends Controller
         return inertia('Books/Show', [
             'book' => $book,
             'square' => $book->type === BookTypeEnum::audiobook,
+            'event' => [
+                'title' => $book->title,
+                'image' => $book->cover_social,
+                'description' => $book->description,
+            ],
         ]);
     }
 }
