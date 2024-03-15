@@ -10,7 +10,7 @@ export interface Props {
 const props = withDefaults(defineProps<Props>(), {
   title: 'Bookshelves',
   description: undefined,
-  image: `${window.location.origin}/images/default.jpg`,
+  image: `${window.location.origin}/default.jpg`,
 })
 
 const currentUrl = computed(() => window.location.href)
@@ -38,14 +38,12 @@ const descriptionContent = computed(() => {
 
 <template>
   <Head :title="props.title">
-    <!-- HTML Meta Tags -->
     <meta
       head-key="description"
       name="description"
       :content="descriptionContent"
     >
 
-    <!-- Facebook Meta Tags -->
     <meta
       head-key="og:url"
       property="og:url"
@@ -72,7 +70,6 @@ const descriptionContent = computed(() => {
       :content="image"
     >
 
-    <!-- Twitter Meta Tags -->
     <meta
       name="twitter:card"
       content="summary_large_image"
@@ -97,7 +94,5 @@ const descriptionContent = computed(() => {
       name="twitter:image"
       :content="image"
     >
-
-    <!-- Meta Tags Generated via https://www.opengraph.xyz -->
   </Head>
 </template>
