@@ -111,11 +111,18 @@ class Controller extends BaseController
             'language',
         ]);
 
+        $title = $book->title;
+        if ($book->serie) {
+            $title = "{$book->serie->title} {$book->volume_pad} - {$title} by {$book->authors->implode('name', ', ')}";
+        } else {
+            $title = "{$title} by {$book->authors->implode('name', ', ')}";
+        }
+
         return inertia('Books/Show', [
             'book' => $book,
             'square' => $book->type === BookTypeEnum::audiobook,
             'meta' => [
-                'title' => $book->title,
+                'title' => $title,
                 'image' => $book->cover_social,
                 'description' => $book->description,
                 'color' => $book->cover_color,
