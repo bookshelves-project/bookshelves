@@ -46,7 +46,7 @@ const { ucfirst } = useUtils()
       {{ book.extension }}
     </div>
     <div class="mt-3">
-      <p class="line-clamp-1">
+      <p class="line-clamp-1 w-48">
         {{ book.title }}
       </p>
       <p
