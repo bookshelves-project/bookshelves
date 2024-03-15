@@ -2,7 +2,7 @@
   <x-slot name="head">
     <title inertia>{{ config('app.name', 'Bookshelves') }}</title>
 
-    <x-stw-meta-tags />
+    {{-- <x-stw-meta-tags /> --}}
 
     <meta
       inertia
