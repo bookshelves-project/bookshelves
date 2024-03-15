@@ -1,4 +1,4 @@
-<x-stw-app>
+<x-stw-app dark>
   <x-slot name="head">
     <title inertia>{{ config('app.name', 'Bookshelves') }}</title>
 
