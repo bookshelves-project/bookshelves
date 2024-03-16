@@ -12,7 +12,7 @@ export interface Props {
 const props = withDefaults(defineProps<Props>(), {
   title: 'Bookshelves',
   description: undefined,
-  image: `${window.location.origin}/default.jpg`,
+  image: `/default.jpg`,
   type: 'website',
   twitter: 'summary_large_image',
 })
