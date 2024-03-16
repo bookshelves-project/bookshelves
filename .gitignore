@@ -7,6 +7,8 @@
 /public/css/filament
 /public/js/filament
 /public/storage
+/resources/js/icons.ts
+/resources/js/routes.ts
 /resources/js/*.d.ts
 /storage/*.key
 /vendor
@@ -24,3 +26,6 @@ yarn-error.log
 /.vscode
 .DS_Store
 _ide_helper.php
+auto-imports.d.ts
+components.d.ts
+icons.d.ts
