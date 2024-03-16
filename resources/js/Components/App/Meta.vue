@@ -5,43 +5,33 @@ export interface Props {
   title?: string
   description?: string
   image?: string
+  type?: 'website' | 'article'
+  twitter?: 'summary' | 'summary_large_image'
 }
 
 const props = withDefaults(defineProps<Props>(), {
   title: 'Bookshelves',
   description: undefined,
   image: `${window.location.origin}/default.jpg`,
+  type: 'website',
+  twitter: 'summary_large_image',
 })
 
-const currentUrl = computed(() => window.location.href)
-const domain = computed(() => window.location.host)
-
-const titleContent = computed(() => {
-  if (!props.title)
-    return 'Bookshelves'
-
-  if (props.title.length > 60)
-    return `${props.title.substring(0, 60)}...`
-
-  return props.title
-})
-const descriptionContent = computed(() => {
-  if (!props.description)
-    return 'For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you.'
-
-  if (props.description.length > 160)
-    return `${props.description.substring(0, 160)}...`
-
-  return props.description
-})
+const currentTitle = props.title
+const currentDescription = props.description
+const currentImage = props.image
+const currentType = props.type
+const twitter = props.twitter
+const currentUrl = '/'
+const currentDomain = '/'
 </script>
 
 <template>
-  <Head :title="props.title">
+  <Head :title="currentTitle">
     <meta
       head-key="description"
       name="description"
-      :content="descriptionContent"
+      :content="currentDescription"
     >
 
     <meta
@@ -52,31 +42,31 @@ const descriptionContent = computed(() => {
     <meta
       head-key="og:type"
       property="og:type"
-      content="website"
+      :content="currentType"
     >
     <meta
       head-key="og:title"
       property="og:title"
-      :content="titleContent"
+      :content="currentTitle"
     >
     <meta
       head-key="og:description"
       property="og:description"
-      :content="descriptionContent"
+      :content="currentDescription"
     >
     <meta
       head-key="og:image"
       property="og:image"
-      :content="image"
+      :content="currentImage"
     >
 
     <meta
       name="twitter:card"
-      content="summary_large_image"
+      :content="twitter"
     >
     <meta
       property="twitter:domain"
-      :content="domain"
+      :content="currentDomain"
     >
     <meta
       property="twitter:url"
@@ -84,15 +74,15 @@ const descriptionContent = computed(() => {
     >
     <meta
       name="twitter:title"
-      :content="titleContent"
+      :content="currentTitle"
     >
     <meta
       name="twitter:description"
-      :content="descriptionContent"
+      :content="currentDescription"
     >
     <meta
       name="twitter:image"
-      :content="image"
+      :content="currentImage"
     >
   </Head>
 </template>
