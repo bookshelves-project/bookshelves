@@ -18,6 +18,7 @@ defineProps<{
       app-description="For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you."
       app-image="/default.jpg"
       app-author="Bookshelves"
+      app-color="#8b5cf6"
     />
     <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
     <!-- <LayoutSidebar /> -->

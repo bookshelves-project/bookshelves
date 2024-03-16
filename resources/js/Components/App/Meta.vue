@@ -15,6 +15,7 @@ export interface Props {
   appDescription?: string
   appAuthor?: string
   appImage?: string
+  appColor?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -30,6 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
   appDescription: undefined,
   appAuthor: undefined,
   appImage: `/default.jpg`,
+  appColor: '#ffffff',
 })
 
 const page = usePage()
@@ -73,7 +75,7 @@ const currentType = props.type
 const twitter = props.twitter
 const currentUrl = currentURL
 const currentDomain = getDomainFromUrl(currentURL)
-const currentColor = props.color
+const currentColor = props.color || props.appColor
 const currentAuthor = props.author || props.appTitle
 </script>
 
