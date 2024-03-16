@@ -28,7 +28,7 @@ function handleImageError() {
 
 <template>
   <AppMeta
-    title="Welcome"
+    title="Welcome to Bookshelves"
     description="Welcome on this app"
   />
   <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
