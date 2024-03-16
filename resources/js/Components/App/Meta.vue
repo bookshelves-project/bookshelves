@@ -11,10 +11,10 @@ export interface Props {
   twitter?: 'summary' | 'summary_large_image'
   color?: string
   author?: string
-  defaultTitle?: string
-  defaultDescription?: string
-  defaultAuthor?: string
-  defaultImage?: string
+  appTitle?: string
+  appDescription?: string
+  appAuthor?: string
+  appImage?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -26,10 +26,10 @@ const props = withDefaults(defineProps<Props>(), {
   twitter: 'summary_large_image',
   color: '#ffffff',
   author: undefined,
-  defaultTitle: undefined,
-  defaultDescription: undefined,
-  defaultAuthor: undefined,
-  defaultImage: `/default.jpg`,
+  appTitle: undefined,
+  appDescription: undefined,
+  appAuthor: undefined,
+  appImage: `/default.jpg`,
 })
 
 const page = usePage()
@@ -44,7 +44,7 @@ function getDomainFromUrl(url: string) {
 
 function checkImageURL(image?: string) {
   if (!image)
-    return `${baseURL}${props.defaultImage}`
+    return `${baseURL}${props.appImage}`
 
   if (image.startsWith('http'))
     return image
@@ -58,17 +58,23 @@ function limitText(text?: string, limit?: number): string {
   return text.length > limit ? `${text.substring(0, limit)}...` : text
 }
 
-let currentTitle = props.title ? `${props.title} ${props.titleSeparator} ${props.defaultTitle}` : props.defaultTitle
+let currentTitle = props.title
+if (props.title && props.appTitle)
+  currentTitle = `${props.title} ${props.titleSeparator} ${props.appTitle}`
+if (!props.title)
+  currentTitle = props.appTitle
 currentTitle = limitText(currentTitle, 60)
-let currentDescription = props.description || props.defaultDescription
+
+let currentDescription = props.description || props.appDescription
 currentDescription = limitText(currentDescription, 160)
+
 const currentImage = checkImageURL(props.image)
 const currentType = props.type
 const twitter = props.twitter
 const currentUrl = currentURL
 const currentDomain = getDomainFromUrl(currentURL)
 const currentColor = props.color
-const currentAuthor = props.author || props.defaultTitle
+const currentAuthor = props.author || props.appTitle
 </script>
 
 <template>
