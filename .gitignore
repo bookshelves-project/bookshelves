@@ -4,7 +4,10 @@
 /node_modules
 /public/build
 /public/hot
+/public/css/filament
+/public/js/filament
 /public/storage
+/resources/js/*.d.ts
 /storage/*.key
 /vendor
 .env
@@ -20,3 +23,4 @@ yarn-error.log
 /.idea
 /.vscode
 .DS_Store
+_ide_helper.php
