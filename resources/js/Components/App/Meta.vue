@@ -62,8 +62,7 @@ function limitText(text?: string, limit?: number): string {
 
 let currentTitle = props.title
 if (props.title && props.appTitle)
-  // currentTitle = `${props.title} ${props.titleSeparator} ${props.appTitle}`
-  currentTitle = props.title
+  currentTitle = `${props.title} ${props.titleSeparator} ${props.appTitle}`
 if (!props.title)
   currentTitle = props.appTitle
 currentTitle = limitText(currentTitle, 60)
