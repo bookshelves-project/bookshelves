@@ -4,6 +4,7 @@ import { Head, usePage } from '@inertiajs/vue3'
 
 export interface Props {
   title?: string
+  titleSeparator?: string
   description?: string
   image?: string
   type?: 'website' | 'article'
@@ -12,6 +13,7 @@ export interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   title: 'Bookshelves',
+  titleSeparator: '·',
   description: undefined,
   image: `/default.jpg`,
   type: 'website',
@@ -19,7 +21,6 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const defaultTitle = 'Bookshelves'
-const titleSeparator = '·'
 const defaultDescription = 'For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you.'
 
 const page = usePage()
@@ -32,9 +33,19 @@ function getDomainFromUrl(url: string) {
   return urlObject.hostname
 }
 
-const currentTitle = props.title ? `${props.title} ${titleSeparator} ${defaultTitle}` : defaultTitle
+function checkImageURL(image?: string) {
+  if (!image)
+    return `${baseURL}/default.jpg`
+
+  if (image.startsWith('http'))
+    return image
+  else
+    return `${baseURL}${image}`
+}
+
+const currentTitle = props.title ? `${props.title} ${props.titleSeparator} ${defaultTitle}` : defaultTitle
 const currentDescription = props.description || defaultDescription
-const currentImage = props.image ? props.image : `${baseURL}${props.image}`
+const currentImage = checkImageURL(props.image)
 const currentType = props.type
 const twitter = props.twitter
 const currentUrl = currentURL
