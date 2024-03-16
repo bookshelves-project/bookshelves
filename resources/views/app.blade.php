@@ -8,23 +8,16 @@
     content="width=device-width, initial-scale=1"
   >
 
-  <!-- Fonts -->
-  <link
-    href="https://fonts.bunny.net"
-    rel="preconnect"
-  >
-  <link
-    href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"
-    rel="stylesheet"
-  />
+  <x-stw-favicon />
 
   <!-- Scripts -->
+  @steward
   @routes
   @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
   @inertiaHead
 </head>
 
-<body class="font-sans antialiased">
+<body class="{{ config('app.env') === 'local' ? 'debug-screens' : '' }} font-sans antialiased">
   @inertia
 </body>
 
