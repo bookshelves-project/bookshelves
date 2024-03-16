@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { Head } from '@inertiajs/vue3'
+// https://inertiajs.com/title-and-meta#head-component
+import { Head, usePage } from '@inertiajs/vue3'
 
 export interface Props {
   title?: string
@@ -17,13 +18,30 @@ const props = withDefaults(defineProps<Props>(), {
   twitter: 'summary_large_image',
 })
 
-const currentTitle = props.title
-const currentDescription = props.description
-const currentImage = props.image
+const defaultTitle = 'Bookshelves'
+const titleSeparator = '·'
+const defaultDescription = 'For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you.'
+
+const page = usePage()
+const ziggy: any = page.props.ziggy
+const baseURL = ziggy.url
+const currentURL = ziggy.location
+
+function getDomainFromUrl(url: string) {
+  const urlObject = new URL(url)
+  return urlObject.hostname
+}
+
+const currentTitle = props.title ? `${props.title} ${titleSeparator} ${defaultTitle}` : defaultTitle
+const currentDescription = props.description || defaultDescription
+const currentImage = props.image ? props.image : `${baseURL}${props.image}`
 const currentType = props.type
 const twitter = props.twitter
-const currentUrl = '/'
-const currentDomain = '/'
+const currentUrl = currentURL
+const currentDomain = getDomainFromUrl(currentURL)
+
+console.log(baseURL)
+console.log(currentURL)
 </script>
 
 <template>

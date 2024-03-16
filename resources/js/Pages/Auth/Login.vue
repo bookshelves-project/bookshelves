@@ -30,7 +30,7 @@ function submit() {
 </script>
 
 <template>
-  <Head title="Log in" />
+  <AppMeta title="Log in" />
 
   <AuthenticationCard>
     <template #logo>
@@ -95,13 +95,21 @@ function submit() {
       </div>
 
       <div class="flex items-center justify-end mt-4">
-        <Link
-          v-if="canResetPassword"
-          :href="route('password.request')"
-          class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Forgot your password?
-        </Link>
+        <div class="flex items-center space-x-3">
+          <Link
+            href="/"
+            class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Back
+          </Link>
+          <Link
+            v-if="canResetPassword"
+            :href="route('password.request')"
+            class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Forgot your password?
+          </Link>
+        </div>
 
         <PrimaryButton
           class="ms-4"
