@@ -52,7 +52,9 @@ function checkImageURL(image?: string) {
     return `${baseURL}${image}`
 }
 
-function limitText(text: string, limit: number) {
+function limitText(text?: string, limit?: number): string {
+  if (!text)
+    return ''
   return text.length > limit ? `${text.substring(0, limit)}...` : text
 }
 
