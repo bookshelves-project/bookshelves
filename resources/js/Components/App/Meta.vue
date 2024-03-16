@@ -11,10 +11,14 @@ export interface Props {
   twitter?: 'summary' | 'summary_large_image'
   color?: string
   author?: string
+  defaultTitle?: string
+  defaultDescription?: string
+  defaultAuthor?: string
+  defaultImage?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: 'Bookshelves',
+  title: undefined,
   titleSeparator: '·',
   description: undefined,
   image: `/default.jpg`,
@@ -22,10 +26,11 @@ const props = withDefaults(defineProps<Props>(), {
   twitter: 'summary_large_image',
   color: '#ffffff',
   author: undefined,
+  defaultTitle: undefined,
+  defaultDescription: undefined,
+  defaultAuthor: undefined,
+  defaultImage: `/default.jpg`,
 })
-
-const defaultTitle = 'Bookshelves'
-const defaultDescription = 'For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you.'
 
 const page = usePage()
 const ziggy: any = page.props.ziggy
@@ -39,7 +44,7 @@ function getDomainFromUrl(url: string) {
 
 function checkImageURL(image?: string) {
   if (!image)
-    return `${baseURL}/default.jpg`
+    return `${baseURL}${props.defaultImage}`
 
   if (image.startsWith('http'))
     return image
@@ -51,9 +56,9 @@ function limitText(text: string, limit: number) {
   return text.length > limit ? `${text.substring(0, limit)}...` : text
 }
 
-let currentTitle = props.title ? `${props.title} ${props.titleSeparator} ${defaultTitle}` : defaultTitle
+let currentTitle = props.title ? `${props.title} ${props.titleSeparator} ${props.defaultTitle}` : props.defaultTitle
 currentTitle = limitText(currentTitle, 60)
-let currentDescription = props.description || defaultDescription
+let currentDescription = props.description || props.defaultDescription
 currentDescription = limitText(currentDescription, 160)
 const currentImage = checkImageURL(props.image)
 const currentType = props.type
@@ -61,7 +66,7 @@ const twitter = props.twitter
 const currentUrl = currentURL
 const currentDomain = getDomainFromUrl(currentURL)
 const currentColor = props.color
-const currentAuthor = props.author || defaultTitle
+const currentAuthor = props.author || props.defaultTitle
 </script>
 
 <template>
@@ -72,6 +77,7 @@ const currentAuthor = props.author || defaultTitle
       :content="currentType"
     >
     <meta
+      head-key="twitter:card"
       name="twitter:card"
       :content="twitter"
     >
@@ -82,6 +88,7 @@ const currentAuthor = props.author || defaultTitle
       :content="currentTitle"
     >
     <meta
+      head-key="twitter:title"
       name="twitter:title"
       :content="currentTitle"
     >
@@ -92,10 +99,12 @@ const currentAuthor = props.author || defaultTitle
       :content="currentUrl"
     >
     <meta
+      head-key="twitter:url"
       property="twitter:url"
       :content="currentUrl"
     >
     <meta
+      head-key="twitter:domain"
       property="twitter:domain"
       :content="currentDomain"
     >
@@ -111,6 +120,7 @@ const currentAuthor = props.author || defaultTitle
       :content="currentDescription"
     >
     <meta
+      head-key="twitter:description"
       name="twitter:description"
       :content="currentDescription"
     >
@@ -121,24 +131,29 @@ const currentAuthor = props.author || defaultTitle
       :content="currentImage"
     >
     <meta
+      head-key="twitter:image"
       name="twitter:image"
       :content="currentImage"
     >
     <!-- Metatag author -->
     <meta
+      head-key="author"
       name="author"
       :content="currentAuthor"
     >
     <meta
+      head-key="twitter:creator"
       name="twitter:creator"
       :content="currentAuthor"
     >
     <!-- Metatag colors -->
     <meta
+      head-key="msapplication-TileColor"
       name="msapplication-TileColor"
       :content="currentColor"
     >
     <meta
+      head-key="theme-color"
       name="theme-color"
       :content="currentColor"
     >
