@@ -30,7 +30,10 @@ function submit() {
 </script>
 
 <template>
-  <AppMeta title="Log in" />
+  <AppMeta
+    title="Log in"
+    description="Log in to your account"
+  />
 
   <AuthenticationCard>
     <template #logo>
