@@ -1,6 +1,3 @@
 *
-!cache/
-!data/
-!debug/
 !public/
 !.gitignore

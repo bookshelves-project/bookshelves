@@ -1,44 +1,56 @@
 <?php
 
+namespace Tests\Feature;
+
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Tests\TestCase;
 
-test('password can be updated', function () {
-    $this->actingAs($user = User::factory()->create());
+class UpdatePasswordTest extends TestCase
+{
+    use RefreshDatabase;
 
-    $response = $this->put('/user/password', [
-        'current_password' => 'password',
-        'password' => 'new-password',
-        'password_confirmation' => 'new-password',
-    ]);
+    public function test_password_can_be_updated(): void
+    {
+        $this->actingAs($user = User::factory()->create());
 
-    expect(Hash::check('new-password', $user->fresh()->password))->toBeTrue();
-});
+        $response = $this->put('/user/password', [
+            'current_password' => 'password',
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
+        ]);
 
-test('current password must be correct', function () {
-    $this->actingAs($user = User::factory()->create());
+        $this->assertTrue(Hash::check('new-password', $user->fresh()->password));
+    }
 
-    $response = $this->put('/user/password', [
-        'current_password' => 'wrong-password',
-        'password' => 'new-password',
-        'password_confirmation' => 'new-password',
-    ]);
+    public function test_current_password_must_be_correct(): void
+    {
+        $this->actingAs($user = User::factory()->create());
 
-    $response->assertSessionHasErrors();
+        $response = $this->put('/user/password', [
+            'current_password' => 'wrong-password',
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
+        ]);
 
-    expect(Hash::check('password', $user->fresh()->password))->toBeTrue();
-});
+        $response->assertSessionHasErrors();
 
-test('new passwords must match', function () {
-    $this->actingAs($user = User::factory()->create());
+        $this->assertTrue(Hash::check('password', $user->fresh()->password));
+    }
 
-    $response = $this->put('/user/password', [
-        'current_password' => 'password',
-        'password' => 'new-password',
-        'password_confirmation' => 'wrong-password',
-    ]);
+    public function test_new_passwords_must_match(): void
+    {
+        $this->actingAs($user = User::factory()->create());
 
-    $response->assertSessionHasErrors();
+        $response = $this->put('/user/password', [
+            'current_password' => 'password',
+            'password' => 'new-password',
+            'password_confirmation' => 'wrong-password',
+        ]);
 
-    expect(Hash::check('password', $user->fresh()->password))->toBeTrue();
-});
+        $response->assertSessionHasErrors();
+
+        $this->assertTrue(Hash::check('password', $user->fresh()->password));
+    }
+}

@@ -1,28 +1,43 @@
 <?php
 
+namespace Tests\Feature;
+
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Features;
+use Tests\TestCase;
 
-test('user accounts can be deleted', function () {
-    $this->actingAs($user = User::factory()->create());
+class DeleteAccountTest extends TestCase
+{
+    use RefreshDatabase;
 
-    $response = $this->delete('/user', [
-        'password' => 'password',
-    ]);
+    public function test_user_accounts_can_be_deleted(): void
+    {
+        if (! Features::hasAccountDeletionFeatures()) {
+            $this->markTestSkipped('Account deletion is not enabled.');
+        }
 
-    expect($user->fresh())->toBeNull();
-})->skip(function () {
-    return ! Features::hasAccountDeletionFeatures();
-}, 'Account deletion is not enabled.');
+        $this->actingAs($user = User::factory()->create());
 
-test('correct password must be provided before account can be deleted', function () {
-    $this->actingAs($user = User::factory()->create());
+        $response = $this->delete('/user', [
+            'password' => 'password',
+        ]);
 
-    $response = $this->delete('/user', [
-        'password' => 'wrong-password',
-    ]);
+        $this->assertNull($user->fresh());
+    }
 
-    expect($user->fresh())->not->toBeNull();
-})->skip(function () {
-    return ! Features::hasAccountDeletionFeatures();
-}, 'Account deletion is not enabled.');
+    public function test_correct_password_must_be_provided_before_account_can_be_deleted(): void
+    {
+        if (! Features::hasAccountDeletionFeatures()) {
+            $this->markTestSkipped('Account deletion is not enabled.');
+        }
+
+        $this->actingAs($user = User::factory()->create());
+
+        $response = $this->delete('/user', [
+            'password' => 'wrong-password',
+        ]);
+
+        $this->assertNotNull($user->fresh());
+    }
+}
