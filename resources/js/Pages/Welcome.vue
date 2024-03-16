@@ -27,7 +27,7 @@ function handleImageError() {
 </script>
 
 <template>
-  <Head title="Welcome" />
+  <AppMeta title="Welcome" />
   <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
     <img
       id="background"
