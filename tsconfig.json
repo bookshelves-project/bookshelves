@@ -12,7 +12,7 @@
       "~/*": ["./*"]
     },
     "resolveJsonModule": true,
-    "types": ["vite/client", "resources/**/*.d.ts"],
+    "types": ["vite/client"],
     "allowJs": true,
     "strict": true,
     "noImplicitAny": false,
