@@ -11,7 +11,11 @@
 |
 */
 
-// uses(Tests\TestCase::class)->in('Feature');
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
+use Tests\TestCase;
+
+uses(TestCase::class, RefreshDatabaseState::class)->in('Feature');
+uses(TestCase::class)->in('Unit');
 
 /*
 |--------------------------------------------------------------------------

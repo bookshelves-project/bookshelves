@@ -13,6 +13,7 @@ export default antfu({
   ],
 }, {
   rules: {
+    'antfu/no-import-dist': 'off',
     'no-console': 'warn',
     'node/prefer-global/process': 'off',
     'vue/max-attributes-per-line': ['error', {

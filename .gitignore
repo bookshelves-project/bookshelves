@@ -29,3 +29,4 @@ _ide_helper.php
 auto-imports.d.ts
 components.d.ts
 icons.d.ts
+.env.testing
