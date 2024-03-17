@@ -23,7 +23,7 @@ defineProps<{
       app-color="#8b5cf6"
     />
     <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-    <LayoutSidebar />
+    <!-- <LayoutSidebar /> -->
     <!-- Static sidebar for desktop -->
     <LayoutSidebarStatic />
 
