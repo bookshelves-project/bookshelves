@@ -62,6 +62,7 @@ class BookJob implements ShouldQueue
      */
     public function failed(Exception $exception)
     {
-        $this->log($exception->getMessage());
+        ray($exception->getMessage());
+        // $this->log($exception->getMessage());
     }
 }

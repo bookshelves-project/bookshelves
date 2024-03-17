@@ -46,12 +46,17 @@ class BookEngine
 
     public static function printFile(mixed $file, string $name, bool $raw = false): bool
     {
+        $base_path = storage_path('app/debug');
+        if (! File::exists($base_path)) {
+            File::makeDirectory($base_path, 0755, true);
+        }
+
         try {
             $file = $raw
                 ? $file
                 : json_encode($file, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
-            return File::put(storage_path("app/debug/{$name}"), $file);
+            return File::put("{$base_path}/{$name}", $file);
         } catch (\Throwable $th) {
             Journal::error(__METHOD__, [$th->getMessage()]);
         }

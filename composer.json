@@ -48,6 +48,7 @@
     "meilisearch/meilisearch-php": "^1.7",
     "opcodesio/log-viewer": "^3.6",
     "spatie/laravel-medialibrary": "^11.0.0",
+    "spatie/laravel-ray": "^1.35",
     "spatie/laravel-route-attributes": "^1.21",
     "tightenco/ziggy": "^2.0"
   },
