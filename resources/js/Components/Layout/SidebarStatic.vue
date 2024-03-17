@@ -4,7 +4,7 @@ import { useInertia, useRouter } from '@kiwilan/typescriptable-laravel'
 import { useNavigation } from '@/Composables/useNavigation'
 
 const { mainLinks, secondaryLinks } = useNavigation()
-const { currentRoute } = useRouter()
+const router = useRouter()
 </script>
 
 <template>
@@ -33,7 +33,6 @@ const { currentRoute } = useRouter()
               class="-mx-2 space-y-1"
               role="list"
             >
-              {{ currentRoute }}
               <!-- <LayoutSidebarLink
                 v-for="link in mainLinks"
                 :key="link.label"
