@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            /** @var User $user */
+            /** @var \App\Models\User $user */
             return $user->isAdmin() || $user->isSuperAdmin();
         });
     }
