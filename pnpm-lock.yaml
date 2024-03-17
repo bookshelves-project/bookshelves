@@ -8,8 +8,8 @@ devDependencies:
     specifier: ^1.0.15
     version: 1.0.15(vue@3.4.21)
   '@kiwilan/typescriptable-laravel':
-    specifier: ^2.4.28
-    version: 2.4.28(laravel-vite-plugin@1.0.2)(vite@5.1.6)(vue@3.4.21)
+    specifier: ^2.4.29
+    version: 2.4.29(laravel-vite-plugin@1.0.2)(vite@5.1.6)(vue@3.4.21)
   '@tailwindcss/forms':
     specifier: ^0.5.7
     version: 0.5.7(tailwindcss@3.4.1)
@@ -618,8 +618,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@kiwilan/typescriptable-laravel@2.4.28(laravel-vite-plugin@1.0.2)(vite@5.1.6)(vue@3.4.21):
-    resolution: {integrity: sha512-Zg1oBocgjpwdQbXpQZkKY6gZ82G5w2lv0r4J1TmkMW40fk2yAtnnBDheq9E7nnXM0qF5iOnARAXBpUPJ/hID7w==}
+  /@kiwilan/typescriptable-laravel@2.4.29(laravel-vite-plugin@1.0.2)(vite@5.1.6)(vue@3.4.21):
+    resolution: {integrity: sha512-ci0pZ6YqJRQENDo1oz0TTLmMqJvmPkiaYs4+orsCI9fiKGoSj+TEnkHGHZp5XAAxQO5EsKD3I8UuKEFXubXiDQ==}
     peerDependencies:
       laravel-vite-plugin: '*'
       vite: ^4.x.x || ^5.x.x
