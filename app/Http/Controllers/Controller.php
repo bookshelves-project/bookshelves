@@ -12,15 +12,15 @@ use Kiwilan\Steward\Queries\HttpQuery;
 
 abstract class Controller
 {
-    public function __construct()
-    {
-        Route::bind('book_id', fn (string $id) => \App\Models\Book::query()->find($id));
-        Route::bind('serie_id', fn (string $id) => \App\Models\Serie::query()->find($id));
-        Route::bind('book_slug', fn (string $slug) => \App\Models\Book::query()->where('slug', $slug)->firstOrFail());
-        Route::bind('author_slug', fn (string $slug) => \App\Models\Author::query()->where('slug', $slug)->firstOrFail());
-        Route::bind('serie_slug', fn (string $slug) => \App\Models\Serie::query()->where('slug', $slug)->firstOrFail());
-        Route::bind('tag_slug', fn (string $slug) => \App\Models\Tag::query()->where('slug', $slug)->firstOrFail());
-    }
+    // public function __construct()
+    // {
+    //     Route::bind('book_id', fn (string $id) => \App\Models\Book::query()->find($id));
+    //     Route::bind('serie_id', fn (string $id) => \App\Models\Serie::query()->find($id));
+    //     Route::bind('book_slug', fn (string $slug) => \App\Models\Book::query()->where('slug', $slug)->firstOrFail());
+    //     Route::bind('author_slug', fn (string $slug) => \App\Models\Author::query()->where('slug', $slug)->firstOrFail());
+    //     Route::bind('serie_slug', fn (string $slug) => \App\Models\Serie::query()->where('slug', $slug)->firstOrFail());
+    //     Route::bind('tag_slug', fn (string $slug) => \App\Models\Tag::query()->where('slug', $slug)->firstOrFail());
+    // }
 
     public function getQueryForBooks(Request $request, Builder $model, string $title = 'Books', array $breadcrumbs = [], bool $squareCovers = false)
     {

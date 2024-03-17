@@ -127,7 +127,7 @@ class Book extends Model implements HasMedia
     public function getDownloadLinkAttribute(): string
     {
         return route('api.downloads.book', [
-            'book_id' => $this->id,
+            'book' => $this->id,
         ]);
     }
 

@@ -19,7 +19,7 @@ class AudiobookController extends Controller
         ], squareCovers: true);
     }
 
-    #[Get('/{book_slug}', name: 'audiobooks.show')]
+    #[Get('/{book:slug}', name: 'audiobooks.show')]
     public function show(Book $book)
     {
         return $this->loadBook($book);

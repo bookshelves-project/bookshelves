@@ -16,7 +16,7 @@ const { ucfirst } = useUtils()
 
 <template>
   <ILink
-    :href="$route('books.show', { book_slug: book.slug })"
+    :href="$route('books.show', { book: book.slug })"
     :title="book.title"
     class="relative"
   >

@@ -19,7 +19,7 @@ class SerieComicController extends Controller
         ]);
     }
 
-    #[Get('/{serie_slug}', name: 'series.comics.show')]
+    #[Get('/{serie:slug}', name: 'series.comics.show')]
     public function show(Serie $serie)
     {
         return $this->getSerie($serie);

@@ -19,7 +19,7 @@ class SerieMangaController extends Controller
         ]);
     }
 
-    #[Get('/{serie_slug}', name: 'series.mangas.show')]
+    #[Get('/{serie:slug}', name: 'series.mangas.show')]
     public function show(Serie $serie)
     {
         return $this->getSerie($serie);

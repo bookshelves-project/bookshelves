@@ -26,7 +26,7 @@ export function useUtils() {
   async function getSize(type: 'book' | 'serie', param: string): Promise<{ size: number, extension: string }> {
     const { laravel } = useFetch()
     const route = type === 'book' ? 'api.sizes.book' : 'api.sizes.serie' as any
-    const name = type === 'book' ? 'book_id' : 'serie_id'
+    const name = type === 'book' ? 'book' : 'serie'
 
     const response = await laravel.get(route, { [name]: param })
     return await response.json()

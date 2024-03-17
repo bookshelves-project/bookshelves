@@ -14,7 +14,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('size')]
 class SizeController extends Controller
 {
-    #[Get('/book/{book_id}', name: 'api.sizes.book')]
+    #[Get('/book/{book:id}', name: 'api.sizes.book')]
     public function book(Request $request, Book $book)
     {
         /** @var ?BookTypeEnum $type */
@@ -35,7 +35,7 @@ class SizeController extends Controller
         ]);
     }
 
-    #[Get('/serie/{serie_id}', name: 'api.sizes.serie')]
+    #[Get('/serie/{serie:id}', name: 'api.sizes.serie')]
     public function serie(Request $request, Serie $serie)
     {
         $size = 0;

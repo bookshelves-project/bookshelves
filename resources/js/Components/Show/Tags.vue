@@ -13,7 +13,7 @@ defineProps<{
       >
         <ILink
           class="text-gray-300 hover:text-gray-100 link"
-          :href="$route('tags.show', { tag_slug: tag.slug })"
+          :href="$route('tags.show', { tag: tag.slug })"
         >
           {{ tag.name }}{{ id === tags.length - 1 ? '' : ',' }}
         </ILink>

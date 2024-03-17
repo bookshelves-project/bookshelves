@@ -43,7 +43,7 @@ class BookController extends Controller
     //     ]);
     // }
 
-    #[Get('/{book_slug}', name: 'books.show')]
+    #[Get('/{book:slug}', name: 'books.show')]
     public function show(Book $book)
     {
         return $this->loadBook($book);

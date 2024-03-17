@@ -12,7 +12,7 @@ defineProps<{
     <ILink
       v-for="author in authors"
       :key="author.id"
-      :href="$route('authors.show', { author_slug: author.slug })"
+      :href="$route('authors.show', { author: author.slug })"
       class="link"
     >
       {{ author.name }}

@@ -19,7 +19,7 @@ class SerieAudiobookController extends Controller
         ], squareCovers: true);
     }
 
-    #[Get('/{serie_slug}', name: 'series.audiobooks.show')]
+    #[Get('/{serie:slug}', name: 'series.audiobooks.show')]
     public function show(Serie $serie)
     {
         return $this->getSerie($serie, true);

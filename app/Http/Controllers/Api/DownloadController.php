@@ -18,7 +18,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('downloads')]
 class DownloadController extends Controller
 {
-    #[Get('/book/{book_id}', name: 'api.downloads.book')]
+    #[Get('/book/{book:id}', name: 'api.downloads.book')]
     public function book(Request $request, Book $book)
     {
         $name = '';
@@ -57,7 +57,7 @@ class DownloadController extends Controller
             ->get();
     }
 
-    #[Get('/serie/{serie_id}', name: 'api.downloads.serie')]
+    #[Get('/serie/{serie:id}', name: 'api.downloads.serie')]
     public function serie(Request $request, Serie $serie)
     {
         $files = [];

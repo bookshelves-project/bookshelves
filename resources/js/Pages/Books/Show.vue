@@ -24,7 +24,7 @@ const titlePage = computed(() => {
 })
 
 async function getRelatedBooks(): Promise<Entity[]> {
-  const response = await laravel.get('api.books.related', { book_slug: props.book.slug })
+  const response = await laravel.get('api.books.related', { book: props.book.slug })
   return (await response.json()).data
 }
 
@@ -70,7 +70,7 @@ onMounted(async () => {
       }"
       :breadcrumbs="[
         { label: 'Books', route: { name: 'books.index' } },
-        { label: `${book.title}`, route: { name: 'books.show', params: { book_slug: book.slug } } },
+        { label: `${book.title}`, route: { name: 'books.show', params: { book: book.slug } } },
       ]"
     >
       <template #eyebrow>
@@ -81,7 +81,7 @@ onMounted(async () => {
         #undertitle
       >
         <ILink
-          :href="$route(`series.${book.type}s.show` as any, { serie_slug: book.serie.slug })"
+          :href="$route(`series.${book.type}s.show` as any, { serie: book.serie.slug })"
           class="link"
         >
           {{ book.serie.title }}

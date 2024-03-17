@@ -87,8 +87,8 @@ trait HasBookFiles
             }
 
             $route = route('api.download.book', [
-                'author_slug' => $this->meta_author,
-                'book_slug' => $this->slug,
+                'author' => $this->meta_author,
+                'book' => $this->slug,
                 'format' => $format,
             ]);
 

@@ -49,7 +49,7 @@ onMounted(async () => {
       }"
       :breadcrumbs="[
         { label: 'Series', route: { name: `series.${serie.type}s.index` } },
-        { label: serie.title, route: { name: `series.${serie.type}s.show`, params: { serie_slug: serie.slug } } },
+        { label: serie.title, route: { name: `series.${serie.type}s.show`, params: { serie: serie.slug } } },
       ]"
     >
       <template #eyebrow>

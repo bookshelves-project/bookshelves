@@ -15,7 +15,7 @@ const { ucfirst } = useUtils()
 
 <template>
   <ILink
-    :href="$route(`series.${serie.type}s.show` as any, { serie_slug: serie.slug })"
+    :href="$route(`series.${serie.type}s.show` as any, { serie: serie.slug })"
     class="relative"
   >
     <AppImg

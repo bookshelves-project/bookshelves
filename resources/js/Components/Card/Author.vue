@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <ILink :href="$route('authors.show', { author_slug: author.slug })">
+  <ILink :href="$route('authors.show', { author: author.slug })">
     <AppImg
       class="poster h-[20rem] w-full"
       :src="author.cover_thumbnail"

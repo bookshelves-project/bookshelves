@@ -19,7 +19,7 @@ class MangaController extends Controller
         ]);
     }
 
-    #[Get('/{book_slug}', name: 'mangas.show')]
+    #[Get('/{book:slug}', name: 'mangas.show')]
     public function show(Book $book)
     {
         return $this->loadBook($book);

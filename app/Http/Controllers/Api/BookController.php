@@ -12,7 +12,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('books')]
 class BookController extends Controller
 {
-    #[Get('/related/{book_slug}', name: 'api.books.related')]
+    #[Get('/related/{book:slug}', name: 'api.books.related')]
     public function related(Book $book)
     {
         $book->loadMissing('tags');

@@ -72,19 +72,19 @@ trait IsEntity
         $instance = $this;
         if ($instance instanceof Author) {
             return route('authors.show', [
-                'author_slug' => $this->slug,
+                'author' => $this->slug,
             ]);
         }
 
         if ($instance instanceof Book) {
             return route("{$this->type->value}s.show", [
-                'book_slug' => $this->slug,
+                'book' => $this->slug,
             ]);
         }
 
         if ($instance instanceof Serie) {
             return route("series.{$this->type->value}s.show", [
-                'serie_slug' => $this->slug,
+                'serie' => $this->slug,
             ]);
         }
 

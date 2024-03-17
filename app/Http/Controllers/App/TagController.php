@@ -25,7 +25,7 @@ class TagController extends Controller
         ]);
     }
 
-    #[Get('/{tag_slug}', name: 'tags.show')]
+    #[Get('/{tag:slug}', name: 'tags.show')]
     public function show(Tag $tag)
     {
         $books = Book::with(['tags'])
