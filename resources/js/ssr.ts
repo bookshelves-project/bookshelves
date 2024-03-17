@@ -9,8 +9,6 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy'
 import './routes'
 import './icons'
 
-const ssrPort = import.meta.env.VITE_SSR_PORT || 13714
-
 createServer(page =>
   createInertiaApp({
     page,
@@ -27,4 +25,4 @@ createServer(page =>
           location: new URL((page.props.ziggy as any).location),
         })
     },
-  }), ssrPort)
+  }), import.meta.env.VITE_SSR_PORT || 13714)
