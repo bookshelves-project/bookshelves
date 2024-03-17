@@ -3,6 +3,7 @@ defineProps<{
   title?: string
   description?: string
   image?: string
+  color?: string
   back?: string
   icon?: SvgName
 }>()
@@ -14,6 +15,7 @@ defineProps<{
       :title="title"
       :description="description"
       :image="image"
+      :color="color"
       app-title="Bookshelves"
       app-description="For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you."
       app-image="/default.jpg"

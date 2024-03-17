@@ -9,21 +9,22 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy'
 import './routes'
 import './icons'
 
+const ssrPort = import.meta.env.VITE_SSR_PORT || 13714
+
 createServer(page =>
   createInertiaApp({
     page,
     render: renderToString,
     title: title => title,
-    resolve: name => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
+    resolve: name => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')) as any,
     setup({ App, props, plugin }) {
       return createSSRApp({ render: () => h(App, props) })
         .use(plugin)
         .use(VueTypescriptable)
         .use(SvgTransformerPlugin)
         .use(ZiggyVue, {
-          ...page.props.ziggy,
-          location: new URL(page.props.ziggy.location),
+          ...page.props.ziggy as any,
+          location: new URL((page.props.ziggy as any).location),
         })
     },
-  }),
-)
+  }), ssrPort)

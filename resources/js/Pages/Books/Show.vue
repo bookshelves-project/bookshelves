@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useDate, useFetch, useInertia } from '@kiwilan/typescriptable-laravel'
+import { useDate, useFetch } from '@kiwilan/typescriptable-laravel'
 import type { Entity } from '@/Types'
 import { useUtils } from '@/Composables/useUtils'
 
@@ -40,8 +40,9 @@ onMounted(async () => {
 <template>
   <App
     :title="titlePage"
-    :description="props.book.description"
-    :image="props.book.cover_social"
+    :description="book.description"
+    :image="book.cover_social"
+    :color="book.cover_color"
     icon="ereader"
   >
     <ShowContainer

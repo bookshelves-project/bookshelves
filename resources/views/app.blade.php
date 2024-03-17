@@ -13,7 +13,7 @@
   <!-- Scripts -->
   @steward
   @routes
-  @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
+  @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
   @inertiaHead
 </head>
 

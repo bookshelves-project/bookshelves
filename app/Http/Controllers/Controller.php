@@ -111,27 +111,10 @@ abstract class Controller
         } else {
             $title = "{$title} by {$book->authors->implode('name', ', ')}";
         }
-        ray([
-            'title' => $title,
-            'image' => $book->cover_social,
-            'description' => $book->description,
-            'color' => $book->cover_color,
-        ]);
-
-        session()->put('meta_title', $title);
-        session()->put('image', $book->cover_social);
-        session()->put('description', $book->description);
-        session()->put('color', $book->cover_color);
 
         return inertia('Books/Show', [
             'book' => $book,
             'square' => $book->type === BookTypeEnum::audiobook,
-            'event' => [
-                'title' => $title,
-                'image' => $book->cover_social,
-                'description' => $book->description,
-                'color' => $book->cover_color,
-            ],
         ]);
     }
 }
