@@ -33,6 +33,7 @@ const { currentRoute } = useRouter()
               class="-mx-2 space-y-1"
               role="list"
             >
+              {{ currentRoute }}
               <!-- <LayoutSidebarLink
                 v-for="link in mainLinks"
                 :key="link.label"
