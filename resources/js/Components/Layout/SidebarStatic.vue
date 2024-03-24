@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-import { useInertia, useRouter } from '@kiwilan/typescriptable-laravel'
 import { useNavigation } from '@/Composables/useNavigation'
 
 const { mainLinks, secondaryLinks } = useNavigation()
-const { currentRoute } = useRouter()
 </script>
 
 <template>
@@ -32,12 +30,11 @@ const { currentRoute } = useRouter()
               class="-mx-2 space-y-1"
               role="list"
             >
-              {{ currentRoute }}
-              <!-- <LayoutSidebarLink
+              <LayoutSidebarLink
                 v-for="link in mainLinks"
                 :key="link.label"
                 :link="link"
-              /> -->
+              />
             </ul>
           </li>
           <li class="mb-5 mt-auto">
@@ -45,11 +42,11 @@ const { currentRoute } = useRouter()
               class="-mx-2 space-y-1"
               role="list"
             >
-              <!-- <LayoutSidebarLink
+              <LayoutSidebarLink
                 v-for="link in secondaryLinks"
                 :key="link.label"
                 :link="link"
-              /> -->
+              />
             </ul>
           </li>
         </ul>

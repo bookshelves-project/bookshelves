@@ -23,22 +23,21 @@ defineProps<{
       app-color="#8b5cf6"
     />
     <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-    <!-- <LayoutSidebar /> -->
+    <LayoutSidebar />
     <!-- Static sidebar for desktop -->
     <LayoutSidebarStatic />
 
     <div class="xl:pl-72 body">
       <!-- Sticky search header -->
-      <!-- <LayoutHeader /> -->
+      <LayoutHeader />
 
-      <slot />
-      <!-- <LayoutMain
+      <LayoutMain
         :title="title"
         :back="back"
         :icon="icon"
       >
         <slot />
-      </LayoutMain> -->
+      </LayoutMain>
       <LayoutFooter class="footer flex justify-center pt-5 pb-5" />
     </div>
   </div>
