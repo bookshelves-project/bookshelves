@@ -3,14 +3,15 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build && vite build --ssr",
+    "build": "vite build",
+    "build-ssr": "vite build && vite build --ssr",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.8.3",
     "@inertiajs/vue3": "^1.0.15",
-    "@kiwilan/typescriptable-laravel": "^2.4.29",
+    "@kiwilan/typescriptable-laravel": "file:~/kiwilan-typescriptable-laravel.tgz",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.10",
     "@types/nprogress": "^0.2.3",
