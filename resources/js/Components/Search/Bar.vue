@@ -2,7 +2,17 @@
 import { onClickOutside } from '@vueuse/core'
 import { useSearch } from '@kiwilan/typescriptable-laravel'
 
-const { keybinding, loading, searchText, searchField, searching, closeSearch, searchUsed, clearSearch, results } = useSearch()
+const {
+  keybinding,
+  loading,
+  searchText,
+  searchField,
+  searching,
+  closeSearch,
+  searchUsed,
+  clearSearch,
+  results,
+} = useSearch()
 
 const target = ref<HTMLElement>()
 onClickOutside(target, () => closeSearch())

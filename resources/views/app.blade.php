@@ -11,7 +11,6 @@
   <x-stw-favicon />
 
   <!-- Scripts -->
-  @steward
   @routes
   @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
   @inertiaHead

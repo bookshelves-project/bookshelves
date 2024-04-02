@@ -345,7 +345,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $model_type
- * @property int $model_id
+ * @property string $model_id
  * @property string|null $uuid
  * @property string $collection_name
  * @property-read string $name

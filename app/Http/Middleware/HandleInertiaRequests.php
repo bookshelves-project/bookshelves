@@ -37,8 +37,8 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
-            'appVersion' => Bookshelves::appVersion(),
-            'appUrl' => config('app.url'),
+            // 'appVersion' => Bookshelves::appVersion(),
+            // 'appUrl' => config('app.url'),
         ];
     }
 }
