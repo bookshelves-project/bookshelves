@@ -8,7 +8,6 @@
     icon="home"
   >
     <div class="pt-10 space-y-6">
-      hello
       <SwiperHome
         endpoint="api.books.latest"
         title="Books recently added"

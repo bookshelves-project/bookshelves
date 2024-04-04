@@ -17,11 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
-
-        //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        // $exceptions->reportable(function ($e) {
-        //     Journal::handler($e, toDatabase: true, toNotifier: 'discord');
-        // });
+        $exceptions->report(function (Throwable $e) {
+            Journal::handler($e, toDatabase: true, toNotifier: 'discord');
+        });
     })->create();
