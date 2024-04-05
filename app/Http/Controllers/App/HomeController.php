@@ -12,10 +12,4 @@ class HomeController extends Controller
     {
         return inertia('Home');
     }
-
-    #[Get('/about', name: 'about')]
-    public function about()
-    {
-        return inertia('About');
-    }
 }
