@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Engines\Book\BookFileItem;
 use App\Engines\BookEngine;
 use App\Facades\Bookshelves;
+use Error;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -60,7 +61,7 @@ class BookJob implements ShouldQueue
      *
      * @return void
      */
-    public function failed(Exception $exception)
+    public function failed(Exception|Error $exception)
     {
         $this->log($exception->getMessage());
     }

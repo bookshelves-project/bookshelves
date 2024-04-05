@@ -16,8 +16,12 @@ class Searching
     /**
      * Search for movies, tv shows, collections, and members.
      */
-    public static function search(string $value, int|false $limit = 20): self
+    public static function search(?string $value, int|false $limit = 20): self
     {
+        if (! $value) {
+            return new self('', [], $limit);
+        }
+
         $self = new self($value, [], $limit);
 
         $results = collect([]);
