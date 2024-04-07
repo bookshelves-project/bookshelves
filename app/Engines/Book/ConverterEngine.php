@@ -8,6 +8,7 @@ use App\Models\Book;
 use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 
 /**
  * Create a `Book` and relations.
@@ -72,8 +73,14 @@ class ConverterEngine
             $names[] = $author->name();
         }
 
+        if (! $this->ebook->getMetaTitle()) {
+            Journal::warning("BookConverter: MetaTitle is empty for {$this->ebook->getTitle()}", [
+                'ebook' => $this->ebook->toArray(),
+            ]);
+        }
+
         $book = Book::query()
-            ->where('slug', $this->ebook->getMetaTitle()->getSlug());
+            ->where('slug', $this->ebook->getMetaTitle()?->getSlug());
 
         if (! empty($names)) {
             $book = $book->whereHas(
