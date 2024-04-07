@@ -73,6 +73,14 @@ class ConverterEngine
             $names[] = $author->name();
         }
 
+        if (! $this->ebook->getTitle()) {
+            Journal::warning("BookConverter: Title is empty for {$this->ebook->getPath()}", [
+                'ebook' => $this->ebook->toArray(),
+            ]);
+
+            return null;
+        }
+
         if (! $this->ebook->getMetaTitle()) {
             Journal::warning("BookConverter: MetaTitle is empty for {$this->ebook->getTitle()}", [
                 'ebook' => $this->ebook->toArray(),
