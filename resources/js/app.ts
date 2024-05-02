@@ -2,32 +2,34 @@ import './bootstrap'
 import '../css/app.css'
 
 import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/vue3'
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
-import { VueTypescriptable } from '@kiwilan/typescriptable-laravel'
+import { createInertiaApp, router } from '@inertiajs/vue3'
+import { VueTypescriptable, resolve } from '@kiwilan/typescriptable-laravel'
 import { SvgTransformerPlugin } from 'unplugin-svg-transformer/vue'
+import NProgress from 'nprogress'
 import { ZiggyVue } from '../../vendor/tightenco/ziggy'
-import './icons'
 import './routes'
+import './icons'
 
 createInertiaApp({
-  title: title => title,
-  resolve: name => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')) as any,
+  title: title => `${title} · Kiwiflix`,
+  resolve: name => resolve(name, import.meta.glob('./Pages/**/*.vue')),
   setup({ el, App, props, plugin }) {
-    const app = createApp({ render: () => h(App, props) })
+    createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(VueTypescriptable)
       .use(SvgTransformerPlugin)
       .use(ZiggyVue)
+      .mount(el)
 
-    const root = document.documentElement
-    root.classList.add('dark')
+    router.on('start', () => NProgress.start())
+    router.on('finish', () => NProgress.done())
 
-    app.mount(el)
-
-    return app
+    document.documentElement.classList.add('dark')
   },
   progress: {
-    color: '#4B5563',
+    delay: 250,
+    color: '#a855f7',
+    includeCSS: true,
+    showSpinner: false,
   },
 })
