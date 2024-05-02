@@ -183,6 +183,11 @@ class Book extends Model implements HasMedia
         return $this->hasMany(Audiobook::class);
     }
 
+    public function library(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Library::class);
+    }
+
     public function getRelated(): Collection
     {
         if ($this->tags->count() === 0) {

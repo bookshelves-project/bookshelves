@@ -64,7 +64,6 @@ class BookWrapperJob implements ShouldQueue
         foreach ($files as $file) {
             $i++;
 
-            ray($file);
             $file = BookFileItem::fromArray($file, $library);
             if ($this->fresh) {
                 BookJob::dispatch($file, "{$i}/{$count}");

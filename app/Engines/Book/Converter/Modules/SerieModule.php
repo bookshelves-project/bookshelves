@@ -2,9 +2,9 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
-use App\Enums\BookTypeEnum;
 use App\Facades\Bookshelves;
 use App\Models\Book;
+use App\Models\Library;
 use App\Models\Serie;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Models\MetaTitle;
@@ -15,28 +15,32 @@ class SerieModule
 {
     protected ?Serie $serie = null;
 
-    public static function make(?string $serie, MetaTitle $meta, BookTypeEnum $type): ?Serie
+    public static function make(?string $serie, MetaTitle $meta, Library $library): ?Serie
     {
         if (! $serie) {
             return null;
         }
 
-        return new Serie([
+        $serie = new Serie([
             'title' => $serie,
             'slug' => $meta->getSeriesSlug(),
-            'type' => $type,
         ]);
+
+        $serie->library()->associate($library);
+        $serie->saveQuietly();
+
+        return $serie;
     }
 
     /**
      * Set Serie from Ebook.
      */
-    public static function toModel(Ebook $ebook, BookTypeEnum $type): self
+    public static function toModel(Ebook $ebook, Library $library): self
     {
         $self = new self();
         $serie = Serie::query()
             ->where('slug', $ebook->getMetaTitle()->getSeriesSlug())
-            ->where('type', $type->value)
+            ->where('library_id', $library->id)
             ->first();
 
         if ($serie) {
@@ -46,12 +50,13 @@ class SerieModule
         }
 
         if ($ebook->getSeries()) {
-            $serie = Serie::withoutSyncingToSearch(function () use ($ebook, $type) {
-                return Serie::query()->firstOrCreate([
-                    'title' => $ebook->getSeries(),
-                    'slug' => $ebook->getMetaTitle()->getSeriesSlug(),
-                    'type' => $type,
-                ]);
+            $serie = Serie::withoutSyncingToSearch(function () use ($ebook, $library) {
+                return Serie::query()
+                    ->where('library_id', $library->id)
+                    ->firstOrCreate([
+                        'title' => $ebook->getSeries(),
+                        'slug' => $ebook->getMetaTitle()->getSeriesSlug(),
+                    ]);
             });
 
             $self->serie = $serie;

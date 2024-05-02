@@ -97,7 +97,6 @@ class BookFileScanner
         }
 
         $browser->run();
-        ray($browser);
 
         return $browser->getFiles();
     }

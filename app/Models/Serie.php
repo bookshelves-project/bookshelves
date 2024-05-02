@@ -118,6 +118,11 @@ class Serie extends Model implements HasMedia
             ->orderBy('volume');
     }
 
+    public function library(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Library::class);
+    }
+
     public function toSearchableArray()
     {
         $this->loadMissing(['authors', 'tags', 'media']);

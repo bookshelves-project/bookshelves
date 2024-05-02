@@ -31,6 +31,13 @@ return new class extends Migration
                 ->nullable()
                 ->constrained();
         });
+
+        Schema::table('series', function (Blueprint $table) {
+            $table->foreignUlid('library_id')
+                ->after('link')
+                ->nullable()
+                ->constrained();
+        });
     }
 
     /**

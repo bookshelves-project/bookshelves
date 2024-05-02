@@ -10,9 +10,9 @@ use App\Engines\Book\Converter\Modules\PublisherModule;
 use App\Engines\Book\Converter\Modules\SerieModule;
 use App\Engines\Book\Converter\Modules\TagModule;
 use App\Enums\BookFormatEnum;
-use App\Enums\BookTypeEnum;
 use App\Models\Audiobook;
 use App\Models\Book;
+use App\Models\Library;
 use DateTime;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -35,14 +35,14 @@ class BookConverter
     /**
      * Set Book from Ebook.
      */
-    public static function make(Ebook $ebook, BookTypeEnum $type, ?Book $book = null): self
+    public static function make(Ebook $ebook, Library $library, ?Book $book = null): self
     {
         $self = new self($ebook);
 
         if ($ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
             $self->parseAudiobook();
         } else {
-            $self->parseBook($type, $book);
+            $self->parseBook($library, $book);
         }
 
         return $self;
@@ -81,10 +81,10 @@ class BookConverter
         return $this->book;
     }
 
-    private function parseBook(BookTypeEnum $type, ?Book $book): self
+    private function parseBook(Library $library, ?Book $book): self
     {
         if ($book) {
-            $this->checkBook($type);
+            $this->checkBook($library);
         }
 
         $identifiers = IdentifierModule::toCollection($this->ebook);
@@ -111,7 +111,6 @@ class BookConverter
                 'rights' => $this->ebook->getCopyright(255),
                 'volume' => $this->ebook->getVolume(),
                 'format' => BookFormatEnum::fromExtension($this->ebook->getExtension()),
-                'type' => $type,
                 'page_count' => $this->ebook->getPagesCount(),
                 'physical_path' => $this->ebook->getPath(),
                 'extension' => $this->ebook->getExtension(),
@@ -134,11 +133,12 @@ class BookConverter
             return $this;
         }
 
+        $this->syncLibrary($library);
         $this->syncAuthors();
         $this->syncTags();
         $this->syncPublisher();
         $this->syncLanguage();
-        $this->syncSerie($type);
+        $this->syncSerie($library);
         $this->syncIdentifiers();
         $this->syncCover();
 
@@ -204,6 +204,14 @@ class BookConverter
         return storage_path("app/cache/{$name}");
     }
 
+    private function syncLibrary(Library $library): self
+    {
+        $this->book->library()->associate($library);
+        $this->book->saveQuietly();
+
+        return $this;
+    }
+
     private function syncAuthors(): self
     {
         $authors = AuthorModule::toCollection($this->ebook);
@@ -260,9 +268,9 @@ class BookConverter
         return $this;
     }
 
-    private function syncSerie(BookTypeEnum $type): self
+    private function syncSerie(Library $library): self
     {
-        $serie = SerieModule::toModel($this->ebook, $type)->associate($this->book);
+        $serie = SerieModule::toModel($this->ebook, $library)->associate($this->book);
         if (! $serie) {
             return $this;
         }
@@ -299,7 +307,7 @@ class BookConverter
         }, maxMemory: 3);
     }
 
-    private function checkBook(BookTypeEnum $type): self
+    private function checkBook(Library $library): self
     {
         if (! $this->book) {
             return $this;
@@ -329,8 +337,8 @@ class BookConverter
             $this->book->volume = $this->ebook->getVolume();
         }
 
-        if ($this->book->type === null) {
-            $this->book->type = $type;
+        if ($this->book->library === null) {
+            $this->book->library_id = $library->id;
         }
 
         return $this;

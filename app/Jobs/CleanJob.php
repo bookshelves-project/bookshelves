@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Enums\BookTypeEnum;
 use App\Models\Book;
+use App\Models\Library;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -28,23 +28,22 @@ class CleanJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $enums = BookTypeEnum::cases();
+        $libraries = Library::all();
 
-        foreach ($enums as $enum) {
-            $this->deleteOrphanBooks($enum);
+        foreach ($libraries as $library) {
+            $this->deleteOrphanBooks($library);
         }
 
         DirectoryService::make()->clearDirectory(storage_path('app/cache'));
     }
 
-    private function deleteOrphanBooks(BookTypeEnum $enum)
+    private function deleteOrphanBooks(Library $library)
     {
-        $path = $enum->jsonPath();
-        $contents = file_get_contents($path);
+        $contents = file_get_contents($library->getJsonPath());
         $files = (array) json_decode($contents, true);
 
         $books = Book::query()
-            ->where('type', $enum->value)
+            ->where('library_id', $library->id)
             ->get()
             ->map(fn (Book $book) => $book->physical_path)
             ->toArray();
@@ -55,7 +54,7 @@ class CleanJob implements ShouldQueue
             ->whereIn('physical_path', $orphans)
             ->get();
 
-        Journal::info("Clean: {$enum->value} {$books->count()}");
+        Journal::info("Clean: {$library->name} {$books->count()}");
 
         foreach ($books as $book) {
             $book->delete();

@@ -33,10 +33,10 @@ class ConverterEngine
         $self->default = $default;
 
         if ($ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
-            $converter = BookConverter::make($self->ebook, $file->type(), $self->book);
+            $converter = BookConverter::make($self->ebook, $file->library(), $self->book);
         } else {
             $self->book = $self->retrieveBook();
-            $converter = BookConverter::make($self->ebook, $file->type(), $self->book);
+            $converter = BookConverter::make($self->ebook, $file->library(), $self->book);
             $self->book = $converter->book();
         }
 

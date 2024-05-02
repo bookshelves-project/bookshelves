@@ -168,6 +168,11 @@ class Library extends Model
         return $this->hasMany(Book::class);
     }
 
+    public function series(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Serie::class);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Collection<int, Library>
      */
