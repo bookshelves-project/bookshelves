@@ -38,7 +38,7 @@ const href = computed(() => {
     >
       <hr class="border-gray-200 dark:border-gray-700">
     </div>
-    <div v-else>
+    <template v-else>
       <component
         :is="link.isExternal ? 'a' : 'ILink'"
         v-if="!link.restrictedRoles || link.restrictedRoles.includes(user.role ?? '')"
@@ -58,6 +58,6 @@ const href = computed(() => {
         />
         {{ link.label }}
       </component>
-    </div>
+    </template>
   </li>
 </template>

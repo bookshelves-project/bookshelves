@@ -58,7 +58,7 @@ class SerieResource extends Resource
                     ->searchable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('type')
+                Tables\Columns\TextColumn::make('library.name')
                     ->badge()
                     ->searchable()
                     ->sortable(),

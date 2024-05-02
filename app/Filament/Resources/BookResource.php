@@ -71,7 +71,7 @@ class BookResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('type')
+                Tables\Columns\TextColumn::make('library.name')
                     ->sortable()
                     ->badge()
                     ->searchable(),

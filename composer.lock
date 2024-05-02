@@ -2693,21 +2693,21 @@
         },
         {
             "name": "kiwilan/notifier-laravel",
-            "version": "0.3.16",
+            "version": "0.3.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/notifier-laravel.git",
-                "reference": "d782d60529413ca2410ae4b8af109aa525e664ed"
+                "reference": "e58069587f953cd8ec96aa6392adb699421e0be3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/notifier-laravel/zipball/d782d60529413ca2410ae4b8af109aa525e664ed",
-                "reference": "d782d60529413ca2410ae4b8af109aa525e664ed",
+                "url": "https://api.github.com/repos/kiwilan/notifier-laravel/zipball/e58069587f953cd8ec96aa6392adb699421e0be3",
+                "reference": "e58069587f953cd8ec96aa6392adb699421e0be3",
                 "shasum": ""
             },
             "require": {
                 "illuminate/contracts": "^10.0 || ^11.0",
-                "kiwilan/php-notifier": "^0.0.39",
+                "kiwilan/php-notifier": "^0.0.40",
                 "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.14.0"
             },
@@ -2766,7 +2766,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/notifier-laravel/issues",
-                "source": "https://github.com/kiwilan/notifier-laravel/tree/v0.3.16"
+                "source": "https://github.com/kiwilan/notifier-laravel/tree/v0.3.17"
             },
             "funding": [
                 {
@@ -2774,7 +2774,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-16T09:56:12+00:00"
+            "time": "2024-05-02T11:13:32+00:00"
         },
         {
             "name": "kiwilan/php-archive",
@@ -3085,16 +3085,16 @@
         },
         {
             "name": "kiwilan/php-notifier",
-            "version": "0.0.39",
+            "version": "0.0.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-notifier.git",
-                "reference": "ed4b78b514bf93379aae0fac91b434a1b900c312"
+                "reference": "2f4941e57b34a442d6d8b35c509bcd2f75672f6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-notifier/zipball/ed4b78b514bf93379aae0fac91b434a1b900c312",
-                "reference": "ed4b78b514bf93379aae0fac91b434a1b900c312",
+                "url": "https://api.github.com/repos/kiwilan/php-notifier/zipball/2f4941e57b34a442d6d8b35c509bcd2f75672f6d",
+                "reference": "2f4941e57b34a442d6d8b35c509bcd2f75672f6d",
                 "shasum": ""
             },
             "require": {
@@ -3135,7 +3135,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-notifier/issues",
-                "source": "https://github.com/kiwilan/php-notifier/tree/v0.0.39"
+                "source": "https://github.com/kiwilan/php-notifier/tree/v0.0.40"
             },
             "funding": [
                 {
@@ -3143,7 +3143,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-16T09:54:55+00:00"
+            "time": "2024-05-02T11:08:59+00:00"
         },
         {
             "name": "kiwilan/php-opds",
@@ -3275,12 +3275,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "d685d3f6d7a4fbd9c499cd53b5d9b3e2c7821055"
+                "reference": "dbd0354bc0210c7656dba5f09108d9b23fc9dbaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/d685d3f6d7a4fbd9c499cd53b5d9b3e2c7821055",
-                "reference": "d685d3f6d7a4fbd9c499cd53b5d9b3e2c7821055",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/dbd0354bc0210c7656dba5f09108d9b23fc9dbaa",
+                "reference": "dbd0354bc0210c7656dba5f09108d9b23fc9dbaa",
                 "shasum": ""
             },
             "require": {
@@ -3288,7 +3288,7 @@
                 "illuminate/contracts": "^9.0 || ^10.0 || ^11.0",
                 "illuminate/database": "^9.0 || ^10.0 || ^11.0",
                 "illuminate/support": "^9.0 || ^10.0 || ^11.0",
-                "kiwilan/notifier-laravel": "^0.3.16",
+                "kiwilan/notifier-laravel": "^0.3.17",
                 "kiwilan/php-http-pool": "^0.3.4",
                 "league/html-to-markdown": "^5.1",
                 "php": "^8.2",
@@ -3357,7 +3357,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2024-04-15T08:58:32+00:00"
+            "time": "2024-05-02T11:15:36+00:00"
         },
         {
             "name": "kiwilan/typescriptable-laravel",
@@ -8301,16 +8301,16 @@
         },
         {
             "name": "spatie/laravel-ray",
-            "version": "1.36.1",
+            "version": "1.36.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-ray.git",
-                "reference": "799eb881d5ede337f373b5fe9722c92b787890f4"
+                "reference": "1852faa96e5aa6778ea3401ec3176eee77268718"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-ray/zipball/799eb881d5ede337f373b5fe9722c92b787890f4",
-                "reference": "799eb881d5ede337f373b5fe9722c92b787890f4",
+                "url": "https://api.github.com/repos/spatie/laravel-ray/zipball/1852faa96e5aa6778ea3401ec3176eee77268718",
+                "reference": "1852faa96e5aa6778ea3401ec3176eee77268718",
                 "shasum": ""
             },
             "require": {
@@ -8372,7 +8372,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-ray/issues",
-                "source": "https://github.com/spatie/laravel-ray/tree/1.36.1"
+                "source": "https://github.com/spatie/laravel-ray/tree/1.36.2"
             },
             "funding": [
                 {
@@ -8384,7 +8384,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2024-04-12T12:15:59+00:00"
+            "time": "2024-05-02T08:26:02+00:00"
         },
         {
             "name": "spatie/laravel-route-attributes",
