@@ -2,14 +2,11 @@
 
 namespace App\Engines\Book;
 
+use App\Engines\FileBrowser;
 use App\Enums\BookFormatEnum;
-use App\Enums\BookTypeEnum;
 use App\Facades\Bookshelves;
-use Illuminate\Support\Facades\File;
+use App\Models\Library;
 use Kiwilan\LaravelNotifier\Facades\Journal;
-use Kiwilan\Steward\Utils\BashCommand;
-use Kiwilan\Steward\Utils\Json;
-use SplFileInfo;
 
 class BookFileScanner
 {
@@ -18,8 +15,13 @@ class BookFileScanner
     /** @var BookFileItem[] */
     protected array $items = [];
 
+    /**
+     * @var string[]
+     */
+    protected array $skip_extensions = [];
+
     protected function __construct(
-        protected BookTypeEnum $type,
+        protected Library $library,
         protected string $path,
         protected int $i = 0,
         protected array $typesEnum = [],
@@ -32,15 +34,15 @@ class BookFileScanner
     /**
      * Get all files.
      */
-    public static function make(BookTypeEnum $type): ?self
+    public static function make(Library $library, ?int $limit = null): ?self
     {
-        $path = $type->libraryPath();
-        if (! $path) {
+        $path = $library->path;
+        if (! $library->path_is_valid) {
             return null;
         }
 
-        $self = new self($type, $path);
-        $self->files = $self->scan();
+        $self = new self($library, $path);
+        $self->files = $self->scan($limit);
         $self->items = $self->parseFiles();
 
         $self->items = array_values($self->items);
@@ -70,31 +72,34 @@ class BookFileScanner
     /**
      * @return string[]
      */
-    private function scan(): array
+    private function scan(?int $limit = null): array
     {
-        $name = "{$this->type->value}s";
-        $scan_path = "{$this->path}";
+        $engine = Bookshelves::analyzerEngine();
 
-        if (! file_exists($scan_path)) {
-            Journal::warning("BookFileScanner: {$name} path not found: {$scan_path}");
+        if ($this->library->path_is_valid) {
+            Journal::info("BookFileScanner: {$this->library->name} scanning: {$this->library->path} (engine: {$engine})");
+        } else {
+            Journal::warning("BookFileScanner: {$this->library->name} path not found: {$this->library->path}");
 
             return [];
         }
 
-        if (Bookshelves::analyzerEngine() === 'native') {
-            $files = File::allFiles($scan_path);
+        $jsonPath = storage_path("app/{$this->library->slug}.json");
+        $browser = FileBrowser::make($this->library->path, $jsonPath)
+            ->skipExtensions($this->skip_extensions);
 
-            return array_map(fn (SplFileInfo $file) => $file->getPathname(), $files);
+        if ($limit) {
+            $browser->limit($limit);
         }
 
-        $path = storage_path('app/data');
-        $books_path = "{$path}/{$name}.json";
-        $process = new BashCommand('scanner', ['parse', "-o={$books_path}", $scan_path]);
-        $process->execute();
+        if ($engine !== 'native') {
+            $browser->engine($engine, [$this->library->path, '--output', $jsonPath], 'files');
+        }
 
-        $json = new Json($books_path);
+        $browser->run();
+        ray($browser);
 
-        return $json->toArray();
+        return $browser->getFiles();
     }
 
     /**
@@ -120,7 +125,7 @@ class BookFileScanner
             }
 
             $this->i++;
-            $items["{$this->i}"] = BookFileItem::make($format, $this->type, $path);
+            $items["{$this->i}"] = BookFileItem::make($format, $this->library, $path);
         }
 
         return $items;

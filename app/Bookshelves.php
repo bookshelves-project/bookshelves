@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App;
 
 class Bookshelves
 {
@@ -66,21 +66,6 @@ class Bookshelves
     public function authorWikipediaExact(): bool
     {
         return config('bookshelves.authors.wikipedia_exact');
-    }
-
-    /**
-     * @return array{books: string|false, comics: string|false, mangas: string|false, audiobooks: string|false}
-     */
-    public function library(): array
-    {
-        $library = config('bookshelves.library');
-
-        return [
-            'books' => $library['books'],
-            'comics' => $library['comics'],
-            'mangas' => $library['mangas'],
-            'audiobooks' => $library['audiobooks'],
-        ];
     }
 
     public function exceptionParserLog(): string

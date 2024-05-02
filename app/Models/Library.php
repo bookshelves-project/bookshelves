@@ -156,6 +156,13 @@ class Library extends Model
         return storage_path("app/{$name}");
     }
 
+    public function getJsonDataPath(): string
+    {
+        $name = $this->getJsonName();
+
+        return storage_path("app/data/{$name}");
+    }
+
     public function books(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Book::class);

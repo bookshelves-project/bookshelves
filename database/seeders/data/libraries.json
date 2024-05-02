@@ -3,12 +3,18 @@
     "name": "Audiobooks (english)",
     "type": "audiobook",
     "path": "/Volumes/library/books/audiobooks/english",
-    "is_enabled": true
+    "is_enabled": false
   },
   {
     "name": "Audiobooks (french)",
     "type": "audiobook",
     "path": "/Volumes/library/books/audiobooks/french",
+    "is_enabled": false
+  },
+  {
+    "name": "Audiobooks (v2)",
+    "type": "audiobook",
+    "path": "/Volumes/library/books/audiobooks/v2",
     "is_enabled": true
   },
   {

@@ -7,7 +7,7 @@ return [
     ],
 
     'analyzer' => [
-        'engine' => env('BOOKSHELVES_ANALYZER_ENGINE', 'native'), // native, scanner
+        'engine' => env('BOOKSHELVES_ANALYZER_ENGINE', 'native'), // native, scout
         'debug' => env('BOOKSHELVES_ANALYZER_DEBUG', false),
     ],
 
@@ -72,13 +72,6 @@ return [
         'comic_vine' => env('BOOKSHELVES_API_ISBN', false),
         'isbn' => env('BOOKSHELVES_API_COMIC_VINE', false),
         'wikipedia' => env('BOOKSHELVES_API_WIKIPEDIA', false),
-    ],
-
-    'library' => [
-        'books' => env('BOOKSHELVES_LIBRARY_BOOKS', false),
-        'comics' => env('BOOKSHELVES_LIBRARY_COMICS', false),
-        'mangas' => env('BOOKSHELVES_LIBRARY_MANGAS', false),
-        'audiobooks' => env('BOOKSHELVES_LIBRARY_AUDIOBOOKS', false),
     ],
 
     'image' => [

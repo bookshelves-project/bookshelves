@@ -3,8 +3,8 @@
 namespace App\Jobs;
 
 use App\Engines\Book\BookFileItem;
-use App\Enums\BookTypeEnum;
 use App\Models\Book;
+use App\Models\Library;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -35,13 +35,13 @@ class BookWrapperJob implements ShouldQueue
             'limit' => $this->limit,
         ]);
 
-        $enums = BookTypeEnum::cases();
+        $libraries = Library::all();
         $current_books = Book::all()
             ->map(fn (Book $book) => $book->physical_path)
             ->toArray();
 
-        foreach ($enums as $enum) {
-            $this->parseFiles($enum, $current_books);
+        foreach ($libraries as $library) {
+            $this->parseFiles($library, $current_books);
         }
 
         ExtrasJob::dispatch();
@@ -50,9 +50,9 @@ class BookWrapperJob implements ShouldQueue
     /**
      * @param  string[]  $current_books
      */
-    private function parseFiles(BookTypeEnum $enum, array $current_books)
+    private function parseFiles(Library $library, array $current_books)
     {
-        $path = $enum->jsonPath();
+        $path = $library->getJsonPath();
         $contents = file_get_contents($path);
         $files = (array) json_decode($contents, true);
         if ($this->limit && count($files) > $this->limit) {
@@ -64,7 +64,8 @@ class BookWrapperJob implements ShouldQueue
         foreach ($files as $file) {
             $i++;
 
-            $file = BookFileItem::fromArray($file);
+            ray($file);
+            $file = BookFileItem::fromArray($file, $library);
             if ($this->fresh) {
                 BookJob::dispatch($file, "{$i}/{$count}");
             } else {

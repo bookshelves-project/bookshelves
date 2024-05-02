@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App;
 
 use App\Facades\OpdsBase as FacadesOpdsBase;
 use App\Models\Author;

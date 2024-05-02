@@ -61,11 +61,12 @@ class SetupCommand extends Commandable
             $this->genres();
         }
 
-        $this->call(ParseCommand::class);
+        $this->call(ParseCommand::class, [
+            '--limit' => $this->limit,
+        ]);
 
         $this->call(BooksCommand::class, [
             '--fresh' => $this->fresh,
-            '--limit' => $this->limit,
         ]);
 
         return Command::SUCCESS;
@@ -73,7 +74,6 @@ class SetupCommand extends Commandable
 
     private function clear(): void
     {
-
         Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
         $this->comment('Database reset!');
 

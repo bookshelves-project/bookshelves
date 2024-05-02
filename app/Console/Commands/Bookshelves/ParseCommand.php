@@ -17,7 +17,8 @@ class ParseCommand extends Commandable
      *
      * @var string
      */
-    protected $signature = 'bookshelves:parse';
+    protected $signature = 'bookshelves:parse
+                            {--l|limit= : limit epub files to generate, useful for debug}';
 
     /**
      * The console command description.
@@ -30,6 +31,7 @@ class ParseCommand extends Commandable
      * Create a new command instance.
      */
     public function __construct(
+        protected ?int $limit = null,
     ) {
         parent::__construct();
     }
@@ -43,8 +45,10 @@ class ParseCommand extends Commandable
     {
         $this->title();
 
+        $this->limit = $this->optionInt('limit');
+
         Journal::info('ParseCommand: parsing files...');
-        ParserJob::dispatch();
+        ParserJob::dispatch($this->limit);
 
         return Command::SUCCESS;
     }

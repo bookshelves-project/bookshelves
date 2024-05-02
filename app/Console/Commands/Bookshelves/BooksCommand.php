@@ -18,8 +18,7 @@ class BooksCommand extends Commandable
      * @var string
      */
     protected $signature = 'bookshelves:books
-                            {--f|fresh : reset current books and relation, keep users}
-                            {--l|limit= : limit epub files to generate, useful for debug}';
+                            {--f|fresh : reset current books and relation, keep users}';
 
     /**
      * The console command description.
@@ -33,7 +32,6 @@ class BooksCommand extends Commandable
      */
     public function __construct(
         protected bool $fresh = false,
-        protected ?int $limit = null,
     ) {
         parent::__construct();
     }
@@ -47,10 +45,9 @@ class BooksCommand extends Commandable
     {
         $this->title();
 
-        $this->limit = $this->optionInt('limit');
         $this->fresh = $this->option('fresh') ?: false;
 
-        BookWrapperJob::dispatch($this->fresh, $this->limit);
+        BookWrapperJob::dispatch($this->fresh);
 
         return Command::SUCCESS;
     }

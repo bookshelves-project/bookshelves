@@ -21,6 +21,6 @@ class OpdsBase extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \App\Utils\OpdsBase::class;
+        return \App\OpdsBase::class;
     }
 }

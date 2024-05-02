@@ -3,23 +3,23 @@
 namespace App\Engines\Book;
 
 use App\Enums\BookFormatEnum;
-use App\Enums\BookTypeEnum;
+use App\Models\Library;
 
 class BookFileItem
 {
     protected function __construct(
-        protected ?string $basename,
-        protected ?BookFormatEnum $format,
-        protected ?BookTypeEnum $type,
+        protected string $basename,
+        protected BookFormatEnum $format,
+        protected Library $library,
         protected ?string $path,
         protected bool $isAudio = false,
     ) {
     }
 
-    public static function make(BookFormatEnum $format, BookTypeEnum $type, string $path): self
+    public static function make(BookFormatEnum $format, Library $library, string $path): self
     {
         $basename = pathinfo($path, PATHINFO_BASENAME);
-        $self = new self($basename, $format, $type, $path);
+        $self = new self($basename, $format, $library, $path);
 
         if ($format === BookFormatEnum::audio) {
             $self->isAudio = true;
@@ -28,11 +28,10 @@ class BookFileItem
         return $self;
     }
 
-    public static function fromArray(array $array): self
+    public static function fromArray(array $array, Library $library): self
     {
         $format = BookFormatEnum::tryFrom($array['format']);
-        $type = BookTypeEnum::tryFrom($array['type']);
-        $self = BookFileItem::make($format, $type, $array['path']);
+        $self = BookFileItem::make($format, $library, $array['path']);
 
         return $self;
     }
@@ -47,9 +46,9 @@ class BookFileItem
         return $this->format;
     }
 
-    public function type(): BookTypeEnum
+    public function library(): Library
     {
-        return $this->type;
+        return $this->library;
     }
 
     public function path(): string
@@ -67,7 +66,7 @@ class BookFileItem
         return [
             'basename' => $this->basename,
             'format' => $this->format,
-            'type' => $this->type,
+            'library' => $this->library,
             'path' => $this->path,
         ];
     }

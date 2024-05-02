@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Engines\Book\BookFileScanner;
-use App\Enums\BookTypeEnum;
+use App\Models\Library;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -20,6 +20,7 @@ class ParserJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
+        protected ?int $limit = null,
     ) {
     }
 
@@ -28,24 +29,24 @@ class ParserJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $enums = BookTypeEnum::cases();
+        $libraries = Library::all();
 
-        foreach ($enums as $enum) {
-            $this->parseFiles($enum);
+        foreach ($libraries as $library) {
+            $this->parseFiles($library);
         }
     }
 
-    private function parseFiles(BookTypeEnum $enum)
+    private function parseFiles(Library $library)
     {
-        $parser = BookFileScanner::make($enum);
-        $jsonPath = $enum->jsonPath();
+        $parser = BookFileScanner::make($library, $this->limit);
+        $jsonPath = $library->getJsonPath();
 
         if (file_exists($jsonPath)) {
             unlink($jsonPath);
         }
 
         if (! $parser) {
-            Journal::warning("ParserJob: {$enum->value} no files detected");
+            Journal::warning("ParserJob: {$library->name} no files detected");
             file_put_contents($jsonPath, '[]');
 
             return;
@@ -53,7 +54,7 @@ class ParserJob implements ShouldQueue
 
         $files = $parser->items();
         $count = count($files);
-        Journal::info("ParserJob: {$enum->value} files detected: {$count}", [
+        Journal::info("ParserJob: {$library->name} files detected: {$count}", [
             'method' => __METHOD__,
         ]);
 

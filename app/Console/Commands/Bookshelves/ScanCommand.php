@@ -4,8 +4,8 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\Book\BookFileItem;
 use App\Engines\Book\BookFileScanner;
-use App\Enums\BookTypeEnum;
 use App\Facades\Bookshelves;
+use App\Models\Library;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
@@ -44,33 +44,32 @@ class ScanCommand extends Commandable
         $this->title();
 
         $verbose = $this->option('verbose');
-        $enums = BookTypeEnum::cases();
+        $libraries = Library::all();
         $engine = Bookshelves::analyzerEngine();
 
         $this->info("Engine: {$engine}.");
         $this->newLine();
 
-        foreach ($enums as $enum) {
-            $this->parseFiles($enum, $verbose);
+        foreach ($libraries as $library) {
+            $this->parseFiles($library, $verbose);
         }
 
         return Command::SUCCESS;
     }
 
-    private function parseFiles(BookTypeEnum $enum, bool $verbose)
+    private function parseFiles(Library $library, bool $verbose)
     {
-        $this->info("{$enum->value} scanning...");
-        $parser = BookFileScanner::make($enum);
+        $this->info("{$library->name} scanning...");
+        $parser = BookFileScanner::make($library);
 
         if (! $parser) {
-            $this->warn("{$enum->value} no files.");
+            $this->warn("{$library->name} no files.");
             $this->newLine();
 
             return;
         }
 
-        $library = $enum->libraryPath();
-        $this->info("{$enum->value} {$parser->count()} files in {$library}.");
+        $this->info("{$library->name} {$parser->count()} files in {$library->path}.");
 
         if ($verbose) {
             $this->table(
@@ -78,7 +77,7 @@ class ScanCommand extends Commandable
                 array_map(fn (BookFileItem $file) => [
                     $file->basename(),
                     $file->format()->value,
-                    $file->type()->libraryPath(),
+                    $file->library()->name,
                 ], $parser->items())
             );
         }
