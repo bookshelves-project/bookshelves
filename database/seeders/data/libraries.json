@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Audiobooks (english)",
+    "type": "audiobook",
+    "path": "/Volumes/library/books/audiobooks/english",
+    "is_enabled": true
+  },
+  {
+    "name": "Audiobooks (french)",
+    "type": "audiobook",
+    "path": "/Volumes/library/books/audiobooks/french",
+    "is_enabled": true
+  },
+  {
+    "name": "Comics",
+    "type": "comic",
+    "path": "/Volumes/library/books/comics",
+    "is_enabled": true
+  },
+  {
+    "name": "eBooks",
+    "type": "book",
+    "path": "/Volumes/library/books/ebooks",
+    "is_enabled": true
+  },
+  {
+    "name": "Mangas",
+    "type": "manga",
+    "path": "/Volumes/library/books/mangas",
+    "is_enabled": true
+  }
+]
