@@ -18,6 +18,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\Process;
 
 /**
@@ -100,6 +101,22 @@ class BookConverter
                 if ($calibre_timestamp) {
                     $timestamp = new DateTime($calibre_timestamp->getContents());
                 }
+            }
+
+            if (! $this->ebook->getTitle()) {
+                Journal::error('BookConverter: No title found', [
+                    'ebook' => $this->ebook->toArray(),
+                ]);
+
+                return $this;
+            }
+
+            if (! $this->ebook->getMetaTitle()) {
+                Journal::error('BookConverter: No meta title found', [
+                    'ebook' => $this->ebook->toArray(),
+                ]);
+
+                return $this;
             }
 
             $this->book = new Book([
