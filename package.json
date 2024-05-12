@@ -19,7 +19,7 @@
     "@vueuse/core": "^10.9.0",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
-    "eslint": "^9.1.1",
+    "eslint": "^9.2.0",
     "laravel-vite-plugin": "^1.0.2",
     "nprogress": "^0.2.0",
     "postcss": "^8.4.38",
@@ -29,7 +29,7 @@
     "unplugin-auto-import": "^0.17.5",
     "unplugin-svg-transformer": "^1.0.32",
     "unplugin-vue-components": "^0.27.0",
-    "vite": "^5.2.10",
+    "vite": "^5.2.11",
     "vue": "^3.4.26",
     "vue3-toastify": "^0.2.1"
   }
