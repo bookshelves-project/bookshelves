@@ -121,7 +121,7 @@ class BookConverter
 
             $this->book = new Book([
                 'title' => $this->ebook->getTitle(),
-                'slug' => $this->ebook->getMetaTitle()?->getSlug(),
+                'slug' => $this->ebook->getMetaTitle()->getSlug(),
                 'contributor' => $this->ebook->getExtra('contributor'),
                 'released_on' => $this->ebook->getPublishDate()?->format('Y-m-d'),
                 'description' => $this->ebook->getDescription(2000),
