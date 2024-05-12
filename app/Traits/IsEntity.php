@@ -77,13 +77,13 @@ trait IsEntity
         }
 
         if ($instance instanceof Book) {
-            return route("{$this->type->value}s.show", [
+            return route("{$this->type?->value}s.show", [
                 'book' => $this->slug,
             ]);
         }
 
         if ($instance instanceof Serie) {
-            return route("series.{$this->type->value}s.show", [
+            return route("series.{$this->type?->value}s.show", [
                 'serie' => $this->slug,
             ]);
         }
