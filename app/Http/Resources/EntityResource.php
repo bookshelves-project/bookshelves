@@ -25,7 +25,8 @@ class EntityResource extends JsonResource
         return [
             'title' => $this->resource->title,
             'slug' => $this->resource->slug,
-            'type' => $this->resource->type?->locale(),
+            'library' => $this->resource->library?->name,
+            'type' => $this->resource->library?->type,
             'authors' => $this->toAuthors(),
             'serie' => $this->toSerie(),
             'language' => $this->toLanguage(),

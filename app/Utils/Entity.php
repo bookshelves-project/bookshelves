@@ -2,7 +2,7 @@
 
 namespace App\Utils;
 
-use App\Enums\BookTypeEnum;
+use App\Enums\LibraryTypeEnum;
 use App\Models\Author;
 use App\Models\Language;
 use App\Models\Serie;
@@ -24,7 +24,7 @@ class Entity
 
     public ?string $title;
 
-    public ?BookTypeEnum $type;
+    public ?LibraryTypeEnum $type;
 
     public ?string $relation;
 
