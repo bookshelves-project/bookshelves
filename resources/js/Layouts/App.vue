@@ -41,6 +41,7 @@ defineProps<{
       <LayoutFooter class="footer flex justify-center pt-5 pb-5" />
     </div>
   </div>
+  <Notifications />
 </template>
 
 <style lang="css" scoped>

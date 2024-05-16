@@ -64,6 +64,7 @@ class Searching
             $item->entity_type = $type; // @phpstan-ignore-line
             $items->push($item);
         });
+        ray($results);
 
         return $items;
     }

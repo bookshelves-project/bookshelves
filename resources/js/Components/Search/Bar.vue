@@ -67,7 +67,7 @@ onMounted(() => {
         type="search"
         autocomplete="off"
         placeholder="Search book, book series, author..."
-        @input="event => searching(event)"
+        @input="event => searching(event, 1000)"
       >
       <button
         v-if="searchUsed"
