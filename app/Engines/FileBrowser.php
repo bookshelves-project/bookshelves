@@ -92,6 +92,9 @@ class FileBrowser
     {
         $startTime = microtime(true);
 
+        // disable PHP max execution time
+        set_time_limit(0);
+
         if ($this->engine === 'native') {
             $files = [];
             $this->files = $this->native($this->pathToScan, $files);
@@ -129,6 +132,9 @@ class FileBrowser
 
         $this->total = count($this->files);
         $this->saveJson($this->files);
+
+        // reset PHP max execution time
+        ini_restore('memory_limit');
 
         $endTime = microtime(true);
 

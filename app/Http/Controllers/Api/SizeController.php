@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\BookTypeEnum;
+use App\Enums\LibraryTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Audiobook;
 use App\Models\Book;
@@ -17,20 +17,18 @@ class SizeController extends Controller
     #[Get('/book/{book:id}', name: 'api.sizes.book')]
     public function book(Request $request, Book $book)
     {
-        /** @var ?BookTypeEnum $type */
-        $type = $book->type;
+        $book->loadMissing(['library', 'audiobooks']);
 
-        if ($type !== BookTypeEnum::audiobook) {
-            $size = $book->size;
-        } else {
-            $audiobooks = $book->audiobooks;
-            $size = $audiobooks
+        if ($book->library?->type === LibraryTypeEnum::audiobook) {
+            $size = $book->audiobooks
                 ->map(fn (Audiobook $audiobook) => $audiobook->size)
                 ->sum();
+        } else {
+            $size = $book->size;
         }
 
         return response()->json([
-            'extension' => $type === BookTypeEnum::audiobook ? 'zip' : $book->extension,
+            'extension' => $book->library?->type === LibraryTypeEnum::audiobook ? 'zip' : $book->extension,
             'size' => $size,
         ]);
     }
@@ -39,16 +37,15 @@ class SizeController extends Controller
     public function serie(Request $request, Serie $serie)
     {
         $size = 0;
-        $serie->load('books');
+        $serie->loadMissing(['books', 'books.library', 'books.audiobooks']);
+
         foreach ($serie->books as $book) {
-            if ($book->type !== BookTypeEnum::audiobook) {
-                $size += $book->size;
-            } else {
-                $book->load('audiobooks');
-                $audiobooks = $book->audiobooks;
-                $size += $audiobooks
+            if ($book->library?->type === LibraryTypeEnum::audiobook) {
+                $size += $book->audiobooks
                     ->map(fn (Audiobook $audiobook) => $audiobook->size)
                     ->sum();
+            } else {
+                $size += $book->size;
             }
         }
 

@@ -36,8 +36,10 @@ class ConverterEngine
             $converter = BookConverter::make($self->ebook, $file->library(), $self->book);
         } else {
             $self->book = $self->retrieveBook();
-            $converter = BookConverter::make($self->ebook, $file->library(), $self->book);
-            $self->book = $converter->book();
+            if (! $self->book) {
+                $converter = BookConverter::make($self->ebook, $file->library(), $self->book);
+                $self->book = $converter->book();
+            }
         }
 
         return $self;

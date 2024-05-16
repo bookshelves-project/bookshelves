@@ -3,10 +3,8 @@
 namespace App\Models;
 
 use App\Enums\BookFormatEnum;
-use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
-use App\Traits\HasBookType;
 use App\Traits\HasCovers;
 use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
@@ -32,7 +30,6 @@ class Book extends Model implements HasMedia
 {
     use HasAuthors;
     use HasBookFiles;
-    use HasBookType;
     use HasCovers;
     use HasFactory;
     use HasLanguage;
@@ -82,7 +79,6 @@ class Book extends Model implements HasMedia
         'is_maturity_rating',
         'is_hidden',
         'format',
-        'type',
         'isbn10',
         'isbn13',
         'identifiers',
@@ -116,7 +112,6 @@ class Book extends Model implements HasMedia
         'is_maturity_rating' => 'boolean',
         'google_book_parsed_at' => 'datetime',
         'added_at' => 'datetime',
-        'type' => BookTypeEnum::class,
         'size' => 'integer',
     ];
 
@@ -166,6 +161,11 @@ class Book extends Model implements HasMedia
     {
         return $query
             ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)]);
+    }
+
+    public function scopeWhereLibraryIs(Builder $query, Library $library): Builder
+    {
+        return $query->where('library_id', $library->id);
     }
 
     public function publisher(): BelongsTo
@@ -278,8 +278,6 @@ class Book extends Model implements HasMedia
             ),
             AllowedFilter::exact('is_hidden'),
             AllowedFilter::exact('released_on'),
-            AllowedFilter::exact('type'),
-            AllowedFilter::scope('types', 'whereTypesIs'),
             AllowedFilter::callback('language',
                 fn (Builder $query, $value) => $query->whereHas('language',
                     fn (Builder $query) => $query->where('name', 'like', "%{$value}%")

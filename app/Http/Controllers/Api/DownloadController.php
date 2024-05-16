@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\BookTypeEnum;
+use App\Enums\LibraryTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Audiobook;
 use App\Models\Book;
@@ -29,31 +29,31 @@ class DownloadController extends Controller
             $name = $serie;
         }
         $author = $book->authorMain?->name ?? '';
+        $book->loadMissing(['library', 'audiobooks']);
 
         Download::query()->create([
             'ip' => request()->ip(),
             'user_agent' => request()->userAgent(),
-            'name' => $book->serie ? "{$book->serie->title} {$book->volume} {$book->title} {$author} ({$book->type->value})" : "{$book->title} {$author} ({$book->type->value})",
+            'name' => $book->serie ? "{$book->serie->title} {$book->volume} {$book->title} {$author} ({$book->library?->name})" : "{$book->title} {$author} ({$book->library?->name})",
             'type' => 'App\Models\Book',
         ]);
 
-        $name = Str::slug("{$name} {$book->slug} {$author} {$book->type->value}");
-        if ($book->type !== BookTypeEnum::audiobook) {
-            Downloader::direct($book->physical_path)
-                ->mimeType($book->mime_type)
-                ->name("{$name}.{$book->extension}")
+        $name = Str::slug("{$name} {$book->slug} {$author} {$book->library?->name}");
+        if ($book->library?->type === LibraryTypeEnum::audiobook) {
+            $files = $book->audiobooks
+                ->map(fn (Audiobook $audiobook) => new DownloaderZipStreamItem($audiobook->basename, $audiobook->physical_path))
+                ->toArray();
+
+            Downloader::stream($name)
+                ->files($files)
                 ->get();
 
             return;
         }
 
-        $audiobooks = $book->audiobooks;
-        $files = $audiobooks
-            ->map(fn (Audiobook $audiobook) => new DownloaderZipStreamItem($audiobook->basename, $audiobook->physical_path))
-            ->toArray();
-
-        Downloader::stream($name)
-            ->files($files)
+        Downloader::direct($book->physical_path)
+            ->mimeType($book->mime_type)
+            ->name("{$name}.{$book->extension}")
             ->get();
     }
 
@@ -61,9 +61,9 @@ class DownloadController extends Controller
     public function serie(Request $request, Serie $serie)
     {
         $files = [];
-        $serie->load('books');
+        $serie->loadMissing(['books', 'library']);
 
-        if ($serie->type !== BookTypeEnum::audiobook) {
+        if ($serie->library->type !== LibraryTypeEnum::audiobook) {
             $files = $serie->books
                 ->map(fn (Book $book) => new DownloaderZipStreamItem("{$book->slug}.{$book->extension}", $book->physical_path))
                 ->toArray();
@@ -87,7 +87,7 @@ class DownloadController extends Controller
         Download::query()->create([
             'ip' => request()->ip(),
             'user_agent' => request()->userAgent(),
-            'name' => "{$serie->title} ({$serie->type->value})",
+            'name' => "{$serie->title} ({$serie->library?->name})",
             'type' => 'App\Models\Serie',
         ]);
 

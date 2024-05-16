@@ -33,13 +33,13 @@ class AudiobooksCommand extends Commandable
 
         $fresh = $this->option('fresh') ?: false;
 
-        $series = Audiobook::all()
-            ->map(fn (Audiobook $audiobook) => $audiobook->serie)
+        $books = Audiobook::all()
+            ->map(fn (Audiobook $audiobook) => $audiobook->title)
             ->unique()
             ->values();
 
-        foreach ($series as $serie) {
-            AudiobookJob::dispatch($serie, $fresh);
+        foreach ($books as $book) {
+            AudiobookJob::dispatch($book, $fresh);
         }
     }
 }

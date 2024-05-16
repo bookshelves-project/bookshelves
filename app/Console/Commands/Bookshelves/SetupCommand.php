@@ -5,7 +5,6 @@ namespace App\Console\Commands\Bookshelves;
 use App\Facades\Bookshelves;
 use App\Models\Tag;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
@@ -74,11 +73,13 @@ class SetupCommand extends Commandable
 
     private function clear(): void
     {
-        Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        $this->call(JobsClearCommand::class);
+
+        $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
         $this->comment('Database reset!');
 
-        Artisan::call(JobsClearCommand::class);
-        Artisan::call(LogClearCommand::class);
+        $this->call(LogClearCommand::class);
+
         DirectoryService::make()->clearDirectory(storage_path('app/cache'));
         DirectoryService::make()->clearDirectory(storage_path('app/data'));
         DirectoryService::make()->clearDirectory(storage_path('app/debug'));

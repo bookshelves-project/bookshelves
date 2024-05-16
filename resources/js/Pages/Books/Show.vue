@@ -45,6 +45,7 @@ onMounted(async () => {
     :color="book.cover_color"
     icon="ereader"
   >
+    {{ square ? 'square' : 'poster' }}
     <ShowContainer
       :model="book"
       :type="ucfirst(book.type)"
@@ -70,7 +71,7 @@ onMounted(async () => {
         extension,
       }"
       :breadcrumbs="[
-        { label: 'Books', route: { name: 'books.index' } },
+        { label: 'Books', route: { name: 'home' } },
         { label: `${book.title}`, route: { name: 'books.show', params: { book: book.slug } } },
       ]"
     >
@@ -82,7 +83,7 @@ onMounted(async () => {
         #undertitle
       >
         <ILink
-          :href="$route(`series.${book.type}s.show` as any, { serie: book.serie.slug })"
+          :href="$route('series.show', { library: book.library?.slug, serie: book.serie?.slug })"
           class="link"
         >
           {{ book.serie.title }}
@@ -93,6 +94,7 @@ onMounted(async () => {
         <AppCarousel
           v-if="book.serie"
           :title="`${book.serie?.title} series`"
+          :url="$route('series.show', { library: book.library?.slug, serie: book.serie?.slug })"
         >
           <CardBook
             v-for="b in book.serie?.books"

@@ -35,12 +35,11 @@ class BookWrapperJob implements ShouldQueue
             'limit' => $this->limit,
         ]);
 
-        $libraries = Library::all();
         $current_books = Book::all()
             ->map(fn (Book $book) => $book->physical_path)
             ->toArray();
 
-        foreach ($libraries as $library) {
+        foreach (Library::all() as $library) {
             $this->parseFiles($library, $current_books);
         }
 

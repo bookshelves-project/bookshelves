@@ -8,21 +8,21 @@
     icon="home"
   >
     <div class="pt-10 space-y-6">
-      <SwiperHome
+      <!-- <SwiperHome
         endpoint="api.books.latest"
         title="Books recently added"
         type="book"
-      />
-      <SwiperHome
+      /> -->
+      <!-- <SwiperHome
         endpoint="api.books.released"
         title="Books recently released"
         type="book"
-      />
-      <SwiperHome
+      /> -->
+      <!-- <SwiperHome
         endpoint="api.series.latest"
         title="Series recently added"
         type="serie"
-      />
+      /> -->
     </div>
   </App>
 </template>

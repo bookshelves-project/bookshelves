@@ -22,6 +22,8 @@ class LibrarySeeder extends Seeder
         foreach ($libraries as $library) {
             if (config('app.env') === 'production') {
                 $library['path'] = str_replace('/Volumes/library/', '/mnt/cloud_unicorn_library/', $library['path']);
+            } else {
+                $library['path'] = str_replace('/Volumes/library/books', '/Users/ewilan/PlexLibrary/books', $library['path']);
             }
             \App\Models\Library::query()->create($library);
         }

@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
+use App\Models\Library;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
-#[Prefix('series-books')]
-class SerieBookController extends Controller
+#[Prefix('series')]
+class SerieController extends Controller
 {
-    #[Get('/', name: 'series.books.index')]
+    #[Get('/', name: 'series.index')]
     public function index(Request $request)
     {
         return $this->getQueryForSeries($request, Serie::whereIsBook(), 'Book series', [
@@ -19,9 +20,12 @@ class SerieBookController extends Controller
         ]);
     }
 
-    #[Get('/{serie:slug}', name: 'series.books.show')]
-    public function show(Serie $serie)
+    #[Get('/{library:slug}/{serie:slug}', name: 'series.show')]
+    public function show(Library $library, Serie $serie)
     {
-        return $this->getSerie($serie);
+        return inertia('Series/Show', [
+            'serie' => $serie->loadMissing(['books', 'books.media', 'media']),
+            'library' => $library,
+        ]);
     }
 }

@@ -50,14 +50,16 @@ class SerieModule
         }
 
         if ($ebook->getSeries()) {
-            $serie = Serie::withoutSyncingToSearch(function () use ($ebook, $library) {
+            $serie = Serie::withoutSyncingToSearch(function () use ($ebook) {
                 return Serie::query()
-                    ->where('library_id', $library->id)
                     ->firstOrCreate([
                         'title' => $ebook->getSeries(),
                         'slug' => $ebook->getMetaTitle()->getSeriesSlug(),
                     ]);
             });
+
+            $serie->library()->associate($library);
+            $serie->saveQuietly();
 
             $self->serie = $serie;
         }

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('audiobooks', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
+            $table->string('track_title')->nullable();
+            $table->string('subtitle')->nullable();
             $table->string('slug')->nullable();
             $table->string('author_main')->nullable();
             $table->json('authors')->nullable();
@@ -37,6 +39,7 @@ return new class extends Migration
             $table->text('lyrics')->nullable();
             $table->string('stik')->nullable();
             $table->float('duration')->nullable();
+            $table->json('chapters')->nullable();
 
             $table->string('physical_path')->nullable();
             $table->string('basename')->nullable();

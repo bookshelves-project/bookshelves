@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const { route, currentRoute } = useRouter()
-const { page } = useInertia()
+const { page, url } = useInertia()
 
 const user = ref<App.Models.User>(page.props.auth?.user)
 
@@ -27,6 +27,15 @@ const href = computed(() => {
     return route(link.route.name, link.route.params)
 
   return link.url
+})
+
+const isActive = computed(() => {
+  if (!props.link.isLibrary)
+    return href.value === currentRoute.value?.path
+
+  const currentUrl = url.value.split('?')[0]
+
+  return props.link.libraryUrl === currentUrl
 })
 </script>
 
@@ -46,7 +55,7 @@ const href = computed(() => {
         :target="link.isExternal ? '_blank' : null"
         :rel="link.isExternal ? 'noopener noreferrer' : null"
         :class="[
-          href === currentRoute?.path ? active : '',
+          isActive ? active : '',
           hover,
         ]"
         class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 dark:text-gray-400 dark:hover:text-white"

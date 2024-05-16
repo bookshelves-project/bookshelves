@@ -38,7 +38,8 @@ class BookJob implements ShouldQueue
             $title = $this->file->path();
         }
 
-        Journal::debug("BookJob: {$this->number} {$title}");
+        $library = $this->file->library()->name;
+        Journal::debug("BookJob: {$this->number} {$title} from {$library}");
     }
 
     private function log(string $message): void

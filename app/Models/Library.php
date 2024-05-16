@@ -41,17 +41,11 @@ class Library extends Model
         'is_manga',
     ];
 
-    /**
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'type' => LibraryTypeEnum::class,
-            'path_is_valid' => 'boolean',
-            'is_enabled' => 'boolean',
-        ];
-    }
+    protected $casts = [
+        'type' => LibraryTypeEnum::class,
+        'path_is_valid' => 'boolean',
+        'is_enabled' => 'boolean',
+    ];
 
     public function scopeOnlyAudiobooks(Builder $query)
     {
@@ -171,6 +165,11 @@ class Library extends Model
     public function series(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Serie::class);
+    }
+
+    public function audiobooks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Audiobook::class);
     }
 
     /**

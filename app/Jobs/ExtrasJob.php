@@ -35,9 +35,9 @@ class ExtrasJob implements ShouldQueue
         Artisan::call(AudiobooksCommand::class);
         Artisan::call(AuthorsCommand::class);
         Artisan::call(SeriesCommand::class);
-        if (Bookshelves::apiGoogleBooks()) {
-            Artisan::call(GoogleBooksCommand::class);
-        }
+        // if (Bookshelves::apiGoogleBooks()) {
+        //     Artisan::call(GoogleBooksCommand::class);
+        // }
         Artisan::call(CleanCommand::class);
         ScoutWrapperJob::dispatch();
     }

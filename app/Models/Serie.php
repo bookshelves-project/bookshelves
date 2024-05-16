@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\BookTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBooksCollection;
-use App\Traits\HasBookType;
 use App\Traits\HasCovers;
 use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
@@ -26,13 +24,11 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 /**
  * @property null|int $books_count
- * @property \App\Enums\BookTypeEnum|null $type
  */
 class Serie extends Model implements HasMedia
 {
     use HasAuthors;
     use HasBooksCollection;
-    use HasBookType;
     use HasCovers;
     use HasFactory;
     use HasLanguage;
@@ -55,7 +51,6 @@ class Serie extends Model implements HasMedia
         'authors',
         'books_count',
         'language',
-        'type',
         'created_at',
         'updated_at',
         'language',
@@ -66,7 +61,6 @@ class Serie extends Model implements HasMedia
     protected $fillable = [
         'title',
         'slug',
-        'type',
         'description',
         'link',
         'wikipedia_parsed_at',
@@ -78,7 +72,6 @@ class Serie extends Model implements HasMedia
 
     protected $casts = [
         'wikipedia_parsed_at' => 'datetime',
-        'type' => BookTypeEnum::class,
     ];
 
     protected $with = [];
@@ -143,8 +136,6 @@ class Serie extends Model implements HasMedia
             AllowedFilter::custom('q', new GlobalSearchFilter(['title'])),
             AllowedFilter::partial('title'),
             AllowedFilter::partial('authors'),
-            AllowedFilter::exact('type'),
-            AllowedFilter::scope('types', 'whereTypesIs'),
             AllowedFilter::callback(
                 'language',
                 fn (Builder $query, $value) => $query->whereHas(

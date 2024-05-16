@@ -15,6 +15,8 @@ class Audiobook extends Model
 
     protected $fillable = [
         'title',
+        'track_title',
+        'subtitle',
         'author_main',
         'authors',
         'narrators',
@@ -36,6 +38,7 @@ class Audiobook extends Model
         'lyrics',
         'stik',
         'duration',
+        'chapters',
         'physical_path',
         'basename',
         'extension',
@@ -52,6 +55,7 @@ class Audiobook extends Model
         'is_compilation' => 'boolean',
         'duration' => 'float',
         'publish_date' => 'date',
+        'chapters' => 'array',
         'added_at' => 'datetime',
         'size' => 'integer',
     ];
@@ -59,5 +63,10 @@ class Audiobook extends Model
     public function book(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Book::class);
+    }
+
+    public function library(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Library::class);
     }
 }

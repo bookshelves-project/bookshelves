@@ -98,6 +98,8 @@ class BookFileScanner
 
         $browser->run();
 
+        Journal::debug("BookFileScanner: {$this->library->name} time elapsed: {$browser->getTimeElapsed()}");
+
         return $browser->getFiles();
     }
 

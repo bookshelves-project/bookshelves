@@ -68,25 +68,25 @@ trait IsEntity
 
     public function getMetaRouteAttribute(): ?string
     {
-        /** @var Author|Book|Serie|mixed */
-        $instance = $this;
-        if ($instance instanceof Author) {
-            return route('authors.show', [
-                'author' => $this->slug,
-            ]);
-        }
+        // /** @var Author|Book|Serie|mixed */
+        // $instance = $this;
+        // if ($instance instanceof Author) {
+        //     return route('authors.show', [
+        //         'author' => $this->slug,
+        //     ]);
+        // }
 
-        if ($instance instanceof Book) {
-            return route("{$this->type?->value}s.show", [
-                'book' => $this->slug,
-            ]);
-        }
+        // if ($instance instanceof Book) {
+        //     return route("{$this->type?->value}s.show", [
+        //         'book' => $this->slug,
+        //     ]);
+        // }
 
-        if ($instance instanceof Serie) {
-            return route("series.{$this->type?->value}s.show", [
-                'serie' => $this->slug,
-            ]);
-        }
+        // if ($instance instanceof Serie) {
+        //     return route("series.{$this->type?->value}s.show", [
+        //         'serie' => $this->slug,
+        //     ]);
+        // }
 
         return route('home');
     }

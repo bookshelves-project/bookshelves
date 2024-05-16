@@ -66,9 +66,9 @@ class SerieResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                SelectFilter::make('type')
-                    ->multiple()
-                    ->options(BookTypeEnum::getLabels()),
+                // SelectFilter::make('type')
+                //     ->multiple()
+                //     ->options(BookTypeEnum::getLabels()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

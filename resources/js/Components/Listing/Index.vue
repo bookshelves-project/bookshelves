@@ -90,17 +90,18 @@ const pagination = [10, 25, 50, 100]
     </div>
     <div class="books-list mt-6">
       <slot />
-      <ILink
-        v-if="request?.current_page !== request?.last_page"
-        :href="nextPageLink"
-        class="poster flex bg-gray-800 hover:bg-gray-700 h-full w-full relative"
-      >
-        <SvgIcon
-          name="arrow-right"
-          class="h-12 w-12 text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        />
-      </ILink>
     </div>
+    <ILink
+      v-if="request?.current_page !== request?.last_page"
+      :href="nextPageLink"
+      class="flex bg-gray-800 hover:bg-gray-700 h-16 w-full relative mt-10 rounded-md items-center justify-center space-x-2 animate-pulse"
+    >
+      <div>Next page</div>
+      <SvgIcon
+        name="arrow-right"
+        class="h-5 w-5 text-gray-400"
+      />
+    </ILink>
     <div
       v-if="request?.total === 0"
       class="relative flex w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center"

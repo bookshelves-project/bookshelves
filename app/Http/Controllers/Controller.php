@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\BookTypeEnum;
 use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Database\Eloquent\Builder;
@@ -89,32 +88,5 @@ abstract class Controller
             ->orderBy($column, $desc ? 'desc' : 'asc')
             ->limit($limit)
             ->get();
-    }
-
-    public function loadBook(Book $book)
-    {
-        $book->load([
-            'authors',
-            'serie',
-            'serie.books',
-            'serie.books.serie',
-            'serie.books.media',
-            'tags',
-            'media',
-            'publisher',
-            'language',
-        ]);
-
-        $title = $book->title;
-        if ($book->serie) {
-            $title = "{$book->serie->title} {$book->volume_pad} - {$title} by {$book->authors->implode('name', ', ')}";
-        } else {
-            $title = "{$title} by {$book->authors->implode('name', ', ')}";
-        }
-
-        return inertia('Books/Show', [
-            'book' => $book,
-            'square' => $book->type === BookTypeEnum::audiobook,
-        ]);
     }
 }

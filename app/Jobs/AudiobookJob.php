@@ -3,13 +3,13 @@
 namespace App\Jobs;
 
 use App\Engines\Book\Converter\BookConverter;
-use App\Engines\Book\Converter\Modules\LanguageModule;
 use App\Enums\BookFormatEnum;
-use App\Enums\BookTypeEnum;
+use App\Enums\LibraryTypeEnum;
 use App\Facades\Bookshelves;
 use App\Models\Audiobook;
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\Language;
 use App\Models\Serie;
 use App\Models\Tag;
 use Illuminate\Bus\Queueable;
@@ -18,23 +18,24 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Str;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\SpatieMedia;
 
 class AudiobookJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public ?string $bookSerie = null;
+    // public ?string $bookSerie = null;
 
-    public ?string $bookTitle = null;
+    // public ?string $bookTitle = null;
 
-    public ?int $bookVolume = null;
+    // public ?int $bookVolume = null;
 
     /**
      * Create a new job instance.
      */
     public function __construct(
-        public string $serieName,
+        public ?string $bookName,
         public bool $fresh,
     ) {
     }
@@ -44,14 +45,23 @@ class AudiobookJob implements ShouldQueue
      */
     public function handle(): void
     {
+        if (! $this->bookName) {
+            Journal::error('AudiobookJob', 'Book name is required.');
+
+            return;
+        }
+
         $audiobooks = Audiobook::query()
-            ->where('serie', $this->serieName)
+            ->where('title', $this->bookName)
             ->get();
         $first = $audiobooks->first();
-        $this->parseTitle($first->serie);
+        // $this->parseTitle($first->serie);
 
-        $book = new Book([
-            'title' => $this->bookTitle,
+        $first->loadMissing('library');
+        $library = $first->library;
+
+        $book = Book::create([
+            'title' => $first->title,
             'slug' => $first->slug,
             'contributor' => $first->encoding,
             'released_on' => $first->publish_date,
@@ -59,17 +69,11 @@ class AudiobookJob implements ShouldQueue
             'audiobook_narrators' => $first->narrators,
             'audiobook_chapters' => count($audiobooks),
             'rights' => $first->encoding,
-            'volume' => $this->bookVolume,
-            'type' => BookTypeEnum::audiobook,
+            'volume' => $first->volume,
             'format' => BookFormatEnum::fromExtension($first->extension),
             'size' => $audiobooks->sum('size'),
             'added_at' => $first->added_at,
         ]);
-
-        Book::withoutSyncingToSearch(function () use ($book, $audiobooks) {
-            $book->save();
-            $book->audiobooks()->saveMany($audiobooks);
-        });
 
         if ($first->tags) {
             $tags = collect();
@@ -84,8 +88,10 @@ class AudiobookJob implements ShouldQueue
 
         $lang = $first->language ?? $first->comment;
         if ($lang) {
-            $lang = $this->parseLang($lang);
-            $language = LanguageModule::make($lang);
+            $language = Language::firstOrCreate([
+                'name' => $lang,
+                'slug' => Str::slug($lang),
+            ]);
             $book->language()->associate($language);
         }
 
@@ -99,12 +105,11 @@ class AudiobookJob implements ShouldQueue
         }
 
         $serie = null;
-        if ($this->bookSerie) {
-            $slug = Str::slug($this->bookSerie.' '.BookTypeEnum::audiobook->value.' '.$book->language?->name);
+        if ($first->serie) {
+            $slug = Str::slug($first->serie.' '.LibraryTypeEnum::audiobook->value.' '.$book->language?->name);
             $serie = Serie::query()->firstOrCreate([
-                'title' => $this->bookSerie,
+                'title' => $first->serie,
                 'slug' => $slug,
-                'type' => BookTypeEnum::audiobook,
             ]);
             $serie->books()->save($book);
         }
@@ -121,8 +126,10 @@ class AudiobookJob implements ShouldQueue
             ->color()
             ->save();
 
-        Book::withoutSyncingToSearch(function () use ($book, $serie) {
+        Book::withoutSyncingToSearch(function () use ($audiobooks, $book, $serie, $library) {
+            $book->audiobooks()->saveMany($audiobooks);
             $book->authorMain()->associate($book->authors[0] ?? null);
+            $book->library()->associate($library);
             $book->save();
 
             if ($serie) {
@@ -136,37 +143,41 @@ class AudiobookJob implements ShouldQueue
         });
     }
 
-    private function parseTitle(string $text): void
-    {
-        $regex = '/^(?:(?P<serie>.+?)\s(?P<volume>\d{2})\s[-:]\s)?(?P<title>.+)$/';
-        $matches = [];
+    // private function parseTitle(?string $text): void
+    // {
+    //     if (! $text) {
+    //         return;
+    //     }
 
-        if (preg_match($regex, $text, $matches)) {
-            $this->bookSerie = $matches['serie'] ?? null;
-            $this->bookVolume = $matches['volume'] ? intval($matches['volume']) : null;
-            $this->bookTitle = $matches['title'] ?? $text;
+    //     $regex = '/^(?:(?P<serie>.+?)\s(?P<volume>\d{2})\s[-:]\s)?(?P<title>.+)$/';
+    //     $matches = [];
 
-            return;
-        }
+    //     if (preg_match($regex, $text, $matches)) {
+    //         $this->bookSerie = $matches['serie'] ?? null;
+    //         $this->bookVolume = $matches['volume'] ? intval($matches['volume']) : null;
+    //         $this->bookTitle = $matches['title'] ?? $text;
 
-        $this->bookTitle = $text;
-    }
+    //         return;
+    //     }
 
-    private function parseLang(string $lang): string
-    {
-        $lang = strtolower($lang);
+    //     $this->bookTitle = $text;
+    // }
 
-        return match ($lang) {
-            'english' => 'en',
-            'spanish' => 'es',
-            'french' => 'fr',
-            'german' => 'de',
-            'italian' => 'it',
-            'portuguese' => 'pt',
-            'russian' => 'ru',
-            'japanese' => 'ja',
-            'chinese' => 'zh',
-            default => 'en',
-        };
-    }
+    // private function parseLang(string $lang): string
+    // {
+    //     $lang = strtolower($lang);
+
+    //     return match ($lang) {
+    //         'english' => 'en',
+    //         'spanish' => 'es',
+    //         'french' => 'fr',
+    //         'german' => 'de',
+    //         'italian' => 'it',
+    //         'portuguese' => 'pt',
+    //         'russian' => 'ru',
+    //         'japanese' => 'ja',
+    //         'chinese' => 'zh',
+    //         default => 'en',
+    //     };
+    // }
 }
