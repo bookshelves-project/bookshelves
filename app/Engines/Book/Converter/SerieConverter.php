@@ -31,7 +31,7 @@ class SerieConverter
         if (! $this->serie->description) {
             $books = $this->serie->load('books')->books;
             $this->serie->description = $books->first()->description;
-            $this->serie->save();
+            $this->serie->saveQuietly();
         }
     }
 
@@ -60,7 +60,7 @@ class SerieConverter
             $tags = array_unique($tags);
 
             $this->serie->tags()->sync($tags);
-            $this->serie->save();
+            $this->serie->saveQuietly();
         });
 
         return $this;

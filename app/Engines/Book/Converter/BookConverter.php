@@ -114,6 +114,11 @@ class BookConverter
         $this->syncIdentifiers();
         $this->syncCover();
 
+        $this->book->save();
+        if ($this->book->serie) {
+            $this->book->serie->save();
+        }
+
         return $this;
     }
 

@@ -62,7 +62,6 @@ class DownloadController extends Controller
     {
         $files = [];
         $serie->loadMissing(['books', 'library']);
-        ray($serie);
 
         if ($serie->library->type !== LibraryTypeEnum::audiobook) {
             $files = $serie->books
