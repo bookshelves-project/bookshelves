@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LibraryTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBooksCollection;
 use App\Traits\HasCovers;
@@ -106,6 +107,11 @@ class Serie extends Model implements HasMedia
     public function scopeWhereLibraryIs(Builder $query, Library $library): Builder
     {
         return $query->where('library_id', $library->id);
+    }
+
+    public function scopeWhereHasBooks(Builder $query): Builder
+    {
+        return $query->whereRelation('library', 'type', LibraryTypeEnum::book);
     }
 
     public function books(): HasMany

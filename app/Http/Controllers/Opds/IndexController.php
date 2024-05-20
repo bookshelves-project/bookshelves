@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Opds;
 
 use App\Engines\SearchEngine;
+use App\Enums\LibraryTypeEnum;
 use App\Facades\OpdsBase;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
@@ -27,7 +28,7 @@ class IndexController extends Controller
         $feeds = [];
 
         $entries = Book::query()
-            ->whereIsBook()
+            ->whereLibraryType(LibraryTypeEnum::book)
             ->orderBy('updated_at', 'desc')
             ->limit(16)
             ->get();
@@ -49,7 +50,7 @@ class IndexController extends Controller
 
         $entries = Book::query()
             ->inRandomOrder()
-            ->whereIsBook()
+            ->whereLibraryType(LibraryTypeEnum::book)
             ->limit(16)
             ->get();
 

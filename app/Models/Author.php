@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LibraryTypeEnum;
 use App\Traits\HasBooksCollection;
 use App\Traits\HasCovers;
 use App\Traits\HasTagsAndGenres;
@@ -91,6 +92,11 @@ class Author extends Model implements HasMedia
     public function scopeWhereFirstChar(Builder $query, string $char): Builder
     {
         return $query->whereRaw('UPPER(SUBSTR(name, 1, 1)) = ?', [strtoupper($char)]);
+    }
+
+    public function scopeWhereHasBooks(Builder $query): Builder
+    {
+        return $query->whereRelation('books.library', 'type', LibraryTypeEnum::book);
     }
 
     /**

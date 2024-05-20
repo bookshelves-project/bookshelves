@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\BookFormatEnum;
+use App\Enums\LibraryTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
 use App\Traits\HasCovers;
@@ -166,6 +167,11 @@ class Book extends Model implements HasMedia
     public function scopeWhereLibraryIs(Builder $query, Library $library): Builder
     {
         return $query->where('library_id', $library->id);
+    }
+
+    public function scopeWhereLibraryType(Builder $query, LibraryTypeEnum $type): Builder
+    {
+        return $query->whereRelation('library', 'type', $type);
     }
 
     public function publisher(): BelongsTo

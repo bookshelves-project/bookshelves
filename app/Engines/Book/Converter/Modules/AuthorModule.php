@@ -144,6 +144,14 @@ class AuthorModule
             ];
         }
 
+        if ($a['firstname'] === null && $a['lastname'] === null) {
+            $a = [
+                'firstname' => null,
+                'lastname' => $author->getName(),
+                'role' => $author->getRole(),
+            ];
+        }
+
         return $a;
     }
 
