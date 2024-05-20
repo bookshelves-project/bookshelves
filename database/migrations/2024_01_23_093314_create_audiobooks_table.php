@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('audiobooks', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
+            $table->string('parsed_title')->nullable();
             $table->string('track_title')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('slug')->nullable();

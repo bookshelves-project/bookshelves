@@ -55,12 +55,11 @@ class AudiobookJob implements ShouldQueue
             ->where('title', $this->bookName)
             ->get();
         $first = $audiobooks->first();
-        // $this->parseTitle($first->serie);
 
         $first->loadMissing('library');
         $library = $first->library;
 
-        $book = Book::create([
+        $book = Book::query()->create([
             'title' => $first->title,
             'slug' => $first->slug,
             'contributor' => $first->encoding,
@@ -75,6 +74,15 @@ class AudiobookJob implements ShouldQueue
             'added_at' => $first->added_at,
         ]);
 
+        $parsed_title = $this->parseTitle($first);
+        if ($parsed_title) {
+            $first->parsed_title = $parsed_title;
+            $first->save();
+
+            $book->title = $parsed_title;
+            $book->saveQuietly();
+        }
+
         if ($first->tags) {
             $tags = collect();
             foreach ($first->tags as $tag) {
@@ -86,12 +94,8 @@ class AudiobookJob implements ShouldQueue
             $book->tags()->syncWithoutDetaching($tags->pluck('id'));
         }
 
-        $lang = $first->language ?? $first->comment;
-        if ($lang) {
-            $language = Language::firstOrCreate([
-                'name' => $lang,
-                'slug' => Str::slug($lang),
-            ]);
+        $language = $this->parseLang($first);
+        if ($language) {
             $book->language()->associate($language);
         }
 
@@ -112,6 +116,8 @@ class AudiobookJob implements ShouldQueue
                 'slug' => $slug,
             ]);
             $serie->books()->save($book);
+            $serie->library()->associate($library);
+            $serie->saveQuietly();
         }
 
         $cover = BookConverter::audiobookCoverPath($first);
@@ -143,41 +149,50 @@ class AudiobookJob implements ShouldQueue
         });
     }
 
-    // private function parseTitle(?string $text): void
-    // {
-    //     if (! $text) {
-    //         return;
-    //     }
+    private function parseTitle(?Audiobook $audiobook): ?string
+    {
+        if (! $audiobook) {
+            return null;
+        }
 
-    //     $regex = '/^(?:(?P<serie>.+?)\s(?P<volume>\d{2})\s[-:]\s)?(?P<title>.+)$/';
-    //     $matches = [];
+        if (! str_contains($audiobook->title, '#') && ! str_contains($audiobook->title, ':')) {
+            return $audiobook->title;
+        }
 
-    //     if (preg_match($regex, $text, $matches)) {
-    //         $this->bookSerie = $matches['serie'] ?? null;
-    //         $this->bookVolume = $matches['volume'] ? intval($matches['volume']) : null;
-    //         $this->bookTitle = $matches['title'] ?? $text;
+        // `La Quête d'Ewilan #01 : D'un monde à l'autre`
+        // to `D'un monde à l'autre`
+        if (preg_match('/#\d+ : (.*)/', $audiobook->title, $matches)) {
+            $result = $matches[1] ?? null;
+            if ($result) {
+                return trim($result);
+            }
+        }
 
-    //         return;
-    //     }
+        return $audiobook->title;
+    }
 
-    //     $this->bookTitle = $text;
-    // }
+    private function parseLang(?Audiobook $audiobook): ?Language
+    {
+        if (! $audiobook) {
+            return null;
+        }
 
-    // private function parseLang(string $lang): string
-    // {
-    //     $lang = strtolower($lang);
+        $lang = $audiobook->language ?? $audiobook->comment;
+        $lang_slug = Str::slug($lang);
 
-    //     return match ($lang) {
-    //         'english' => 'en',
-    //         'spanish' => 'es',
-    //         'french' => 'fr',
-    //         'german' => 'de',
-    //         'italian' => 'it',
-    //         'portuguese' => 'pt',
-    //         'russian' => 'ru',
-    //         'japanese' => 'ja',
-    //         'chinese' => 'zh',
-    //         default => 'en',
-    //     };
-    // }
+        foreach (Language::all() as $language) {
+            if ($lang_slug === Str::slug($language->slug)) {
+                return $language;
+            }
+
+            if ($lang_slug === Str::slug($language->name)) {
+                return $language;
+            }
+        }
+
+        return Language::query()->firstOrCreate([
+            'name' => $lang,
+            'slug' => Str::slug($lang),
+        ]);
+    }
 }

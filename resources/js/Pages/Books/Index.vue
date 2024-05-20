@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 defineProps<{
+  library: App.Models.Library
   query: App.Paginate<App.Models.Book>
   breadcrumbs?: any[]
   title?: string
   square?: boolean
+  series?: boolean
 }>()
 </script>
 
@@ -12,6 +14,18 @@ defineProps<{
     :title="title"
     icon="ereader"
   >
+    <!-- <ILink :href="`/libraries/${library.slug}`">
+      library
+    </ILink>
+    <ILink :href="`/libraries/${library.slug}/series`">
+      series
+    </ILink> -->
+    <ListingTabs
+      :links="[
+        { label: 'Library', href: `/libraries/${library.slug}` },
+        { label: 'Series', href: `/libraries/${library.slug}/series` },
+      ]"
+    />
     <Listing
       :query="query"
       :sortable="[
@@ -28,12 +42,22 @@ defineProps<{
       >
         <Breadcrumbs :breadcrumbs="breadcrumbs" />
       </template>
-      <CardBook
-        v-for="book in query.data"
-        :key="book.id"
-        :book="book"
-        :square="square"
-      />
+      <template v-if="series">
+        <CardSerie
+          v-for="serie in query.data"
+          :key="serie.id"
+          :serie="serie"
+          :square="square"
+        />
+      </template>
+      <template v-else>
+        <CardBook
+          v-for="book in query.data"
+          :key="book.id"
+          :book="book"
+          :square="square"
+        />
+      </template>
     </Listing>
   </App>
 </template>

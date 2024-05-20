@@ -2,6 +2,7 @@ export interface Notification {
   type?: 'success' | 'error' | 'info' | 'warning'
   title: string
   description?: string
+  duration?: number
 }
 
 export interface NotificationExtended extends Notification {
@@ -13,18 +14,11 @@ export interface NotificationExtended extends Notification {
 const notifications = ref<NotificationExtended[]>([])
 
 export function useNotification(timeout = 5000) {
-  // watch(notifications, (value) => {
-  //   console.log(value)
-  // })
-
   function push(notification: Notification) {
-    if (!notification.type)
-      notification.type = 'info'
-
     const n = {
       ...notification,
       id: Date.now(),
-      timeout,
+      timeout: notification.duration || timeout,
       timer: 0,
     }
 
@@ -35,8 +29,18 @@ export function useNotification(timeout = 5000) {
     }, n.timeout)
   }
 
+  function remove(id: number) {
+    notifications.value = notifications.value.filter(item => item.id !== id)
+  }
+
+  function clearAll() {
+    notifications.value = []
+  }
+
   return {
     notifications,
     push,
+    remove,
+    clearAll,
   }
 }

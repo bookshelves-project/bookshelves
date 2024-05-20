@@ -99,7 +99,7 @@ class ConverterEngine
             );
         }
 
-        $book = $book->where('type', $this->ebook->getExtension())->first();
+        $book = $book->where('extension', $this->ebook->getExtension())->first();
 
         if ($book) {
             $this->isExist = true;

@@ -35,7 +35,7 @@ const isActive = computed(() => {
 
   const currentUrl = url.value.split('?')[0]
 
-  return props.link.libraryUrl === currentUrl
+  return props.link.libraryUrl === currentUrl || props.link.librarySeriesUrl === currentUrl
 })
 </script>
 

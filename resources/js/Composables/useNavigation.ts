@@ -10,6 +10,7 @@ export interface Link {
   restrictedRoles?: string[]
   isLibrary?: boolean
   libraryUrl?: string
+  librarySeriesUrl?: string
 }
 
 const mainLinks = ref<Link[]>([])
@@ -43,6 +44,7 @@ export function useNavigation() {
         route: { name: 'libraries.show', params: { library: library.slug } },
         isLibrary: true,
         libraryUrl: `/libraries/${library.slug}`,
+        librarySeriesUrl: `/libraries/${library.slug}/series`,
       })
     })
   }

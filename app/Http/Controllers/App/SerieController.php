@@ -21,8 +21,10 @@ class SerieController extends Controller
     }
 
     #[Get('/{library:slug}/{serie:slug}', name: 'series.show')]
-    public function show(Library $library, Serie $serie)
+    public function show(Library $library, string $serie)
     {
+        $serie = Serie::where('slug', $serie)->first();
+
         return inertia('Series/Show', [
             'serie' => $serie->loadMissing(['books', 'books.media', 'media']),
             'library' => $library,

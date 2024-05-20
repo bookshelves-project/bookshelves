@@ -30,9 +30,7 @@ class ParserJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $libraries = Library::all();
-
-        foreach ($libraries as $library) {
+        foreach (Library::audiobooksAtEnd() as $library) {
             $this->parseFiles($library);
         }
     }

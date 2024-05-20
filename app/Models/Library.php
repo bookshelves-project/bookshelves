@@ -47,6 +47,14 @@ class Library extends Model
         'is_enabled' => 'boolean',
     ];
 
+    /**
+     * @return Collection<int, Library>
+     */
+    public static function audiobooksAtEnd(): Collection
+    {
+        return Library::all()->sortBy(fn (Library $library) => $library->type === LibraryTypeEnum::audiobook);
+    }
+
     public function scopeOnlyAudiobooks(Builder $query)
     {
         return $query->where('type', LibraryTypeEnum::audiobook);

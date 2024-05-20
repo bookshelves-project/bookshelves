@@ -3,10 +3,7 @@
 namespace App\Engines\Book\Converter;
 
 use App\Engines\Book\Converter\Modules\SerieModule;
-use App\Facades\Bookshelves;
 use App\Models\Serie;
-use Kiwilan\LaravelNotifier\Facades\Journal;
-use Kiwilan\Steward\Utils\Wikipedia;
 
 /**
  * Improve Serie with additional data.
@@ -24,41 +21,9 @@ class SerieConverter
         $self = new SerieConverter($serie, $fresh);
         $self->setTags();
         $self->setCover();
-        if (Bookshelves::apiWikipedia()) {
-            $self->wikipedia();
-        }
-
         $self->setBookDescription();
 
         return $self;
-    }
-
-    private function wikipedia(): self
-    {
-        Journal::info("Wikipedia: serie {$this->serie->title}");
-
-        $lang = BookConverter::selectLang($this->serie->books);
-        $wikipedia = Wikipedia::make($this->serie->title)
-            ->language($lang)
-            ->exact()
-            ->withImage()
-            ->get();
-
-        $item = $wikipedia->getItem();
-        $this->serie->wikipedia_parsed_at = now();
-
-        if (! $item) {
-            $this->serie->save();
-
-            return $this;
-        }
-
-        $this->serie->description = $item->getExtract();
-        $this->serie->link = $item->getFullUrl();
-
-        $this->serie->save();
-
-        return $this;
     }
 
     private function setBookDescription(): void

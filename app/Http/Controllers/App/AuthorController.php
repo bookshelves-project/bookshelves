@@ -39,8 +39,10 @@ class AuthorController extends Controller
             'books.media',
             'books.language',
             'books.serie',
+            'books.library',
             'series.media',
             'series.language',
+            'series.library',
         ])
             ->withCount(['books', 'series']);
 

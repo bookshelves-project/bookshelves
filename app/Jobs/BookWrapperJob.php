@@ -39,7 +39,7 @@ class BookWrapperJob implements ShouldQueue
             ->map(fn (Book $book) => $book->physical_path)
             ->toArray();
 
-        foreach (Library::all() as $library) {
+        foreach (Library::audiobooksAtEnd() as $library) {
             $this->parseFiles($library, $current_books);
         }
 

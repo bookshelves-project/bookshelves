@@ -103,6 +103,11 @@ class Serie extends Model implements HasMedia
         return $query->whereRaw('UPPER(SUBSTR(slug, 1, 1)) = ?', [strtoupper($char)]);
     }
 
+    public function scopeWhereLibraryIs(Builder $query, Library $library): Builder
+    {
+        return $query->where('library_id', $library->id);
+    }
+
     public function books(): HasMany
     {
         // Get Books into Serie, by volume order.

@@ -30,7 +30,7 @@ const { ucfirst } = useUtils()
     />
     <div class="absolute bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-white/0 h-20 w-full top-0 z-10" />
     <div class="info left-2 text-shadow">
-      {{ ucfirst(serie.type) }}
+      {{ ucfirst(serie.library?.type) }} ({{ serie.language?.name }})
     </div>
     <div class="mt-3">
       <p class="line-clamp-1">
@@ -45,9 +45,6 @@ const { ucfirst } = useUtils()
       <div class="line-clamp-1 text-sm text-gray-400">
         <span v-if="serie.books_count">
           {{ serie.books_count }} books
-        </span>
-        <span v-if="serie.language">
-          ({{ serie.language.name }})
         </span>
       </div>
     </div>

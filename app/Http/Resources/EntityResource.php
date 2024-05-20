@@ -22,6 +22,14 @@ class EntityResource extends JsonResource
             $this->resource = $this->{$relation};
         }
 
+        if ($this->resource instanceof \App\Models\Book || $this->resource instanceof \App\Models\Serie) {
+            $this->resource->loadMissing([
+                'authors',
+                'language',
+                'library',
+            ]);
+        }
+
         return [
             'title' => $this->resource->title,
             'slug' => $this->resource->slug,

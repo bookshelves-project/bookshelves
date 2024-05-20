@@ -15,6 +15,7 @@ class Audiobook extends Model
 
     protected $fillable = [
         'title',
+        'parsed_title',
         'track_title',
         'subtitle',
         'author_main',
