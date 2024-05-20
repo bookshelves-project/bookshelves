@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build && vite build --ssr",
+    "build": "vite build",
+    "build:ssr": "vite build --ssr",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
