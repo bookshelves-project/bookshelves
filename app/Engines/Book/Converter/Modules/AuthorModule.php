@@ -118,38 +118,23 @@ class AuthorModule
     /**
      * @return array{firstname: string|null, lastname: string|null, role: string|null}
      */
-    public static function convertName(BookAuthor $author): ?array
+    public static function convertName(BookAuthor $author): array
     {
         $a = [
             'firstname' => null,
             'lastname' => null,
-            'role' => null,
-        ];
-
-        $pattern = '/(?<firstname>[A-Z][a-z.-]+(?: [A-Z][a-z.-]+)*)\s+(?<lastname>[A-Z][a-z.-]+(?: [A-Z][a-z.-]+)*)/';
-        preg_match($pattern, $author->getName(), $matches);
-
-        $a = [
-            'firstname' => isset($matches['firstname']) ? $matches['firstname'] : null,
-            'lastname' => isset($matches['lastname']) ? $matches['lastname'] : null,
             'role' => $author->getRole(),
         ];
 
         $isOrderNatural = config('bookshelves.authors.order_natural');
-        if (! $isOrderNatural) {
-            $a = [
-                'firstname' => isset($matches['lastname']) ? $matches['lastname'] : null,
-                'lastname' => isset($matches['firstname']) ? $matches['firstname'] : null,
-                'role' => $author->getRole(),
-            ];
-        }
-
-        if ($a['firstname'] === null && $a['lastname'] === null) {
-            $a = [
-                'firstname' => null,
-                'lastname' => $author->getName(),
-                'role' => $author->getRole(),
-            ];
+        if ($isOrderNatural) {
+            $exploded = explode(' ', $author->getName());
+            $a['lastname'] = array_pop($exploded);
+            $a['firstname'] = implode(' ', $exploded);
+        } else {
+            $exploded = explode(' ', $author->getName());
+            $a['firstname'] = array_shift($exploded);
+            $a['lastname'] = implode(' ', $exploded);
         }
 
         return $a;

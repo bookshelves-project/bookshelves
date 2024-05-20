@@ -55,7 +55,7 @@ class SerieController extends Controller
         $lower = strtolower($character);
         $feeds = OpdsBase::cache("opds.series.character.{$lower}", function () use ($character) {
             $series = Serie::query()
-                ->with(['media', 'library'])
+                ->with(['media', 'library', 'language'])
                 ->withCount(['books'])
                 ->orderBy('title')
                 ->whereFirstChar($character)
@@ -70,7 +70,7 @@ class SerieController extends Controller
 
                 $feeds[] = new OpdsEntryNavigation(
                     id: $serie->slug,
-                    title: "{$serie->title} ({$serie->library?->name})",
+                    title: "{$serie->title} {$serie->language?->name}",
                     route: route('opds.series.show', ['character' => $character, 'serie' => $serie->slug]),
                     summary: "{$count} books, {$description}",
                     media: $serie->cover_social,

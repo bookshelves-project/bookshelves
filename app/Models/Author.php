@@ -55,13 +55,15 @@ class Author extends Model implements HasMedia
         'wikipedia_parsed_at' => 'datetime',
     ];
 
-    protected $query_default_sort = 'name';
+    protected $query_default_sort = 'lastname';
 
     protected $query_default_sort_direction = 'asc';
 
     protected $query_allowed_sorts = [
         'id',
         'name',
+        'lastname',
+        'firstname',
         'role',
         'books_count',
         'series_count',

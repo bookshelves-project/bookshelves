@@ -34,7 +34,7 @@ const { ucfirst } = useUtils()
     />
     <div class="absolute bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-white/0 h-20 w-full top-0 z-10" />
     <div class="info left-2 text-shadow">
-      {{ ucfirst(book.type) }}
+      {{ ucfirst(book.library?.type) }}
       <span v-if="book.language">
         ({{ book.language.name }})
       </span>

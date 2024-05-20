@@ -3,19 +3,19 @@
     "name": "Audiobooks (english)",
     "type": "audiobook",
     "path": "/Volumes/library/books/audiobooks/english",
-    "is_enabled": true
+    "is_enabled": false
   },
   {
     "name": "Audiobooks (french)",
     "type": "audiobook",
     "path": "/Volumes/library/books/audiobooks/french",
-    "is_enabled": true
+    "is_enabled": false
   },
   {
     "name": "Comics",
     "type": "comic",
     "path": "/Volumes/library/books/comics",
-    "is_enabled": true
+    "is_enabled": false
   },
   {
     "name": "eBooks (english)",
@@ -33,6 +33,6 @@
     "name": "Mangas",
     "type": "manga",
     "path": "/Volumes/library/books/mangas",
-    "is_enabled": true
+    "is_enabled": false
   }
 ]
