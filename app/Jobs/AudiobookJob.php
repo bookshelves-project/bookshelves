@@ -10,6 +10,7 @@ use App\Models\Audiobook;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
+use App\Models\Library;
 use App\Models\Serie;
 use App\Models\Tag;
 use Illuminate\Bus\Queueable;
@@ -17,6 +18,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\SpatieMedia;
@@ -54,38 +56,51 @@ class AudiobookJob implements ShouldQueue
         $audiobooks = Audiobook::query()
             ->where('title', $this->bookName)
             ->get();
-        $first = $audiobooks->first();
+        $audiobook = $audiobooks->first();
 
-        $first->loadMissing('library');
-        $library = $first->library;
+        $audiobook->loadMissing('library');
+        $library = $audiobook->library;
 
+        Book::withoutSyncingToSearch(function () use ($audiobook, $audiobooks, $library) {
+            $this->parseBook($audiobook, $audiobooks, $library);
+        });
+
+    }
+
+    /**
+     * Parse the audiobook.
+     *
+     * @param  Collection<Audiobook>  $audiobooks
+     */
+    private function parseBook(Audiobook $audiobook, Collection $audiobooks, Library $library): void
+    {
         $book = Book::query()->create([
-            'title' => $first->title,
-            'slug' => $first->slug,
-            'contributor' => $first->encoding,
-            'released_on' => $first->publish_date,
-            'description' => $first->description,
-            'audiobook_narrators' => $first->narrators,
+            'title' => $audiobook->title,
+            'slug' => $audiobook->slug,
+            'contributor' => $audiobook->encoding,
+            'released_on' => $audiobook->publish_date,
+            'description' => $audiobook->description,
+            'audiobook_narrators' => $audiobook->narrators,
             'audiobook_chapters' => count($audiobooks),
-            'rights' => $first->encoding,
-            'volume' => $first->volume,
-            'format' => BookFormatEnum::fromExtension($first->extension),
+            'rights' => $audiobook->encoding,
+            'volume' => $audiobook->volume,
+            'format' => BookFormatEnum::fromExtension($audiobook->extension),
             'size' => $audiobooks->sum('size'),
-            'added_at' => $first->added_at,
+            'added_at' => $audiobook->added_at,
         ]);
 
-        $parsed_title = $this->parseTitle($first);
+        $parsed_title = $this->parseTitle($audiobook);
         if ($parsed_title) {
-            $first->parsed_title = $parsed_title;
-            $first->save();
+            $audiobook->parsed_title = $parsed_title;
+            $audiobook->saveQuietly();
 
             $book->title = $parsed_title;
             $book->saveQuietly();
         }
 
-        if ($first->tags) {
+        if ($audiobook->tags) {
             $tags = collect();
-            foreach ($first->tags as $tag) {
+            foreach ($audiobook->tags as $tag) {
                 $tag = Tag::query()->firstOrCreate([
                     'name' => $tag,
                 ]);
@@ -94,13 +109,13 @@ class AudiobookJob implements ShouldQueue
             $book->tags()->syncWithoutDetaching($tags->pluck('id'));
         }
 
-        $language = $this->parseLang($first);
+        $language = $this->parseLang($audiobook);
         if ($language) {
             $book->language()->associate($language);
         }
 
-        if ($first->authors) {
-            foreach ($first->authors as $author) {
+        if ($audiobook->authors) {
+            foreach ($audiobook->authors as $author) {
                 $author = Author::query()->firstOrCreate([
                     'name' => $author,
                 ]);
@@ -109,10 +124,10 @@ class AudiobookJob implements ShouldQueue
         }
 
         $serie = null;
-        if ($first->serie) {
-            $slug = Str::slug($first->serie.' '.LibraryTypeEnum::audiobook->value.' '.$book->language?->name);
+        if ($audiobook->serie) {
+            $slug = Str::slug($audiobook->serie.' '.LibraryTypeEnum::audiobook->value.' '.$book->language?->name);
             $serie = Serie::query()->firstOrCreate([
-                'title' => $first->serie,
+                'title' => $audiobook->serie,
                 'slug' => $slug,
             ]);
             $serie->books()->save($book);
@@ -120,7 +135,7 @@ class AudiobookJob implements ShouldQueue
             $serie->saveQuietly();
         }
 
-        $cover = BookConverter::audiobookCoverPath($first);
+        $cover = BookConverter::audiobookCoverPath($audiobook);
         $contents = file_get_contents($cover);
 
         SpatieMedia::make($book)
@@ -132,21 +147,20 @@ class AudiobookJob implements ShouldQueue
             ->color()
             ->save();
 
-        Book::withoutSyncingToSearch(function () use ($audiobooks, $book, $serie, $library) {
-            $book->audiobooks()->saveMany($audiobooks);
-            $book->authorMain()->associate($book->authors[0] ?? null);
-            $book->library()->associate($library);
-            $book->save();
+        $book->audiobooks()->saveMany($audiobooks);
+        $book->authorMain()->associate($book->authors[0] ?? null);
+        $book->library()->associate($library);
 
-            if ($serie) {
-                /** @var Serie $serie */
-                $serie->authors()->syncWithoutDetaching($book->authors->pluck('id'));
-                if (! $serie->authorMain) {
-                    $serie->authorMain()->associate($book->authorMain);
-                }
-                $serie->save();
+        if ($serie) {
+            /** @var Serie $serie */
+            $serie->authors()->syncWithoutDetaching($book->authors->pluck('id'));
+            if (! $serie->authorMain) {
+                $serie->authorMain()->associate($book->authorMain);
             }
-        });
+            $serie->save();
+        }
+
+        $book->saveQuietly();
     }
 
     private function parseTitle(?Audiobook $audiobook): ?string

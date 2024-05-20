@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-//
+import { usePage } from '@inertiajs/vue3'
+
+const { props } = usePage()
+console.log(props.ziggy)
 </script>
 
 <template>
