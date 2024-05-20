@@ -45,10 +45,9 @@ onMounted(async () => {
     :color="book.cover_color"
     icon="ereader"
   >
-    {{ square ? 'square' : 'poster' }}
     <ShowContainer
       :model="book"
-      :type="ucfirst(book.type)"
+      :type="ucfirst(book.library?.type)"
       :title="book.title"
       :cover="book.cover_standard"
       :cover-color="book.cover_color"
