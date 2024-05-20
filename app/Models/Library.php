@@ -187,7 +187,7 @@ class Library extends Model
     {
         $cache = Cache::get(self::CACHE_KEY);
 
-        if ($cache) {
+        if ($cache !== null) {
             return $cache;
         }
 
