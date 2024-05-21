@@ -132,6 +132,7 @@ class AudiobookJob implements ShouldQueue
             ]);
             $serie->books()->save($book);
             $serie->library()->associate($library);
+            $serie->language()->associate($language);
             $serie->saveQuietly();
         }
 

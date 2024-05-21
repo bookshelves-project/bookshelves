@@ -18,6 +18,7 @@ class SerieController extends Controller
             ->orderBy('updated_at', 'desc')
             ->limit(20)
             ->get();
+        ray($latest);
 
         return response()->json(
             data: [
