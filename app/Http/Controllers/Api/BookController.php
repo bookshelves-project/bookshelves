@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\LibraryTypeEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\EntityResource;
+use App\Http\Resources\SearchResource;
 use App\Models\Book;
 use Kiwilan\Steward\Utils\PaginatorHelper;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -22,7 +22,7 @@ class BookController extends Controller
             $related = $book->getRelated();
 
             if ($related->isNotEmpty()) {
-                return EntityResource::collection(PaginatorHelper::paginate($related));
+                return SearchResource::collection(PaginatorHelper::paginate($related));
             }
         }
 

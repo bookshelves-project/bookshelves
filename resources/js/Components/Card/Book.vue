@@ -35,13 +35,13 @@ const { ucfirst } = useUtils()
     <div class="absolute bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-white/0 h-20 w-full top-0 z-10" />
     <div
       v-if="book.language"
-      class="info left-2 text-shadow"
+      class="card-info left-2 card-info-shadow"
     >
       {{ book.language.name }}
     </div>
     <div
       v-if="book.library"
-      class="info right-2 text-shadow"
+      class="card-info right-2 card-info-shadow"
     >
       {{ ucfirst(book.library.type) }}
     </div>
@@ -61,12 +61,3 @@ const { ucfirst } = useUtils()
     </div>
   </ILink>
 </template>
-
-<style lang="css" scoped>
-.info {
-  @apply absolute top-2 text-sm italic text-gray-200 z-20 font-semibold;
-}
-.text-shadow {
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
-}
-</style>

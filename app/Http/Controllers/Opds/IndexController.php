@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\SearchEngine;
 use App\Enums\LibraryTypeEnum;
 use App\Facades\OpdsBase;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Engines\SearchEngine;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -71,11 +71,10 @@ class IndexController extends Controller
         $feeds = [];
 
         if ($query) {
-            $search = SearchEngine::make(q: $query, relevant: false, opds: true, types: ['books']);
-
-            foreach ($search->results_opds as $result) {
-                /** @var Book $result */
-                $feeds[] = OpdsBase::bookToEntry($result);
+            $search = SearchEngine::make($query, [Book::class])->get();
+            foreach ($search->getResults()->first() as $book) {
+                /** @var Book $book */
+                $feeds[] = OpdsBase::bookToEntry($book);
             }
         }
 

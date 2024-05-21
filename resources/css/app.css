@@ -28,3 +28,11 @@ body {
 .badge {
     clip-path: polygon(0 0, 100% 0, 100% 100%);
 }
+
+.card-info {
+    @apply absolute top-2 text-sm italic text-gray-200 z-20 font-semibold;
+}
+
+.card-info-shadow {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
+}

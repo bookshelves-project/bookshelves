@@ -9,7 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property \App\Models\Author|\App\Models\Book|\App\Models\Serie $resource
  */
-class EntityResource extends JsonResource
+class SearchResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,32 +18,64 @@ class EntityResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        if ($relation = $request->header('relation')) {
-            $this->resource = $this->{$relation};
+        $class = null;
+        $count = null;
+        if ($this->resource instanceof \App\Models\Author) {
+            $class = 'Author';
+            $this->resource->loadMissing([
+                'media',
+                'books',
+            ])->loadCount('books');
+            $count = $this->resource->books_count;
         }
 
-        if ($this->resource instanceof \App\Models\Book || $this->resource instanceof \App\Models\Serie) {
+        if ($this->resource instanceof \App\Models\Book) {
+            $class = 'Book';
             $this->resource->loadMissing([
                 'authors',
                 'language',
                 'library',
+                'serie',
+                'media',
             ]);
+        }
+
+        if ($this->resource instanceof \App\Models\Serie) {
+            $class = 'Serie';
+            $this->resource->loadMissing([
+                'authors',
+                'language',
+                'library',
+                'media',
+            ])->loadCount('books');
+            $count = $this->resource->books_count;
         }
 
         return [
             'title' => $this->resource->title,
             'slug' => $this->resource->slug,
-            'library' => $this->resource->library?->name,
-            'type' => $this->resource->library?->type,
+            'library' => $this->toLibrary(),
+            'class' => $class,
             'authors' => $this->toAuthors(),
             'serie' => $this->toSerie(),
+            'volume' => $this->resource->volume_pad ?? null,
             'language' => $this->toLanguage(),
-            'volume' => $this->resource->volume ?? null,
-            'count' => $this->resource->books_count,
+            'count' => $count,
             'cover_thumbnail' => $this->resource->cover_thumbnail,
             'cover_color' => $this->resource->cover_color,
-            'meta_route' => $this->resource->meta_route,
-            // 'first_char' => $this->resource->first_char ?? null,
+            'route' => $this->resource->route,
+        ];
+    }
+
+    private function toLibrary(): ?array
+    {
+        if (! $this->resource->library) {
+            return null;
+        }
+
+        return [
+            'name' => $this->resource->library->name,
+            'type' => $this->resource->library->type,
         ];
     }
 
@@ -60,10 +92,7 @@ class EntityResource extends JsonResource
         }
 
         return $this->resource->authors->map(fn ($author) => [
-            'id' => $author->id,
             'name' => $author->name,
-            'slug' => $author->slug,
-            'first_char' => $author->first_char,
         ])->toArray();
     }
 
@@ -74,10 +103,7 @@ class EntityResource extends JsonResource
         }
 
         return [
-            'id' => $this->resource->serie->id,
-            'name' => $this->resource->serie->title,
-            'slug' => $this->resource->serie->slug,
-            'first_char' => $this->resource->serie->first_char,
+            'title' => $this->resource->serie->title,
         ];
     }
 
@@ -89,7 +115,6 @@ class EntityResource extends JsonResource
 
         return [
             'name' => $this->resource->language->name,
-            'slug' => $this->resource->language->slug,
         ];
     }
 }

@@ -1,117 +1,68 @@
 <script lang="ts" setup>
 import { useDate, useRouter } from '@kiwilan/typescriptable-laravel'
 import { useUtils } from '@/Composables/useUtils'
+import type { SearchEntity } from '@/Types'
 
 const props = defineProps<{
-  results: any[]
-  search?: string
+  response: SearchEntity
   fullResults?: boolean
 }>()
 
 const { route } = useRouter()
-const { formatDate } = useDate()
-const { ucfirst } = useUtils()
-
-function name(item: any) {
-  return item.title ?? item.name
-}
-
-function year(item: any) {
-  const year = item.year ?? item.first_air_date?.slice(0, 4)
-  if (year)
-    return `(${year})`
-}
-
-function extra(item: any) {
-  let extra = ''
-
-  if (item.edition)
-    extra += item.edition
-
-  if (item.seasons_count) {
-    if (extra)
-      extra += ' · '
-
-    extra += `${item.seasons_count} seasons`
-  }
-
-  return extra
-}
 
 const seeResults = computed(() => {
   const url = route('search.index')
 
   return `${url}?${new URLSearchParams({
-    search: props.search ?? '',
+    search: props.response.query ?? '',
   }).toString()}`
 })
 </script>
 
 <template>
   <ul class="space-y-1">
-    <li v-if="results.length === 0">
+    <li v-if="response.data.length === 0">
       No results
     </li>
     <li
-      v-for="result in results"
-      :key="result.id"
+      v-for="item in response.data"
+      :key="item.slug"
     >
       <ILink
         class="block md:flex items-center rounded-md px-2 py-1 text-base hover:bg-slate-700 justify-between"
-        :href="result.meta_route"
+        :href="item.route"
       >
         <div class="flex items-center justify-between w-full">
           <div class="flex items-center">
             <AppImg
               class="mr-2 aspect-poster h-14 w-auto rounded-md object-cover"
-              :src="result.cover_thumbnail"
-              :color="result.cover_color"
+              :src="item.cover_thumbnail"
+              :color="item.cover_color"
             />
             <div>
-              <div>
-                {{ name(result) }} {{ year(result) }}
-                <span
-                  v-if="result.entity_type === 'Serie'"
-                  class="text-gray-400 italic"
-                >
-                  (serie)
+              <div class="flex items-center space-x-1">
+                <span>
+                  {{ item.title }}
+                </span>
+                <span class="text-gray-400 italic lowercase">
+                  ({{ item.class }} into {{ item.language?.name }})
                 </span>
               </div>
-              <div class="text-sm text-gray-400 flex items-center space-x-1">
-                <div>
-                  <span v-if="result.type">
-                    <span>{{ ucfirst(result.type) }}</span>
-                    <span>
-                      ·
-                    </span>
-                  </span>
-                  <span>
-                    {{ result.entity_type }}
-                    <span v-if="result.language">
-                      in
-                      {{ result.language.name }}
-                    </span>
-                  </span>
-                </div>
-                <div v-if="extra(result)">
-                  ·
-                </div>
-                <div>
-                  {{ extra(result) }}
-                </div>
+              <div class="text-sm text-gray-400 flex items-center space-x-2">
+                <span v-if="item.library">
+                  {{ item.library.name }}
+                </span>
+                <span v-if="item.serie">/</span>
+                <span v-if="item.serie">
+                  {{ item.serie.title }} #{{ item.volume }}
+                </span>
               </div>
             </div>
-          </div>
-          <div
-            v-if="result.added_at"
-            class="text-sm text-gray-400"
-          >
-            Added at {{ formatDate(result.added_at) }}
           </div>
         </div>
       </ILink>
     </li>
-    <li v-if="fullResults && results.length > 0">
+    <li v-if="fullResults && response.count > 0">
       <ILink
         :href="seeResults"
         class="py-3 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-700 rounded-md"

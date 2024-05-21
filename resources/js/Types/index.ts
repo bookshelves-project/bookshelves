@@ -1,13 +1,21 @@
 export interface Entity {
   title?: string
   slug?: string
-  type?: string
+  library?: App.Models.Library
+  class: string
   authors?: App.Models.Author[]
-  serie?: string
-  language?: string
+  serie?: App.Models.Serie
+  language?: App.Models.Language
   volume?: string
-  count?: string
+  count?: number
   cover_thumbnail?: string
   cover_color?: string
-  meta_route: string
+  route: string
+}
+
+export interface SearchEntity {
+  query: string
+  limit?: number
+  count: number
+  data: Entity[]
 }

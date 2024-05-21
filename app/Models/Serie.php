@@ -94,6 +94,14 @@ class Serie extends Model implements HasMedia
         ]);
     }
 
+    public function getRouteAttribute(): string
+    {
+        return route('series.show', [
+            'library' => $this->library?->slug ?? 'unknown',
+            'serie' => $this->slug,
+        ]);
+    }
+
     public function getFirstCharAttribute()
     {
         return strtoupper(substr(Str::slug($this->title), 0, 1));

@@ -99,6 +99,7 @@ class Book extends Model implements HasMedia
         'volume_pad',
         'download_link',
         'size_human',
+        'route',
     ];
 
     protected $casts = [
@@ -124,6 +125,13 @@ class Book extends Model implements HasMedia
     {
         return route('api.downloads.book', [
             'book' => $this->id,
+        ]);
+    }
+
+    public function getRouteAttribute(): string
+    {
+        return route('books.show', [
+            'book' => $this->slug,
         ]);
     }
 

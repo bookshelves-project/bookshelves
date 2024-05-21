@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Utils\Searching;
+use App\Http\Resources\SearchResource;
+use App\Models\Author;
+use App\Models\Book;
+use App\Models\Serie;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Engines\SearchEngine;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -14,13 +18,22 @@ class SearchController extends Controller
     #[Get('/', name: 'api.search.index')]
     public function index(Request $request)
     {
-        $searchInput = $request->input('search');
-        $limitInput = $request->input('limit', false);
-        if (! $searchInput) {
+        $query = $request->input('search');
+        $limit = $request->input('limit', null);
+
+        if (! $query) {
             return [];
         }
-        $search = Searching::search($searchInput, $limitInput);
 
-        return $search->results();
+        $search = SearchEngine::make($query, [Book::class, Serie::class, Author::class])
+            ->limit($limit)
+            ->get();
+
+        return response()->json([
+            'query' => $search->getQuery(),
+            'limit' => $search->getLimit(),
+            'count' => $search->getCount(),
+            'data' => $search->toResource(SearchResource::class, flatten: true),
+        ]);
     }
 }

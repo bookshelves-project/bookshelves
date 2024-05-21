@@ -75,6 +75,7 @@ class Author extends Model implements HasMedia
 
     protected $appends = [
         'title',
+        'route',
     ];
 
     protected $with = [];
@@ -84,6 +85,13 @@ class Author extends Model implements HasMedia
     public function getTitleAttribute(): string
     {
         return $this->name;
+    }
+
+    public function getRouteAttribute(): string
+    {
+        return route('authors.show', [
+            'author' => $this->slug,
+        ]);
     }
 
     public function getFirstCharAttribute()
