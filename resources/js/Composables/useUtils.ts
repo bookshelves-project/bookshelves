@@ -20,7 +20,9 @@ export function useUtils() {
   function ucfirst(string?: string) {
     if (!string)
       return ''
-    return string.charAt(0).toUpperCase() + string.slice(1)
+
+    const lowercased = string.toLowerCase()
+    return lowercased.charAt(0).toUpperCase() + lowercased.slice(1)
   }
 
   async function getSize(type: 'book' | 'serie', param: string): Promise<{ size: number, extension: string }> {

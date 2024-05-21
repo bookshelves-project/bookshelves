@@ -16,7 +16,7 @@ const tagsList = computed(() => {
 <template>
   <section class="card">
     <div class="flex flex-col gap-6 md:flex-row mt-6">
-      <div class="relative hidden flex-none rounded-md md:block">
+      <div class="relative hidden flex-none rounded-md lg:block">
         <AppImg
           class="hidden aspect-cover w-[20rem] flex-none self-start rounded-md object-cover md:block card-shadow"
           :src="cover"
@@ -27,12 +27,13 @@ const tagsList = computed(() => {
       <div class="flex-auto">
         <div class="flex gap-6">
           <AppImg
-            class="hidden sm:block aspect-cover w-[9rem] flex-none rounded-md object-cover md:hidden"
+            class="hidden md:block aspect-cover w-[9rem] flex-none rounded-md object-cover lg:hidden"
             :src="cover"
             :color="coverColor"
             :alt="title"
           />
           <div>
+            <slot name="before" />
             <div class="flex gap-1 text-sm text-gray-300">
               {{ eyebrow }}
               <slot name="eyebrow" />

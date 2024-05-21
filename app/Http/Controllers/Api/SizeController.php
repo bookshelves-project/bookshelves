@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\LibraryTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Audiobook;
 use App\Models\Book;
@@ -19,7 +18,7 @@ class SizeController extends Controller
     {
         $book->loadMissing(['library', 'audiobooks']);
 
-        if ($book->library?->type === LibraryTypeEnum::audiobook) {
+        if ($book->library?->type->isAudiobook()) {
             $size = $book->audiobooks
                 ->map(fn (Audiobook $audiobook) => $audiobook->size)
                 ->sum();
@@ -28,7 +27,7 @@ class SizeController extends Controller
         }
 
         return response()->json([
-            'extension' => $book->library?->type === LibraryTypeEnum::audiobook ? 'zip' : $book->extension,
+            'extension' => $book->library?->type->isAudiobook() ? 'zip' : $book->extension,
             'size' => $size,
         ]);
     }
@@ -40,7 +39,7 @@ class SizeController extends Controller
         $serie->loadMissing(['books', 'books.library', 'books.audiobooks']);
 
         foreach ($serie->books as $book) {
-            if ($book->library?->type === LibraryTypeEnum::audiobook) {
+            if ($book->library?->type->isAudiobook()) {
                 $size += $book->audiobooks
                     ->map(fn (Audiobook $audiobook) => $audiobook->size)
                     ->sum();

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\App;
 
-use App\Enums\LibraryTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -36,7 +35,7 @@ class BookController extends Controller
 
         return inertia('Books/Show', [
             'book' => $book,
-            'square' => $book->library?->type === LibraryTypeEnum::audiobook,
+            'square' => $book->library?->type->isAudiobook(),
         ]);
     }
 }

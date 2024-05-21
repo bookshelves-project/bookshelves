@@ -29,8 +29,17 @@ const { ucfirst } = useUtils()
       :alt="serie.title"
     />
     <div class="absolute bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-white/0 h-20 w-full top-0 z-10" />
-    <div class="info left-2 text-shadow">
-      {{ ucfirst(serie.library?.type) }} ({{ serie.language?.name }})
+    <div
+      v-if="serie.language"
+      class="info left-2 text-shadow"
+    >
+      {{ serie.language.name }}
+    </div>
+    <div
+      v-if="serie.library"
+      class="info right-2 text-shadow"
+    >
+      {{ ucfirst(serie.library.type) }}
     </div>
     <div class="mt-3">
       <p class="line-clamp-1">

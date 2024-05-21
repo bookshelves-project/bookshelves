@@ -2,19 +2,32 @@
 import { useFetch } from '@kiwilan/typescriptable-laravel'
 
 const props = defineProps<{
-  endpoint: App.Route.Name
+  endpoint?: App.Route.Name
+  route?: string
   type: 'book' | 'serie'
   title?: string
   url?: string
 }>()
 
 const items = ref<any>([])
-const { laravel } = useFetch()
+const { laravel, http } = useFetch()
 
 async function fetchItems() {
-  const res = await laravel.get(props.endpoint)
-  const body = await res.json()
-  items.value = body.data
+  let res: Response | undefined
+  if (props.endpoint)
+    res = await laravel.get(props.endpoint)
+  else if (props.route)
+    res = await http.get(props.route)
+  else
+    console.error('SwiperHome: No endpoint or url provided')
+
+  if (res) {
+    const body = await res.json()
+    items.value = body.data
+  }
+  else {
+    console.error('SwiperHome: No response')
+  }
 }
 fetchItems()
 </script>

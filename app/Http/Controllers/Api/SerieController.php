@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\LibraryTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Serie;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -18,11 +19,27 @@ class SerieController extends Controller
             ->orderBy('updated_at', 'desc')
             ->limit(20)
             ->get();
-        ray($latest);
 
         return response()->json(
             data: [
                 'data' => $latest,
+            ],
+        );
+    }
+
+    #[Get('/latest/{type}', name: 'api.series.latest.type')]
+    public function latestType(string $type)
+    {
+        $type = LibraryTypeEnum::from($type);
+        $latest = Serie::with(['authors', 'media', 'language', 'library'])
+            ->withCount(['books'])
+            ->whereLibraryType($type);
+
+        return response()->json(
+            data: [
+                'data' => $latest->orderBy('updated_at', 'desc')
+                    ->limit(20)
+                    ->get(),
             ],
         );
     }

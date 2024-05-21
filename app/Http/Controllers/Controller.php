@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LibraryTypeEnum;
 use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Database\Eloquent\Builder;
@@ -77,14 +78,21 @@ abstract class Controller
         ]);
     }
 
-    public function getBooks(string $column, bool $desc = false, int $limit = 20)
+    public function getBooks(string $column, bool $desc = false, int $limit = 20, ?LibraryTypeEnum $type = null)
     {
-        return Book::with([
+        $books = Book::with([
             'authors',
             'serie',
             'media',
             'language',
-        ])
+            'library',
+        ]);
+
+        if ($type) {
+            $books->whereRelation('library', 'type', $type->value);
+        }
+
+        return $books
             ->orderBy($column, $desc ? 'desc' : 'asc')
             ->limit($limit)
             ->get();

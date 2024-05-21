@@ -39,7 +39,7 @@ class DownloadController extends Controller
         ]);
 
         $name = Str::slug("{$name} {$book->slug} {$author} {$book->library?->name}");
-        if ($book->library?->type === LibraryTypeEnum::audiobook) {
+        if ($book->library?->type->isAudiobook()) {
             $files = $book->audiobooks
                 ->map(fn (Audiobook $audiobook) => new DownloaderZipStreamItem($audiobook->basename, $audiobook->physical_path))
                 ->toArray();

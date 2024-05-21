@@ -25,7 +25,7 @@ const { ucfirst } = useUtils()
         'poster ': !square,
         'album ': square,
         'h-[20rem]': carousel && !square,
-        'h-[10rem]': carousel && square,
+        'h-[12rem]': carousel && square,
       }"
       class="w-full"
       :src="book.cover_thumbnail"
@@ -33,17 +33,17 @@ const { ucfirst } = useUtils()
       :alt="book.title"
     />
     <div class="absolute bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-white/0 h-20 w-full top-0 z-10" />
-    <div class="info left-2 text-shadow">
-      {{ ucfirst(book.library?.type) }}
-      <span v-if="book.language">
-        ({{ book.language.name }})
-      </span>
+    <div
+      v-if="book.language"
+      class="info left-2 text-shadow"
+    >
+      {{ book.language.name }}
     </div>
     <div
-      v-if="book.extension"
-      class="info right-2 uppercase text-shadow"
+      v-if="book.library"
+      class="info right-2 text-shadow"
     >
-      {{ book.extension }}
+      {{ ucfirst(book.library.type) }}
     </div>
     <div class="mt-3">
       <p class="line-clamp-1 w-48">

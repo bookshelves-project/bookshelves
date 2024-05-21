@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Engines\Book\Converter\BookConverter;
 use App\Enums\BookFormatEnum;
-use App\Enums\LibraryTypeEnum;
 use App\Facades\Bookshelves;
 use App\Models\Audiobook;
 use App\Models\Author;
@@ -20,6 +19,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Kiwilan\Ebook\Models\MetaTitle;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\SpatieMedia;
 
@@ -74,9 +74,18 @@ class AudiobookJob implements ShouldQueue
      */
     private function parseBook(Audiobook $audiobook, Collection $audiobooks, Library $library): void
     {
+        $meta = MetaTitle::fromData(
+            title: $audiobook->title,
+            language: $audiobook->language,
+            series: $audiobook->serie,
+            volume: $audiobook->volume,
+            author: $audiobook->author_main,
+            year: $audiobook->publish_date?->year,
+            extension: $audiobook->extension,
+        );
         $book = Book::query()->create([
             'title' => $audiobook->title,
-            'slug' => $audiobook->slug,
+            'slug' => $meta->getSlug(),
             'contributor' => $audiobook->encoding,
             'released_on' => $audiobook->publish_date,
             'description' => $audiobook->description,
@@ -125,10 +134,9 @@ class AudiobookJob implements ShouldQueue
 
         $serie = null;
         if ($audiobook->serie) {
-            $slug = Str::slug($audiobook->serie.' '.LibraryTypeEnum::audiobook->value.' '.$book->language?->name);
             $serie = Serie::query()->firstOrCreate([
                 'title' => $audiobook->serie,
-                'slug' => $slug,
+                'slug' => $meta->getSeriesSlug(),
             ]);
             $serie->books()->save($book);
             $serie->library()->associate($library);

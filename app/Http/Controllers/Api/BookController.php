@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\LibraryTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EntityResource;
 use App\Models\Book;
@@ -46,9 +47,13 @@ class BookController extends Controller
         ]);
     }
 
-    #[Get('/error', name: 'api.books.error')]
-    public function error()
+    #[Get('/latest/{type}', name: 'api.books.latest.type')]
+    public function latestType(string $type)
     {
-        return throw new \Exception('Error');
+        $type = LibraryTypeEnum::from($type);
+
+        return response()->json([
+            'data' => $this->getBooks('added_at', true, 20, $type),
+        ]);
     }
 }

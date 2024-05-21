@@ -11,7 +11,7 @@ const extension = ref<string>()
 const { bytesToHuman, ucfirst, getSize } = useUtils()
 
 const titlePage = computed(() => {
-  return `${props.serie.title} (${props.serie.type}) into ${props.serie.language?.name} · ${props.serie.books_count} books`
+  return `${props.serie.title} (${props.serie.library?.type}) into ${props.serie.language?.name} · ${props.serie.books_count} books`
 })
 
 onMounted(async () => {
@@ -30,7 +30,7 @@ onMounted(async () => {
   >
     <ShowContainer
       :model="serie"
-      :type="ucfirst(serie.type)"
+      :library="serie.library"
       :title="serie.title"
       :cover="serie.cover_standard"
       :cover-color="serie.cover_color"
@@ -40,7 +40,7 @@ onMounted(async () => {
       :badges="[
         `${serie.books_count} books`,
         serie.language ? `${serie.language.name}` : undefined,
-        ucfirst(serie.type),
+        ucfirst(serie.library?.type),
       ]"
       :download="{
         url: serie.download_link,
@@ -48,6 +48,7 @@ onMounted(async () => {
         extension,
       }"
       :breadcrumbs="[
+        { label: serie.library?.name, route: { name: 'home' } },
         { label: 'Series', route: { name: 'home' } },
         { label: serie.title, route: { name: 'home' } },
       ]"

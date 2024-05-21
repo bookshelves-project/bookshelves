@@ -109,6 +109,11 @@ class Serie extends Model implements HasMedia
         return $query->where('library_id', $library->id);
     }
 
+    public function scopeWhereLibraryType(Builder $query, LibraryTypeEnum $type): Builder
+    {
+        return $query->whereRelation('library', 'type', $type);
+    }
+
     public function scopeWhereHasBooks(Builder $query): Builder
     {
         return $query->whereRelation('library', 'type', LibraryTypeEnum::book);

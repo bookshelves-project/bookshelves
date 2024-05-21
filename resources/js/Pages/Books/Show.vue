@@ -13,7 +13,7 @@ const related = ref<Entity[]>()
 const extension = ref<string>()
 
 const { laravel } = useFetch()
-const { bytesToHuman, ucfirst, getSize } = useUtils()
+const { bytesToHuman, getSize } = useUtils()
 const { dateString } = useDate()
 
 const titlePage = computed(() => {
@@ -47,7 +47,7 @@ onMounted(async () => {
   >
     <ShowContainer
       :model="book"
-      :type="ucfirst(book.library?.type)"
+      :library="book.library"
       :title="book.title"
       :cover="book.cover_standard"
       :cover-color="book.cover_color"
@@ -70,7 +70,7 @@ onMounted(async () => {
         extension,
       }"
       :breadcrumbs="[
-        { label: 'Books', route: { name: 'home' } },
+        { label: book.library?.name, route: { name: 'home' } },
         { label: `${book.title}`, route: { name: 'books.show', params: { book: book.slug } } },
       ]"
     >

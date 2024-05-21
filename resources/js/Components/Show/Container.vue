@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+import { useUtils } from '@/Composables/useUtils'
+
 export interface DetailsMedia {
   backdrop?: string
   cover?: string
   coverColor?: string
-  type?: string
+  library?: App.Models.Library
   title?: string
   eyebrow?: string
   undertitle?: string
@@ -29,6 +31,8 @@ const props = defineProps<DetailsMedia>()
 
 type Display = 'media' | 'crew' | 'metadata'
 const display = ref<Display>('media')
+
+const { ucfirst } = useUtils()
 </script>
 
 <template>
@@ -52,6 +56,20 @@ const display = ref<Display>('media')
           v-if="display === 'media'"
           v-bind="props"
         >
+          <template #before>
+            <AppBadge
+              size="md"
+              class="mb-3"
+            >
+              <SvgIcon
+                :name="(library?.type as SvgName)"
+                class="w-5 h-5 mr-2"
+              />
+              <span class="text-lg">
+                Type : {{ ucfirst(library?.type) }}
+              </span>
+            </AppBadge>
+          </template>
           <template #title>
             <slot name="title" />
           </template>

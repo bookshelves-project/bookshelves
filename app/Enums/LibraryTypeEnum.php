@@ -19,6 +19,16 @@ enum LibraryTypeEnum: string implements HasColor, HasIcon, HasLabel
 
     case manga = 'manga';
 
+    public function isComic(): bool
+    {
+        return $this === self::comic || $this === self::manga;
+    }
+
+    public function isAudiobook(): bool
+    {
+        return $this === self::audiobook;
+    }
+
     public static function getLabels(): array
     {
         $items = [];
