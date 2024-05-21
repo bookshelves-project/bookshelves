@@ -46,7 +46,7 @@ class SerieController extends Controller
         Opds::make(OpdsBase::config())
             ->title('Series')
             ->feeds($feeds)
-            ->send(config('app.env') === 'local');
+            ->send(true);
     }
 
     #[Get('/{character}', name: 'opds.series.character')]
@@ -84,7 +84,7 @@ class SerieController extends Controller
         OpdsBase::app()
             ->title("Series with {$character}")
             ->feeds($feeds)
-            ->send(config('app.env') === 'local');
+            ->send(true);
     }
 
     #[Get('/{character}/{serie}', name: 'opds.series.show')]
@@ -103,6 +103,6 @@ class SerieController extends Controller
             ->title("Serie {$serie->title}")
             ->feeds($feeds)
             ->paginate()
-            ->send(config('app.env') === 'local');
+            ->send(true);
     }
 }

@@ -19,7 +19,7 @@ class IndexController extends Controller
     {
         OpdsBase::app()
             ->feeds(OpdsBase::home())
-            ->send(config('app.env') === 'local');
+            ->send(true);
     }
 
     #[Get('/latest', name: 'opds.latest')]
@@ -40,7 +40,7 @@ class IndexController extends Controller
         OpdsBase::app()
             ->title('Latest books')
             ->feeds($feeds)
-            ->send(config('app.env') === 'local');
+            ->send(true);
     }
 
     #[Get('/random', name: 'opds.random')]
@@ -61,7 +61,7 @@ class IndexController extends Controller
         OpdsBase::app()
             ->title('Random books')
             ->feeds($feeds)
-            ->send(config('app.env') === 'local');
+            ->send(true);
     }
 
     #[Get('/search', name: 'opds.search')]
@@ -83,6 +83,6 @@ class IndexController extends Controller
             ->title("Search for {$query}")
             ->isSearch()
             ->feeds($feeds)
-            ->send(config('app.env') === 'local');
+            ->send(true);
     }
 }
