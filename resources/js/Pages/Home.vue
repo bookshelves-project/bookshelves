@@ -30,26 +30,6 @@ const swipers: {
     title: 'Mangas recently added',
     type: 'book',
   },
-  {
-    route: '/api/series/latest/book',
-    title: 'Series eBooks recently added',
-    type: 'serie',
-  },
-  {
-    route: '/api/series/latest/audiobook',
-    title: 'Series audiobooks recently added',
-    type: 'serie',
-  },
-  {
-    route: '/api/series/latest/comic',
-    title: 'Series comics recently added',
-    type: 'serie',
-  },
-  {
-    route: '/api/series/latest/manga',
-    title: 'Series mangas recently added',
-    type: 'serie',
-  },
 ]
 </script>
 
