@@ -47,7 +47,7 @@ class AuthorController extends Controller
         $authors = OpdsSetup::cache("opds.authors.character.{$lower}", function () use ($character) {
             return Author::query()
                 ->with(['media'])
-                ->withCount('books')
+                ->withCount(['books', 'booksOnlyBook'])
                 ->orderBy('lastname')
                 ->whereFirstChar($character)
                 ->whereHasBooks()
@@ -56,12 +56,13 @@ class AuthorController extends Controller
 
         $feeds = [];
 
+        /** @var Author $author */
         foreach ($authors as $author) {
             $feeds[] = new OpdsEntryNavigation(
                 id: Str::slug("{$author->lastname} {$author->firstname}"),
                 title: "{$author->lastname}, {$author->firstname}",
                 route: route('opds.authors.show', ['character' => $character, 'author' => $author->slug]),
-                summary: "{$author->books_count} books",
+                summary: "{$author->books_only_book_count} books",
                 media: $author->cover_social,
                 updated: $author->updated_at,
             );
