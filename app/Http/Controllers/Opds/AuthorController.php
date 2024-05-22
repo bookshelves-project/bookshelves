@@ -23,33 +23,12 @@ class AuthorController extends Controller
         $alphabet = range('A', 'Z');
         $feeds = [];
 
-        // $authorsCount = Author::query()
-        //     ->orderBy('lastname')
-        //     ->whereHasBooks()
-        //     ->get(['lastname', 'firstname']);
-        // dd($authorsCount);
-
         foreach ($alphabet as $char) {
-            $id = strtolower($char);
-            // $count = OpdsSetup::cache("opds.authors.index.{$char}", function () use ($char) {
-            //     return Author::query()
-            //         ->orderBy('lastname')
-            //         ->whereFirstChar($char)
-            //         ->whereHasBooks()
-            //         ->count();
-            // });
-
-            // $count = Author::query()
-            //     ->orderBy('lastname')
-            //     ->whereFirstChar($char)
-            //     ->whereHasBooks()
-            //     ->count();
-
+            $char_lower = strtolower($char);
             $feeds[] = new OpdsEntryNavigation(
-                id: $id,
-                // title: "{$char} ({$count} entries)",
+                id: "authors.{$char_lower}",
                 title: "{$char}",
-                route: route('opds.authors.character', ['character' => $id]),
+                route: route('opds.authors.character', ['character' => $char_lower]),
                 summary: "Authors beginning with {$char}",
                 media: asset('vendor/images/no-author.jpg'),
             );

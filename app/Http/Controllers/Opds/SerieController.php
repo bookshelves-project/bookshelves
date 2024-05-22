@@ -23,20 +23,11 @@ class SerieController extends Controller
         $feeds = [];
 
         foreach ($alphabet as $char) {
-            $id = strtolower($char);
-            // $count = OpdsSetup::cache("opds.series.index.{$char}", function () use ($char) {
-            //     return Serie::query()
-            //         ->orderBy('title')
-            //         ->whereFirstChar($char)
-            //         ->whereHasBooks()
-            //         ->count();
-            // });
-
+            $char_lower = strtolower($char);
             $feeds[] = new OpdsEntryNavigation(
-                id: $id,
-                // title: "{$char} ({$count} entries)",
+                id: "series.{$char_lower}",
                 title: "{$char}",
-                route: route('opds.series.character', ['character' => $id]),
+                route: route('opds.series.character', ['character' => $char_lower]),
                 summary: "Series beginning with {$char}",
                 media: asset('vendor/images/no-cover.jpg'),
             );
