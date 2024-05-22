@@ -52,7 +52,7 @@ class Audiobook extends Model
         'authors' => 'array',
         'narrators' => 'array',
         'tags' => 'array',
-        'volume' => 'integer',
+        'volume' => 'float',
         'is_compilation' => 'boolean',
         'duration' => 'float',
         'publish_date' => 'date',

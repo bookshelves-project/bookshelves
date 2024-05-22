@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('language')->nullable();
             $table->json('tags')->nullable();
             $table->string('serie')->nullable();
-            $table->integer('volume')->nullable();
+            $table->float('volume')->nullable();
             $table->string('format')->nullable();
 
             $table->string('track_number')->nullable();

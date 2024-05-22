@@ -27,12 +27,6 @@ class AudiobookJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    // public ?string $bookSerie = null;
-
-    // public ?string $bookTitle = null;
-
-    // public ?int $bookVolume = null;
-
     /**
      * Create a new job instance.
      */

@@ -22,7 +22,7 @@ return new class() extends Migration
             $table->json('audiobook_narrators')->nullable();
             $table->integer('audiobook_chapters')->nullable();
             $table->string('rights')->nullable();
-            $table->integer('volume')->nullable();
+            $table->float('volume')->nullable();
             $table->integer('page_count')->nullable();
             $table->boolean('is_maturity_rating')->default(0);
             $table->boolean('is_hidden')->default(0);

@@ -109,7 +109,7 @@ class Book extends Model implements HasMedia
         'is_hidden' => 'boolean',
         'format' => BookFormatEnum::class,
         'identifiers' => 'array',
-        'volume' => 'integer',
+        'volume' => 'float',
         'page_count' => 'integer',
         'is_maturity_rating' => 'boolean',
         'google_book_parsed_at' => 'datetime',

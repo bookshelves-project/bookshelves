@@ -32,6 +32,7 @@ class ExtrasJob implements ShouldQueue
      */
     public function handle(): void
     {
+        ScoutWrapperJob::dispatch();
         Artisan::call(AudiobooksCommand::class);
         Artisan::call(AuthorsCommand::class);
         Artisan::call(SeriesCommand::class);

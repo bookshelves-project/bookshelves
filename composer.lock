@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5106488b9b51404ae9a4d7ecc3813b0",
+    "content-hash": "69b94f9a2c8b99026d1fff0d35835775",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2937,16 +2937,16 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "2.4.8",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "172fd003bdd130de3c6d6e9a1595eaf40d2aa59a"
+                "reference": "dd7d714de030044e165cfeddfd1dd39926596613"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/172fd003bdd130de3c6d6e9a1595eaf40d2aa59a",
-                "reference": "172fd003bdd130de3c6d6e9a1595eaf40d2aa59a",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/dd7d714de030044e165cfeddfd1dd39926596613",
+                "reference": "dd7d714de030044e165cfeddfd1dd39926596613",
                 "shasum": ""
             },
             "require": {
@@ -3009,7 +3009,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/v2.4.8"
+                "source": "https://github.com/kiwilan/php-ebook/tree/v2.5.0"
             },
             "funding": [
                 {
@@ -3017,7 +3017,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-15T11:29:43+00:00"
+            "time": "2024-05-22T16:08:05+00:00"
         },
         {
             "name": "kiwilan/php-http-pool",
@@ -4835,16 +4835,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v3.4.12",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "54dd265c17f7b5200627eb9690590e7cbbad1027"
+                "reference": "72e900825c560f0e4e620185b26c5441a8914435"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/54dd265c17f7b5200627eb9690590e7cbbad1027",
-                "reference": "54dd265c17f7b5200627eb9690590e7cbbad1027",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/72e900825c560f0e4e620185b26c5441a8914435",
+                "reference": "72e900825c560f0e4e620185b26c5441a8914435",
                 "shasum": ""
             },
             "require": {
@@ -4899,7 +4899,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v3.4.12"
+                "source": "https://github.com/livewire/livewire/tree/v3.5.0"
             },
             "funding": [
                 {
@@ -4907,7 +4907,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-02T17:10:37+00:00"
+            "time": "2024-05-21T13:39:04+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
