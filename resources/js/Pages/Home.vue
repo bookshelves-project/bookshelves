@@ -11,13 +11,13 @@ const swipers: {
   type: 'book' | 'serie'
 }[] = [
   {
-    route: '/api/books/latest/book',
-    title: 'eBooks recently added',
+    route: '/api/books/latest/audiobook',
+    title: 'Audiobooks recently added',
     type: 'book',
   },
   {
-    route: '/api/books/latest/audiobook',
-    title: 'Audiobooks recently added',
+    route: '/api/books/latest/book',
+    title: 'eBooks recently added',
     type: 'book',
   },
   {

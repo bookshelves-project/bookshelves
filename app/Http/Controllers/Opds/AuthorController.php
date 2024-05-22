@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Facades\OpdsBase;
+use App\Facades\OpdsSetup;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
+use Illuminate\Support\Str;
 use Kiwilan\Opds\Entries\OpdsEntryNavigation;
 use Kiwilan\Opds\Opds;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -19,72 +20,78 @@ class AuthorController extends Controller
     #[Get('/', name: 'opds.authors.index')]
     public function index()
     {
-        $feeds = OpdsBase::cache('opds.authors.index', function () {
-            $alphabet = range('A', 'Z');
-            $feeds = [];
+        $alphabet = range('A', 'Z');
+        $feeds = [];
 
-            foreach ($alphabet as $char) {
-                $id = strtolower($char);
-                $count = Author::query()
-                    ->orderBy('name')
-                    ->whereFirstChar($char)
-                    ->whereHasBooks()
-                    ->count();
+        // $authorsCount = Author::query()
+        //     ->orderBy('lastname')
+        //     ->whereHasBooks()
+        //     ->get(['lastname', 'firstname']);
+        // dd($authorsCount);
 
-                $feeds[] = new OpdsEntryNavigation(
-                    id: $id,
-                    title: "{$char} ({$count} entries)",
-                    route: route('opds.authors.character', ['character' => $id]),
-                    summary: "Authors beginning with {$char}",
-                    media: asset('vendor/images/no-author.jpg'),
-                );
-            }
+        foreach ($alphabet as $char) {
+            $id = strtolower($char);
+            // $count = OpdsSetup::cache("opds.authors.index.{$char}", function () use ($char) {
+            //     return Author::query()
+            //         ->orderBy('lastname')
+            //         ->whereFirstChar($char)
+            //         ->whereHasBooks()
+            //         ->count();
+            // });
 
-            return $feeds;
-        });
+            // $count = Author::query()
+            //     ->orderBy('lastname')
+            //     ->whereFirstChar($char)
+            //     ->whereHasBooks()
+            //     ->count();
 
-        OpdsBase::app()
+            $feeds[] = new OpdsEntryNavigation(
+                id: $id,
+                // title: "{$char} ({$count} entries)",
+                title: "{$char}",
+                route: route('opds.authors.character', ['character' => $id]),
+                summary: "Authors beginning with {$char}",
+                media: asset('vendor/images/no-author.jpg'),
+            );
+        }
+
+        OpdsSetup::app()
             ->title('Authors')
             ->feeds($feeds)
-            ->send(true);
+            ->send();
     }
 
     #[Get('/{character}', name: 'opds.authors.character')]
     public function character(string $character)
     {
         $lower = strtolower($character);
-        $feeds = OpdsBase::cache("opds.authors.character.{$lower}", function () use ($character) {
-            $authors = Author::query()
+        $authors = OpdsSetup::cache("opds.authors.character.{$lower}", function () use ($character) {
+            return Author::query()
                 ->with(['media'])
                 ->withCount('books')
-                ->orderBy('name')
+                ->orderBy('lastname')
                 ->whereFirstChar($character)
                 ->whereHasBooks()
                 ->get();
-
-            $feeds = [];
-
-            foreach ($authors as $author) {
-                $description = $author->description;
-                $count = $author->books_count;
-
-                $feeds[] = new OpdsEntryNavigation(
-                    id: $author->slug,
-                    title: "{$author->firstname} {$author->lastname}",
-                    route: route('opds.authors.show', ['character' => $character, 'author' => $author->slug]),
-                    summary: "{$count} books, {$description}",
-                    media: $author->cover_social,
-                    updated: $author->updated_at,
-                );
-            }
-
-            return $feeds;
         });
 
-        OpdsBase::app()
+        $feeds = [];
+
+        foreach ($authors as $author) {
+            $feeds[] = new OpdsEntryNavigation(
+                id: Str::slug("{$author->lastname} {$author->firstname}"),
+                title: "{$author->lastname}, {$author->firstname}",
+                route: route('opds.authors.show', ['character' => $character, 'author' => $author->slug]),
+                summary: "{$author->books_count} books",
+                media: $author->cover_social,
+                updated: $author->updated_at,
+            );
+        }
+
+        OpdsSetup::app()
             ->title("Authors with {$character}")
             ->feeds($feeds)
-            ->send(true);
+            ->send();
     }
 
     #[Get('/{character}/{author}', name: 'opds.authors.show')]
@@ -93,14 +100,14 @@ class AuthorController extends Controller
         $author = Author::whereSlug($author)->firstOrFail();
         $feeds = [];
 
-        foreach ($author->books as $book) {
-            $feeds[] = OpdsBase::bookToEntry($book);
+        foreach ($author->booksOnlyBook as $book) {
+            $feeds[] = OpdsSetup::bookToEntry($book);
         }
 
-        Opds::make(OpdsBase::config())
+        Opds::make(OpdsSetup::config())
             ->title("Author {$author->lastname} {$author->firstname}")
             ->feeds($feeds)
             ->paginate()
-            ->send(true);
+            ->send();
     }
 }

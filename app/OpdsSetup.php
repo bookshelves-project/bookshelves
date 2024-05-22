@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Facades\OpdsBase as FacadesOpdsBase;
+use App\Facades\OpdsSetup as FacadesOpdsSetup;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
@@ -14,11 +14,11 @@ use Kiwilan\Opds\Entries\OpdsEntryNavigation;
 use Kiwilan\Opds\Opds;
 use Kiwilan\Opds\OpdsConfig;
 
-class OpdsBase
+class OpdsSetup
 {
     public function app(): Opds
     {
-        return Opds::make(FacadesOpdsBase::config());
+        return Opds::make(FacadesOpdsSetup::config());
     }
 
     public function config(): OpdsConfig
@@ -33,6 +33,7 @@ class OpdsBase
             startUrl: route('opds.index'),
             searchUrl: route('opds.search'),
             updated: $updated ?: now(),
+            forceExit: true,
         );
     }
 
@@ -41,15 +42,12 @@ class OpdsBase
      */
     public function home(): array
     {
-        $authorsCount = Author::query()->count();
-        $seriesCount = Serie::query()->count();
-
         return [
             new OpdsEntryNavigation(
                 id: 'latest',
-                title: 'Latest',
+                title: 'Latest books',
                 route: route('opds.latest'),
-                summary: 'Latest books',
+                summary: 'Latest books available',
                 media: asset('vendor/images/opds/books.png'),
                 updated: Book::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),
@@ -57,7 +55,7 @@ class OpdsBase
                 id: 'authors',
                 title: 'Authors',
                 route: route('opds.authors.index'),
-                summary: "Authors, {$authorsCount} available",
+                summary: 'Authors in the library',
                 media: asset('vendor/images/opds/authors.png'),
                 updated: Author::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),
@@ -65,15 +63,15 @@ class OpdsBase
                 id: 'series',
                 title: 'Series',
                 route: route('opds.series.index'),
-                summary: "Series, {$seriesCount} available",
+                summary: 'Series in the library',
                 media: asset('vendor/images/opds/series.png'),
                 updated: Serie::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),
             new OpdsEntryNavigation(
                 id: 'random',
-                title: 'Random',
+                title: 'Random book',
                 route: route('opds.random'),
-                summary: 'Random books',
+                summary: 'Random book in the library',
                 media: asset('vendor/images/opds/books.png'),
                 updated: Book::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),

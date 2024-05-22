@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Opds;
 
 use App\Enums\LibraryTypeEnum;
-use App\Facades\OpdsBase;
+use App\Facades\OpdsSetup;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -17,9 +17,9 @@ class IndexController extends Controller
     #[Get('/', name: 'opds.index')]
     public function index()
     {
-        OpdsBase::app()
-            ->feeds(OpdsBase::home())
-            ->send(true);
+        OpdsSetup::app()
+            ->feeds(OpdsSetup::home())
+            ->send();
     }
 
     #[Get('/latest', name: 'opds.latest')]
@@ -34,13 +34,13 @@ class IndexController extends Controller
             ->get();
 
         foreach ($entries as $book) {
-            $feeds[] = OpdsBase::bookToEntry($book);
+            $feeds[] = OpdsSetup::bookToEntry($book);
         }
 
-        OpdsBase::app()
+        OpdsSetup::app()
             ->title('Latest books')
             ->feeds($feeds)
-            ->send(true);
+            ->send();
     }
 
     #[Get('/random', name: 'opds.random')]
@@ -51,17 +51,17 @@ class IndexController extends Controller
         $entries = Book::query()
             ->inRandomOrder()
             ->whereLibraryType(LibraryTypeEnum::book)
-            ->limit(16)
+            ->limit(1)
             ->get();
 
         foreach ($entries as $book) {
-            $feeds[] = OpdsBase::bookToEntry($book);
+            $feeds[] = OpdsSetup::bookToEntry($book);
         }
 
-        OpdsBase::app()
-            ->title('Random books')
+        OpdsSetup::app()
+            ->title('Random book')
             ->feeds($feeds)
-            ->send(true);
+            ->send();
     }
 
     #[Get('/search', name: 'opds.search')]
@@ -74,14 +74,18 @@ class IndexController extends Controller
             $search = SearchEngine::make($query, [Book::class])->get();
             foreach ($search->getResults()->first() as $book) {
                 /** @var Book $book */
-                $feeds[] = OpdsBase::bookToEntry($book);
+                $book->loadMissing('library');
+                if ($book->library->type !== LibraryTypeEnum::book) {
+                    continue;
+                }
+                $feeds[] = OpdsSetup::bookToEntry($book);
             }
         }
 
-        OpdsBase::app()
+        OpdsSetup::app()
             ->title("Search for {$query}")
             ->isSearch()
             ->feeds($feeds)
-            ->send(true);
+            ->send();
     }
 }

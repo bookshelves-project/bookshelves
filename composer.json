@@ -3,7 +3,7 @@
   "type": "project",
   "description": "Bookshelves core application.",
   "license": "BSD 2-Clause",
-  "version": "3.0.0-beta.2",
+  "version": "3.0.0-beta.3",
   "homepage": "https://github.com/bookshelves-project",
   "authors": [
     {
@@ -37,7 +37,7 @@
     "itsgoingd/clockwork": "^5.2",
     "kiwilan/php-audio": "^3.0",
     "kiwilan/php-ebook": "^2.4.8",
-    "kiwilan/php-opds": "^2.0.0",
+    "kiwilan/php-opds": "^2.0.11",
     "kiwilan/steward-laravel": "dev-main",
     "kiwilan/typescriptable-laravel": "^2.0",
     "laravel/framework": "^11.0",

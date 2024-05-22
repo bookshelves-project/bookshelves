@@ -82,7 +82,7 @@ class Author extends Model implements HasMedia
 
     protected $withCount = [];
 
-    public function getTitleAttribute(): string
+    public function getTitleAttribute(): ?string
     {
         return $this->name;
     }
@@ -90,18 +90,18 @@ class Author extends Model implements HasMedia
     public function getRouteAttribute(): string
     {
         return route('authors.show', [
-            'author' => $this->slug,
+            'author' => $this->slug ?? 'author',
         ]);
     }
 
     public function getFirstCharAttribute()
     {
-        return strtoupper(substr(Str::slug($this->name), 0, 1));
+        return strtoupper(substr(Str::slug($this->lastname), 0, 1));
     }
 
     public function scopeWhereFirstChar(Builder $query, string $char): Builder
     {
-        return $query->whereRaw('UPPER(SUBSTR(name, 1, 1)) = ?', [strtoupper($char)]);
+        return $query->whereRaw('UPPER(SUBSTR(lastname, 1, 1)) = ?', [strtoupper($char)]);
     }
 
     public function scopeWhereHasBooks(Builder $query): Builder
@@ -115,6 +115,17 @@ class Author extends Model implements HasMedia
     public function books(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Book::class, 'authorable')
+            ->orderBy('slug')
+            ->orderBy('volume');
+    }
+
+    /**
+     * Get all of the books that are assigned this author.
+     */
+    public function booksOnlyBook(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    {
+        return $this->morphedByMany(Book::class, 'authorable')
+            ->whereRelation('library', 'type', LibraryTypeEnum::book)
             ->orderBy('slug')
             ->orderBy('volume');
     }

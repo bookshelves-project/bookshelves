@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Facades\OpdsBase;
+use App\Facades\OpdsSetup;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -21,9 +21,9 @@ class BookController extends Controller
             ->where('slug', $book)
             ->firstOrFail();
 
-        OpdsBase::app()
+        OpdsSetup::app()
             ->title("Book {$book->title}")
-            ->feeds(OpdsBase::bookToEntry($book))
-            ->send(true);
+            ->feeds(OpdsSetup::bookToEntry($book))
+            ->send();
     }
 }

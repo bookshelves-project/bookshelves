@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind('bookshelves', fn () => new \App\Bookshelves());
-        $this->app->bind('opds-base', fn () => new \App\OpdsBase());
+        $this->app->bind('opds-setup', fn () => new \App\OpdsSetup());
     }
 
     /**

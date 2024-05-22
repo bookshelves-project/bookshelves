@@ -17,10 +17,10 @@ use Kiwilan\Opds\OpdsConfig;
  * @method static mixed cache(string $name, Closure $closure)
  * @method static OpdsEntryBook bookToEntry(Book $book)
  */
-class OpdsBase extends Facade
+class OpdsSetup extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \App\OpdsBase::class;
+        return \App\OpdsSetup::class;
     }
 }
