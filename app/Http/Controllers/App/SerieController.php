@@ -26,7 +26,7 @@ class SerieController extends Controller
         $serie = Serie::query()
             ->where('slug', $serie)
             ->withCount(['books'])
-            ->first();
+            ->firstOrFail();
 
         $serie->loadMissing(['books', 'books.media', 'books.serie', 'books.language', 'books.library', 'media', 'library']);
 
