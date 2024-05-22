@@ -48,11 +48,32 @@ class Library extends Model
     ];
 
     /**
+     * Sort libraries with books first, then comics and mangas, and finally audiobooks.
+     *
      * @return Collection<int, Library>
      */
-    public static function audiobooksAtEnd(): Collection
+    public static function inOrder(): Collection
     {
-        return Library::all()->sortBy(fn (Library $library) => $library->type === LibraryTypeEnum::audiobook);
+        $items = collect();
+
+        $lib_books = self::onlyBooks()->get();
+        $lib_comics = self::onlyComics()->get();
+        $lib_mangas = self::onlyMangas()->get();
+        $lib_audiobooks = self::onlyAudiobooks()->get();
+        $lib_others = self::whereNotIn('type', [
+            LibraryTypeEnum::book,
+            LibraryTypeEnum::comic,
+            LibraryTypeEnum::manga,
+            LibraryTypeEnum::audiobook,
+        ])->get();
+
+        $items = $items->merge($lib_books);
+        $items = $items->merge($lib_comics);
+        $items = $items->merge($lib_mangas);
+        $items = $items->merge($lib_audiobooks);
+        $items = $items->merge($lib_others);
+
+        return $items;
     }
 
     public function scopeOnlyAudiobooks(Builder $query)
