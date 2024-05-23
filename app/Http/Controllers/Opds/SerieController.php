@@ -42,16 +42,13 @@ class SerieController extends Controller
     #[Get('/{character}', name: 'opds.series.character')]
     public function character(string $character)
     {
-        $lower = strtolower($character);
-        $series = OpdsSetup::cache("opds.series.character.{$lower}", function () use ($character) {
-            return Serie::query()
-                ->with(['media', 'library', 'language'])
-                ->withCount(['books'])
-                ->orderBy('title')
-                ->whereFirstChar($character)
-                ->whereHasBooks()
-                ->get();
-        });
+        $series = Serie::query()
+            ->with(['media', 'library', 'language'])
+            ->withCount(['books'])
+            ->orderBy('title')
+            ->whereFirstChar($character)
+            ->whereHasBooks()
+            ->get();
 
         $feeds = [];
 

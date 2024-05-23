@@ -43,16 +43,13 @@ class AuthorController extends Controller
     #[Get('/{character}', name: 'opds.authors.character')]
     public function character(string $character)
     {
-        $lower = strtolower($character);
-        $authors = OpdsSetup::cache("opds.authors.character.{$lower}", function () use ($character) {
-            return Author::query()
-                ->with(['media'])
-                ->withCount(['books', 'booksOnlyBook'])
-                ->orderBy('lastname')
-                ->whereFirstChar($character)
-                ->whereHasBooks()
-                ->get();
-        });
+        $authors = Author::query()
+            ->with(['media'])
+            ->withCount(['books', 'booksOnlyBook'])
+            ->orderBy('lastname')
+            ->whereFirstChar($character)
+            ->whereHasBooks()
+            ->get();
 
         $feeds = [];
 
