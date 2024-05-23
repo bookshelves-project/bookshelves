@@ -120,6 +120,13 @@ class BookConverter
     private function parseAudiobook(Library $library): self
     {
         $authors = array_map(fn ($author) => $author->getName(), $this->ebook->getAuthors());
+        $language = $this->ebook->getLanguage();
+
+        if (! $language) {
+            Journal::warning('BookConverter: No language found for '.$this->ebook->getTitle(), [
+                'ebook' => $this->ebook->toArray(),
+            ]);
+        }
 
         $this->audiobook = Audiobook::query()->create([
             'title' => $this->ebook->getTitle(),
@@ -132,7 +139,7 @@ class BookConverter
             'description' => $this->ebook->getDescription(),
             'publisher' => $this->ebook->getPublisher(),
             'publish_date' => $this->ebook->getPublishDate(),
-            'language' => $this->ebook->getLanguage(),
+            'language' => $language,
             'tags' => $this->ebook->getTags(),
             'serie' => $this->ebook->getSeries(),
             'volume' => $this->ebook->getVolume(),
