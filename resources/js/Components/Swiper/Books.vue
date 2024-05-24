@@ -4,6 +4,7 @@ defineProps<{
   title?: string
   url?: string
   padding?: boolean
+  square?: boolean
 }>()
 </script>
 
@@ -20,6 +21,7 @@ defineProps<{
     >
       <CardBook
         :book="book"
+        :square="square"
         class="w-44"
       />
     </template>

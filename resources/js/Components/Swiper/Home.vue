@@ -7,6 +7,7 @@ const props = defineProps<{
   type: 'book' | 'serie'
   title?: string
   url?: string
+  square?: boolean
 }>()
 
 const items = ref<any>([])
@@ -39,12 +40,14 @@ fetchItems()
       :books="items"
       :title="title"
       :url="url"
+      :square="square"
       padding
     />
     <SwiperSeries
       v-else-if="type === 'serie'"
       :series="items"
       :title="title"
+      :url="url"
       padding
     />
   </div>

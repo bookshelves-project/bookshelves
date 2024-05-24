@@ -9,11 +9,13 @@ const swipers: {
   endpoint?: string
   title: string
   type: 'book' | 'serie'
+  square?: boolean
 }[] = [
   {
     route: '/api/books/latest/audiobook',
     title: 'Audiobooks recently added',
     type: 'book',
+    square: true,
   },
   {
     route: '/api/books/latest/book',
@@ -45,6 +47,7 @@ const swipers: {
         :route="swiper.route"
         :title="swiper.title"
         :type="swiper.type"
+        :square="swiper.square"
       />
     </div>
   </App>
