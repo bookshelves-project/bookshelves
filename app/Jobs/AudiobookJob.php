@@ -110,11 +110,17 @@ class AudiobookJob implements ShouldQueue
                 $tags->push($tag);
             }
             $book->tags()->syncWithoutDetaching($tags->pluck('id'));
+            $book->saveQuietly();
         }
 
         $language = $this->parseLang($audiobook);
         if ($language) {
             $book->language()->associate($language);
+            $book->saveQuietly();
+        } else {
+            Journal::warning("AudiobookJob : Language not found for {$book->title}", [
+                'audiobook' => $audiobook->toArray(),
+            ]);
         }
 
         if ($audiobook->authors) {
