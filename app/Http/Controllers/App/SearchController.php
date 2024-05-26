@@ -17,7 +17,7 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('search');
-        $search = SearchEngine::make($query, [Book::class, Serie::class, Author::class])->get();
+        $search = SearchEngine::make($query, [Author::class, Serie::class, Book::class])->get();
 
         return inertia('Search', [
             'query' => $search->getQuery(),

@@ -25,7 +25,7 @@ class SearchController extends Controller
             return [];
         }
 
-        $search = SearchEngine::make($query, [Book::class, Serie::class, Author::class])
+        $search = SearchEngine::make($query, [Author::class, Serie::class, Book::class])
             ->limit($limit)
             ->get();
 

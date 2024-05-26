@@ -142,7 +142,7 @@ class Book extends Model implements HasMedia
 
     public function getVolumePadAttribute(): ?string
     {
-        if (! $this->volume) {
+        if ($this->volume === null) {
             return null;
         }
 
@@ -263,13 +263,9 @@ class Book extends Model implements HasMedia
             'id' => $this->id,
             'title' => $this->title,
             'cover' => $this->cover_thumbnail,
-            'cover_color' => $this->cover_color,
-            'released_on' => $this->released_on,
-            'author' => $this->authors_names,
             'serie' => $this->serie?->title,
             'isbn10' => $this->isbn10,
             'isbn13' => $this->isbn13,
-            'tags' => $this->tags_string,
         ];
     }
 

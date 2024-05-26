@@ -45,7 +45,7 @@ const seeResults = computed(() => {
                   {{ item.title }}
                 </span>
                 <span class="text-gray-400 italic lowercase">
-                  ({{ item.class }} into {{ item.language?.name }})
+                  ({{ item.class }})
                 </span>
               </div>
               <div class="text-sm text-gray-400 flex items-center space-x-2">
@@ -55,6 +55,10 @@ const seeResults = computed(() => {
                 <span v-if="item.serie">/</span>
                 <span v-if="item.serie">
                   {{ item.serie.title }} #{{ item.volume }}
+                </span>
+                <span v-if="item.language">/</span>
+                <span v-if="item.language">
+                  {{ item.language.name }}
                 </span>
               </div>
             </div>

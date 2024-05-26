@@ -318,6 +318,8 @@ class BookConverter
             return $this;
         }
 
+        $volume = (string) $this->ebook->getVolume();
+
         $this->book = new Book([
             'title' => $this->ebook->getTitle(),
             'slug' => $this->ebook->getMetaTitle()->getSlug(),
@@ -325,7 +327,7 @@ class BookConverter
             'released_on' => $this->ebook->getPublishDate()?->format('Y-m-d'),
             'description' => $this->ebook->getDescription(2000),
             'rights' => $this->ebook->getCopyright(255),
-            'volume' => $this->ebook->getVolume(),
+            'volume' => floatval($volume) ?: null,
             'format' => BookFormatEnum::fromExtension($this->ebook->getExtension()),
             'page_count' => $this->ebook->getPagesCount(),
             'physical_path' => $this->ebook->getPath(),
