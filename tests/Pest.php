@@ -11,11 +11,12 @@
 |
 */
 
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
-use Tests\TestCase;
+define('EPUB', __DIR__.'/media/epub.epub');
 
-uses(TestCase::class, RefreshDatabaseState::class)->in('Feature');
-uses(TestCase::class)->in('Unit');
+uses(
+    Tests\TestCase::class,
+    Illuminate\Foundation\Testing\RefreshDatabase::class,
+)->in('Feature');
 
 /*
 |--------------------------------------------------------------------------

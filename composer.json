@@ -36,7 +36,7 @@
     "inertiajs/inertia-laravel": "^1.0",
     "itsgoingd/clockwork": "^5.2",
     "kiwilan/php-audio": "^3.0",
-    "kiwilan/php-ebook": "^2.5.10",
+    "kiwilan/php-ebook": "^2.5.11",
     "kiwilan/php-opds": "^2.0.11",
     "kiwilan/steward-laravel": "dev-main",
     "kiwilan/typescriptable-laravel": "^2.0",
@@ -61,7 +61,7 @@
     "mockery/mockery": "^1.6",
     "nunomaduro/collision": "^8.0",
     "pestphp/pest": "^2.34",
-    "pestphp/pest-plugin-laravel": "^2.3",
+    "pestphp/pest-plugin-laravel": "^2.4",
     "phpunit/phpunit": "^10.5",
     "spatie/laravel-ignition": "^2.4"
   },

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "822e854bfbdfe574539b275e455f3062",
+    "content-hash": "59d27c0679249d63a15caf6c16ae9562",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2937,16 +2937,16 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "2.5.10",
+            "version": "2.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "a770c97fcc6aafd20137027a3fc24739c0de56be"
+                "reference": "904529e5159cb9d2a012bb9f49694c8db3f7c8b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/a770c97fcc6aafd20137027a3fc24739c0de56be",
-                "reference": "a770c97fcc6aafd20137027a3fc24739c0de56be",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/904529e5159cb9d2a012bb9f49694c8db3f7c8b1",
+                "reference": "904529e5159cb9d2a012bb9f49694c8db3f7c8b1",
                 "shasum": ""
             },
             "require": {
@@ -3009,7 +3009,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/v2.5.10"
+                "source": "https://github.com/kiwilan/php-ebook/tree/v2.5.11"
             },
             "funding": [
                 {
@@ -3017,7 +3017,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-26T18:45:01+00:00"
+            "time": "2024-05-26T19:36:53+00:00"
         },
         {
             "name": "kiwilan/php-http-pool",
