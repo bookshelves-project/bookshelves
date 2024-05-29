@@ -75,6 +75,7 @@ class SearchResource extends JsonResource
 
         return [
             'name' => $this->resource->library->name,
+            'type_label' => $this->resource->library->type_label,
             'type' => $this->resource->library->type,
         ];
     }

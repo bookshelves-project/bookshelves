@@ -257,13 +257,14 @@ class Book extends Model implements HasMedia
 
     public function toSearchableArray()
     {
-        $this->loadMissing(['serie', 'authors', 'tags', 'media']);
+        $this->loadMissing(['serie', 'authors', 'tags', 'media', 'library']);
 
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'cover' => $this->cover_thumbnail,
+            // 'cover' => $this->cover_thumbnail,
             'serie' => $this->serie?->title,
+            'library' => $this->library?->type_label,
             'isbn10' => $this->isbn10,
             'isbn13' => $this->isbn13,
         ];

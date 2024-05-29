@@ -56,7 +56,10 @@ const { ucfirst } = useUtils()
           v-if="display === 'media'"
           v-bind="props"
         >
-          <template #before>
+          <template
+            v-if="library"
+            #before
+          >
             <AppBadge
               size="md"
               class="mb-3"

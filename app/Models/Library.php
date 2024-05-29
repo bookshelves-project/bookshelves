@@ -35,6 +35,7 @@ class Library extends Model
     ];
 
     protected $appends = [
+        'type_label',
         'is_audiobook',
         'is_book',
         'is_comic',
@@ -46,6 +47,15 @@ class Library extends Model
         'path_is_valid' => 'boolean',
         'is_enabled' => 'boolean',
     ];
+
+    public function getTypeLabelAttribute(): ?string
+    {
+        if (! $this->type) {
+            return null;
+        }
+
+        return $this->type->getLabel();
+    }
 
     /**
      * Sort libraries with books first, then comics and mangas, and finally audiobooks.
@@ -74,6 +84,13 @@ class Library extends Model
         $items = $items->merge($lib_others);
 
         return $items;
+    }
+
+    public function scopeFromAuthor(Builder $query, Author $author)
+    {
+        return $query->whereHas('books', function (Builder $query) use ($author) {
+            $query->whereRelation('authors', 'id', $author->id);
+        });
     }
 
     public function scopeOnlyAudiobooks(Builder $query)

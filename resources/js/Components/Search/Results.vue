@@ -40,23 +40,25 @@ const seeResults = computed(() => {
               :color="item.cover_color"
             />
             <div>
+              <div
+                v-if="item.library"
+                class="text-sm text-gray-400"
+              >
+                {{ item.library.type_label }} in {{ item.library.name }}
+              </div>
               <div class="flex items-center space-x-1">
                 <span>
                   {{ item.title }}
                 </span>
-                <span class="text-gray-400 italic lowercase">
+                <span class="text-gray-400 lowercase">
                   ({{ item.class }})
                 </span>
               </div>
               <div class="text-sm text-gray-400 flex items-center space-x-2">
-                <span v-if="item.library">
-                  {{ item.library.name }}
-                </span>
-                <span v-if="item.serie">/</span>
                 <span v-if="item.serie">
                   {{ item.serie.title }} #{{ item.volume }}
                 </span>
-                <span v-if="item.language">/</span>
+                <span v-if="item.language && item.serie">/</span>
                 <span v-if="item.language">
                   {{ item.language.name }}
                 </span>

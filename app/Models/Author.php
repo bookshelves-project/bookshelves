@@ -147,7 +147,7 @@ class Author extends Model implements HasMedia
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'cover' => $this->cover_thumbnail,
+            // 'cover' => $this->cover_thumbnail,
         ];
     }
 

@@ -58,4 +58,14 @@ enum LibraryTypeEnum: string implements HasColor, HasIcon, HasLabel
             self::manga => 'heroicon-o-chat-bubble-left-right',
         };
     }
+
+    public function getLabel(): string
+    {
+        return match ($this) {
+            self::audiobook => __('Audiobook'),
+            self::book => __('Book'),
+            self::comic => __('Comic'),
+            self::manga => __('Manga'),
+        };
+    }
 }
