@@ -142,7 +142,7 @@ class BookConverter
             'language' => $language,
             'tags' => $this->ebook->getTags(),
             'serie' => $this->ebook->getSeries(),
-            'volume' => $this->ebook->getVolume(),
+            'volume' => $this->getVolume(),
             'format' => $this->ebook->getFormat(),
             'track_number' => $this->ebook->getExtra('track_number'),
             'comment' => $this->ebook->getExtra('comment'),
@@ -285,6 +285,22 @@ class BookConverter
         }, maxMemory: 3);
     }
 
+    private function getVolume(): ?string
+    {
+        if ($this->ebook->getVolume() === null) {
+            return null;
+        }
+
+        $volume = (string) $this->ebook->getVolume();
+        if ($volume === '0') {
+            $volume = 0;
+        } else {
+            $volume = floatval($volume);
+        }
+
+        return strval($volume);
+    }
+
     private function createBook(): self
     {
         // split sliders books, audiobooks, comics, manga and series split at home
@@ -318,8 +334,6 @@ class BookConverter
             return $this;
         }
 
-        $volume = (string) $this->ebook->getVolume();
-
         $this->book = new Book([
             'title' => $this->ebook->getTitle(),
             'slug' => $this->ebook->getMetaTitle()->getSlug(),
@@ -327,7 +341,7 @@ class BookConverter
             'released_on' => $this->ebook->getPublishDate()?->format('Y-m-d'),
             'description' => $this->ebook->getDescription(2000),
             'rights' => $this->ebook->getCopyright(255),
-            'volume' => floatval($volume) ?: null,
+            'volume' => $this->getVolume(),
             'format' => BookFormatEnum::fromExtension($this->ebook->getExtension()),
             'page_count' => $this->ebook->getPagesCount(),
             'physical_path' => $this->ebook->getPath(),
