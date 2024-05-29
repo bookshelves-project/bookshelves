@@ -10,35 +10,56 @@ use Spatie\RouteAttributes\Attributes\Get;
 
 class AuthorController extends Controller
 {
-    #[Get('/authors/{author:slug}', name: 'api.authors')]
+    #[Get('/authors/{author:slug}/books', name: 'api.authors.books')]
+    public function books(Request $request, Author $author)
+    {
+        return response()->json([
+            'data' => $this->getAuthorBooks($author, 'books'),
+        ]);
+    }
+
+    #[Get('/authors/{author:slug}/series', name: 'api.authors.series')]
     public function series(Request $request, Author $author)
     {
-        $author->loadMissing([
-            'books.library',
-            'books.media',
-            'books.serie',
-            'books.language',
-            'series.library',
-            'series.media',
-            'series.language',
+        return response()->json([
+            'data' => $this->getAuthorBooks($author, 'series'),
         ]);
+    }
 
-        $libraries = collect();
-        foreach (Library::all() as $library) {
-            $books = $author->books->filter(fn ($book) => $book->library?->slug === $library->slug);
-            $series = $author->series->filter(fn ($serie) => $serie->library?->slug === $library->slug);
-            $libraries->push([
-                'name' => $library->name,
-                'books' => $books->values(),
-                'series' => $series->values(),
+    private function getAuthorBooks(Author $author, string $model): array
+    {
+        if ($model === 'books') {
+            $author->loadMissing([
+                'books.library',
+                'books.media',
+                'books.serie',
+                'books.language',
+            ]);
+        } elseif ($model === 'series') {
+            $author->loadMissing([
+                'series.library',
+                'series.media',
+                'series.language',
             ]);
         }
 
-        $libraries = $libraries->filter(fn ($library) => $library['books']->isNotEmpty());
-        $libraries = $libraries->values()->toArray();
+        $libraries = collect();
+        foreach (Library::all() as $library) {
+            $models = [];
+            if ($model === 'books') {
+                $models = $author->books->filter(fn ($book) => $book->library?->slug === $library->slug);
+            } elseif ($model === 'series') {
+                $models = $author->series->filter(fn ($serie) => $serie->library?->slug === $library->slug);
+            }
 
-        return response()->json([
-            'data' => $libraries,
-        ]);
+            $libraries->push([
+                'name' => $library->name,
+                'models' => $models->values(),
+            ]);
+        }
+
+        $libraries = $libraries->filter(fn ($library) => $library['models']->isNotEmpty());
+
+        return $libraries->values()->toArray();
     }
 }

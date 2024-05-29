@@ -6,27 +6,34 @@ const props = defineProps<{
   breadcrumbs: any[]
 }>()
 
-const libraries = ref<{
+const books = ref<{
   name: string
-  books: App.Models.Book[]
-  series: App.Models.Serie[]
+  models: App.Models.Book[]
+}[]>([])
+
+const series = ref<{
+  name: string
+  models: App.Models.Serie[]
 }[]>([])
 
 const { http } = useFetch()
 
-async function fetchItems() {
-  const url = `/api/authors/${props.author.slug}`
-  const res: Response | undefined = await http.get(url)
-
-  if (res) {
+async function fetchItems(url: string, items: Ref<any>) {
+  try {
+    const res = await http.get(url)
     const body = await res.json()
-    libraries.value = body.data
+    items.value = body.data
   }
-  else {
-    console.error('SwiperHome: No response')
+  catch (error) {
+    console.error(`Failed to fetch ${url}`)
   }
 }
-fetchItems()
+
+fetchItems(`/api/authors/${props.author.slug}/series`, series)
+
+onMounted(() => {
+  fetchItems(`/api/authors/${props.author.slug}/books`, books)
+})
 </script>
 
 <template>
@@ -45,7 +52,7 @@ fetchItems()
     >
       <template #swipers>
         <div
-          v-if="libraries.length"
+          v-if="books.length || series.length"
           class="space-y-24"
         >
           <section>
@@ -55,17 +62,17 @@ fetchItems()
             <div class="mt-6 border-t border-gray-500">
               <dl class="divide-y divide-dashed divide-gray-500">
                 <div
-                  v-for="library in libraries"
+                  v-for="library in series"
                   :key="library.name"
                   class="px-4 py-6 sm:px-0"
                 >
                   <dd class="mt-1 text-sm leading-6 sm:mt-0">
                     <div class="text-xl font-semibold">
-                      {{ library.name }} ({{ library.series.length }})
+                      {{ library.name }} ({{ library.models.length }})
                     </div>
                     <div class="books-list mt-6">
                       <CardSerie
-                        v-for="serie in library.series"
+                        v-for="serie in library.models"
                         :key="serie.id"
                         :serie="serie"
                         :square="serie.library?.type === 'audiobook'"
@@ -83,17 +90,17 @@ fetchItems()
             <div class="mt-6 border-t border-gray-500">
               <dl class="divide-y divide-dashed divide-gray-500">
                 <div
-                  v-for="library in libraries"
+                  v-for="library in books"
                   :key="library.name"
                   class="px-4 py-6 sm:px-0"
                 >
                   <dd class="mt-1 text-sm leading-6 sm:mt-0">
                     <div class="text-xl font-semibold">
-                      {{ library.name }} ({{ library.books.length }})
+                      {{ library.name }} ({{ library.models.length }})
                     </div>
                     <div class="books-list mt-6">
                       <CardBook
-                        v-for="book in library.books"
+                        v-for="book in library.models"
                         :key="book.id"
                         :book="book"
                         :square="book.library?.type === 'audiobook'"
