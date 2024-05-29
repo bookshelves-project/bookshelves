@@ -1,13 +1,32 @@
 <script lang="ts" setup>
-defineProps<{
+import { useFetch } from '@kiwilan/typescriptable-laravel'
+
+const props = defineProps<{
   author: App.Models.Author
-  libs: {
-    name: string
-    books: App.Models.Book[]
-    series: App.Models.Serie[]
-  }[]
   breadcrumbs: any[]
 }>()
+
+const libraries = ref<{
+  name: string
+  books: App.Models.Book[]
+  series: App.Models.Serie[]
+}[]>([])
+
+const { http } = useFetch()
+
+async function fetchItems() {
+  const url = `/api/authors/${props.author.slug}`
+  const res: Response | undefined = await http.get(url)
+
+  if (res) {
+    const body = await res.json()
+    libraries.value = body.data
+  }
+  else {
+    console.error('SwiperHome: No response')
+  }
+}
+fetchItems()
 </script>
 
 <template>
@@ -25,7 +44,10 @@ defineProps<{
       :overview="author.description"
     >
       <template #swipers>
-        <div class="space-y-24">
+        <div
+          v-if="libraries.length"
+          class="space-y-24"
+        >
           <section>
             <h2 class="text-3xl font-semibold">
               Series of {{ author.name }}
@@ -33,7 +55,7 @@ defineProps<{
             <div class="mt-6 border-t border-gray-500">
               <dl class="divide-y divide-dashed divide-gray-500">
                 <div
-                  v-for="library in libs"
+                  v-for="library in libraries"
                   :key="library.name"
                   class="px-4 py-6 sm:px-0"
                 >
@@ -61,7 +83,7 @@ defineProps<{
             <div class="mt-6 border-t border-gray-500">
               <dl class="divide-y divide-dashed divide-gray-500">
                 <div
-                  v-for="library in libs"
+                  v-for="library in libraries"
                   :key="library.name"
                   class="px-4 py-6 sm:px-0"
                 >
