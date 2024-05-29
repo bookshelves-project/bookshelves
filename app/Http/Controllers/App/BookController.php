@@ -4,14 +4,15 @@ namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Models\Library;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
 #[Prefix('books')]
 class BookController extends Controller
 {
-    #[Get('/{book:slug}', name: 'books.show')]
-    public function show(Book $book)
+    #[Get('/{library:slug}/{book:slug}', name: 'books.show')]
+    public function show(Library $library, Book $book)
     {
         $book->load([
             'authors',
@@ -19,6 +20,9 @@ class BookController extends Controller
             'serie.books',
             'serie.books.serie',
             'serie.books.media',
+            'serie.books.language',
+            'serie.books.library',
+            'serie.books.authors',
             'tags',
             'media',
             'publisher',

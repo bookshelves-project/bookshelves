@@ -192,7 +192,7 @@ class BookConverter
 
     private function syncAuthors(): self
     {
-        $authors = AuthorModule::toCollection($this->ebook);
+        $authors = AuthorModule::toCollection($this->ebook->getAuthors());
         if ($authors->isEmpty()) {
             return $this;
         }

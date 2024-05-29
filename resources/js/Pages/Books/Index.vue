@@ -14,12 +14,6 @@ defineProps<{
     :title="title"
     icon="ereader"
   >
-    <!-- <ILink :href="`/libraries/${library.slug}`">
-      library
-    </ILink>
-    <ILink :href="`/libraries/${library.slug}/series`">
-      series
-    </ILink> -->
     <ListingTabs
       :links="[
         { label: 'Library', href: `/libraries/${library.slug}` },

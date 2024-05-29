@@ -8,7 +8,7 @@ const props = defineProps<{
 
 const size = ref<string>()
 const extension = ref<string>()
-const { bytesToHuman, ucfirst, getSize } = useUtils()
+const { bytesToHuman, getSize } = useUtils()
 
 const titlePage = computed(() => {
   return `${props.serie.title} (${props.serie.library?.type}) into ${props.serie?.title} · ${props.serie.books_count} books`
@@ -40,7 +40,7 @@ onMounted(async () => {
       :badges="[
         `${serie.books_count} books`,
         serie.language ? `${serie.language.name}` : undefined,
-        ucfirst(serie.library?.type),
+        serie.library?.type_label,
       ]"
       :download="{
         url: serie.download_link,
@@ -52,6 +52,7 @@ onMounted(async () => {
         { label: 'Series', route: { name: 'home' } },
         { label: serie.title, route: { name: 'home' } },
       ]"
+      :square="serie.library?.type === 'audiobook'"
     >
       <template #eyebrow>
         <ShowAuthors :authors="serie.authors" />
@@ -59,7 +60,7 @@ onMounted(async () => {
       <template #swipers>
         <section
           v-if="serie.books && serie.books.length"
-          class="books-list"
+          class="books-grid"
         >
           <CardBook
             v-for="book in serie.books"

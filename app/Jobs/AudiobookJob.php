@@ -3,10 +3,10 @@
 namespace App\Jobs;
 
 use App\Engines\Book\Converter\BookConverter;
+use App\Engines\Book\Converter\Modules\AuthorModule;
 use App\Enums\BookFormatEnum;
 use App\Facades\Bookshelves;
 use App\Models\Audiobook;
-use App\Models\Author;
 use App\Models\Book;
 use App\Models\Language;
 use App\Models\Library;
@@ -19,6 +19,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Kiwilan\Ebook\Models\BookAuthor;
 use Kiwilan\Ebook\Models\MetaTitle;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\SpatieMedia;
@@ -124,12 +125,13 @@ class AudiobookJob implements ShouldQueue
         }
 
         if ($audiobook->authors) {
+            $authors = [];
             foreach ($audiobook->authors as $author) {
-                $author = Author::query()->firstOrCreate([
-                    'name' => $author,
-                ]);
-                $author->books()->attach($book);
+                $authors[] = new BookAuthor($author, 'aut');
             }
+
+            $authors = AuthorModule::toCollection($authors);
+            $book->authors()->sync($authors->pluck('id'));
         }
 
         $serie = null;

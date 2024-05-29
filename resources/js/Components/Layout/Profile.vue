@@ -1,12 +1,14 @@
 <script lang="ts" setup>
-import { useFetch, useInertia, useSlideover } from '@kiwilan/typescriptable-laravel'
+import { useFetch, useSlideover } from '@kiwilan/typescriptable-laravel'
+import { usePage } from '@inertiajs/vue3'
 import { useNavigation } from '@/Composables/useNavigation'
 
-const { page } = useInertia()
+const page = usePage()
 const { inertia } = useFetch()
 
 const { open, close } = useSlideover()
 const { profileLinks } = useNavigation()
+
 const user = ref<App.Models.User>(page.props.auth?.user)
 
 function logout() {

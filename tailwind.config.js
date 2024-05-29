@@ -18,9 +18,10 @@ export default {
       screens: {
         'sm': '320px', // 640px
         'md': '500px',
-        'lg': '900px',
-        'xl': '1280px',
-        '2xl': '1536px',
+        'lg': '750px',
+        'xl': '1100px',
+        '2xl': '1350px',
+        '3xl': '1600px',
       },
       fontFamily: {
         sans: ['Figtree', ...defaultTheme.fontFamily.sans],
@@ -41,10 +42,6 @@ export default {
         '.album': {
           '@apply aspect-album rounded-md object-cover': {},
         },
-        '.books-list': {
-          '@apply grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6':
-              {},
-        },
         '.main-container': {
           '@apply container mx-auto max-w-7xl px-4 lg:px-8':
                 {},
@@ -56,7 +53,7 @@ export default {
           '@apply transition-transform duration-300 ease-in-out hover:scale-[1.03]': {},
         },
         '.debug-screens': {
-          '@apply before:bottom-0 before:left-0 before:fixed before:px-1 before:text-sm before:bg-black before:text-white before:shadow-xl before:content-["screen:_"] sm:before:content-["screen:sm"] md:before:content-["screen:md"] lg:before:content-["screen:lg"] xl:before:content-["screen:xl"] 2xl:before:content-["screen:2xl"]':
+          '@apply before:bottom-0 before:left-0 before:fixed before:px-1 before:text-sm before:bg-black before:text-white before:shadow-xl before:content-["screen:_"] sm:before:content-["screen:sm"] md:before:content-["screen:md"] lg:before:content-["screen:lg"] xl:before:content-["screen:xl"] 2xl:before:content-["screen:2xl"] 3xl:before:content-["screen:3xl"]':
                   {},
           '&:before': {
             'z-index': '2147483647',

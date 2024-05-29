@@ -9,10 +9,6 @@ export interface DetailsMedia {
   title?: string
   eyebrow?: string
   undertitle?: string
-  popularity?: number
-  tmdbUrl?: string
-  imdbId?: string
-  frenchTitle?: string
   overview?: string
   properties?: Array<string | number | undefined>
   badges?: Array<string | number | undefined>
@@ -25,14 +21,13 @@ export interface DetailsMedia {
     extension?: string
   }
   breadcrumbs?: any[]
+  square?: boolean
 }
 
 const props = defineProps<DetailsMedia>()
 
 type Display = 'media' | 'crew' | 'metadata'
 const display = ref<Display>('media')
-
-const { ucfirst } = useUtils()
 </script>
 
 <template>
@@ -61,15 +56,16 @@ const { ucfirst } = useUtils()
             #before
           >
             <AppBadge
+              v-if="library"
               size="md"
               class="mb-3"
             >
               <SvgIcon
-                :name="(library?.type as SvgName)"
+                :name="(library.type as SvgName)"
                 class="w-5 h-5 mr-2"
               />
               <span class="text-lg">
-                Type : {{ ucfirst(library?.type) }}
+                Type : {{ library.type_label }}
               </span>
             </AppBadge>
           </template>

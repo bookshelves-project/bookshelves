@@ -55,62 +55,16 @@ onMounted(() => {
           v-if="books.length || series.length"
           class="space-y-24"
         >
-          <section>
-            <h2 class="text-3xl font-semibold">
-              Series of {{ author.name }}
-            </h2>
-            <div class="mt-6 border-t border-gray-500">
-              <dl class="divide-y divide-dashed divide-gray-500">
-                <div
-                  v-for="library in series"
-                  :key="library.name"
-                  class="px-4 py-6 sm:px-0"
-                >
-                  <dd class="mt-1 text-sm leading-6 sm:mt-0">
-                    <div class="text-xl font-semibold">
-                      {{ library.name }} ({{ library.models.length }})
-                    </div>
-                    <div class="books-list mt-6">
-                      <CardSerie
-                        v-for="serie in library.models"
-                        :key="serie.id"
-                        :serie="serie"
-                        :square="serie.library?.type === 'audiobook'"
-                      />
-                    </div>
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          </section>
-          <section>
-            <h2 class="text-3xl font-semibold">
-              Books of {{ author.name }}
-            </h2>
-            <div class="mt-6 border-t border-gray-500">
-              <dl class="divide-y divide-dashed divide-gray-500">
-                <div
-                  v-for="library in books"
-                  :key="library.name"
-                  class="px-4 py-6 sm:px-0"
-                >
-                  <dd class="mt-1 text-sm leading-6 sm:mt-0">
-                    <div class="text-xl font-semibold">
-                      {{ library.name }} ({{ library.models.length }})
-                    </div>
-                    <div class="books-list mt-6">
-                      <CardBook
-                        v-for="book in library.models"
-                        :key="book.id"
-                        :book="book"
-                        :square="book.library?.type === 'audiobook'"
-                      />
-                    </div>
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          </section>
+          <AuthorBooks
+            :author="author"
+            :library="series"
+            type="serie"
+          />
+          <AuthorBooks
+            :author="author"
+            :library="books"
+            type="book"
+          />
         </div>
       </template>
     </ShowContainer>

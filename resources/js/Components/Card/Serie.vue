@@ -1,61 +1,57 @@
 <script lang="ts" setup>
-import { useUtils } from '@/Composables/useUtils'
-
 interface Props {
   serie: App.Models.Serie
   square?: boolean
+  carousel?: boolean
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   square: false,
 })
 
-const { ucfirst } = useUtils()
+const title = computed(() => {
+  let title = `${props.serie.title}`
+  if (props.serie.authors_names)
+    title = `${title} by ${props.serie.authors_names}`
+  if (props.serie.books_count)
+    title = `${title} (${props.serie.books_count} books)`
+
+  return title
+})
 </script>
 
 <template>
-  <ILink
-    :href="$route(`series.show`, { library: serie.library?.slug, serie: serie.slug })"
-    class="relative"
+  <CardModel
+    :square="square"
+    :cover="serie.cover_thumbnail"
+    :title="title"
+    :href="`/series/${serie.library?.slug}/${serie.slug}`"
+    :carousel="carousel"
+    :color="serie.cover_color"
   >
-    <AppImg
-      :class="{
-        'poster h-[20rem]': !square,
-        'album': square,
-      }"
-      class="w-full"
-      :src="serie.cover_thumbnail"
-      :color="serie.cover_color"
-      :alt="serie.title"
-    />
-    <div class="absolute bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-white/0 h-20 w-full top-0 z-10" />
-    <div
+    <template #title>
+      {{ serie.title }}
+    </template>
+    <template
+      v-if="serie.books_count"
+      #subtitle
+    >
+      {{ serie.books_count }} books
+    </template>
+    <template #extra>
+      {{ serie.authors_names }}
+    </template>
+    <template
       v-if="serie.language"
-      class="card-info left-2 card-info-shadow"
+      #topLeft
     >
       {{ serie.language.name }}
-    </div>
-    <div
+    </template>
+    <template
       v-if="serie.library"
-      class="card-info right-2 card-info-shadow"
+      #topRight
     >
-      {{ ucfirst(serie.library.type) }}
-    </div>
-    <div class="mt-3">
-      <p class="line-clamp-1">
-        {{ serie.title }}
-      </p>
-      <p
-        v-if="serie.authors_names"
-        class="text-xs text-gray-200 line-clamp-1"
-      >
-        {{ serie.authors_names }}
-      </p>
-      <div class="line-clamp-1 text-sm text-gray-400">
-        <span v-if="serie.books_count">
-          {{ serie.books_count }} books
-        </span>
-      </div>
-    </div>
-  </ILink>
+      {{ serie.library.type_label }}
+    </template>
+  </CardModel>
 </template>

@@ -21,7 +21,7 @@ defineProps<{
       </ILink>
       <div
         v-if="icon"
-        class="px-5 ml-6 rounded-md py-4 sm:py-6"
+        class="px-5 ml-6 rounded-md py-4 sm:py-6 hidden md:block"
       >
         <SvgIcon
           v-if="icon"

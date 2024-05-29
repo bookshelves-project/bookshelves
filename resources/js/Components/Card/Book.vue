@@ -1,63 +1,57 @@
 <script lang="ts" setup>
-import { useUtils } from '@/Composables/useUtils'
-
 interface Props {
   book: App.Models.Book
   square?: boolean
   carousel?: boolean
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   square: false,
 })
 
-const { ucfirst } = useUtils()
+const title = computed(() => {
+  let title = `${props.book.title}`
+  if (props.book.authors_names)
+    title = `${title} by ${props.book.authors_names}`
+  if (props.book.serie)
+    title = `${props.book.serie.title} #${props.book.volume_pad} - ${title}`
+
+  return title
+})
 </script>
 
 <template>
-  <ILink
-    :href="$route('books.show', { book: book.slug })"
-    :title="book.title"
-    class="relative"
+  <CardModel
+    :square="square"
+    :cover="book.cover_thumbnail"
+    :title="title"
+    :href="`/books/${book.library?.slug}/${book.slug}`"
+    :carousel="carousel"
+    :color="book.cover_color"
   >
-    <AppImg
-      :class="{
-        'poster ': !square,
-        'album ': square,
-        'h-[20rem]': carousel && !square,
-        'h-[12rem]': carousel && square,
-      }"
-      class="w-full"
-      :src="book.cover_thumbnail"
-      :color="book.cover_color"
-      :alt="book.title"
-    />
-    <div class="absolute bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-white/0 h-20 w-full top-0 z-10" />
-    <div
+    <template #title>
+      {{ book.title }}
+    </template>
+    <template
+      v-if="book.serie"
+      #subtitle
+    >
+      {{ book.serie?.title }} #{{ book.volume_pad }}
+    </template>
+    <template #extra>
+      {{ book.authors_names }}
+    </template>
+    <template
       v-if="book.language"
-      class="card-info left-2 card-info-shadow"
+      #topLeft
     >
       {{ book.language.name }}
-    </div>
-    <div
+    </template>
+    <template
       v-if="book.library"
-      class="card-info right-2 card-info-shadow"
+      #topRight
     >
-      {{ ucfirst(book.library.type) }}
-    </div>
-    <div class="mt-3">
-      <p class="line-clamp-1 w-48">
-        {{ book.title }}
-      </p>
-      <p
-        v-if="book.serie"
-        class="text-xs text-gray-200 line-clamp-1"
-      >
-        {{ book.serie.title }} #{{ book.volume_pad }}
-      </p>
-      <p class="line-clamp-1 text-sm text-gray-400">
-        {{ book.authors?.map((author) => author.name).join(', ') }}
-      </p>
-    </div>
-  </ILink>
+      {{ book.library.type_label }}
+    </template>
+  </CardModel>
 </template>

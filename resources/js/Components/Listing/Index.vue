@@ -88,9 +88,12 @@ const pagination = [10, 25, 50, 100]
         No elements
       </div>
     </div>
-    <div class="books-list mt-6">
+    <ul
+      class="books-grid mt-6"
+      role="list"
+    >
       <slot />
-    </div>
+    </ul>
     <ILink
       v-if="request?.current_page !== request?.last_page"
       :href="nextPageLink"

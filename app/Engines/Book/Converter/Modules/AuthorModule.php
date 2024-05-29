@@ -21,11 +21,11 @@ class AuthorModule
     /**
      * Set Authors from Ebook.
      *
+     * @param  BookAuthor[]  $authors
      * @return Collection<int, Author>
      */
-    public static function toCollection(Ebook $ebook): Collection
+    public static function toCollection(array $authors): Collection
     {
-        $authors = $ebook->getAuthors();
         $authors = array_filter($authors, fn (BookAuthor $author) => $author->getName() !== null);
         $items = collect([]);
 

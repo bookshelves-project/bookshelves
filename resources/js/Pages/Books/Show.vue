@@ -45,6 +45,8 @@ onMounted(async () => {
     :color="book.cover_color"
     icon="ereader"
   >
+    {{ book.title }}
+    {{ square ? 'square' : 'not square' }}
     <ShowContainer
       :model="book"
       :library="book.library"
@@ -71,8 +73,9 @@ onMounted(async () => {
       }"
       :breadcrumbs="[
         { label: book.library?.name, route: { name: 'home' } },
-        { label: `${book.title}`, route: { name: 'books.show', params: { book: book.slug } } },
+        { label: `${book.title}`, route: { name: 'books.show', params: { library: book.library?.slug, book: book.slug } } },
       ]"
+      :square="book.library?.type === 'audiobook'"
     >
       <template #eyebrow>
         <ShowAuthors :authors="book.authors" />
@@ -103,7 +106,7 @@ onMounted(async () => {
             carousel
           />
         </AppCarousel>
-        <AppCarousel
+        <!-- <AppCarousel
           v-if="related?.length"
           :title="`${book.title} related`"
         >
@@ -114,7 +117,7 @@ onMounted(async () => {
             :square="square"
             carousel
           />
-        </AppCarousel>
+        </AppCarousel> -->
       </template>
     </ShowContainer>
   </App>

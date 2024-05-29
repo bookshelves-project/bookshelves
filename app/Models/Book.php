@@ -130,7 +130,10 @@ class Book extends Model implements HasMedia
 
     public function getRouteAttribute(): string
     {
+        $this->loadMissing('library');
+
         return route('books.show', [
+            'library' => $this->library?->slug ?? 'unknown',
             'book' => $this->slug,
         ]);
     }

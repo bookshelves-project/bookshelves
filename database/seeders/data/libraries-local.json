@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Audiobooks (english)",
+    "type": "audiobook",
+    "path": "/Volumes/library/books/audiobooks/english",
+    "is_enabled": true
+  },
+  {
+    "name": "Audiobooks (french)",
+    "type": "audiobook",
+    "path": "/Volumes/library/books/audiobooks/french",
+    "is_enabled": true
+  },
+  {
+    "name": "Comics",
+    "type": "comic",
+    "path": "/Users/ewilan/PlexLibrary/books/comics",
+    "is_enabled": true
+  },
+  {
+    "name": "eBooks (english)",
+    "type": "book",
+    "path": "/Users/ewilan/PlexLibrary/books/ebooks/eng",
+    "is_enabled": true
+  },
+  {
+    "name": "eBooks (french)",
+    "type": "book",
+    "path": "/Users/ewilan/PlexLibrary/books/ebooks/fra",
+    "is_enabled": true
+  },
+  {
+    "name": "Mangas",
+    "type": "manga",
+    "path": "/Users/ewilan/PlexLibrary/books/mangas",
+    "is_enabled": true
+  }
+]

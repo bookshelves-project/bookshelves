@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-    --card-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+    --book-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
 [v-cloak] {
@@ -29,10 +29,19 @@ body {
     clip-path: polygon(0 0, 100% 0, 100% 100%);
 }
 
-.card-info {
-    @apply absolute top-2 text-sm italic text-gray-200 z-20 font-semibold;
+.book-shadow {
+    box-shadow: var(--book-shadow);
+    -webkit-box-shadow: var(--book-shadow);
+    -moz-box-shadow: var(--book-shadow);
 }
 
-.card-info-shadow {
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
+.books-grid {
+    @apply grid;
+    @apply grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6;
+    /* @apply gap-x-4 gap-y-8 sm:gap-x-6 xl:gap-x-8; */
+    @apply gap-x-6 gap-y-4;
+    @apply md:gap-x-8 md:gap-y-6;
+    /* @apply xl:gap-x-10 xl:gap-y-8; */
+    /* @apply max-w-7xl; */
+    @apply mx-auto;
 }
