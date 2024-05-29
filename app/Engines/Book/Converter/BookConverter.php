@@ -179,7 +179,7 @@ class BookConverter
     {
         $name = "audiobook-{$audiobook->id}.jpg";
 
-        return storage_path("app/cache/{$name}");
+        return storage_path("app/audiobooks/{$name}");
     }
 
     private function syncLibrary(Library $library): self

@@ -144,10 +144,10 @@ class AudiobookJob implements ShouldQueue
             $serie->saveQuietly();
         }
 
-        $cover = BookConverter::audiobookCoverPath($audiobook);
+        $coverPath = BookConverter::audiobookCoverPath($audiobook);
         $contents = null;
-        if (file_exists($cover)) {
-            $contents = file_get_contents($cover);
+        if (file_exists($coverPath)) {
+            $contents = file_get_contents($coverPath);
         } else {
             Journal::warning("AudiobookJob : Cover not found for {$book->title}", [
                 'audiobook' => $audiobook->toArray(),
@@ -163,6 +163,11 @@ class AudiobookJob implements ShouldQueue
                 ->disk(Bookshelves::imageDisk())
                 ->color()
                 ->save();
+        }
+
+        // delete cover
+        if (file_exists($coverPath)) {
+            unlink($coverPath);
         }
 
         $book->audiobooks()->saveMany($audiobooks);
