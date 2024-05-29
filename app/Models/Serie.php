@@ -148,7 +148,7 @@ class Serie extends Model implements HasMedia
             'id' => $this->id,
             'title' => $this->title,
             // 'cover' => $this->cover_thumbnail,
-            'library' => $this->library->type_label,
+            'library' => $this->library?->type_label,
         ];
     }
 
