@@ -25,8 +25,8 @@ class AuthorController extends Controller
 
         $libraries = collect();
         foreach (Library::all() as $library) {
-            $books = $author->books->filter(fn ($book) => $book->library->slug === $library->slug);
-            $series = $author->series->filter(fn ($serie) => $serie->library->slug === $library->slug);
+            $books = $author->books->filter(fn ($book) => $book->library?->slug === $library->slug);
+            $series = $author->series->filter(fn ($serie) => $serie->library?->slug === $library->slug);
             $libraries->push([
                 'name' => $library->name,
                 'books' => $books->values(),
