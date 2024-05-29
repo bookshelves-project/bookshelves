@@ -145,16 +145,25 @@ class AudiobookJob implements ShouldQueue
         }
 
         $cover = BookConverter::audiobookCoverPath($audiobook);
-        $contents = file_get_contents($cover);
+        $contents = null;
+        if (file_exists($cover)) {
+            $contents = file_get_contents($cover);
+        } else {
+            Journal::warning("AudiobookJob : Cover not found for {$book->title}", [
+                'audiobook' => $audiobook->toArray(),
+            ]);
+        }
 
-        SpatieMedia::make($book)
-            ->addMediaFromString($contents)
-            ->name($book->slug)
-            ->extension(Bookshelves::imageFormat())
-            ->collection(Bookshelves::imageCollection())
-            ->disk(Bookshelves::imageDisk())
-            ->color()
-            ->save();
+        if ($contents) {
+            SpatieMedia::make($book)
+                ->addMediaFromString($contents)
+                ->name($book->slug)
+                ->extension(Bookshelves::imageFormat())
+                ->collection(Bookshelves::imageCollection())
+                ->disk(Bookshelves::imageDisk())
+                ->color()
+                ->save();
+        }
 
         $book->audiobooks()->saveMany($audiobooks);
         $book->authorMain()->associate($book->authors[0] ?? null);
