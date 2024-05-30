@@ -34,6 +34,10 @@ class AuthorWrapperJob implements ShouldQueue
                 ->get();
         }
 
+        if ($authors->isEmpty()) {
+            return;
+        }
+
         foreach ($authors as $author) {
             AuthorJob::dispatch($author, $this->fresh);
         }

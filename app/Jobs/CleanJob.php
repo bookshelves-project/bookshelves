@@ -47,6 +47,13 @@ class CleanJob implements ShouldQueue
             ->get()
             ->map(fn (Book $book) => $book->physical_path)
             ->toArray();
+
+        if (empty($books)) {
+            Journal::warning("Clean: {$library->name} no books detected");
+
+            return;
+        }
+
         $files = array_map(fn ($file) => $file['path'], $files);
 
         $orphans = array_diff($books, $files);

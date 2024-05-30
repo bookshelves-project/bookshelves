@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59d27c0679249d63a15caf6c16ae9562",
+    "content-hash": "4c8605a4013423b51082ed7c6eb904c2",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3018,6 +3018,64 @@
                 }
             ],
             "time": "2024-05-26T19:36:53+00:00"
+        },
+        {
+            "name": "kiwilan/php-filelist",
+            "version": "v0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kiwilan/php-filelist.git",
+                "reference": "55d8424e215e38061297d50753de9ab9bcf3eccd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kiwilan/php-filelist/zipball/55d8424e215e38061297d50753de9ab9bcf3eccd",
+                "reference": "55d8424e215e38061297d50753de9ab9bcf3eccd",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "pestphp/pest": "^2.20",
+                "spatie/ray": "^1.28"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kiwilan\\FileList\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ewilan Rivière",
+                    "email": "ewilan.riviere@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP package for recursive file listing, exportable in JSON format.",
+            "homepage": "https://github.com/kiwilan/php-filelist",
+            "keywords": [
+                "file",
+                "kiwilan",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/kiwilan/php-filelist/issues",
+                "source": "https://github.com/kiwilan/php-filelist/tree/v0.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/kiwilan",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-05-30T15:58:35+00:00"
         },
         {
             "name": "kiwilan/php-http-pool",

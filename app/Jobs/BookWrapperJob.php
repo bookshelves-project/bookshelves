@@ -39,6 +39,13 @@ class BookWrapperJob implements ShouldQueue
             ->map(fn (Book $book) => $book->physical_path)
             ->toArray();
 
+        if (empty($current_books)) {
+            Journal::warning('BookWrapperJob: no books detected');
+            ExtrasJob::dispatch();
+
+            return;
+        }
+
         foreach (Library::inOrder() as $library) {
             $this->parseFiles($library, $current_books);
         }

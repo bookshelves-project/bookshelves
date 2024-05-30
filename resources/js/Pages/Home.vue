@@ -4,10 +4,6 @@
 // const { props } = usePage()
 // console.log(props.ziggy)
 
-defineProps<{
-  books: App.Models.Book[]
-}>()
-
 const swipers: {
   route?: string
   endpoint?: string

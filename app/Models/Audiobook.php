@@ -70,4 +70,9 @@ class Audiobook extends Model
     {
         return $this->belongsTo(Library::class);
     }
+
+    public function file(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(File::class);
+    }
 }

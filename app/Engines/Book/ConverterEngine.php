@@ -32,15 +32,15 @@ class ConverterEngine
         $self = new self($ebook, $file);
         $self->default = $default;
 
-        if ($ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
-            $converter = BookConverter::make($self->ebook, $file->library(), $self->book);
-        } else {
-            $self->book = $self->retrieveBook();
-            if (! $self->book) {
-                $converter = BookConverter::make($self->ebook, $file->library(), $self->book);
-                $self->book = $converter->book();
-            }
-        }
+        // if ($ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
+        //     $converter = BookConverter::make($self->ebook, $file->library(), $self->book);
+        // } else {
+        //     $self->book = $self->retrieveBook();
+        //     if (! $self->book) {
+        //         $converter = BookConverter::make($self->ebook, $file->library(), $self->book);
+        //         $self->book = $converter->book();
+        //     }
+        // }
 
         return $self;
     }

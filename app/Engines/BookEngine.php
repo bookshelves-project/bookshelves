@@ -22,7 +22,7 @@ class BookEngine
     {
         $ebook = Ebook::read($file->path());
         if (Bookshelves::analyzerDebug()) {
-            BookEngine::printFile($ebook->toArray(), "{$ebook->getFilename()}-parser.json");
+            self::printFile($ebook->toArray(), "{$ebook->getFilename()}-parser.json");
         }
         $converter = ConverterEngine::make($ebook, $file);
 

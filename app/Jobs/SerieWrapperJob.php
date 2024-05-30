@@ -34,6 +34,10 @@ class SerieWrapperJob implements ShouldQueue
                 ->get();
         }
 
+        if ($series->isEmpty()) {
+            return;
+        }
+
         foreach ($series as $serie) {
             SerieJob::dispatch($serie, $this->fresh);
         }

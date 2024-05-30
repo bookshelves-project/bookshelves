@@ -27,21 +27,21 @@ return new class extends Migration
 
         Schema::table('books', function (Blueprint $table) {
             $table->foreignUlid('library_id')
-                ->after('added_at')
+                ->after('slug')
                 ->nullable()
                 ->constrained();
         });
 
         Schema::table('series', function (Blueprint $table) {
             $table->foreignUlid('library_id')
-                ->after('link')
+                ->after('slug')
                 ->nullable()
                 ->constrained();
         });
 
         Schema::table('audiobooks', function (Blueprint $table) {
             $table->foreignUlid('library_id')
-                ->after('added_at')
+                ->after('slug')
                 ->nullable()
                 ->constrained();
         });

@@ -12,6 +12,7 @@ use App\Engines\Book\Converter\Modules\TagModule;
 use App\Enums\BookFormatEnum;
 use App\Models\Audiobook;
 use App\Models\Book;
+use App\Models\File;
 use App\Models\Library;
 use DateTime;
 use Illuminate\Support\Carbon;
@@ -28,6 +29,7 @@ class BookConverter
 {
     protected function __construct(
         protected Ebook $ebook,
+        protected File $file,
         protected ?Book $book = null,
         protected ?Audiobook $audiobook = null,
     ) {
@@ -38,7 +40,15 @@ class BookConverter
      */
     public static function make(Ebook $ebook, Library $library, ?Book $book = null): self
     {
-        $self = new self($ebook);
+        $file = File::query()->create([
+            'path' => $ebook->getPath(),
+            'extension' => $ebook->getExtension(),
+            'mime_type' => mime_content_type($ebook->getPath()),
+            'size' => $ebook->getSize(),
+            'is_audiobook' => $ebook->getFormat() === EbookFormatEnum::AUDIOBOOK,
+        ]);
+
+        $self = new self($ebook, $file);
         $self->book = $book;
 
         if ($ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {

@@ -2,10 +2,10 @@
 
 namespace App\Engines\Book;
 
-use App\Engines\FileBrowser;
 use App\Enums\BookFormatEnum;
 use App\Facades\Bookshelves;
 use App\Models\Library;
+use Kiwilan\FileList\FileList;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class BookFileScanner
@@ -85,15 +85,16 @@ class BookFileScanner
         }
 
         $jsonPath = storage_path("app/{$this->library->slug}.json");
-        $browser = FileBrowser::make($this->library->path, $jsonPath)
+        $browser = FileList::make($this->library->path)
+            ->saveAsJson($jsonPath)
             ->skipExtensions($this->skip_extensions);
 
         if ($limit) {
             $browser->limit($limit);
         }
 
-        if ($engine !== 'native') {
-            $browser->engine($engine, [$this->library->path, '--output', $jsonPath], 'files');
+        if ($engine === 'scout') {
+            $browser->withScout();
         }
 
         $browser->run();

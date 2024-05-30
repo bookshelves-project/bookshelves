@@ -12,8 +12,29 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('files', function (Blueprint $table) {
-            $table->id();
+            $table->ulid('id')->primary();
+
+            $table->string('path');
+            $table->string('extension');
+            $table->string('mime_type')->nullable();
+            $table->integer('size')->nullable();
+            $table->boolean('is_audiobook')->default(false);
+
             $table->timestamps();
+        });
+
+        Schema::table('books', function (Blueprint $table) {
+            $table->foreignUlid('file_id')
+                ->after('library_id')
+                ->nullable()
+                ->constrained();
+        });
+
+        Schema::table('audiobooks', function (Blueprint $table) {
+            $table->foreignUlid('file_id')
+                ->after('library_id')
+                ->nullable()
+                ->constrained();
         });
     }
 

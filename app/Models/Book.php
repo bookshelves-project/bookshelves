@@ -185,6 +185,11 @@ class Book extends Model implements HasMedia
         return $query->whereRelation('library', 'type', $type);
     }
 
+    public function file(): BelongsTo
+    {
+        return $this->belongsTo(File::class);
+    }
+
     public function publisher(): BelongsTo
     {
         return $this->belongsTo(Publisher::class);
