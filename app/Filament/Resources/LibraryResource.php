@@ -39,9 +39,6 @@ class LibraryResource extends Resource
                             ->required()
                             ->columnSpan(2)
                             ->placeholder('Enter absolute path of library'),
-                        Components\TextInput::make('path_name')
-                            ->disabled()
-                            ->helperText('Find path name of library (automatic). It used by parser to find library from path.'),
                     ]),
                 ]),
                 FilamentLayout::column([

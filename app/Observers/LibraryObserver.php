@@ -66,9 +66,6 @@ class LibraryObserver
 
         $exists = file_exists($library->path);
 
-        $paths = explode(DIRECTORY_SEPARATOR, $library->path);
-        $library->path_name = end($paths);
-
         $library->path_is_valid = $exists;
         $library->saveQuietly();
 

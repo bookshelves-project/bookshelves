@@ -29,7 +29,6 @@ class Library extends Model
         'name',
         'type',
         'path',
-        'path_name',
         'path_is_valid',
         'is_enabled',
     ];

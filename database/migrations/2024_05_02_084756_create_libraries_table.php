@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('type')->nullable();
             $table->string('path')->nullable();
-            $table->string('path_name')->nullable();
             $table->boolean('path_is_valid')->default(false);
             $table->boolean('is_enabled')->default(true);
 

@@ -29,6 +29,7 @@
   },
   "require": {
     "php": "^8.2",
+    "croustibat/filament-jobs-monitor": "^2.4",
     "filament/filament": "^3.2",
     "filament/notifications": "^3.2",
     "filament/spatie-laravel-media-library-plugin": "^3.2",
