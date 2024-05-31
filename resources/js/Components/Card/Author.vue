@@ -14,6 +14,7 @@ const title = computed(() => {
     :title="title"
     :href="`/authors/${author.slug}`"
     :color="author.cover_color"
+    hide-top
   >
     <template #title>
       {{ author.lastname }} {{ author.firstname }}

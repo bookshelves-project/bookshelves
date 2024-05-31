@@ -17,8 +17,7 @@ return new class() extends Migration
             $table->string('title');
             $table->string('slug')->unique()->index();
             $table->text('description')->nullable();
-            $table->string('link')->nullable();
-            $table->dateTime('wikipedia_parsed_at')->nullable();
+            $table->dateTime('parsed_at')->nullable();
 
             $table->timestamps();
         });

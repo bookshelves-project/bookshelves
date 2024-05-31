@@ -84,7 +84,7 @@ class BookFileScanner
             return [];
         }
 
-        $jsonPath = storage_path("app/{$this->library->slug}.json");
+        $jsonPath = $this->library->getJsonPath();
         $browser = FileList::make($this->library->path)
             ->saveAsJson($jsonPath)
             ->skipExtensions($this->skip_extensions);

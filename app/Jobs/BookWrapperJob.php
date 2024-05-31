@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Engines\Book\File\BookFileItem;
 use App\Models\Book;
+use App\Models\File;
 use App\Models\Library;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -58,15 +59,25 @@ class BookWrapperJob implements ShouldQueue
      */
     private function parseFiles(Library $library, array $current_books)
     {
-        $files = (array) json_decode(file_get_contents($library->getJsonPath()), true);
-        $count = count($files);
+        $bookFiles = (array) json_decode(file_get_contents($library->getJsonPath()), true);
+        $count = count($bookFiles);
+
+        $files = File::query()
+            ->where('library_id', $library->id)
+            ->get()
+            ->map(fn (File $file) => $file->path)
+            ->toArray();
+
+        $bookFilesToParse = $this->findBooksToParse($bookFiles, $files);
+        $filesToDelete = $this->findBooksToDelete($bookFiles, $files);
+        $this->deleteBooks($filesToDelete);
 
         $i = 0;
-        foreach ($files as $file) {
+        foreach ($bookFilesToParse as $bookFile) {
             $i++;
 
-            $file = BookFileItem::fromArray($file, $library);
-            BookJob::dispatch($file, "{$i}/{$count}");
+            $bookFileItem = BookFileItem::fromArray($bookFile, $library);
+            BookJob::dispatch($bookFileItem, "{$i}/{$count}");
 
             // if ($this->fresh) {
             //     BookJob::dispatch($file, "{$i}/{$count}");
@@ -77,6 +88,53 @@ class BookWrapperJob implements ShouldQueue
 
             //     BookJob::dispatch($file, "{$i}/{$count}");
             // }
+        }
+    }
+
+    /**
+     * @param  string[]  $files
+     */
+    private function findBooksToParse(array $bookFiles, array $files): array
+    {
+        $bookFilesToParse = array_filter($bookFiles, function ($bookFile) use ($files) {
+            if (! in_array($bookFile['path'], $files, true)) {
+                $filesToParse[] = $bookFile;
+
+                return true;
+            }
+
+            return false;
+        });
+
+        return array_values($bookFilesToParse);
+    }
+
+    /**
+     * @param  string[]  $files
+     */
+    private function findBooksToDelete(array $bookFiles, array $files): array
+    {
+        $filesToDelete = array_filter($files, function ($file) use ($bookFiles) {
+            if (! in_array($file, array_column($bookFiles, 'path'), true)) {
+                return true;
+            }
+
+            return false;
+        });
+
+        return array_values($filesToDelete);
+    }
+
+    private function deleteBooks(array $filesToDelete)
+    {
+        $files = File::query()
+            ->whereIn('path', $filesToDelete)
+            ->get();
+
+        Journal::info("BookWrapperJob: delete {$files->count()} books");
+
+        foreach ($files as $file) {
+            $file->delete();
         }
     }
 }

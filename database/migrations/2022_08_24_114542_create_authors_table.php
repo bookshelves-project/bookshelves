@@ -39,7 +39,7 @@ return new class() extends Migration
             $table->foreignUlid('author_main_id')
                 ->index()
                 ->nullable()
-                ->after('link')
+                ->after('description')
                 ->constrained('authors')
                 ->nullOnDelete();
         });

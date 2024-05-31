@@ -46,6 +46,11 @@ class SerieModule
         if ($serie) {
             $self->serie = $serie;
 
+            Serie::withoutSyncingToSearch(function () use ($self) {
+                $self->serie->parsed_at = null;
+                $self->serie->saveQuietly();
+            });
+
             return $self;
         }
 
@@ -103,6 +108,8 @@ class SerieModule
      */
     public static function setBookCover(Serie $serie): Serie
     {
+        $serie->deleteCover();
+
         $book = Book::whereVolume(1)
             ->where('serie_id', $serie->id)
             ->first();

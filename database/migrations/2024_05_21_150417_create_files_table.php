@@ -21,7 +21,10 @@ return new class extends Migration
             $table->string('mime_type')->nullable();
             $table->integer('size')->nullable();
             $table->boolean('is_audiobook')->default(false);
-            $table->foreignUlid('library_id')->constrained();
+
+            $table->foreignUlid('library_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -30,14 +33,16 @@ return new class extends Migration
             $table->foreignUlid('file_id')
                 ->after('library_id')
                 ->nullable()
-                ->constrained();
+                ->constrained()
+                ->cascadeOnDelete();
         });
 
         Schema::table('audiobooks', function (Blueprint $table) {
             $table->foreignUlid('file_id')
                 ->after('library_id')
                 ->nullable()
-                ->constrained();
+                ->constrained()
+                ->cascadeOnDelete();
         });
     }
 

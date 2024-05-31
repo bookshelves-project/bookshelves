@@ -17,11 +17,11 @@ class LatestBooks extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            ->query(BookResource::getEloquentQuery()->with('authors', 'serie'))
+            ->query(BookResource::getEloquentQuery()->with('authors', 'serie', 'library', 'file'))
             ->defaultPaginationPageOption(5)
             ->defaultSort('created_at', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('type')
+                Tables\Columns\TextColumn::make('library.name')
                     ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
@@ -36,12 +36,12 @@ class LatestBooks extends BaseWidget
                     ->tooltip(fn (Book $record) => $record->authors->pluck('name')->join(', '))
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('extension')
+                Tables\Columns\TextColumn::make('file.extension')
                     ->badge()
                     ->color('primary')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('size_human')
+                Tables\Columns\TextColumn::make('file.size_human')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('added_at')
                     ->dateTime('Y/m/d')

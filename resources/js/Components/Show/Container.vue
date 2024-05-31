@@ -13,8 +13,6 @@ export interface DetailsMedia {
   properties?: Array<string | number | undefined>
   badges?: Array<string | number | undefined>
   tags?: App.Models.Tag[]
-  downloadUrl?: string
-  downloadSize?: string
   download?: {
     url?: string
     size?: string

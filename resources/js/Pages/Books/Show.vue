@@ -45,8 +45,6 @@ onMounted(async () => {
     :color="book.cover_color"
     icon="ereader"
   >
-    {{ book.title }}
-    {{ square ? 'square' : 'not square' }}
     <ShowContainer
       :model="book"
       :library="book.library"
@@ -104,9 +102,10 @@ onMounted(async () => {
             :book="b"
             :square="square"
             carousel
+            class="w-56"
           />
         </AppCarousel>
-        <!-- <AppCarousel
+        <AppCarousel
           v-if="related?.length"
           :title="`${book.title} related`"
         >
@@ -116,8 +115,9 @@ onMounted(async () => {
             :entity="r"
             :square="square"
             carousel
+            class="w-56"
           />
-        </AppCarousel> -->
+        </AppCarousel>
       </template>
     </ShowContainer>
   </App>

@@ -2,8 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Models\Author;
 use App\Models\File;
 use App\Models\Library;
+use App\Models\Serie;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -32,6 +34,26 @@ class CleanJob implements ShouldQueue
 
         foreach ($libraries as $library) {
             $this->deleteOrphanBooks($library);
+        }
+
+        $authors = Author::query()
+            ->whereDoesntHave('books')
+            ->get();
+
+        Journal::info("Clean: authors {$authors->count()}");
+
+        foreach ($authors as $author) {
+            $author->delete();
+        }
+
+        $series = Serie::query()
+            ->whereDoesntHave('books')
+            ->get();
+
+        Journal::info("Clean: series {$series->count()}");
+
+        foreach ($series as $serie) {
+            $serie->delete();
         }
 
         DirectoryService::make()->clearDirectory(storage_path('app/cache'));

@@ -32,6 +32,8 @@ class AuthorConverter
 
     private function wikipedia(): self
     {
+        $this->author->deleteCover();
+
         Journal::info("Wikipedia: author {$this->author->name}");
 
         $lang = BookUtils::selectLang($this->author->books);

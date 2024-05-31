@@ -31,15 +31,6 @@ class BookResource extends Resource
                     FilamentLayout::section([
                         Components\TextInput::make('title')
                             ->required(),
-                        // Components\TextInput::make('email')
-                        //     ->required()
-                        //     ->email()
-                        //     ->placeholder('Enter your email'),
-                        // Components\Select::make('role')
-                        //     ->options(UserRoleEnum::toArray())
-                        //     ->default(UserRoleEnum::user),
-                        // Components\DatePicker::make('email_verified_at')
-                        //     ->format('d/m/Y'),
                     ]),
                 ]),
             ]);
@@ -75,11 +66,12 @@ class BookResource extends Resource
                     ->sortable()
                     ->badge()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('format')
+                Tables\Columns\TextColumn::make('file.format')
                     ->badge()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('extension')
+                Tables\Columns\TextColumn::make('file.extension')
+                    ->label('Extension')
                     ->badge()
                     ->sortable()
                     ->toggleable()

@@ -20,14 +20,14 @@ class SizeController extends Controller
 
         if ($book->library?->type->isAudiobook()) {
             $size = $book->audiobooks
-                ->map(fn (Audiobook $audiobook) => $audiobook->size)
+                ->map(fn (Audiobook $audiobook) => $audiobook->file->size)
                 ->sum();
         } else {
-            $size = $book->size;
+            $size = $book->file->size;
         }
 
         return response()->json([
-            'extension' => $book->library?->type->isAudiobook() ? 'zip' : $book->extension,
+            'extension' => $book->library?->type->isAudiobook() ? 'zip' : $book->file->extension,
             'size' => $size,
         ]);
     }
@@ -41,10 +41,10 @@ class SizeController extends Controller
         foreach ($serie->books as $book) {
             if ($book->library?->type->isAudiobook()) {
                 $size += $book->audiobooks
-                    ->map(fn (Audiobook $audiobook) => $audiobook->size)
+                    ->map(fn (Audiobook $audiobook) => $audiobook->file->size)
                     ->sum();
             } else {
-                $size += $book->size;
+                $size += $book->file->size;
             }
         }
 

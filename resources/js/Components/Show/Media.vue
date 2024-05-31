@@ -23,11 +23,11 @@ const tagsList = computed(() => {
         }"
         class="book-shadow block overflow-hidden bg-gray-900 rounded-md col-span-2"
       >
-        <img
+        <AppImg
           class="object-cover h-full w-full"
           :src="cover"
           :alt="title"
-        >
+        />
       </div>
       <section class="col-span-4">
         <div>

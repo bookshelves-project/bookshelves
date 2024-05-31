@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Facades\Bookshelves;
+use App\Models\Library;
 use App\Models\Tag;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -59,6 +60,8 @@ class SetupCommand extends Commandable
             $this->clear();
             $this->genres();
         }
+
+        DirectoryService::make()->clearDirectory(Library::getJsonDirectory());
 
         $this->call(ParseCommand::class, [
             '--limit' => $this->limit,

@@ -6,6 +6,7 @@ defineProps<{
   href?: string
   carousel?: boolean
   color?: string
+  hideTop?: boolean
 }>()
 
 const slots = useSlots()
@@ -51,8 +52,14 @@ const slots = useSlots()
           <slot name="extra" />
         </p>
       </div>
-      <div class="absolute top-0 h-24 model-card_top w-full" />
-      <div class="absolute top-2 flex justify-between w-full px-4 italic text-sm">
+      <div
+        v-if="!hideTop"
+        class="absolute top-0 h-24 model-card_top w-full"
+      />
+      <div
+        v-if="!hideTop"
+        class="absolute top-2 flex justify-between w-full px-4 italic text-sm"
+      >
         <div
           v-if="slots.topLeft"
           class="model-card_text-shadow font-medium"

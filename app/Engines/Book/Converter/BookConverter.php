@@ -118,6 +118,7 @@ class BookConverter
 
         Book::withoutSyncingToSearch(function () {
             $this->audiobook->library()->associate($this->file->library);
+            $this->audiobook->file()->associate($this->file);
             $this->audiobook->saveQuietly();
         });
 
@@ -298,6 +299,7 @@ class BookConverter
         ]);
 
         Book::withoutSyncingToSearch(function () use ($book) {
+            $book->file()->associate($this->file);
             $book->save();
         });
 

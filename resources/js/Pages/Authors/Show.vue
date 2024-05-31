@@ -49,6 +49,10 @@ onMounted(() => {
       :cover="author.cover_standard"
       :cover-color="author.cover_color"
       :overview="author.description"
+      :breadcrumbs="[
+        { label: 'Authors', route: { name: 'authors.index' } },
+        { label: `${author.name}`, route: { name: 'authors.show', params: { author: author.slug } } },
+      ]"
     >
       <template #swipers>
         <div

@@ -18,6 +18,8 @@ class CoverModule
      */
     public static function make(Ebook $ebook, Book $book): Book
     {
+        $book->deleteCover();
+
         $self = new self();
 
         if (! $ebook->hasCover()) {

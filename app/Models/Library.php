@@ -184,6 +184,11 @@ class Library extends Model
         return 0;
     }
 
+    public static function getJsonDirectory(): string
+    {
+        return storage_path('app/library');
+    }
+
     public function getJsonName(): string
     {
         return "{$this->slug}.json";
@@ -193,7 +198,7 @@ class Library extends Model
     {
         $name = $this->getJsonName();
 
-        return storage_path("app/{$name}");
+        return $this->getJsonDirectory().DIRECTORY_SEPARATOR.$name;
     }
 
     public function getJsonDataPath(): string

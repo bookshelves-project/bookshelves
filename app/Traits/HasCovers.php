@@ -149,6 +149,11 @@ trait HasCovers
         return '#ffffff';
     }
 
+    public function deleteCover(): void
+    {
+        $this->clearMediaCollection(Bookshelves::imageCollection());
+    }
+
     private function getCover(string $conversion = ''): string
     {
         /** @var Book|Author|Serie $that */

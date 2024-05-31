@@ -23,6 +23,11 @@ class SerieConverter
         $self->setCover();
         $self->setBookDescription();
 
+        Serie::withoutSyncingToSearch(function () use ($serie) {
+            $serie->parsed_at = now();
+            $serie->saveQuietly();
+        });
+
         return $self;
     }
 
@@ -31,7 +36,6 @@ class SerieConverter
         if (! $this->serie->description) {
             $books = $this->serie->load('books')->books;
             $this->serie->description = $books->first()->description;
-            $this->serie->saveQuietly();
         }
     }
 

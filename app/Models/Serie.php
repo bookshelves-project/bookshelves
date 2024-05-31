@@ -63,8 +63,7 @@ class Serie extends Model implements HasMedia
         'title',
         'slug',
         'description',
-        'link',
-        'wikipedia_parsed_at',
+        'parsed_at',
     ];
 
     protected $appends = [
@@ -72,7 +71,7 @@ class Serie extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'wikipedia_parsed_at' => 'datetime',
+        'parsed_at' => 'datetime',
     ];
 
     protected $with = [];

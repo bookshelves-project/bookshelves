@@ -3,5 +3,6 @@
 !cache/
 !data/
 !debug/
+!library/
 !public/
 !.gitignore
