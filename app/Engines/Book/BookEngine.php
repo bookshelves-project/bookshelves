@@ -3,14 +3,11 @@
 namespace App\Engines\Book;
 
 use App\Engines\Book\Converter\BookConverter;
-use App\Engines\Book\Converter\Modules\AuthorModule;
 use App\Engines\Book\File\BookFileItem;
 use App\Facades\Bookshelves;
 use App\Models\Book;
 use App\Models\File;
-use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
 /**
@@ -41,16 +38,6 @@ class BookEngine
 
         BookConverter::make($self->ebook, $file);
 
-        // if ($ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
-        //     $converter = BookConverter::make($self->ebook, $file->library(), $self->book);
-        // } else {
-        //     $self->book = $self->retrieveBook();
-        //     if (! $self->book) {
-        //         $converter = BookConverter::make($self->ebook, $file->library(), $self->book);
-        //         $self->book = $converter->book();
-        //     }
-        // }
-
         return $self;
     }
 
@@ -72,49 +59,6 @@ class BookEngine
     public function isDefault(): bool
     {
         return $this->default;
-    }
-
-    private function retrieveBook(): ?Book
-    {
-        $book = null;
-        $names = [];
-
-        foreach ($this->ebook->getAuthors() as $author) {
-            $author = AuthorModule::make($author);
-            $names[] = $author->name();
-        }
-
-        if (! $this->ebook->getTitle()) {
-            Journal::warning("BookEngine: Title is empty for {$this->ebook->getPath()}", [
-                'ebook' => $this->ebook->toArray(),
-            ]);
-
-            return null;
-        }
-
-        if (! $this->ebook->getMetaTitle()) {
-            Journal::warning("BookEngine: MetaTitle is empty for {$this->ebook->getTitle()}", [
-                'ebook' => $this->ebook->toArray(),
-            ]);
-        }
-
-        $book = Book::query()
-            ->where('slug', $this->ebook->getMetaTitle()?->getSlug());
-
-        if (! empty($names)) {
-            $book = $book->whereHas(
-                'authors',
-                fn (Builder $query) => $query->whereIn('name', $names)
-            );
-        }
-
-        $book = $book->where('extension', $this->ebook->getExtension())->first();
-
-        if ($book) {
-            $this->isExist = true;
-        }
-
-        return $book;
     }
 
     private function printFile(mixed $file, string $name, bool $raw = false): bool

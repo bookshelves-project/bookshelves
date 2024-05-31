@@ -14,7 +14,6 @@ use App\Models\Audiobook;
 use App\Models\Book;
 use App\Models\File;
 use DateTime;
-use Illuminate\Support\Carbon;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\LaravelNotifier\Facades\Journal;
@@ -304,42 +303,5 @@ class BookConverter
         });
 
         return $book;
-    }
-
-    private function checkBook(): self
-    {
-        if (! $this->book) {
-            return $this;
-        }
-
-        if (! $this->book->slug && $this->ebook->getSeries() && ! $this->book->serie) {
-            $this->book->slug = $this->ebook->getMetaTitle()->getSlug();
-        }
-
-        if (! $this->book->contributor) {
-            $this->book->contributor = $this->ebook->getExtra('contributor') ?? null;
-        }
-
-        if (! $this->book->released_on) {
-            $this->book->released_on = Carbon::parse($this->ebook->getPublishDate());
-        }
-
-        if (! $this->book->rights) {
-            $this->book->rights = $this->ebook->getCopyright();
-        }
-
-        if (! $this->book->description) {
-            $this->book->description = $this->ebook->getDescription();
-        }
-
-        if (! $this->book->volume) {
-            $this->book->volume = $this->ebook->getVolume();
-        }
-
-        if ($this->book->library === null) {
-            $this->book->library_id = $this->file->library->id;
-        }
-
-        return $this;
     }
 }
