@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\ParserJob;
+use App\Jobs\ParserWrapperJob;
 use Illuminate\Console\Command;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
@@ -18,6 +18,7 @@ class ParseCommand extends Commandable
      * @var string
      */
     protected $signature = 'bookshelves:parse
+                            {--f|fresh : Fresh install}
                             {--l|limit= : limit epub files to generate, useful for debug}';
 
     /**
@@ -31,6 +32,7 @@ class ParseCommand extends Commandable
      * Create a new command instance.
      */
     public function __construct(
+        protected bool $fresh = false,
         protected ?int $limit = null,
     ) {
         parent::__construct();
@@ -45,10 +47,11 @@ class ParseCommand extends Commandable
     {
         $this->title();
 
+        $this->fresh = $this->option('fresh');
         $this->limit = $this->optionInt('limit');
 
         Journal::info('ParseCommand: parsing files...');
-        ParserJob::dispatch($this->limit);
+        ParserWrapperJob::dispatch($this->fresh, $this->limit);
 
         return Command::SUCCESS;
     }

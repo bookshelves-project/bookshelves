@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Engines\Book\File\BookFileItem;
 use App\Engines\Book\File\BookFileScanner;
 use App\Models\Library;
 use Illuminate\Bus\Queueable;
@@ -21,6 +20,7 @@ class ParserJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
+        protected Library $library,
         protected ?int $limit = null,
     ) {
     }
@@ -30,22 +30,17 @@ class ParserJob implements ShouldQueue
      */
     public function handle(): void
     {
-        foreach (Library::inOrder() as $library) {
-            $this->parseFiles($library);
-        }
-    }
+        Journal::info("ParserJob: {$this->library->name} parsing files...");
 
-    private function parseFiles(Library $library)
-    {
-        $parser = BookFileScanner::make($library, $this->limit);
-        $jsonPath = $library->getJsonPath();
+        $parser = BookFileScanner::make($this->library, $this->limit);
+        $jsonPath = $this->library->getJsonPath();
 
         if (file_exists($jsonPath)) {
             unlink($jsonPath);
         }
 
         if (! $parser) {
-            Journal::warning("ParserJob: {$library->name} no files detected");
+            Journal::warning("ParserJob: {$this->library->name} no files detected");
             file_put_contents($jsonPath, '[]');
 
             return;
@@ -54,18 +49,17 @@ class ParserJob implements ShouldQueue
         $files = $parser->items();
         $count = count($files);
 
-        $msg = "ParserJob: {$library->name} files detected: {$count}";
-        if ($this->limit) {
-            $msg .= " (limited to {$this->limit})";
-        }
-        Journal::info($msg);
-        Journal::debug("ParserJob: {$library->name} files list", array_map(fn (BookFileItem $file) => $file->path(), $files));
-
         $items = [];
         foreach ($files as $file) {
             $items[] = $file->toArray();
         }
 
         Converter::saveAsJson($items, $jsonPath);
+
+        $msg = "ParserJob: {$this->library->name} files detected: {$count}";
+        if ($this->limit) {
+            $msg .= " (limited to {$this->limit})";
+        }
+        Journal::info($msg);
     }
 }

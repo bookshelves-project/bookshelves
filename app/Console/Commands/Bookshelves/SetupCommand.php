@@ -64,11 +64,8 @@ class SetupCommand extends Commandable
         DirectoryService::make()->clearDirectory(Library::getJsonDirectory());
 
         $this->call(ParseCommand::class, [
-            '--limit' => $this->limit,
-        ]);
-
-        $this->call(BooksCommand::class, [
             '--fresh' => $this->fresh,
+            '--limit' => $this->limit,
         ]);
 
         return Command::SUCCESS;
