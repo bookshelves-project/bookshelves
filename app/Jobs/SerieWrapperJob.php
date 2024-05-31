@@ -26,13 +26,7 @@ class SerieWrapperJob implements ShouldQueue
      */
     public function handle(): void
     {
-        if ($this->fresh) {
-            $series = Serie::all();
-        } else {
-            $series = Serie::query()
-                ->where('wikipedia_parsed_at', null)
-                ->get();
-        }
+        $series = Serie::all();
 
         if ($series->isEmpty()) {
             return;

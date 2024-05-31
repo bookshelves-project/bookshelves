@@ -18,7 +18,7 @@ class SerieConverter
 
     public static function make(Serie $serie, bool $fresh = false): self
     {
-        $self = new SerieConverter($serie, $fresh);
+        $self = new self($serie, $fresh);
         $self->setTags();
         $self->setCover();
         $self->setBookDescription();
@@ -47,6 +47,10 @@ class SerieConverter
      */
     private function setTags(): self
     {
+        if ($this->serie->tags->isNotEmpty() && ! $this->fresh) {
+            return $this;
+        }
+
         Serie::withoutSyncingToSearch(function () {
             $books = $this->serie->load('books.tags')->books;
             $tags = [];
