@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('audiobooks', function (Blueprint $table) {
+        Schema::create('audiobook_tracks', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
             $table->string('parsed_title')->nullable();
@@ -57,6 +57,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('audiobooks');
+        Schema::dropIfExists('audiobook_tracks');
     }
 };

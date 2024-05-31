@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Audiobook;
+use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Http\Request;
@@ -16,11 +16,11 @@ class SizeController extends Controller
     #[Get('/book/{book:id}', name: 'api.sizes.book')]
     public function book(Request $request, Book $book)
     {
-        $book->loadMissing(['library', 'audiobooks']);
+        $book->loadMissing(['library', 'audiobookTracks']);
 
         if ($book->library?->type->isAudiobook()) {
-            $size = $book->audiobooks
-                ->map(fn (Audiobook $audiobook) => $audiobook->file->size)
+            $size = $book->audiobookTracks
+                ->map(fn (AudiobookTrack $track) => $track->file->size)
                 ->sum();
         } else {
             $size = $book->file->size;
@@ -36,12 +36,12 @@ class SizeController extends Controller
     public function serie(Request $request, Serie $serie)
     {
         $size = 0;
-        $serie->loadMissing(['books', 'books.library', 'books.audiobooks']);
+        $serie->loadMissing(['books', 'books.library', 'books.audiobookTracks']);
 
         foreach ($serie->books as $book) {
             if ($book->library?->type->isAudiobook()) {
-                $size += $book->audiobooks
-                    ->map(fn (Audiobook $audiobook) => $audiobook->file->size)
+                $size += $book->audiobookTracks
+                    ->map(fn (AudiobookTrack $track) => $track->file->size)
                     ->sum();
             } else {
                 $size += $book->file->size;

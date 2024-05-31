@@ -183,9 +183,9 @@ class Book extends Model implements HasMedia
         return $this->belongsTo(Serie::class);
     }
 
-    public function audiobooks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function audiobookTracks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Audiobook::class);
+        return $this->hasMany(AudiobookTrack::class);
     }
 
     public function library(): \Illuminate\Database\Eloquent\Relations\BelongsTo

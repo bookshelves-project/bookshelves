@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Console\Commands\Bookshelves\AudiobooksCommand;
+use App\Console\Commands\Bookshelves\AudiobookTracksCommand;
 use App\Console\Commands\Bookshelves\AuthorsCommand;
 use App\Console\Commands\Bookshelves\CleanCommand;
 use App\Console\Commands\Bookshelves\SeriesCommand;
@@ -31,7 +31,7 @@ class ExtrasJob implements ShouldQueue
     public function handle(): void
     {
         ScoutWrapperJob::dispatch();
-        Artisan::call(AudiobooksCommand::class);
+        Artisan::call(AudiobookTracksCommand::class);
         ScoutWrapperJob::dispatch();
         Artisan::call(AuthorsCommand::class);
         Artisan::call(SeriesCommand::class);

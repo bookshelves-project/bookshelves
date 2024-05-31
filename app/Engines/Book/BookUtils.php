@@ -2,7 +2,7 @@
 
 namespace App\Engines\Book;
 
-use App\Models\Audiobook;
+use App\Models\AudiobookTrack;
 use Illuminate\Support\Collection;
 
 class BookUtils
@@ -35,9 +35,9 @@ class BookUtils
         return $lang;
     }
 
-    public static function audiobookCoverPath(Audiobook $audiobook): string
+    public static function audiobookTrackCoverPath(AudiobookTrack $track): string
     {
-        $name = "audiobook-{$audiobook->id}.jpg";
+        $name = "audiobook-{$track->id}.jpg";
 
         return storage_path("app/audiobooks/{$name}");
     }

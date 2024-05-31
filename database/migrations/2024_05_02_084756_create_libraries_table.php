@@ -39,7 +39,7 @@ return new class extends Migration
                 ->constrained();
         });
 
-        Schema::table('audiobooks', function (Blueprint $table) {
+        Schema::table('audiobook_tracks', function (Blueprint $table) {
             $table->foreignUlid('library_id')
                 ->after('slug')
                 ->nullable()

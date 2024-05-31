@@ -2,16 +2,16 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AudiobookResource\Pages;
-use App\Models\Audiobook;
+use App\Filament\Resources\AudiobookTrackResource\Pages;
+use App\Models\AudiobookTrack;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class AudiobookResource extends Resource
+class AudiobookTrackResource extends Resource
 {
-    protected static ?string $model = Audiobook::class;
+    protected static ?string $model = AudiobookTrack::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-musical-note';
 
@@ -67,9 +67,9 @@ class AudiobookResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAudiobooks::route('/'),
-            'create' => Pages\CreateAudiobook::route('/create'),
-            'edit' => Pages\EditAudiobook::route('/{record}/edit'),
+            'index' => Pages\ListAudiobookTracks::route('/'),
+            'create' => Pages\CreateAudiobookTrack::route('/create'),
+            'edit' => Pages\EditAudiobookTrack::route('/{record}/edit'),
         ];
     }
 }

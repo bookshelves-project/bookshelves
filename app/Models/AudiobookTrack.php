@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kiwilan\Steward\Traits\HasSlug;
 
-class Audiobook extends Model
+class AudiobookTrack extends Model
 {
     use HasFactory;
     use HasSlug;

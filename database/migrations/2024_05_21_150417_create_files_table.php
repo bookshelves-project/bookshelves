@@ -37,7 +37,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
         });
 
-        Schema::table('audiobooks', function (Blueprint $table) {
+        Schema::table('audiobook_tracks', function (Blueprint $table) {
             $table->foreignUlid('file_id')
                 ->after('library_id')
                 ->nullable()

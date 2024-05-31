@@ -10,7 +10,7 @@ use App\Engines\Book\Converter\Modules\LanguageModule;
 use App\Engines\Book\Converter\Modules\PublisherModule;
 use App\Engines\Book\Converter\Modules\SerieModule;
 use App\Engines\Book\Converter\Modules\TagModule;
-use App\Models\Audiobook;
+use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\File;
 use DateTime;
@@ -28,7 +28,7 @@ class BookConverter
         protected Ebook $ebook,
         protected File $file,
         protected ?Book $book = null,
-        protected ?Audiobook $audiobook = null,
+        protected ?AudiobookTrack $track = null,
     ) {
     }
 
@@ -40,7 +40,7 @@ class BookConverter
         $self = new self($ebook, $file);
 
         if ($ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
-            $self->parseAudiobook();
+            $self->parseAudiobookTrack();
         } else {
             $self->parseBook();
         }
@@ -77,7 +77,7 @@ class BookConverter
         return $this;
     }
 
-    private function parseAudiobook(): self
+    private function parseAudiobookTrack(): self
     {
         $authors = array_map(fn ($author) => $author->getName(), $this->ebook->getAuthors());
         $language = $this->ebook->getLanguage();
@@ -88,7 +88,7 @@ class BookConverter
             ]);
         }
 
-        $this->audiobook = new Audiobook([
+        $this->track = new AudiobookTrack([
             'title' => $this->ebook->getTitle(),
             'slug' => $this->ebook->getMetaTitle()->getSeriesSlug(),
             'track_title' => $this->ebook->getExtra('audio_title'),
@@ -116,14 +116,14 @@ class BookConverter
         ]);
 
         Book::withoutSyncingToSearch(function () {
-            $this->audiobook->library()->associate($this->file->library);
-            $this->audiobook->file()->associate($this->file);
-            $this->audiobook->saveQuietly();
+            $this->track->library()->associate($this->file->library);
+            $this->track->file()->associate($this->file);
+            $this->track->saveQuietly();
         });
 
         $cover = $this->ebook->getCover()->getContents();
         if ($cover) {
-            $path = BookUtils::audiobookCoverPath($this->audiobook);
+            $path = BookUtils::audiobookTrackCoverPath($this->track);
             file_put_contents($path, $cover);
         }
 
