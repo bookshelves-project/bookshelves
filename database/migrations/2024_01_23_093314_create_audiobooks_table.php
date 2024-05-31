@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('track_title')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('slug')->nullable();
-            $table->string('author_main')->nullable();
             $table->json('authors')->nullable();
             $table->json('narrators')->nullable();
             $table->text('description')->nullable();
@@ -42,11 +41,6 @@ return new class extends Migration
             $table->float('duration')->nullable();
             $table->json('chapters')->nullable();
 
-            $table->string('physical_path')->nullable();
-            $table->string('basename')->nullable();
-            $table->string('extension')->nullable();
-            $table->string('mime_type')->nullable();
-            $table->integer('size')->nullable();
             $table->dateTime('added_at')->nullable();
 
             $table->foreignUlid('book_id')

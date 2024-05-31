@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Book;
+use App\Models\File;
 use App\Models\Library;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -40,31 +40,31 @@ class CleanJob implements ShouldQueue
     private function deleteOrphanBooks(Library $library)
     {
         $contents = file_get_contents($library->getJsonPath());
-        $files = (array) json_decode($contents, true);
+        $physical_files = (array) json_decode($contents, true);
 
-        $books = Book::query()
+        $files = File::query()
             ->where('library_id', $library->id)
             ->get()
-            ->map(fn (Book $book) => $book->physical_path)
+            ->map(fn (File $file) => $file->path)
             ->toArray();
 
-        if (empty($books)) {
+        if (empty($files)) {
             Journal::warning("Clean: {$library->name} no books detected");
 
             return;
         }
 
-        $files = array_map(fn ($file) => $file['path'], $files);
+        $physical_files = array_map(fn ($file) => $file['path'], $physical_files);
 
-        $orphans = array_diff($books, $files);
-        $books = Book::query()
-            ->whereIn('physical_path', $orphans)
+        $orphans = array_diff($files, $physical_files);
+        $files = File::query()
+            ->whereIn('path', $orphans)
             ->get();
 
-        Journal::info("Clean: {$library->name} {$books->count()}");
+        Journal::info("Clean: {$library->name} {$files->count()}");
 
-        foreach ($books as $book) {
-            $book->delete();
+        foreach ($files as $file) {
+            $file->delete();
         }
     }
 }

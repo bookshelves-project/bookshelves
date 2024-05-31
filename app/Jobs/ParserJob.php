@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Engines\Book\BookFileItem;
-use App\Engines\Book\BookFileScanner;
+use App\Engines\Book\File\BookFileItem;
+use App\Engines\Book\File\BookFileScanner;
 use App\Models\Library;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -53,7 +53,12 @@ class ParserJob implements ShouldQueue
 
         $files = $parser->items();
         $count = count($files);
-        Journal::info("ParserJob: {$library->name} files detected: {$count}");
+
+        $msg = "ParserJob: {$library->name} files detected: {$count}";
+        if ($this->limit) {
+            $msg .= " (limited to {$this->limit})";
+        }
+        Journal::info($msg);
         Journal::debug("ParserJob: {$library->name} files list", array_map(fn (BookFileItem $file) => $file->path(), $files));
 
         $items = [];

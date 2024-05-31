@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Engines\Book\BookFileItem;
-use App\Engines\Book\BookFileScanner;
+use App\Engines\Book\File\BookFileItem;
+use App\Engines\Book\File\BookFileScanner;
 use App\Facades\Bookshelves;
 use App\Models\Library;
 use Illuminate\Console\Command;

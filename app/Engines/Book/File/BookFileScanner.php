@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Engines\Book;
+namespace App\Engines\Book\File;
 
 use App\Enums\BookFormatEnum;
 use App\Facades\Bookshelves;
@@ -127,7 +127,10 @@ class BookFileScanner
             }
 
             $this->i++;
-            $items["{$this->i}"] = BookFileItem::make($format, $this->library, $path);
+            $bookFile = BookFileItem::make($format, $this->library, $path);
+            if ($bookFile) {
+                $items["{$this->i}"] = $bookFile;
+            }
         }
 
         return $items;

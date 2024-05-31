@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\BookFormatEnum;
 use App\Enums\LibraryTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
@@ -22,7 +21,6 @@ use Kiwilan\Steward\Traits\HasMetaClass;
 use Kiwilan\Steward\Traits\HasSearchableName;
 use Kiwilan\Steward\Traits\HasSlug;
 use Kiwilan\Steward\Traits\Queryable;
-use Kiwilan\Steward\Utils\FileSize;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -77,20 +75,13 @@ class Book extends Model implements HasMedia
         'rights',
         'volume',
         'page_count',
-        'is_maturity_rating',
         'is_hidden',
-        'format',
         'isbn10',
         'isbn13',
         'identifiers',
         'language_slug',
         'serie_id',
         'publisher_id',
-        'physical_path',
-        'extension',
-        'mime_type',
-        'google_book_parsed_at',
-        'size',
         'added_at',
     ];
 
@@ -98,7 +89,6 @@ class Book extends Model implements HasMedia
         'isbn',
         'volume_pad',
         'download_link',
-        'size_human',
         'route',
     ];
 
@@ -107,17 +97,15 @@ class Book extends Model implements HasMedia
         'audiobook_narrators' => 'array',
         'audiobook_chapters' => 'array',
         'is_hidden' => 'boolean',
-        'format' => BookFormatEnum::class,
         'identifiers' => 'array',
         'volume' => 'float',
         'page_count' => 'integer',
-        'is_maturity_rating' => 'boolean',
-        'google_book_parsed_at' => 'datetime',
         'added_at' => 'datetime',
-        'size' => 'integer',
     ];
 
-    protected $with = [];
+    protected $with = [
+        'file',
+    ];
 
     protected $withCount = [];
 
@@ -150,11 +138,6 @@ class Book extends Model implements HasMedia
         }
 
         return str_pad(strval($this->volume), 2, '0', STR_PAD_LEFT);
-    }
-
-    public function getSizeHumanAttribute(): ?string
-    {
-        return FileSize::humanReadable($this->size);
     }
 
     public function scopeAvailable(Builder $query): Builder

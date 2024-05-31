@@ -15,10 +15,13 @@ return new class extends Migration
             $table->ulid('id')->primary();
 
             $table->string('path');
+            $table->string('basename');
             $table->string('extension');
+            $table->string('format')->nullable();
             $table->string('mime_type')->nullable();
             $table->integer('size')->nullable();
             $table->boolean('is_audiobook')->default(false);
+            $table->foreignUlid('library_id')->constrained();
 
             $table->timestamps();
         });

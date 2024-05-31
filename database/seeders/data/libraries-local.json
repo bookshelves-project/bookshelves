@@ -2,13 +2,13 @@
   {
     "name": "Audiobooks (english)",
     "type": "audiobook",
-    "path": "/Volumes/library/books/audiobooks/english",
+    "path": "/Users/ewilan/PlexLibrary/books/audiobooks/english",
     "is_enabled": true
   },
   {
     "name": "Audiobooks (french)",
     "type": "audiobook",
-    "path": "/Volumes/library/books/audiobooks/french",
+    "path": "/Users/ewilan/PlexLibrary/books/audiobooks/french",
     "is_enabled": true
   },
   {

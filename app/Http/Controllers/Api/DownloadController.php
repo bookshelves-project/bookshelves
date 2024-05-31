@@ -41,7 +41,7 @@ class DownloadController extends Controller
         $name = Str::slug("{$name} {$book->slug} {$author} {$book->library?->name}");
         if ($book->library?->type->isAudiobook()) {
             $files = $book->audiobooks
-                ->map(fn (Audiobook $audiobook) => new DownloaderZipStreamItem($audiobook->basename, $audiobook->physical_path))
+                ->map(fn (Audiobook $audiobook) => new DownloaderZipStreamItem($audiobook->file->basename, $audiobook->file->path))
                 ->toArray();
 
             Downloader::stream($name)
@@ -51,9 +51,9 @@ class DownloadController extends Controller
             return;
         }
 
-        Downloader::direct($book->physical_path)
-            ->mimeType($book->mime_type)
-            ->name("{$name}.{$book->extension}")
+        Downloader::direct($book->file->path)
+            ->mimeType($book->file->mime_type)
+            ->name("{$name}.{$book->file->extension}")
             ->get();
     }
 
@@ -65,7 +65,7 @@ class DownloadController extends Controller
 
         if ($serie->library->type !== LibraryTypeEnum::audiobook) {
             $files = $serie->books
-                ->map(fn (Book $book) => new DownloaderZipStreamItem("{$book->slug}.{$book->extension}", $book->physical_path))
+                ->map(fn (Book $book) => new DownloaderZipStreamItem("{$book->slug}.{$book->file->extension}", $book->file->path))
                 ->toArray();
         } else {
             foreach ($serie->books as $book) {
@@ -75,9 +75,9 @@ class DownloadController extends Controller
                     $files,
                     $audiobooks
                         ->map(function (Audiobook $audiobook) use ($book) {
-                            $name = Str::slug("{$book->title}").'.'.$audiobook->basename;
+                            $name = Str::slug("{$book->title}").'.'.$audiobook->file->basename;
 
-                            return new DownloaderZipStreamItem($name, $audiobook->physical_path);
+                            return new DownloaderZipStreamItem($name, $audiobook->file->path);
                         })
                         ->toArray()
                 );

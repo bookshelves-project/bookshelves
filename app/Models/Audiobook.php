@@ -28,7 +28,6 @@ class Audiobook extends Model
         'tags',
         'serie',
         'volume',
-        'format',
         'track_number',
         'comment',
         'creation_date',
@@ -40,11 +39,6 @@ class Audiobook extends Model
         'stik',
         'duration',
         'chapters',
-        'physical_path',
-        'basename',
-        'extension',
-        'mime_type',
-        'size',
         'added_at',
     ];
 
@@ -58,7 +52,10 @@ class Audiobook extends Model
         'publish_date' => 'date',
         'chapters' => 'array',
         'added_at' => 'datetime',
-        'size' => 'integer',
+    ];
+
+    protected $with = [
+        'file',
     ];
 
     public function book(): \Illuminate\Database\Eloquent\Relations\HasOne

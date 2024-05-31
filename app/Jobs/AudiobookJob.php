@@ -2,9 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Engines\Book\Converter\BookConverter;
+use App\Engines\Book\BookUtils;
 use App\Engines\Book\Converter\Modules\AuthorModule;
-use App\Enums\BookFormatEnum;
 use App\Facades\Bookshelves;
 use App\Models\Audiobook;
 use App\Models\Book;
@@ -74,9 +73,7 @@ class AudiobookJob implements ShouldQueue
             language: $audiobook->language,
             series: $audiobook->serie,
             volume: $audiobook->volume,
-            author: $audiobook->author_main,
             year: $audiobook->publish_date?->year,
-            extension: $audiobook->extension,
         );
         $book = Book::query()->create([
             'title' => $audiobook->title,
@@ -88,8 +85,6 @@ class AudiobookJob implements ShouldQueue
             'audiobook_chapters' => count($audiobooks),
             'rights' => $audiobook->encoding,
             'volume' => $audiobook->volume,
-            'format' => BookFormatEnum::fromExtension($audiobook->extension),
-            'size' => $audiobooks->sum('size'),
             'added_at' => $audiobook->added_at,
         ]);
 
@@ -146,7 +141,7 @@ class AudiobookJob implements ShouldQueue
             $serie->saveQuietly();
         }
 
-        $coverPath = BookConverter::audiobookCoverPath($audiobook);
+        $coverPath = BookUtils::audiobookCoverPath($audiobook);
         $contents = null;
         if (file_exists($coverPath)) {
             $contents = file_get_contents($coverPath);

@@ -2,9 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Engines\Book\BookFileItem;
-use App\Engines\BookEngine;
+use App\Engines\Book\BookEngine;
+use App\Engines\Book\File\BookFileItem;
 use App\Facades\Bookshelves;
+use App\Models\File;
 use Error;
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -18,11 +19,13 @@ class BookJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected bool $isExist = false;
+
     /**
      * Create a new job instance.
      */
     public function __construct(
-        protected BookFileItem $file,
+        protected BookFileItem $bookFile,
         protected string $number,
     ) {
     }
@@ -32,14 +35,50 @@ class BookJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $engine = BookEngine::make($this->file);
-        $title = $engine->ebook()->getTitle();
-        if (! $title) {
-            $title = $this->file->path();
+        $file = $this->getFile($this->bookFile);
+
+        if ($this->isExist) {
+            return;
         }
 
-        $library = $this->file->library()->name;
+        $engine = BookEngine::make($file);
+        if (! $engine->ebook()) {
+            Journal::warning("BookJob: {$this->number} no ebook detected");
+
+            return;
+        }
+
+        $title = $engine->ebook()->getTitle() ?? $file->path;
+        $library = $this->bookFile->library()->name;
         Journal::debug("BookJob: {$this->number} {$title} from {$library}");
+    }
+
+    private function getFile(BookFileItem $bookFile): File
+    {
+        $data = [
+            'path' => $bookFile->path(),
+            'basename' => $bookFile->basename(),
+            'extension' => $bookFile->extension(),
+            'format' => $bookFile->format(),
+            'mime_type' => $bookFile->mimeType(),
+            'size' => $bookFile->size(),
+            'is_audiobook' => $bookFile->isAudio(),
+            'library_id' => $bookFile->library()->id,
+        ];
+
+        $model = File::query()
+            ->where('path', $bookFile->path())
+            ->where('library_id', $bookFile->library()->id)
+            ->first();
+
+        if ($model) {
+            $model->update($data);
+            $this->isExist = true;
+        } else {
+            $model = File::query()->create($data);
+        }
+
+        return $model;
     }
 
     private function log(string $message): void
@@ -47,7 +86,7 @@ class BookJob implements ShouldQueue
         $path = Bookshelves::exceptionParserLog();
         $json = json_decode(file_get_contents($path), true);
         $content = [
-            'path' => $this->file->path(),
+            'path' => $this->bookFile->path(),
             'message' => $message,
             'status' => 'failed',
         ];

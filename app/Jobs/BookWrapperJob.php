@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Engines\Book\BookFileItem;
+use App\Engines\Book\File\BookFileItem;
 use App\Models\Book;
 use App\Models\Library;
 use Illuminate\Bus\Queueable;
@@ -35,16 +35,16 @@ class BookWrapperJob implements ShouldQueue
             'limit' => $this->limit,
         ]);
 
-        $current_books = Book::all()
-            ->map(fn (Book $book) => $book->physical_path)
-            ->toArray();
+        $current_books = [];
+        // $current_books = Book::all()
+        //     ->map(fn (Book $book) => $book->file->path)
+        //     ->toArray();
 
-        if (empty($current_books)) {
-            Journal::warning('BookWrapperJob: no books detected');
-            ExtrasJob::dispatch();
+        // if (empty($current_books)) {
+        //     Journal::warning('BookWrapperJob: no books detected');
 
-            return;
-        }
+        //     return;
+        // }
 
         foreach (Library::inOrder() as $library) {
             $this->parseFiles($library, $current_books);
@@ -58,12 +58,7 @@ class BookWrapperJob implements ShouldQueue
      */
     private function parseFiles(Library $library, array $current_books)
     {
-        $path = $library->getJsonPath();
-        $contents = file_get_contents($path);
-        $files = (array) json_decode($contents, true);
-        if ($this->limit && count($files) > $this->limit) {
-            $files = array_slice($files, 0, $this->limit);
-        }
+        $files = (array) json_decode(file_get_contents($library->getJsonPath()), true);
         $count = count($files);
 
         $i = 0;
@@ -71,15 +66,17 @@ class BookWrapperJob implements ShouldQueue
             $i++;
 
             $file = BookFileItem::fromArray($file, $library);
-            if ($this->fresh) {
-                BookJob::dispatch($file, "{$i}/{$count}");
-            } else {
-                if (in_array($file->path(), $current_books, true)) {
-                    continue;
-                }
+            BookJob::dispatch($file, "{$i}/{$count}");
 
-                BookJob::dispatch($file, "{$i}/{$count}");
-            }
+            // if ($this->fresh) {
+            //     BookJob::dispatch($file, "{$i}/{$count}");
+            // } else {
+            //     if (in_array($file->path(), $current_books, true)) {
+            //         continue;
+            //     }
+
+            //     BookJob::dispatch($file, "{$i}/{$count}");
+            // }
         }
     }
 }

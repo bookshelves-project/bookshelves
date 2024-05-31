@@ -2,6 +2,7 @@
 
 namespace App\Engines\Book\Converter;
 
+use App\Engines\Book\BookUtils;
 use App\Facades\Bookshelves;
 use App\Models\Author;
 use Kiwilan\LaravelNotifier\Facades\Journal;
@@ -33,7 +34,7 @@ class AuthorConverter
     {
         Journal::info("Wikipedia: author {$this->author->name}");
 
-        $lang = BookConverter::selectLang($this->author->books);
+        $lang = BookUtils::selectLang($this->author->books);
         $wikipedia = Wikipedia::make($this->author->name)->language($lang);
 
         if (Bookshelves::authorWikipediaExact()) {
