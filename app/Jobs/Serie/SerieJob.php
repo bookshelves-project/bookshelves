@@ -29,6 +29,10 @@ class SerieJob implements ShouldQueue
      */
     public function handle(): void
     {
+        if ($this->serie->api_parsed_at !== null && ! $this->fresh) {
+            return;
+        }
+
         $this->serie->loadMissing('library');
 
         Journal::info("SerieJob: {$this->serie->title} from {$this->serie->library->name}...");

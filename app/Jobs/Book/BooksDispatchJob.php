@@ -4,9 +4,7 @@ namespace App\Jobs\Book;
 
 use App\Console\Commands\Bookshelves\AudiobookTracksCommand;
 use App\Engines\Book\File\BookFileItem;
-use App\Jobs\Author\AuthorsDispatchJob;
 use App\Jobs\Clean\CleanDispatchJob;
-use App\Jobs\Serie\SeriesDispatchJob;
 use App\Models\File;
 use App\Models\Library;
 use Illuminate\Bus\Queueable;
@@ -37,7 +35,6 @@ class BooksDispatchJob implements ShouldQueue
         Journal::info('BooksDispatchJob: create BookJob for each item...');
 
         $bookFiles = (array) json_decode(file_get_contents($this->library->getJsonPath()), true);
-        $count = count($bookFiles);
 
         $files = File::query()
             ->where('library_id', $this->library->id)
@@ -49,14 +46,20 @@ class BooksDispatchJob implements ShouldQueue
         $toDelete = $this->findFilesToDelete($bookFiles, $files);
         $this->deleteFiles($toDelete, $this->library->name);
 
-        $i = 0;
+        $files = [];
         foreach ($toParse as $path) {
-            $i++;
-
             $file = BookFileItem::make($path, $this->library->id);
             if (! $file) {
                 continue;
             }
+
+            $files[] = $file;
+        }
+        $count = count($files);
+
+        $i = 0;
+        foreach ($files as $file) {
+            $i++;
             BookJob::dispatch($file, "{$i}/{$count}", $this->library->name);
         }
 
@@ -66,8 +69,6 @@ class BooksDispatchJob implements ShouldQueue
             ]);
         }
 
-        AuthorsDispatchJob::dispatch();
-        SeriesDispatchJob::dispatch();
         CleanDispatchJob::dispatch();
     }
 

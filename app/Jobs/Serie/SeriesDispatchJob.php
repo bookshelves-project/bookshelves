@@ -43,7 +43,7 @@ class SeriesDispatchJob implements ShouldQueue
         }
 
         return Serie::query()
-            ->where('parsed_at', null)
+            ->where('api_parsed_at', null)
             ->get();
     }
 }

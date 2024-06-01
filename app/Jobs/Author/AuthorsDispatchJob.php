@@ -43,7 +43,7 @@ class AuthorsDispatchJob implements ShouldQueue
         }
 
         return Author::query()
-            ->where('wikipedia_parsed_at', null)
+            ->where('api_parsed_at', null)
             ->get();
     }
 }

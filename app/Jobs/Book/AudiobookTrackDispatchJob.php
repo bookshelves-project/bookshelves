@@ -38,11 +38,12 @@ class AudiobookTrackDispatchJob implements ShouldQueue
 
         $tracks = AudiobookTrack::query()
             ->where('library_id', $library->id)
+            ->where('book_id', null)
             ->get()
             ->groupBy(['slug']);
 
         if ($tracks->isEmpty()) {
-            Journal::warning("AudiobookTracksCommand: no tracks detected in {$library->name}");
+            Journal::debug("AudiobookTracksCommand: no new tracks detected in {$library->name}");
 
             return;
         }

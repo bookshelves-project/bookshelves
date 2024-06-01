@@ -71,7 +71,6 @@ class LibraryCommand extends Commandable
         $this->info("Parsing library: {$library->name}...");
         $this->comment('Fresh: '.($this->fresh ? 'yes' : 'no'));
         $this->comment('Limit: '.($this->limit ?: 'no limit'));
-        $this->newLine();
 
         if ($this->fresh) {
             $this->deleteModels($library->files);

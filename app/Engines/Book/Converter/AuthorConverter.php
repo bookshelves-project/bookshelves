@@ -4,6 +4,7 @@ namespace App\Engines\Book\Converter;
 
 use App\Engines\Book\BookUtils;
 use App\Facades\Bookshelves;
+use App\Jobs\Author\AuthorJob;
 use App\Models\Author;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\SpatieMedia;
@@ -36,7 +37,7 @@ class AuthorConverter
 
         $lang = BookUtils::selectLang($this->author->books);
         $wikipedia = Wikipedia::make($this->author->name)->language($lang);
-        $this->author->wikipedia_parsed_at = now();
+        $this->author->api_parsed_at = now();
 
         if (Bookshelves::authorWikipediaExact()) {
             $wikipedia->exact();
@@ -55,7 +56,7 @@ class AuthorConverter
         }
 
         $item = $wikipedia->getItem();
-        $this->author->wikipedia_exists = $exists;
+        $this->author->api_exists = $exists;
 
         if (! $item) {
             $this->author->save();
@@ -79,6 +80,8 @@ class AuthorConverter
                 ->color()
                 ->save();
         }
+
+        AuthorJob::dispatch($this->author);
 
         return $this;
     }

@@ -47,7 +47,7 @@ class SerieModule
             $self->serie = $serie;
 
             Serie::withoutSyncingToSearch(function () use ($self) {
-                $self->serie->parsed_at = null;
+                $self->serie->api_parsed_at = null;
                 $self->serie->saveQuietly();
             });
 

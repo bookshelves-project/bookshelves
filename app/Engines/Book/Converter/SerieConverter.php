@@ -3,6 +3,7 @@
 namespace App\Engines\Book\Converter;
 
 use App\Engines\Book\Converter\Modules\SerieModule;
+use App\Jobs\Serie\SerieJob;
 use App\Models\Serie;
 
 /**
@@ -24,9 +25,11 @@ class SerieConverter
         $self->setBookDescription();
 
         Serie::withoutSyncingToSearch(function () use ($serie) {
-            $serie->parsed_at = now();
+            $serie->api_parsed_at = now();
             $serie->saveQuietly();
         });
+
+        SerieJob::dispatch($serie);
 
         return $self;
     }
