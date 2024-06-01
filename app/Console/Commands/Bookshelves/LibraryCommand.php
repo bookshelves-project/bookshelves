@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Facades\Bookshelves;
 use App\Jobs\Book\BooksDispatchJob;
 use App\Jobs\Library\ParserJob;
 use App\Models\Library;
@@ -68,7 +69,8 @@ class LibraryCommand extends Commandable
             return Command::FAILURE;
         }
 
-        $this->info("Parsing library: {$library->name}...");
+        $engine = Bookshelves::analyzerEngine();
+        $this->info("Parsing library: {$library->name} with {$engine}...");
         $this->comment('Fresh: '.($this->fresh ? 'yes' : 'no'));
         $this->comment('Limit: '.($this->limit ?: 'no limit'));
 
