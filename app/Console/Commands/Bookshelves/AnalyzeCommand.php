@@ -22,7 +22,7 @@ class AnalyzeCommand extends Commandable
      *
      * @var string
      */
-    protected $signature = 'bookshelves:make
+    protected $signature = 'bookshelves:analyze
                             {--f|fresh : Fresh install}
                             {--l|limit= : Limit of books to parse}';
 
