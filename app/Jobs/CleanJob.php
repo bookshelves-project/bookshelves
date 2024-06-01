@@ -30,39 +30,20 @@ class CleanJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $libraries = Library::all();
-
-        foreach ($libraries as $library) {
-            $this->deleteOrphanBooks($library);
+        foreach (Library::all() as $library) {
+            $this->cleanBooks($library);
         }
 
-        $authors = Author::query()
-            ->whereDoesntHave('books')
-            ->get();
-
-        Journal::info("Clean: authors {$authors->count()}");
-
-        foreach ($authors as $author) {
-            $author->delete();
-        }
-
-        $series = Serie::query()
-            ->whereDoesntHave('books')
-            ->get();
-
-        Journal::info("Clean: series {$series->count()}");
-
-        foreach ($series as $serie) {
-            $serie->delete();
-        }
+        $this->cleanAuthors();
+        $this->cleanSeries();
 
         DirectoryService::make()->clearDirectory(storage_path('app/cache'));
     }
 
-    private function deleteOrphanBooks(Library $library)
+    private function cleanBooks(Library $library)
     {
         $contents = file_get_contents($library->getJsonPath());
-        $physical_files = (array) json_decode($contents, true);
+        $paths = (array) json_decode($contents, true);
 
         $files = File::query()
             ->where('library_id', $library->id)
@@ -71,22 +52,48 @@ class CleanJob implements ShouldQueue
             ->toArray();
 
         if (empty($files)) {
-            Journal::warning("Clean: {$library->name} no books detected");
+            Journal::debug("CleanJob: {$library->name} no books detected");
 
             return;
         }
 
-        $physical_files = array_map(fn ($file) => $file['path'], $physical_files);
+        $paths = array_map(fn (string $path) => $path, $paths);
 
-        $orphans = array_diff($files, $physical_files);
+        $orphans = array_diff($files, $paths);
         $files = File::query()
             ->whereIn('path', $orphans)
             ->get();
 
-        Journal::info("Clean: {$library->name} {$files->count()}");
+        Journal::info("CleanJob: {$library->name} {$files->count()} to delete.");
 
         foreach ($files as $file) {
             $file->delete();
+        }
+    }
+
+    private function cleanAuthors(): void
+    {
+        $authors = Author::query()
+            ->whereDoesntHave('books')
+            ->get();
+
+        Journal::info("CleanJob: authors {$authors->count()} to delete.");
+
+        foreach ($authors as $author) {
+            $author->delete();
+        }
+    }
+
+    private function cleanSeries(): void
+    {
+        $series = Serie::query()
+            ->whereDoesntHave('books')
+            ->get();
+
+        Journal::info("CleanJob: series {$series->count()} to delete.");
+
+        foreach ($series as $serie) {
+            $serie->delete();
         }
     }
 }

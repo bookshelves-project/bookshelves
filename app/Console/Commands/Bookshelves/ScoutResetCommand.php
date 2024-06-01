@@ -2,28 +2,28 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\CleanJob;
+use App\Jobs\ScoutJob;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
 /**
  * Main command of Bookshelves to generate Books with relations.
  */
-class CleanCommand extends Commandable
+class ScoutResetCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:clean';
+    protected $signature = 'bookshelves:scout-reset';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Clean Bookshelves data.';
+    protected $description = 'Reset Scout data.';
 
     /**
      * Execute the console command.
@@ -34,7 +34,7 @@ class CleanCommand extends Commandable
     {
         $this->title();
 
-        CleanJob::dispatch();
+        ScoutJob::dispatch();
 
         return Command::SUCCESS;
     }

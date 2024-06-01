@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Engines\Book\BookUtils;
 use App\Engines\Book\Converter\Modules\AuthorModule;
 use App\Facades\Bookshelves;
-use App\Models\Audiobook;
 use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\Language;
@@ -28,12 +27,16 @@ class AudiobookTrackJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public ?AudiobookTrack $main = null;
+
     /**
      * Create a new job instance.
+     *
+     * @param  Collection<AudiobookTrack>  $tracks
      */
     public function __construct(
-        public ?string $bookName,
-        public bool $fresh,
+        public Collection $tracks,
+        public Library $library,
     ) {
     }
 
@@ -42,66 +45,69 @@ class AudiobookTrackJob implements ShouldQueue
      */
     public function handle(): void
     {
-        if (! $this->bookName) {
-            Journal::error('AudiobookTrackJob', 'Book name is required.');
+        if ($this->tracks->isEmpty()) {
+            Journal::warning('AudiobookTracksCommand: no tracks detected');
 
             return;
         }
 
-        /** @var Collection<AudiobookTrack> $tracks */
-        $tracks = AudiobookTrack::query()
-            ->where('title', $this->bookName)
-            ->get();
-        $track = $tracks->first();
+        $main = $this->tracks->first();
+        if (! $main) {
+            Journal::warning('AudiobookTracksCommand: no tracks detected');
 
-        $track->loadMissing('library');
-        $library = $track->library;
+            return;
+        }
 
-        Book::withoutSyncingToSearch(function () use ($track, $tracks, $library) {
-            $this->parseBook($track, $tracks, $library);
+        $this->main = $main;
+
+        if (! $this->main->title) {
+            Journal::error('AudiobookTrackJob: book title is required.');
+
+            return;
+        }
+
+        Book::withoutSyncingToSearch(function () {
+            $this->parseBook();
         });
-
     }
 
     /**
      * Parse the audiobook.
-     *
-     * @param  Collection<AudiobookTrack>  $tracks
      */
-    private function parseBook(AudiobookTrack $track, Collection $tracks, Library $library): void
+    private function parseBook(): void
     {
         $meta = MetaTitle::fromData(
-            title: $track->title,
-            language: $track->language,
-            series: $track->serie,
-            volume: $track->volume,
-            year: $track->publish_date?->year,
+            title: $this->main->title,
+            language: $this->main->language,
+            series: $this->main->serie,
+            volume: $this->main->volume,
+            year: $this->main->publish_date?->year,
         );
         $book = Book::query()->create([
-            'title' => $track->title,
+            'title' => $this->main->title,
             'slug' => $meta->getSlug(),
-            'contributor' => $track->encoding,
-            'released_on' => $track->publish_date,
-            'description' => $track->description,
-            'audiobook_narrators' => $track->narrators,
-            'audiobook_chapters' => count($tracks),
-            'rights' => $track->encoding,
-            'volume' => $track->volume,
-            'added_at' => $track->added_at,
+            'contributor' => $this->main->encoding,
+            'released_on' => $this->main->publish_date,
+            'description' => $this->main->description,
+            'audiobook_narrators' => $this->main->narrators,
+            'audiobook_chapters' => $this->tracks->count(),
+            'rights' => $this->main->encoding,
+            'volume' => $this->main->volume,
+            'added_at' => $this->main->added_at,
         ]);
 
-        $parsed_title = $this->parseTitle($track);
+        $parsed_title = $this->parseTitle($this->main);
         if ($parsed_title) {
-            $track->parsed_title = $parsed_title;
-            $track->saveQuietly();
+            $this->main->parsed_title = $parsed_title;
+            $this->main->saveQuietly();
 
             $book->title = $parsed_title;
             $book->saveQuietly();
         }
 
-        if ($track->tags) {
+        if ($this->main->tags) {
             $tags = collect();
-            foreach ($track->tags as $tag) {
+            foreach ($this->main->tags as $tag) {
                 $tag = Tag::query()->firstOrCreate([
                     'name' => $tag,
                 ]);
@@ -111,19 +117,19 @@ class AudiobookTrackJob implements ShouldQueue
             $book->saveQuietly();
         }
 
-        $language = $this->parseLang($track);
+        $language = $this->parseLang($this->main);
         if ($language) {
             $book->language()->associate($language);
             $book->saveQuietly();
         } else {
             Journal::warning("AudiobookJob : Language not found for {$book->title}", [
-                'audiobook' => $track->toArray(),
+                'audiobook' => $this->main->toArray(),
             ]);
         }
 
-        if ($track->authors) {
+        if ($this->main->authors) {
             $authors = [];
-            foreach ($track->authors as $author) {
+            foreach ($this->main->authors as $author) {
                 $authors[] = new BookAuthor($author, 'aut');
             }
 
@@ -132,24 +138,24 @@ class AudiobookTrackJob implements ShouldQueue
         }
 
         $serie = null;
-        if ($track->serie) {
+        if ($this->main->serie) {
             $serie = Serie::query()->firstOrCreate([
-                'title' => $track->serie,
+                'title' => $this->main->serie,
                 'slug' => $meta->getSeriesSlug(),
             ]);
             $serie->books()->save($book);
-            $serie->library()->associate($library);
+            $serie->library()->associate($this->library);
             $serie->language()->associate($language);
             $serie->saveQuietly();
         }
 
-        $coverPath = BookUtils::audiobookTrackCoverPath($track);
+        $coverPath = BookUtils::audiobookTrackCoverPath($this->main);
         $contents = null;
         if (file_exists($coverPath)) {
             $contents = file_get_contents($coverPath);
         } else {
             Journal::warning("AudiobookJob : Cover not found for {$book->title}", [
-                'audiobook' => $track->toArray(),
+                'audiobook' => $this->main->toArray(),
             ]);
         }
 
@@ -169,9 +175,9 @@ class AudiobookTrackJob implements ShouldQueue
             unlink($coverPath);
         }
 
-        $book->audiobookTracks()->saveMany($tracks);
+        $book->audiobookTracks()->saveMany($this->tracks);
         $book->authorMain()->associate($book->authors[0] ?? null);
-        $book->library()->associate($library);
+        $book->library()->associate($this->library);
 
         if ($serie) {
             /** @var Serie $serie */

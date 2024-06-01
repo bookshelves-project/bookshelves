@@ -1,0 +1,32 @@
+[
+  {
+    "name": "My audiobooks",
+    "type": "audiobook", // LibraryTypeEnum: audiobook, book, comic, manga
+    "path": "/absolute/path/to",
+    "is_enabled": true // optional, to enable or disable the library
+  },
+  {
+    "name": "My amazing comics",
+    "type": "comic",
+    "path": "/absolute/path/to",
+    "is_enabled": true
+  },
+  {
+    "name": "My classical eBooks",
+    "type": "book",
+    "path": "/absolute/path/to",
+    "is_enabled": false
+  },
+  {
+    "name": "My best eBooks",
+    "type": "book",
+    "path": "/absolute/path/to",
+    "is_enabled": true
+  },
+  {
+    "name": "Recent mangas",
+    "type": "manga",
+    "path": "/absolute/path/to",
+    "is_enabled": true
+  }
+]

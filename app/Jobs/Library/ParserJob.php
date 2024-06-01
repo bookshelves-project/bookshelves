@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Library;
 
 use App\Engines\Book\File\BookFileScanner;
 use App\Models\Library;
@@ -30,7 +30,7 @@ class ParserJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info("ParserJob: {$this->library->name} parsing files...");
+        Journal::info("LibraryParserJob: {$this->library->name} parsing files...");
 
         $parser = BookFileScanner::make($this->library, $this->limit);
         $jsonPath = $this->library->getJsonPath();
@@ -40,23 +40,15 @@ class ParserJob implements ShouldQueue
         }
 
         if (! $parser) {
-            Journal::warning("ParserJob: {$this->library->name} no files detected");
+            Journal::warning("LibraryParserJob: {$this->library->name} no files detected");
             file_put_contents($jsonPath, '[]');
 
             return;
         }
 
-        $files = $parser->items();
-        $count = count($files);
+        Converter::saveAsJson($parser->getPaths(), $jsonPath);
 
-        $items = [];
-        foreach ($files as $file) {
-            $items[] = $file->toArray();
-        }
-
-        Converter::saveAsJson($items, $jsonPath);
-
-        $msg = "ParserJob: {$this->library->name} files detected: {$count}";
+        $msg = "LibraryParserJob: {$this->library->name} files detected: {$parser->getCount()}";
         if ($this->limit) {
             $msg .= " (limited to {$this->limit})";
         }

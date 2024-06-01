@@ -7,7 +7,6 @@ use App\Models\Library;
 use App\Models\Tag;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Commands\Jobs\JobsClearCommand;
 use Kiwilan\Steward\Commands\Log\LogClearCommand;
@@ -16,14 +15,14 @@ use Kiwilan\Steward\Services\DirectoryService;
 /**
  * Main command of Bookshelves to generate Books with relations.
  */
-class SetupCommand extends Commandable
+class MakeCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:setup
+    protected $signature = 'bookshelves:make
                             {--f|fresh : Fresh install}
                             {--l|limit= : Limit of books to parse}';
 
@@ -32,7 +31,7 @@ class SetupCommand extends Commandable
      *
      * @var string
      */
-    protected $description = 'Generate Book with Author, Tag, Publisher, Language, Serie and cover.';
+    protected $description = 'Execute `bookshelves:library` for each library, with fresh install option to reset database.';
 
     /**
      * Create a new command instance.
@@ -53,20 +52,36 @@ class SetupCommand extends Commandable
     {
         $this->title();
 
-        $this->fresh = $this->option('fresh');
-        $this->limit = $this->optionInt('limit');
+        $this->fresh = $this->option('fresh') ?: false;
+        $this->limit = $this->optionInt('limit') ?: null;
+
+        $this->comment('Fresh: '.($this->fresh ? 'yes' : 'no'));
+        $this->comment('Limit: '.($this->limit ?: 'no limit'));
+        $this->newLine();
+
+        $this->info('Clean cache...');
+        DirectoryService::make()->clearDirectory(Library::getJsonDirectory());
+        $this->newLine();
 
         if ($this->fresh) {
+            $this->info('Clear database... (fresh mode)');
             $this->clear();
+            $this->newLine();
+
+            $this->info('Create genres... (fresh mode)');
             $this->genres();
+            $this->newLine();
         }
 
-        DirectoryService::make()->clearDirectory(Library::getJsonDirectory());
-
-        $this->call(ParseCommand::class, [
-            '--fresh' => $this->fresh,
-            '--limit' => $this->limit,
-        ]);
+        $this->info('Parse libraries...');
+        foreach (Library::inOrder() as $library) {
+            $this->call(LibraryCommand::class, [
+                'library-slug' => $library->slug,
+                '--fresh' => $this->fresh,
+                '--limit' => $this->limit,
+            ]);
+        }
+        $this->newLine();
 
         return Command::SUCCESS;
     }
@@ -87,10 +102,6 @@ class SetupCommand extends Commandable
 
         $path = Bookshelves::exceptionParserLog();
         File::put($path, json_encode([]));
-
-        $this->newLine();
-        $this->info('Fresh mode enabled, reset database.');
-        Journal::info('Fresh mode enabled, reset database.');
 
         $this->newLine();
     }

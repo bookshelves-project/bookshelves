@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
 use Kiwilan\Steward\Commands\Scout\ScoutFreshCommand;
 
-class ScoutWrapperJob implements ShouldQueue
+class ScoutJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 

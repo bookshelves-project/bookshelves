@@ -207,6 +207,11 @@ class Library extends Model
         return storage_path("app/data/{$name}");
     }
 
+    public function files(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(File::class);
+    }
+
     public function books(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Book::class);

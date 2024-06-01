@@ -2,7 +2,6 @@
 
 namespace App\Engines\Book\File;
 
-use App\Enums\BookFormatEnum;
 use App\Facades\Bookshelves;
 use App\Models\Library;
 use Kiwilan\FileList\FileList;
@@ -10,25 +9,21 @@ use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class BookFileScanner
 {
-    protected mixed $files = [];
-
-    /** @var BookFileItem[] */
-    protected array $items = [];
+    /** @var string[] */
+    protected array $paths = [];
 
     /**
      * @var string[]
      */
-    protected array $skip_extensions = [];
+    protected array $skipExtensions = [];
 
     protected function __construct(
         protected Library $library,
         protected string $path,
         protected int $i = 0,
         protected array $typesEnum = [],
-        protected array $formatsEnum = [],
         protected int $count = 0,
     ) {
-        $this->formatsEnum = BookFormatEnum::toArray();
     }
 
     /**
@@ -42,29 +37,30 @@ class BookFileScanner
         }
 
         $self = new self($library, $path);
-        $self->files = $self->scan($limit);
-        $self->items = $self->parseFiles();
+        $self->paths = $self->scan($limit);
 
-        $self->items = array_values($self->items);
-        $self->count = count($self->items);
+        Journal::debug("BookFileScanner: build book files from {$library->name}...");
+
+        $self->paths = array_values($self->paths);
+        $self->count = count($self->paths);
 
         return $self;
     }
 
-    public function path(): string
+    public function getPath(): string
     {
         return $this->path;
     }
 
     /**
-     * @return BookFileItem[]
+     * @return string[]
      */
-    public function items(): array
+    public function getPaths(): array
     {
-        return $this->items;
+        return $this->paths;
     }
 
-    public function count(): int
+    public function getCount(): int
     {
         return $this->count;
     }
@@ -87,7 +83,7 @@ class BookFileScanner
         $jsonPath = $this->library->getJsonPath();
         $browser = FileList::make($this->library->path)
             ->saveAsJson($jsonPath)
-            ->skipExtensions($this->skip_extensions);
+            ->skipExtensions($this->skipExtensions);
 
         if ($limit) {
             $browser->limit($limit);
@@ -107,27 +103,12 @@ class BookFileScanner
     /**
      * @return BookFileItem[]
      */
-    private function parseFiles(): array
+    public function toBookFileItems(): array
     {
         $items = [];
-        foreach ($this->files as $key => $path) {
-            if (! array_key_exists('extension', pathinfo($path))) {
-                continue;
-            }
-
-            $extension = pathinfo($path, PATHINFO_EXTENSION);
-            $format = BookFormatEnum::fromExtension($extension);
-
-            if (! array_key_exists($format->value, $this->formatsEnum)) {
-                continue;
-            }
-
-            if ($format->value === BookFormatEnum::unknown->value) {
-                continue;
-            }
-
+        foreach ($this->paths as $path) {
             $this->i++;
-            $bookFile = BookFileItem::make($format, $this->library, $path);
+            $bookFile = BookFileItem::make($path, $this->library->id);
             if ($bookFile) {
                 $items["{$this->i}"] = $bookFile;
             }

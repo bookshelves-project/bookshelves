@@ -6,9 +6,6 @@ use App\Jobs\CleanJob;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
-/**
- * Main command of Bookshelves to generate Books with relations.
- */
 class CleanCommand extends Commandable
 {
     /**
@@ -23,19 +20,15 @@ class CleanCommand extends Commandable
      *
      * @var string
      */
-    protected $description = 'Clean Bookshelves data.';
+    protected $description = 'Clean books.';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
     public function handle()
     {
         $this->title();
 
         CleanJob::dispatch();
-
-        return Command::SUCCESS;
     }
 }

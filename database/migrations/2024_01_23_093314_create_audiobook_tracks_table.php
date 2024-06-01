@@ -18,6 +18,12 @@ return new class extends Migration
             $table->string('track_title')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('slug')->nullable();
+
+            $table->foreignUlid('book_id')
+                ->nullable()
+                ->constrained('books')
+                ->cascadeOnDelete();
+
             $table->json('authors')->nullable();
             $table->json('narrators')->nullable();
             $table->text('description')->nullable();
@@ -42,11 +48,6 @@ return new class extends Migration
             $table->json('chapters')->nullable();
 
             $table->dateTime('added_at')->nullable();
-
-            $table->foreignUlid('book_id')
-                ->nullable()
-                ->constrained('books')
-                ->cascadeOnDelete();
 
             $table->timestamps();
         });

@@ -90,7 +90,7 @@ class BookConverter
 
         $this->track = new AudiobookTrack([
             'title' => $this->ebook->getTitle(),
-            'slug' => $this->ebook->getMetaTitle()->getSeriesSlug(),
+            'slug' => $this->ebook->getMetaTitle()->getSlug(),
             'track_title' => $this->ebook->getExtra('audio_title'),
             'subtitle' => $this->ebook->getExtra('subtitle'),
             'authors' => $authors,

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Author;
 
-use App\Engines\Book\Converter\SerieConverter;
-use App\Models\Serie;
+use App\Engines\Book\Converter\AuthorConverter;
+use App\Models\Author;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class SerieJob implements ShouldQueue
+class AuthorJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -19,7 +19,7 @@ class SerieJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public Serie $serie,
+        public Author $author,
         public bool $fresh = false,
     ) {
     }
@@ -29,9 +29,7 @@ class SerieJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->serie->loadMissing('library');
-
-        Journal::info("SerieJob: {$this->serie->title} from {$this->serie->library->name}...");
-        SerieConverter::make($this->serie, $this->fresh);
+        Journal::info("AuthorJob: {$this->author->name}");
+        AuthorConverter::make($this->author, $this->fresh);
     }
 }

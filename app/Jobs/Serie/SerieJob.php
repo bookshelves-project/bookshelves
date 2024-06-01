@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Serie;
 
-use App\Models\Author;
+use App\Engines\Book\Converter\SerieConverter;
+use App\Models\Serie;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class AuthorWrapperJob implements ShouldQueue
+class SerieJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -17,6 +19,7 @@ class AuthorWrapperJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
+        public Serie $serie,
         public bool $fresh = false,
     ) {
     }
@@ -26,20 +29,9 @@ class AuthorWrapperJob implements ShouldQueue
      */
     public function handle(): void
     {
-        if ($this->fresh) {
-            $authors = Author::all();
-        } else {
-            $authors = Author::query()
-                ->where('wikipedia_parsed_at', null)
-                ->get();
-        }
+        $this->serie->loadMissing('library');
 
-        if ($authors->isEmpty()) {
-            return;
-        }
-
-        foreach ($authors as $author) {
-            AuthorJob::dispatch($author, $this->fresh);
-        }
+        Journal::info("SerieJob: {$this->serie->title} from {$this->serie->library->name}...");
+        SerieConverter::make($this->serie, $this->fresh);
     }
 }

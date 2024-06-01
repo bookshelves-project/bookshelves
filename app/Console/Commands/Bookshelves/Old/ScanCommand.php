@@ -69,16 +69,16 @@ class ScanCommand extends Commandable
             return;
         }
 
-        $this->info("{$library->name} {$parser->count()} files in {$library->path}.");
+        $this->info("{$library->name} {$parser->getCount()} files in {$library->path}.");
 
         if ($verbose) {
             $this->table(
-                ['Basename', 'Format', 'Type'],
+                ['Basename', 'Format', 'Library ID'],
                 array_map(fn (BookFileItem $file) => [
                     $file->basename(),
                     $file->format()->value,
-                    $file->library()->name,
-                ], $parser->items())
+                    $file->libraryId(),
+                ], $parser->toBookFileItems())
             );
         }
 

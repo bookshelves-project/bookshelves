@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets;
 
-use App\Console\Commands\Bookshelves\SetupCommand;
+use App\Console\Commands\Bookshelves\MakeCommand;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
@@ -38,7 +38,7 @@ class InfoWidget extends Widget implements HasActions, HasForms
             ->label('Analyze')
             ->outlined()
             ->action(function () {
-                Artisan::call(SetupCommand::class);
+                Artisan::call(MakeCommand::class);
                 Journal::info('Start analyze', 'Followed commands will be executed: analyzer, parser, scan and metadata.')->toDatabase();
             });
     }

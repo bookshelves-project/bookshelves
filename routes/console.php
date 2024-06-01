@@ -1,6 +1,7 @@
 <?php
 
-use App\Console\Commands\Bookshelves\SetupCommand;
+use App\Console\Commands\Bookshelves\CleanCommand;
+use App\Console\Commands\Bookshelves\MakeCommand;
 use Illuminate\Support\Facades\Schedule;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Scout\ScoutFreshCommand;
@@ -20,12 +21,22 @@ Schedule::command(ScoutFreshCommand::class)
         Journal::error('ScoutFreshCommand failed')->toDatabase();
     });
 
-Schedule::command(SetupCommand::class)
+Schedule::command(MakeCommand::class)
     ->at('02:00')
     ->daily()
     ->onSuccess(function () {
-        Journal::info('SetupCommand executed successfully');
+        Journal::info('MakeCommand executed successfully');
     })
     ->onFailure(function () {
-        Journal::error('SetupCommand failed')->toDatabase();
+        Journal::error('MakeCommand failed')->toDatabase();
+    });
+
+Schedule::command(CleanCommand::class)
+    ->at('00:00')
+    ->mondays()
+    ->onSuccess(function () {
+        Journal::info('CleanCommand executed successfully');
+    })
+    ->onFailure(function () {
+        Journal::error('CleanCommand failed')->toDatabase();
     });

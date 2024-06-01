@@ -2,7 +2,8 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\ParserWrapperJob;
+use App\Jobs\ParserJob;
+use App\Models\Library;
 use Illuminate\Console\Command;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
@@ -51,7 +52,18 @@ class ParseCommand extends Commandable
         $this->limit = $this->optionInt('limit');
 
         Journal::info('ParseCommand: parsing files...');
-        ParserWrapperJob::dispatch($this->fresh, $this->limit);
+
+        $libraries = Library::inOrder()->map(fn (Library $library) => $library->name)->toArray();
+        $librariesStr = implode(', ', $libraries);
+        Journal::info("ParserJob: start parsing libraries: {$librariesStr}");
+
+        foreach (Library::inOrder() as $library) {
+            ParserJob::dispatch($library, $this->limit);
+        }
+
+        $this->call(BooksCommand::class, [
+            '--fresh' => $this->fresh,
+        ]);
 
         return Command::SUCCESS;
     }

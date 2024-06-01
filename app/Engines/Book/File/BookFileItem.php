@@ -3,7 +3,6 @@
 namespace App\Engines\Book\File;
 
 use App\Enums\BookFormatEnum;
-use App\Models\Library;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class BookFileItem
@@ -11,9 +10,8 @@ class BookFileItem
     protected function __construct(
         protected string $basename,
         protected BookFormatEnum $format,
-        protected Library $library,
+        protected string $libraryId,
         protected string $path,
-        protected string $filename,
         protected string $extension,
         protected ?string $mimeType = null,
         protected int $size = 0,
@@ -21,10 +19,33 @@ class BookFileItem
     ) {
     }
 
-    public static function make(BookFormatEnum $format, Library $library, string $path): ?self
+    public static function make(string $path, string $libraryId): ?self
     {
+        /** @var ?string $extension */
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        if ($extension === null || $extension === '') {
+            Journal::debug("BookFileItem: extension not found: {$path}");
+
+            return null;
+        }
+
+        $format = BookFormatEnum::fromExtension($extension);
+
+        if (! array_key_exists($format->value, BookFormatEnum::toArray())) {
+            Journal::debug("BookFileItem: format not found: {$path}");
+
+            return null;
+        }
+
+        if ($format->value === BookFormatEnum::unknown->value) {
+            Journal::debug("BookFileItem: unknown format: {$path}");
+
+            return null;
+        }
+
         if (! file_exists($path)) {
-            Journal::error("File not found: {$path}");
+            Journal::error("BookFileItem: file not found: {$path}");
 
             return null;
         }
@@ -32,25 +53,16 @@ class BookFileItem
         $self = new self(
             basename: pathinfo($path, PATHINFO_BASENAME),
             format: $format,
-            library: $library,
+            libraryId: $libraryId,
             path: $path,
-            filename: pathinfo($path, PATHINFO_FILENAME),
             extension: pathinfo($path, PATHINFO_EXTENSION),
-            mimeType: mime_content_type($path),
+            // mimeType: mime_content_type($path),
             size: filesize($path),
         );
 
         if ($format === BookFormatEnum::audio) {
             $self->isAudio = true;
         }
-
-        return $self;
-    }
-
-    public static function fromArray(array $array, Library $library): self
-    {
-        $format = BookFormatEnum::tryFrom($array['format']);
-        $self = BookFileItem::make($format, $library, $array['path']);
 
         return $self;
     }
@@ -65,19 +77,14 @@ class BookFileItem
         return $this->format;
     }
 
-    public function library(): Library
+    public function libraryId(): string
     {
-        return $this->library;
+        return $this->libraryId;
     }
 
     public function path(): string
     {
         return $this->path;
-    }
-
-    public function filename(): string
-    {
-        return $this->filename;
     }
 
     public function extension(): string
@@ -105,8 +112,12 @@ class BookFileItem
         return [
             'basename' => $this->basename,
             'format' => $this->format,
-            'library' => $this->library,
+            'libraryId' => $this->libraryId,
             'path' => $this->path,
+            'extension' => $this->extension,
+            'mimeType' => $this->mimeType,
+            'size' => $this->size,
+            'isAudio' => $this->isAudio,
         ];
     }
 }

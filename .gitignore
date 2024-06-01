@@ -31,3 +31,4 @@ components.d.ts
 icons.d.ts
 .env.testing
 _ide_helper_models.php
+libraries.json

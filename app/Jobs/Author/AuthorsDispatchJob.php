@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Jobs\Author;
+
+use App\Models\Author;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Kiwilan\LaravelNotifier\Facades\Journal;
+
+class AuthorsDispatchJob implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * Create a new job instance.
+     */
+    public function __construct(
+        public bool $fresh = false,
+    ) {
+    }
+
+    /**
+     * Execute the job.
+     */
+    public function handle(): void
+    {
+        Journal::info('AuthorDispatchJob: dispatching authors...', [
+            'fresh' => $this->fresh,
+        ]);
+
+        $authors = $this->getAuthors($this->fresh);
+        if ($authors->isEmpty()) {
+            Journal::error('AuthorDispatchJob: no authors found');
+
+            return;
+        }
+
+        foreach ($authors as $author) {
+            AuthorJob::dispatch($author, $this->fresh);
+        }
+    }
+
+    private function getAuthors(bool $fresh): mixed
+    {
+        if ($fresh) {
+            return Author::all();
+        }
+
+        return Author::query()
+            ->where('wikipedia_parsed_at', null)
+            ->get();
+    }
+}
