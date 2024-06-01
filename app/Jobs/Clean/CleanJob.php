@@ -64,7 +64,9 @@ class CleanJob implements ShouldQueue
             ->whereIn('path', $orphans)
             ->get();
 
-        Journal::info("CleanJob: {$library->name} {$files->count()} to delete.");
+        if ($files->count() > 0) {
+            Journal::info("CleanJob: {$library->name} {$files->count()} to delete.");
+        }
 
         foreach ($files as $file) {
             $file->delete();
@@ -77,7 +79,9 @@ class CleanJob implements ShouldQueue
             ->whereDoesntHave('books')
             ->get();
 
-        Journal::info("CleanJob: authors {$authors->count()} to delete.");
+        if ($authors->count() > 0) {
+            Journal::info("CleanJob: authors {$authors->count()} to delete.");
+        }
 
         foreach ($authors as $author) {
             $author->delete();
@@ -90,7 +94,9 @@ class CleanJob implements ShouldQueue
             ->whereDoesntHave('books')
             ->get();
 
-        Journal::info("CleanJob: series {$series->count()} to delete.");
+        if ($series->count() > 0) {
+            Journal::info("CleanJob: series {$series->count()} to delete.");
+        }
 
         foreach ($series as $serie) {
             $serie->delete();

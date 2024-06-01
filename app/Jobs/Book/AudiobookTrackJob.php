@@ -5,6 +5,8 @@ namespace App\Jobs\Book;
 use App\Engines\Book\BookUtils;
 use App\Engines\Book\Converter\Modules\AuthorModule;
 use App\Facades\Bookshelves;
+use App\Jobs\Author\AuthorJob;
+use App\Jobs\Serie\SerieJob;
 use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\Language;
@@ -66,9 +68,7 @@ class AudiobookTrackJob implements ShouldQueue
             return;
         }
 
-        Book::withoutSyncingToSearch(function () {
-            $this->parseBook();
-        });
+        $this->parseBook();
     }
 
     /**
@@ -108,7 +108,7 @@ class AudiobookTrackJob implements ShouldQueue
             $this->main->saveQuietly();
 
             $book->title = $parsed_title;
-            $book->saveQuietly();
+            $book->saveWithoutSyncingToSearch();
         }
 
         if ($this->main->tags) {
@@ -120,13 +120,13 @@ class AudiobookTrackJob implements ShouldQueue
                 $tags->push($tag);
             }
             $book->tags()->syncWithoutDetaching($tags->pluck('id'));
-            $book->saveQuietly();
+            $book->saveWithoutSyncingToSearch();
         }
 
         $language = $this->parseLang($this->main);
         if ($language) {
             $book->language()->associate($language);
-            $book->saveQuietly();
+            $book->saveWithoutSyncingToSearch();
         } else {
             Journal::warning("AudiobookJob : Language not found for {$book->title}", [
                 'audiobook' => $this->main->toArray(),
@@ -139,7 +139,7 @@ class AudiobookTrackJob implements ShouldQueue
                 $authors[] = new BookAuthor($author, 'aut');
             }
 
-            $authors = AuthorModule::toCollection($authors);
+            $authors = AuthorModule::make($authors);
             $book->authors()->sync($authors->pluck('id'));
         }
 
@@ -152,7 +152,7 @@ class AudiobookTrackJob implements ShouldQueue
             $serie->books()->save($book);
             $serie->library()->associate($this->library);
             $serie->language()->associate($language);
-            $serie->saveQuietly();
+            $serie->saveWithoutSyncingToSearch();
         }
 
         $coverPath = BookUtils::audiobookTrackCoverPath($this->main);
@@ -191,10 +191,17 @@ class AudiobookTrackJob implements ShouldQueue
             if (! $serie->authorMain) {
                 $serie->authorMain()->associate($book->authorMain);
             }
-            $serie->save();
+            $serie->saveWithoutSyncingToSearch();
+            SerieJob::dispatch($serie);
         }
 
-        $book->saveQuietly();
+        if ($book->authors->isNotEmpty()) {
+            foreach ($book->authors as $author) {
+                AuthorJob::dispatch($author);
+            }
+        }
+
+        $book->saveWithoutSyncingToSearch();
     }
 
     private function parseTitle(?AudiobookTrack $track): ?string

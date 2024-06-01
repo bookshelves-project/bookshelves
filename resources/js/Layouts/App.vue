@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+// import { Notifications } from '@kiwilan/typescriptable-laravel/vue'
+
 defineProps<{
   title?: string
   description?: string

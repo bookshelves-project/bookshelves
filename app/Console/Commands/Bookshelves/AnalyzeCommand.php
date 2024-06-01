@@ -15,7 +15,7 @@ use Kiwilan\Steward\Services\DirectoryService;
 /**
  * Main command of Bookshelves to generate Books with relations.
  */
-class MakeCommand extends Commandable
+class AnalyzeCommand extends Commandable
 {
     /**
      * The name and signature of the console command.

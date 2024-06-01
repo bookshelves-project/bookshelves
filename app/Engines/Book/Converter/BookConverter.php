@@ -115,11 +115,9 @@ class BookConverter
             'added_at' => $this->ebook->getCreatedAt(),
         ]);
 
-        Book::withoutSyncingToSearch(function () {
-            $this->track->library()->associate($this->file->library);
-            $this->track->file()->associate($this->file);
-            $this->track->saveQuietly();
-        });
+        $this->track->library()->associate($this->file->library);
+        $this->track->file()->associate($this->file);
+        $this->track->saveQuietly();
 
         $cover = $this->ebook->getCover()->getContents();
         if ($cover) {
@@ -133,22 +131,27 @@ class BookConverter
     private function syncLibrary(): self
     {
         $this->book->library()->associate($this->file->library);
-        $this->book->saveQuietly();
+        $this->book->saveWithoutSyncingToSearch();
 
         return $this;
     }
 
     private function syncAuthors(): self
     {
-        $authors = AuthorModule::toCollection($this->ebook->getAuthors());
+        $authors = AuthorModule::make($this->ebook->getAuthors());
         if ($authors->isEmpty()) {
+            Journal::warning("BookConverter: No authors found for {$this->book->title}", [
+                'ebook' => $this->ebook->toArray(),
+            ]);
+
             return $this;
         }
 
-        Book::withoutSyncingToSearch(function () use ($authors) {
-            $this->book->authorMain()->associate($authors->first());
-            $this->book?->authors()->sync($authors->pluck('id'));
-        });
+        $this->book->authorMain()->associate($authors->first());
+        foreach ($authors as $author) {
+            $this->book->authors()->attach($author->id);
+        }
+        $this->book->saveWithoutSyncingToSearch();
 
         return $this;
     }
@@ -161,7 +164,7 @@ class BookConverter
         }
 
         Book::withoutSyncingToSearch(function () use ($tags) {
-            $this->book?->tags()->sync($tags->pluck('id'));
+            $this->book->tags()->sync($tags->pluck('id'));
         });
 
         return $this;
@@ -174,10 +177,8 @@ class BookConverter
             return $this;
         }
 
-        Book::withoutSyncingToSearch(function () use ($publisher) {
-            $this->book?->publisher()->associate($publisher);
-            $this->book?->save();
-        });
+        $this->book->publisher()->associate($publisher);
+        $this->book->saveWithoutSyncingToSearch();
 
         return $this;
     }
@@ -186,25 +187,21 @@ class BookConverter
     {
         $language = LanguageModule::make($this->ebook->getLanguage());
 
-        Book::withoutSyncingToSearch(function () use ($language) {
-            $this->book?->language()->associate($language);
-            $this->book?->save();
-        });
+        $this->book->language()->associate($language);
+        $this->book->saveWithoutSyncingToSearch();
 
         return $this;
     }
 
     private function syncSerie(): self
     {
-        $serie = SerieModule::toModel($this->ebook, $this->file->library)->associate($this->book);
+        $serie = SerieModule::make($this->ebook, $this->book);
         if (! $serie) {
             return $this;
         }
 
-        Book::withoutSyncingToSearch(function () use ($serie) {
-            $this->book?->serie()->associate($serie);
-            $this->book?->save();
-        });
+        $this->book->serie()->associate($serie);
+        $this->book->saveWithoutSyncingToSearch();
 
         return $this;
     }
@@ -216,12 +213,10 @@ class BookConverter
             return $this;
         }
 
-        Book::withoutSyncingToSearch(function () use ($identifiers) {
-            $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
-            $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
-            $this->book->identifiers = $identifiers->toArray();
-            $this->book->save();
-        });
+        $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
+        $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
+        $this->book->identifiers = $identifiers->toArray();
+        $this->book->saveWithoutSyncingToSearch();
 
         return $this;
     }
@@ -297,10 +292,8 @@ class BookConverter
             'added_at' => $timestamp,
         ]);
 
-        Book::withoutSyncingToSearch(function () use ($book) {
-            $book->file()->associate($this->file);
-            $book->save();
-        });
+        $book->file()->associate($this->file);
+        $book->saveWithoutSyncingToSearch();
 
         return $book;
     }

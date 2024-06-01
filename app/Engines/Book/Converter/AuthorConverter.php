@@ -4,7 +4,6 @@ namespace App\Engines\Book\Converter;
 
 use App\Engines\Book\BookUtils;
 use App\Facades\Bookshelves;
-use App\Jobs\Author\AuthorJob;
 use App\Models\Author;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\SpatieMedia;
@@ -33,7 +32,7 @@ class AuthorConverter
 
     private function wikipedia(): self
     {
-        $this->author->deleteCover();
+        $this->author->clearCover();
 
         $lang = BookUtils::selectLang($this->author->books);
         $wikipedia = Wikipedia::make($this->author->name)->language($lang);
@@ -47,7 +46,7 @@ class AuthorConverter
             ->get();
 
         $exists = $wikipedia->isAvailable();
-        Journal::info("Wikipedia: author {$this->author->name} ".($exists ? 'exists' : 'not found')." in {$lang}");
+        Journal::debug("AuthorConverter: author {$this->author->name} ".($exists ? 'exists' : 'not found')." in {$lang}");
 
         if (! $exists) {
             $this->author->save();
@@ -64,11 +63,9 @@ class AuthorConverter
             return $this;
         }
 
-        Author::withoutSyncingToSearch(function () use ($item) {
-            $this->author->description = $item->getExtract();
-            $this->author->link = $item->getFullUrl();
-            $this->author->save();
-        });
+        $this->author->description = $item->getExtract();
+        $this->author->link = $item->getFullUrl();
+        $this->author->saveWithoutSyncingToSearch();
 
         $picture = $item->getPictureBase64();
         if ($picture) {
@@ -80,8 +77,6 @@ class AuthorConverter
                 ->color()
                 ->save();
         }
-
-        AuthorJob::dispatch($this->author);
 
         return $this;
     }

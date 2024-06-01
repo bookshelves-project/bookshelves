@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { useUtils } from '@/Composables/useUtils'
-
 export interface DetailsMedia {
   backdrop?: string
   cover?: string

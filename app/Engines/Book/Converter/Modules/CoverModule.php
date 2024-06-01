@@ -18,7 +18,7 @@ class CoverModule
      */
     public static function make(Ebook $ebook, Book $book): Book
     {
-        $book->deleteCover();
+        $book->clearCover();
 
         $self = new self();
 
@@ -36,16 +36,14 @@ class CoverModule
         $self->resize($path);
         $contents = File::get($path);
 
-        Book::withoutSyncingToSearch(function () use ($book, $contents) {
-            SpatieMedia::make($book)
-                ->addMediaFromString($contents)
-                ->name($book->slug)
-                ->extension(Bookshelves::imageFormat())
-                ->collection(Bookshelves::imageCollection())
-                ->disk(Bookshelves::imageDisk())
-                ->color()
-                ->save();
-        });
+        SpatieMedia::make($book)
+            ->addMediaFromString($contents)
+            ->name($book->slug)
+            ->extension(Bookshelves::imageFormat())
+            ->collection(Bookshelves::imageCollection())
+            ->disk(Bookshelves::imageDisk())
+            ->color()
+            ->save();
 
         unlink($path);
 

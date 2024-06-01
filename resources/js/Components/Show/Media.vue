@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { DetailsMedia } from './Container.vue'
+import { useNotification } from '@/Composables/useNotification'
 
 const props = defineProps<DetailsMedia>()
 const propertiesList = computed(() => {
@@ -11,6 +12,14 @@ const badgesList = computed(() => {
 const tagsList = computed(() => {
   return props.tags?.filter(tag => tag)
 })
+
+function downloadBook() {
+  const { push } = useNotification()
+  push({
+    title: `Download ${props.title}`,
+    description: 'Downloading book...',
+  })
+}
 </script>
 
 <template>
@@ -18,8 +27,8 @@ const tagsList = computed(() => {
     <div class="lg:grid grid-cols-6 gap-10 space-y-6 lg:space-y-0">
       <div
         :class="{
-          'aspect-square lg:aspect-poster md:h-64 lg:h-[unset]': !props.square,
-          'aspect-square': props.square,
+          'aspect-square lg:aspect-poster md:h-64 lg:h-[unset]': !square,
+          'aspect-square': square,
         }"
         class="book-shadow block overflow-hidden bg-gray-900 rounded-md col-span-2"
       >
@@ -86,6 +95,7 @@ const tagsList = computed(() => {
             :href="download.url"
             icon="download"
             download
+            @click="downloadBook"
           >
             <span>Download</span>
             <span class="uppercase ml-1">{{ download.extension }}</span>

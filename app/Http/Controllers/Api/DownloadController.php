@@ -69,7 +69,7 @@ class DownloadController extends Controller
                 ->toArray();
         } else {
             foreach ($serie->books as $book) {
-                $book->load('audiobook_tracks');
+                $book->load('audiobookTracks');
                 $tracks = $book->audiobookTracks;
                 $files = array_merge(
                     $files,

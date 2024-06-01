@@ -130,6 +130,16 @@ trait HasCovers
         return $this->getCover(self::CONVERSION_OPDS);
     }
 
+    public function hasCover(): bool
+    {
+        return $this->getMedia(Bookshelves::imageCollection())->isNotEmpty();
+    }
+
+    public function clearCover(): void
+    {
+        $this->clearMediaCollection(Bookshelves::imageCollection());
+    }
+
     /**
      * Get cover main color with `spatie/laravel-medialibrary`
      */
@@ -147,11 +157,6 @@ trait HasCovers
         }
 
         return '#ffffff';
-    }
-
-    public function deleteCover(): void
-    {
-        $this->clearMediaCollection(Bookshelves::imageCollection());
     }
 
     private function getCover(string $conversion = ''): string

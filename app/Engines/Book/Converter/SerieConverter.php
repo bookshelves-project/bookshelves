@@ -2,9 +2,11 @@
 
 namespace App\Engines\Book\Converter;
 
-use App\Engines\Book\Converter\Modules\SerieModule;
-use App\Jobs\Serie\SerieJob;
+use App\Facades\Bookshelves;
+use App\Models\Book;
 use App\Models\Serie;
+use Kiwilan\Steward\Utils\SpatieMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Improve Serie with additional data.
@@ -24,27 +26,57 @@ class SerieConverter
         $self->setCover();
         $self->setBookDescription();
 
-        Serie::withoutSyncingToSearch(function () use ($serie) {
-            $serie->api_parsed_at = now();
-            $serie->saveQuietly();
-        });
-
-        SerieJob::dispatch($serie);
+        $serie->api_parsed_at = now();
+        $self->serie->saveWithoutSyncingToSearch();
 
         return $self;
     }
 
     private function setBookDescription(): void
     {
+        if ($this->fresh) {
+            $this->serie->description = null;
+        }
+
         if (! $this->serie->description) {
             $books = $this->serie->load('books')->books;
             $this->serie->description = $books->first()->description;
+            $this->serie->saveWithoutSyncingToSearch();
         }
     }
 
     private function setCover(): self
     {
-        SerieModule::setBookCover($this->serie);
+        if ($this->fresh) {
+            $this->serie->clearCover();
+        }
+
+        if (! $this->serie->hasCover()) {
+            $book = Book::query()
+                ->where('volume', 1)
+                ->where('serie_id', $this->serie->id)
+                ->first();
+
+            if (! $book) {
+                $book = Book::query()
+                    ->where('serie_id', $this->serie->id)
+                    ->first();
+            }
+
+            /** @var Media|null $media */
+            $media = $book->cover_media;
+            if (! $media) {
+                return $this;
+            }
+
+            $file = $media->getPath();
+            SpatieMedia::make($this->serie)
+                ->addMediaFromString(file_get_contents($file))
+                ->collection(Bookshelves::imageCollection())
+                ->disk(Bookshelves::imageDisk())
+                ->color()
+                ->save();
+        }
 
         return $this;
     }
@@ -54,25 +86,32 @@ class SerieConverter
      */
     private function setTags(): self
     {
-        if ($this->serie->tags->isNotEmpty() && ! $this->fresh) {
+        if ($this->fresh) {
+            $this->serie->tags()->detach();
+            $this->serie->saveWithoutSyncingToSearch();
+        }
+
+        if ($this->serie->tags->isNotEmpty()) {
             return $this;
         }
 
-        Serie::withoutSyncingToSearch(function () {
-            $books = $this->serie->load('books.tags')->books;
-            $tags = [];
+        $books = $this->serie->load('books.tags')->books;
+        $tags = [];
 
-            foreach ($books as $book) {
-                foreach ($book->tags as $tag) {
-                    $tags[] = $tag->id;
-                }
+        foreach ($books as $book) {
+            foreach ($book->tags as $tag) {
+                $tags[] = $tag->id;
             }
+        }
 
-            $tags = array_unique($tags);
+        $tags = array_unique($tags);
 
-            $this->serie->tags()->sync($tags);
-            $this->serie->saveQuietly();
-        });
+        if (! $tags) {
+            return $this;
+        }
+
+        $this->serie->tags()->sync($tags);
+        $this->serie->saveWithoutSyncingToSearch();
 
         return $this;
     }

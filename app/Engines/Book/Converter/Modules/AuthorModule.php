@@ -2,6 +2,7 @@
 
 namespace App\Engines\Book\Converter\Modules;
 
+use App\Jobs\Author\AuthorJob;
 use App\Models\Author;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -10,57 +11,68 @@ use Kiwilan\Ebook\Models\BookAuthor;
 
 class AuthorModule
 {
-    protected function __construct(
-        protected ?string $firstname,
-        protected ?string $lastname,
-        protected ?string $name,
-        protected ?string $role,
-    ) {
-    }
-
     /**
-     * Set Authors from Ebook.
+     * Handle Authors from Ebook.
      *
      * @param  BookAuthor[]  $authors
      * @return Collection<int, Author>
      */
-    public static function toCollection(array $authors): Collection
+    public static function make(array $authors): Collection
     {
-        $authors = array_filter($authors, fn (BookAuthor $author) => $author->getName() !== null);
-        $items = collect([]);
+        $self = new self();
 
-        if (empty($authors)) {
-            $author = AuthorModule::make(
-                new BookAuthor(
-                    name: 'Anonymous',
-                    role: 'aut'
-                )
-            )->create();
-            $items->push($author);
-
-            return $items;
+        // `BookAuthor` to `AuthorModuleItem`
+        $items = array_filter($authors, fn (BookAuthor $author) => $author->getName() !== null);
+        if (empty($items)) {
+            $items[] = $self->createAnonymousAuthor();
         }
 
+        /** @var Collection<int, Author> $authors */
+        $authors = collect();
+
+        // `AuthorModuleItem` to `Author`
+        foreach ($items as $item) {
+            $authors->push(AuthorModuleItem::make($item)->toAuthor());
+        }
+
+        $authorsSaved = collect();
         foreach ($authors as $author) {
-            $current = AuthorModule::make($author);
-            $existing = Author::query()
-                ->where('name', $current->name)
+            $exists = Author::query()
+                ->where('name', $author->name)
                 ->first();
 
-            if ($existing) {
-                $author = $existing;
+            if ($exists) {
+                $author = $exists;
             } else {
-                $author = Author::withoutSyncingToSearch(function () use ($current) {
-                    return $current->create();
-                });
+                $author->saveWithoutSyncingToSearch();
+                AuthorJob::dispatch($author);
             }
 
-            if ($author !== null) {
-                $items->push($author);
-            }
+            $authorsSaved->push($author);
         }
 
-        return $items;
+        return $authorsSaved;
+    }
+
+    private function createAnonymousAuthor(): AuthorModuleItem
+    {
+        return new AuthorModuleItem(
+            firstname: 'Anonymous',
+            lastname: null,
+            name: 'Anonymous',
+            role: 'aut'
+        );
+    }
+}
+
+class AuthorModuleItem
+{
+    public function __construct(
+        public ?string $firstname = null,
+        public ?string $lastname = null,
+        public ?string $name = null,
+        public ?string $role = null,
+    ) {
     }
 
     /**
@@ -68,62 +80,36 @@ class AuthorModule
      */
     public static function make(BookAuthor $author): ?self
     {
-        $data = AuthorModule::convertName($author);
-
-        return new self(
+        $self = new self(
             name: $author->getName(),
-            firstname: $data['firstname'],
-            lastname: $data['lastname'],
             role: $author->getRole(),
         );
+        $converted = $self->convertName($author);
+        $self->firstname = $converted['firstname'];
+        $self->lastname = $converted['lastname'];
+
+        return $self;
     }
 
-    public function name(): ?string
+    public function toAuthor(): Author
     {
-        return $this->name;
-    }
-
-    public function firstname(): ?string
-    {
-        return $this->firstname;
-    }
-
-    public function lastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function role(): ?string
-    {
-        return $this->role;
+        return new Author([
+            'name' => $this->name,
+            'slug' => Str::slug($this->name, '-'),
+            'role' => $this->role,
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+        ]);
     }
 
     /**
-     * Create Author if not exist.
+     * @return array{firstname: string|null, lastname: string|null}
      */
-    private function create(): Author
-    {
-        return Author::withoutSyncingToSearch(function () {
-            return Author::query()
-                ->firstOrCreate([
-                    'name' => $this->name,
-                    'firstname' => $this->firstname,
-                    'lastname' => $this->lastname,
-                    'slug' => Str::slug($this->name, '-'),
-                    'role' => $this->role,
-                ]);
-        });
-    }
-
-    /**
-     * @return array{firstname: string|null, lastname: string|null, role: string|null}
-     */
-    public static function convertName(BookAuthor $author): array
+    private function convertName(BookAuthor $author): array
     {
         $a = [
             'firstname' => null,
             'lastname' => null,
-            'role' => $author->getRole(),
         ];
 
         $isOrderNatural = config('bookshelves.authors.order_natural');
@@ -138,31 +124,5 @@ class AuthorModule
         }
 
         return $a;
-    }
-
-    public static function makeAuthor(BookAuthor $author): Author
-    {
-        return new Author([
-            'name' => $author->getName(),
-            'slug' => Str::slug($author->getName(), '-'),
-            'role' => $author->getRole(),
-        ]);
-    }
-
-    /**
-     * Convert data to Authors.
-     *
-     * @param  BookAuthor[]  $authors
-     * @return Author[]
-     */
-    public static function toAuthors(array $authors): array
-    {
-        $items = [];
-
-        foreach ($authors as $author) {
-            $items[] = AuthorModule::makeAuthor($author);
-        }
-
-        return $items;
     }
 }

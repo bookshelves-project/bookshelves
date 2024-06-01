@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class AuthorsDispatchJob implements ShouldQueue
 {
@@ -36,7 +37,10 @@ class AuthorsDispatchJob implements ShouldQueue
         }
     }
 
-    private function getAuthors(bool $fresh): mixed
+    /**
+     * @return Collection<int, Author>
+     */
+    private function getAuthors(bool $fresh): Collection
     {
         if ($fresh) {
             return Author::all();

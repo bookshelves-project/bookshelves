@@ -32,7 +32,7 @@ class BooksDispatchJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info('BooksDispatchJob: create BookJob for each item...');
+        Journal::debug('BooksDispatchJob: create BookJob for each item...');
 
         $bookFiles = (array) json_decode(file_get_contents($this->library->getJsonPath()), true);
 

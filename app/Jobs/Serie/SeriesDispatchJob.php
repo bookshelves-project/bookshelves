@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class SeriesDispatchJob implements ShouldQueue
 {
@@ -36,7 +37,10 @@ class SeriesDispatchJob implements ShouldQueue
         }
     }
 
-    private function getSeries(bool $fresh): mixed
+    /**
+     * @return Collection<int, Serie>
+     */
+    private function getSeries(bool $fresh): Collection
     {
         if ($fresh) {
             return Serie::all();
