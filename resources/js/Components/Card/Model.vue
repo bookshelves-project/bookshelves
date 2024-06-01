@@ -23,7 +23,7 @@ const slots = useSlots()
       <div
         class="model-card book-shadow"
         :class="{
-          'h-[20rem]': carousel,
+          'h-[20rem]': carousel && !square,
           'aspect-square': square,
           'aspect-poster': !square,
         }"
