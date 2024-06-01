@@ -8,7 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class SeriesDispatchJob implements ShouldQueue
 {
@@ -27,14 +26,8 @@ class SeriesDispatchJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info('AuthorDispatchJob: dispatching authors...', [
-            'fresh' => $this->fresh,
-        ]);
-
         $authors = $this->getSeries($this->fresh);
         if ($authors->isEmpty()) {
-            Journal::error('AuthorDispatchJob: no authors found');
-
             return;
         }
 

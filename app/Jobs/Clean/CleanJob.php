@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Clean;
 
 use App\Models\Author;
 use App\Models\File;

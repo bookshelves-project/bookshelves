@@ -22,6 +22,7 @@ return new class() extends Migration
             $table->text('description')->nullable();
             $table->string('link')->nullable();
             $table->dateTime('wikipedia_parsed_at')->nullable();
+            $table->boolean('wikipedia_exists')->default(false);
 
             $table->timestamps();
         });

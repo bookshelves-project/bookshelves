@@ -49,10 +49,12 @@ class Author extends Model implements HasMedia
         'description',
         'link',
         'wikipedia_parsed_at',
+        'wikipedia_exists',
     ];
 
     protected $casts = [
         'wikipedia_parsed_at' => 'datetime',
+        'wikipedia_exists' => 'boolean',
     ];
 
     protected $query_default_sort = 'lastname';

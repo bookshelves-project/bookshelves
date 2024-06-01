@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Clean;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Artisan;
-use Kiwilan\Steward\Commands\Scout\ScoutFreshCommand;
 
-class ScoutJob implements ShouldQueue
+class CleanDispatchJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -26,6 +24,7 @@ class ScoutJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Artisan::call(ScoutFreshCommand::class);
+        CleanJob::dispatch();
+        ScoutJob::dispatch();
     }
 }

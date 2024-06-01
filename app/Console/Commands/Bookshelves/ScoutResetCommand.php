@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\ScoutJob;
+use App\Jobs\Clean\ScoutJob;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 

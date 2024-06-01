@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\Library\BooksDispatchJob;
+use App\Jobs\Book\BooksDispatchJob;
 use App\Jobs\Library\ParserJob;
 use App\Models\Library;
 use Illuminate\Console\Command;

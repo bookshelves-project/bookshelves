@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Jobs\Library;
+namespace App\Jobs\Book;
 
 use App\Console\Commands\Bookshelves\AudiobookTracksCommand;
-use App\Console\Commands\Bookshelves\AuthorsCommand;
-use App\Console\Commands\Bookshelves\CleanCommand;
-use App\Console\Commands\Bookshelves\ScoutResetCommand;
-use App\Console\Commands\Bookshelves\SeriesCommand;
 use App\Engines\Book\File\BookFileItem;
-use App\Jobs\BookJob;
+use App\Jobs\Author\AuthorsDispatchJob;
+use App\Jobs\Clean\CleanDispatchJob;
+use App\Jobs\Serie\SeriesDispatchJob;
 use App\Models\File;
 use App\Models\Library;
 use Illuminate\Bus\Queueable;
@@ -36,7 +34,7 @@ class BooksDispatchJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info('LibraryFileParserJob: create BookJob for each item...');
+        Journal::info('BooksDispatchJob: create BookJob for each item...');
 
         $bookFiles = (array) json_decode(file_get_contents($this->library->getJsonPath()), true);
         $count = count($bookFiles);
@@ -68,10 +66,9 @@ class BooksDispatchJob implements ShouldQueue
             ]);
         }
 
-        Artisan::call(AuthorsCommand::class);
-        Artisan::call(SeriesCommand::class);
-        Artisan::call(CleanCommand::class);
-        Artisan::call(ScoutResetCommand::class);
+        AuthorsDispatchJob::dispatch();
+        SeriesDispatchJob::dispatch();
+        CleanDispatchJob::dispatch();
     }
 
     /**
@@ -112,7 +109,7 @@ class BooksDispatchJob implements ShouldQueue
             ->whereIn('path', $filesToDelete)
             ->get();
 
-        Journal::info("LibraryFileParserJob: delete {$files->count()} files for {$libraryName}...", [
+        Journal::info("BooksDispatchJob: delete {$files->count()} files for {$libraryName}...", [
             'files' => $files->pluck('path')->toArray(),
         ]);
 

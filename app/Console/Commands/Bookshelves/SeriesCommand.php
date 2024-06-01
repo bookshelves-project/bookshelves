@@ -47,8 +47,6 @@ class SeriesCommand extends Commandable
         $this->fresh = $this->option('fresh');
 
         SeriesDispatchJob::dispatch($this->fresh);
-        $this->call(CleanCommand::class);
-        $this->call(ScoutResetCommand::class);
 
         return Command::SUCCESS;
     }

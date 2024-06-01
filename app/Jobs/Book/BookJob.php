@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Book;
 
 use App\Engines\Book\BookEngine;
 use App\Engines\Book\File\BookFileItem;

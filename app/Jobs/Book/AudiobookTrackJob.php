@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Book;
 
 use App\Engines\Book\BookUtils;
 use App\Engines\Book\Converter\Modules\AuthorModule;
@@ -83,6 +83,12 @@ class AudiobookTrackJob implements ShouldQueue
             volume: $this->main->volume,
             year: $this->main->publish_date?->year,
         );
+        $exists = Book::query()->where('slug', $meta->getSlug())->exists();
+
+        if ($exists) {
+            return;
+        }
+
         $book = Book::query()->create([
             'title' => $this->main->title,
             'slug' => $meta->getSlug(),

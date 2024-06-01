@@ -47,8 +47,6 @@ class AuthorsCommand extends Commandable
         $this->fresh = $this->option('fresh');
 
         AuthorsDispatchJob::dispatch($this->fresh);
-        $this->call(CleanCommand::class);
-        $this->call(ScoutResetCommand::class);
 
         return Command::SUCCESS;
     }

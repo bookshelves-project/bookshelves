@@ -34,10 +34,9 @@ class AuthorConverter
     {
         $this->author->deleteCover();
 
-        Journal::info("Wikipedia: author {$this->author->name}");
-
         $lang = BookUtils::selectLang($this->author->books);
         $wikipedia = Wikipedia::make($this->author->name)->language($lang);
+        $this->author->wikipedia_parsed_at = now();
 
         if (Bookshelves::authorWikipediaExact()) {
             $wikipedia->exact();
@@ -46,8 +45,17 @@ class AuthorConverter
         $wikipedia->withImage()
             ->get();
 
+        $exists = $wikipedia->isAvailable();
+        Journal::info("Wikipedia: author {$this->author->name} ".($exists ? 'exists' : 'not found')." in {$lang}");
+
+        if (! $exists) {
+            $this->author->save();
+
+            return $this;
+        }
+
         $item = $wikipedia->getItem();
-        $this->author->wikipedia_parsed_at = now();
+        $this->author->wikipedia_exists = $exists;
 
         if (! $item) {
             $this->author->save();
