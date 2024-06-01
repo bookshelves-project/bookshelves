@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Book;
 
-use App\Console\Commands\Bookshelves\AudiobookTracksCommand;
+use App\Console\Commands\Bookshelves\AudiobooksCommand;
 use App\Engines\Book\File\BookFileItem;
 use App\Jobs\Clean\CleanDispatchJob;
 use App\Models\File;
@@ -64,7 +64,7 @@ class BooksDispatchJob implements ShouldQueue
         }
 
         if ($this->library->is_audiobook) {
-            Artisan::call(AudiobookTracksCommand::class, [
+            Artisan::call(AudiobooksCommand::class, [
                 'library-slug' => $this->library->slug,
             ]);
         }

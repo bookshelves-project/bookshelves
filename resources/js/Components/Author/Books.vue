@@ -27,7 +27,7 @@ const { ucfirst } = useUtils()
         >
           <dd class="mt-1 text-sm leading-6 sm:mt-0">
             <div class="text-xl font-semibold">
-              {{ lib.name }} ({{ lib.models.length }})
+              {{ ucfirst(type) }}s in {{ lib.name }} ({{ lib.models.length }})
             </div>
             <div class="books-grid mt-6">
               <template v-if="type === 'book'">

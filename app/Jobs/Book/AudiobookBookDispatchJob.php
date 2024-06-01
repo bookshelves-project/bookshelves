@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class AudiobookTrackDispatchJob implements ShouldQueue
+class AudiobookBookDispatchJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -31,7 +31,7 @@ class AudiobookTrackDispatchJob implements ShouldQueue
         /** @var ?Library */
         $library = Library::query()->where('slug', $this->librarySlug)->first();
         if (! $library || ! $library->is_audiobook) {
-            Journal::warning("AudiobookTracksCommand: no library found with slug {$this->librarySlug} or not an audiobook library");
+            Journal::warning("AudiobookBookDispatchJob: no library found with slug {$this->librarySlug} or not an audiobook library");
 
             return;
         }
@@ -43,13 +43,13 @@ class AudiobookTrackDispatchJob implements ShouldQueue
             ->groupBy(['slug']);
 
         if ($tracks->isEmpty()) {
-            Journal::debug("AudiobookTracksCommand: no new tracks detected in {$library->name}");
+            Journal::debug("AudiobookBookDispatchJob: no new tracks detected in {$library->name}");
 
             return;
         }
 
         foreach ($tracks as $audiobook) {
-            AudiobookTrackJob::dispatch($audiobook, $library);
+            AudiobookBookJob::dispatch($audiobook, $library);
         }
     }
 }

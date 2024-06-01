@@ -2,19 +2,18 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Jobs\Book\AudiobookTrackDispatchJob;
+use App\Jobs\Book\AudiobookBookDispatchJob;
 use Kiwilan\Steward\Commands\Commandable;
 
-class AudiobookTracksCommand extends Commandable
+class AudiobooksCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:audiobook-tracks
-                            {library-slug : Library slug to parse}
-                            {--f|fresh : Reset audiobooks tracks}';
+    protected $signature = 'bookshelves:audiobooks
+                            {library-slug : Library slug to parse}';
 
     /**
      * The console command description.
@@ -31,8 +30,7 @@ class AudiobookTracksCommand extends Commandable
         $this->title();
 
         $librarySlug = (string) $this->argument('library-slug');
-        $fresh = $this->option('fresh') ?: false;
 
-        AudiobookTrackDispatchJob::dispatch($librarySlug);
+        AudiobookBookDispatchJob::dispatch($librarySlug);
     }
 }

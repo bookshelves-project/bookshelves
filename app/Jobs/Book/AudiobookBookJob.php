@@ -25,7 +25,7 @@ use Kiwilan\Ebook\Models\MetaTitle;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\SpatieMedia;
 
-class AudiobookTrackJob implements ShouldQueue
+class AudiobookBookJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -48,14 +48,14 @@ class AudiobookTrackJob implements ShouldQueue
     public function handle(): void
     {
         if ($this->tracks->isEmpty()) {
-            Journal::warning('AudiobookTracksCommand: no tracks detected');
+            Journal::warning('AudiobookBookJob: no tracks detected');
 
             return;
         }
 
         $main = $this->tracks->first();
         if (! $main) {
-            Journal::warning('AudiobookTracksCommand: no tracks detected');
+            Journal::warning('AudiobookBookJob: no tracks detected');
 
             return;
         }
@@ -63,7 +63,7 @@ class AudiobookTrackJob implements ShouldQueue
         $this->main = $main;
 
         if (! $this->main->title) {
-            Journal::error('AudiobookTrackJob: book title is required.');
+            Journal::error('AudiobookBookJob: book title is required.');
 
             return;
         }
@@ -128,7 +128,7 @@ class AudiobookTrackJob implements ShouldQueue
             $book->language()->associate($language);
             $book->saveWithoutSyncingToSearch();
         } else {
-            Journal::warning("AudiobookJob : Language not found for {$book->title}", [
+            Journal::warning("AudiobookBookJob: Language not found for {$book->title}", [
                 'audiobook' => $this->main->toArray(),
             ]);
         }
@@ -160,7 +160,7 @@ class AudiobookTrackJob implements ShouldQueue
         if (file_exists($coverPath)) {
             $contents = file_get_contents($coverPath);
         } else {
-            Journal::warning("AudiobookJob : Cover not found for {$book->title}", [
+            Journal::warning("AudiobookBookJob: Cover not found for {$book->title}", [
                 'audiobook' => $this->main->toArray(),
             ]);
         }
