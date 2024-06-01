@@ -6,6 +6,7 @@ use App\Models\Library;
 use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Cache;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class LibraryObserver
 {
@@ -70,9 +71,12 @@ class LibraryObserver
         $library->saveQuietly();
 
         if (! $exists) {
+            $msg = "Library {$library->name} path not found";
             Notification::make()
-                ->title("Library {$library->name} path not found")
+                ->title($msg)
+                ->color('red')
                 ->sendToDatabase(User::getCurrentUser());
+            Journal::warning($msg);
         }
     }
 }

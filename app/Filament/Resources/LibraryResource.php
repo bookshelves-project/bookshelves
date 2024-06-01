@@ -44,7 +44,7 @@ class LibraryResource extends Resource
                 FilamentLayout::column([
                     FilamentLayout::section([
                         Components\TextInput::make('slug')
-                            ->unique()
+                            ->unique(ignoreRecord: true)
                             ->helperText('Used for URL'),
                         Components\Toggle::make('is_enabled')
                             ->default(true)
