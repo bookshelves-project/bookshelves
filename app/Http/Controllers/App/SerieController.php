@@ -28,7 +28,17 @@ class SerieController extends Controller
             ->withCount(['books'])
             ->firstOrFail();
 
-        $serie->loadMissing(['books', 'books.media', 'books.serie', 'books.language', 'books.library', 'media', 'library']);
+        $serie->loadMissing([
+            'books',
+            'books.media',
+            'books.serie',
+            'books.language',
+            'books.library',
+            'authors',
+            'media',
+            'library',
+            'tags',
+        ]);
 
         return inertia('Series/Show', [
             'serie' => $serie,

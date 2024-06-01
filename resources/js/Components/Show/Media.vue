@@ -32,11 +32,17 @@ function downloadBook() {
         }"
         class="book-shadow block overflow-hidden bg-gray-900 rounded-md col-span-2"
       >
-        <AppImg
-          class="object-cover h-full w-full"
-          :src="cover"
-          :alt="title"
-        />
+        <a
+          :href="cover"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <AppImg
+            class="object-cover h-full w-full"
+            :src="cover"
+            :alt="title"
+          />
+        </a>
       </div>
       <section class="col-span-4">
         <div>
