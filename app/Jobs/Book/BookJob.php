@@ -63,6 +63,7 @@ class BookJob implements ShouldQueue
             'mime_type' => $bookFile->mimeType(),
             'size' => $bookFile->size(),
             'is_audiobook' => $bookFile->isAudio(),
+            'date_added' => $bookFile->dateAdded(),
             'library_id' => $bookFile->libraryId(),
         ];
 

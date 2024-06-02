@@ -1,10 +1,34 @@
 <script lang="ts" setup>
+import { useFetch } from '@kiwilan/typescriptable-laravel'
+
 const props = defineProps<{
   author: App.Models.Author
 }>()
 
+const booksCount = ref(props.author.books_count)
+const seriesCount = ref(props.author.series_count)
+
 const title = computed(() => {
   return `${props.author.name}`
+})
+
+async function fetchItems() {
+  if (props.author.books_count && props.author.series_count) {
+    booksCount.value = props.author.books_count
+    seriesCount.value = props.author.series_count
+    return
+  }
+
+  const { laravel } = useFetch()
+  const response = await laravel.get('api.authors.counts', { author: props.author.slug })
+  const body = await response.json()
+
+  booksCount.value = body.data.books
+  seriesCount.value = body.data.serie
+}
+
+onMounted(() => {
+  fetchItems()
 })
 </script>
 
@@ -23,10 +47,10 @@ const title = computed(() => {
       {{ author.name }}
     </template>
     <template
-      v-if="author.books_count || author.series_count"
+      v-if="booksCount || seriesCount"
       #extra
     >
-      {{ author.books_count }} books, {{ author.series_count }} series
+      {{ booksCount }} books, {{ seriesCount }} series
     </template>
   </CardModel>
 </template>

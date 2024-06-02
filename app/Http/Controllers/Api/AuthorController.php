@@ -26,6 +26,19 @@ class AuthorController extends Controller
         ]);
     }
 
+    #[Get('/authors/{author:slug}/counts', name: 'api.authors.counts')]
+    public function counts(Request $request, Author $author)
+    {
+        $author->loadCount(['books', 'series']);
+
+        return response()->json([
+            'data' => [
+                'books' => $author->books_count,
+                'series' => $author->series_count,
+            ],
+        ]);
+    }
+
     private function getAuthorBooks(Author $author, string $model): array
     {
         if ($model === 'books') {

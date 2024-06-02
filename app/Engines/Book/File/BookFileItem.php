@@ -3,6 +3,7 @@
 namespace App\Engines\Book\File;
 
 use App\Enums\BookFormatEnum;
+use DateTime;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class BookFileItem
@@ -15,6 +16,7 @@ class BookFileItem
         protected string $extension,
         protected ?string $mimeType = null,
         protected int $size = 0,
+        protected ?DateTime $dateAdded = null,
         protected bool $isAudio = false,
     ) {
     }
@@ -58,6 +60,7 @@ class BookFileItem
             extension: pathinfo($path, PATHINFO_EXTENSION),
             // mimeType: mime_content_type($path),
             size: filesize($path),
+            dateAdded: filemtime($path) ? new DateTime('@'.filemtime($path)) : null,
         );
 
         if ($format === BookFormatEnum::audio) {
@@ -100,6 +103,11 @@ class BookFileItem
     public function size(): int
     {
         return $this->size;
+    }
+
+    public function dateAdded(): ?DateTime
+    {
+        return $this->dateAdded;
     }
 
     public function isAudio(): bool

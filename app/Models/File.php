@@ -20,14 +20,16 @@ class File extends Model
         'format',
         'mime_type',
         'size',
+        'date_added',
         'is_audiobook',
         'library_id',
     ];
 
     protected $casts = [
-        'size' => 'integer',
-        'is_audiobook' => 'boolean',
         'format' => BookFormatEnum::class,
+        'size' => 'integer',
+        'date_added' => 'datetime',
+        'is_audiobook' => 'boolean',
     ];
 
     protected $appends = [
