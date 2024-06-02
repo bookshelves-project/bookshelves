@@ -61,6 +61,7 @@ class Book extends Model implements HasMedia
         'released_on',
         'created_at',
         'updated_at',
+        'added_at',
     ];
 
     protected $query_limit = 32;
@@ -76,6 +77,7 @@ class Book extends Model implements HasMedia
         'volume',
         'page_count',
         'is_hidden',
+        'is_selected',
         'isbn10',
         'isbn13',
         'identifiers',
@@ -97,6 +99,7 @@ class Book extends Model implements HasMedia
         'audiobook_narrators' => 'array',
         'audiobook_chapters' => 'array',
         'is_hidden' => 'boolean',
+        'is_selected' => 'boolean',
         'identifiers' => 'array',
         'volume' => 'float',
         'page_count' => 'integer',
@@ -154,8 +157,7 @@ class Book extends Model implements HasMedia
 
     public function scopePublishedBetween(Builder $query, string $startDate, string $endDate): Builder
     {
-        return $query
-            ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)]);
+        return $query->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)]);
     }
 
     public function scopeWhereLibraryIs(Builder $query, Library $library): Builder

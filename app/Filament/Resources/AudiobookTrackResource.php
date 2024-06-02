@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class AudiobookTrackResource extends Resource
 {
@@ -29,10 +30,22 @@ class AudiobookTrackResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('library.name')
+                    ->badge()
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('book.title')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('serie')
+                    ->suffix(fn (AudiobookTrack $track) => $track->volume ? " #{$track->volume}" : null)
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('file.extension')
+                    ->badge()
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('narrators')
@@ -40,8 +53,6 @@ class AudiobookTrackResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('authors')
                     ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('volume')
                     ->sortable(),
             ])
             ->filters([
@@ -62,6 +73,11 @@ class AudiobookTrackResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['library', 'file', 'book']);
     }
 
     public static function getPages(): array

@@ -79,7 +79,9 @@ class BookResource extends Resource
                 Tables\Columns\TextColumn::make('released_on')
                     ->dateTime('d/m/Y')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('description')
                     ->limit(50)
                     ->searchable()
@@ -98,6 +100,10 @@ class BookResource extends Resource
                 Tables\Columns\TextColumn::make('language.name')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\ToggleColumn::make('is_selected')
+                    ->sortable(),
+                Tables\Columns\ToggleColumn::make('is_hidden')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('publisher.name')
                     ->searchable()
                     ->toggleable()

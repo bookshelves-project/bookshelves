@@ -22,13 +22,16 @@ defineProps<{
     />
     <Listing
       :query="query"
-      :sortable="[
-        { label: 'Title', value: 'title' },
-        { label: 'Release date', value: 'release_date' },
-        { label: 'Added at', value: 'added_at' },
-        { label: 'Popularity', value: 'popularity' },
-        { label: 'Runtime', value: 'runtime' },
-      ]"
+      :sortable="series
+        ? [
+          { label: 'Title', value: 'title' },
+          { label: 'Added at', value: 'created_at' },
+        ]
+        : [
+          { label: 'Title', value: 'title' },
+          { label: 'Release date', value: 'released_on' },
+          { label: 'Added at', value: 'added_at' },
+        ]"
     >
       <template
         v-if="breadcrumbs"

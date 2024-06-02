@@ -30,7 +30,10 @@ async function fetchItems() {
     console.error('SwiperHome: No response')
   }
 }
-fetchItems()
+
+onMounted(() => {
+  fetchItems()
+})
 </script>
 
 <template>

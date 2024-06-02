@@ -24,7 +24,8 @@ return new class() extends Migration
             $table->string('rights')->nullable();
             $table->float('volume')->nullable();
             $table->integer('page_count')->nullable();
-            $table->boolean('is_hidden')->default(0);
+            $table->boolean('is_hidden')->default(false);
+            $table->boolean('is_selected')->default(false);
             $table->string('isbn10')->nullable();
             $table->string('isbn13')->nullable();
             $table->json('identifiers')->nullable();

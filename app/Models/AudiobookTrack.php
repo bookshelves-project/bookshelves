@@ -58,9 +58,9 @@ class AudiobookTrack extends Model
         'file',
     ];
 
-    public function book(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function book(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasOne(Book::class);
+        return $this->belongsTo(Book::class);
     }
 
     public function library(): \Illuminate\Database\Eloquent\Relations\BelongsTo
