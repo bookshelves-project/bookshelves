@@ -24,4 +24,4 @@ createServer(page => createInertiaApp({
       })
       .mount(el)
   },
-}))
+}), import.meta.env.VITE_SSR_PORT ?? 13714)

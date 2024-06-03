@@ -29,7 +29,6 @@ class SerieController extends Controller
                 title: "{$char}",
                 route: route('opds.series.character', ['character' => $char_lower]),
                 summary: "Series beginning with {$char}",
-                media: asset('vendor/images/no-cover.jpg'),
             );
         }
 
@@ -61,7 +60,6 @@ class SerieController extends Controller
                 title: "{$serie->title} ({$serie->language?->name})",
                 route: route('opds.series.show', ['character' => $character, 'serie' => $serie->slug]),
                 summary: "{$count} books, {$description}",
-                media: $serie->cover_social,
                 updated: $serie->updated_at,
             );
         }

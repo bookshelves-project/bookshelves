@@ -30,7 +30,6 @@ class AuthorController extends Controller
                 title: "{$char}",
                 route: route('opds.authors.character', ['character' => $char_lower]),
                 summary: "Authors beginning with {$char}",
-                media: asset('vendor/images/no-author.jpg'),
             );
         }
 
@@ -60,7 +59,6 @@ class AuthorController extends Controller
                 title: "{$author->lastname}, {$author->firstname}",
                 route: route('opds.authors.show', ['character' => $character, 'author' => $author->slug]),
                 summary: "{$author->books_only_book_count} books",
-                media: $author->cover_social,
                 updated: $author->updated_at,
             );
         }

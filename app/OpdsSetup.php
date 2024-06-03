@@ -48,7 +48,6 @@ class OpdsSetup
                 title: 'Latest books',
                 route: route('opds.latest'),
                 summary: 'Latest books available',
-                media: asset('vendor/images/opds/books.png'),
                 updated: Book::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),
             new OpdsEntryNavigation(
@@ -56,7 +55,6 @@ class OpdsSetup
                 title: 'Authors',
                 route: route('opds.authors.index'),
                 summary: 'Authors in the library',
-                media: asset('vendor/images/opds/authors.png'),
                 updated: Author::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),
             new OpdsEntryNavigation(
@@ -64,7 +62,6 @@ class OpdsSetup
                 title: 'Series',
                 route: route('opds.series.index'),
                 summary: 'Series in the library',
-                media: asset('vendor/images/opds/series.png'),
                 updated: Serie::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),
             new OpdsEntryNavigation(
@@ -72,7 +69,6 @@ class OpdsSetup
                 title: 'Random book',
                 route: route('opds.random'),
                 summary: 'Random book in the library',
-                media: asset('vendor/images/opds/books.png'),
                 updated: Book::query()->orderBy('updated_at', 'desc')->first()?->updated_at,
             ),
         ];
