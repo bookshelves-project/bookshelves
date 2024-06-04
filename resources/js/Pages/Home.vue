@@ -1,8 +1,11 @@
 <script lang="ts" setup>
+import { Head } from '@inertiajs/vue3'
 // import { usePage } from '@inertiajs/vue3'
 
 // const { props } = usePage()
 // console.log(props.ziggy)
+console.log(process.env.NODE_ENV === 'development')
+console.log(window)
 
 const swipers: {
   route?: string
@@ -36,7 +39,17 @@ const swipers: {
 </script>
 
 <template>
-  <App
+  <Head>
+    <title>Your page title</title>
+    <meta
+      name="description"
+      content="Your page description"
+    >
+  </Head>
+  <div>
+    bouyah!
+  </div>
+  <!-- <App
     title="Welcome on Bookshelves"
     icon="home"
   >
@@ -50,5 +63,5 @@ const swipers: {
         :square="swiper.square"
       />
     </div>
-  </App>
+  </App> -->
 </template>

@@ -40,7 +40,12 @@ class SerieConverter
 
         if (! $this->serie->description) {
             $books = $this->serie->load('books')->books;
-            $this->serie->description = $books->first()->description;
+            $volume01 = $books->where('volume', 1)->first();
+            if ($volume01) {
+                $this->serie->description = $volume01->description;
+            } else {
+                $this->serie->description = $books->first()->description;
+            }
             $this->serie->saveWithoutSyncingToSearch();
         }
     }

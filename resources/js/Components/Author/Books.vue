@@ -8,6 +8,7 @@ defineProps<{
     models: App.Models.Book[] | App.Models.Serie[]
   }[]
   type: 'book' | 'serie'
+  title?: string
 }>()
 
 const { ucfirst } = useUtils()
@@ -16,6 +17,7 @@ const { ucfirst } = useUtils()
 <template>
   <section>
     <h2 class="text-3xl font-semibold">
+      <span v-if="title">{{ title }}</span>
       {{ ucfirst(type) }}s of {{ author.name }}
     </h2>
     <div class="mt-6 border-t border-gray-500">

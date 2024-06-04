@@ -11,6 +11,11 @@ const books = ref<{
   models: App.Models.Book[]
 }[]>([])
 
+const booksStandalone = ref<{
+  name: string
+  models: App.Models.Book[]
+}[]>([])
+
 const series = ref<{
   name: string
   models: App.Models.Serie[]
@@ -29,10 +34,10 @@ async function fetchItems(url: string, items: Ref<any>) {
   }
 }
 
-fetchItems(`/api/authors/${props.author.slug}/series`, series)
-
 onMounted(() => {
+  fetchItems(`/api/authors/${props.author.slug}/series`, series)
   fetchItems(`/api/authors/${props.author.slug}/books`, books)
+  fetchItems(`/api/authors/${props.author.slug}/books?standalone=true&`, booksStandalone)
 })
 </script>
 
@@ -63,6 +68,12 @@ onMounted(() => {
             :author="author"
             :library="series"
             type="serie"
+          />
+          <AuthorBooks
+            :author="author"
+            :library="booksStandalone"
+            type="book"
+            title="Standalone"
           />
           <AuthorBooks
             :author="author"

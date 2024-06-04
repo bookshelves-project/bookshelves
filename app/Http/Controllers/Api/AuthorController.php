@@ -14,7 +14,7 @@ class AuthorController extends Controller
     public function books(Request $request, Author $author)
     {
         return response()->json([
-            'data' => $this->getAuthorBooks($author, 'books'),
+            'data' => $this->getAuthorBooks($request, $author, 'books'),
         ]);
     }
 
@@ -22,7 +22,7 @@ class AuthorController extends Controller
     public function series(Request $request, Author $author)
     {
         return response()->json([
-            'data' => $this->getAuthorBooks($author, 'series'),
+            'data' => $this->getAuthorBooks($request, $author, 'series'),
         ]);
     }
 
@@ -39,8 +39,10 @@ class AuthorController extends Controller
         ]);
     }
 
-    private function getAuthorBooks(Author $author, string $model): array
+    private function getAuthorBooks(Request $request, Author $author, string $model): array
     {
+        $standalone = $request->boolean('standalone', false);
+
         if ($model === 'books') {
             $author->loadMissing([
                 'books.library',
@@ -60,7 +62,11 @@ class AuthorController extends Controller
         foreach (Library::all() as $library) {
             $models = [];
             if ($model === 'books') {
-                $models = $author->books->filter(fn ($book) => $book->library?->slug === $library->slug);
+                if ($standalone) {
+                    $models = $author->books->filter(fn ($book) => $book->library?->slug === $library->slug && $book->serie_id === null);
+                } else {
+                    $models = $author->books->filter(fn ($book) => $book->library?->slug === $library->slug);
+                }
             } elseif ($model === 'series') {
                 $models = $author->series->filter(fn ($serie) => $serie->library?->slug === $library->slug);
             }
