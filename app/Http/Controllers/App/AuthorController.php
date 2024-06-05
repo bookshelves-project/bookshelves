@@ -33,7 +33,7 @@ class AuthorController extends Controller
     #[Get('/{author:slug}', name: 'authors.show')]
     public function show(Author $author)
     {
-        $author->loadCount(['books', 'series']);
+        $author->load(['media'])->loadCount(['books', 'series']);
 
         return inertia('Authors/Show', [
             'author' => $author,
