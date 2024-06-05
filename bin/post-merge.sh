@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# php artisan inertia:stop-ssr
+# php8.2 artisan inertia:stop-ssr
 # supervisorctl stop bookshelves-worker
 composer i
 php artisan migrate --force
@@ -12,4 +12,10 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 # supervisorctl start bookshelves-worker
-# php artisan inertia:start-ssr &
+# nohup php8.2 artisan inertia:start-ssr &
+
+# to kill nohup
+# ps aux | grep ssr
+# kill <pid>
+# or
+# php8.2 artisan inertia:stop-ssr
