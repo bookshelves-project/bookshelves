@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Head, Link, router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import ApplicationMark from '@/Components/Jetstream/ApplicationMark.vue'
 import Banner from '@/Components/Jetstream/Banner.vue'
 import Dropdown from '@/Components/Jetstream/Dropdown.vue'

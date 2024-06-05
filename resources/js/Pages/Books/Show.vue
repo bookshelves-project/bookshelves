@@ -23,15 +23,19 @@ const titlePage = computed(() => {
   return `${props.book.title} by ${props.book.authors_names}`
 })
 
-async function getRelatedBooks(): Promise<Entity[]> {
+async function getRelatedBooks(): Promise<Entity[] | undefined> {
   const response = await laravel.get('api.books.related', { book: props.book.slug })
-  return (await response.json()).data
+  const body = await response.getBody<{
+    data: Entity[]
+  }>()
+
+  return body?.data
 }
 
 onMounted(async () => {
   const api = await getSize('book', props.book.id)
-  size.value = bytesToHuman(api.size)
-  extension.value = api.extension
+  size.value = bytesToHuman(api?.size)
+  extension.value = api?.extension
 
   related.value = await getRelatedBooks()
 })

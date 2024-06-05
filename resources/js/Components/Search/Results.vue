@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { useDate, useRouter } from '@kiwilan/typescriptable-laravel'
-import { useUtils } from '@/Composables/useUtils'
+import { useRouter } from '@kiwilan/typescriptable-laravel'
 import type { SearchEntity } from '@/Types'
 
 const props = defineProps<{

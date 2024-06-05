@@ -26,8 +26,8 @@ const { http } = useFetch()
 async function fetchItems(url: string, items: Ref<any>) {
   try {
     const res = await http.get(url)
-    const body = await res.json()
-    items.value = body.data
+    const body = await res.getBody<{ data: App.Models.Book[] | App.Models.Serie[] }>()
+    items.value = body?.data
   }
   catch (error) {
     console.error(`Failed to fetch ${url}`)
@@ -37,7 +37,7 @@ async function fetchItems(url: string, items: Ref<any>) {
 onMounted(() => {
   fetchItems(`/api/authors/${props.author.slug}/series`, series)
   fetchItems(`/api/authors/${props.author.slug}/books`, books)
-  fetchItems(`/api/authors/${props.author.slug}/books?standalone=true&`, booksStandalone)
+  fetchItems(`/api/authors/${props.author.slug}/books?standalone=true`, booksStandalone)
 })
 </script>
 

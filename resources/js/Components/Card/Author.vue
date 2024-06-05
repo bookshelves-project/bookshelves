@@ -21,10 +21,15 @@ async function fetchItems() {
 
   const { laravel } = useFetch()
   const response = await laravel.get('api.authors.counts', { author: props.author.slug })
-  const body = await response.json()
+  const body = await response.getBody<{
+    data: {
+      books: number
+      series: number
+    }
+  }>()
 
-  booksCount.value = body.data.books
-  seriesCount.value = body.data.serie
+  booksCount.value = body?.data.books
+  seriesCount.value = body?.data.series
 }
 
 onMounted(() => {

@@ -1,18 +1,15 @@
-import './bootstrap'
 import '../css/app.css'
 
-import { createApp, h } from 'vue'
 import { createInertiaApp, router } from '@inertiajs/vue3'
 import { SvgTransformerPlugin } from 'unplugin-svg-transformer/vue'
-import { VueTypescriptable, resolve } from '@kiwilan/typescriptable-laravel'
+import { VueTypescriptable, resolvePages, resolveTitle } from '@kiwilan/typescriptable-laravel'
 import NProgress from 'nprogress'
 import { ZiggyVue } from '../../vendor/tightenco/ziggy'
-import './routes'
 import './icons'
 
 createInertiaApp({
-  title: title => `${title} · Kiwiflix`,
-  resolve: name => resolve(name, import.meta.glob('./Pages/**/*.vue')),
+  title: title => resolveTitle(title, 'Kiwiflix'),
+  resolve: name => resolvePages(name, import.meta.glob('./Pages/**/*.vue')),
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
       .use(plugin)

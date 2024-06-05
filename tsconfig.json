@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "lib": ["esnext", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
@@ -18,8 +19,7 @@
     "noImplicitAny": false,
     "sourceMap": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "jsxImportSource": "vue"
+    "skipLibCheck": true
   },
   "include": [
     "resources/**/*.tsx",
