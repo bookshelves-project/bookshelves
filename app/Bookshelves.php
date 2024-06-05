@@ -116,32 +116,40 @@ class Bookshelves
     /**
      * @return array{width: int, height: int}
      */
-    public function imageCoverStandard(): array
+    public function imageCoverStandard(bool $square = false): array
     {
-        return config('bookshelves.image.cover.standard');
+        $suffix = $square ? '_square' : '';
+
+        return config('bookshelves.image.cover.standard'.$suffix);
     }
 
     /**
      * @return array{width: int, height: int}
      */
-    public function imageCoverThumbnail(): array
+    public function imageCoverThumbnail(bool $square = false): array
     {
-        return config('bookshelves.image.cover.thumbnail');
+        $suffix = $square ? '_square' : '';
+
+        return config('bookshelves.image.cover.thumbnail'.$suffix);
     }
 
     /**
      * @return array{width: int, height: int}
      */
-    public function imageCoverSocial(): array
+    public function imageCoverSocial(bool $square = false): array
     {
-        return config('bookshelves.image.cover.social');
+        $suffix = $square ? '_square' : '';
+
+        return config('bookshelves.image.cover.social'.$suffix);
     }
 
     /**
      * @return array{width: int, height: int}
      */
-    public function imageCoverOpds(): array
+    public function imageCoverOpds(bool $square = false): array
     {
-        return config('bookshelves.image.cover.opds');
+        $suffix = $square ? '_square' : '';
+
+        return config('bookshelves.image.cover.opds'.$suffix);
     }
 }

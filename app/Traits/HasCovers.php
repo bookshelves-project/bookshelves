@@ -2,11 +2,13 @@
 
 namespace App\Traits;
 
+use App\Enums\LibraryTypeEnum;
 use App\Facades\Bookshelves;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\MediaExtended;
 use App\Models\Serie;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -44,10 +46,20 @@ trait HasCovers
 
     public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
     {
-        $formatThumbnail = Bookshelves::imageCoverThumbnail();
-        $formatStandard = Bookshelves::imageCoverStandard();
-        $formatSocial = Bookshelves::imageCoverSocial();
-        $formatOpds = Bookshelves::imageCoverOpds();
+        /** @var Model */
+        $model = $this;
+        $isSquare = false;
+        if (property_exists($model, 'library')) {
+            $model->loadMissing('library');
+            if ($model->library && $model->library->type === LibraryTypeEnum::audiobook) {
+                $isSquare = true;
+            }
+        }
+
+        $formatThumbnail = Bookshelves::imageCoverThumbnail($isSquare);
+        $formatStandard = Bookshelves::imageCoverStandard($isSquare);
+        $formatSocial = Bookshelves::imageCoverSocial($isSquare);
+        $formatOpds = Bookshelves::imageCoverOpds($isSquare);
 
         if (Bookshelves::convertCovers()) {
             $this->addMediaConversion(self::CONVERSION_THUMBNAIL)

@@ -98,6 +98,22 @@ return [
                 'width' => 266,
                 'height' => 400,
             ],
+            'standard_square' => [
+                'width' => 800,
+                'height' => 800,
+            ],
+            'thumbnail_square' => [
+                'width' => 400,
+                'height' => 400,
+            ],
+            'social_square' => [
+                'width' => 600,
+                'height' => 600,
+            ],
+            'opds_square' => [
+                'width' => 400,
+                'height' => 400,
+            ],
         ],
     ],
 ];
