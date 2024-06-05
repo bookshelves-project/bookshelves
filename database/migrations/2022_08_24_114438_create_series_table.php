@@ -15,7 +15,7 @@ return new class() extends Migration
             $table->ulid('id')->primary();
 
             $table->string('title');
-            $table->string('slug')->unique()->index();
+            $table->string('slug')->index();
             $table->text('description')->nullable();
             $table->dateTime('api_parsed_at')->nullable();
 
