@@ -59,8 +59,12 @@ onMounted(() => {
         { label: `${author.name}`, route: { name: 'authors.show', params: { author: author.slug } } },
       ]"
       :badges="[
-        `${books.length} books`,
-        `${series.length} series`,
+        `${author.books_count} books`,
+        `${author.series_count} series`,
+      ]"
+      :properties="[
+        `Firstname: ${author.firstname}`,
+        `Lastname: ${author.lastname}`,
       ]"
     >
       <template #swipers>

@@ -57,6 +57,11 @@ function checkImageURL(image?: string) {
 function limitText(text?: string, limit?: number): string {
   if (!text)
     return ''
+
+  if (!limit) {
+    return text
+  }
+
   return text.length > limit ? `${text.substring(0, limit)}...` : text
 }
 

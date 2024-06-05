@@ -5,8 +5,11 @@ const props = defineProps<{
   author: App.Models.Author
 }>()
 
-const booksCount = ref(props.author.books_count)
-const seriesCount = ref(props.author.series_count)
+const booksCount = ref<number>()
+const seriesCount = ref<number>()
+
+booksCount.value = props.author.books_count
+seriesCount.value = props.author.series_count
 
 const title = computed(() => {
   return `${props.author.name}`
@@ -51,11 +54,8 @@ onMounted(() => {
     <template #subtitle>
       {{ author.name }}
     </template>
-    <template
-      v-if="booksCount || seriesCount"
-      #extra
-    >
-      {{ booksCount }} books, {{ seriesCount }} series
+    <template #extra>
+      {{ booksCount ?? 0 }} books, {{ seriesCount ?? 0 }} series
     </template>
   </CardModel>
 </template>
