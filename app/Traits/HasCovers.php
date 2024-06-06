@@ -54,7 +54,6 @@ trait HasCovers
         }
 
         $isSquare = false;
-        $exists = false;
         if ($model instanceof Book || $model instanceof Serie) {
             $model->loadMissing('library');
             if ($model->library && $model->library->type === LibraryTypeEnum::audiobook) {
