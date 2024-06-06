@@ -58,7 +58,7 @@ trait HasCovers
             $name = $model->name;
         } else {
             $model->loadMissing('library');
-            $name = "{$name} ({$model->library->name})";
+            $name = "{$name} ({$model->library?->name})";
         }
 
         // $isAudiobook = false;
@@ -81,35 +81,30 @@ trait HasCovers
             $this->addMediaConversion(self::CONVERSION_THUMBNAIL)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatThumbnail['width'], $formatThumbnail['height'])
-                ->sharpen(10)
                 ->optimize()
                 ->format(Bookshelves::imageFormat());
 
             $this->addMediaConversion(self::CONVERSION_STANDARD)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatStandard['width'], $formatStandard['height'])
-                ->sharpen(10)
                 ->optimize()
                 ->format(Bookshelves::imageFormat());
 
             $this->addMediaConversion(self::CONVERSION_SOCIAL)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatSocial['width'], $formatSocial['height'])
-                ->sharpen(10)
                 ->optimize()
                 ->format('jpg');
 
             $this->addMediaConversion(self::CONVERSION_OPDS)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatOpds['width'], $formatOpds['height'])
-                ->sharpen(10)
                 ->optimize()
                 ->format('jpg');
 
             $this->addMediaConversion(self::CONVERSION_SQUARE)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatSquare['width'], $formatSquare['height'])
-                ->sharpen(10)
                 ->optimize()
                 ->format('jpg');
         }
