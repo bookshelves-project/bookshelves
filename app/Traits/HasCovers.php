@@ -54,8 +54,10 @@ trait HasCovers
         }
 
         $isSquare = false;
+        $exists = false;
         if (property_exists($model, 'library')) {
             $model->loadMissing('library');
+            $exists = $model->library !== null;
             if ($model->library && $model->library->type === LibraryTypeEnum::audiobook) {
                 $isSquare = true;
             }
@@ -71,6 +73,7 @@ trait HasCovers
             'standard' => $formatStandard,
             'social' => $formatSocial,
             'opds' => $formatOpds,
+            'exists' => $exists,
             'model' => $model->toArray(),
             'media' => $media->toArray(),
         ]);
