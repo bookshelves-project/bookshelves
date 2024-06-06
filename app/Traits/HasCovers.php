@@ -56,15 +56,18 @@ trait HasCovers
         $name = $model->title;
         if ($model instanceof Author) {
             $name = $model->name;
+        } else {
+            $model->loadMissing('library');
+            $name = "{$name} ({$model->library->name})";
         }
 
-        $isAudiobook = false;
-        if ($model instanceof Book || $model instanceof Serie) {
-            $model->loadMissing('library');
-            if ($model->library && $model->library->type === LibraryTypeEnum::audiobook) {
-                $isAudiobook = true;
-            }
-        }
+        // $isAudiobook = false;
+        // if ($model instanceof Book || $model instanceof Serie) {
+        //     $model->loadMissing('library');
+        //     if ($model->library && $model->library->type === LibraryTypeEnum::audiobook) {
+        //         $isAudiobook = true;
+        //     }
+        // }
 
         $formatThumbnail = Bookshelves::imageCoverThumbnail();
         $formatStandard = Bookshelves::imageCoverStandard();
@@ -72,7 +75,7 @@ trait HasCovers
         $formatOpds = Bookshelves::imageCoverOpds();
         $formatSquare = Bookshelves::imageCoverSquare();
 
-        Journal::debug('Registering media conversions for '.$media->getModel()->model_type.' '.$name);
+        Journal::debug('Registering media conversions for '.$name);
 
         if (Bookshelves::convertCovers()) {
             $this->addMediaConversion(self::CONVERSION_THUMBNAIL)
@@ -103,14 +106,12 @@ trait HasCovers
                 ->optimize()
                 ->format('jpg');
 
-            if ($isAudiobook) {
-                $this->addMediaConversion(self::CONVERSION_SQUARE)
-                    ->performOnCollections(Bookshelves::imageCollection())
-                    ->fit(Fit::Crop, $formatSquare['width'], $formatSquare['height'])
-                    ->sharpen(10)
-                    ->optimize()
-                    ->format('jpg');
-            }
+            $this->addMediaConversion(self::CONVERSION_SQUARE)
+                ->performOnCollections(Bookshelves::imageCollection())
+                ->fit(Fit::Crop, $formatSquare['width'], $formatSquare['height'])
+                ->sharpen(10)
+                ->optimize()
+                ->format('jpg');
         }
     }
 
