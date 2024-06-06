@@ -109,8 +109,6 @@ export function usePagination(models: App.Paginate) {
     nextPage.value = models.next_page_url ? `${models.next_page_url}&${getQuery()}` : undefined
   }
 
-  // paginate()
-
   function convertUrl(queryName: string, queryValue: number | string) {
     let currentUrl = window?.location.href
     if (currentUrl.includes(`${queryName}=`))
@@ -129,6 +127,10 @@ export function usePagination(models: App.Paginate) {
 
   const previousPageLink = computed((): string => {
     return convertUrl('page', models.current_page - 1)
+  })
+
+  onMounted(() => {
+    paginate()
   })
 
   return {
