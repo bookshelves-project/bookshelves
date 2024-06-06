@@ -1,4 +1,4 @@
-import { useForm } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
 export interface Query<T = any> extends App.Paginate<T> {
@@ -28,7 +28,13 @@ export function useQuery<T>(propQuery: App.Paginate<T>, prop: string = 'query') 
    * Set the sort value to the query.
    */
   function initializeSort() {
-    const query = new URLSearchParams(window?.location.search)
+    const { url } = usePage()
+    let search: string | undefined
+    if (url.includes('?')) {
+      search = `?${url.split('?')[1]}`
+    }
+
+    const query = new URLSearchParams(search)
     const querySort = query.get('sort')
     if (querySort)
       sort.value = querySort
@@ -170,9 +176,7 @@ export function useQuery<T>(propQuery: App.Paginate<T>, prop: string = 'query') 
     }
   }
 
-  onMounted(() => {
-    initializeSort()
-  })
+  initializeSort()
 
   return {
     query: current,

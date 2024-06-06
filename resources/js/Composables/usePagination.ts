@@ -136,9 +136,7 @@ export function usePagination(models: App.Paginate) {
     return convertUrl('page', models.current_page - 1)
   })
 
-  onMounted(() => {
-    // paginate()
-  })
+  paginate()
 
   return {
     pages,
