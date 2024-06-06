@@ -40,7 +40,7 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
             </div>
           </template>
         </JetstreamDropdown> -->
-        <JetstreamDropdown align="left">
+        <!-- <JetstreamDropdown align="left">
           <template #trigger>
             <button class="action-btn">
               <span>Sort by</span>
@@ -62,8 +62,8 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
               </button>
             </div>
           </template>
-        </JetstreamDropdown>
-        <button
+        </JetstreamDropdown> -->
+        <!-- <button
           class="flex self-stretch rounded-md px-2 py-1 hover:bg-gray-700"
           @click="sortReverse"
         >
@@ -74,9 +74,9 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
             }"
             class="inline-block h-4 w-4 transition-transform duration-200 m-auto"
           />
-        </button>
+        </button> -->
       </div>
-      <div
+      <!-- <div
         v-if="total"
         class="text-gray-400"
       >
@@ -87,7 +87,7 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
         class="text-gray-400"
       >
         No elements
-      </div>
+      </div> -->
     </div>
     <ul
       class="books-grid mt-6"
