@@ -121,13 +121,13 @@ export function usePagination(models: App.Paginate) {
     return currentUrl
   }
 
-  const nextPageLink = computed((): string => {
+  function nextPageLink(): string {
     return convertUrl('page', models.current_page + 1)
-  })
+  }
 
-  const previousPageLink = computed((): string => {
+  function previousPageLink(): string {
     return convertUrl('page', models.current_page - 1)
-  })
+  }
 
   onMounted(() => {
     // paginate()
