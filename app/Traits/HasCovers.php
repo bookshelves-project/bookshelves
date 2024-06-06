@@ -73,6 +73,7 @@ trait HasCovers
             'opds' => $formatOpds,
             'model_type' => $model->library?->type,
             'is_square' => $model->library?->type === LibraryTypeEnum::audiobook,
+            'isSquare' => $isSquare,
         ]);
 
         if (Bookshelves::convertCovers()) {
