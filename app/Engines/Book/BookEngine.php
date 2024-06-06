@@ -65,7 +65,7 @@ class BookEngine
     {
         $base_path = storage_path('app/debug');
         if (! file_exists($base_path)) {
-            mkdir($base_path, 0755, true);
+            mkdir($base_path, 0775, true);
         }
 
         try {

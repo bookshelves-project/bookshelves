@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Facades\Bookshelves;
+use App\Jobs\Clean\AnalyzeCleanJob;
 use App\Models\Library;
 use App\Models\Tag;
 use Illuminate\Console\Command;
@@ -59,11 +60,6 @@ class AnalyzeCommand extends Commandable
         $this->comment('Limit: '.($this->limit ?: 'no limit'));
         $this->newLine();
 
-        $this->info('Clean cache...');
-        DirectoryService::make()->clearDirectory(Library::getJsonDirectory());
-        DirectoryService::make()->clearDirectory(storage_path('app/public/covers'));
-        $this->newLine();
-
         if ($this->fresh) {
             $this->info('Clear database... (fresh mode)');
             $this->clear();
@@ -73,6 +69,8 @@ class AnalyzeCommand extends Commandable
             $this->genres();
             $this->newLine();
         }
+
+        AnalyzeCleanJob::dispatch();
 
         $this->info('Parse libraries...');
         foreach (Library::inOrder() as $library) {
