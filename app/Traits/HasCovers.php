@@ -9,6 +9,7 @@ use App\Models\Book;
 use App\Models\MediaExtended;
 use App\Models\Serie;
 use Illuminate\Database\Eloquent\Model;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -60,6 +61,13 @@ trait HasCovers
         $formatStandard = Bookshelves::imageCoverStandard($isSquare);
         $formatSocial = Bookshelves::imageCoverSocial($isSquare);
         $formatOpds = Bookshelves::imageCoverOpds($isSquare);
+
+        Journal::warning('Registering media conversions for '.$this->title, [
+            'thumbnail' => $formatThumbnail,
+            'standard' => $formatStandard,
+            'social' => $formatSocial,
+            'opds' => $formatOpds,
+        ]);
 
         if (Bookshelves::convertCovers()) {
             $this->addMediaConversion(self::CONVERSION_THUMBNAIL)
