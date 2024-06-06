@@ -8,8 +8,8 @@ const props = defineProps<{
 }>()
 
 const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<App.Models.Book>(props.query)
-// const { nextPageLink } = usePagination(props.query)
-// const pagination = [10, 25, 50, 100]
+const { nextPageLink } = usePagination(props.query)
+const pagination = [10, 25, 50, 100]
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
     <slot name="breadcrumbs" />
     <div class="flex items-center justify-between">
       <div class="flex items-center space-x-1">
-        <!-- <JetstreamDropdown align="left">
+        <JetstreamDropdown align="left">
           <template #trigger>
             <button class="action-btn">
               <span>Per page</span>
@@ -39,8 +39,8 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
               </button>
             </div>
           </template>
-        </JetstreamDropdown> -->
-        <!-- <JetstreamDropdown align="left">
+        </JetstreamDropdown>
+        <JetstreamDropdown align="left">
           <template #trigger>
             <button class="action-btn">
               <span>Sort by</span>
@@ -62,8 +62,8 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
               </button>
             </div>
           </template>
-        </JetstreamDropdown> -->
-        <!-- <button
+        </JetstreamDropdown>
+        <button
           class="flex self-stretch rounded-md px-2 py-1 hover:bg-gray-700"
           @click="sortReverse"
         >
@@ -74,9 +74,9 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
             }"
             class="inline-block h-4 w-4 transition-transform duration-200 m-auto"
           />
-        </button> -->
+        </button>
       </div>
-      <!-- <div
+      <div
         v-if="total"
         class="text-gray-400"
       >
@@ -87,7 +87,7 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
         class="text-gray-400"
       >
         No elements
-      </div> -->
+      </div>
     </div>
     <ul
       class="books-grid mt-6"
@@ -95,7 +95,7 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
     >
       <slot />
     </ul>
-    <!-- <ILink
+    <ILink
       v-if="request?.current_page !== request?.last_page"
       :href="nextPageLink"
       class="flex bg-gray-800 hover:bg-gray-700 h-16 w-full relative mt-10 rounded-md items-center justify-center space-x-2 animate-pulse"
@@ -105,7 +105,7 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
         name="arrow-right"
         class="h-5 w-5 text-gray-400"
       />
-    </ILink> -->
+    </ILink>
     <div
       v-if="request?.total === 0"
       class="relative flex w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center"
