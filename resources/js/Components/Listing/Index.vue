@@ -8,8 +8,8 @@ const props = defineProps<{
 }>()
 
 const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<App.Models.Book>(props.query)
-const { nextPageLink } = usePagination(props.query)
-const pagination = [10, 25, 50, 100]
+// const { nextPageLink } = usePagination(props.query)
+// const pagination = [10, 25, 50, 100]
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const pagination = [10, 25, 50, 100]
     <slot name="breadcrumbs" />
     <div class="flex items-center justify-between">
       <div class="flex items-center space-x-1">
-        <JetstreamDropdown align="left">
+        <!-- <JetstreamDropdown align="left">
           <template #trigger>
             <button class="action-btn">
               <span>Per page</span>
@@ -39,7 +39,7 @@ const pagination = [10, 25, 50, 100]
               </button>
             </div>
           </template>
-        </JetstreamDropdown>
+        </JetstreamDropdown> -->
         <JetstreamDropdown align="left">
           <template #trigger>
             <button class="action-btn">
@@ -95,7 +95,7 @@ const pagination = [10, 25, 50, 100]
     >
       <slot />
     </ul>
-    <ILink
+    <!-- <ILink
       v-if="request?.current_page !== request?.last_page"
       :href="nextPageLink"
       class="flex bg-gray-800 hover:bg-gray-700 h-16 w-full relative mt-10 rounded-md items-center justify-center space-x-2 animate-pulse"
@@ -105,7 +105,7 @@ const pagination = [10, 25, 50, 100]
         name="arrow-right"
         class="h-5 w-5 text-gray-400"
       />
-    </ILink>
+    </ILink> -->
     <div
       v-if="request?.total === 0"
       class="relative flex w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center"
