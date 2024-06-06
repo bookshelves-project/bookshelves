@@ -66,11 +66,13 @@ trait HasCovers
         $formatSocial = Bookshelves::imageCoverSocial($isSquare);
         $formatOpds = Bookshelves::imageCoverOpds($isSquare);
 
-        Journal::warning('Registering media conversions for '.$media->getModel()->model_type.' '.$name, [
+        Journal::debug('Registering media conversions for '.$media->getModel()->model_type.' '.$name, [
             'thumbnail' => $formatThumbnail,
             'standard' => $formatStandard,
             'social' => $formatSocial,
             'opds' => $formatOpds,
+            'model' => $media->getModel()->toArray(),
+            'media' => $media->toArray(),
         ]);
 
         if (Bookshelves::convertCovers()) {
