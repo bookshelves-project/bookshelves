@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Enums\LibraryTypeEnum;
 use App\Facades\Bookshelves;
 use App\Models\Author;
 use App\Models\Book;
@@ -60,14 +59,6 @@ trait HasCovers
             $model->loadMissing('library');
             $name = "{$name} ({$model->library?->name})";
         }
-
-        // $isAudiobook = false;
-        // if ($model instanceof Book || $model instanceof Serie) {
-        //     $model->loadMissing('library');
-        //     if ($model->library && $model->library->type === LibraryTypeEnum::audiobook) {
-        //         $isAudiobook = true;
-        //     }
-        // }
 
         $formatThumbnail = Bookshelves::imageCoverThumbnail();
         $formatStandard = Bookshelves::imageCoverStandard();

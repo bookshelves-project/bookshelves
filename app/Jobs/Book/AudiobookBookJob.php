@@ -165,6 +165,9 @@ class AudiobookBookJob implements ShouldQueue
             ]);
         }
 
+        $book->library()->associate($this->library);
+        $book->saveWithoutSyncingToSearch();
+
         if ($contents) {
             SpatieMedia::make($book)
                 ->addMediaFromString($contents)
@@ -183,7 +186,6 @@ class AudiobookBookJob implements ShouldQueue
 
         $book->audiobookTracks()->saveMany($this->tracks);
         $book->authorMain()->associate($book->authors[0] ?? null);
-        $book->library()->associate($this->library);
 
         if ($serie) {
             /** @var Serie $serie */
