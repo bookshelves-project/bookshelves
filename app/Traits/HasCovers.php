@@ -71,7 +71,7 @@ trait HasCovers
             'standard' => $formatStandard,
             'social' => $formatSocial,
             'opds' => $formatOpds,
-            'model' => $media->getModel()->toArray(),
+            'model' => $model->toArray(),
             'media' => $media->toArray(),
         ]);
 
