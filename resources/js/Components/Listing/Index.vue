@@ -6,7 +6,7 @@ const props = defineProps<{
   sortable?: { label: string, value: string }[]
 }>()
 
-// const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<App.Models.Book>(props.query)
+const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<App.Models.Book>(props.query)
 // const { nextPageLink } = usePagination(props.query)
 // const pagination = [10, 25, 50, 100]
 </script>
