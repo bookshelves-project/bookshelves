@@ -8,7 +8,6 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\MediaExtended;
 use App\Models\Serie;
-use Illuminate\Database\Eloquent\Model;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -47,7 +46,6 @@ trait HasCovers
 
     public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
     {
-        /** @var Model */
         $model = $media->getModel();
         $isSquare = false;
         if (property_exists($model, 'library')) {
