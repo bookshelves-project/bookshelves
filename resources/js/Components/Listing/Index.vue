@@ -118,12 +118,12 @@ const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Ap
         <span class="mt-2 block text-sm font-semibold text-gray-100 mx-auto">No elements</span>
       </div>
     </div>
-    <div
+    <!-- <div
       v-if="request && request.last_page > 1"
       class="mt-12"
     >
       <ListingPagination :query="request" />
-    </div>
+    </div> -->
   </section>
 </template>
 
