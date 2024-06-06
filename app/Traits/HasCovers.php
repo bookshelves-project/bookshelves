@@ -81,32 +81,27 @@ trait HasCovers
             $this->addMediaConversion(self::CONVERSION_THUMBNAIL)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatThumbnail['width'], $formatThumbnail['height'])
-                ->optimize()
                 ->format(Bookshelves::imageFormat());
 
             $this->addMediaConversion(self::CONVERSION_STANDARD)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatStandard['width'], $formatStandard['height'])
-                ->optimize()
                 ->format(Bookshelves::imageFormat());
 
             $this->addMediaConversion(self::CONVERSION_SOCIAL)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatSocial['width'], $formatSocial['height'])
-                ->optimize()
                 ->format('jpg');
 
             $this->addMediaConversion(self::CONVERSION_OPDS)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatOpds['width'], $formatOpds['height'])
-                ->optimize()
                 ->format('jpg');
 
             $this->addMediaConversion(self::CONVERSION_SQUARE)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatSquare['width'], $formatSquare['height'])
-                ->optimize()
-                ->format('jpg');
+                ->format(Bookshelves::imageFormat());
         }
     }
 
