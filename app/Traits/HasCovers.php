@@ -46,9 +46,8 @@ trait HasCovers
 
     public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
     {
-        $model_id = $media->getModel()->model_id;
         /** @var Book|Author|Serie $model */
-        $model = $media->getModel()->model_type::find($model_id);
+        $model = $media->getModel()->model_type::find($media->getModel()->model_id);
 
         $isSquare = false;
         if (property_exists($model, 'library')) {
@@ -63,12 +62,11 @@ trait HasCovers
         $formatSocial = Bookshelves::imageCoverSocial($isSquare);
         $formatOpds = Bookshelves::imageCoverOpds($isSquare);
 
-        Journal::warning('Registering media conversions for '.$this->title, [
+        Journal::warning('Registering media conversions for '.$media->getModel()->model_type.' '.$model->title ?? $model->name, [
             'thumbnail' => $formatThumbnail,
             'standard' => $formatStandard,
             'social' => $formatSocial,
             'opds' => $formatOpds,
-            'model' => $model->toArray(),
         ]);
 
         if (Bookshelves::convertCovers()) {
