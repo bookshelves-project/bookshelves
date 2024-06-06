@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { usePagination, useQuery } from '@kiwilan/typescriptable-laravel'
+import { usePagination } from '@kiwilan/typescriptable-laravel'
+import { useQuery } from '@/Composables/useQuery'
 
 const props = defineProps<{
   query: App.Paginate<any>
