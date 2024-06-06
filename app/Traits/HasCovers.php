@@ -48,6 +48,10 @@ trait HasCovers
     {
         /** @var Book|Author|Serie $model */
         $model = $media->getModel()->model_type::find($media->getModel()->model_id);
+        $name = $model->title;
+        if ($model instanceof Author) {
+            $name = $model->name;
+        }
 
         $isSquare = false;
         if (property_exists($model, 'library')) {
@@ -62,7 +66,7 @@ trait HasCovers
         $formatSocial = Bookshelves::imageCoverSocial($isSquare);
         $formatOpds = Bookshelves::imageCoverOpds($isSquare);
 
-        Journal::warning('Registering media conversions for '.$media->getModel()->model_type.' '.$model->title ?? $model->name, [
+        Journal::warning('Registering media conversions for '.$media->getModel()->model_type.' '.$name, [
             'thumbnail' => $formatThumbnail,
             'standard' => $formatStandard,
             'social' => $formatSocial,
