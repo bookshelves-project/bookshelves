@@ -175,7 +175,7 @@ export function useQuery<T>(propQuery: App.Paginate<T>, prop: string = 'query') 
   })
 
   return {
-    request: current,
+    query: current,
     total,
     clear,
     sortBy,

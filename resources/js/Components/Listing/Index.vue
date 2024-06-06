@@ -7,7 +7,7 @@ const props = defineProps<{
   sortable?: { label: string, value: string }[]
 }>()
 
-const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Entity>(props.query)
+const { sortBy, sortReverse, isReversed, limitTo, query: listQuery, total } = useQuery<Entity>(props.query)
 const pagination = [10, 25, 50, 100]
 </script>
 
@@ -95,7 +95,7 @@ const pagination = [10, 25, 50, 100]
       <slot />
     </ul>
     <div
-      v-if="request?.total === 0"
+      v-if="listQuery?.total === 0"
       class="relative flex w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center"
     >
       <div class="mx-auto flex-col">
@@ -107,10 +107,10 @@ const pagination = [10, 25, 50, 100]
       </div>
     </div>
     <!-- <div
-      v-if="request && request.last_page > 1"
+      v-if="listQuery && listQuery.last_page > 1"
       class="mt-12"
     >
-      <ListingPagination :query="request" />
+      <ListingPagination :query="listQuery" />
     </div> -->
   </section>
 </template>
