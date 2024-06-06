@@ -106,12 +106,12 @@ const pagination = [10, 25, 50, 100]
         <span class="mt-2 block text-sm font-semibold text-gray-100 mx-auto">No elements</span>
       </div>
     </div>
-    <!-- <div
+    <div
       v-if="listQuery && listQuery.last_page > 1"
       class="mt-12"
     >
       <ListingPagination :query="listQuery" />
-    </div> -->
+    </div>
   </section>
 </template>
 
