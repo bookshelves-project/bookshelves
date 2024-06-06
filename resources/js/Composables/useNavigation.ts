@@ -18,7 +18,7 @@ const mainLinks = ref<Link[]>([])
 const secondaryLinks: Link[] = [
   { label: 'Help', icon: 'info', route: { name: 'pages.help' } },
   { label: 'OPDS books', icon: 'opds', route: { name: 'opds.index' }, isExternal: true },
-  { label: 'Message', icon: 'mail', route: { name: 'form.message' } },
+  { label: 'Contact', icon: 'mail', route: { name: 'form.message' } },
 ]
 
 const profileLinks: Link[] = [
