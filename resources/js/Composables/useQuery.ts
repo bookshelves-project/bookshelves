@@ -11,14 +11,14 @@ export interface SortItem {
   value: string
 }
 
-const current = ref<Query>()
-const total = ref<number>()
-const isCleared = ref<boolean>(false)
-const sort = ref<string>()
-const limit = ref<number>(10)
-const isReversed = ref(false)
-
 export function useQuery<T>(propQuery: App.Paginate<T>, prop: string = 'query') {
+  const current = ref<Query<T>>()
+  const total = ref<number>()
+  const isCleared = ref<boolean>(false)
+  const sort = ref<string>()
+  const limit = ref<number>(10)
+  const isReversed = ref(false)
+
   current.value = propQuery
   total.value = propQuery.total
   sort.value = current.value.sort
