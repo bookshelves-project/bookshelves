@@ -6,7 +6,7 @@ const props = defineProps<{
   query: Query
 }>()
 
-const { pages, previousPage, nextPage } = usePagination(props.query)
+const { pages, previousPage, nextPage, nextPageLink } = usePagination(props.query)
 </script>
 
 <template>
