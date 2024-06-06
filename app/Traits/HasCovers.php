@@ -66,9 +66,9 @@ trait HasCovers
         $formatOpds = Bookshelves::imageCoverOpds();
         $formatSquare = Bookshelves::imageCoverSquare();
 
-        Journal::debug('Registering media conversions for '.$name);
-
         if (Bookshelves::convertCovers()) {
+            Journal::debug('Registering media conversions for '.$name);
+
             $this->addMediaConversion(self::CONVERSION_THUMBNAIL)
                 ->performOnCollections(Bookshelves::imageCollection())
                 ->fit(Fit::Crop, $formatThumbnail['width'], $formatThumbnail['height'])
