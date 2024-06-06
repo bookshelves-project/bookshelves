@@ -6,12 +6,12 @@ const props = defineProps<{
   query: Query
 }>()
 
-const { pages, previousPage, nextPage, nextPageLink } = usePagination(props.query)
+const { pages, previousPage, nextPage } = usePagination(props.query)
 </script>
 
 <template>
   <div>
-    <ILink
+    <!-- <ILink
       v-if="query?.current_page !== query?.last_page"
       :href="nextPageLink"
       class="flex bg-gray-800 hover:bg-gray-700 h-14 w-full relative mt-10 rounded-md items-center justify-center space-x-2 animate-pulse"
@@ -21,7 +21,7 @@ const { pages, previousPage, nextPage, nextPageLink } = usePagination(props.quer
         name="arrow-right"
         class="h-5 w-5 text-gray-400"
       />
-    </ILink>
+    </ILink> -->
     <div class="flex items-center justify-between border-t border-gray-700 py-3 mt-5">
       <div class="flex flex-1 justify-between md:hidden">
         <component
