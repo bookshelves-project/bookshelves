@@ -23,7 +23,7 @@ const title = computed(() => {
 <template>
   <CardModel
     :square="square"
-    :cover="book.cover_thumbnail"
+    :cover="square ? book.cover_square : book.cover_thumbnail"
     :title="title"
     :href="`/books/${book.library?.slug}/${book.slug}`"
     :carousel="carousel"
