@@ -17,7 +17,6 @@ class AuthorController extends Controller
     {
         $query = HttpQuery::for(Author::class, $request)
             ->with(['media'])
-            // ->withCount(['books', 'series'])
             ->defaultSort('slug')
             ->inertia();
 

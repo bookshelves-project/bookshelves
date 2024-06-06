@@ -48,7 +48,7 @@ trait HasCovers
     public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
     {
         /** @var Model */
-        $model = $this;
+        $model = $media->getModel();
         $isSquare = false;
         if (property_exists($model, 'library')) {
             $model->loadMissing('library');
