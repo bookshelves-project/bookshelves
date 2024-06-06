@@ -46,7 +46,10 @@ trait HasCovers
 
     public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
     {
-        $model = $media->getModel();
+        $model_id = $media->getModel()->model_id;
+        /** @var Book|Author|Serie $model */
+        $model = $media->getModel()->model_type::find($model_id);
+
         $isSquare = false;
         if (property_exists($model, 'library')) {
             $model->loadMissing('library');
