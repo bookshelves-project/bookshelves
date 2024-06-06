@@ -19,6 +19,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string $cover_standard
  * @property string $cover_thumbnail
  * @property string $cover_social
+ * @property string $cover_opds
+ * @property string $cover_square
  * @property string $cover_color
  * @property MediaExtended|Media|null $cover_media
  */
@@ -42,6 +44,7 @@ trait HasCovers
             'cover_standard',
             'cover_thumbnail',
             'cover_social',
+            'cover_square',
             'cover_color',
         ]);
     }
@@ -159,6 +162,14 @@ trait HasCovers
     public function getCoverOpdsAttribute(): ?string
     {
         return $this->getCover(self::CONVERSION_OPDS);
+    }
+
+    /**
+     * Get cover square with `spatie/laravel-medialibrary`
+     */
+    public function getCoverSquareAttribute(): ?string
+    {
+        return $this->getCover(self::CONVERSION_SQUARE);
     }
 
     public function hasCover(): bool
