@@ -12,12 +12,7 @@ defineProps<{
     :title="title"
     icon="ereader"
   >
-    <CardAuthor
-      v-for="author in query.data"
-      :key="author.id"
-      :author="author"
-    />
-    <!-- <Listing
+    <Listing
       :query="query"
       :sortable="[
         { label: 'Name', value: 'name' },
@@ -37,6 +32,6 @@ defineProps<{
         :key="author.id"
         :author="author"
       />
-    </Listing> -->
+    </Listing>
   </App>
 </template>

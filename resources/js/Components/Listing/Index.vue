@@ -15,7 +15,7 @@ const pagination = [10, 25, 50, 100]
   <section class="main-container py-6">
     <slot name="breadcrumbs" />
     <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-1">
+      <!-- <div class="flex items-center space-x-1">
         <JetstreamDropdown align="left">
           <template #trigger>
             <button class="action-btn">
@@ -74,7 +74,7 @@ const pagination = [10, 25, 50, 100]
             class="inline-block h-4 w-4 transition-transform duration-200 m-auto"
           />
         </button>
-      </div>
+      </div> -->
       <div
         v-if="total"
         class="text-gray-400"
