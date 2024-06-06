@@ -34,6 +34,8 @@ trait HasCovers
 
     private const CONVERSION_OPDS = 'opds';
 
+    private const CONVERSION_SQUARE = 'square';
+
     public function initializeHasCovers(): void
     {
         $this->appends = array_merge($this->appends, [
@@ -53,28 +55,21 @@ trait HasCovers
             $name = $model->name;
         }
 
-        $isSquare = false;
+        $isAudiobook = false;
         if ($model instanceof Book || $model instanceof Serie) {
             $model->loadMissing('library');
             if ($model->library && $model->library->type === LibraryTypeEnum::audiobook) {
-                $isSquare = true;
+                $isAudiobook = true;
             }
         }
 
-        $formatThumbnail = Bookshelves::imageCoverThumbnail($isSquare);
-        $formatStandard = Bookshelves::imageCoverStandard($isSquare);
-        $formatSocial = Bookshelves::imageCoverSocial($isSquare);
-        $formatOpds = Bookshelves::imageCoverOpds($isSquare);
+        $formatThumbnail = Bookshelves::imageCoverThumbnail();
+        $formatStandard = Bookshelves::imageCoverStandard();
+        $formatSocial = Bookshelves::imageCoverSocial();
+        $formatOpds = Bookshelves::imageCoverOpds();
+        $formatSquare = Bookshelves::imageCoverSquare();
 
-        Journal::debug('Registering media conversions for '.$media->getModel()->model_type.' '.$name, [
-            'thumbnail' => $formatThumbnail,
-            'standard' => $formatStandard,
-            'social' => $formatSocial,
-            'opds' => $formatOpds,
-            'model_type' => $model->library?->type,
-            'is_square' => $model->library?->type === LibraryTypeEnum::audiobook,
-            'isSquare' => $isSquare,
-        ]);
+        Journal::debug('Registering media conversions for '.$media->getModel()->model_type.' '.$name);
 
         if (Bookshelves::convertCovers()) {
             $this->addMediaConversion(self::CONVERSION_THUMBNAIL)
@@ -104,6 +99,15 @@ trait HasCovers
                 ->sharpen(10)
                 ->optimize()
                 ->format('jpg');
+
+            if ($isAudiobook) {
+                $this->addMediaConversion(self::CONVERSION_SQUARE)
+                    ->performOnCollections(Bookshelves::imageCollection())
+                    ->fit(Fit::Crop, $formatSquare['width'], $formatSquare['height'])
+                    ->sharpen(10)
+                    ->optimize()
+                    ->format('jpg');
+            }
         }
     }
 

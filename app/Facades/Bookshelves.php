@@ -26,10 +26,11 @@ use Illuminate\Support\Facades\Facade;
  * @method static string imageFormat()
  * @method static int imageMaxHeight()
  * @method static bool imageConversion()
- * @method static array{width: int, height: int} imageCoverStandard(bool $square = false)
- * @method static array{width: int, height: int} imageCoverThumbnail(bool $square = false)
- * @method static array{width: int, height: int} imageCoverSocial(bool $square = false)
- * @method static array{width: int, height: int} imageCoverOpds(bool $square = false)
+ * @method static array{width: int, height: int} imageCoverStandard()
+ * @method static array{width: int, height: int} imageCoverThumbnail()
+ * @method static array{width: int, height: int} imageCoverSocial()
+ * @method static array{width: int, height: int} imageCoverOpds()
+ * @method static array{width: int, height: int} imageCoverSquare()
  */
 class Bookshelves extends Facade
 {
