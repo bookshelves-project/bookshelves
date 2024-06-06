@@ -61,7 +61,7 @@ class AnalyzeCommand extends Commandable
 
         $this->info('Clean cache...');
         DirectoryService::make()->clearDirectory(Library::getJsonDirectory());
-        DirectoryService::make()->clearDirectory(public_path('storage/covers'));
+        DirectoryService::make()->clearDirectory(storage_path('app/public/covers'));
         $this->newLine();
 
         if ($this->fresh) {
