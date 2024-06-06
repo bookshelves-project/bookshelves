@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { Query } from '@kiwilan/typescriptable-laravel'
-import { usePagination } from '@/Composables/usePagination'
+import { type Query, usePagination } from '@kiwilan/typescriptable-laravel'
 
 const props = defineProps<{
   query: Query

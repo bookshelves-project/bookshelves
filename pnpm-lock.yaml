@@ -15,8 +15,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0(vue@3.4.27(typescript@5.4.5))
       '@kiwilan/typescriptable-laravel':
-        specifier: ^2.4.41
-        version: 2.4.41(laravel-vite-plugin@1.0.4(vite@5.2.12))(vite@5.2.12)(vue@3.4.27(typescript@5.4.5))
+        specifier: ^2.4.42
+        version: 2.4.42(laravel-vite-plugin@1.0.4(vite@5.2.12))(vite@5.2.12)(vue@3.4.27(typescript@5.4.5))
       '@tailwindcss/forms':
         specifier: ^0.5.7
         version: 0.5.7(tailwindcss@3.4.3)
@@ -525,8 +525,8 @@ packages:
     resolution: {integrity: sha512-f5DRIOZf7wxogefH03RjMPMdBF7ADTWUMoOs9kaJo06EfwF+aFhMZMDZxHg/Xe12hptN9xoZjGso2fdjapBRIA==}
     engines: {node: '>=10'}
 
-  '@kiwilan/typescriptable-laravel@2.4.41':
-    resolution: {integrity: sha512-iEqBaCExjFIQ1t172Zhx1VpWlrpo31q1R1TDe0yYYkobtUckDcfrsuwcxSVPrDSlkUwVc47hiY5ehKxSw0HOSA==}
+  '@kiwilan/typescriptable-laravel@2.4.42':
+    resolution: {integrity: sha512-9O/gEeMpyDsAy91txAqgaz13HcePuD6y41YY5Ia5USZ+Cvm05C1lQ3qpZ8Yp+KgnOAfKoaPQI8PW6sSfLJsLWw==}
     peerDependencies:
       laravel-vite-plugin: '*'
       vite: ^4.x.x || ^5.x.x
@@ -2712,7 +2712,7 @@ snapshots:
       string-argv: 0.3.2
       type-detect: 4.0.8
 
-  '@kiwilan/typescriptable-laravel@2.4.41(laravel-vite-plugin@1.0.4(vite@5.2.12))(vite@5.2.12)(vue@3.4.27(typescript@5.4.5))':
+  '@kiwilan/typescriptable-laravel@2.4.42(laravel-vite-plugin@1.0.4(vite@5.2.12))(vite@5.2.12)(vue@3.4.27(typescript@5.4.5))':
     optionalDependencies:
       laravel-vite-plugin: 1.0.4(vite@5.2.12)
       vite: 5.2.12

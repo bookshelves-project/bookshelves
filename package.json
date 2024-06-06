@@ -14,7 +14,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^2.20.0",
     "@inertiajs/vue3": "^1.1.0",
-    "@kiwilan/typescriptable-laravel": "^2.4.41",
+    "@kiwilan/typescriptable-laravel": "^2.4.42",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.13",
     "@types/nprogress": "^0.2.3",
