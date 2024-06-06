@@ -177,7 +177,7 @@ export function useQuery<T>(propQuery: App.Paginate<T>, prop: string = 'query') 
   }
 
   onMounted(() => {
-    // initializeSort()
+    initializeSort()
   })
 
   return {
