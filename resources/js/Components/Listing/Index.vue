@@ -1,14 +1,13 @@
 <script lang="ts" setup>
-// import { usePagination } from '@kiwilan/typescriptable-laravel'
-import { usePagination } from '@/Composables/usePagination'
 import { useQuery } from '@/Composables/useQuery'
 
+type Entity = App.Models.Book | App.Models.Author | App.Models.Serie
 const props = defineProps<{
-  query: App.Paginate<any>
+  query: App.Paginate<Entity>
   sortable?: { label: string, value: string }[]
 }>()
 
-const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<App.Models.Book>(props.query)
+const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<Entity>(props.query)
 const pagination = [10, 25, 50, 100]
 </script>
 
@@ -107,12 +106,12 @@ const pagination = [10, 25, 50, 100]
         <span class="mt-2 block text-sm font-semibold text-gray-100 mx-auto">No elements</span>
       </div>
     </div>
-    <div
+    <!-- <div
       v-if="request && request.last_page > 1"
       class="mt-12"
     >
       <ListingPagination :query="request" />
-    </div>
+    </div> -->
   </section>
 </template>
 
