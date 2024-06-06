@@ -21,6 +21,11 @@ const { ucfirst } = useUtils()
       {{ ucfirst(type) }}s of {{ author.name }}
     </h2>
     <div class="mt-6 border-t border-gray-500">
+      <div v-if="library.length === 0">
+        <p class="mt-6 text-lg">
+          No {{ type }}s found
+        </p>
+      </div>
       <dl class="divide-y divide-dashed divide-gray-500">
         <div
           v-for="lib in library"
