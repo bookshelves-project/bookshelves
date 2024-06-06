@@ -101,6 +101,7 @@ class AnalyzeCommand extends Commandable
 
         $path = Bookshelves::exceptionParserLog();
         File::put($path, json_encode([]));
+        Library::cacheClear();
 
         $this->newLine();
     }

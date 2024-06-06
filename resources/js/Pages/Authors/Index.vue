@@ -12,7 +12,7 @@ defineProps<{
     :title="title"
     icon="ereader"
   >
-    <Listing
+    <!-- <Listing
       :query="query"
       :sortable="[
         { label: 'Name', value: 'name' },
@@ -32,6 +32,6 @@ defineProps<{
         :key="author.id"
         :author="author"
       />
-    </Listing>
+    </Listing> -->
   </App>
 </template>

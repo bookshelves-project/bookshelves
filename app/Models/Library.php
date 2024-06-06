@@ -238,8 +238,11 @@ class Library extends Model
             return $cache;
         }
 
-        $libraries = \App\Models\Library::query()->orderBy('name')->get();
-        Cache::forever(self::CACHE_KEY, $libraries);
+        $libraries = \App\Models\Library::query()
+            ->orderBy('name')
+            ->get(['name', 'slug', 'type']);
+        // cache during one week
+        Cache::put(self::CACHE_KEY, $libraries, 60 * 24 * 7);
 
         return $libraries;
     }
