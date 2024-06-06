@@ -73,9 +73,6 @@ trait HasCovers
             'standard' => $formatStandard,
             'social' => $formatSocial,
             'opds' => $formatOpds,
-            'exists' => $exists,
-            'model' => $model->toArray(),
-            'media' => $media->toArray(),
         ]);
 
         if (Bookshelves::convertCovers()) {
