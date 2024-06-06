@@ -12,7 +12,7 @@ defineProps<{
     :title="title"
     icon="ereader"
   >
-    <!-- <Listing
+    <Listing
       :query="query"
       :sortable="[
         { label: 'Name', value: 'name' },
@@ -27,11 +27,11 @@ defineProps<{
       >
         <Breadcrumbs :breadcrumbs="breadcrumbs" />
       </template>
-      <CardAuthor
+      <!-- <CardAuthor
         v-for="author in query.data"
         :key="author.id"
         :author="author"
-      />
-    </Listing> -->
+      /> -->
+    </Listing>
   </App>
 </template>
