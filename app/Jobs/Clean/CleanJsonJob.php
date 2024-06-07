@@ -27,6 +27,5 @@ class CleanJsonJob implements ShouldQueue
     public function handle(): void
     {
         DirectoryService::make()->clearDirectory(Library::getJsonDirectory());
-        DirectoryService::make()->clearDirectory(storage_path('app/public/covers'));
     }
 }

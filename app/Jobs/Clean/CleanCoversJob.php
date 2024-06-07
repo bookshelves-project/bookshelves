@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Clean;
 
-use App\Models\Library;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -26,7 +25,6 @@ class CleanCoversJob implements ShouldQueue
      */
     public function handle(): void
     {
-        DirectoryService::make()->clearDirectory(Library::getJsonDirectory());
         DirectoryService::make()->clearDirectory(storage_path('app/public/covers'));
     }
 }
