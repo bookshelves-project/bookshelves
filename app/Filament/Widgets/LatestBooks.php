@@ -17,7 +17,7 @@ class LatestBooks extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            ->query(BookResource::getEloquentQuery()->with('authors', 'serie', 'library', 'file'))
+            ->query(BookResource::getEloquentQuery())
             ->defaultPaginationPageOption(5)
             ->defaultSort('created_at', 'desc')
             ->columns([
@@ -43,9 +43,7 @@ class LatestBooks extends BaseWidget
                 Tables\Columns\TextColumn::make('file.extension')
                     ->label('Extension')
                     ->badge()
-                    ->sortable()
-                    ->toggleable()
-                    ->toggledHiddenByDefault(),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('added_at')
                     ->dateTime('Y/m/d')
                     ->searchable()

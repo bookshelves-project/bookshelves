@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class BookResource extends Resource
@@ -133,6 +134,11 @@ class BookResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['library', 'file', 'serie', 'language', 'authors', 'publisher']);
     }
 
     public static function getNavigationBadge(): ?string
