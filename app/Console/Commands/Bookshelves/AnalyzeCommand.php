@@ -3,7 +3,8 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Facades\Bookshelves;
-use App\Jobs\Clean\AnalyzeCleanJob;
+use App\Jobs\Clean\CleanCoversJob;
+use App\Jobs\Clean\CleanJsonJob;
 use App\Models\Library;
 use App\Models\Tag;
 use Illuminate\Console\Command;
@@ -70,7 +71,7 @@ class AnalyzeCommand extends Commandable
             $this->newLine();
         }
 
-        AnalyzeCleanJob::dispatch();
+        CleanJsonJob::dispatch();
 
         $this->info('Parse libraries...');
         foreach (Library::inOrder() as $library) {
@@ -102,6 +103,7 @@ class AnalyzeCommand extends Commandable
         $path = Bookshelves::exceptionParserLog();
         File::put($path, json_encode([]));
         Library::cacheClear();
+        CleanCoversJob::dispatch();
 
         $this->newLine();
     }

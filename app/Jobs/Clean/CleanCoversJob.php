@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Kiwilan\Steward\Services\DirectoryService;
 
-class AnalyzeCleanJob implements ShouldQueue
+class CleanCoversJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
