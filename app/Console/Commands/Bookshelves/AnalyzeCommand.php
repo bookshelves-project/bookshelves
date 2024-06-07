@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\File;
 use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Commands\Jobs\JobsClearCommand;
 use Kiwilan\Steward\Commands\Log\LogClearCommand;
+use Kiwilan\Steward\Commands\Model\ModelBackupCommand;
+use Kiwilan\Steward\Commands\Model\ModelRestoreCommand;
 use Kiwilan\Steward\Services\DirectoryService;
 
 /**
@@ -88,6 +90,10 @@ class AnalyzeCommand extends Commandable
 
     private function clear(): void
     {
+        $this->call(ModelBackupCommand::class, [
+            'model' => 'App\Models\User',
+        ]);
+
         $this->call(JobsClearCommand::class);
 
         $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
@@ -104,6 +110,10 @@ class AnalyzeCommand extends Commandable
         File::put($path, json_encode([]));
         Library::cacheClear();
         CleanCoversJob::dispatch();
+
+        $this->call(ModelRestoreCommand::class, [
+            'model' => 'App\Models\User',
+        ]);
 
         $this->newLine();
     }
