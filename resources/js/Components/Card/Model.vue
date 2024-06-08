@@ -58,7 +58,7 @@ const slots = useSlots()
       />
       <div
         v-if="!hideTop"
-        class="absolute top-2 flex justify-between w-full px-4 italic text-sm"
+        class="absolute top-2 flex justify-between w-full px-2 italic text-sm"
       >
         <div
           v-if="slots.topLeft"
