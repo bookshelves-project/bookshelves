@@ -1,0 +1,34 @@
+# A pipeline is composed of independent jobs that run scripts, grouped into stages.
+# Stages run in sequential order, but jobs within stages run in parallel.
+#
+# For more information, see: https://docs.gitlab.com/ee/ci/
+
+stages:
+  - test
+
+variables:
+  NODE_VERSION: 18.17.0
+  PHP_VERSION: "8.2"
+
+test-job:
+  stage: test
+  image: alpine:latest
+  before_script:
+    - apk add git curl ffmpeg
+    - apk add --update php82 php82-phar php82-xml php82-mbstring php82-iconv php82-openssl php82-intl php82-fileinfo php82-session php82-pcntl php82-dom php82-tokenizer php82-exif php82-curl php82-simplexml php82-xmlwriter php82-pdo php82-pdo_sqlite php82-sqlite3 php82-zip php82-posix php82-xmlreader
+    - curl -sS https://getcomposer.org/installer | php82 -- --install-dir=/usr/local/bin --filename=composer
+    - echo "alias php=php82" >> ~/.bashrc
+    - source ~/.bashrc
+    - cd ~/
+    - git clone git@gitlab.com:ewilan-riviere/bookshelves.git
+    - cd kiwiflix
+    - cp .env.testing.example .env.testing
+    - touch ./database/database.sqlite
+  script:
+    - php /usr/local/bin/composer install
+    - php artisan key:generate --env=testing
+    - php artisan migrate:fresh --force
+    - php ./vendor/bin/phpstan analyse --ansi --memory-limit=2G
+    # - php artisan test
+  only:
+    - main
