@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->ulid('id')->primary();
 
+            $table->foreignUlid('library_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->string('path');
             $table->string('basename');
             $table->string('extension');
@@ -22,10 +26,6 @@ return new class extends Migration
             $table->integer('size')->nullable();
             $table->dateTime('date_added')->nullable();
             $table->boolean('is_audiobook')->default(false);
-
-            $table->foreignUlid('library_id')
-                ->constrained()
-                ->cascadeOnDelete();
 
             $table->timestamps();
         });

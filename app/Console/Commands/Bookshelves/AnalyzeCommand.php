@@ -114,6 +114,7 @@ class AnalyzeCommand extends Commandable
         $this->call(ModelRestoreCommand::class, [
             'model' => 'App\Models\User',
         ]);
+        $this->call('db:seed', ['--class' => 'EmptySeeder']);
 
         $this->newLine();
     }
