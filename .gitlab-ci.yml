@@ -30,5 +30,3 @@ test-job:
     - php artisan migrate:fresh --force
     - php ./vendor/bin/phpstan analyse --ansi --memory-limit=2G
     - php artisan test
-  # only:
-  #   - main
