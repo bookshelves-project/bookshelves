@@ -20,8 +20,8 @@ test-job:
     - echo "alias php=php82" >> ~/.bashrc
     - source ~/.bashrc
     - cd ~/
-    - git clone git@gitlab.com:bookshelves-project/bookshelves.git
-    - cd kiwiflix
+    - git clone https://gitlab.com/bookshelves-project/bookshelves.git
+    - cd bookshelves
     - cp .env.testing.example .env.testing
     - touch ./database/database.sqlite
   script:
